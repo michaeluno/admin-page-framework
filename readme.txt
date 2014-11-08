@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms
 Requires at least:  3.3
 Tested up to:       4.0
-Stable tag:         3.3.1
+Stable tag:         3.3.3
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -447,6 +447,12 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+
+= 3.3.3 - 2014/11/08 =
+- Added the framework version indication at the bottom of form sections in meta-boxes and widgets when `WP_Debug` is true.
+- Changed not to display colon(:) after the field title if the title is empty in meta-boxes, taxonomy fields, and widgets.
+- Fixed a bug that a gray blank image was inserted in the featured image's image uploader when the framework media uploader is loaded, introduced in v3.3.1.
+- Fixed a bug that caused the uploader button of the `media` field type not appear, introduced in v3.3.2.
 
 = 3.3.2 - 2014/11/07 =
 - Added the `label_no_term_found`, `label_list_title`, `query`, and `queries` arguments for the `taxonomy` field type.

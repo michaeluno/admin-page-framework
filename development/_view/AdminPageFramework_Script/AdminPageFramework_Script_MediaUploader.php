@@ -24,11 +24,24 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
      * @since       3.3.1
      */
     public function construct() {
-        wp_enqueue_script( 'jquery' );         
-        wp_enqueue_media();  
+        
+        wp_enqueue_script( 'jquery' );    
+        
+        // wp_enqueue_media() should not be called right away as the WordPress built-in featured image image uploader gets affected.
+        if ( function_exists( 'wp_enqueue_media' ) ) {
+            add_action( 'admin_footer', array( $this, '_replyToEnqueueMedia' ), 1 );
+        }
+        
     }
-
-    
+        /**
+         * Calls the wp_enqueue_media() function to avoid breaking featured image functionality.
+         * 
+         * @since       3.3.2.1
+         */
+        public function _replyToEnqueueMedia() {
+            wp_enqueue_media();  
+        }
+ 
     /**
      * Return the script.
      * @since       3.3.1

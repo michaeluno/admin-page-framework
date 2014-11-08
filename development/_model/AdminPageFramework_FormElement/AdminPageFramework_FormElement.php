@@ -28,6 +28,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      */     
     public static $_aStructure_Section = array(    
         'section_id'        => '_default', // 3.0.0+
+        '_fields_type'      => null, // 3.0.0+ - same as the one of the field definition array. Used to insert debug info at the bottom of sections.        
         'page_slug'         => null,
         'tab_slug'          => null,
         'section_tab_slug'  => null, // 3.0.0+

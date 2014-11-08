@@ -10,9 +10,9 @@ if ( ! class_exists( 'AdminPageFramework_FormTable' ) ) :
 /**
  * Provides methods to render setting sections and fields.
  * 
- * @package AdminPageFramework
- * @subpackage Form
- * @since 3.0.0
+ * @package     AdminPageFramework
+ * @subpackage  Form
+ * @since       3.0.0
  * @internal
  */
 class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
@@ -38,10 +38,29 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
                     . "</div>";
             }
         }
+
         return implode( PHP_EOL, $_aOutput ) 
-            . $this->_getSectionTabsEnablerScript();
+            . $this->_getSectionTabsEnablerScript()
+            . ( defined( 'WP_DEBUG' ) && WP_DEBUG && in_array( $this->_getSectionsFieldsType( $aSections ), array( 'widget', 'post_meta_box', 'page_meta_box', ) )
+                ? "<div class='admin-page-framework-info'>" 
+                        . 'Debug Info: ' . AdminPageFramework_Registry::Name . ' '. AdminPageFramework_Registry::getVersion() 
+                    . "</div>"
+                : ''
+            );
             
     }
+    
+        /**
+         * Returns the fields type of the given sections.
+         * 
+         * @since   3.3.3
+         */
+        private function _getSectionsFieldsType( array $aSections=array() ) {
+            // Only the first iteration item is needed
+            foreach( $aSections as $_aSection ) {
+                return $_aSection['_fields_type'];
+            }
+        }
         
         /**
          * Indicates whether the tab enabler script is loaded or not.
@@ -185,9 +204,9 @@ JAVASCRIPTS;
          */
         private function _getSectionTitle( $sTitle, $sTag, $aFields, $hfFieldCallback ) {
             
-            $aSectionTitleField = $this->_getSectionTitleField( $aFields );
-            return $aSectionTitleField
-                ? call_user_func_array( $hfFieldCallback, array( $aSectionTitleField ) )
+            $_aSectionTitleField = $this->_getSectionTitleField( $aFields );
+            return $_aSectionTitleField
+                ? call_user_func_array( $hfFieldCallback, array( $_aSectionTitleField ) )
                 : "<{$sTag}>" . $sTitle . "</{$sTag}>";
             
         }
@@ -215,13 +234,13 @@ JAVASCRIPTS;
         private function _getSectionsBySectionTabs( array $aSections ) {
 
             $_aSectionsBySectionTab = array();
-            $iIndex = 0;
-            // $_aSectionsBySectionTab = array( '_default' => array() );
+            $_iIndex                = 0;
+
             foreach( $aSections as $_aSection ) {
                 
                 if ( ! $_aSection['section_tab_slug'] ) {
-                    $_aSectionsBySectionTab[ '_default_' . $iIndex ][ $_aSection['section_id'] ] = $_aSection;
-                    $iIndex++;
+                    $_aSectionsBySectionTab[ '_default_' . $_iIndex ][ $_aSection['section_id'] ] = $_aSection;
+                    $_iIndex++;
                     continue;
                 }
                     
@@ -245,9 +264,8 @@ JAVASCRIPTS;
             
             new AdminPageFramework_Script_RepeatableSection( $this->oMsg );            
             
-            if ( empty( $aSettings ) ) return '';     
-            $aSettings              = ( is_array( $aSettings ) ? $aSettings : array() ) + array( 'min' => 0, 'max' => 0 ); // do not cast array since it creates a zero key for an empty variable.
-            
+            if ( empty( $aSettings ) ) { return ''; }
+            $aSettings              = $this->getAsArray( $aSettings ) + array( 'min' => 0, 'max' => 0 ); 
             $_sAdd                  = $this->oMsg->get( 'add_section' );
             $_sRemove               = $this->oMsg->get( 'remove_section' );
             $_sVisibility           = $iSectionCount <= 1 ? " style='display:none;'" : "";
@@ -267,10 +285,7 @@ jQuery( document ).ready( function() {
     jQuery( '#{$sContainerTagID}' ).updateAPFRepeatableSections( $_aJSArray ); 
 });            
 JAVASCRIPTS;
-            return
-                "<script type='text/javascript'>"
-                    . $_sScript
-                . "</script>";
+            return "<script type='text/javascript'>" . $_sScript . "</script>";
                 
         }
         
@@ -301,7 +316,7 @@ JAVASCRIPTS;
             ? $this->aFieldErrors[ $aSection['section_id'] ]
             : '';
                 
-        $_aOutput = array();
+        $_aOutput   = array();
         $_aOutput[] = "<table "
             . $this->generateAttributes(  
                     array( 
@@ -388,7 +403,6 @@ JAVASCRIPTS;
         return implode( PHP_EOL, $_aOutput );
         
     }
-        
         /**
          * Returns the field output enclosed in a table row.
          * 
@@ -415,7 +429,7 @@ JAVASCRIPTS;
                     'class'     => $_aField['show_title_column'] ? null : 'admin-page-framework-field-td-no-title',
                 )
             );
-            $_aOutput[] = "<tr {$_sAttributes_TR}>";
+            $_aOutput[]         = "<tr {$_sAttributes_TR}>";
                 if ( $_aField['show_title_column'] ) {
                     $_aOutput[] = "<th>" . $this->_getFieldTitle( $_aField ) . "</th>";
                 }
