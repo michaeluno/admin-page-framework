@@ -100,6 +100,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 
         $_oField = new AdminPageFramework_FormField( 
             $aField,                                // the field definition array
+// @todo change it to $this->_getSavedOptions()
             $this->oProp->aOptions,                 // the stored form data
             $this->_getFieldErrors(),               // the field error array.
             $this->oProp->aFieldTypeDefinitions,    // the field type definition array.
