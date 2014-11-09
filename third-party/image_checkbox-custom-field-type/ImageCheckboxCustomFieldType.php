@@ -168,7 +168,7 @@ class ImageCheckboxCustomFieldType extends AdminPageFramework_FieldType {
         $_aOutput = array();
         $_asValue = $aField['attributes']['value'];
 
-        foreach( ( array ) $aField['label'] as $_sKey => $_sLabel ) {
+        foreach( $this->getAsArray( $aField['label'] ) as $_sKey => $_sLabel ) {
             
             $_sLabel            = $this->resolveSRC( $_sLabel );
             $_aInputAttributes  = array(

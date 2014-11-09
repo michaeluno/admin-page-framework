@@ -183,7 +183,7 @@ class ImageRadioCustomFieldType extends AdminPageFramework_FieldType {
         $_aOutput   = array();
         $_sValue    = $aField['attributes']['value'];
         
-        foreach( $aField['label'] as $_sKey => $_sLabel ) {
+        foreach( $this->getAsArray( $aField['label'] ) as $_sKey => $_sLabel ) {
 
             $_sLabel            = $this->resolveSRC( $_sLabel );
             
