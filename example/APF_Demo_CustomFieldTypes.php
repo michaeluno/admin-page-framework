@@ -711,7 +711,8 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
             ),
             array(
                 'field_id'      => 'another_revealer_field',
-                'type'          => 'revealer',     
+                'type'          => 'revealer',  
+                'select_type'   => 'radio',
                 'title'         => __( 'Another Hidden Fields', 'admin-page-framework-demo' ),
                 'label'         => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{field id}
                     '.revealer_field_option_d' => __( 'Option D', 'admin-page-framework-demo' ),     
@@ -766,7 +767,9 @@ class APF_Demo_CustomFieldTypes extends AdminPageFramework {
             array(
                 'field_id'      => 'reveal_section',
                 'type'          => 'revealer',     
+                'select_type'   => 'checkbox',
                 'title'         => __( 'Reveal Hidden Sections', 'admin-page-framework-demo' ),
+                // The revealer field type needs the label argument to be an array, not string.
                 'label'         => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{section id}_{field id}
                     '.revealer_section_class_a' => __( 'Section A', 'admin-page-framework-demo' ),     
                     '.revealer_section_class_b' => __( 'Section B', 'admin-page-framework-demo' ),     

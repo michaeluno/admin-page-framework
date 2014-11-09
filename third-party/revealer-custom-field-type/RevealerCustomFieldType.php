@@ -13,6 +13,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
      * @remark            $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
+        'select_type'   => 'select',        // accepts 'radio', 'checkbox'
         'is_multiple'   => false,
         'attributes'    => array(
             'select'    => array(
@@ -88,84 +89,63 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
      * Returns the output of the field type.
      */
     protected function getField( $aField ) { 
-
-        $_aSelectAttributes = $this->uniteArrays(
-            $this->dropElementsByType( $aField['attributes'] ), // drops array elements
-            array(
-                'id'        => $aField['input_id'],
-                'multiple'  => $aField['is_multiple'] 
-                    ? 'multiple' 
-                    : $aField['attributes']['select']['multiple'],
-            ) 
-            + $aField['attributes']['select'] 
-        );
-        $_aSelectAttributes['name'] = empty( $_aSelectAttributes['multiple'] ) 
-            ? $aField['_input_name'] 
-            : "{$aField['_input_name']}[]";
-
-        return
-            $aField['before_label']
-            . "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
-                . "<label for='{$aField['input_id']}'>"
-                    . $aField['before_input']
-                    . "<span class='admin-page-framework-input-container'>"
-                        . "<select " . $this->generateAttributes( $_aSelectAttributes ) . " >"
-                            . $this->_getOptionTags( $aField['input_id'], $aField['attributes'], $aField['label'] )
-                        . "</select>"
-                    . "</span>"
-                    . $aField['after_input']
-                    . "<div class='repeatable-field-buttons'></div>"    // the repeatable field buttons will be replaced with this element.
-                . "</label>"                    
-            . "</div>"
-            . $aField['after_label']
-            . $this->_getRevealerScript( $aField['input_id'] )
-            . $this->_getConcealerScript( $aField['input_id'], $aField['label'], $aField['value'] )
-            ;
+        
+        $_aOutput   = array();        
+        $aField     = $this->_sanitizeInnerFieldArray( $aField );
+        $_aOutput[] = $this->geFieldOutput( $aField );
+        $_aOutput[] = $this->_getRevealerScript( $aField['input_id'] );
+        switch( $aField['select_type'] ) {
+            default:
+            case 'select':
+            case 'radio':                          
+                $_aOutput[] = $this->_getConcealerScript( $aField['input_id'], $aField['label'], $aField['value'] );
+                break;
+                
+            case 'checkbox':
+                $_aSelections = is_array( $aField['value'] )
+                    ? array_keys( array_filter( $aField['value'] ) )
+                    : $aField['label'];                  
+                $_aOutput[] = $this->_getConcealerScript( $aField['input_id'], $aField['label'], $_aSelections );
+                break;
+  
+        }
+        return implode( PHP_EOL, $_aOutput );
         
     }
-        protected function _getOptionTags( $sInputID, &$aAttributes, $aLabel ) {
+        
+        /**
+         * Sanitize (re-format) the field definition array to get the field output by the select type.
+         * 
+         * @since       3.3.4
+         */
+        private function _sanitizeInnerFieldArray( array $aField ) {
             
-            $aOutput = array();
-            $aValue = ( array ) $aAttributes['value'];
-
-            foreach( $aLabel as $sKey => $asLabel ) {
-                
-                // For the optgroup tag,
-                if ( is_array( $asLabel ) ) {    // optgroup
-                
-                    $aOptGroupAttributes = isset( $aAttributes['optgroup'][ $sKey ] ) && is_array( $aAttributes['optgroup'][ $sKey ] )
-                        ? $aAttributes['optgroup'][ $sKey ] + $aAttributes['optgroup']
-                        : $aAttributes['optgroup'];
-                        
-                    $aOutput[] = 
-                        "<optgroup label='{$sKey}'" . $this->generateAttributes( $aOptGroupAttributes ) . ">"
-                        . $this->_getOptionTags( $sInputID, $aAttributes, $asLabel )
-                        . "</optgroup>";
-                    continue;
-                    
-                }
-                
-                // For the option tag,
-                $aValue = isset( $aAttributes['option'][ $sKey ]['value'] )
-                    ? $aAttributes['option'][ $sKey ]['value']
-                    : $aValue;
-                
-                $aOptionAttributes = array(
-                    'id'        => $sInputID . '_' . $sKey,
-                    'value'     => $sKey,
-                    'selected'  => in_array( ( string ) $sKey, $aValue ) ? 'selected' : null,
-                ) + ( isset( $aAttributes['option'][ $sKey ] ) && is_array( $aAttributes['option'][ $sKey ] )
-                    ? $aAttributes['option'][ $sKey ] + $aAttributes['option']
-                    : $aAttributes['option']
-                );
-
-                $aOutput[] =
-                    "<option " . $this->generateAttributes( $aOptionAttributes ) . " >"    
-                        . $asLabel
-                    . "</option>";
-                    
+            // The revealer field type has its own description field.
+            unset( $aField['description'] );
+            
+            // The revealer script of checkboxes needs the reference of the selector to reveal. 
+            // For radio and select input types, the key of label array can be used but for the checkbox input type, 
+            // the value attribute needs to be alwasy 1 (for cases of key of zero '0') so the selector needs to be separatly stored.
+            switch( $aField['select_type'] ) {
+                default:
+                case 'select':
+                case 'radio': 
+                    break;
+                case 'checkbox':
+                    foreach( $this->getAsArray( $aField['label'] ) as $_sSelector => $_sLabel ) {
+                        $aField['attributes'][ $_sSelector ] = array(
+                                'data-reveal'   => $_sSelector,
+                            ) 
+                            + $this->getElementAsArray( $aField['attributes'], $_sSelector, array() );
+                    }
+                    break;
+      
             }
-            return implode( PHP_EOL, $aOutput );    
+                
+            // Set the select_type to the type argument.
+            return array( 
+                    'type' => $aField['select_type'] 
+                ) + $aField;
             
         }
         
@@ -173,12 +153,13 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
             return 
                 "<script type='text/javascript' >
                     jQuery( document ).ready( function(){
-                        jQuery( '#{$sInputID}' ).setRevealer();
+                        jQuery('*[data-id=\"{$sInputID}\"]').setRevealer();
                     });                
                 </script>";    
         }        
         private function _getConcealerScript( $sSelectorID, $aLabels, $asCurrentSelection ) {
             
+            $aLabels            = $this->getAsArray( $aLabels );
             $_aCurrentSelection = $this->getAsArray( $asCurrentSelection );
             unset( $_aCurrentSelection['undefined'] );    // an internal reserved key    
             if( ( $_sKey = array_search( 'undefined' , $_aCurrentSelection) ) !== false ) {
@@ -200,11 +181,11 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
                                 jQuery( sValue ).show();
                                 return true;    // continue
                             }
-                                                     
-                            jQuery( sValue ).hide();
                             
+                            jQuery( sValue ).hide();
+                                
                         });
-                        jQuery( {$sSelectorID} ).trigger( 'change' );
+                        jQuery('*[data-id=\"{$sSelectorID}\"]').trigger( 'change' );
                     });                
                 </script>";
                 
@@ -216,7 +197,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
      */
     public function _replyToAddRevealerjQueryPlugin() {
                 
-        $sScript = "
+        $_sScript = "
         ( function ( $ ) {
             
             /**
@@ -227,9 +208,22 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
                 var _sLastRevealedSelector;
                 this.change( function() {
 
-                    var _sTargetSelector        = jQuery( this ).val();
-                    var _oElementToReveal       = jQuery( _sTargetSelector );
-                
+                    // For checkboxes       
+                    if ( $( this ).is(':checkbox') ) {
+                        var _sTargetSelector        = $( this ).data( 'reveal' );
+                        var _oElementToReveal       = $( _sTargetSelector );
+                        if ( $( this ).is( ':checked' ) ) {
+                            _oElementToReveal.show();
+                        } else {
+                            _oElementToReveal.hide();    
+                        }
+                        return;
+                    }
+                    
+                    // For other types (select and radio).
+                    var _sTargetSelector        = $( this ).val();
+                    var _oElementToReveal       = $( _sTargetSelector );
+                    
                     // Hide the previously hidden element.
                     $( _sLastRevealedSelector ).hide();    
                                         
@@ -247,7 +241,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
                         
         }( jQuery ));";
         
-        echo "<script type='text/javascript' class='admin-page-framework-revealer-jQuery-plugin'>{$sScript}</script>";
+        echo "<script type='text/javascript' class='admin-page-framework-revealer-jQuery-plugin'>{$_sScript}</script>";
         
     }        
     
