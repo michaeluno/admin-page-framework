@@ -49,6 +49,31 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }
     
     /**
+     * Returns the element value by the given key. 
+     * 
+     * It just saves the isset() function call and allows a default value to be set.
+     * 
+     * @since       3.3.4
+     */
+    static public function getElement( $aSubject, $isKey, $vDefault=null ) {
+        return isset( $aSubject[ $isKey ] )
+            ? $aSubject[ $isKey ]
+            : $vDefault;
+    }
+    
+    /**
+     * Returns the element value by the given key as an array.
+     * 
+     * When the retrieving element value is unknow whether it is set and it is an array, use this method 
+     * to save the line of isset() and is_array().
+     * 
+     * @since       3.3.4
+     */
+    static public function getElementAsArray( $aSubject, $isKey, $vDefault=null ) {
+        return self::getAsArray( self::getElement( $aSubject, $isKey, $vDefault ) );
+    }
+    
+    /**
      * Finds the dimension depth of the given array.
      * 
      * @since       2.0.0
