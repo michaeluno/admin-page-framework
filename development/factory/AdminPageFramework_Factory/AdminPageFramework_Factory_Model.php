@@ -122,7 +122,41 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
             
         }    
     
-
+    /**
+     * Returns the saved options array.
+     * 
+     * The scope public it is accessed from the outside. This is mainly for field callback methods to create inner nested or different type of fields
+     * as instantiating a field object requires this value.
+     * 
+     * @since       3.3.4
+     */
+    public function getSavedOptions() {
+        return $this->_getSavedOptions();
+    }
+    
+    /**
+     * Returns the saved options.
+     * 
+     * @since   3.3.4
+     */
+    protected function _getSavedOptions() {
+// @todo: implement the last input data that is available for the page factory using $aLastInput for ther factory fields.
+        return $this->oProp->aOptions;
+    }    
+    
+    /**
+     * Returns the settings error array set by the user in the validation callback.
+     * 
+     * The scope public it is accessed from the outside. This is mainly for field callback methods to create inner nested or different type of fields
+     * as instantiating a field object requires this value.
+     * 
+     * @since       3.3.4
+     */
+    public function getFieldErrors() {
+        return $this->_getFieldErrors();
+    }
+    
+    
     /**
      * Retrieves the settings error array set by the user in the validation callback.
      * 
