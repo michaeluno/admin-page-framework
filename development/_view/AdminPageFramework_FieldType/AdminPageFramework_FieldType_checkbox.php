@@ -101,39 +101,27 @@ CSSRULES;
      */
     protected function getField( $aField ) {
 
-        $_aOutput = array();
-        $_asValue = $aField['attributes']['value'];
-
-        foreach( ( array ) $aField['label'] as $_sKey => $_sLabel ) {
-            
-            $_aInputAttributes = array(
-                'type'      => 'checkbox', // needs to be specified since the postytpe field type extends this class. If not set, the 'posttype' will be passed to the type attribute.
-                'id'        => $aField['input_id'] . '_' . $_sKey,
-                'checked'   => $this->getCorrespondingArrayValue( $_asValue, $_sKey, null ) == 1 ? 'checked' : null,    // to not to set, pass null. AN empty value '' will still set the attribute.
-                'value'     => 1, // must be always 1 for the checkbox type; the actual saved value will be reflected with the above 'checked' attribute.
-                'name'      => is_array( $aField['label'] ) ? "{$aField['attributes']['name']}[{$_sKey}]" : $aField['attributes']['name'],
-            ) 
-                + $this->getFieldElementByKey( $aField['attributes'], $_sKey, $aField['attributes'] )
-                + $aField['attributes'];
-            $_aInputAttributes['class'] .= ' ' . $this->_sCheckboxClassSelector;
+        $_aOutput   = array();
+        // $_asValue   = $aField['attributes']['value'];
+        $_oCheckbox = new AdminPageFramework_Input_checkbox( $aField );
         
-            $_aLabelAttributes = array(
-                'for'   => $_aInputAttributes['id'],
-                'class' => $_aInputAttributes['disabled'] ? 'disabled' : null,
-            );
+        foreach( $this->getAsArray( $aField['label'] ) as $_sKey => $_sLabel ) {
             
+            $_aInputAttributes = $_oCheckbox->getAttributeArray( $_sKey );
+            $_aInputAttributes['class'] = $this->generateClassAttribute( $_aInputAttributes['class'], $this->_sCheckboxClassSelector );
+                   
             $_aOutput[] =
                 $this->getFieldElementByKey( $aField['before_label'], $_sKey )
                 . "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
-                    . "<label " . $this->generateAttributes( $_aLabelAttributes ) . ">"
+                    . "<label " . $this->generateAttributes( 
+                        array(
+                            'for'   => $_aInputAttributes['id'],
+                            'class' => $_aInputAttributes['disabled'] ? 'disabled' : null,
+                        ) 
+                    ) 
+                    . ">"
                         . $this->getFieldElementByKey( $aField['before_input'], $_sKey )
-                        . "<span class='admin-page-framework-input-container'>"
-                            . "<input type='hidden' class='{$this->_sCheckboxClassSelector}' name='{$_aInputAttributes['name']}' value='0' />" // the unchecked value must be set prior to the checkbox input field.
-                            . "<input " . $this->generateAttributes( $_aInputAttributes ) . " />" // this method is defined in the base class    
-                        . "</span>"
-                        . "<span class='admin-page-framework-input-label-string'>"
-                            . $_sLabel
-                        . "</span>"
+                        . $_oCheckbox->get( $_sLabel, $_aInputAttributes )
                         . $this->getFieldElementByKey( $aField['after_input'], $_sKey )
                     . "</label>"     
                 . "</div>"

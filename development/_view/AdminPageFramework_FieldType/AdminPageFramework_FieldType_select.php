@@ -71,22 +71,13 @@ CSSRULES;
      */
     protected function getField( $aField ) {
             
-        $_aSelectAttributes = array(
-            'id'        => $aField['input_id'],
-            'multiple'  => $aField['is_multiple'] ? 'multiple' : $aField['attributes']['select']['multiple'],
-        ) + $aField['attributes']['select'];
-        $_aSelectAttributes['name'] = empty( $_aSelectAttributes['multiple'] ) ? $aField['_input_name'] : "{$aField['_input_name']}[]";
-
+        $_oSelectInput = new AdminPageFramework_Input_select( $aField );
         return
             $aField['before_label']
             . "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
                 . "<label for='{$aField['input_id']}'>"
                     . $aField['before_input']
-                    . "<span class='admin-page-framework-input-container'>"
-                        . "<select " . $this->generateAttributes( $_aSelectAttributes ) . " >"
-                            . $this->_getOptionTags( $aField['input_id'], $aField['attributes'], $aField['label'] )
-                        . "</select>"
-                    . "</span>"
+                    . $_oSelectInput->get()
                     . $aField['after_input']
                     . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                 . "</label>"     
@@ -94,61 +85,6 @@ CSSRULES;
             . $aField['after_label'];         
         
     }
-        /**
-         * Returns the option tags of the select field.
-         * 
-         * @since 2.0.0
-         * @since 2.0.1 Added the $vValue parameter to the second parameter. This is the result of supporting the size field type.
-         * @since 2.1.5 Added the $tag_id parameter.
-         * @since 3.0.0 Reconstructed entirely.
-         * @remark The scope is protected as the size unit type uses this.
-         * @internal
-         */     
-        protected function _getOptionTags( $sInputID, &$aAttributes, $aLabel ) {
-            
-            $_aOutput = array();
-            $_aValue = ( array ) $aAttributes['value'];
-
-            foreach( $aLabel as $__sKey => $__asLabel ) {
-                
-                // For the optgroup tag,
-                if ( is_array( $__asLabel ) ) { // optgroup
-                
-                    $_aOptGroupAttributes = isset( $aAttributes['optgroup'][ $__sKey ] ) && is_array( $aAttributes['optgroup'][ $__sKey ] )
-                        ? $aAttributes['optgroup'][ $__sKey ] + $aAttributes['optgroup']
-                        : $aAttributes['optgroup'];
-                        
-                    $_aOutput[] = 
-                        "<optgroup label='{$__sKey}'" . $this->generateAttributes( $_aOptGroupAttributes ) . ">"
-                            . $this->_getOptionTags( $sInputID, $aAttributes, $__asLabel )
-                        . "</optgroup>";
-                    continue;
-                    
-                }
-                
-                // For the option tag,
-                $_aValue = isset( $aAttributes['option'][ $__sKey ]['value'] )
-                    ? $aAttributes['option'][ $__sKey ]['value']
-                    : $_aValue;
-                
-                $_aOptionAttributes = array(
-                    'id' => $sInputID . '_' . $__sKey,
-                    'value' => $__sKey,
-                    'selected' => in_array( ( string ) $__sKey, $_aValue ) ? 'selected' : null,
-                ) + ( isset( $aAttributes['option'][ $__sKey ] ) && is_array( $aAttributes['option'][ $__sKey ] )
-                    ? $aAttributes['option'][ $__sKey ] + $aAttributes['option']
-                    : $aAttributes['option']
-                );
-
-                $_aOutput[] =
-                    "<option " . $this->generateAttributes( $_aOptionAttributes ) . " >"    
-                        . $__asLabel
-                    . "</option>";
-                    
-            }
-            return implode( PHP_EOL, $_aOutput );    
-            
-        }
         
 }
 endif;

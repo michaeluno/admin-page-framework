@@ -133,22 +133,26 @@ CSSRULES;
             'class' => $aSizeAttributes['disabled'] ? 'disabled' : null,
         );
         
-        /* 2-4. Unit attributes */     
-        $aUnitAttributes = array(
+        /* 2-4. Unit attributes */   
+        $_bIsMultiple    = $aField['is_multiple'] 
+            ? true 
+            : ( $aField['attributes']['unit']['multiple'] ? true : false );
+        $_aUnitAttributes = array(
             'type'      => 'select',
             'id'        => $aField['input_id'] . '_' . 'unit',
-            'multiple'  => $aField['is_multiple'] ? 'multiple' : $aField['attributes']['unit']['multiple'],
+            'multiple'  => $_bIsMultiple ? 'multiple' : null,
+            'name'      => $_bIsMultiple ? "{$aField['_input_name']}[unit][]" : "{$aField['_input_name']}[unit]",
             'value'     => isset( $aField['value']['unit'] ) ? $aField['value']['unit'] : '',
         )
         + $this->getFieldElementByKey( $aField['attributes'], 'unit', $this->aDefaultKeys['attributes']['unit'] )
         + $aBaseAttributes;
-        $aUnitAttributes['name'] = empty( $aUnitAttributes['multiple'] ) ? "{$aField['_input_name']}[unit]" : "{$aField['_input_name']}[unit][]";
-        
-        /* 2-5. Unit label attributes */     
-        $aUnitLabelAttributes = array(
-            'for'       => $aUnitAttributes['id'],
-            'class'     => $aUnitAttributes['disabled'] ? 'disabled' : null,
-        );
+               
+        // Create a select input object
+        $_aUnitField = array( 
+            'label' => $aField['units'],
+        ) + $aField;
+        $_aUnitField['attributes']['select'] =  $_aUnitAttributes;
+        $_oUnitInput = new AdminPageFramework_Input_select( $_aUnitField );
         
         /* 3. Return the output */
         return
@@ -165,13 +169,15 @@ CSSRULES;
                     . $this->getFieldElementByKey( $aField['after_input'], 'size' )
                 . "</label>"
                 /* The unit (select) part */
-                . "<label " . $this->generateAttributes( $aUnitLabelAttributes ) . ">"
+                . "<label " . $this->generateAttributes( 
+                        array(
+                            'for'       => $_aUnitAttributes['id'],
+                            'class'     => $_aUnitAttributes['disabled'] ? 'disabled' : null,                        
+                        ) 
+                    ) 
+                    . ">"
                     . $this->getFieldElementByKey( $aField['before_label'], 'unit' )
-                    . "<span class='admin-page-framework-input-container'>"
-                        . "<select " . $this->generateAttributes( $aUnitAttributes ) . " >"
-                            . $this->_getOptionTags( $aUnitAttributes['id'], $aBaseAttributes, $aField['units'] ) // this method is defined in the select field type class
-                        . "</select>"
-                    . "</span>"
+                    . $_oUnitInput->get()
                     . $this->getFieldElementByKey( $aField['after_input'], 'unit' )
                     . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                 . "</label>"     

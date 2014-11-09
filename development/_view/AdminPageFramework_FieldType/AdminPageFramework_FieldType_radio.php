@@ -72,12 +72,13 @@ jQuery( document ).ready( function(){
             /* If it is not the field type, do nothing. */
             if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { return; }
                                         
-            /* the checked state of radio buttons somehow lose their values so re-check them again */    
+            /* the checked state of radio buttons somehow lose their values when repeated so re-check them again */    
             nodeField.closest( '.admin-page-framework-fields' )
                 .find( 'input[type=radio][checked=checked]' )
                 .attr( 'checked', 'checked' );
                 
             /* Rebind the checked attribute updater */
+            // @todo: for nested fields, only apply to the direct child container elements.
             nodeField.find( 'input[type=radio]' ).change( function() {
                 jQuery( this ).closest( '.admin-page-framework-field' )
                     .find( 'input[type=radio]' )
@@ -102,37 +103,26 @@ JAVASCRIPTS;
     protected function getField( $aField ) {
         
         $_aOutput   = array();
-        $_sValue    = $aField['attributes']['value'];
+        $_oRadio    = new AdminPageFramework_Input_radio( $aField );
         
         foreach( $aField['label'] as $_sKey => $_sLabel ) {
 
             /* Prepare attributes */
-            $_aInputAttributes = array(
-                'type'          => 'radio',
-                'checked'       => $_sValue == $_sKey ? 'checked' : null,
-                'value'         => $_sKey,
-                'id'            => $aField['input_id'] . '_' . $_sKey,
-                'data-default'  => $aField['default'],
-            ) 
-            + $this->getFieldElementByKey( $aField['attributes'], $_sKey, $aField['attributes'] )
-            + $aField['attributes'];
-            $_aLabelAttributes = array(
-                'for'   => $_aInputAttributes['id'],
-                'class' => $_aInputAttributes['disabled'] ? 'disabled' : null,
-            );
-
+            $_aInputAttributes = $_oRadio->getAttributeArray( $_sKey );
+            
             /* Insert the output */
             $_aOutput[] = 
                 $this->getFieldElementByKey( $aField['before_label'], $_sKey )
                 . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
-                    . "<label " . $this->generateAttributes( $_aLabelAttributes ) . ">"
+                    . "<label " . $this->generateAttributes( 
+                            array(
+                                'for'   => $_aInputAttributes['id'],
+                                'class' => $_aInputAttributes['disabled'] ? 'disabled' : null,                            
+                            )
+                        ) 
+                    . ">"
                         . $this->getFieldElementByKey( $aField['before_input'], $_sKey )
-                        . "<span class='admin-page-framework-input-container'>"
-                            . "<input " . $this->generateAttributes( $_aInputAttributes ) . " />" // this method is defined in the utility class    
-                        . "</span>"
-                        . "<span class='admin-page-framework-input-label-string'>"
-                            . $_sLabel
-                        . "</span>"    
+                        . $_oRadio->get( $_sLabel, $_aInputAttributes )
                         . $this->getFieldElementByKey( $aField['after_input'], $_sKey )
                     . "</label>"
                 . "</div>"
@@ -140,7 +130,8 @@ JAVASCRIPTS;
                 ;
                 
         }
-        $_aOutput[] = $this->_getUpdateCheckedScript( $aField['_field_container_id'] );
+        // $_aOutput[] = $this->_getUpdateCheckedScript( $aField['_field_container_id'] );
+        $_aOutput[] = $this->_getUpdateCheckedScript( $aField['input_id'] );
         return implode( PHP_EOL, $_aOutput );
             
     }
@@ -149,11 +140,14 @@ JAVASCRIPTS;
          * This helps repeatable field script that duplicate the last checked item.
          * @sinec       3.0.0
          */
-        private function _getUpdateCheckedScript( $sFieldContainerID ) {
+        private function _getUpdateCheckedScript( $sInputID ) {
             $_sScript = <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
-    jQuery( '#{$sFieldContainerID} input[type=radio]' ).change( function() {
-        jQuery( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio]' ).attr( 'checked', false );
+    jQuery( 'input[type=radio][data-id="{$sInputID}"]' ).change( function() {
+        // Uncheck the other radio buttons
+        jQuery( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio][data-id="{$sInputID}"]' ).attr( 'checked', false );
+        
+        // Make sure the clicked item is checked
         jQuery( this ).attr( 'checked', 'checked' );
     });
 });                 
