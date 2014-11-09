@@ -62,41 +62,42 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      * @internal
      */ 
     public static $_aStructure_Field = array(
-        'field_id'          => null, // ( required )
-        'type'              => null, // ( required )
-        'section_id'        => null, // ( optional )
-        'section_title'     => null, // This will be assigned automatically in the formatting method.
-        'page_slug'         => null, // This will be assigned automatically in the formatting method.
-        'tab_slug'          => null, // This will be assigned automatically in the formatting method.
-        'option_key'        => null, // This will be assigned automatically in the formatting method.
-        'class_name'        => null, // used by the export field type
-        'capability'        => null,     
-        'title'             => null,
-        'tip'               => null,
-        'description'       => null,
-        'error_message'     => null, // error message for the field
-        'before_label'      => null,
-        'after_label'       => null,
-        'if'                => true,
-        'order'             => null, // do not set the default number here for this key.     
+        'field_id'          => null,    // (required)
+        'type'              => null,    // (required)
+        'section_id'        => null,    // (optional)
+        'section_title'     => null,    // This will be assigned automatically in the formatting method.
+        'page_slug'         => null,    // This will be assigned automatically in the formatting method.
+        'tab_slug'          => null,    // This will be assigned automatically in the formatting method.
+        'option_key'        => null,    // This will be assigned automatically in the formatting method.
+        'class_name'        => null,    // used by the export field type
+        'capability'        => null,        
+        'title'             => null,    
+        'tip'               => null,    
+        'description'       => null,    
+        'error_message'     => null,    // error message for the field
+        'before_label'      => null,    
+        'after_label'       => null,    
+        'if'                => true,    
+        'order'             => null,    // do not set the default number here for this key.     
         'default'           => null,
         'value'             => null,
-        'help'              => null, // [2.1.0+]
-        'help_aside'        => null, // [2.1.0+]
-        'repeatable'        => null, // [2.1.3+]
-        'sortable'          => null, // [2.1.3+]
-        'show_title_column' => true, // [3.0.0+]
-        'hidden'            => null, // [3.0.0+]
-        '_fields_type'      => null, // [3.0.0+] - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
-        '_section_index'    => null, // [3.0.0+] - internally set to indicate the section index for repeatable sections.
+        'help'              => null,    // 2.1.0+
+        'help_aside'        => null,    // 2.1.0+
+        'repeatable'        => null,    // 2.1.3+
+        'sortable'          => null,    // 2.1.3+
+        'show_title_column' => true,    // 3.0.0+
+        'hidden'            => null,    // 3.0.0+
+        '_fields_type'      => null,    // 3.0.0+ - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
+        '_section_index'    => null,    // 3.0.0+ - internally set to indicate the section index for repeatable sections.
     // @todo    Examine why an array is not set but null here for the attributes argument.
-        'attributes'        => null, // [3.0.0+] - the array represents the attributes of input tag
+        'attributes'        => null,    // 3.0.0+ - the array represents the attributes of input tag
         'class'             => array(   // 3.3.1+
             'fieldrow'  =>  array(),
             'fieldset'  =>  array(),
             'fields'    =>  array(),
             'field'     =>  array(),
         ), 
+        '_caller_object'    => null,    // 3.3.4+
     );    
     
     /**
@@ -153,12 +154,19 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
     /**
      * Stores the default capability.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
+     * @since       3.3.4       Added the $oCaller parameter.
+     * 
+     * @param       string      $sFieldsType
+     * @param       string      $sCapability    
+     * @param       object      $oCaller            The caller object. Each formatted field will have the caller object. 
+     * This give power to each field to create nested fields.
      */
-    public function __construct( $sFieldsType, $sCapability ) {
+    public function __construct( $sFieldsType, $sCapability, $oCaller=null ) {
         
-        $this->sFieldsType = $sFieldsType;
-        $this->sCapability = $sCapability;
+        $this->sFieldsType  = $sFieldsType;
+        $this->sCapability  = $sCapability;
+        $this->oCaller      = $oCaller;
         
     }
     
@@ -359,7 +367,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                     foreach( $_aFields as $_aField ) {
                         
                         $_iCountElement = isset( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ] ) ? count( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ] ) : 0 ;
-                        $_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, $_iSectionIndex, $_abSectionRepeatable );
+                        $_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, $_iSectionIndex, $_abSectionRepeatable, $this->oCaller );
                         if ( $_aField ) {
                             $_aNewFields[ $_sSectionID ][ $_iSectionIndex ][ $_aField['field_id'] ] = $_aField;     
                         }
@@ -378,7 +386,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                 
                 // Insert the formatted field definition array.
                 $_iCountElement = isset( $_aNewFields[ $_sSectionID ] ) ? count( $_aNewFields[ $_sSectionID ] ) : 0; // the count is needed to set each order value.
-                $_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, null, $_abSectionRepeatable );
+                $_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, null, $_abSectionRepeatable, $this->oCaller );
                 if ( $_aField ) {
                     $_aNewFields[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
                 }
@@ -407,12 +415,15 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
          * 
          * @since 3.0.0
          */
-        protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable ) {
+        protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {
             
             if ( ! isset( $aField['field_id'], $aField['type'] ) ) { return; }
             
             $_aField = $this->uniteArrays(
-                array( '_fields_type' => $sFieldsType )
+                array( 
+                    '_fields_type'          => $sFieldsType,
+                    '_caller_object'        => $oCallerObject,
+                )
                 + $aField,
                 array( 
                     'capability'            => $sCapability,

@@ -178,17 +178,17 @@ abstract class AdminPageFramework_Factory_Router {
                 if ( $oProp->bIsAdminAjax ) {
                     return null;
                 }
-                return new AdminPageFramework_FormElement_Page( $oProp->sFieldsType, $oProp->sCapability );
+                return new AdminPageFramework_FormElement_Page( $oProp->sFieldsType, $oProp->sCapability, $this );
             case 'post_meta_box':
             case 'page_meta_box':
             case 'post_type':
                 if ( $oProp->bIsAdminAjax ) {
                     return null;
                 }     
-                return new AdminPageFramework_FormElement( $oProp->sFieldsType, $oProp->sCapability );
+                return new AdminPageFramework_FormElement( $oProp->sFieldsType, $oProp->sCapability, $this );
             case 'taxonomy':
             case 'widget':      // 3.2.0+
-                return new AdminPageFramework_FormElement( $oProp->sFieldsType, $oProp->sCapability );
+                return new AdminPageFramework_FormElement( $oProp->sFieldsType, $oProp->sCapability, $this );
             
         }     
         

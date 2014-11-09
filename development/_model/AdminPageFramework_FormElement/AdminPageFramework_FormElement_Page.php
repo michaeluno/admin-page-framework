@@ -172,18 +172,19 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * 
      * Before calling this method, $sOptionKey and $sClassName properties must be set.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
+     * @since       3.4.4       Aded the $oCallerObject parameter.
      */
-    protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable ) {
+    protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {
         
-        $_aField = parent::formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable );
+        $_aField = parent::formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject );
         
-        if ( ! $_aField ) return;
-        $_aField['option_key'] = $this->sOptionKey;
-        $_aField['class_name'] = $this->sClassName;
-        $_aField['page_slug'] = isset( $this->aSections[ $_aField['section_id'] ]['page_slug'] ) ? $this->aSections[ $_aField['section_id'] ]['page_slug'] : null;
-        $_aField['tab_slug'] = isset( $this->aSections[ $_aField['section_id'] ]['tab_slug'] ) ? $this->aSections[ $_aField['section_id'] ]['tab_slug'] : null;
-        $_aField['section_title'] = isset( $this->aSections[ $_aField['section_id'] ]['title'] ) ? $this->aSections[ $_aField['section_id'] ]['title'] : null; // used for the contextual help pane.
+        if ( ! $_aField ) { return; }
+        $_aField['option_key']      = $this->sOptionKey;
+        $_aField['class_name']      = $this->sClassName;
+        $_aField['page_slug']       = isset( $this->aSections[ $_aField['section_id'] ]['page_slug'] ) ? $this->aSections[ $_aField['section_id'] ]['page_slug'] : null;
+        $_aField['tab_slug']        = isset( $this->aSections[ $_aField['section_id'] ]['tab_slug'] ) ? $this->aSections[ $_aField['section_id'] ]['tab_slug'] : null;
+        $_aField['section_title']   = isset( $this->aSections[ $_aField['section_id'] ]['title'] ) ? $this->aSections[ $_aField['section_id'] ]['title'] : null; // used for the contextual help pane.
         return $_aField;
         
     }
