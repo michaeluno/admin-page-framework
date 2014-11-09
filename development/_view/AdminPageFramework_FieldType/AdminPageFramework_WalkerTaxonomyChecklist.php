@@ -88,7 +88,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
             : $aArgs['attributes'];
         $_aInputAttributes = array(
             'id'        => $_sID,
-            'value'     => 1, // must be 1
+            'value'     => 1, // must be 1 beacause the index of zero exists so the index value cannot be assigined here.
             'type'      => 'checkbox',
             'name'      => "{$aArgs['name']}[{$_iID}]",
             'checked'   => in_array( $_iID, ( array ) $aArgs['selected'] ) ? 'checked' : null,
