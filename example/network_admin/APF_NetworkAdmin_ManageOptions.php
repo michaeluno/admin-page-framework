@@ -13,10 +13,10 @@ class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
         /* ( required ) Add sub-menu items (pages or links) */
         $this->addSubMenuItems(    
             array(
-                'title' => __( 'Manage Options', 'admin-page-framework-demo' ),
-                'page_slug' => 'apf_manage_options',
-                'screen_icon' => 'link-manager',    
-                'order' => 3, // ( optional )
+                'title'         => __( 'Manage Options', 'admin-page-framework-demo' ),
+                'page_slug'     => 'apf_manage_options',
+                'screen_icon'   => 'link-manager',    
+                'order'         => 3, // ( optional )
             )
         );
                 
@@ -308,6 +308,16 @@ class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
         $this->setSettingNotice( __( 'Importing options were validated.', 'admin-page-framework-demo' ), 'updated' );
         return $vData;
         
-    }    
+    } 
+    
+    public function validation_APF_NetworkAdmin_ManageOptions( $aInput, $aOldOptions, $oAdmin ) { // validation_{instantiated class name}
+        
+        /* If the delete options button is pressed, return an empty array that will delete the entire options stored in the database. */
+        if ( isset( $_POST[ $this->oProp->sOptionKey ]['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) { 
+            return array(); 
+        }
+        return $aInput;
+        
+    }     
     
 }

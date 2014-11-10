@@ -76,7 +76,7 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
      */    
     public function cell_APF_TaxonomyField( $sCellHTML, $sColumnSlug, $iTermID ) { // cell_{instantiated class name}
         
-        if ( ! $iTermID || $sColumnSlug != 'thumbnail' ) return $sCellHTML;
+        if ( ! $iTermID || $sColumnSlug != 'thumbnail' ) { return $sCellHTML; }
         
         $aOptions = get_option( 'APF_TaxonomyField', array() ); // by default the class name is the option key.
         return isset( $aOptions[ $iTermID ][ 'image_upload' ] ) && $aOptions[ $iTermID ][ 'image_upload' ]
@@ -88,9 +88,7 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
     public function cell_APF_TaxonomyField_custom( $sCellHTML, $iTermID ) { // cell_{instantiated class name}_{cell slug}
         
         // Using AdminPageFramework::getOption() is another way to retrieve an option value.
-        return AdminPageFramework::getOption( 'APF_TaxonomyField', array( $iTermID, 'text_field' ) );
-        // . __( 'Term ID', 'admin-page-framework-demo' ) . ': ' . $iTermID . '<br />'
-            
+        return AdminPageFramework::getOption( 'APF_TaxonomyField', array( $iTermID, 'text_field' ) );            
         
     }
     
