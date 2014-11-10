@@ -100,7 +100,7 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
                     
         $this->sFormatType = isset( $this->sFormatType ) && $this->sFormatType 
             ? $this->sFormatType
-            : $this->getElement( $this->aPost, $this->sInputID, 'format' );
+            : $this->getSubmitValueByType( $this->aPost, $this->sInputID, 'format' );
 
         return $this->sFormatType;
         

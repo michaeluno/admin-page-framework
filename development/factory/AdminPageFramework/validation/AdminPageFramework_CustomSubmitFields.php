@@ -31,9 +31,10 @@ abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_
      * 
      * The element key is either a single key or two keys. The two keys means that the value is stored in the second dimension.
      * 
-     * @since 2.0.0
+     * @since   2.0.0
+     * @since   3.3.4   Changed the name from `getElement()`.
      */ 
-    protected function getElement( $aElement, $sInputID, $sElementKey='format' ) {
+    protected function getSubmitValueByType( $aElement, $sInputID, $sElementKey='format' ) {
             
         return ( isset( $aElement[ $sInputID ][ $sElementKey ] ) )
             ? $aElement[ $sInputID ][ $sElementKey ]
@@ -47,7 +48,7 @@ abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_
      * @since 2.1.5
      */
     public function getSiblingValue( $sKey ) {    
-        return $this->getElement( $this->aPost, $this->sInputID, $sKey );
+        return $this->getSubmitValueByType( $this->aPost, $this->sInputID, $sKey );
     }
     
     /**

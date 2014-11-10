@@ -27,9 +27,9 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
         $this->sClassName = $sClassName; // will be used in the getTransientIfSet() method.
         
         // Set the file name to download and the format type. Also find whether the exporting data is set in transient.
-        $this->sFileName = $this->getElement( $aPostExport, $this->sInputID, 'file_name' );
-        $this->sFormatType = $this->getElement( $aPostExport, $this->sInputID, 'format' );
-        $this->bIsDataSet = $this->getElement( $aPostExport, $this->sInputID, 'transient' );
+        $this->sFileName = $this->getSubmitValueByType( $aPostExport, $this->sInputID, 'file_name' );
+        $this->sFormatType = $this->getSubmitValueByType( $aPostExport, $this->sInputID, 'format' );
+        $this->bIsDataSet = $this->getSubmitValueByType( $aPostExport, $this->sInputID, 'transient' );
     
     }
     
