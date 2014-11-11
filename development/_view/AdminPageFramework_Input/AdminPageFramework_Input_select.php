@@ -50,7 +50,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
                 'id'        => $this->aField['input_id'],
                 'multiple'  => $_bIsMultiple ? 'multiple' : null,
                 'name'      => $_bIsMultiple ? "{$this->aField['_input_name']}[]" : $this->aField['_input_name'] ,
-                'data-id'       => $this->aField['input_id'],       // refered by the JavaScript scripts such as the revealer script.
+                'data-id'   => $this->aField['input_id'],       // referenced by the JavaScript scripts such as the revealer script.
             )            
         );
      

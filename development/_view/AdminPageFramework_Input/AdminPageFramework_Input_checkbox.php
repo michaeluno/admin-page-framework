@@ -80,7 +80,7 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
                 'name'      => is_array( $this->aField['label'] ) 
                     ? "{$this->aField['attributes']['name']}[{$_sKey}]" 
                     : $this->aField['attributes']['name'],
-                'data-id'       => $this->aField['input_id'],       // refered by the JavaScript scripts such as the revealer script.
+                'data-id'   => $this->aField['input_id'],       // referenced by the JavaScript scripts such as the revealer script.
             )
             + $this->aField['attributes']
             ;
