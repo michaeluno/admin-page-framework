@@ -97,7 +97,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             'fields'    =>  array(),
             'field'     =>  array(),
         ), 
-        '_caller_object'    => null,    // 3.3.4+
+        '_caller_object'    => null,    // 3.3.4+ - stores the object of the caller class. The object is referenced when creating nested fields.
+        '_nested_depth'     => 0,       // 3.3.4+ - stores the level of the nesting depth. This is mostly used for debugging by checking if the field is a nested field or not.
     );    
     
     /**

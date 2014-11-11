@@ -130,6 +130,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
         if ( is_object( ! $aField['_caller_object'] ) ) {
             return '';
         }
+        $aField['_nested_depth']++;
         $_oCaller   = $aField['_caller_object'];
         $_aOptions  = $_oCaller->getSavedOptions();
         $_oField    = new AdminPageFramework_FormField( 
