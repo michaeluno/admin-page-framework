@@ -141,7 +141,7 @@ class APF_Demo_CustomFieldTypes_Revealer {
                 'field_id'      => 'another_revealer_field',
                 'type'          => 'revealer',  
                 'select_type'   => 'radio',
-                'title'         => __( 'Another Hidden Fields', 'admin-page-framework-demo' ),
+                'title'         => __( 'Another Hidden Field', 'admin-page-framework-demo' ),
                 'label'         => array( // the keys represent the selector to reveal, in this case, their tag id : #fieldrow-{field id}
                     '.revealer_field_option_d' => __( 'Option D', 'admin-page-framework-demo' ),     
                     '.revealer_field_option_e' => __( 'Option E', 'admin-page-framework-demo' ),
@@ -167,7 +167,7 @@ class APF_Demo_CustomFieldTypes_Revealer {
                         'b' => __( 'B', 'admin-page-framework-demo' ),
                         'c' => __( 'C', 'admin-page-framework-demo' ),
                     ),
-                    'default'       => 'c',
+                    'default'       => 'a',
                     'class'         => array(
                         'field' => 'revealer_field_option_e',
                     ),
@@ -202,7 +202,10 @@ class APF_Demo_CustomFieldTypes_Revealer {
                     '.revealer_section_class_a' => __( 'Section A', 'admin-page-framework-demo' ),     
                     '.revealer_section_class_b' => __( 'Section B', 'admin-page-framework-demo' ),     
                 ),
-                'default'       => '.revealer_section_class_a',
+                'default'       => array( 
+                    '.revealer_section_class_a' => false,
+                    '.revealer_section_class_b' => true,
+                ),
                 'description'   => __( 'Specify the selectors to reveal in the <code>label</code> argument keys in the field definition array.', 'admin-page-framework-demo' ),
             ),
             array()
