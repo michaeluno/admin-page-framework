@@ -104,12 +104,12 @@ JAVASCRIPTS;
         
         $_aOutput   = array();
         $_oRadio    = new AdminPageFramework_Input_radio( $aField );
-        
+
         foreach( $aField['label'] as $_sKey => $_sLabel ) {
 
             /* Prepare attributes */
             $_aInputAttributes = $_oRadio->getAttributeArray( $_sKey );
-            
+
             /* Insert the output */
             $_aOutput[] = 
                 $this->getFieldElementByKey( $aField['before_label'], $_sKey )
@@ -130,7 +130,7 @@ JAVASCRIPTS;
                 ;
                 
         }
-        // $_aOutput[] = $this->_getUpdateCheckedScript( $aField['_field_container_id'] );
+
         $_aOutput[] = $this->_getUpdateCheckedScript( $aField['input_id'] );
         return implode( PHP_EOL, $_aOutput );
             
@@ -138,15 +138,17 @@ JAVASCRIPTS;
         /**
          * Returns the JavaScript script that updates the checked attribute of radio buttons when the user select one.
          * This helps repeatable field script that duplicate the last checked item.
-         * @sinec       3.0.0
+         * @since       3.0.0
+         * @since       3.3.4       Changed the parameter to accept input id from the container tag id to prepare for the support of nested fields.
          */
         private function _getUpdateCheckedScript( $sInputID ) {
+
             $_sScript = <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
     jQuery( 'input[type=radio][data-id=\"{$sInputID}\"]' ).change( function() {
         // Uncheck the other radio buttons
         jQuery( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio][data-id=\"{$sInputID}\"]' ).attr( 'checked', false );
-        
+
         // Make sure the clicked item is checked
         jQuery( this ).attr( 'checked', 'checked' );
     });
