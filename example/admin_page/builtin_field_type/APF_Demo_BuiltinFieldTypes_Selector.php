@@ -102,7 +102,7 @@ class APF_Demo_BuiltinFieldTypes_Selector {
                 'help'          => __( 'This is the <em>select</em> field type with multiple elements.', 'admin-page-framework' ),
                 'type'          => 'select',
                 'is_multiple'   => true,
-                'default'       => 3, // note that PHP array indices are zero-base, meaning the index count starts from 0 (not 1). 3 here means the fourth item of the array.  
+                'default'       => array( 3, 4 ), // note that PHP array indices are zero-base, meaning the index count starts from 0 (not 1). 3 here means the fourth item of the array. array( 3, 4 ) will select the fourth and fifth elements.
                 'label'         => array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' ),
                 'description'   => __( 'Use <code>is_multiple</code> argument to enable multiple selections.' ),
                 'attributes'    =>  array(
@@ -208,7 +208,11 @@ class APF_Demo_BuiltinFieldTypes_Selector {
                 array(), // the second item - will inherit the main field's arguments
                 array(), // the third item
                 array(), // the forth item
-            ),     
+            )
+        );
+        
+        $oAdminPage->addSettingFields(
+            $this->sSectionID, // the target section ID       
             array( // Single set of radio buttons
                 'field_id'      => 'radio',
                 'title'         => __( 'Radio Button', 'admin-page-framework-demo' ),
@@ -235,7 +239,7 @@ class APF_Demo_BuiltinFieldTypes_Selector {
                 'description'   => __( 'Multiple sets of radio buttons. The horizontal line is set with the <code>delimiter</code> argument.', 'admin-page-framework-demo' ),
                 'type'          => 'radio',
                 'delimiter'     => '<hr />',
-                'default'       => 2,
+                'default'       => 1,
                 'label'         => array( 
                     1 => 'one',
                     2 => 'two',
@@ -246,7 +250,7 @@ class APF_Demo_BuiltinFieldTypes_Selector {
                     ),
                 ),
                 array(
-                    'default'   => 4,
+                    'default'   => 5,
                     'label'     => array( 
                         3 => 'three',
                         4 => 'four',    
@@ -254,7 +258,7 @@ class APF_Demo_BuiltinFieldTypes_Selector {
                     ),
                 ),
                 array(
-                    'default'   => 8,
+                    'default'   => 7,
                     'label'     => array( 
                         6 => 'six',
                         7 => 'seven',
@@ -271,7 +275,7 @@ class APF_Demo_BuiltinFieldTypes_Selector {
                     1 => 'On', 
                     0 => 'Off'
                 ),
-                'default' => 1, // set the key of the label array
+                'default' => 0, // set the key of the label array
                 'repeatable' =>    true,
             ),    
             array( // Sortable radio buttons
@@ -283,12 +287,16 @@ class APF_Demo_BuiltinFieldTypes_Selector {
                     2 => __( 'Two', 'admin-page-framework-demo' ),
                     3 => __( 'Three', 'admin-page-framework-demo' ),
                 ),
-                'default'       => 1, // set the key of the label array
+                'default'       => 2, // set the key of the label array
                 'sortable'      =>    true,
                 array(), // the second item
                 array(), // the third item
                 array(), // the fourth item
-            ),     
+            )
+        );
+        
+        $oAdminPage->addSettingFields(
+            $this->sSectionID, // the target section ID        
             array( // Single checkbox item - set a check box item to the 'label' element.
                 'field_id'      => 'checkbox',
                 'title'         => __( 'Checkbox', 'admin-page-framework-demo' ),
