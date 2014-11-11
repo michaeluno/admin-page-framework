@@ -120,12 +120,12 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
          */
         private function _sanitizeInnerFieldArray( array $aField ) {
             
-            // The revealer field type has its own description field.
+            // The revealer field type has its own description element.
             unset( $aField['description'] );
             
             // The revealer script of checkboxes needs the reference of the selector to reveal. 
-            // For radio and select input types, the key of label array can be used but for the checkbox input type, 
-            // the value attribute needs to be alwasy 1 (for cases of key of zero '0') so the selector needs to be separatly stored.
+            // For radio and select input types, the key of the label array can be used but for the checkbox input type, 
+            // the value attribute needs to be always 1 (for cases of key of zero '0') so the selector needs to be separately stored.
             switch( $aField['select_type'] ) {
                 default:
                 case 'select':
@@ -185,7 +185,8 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
                             jQuery( sValue ).hide();
                                 
                         });
-                        jQuery('*[data-id=\"{$sSelectorID}\"]').trigger( 'change' );
+                        jQuery( 'select[data-id=\"{$sSelectorID}\"], input:checked[type=radio][data-id=\"{$sSelectorID}\"], input:checked[type=checkbox][data-id=\"{$sSelectorID}\"]' )
+                            .trigger( 'change' );
                     });                
                 </script>";
                 
@@ -216,14 +217,14 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
                             _oElementToReveal.show();
                         } else {
                             _oElementToReveal.hide();    
-                        }
+                        }                      
                         return;
                     }
                     
                     // For other types (select and radio).
                     var _sTargetSelector        = $( this ).val();
                     var _oElementToReveal       = $( _sTargetSelector );
-                    
+
                     // Hide the previously hidden element.
                     $( _sLastRevealedSelector ).hide();    
                                         
