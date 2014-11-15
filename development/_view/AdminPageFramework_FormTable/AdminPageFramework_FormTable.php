@@ -157,7 +157,7 @@ JAVASCRIPTS;
                 <li><a href="#tabs-3">Aenean lacinia</a></li>
             </ul>  */     
             $_aSectionTabList   = array();
-            $_abFoldable        = null;
+            $_abCollapsible        = null;
             $_aOutput           = array();
             
             foreach( $aFieldsInSections as $_sSectionID => $aSubSectionsOrFields ) {
@@ -166,11 +166,11 @@ JAVASCRIPTS;
                 
                 $_sSectionTabSlug   = $aSections[ $_sSectionID ]['section_tab_slug']; // will be referred outside the loop.
              
-                // Update the foldable argument.
-                $_abFoldable         = isset( $_abFoldable )
-                    ? $_abFoldable
-                    : $aSections[ $_sSectionID ]['foldable'];
-                
+                // Update the collapsible argument.
+                $_abCollapsible         = isset( $_abCollapsible )
+                    ? $_abCollapsible
+                    : $aSections[ $_sSectionID ]['collapsible'];
+
                 // For repeatable sections
                 $_aSubSections      = $aSubSectionsOrFields;
                 $_aSubSections      = $this->getIntegerElements( $_aSubSections );
@@ -212,22 +212,22 @@ JAVASCRIPTS;
                 return '';
             }
 
-            $_sFoldableSectionTitle = empty( $_abFoldable  )
+            $_sCollapsibleSectionTitle = empty( $_abCollapsible  )
                 ? ''
-                : $this->_getFoldableSectionsEnablerScript()
+                : $this->_getCollapsibleSectionsEnablerScript()
                 . "<div " . $this->generateAttributes(
                     array(
                         'class' => $this->generateClassAttribute( 
-                            'admin-page-framework-foldable-sections-title admin-page-framework-section-title accordion-section-title',
-                            $_abFoldable['is_folded'] ? 'folded' : ''
+                            'admin-page-framework-collapsible-sections-title admin-page-framework-section-title accordion-section-title',
+                            $_abCollapsible['is_collapsed'] ? 'collapsed' : ''
                         ),
                     ) 
-                    + ( empty( $_abFoldable ) ? '' : $this->getDataAttributeArray( $_abFoldable ) )
+                    + ( empty( $_abCollapsible ) ? '' : $this->getDataAttributeArray( $_abCollapsible ) )
                 ) . ">"  
-                        . "<h3>" . $_abFoldable['title'] . "</h3>"
+                        . "<h3>" . $_abCollapsible['title'] . "</h3>"
                     . "</div>";
                 
-            return $_sFoldableSectionTitle
+            return $_sCollapsibleSectionTitle
                 . "<div " . $this->generateAttributes(
                         array(
                             // 'class' => 'admin-page-framework-sections'
@@ -238,9 +238,9 @@ JAVASCRIPTS;
                                 ! $_sSectionTabSlug || '_default' === $_sSectionTabSlug 
                                     ? null 
                                     : 'admin-page-framework-section-tabs-contents',
-                                empty( $_abFoldable  )
+                                empty( $_abCollapsible  )
                                     ? null
-                                    : 'admin-page-framework-foldable-sections accordion-section-content'
+                                    : 'admin-page-framework-collapsible-sections accordion-section-content'
                             ),
                         )
                     ) . ">"                 
@@ -336,57 +336,57 @@ JAVASCRIPTS;
         }
         
         /**
-         * Indicates whether the foldable script is loaded or not.
+         * Indicates whether the collapsible script is loaded or not.
          * 
          * @since   3.3.4
          */
-        static private $_bLoadedFoldableSectionsEnablerScript = false;
+        static private $_bLoadedCollapsibleSectionsEnablerScript = false;
         
         /**
-         * Returns the enabler script of foldable sections.
+         * Returns the enabler script of collapsible sections.
          * @since   3.3.4
          */
-        private function _getFoldableSectionsEnablerScript() {
+        private function _getCollapsibleSectionsEnablerScript() {
             
-            if ( self::$_bLoadedFoldableSectionsEnablerScript ) {
+            if ( self::$_bLoadedCollapsibleSectionsEnablerScript ) {
                 return;
             }
-            self::$_bLoadedFoldableSectionsEnablerScript = true;
-            // new AdminPageFramework_Script_FoldableSection( $this->oMsg );   
+            self::$_bLoadedCollapsibleSectionsEnablerScript = true;
+            // new AdminPageFramework_Script_CollapsibleSection( $this->oMsg );   
             wp_enqueue_script( 'juery' );
             wp_enqueue_script( 'juery-ui-accordion' );
             $_sScript       = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
     
-    jQuery( '.admin-page-framework-foldable-sections-title[data-is_folded=\"0\"]' )
-        .next( '.admin-page-framework-foldable-sections' )
+    jQuery( '.admin-page-framework-collapsible-sections-title[data-is_collapsed=\"0\"]' )
+        .next( '.admin-page-framework-collapsible-sections' )
         .slideDown( 'fast' );
-    jQuery( '.admin-page-framework-foldable-sections-title' ).click( function(){
+    jQuery( '.admin-page-framework-collapsible-sections-title' ).click( function(){
 
         // Expand or collapse this panel
         var _oThis = jQuery( this );
-        var _oTargetSections = jQuery( this ).next( '.admin-page-framework-foldable-sections' );
+        var _oTargetSections = jQuery( this ).next( '.admin-page-framework-collapsible-sections' );
         
-        _oThis.removeClass( 'folded' );
+        _oThis.removeClass( 'collapsed' );
         _oTargetSections.slideToggle( 'fast', function(){
             if ( _oTargetSections.is( ':visible' ) ) {
-                _oThis.removeClass( 'folded' );
+                _oThis.removeClass( 'collapsed' );
             } else {
-                _oThis.addClass( 'folded' );
+                _oThis.addClass( 'collapsed' );
             }            
         } );
         
-        // If fold_others_on_unfold argument is true, collapse others 
-        if ( _oThis.data( 'fold_others_on_unfold' ) ) {
-            jQuery( '.admin-page-framework-foldable-sections' ).not( _oTargetSections ).slideUp( 'fast', function() {
-                jQuery( this ).prev( '.admin-page-framework-foldable-sections-title' ).addClass( 'folded' );
+        // If collapse_others_on_expand argument is true, collapse others 
+        if ( _oThis.data( 'collapse_others_on_expand' ) ) {
+            jQuery( '.admin-page-framework-collapsible-sections' ).not( _oTargetSections ).slideUp( 'fast', function() {
+                jQuery( this ).prev( '.admin-page-framework-collapsible-sections-title' ).addClass( 'collapsed' );
             });
         }
 
     });    
 });               
 JAVASCRIPTS;
-            return "<script type='text/javascript' class='admin-page-framework-section-foldable-script'>" . $_sScript . "</script>";
+            return "<script type='text/javascript' class='admin-page-framework-section-collapsible-script'>" . $_sScript . "</script>";
             
         }
         
@@ -442,7 +442,7 @@ JAVASCRIPTS;
         $_sSectionTagID = 'section-' . $sSectionID . '__' . $iSectionIndex;
         
         // For regular repeatable fields, the title should be omitted except the first item.
-        $_sDisplayNone  = ( $aSection['repeatable'] && $iSectionIndex != 0 && ! $aSection['section_tab_slug'] ) || $aSection['foldable']
+        $_sDisplayNone  = ( $aSection['repeatable'] && $iSectionIndex != 0 && ! $aSection['section_tab_slug'] ) || $aSection['collapsible']
             ? " style='display:none;'"
             : '';
                 

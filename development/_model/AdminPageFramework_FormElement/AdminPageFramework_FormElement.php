@@ -50,19 +50,14 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             'tab'           => array(),
         ),
         'hidden'            => false,       // 3.3.1+
-        'foldable'          => false,       // 3.3.4+
-            // => array(
-                // 'is_folded' => true,
-                // 'sectionset_title' => null,     // the section title will be applied by default
-                // 'toogle_all_button' => false,
-            // )
+        'collapsible'       => false,    // 3.3.4+ (boolean|array) For the array structure see the $_aStructure_CollapsibleArguments property.
     );    
     
-    static public $_aStructure_FoldableArguments = array(
+    static public $_aStructure_CollapsibleArguments = array(
         'title'                     => null,    // (string)  will be assigned in the section formatting method.
-        'is_folded'                 => true,    // (boolean) whether it is already collapsed or expanded
-        'show_toggle_all_button'    => false,   // (boolean) whether to display the button that toggles the folding state of all foldable sections.
-        'fold_others_on_unfold'     => true,    // (boolean) whether the other foldable sections should be folded when the section is unfolded.
+        'is_collapsed'              => true,    // (boolean) whether it is already collapsed or expanded
+        'show_toggle_all_button'    => false,   // (boolean) whether to display the button that toggles the folding state of all collapsible sections.
+        'collapse_others_on_expand' => true,    // (boolean) whether the other collapsible sections should be folded when the section is unfolded.
     );
     
     /**
@@ -355,11 +350,11 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             $aSection['order'] = is_numeric( $aSection['order'] ) ? $aSection['order'] : $iCountOfElements + 10;
             
             // 3.3.4
-            $aSection['foldable'] = empty( $aSection['foldable'] ) 
-                ? $aSection['foldable']
-                : $this->getAsArray( $aSection['foldable'] ) + array(
+            $aSection['collapsible'] = empty( $aSection['collapsible'] ) 
+                ? $aSection['collapsible']
+                : $this->getAsArray( $aSection['collapsible'] ) + array(
                     'title' => $aSection['title'],
-                ) +  self::$_aStructure_FoldableArguments;
+                ) +  self::$_aStructure_CollapsibleArguments;
                 
             return $aSection;
             

@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Script_FoldableSection' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Script_CollapsibleSection' ) ) :
 /**
  * Provides JavaScript utility scripts.
  * 
@@ -15,7 +15,7 @@ if ( ! class_exists( 'AdminPageFramework_Script_FoldableSection' ) ) :
  * @subpackage  JavaScript
  * @internal
  */
-class AdminPageFramework_Script_FoldableSection extends AdminPageFramework_Script_Base {
+class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Script_Base {
 
     /**
      * Returns the script.

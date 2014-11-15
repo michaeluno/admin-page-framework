@@ -75,7 +75,7 @@ CSSRULES;
 
         return $_sCSS . PHP_EOL 
             . self::_getFormFieldRules() . PHP_EOL
-            . self::_getFoldableSectionsRules() . PHP_EOL
+            . self::_getCollapsibleSectionsRules() . PHP_EOL
             . self::_getFieldErrorRules() . PHP_EOL
             . self::_getMetaBoxFormRules() . PHP_EOL
             . self::_getWidgetFormRules() . PHP_EOL
@@ -321,15 +321,15 @@ CSSRULES;
         }   
 
         /**
-         * Returns the foldable sections specific CSS rules.
+         * Returns the collapsible sections specific CSS rules.
          * 
          * @since       3.3.4
          * @internal
          */
-        static private function _getFoldableSectionsRules() {
+        static private function _getCollapsibleSectionsRules() {
 
             return <<<CSSRULES
-.admin-page-framework-foldable-sections-title {
+.admin-page-framework-collapsible-sections-title {
     /* font-size:14px; */
     background-color: #fff;
     padding: 15px 18px;
@@ -337,28 +337,29 @@ CSSRULES;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
 }
-.admin-page-framework-foldable-sections-title.folded {
+.admin-page-framework-collapsible-sections-title.collapsed {
     border-bottom: 1px solid #dfdfdf;
-    margin-bottom: 1em;
+    margin-bottom: 1em; /* gives a margin for the debug info at the bottom of the meta box */
 }
-#poststuff .metabox-holder .admin-page-framework-foldable-sections-title.admin-page-framework-section-title h3
+#poststuff .metabox-holder .admin-page-framework-collapsible-sections-title.admin-page-framework-section-title h3
 {
     font-size: 1em;
     margin: 0;
 }
-.admin-page-framework-foldable-sections {
+.admin-page-framework-collapsible-sections {
     border: 1px solid #dfdfdf;
     border-top: 0;
     background-color: #fff;
+    margin-bottom: 1em; /* gives a margin for the debug info at the bottom of the meta box */
 }
-.admin-page-framework-foldable-sections-title.accordion-section-title:after {
+.admin-page-framework-collapsible-sections-title.accordion-section-title:after {
     top: 15px;
     right: 15px;
 }
-.admin-page-framework-foldable-sections-title.accordion-section-title:after {
+.admin-page-framework-collapsible-sections-title.accordion-section-title:after {
     content: '\\f142';
 }
-.admin-page-framework-foldable-sections-title.accordion-section-title.folded:after {
+.admin-page-framework-collapsible-sections-title.accordion-section-title.collapsed:after {
     content: '\\f140';
 }
 
