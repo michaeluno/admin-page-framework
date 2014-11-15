@@ -74,6 +74,7 @@ class AdminPageFramework_CSS {
 CSSRULES;
 
         return $_sCSS . PHP_EOL 
+            . self::_getFormSectionRules() . PHP_EOL
             . self::_getFormFieldRules() . PHP_EOL
             . self::_getCollapsibleSectionsRules() . PHP_EOL
             . self::_getFieldErrorRules() . PHP_EOL
@@ -84,6 +85,21 @@ CSSRULES;
             
     }
 
+         /**
+         * Returns the CSS rules for form fields.
+         * 
+         * @since       3.3.4
+         * @internal
+         */    
+        static private function _getFormSectionRules() {
+            return <<<CSSRULES
+.admin-page-framework-sectionset {
+    margin-bottom: 1em;
+}            
+CSSRULES;
+            
+        }
+    
         /**
          * Returns the CSS rules for form fields.
          * 
@@ -328,12 +344,13 @@ CSSRULES;
          */
         static private function _getCollapsibleSectionsRules() {
 
-            return <<<CSSRULES
+            $_sCSSRules = <<<CSSRULES
+/* Collapsible Sections Title Block */            
 .admin-page-framework-collapsible-sections-title {
     /* font-size:14px; */
     background-color: #fff;
     padding: 15px 18px;
-    margin-top: 1em;
+    margin-top: 1em; 
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
 }
@@ -341,19 +358,16 @@ CSSRULES;
     border-bottom: 1px solid #dfdfdf;
     margin-bottom: 1em; /* gives a margin for the debug info at the bottom of the meta box */
 }
+/* Collapsible Sections Title Block in Meta Boxes */            
 #poststuff .metabox-holder .admin-page-framework-collapsible-sections-title.admin-page-framework-section-title h3
 {
     font-size: 1em;
     margin: 0;
 }
-.admin-page-framework-collapsible-sections {
-    border: 1px solid #dfdfdf;
-    border-top: 0;
-    background-color: #fff;
-    margin-bottom: 1em; /* gives a margin for the debug info at the bottom of the meta box */
-}
+
+/* Collapsible Sections Title Dashicon */            
 .admin-page-framework-collapsible-sections-title.accordion-section-title:after {
-    top: 15px;
+    top: 12px;
     right: 15px;
 }
 .admin-page-framework-collapsible-sections-title.accordion-section-title:after {
@@ -363,8 +377,46 @@ CSSRULES;
     content: '\\f140';
 }
 
-CSSRULES;
+/* Collapsible Sections Content Block */            
+.admin-page-framework-collapsible-sections {
+    border: 1px solid #dfdfdf;
+    border-top: 0;
+    background-color: #fff;
+    margin-bottom: 1em; /* gives a margin for the debug info at the bottom of the meta box */
+}
 
+/* The Toggle All button */
+.admin-page-framework-collapsible-sections-toggle-all-button-container {
+    margin-top: 1em;
+    width: 100%;
+    display: table; /* if block, it gets hidden inside the section toggle bar */
+}
+.admin-page-framework-collapsible-sections-toggle-all-button.button {
+
+    height: 36px;
+    line-height: 34px;
+    padding: 0 16px 6px;    
+    font-size: 20px;    /* Determines the dashicon size  */
+    width: auto;
+}
+
+CSSRULES;
+            if ( version_compare( $GLOBALS['wp_version'], '3.8', '<' ) ) {
+                $_sCSSRules .= <<<CSSRULES
+.admin-page-framework-collapsible-sections-title.accordion-section-title:after {
+    content: '';
+    top: 18px;
+}
+.admin-page-framework-collapsible-sections-title.accordion-section-title.collapsed:after {
+    content: '';
+}                 
+.admin-page-framework-collapsible-sections-toggle-all-button.button {
+    font-size: 1em;
+}
+CSSRULES;
+            }   
+            return $_sCSSRules;
+            
         }
             
         /**
@@ -539,7 +591,7 @@ CSSRULES;
         static private function _getVersionSpecificRules( $sWPVersion ) {
             
             $_sCSSRules = '';
-            if ( version_compare( $sWPVersion, '3.8', '<' ) ) {        
+            if ( version_compare( $sWPVersion, '3.8', '<' ) ) {
 
                 $_sCSSRules .= <<<CSSRULES
 .admin-page-framework-field .remove_value.button.button-small {

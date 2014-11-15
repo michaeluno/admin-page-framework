@@ -41,20 +41,24 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         'help_aside'        => null,
         'repeatable'        => null, // 3.0.0+
         'section_tab_slug'  => null, // 3,0,0+
-        'attributes'        => array(       // 3.3.1+
+        'attributes'        => array(   // 3.3.1+
             'class'         => null,    // set null to avoid undefined index warnings.
             'style'         => null,    // set null to avoid undefined index warnings.
             'tab'           => array(),
         ),
-        'class'             => array(       // 3.3.1+
+        'class'             => array(    // 3.3.1+
             'tab'           => array(),
         ),
-        'hidden'            => false,       // 3.3.1+
+        'hidden'            => false,    // 3.3.1+
         'collapsible'       => false,    // 3.3.4+ (boolean|array) For the array structure see the $_aStructure_CollapsibleArguments property.
     );    
     
+    /**
+     * Represents the structure of the 'collapsible' argument.
+     * @since       3.3.4
+     */
     static public $_aStructure_CollapsibleArguments = array(
-        'title'                     => null,    // (string)  will be assigned in the section formatting method.
+        'title'                     => null,    // (string)  the section title will be assigned by default in the section formatting method.
         'is_collapsed'              => true,    // (boolean) whether it is already collapsed or expanded
         'show_toggle_all_button'    => false,   // (boolean) whether to display the button that toggles the folding state of all collapsible sections.
         'collapse_others_on_expand' => true,    // (boolean) whether the other collapsible sections should be folded when the section is unfolded.

@@ -133,6 +133,8 @@ class AdminPageFramework_Message {
             'allowed_minimum_number_of_sections'    => null,
             'add_section'                           => null,
             'remove_section'                        => null,
+            'toggle_all'                            => null,    // 3.3.4+
+            'toggle_all_collapsible_sections'       => null,    // 3.3.4+
             
             // AdminPageFramework_FieldType_reset   
             'reset'                                 => null,    // 3.3.0+
@@ -334,6 +336,10 @@ class AdminPageFramework_Message {
                     return __( 'Add Section', 'admin-page-framework' );
                 case 'remove_section':
                     return __( 'Remove Section', 'admin-page-framework' );
+                case 'toggle_all':
+                    return __( 'Toggle All', 'admin-page-framework' );
+                case 'toggle_all_collapsible_sections':
+                    return __( 'Toggle all collapsible sections', 'admin-page-framework' );
                     
                 // AdminPageFramework_FieldType_reset          
                 case 'reset':   // 3.3.0+

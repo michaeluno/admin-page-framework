@@ -149,4 +149,5 @@ $aClassFiles = array(
 	"AdminPageFramework_Script_Utility"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_Script/AdminPageFramework_Script_Utility.php", 
 	"AdminPageFramework_Script_Widget"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_Script/AdminPageFramework_Script_Widget.php", 
 	"name}_{pressed"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework/AdminPageFramework_Form_Model_Validation.php", 
+	"AdminPageFramework_Script_CollapsibleSection"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_Script/AdminPageFramework_Script_FoldableSection.php", 
 );
