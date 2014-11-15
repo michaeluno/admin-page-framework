@@ -110,7 +110,9 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'section_id'        => 'collapsible_section_a',
                 'title'             => __( 'Collapsible Section A', 'admin-page-framework-demo' ),
                 'description'       => __( 'This section can be expanded and collapsed.', 'admin-page-framework-demo' ),
-                'collapsible'       => true,
+                'collapsible'       => array(
+                    'show_toggle_all_button' => true,
+                ),
             ),
             array(         
                 'section_id'        => 'collapsible_section_b',

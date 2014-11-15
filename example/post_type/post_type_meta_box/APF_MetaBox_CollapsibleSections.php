@@ -13,7 +13,9 @@ class APF_MetaBox_CollapsibleSections extends AdminPageFramework_MetaBox {
             array(
                 'section_id'        => 'collapsible_section_a',
                 'title'             => __( 'Collapsible Section A', 'admin-page-framework-demo' ),
-                'collapsible'       => true,
+                'collapsible'       => array(
+                    'show_toggle_all_button' => 'left',
+                ),
             ),
             array(
                 'section_id'        => 'collapsible_section_b',
