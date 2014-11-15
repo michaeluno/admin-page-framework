@@ -44,3 +44,12 @@ new APF_MetaBox_DateFields(
     array( 'apf_posts' ),                             
     'side'      // context                                      
 );
+
+include( dirname( __FILE__ ) . '/APF_MetaBox_FoldableSections.php' );
+new APF_MetaBox_FoldableSections(
+    null,   // meta box id
+    __( 'Foldable Sections', 'admin-page-framework-demo' ),
+    array( 'apf_posts' ),                             
+    'normal',
+    'low'
+);
