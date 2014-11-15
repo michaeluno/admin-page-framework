@@ -160,9 +160,6 @@ td.admin-page-framework-field-td-no-title {
     text-align: left;
     margin: 0;
 }
-/* .admin-page-framework-section-caption .admin-page-framework-section-description{
-    margin-top: 0;
-} */
 /* Section Title */
 .admin-page-framework-section .admin-page-framework-section-title {
     background: none;
@@ -333,19 +330,19 @@ CSSRULES;
 
             return <<<CSSRULES
 .admin-page-framework-foldable-sections-title {
-    font-size:14px;
+    /* font-size:14px; */
     background-color: #fff;
     padding: 15px 18px;
     margin-top: 1em;
-border-bottom: 1px solid #eee;    
+    border-bottom: 1px solid #eee;
 }
 .admin-page-framework-foldable-sections-title.folded {
     border-bottom: 1px solid #dfdfdf;
 }
 #poststuff .metabox-holder .admin-page-framework-foldable-sections-title.admin-page-framework-section-title h3
 {
+    font-size: 1em;
     margin: 0;
-    
 }
 .admin-page-framework-foldable-sections {
     border: 1px solid #dfdfdf;
@@ -357,10 +354,10 @@ border-bottom: 1px solid #eee;
     right: 15px;
 }
 .admin-page-framework-foldable-sections-title.accordion-section-title:after {
-    content: '\f142';
+    content: '\\f142';
 }
 .admin-page-framework-foldable-sections-title.accordion-section-title.folded:after {
-    content: '\f140';
+    content: '\\f140';
 }
 CSSRULES;
 

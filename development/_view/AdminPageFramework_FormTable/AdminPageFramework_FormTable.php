@@ -352,7 +352,7 @@ JAVASCRIPTS;
                 return;
             }
             self::$_bLoadedFoldableSectionsEnablerScript = true;
-            new AdminPageFramework_Script_FoldableSection( $this->oMsg );            
+            // new AdminPageFramework_Script_FoldableSection( $this->oMsg );            
             $_sScript       = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
     
@@ -378,9 +378,6 @@ jQuery( document ).ready( function() {
         if ( _oThis.data( 'fold_others_on_unfold' ) ) {
             jQuery( '.admin-page-framework-foldable-sections' ).not( _oTargetSections ).slideUp( 'fast' );
         }
-        
-        // Hide the other panels
-        // jQuery(".accordion-content").not( jQuery( this ).next() ).slideUp( 'fast' );
 
     });    
 });               
