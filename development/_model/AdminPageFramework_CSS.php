@@ -334,10 +334,12 @@ CSSRULES;
     background-color: #fff;
     padding: 15px 18px;
     margin-top: 1em;
+    border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
 }
 .admin-page-framework-foldable-sections-title.folded {
     border-bottom: 1px solid #dfdfdf;
+    margin-bottom: 1em;
 }
 #poststuff .metabox-holder .admin-page-framework-foldable-sections-title.admin-page-framework-section-title h3
 {
@@ -359,6 +361,7 @@ CSSRULES;
 .admin-page-framework-foldable-sections-title.accordion-section-title.folded:after {
     content: '\\f140';
 }
+
 CSSRULES;
 
         }
