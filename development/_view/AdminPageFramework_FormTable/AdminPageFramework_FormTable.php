@@ -352,7 +352,9 @@ JAVASCRIPTS;
                 return;
             }
             self::$_bLoadedFoldableSectionsEnablerScript = true;
-            // new AdminPageFramework_Script_FoldableSection( $this->oMsg );            
+            // new AdminPageFramework_Script_FoldableSection( $this->oMsg );   
+            wp_enqueue_script( 'juery' );
+            wp_enqueue_script( 'juery-ui-accordion' );
             $_sScript       = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
     
