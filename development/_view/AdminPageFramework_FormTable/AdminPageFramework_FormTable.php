@@ -376,7 +376,9 @@ jQuery( document ).ready( function() {
         
         // If fold_others_on_unfold argument is true, collapse others 
         if ( _oThis.data( 'fold_others_on_unfold' ) ) {
-            jQuery( '.admin-page-framework-foldable-sections' ).not( _oTargetSections ).slideUp( 'fast' );
+            jQuery( '.admin-page-framework-foldable-sections' ).not( _oTargetSections ).slideUp( 'fast', function() {
+                jQuery( this ).prev( '.admin-page-framework-foldable-sections-title' ).addClass( 'folded' );
+            });
         }
 
     });    
