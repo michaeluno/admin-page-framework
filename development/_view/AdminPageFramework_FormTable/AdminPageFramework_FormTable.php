@@ -20,25 +20,78 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
     /**
      * Returns a set of HTML table outputs consisting of form sections and fields.
      * 
+     * Currently there are mainly two types of structures.
+     * 1. Normal Sections - Vertically arranged sections. They can be repeatable.
+     * <code>
+     *  <div class="admin-page-framework-sectionset">
+     *      <div class="admin-page-framework-sections">
+     *          <div class="admin-page-framework-section">
+     *              <table class="form-table">
+     *                  <caption>       
+     *                      <div class="admin-page-framework-section-title">...</div>
+     *                      <div class="admin-page-framework-section-description">...</div>
+     *                  </caption>
+     *                  <tbody>
+     *                      <tr>a field goes here.</tr>
+     *                      <tr>a field goes here.</tr>
+     *                      <tr>a field goes here.</tr>
+     *                  </tbody>
+     *              </table>
+     *          </div>
+     *          <div class="admin-page-framework-section">
+     *              if repeatable sections, this container is repeated
+     *          </div>
+     *      </div>
+     *  </div>
+     * </code>
+     * 2. Tabbed Sections - Horizontally arranged grouped sections. They can be repeatable.
+     * <code>
+     *  <div class="admin-page-framework-sectionset">
+     *      <div class="admin-page-framework-sections">
+     *          <ul class="admin-page-framework-section-tabs">
+     *              <li> ... </li>
+     *              <li> ... </li>
+     *          </ul>
+     *          <div class="admin-page-framework-section">
+     *              <table class="form-table">
+     *                  <caption>       
+     *                      <div class="admin-page-framework-section-title">...</div>
+     *                      <div class="admin-page-framework-section-description">...</div>
+     *                  </caption>
+     *                  <tbody>
+     *                      <tr>a field goes here.</tr>
+     *                      <tr>a field goes here.</tr>
+     *                      <tr>a field goes here.</tr>
+     *                  </tbody>
+     *              </table>
+     *          </div>
+     *          <div class="admin-page-framework-section">
+     *              if repeatable sections, this container is repeated
+     *          </div>
+     *      </div>
+     *  </div>
+     * </code>
      * @since 3.0.0
      */
     public function getFormTables( $aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ) {
         
         $_aOutput = array();
         foreach( $this->_getSectionsBySectionTabs( $aSections ) as $_sSectionTabSlug => $_aSections ) {
+            
             $_sSectionSet = $this->_getFormTablesBySectionTab( $_sSectionTabSlug, $_aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback );
             if ( $_sSectionSet ) {
                 $_aOutput[] = "<div " . $this->generateAttributes(
                         array(
                             'class' => 'admin-page-framework-sectionset',
                             'id'    => "sectionset-{$_sSectionTabSlug}_" . md5( serialize( $_aSections ) ),
-                        )
+                        ) 
                     ) . ">" 
                         . $_sSectionSet
                     . "</div>";
             }
+            
         }
-
+    
         return implode( PHP_EOL, $_aOutput ) 
             . $this->_getSectionTabsEnablerScript()
             . ( defined( 'WP_DEBUG' ) && WP_DEBUG && in_array( $this->_getSectionsFieldsType( $aSections ), array( 'widget', 'post_meta_box', 'page_meta_box', ) )
@@ -82,7 +135,7 @@ jQuery( document ).ready( function() {
     jQuery( '.admin-page-framework-section-tabs-contents' ).createTabs(); 
 });            
 JAVASCRIPTS;
-            return "<script type='text/javascript'>"
+            return "<script type='text/javascript' class='admin-page-framework-section-tabs-script'>"
                 . $_sScript
             . "</script>";
             
@@ -91,7 +144,7 @@ JAVASCRIPTS;
         /**
          * Returns an output string of form tables.
          * 
-         * @since 3.0.0
+         * @since       3.0.0
          */
         private function _getFormTablesBySectionTab( $sSectionTabSlug, $aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ) {
 
@@ -103,16 +156,20 @@ JAVASCRIPTS;
                 <li><a href="#tabs-2">Proin dolor</a></li>
                 <li><a href="#tabs-3">Aenean lacinia</a></li>
             </ul>  */     
-            $_aSectionTabList = array();
-
-            $_aOutput = array();
+            $_aSectionTabList   = array();
+            $_abFoldable        = null;
+            $_aOutput           = array();
+            
             foreach( $aFieldsInSections as $_sSectionID => $aSubSectionsOrFields ) {
                 
                 if ( ! isset( $aSections[ $_sSectionID ] ) ) { continue; }
                 
                 $_sSectionTabSlug   = $aSections[ $_sSectionID ]['section_tab_slug']; // will be referred outside the loop.
-                $_aTabAttributes    = $aSections[ $_sSectionID ]['attributes']['tab'] + array( 'style' => null );
-                $_sExtraClasses     = $aSections[ $_sSectionID ]['class']['tab'];
+             
+                // Update the foldable argument.
+                $_abFoldable         = isset( $_abFoldable )
+                    ? $_abFoldable
+                    : $aSections[ $_sSectionID ]['foldable'];
                 
                 // For repeatable sections
                 $_aSubSections      = $aSubSectionsOrFields;
@@ -122,70 +179,69 @@ JAVASCRIPTS;
 
                     // Add the repeatable sections enabler script.
                     if ( $aSections[ $_sSectionID ]['repeatable'] ) {
-                        $_aOutput[] = $this->getRepeatableSectionsEnablerScript( 'sections-' .  md5( serialize( $aSections ) ), $_iCountSubSections, $aSections[ $_sSectionID ]['repeatable'] );    
+                        $_aOutput[] = $this->_getRepeatableSectionsEnablerScript( 'sections-' .  md5( serialize( $aSections ) ), $_iCountSubSections, $aSections[ $_sSectionID ]['repeatable'] );    
                     }
                     
                     // Get the section tables.
                     foreach( $this->numerizeElements( $_aSubSections ) as $_iIndex => $_aFields ) { // will include the main section as well.
-                    
-                        $_sSectionTagID = 'section-' . $_sSectionID . '__' . $_iIndex;
-                        
+                                  
                         // For tabbed sections,
                         if ( $aSections[ $_sSectionID ]['section_tab_slug'] ) {
-
-                            $__aTabAttributes = $_aTabAttributes    // note that this attribute array is defined outside the loop.
-                                + array(
-                                    'class' => 'admin-page-framework-section-tab nav-tab',
-                                    'id'    => "section_tab-{$_sSectionTagID}",
-                                );
-                            $__aTabAttributes['class'] = $this->generateClassAttribute( $__aTabAttributes['class'], $_sExtraClasses );  // 3.3.1+
-                            $__aTabAttributes['style'] = $this->generateStyleAttribute( $__aTabAttributes['style'], $aSections[ $_sSectionID ]['hidden'] ? 'display:none' : null );  // 3.3.1+        
-                            $_aSectionTabList[] = "<li " . $this->generateAttributes( $__aTabAttributes ) . ">"
-                                    . "<a href='#{$_sSectionTagID}'>"
-                                        . $this->_getSectionTitle( $aSections[ $_sSectionID ]['title'], 'h4', $_aFields, $hfFieldCallback )
-                                    ."</a>"
-                                . "</li>";
-                                
+                            $_aSectionTabList[] = $this->_getTabList( $_sSectionID, $_iIndex, $aSections[ $_sSectionID ], $_aFields, $hfFieldCallback );
                         }
                     
                         $_aOutput[] = $this->getFormTable( $_sSectionID, $_iIndex, $aSections[ $_sSectionID ], $_aFields, $hfSectionCallback, $hfFieldCallback );
                         
                     }
-                    
-                } else {
-                    // The normal section
-                    $_sSectionTagID = 'section-' . $_sSectionID . '__' . '0';
-                    $_aFields       = $aSubSectionsOrFields;
-                    
-                    // For tabbed sections,
-                    if ( $aSections[ $_sSectionID ]['section_tab_slug'] ) {
-
-                        $__aTabAttributes = $_aTabAttributes + array(
-                            'class' => 'admin-page-framework-section-tab nav-tab',
-                            'id'    => "section_tab-{$_sSectionTagID}",
-                        );         
-                        $__aTabAttributes['class'] = $this->generateClassAttribute( $__aTabAttributes['class'], $_sExtraClasses );
-                        $__aTabAttributes['style'] = $this->generateStyleAttribute( $__aTabAttributes['style'], $aSections[ $_sSectionID ]['hidden'] ? 'display:none' : null );  // 3.3.1+        
-                        $_aSectionTabList[] = "<li " . $this->generateAttributes( $__aTabAttributes ) . ">"
-                                . "<a href='#{$_sSectionTagID}'>"
-                                    . $this->_getSectionTitle( $aSections[ $_sSectionID ]['title'], 'h4', $_aFields, $hfFieldCallback )    
-                                . "</a>"
-                            . "</li>";
-                            
-                    }
-                    
-                    $_aOutput[] = $this->getFormTable( $_sSectionID, 0, $aSections[ $_sSectionID ], $_aFields, $hfSectionCallback, $hfFieldCallback );
+                    continue;
+                } 
+                // The normal section
+                $_aFields       = $aSubSectionsOrFields;
+                
+                // For tabbed sections,
+                if ( $aSections[ $_sSectionID ]['section_tab_slug'] ) {
+                    $_aSectionTabList[] = $this->_getTabList( $_sSectionID, 0, $aSections[ $_sSectionID ], $_aFields, $hfFieldCallback );
                 }
+                
+                $_aOutput[] = $this->getFormTable( $_sSectionID, 0, $aSections[ $_sSectionID ], $_aFields, $hfSectionCallback, $hfFieldCallback );
+            
                     
             }
             
-            return empty( $_aOutput )
+            if ( empty( $_aOutput ) ) {
+                return '';
+            }
+
+            $_sFoldableSectionTitle = empty( $_abFoldable  )
                 ? ''
-                : "<div " . $this->generateAttributes(
+                : $this->_getFoldableSectionsEnablerScript()
+                . "<div " . $this->generateAttributes(
+                    array(
+                        'class' => $this->generateClassAttribute( 
+                            'admin-page-framework-foldable-sections-title admin-page-framework-section-title accordion-section-title',
+                            $_abFoldable['is_folded'] ? 'folded' : ''
+                        ),
+                    ) 
+                    + ( empty( $_abFoldable ) ? '' : $this->getDataAttributeArray( $_abFoldable ) )
+                ) . ">"  
+                        . "<h3>" . $_abFoldable['title'] . "</h3>"
+                    . "</div>";
+                
+            return $_sFoldableSectionTitle
+                . "<div " . $this->generateAttributes(
                         array(
-                            'class' => 'admin-page-framework-sections'
-                                . ( ! $_sSectionTabSlug || $_sSectionTabSlug == '_default' ? null : ' admin-page-framework-section-tabs-contents' ),
+                            // 'class' => 'admin-page-framework-sections'
+                                // . ( ! $_sSectionTabSlug || $_sSectionTabSlug == '_default' ? null : ' admin-page-framework-section-tabs-contents' ),
                             'id'    => "sections-" . md5( serialize( $aSections ) ), 
+                            'class' => $this->generateClassAttribute( 
+                                'admin-page-framework-sections',
+                                ! $_sSectionTabSlug || '_default' === $_sSectionTabSlug 
+                                    ? null 
+                                    : 'admin-page-framework-section-tabs-contents',
+                                empty( $_abFoldable  )
+                                    ? null
+                                    : 'admin-page-framework-foldable-sections accordion-section-content'
+                            ),
                         )
                     ) . ">"                 
                     . ( $_sSectionTabSlug // if the section tab slug yields true, insert the section tab list
@@ -196,7 +252,30 @@ JAVASCRIPTS;
                 . "</div>";
             
         }
-        
+                    
+            /**
+             * Returns the output of a list tab element for tabbed sections.
+             * 
+             * @since       3.3.4
+             */
+            private function _getTabList( $sSectionID, $iIndex, array $aSection, array $aFields, $hfFieldCallback ) {
+                
+                $_sSectionTagID     = 'section-' . $sSectionID . '__' . $iIndex;
+                $_aTabAttributes    = $aSection['attributes']['tab']
+                    + array(
+                        'class' => 'admin-page-framework-section-tab nav-tab',
+                        'id'    => "section_tab-{$_sSectionTagID}",
+                        'style' => null
+                    );
+                $_aTabAttributes['class'] = $this->generateClassAttribute( $_aTabAttributes['class'], $aSection['class']['tab'] );  // 3.3.1+
+                $_aTabAttributes['style'] = $this->generateStyleAttribute( $_aTabAttributes['style'], $aSection['hidden'] ? 'display:none' : null );  // 3.3.1+
+                return "<li " . $this->generateAttributes( $_aTabAttributes ) . ">"
+                    . "<a href='#{$_sSectionTagID}'>"
+                        . $this->_getSectionTitle( $aSection['title'], 'h4', $aFields, $hfFieldCallback )
+                    ."</a>"
+                . "</li>";
+                
+            }        
         /**
          * Returns the section title output.
          * 
@@ -227,7 +306,7 @@ JAVASCRIPTS;
         }
         
         /**
-         * Returns an array holding section definition array by section tab.
+         * Returns an array holding section definition arrays by section tab.
          * 
          * @since 3.0.0
          */
@@ -255,14 +334,68 @@ JAVASCRIPTS;
             return $_aSectionsBySectionTab;
             
         }
-
+        
         /**
-         * Returns the enabler script for repeatable sections.
-         * @since 3.0.0
+         * Indicates whether the foldable script is loaded or not.
+         * 
+         * @since   3.3.4
          */
-        private function getRepeatableSectionsEnablerScript( $sContainerTagID, $iSectionCount, $aSettings ) {
+        static private $_bLoadedFoldableSectionsEnablerScript = false;
+        
+        /**
+         * Returns the enabler script of foldable sections.
+         * @since   3.3.4
+         */
+        private function _getFoldableSectionsEnablerScript() {
             
-            new AdminPageFramework_Script_RepeatableSection( $this->oMsg );            
+            if ( self::$_bLoadedFoldableSectionsEnablerScript ) {
+                return;
+            }
+            self::$_bLoadedFoldableSectionsEnablerScript = true;
+            new AdminPageFramework_Script_FoldableSection( $this->oMsg );            
+            $_sScript       = <<<JAVASCRIPTS
+jQuery( document ).ready( function() {
+    
+    jQuery( '.admin-page-framework-foldable-sections-title[data-is_folded=\"0\"]' )
+        .next( '.admin-page-framework-foldable-sections' )
+        .slideDown( 'fast' );
+    jQuery( '.admin-page-framework-foldable-sections-title' ).click( function(){
+
+        // Expand or collapse this panel
+        var _oThis = jQuery( this );
+        var _oTargetSections = jQuery( this ).next( '.admin-page-framework-foldable-sections' );
+        
+        _oThis.removeClass( 'folded' );
+        _oTargetSections.slideToggle( 'fast', function(){
+            if ( _oTargetSections.is( ':visible' ) ) {
+                _oThis.removeClass( 'folded' );
+            } else {
+                _oThis.addClass( 'folded' );
+            }            
+        } );
+        
+        // If fold_others_on_unfold argument is true, collapse others 
+        if ( _oThis.data( 'fold_others_on_unfold' ) ) {
+            jQuery( '.admin-page-framework-foldable-sections' ).not( _oTargetSections ).slideUp( 'fast' );
+        }
+        
+        // Hide the other panels
+        // jQuery(".accordion-content").not( jQuery( this ).next() ).slideUp( 'fast' );
+
+    });    
+});               
+JAVASCRIPTS;
+            return "<script type='text/javascript' class='admin-page-framework-section-foldable-script'>" . $_sScript . "</script>";
+            
+        }
+        
+        /**
+         * Returns the enabler script of repeatable sections.
+         * @since   3.0.0
+         */
+        private function _getRepeatableSectionsEnablerScript( $sContainerTagID, $iSectionCount, $aSettings ) {
+            
+            new AdminPageFramework_Script_RepeatableSection( $this->oMsg );
             
             if ( empty( $aSettings ) ) { return ''; }
             $aSettings              = $this->getAsArray( $aSettings ) + array( 'min' => 0, 'max' => 0 ); 
@@ -285,7 +418,7 @@ jQuery( document ).ready( function() {
     jQuery( '#{$sContainerTagID}' ).updateAPFRepeatableSections( $_aJSArray ); 
 });            
 JAVASCRIPTS;
-            return "<script type='text/javascript'>" . $_sScript . "</script>";
+            return "<script type='text/javascript' class='admin-page-framework-seciton-repeatable-script'>" . $_sScript . "</script>";
                 
         }
         
@@ -308,7 +441,7 @@ JAVASCRIPTS;
         $_sSectionTagID = 'section-' . $sSectionID . '__' . $iSectionIndex;
         
         // For regular repeatable fields, the title should be omitted except the first item.
-        $_sDisplayNone  = ( $aSection['repeatable'] && $iSectionIndex != 0 && ! $aSection['section_tab_slug'] )
+        $_sDisplayNone  = ( $aSection['repeatable'] && $iSectionIndex != 0 && ! $aSection['section_tab_slug'] ) || $aSection['foldable']
             ? " style='display:none;'"
             : '';
                 

@@ -55,17 +55,14 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
     
     /**
      * Generates a string of data attributes from the given associative array.
+     * 
      * @since 3.0.0
      */
     static public function generateDataAttributes( array $aArray ) {
         
-        $_aNewArray = array();
-        foreach( $aArray as $sKey => $v ) {
-            $_aNewArray[ "data-{$sKey}" ] = $v;
-        }
-        return self::generateAttributes( $_aNewArray );
+        return self::generateAttributes( self::getDataAttributeArray( $aArray ) );
         
     }
-    
+
 }
 endif;

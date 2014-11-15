@@ -170,5 +170,24 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_URL
         
     }    
     
+    
+    /**
+     * Returns an array for generating a data attribute from the given associative array.
+     * 
+     * @since   3.3.4
+     */
+    static public function getDataAttributeArray( array $aArray ) {
+        
+        $_aNewArray = array();
+        foreach( $aArray as $sKey => $v ) {
+            if ( is_object( $v ) || is_array( $v ) ) {
+                continue;
+            }
+            $_aNewArray[ "data-{$sKey}" ] = $v ? $v : '0';
+        }
+        return $_aNewArray;
+        
+    }
+    
 }
 endif;

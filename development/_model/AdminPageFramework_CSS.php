@@ -75,6 +75,7 @@ CSSRULES;
 
         return $_sCSS . PHP_EOL 
             . self::_getFormFieldRules() . PHP_EOL
+            . self::_getFoldableSectionsRules() . PHP_EOL
             . self::_getFieldErrorRules() . PHP_EOL
             . self::_getMetaBoxFormRules() . PHP_EOL
             . self::_getWidgetFormRules() . PHP_EOL
@@ -159,6 +160,9 @@ td.admin-page-framework-field-td-no-title {
     text-align: left;
     margin: 0;
 }
+/* .admin-page-framework-section-caption .admin-page-framework-section-description{
+    margin-top: 0;
+} */
 /* Section Title */
 .admin-page-framework-section .admin-page-framework-section-title {
     background: none;
@@ -319,6 +323,49 @@ td.admin-page-framework-field-td-no-title {
 CSSRULES;
         }   
 
+        /**
+         * Returns the foldable sections specific CSS rules.
+         * 
+         * @since       3.3.4
+         * @internal
+         */
+        static private function _getFoldableSectionsRules() {
+
+            return <<<CSSRULES
+.admin-page-framework-foldable-sections-title {
+    font-size:14px;
+    background-color: #fff;
+    padding: 15px 18px;
+    margin-top: 1em;
+border-bottom: 1px solid #eee;    
+}
+.admin-page-framework-foldable-sections-title.folded {
+    border-bottom: 1px solid #dfdfdf;
+}
+#poststuff .metabox-holder .admin-page-framework-foldable-sections-title.admin-page-framework-section-title h3
+{
+    margin: 0;
+    
+}
+.admin-page-framework-foldable-sections {
+    border: 1px solid #dfdfdf;
+    border-top: 0;
+    background-color: #fff;
+}
+.admin-page-framework-foldable-sections-title.accordion-section-title:after {
+    top: 15px;
+    right: 15px;
+}
+.admin-page-framework-foldable-sections-title.accordion-section-title:after {
+    content: '\f142';
+}
+.admin-page-framework-foldable-sections-title.accordion-section-title.folded:after {
+    content: '\f140';
+}
+CSSRULES;
+
+        }
+            
         /**
          * Returns the meta-box form specific CSS rules.
          * 

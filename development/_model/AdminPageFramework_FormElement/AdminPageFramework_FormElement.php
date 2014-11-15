@@ -10,9 +10,9 @@ if ( ! class_exists( 'AdminPageFramework_FormElement' ) ) :
 /**
  * Provides methods to compose form elements
  * 
- * @package AdminPageFramework
- * @subpackage Property
- * @since 3.0.0
+ * @package     AdminPageFramework
+ * @subpackage  Property
+ * @since       3.0.0
  * @internal
  */
 class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Utility {
@@ -20,13 +20,13 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
     /**
      * Represents the structure of the form section array.
      * 
-     * @since 2.0.0
-     * @remark Not for the user.
-     * @var array Holds array structure of form section.
+     * @since       2.0.0
+     * @remark      Not for the user.
+     * @var         array       Holds array structure of form section.
      * @static
      * @internal
      */     
-    public static $_aStructure_Section = array(    
+    static public $_aStructure_Section = array(    
         'section_id'        => '_default', // 3.0.0+
         '_fields_type'      => null, // 3.0.0+ - same as the one of the field definition array. Used to insert debug info at the bottom of sections.        
         'page_slug'         => null,
@@ -50,7 +50,20 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             'tab'           => array(),
         ),
         'hidden'            => false,       // 3.3.1+
+        'foldable'          => false,       // 3.3.4+
+            // => array(
+                // 'is_folded' => true,
+                // 'sectionset_title' => null,     // the section title will be applied by default
+                // 'toogle_all_button' => false,
+            // )
     );    
+    
+    static public $_aStructure_FoldableArguments = array(
+        'title'                     => null,    // (string)  will be assigned in the section formatting method.
+        'is_folded'                 => true,    // (boolean) whether it is already collapsed or expanded
+        'show_toggle_all_button'    => false,   // (boolean) whether to display the button that toggles the folding state of all foldable sections.
+        'fold_others_on_unfold'     => true,    // (boolean) whether the other foldable sections should be folded when the section is unfolded.
+    );
     
     /**
      * Represents the structure of the form field array.
@@ -61,7 +74,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      * @static
      * @internal
      */ 
-    public static $_aStructure_Field = array(
+    static public $_aStructure_Field = array(
         'field_id'          => null,    // (required)
         'type'              => null,    // (required)
         'section_id'        => null,    // (optional)
@@ -305,12 +318,12 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      * @return array    the formatted sections array.
      */
     public function formatSections( array $aSections, $sFieldsType, $sCapability ) {
-        
+
         $_aNewSectionArray = array();
         foreach( $aSections as $_sSectionID => $_aSection ) {
-            
+
             if ( ! is_array( $_aSection ) ) { continue; }
-            
+
             $_aSection = $this->formatSection( $_aSection, $sFieldsType, $sCapability, count( $_aNewSectionArray ) );
             if ( ! $_aSection ) { continue; }
             
@@ -325,10 +338,11 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         /**
          * Returns the formatted section array.
          * 
-         * @since 3.0.0
+         * @since       3.0.0
+         * @remark      The scope is protected because the extended page class overrides this method.
          */
         protected function formatSection( array $aSection, $sFieldsType, $sCapability, $iCountOfElements ) {
-            
+
             $aSection = $this->uniteArrays(
                 $aSection,
                 array( 
@@ -339,6 +353,14 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             );
                 
             $aSection['order'] = is_numeric( $aSection['order'] ) ? $aSection['order'] : $iCountOfElements + 10;
+            
+            // 3.3.4
+            $aSection['foldable'] = empty( $aSection['foldable'] ) 
+                ? $aSection['foldable']
+                : $this->getAsArray( $aSection['foldable'] ) + array(
+                    'title' => $aSection['title'],
+                ) +  self::$_aStructure_FoldableArguments;
+                
             return $aSection;
             
         }

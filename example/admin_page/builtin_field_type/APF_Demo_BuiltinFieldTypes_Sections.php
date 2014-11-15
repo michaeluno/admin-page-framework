@@ -103,6 +103,33 @@ class APF_Demo_BuiltinFieldTypes_Sections {
             // )            
         );        
  
+        // Foldable sections examples
+        $oAdminPage->addSettingSections(    
+            $this->sPageSlug, // the target page slug  
+            array(
+                'section_id'        => 'foldable_section_a',
+                'title'             => __( 'Foldable Section A', 'admin-page-framework-demo' ),
+                'description'       => __( 'This section can be expanded and collapsed.', 'admin-page-framework-demo' ),
+                'foldable'          => true,
+            ),
+            array(         
+                'section_id'        => 'foldable_section_b',
+                'title'             => __( 'Foldable Section B', 'admin-page-framework-demo' ),
+                'description'       => __( 'The <code>is_folded</code> argument can determine the default state of whether it is collapsed or expanded.', 'admin-page-framework-demo' ),
+                'foldable'          => array(
+                    'is_folded'     => false,
+                ),
+            ),
+            array(         
+                'section_id'        => 'foldable_section_c',
+                'title'             => __( 'Foldable Section C', 'admin-page-framework-demo' ),
+                'description'       => __( 'With the <code>fold_others_on_unfold</code> argument, it can stop collapsing other sections when the section is expanded.', 'admin-page-framework-demo' ),
+                'foldable'          => array(
+                    'fold_others_on_unfold' => false,
+                ),
+            )         
+        );
+        
         $oAdminPage->addSettingFields(
             'section_title_field_type', // the target section ID
             array(
@@ -255,6 +282,41 @@ class APF_Demo_BuiltinFieldTypes_Sections {
             array()
         );      
 
+        $oAdminPage->addSettingFields(    
+            'foldable_section_a', // the target section ID
+            array(
+                'field_id'      => 'text_field_in_foldable_section',
+                'title'         => __( 'Text', 'admin-page-framework-demo' ),
+                'type'          => 'text',
+                'repeatable'    => true,
+                'sortable'      => true,
+            ),     
+            'foldable_section_b', // the target section ID
+            array(
+                'field_id'      => 'radio_in_foldable_section',
+                'title'         => __( 'Radio', 'admin-page-framework-demo' ),
+                'type'          => 'radio',
+                'label'         => array(
+                    'a' => 'A',
+                    'b' => 'B',
+                    'c' => 'C',
+                ),
+                'default'       => 'b',
+            ),
+            'foldable_section_c', // the target section ID
+            array(
+                'field_id'      => 'select_in_foldable_section',
+                'title'         => __( 'Dropdown', 'admin-page-framework-demo' ),
+                'type'          => 'select',
+                'label'         => array(
+                    'a' => 'A',
+                    'b' => 'B',
+                    'c' => 'C',
+                ),
+            ),
+            array()
+        );             
+        
     }
     
 }

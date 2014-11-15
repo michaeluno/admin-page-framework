@@ -152,19 +152,14 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      */
     protected function formatSection( array $aSection, $sFieldsType, $sCapability, $iCountOfElements ) {
         
-        $aSection = $this->uniteArrays(
-            $aSection,
-            array( 
-                '_fields_type' => $sFieldsType,
-                'capability' => $sCapability,
-                'page_slug' => $this->sDefaultPageSlug,
-            ),
-            self::$_aStructure_Section
+        $aSection = $aSection
+        + array( 
+            '_fields_type'  => $sFieldsType,
+            'capability'    => $sCapability,
+            'page_slug'     => $this->sDefaultPageSlug,
         );
-
-        $aSection['order'] = is_numeric( $aSection['order'] ) ? $aSection['order'] : $iCountOfElements + 10;
-        return $aSection;
-        
+        return parent::formatSection( $aSection, $sFieldsType, $sCapability, $iCountOfElements );
+                
     }
 
     /**
