@@ -157,7 +157,7 @@ JAVASCRIPTS;
                 <li><a href="#tabs-3">Aenean lacinia</a></li>
             </ul>  */     
             $_aSectionTabList   = array();
-            $_abCollapsible        = null;
+            $_abCollapsible     = null;
             $_aOutput           = array();
             
             foreach( $aFieldsInSections as $_sSectionID => $aSubSectionsOrFields ) {
@@ -212,26 +212,9 @@ JAVASCRIPTS;
                 return '';
             }
 
-            $_sCollapsibleSectionTitle = empty( $_abCollapsible  )
-                ? ''
-                : $this->_getCollapsibleSectionsEnablerScript()
-                . "<div " . $this->generateAttributes(
-                    array(
-                        'class' => $this->generateClassAttribute( 
-                            'admin-page-framework-collapsible-sections-title admin-page-framework-section-title accordion-section-title',
-                            $_abCollapsible['is_collapsed'] ? 'collapsed' : ''
-                        ),
-                    ) 
-                    + ( empty( $_abCollapsible ) ? '' : $this->getDataAttributeArray( $_abCollapsible ) )
-                ) . ">"  
-                        . "<h3>" . $_abCollapsible['title'] . "</h3>"
-                    . "</div>";
-                
-            return $_sCollapsibleSectionTitle
+            return $this->_getCollapsibleSectionTitleBlock( $_abCollapsible )
                 . "<div " . $this->generateAttributes(
                         array(
-                            // 'class' => 'admin-page-framework-sections'
-                                // . ( ! $_sSectionTabSlug || $_sSectionTabSlug == '_default' ? null : ' admin-page-framework-section-tabs-contents' ),
                             'id'    => "sections-" . md5( serialize( $aSections ) ), 
                             'class' => $this->generateClassAttribute( 
                                 'admin-page-framework-sections',
@@ -252,6 +235,32 @@ JAVASCRIPTS;
                 . "</div>";
             
         }
+            
+            /**
+             * Returns the output of a title block of the given collapsible section.
+             * 
+             * @since       3.3.4
+             */
+            private function _getCollapsibleSectionTitleBlock( $abCollapsible ) {
+                
+                if ( empty( $abCollapsible ) ) {
+                    return '';
+                }
+                
+                return $this->_getCollapsibleSectionsEnablerScript()
+                    . "<div " . $this->generateAttributes(
+                        array(
+                            'class' => $this->generateClassAttribute( 
+                                'admin-page-framework-collapsible-sections-title admin-page-framework-section-title accordion-section-title',
+                                $abCollapsible['is_collapsed'] ? 'collapsed' : ''
+                            ),
+                        ) 
+                        + ( empty( $abCollapsible ) ? '' : $this->getDataAttributeArray( $abCollapsible ) )
+                    ) . ">"  
+                            . "<h3>" . $abCollapsible['title'] . "</h3>"
+                        . "</div>";
+                
+            }
                     
             /**
              * Returns the output of a list tab element for tabbed sections.
