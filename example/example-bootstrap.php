@@ -23,11 +23,10 @@ if ( is_admin() ) :
 
     // Add pages and forms in the custom post type root page.
     include( APFDEMO_DIRNAME . '/example/admin_page/load_demo_pages.php' );
-                
-    if ( is_network_admin() ) {
         
+    // Create admin pages in the network admin area.
+    if ( is_network_admin() ) {
         include( APFDEMO_DIRNAME . '/example/network_admin/load_network_admin_pages.php' );
-                
     }
     
 endif;
