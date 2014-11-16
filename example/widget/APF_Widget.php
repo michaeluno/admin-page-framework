@@ -1,5 +1,15 @@
 <?php
 /**
+ * Admin Page Framework - Demo
+ * 
+ * Demonstrates the usage of Admin Page Framework.
+ * 
+ * http://en.michaeluno.jp/admin-page-framework/
+ * Copyright (c) 2013-2014 Michael Uno; Licensed GPLv2
+ * 
+ */
+
+/**
  * Creates a widget.
  * 
  * @since   3.2.0

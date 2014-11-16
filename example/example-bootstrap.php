@@ -1,4 +1,13 @@
 <?php
+/**
+ * Admin Page Framework - Demo
+ * 
+ * Demonstrates the usage of Admin Page Framework.
+ * 
+ * http://en.michaeluno.jp/admin-page-framework/
+ * Copyright (c) 2013-2014 Michael Uno; Licensed GPLv2
+ * 
+ */
 
 // Create a custom post type - this class deals with front-end components so checking with is_admin() is not necessary.
 include( APFDEMO_DIRNAME . '/example/post_type/load_post_types.php' );

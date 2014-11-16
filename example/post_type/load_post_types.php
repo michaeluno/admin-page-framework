@@ -1,4 +1,13 @@
 <?php
+/**
+ * Admin Page Framework - Demo
+ * 
+ * Demonstrates the usage of Admin Page Framework.
+ * 
+ * http://en.michaeluno.jp/admin-page-framework/
+ * Copyright (c) 2013-2014 Michael Uno; Licensed GPLv2
+ * 
+ */
 
 include( dirname( __FILE__ ) . '/APF_PostType.php' );
 new APF_PostType( 

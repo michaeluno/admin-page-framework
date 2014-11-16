@@ -1,5 +1,15 @@
 <?php
+/**
+ * Admin Page Framework - Demo
+ * 
+ * Demonstrates the usage of Admin Page Framework.
+ * 
+ * http://en.michaeluno.jp/admin-page-framework/
+ * Copyright (c) 2013-2014 Michael Uno; Licensed GPLv2
+ * 
+ */
 
+// Add pages and forms in the custom post type root page
 include( APFDEMO_DIRNAME . '/example/admin_page/APF_Demo.php' );
 new APF_Demo( 
     null,                       // the option key - when null is passed the class name in this case 'APF_Demo' will be used
@@ -8,7 +18,6 @@ new APF_Demo(
     'admin-page-framework-demo' // the text domain
 );
 
-    // Add pages and forms in the custom post type root page
     // Include the demo class that creates various forms.
     include( APFDEMO_DIRNAME . '/example/admin_page/APF_Demo_CustomFieldTypes.php' ); 
     new APF_Demo_CustomFieldTypes( 
