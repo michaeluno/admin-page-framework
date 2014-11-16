@@ -15,7 +15,7 @@ if ( ! class_exists( 'AdminPageFramework_FormTable' ) ) :
  * @since       3.0.0
  * @internal
  */
-class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
+class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Row {
         
     /**
      * Returns a set of HTML table outputs consisting of form sections and fields.
@@ -114,33 +114,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Base {
                 return $_aSection['_fields_type'];
             }
         }
-        
-        /**
-         * Indicates whether the tab enabler script is loaded or not.
-         */
-        static private $_bLoadedTabEnablerScript = false;
-        
-        /**
-         * Returns the JavaScript script that enables section tabs.
-         * 
-         * @since 3.0.0
-         */
-        private function _getSectionTabsEnablerScript() {
-            
-            if ( self::$_bLoadedTabEnablerScript ) { return ''; }
-            self::$_bLoadedTabEnablerScript = true;
-            $_sScript = <<<JAVASCRIPTS
-jQuery( document ).ready( function() {
-    // the parent element of the ul tag; The ul element holds li tags of titles.
-    jQuery( '.admin-page-framework-section-tabs-contents' ).createTabs(); 
-});            
-JAVASCRIPTS;
-            return "<script type='text/javascript' class='admin-page-framework-section-tabs-script'>"
-                . $_sScript
-            . "</script>";
-            
-        }
-        
+                
         /**
          * Returns an output string of form tables.
          * 
@@ -343,139 +317,7 @@ JAVASCRIPTS;
             return $_aSectionsBySectionTab;
             
         }
-        
-        /**
-         * Indicates whether the collapsible script is loaded or not.
-         * 
-         * @since   3.3.4
-         */
-        static private $_bLoadedCollapsibleSectionsEnablerScript = false;
-        
-        /**
-         * Returns the enabler script of collapsible sections.
-         * @since   3.3.4
-         */
-        private function _getCollapsibleSectionsEnablerScript() {
-            
-            if ( self::$_bLoadedCollapsibleSectionsEnablerScript ) {
-                return;
-            }
-            self::$_bLoadedCollapsibleSectionsEnablerScript = true;
-            // new AdminPageFramework_Script_CollapsibleSection( $this->oMsg );   
-            
-            $_sLabelToggleAll           = $this->oMsg->get( 'toggle_all' );
-            $_sLabelToggleAllSections   = $this->oMsg->get( 'toggle_all_collapsible_sections' );
-            $_sDashIconSort             = version_compare( $GLOBALS['wp_version'], '3.8', '<' ) 
-                ? '' 
-                : 'dashicons dashicons-sort';
-            $_sToggleAllButton          = "<div class='admin-page-framework-collapsible-sections-toggle-all-button-container'>"
-                    . "<span class='admin-page-framework-collapsible-sections-toggle-all-button button " . $_sDashIconSort. "' title='" . esc_attr( $_sLabelToggleAllSections ) . "'>"
-                    . ( $_sDashIconSort ? '' : $_sLabelToggleAll )  // text
-                    . "</span>"
-                . "</div>";
-            $_sToggleAllButtonHTML  = '"' . $_sToggleAllButton . '"';                
-            wp_enqueue_script( 'juery' );
-            wp_enqueue_script( 'juery-ui-accordion' );
-            $_sScript       = <<<JAVASCRIPTS
-jQuery( document ).ready( function() {
-    
-    jQuery( '.admin-page-framework-collapsible-sections-title[data-is_collapsed=\"0\"]' )
-        .next( '.admin-page-framework-collapsible-sections' )
-        .slideDown( 'fast' );
-    jQuery( '.admin-page-framework-collapsible-sections-title' ).click( function( event, sContext ){
-
-        // Expand or collapse this panel
-        var _oThis = jQuery( this );
-        var _oTargetSections = jQuery( this ).next( '.admin-page-framework-collapsible-sections' );
-        
-        _oThis.removeClass( 'collapsed' );
-        _oTargetSections.slideToggle( 'fast', function(){
-            if ( _oTargetSections.is( ':visible' ) ) {
-                _oThis.removeClass( 'collapsed' );
-            } else {
-                _oThis.addClass( 'collapsed' );
-            }            
-        } );
-        
-        // If it is triggred from the toglle all button, do not continue.
-        if ( 'by_toggle_all_button' === sContext ) {
-            return;
-        }
-        
-        // If collapse_others_on_expand argument is true, collapse others 
-        if ( _oThis.data( 'collapse_others_on_expand' ) ) {
-            jQuery( '.admin-page-framework-collapsible-sections' ).not( _oTargetSections ).slideUp( 'fast', function() {
-                jQuery( this ).prev( '.admin-page-framework-collapsible-sections-title' ).addClass( 'collapsed' );
-            });
-        }
-
-    }); 
-    
-    // Insert the toggle all button.
-    jQuery( '.admin-page-framework-collapsible-sections-title[data-show_toggle_all_button!=\"0\"]' ).each( function(){
-        
-        // var _oButton = jQuery( '<div class=\"admin-page-framework-collapsible-sections-toggle-all-button-container\"><span class=\"admin-page-framework-collapsible-sections-toggle-all-button button dashicons dashicons-sort\"></span></div>' );
-        var _oButton = jQuery( $_sToggleAllButtonHTML );
-        jQuery( this ).before( _oButton );
-        var _sLeftOrRight = 0 === jQuery( this ).data( 'show_toggle_all_button' ) || 'left' !== jQuery( this ).data( 'show_toggle_all_button' )
-            ? 'right'
-            : 'left';
-        _oButton.find( '.admin-page-framework-collapsible-sections-toggle-all-button' ).css( 'float', _sLeftOrRight );
-    
-        // Expand or collapse this panel
-        _oButton.click( function(){
-            var _oButton = jQuery( this ).find( '.admin-page-framework-collapsible-sections-toggle-all-button' );
-            _oButton.toggleClass( 'flipped' );
-            if ( _oButton.hasClass( 'flipped' ) && _oButton.hasClass( 'dashicons' ) ) {
-                _oButton.css( 'transform', 'rotateY( 180deg )' );
-            } else {
-                _oButton.css( 'transform', '' );
-            }
-            jQuery( '.admin-page-framework-collapsible-sections-title' ).each( function() {
-                jQuery( this ).trigger( 'click', [ 'by_toggle_all_button' ] );   
-            } );
-        } );
-    } );      
-
-});               
-JAVASCRIPTS;
-            return "<script type='text/javascript' class='admin-page-framework-section-collapsible-script'>" . $_sScript . "</script>";
-            
-        }
-        
-        /**
-         * Returns the enabler script of repeatable sections.
-         * @since   3.0.0
-         */
-        private function _getRepeatableSectionsEnablerScript( $sContainerTagID, $iSectionCount, $aSettings ) {
-            
-            new AdminPageFramework_Script_RepeatableSection( $this->oMsg );
-            
-            if ( empty( $aSettings ) ) { return ''; }
-            $aSettings              = $this->getAsArray( $aSettings ) + array( 'min' => 0, 'max' => 0 ); 
-            $_sAdd                  = $this->oMsg->get( 'add_section' );
-            $_sRemove               = $this->oMsg->get( 'remove_section' );
-            $_sVisibility           = $iSectionCount <= 1 ? " style='display:none;'" : "";
-            $_sSettingsAttributes   = $this->generateDataAttributes( $aSettings );
-            $_sButtons              = 
-                "<div class='admin-page-framework-repeatable-section-buttons' {$_sSettingsAttributes} >"
-                    . "<a class='repeatable-section-remove button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
-                    . "<a class='repeatable-section-add button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
-                . "</div>";
-            $_sButtonsHTML  = '"' . $_sButtons . '"';
-            $_aJSArray      = json_encode( $aSettings );
-            $_sScript       = <<<JAVASCRIPTS
-jQuery( document ).ready( function() {
-    // Adds the buttons
-    jQuery( '#{$sContainerTagID} .admin-page-framework-section-caption' ).show().prepend( $_sButtonsHTML );
-    // Update the fields     
-    jQuery( '#{$sContainerTagID}' ).updateAPFRepeatableSections( $_aJSArray ); 
-});            
-JAVASCRIPTS;
-            return "<script type='text/javascript' class='admin-page-framework-seciton-repeatable-script'>" . $_sScript . "</script>";
                 
-        }
-        
     /**
      * Returns a single HTML table output of a set of fields generated from the given field definition arrays.
      * 
@@ -493,18 +335,8 @@ JAVASCRIPTS;
         if ( count( $aFields ) <= 0 ) { return ''; }
         
         $_sSectionTagID = 'section-' . $sSectionID . '__' . $iSectionIndex;
-        
-        // For regular repeatable fields, the title should be omitted except the first item.
-        $_sDisplayNone  = ( $aSection['repeatable'] && $iSectionIndex != 0 && ! $aSection['section_tab_slug'] ) || $aSection['collapsible']
-            ? " style='display:none;'"
-            : '';
-                
-        $_sSectionError = isset( $this->aFieldErrors[ $aSection['section_id'] ] ) && is_string( $this->aFieldErrors[ $aSection['section_id'] ] )
-            ? $this->aFieldErrors[ $aSection['section_id'] ]
-            : '';
-                
-        $_aOutput   = array();
-        $_aOutput[] = "<table "
+        $_aOutput       = array();
+        $_aOutput[]     = "<table "
             . $this->generateAttributes(  
                     array( 
                         'id'    => 'section_table-' . $_sSectionTagID,
@@ -512,27 +344,7 @@ JAVASCRIPTS;
                     )
                 )
             . ">"
-                . ( $aSection['description'] || $aSection['title'] 
-                    ? "<caption class='admin-page-framework-section-caption' data-section_tab='{$aSection['section_tab_slug']}'>" // data-section_tab is referred by the repeater script to hide/show the title and the description
-                            . ( $aSection['title'] && ! $aSection['section_tab_slug']
-                                ? "<div class='admin-page-framework-section-title' {$_sDisplayNone}>" 
-                                        .  $this->_getSectionTitle( $aSection['title'], 'h3', $aFields, $hfFieldCallback )    
-                                    . "</div>"
-                                : ""
-                            )     
-                            . ( is_callable( $hfSectionCallback )
-                                ? "<div class='admin-page-framework-section-description'>"     // admin-page-framework-section-description is referred by the repeatable section buttons
-                                        . call_user_func_array( $hfSectionCallback, array( $this->_getDescription( $aSection['description'] ) , $aSection ) )
-                                    . "</div>"
-                                : ""
-                            )
-                            . ( $_sSectionError  
-                                ? "<div class='admin-page-framework-error'><span class='section-error'>* " . $_sSectionError .  "</span></div>"
-                                : ''
-                            )
-                        . "</caption>"
-                    : "<caption class='admin-page-framework-section-caption' style='display:none;'></caption>"
-                )
+                . $this->_getCaption( $aSection, $hfSectionCallback, $iSectionIndex, $aFields, $hfFieldCallback )
                 . $this->getFieldRows( $aFields, $hfFieldCallback )
             . "</table>";
             
@@ -557,114 +369,73 @@ JAVASCRIPTS;
         
     }
         /**
-         * Returns the HTML formatted description blocks by the given description definition.
+         * Returns the output of the table caption block.
          * 
-         * @since   3.3.0
-         * @return  string      The description output.
+         * @since       3.3.4
          */
-        private function _getDescription( $asDescription ) {
+        private function _getCaption( array $aSection, $hfSectionCallback, $iSectionIndex, $aFields, $hfFieldCallback ) {
             
-            if ( empty( $asDescription ) ) { return ''; }
-            
-            $_aOutput = array();
-            foreach( $this->getAsArray( $asDescription ) as $_sDescription ) {
-                $_aOutput[] = "<p class='admin-page-framework-section-description'>"
-                        . "<span class='description'>{$_sDescription}</span>"
-                    . "</p>";
+            if ( ! $aSection['description'] && ! $aSection['title'] ) {
+                return "<caption class='admin-page-framework-section-caption' style='display:none;'></caption>";
             }
-            return implode( PHP_EOL, $_aOutput );
             
-        }    
-    /**
-     * Returns the output of a set of fields generated from the given field definition arrays enclosed in a table row tag for each.
-     * 
-     * @since 3.0.0    
-     */
-    public function getFieldRows( $aFields, $hfCallback ) {
-        
-        if ( ! is_callable( $hfCallback ) ) { return ''; }
-        $_aOutput = array();
-        foreach( $aFields as $aField ) {
-            $_aOutput[] = $this->_getFieldRow( $aField, $hfCallback );
-        } 
-        return implode( PHP_EOL, $_aOutput );
-        
-    }
-        /**
-         * Returns the field output enclosed in a table row.
-         * 
-         * @since 3.0.0
-         */
-        protected function _getFieldRow( $aField, $hfCallback ) {
+            // For regular repeatable fields, the title should be omitted except the first item.
+            $_sDisplayNone  = ( $aSection['repeatable'] && $iSectionIndex != 0 && ! $aSection['section_tab_slug'] ) || $aSection['collapsible']
+                ? " style='display:none;'"
+                : '';
             
-            if ( 'section_title' === $aField['type'] ) { return ''; }
+            // @todo avoid calling the property but pass it from a parameter.
+            $_sSectionError = isset( $this->aFieldErrors[ $aSection['section_id'] ] ) && is_string( $this->aFieldErrors[ $aSection['section_id'] ] )
+                ? $this->aFieldErrors[ $aSection['section_id'] ]
+                : '';
             
-            $_aOutput           = array();
-            $_aField            = $this->_mergeDefault( $aField );
-            $_sAttributes_TR    = $this->_getFieldContainerAttributes( 
-                $_aField,
-                array( 
-                    'id'        => 'fieldrow-' . AdminPageFramework_FormField::_getInputTagBaseID( $_aField ),
-                    'valign'    => 'top',
-                    'class'     => 'admin-page-framework-fieldrow',
-                ),
-                'fieldrow'
-            );
-            $_sAttributes_TD    = $this->generateAttributes( 
-                array(
-                    'colspan'   => $_aField['show_title_column'] ? 1 : 2,
-                    'class'     => $_aField['show_title_column'] ? null : 'admin-page-framework-field-td-no-title',
-                )
-            );
-            $_aOutput[]         = "<tr {$_sAttributes_TR}>";
-                if ( $_aField['show_title_column'] ) {
-                    $_aOutput[] = "<th>" . $this->_getFieldTitle( $_aField ) . "</th>";
-                }
-                $_aOutput[] = "<td {$_sAttributes_TD}>" 
-                        . call_user_func_array( $hfCallback, array( $aField ) ) 
-                    . "</td>"; // $aField is passed, not $_aField as $_aField do not respect subfields.
-            $_aOutput[] = "</tr>";
-            return implode( PHP_EOL, $_aOutput );
+            return 
+                "<caption " . $this->generateAttributes( 
+                    array(
+                        'class'             => 'admin-page-framework-section-caption',
+                        // data-section_tab is referred by the repeater script to hide/show the title and the description
+                        'data-section_tab'  => $aSection['section_tab_slug'],
+                    ) 
+                ) . ">"
+                    . ( $aSection['title'] && ! $aSection['section_tab_slug']
+                        ? "<div class='admin-page-framework-section-title' {$_sDisplayNone}>" 
+                                .  $this->_getSectionTitle( $aSection['title'], 'h3', $aFields, $hfFieldCallback )    
+                            . "</div>"
+                        : ""
+                    )     
+                    . ( is_callable( $hfSectionCallback )
+                        ? "<div class='admin-page-framework-section-description'>"     // admin-page-framework-section-description is referred by the repeatable section buttons
+                                . call_user_func_array( $hfSectionCallback, array( $this->_getDescription( $aSection['description'] ) , $aSection ) )
+                            . "</div>"
+                        : ""
+                    )
+                    . ( $_sSectionError  
+                        ? "<div class='admin-page-framework-error'><span class='section-error'>* " . $_sSectionError .  "</span></div>"
+                        : ''
+                    )
+                . "</caption>";
+          
+            
+        }
+            /**
+             * Returns the HTML formatted description blocks by the given description definition.
+             * 
+             * @since   3.3.0
+             * @return  string      The description output.
+             */
+            private function _getDescription( $asDescription ) {
                 
-        }
-    
-    /**
-     * Returns a set of fields output from the given field definition array.
-     * 
-     * @remark This is similar to getFieldRows() but without the enclosing table row tag. Used for taxonomy fields.
-     * @since 3.0.0
-     */
-    public function getFields( $aFields, $hfCallback ) {
-        
-        if ( ! is_callable( $hfCallback ) ) { return ''; }
-        $_aOutput = array();
-        foreach( $aFields as $_aField ) {
-            $_aOutput[] = $this->_getField( $_aField, $hfCallback );
-        }
-        return implode( PHP_EOL, $_aOutput );
-        
-    }
-    
-        /**
-         * Returns the given field output without a table row tag.
-         * 
-         * @internal
-         * @since 3.0.0
-         */
-        protected function _getField( $aField, $hfCallback )  {
-            
-            if ( 'section_title' === $aField['type'] ) { return ''; }
-            $_aOutput   = array();
-            $_aField    = $this->_mergeDefault( $aField );
-            $_aOutput[] = "<div " . $this->_getFieldContainerAttributes( $_aField, array(), 'fieldrow' ) . ">";
-            if ( $_aField['show_title_column'] ) {
-                $_aOutput[] = $this->_getFieldTitle( $_aField );
-            }
-            $_aOutput[] = call_user_func_array( $hfCallback, array( $aField ) ); // $aField is passed, not $_aField as $_aField do not respect subfields.
-            $_aOutput[] = "</div>";
-            return implode( PHP_EOL, $_aOutput );     
-            
-        }
+                if ( empty( $asDescription ) ) { return ''; }
+                
+                $_aOutput = array();
+                foreach( $this->getAsArray( $asDescription ) as $_sDescription ) {
+                    $_aOutput[] = "<p class='admin-page-framework-section-description'>"
+                            . "<span class='description'>{$_sDescription}</span>"
+                        . "</p>";
+                }
+                return implode( PHP_EOL, $_aOutput );
+                
+            }    
             
 }
 endif;

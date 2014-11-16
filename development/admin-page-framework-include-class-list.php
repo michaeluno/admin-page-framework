@@ -127,6 +127,7 @@ $aClassFiles = array(
 	"AdminPageFramework_FormOutput"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_FormOutput/AdminPageFramework_FormOutput.php", 
 	"AdminPageFramework_FormTable"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_FormTable/AdminPageFramework_FormTable.php", 
 	"AdminPageFramework_FormTable_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_FormTable/AdminPageFramework_FormTable_Base.php", 
+	"AdminPageFramework_FormTable_Row"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_FormTable/AdminPageFramework_FormTable_Row.php", 
 	"AdminPageFramework_Input_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_Input/AdminPageFramework_Input_Base.php", 
 	"AdminPageFramework_Input_checkbox"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_Input/AdminPageFramework_Input_checkbox.php", 
 	"AdminPageFramework_Input_radio"	=>	AdminPageFramework_Registry::$sDirPath . "/_view/AdminPageFramework_Input/AdminPageFramework_Input_radio.php", 
