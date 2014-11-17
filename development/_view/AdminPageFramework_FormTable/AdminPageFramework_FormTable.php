@@ -278,11 +278,11 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Row {
          * 
          * @since 3.0.0
          */
-        private function _getSectionTitleField( $aFields ) {
+        private function _getSectionTitleField( array $aFields ) {
             
-            foreach( $aFields as $aField ) {
-                if ( 'section_title' === $aField['type'] ) {
-                    return $aField; // will return the first found one.
+            foreach( $aFields as $_aField ) {
+                if ( 'section_title' === $_aField['type'] ) {
+                    return $_aField; // will return the first found one.
                 }
             }
             
@@ -405,7 +405,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Row {
                     )     
                     . ( is_callable( $hfSectionCallback )
                         ? "<div class='admin-page-framework-section-description'>"     // admin-page-framework-section-description is referred by the repeatable section buttons
-                                . call_user_func_array( $hfSectionCallback, array( $this->_getDescription( $aSection['description'] ) , $aSection ) )
+                                . call_user_func_array( $hfSectionCallback, array( $this->_getSectionDescription( $aSection['description'] ) , $aSection ) )
                             . "</div>"
                         : ""
                     )
@@ -423,7 +423,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Row {
              * @since   3.3.0
              * @return  string      The description output.
              */
-            private function _getDescription( $asDescription ) {
+            private function _getSectionDescription( $asDescription ) {
                 
                 if ( empty( $asDescription ) ) { return ''; }
                 
