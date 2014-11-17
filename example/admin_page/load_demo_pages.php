@@ -57,8 +57,7 @@ new APF_Demo(
         'read',                     // the default capability
         'admin-page-framework-demo' // the text domain        
     );
-            
     
-    // Modify the top part of the pages with a separate script
+    // Modify the top part of the pages from a separate script
     include( APFDEMO_DIRNAME . '/example/admin_page/APF_Demo_AddPluginTitle.php' );
     new APF_Demo_AddPluginTitle;
