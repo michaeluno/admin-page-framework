@@ -84,6 +84,12 @@ class APF_Demo_BuiltinFieldTypes_MISC {
                 'description'       => __( 'These are hidden fields.', 'admin-page-framework-demo' ),
             ),     
             array(
+                'section_id'        => 'raw_html',
+                'tab_slug'          => $this->sTabSlug,
+                'title'             => __( 'Custom HTML Output', 'admin-page-framework-demo' ),
+                'description'       => __( 'You can insert custom HTML output along with the field output.', 'admin-page-framework-demo' ),
+            ),               
+            array(
                 'section_id'        => 'submit_buttons',
                 'tab_slug'          => $this->sTabSlug,
                 'title'             => __( 'Submit Buttons', 'admin-page-framework-demo' ),
@@ -163,6 +169,16 @@ class APF_Demo_BuiltinFieldTypes_MISC {
                     'default'   => 'c',
                 ),
                 'sortable'      => true,
+            )
+        );
+        $oAdminPage->addSettingFields(
+            'raw_html',
+            array(
+                'field_id'          => 'raw_html_example',
+                'title'             => __( 'Raw HTML', 'admin-page-framework-demo' ),
+                'type'              => 'my_custom_made_up_non_exisitng_field_type',
+                'before_field'      => "<p>This is a custom output inserted with the <code>before_field</code> argument.</p>",
+                'after_field'       => "<p>This is a custom output inserted with the <code>after_field</code> argument.</p>",
             )
         );
         $oAdminPage->addSettingFields(
