@@ -51,7 +51,7 @@ class AdminPageFramework_FieldType_section_title extends AdminPageFramework_Fiel
     padding: 0.5em;
 }
  .admin-page-framework-section-tab .admin-page-framework-field-section_title .admin-page-framework-input-label-string {     
-    vertical-align: text-top; 
+    vertical-align: middle; 
 } 
  .admin-page-framework-section-tab .admin-page-framework-fields {
     display: inline-block;
@@ -68,6 +68,7 @@ class AdminPageFramework_FieldType_section_title extends AdminPageFramework_Fiel
     border-style: solid;
     outline: 0;
     box-sizing: border-box;
+    vertical-align: middle;
 }
 CSSRULES;
    

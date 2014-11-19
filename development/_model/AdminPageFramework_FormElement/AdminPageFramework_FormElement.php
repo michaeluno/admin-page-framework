@@ -40,7 +40,6 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         'help'              => null,
         'help_aside'        => null,
         'repeatable'        => null, // 3.0.0+
-        'section_tab_slug'  => null, // 3,0,0+
         'attributes'        => array(   // 3.3.1+
             'class'         => null,    // set null to avoid undefined index warnings.
             'style'         => null,    // set null to avoid undefined index warnings.
@@ -62,6 +61,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         'is_collapsed'              => true,    // (boolean) whether it is already collapsed or expanded
         'show_toggle_all_button'    => false,   // (boolean) whether to display the button that toggles the folding state of all collapsible sections.
         'collapse_others_on_expand' => true,    // (boolean) whether the other collapsible sections should be folded when the section is unfolded.
+        'position'                  => 'sections'   // (string) the container element that collapsible styling gets applied to. Either 'sections' or 'section' is accepted.
     );
     
     /**

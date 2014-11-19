@@ -141,7 +141,23 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 ),
             )         
         );
-        
+        // Collapsible sections examples
+        $oAdminPage->addSettingSections(    
+            $this->sPageSlug, // the target page slug  
+            array(
+                'section_id'        => 'collapsible_repeatable_section',
+                'title'             => __( 'Collapsible Repeatable Section', 'admin-page-framework-demo' ),
+                'description'       => __( 'This section can be expanded, collapsed and repeated.', 'admin-page-framework-demo' ),
+                'collapsible'       => array(
+                    'show_toggle_all_button' => true,
+                    'position'               => 'section',
+                ),
+                'repeatable'        => true, // this makes the section repeatable
+            )
+        );
+   
+   
+        // Fields
         $oAdminPage->addSettingFields(
             'section_title_field_type', // the target section ID
             array(
@@ -328,6 +344,21 @@ class APF_Demo_BuiltinFieldTypes_Sections {
             ),
             array()
         );             
+        $oAdminPage->addSettingFields(    
+            'collapsible_repeatable_section', // the target section ID
+            array(
+                'field_id'  => 'section_title_in_collapsible_repeatable_section',
+                'type'      => 'section_title',
+                'label'     => __( 'Section Name', 'admin-page-framework-demo' ),
+            ),            
+            array(
+                'field_id'      => 'text_field_in_collapsible_repeatable_section',
+                'title'         => __( 'Text', 'admin-page-framework-demo' ),
+                'type'          => 'text',
+                'repeatable'    => true,
+                'sortable'      => true,
+            )
+        );
         
     }
     

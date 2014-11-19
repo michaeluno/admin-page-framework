@@ -54,163 +54,186 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
             
         }
        
-        /**
-         * Indicates whether the tab enabler script is loaded or not.
-         */
-        static private $_bLoadedTabEnablerScript = false;
+    /**
+     * Returns the section title output.
+     * 
+     * @since       3.0.0
+     * @since       3.3.4   Moved from `AdminPageFramework_FormTable`.
+     */
+    protected function _getSectionTitle( $sTitle, $sTag, $aFields, $hfFieldCallback ) {
         
+        $_aSectionTitleField = $this->_getSectionTitleField( $aFields );
+        return $_aSectionTitleField
+            ? call_user_func_array( $hfFieldCallback, array( $_aSectionTitleField ) )
+            : "<{$sTag}>" . $sTitle . "</{$sTag}>";
+        
+    }    
         /**
-         * Returns the JavaScript script that enables section tabs.
+         * Returns the first found `section_title` field.
          * 
-         * @since 3.0.0
+         * @since       3.0.0
+         * @since       3.3.4       Moved from `AdminPageFramework_FormTable`.
          */
-        protected function _getSectionTabsEnablerScript() {
-            
-            if ( self::$_bLoadedTabEnablerScript ) { return ''; }
-            self::$_bLoadedTabEnablerScript = true;
-            $_sScript = <<<JAVASCRIPTS
+        private function _getSectionTitleField( array $aFields ) {   
+            foreach( $aFields as $_aField ) {
+                if ( 'section_title' === $_aField['type'] ) {
+                    return $_aField; // will return the first found one.
+                }
+            }
+        }
+    
+    /**
+     * Returns the collapsible argument array from the given sections definition array.
+     * 
+     * @since   3.3.4
+     */
+    protected function _getCollapsibleArgument( array $aSections=array(), $iSectionIndex=0 ) {
+        
+        // Only the first found item is needed
+        foreach( $aSections as $_aSection ) {
+            if ( ! isset( $_aSection['collapsible'] ) ) { 
+                continue; 
+            }
+            if ( empty( $_aSection['collapsible'] ) ) {
+                return array();
+            }
+            if ( $_aSection['repeatable'] && 0 < $iSectionIndex ) {
+                $_aSection['collapsible']['show_toggle_all_button'] = 0;
+            }
+            return $_aSection['collapsible'];
+        }
+        return array();
+        
+    }    
+    /**
+     * Returns the output of a title block of the given collapsible section.
+     * 
+     * @since       3.3.4
+     * @param       array|boolean   $aCollapsible       The collapsible argument.
+     * @param       string          $sPosition          The position context. Accepts either 'sections' or 'section'. If the set position in the argument array does not match this value, the method will return an empty string.
+     */
+    protected function _getCollapsibleSectionTitleBlock( array $aCollapsible, $sPosition='sections', array $aFields=array(), $hfFieldCallback=null ) {
+
+        if ( empty( $aCollapsible ) ) { return ''; }
+        if ( $sPosition !== $aCollapsible['position'] ) { return ''; }
+        
+        return $this->_getCollapsibleSectionsEnablerScript()
+            . "<div " . $this->generateAttributes(
+                array(
+                    'class' => $this->generateClassAttribute( 
+                        'admin-page-framework-section-title',
+                        'accordion-section-title',
+                        'admin-page-framework-collapsible-title',
+                        'sections' === $aCollapsible['position']
+                            ? 'admin-page-framework-collapsible-sections-title'
+                            : 'admin-page-framework-collapsible-section-title',
+                        $aCollapsible['is_collapsed'] ? 'collapsed' : ''
+                    ),
+                ) 
+                + $this->getDataAttributeArray( $aCollapsible )
+            ) . ">"  
+                    . $this->_getSectionTitle( $aCollapsible['title'], 'h3', $aFields, $hfFieldCallback )
+                . "</div>";
+        
+    }    
+    
+       
+    /**
+     * Indicates whether the tab enabler script is loaded or not.
+     */
+    static private $_bLoadedTabEnablerScript = false;
+    
+    /**
+     * Returns the JavaScript script that enables section tabs.
+     * 
+     * @since 3.0.0
+     */
+    protected function _getSectionTabsEnablerScript() {
+        
+        if ( self::$_bLoadedTabEnablerScript ) { return ''; }
+        self::$_bLoadedTabEnablerScript = true;
+        $_sScript = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
-    // the parent element of the ul tag; The ul element holds li tags of titles.
-    jQuery( '.admin-page-framework-section-tabs-contents' ).createTabs(); 
+// the parent element of the ul tag; The ul element holds li tags of titles.
+jQuery( '.admin-page-framework-section-tabs-contents' ).createTabs(); 
 });            
 JAVASCRIPTS;
-            return "<script type='text/javascript' class='admin-page-framework-section-tabs-script'>"
-                . $_sScript
-            . "</script>";
-            
-        } 
+        return "<script type='text/javascript' class='admin-page-framework-section-tabs-script'>"
+            . $_sScript
+        . "</script>";
+        
+    } 
  
-        /**
-         * Indicates whether the collapsible script is loaded or not.
-         * 
-         * @since   3.3.4
-         */
-        static private $_bLoadedCollapsibleSectionsEnablerScript = false;
-        
-        /**
-         * Returns the enabler script of collapsible sections.
-         * @since   3.3.4
-         */
-        protected function _getCollapsibleSectionsEnablerScript() {
-            
-            if ( self::$_bLoadedCollapsibleSectionsEnablerScript ) {
-                return;
-            }
-            self::$_bLoadedCollapsibleSectionsEnablerScript = true;
-            // new AdminPageFramework_Script_CollapsibleSection( $this->oMsg );   
-            
-            $_sLabelToggleAll           = $this->oMsg->get( 'toggle_all' );
-            $_sLabelToggleAllSections   = $this->oMsg->get( 'toggle_all_collapsible_sections' );
-            $_sDashIconSort             = version_compare( $GLOBALS['wp_version'], '3.8', '<' ) 
-                ? '' 
-                : 'dashicons dashicons-sort';
-            $_sToggleAllButton          = "<div class='admin-page-framework-collapsible-sections-toggle-all-button-container'>"
-                    . "<span class='admin-page-framework-collapsible-sections-toggle-all-button button " . $_sDashIconSort. "' title='" . esc_attr( $_sLabelToggleAllSections ) . "'>"
-                    . ( $_sDashIconSort ? '' : $_sLabelToggleAll )  // text
-                    . "</span>"
-                . "</div>";
-            $_sToggleAllButtonHTML  = '"' . $_sToggleAllButton . '"';                
-            wp_enqueue_script( 'juery' );
-            wp_enqueue_script( 'juery-ui-accordion' );
-            $_sScript       = <<<JAVASCRIPTS
-jQuery( document ).ready( function() {
+    /**
+     * Indicates whether the collapsible script is loaded or not.
+     * 
+     * @since   3.3.4
+     */
+    static private $_bLoadedCollapsibleSectionsEnablerScript = false;
     
-    jQuery( '.admin-page-framework-collapsible-sections-title[data-is_collapsed=\"0\"]' )
-        .next( '.admin-page-framework-collapsible-sections' )
-        .slideDown( 'fast' );
-    jQuery( '.admin-page-framework-collapsible-sections-title' ).click( function( event, sContext ){
-
-        // Expand or collapse this panel
-        var _oThis = jQuery( this );
-        var _oTargetSections = jQuery( this ).next( '.admin-page-framework-collapsible-sections' );
+    /**
+     * Returns the enabler script of collapsible sections.
+     * @since   3.3.4
+     */
+    protected function _getCollapsibleSectionsEnablerScript() {
         
-        _oThis.removeClass( 'collapsed' );
-        _oTargetSections.slideToggle( 'fast', function(){
-            if ( _oTargetSections.is( ':visible' ) ) {
-                _oThis.removeClass( 'collapsed' );
-            } else {
-                _oThis.addClass( 'collapsed' );
-            }            
-        } );
-        
-        // If it is triggred from the toglle all button, do not continue.
-        if ( 'by_toggle_all_button' === sContext ) {
+        if ( self::$_bLoadedCollapsibleSectionsEnablerScript ) {
             return;
         }
+        self::$_bLoadedCollapsibleSectionsEnablerScript = true;
+        new AdminPageFramework_Script_CollapsibleSection( $this->oMsg );     
+   
+    }
         
-        // If collapse_others_on_expand argument is true, collapse others 
-        if ( _oThis.data( 'collapse_others_on_expand' ) ) {
-            jQuery( '.admin-page-framework-collapsible-sections' ).not( _oTargetSections ).slideUp( 'fast', function() {
-                jQuery( this ).prev( '.admin-page-framework-collapsible-sections-title' ).addClass( 'collapsed' );
-            });
-        }
-
-    }); 
-    
-    // Insert the toggle all button.
-    jQuery( '.admin-page-framework-collapsible-sections-title[data-show_toggle_all_button!=\"0\"]' ).each( function(){
+    /**
+     * Returns the enabler script of repeatable sections.
+     * @since       3.0.0
+     * @since       3.3.4       Moved from `AdminPageFramework_FormTable`.
+     */
+    protected function _getRepeatableSectionsEnablerScript( $sContainerTagID, $iSectionCount, $aSettings ) {
         
-        // var _oButton = jQuery( '<div class=\"admin-page-framework-collapsible-sections-toggle-all-button-container\"><span class=\"admin-page-framework-collapsible-sections-toggle-all-button button dashicons dashicons-sort\"></span></div>' );
-        var _oButton = jQuery( $_sToggleAllButtonHTML );
-        jQuery( this ).before( _oButton );
-        var _sLeftOrRight = 0 === jQuery( this ).data( 'show_toggle_all_button' ) || 'left' !== jQuery( this ).data( 'show_toggle_all_button' )
-            ? 'right'
-            : 'left';
-        _oButton.find( '.admin-page-framework-collapsible-sections-toggle-all-button' ).css( 'float', _sLeftOrRight );
-    
-        // Expand or collapse this panel
-        _oButton.click( function(){
-            var _oButton = jQuery( this ).find( '.admin-page-framework-collapsible-sections-toggle-all-button' );
-            _oButton.toggleClass( 'flipped' );
-            if ( _oButton.hasClass( 'flipped' ) && _oButton.hasClass( 'dashicons' ) ) {
-                _oButton.css( 'transform', 'rotateY( 180deg )' );
-            } else {
-                _oButton.css( 'transform', '' );
-            }
-            jQuery( '.admin-page-framework-collapsible-sections-title' ).each( function() {
-                jQuery( this ).trigger( 'click', [ 'by_toggle_all_button' ] );   
-            } );
-        } );
-    } );      
-
-});               
-JAVASCRIPTS;
-            return "<script type='text/javascript' class='admin-page-framework-section-collapsible-script'>" . $_sScript . "</script>";
-            
-        }
+        new AdminPageFramework_Script_RepeatableSection( $this->oMsg );
         
-        /**
-         * Returns the enabler script of repeatable sections.
-         * @since   3.0.0
-         */
-        protected function _getRepeatableSectionsEnablerScript( $sContainerTagID, $iSectionCount, $aSettings ) {
-            
-            new AdminPageFramework_Script_RepeatableSection( $this->oMsg );
-            
-            if ( empty( $aSettings ) ) { return ''; }
-            $aSettings              = $this->getAsArray( $aSettings ) + array( 'min' => 0, 'max' => 0 ); 
-            $_sAdd                  = $this->oMsg->get( 'add_section' );
-            $_sRemove               = $this->oMsg->get( 'remove_section' );
-            $_sVisibility           = $iSectionCount <= 1 ? " style='display:none;'" : "";
-            $_sSettingsAttributes   = $this->generateDataAttributes( $aSettings );
-            $_sButtons              = 
-                "<div class='admin-page-framework-repeatable-section-buttons' {$_sSettingsAttributes} >"
-                    . "<a class='repeatable-section-remove button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
-                    . "<a class='repeatable-section-add button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
-                . "</div>";
-            $_sButtonsHTML  = '"' . $_sButtons . '"';
-            $_aJSArray      = json_encode( $aSettings );
-            $_sScript       = <<<JAVASCRIPTS
+        if ( empty( $aSettings ) ) { return ''; }
+        $aSettings              = $this->getAsArray( $aSettings ) + array( 'min' => 0, 'max' => 0 ); 
+        $_sAdd                  = $this->oMsg->get( 'add_section' );
+        $_sRemove               = $this->oMsg->get( 'remove_section' );
+        $_sVisibility           = $iSectionCount <= 1 ? " style='display:none;'" : "";
+        $_sSettingsAttributes   = $this->generateDataAttributes( $aSettings );
+        $_sButtons              = 
+            "<div class='admin-page-framework-repeatable-section-buttons' {$_sSettingsAttributes} >"
+                . "<a class='repeatable-section-remove button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
+                . "<a class='repeatable-section-add button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
+            . "</div>";
+        $_sButtonsHTML  = '"' . $_sButtons . '"';
+        $_aJSArray      = json_encode( $aSettings );
+        $_sScript       = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
     // Adds the buttons
-    jQuery( '#{$sContainerTagID} .admin-page-framework-section-caption' ).show().prepend( $_sButtonsHTML );
+    jQuery( '#{$sContainerTagID} .admin-page-framework-section-caption' ).each( function(){
+        
+        jQuery( this ).show();
+        
+        var _oButtons = jQuery( $_sButtonsHTML );
+        if ( jQuery( this ).children( '.admin-page-framework-collapsible-section-title' ).children( 'fieldset' ).length > 0 ) {
+            _oButtons.addClass( 'section_title_field_sibling' );
+        }
+        var _oCollapsibleSectionTitle = jQuery( this ).find( '.admin-page-framework-collapsible-section-title' );
+        if ( _oCollapsibleSectionTitle.length ) {
+            _oButtons.find( '.repeatable-section-button' ).removeClass( 'button-large' );
+            _oCollapsibleSectionTitle.prepend( _oButtons );
+        } else {
+            jQuery( this ).prepend( _oButtons );
+        }
+        
+    } );
     // Update the fields     
     jQuery( '#{$sContainerTagID}' ).updateAPFRepeatableSections( $_aJSArray ); 
 });            
 JAVASCRIPTS;
-            return "<script type='text/javascript' class='admin-page-framework-seciton-repeatable-script'>" . $_sScript . "</script>";
-                
-        }
+        return "<script type='text/javascript' class='admin-page-framework-seciton-repeatable-script'>" . $_sScript . "</script>";
+            
+    }
  
 }
 endif;

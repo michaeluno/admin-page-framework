@@ -86,7 +86,7 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         var nodeSectionsContainer = nodeSectionContainer.closest( '.admin-page-framework-sectionset' );
         var sSectionsContainerID = nodeSectionsContainer.attr( 'id' );
         var nodeTabsContainer = $( '#' + sSectionContainerID ).closest( '.admin-page-framework-sectionset' ).find( '.admin-page-framework-section-tabs' );
-        
+
         /* If the set maximum number of sections already exists, do not add */
         var sMaxNumberOfSections = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ]['max'];
         if ( sMaxNumberOfSections != 0 && nodeSectionsContainer.find( '.admin-page-framework-section' ).length >= sMaxNumberOfSections ) {
@@ -107,10 +107,12 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         /* If this is not for tabbed sections, do not show the title */
         var sSectionTabSlug = nodeNewSection.find( '.admin-page-framework-section-caption' ).first().attr( 'data-section_tab' );
         if ( ! sSectionTabSlug || sSectionTabSlug === '_default' ) {
-            nodeNewSection.find( '.admin-page-framework-section-title' ).hide();
+            nodeNewSection.find( '.admin-page-framework-section-title' ).not( '.admin-page-framework-collapsible-section-title' ).hide();
         }
+        // Bind the click event to the collapsible section(s) bar.
+        nodeNewSection.find( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' ).enableAPFCollapsibleButton();
                         
-        /* Add the cloned new field element */
+        /* Add the cloned new field element */        
         nodeNewSection.insertAfter( nodeSectionContainer );    
 
         /* It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. */

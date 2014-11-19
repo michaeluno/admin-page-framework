@@ -15,7 +15,7 @@ if ( ! class_exists( 'AdminPageFramework_FormTable' ) ) :
  * @since       3.0.0
  * @internal
  */
-class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Row {
+class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption {
         
     /**
      * Returns a set of HTML table outputs consisting of form sections and fields.
@@ -75,26 +75,35 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Row {
      */
     public function getFormTables( $aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ) {
         
-        $_aOutput = array();
-        foreach( $this->_getSectionsBySectionTabs( $aSections ) as $_sSectionTabSlug => $_aSections ) {
+        $_aOutput     = array();
+        $_sFieldsType = $this->_getSectionsFieldsType( $aSections );    // must be done before the $aSections array gets updated below.
+        
+        // Update the array structure by tab slug (passed by reference).
+        $this->_divideElementsBySectionTabs( $aSections, $aFieldsInSections );
+        foreach( $aSections as $_sSectionTabSlug => $_aSectionsBySectionTab ) {
             
-            $_sSectionSet = $this->_getFormTablesBySectionTab( $_sSectionTabSlug, $_aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback );
-            if ( $_sSectionSet ) {
-                $_aOutput[] = "<div " . $this->generateAttributes(
-                        array(
-                            'class' => 'admin-page-framework-sectionset',
-                            'id'    => "sectionset-{$_sSectionTabSlug}_" . md5( serialize( $_aSections ) ),
-                        ) 
-                    ) . ">" 
-                        . $_sSectionSet
-                    . "</div>";
-            }
+            $_sSectionSet = $this->_getSectionsTables( 
+                $_aSectionsBySectionTab, 
+                $aFieldsInSections[ $_sSectionTabSlug ],
+                $hfSectionCallback, 
+                $hfFieldCallback 
+            );
+            if ( ! $_sSectionSet ) { continue; }
             
+            $_aOutput[] = "<div " . $this->generateAttributes(
+                    array(
+                        'class' => 'admin-page-framework-sectionset',
+                        'id'    => "sectionset-{$_sSectionTabSlug}_" . md5( serialize( $_aSectionsBySectionTab ) ),
+                    ) 
+                ) . ">" 
+                    . $_sSectionSet
+                . "</div>";
+                
         }
     
         return implode( PHP_EOL, $_aOutput ) 
             . $this->_getSectionTabsEnablerScript()
-            . ( defined( 'WP_DEBUG' ) && WP_DEBUG && in_array( $this->_getSectionsFieldsType( $aSections ), array( 'widget', 'post_meta_box', 'page_meta_box', ) )
+            . ( defined( 'WP_DEBUG' ) && WP_DEBUG && in_array( $_sFieldsType, array( 'widget', 'post_meta_box', 'page_meta_box', ) )
                 ? "<div class='admin-page-framework-info'>" 
                         . 'Debug Info: ' . AdminPageFramework_Registry::Name . ' '. AdminPageFramework_Registry::getVersion() 
                     . "</div>"
@@ -102,6 +111,55 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Row {
             );
             
     }
+        /**
+         * Divides the given sections array and the fields array by section tabs.
+         * 
+         * The structure will be changed.
+         * From
+         * <code>
+         * array(
+         *      'section id_a'    => array( 'section arguments' ),
+         *      'section id_b'    => array( 'section arguments' ),
+         *      'section id_c'    => array( 'section arguments' ),
+         *          ...
+         * )
+         * </code>
+         * To
+         * <code>
+         * array(
+         *      'section tab_a'   => array( 
+         *          'section id_a'    => array( 'section arguments' ),
+         *          'section id_b'    => array( 'section arguments' ),
+         *      ),
+         *      'section_tab_b'   => array(
+         *          'section id_c'    => array( 'section arguments' ),
+         *      ),
+         *          ...
+         * )
+         * </code>
+         * @since       3.3.4
+         * @return      void
+         */
+        private function _divideElementsBySectionTabs( array &$aSections, array &$aFields ) {
+
+            $_aSectionsBySectionTab = array();
+            $_aFieldsBySectionTab   = array();
+            $_iIndex                = 0;
+
+            foreach( $aSections as $_sSectionID => $_aSection ) {
+                $_sSectionTaqbSlug = $_aSection['section_tab_slug'] 
+                    ? $_aSection['section_tab_slug']
+                    : '_default_' . ( ++$_iIndex );                
+                $_aSectionsBySectionTab[ $_sSectionTaqbSlug ][ $_sSectionID ] = $_aSection;
+                $_aFieldsBySectionTab[ $_sSectionTaqbSlug ][ $_sSectionID ]   = isset( $aFields[ $_sSectionID ] ) 
+                    ? $aFields[ $_sSectionID ]
+                    : array();
+            }
+            
+            $aSections  = $_aSectionsBySectionTab;
+            $aFields    = $_aFieldsBySectionTab;
+
+        }      
     
         /**
          * Returns the fields type of the given sections.
@@ -114,128 +172,94 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Row {
                 return $_aSection['_fields_type'];
             }
         }
-                
+        
         /**
-         * Returns an output string of form tables.
+         * Returns an output string of sections tables.
+         * 
+         * The returned output element is wrapped in a div container of the 'admin-page-framework-sections' class selector.
+         * And inside it 'admin-page-framework-section' elements will be placed.
          * 
          * @since       3.0.0
+         * @since       3.3.4       Removed the $sSectionTabSlug parameter. Changed the name from `_getFormTablesBySectionTab()`.
+         * @param       array       $aSections                  A sections definition array. (already divided by section tab).
+         * @param       array       $aFieldsInSections          A fields definition array. (already divided by section tab).
+         * @param       callable    $hfSectionCallback      
+         * @param       callable    $hfFieldCallback      
          */
-        private function _getFormTablesBySectionTab( $sSectionTabSlug, $aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ) {
+        private function _getSectionsTables( $aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ) {
 
             // if empty, return a blank string.
             if ( empty( $aSections ) ) { return ''; } 
         
-            /* <ul>
-                <li><a href="#tabs-1">Nunc tincidunt</a></li>
-                <li><a href="#tabs-2">Proin dolor</a></li>
-                <li><a href="#tabs-3">Aenean lacinia</a></li>
-            </ul>  */     
+            $_sSectionTabSlug   = '';
             $_aSectionTabList   = array();
-            $_abCollapsible     = null;
             $_aOutput           = array();
-            
-            foreach( $aFieldsInSections as $_sSectionID => $aSubSectionsOrFields ) {
+            $_sSectionsID       = 'sections-' . md5( serialize( $aSections ) );
+            $_aCollapsible      = $this->_getCollapsibleArgument( $aSections );
+            $_aCollapsible      = isset( $_aCollapsible['position'] ) && 'sections' === $_aCollapsible['position'] ? $_aCollapsible : array();
+        
+            foreach( $aSections as $_sSectionID => $_aSection ) {
                 
-                if ( ! isset( $aSections[ $_sSectionID ] ) ) { continue; }
+                // Need to be referred outside the loop.
+                $_sSectionTabSlug   = $aSections[ $_sSectionID ]['section_tab_slug']; 
                 
-                $_sSectionTabSlug   = $aSections[ $_sSectionID ]['section_tab_slug']; // will be referred outside the loop.
-             
-                // Update the collapsible argument.
-                $_abCollapsible         = isset( $_abCollapsible )
-                    ? $_abCollapsible
-                    : $aSections[ $_sSectionID ]['collapsible'];
-
-                // For repeatable sections
-                $_aSubSections      = $aSubSectionsOrFields;
-                $_aSubSections      = $this->getIntegerElements( $_aSubSections );
-                $_iCountSubSections = count( $_aSubSections ); // Check sub-sections.
+                // For repeatable sections - note that sub-sections are divided field definition arrays by sub-section index.
+                $_aSubSections      = $this->getIntegerElements( isset( $aFieldsInSections[ $_sSectionID ] ) ? $aFieldsInSections[ $_sSectionID ] : array() );
+                $_iCountSubSections = count( $_aSubSections ); // Check sub-sections.                
                 if ( $_iCountSubSections ) {
 
                     // Add the repeatable sections enabler script.
-                    if ( $aSections[ $_sSectionID ]['repeatable'] ) {
-                        $_aOutput[] = $this->_getRepeatableSectionsEnablerScript( 'sections-' .  md5( serialize( $aSections ) ), $_iCountSubSections, $aSections[ $_sSectionID ]['repeatable'] );    
+                    if ( $_aSection['repeatable'] ) {
+                        $_aOutput[] = $this->_getRepeatableSectionsEnablerScript( $_sSectionsID, $_iCountSubSections, $_aSection['repeatable'] );
                     }
                     
                     // Get the section tables.
                     foreach( $this->numerizeElements( $_aSubSections ) as $_iIndex => $_aFields ) { // will include the main section as well.
                                   
-                        // For tabbed sections,
-                        if ( $aSections[ $_sSectionID ]['section_tab_slug'] ) {
-                            $_aSectionTabList[] = $this->_getTabList( $_sSectionID, $_iIndex, $aSections[ $_sSectionID ], $_aFields, $hfFieldCallback );
-                        }
-                    
-                        $_aOutput[] = $this->getFormTable( $_sSectionID, $_iIndex, $aSections[ $_sSectionID ], $_aFields, $hfSectionCallback, $hfFieldCallback );
+                        // Tab list
+                        $_aSectionTabList[] = $this->_getTabList( $_sSectionID, $_iIndex, $_aSection, $_aFields, $hfFieldCallback );
+                        // Section container
+                        $_aOutput[] = $this->_getSectionTable( $_sSectionID, $_iIndex, $_aSection, $_aFields, $hfSectionCallback, $hfFieldCallback );
                         
                     }
                     continue;
                 } 
-                // The normal section
-                $_aFields       = $aSubSectionsOrFields;
-                
-                // For tabbed sections,
-                if ( $aSections[ $_sSectionID ]['section_tab_slug'] ) {
-                    $_aSectionTabList[] = $this->_getTabList( $_sSectionID, 0, $aSections[ $_sSectionID ], $_aFields, $hfFieldCallback );
-                }
-                
-                $_aOutput[] = $this->getFormTable( $_sSectionID, 0, $aSections[ $_sSectionID ], $_aFields, $hfSectionCallback, $hfFieldCallback );
-            
-                    
-            }
-            
-            if ( empty( $_aOutput ) ) {
-                return '';
-            }
 
-            return $this->_getCollapsibleSectionTitleBlock( $_abCollapsible )
-                . "<div " . $this->generateAttributes(
-                        array(
-                            'id'    => "sections-" . md5( serialize( $aSections ) ), 
-                            'class' => $this->generateClassAttribute( 
-                                'admin-page-framework-sections',
-                                ! $_sSectionTabSlug || '_default' === $_sSectionTabSlug 
-                                    ? null 
-                                    : 'admin-page-framework-section-tabs-contents',
-                                empty( $_abCollapsible  )
-                                    ? null
-                                    : 'admin-page-framework-collapsible-sections accordion-section-content'
-                            ),
-                        )
-                    ) . ">"                 
-                    . ( $_sSectionTabSlug // if the section tab slug yields true, insert the section tab list
-                        ? "<ul class='admin-page-framework-section-tabs nav-tab-wrapper'>" . implode( PHP_EOL, $_aSectionTabList ) . "</ul>"
-                        : ''
-                    )    
-                    . implode( PHP_EOL, $_aOutput )
-                . "</div>";
-            
-        }
-            
-            /**
-             * Returns the output of a title block of the given collapsible section.
-             * 
-             * @since       3.3.4
-             */
-            private function _getCollapsibleSectionTitleBlock( $abCollapsible ) {
+                // The normal section
+                $_aFields = isset( $aFieldsInSections[ $_sSectionID ] ) ? $aFieldsInSections[ $_sSectionID ] : array();
                 
-                if ( empty( $abCollapsible ) ) {
-                    return '';
-                }
-                
-                return $this->_getCollapsibleSectionsEnablerScript()
+                // Tab list
+                $_aSectionTabList[] = $this->_getTabList( $_sSectionID, 0, $_aSection, $_aFields, $hfFieldCallback );                
+                // Section container
+                $_aOutput[] = $this->_getSectionTable( $_sSectionID, 0, $_aSection, $_aFields, $hfSectionCallback, $hfFieldCallback );
+             
+            } 
+            
+            return empty( $_aOutput )
+                ? ''
+                : ( empty( $_aCollapsible ) ? '' : $this->_getCollapsibleSectionTitleBlock( $_aCollapsible, 'sections' ) )
                     . "<div " . $this->generateAttributes(
-                        array(
-                            'class' => $this->generateClassAttribute( 
-                                'admin-page-framework-collapsible-sections-title admin-page-framework-section-title accordion-section-title',
-                                $abCollapsible['is_collapsed'] ? 'collapsed' : ''
-                            ),
-                        ) 
-                        + ( empty( $abCollapsible ) ? '' : $this->getDataAttributeArray( $abCollapsible ) )
-                    ) . ">"  
-                            . "<h3>" . $abCollapsible['title'] . "</h3>"
-                        . "</div>";
+                            array(
+                                'id'    => "sections-" . md5( serialize( $aSections ) ), 
+                                'class' => $this->generateClassAttribute( 
+                                    'admin-page-framework-sections',
+                                    ! $_sSectionTabSlug || '_default' === $_sSectionTabSlug 
+                                        ? null 
+                                        : 'admin-page-framework-section-tabs-contents',
+                                    empty( $_aCollapsible )
+                                        ? null
+                                        : 'admin-page-framework-collapsible-sections-content admin-page-framework-collapsible-content accordion-section-content'
+                                ),
+                            )
+                        ) . ">"                 
+                        . ( $_sSectionTabSlug // if the section tab slug yields true, insert the section tab list
+                            ? "<ul class='admin-page-framework-section-tabs nav-tab-wrapper'>" . implode( PHP_EOL, $_aSectionTabList ) . "</ul>"
+                            : ''
+                        )    
+                        . implode( PHP_EOL, $_aOutput )
+                    . "</div>";
                 
-            }
-                    
+        }                    
             /**
              * Returns the output of a list tab element for tabbed sections.
              * 
@@ -243,6 +267,9 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Row {
              */
             private function _getTabList( $sSectionID, $iIndex, array $aSection, array $aFields, $hfFieldCallback ) {
                 
+                if ( ! $aSection['section_tab_slug'] ) {
+                    return '';
+                }
                 $_sSectionTagID     = 'section-' . $sSectionID . '__' . $iIndex;
                 $_aTabAttributes    = $aSection['attributes']['tab']
                     + array(
@@ -259,70 +286,13 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Row {
                 . "</li>";
                 
             }        
-        /**
-         * Returns the section title output.
-         * 
-         * @since 3.0.0
-         */
-        private function _getSectionTitle( $sTitle, $sTag, $aFields, $hfFieldCallback ) {
-            
-            $_aSectionTitleField = $this->_getSectionTitleField( $aFields );
-            return $_aSectionTitleField
-                ? call_user_func_array( $hfFieldCallback, array( $_aSectionTitleField ) )
-                : "<{$sTag}>" . $sTitle . "</{$sTag}>";
-            
-        }
-        
-        /**
-         * Returns the first found section_title field.
-         * 
-         * @since 3.0.0
-         */
-        private function _getSectionTitleField( array $aFields ) {
-            
-            foreach( $aFields as $_aField ) {
-                if ( 'section_title' === $_aField['type'] ) {
-                    return $_aField; // will return the first found one.
-                }
-            }
-            
-        }
-        
-        /**
-         * Returns an array holding section definition arrays by section tab.
-         * 
-         * @since 3.0.0
-         */
-        private function _getSectionsBySectionTabs( array $aSections ) {
-
-            $_aSectionsBySectionTab = array();
-            $_iIndex                = 0;
-
-            foreach( $aSections as $_aSection ) {
-                
-                if ( ! $_aSection['section_tab_slug'] ) {
-                    $_aSectionsBySectionTab[ '_default_' . $_iIndex ][ $_aSection['section_id'] ] = $_aSection;
-                    $_iIndex++;
-                    continue;
-                }
-                    
-                $_sSectionTaqbSlug = $_aSection['section_tab_slug'];
-                $_aSectionsBySectionTab[ $_sSectionTaqbSlug ] = isset( $_aSectionsBySectionTab[ $_sSectionTaqbSlug ] ) && is_array( $_aSectionsBySectionTab[ $_sSectionTaqbSlug ] )
-                    ? $_aSectionsBySectionTab[ $_sSectionTaqbSlug ]
-                    : array();
-                
-                $_aSectionsBySectionTab[ $_sSectionTaqbSlug ][ $_aSection['section_id'] ] = $_aSection;
-                
-            }
-            return $_aSectionsBySectionTab;
-            
-        }
-                
+               
     /**
-     * Returns a single HTML table output of a set of fields generated from the given field definition arrays.
+     * Returns a single HTML table output of a form section (a set of fields) generated from the given field definition arrays.
      * 
      * @since       3.0.0
      * @since       3.3.1       Now the first parameter is for the section ID not the tag ID.
+     * @since       3.3.4       Changed the name from `getFormTable()`.
      * @param       string      $sSectionID          The section ID specified by the user.
      * @param       integer     $iSectionIndex       The section index. Zero based.
      * @param       array       $aSection            The section definition array,
@@ -330,7 +300,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Row {
      * @param       callable    $hfSectionCallback   The callback for the section header output.
      * @param       callable    $hfFieldCallback     The callback for the field output.
      */
-    public function getFormTable( $sSectionID, $iSectionIndex, $aSection, $aFields, $hfSectionCallback, $hfFieldCallback ) {
+    private function _getSectionTable( $sSectionID, $iSectionIndex, $aSection, $aFields, $hfSectionCallback, $hfFieldCallback ) {
 
         if ( count( $aFields ) <= 0 ) { return ''; }
         
@@ -340,12 +310,25 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Row {
             . $this->generateAttributes(  
                     array( 
                         'id'    => 'section_table-' . $_sSectionTagID,
-                        'class' => 'form-table', // temporarily deprecated: admin-page-framework-section-table
+                        'class' =>  $this->generateClassAttribute(
+                            'form-table',
+                            'admin-page-framework-section-table'   // referred by the collapsible section script
+                        ),
                     )
                 )
             . ">"
                 . $this->_getCaption( $aSection, $hfSectionCallback, $iSectionIndex, $aFields, $hfFieldCallback )
-                . $this->getFieldRows( $aFields, $hfFieldCallback )
+                . "<tbody " 
+                    . $this->generateAttributes( 
+                        array(
+                            'class' => $aSection['collapsible'] && 'section' === $aSection['collapsible']['position'] 
+                                ? 'admin-page-framework-collapsible-section-content admin-page-framework-collapsible-content accordion-section-content'
+                                : null,
+                        ) 
+                    )
+                . ">"
+                    . $this->getFieldRows( $aFields, $hfFieldCallback )
+                . "</tbody>"
             . "</table>";
             
         $_aSectionAttributes    = $this->uniteArrays(
@@ -368,74 +351,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Row {
             . "</div>";
         
     }
-        /**
-         * Returns the output of the table caption block.
-         * 
-         * @since       3.3.4
-         */
-        private function _getCaption( array $aSection, $hfSectionCallback, $iSectionIndex, $aFields, $hfFieldCallback ) {
-            
-            if ( ! $aSection['description'] && ! $aSection['title'] ) {
-                return "<caption class='admin-page-framework-section-caption' style='display:none;'></caption>";
-            }
-            
-            // For regular repeatable fields, the title should be omitted except the first item.
-            $_sDisplayNone  = ( $aSection['repeatable'] && $iSectionIndex != 0 && ! $aSection['section_tab_slug'] ) || $aSection['collapsible']
-                ? " style='display:none;'"
-                : '';
-            
-            // @todo avoid calling the property but pass it from a parameter.
-            $_sSectionError = isset( $this->aFieldErrors[ $aSection['section_id'] ] ) && is_string( $this->aFieldErrors[ $aSection['section_id'] ] )
-                ? $this->aFieldErrors[ $aSection['section_id'] ]
-                : '';
-            
-            return 
-                "<caption " . $this->generateAttributes( 
-                    array(
-                        'class'             => 'admin-page-framework-section-caption',
-                        // data-section_tab is referred by the repeater script to hide/show the title and the description
-                        'data-section_tab'  => $aSection['section_tab_slug'],
-                    ) 
-                ) . ">"
-                    . ( $aSection['title'] && ! $aSection['section_tab_slug']
-                        ? "<div class='admin-page-framework-section-title' {$_sDisplayNone}>" 
-                                .  $this->_getSectionTitle( $aSection['title'], 'h3', $aFields, $hfFieldCallback )    
-                            . "</div>"
-                        : ""
-                    )     
-                    . ( is_callable( $hfSectionCallback )
-                        ? "<div class='admin-page-framework-section-description'>"     // admin-page-framework-section-description is referred by the repeatable section buttons
-                                . call_user_func_array( $hfSectionCallback, array( $this->_getSectionDescription( $aSection['description'] ) , $aSection ) )
-                            . "</div>"
-                        : ""
-                    )
-                    . ( $_sSectionError  
-                        ? "<div class='admin-page-framework-error'><span class='section-error'>* " . $_sSectionError .  "</span></div>"
-                        : ''
-                    )
-                . "</caption>";
-          
-            
-        }
-            /**
-             * Returns the HTML formatted description blocks by the given description definition.
-             * 
-             * @since   3.3.0
-             * @return  string      The description output.
-             */
-            private function _getSectionDescription( $asDescription ) {
-                
-                if ( empty( $asDescription ) ) { return ''; }
-                
-                $_aOutput = array();
-                foreach( $this->getAsArray( $asDescription ) as $_sDescription ) {
-                    $_aOutput[] = "<p class='admin-page-framework-section-description'>"
-                            . "<span class='description'>{$_sDescription}</span>"
-                        . "</p>";
-                }
-                return implode( PHP_EOL, $_aOutput );
-                
-            }    
+
             
 }
 endif;
