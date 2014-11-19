@@ -449,7 +449,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.3.4 =
-- Added the ability of folding and unfolding sections.
+- Added the ability of collapsing and expanding section containers with the `collapsible` section definition argument.
 - Added the `select_type` argument for the `revealer` custom field type that enables to have checkboxes and radio buttons for the selector.
 
 = 3.3.3 - 2014/11/08 =
