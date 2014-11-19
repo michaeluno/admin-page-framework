@@ -29,7 +29,7 @@ if ( ! class_exists( 'AdminPageFramework_Registry_Base' ) ) :
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.3.4b09
+ * @version             3.3.4b10
  */
 abstract class AdminPageFramework_Registry_Base {
     
