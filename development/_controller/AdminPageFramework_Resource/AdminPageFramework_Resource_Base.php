@@ -217,7 +217,7 @@ abstract class AdminPageFramework_Resource_Base {
         self::$_bCommonStyleLoaded = true;
         
         $_oCaller    = $this->oProp->_getCallerObject();     
-        $sStyle      = $this->oUtil->addAndApplyFilters( 
+        $_sStyle     = $this->oUtil->addAndApplyFilters( 
             $_oCaller, 
             array(
                 "style_common_admin_page_framework",            // 3.2.1+
@@ -225,14 +225,14 @@ abstract class AdminPageFramework_Resource_Base {
             ), 
             AdminPageFramework_CSS::getDefaultCSS() 
         );
-        $sStyle     = $this->oUtil->minifyCSS( $sStyle );
-        if ( $sStyle ) {
+        $_sStyle     = $this->oUtil->minifyCSS( $_sStyle );
+        if ( $_sStyle ) {
             echo "<style type='text/css' id='" . esc_attr( $sIDPrefix ) . "'>"
-                    . $sStyle
+                    . $_sStyle
                 . "</style>";
         }
 
-        $sStyleIE   = $this->oUtil->addAndApplyFilters( 
+        $_sStyleIE   = $this->oUtil->addAndApplyFilters( 
             $_oCaller, 
             array(
                 "style_ie_common_admin_page_framework",         // 3.2.1+
@@ -240,10 +240,12 @@ abstract class AdminPageFramework_Resource_Base {
             ),
             AdminPageFramework_CSS::getDefaultCSSIE() 
         );
-        $sStyleIE   = $this->oUtil->minifyCSS( $sStyleIE );
-        if ( $sStyleIE ) {
+       
+        $_sStyleIE   = $this->oUtil->minifyCSS( $_sStyleIE );
+
+        if ( $_sStyleIE ) {
             echo "<!--[if IE]><style type='text/css' id='" . esc_attr( $sIDPrefix . "-ie" ) . "'>"
-                    . $sStyleIE
+                    . $_sStyleIE
                 . "</style><![endif]-->";
         }
             

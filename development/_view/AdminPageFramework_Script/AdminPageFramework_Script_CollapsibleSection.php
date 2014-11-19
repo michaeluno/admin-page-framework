@@ -39,7 +39,6 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
         $_aParams           = func_get_args() + array( null );
         $_oMsg              = $_aParams[ 0 ];        
 
-
         $_sLabelToggleAll           = $_oMsg->get( 'toggle_all' );
         $_sLabelToggleAllSections   = $_oMsg->get( 'toggle_all_collapsible_sections' );
         $_sDashIconSort             = version_compare( $GLOBALS['wp_version'], '3.8', '<' ) 
@@ -112,7 +111,7 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
                 }
             } );
         } );      
-
+                
     });              
 
 
@@ -125,18 +124,30 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
 
             // Expand or collapse this panel
             var _oThis = jQuery( this );
-            var _oTargetContent = jQuery( this ).hasClass( 'admin-page-framework-collapsible-sections-title' )
+            var _sContainerType = jQuery( this ).hasClass( 'admin-page-framework-collapsible-sections-title' )
+                ? 'sections'
+                : 'section';
+            var _oTargetContent = 'sections' === _sContainerType
                 ? jQuery( this ).next( '.admin-page-framework-collapsible-content' ).first()
                 : jQuery( this ).parent().siblings( 'tbody' );
             var _sAction = _oTargetContent.is( ':visible' ) ? 'collapse' : 'expand';
-            
+
             _oThis.removeClass( 'collapsed' );
             _oTargetContent.slideToggle( 'fast', function(){
+                
+                // For Google Chrome, table-caption will animate smoothly for the 'section' containers (not 'sections' container). For FireFox, 'block' is required. For IE both works.
+                var _bIsChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+                if ( 'expand' === _sAction && 'section' === _sContainerType && ! _bIsChrome ) {
+                    _oTargetContent.css( 'display', 'block' );
+                }
+                
+                // Update the class selector.
                 if ( _oTargetContent.is( ':visible' ) ) {
                     _oThis.removeClass( 'collapsed' );
                 } else {
                     _oThis.addClass( 'collapsed' );
                 }            
+
             } );
             
             // If it is triggered from the toggle all button, do not continue.

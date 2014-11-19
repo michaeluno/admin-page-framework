@@ -451,6 +451,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.3.4 =
 - Added the ability of collapsing and expanding section containers with the `collapsible` section definition argument.
 - Added the `select_type` argument for the `revealer` custom field type that enables to have checkboxes and radio buttons for the selector.
+- Fixed a bug that the layout of form fields broke in Internet Explorer.
 
 = 3.3.3 - 2014/11/08 =
 - Added the framework version indication at the bottom of form sections in meta-boxes and widgets when `WP_Debug` is true.

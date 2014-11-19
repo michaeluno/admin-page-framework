@@ -24,6 +24,7 @@ class AdminPageFramework_CSS {
      * @internal
      */
     static public function getDefaultCSS() {
+
         $_sCSS = <<<CSSRULES
 /* Settings Notice */
 .wrap div.updated.admin-page-framework-settings-notice-container, 
@@ -51,14 +52,14 @@ class AdminPageFramework_CSS {
     width: 100%; /* This allows float:right elements to go to the very right end of the page. */
 }
 
-/* Heading - the meta box container element affects the styles of regular main content output. So it needs to be fixed. */
-#poststuff .admin-page-framework-content h3 {
+/* Regular Heading Titles - the meta box container element affects the styles of regular main content output. So it needs to be fixed. */
+.admin-page-framework-container #poststuff .admin-page-framework-content h3 {
     font-weight: bold;
     font-size: 1.3em;
     margin: 1em 0;
     padding: 0;
     font-family: 'Open Sans', sans-serif;
-}
+} 
 
 /* In-page tabs */ 
 .admin-page-framework-in-page-tab .nav-tab.nav-tab-active {
@@ -408,10 +409,13 @@ CSSRULES;
 }
 
 tbody.admin-page-framework-collapsible-content {
-    display: table-caption; /* For some reasons, this display mode gives smooth animation */
+    display: table-caption;     /* 'block' will be assigned in JavaScript if the browser is not Chrome */
     padding: 10px 20px 15px 20px;
 }
-
+/* Collapsible section containers get this class selector in Google Chrome */
+tbody.admin-page-framework-collapsible-content.table-caption {
+    display: table-caption; /* For some reasons, this display mode gives smooth animation in Google Chrome */
+}
 /* The Toggle All button */
 .admin-page-framework-collapsible-toggle-all-button-container {
     margin-top: 1em;
@@ -440,11 +444,6 @@ tbody.admin-page-framework-collapsible-content {
     margin-top: 0;
 }
 
-/* .admin-page-framework-collapsible-section-title:before {
-    content: '';
-    display: table;
-    clear: left;
-} */
 .admin-page-framework-collapsible-section-title .repeatable-section-button {
     background: none;   /* for Wordpress v3.7.x or below, the background image need to be removed as well */
 }
@@ -481,7 +480,8 @@ CSSRULES;
          * @since       3.3.0
          * @internal
          */
-        static private function _getMetaBoxFormRules() {            
+        static private function _getMetaBoxFormRules() {     
+
             return <<<CSSRULES
 /* Meta-box form fields */
 .postbox .title-colon {
@@ -493,6 +493,9 @@ CSSRULES;
     display: inline-block;
     width: 100%;
     padding: 0;
+    /* 3.3.4+ In IE inline-block does not take effect for td and th so make them float */
+    float: right;
+    clear: right; 
 }
 
 .postbox .admin-page-framework-field {
@@ -548,6 +551,9 @@ CSSRULES;
     display: inline-block;
     width: 100%;
     padding: 0;
+    /* 3.3.4+ In IE inline-block does not take effect for td and th so make them float */
+    float: right;
+    clear: right;     
 }
 
 .widget .admin-page-framework-field,
@@ -704,7 +710,18 @@ CSSRULES;
      * @internal
      */
     static public function getDefaultCSSIE() {
-        return '';
+
+        return <<<CSSRULES
+/* Collapsible sections - in IE tbody and tr cannot set paddings */        
+tbody.admin-page-framework-collapsible-content > tr > th,
+tbody.admin-page-framework-collapsible-content > tr > td
+{
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+CSSRULES;
+
     }
     
 }
