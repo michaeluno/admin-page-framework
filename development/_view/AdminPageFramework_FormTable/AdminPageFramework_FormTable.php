@@ -196,7 +196,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             $_aOutput           = array();
             $_sSectionsID       = 'sections-' . md5( serialize( $aSections ) );
             $_aCollapsible      = $this->_getCollapsibleArgument( $aSections );
-            $_aCollapsible      = isset( $_aCollapsible['position'] ) && 'sections' === $_aCollapsible['position'] ? $_aCollapsible : array();
+            $_aCollapsible      = isset( $_aCollapsible['container'] ) && 'sections' === $_aCollapsible['container'] ? $_aCollapsible : array();
         
             foreach( $aSections as $_sSectionID => $_aSection ) {
                 
@@ -217,7 +217,9 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                     foreach( $this->numerizeElements( $_aSubSections ) as $_iIndex => $_aFields ) { // will include the main section as well.
                                   
                         // Tab list
-                        $_aSectionTabList[] = $this->_getTabList( $_sSectionID, $_iIndex, $_aSection, $_aFields, $hfFieldCallback );
+if ( empty( $_aCollapsible ) ) {
+                            $_aSectionTabList[] = $this->_getTabList( $_sSectionID, $_iIndex, $_aSection, $_aFields, $hfFieldCallback );
+                        }
                         // Section container
                         $_aOutput[] = $this->_getSectionTable( $_sSectionID, $_iIndex, $_aSection, $_aFields, $hfSectionCallback, $hfFieldCallback );
                         
@@ -304,6 +306,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
 
         if ( count( $aFields ) <= 0 ) { return ''; }
         
+        $_bCollapsible  = $aSection['collapsible'] && 'section' === $aSection['collapsible']['container'];
         $_sSectionTagID = 'section-' . $sSectionID . '__' . $iSectionIndex;
         $_aOutput       = array();
         $_aOutput[]     = "<table "
@@ -321,7 +324,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 . "<tbody " 
                     . $this->generateAttributes( 
                         array(
-                            'class' => $aSection['collapsible'] && 'section' === $aSection['collapsible']['position'] 
+                            'class' => $_bCollapsible
                                 ? 'admin-page-framework-collapsible-section-content admin-page-framework-collapsible-content accordion-section-content'
                                 : null,
                         ) 
@@ -335,8 +338,15 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             $this->dropElementsByType( $aSection['attributes'] ),   // remove elements of an array.
             array( 
                 'id'            => $_sSectionTagID, // section-{section id}__{index}
-                'class'         => 'admin-page-framework-section'
-                    . ( $aSection['section_tab_slug'] ? ' admin-page-framework-tab-content' : null ),
+                'class'         => $this->generateClassAttribute( 
+                    'admin-page-framework-section',
+                    $aSection['section_tab_slug'] 
+                        ? 'admin-page-framework-tab-content' 
+                        : null,
+                    $_bCollapsible
+                        ? 'is_subsection_collapsible' // when this is present, the section repeater script does not repeat tabs.
+                        : null
+                ),
                 // [3.3.1+] The repeatable script refers to this model value to generate new IDs.
                 'data-id_model' => 'section-' . $sSectionID . '__' . '-si-',
             )     

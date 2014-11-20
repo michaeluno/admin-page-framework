@@ -110,12 +110,12 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
      * 
      * @since       3.3.4
      * @param       array|boolean   $aCollapsible       The collapsible argument.
-     * @param       string          $sPosition          The position context. Accepts either 'sections' or 'section'. If the set position in the argument array does not match this value, the method will return an empty string.
+     * @param       string          $sContainer          The position context. Accepts either 'sections' or 'section'. If the set position in the argument array does not match this value, the method will return an empty string.
      */
-    protected function _getCollapsibleSectionTitleBlock( array $aCollapsible, $sPosition='sections', array $aFields=array(), $hfFieldCallback=null ) {
+    protected function _getCollapsibleSectionTitleBlock( array $aCollapsible, $sContainer='sections', array $aFields=array(), $hfFieldCallback=null ) {
 
         if ( empty( $aCollapsible ) ) { return ''; }
-        if ( $sPosition !== $aCollapsible['position'] ) { return ''; }
+        if ( $sContainer !== $aCollapsible['container'] ) { return ''; }
         
         return $this->_getCollapsibleSectionsEnablerScript()
             . "<div " . $this->generateAttributes(
@@ -124,7 +124,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
                         'admin-page-framework-section-title',
                         'accordion-section-title',
                         'admin-page-framework-collapsible-title',
-                        'sections' === $aCollapsible['position']
+                        'sections' === $aCollapsible['container']
                             ? 'admin-page-framework-collapsible-sections-title'
                             : 'admin-page-framework-collapsible-section-title',
                         $aCollapsible['is_collapsed'] ? 'collapsed' : ''
@@ -186,15 +186,25 @@ JAVASCRIPTS;
     }
         
     /**
+     * Stores the set container IDs to prevent multiple calls.
+     * 
+     * Collapsible and tabbed sections can call this method multiple times with the same container ID.
+     * 
+     * @since       3.3.4
+     */
+    static private $_aSetContainerIDsForRepeatableSections = array();
+    /**
      * Returns the enabler script of repeatable sections.
      * @since       3.0.0
      * @since       3.3.4       Moved from `AdminPageFramework_FormTable`.
      */
     protected function _getRepeatableSectionsEnablerScript( $sContainerTagID, $iSectionCount, $aSettings ) {
         
-        new AdminPageFramework_Script_RepeatableSection( $this->oMsg );
-        
         if ( empty( $aSettings ) ) { return ''; }
+        if ( in_array( $sContainerTagID, self::$_aSetContainerIDsForRepeatableSections ) ) { return ''; }
+        self::$_aSetContainerIDsForRepeatableSections[ $sContainerTagID ] = $sContainerTagID;
+        
+        new AdminPageFramework_Script_RepeatableSection( $this->oMsg );
         $aSettings              = $this->getAsArray( $aSettings ) + array( 'min' => 0, 'max' => 0 ); 
         $_sAdd                  = $this->oMsg->get( 'add_section' );
         $_sRemove               = $this->oMsg->get( 'remove_section' );

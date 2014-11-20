@@ -69,7 +69,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
      */
     public function replyToAddFormElements( $oAdminPage ) {
         
-        // Section
+        // Sections
         $oAdminPage->addSettingSections(    
             $this->sPageSlug, // the target page slug                
             array(
@@ -141,7 +141,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 ),
             )         
         );
-        // Collapsible sections examples
+        // Collapsible repeatable sections examples
         $oAdminPage->addSettingSections(    
             $this->sPageSlug, // the target page slug  
             array(
@@ -150,13 +150,12 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'description'       => __( 'This section can be expanded, collapsed and repeated.', 'admin-page-framework-demo' ),
                 'collapsible'       => array(
                     'show_toggle_all_button' => true,
-                    'position'               => 'section',
+                    'container'              => 'section',
                 ),
                 'repeatable'        => true, // this makes the section repeatable
             )
         );
-   
-   
+     
         // Fields
         $oAdminPage->addSettingFields(
             'section_title_field_type', // the target section ID
@@ -298,15 +297,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'type' => 'media',
                 'repeatable' =>    true,
                 'sortable' =>    true,
-            ),     
-            // array(
-                // 'field_id'      => 'textarea_in_tabbed_sections_in_repeatable_sections',
-                // 'title'         => __( 'Textarea', 'admin-page-framework-demo' ),
-                // 'type'          => 'textarea',
-                // 'rich'          => true,
-                // 'repeatable'    => true,
-                // 'sortable'   => true,
-            // ),               
+            ),                 
             array()
         );      
 

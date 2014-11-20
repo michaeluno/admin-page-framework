@@ -147,7 +147,7 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         });
         
         /* For tabbed sections - add the title tab list */
-        if ( nodeTabsContainer.length > 0 ) {
+        if ( nodeTabsContainer.length > 0 && ! nodeSectionContainer.hasClass( 'is_subsection_collapsible' ) ) {
             
             /* The clicked(copy source) section tab */
             var nodeTab = nodeTabsContainer.find( '#section_tab-' + sSectionContainerID );
@@ -225,8 +225,9 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
          * @since 3.1.6 Changed it to do after removing the element.
          */                
         var oNextAllSections = nodeSectionContainer.nextAll();
+        var _bIsSubsectionCollapsible  = nodeSectionContainer.hasClass( 'is_subsection_collapsible' );
         
-        /* Remove the field */
+        /* Remove the section */
         nodeSectionContainer.remove();
         
         /* Decrement the names and ids of the next following siblings. */
@@ -242,7 +243,7 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         });
         
         /* For tabbed sections - remove the title tab list */
-        if ( nodeTabsContainer.length > 0 && nodeTabs.length > 1 ) {
+        if ( nodeTabsContainer.length > 0 && nodeTabs.length > 1 && ! _bIsSubsectionCollapsible ) {
             nodeSelectionTab = nodeTabsContainer.find( '#section_tab-' + sSectionConteinrID );
             nodeSelectionTab.nextAll().each( function() {
                 $( this ).find( 'a.anchor' ).decrementIDAttribute( 'href' );
@@ -260,8 +261,7 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         
         /* Count the remaining Remove buttons and if it is one, disable the visibility of it */
         var nodeRemoveButtons = nodeSectionsContainer.find( '.repeatable-section-remove' );
-        if ( nodeRemoveButtons.length == 1 ) {
-            
+        if ( 1 === nodeRemoveButtons.length ) {
             nodeRemoveButtons.css( 'display', 'none' );
             
             /* Also if this is not for tabbed sections, do show the title */
