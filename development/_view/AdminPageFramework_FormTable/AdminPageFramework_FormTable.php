@@ -82,6 +82,8 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
         $this->_divideElementsBySectionTabs( $aSections, $aFieldsInSections );
         foreach( $aSections as $_sSectionTabSlug => $_aSectionsBySectionTab ) {
             
+            if ( ! count( $aFieldsInSections[ $_sSectionTabSlug ] ) ) { continue; }
+          
             $_sSectionSet = $this->_getSectionsTables( 
                 $_aSectionsBySectionTab, 
                 $aFieldsInSections[ $_sSectionTabSlug ],
@@ -147,13 +149,19 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             $_iIndex                = 0;
 
             foreach( $aSections as $_sSectionID => $_aSection ) {
+
+                // If no fields for the section, no need to add the section
+                if ( ! isset( $aFields[ $_sSectionID ] ) ) {
+                    continue;
+                }            
+                
                 $_sSectionTaqbSlug = $_aSection['section_tab_slug'] 
                     ? $_aSection['section_tab_slug']
                     : '_default_' . ( ++$_iIndex );                
+                                        
                 $_aSectionsBySectionTab[ $_sSectionTaqbSlug ][ $_sSectionID ] = $_aSection;
-                $_aFieldsBySectionTab[ $_sSectionTaqbSlug ][ $_sSectionID ]   = isset( $aFields[ $_sSectionID ] ) 
-                    ? $aFields[ $_sSectionID ]
-                    : array();
+                $_aFieldsBySectionTab[ $_sSectionTaqbSlug ][ $_sSectionID ]   = $aFields[ $_sSectionID ];
+                    
             }
             
             $aSections  = $_aSectionsBySectionTab;
@@ -190,7 +198,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
 
             // if empty, return a blank string.
             if ( empty( $aSections ) ) { return ''; } 
-        
+            
             $_sSectionTabSlug   = '';
             $_aSectionTabList   = array();
             $_aOutput           = array();
@@ -217,7 +225,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                     foreach( $this->numerizeElements( $_aSubSections ) as $_iIndex => $_aFields ) { // will include the main section as well.
                                   
                         // Tab list
-if ( empty( $_aCollapsible ) ) {
+                        if ( empty( $_aCollapsible ) ) {    // this check is just a remain of an attempt to make section tabs and collapsible section work together but it was not possible.
                             $_aSectionTabList[] = $this->_getTabList( $_sSectionID, $_iIndex, $_aSection, $_aFields, $hfFieldCallback );
                         }
                         // Section container
