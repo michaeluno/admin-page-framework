@@ -12,7 +12,7 @@ if ( ! class_exists( 'AdminPageFramework_FormTable_Caption' ) ) :
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       3.3.4
+ * @since       3.4.0
  * @internal
  */
 abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_FormTable_Row {
@@ -20,7 +20,7 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
     /**
      * Returns the output of the table caption block.
      * 
-     * @since       3.3.4
+     * @since       3.4.0
      */
     protected function _getCaption( array $aSection, $hfSectionCallback, $iSectionIndex, $aFields, $hfFieldCallback ) {
         
@@ -46,7 +46,7 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
         /**
          * Returns the section validation error message.
          * 
-         * @since       3.3.4
+         * @since       3.4.0
          * @todo        avoid calling the property but pass it from a parameter.
          */
         private function _getSectionError( $aSection ) {
@@ -64,7 +64,7 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
         /**
          * Returns the section title block for the section table caption block.
          * 
-         * @since       3.3.4
+         * @since       3.4.0
          */
         private function _getCaptionTitle( $aSection, $iSectionIndex, $aFields, $hfFieldCallback ) {
             return "<div " . $this->generateAttributes(
@@ -80,7 +80,7 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
         }
         /**
          * Returns the section description for the section table caption block.
-         * @since       3.3.4
+         * @since       3.4.0
          */
         private function _getCaptionDescription( $aSection, $hfSectionCallback ) {
             
@@ -99,7 +99,7 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
         /**
          * Returns whether the title in the caption block should be displayed or not.
          * 
-         * @since   3.3.4
+         * @since   3.4.0
          * @return  boolean
          */
         private function _shouldShowCaptionTitle( $aSection, $iSectionIndex ) {
@@ -123,7 +123,7 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
          * Returns the HTML formatted description blocks by the given description definition.
          * 
          * @since       3.3.0
-         * @since       3.3.4       Moved from `AdminPageFramework_FormTable`.
+         * @since       3.4.0       Moved from `AdminPageFramework_FormTable`.
          * @return      string      The description output.
          */
         private function _getSectionDescription( $asDescription ) {

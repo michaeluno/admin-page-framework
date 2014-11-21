@@ -139,7 +139,7 @@ JAVASCRIPTS;
          * Returns the JavaScript script that updates the checked attribute of radio buttons when the user select one.
          * This helps repeatable field script that duplicate the last checked item.
          * @since       3.0.0
-         * @since       3.3.4       Changed the parameter to accept input id from the container tag id to prepare for the support of nested fields.
+         * @since       3.4.0       Changed the parameter to accept input id from the container tag id to prepare for the support of nested fields.
          */
         private function _getUpdateCheckedScript( $sInputID ) {
 

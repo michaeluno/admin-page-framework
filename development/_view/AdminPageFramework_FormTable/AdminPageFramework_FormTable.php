@@ -139,7 +139,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
          *          ...
          * )
          * </code>
-         * @since       3.3.4
+         * @since       3.4.0
          * @return      void
          */
         private function _divideElementsBySectionTabs( array &$aSections, array &$aFields ) {
@@ -188,7 +188,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
          * And inside it 'admin-page-framework-section' elements will be placed.
          * 
          * @since       3.0.0
-         * @since       3.3.4       Removed the $sSectionTabSlug parameter. Changed the name from `_getFormTablesBySectionTab()`.
+         * @since       3.4.0       Removed the $sSectionTabSlug parameter. Changed the name from `_getFormTablesBySectionTab()`.
          * @param       array       $aSections                  A sections definition array. (already divided by section tab).
          * @param       array       $aFieldsInSections          A fields definition array. (already divided by section tab).
          * @param       callable    $hfSectionCallback      
@@ -273,7 +273,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             /**
              * Returns the output of a list tab element for tabbed sections.
              * 
-             * @since       3.3.4
+             * @since       3.4.0
              */
             private function _getTabList( $sSectionID, $iIndex, array $aSection, array $aFields, $hfFieldCallback ) {
                 
@@ -302,7 +302,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
      * 
      * @since       3.0.0
      * @since       3.3.1       Now the first parameter is for the section ID not the tag ID.
-     * @since       3.3.4       Changed the name from `getFormTable()`.
+     * @since       3.4.0       Changed the name from `getFormTable()`.
      * @param       string      $sSectionID          The section ID specified by the user.
      * @param       integer     $iSectionIndex       The section index. Zero based.
      * @param       array       $aSection            The section definition array,

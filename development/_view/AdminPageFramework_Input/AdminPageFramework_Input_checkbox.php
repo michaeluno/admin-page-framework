@@ -12,7 +12,7 @@ if ( ! class_exists( 'AdminPageFramework_Input_checkbox' ) ) :
  * 
  * @package         AdminPageFramework
  * @subpackage      FormInput
- * @since           3.3.4       
+ * @since           3.4.0       
  * @internal
  */
 class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
@@ -20,7 +20,7 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
     /**
      * Returns the output of the input element.
      * 
-     * @since       3.3.4    
+     * @since       3.4.0    
      * @param       string      $sLabel         The label text.
      * @param       array       $aAttributes    The attribute array.  
      */    
@@ -56,7 +56,7 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
     /**
      * Calculates and returns the attributes as an array.
      * 
-     * @since       3.3.4
+     * @since       3.4.0
      */
     public function getAttributeArray( /* $sKey */ ) {
         

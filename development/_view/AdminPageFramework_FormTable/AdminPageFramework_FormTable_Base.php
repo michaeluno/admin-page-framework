@@ -58,7 +58,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
      * Returns the section title output.
      * 
      * @since       3.0.0
-     * @since       3.3.4   Moved from `AdminPageFramework_FormTable`.
+     * @since       3.4.0   Moved from `AdminPageFramework_FormTable`.
      */
     protected function _getSectionTitle( $sTitle, $sTag, $aFields, $hfFieldCallback ) {
         
@@ -72,7 +72,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
          * Returns the first found `section_title` field.
          * 
          * @since       3.0.0
-         * @since       3.3.4       Moved from `AdminPageFramework_FormTable`.
+         * @since       3.4.0       Moved from `AdminPageFramework_FormTable`.
          */
         private function _getSectionTitleField( array $aFields ) {   
             foreach( $aFields as $_aField ) {
@@ -85,7 +85,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
     /**
      * Returns the collapsible argument array from the given sections definition array.
      * 
-     * @since   3.3.4
+     * @since   3.4.0
      */
     protected function _getCollapsibleArgument( array $aSections=array(), $iSectionIndex=0 ) {
         
@@ -108,7 +108,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
     /**
      * Returns the output of a title block of the given collapsible section.
      * 
-     * @since       3.3.4
+     * @since       3.4.0
      * @param       array|boolean   $aCollapsible       The collapsible argument.
      * @param       string          $sContainer          The position context. Accepts either 'sections' or 'section'. If the set position in the argument array does not match this value, the method will return an empty string.
      */
@@ -167,13 +167,13 @@ JAVASCRIPTS;
     /**
      * Indicates whether the collapsible script is loaded or not.
      * 
-     * @since   3.3.4
+     * @since   3.4.0
      */
     static private $_bLoadedCollapsibleSectionsEnablerScript = false;
     
     /**
      * Returns the enabler script of collapsible sections.
-     * @since   3.3.4
+     * @since   3.4.0
      */
     protected function _getCollapsibleSectionsEnablerScript() {
         
@@ -190,13 +190,13 @@ JAVASCRIPTS;
      * 
      * Collapsible and tabbed sections can call this method multiple times with the same container ID.
      * 
-     * @since       3.3.4
+     * @since       3.4.0
      */
     static private $_aSetContainerIDsForRepeatableSections = array();
     /**
      * Returns the enabler script of repeatable sections.
      * @since       3.0.0
-     * @since       3.3.4       Moved from `AdminPageFramework_FormTable`.
+     * @since       3.4.0       Moved from `AdminPageFramework_FormTable`.
      */
     protected function _getRepeatableSectionsEnablerScript( $sContainerTagID, $iSectionCount, $aSettings ) {
         

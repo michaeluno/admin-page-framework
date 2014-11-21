@@ -116,7 +116,7 @@ class RevealerCustomFieldType extends AdminPageFramework_FieldType {
         /**
          * Sanitize (re-format) the field definition array to get the field output by the select type.
          * 
-         * @since       3.3.4
+         * @since       3.4.0
          */
         private function _sanitizeInnerFieldArray( array $aField ) {
             

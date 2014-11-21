@@ -12,7 +12,7 @@ if ( ! class_exists( 'AdminPageFramework_Input_Base' ) ) :
  * 
  * @package     AdminPageFramework
  * @subpackage  FormInput
- * @since       3.3.4
+ * @since       3.4.0
  * @internal
  */
 abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtility {
@@ -20,21 +20,21 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtilit
     /**
      * Stores the field definition array.
      * 
-     * @since       3.3.4
+     * @since       3.4.0
      */
     public $aField = array();
 
     /**
      * Stores the options of how the input elements should be constructed.
      * 
-     * @since       3.3.4
+     * @since       3.4.0
      */
     public $aOptions = array();
     
     /**
      * Represents the structure of the options array.
      * 
-     * @since       3.3.4
+     * @since       3.4.0
      */
     public $aStructureOptions = array(
         'input_container_tag'          => 'span',
@@ -50,7 +50,7 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtilit
     /**
      * Sets up properties.
      * 
-     * @since       3.3.4
+     * @since       3.4.0
      */
     public function __construct( array $aField, array $aOptions=array() ) {
         
@@ -63,7 +63,7 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtilit
      * Returns the output of the input element.
      * 
      * @remark       This method should be overridden in each extended class.
-     * @since        3.3.4     
+     * @since        3.4.0     
      */
     public function get() {}
     

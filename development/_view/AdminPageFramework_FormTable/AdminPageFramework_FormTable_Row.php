@@ -12,7 +12,7 @@ if ( ! class_exists( 'AdminPageFramework_FormTable_Row' ) ) :
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       3.3.4
+ * @since       3.4.0
  * @internal
  */
 class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base {
@@ -120,7 +120,7 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
         /**
          * Returns the field output with the given opening and closing HTML tags.
          * 
-         * @since       3.3.4
+         * @since       3.4.0
          * @todo        Examine whether it is necessary to pass the raw field definition array to the callback because the %aFieldFinal can be used instead of $aField and reduce the parameter. 
          * @param       array       $aField         The passed intact field definition array. The field rendering class needs non-finalized field array to construct the field array. 
          * @param       array       $aFieldFinal    The field array merged with the default values of the field type. 
@@ -158,7 +158,7 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
          * 
          * @internal
          * @since       3.0.0
-         * @since       3.3.4       Changed the name from `_mergeDefault()`.
+         * @since       3.4.0       Changed the name from `_mergeDefault()`.
          * @remark      The returning merged field definition array does not respect sub-fields so when passing the field definition to the callback,
          * do not use the array returned from this method but the raw (non-merged) array.
          */

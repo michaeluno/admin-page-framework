@@ -12,7 +12,7 @@ if ( ! class_exists( 'AdminPageFramework_Input_select' ) ) :
  * 
  * @package         AdminPageFramework
  * @subpackage      FormInput
- * @since           3.3.4       
+ * @since           3.4.0       
  * @internal
  */
 class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
@@ -20,7 +20,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
     /**
      * Represents the structure of the options array.
      * 
-     * @since       3.3.4
+     * @since       3.4.0
      */
     public $aStructureOptions = array(
         'input_container_tag'          => 'span',
@@ -37,7 +37,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
      * Returns the output of the input element.
      * 
      * @remark       This method should be overridden in each extended class.
-     * @since        3.3.4     
+     * @since        3.4.0     
      */    
     public function get() {
 
@@ -75,7 +75,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
          * @since       2.0.1       Added the $vValue parameter to the second parameter. This is the result of supporting the size field type.
          * @since       2.1.5       Added the $tag_id parameter.
          * @since       3.0.0       Reconstructed entirely.
-         * @since       3.3.4  
+         * @since       3.4.0  
          * @internal
          * @param       string      $sInputID           The input ID that will be the base of each generated option tag ID.
          * @param       array       $aLabels            The array holding labels.
@@ -128,7 +128,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
         }
             /**
              * 
-             * @sicne       3.3.4
+             * @sicne       3.4.0
              */
             private function _getOptionTag( $sLabel, array $aAttributes=array() ) {
               

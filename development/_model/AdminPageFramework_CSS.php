@@ -89,7 +89,7 @@ CSSRULES;
          /**
          * Returns the CSS rules for form fields.
          * 
-         * @since       3.3.4
+         * @since       3.4.0
          * @internal
          */    
         static private function _getFormSectionRules() {
@@ -182,9 +182,9 @@ td.admin-page-framework-field-td-no-title {
 }
 /* Section Title */
 .admin-page-framework-section .admin-page-framework-section-title {
-    /* background: none; */               /* @todo examine what this is for. @deprecated 3.3.4 for repeatable collapsible section titles */
-    /* -webkit-box-shadow: none; */       /* @todo examine what this is for. @deprecated 3.3.4 for repeatable collapsible section titles */
-    /* _box-shadow: none; */              /* @todo examine what this is for. @deprecated 3.3.4 for repeatable collapsible section titles */
+    /* background: none; */               /* @todo examine what this is for. @deprecated 3.4.0 for repeatable collapsible section titles */
+    /* -webkit-box-shadow: none; */       /* @todo examine what this is for. @deprecated 3.4.0 for repeatable collapsible section titles */
+    /* _box-shadow: none; */              /* @todo examine what this is for. @deprecated 3.4.0 for repeatable collapsible section titles */
 }
 
 /* Fields Container */
@@ -343,7 +343,7 @@ CSSRULES;
         /**
          * Returns the collapsible sections specific CSS rules.
          * 
-         * @since       3.3.4
+         * @since       3.4.0
          * @internal
          */
         static private function _getCollapsibleSectionsRules() {
@@ -493,7 +493,7 @@ CSSRULES;
     display: inline-block;
     width: 100%;
     padding: 0;
-    /* 3.3.4+ In IE inline-block does not take effect for td and th so make them float */
+    /* 3.4.0+ In IE inline-block does not take effect for td and th so make them float */
     float: right;
     clear: right; 
 }
@@ -551,7 +551,7 @@ CSSRULES;
     display: inline-block;
     width: 100%;
     padding: 0;
-    /* 3.3.4+ In IE inline-block does not take effect for td and th so make them float */
+    /* 3.4.0+ In IE inline-block does not take effect for td and th so make them float */
     float: right;
     clear: right;     
 }

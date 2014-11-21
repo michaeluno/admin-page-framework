@@ -133,8 +133,8 @@ class AdminPageFramework_Message {
             'allowed_minimum_number_of_sections'    => null,
             'add_section'                           => null,
             'remove_section'                        => null,
-            'toggle_all'                            => null,    // 3.3.4+
-            'toggle_all_collapsible_sections'       => null,    // 3.3.4+
+            'toggle_all'                            => null,    // 3.4.0+
+            'toggle_all_collapsible_sections'       => null,    // 3.4.0+
             
             // AdminPageFramework_FieldType_reset   
             'reset'                                 => null,    // 3.3.0+

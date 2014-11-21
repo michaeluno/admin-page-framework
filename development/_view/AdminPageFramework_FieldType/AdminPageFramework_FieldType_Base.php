@@ -122,7 +122,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
      * Returns another field output by the given field definition array.
      * 
      * This is used to create nested fields or dynamically create a differnt type of field.
-     * @since       3.3.4
+     * @since       3.4.0
      * @return      string      The field output.
      */
     protected function geFieldOutput( array $aField ) {

@@ -10,7 +10,7 @@ if ( ! class_exists( 'AdminPageFramework_Script_CollapsibleSection' ) ) :
 /**
  * Provides JavaScript utility scripts.
  * 
- * @since       3.3.4
+ * @since       3.4.0
  * @package     AdminPageFramework
  * @subpackage  JavaScript
  * @internal
@@ -20,7 +20,7 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
     /**
      * The user constructor.
      * 
-     * @since       3.3.4
+     * @since       3.4.0
      */
     public function construct() {
 
@@ -32,7 +32,7 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
     /**
      * Returns the script.
      * 
-     * @since       3.3.4
+     * @since       3.4.0
      */
     static public function getScript() {
         

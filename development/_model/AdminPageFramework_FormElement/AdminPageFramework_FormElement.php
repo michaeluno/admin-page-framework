@@ -49,12 +49,12 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             'tab'           => array(),
         ),
         'hidden'            => false,    // 3.3.1+
-        'collapsible'       => false,    // 3.3.4+ (boolean|array) For the array structure see the $_aStructure_CollapsibleArguments property.
+        'collapsible'       => false,    // 3.4.0+ (boolean|array) For the array structure see the $_aStructure_CollapsibleArguments property.
     );    
     
     /**
      * Represents the structure of the 'collapsible' argument.
-     * @since       3.3.4
+     * @since       3.4.0
      */
     static public $_aStructure_CollapsibleArguments = array(
         'title'                     => null,    // (string)  the section title will be assigned by default in the section formatting method.
@@ -109,8 +109,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             'fields'    =>  array(),
             'field'     =>  array(),
         ), 
-        '_caller_object'    => null,    // 3.3.4+ - stores the object of the caller class. The object is referenced when creating nested fields.
-        '_nested_depth'     => 0,       // 3.3.4+ - stores the level of the nesting depth. This is mostly used for debugging by checking if the field is a nested field or not.
+        '_caller_object'    => null,    // 3.4.0+ - stores the object of the caller class. The object is referenced when creating nested fields.
+        '_nested_depth'     => 0,       // 3.4.0+ - stores the level of the nesting depth. This is mostly used for debugging by checking if the field is a nested field or not.
     );    
     
     /**
@@ -168,7 +168,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      * Stores the default capability.
      * 
      * @since       3.0.0
-     * @since       3.3.4       Added the $oCaller parameter.
+     * @since       3.4.0       Added the $oCaller parameter.
      * 
      * @param       string      $sFieldsType
      * @param       string      $sCapability    
@@ -353,7 +353,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                 
             $aSection['order'] = is_numeric( $aSection['order'] ) ? $aSection['order'] : $iCountOfElements + 10;
             
-            // 3.3.4
+            // 3.4.0
             $aSection['collapsible'] = empty( $aSection['collapsible'] ) 
                 ? $aSection['collapsible']
                 : $this->getAsArray( $aSection['collapsible'] ) + array(
