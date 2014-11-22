@@ -62,3 +62,13 @@ new APF_MetaBox_CollapsibleSections(
     'normal',
     'low'
 );
+
+include( dirname( __FILE__ ) . '/APF_MetaBox_RepeatableCollapsibleSections.php' );
+new APF_MetaBox_RepeatableCollapsibleSections(
+    null,   // meta box id
+    __( 'Repeatable Collapsible Sections', 'admin-page-framework-demo' ),
+    array( 'apf_posts' ),                             
+    'normal',
+    'low'
+);
+
