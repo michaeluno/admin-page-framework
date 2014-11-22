@@ -157,18 +157,6 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *            'description'   => __( 'These are selector type options such as dropdown lists, radio buttons, and checkboxes', 'your-text-domain' ),
      *       )
      * );</code>
-     * <code>$this->addSettingSections(
-     *      array(
-     *          'section_id'        => 'collapsible_repeatable_section',
-     *          'title'             => __( 'Collapsible Repeatable Section', 'admin-page-framework-demo' ),
-     *          'collapsible'       => array(
-     *              'toggle_all_button' => array( 'top-left', 'bottom-left' ),
-     *              'container'         => 'section',
-     *          ),
-     *          'repeatable'        => true, // this makes the section repeatable
-     *      )
-     *  );
-     * </code>
      * @since       3.0.0     
      * @access      public
      * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
@@ -203,6 +191,18 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *              <li>**collapse_others_on_expand** - (optional, boolean) whether the other collapsible sections should be folded when the section is unfolded. If the below `container` argument is set to `section`, this argument value does not take effect.</li>
      *              <li>**container** - (optional, string) the container element that collapsible styling gets applied to. Either 'sections' or 'section' is accepted. Use 'section' for repeatable sections.</li>
      *          </ul>
+     * <pre><code>$this->addSettingSections(
+     *      array(
+     *          'section_id'        => 'collapsible_repeatable_section',
+     *          'title'             => __( 'Collapsible Repeatable Section', 'admin-page-framework-demo' ),
+     *          'collapsible'       => array(
+     *              'toggle_all_button' => array( 'top-left', 'bottom-left' ),
+     *              'container'         => 'section',
+     *          ),
+     *          'repeatable'        => true,
+     *      )
+     *  );
+     * </code></pre>
      *      </li>
      * </ul>
      * @param       array       (optional) another section array.
