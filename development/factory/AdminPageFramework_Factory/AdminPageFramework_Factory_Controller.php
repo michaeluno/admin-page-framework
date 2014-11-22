@@ -144,8 +144,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * 
      * It inserts the given section definition arrays into the class property and later they are parsed when sections are registered. The section definition array have required keys. Refer to the parameter section of this method.
      * 
-     * @example
-     * <pre><code>$this->addSettingSections(
+     * <h3>Example</h3>
+     * <code>$this->addSettingSections(
      *       array(
      *            'section_id'    => 'text_fields',
      *            'title'         => __( 'Text Fields', 'your-text-domain' ),
@@ -156,13 +156,24 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *            'title'         => __( 'Selectors', 'your-text-domain' ),
      *            'description'   => __( 'These are selector type options such as dropdown lists, radio buttons, and checkboxes', 'your-text-domain' ),
      *       )
-     * );</code></pre>
-     *
+     * );</code>
+     * <code>$this->addSettingSections(
+     *      array(
+     *          'section_id'        => 'collapsible_repeatable_section',
+     *          'title'             => __( 'Collapsible Repeatable Section', 'admin-page-framework-demo' ),
+     *          'collapsible'       => array(
+     *              'toggle_all_button' => array( 'top-left', 'bottom-left' ),
+     *              'container'         => 'section',
+     *          ),
+     *          'repeatable'        => true, // this makes the section repeatable
+     *      )
+     *  );
+     * 
      * @since       3.0.0     
      * @access      public
      * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
      * @remark      The target section tab slug will be reset once the method returns.
-     * @param       array|string     the section array or the target page slug. If the target page slug is set, the next section array can omit the page slug key.
+     * @param       array     the section definition array.
      * <strong>Section Array</strong>
      * <ul>
      *      <li>**section_id** - (string) the section ID. Avoid using non-alphabetic characters except underscore and numbers.</li>
@@ -172,15 +183,25 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *      <li>**order** - (optional, integer) the order number of the section. The higher the number is, the lower the position it gets.</li>
      *      <li>**help** - (optional, string) the help description added to the contextual help tab.</li>
      *      <li>**help_aside** - (optional, string) the additional help description for the side bar of the contextual help tab.</li>
+     *      <li>**section_tab_slug** - (optional, string) the unique section tab slug to display the section in a tabbed container with other sections that have the same section tab slug.</li>
      *      <li>**hidden** - (optional, boolean) [3.3.1+] whether or not the section should be hidden. Default: <code>false</code>.</li>
      *      <li>**attributes** - (optional, string) [3.3.1+] An attribute array that applies to the section container element. e.g. `array( 'data-custom_data' => 'my_custom_data' )` The following sub-elements are supported.
      *          <ul>
      *              <li>**tab** - (optional, array) An sub-attribute array that applies to the section tab `<li>` tag element.</li>
      *          </ul>
      *      </li>
-     *      <li>**class** - (optional, string|array) [3.3.1+] class selector(s) appended to the section container element. The following sub-elements are supported.
+     *      <li>**class** - (optional, array) [3.3.1+] class selector(s) appended to the section container element. The following sub-elements are supported.
      *          <ul>
      *              <li>**tab** - (optional, array) An sub-class array that applies to the section tab `<li>` tag element.</li>
+     *          </ul>
+     *      </li>
+     *      <li>**collapsible** - (optional, array) [3.4.0+] class selector(s) appended to the section container element. The following sub-elements are supported.
+     *          <ul>
+     *              <li>**title** - (optional, string) the section title will be assigned by default in the section formatting method.</li>
+     *              <li>**is_collapsed** - (optional, boolean) whether it is already collapsed or expanded.</li>
+     *              <li>**toggle_all_button** - (optional, boolean|string|array) the position of where to display the toggle-all button that toggles the folding state of all collapsible sections. Accepts the following values. 'top-right', 'top-left', 'bottom-right', 'bottom-left'. If true is passed, the default 'top-right' will be used. To not to display, do not set any or pass `false` or `null`.</li>
+     *              <li>**collapse_others_on_expand** - (optional, boolean) whether the other collapsible sections should be folded when the section is unfolded. If the below `container` argument is set to `section`, this argument value does not take effect.</li>
+     *              <li>**container** - (optional, string) the container element that collapsible styling gets applied to. Either 'sections' or 'section' is accepted. Use 'section' for repeatable sections.</li>
      *          </ul>
      *      </li>
      * </ul>
