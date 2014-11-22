@@ -295,6 +295,39 @@ AdminPageFramework_Form_View
 later they are parsed when sections are registered. The section definition array
 have required keys. Refer to the parameter section of this method.</p>
 
+<h3>Example</h3>
+
+<pre><span class="php-var">$this</span>-&gt;addSettingSections(
+      <span
+class="php-keyword1">array</span>(
+           <span
+class="php-quote">'section_id'</span>    =&gt; <span
+class="php-quote">'text_fields'</span>,
+           <span
+class="php-quote">'title'</span>         =&gt; __( <span
+class="php-quote">'Text Fields'</span>, <span
+class="php-quote">'your-text-domain'</span> ),
+           <span
+class="php-quote">'description'</span>   =&gt; __( <span
+class="php-quote">'These are text type fields.'</span>, <span
+class="php-quote">'your-text-domain'</span> ),
+      ),
+      <span
+class="php-keyword1">array</span>(
+           <span
+class="php-quote">'section_id'</span>    =&gt; <span
+class="php-quote">'selectors'</span>,
+           <span
+class="php-quote">'title'</span>         =&gt; __( <span
+class="php-quote">'Selectors'</span>, <span
+class="php-quote">'your-text-domain'</span> ),
+           <span
+class="php-quote">'description'</span>   =&gt; __( <span
+class="php-quote">'These are selector type options such as dropdown lists, radio buttons, and checkboxes'</span>, <span
+class="php-quote">'your-text-domain'</span> ),
+      )
+);</pre>
+
 <h4>Example</h4>
 
 <pre><span class="php-var">$this</span>-&gt;addSettingSections(
@@ -1448,7 +1481,9 @@ class="php-comment">// field id</span>
 			<code>_replyToDeleteFieldErrors()</code>, 
 			<code>_replyToSaveFieldErrors()</code>, 
 			<code>_replyToSaveNotices()</code>, 
-			<code>_setUp()</code>
+			<code>_setUp()</code>, 
+			<code>getFieldErrors()</code>, 
+			<code>getSavedOptions()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">

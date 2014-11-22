@@ -275,7 +275,7 @@ registration will be performed with the
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSettingSections">#</a>
-			<code>addSettingSections( <span>array|string <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code>addSettingSections( <span>array <var>$aSection1</var></span>, <span>array <var>$aSection2</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$_and_more</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 
 			<div class="description detailed">
@@ -286,13 +286,45 @@ registration will be performed with the
 later they are parsed when sections are registered. The section definition array
 have required keys. Refer to the parameter section of this method.</p>
 
+<h3>Example</h3>
+
+<pre><span class="php-var">$this</span>-&gt;addSettingSections(
+      <span
+class="php-keyword1">array</span>(
+           <span
+class="php-quote">'section_id'</span>    =&gt; <span
+class="php-quote">'text_fields'</span>,
+           <span
+class="php-quote">'title'</span>         =&gt; __( <span
+class="php-quote">'Text Fields'</span>, <span
+class="php-quote">'your-text-domain'</span> ),
+           <span
+class="php-quote">'description'</span>   =&gt; __( <span
+class="php-quote">'These are text type fields.'</span>, <span
+class="php-quote">'your-text-domain'</span> ),
+      ),
+      <span
+class="php-keyword1">array</span>(
+           <span
+class="php-quote">'section_id'</span>    =&gt; <span
+class="php-quote">'selectors'</span>,
+           <span
+class="php-quote">'title'</span>         =&gt; __( <span
+class="php-quote">'Selectors'</span>, <span
+class="php-quote">'your-text-domain'</span> ),
+           <span
+class="php-quote">'description'</span>   =&gt; __( <span
+class="php-quote">'These are selector type options such as dropdown lists, radio buttons, and checkboxes'</span>, <span
+class="php-quote">'your-text-domain'</span> ),
+      )
+);</pre>
+
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$aSection1</var></dt>
-						<dd><code>array|string</code><br>the section array or the target page slug. If the target page slug is set, the
-next section array can omit the page slug key. <strong>Section Array</strong>
+						<dd><code>array</code><br>the section definition array. <strong>Section Array</strong>
 <ul>
 	<li><strong>section_id</strong> - (string) the section ID. Avoid using
 	non-alphabetic characters except underscore and numbers.</li>
@@ -316,6 +348,10 @@ next section array can omit the page slug key. <strong>Section Array</strong>
 	<li><strong>help_aside</strong> - (optional, string) the additional help
 	description for the side bar of the contextual help tab.</li>
 
+	<li><strong>section_tab_slug</strong> - (optional, string) the unique section
+	tab slug to display the section in a tabbed container with other sections that
+	have the same section tab slug.</li>
+
 	<li><strong>hidden</strong> - (optional, boolean) [3.3.1+] whether or not the
 	section should be hidden. Default: <code>&lt;span
 	class="php-keyword1"&gt;false&lt;/span&gt;</code>.</li>
@@ -330,13 +366,54 @@ next section array can omit the page slug key. <strong>Section Array</strong>
 		</ul>
 	</li>
 
-	<li><strong>class</strong> - (optional, string|array) [3.3.1+] class selector(s)
+	<li><strong>class</strong> - (optional, array) [3.3.1+] class selector(s)
 	appended to the section container element. The following sub-elements are
 	supported.
 		<ul>
 			<li><strong>tab</strong> - (optional, array) An sub-class array that applies to
 			the section tab <code>&lt;li&gt;</code> tag element.</li>
 		</ul>
+	</li>
+
+	<li><strong>collapsible</strong> - (optional, array) [3.4.0+] class selector(s)
+	appended to the section container element. The following sub-elements are
+	supported.
+		<ul>
+			<li><strong>title</strong> - (optional, string) the section title will be
+			assigned by default in the section formatting method.</li>
+
+			<li><strong>is_collapsed</strong> - (optional, boolean) whether it is already
+			collapsed or expanded.</li>
+
+			<li><strong>toggle_all_button</strong> - (optional, boolean|string|array) the
+			position of where to display the toggle-all button that toggles the folding
+			state of all collapsible sections. Accepts the following values. 'top-right',
+			'top-left', 'bottom-right', 'bottom-left'. If true is passed, the default
+			'top-right' will be used. To not to display, do not set any or pass
+			<code>false</code> or <code>null</code>.</li>
+
+			<li><strong>collapse_others_on_expand</strong> - (optional, boolean) whether the
+			other collapsible sections should be folded when the section is unfolded. If the
+			below <code>container</code> argument is set to <code>section</code>, this
+			argument value does not take effect.</li>
+
+			<li><strong>container</strong> - (optional, string) the container element that
+			collapsible styling gets applied to. Either 'sections' or 'section' is accepted.
+			Use 'section' for repeatable sections.</li>
+		</ul>
+
+		<pre><code>$this-&gt;addSettingSections(
+     array(
+         'section_id'        =&gt; 'collapsible_repeatable_section',
+         'title'             =&gt; __( 'Collapsible Repeatable Section', 'admin-page-framework-demo' ),
+         'collapsible'       =&gt; array(
+             'toggle_all_button' =&gt; array( 'top-left', 'bottom-left' ),
+             'container'         =&gt; 'section',
+         ),
+         'repeatable'        =&gt; true,
+     )
+ );
+</code></pre>
 	</li>
 </ul>
 </dd>
@@ -351,23 +428,6 @@ next section array can omit the page slug key. <strong>Section Array</strong>
 					<h4>Since</h4>
 					<div class="list">
 							3.0.0<br>
-					</div>
-					<h4>Example</h4>
-					<div class="list">
-							
-<pre><code>$this-&gt;addSettingSections(
-      array(
-           'section_id'    =&gt; 'text_fields',
-           'title'         =&gt; __( 'Text Fields', 'your-text-domain' ),
-           'description'   =&gt; __( 'These are text type fields.', 'your-text-domain' ),
-      ),
-      array(
-           'section_id'    =&gt; 'selectors',
-           'title'         =&gt; __( 'Selectors', 'your-text-domain' ),
-           'description'   =&gt; __( 'These are selector type options such as dropdown lists, radio buttons, and checkboxes', 'your-text-domain' ),
-      )
-);</code></pre>
-<br>
 					</div>
 					<h4>Remark</h4>
 					<div class="list">
@@ -1344,13 +1404,16 @@ Otherwise, it checks the existence of a message of the specified type.</dd>
 		<h3>Methods inherited from AdminPageFramework_Factory_Model</h3>
 		<p class="elementList">
 			<code>_getFieldErrors()</code>, 
+			<code>_getSavedOptions()</code>, 
 			<code>_isValidationErrors()</code>, 
 			<code>_loadDefaultFieldTypeDefinitions()</code>, 
 			<code>_registerFields()</code>, 
 			<code>_replyToDeleteFieldErrors()</code>, 
 			<code>_replyToSaveFieldErrors()</code>, 
 			<code>_replyToSaveNotices()</code>, 
-			<code>_setUp()</code>
+			<code>_setUp()</code>, 
+			<code>getFieldErrors()</code>, 
+			<code>getSavedOptions()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">
