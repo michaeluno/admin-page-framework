@@ -168,7 +168,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *          'repeatable'        => true, // this makes the section repeatable
      *      )
      *  );
-     * 
+     * </code>
      * @since       3.0.0     
      * @access      public
      * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
