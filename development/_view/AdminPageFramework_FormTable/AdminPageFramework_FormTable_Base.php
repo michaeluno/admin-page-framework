@@ -124,7 +124,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
             
             // Disable the toggle all button for middle sub-sections in repeatable sections.
             if ( ! $aSection['_is_first_index'] && ! $aSection['_is_last_index'] ) {
-                $aSection['collapsible']['toggle_all_button'] = 0;
+                return 0;
             }            
             
             $_aToggleAll = true === $sToggleAll || 1 ===  $sToggleAll 
