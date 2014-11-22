@@ -91,12 +91,14 @@ class APF_Demo_BuiltinFieldTypes_Sections {
             ),
             array(
                 'section_id'        => 'tabbed_sections_a',
+                'tab_slug'          => $this->sTabSlug,
                 'section_tab_slug'  => 'tabbed_sections',
                 'title'             => __( 'Section Tab A', 'admin-page-framework-demo' ),
                 'description'       => __( 'This is the first item of the tabbed section.', 'admin-page-framework-demo' ),
             ),
             array(         
                 'section_id'        => 'tabbed_sections_b',
+                'tab_slug'          => $this->sTabSlug,
                 'title'             => __( 'Section Tab B', 'admin-page-framework-demo' ),
                 'description'       => __( 'This is the second item of the tabbed section.', 'admin-page-framework-demo' ),
             ),     
@@ -118,6 +120,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
             $this->sPageSlug, // the target page slug  
             array(
                 'section_id'        => 'collapsible_section_a',
+                'tab_slug'          => $this->sTabSlug,
                 'title'             => __( 'Collapsible Section A', 'admin-page-framework-demo' ),
                 'description'       => __( 'This section can be expanded and collapsed.', 'admin-page-framework-demo' ),
                 'collapsible'       => array(
@@ -126,6 +129,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
             ),
             array(         
                 'section_id'        => 'collapsible_section_b',
+                'tab_slug'          => $this->sTabSlug,
                 'title'             => __( 'Collapsible Section B', 'admin-page-framework-demo' ),
                 'description'       => __( 'The <code>is_collapsed</code> argument can determine the default state of whether it is collapsed or expanded.', 'admin-page-framework-demo' ),
                 'collapsible'       => array(
@@ -134,6 +138,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
             ),
             array(         
                 'section_id'        => 'collapsible_section_c',
+                'tab_slug'          => $this->sTabSlug,
                 'title'             => __( 'Collapsible Section C', 'admin-page-framework-demo' ),
                 'description'       => __( 'With the <code>collapse_others_on_expand</code> argument, you can set wether the other collapsible sections should be collapsed when the section is expanded.', 'admin-page-framework-demo' ),
                 'collapsible'       => array(
@@ -147,6 +152,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
             $this->sPageSlug, // the target page slug  
             array(
                 'section_id'        => 'collapsible_repeatable_section',
+                'tab_slug'          => $this->sTabSlug,                
                 'title'             => __( 'Collapsible Repeatable Section', 'admin-page-framework-demo' ),
                 'description'       => __( 'This section can be expanded, collapsed and repeated.', 'admin-page-framework-demo' ),
                 'collapsible'       => array(
@@ -338,11 +344,11 @@ class APF_Demo_BuiltinFieldTypes_Sections {
         );             
         $oAdminPage->addSettingFields(    
             'collapsible_repeatable_section', // the target section ID
-            // array(
-                // 'field_id'  => 'section_title_in_collapsible_repeatable_section',
-                // 'type'      => 'section_title',
-                // 'label'     => __( 'Section Name', 'admin-page-framework-demo' ),
-            // ),            
+            array(
+                'field_id'  => 'section_title_in_collapsible_repeatable_section',
+                'type'      => 'section_title',
+                'label'     => __( 'Section Name', 'admin-page-framework-demo' ),
+            ),            
             array(
                 'field_id'      => 'text_field_in_collapsible_repeatable_section',
                 'title'         => __( 'Text', 'admin-page-framework-demo' ),
