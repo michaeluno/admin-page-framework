@@ -3,7 +3,7 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms
 Requires at least:  3.3
-Tested up to:       4.0
+Tested up to:       4.0.1
 Stable tag:         3.3.3
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
@@ -19,26 +19,27 @@ It provides plugin and theme developers with easier means of creating option pag
 
 with it easily create:
 
-- **Root Page, Sub Pages, and Tabs** - where your users will access to operate your plugin or theme.
+- **Top-level Page, Sub Pages, and In-page Tabs** - where your users will access to operate your plugin or theme.
 - **Forms** - to let your users store their options.
 - **Custom Post Types** - and the custom columns in the post listing table.
 - **Custom Taxonomies and Fields** - to store options associated with a taxonomy in the taxonomy definition page.
 - **Meta Boxes and Fields** - which help to store meta data associated with posts of set post types. Also meta boxes can be added to the pages created with the framework.
 - **Widgets and Fields** - to display modular outputs based on the user's settings in the front end.
 - **Network Admin Pages and Forms** - for WordPress multi-sites.
-- **Contact Form** - to let the user report issues or feedback via emails.
+- **Contact Form** - receive emails of user feedback and issue reports sent via the contact form embedded in an admin page.
 
 = What are useful about =
 - **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
 - **Section Tabs** - form sections can be displayed in a tabbed box.
-- **Repeatable Fields** - dynamically add/remove form sections and fields.
+- **Collapsible Sections** - form sections can be collapsed and expanded.
+- **Repeatable Sections and Fields** - dynamically add/remove form sections and fields.
 - **Sortable Fields** - drag and drop fields to change the order.
 - **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading text files.
 - **Reset Button** - lets the user to initialize the saved options.
 - **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting form data can be verified. Furthermore, by setting the error array, you can display the error message to the user.
 - **Contextual Help Pane** - help contents can be added to the contextual help pane that appears at the top right of each screen.
 - **Custom Field Types** - your own field type can be registered. This allows you to design own fields such as a combination of a checkbox with a text field. 
-- **Portable** - use the framework as a library and include the minified version and your plugin or theme does not require an extra plugin install. Therefore, your product will be perfectly portable.
+- **Portable** - use the framework as a library and include the minified version and your plugin or theme does not require an extra plugin to be installed. Therefore, your product will be perfectly portable.
 
 = Built-in Field Types =
 - `text` - a normal field to enter text input.
@@ -448,9 +449,10 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.3.4 =
+= 3.4.0 - 2014/11/23 =
 - Added the ability of collapsing and expanding section containers with the `collapsible` section definition argument.
 - Added the `select_type` argument for the `revealer` custom field type that enables to have checkboxes and radio buttons for the selector.
+- Tweaked the styling of the `section_title` field type.
 - Fixed a bug that the layout of form fields broke in Internet Explorer.
 
 = 3.3.3 - 2014/11/08 =
