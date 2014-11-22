@@ -109,10 +109,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'title'             => __( 'Repeatable', 'admin-page-framework-demo' ),
                 'description'       => __( 'It is possible to tab repeatable sections.', 'admin-page-framework-demo' ),
                 'repeatable'        => true, // this makes the section repeatable
-            )    
-            // array(
-                // 'section_tab_slug'  => '', // reset the target section tab slug for the next call.    
-            // )            
+            )              
         );        
  
         // Collapsible sections examples
