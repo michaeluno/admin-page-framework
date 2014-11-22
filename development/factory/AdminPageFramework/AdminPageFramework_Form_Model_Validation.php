@@ -125,7 +125,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         $_aStatus   = array( 'settings-updated' => true );        
         $_aInput    = $this->_validateSubmittedData( 
             $_aInput, 
-            $_aInputRaw,
+            $_aInputRaw,    // without default values being merged.
             $_aOptions,
             $_aDefaultOptions,
             $_aStatus   // passed by reference
@@ -269,10 +269,10 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             $aStatus = $aStatus + array( 'confirmation' => 'redirect' );
             $this->_setRedirectTransients( $_sRedirectURL, $_sPageSlug );
         }
-
+    
         // 3. Validate the submitted input data 
         $aInput = $this->_getFilteredOptions( $aInput, $aInputRaw, $aOptions, $_sPageSlug, $_sTabSlug );
-        
+   
         /* 4. Custom submit actions [part 2] - these should be done after applying the filters. */
         
         // Reset
@@ -551,7 +551,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
          */
         private function _getFilteredOptions( $aInput, $aInputRaw, $aOptions, $sPageSlug, $sTabSlug ) {
                  
-            $_aOptionsWODynamicElements     = $this->oForm->dropRepeatableElements( $aOptions );            
+            $_aOptionsWODynamicElements     = $this->oForm->dropRepeatableElements( $aOptions );
 
             // For each submitted element
             $aInput         = $this->_validateEachField( 
@@ -562,7 +562,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 $sPageSlug, 
                 $sTabSlug 
             );
-                
+            
             // For tabs     
             $_aTabOptions   = array(); // stores options of the belonging in-page tab.
             $aInput         = $this->_validateTabFields( 
@@ -573,7 +573,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 $sPageSlug,
                 $sTabSlug 
             );
-
+ 
             // For pages
             $aInput = $this->_validatePageFields( 
                 $aInput,
@@ -676,16 +676,16 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                     return $aInput;
                 }
                                 
-                $_aTabOnlyOptions = $this->oForm->getTabOnlyOptions( $aOptions, $sPageSlug, $sTabSlug ); // does not respect page meta box fields
-                $aTabOptions = $this->oForm->getTabOptions( $aOptions, $sPageSlug, $sTabSlug ); // respects page meta box fields
-                $aTabOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $aTabOptions, $this );
+                $_aTabOnlyOptions   = $this->oForm->getTabOnlyOptions( $aOptions, $sPageSlug, $sTabSlug ); // does not respect page meta box fields
+                $aTabOptions        = $this->oForm->getTabOptions( $aOptions, $sPageSlug, $sTabSlug ); // respects page meta box fields
+                $aTabOptions        = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $aTabOptions, $this );
             
                 // Consider each field has a different individual capability. In that case, the key itself will not be sent,
                 // which causes data loss when a lower capability user submits the form but it was stored by a higher capability user.
                 // So merge the submitted array with the old stored array only for the first level.     
                 $_aTabOnlyOptionsWODynamicElements = $this->oForm->getTabOnlyOptions( $aOptionsWODynamicElements, $sPageSlug, $sTabSlug ); // this method excludes injected elements such as page-meta-box fields
-                $aInput = $aInput + $this->oForm->getTabOptions( $_aTabOnlyOptionsWODynamicElements, $sPageSlug, $sTabSlug );     
-                
+                $aInput = $aInput + $this->oForm->getTabOptions( $_aTabOnlyOptionsWODynamicElements, $sPageSlug, $sTabSlug );
+
                 return $this->oUtil->uniteArrays( 
                     $this->oUtil->addAndApplyFilter( $this, "validation_{$sPageSlug}_{$sTabSlug}", $aInput, $aTabOptions, $this ), 
                     $this->oUtil->invertCastArrayContents( $aTabOptions, $_aTabOnlyOptions ), // will only consist of page meta box fields
