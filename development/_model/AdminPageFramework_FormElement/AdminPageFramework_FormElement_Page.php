@@ -372,13 +372,13 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * 
      * @remark Note that this method will return the other pages' option elements as well.
      * 
-     * @since 2.0.0
-     * @since 3.0.0 The second parameter was changed to a tab slug. Moved from the settings class.
+     * @since       2.0.0
+     * @since       3.0.0       The second parameter was changed to a tab slug. Moved from the settings class.
 
-     * @param array     the options array. Note that the options array structure are very similar to the aFields array. However, it does not have the '_default' section key.
-     * @param string     the page slug to check
-     * @param string     the tab slug to check
-     * @return array     the stored options excluding the currently specified tab's sections and their fields.
+     * @param       array       $aOptions      the options array. Note that the options array structure are very similar to the aFields array. However, it does not have the '_default' section key.
+     * @param       string      $sPageSlug     the page slug to check
+     * @param       string      $sTabSlug      the tab slug to check
+     * @return      array       the stored options excluding the currently specified tab's sections and their fields.
      *      If not found, an empty array will be returned.
      */ 
     public function getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug ) {
