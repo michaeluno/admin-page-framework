@@ -28,6 +28,7 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
             return "<caption class='admin-page-framework-section-caption' style='display:none;'></caption>";
         }    
         $_abCollapsible = $this->_getCollapsibleArgument( array( $aSection ), $iSectionIndex );
+        $_bShowTitle    = empty( $_abCollapsible ) && ! $aSection['section_tab_slug'];
         return 
             "<caption " . $this->generateAttributes( 
                 array(
@@ -37,7 +38,7 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
                 ) 
             ) . ">"
                 . $this->_getCollapsibleSectionTitleBlock( $_abCollapsible, 'section', $aFields, $hfFieldCallback )            
-                . ( empty( $_abCollapsible ) ? $this->_getCaptionTitle( $aSection, $iSectionIndex, $aFields, $hfFieldCallback ) : '' )
+                . ( $_bShowTitle ? $this->_getCaptionTitle( $aSection, $iSectionIndex, $aFields, $hfFieldCallback ) : '' )
                 . $this->_getCaptionDescription( $aSection, $hfSectionCallback )
                 . $this->_getSectionError( $aSection )
             . "</caption>";
