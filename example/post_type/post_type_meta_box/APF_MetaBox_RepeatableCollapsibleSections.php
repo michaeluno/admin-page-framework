@@ -24,8 +24,8 @@ class APF_MetaBox_RepeatableCollapsibleSections extends AdminPageFramework_MetaB
                 'section_id'        => 'repeatable_collapsible_section',
                 'title'             => __( 'Repeatable Collapsible Section', 'admin-page-framework-demo' ),
                 'collapsible'       => array(
-                    'show_toggle_all_button'    => 'right',
-                    'container'                 => 'section',   // either 'sections' or 'section'. For repeatable collapsible sections, use 'section'.
+                    'toggle_all_button'    => array( 'top-right', 'bottom-right' ),
+                    'container'            => 'section',   // either 'sections' or 'section'. For repeatable collapsible sections, use 'section'.
                 ),
                 'repeatable'        => true,
             )

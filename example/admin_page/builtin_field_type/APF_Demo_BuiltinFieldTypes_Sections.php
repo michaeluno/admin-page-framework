@@ -121,7 +121,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'title'             => __( 'Collapsible Section A', 'admin-page-framework-demo' ),
                 'description'       => __( 'This section can be expanded and collapsed.', 'admin-page-framework-demo' ),
                 'collapsible'       => array(
-                    'show_toggle_all_button' => true,
+                    'toggle_all_button' => 'top-right',
                 ),
             ),
             array(         
@@ -138,6 +138,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'description'       => __( 'With the <code>collapse_others_on_expand</code> argument, you can set wether the other collapsible sections should be collapsed when the section is expanded.', 'admin-page-framework-demo' ),
                 'collapsible'       => array(
                     'collapse_others_on_expand' => false,
+                    'toggle_all_button' => 'bottom-right',
                 ),
             )         
         );
@@ -149,8 +150,8 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'title'             => __( 'Collapsible Repeatable Section', 'admin-page-framework-demo' ),
                 'description'       => __( 'This section can be expanded, collapsed and repeated.', 'admin-page-framework-demo' ),
                 'collapsible'       => array(
-                    'show_toggle_all_button' => true,
-                    'container'              => 'section',
+                    'toggle_all_button' => array( 'top-left', 'bottom-left' ),
+                    'container'         => 'section',
                 ),
                 'repeatable'        => true, // this makes the section repeatable
             )
@@ -337,11 +338,11 @@ class APF_Demo_BuiltinFieldTypes_Sections {
         );             
         $oAdminPage->addSettingFields(    
             'collapsible_repeatable_section', // the target section ID
-            array(
-                'field_id'  => 'section_title_in_collapsible_repeatable_section',
-                'type'      => 'section_title',
-                'label'     => __( 'Section Name', 'admin-page-framework-demo' ),
-            ),            
+            // array(
+                // 'field_id'  => 'section_title_in_collapsible_repeatable_section',
+                // 'type'      => 'section_title',
+                // 'label'     => __( 'Section Name', 'admin-page-framework-demo' ),
+            // ),            
             array(
                 'field_id'      => 'text_field_in_collapsible_repeatable_section',
                 'title'         => __( 'Text', 'admin-page-framework-demo' ),

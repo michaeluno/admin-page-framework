@@ -75,41 +75,62 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
         jQuery( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' ).enableAPFCollapsibleButton();
         
         // Insert the toggle all button.
-        jQuery( '.admin-page-framework-collapsible-title[data-show_toggle_all_button!=\"0\"]' ).each( function(){
+        jQuery( '.admin-page-framework-collapsible-title[data-toggle_all_button!=\"0\"]' ).each( function(){
             
-            var _oButton = jQuery( $_sToggleAllButtonHTML );
-            var _bForSections = jQuery( this ).hasClass( 'admin-page-framework-collapsible-sections-title' );
-            var _sLeftOrRight = 0 === jQuery( this ).data( 'show_toggle_all_button' ) || 'left' !== jQuery( this ).data( 'show_toggle_all_button' )
-                ? 'right'
-                : 'left';
-            _oButton.find( '.admin-page-framework-collapsible-toggle-all-button' ).css( 'float', _sLeftOrRight );
-            
-            // Insert the button - there are two versions: for the sections container or the section container.
-            if ( _bForSections ) {
-                jQuery( this ).before( _oButton );
-            } else {
-                jQuery( this ).closest( '.admin-page-framework-section' ).before( _oButton );
-            }
-        
-            // Expand or collapse this panel
-            _oButton.click( function(){
-               
-                _oButton.toggleClass( 'flipped' );
-                if ( _oButton.hasClass( 'flipped' ) && _oButton.hasClass( 'dashicons' ) ) {
-                    _oButton.css( 'transform', 'rotateY( 180deg )' );
-                } else {
-                    _oButton.css( 'transform', '' );
-                }
+            var _oThis        = jQuery( this ); // to access from inside the below each() method.
+            var _bForSections = jQuery( this ).hasClass( 'admin-page-framework-collapsible-sections-title' );   // or for the 'section' container.
+            var _isPositions  = jQuery( this ).data( 'toggle_all_button' );
+            var _isPositions  = 1 === _isPositions
+                ? 'top-right'   // default
+                : _isPositions;
+            var _aPositions   = 'string' === typeof _isPositions
+                ? _isPositions.split( ',' )
+                : [ 'top-right' ];
+
+            jQuery.each( _aPositions, function( iIndex, _sPosition ) {
+         
+                var _oButton = jQuery( $_sToggleAllButtonHTML );
+                var _sLeftOrRight = -1 !== jQuery.inArray( _sPosition, [ 'top-right', 'bottom-right', '0' ] )   // if found
+                    ? 'right'   // default
+                    : 'left';            
+                _oButton.find( '.admin-page-framework-collapsible-toggle-all-button' ).css( 'float', _sLeftOrRight );
+
+                var _sTopOrBottom = -1 !== jQuery.inArray( _sPosition, [ 'top-right', 'top-left', '0' ] )   // if found
+                    ? 'before'   // default
+                    : 'after';            
+                
+                // Insert the button - there are two versions: for the sections container or the section container.
                 if ( _bForSections ) {
-                    _oButton.parent().parent().children().children( '* > .admin-page-framework-collapsible-title' ).each( function() {
-                        jQuery( this ).trigger( 'click', [ 'by_toggle_all_button' ] );
-                    } );
-                } else {
-                    _oButton.closest( '.admin-page-framework-sections' ).children( '.admin-page-framework-section' ).children( '.admin-page-framework-section-table' ).children( 'caption' ).children( '.admin-page-framework-collapsible-title' ).each( function() {
-                        jQuery( this ).trigger( 'click', [ 'by_toggle_all_button' ] );
-                    } );
-                }
-            } );
+                    var _oTargetElement = 'before' === _sTopOrBottom
+                        ? _oThis
+                        : _oThis.next( '.admin-page-framework-collapsible-content' );
+                        _oTargetElement[ _sTopOrBottom ]( _oButton );
+                } else {    // for 'section' containers
+                    _oThis.closest( '.admin-page-framework-section' )[ _sTopOrBottom ]( _oButton );
+                }                
+                
+                // Expand or collapse this panel
+                _oButton.click( function(){
+                   
+                    _oButton.toggleClass( 'flipped' );
+                    if ( _oButton.hasClass( 'flipped' ) && _oButton.hasClass( 'dashicons' ) ) {
+                        _oButton.css( 'transform', 'rotateY( 180deg )' );
+                    } else {
+                        _oButton.css( 'transform', '' );
+                    }
+                    if ( _bForSections ) {
+                        _oButton.parent().parent().children().children( '* > .admin-page-framework-collapsible-title' ).each( function() {
+                            jQuery( this ).trigger( 'click', [ 'by_toggle_all_button' ] );
+                        } );
+                    } else {
+                        _oButton.closest( '.admin-page-framework-sections' ).children( '.admin-page-framework-section' ).children( '.admin-page-framework-section-table' ).children( 'caption' ).children( '.admin-page-framework-collapsible-title' ).each( function() {
+                            jQuery( this ).trigger( 'click', [ 'by_toggle_all_button' ] );
+                        } );
+                    }
+                } );                
+                             
+            });                  
+           
         } );      
                 
     });              
@@ -154,7 +175,7 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
             if ( 'by_toggle_all_button' === sContext ) {
                 return;
             }
-
+console.log( 'clicked' );
             // If collapse_others_on_expand argument is true, collapse others 
             if ( 'expand' === _sAction && _oThis.data( 'collapse_others_on_expand' ) ) {
                 _oThis.parent().parent().children().children( '* > .admin-page-framework-collapsible-content' ).not( _oTargetContent ).slideUp( 'fast', function() {

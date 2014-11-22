@@ -97,14 +97,50 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
             if ( empty( $_aSection['collapsible'] ) ) {
                 return array();
             }
-            if ( $_aSection['repeatable'] && 0 < $iSectionIndex ) {
-                $_aSection['collapsible']['show_toggle_all_button'] = 0;
-            }
+            
+            $_aSection['collapsible']['toggle_all_button'] = $this->_sanitizeToggleAllButtonArgument( $_aSection['collapsible']['toggle_all_button'], $_aSection );
+
             return $_aSection['collapsible'];
         }
         return array();
         
-    }    
+    }       
+        /**
+         * Sanitizes the toggle all button argument.
+         * @since       3.4.0
+         * @param       string      $sToggleAll         Comma delimited button positions.
+         * @param       array       $aSection           The section definition array.
+         */
+        private function _sanitizeToggleAllButtonArgument( $sToggleAll, array $aSection ) {
+            
+            if ( ! $aSection['repeatable'] ) {            
+                return $sToggleAll;
+            }
+            
+            // If the both first index and last index is true, it means there is only one section. Treat it as a single non-repeatable section.
+            if ( $aSection['_is_first_index'] && $aSection['_is_last_index'] ) {
+                return $sToggleAll;
+            }
+            
+            // Disable the toggle all button for middle sub-sections in repeatable sections.
+            if ( ! $aSection['_is_first_index'] && ! $aSection['_is_last_index'] ) {
+                $aSection['collapsible']['toggle_all_button'] = 0;
+            }            
+            
+            $_aToggleAll = true === $sToggleAll || 1 ===  $sToggleAll 
+                ? array( 'top-right', 'bottom-right' )
+                : explode( ',', $sToggleAll );
+            
+            if ( $aSection['_is_first_index'] ) {                
+                $_aToggleAll = $this->dropElementByValue( $_aToggleAll, array( 1, true, 0, false, 'bottom-right', 'bottom-left' ) );
+            }
+            if ( $aSection['_is_last_index'] ) {
+                $_aToggleAll = $this->dropElementByValue( $_aToggleAll, array( 1, true, 0, false, 'top-right', 'top-left' ) );                    
+            } 
+            $_aToggleAll = empty( $_aToggleAll ) ? array( 0 ) : $_aToggleAll;
+            return implode( ',', $_aToggleAll );
+            
+        }
     /**
      * Returns the output of a title block of the given collapsible section.
      * 

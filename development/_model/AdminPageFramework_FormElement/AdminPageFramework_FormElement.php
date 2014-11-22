@@ -50,6 +50,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         ),
         'hidden'            => false,    // 3.3.1+
         'collapsible'       => false,    // 3.4.0+ (boolean|array) For the array structure see the $_aStructure_CollapsibleArguments property.
+        '_is_first_index'   => false,    // 3.4.0+ (boolean) indicates whether it is the first item of the sub-sections (for repeatable sections).
+        '_is_last_index'    => false,    // 3.4.0+ (boolean) indicates whether it is the last item of the sub-sections (for repeatable sections).
     );    
     
     /**
@@ -59,7 +61,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
     static public $_aStructure_CollapsibleArguments = array(
         'title'                     => null,    // (string)  the section title will be assigned by default in the section formatting method.
         'is_collapsed'              => true,    // (boolean) whether it is already collapsed or expanded
-        'show_toggle_all_button'    => false,   // (boolean) whether to display the button that toggles the folding state of all collapsible sections.
+        'toggle_all_button'         => null,    // (boolean|string|array) the position of where to display the toggle-all button that toggles the folding state of all collapsible sections. Accepts the following values. 'top-right', 'top-left', 'bottom-right', 'bottom-left'. If true is passed, the default 'top-right' will be used. To not to display, do not set any or pass `false` or `null`.
         'collapse_others_on_expand' => true,    // (boolean) whether the other collapsible sections should be folded when the section is unfolded.
         'container'                 => 'sections'   // (string) the container element that collapsible styling gets applied to. Either 'sections' or 'section' is accepted.
     );
@@ -354,12 +356,15 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             $aSection['order'] = is_numeric( $aSection['order'] ) ? $aSection['order'] : $iCountOfElements + 10;
             
             // 3.4.0
-            $aSection['collapsible'] = empty( $aSection['collapsible'] ) 
-                ? $aSection['collapsible']
-                : $this->getAsArray( $aSection['collapsible'] ) + array(
+            if ( empty( $aSection['collapsible'] ) ) {
+                $aSection['collapsible'] = $aSection['collapsible'];
+            } else {
+                $aSection['collapsible'] = $this->getAsArray( $aSection['collapsible'] ) + array(
                     'title' => $aSection['title'],
                 ) +  self::$_aStructure_CollapsibleArguments;
-                
+                $aSection['collapsible']['toggle_all_button'] = implode( ',', $this->getAsArray( $aSection['collapsible']['toggle_all_button'] ) );
+            }
+            
             return $aSection;
             
         }

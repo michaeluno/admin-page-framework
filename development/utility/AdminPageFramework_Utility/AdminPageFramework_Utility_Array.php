@@ -190,12 +190,21 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }
     
     /**
-     * Determines whether the key is the last element of an array.
+     * Determines whether the element is the last element of an array by the given key.
      * 
      * @since       3.0.0
      */
     static public function isLastElement( array $aArray, $sKey ) {
         end( $aArray );
+        return $sKey === key( $aArray );
+    }    
+    /**
+     * Determines whether element is the first element of an array by the given key.
+     * 
+     * @since       3.4.0
+     */
+    static public function isFirstElement( array $aArray, $sKey ) {
+        reset( $aArray );
         return $sKey === key( $aArray );
     }    
         
@@ -495,5 +504,24 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         }
         return $aArray;
     }
+    
+    /**
+     * Removes an array element(s) by the given value.
+     * @since       3.4.0
+     */
+    static public function dropElementByValue( array $aArray, $vValue ) {
+         
+        $_aValues = is_array( $vValue ) ? $vValue : array( $vValue );
+        foreach( $_aValues as $_vValue ) {
+            $_sKey = array_search( $_vValue, $aArray, true );
+            if ( $_sKey === false ) {
+                continue;
+            }
+            unset( $aArray[ $_sKey ] );
+        }
+        return $aArray;
+        
+    }
+    
 }
 endif;

@@ -211,7 +211,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 // Need to be referred outside the loop.
                 $_sSectionTabSlug   = $aSections[ $_sSectionID ]['section_tab_slug']; 
                 
-                // For repeatable sections - note that sub-sections are divided field definition arrays by sub-section index.
+                // For repeatable sections - note that sub-sections are divided field definition arrays by sub-section index, not section definition arrays.
                 $_aSubSections      = $this->getIntegerElements( isset( $aFieldsInSections[ $_sSectionID ] ) ? $aFieldsInSections[ $_sSectionID ] : array() );
                 $_iCountSubSections = count( $_aSubSections ); // Check sub-sections.                
                 if ( $_iCountSubSections ) {
@@ -222,12 +222,16 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                     }
                     
                     // Get the section tables.
-                    foreach( $this->numerizeElements( $_aSubSections ) as $_iIndex => $_aFields ) { // will include the main section as well.
-                                  
+                    $_aSubSections = $this->numerizeElements( $_aSubSections );
+                    foreach( $_aSubSections as $_iIndex => $_aFields ) { // will include the main section as well.
+                        
+                        $_aSection[ '_is_first_index' ] = $this->isFirstElement( $_aSubSections, $_iIndex );
+                        $_aSection[ '_is_last_index' ] = $this->isLastElement( $_aSubSections, $_iIndex );
+                        
                         // Tab list
-                        if ( empty( $_aCollapsible ) ) {    // this check is just a remain of an attempt to make section tabs and collapsible section work together but it was not possible.
+                        // if ( empty( $_aCollapsible ) ) {    // this check is just a remain of an attempt to make section tabs and collapsible section work together but it was not possible.
                             $_aSectionTabList[] = $this->_getTabList( $_sSectionID, $_iIndex, $_aSection, $_aFields, $hfFieldCallback );
-                        }
+                        // }
                         // Section container
                         $_aOutput[] = $this->_getSectionTable( $_sSectionID, $_iIndex, $_aSection, $_aFields, $hfSectionCallback, $hfFieldCallback );
                         
