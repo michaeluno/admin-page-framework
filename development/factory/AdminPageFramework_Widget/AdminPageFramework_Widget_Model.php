@@ -54,11 +54,12 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
      *     
      * }    
      * </code>
-     * @since   3.2.0
-     * @remark  The user will extend this method and use it.
-     * @todo    Update the code example.
+     * @since       3.2.0
+     * @since       3.4.1       Changed the scope to protected from public as this method is called outside from the class.
+     * @remark      The user will extend this method and use it.
+     * @todo        Update the code example.
      */
-    protected function validate( $aSubmit, $aStored, $oAdminWidget ) {
+    public function validate( $aSubmit, $aStored, $oAdminWidget ) {
         return $aSubmit;
     }
     
