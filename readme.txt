@@ -449,6 +449,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.4.1 = 
+- Fixed a bug that the action hooks and their predefined callbacks `submit_{instantiated class name}_{page slug}` and `submit_after_{instantiated class name}_{page slug}` did not work.
+
 = 3.4.0 - 2014/11/23 =
 - Added the ability of collapsing and expanding section containers with the `collapsible` section definition argument.
 - Added the `select_type` argument for the `revealer` custom field type that enables to have checkboxes and radio buttons for the selector.

@@ -112,7 +112,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 isset( $_POST['tab_slug'] ) 
                     ? "submit_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}"
                     : null, // if null given, the method will ignore it
-                "submit_{$this->oProp->sClassName}_{sPageSlug}",
+                "submit_{$this->oProp->sClassName}_{$_sPageSlug}",
                 "submit_{$this->oProp->sClassName}",
             ),
             // 3.3.1+ Added parameters to be passed
@@ -150,7 +150,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 isset( $_POST['tab_slug'] ) 
                     ? "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}" 
                     : null, 
-                "submit_after_{$this->oProp->sClassName}_{sPageSlug}",
+                "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}",
                 "submit_after_{$this->oProp->sClassName}",
             ),
             // 3.3.1+ Added parameters to be passed
@@ -474,7 +474,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             }
             
             // The key to reset is specified.
-            // @todo: make it possiblt to specify a dimentilnal key.
+            // @todo: make it possible to specify a dimensional key.
             unset( $this->oProp->aOptions[ trim( $sKeyToReset ) ], $aInput[ trim( $sKeyToReset ) ] );
             update_option( $this->oProp->sOptionKey, $this->oProp->aOptions );
             $this->setSettingNotice( $this->oMsg->get( 'specified_option_been_deleted' ) );
