@@ -275,10 +275,13 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
      * 
      * @since   3.3.0
      * @since   3.3.1       Moved from `AdminPageFramework_Setting_Base`. Changed the scope to `protected` as the caller method has moved to the view class.
+     * @since   3.4.1       Changed the name from '_getSavedOptions()'.
      */
-    protected function _getSavedOptions() {
+    public function getSavedOptions() {
         
-        $_aLastInput = isset( $_GET['confirmation'] )
+        $_bHasConfirmation  = isset( $_GET['confirmation'] );
+        $_bHasFieldErrors   = isset( $_GET['field_errors'] ) && $_GET['field_errors'];
+        $_aLastInput        = $_bHasConfirmation || $_bHasFieldErrors
             ? $this->oProp->aLastInput
             : array();
 

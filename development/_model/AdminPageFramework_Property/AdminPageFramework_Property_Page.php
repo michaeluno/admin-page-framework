@@ -220,6 +220,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
     public $aDisallowedQueryKeys = array( 
         'settings-updated', 
         'confirmation',     // 3.3.0+
+        'field_errors'      // 3.4.1+
     );
         
         
@@ -318,10 +319,10 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
             'options_' . $this->sClassName, // options_{instantiated class name}
             $this->sOptionKey ? get_option( $this->sOptionKey, array() ) : array()
         );
-        return empty( $_aOptions ) 
-            ? array()
-            : AdminPageFramework_WPUtility::getAsArray( $_aOptions );
-            
+        $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] ? $this->_getLastInput() : array();
+        $_aOptions   = empty( $_aOptions ) ? array() : AdminPageFramework_WPUtility::getAsArray( $_aOptions );     
+        $_aOptions   = $_aLastInput + $_aOptions;
+        return $_aOptions;
     }
     
     /**

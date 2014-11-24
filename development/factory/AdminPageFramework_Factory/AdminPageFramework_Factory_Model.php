@@ -131,19 +131,10 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @since       3.4.0
      */
     public function getSavedOptions() {
-        return $this->_getSavedOptions();
-    }
-    
-    /**
-     * Returns the saved options.
-     * 
-     * @since   3.4.0
-     */
-    protected function _getSavedOptions() {
 // @todo: implement the last input data that is available for the page factory using $aLastInput for ther factory fields.
         return $this->oProp->aOptions;
-    }    
-    
+    }
+
     /**
      * Returns the settings error array set by the user in the validation callback.
      * 

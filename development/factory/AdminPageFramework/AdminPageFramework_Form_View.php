@@ -61,7 +61,7 @@ abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Mode
             ? $aField['type']
             : 'default'; // the predefined reserved field type is applied if the parsing field type is not defined(not found).
 
-        $_aTemp     = $this->_getSavedOptions();    // assigning a variable for the strict standard
+        $_aTemp     = $this->getSavedOptions();    // assigning a variable for the strict standard
         $_oField    = new AdminPageFramework_FormField( 
             $aField, 
             $_aTemp,    // passed by reference. @todo: check if it is necessary to pass it as a reference.

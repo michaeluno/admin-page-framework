@@ -158,12 +158,29 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             $_aOptions,
             $this
         );           
-        
+       
         // 7. Reload the page with the update notice.
-        exit( wp_redirect( add_query_arg( $_aStatus ) ) );
+        exit( wp_redirect( $this->_getSettingUpdateURL( $_aStatus ) ) );
         
     }
-        
+        /**
+         * Returns the url to reload.
+         * 
+         * Sanitizes the $_GET query key-values.
+         * 
+         * @since       3.4.1
+         */
+        private function _getSettingUpdateURL( array $aStatus ) {
+            
+            // Drop the 'field_errors' key.
+            $_aRemoveQueries = array();
+            if ( ! isset( $aStatus[ 'field_errors' ] ) || ! $aStatus[ 'field_errors' ] ) {
+                unset( $aStatus[ 'field_errors' ] );
+                $_aRemoveQueries[] = 'field_errors';
+            }        
+            return $this->oUtil->getQueryURL( $aStatus, $_aRemoveQueries, $_SERVER['REQUEST_URI'] );            
+            
+        }
         /**
          * Verifies the form submit.
          * 
@@ -184,8 +201,8 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             ) {     
                 return false;
             }
-            $_sRequestURI   = remove_query_arg( array( 'settings-updated', 'confirmation' ), wp_unslash( $_SERVER['REQUEST_URI'] ) );
-            $_sReffererURI  = remove_query_arg( array( 'settings-updated', 'confirmation' ), $_POST['_wp_http_referer'] );
+            $_sRequestURI   = remove_query_arg( array( 'settings-updated', 'confirmation', 'field_errors' ), wp_unslash( $_SERVER['REQUEST_URI'] ) );
+            $_sReffererURI  = remove_query_arg( array( 'settings-updated', 'confirmation', 'field_errors' ), $_POST['_wp_http_referer'] );
             if ( $_sRequestURI != $_sReffererURI ) { // see the function definition of wp_referer_field() in functions.php.
                 return false;
             }
@@ -271,7 +288,12 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         }
     
         // 3. Validate the submitted input data 
-        $aInput = $this->_getFilteredOptions( $aInput, $aInputRaw, $aOptions, $_sPageSlug, $_sTabSlug );
+        $aInput           = $this->_getFilteredOptions( $aInput, $aInputRaw, $aOptions, $_sPageSlug, $_sTabSlug );
+        $_bHasFieldErrors = $this->hasFieldError();
+        if ( $_bHasFieldErrors ) {
+            $this->oUtil->setTransient( 'apf_tfd' . md5( 'temporary_form_data_' . $this->oProp->sClassName . get_current_user_id() ), $aInputRaw, 60*60 );
+            $aStatus = $aStatus + array( 'field_errors' => $_bHasFieldErrors );  // 3.4.1+
+        } 
    
         /* 4. Custom submit actions [part 2] - these should be done after applying the filters. */
         
@@ -279,9 +301,9 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         if ( $_sKeyToReset ) {
             $aInput = $this->_resetOptions( $_sKeyToReset, $aInput );
         }
-        
+                
         // Email
-        if ( ! $this->hasFieldError() && $_bConfirmingToSendEmail ) {
+        if ( ! $_bHasFieldErrors && $_bConfirmingToSendEmail ) {
             $this->oUtil->setTransient( 'apf_tfd' . md5( 'temporary_form_data_' . $this->oProp->sClassName . get_current_user_id() ), $aInput, 60*60 );
             $this->oProp->_bDisableSavingOptions = true;
             $aStatus    = $aStatus + array( 'confirmation' => 'email' );
