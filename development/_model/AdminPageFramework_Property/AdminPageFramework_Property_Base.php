@@ -22,20 +22,20 @@ abstract class AdminPageFramework_Property_Base {
     /**
      * Represents the structure of the script info array.
      * @internal
-     * @since 2.0.0
-     * @since 3.0.0 Moved from the link class.
+     * @since       2.0.0
+     * @since       3.0.0     Moved from the link class.
      */ 
     private static $_aStructure_CallerInfo = array(
-        'sPath' => null,
-        'sType' => null,
-        'sName' => null,     
-        'sURI' => null,
-        'sVersion' => null,
-        'sThemeURI' => null,
-        'sScriptURI' => null,
-        'sAuthorURI' => null,
-        'sAuthor' => null,
-        'sDescription' => null,
+        'sPath'         => null,
+        'sType'         => null,
+        'sName'         => null,     
+        'sURI'          => null,
+        'sVersion'      => null,
+        'sThemeURI'     => null,
+        'sScriptURI'    => null,
+        'sAuthorURI'    => null,
+        'sAuthor'       => null,
+        'sDescription'  => null,
     );    
     
     /**
