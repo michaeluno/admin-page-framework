@@ -360,26 +360,26 @@ abstract class AdminPageFramework_Property_Base {
      */  
     protected function getCallerInfo( $sCallerPath=null ) {
         
-        $aCallerInfo = self::$_aStructure_CallerInfo;
-        $aCallerInfo['sPath'] = $sCallerPath;
-        $aCallerInfo['sType'] = $this->_getCallerType( $aCallerInfo['sPath'] );
+        $_aCallerInfo          = self::$_aStructure_CallerInfo;
+        $_aCallerInfo['sPath'] = $sCallerPath;
+        $_aCallerInfo['sType'] = $this->_getCallerType( $_aCallerInfo['sPath'] );
 
-        if ( 'unknown' == $aCallerInfo['sType'] ) {
-            return $aCallerInfo;
+        if ( 'unknown' == $_aCallerInfo['sType'] ) {
+            return $_aCallerInfo;
         }
-        if ( 'plugin' == $aCallerInfo['sType'] ) {
-            return AdminPageFramework_WPUtility::getScriptData( $aCallerInfo['sPath'], $aCallerInfo['sType'] ) + $aCallerInfo;
+        if ( 'plugin' == $_aCallerInfo['sType'] ) {
+            return AdminPageFramework_WPUtility::getScriptData( $_aCallerInfo['sPath'], $_aCallerInfo['sType'] ) + $_aCallerInfo;
         }
-        if ( 'theme' == $aCallerInfo['sType'] ) {
-            $oTheme = wp_get_theme(); // stores the theme info object
+        if ( 'theme' == $_aCallerInfo['sType'] ) {
+            $_oTheme = wp_get_theme(); // stores the theme info object
             return array(
-                'sName' => $oTheme->Name,
-                'sVersion'         => $oTheme->Version,
-                'sThemeURI' => $oTheme->get( 'ThemeURI' ),
-                'sURI' => $oTheme->get( 'ThemeURI' ),
-                'sAuthorURI' => $oTheme->get( 'AuthorURI' ),
-                'sAuthor' => $oTheme->get( 'Author' ),     
-            ) + $aCallerInfo;    
+                'sName'         => $_oTheme->Name,
+                'sVersion'      => $_oTheme->Version,
+                'sThemeURI'     => $_oTheme->get( 'ThemeURI' ),
+                'sURI'          => $_oTheme->get( 'ThemeURI' ),
+                'sAuthorURI'    => $_oTheme->get( 'AuthorURI' ),
+                'sAuthor'       => $_oTheme->get( 'Author' ),     
+            ) + $_aCallerInfo;    
         }
         return array();
     }    
@@ -389,10 +389,10 @@ abstract class AdminPageFramework_Property_Base {
      * 
      * It tries to find what kind of script this is, theme, plugin or something else from the given path.
      * 
-     * @since   2.0.0
-     * @since   3.0.0 Moved from the link class.
-     * @since   3.1.5   Changed the scope to protected as the post type property class access it.
-     * @return  string Returns either 'theme', 'plugin', or 'unknown'
+     * @since       2.0.0
+     * @since       3.0.0       Moved from the link class.
+     * @since       3.1.5       Changed the scope to protected as the post type property class access it.
+     * @return      string      Returns either 'theme', 'plugin', or 'unknown'
      */ 
     protected function _getCallerType( $sScriptPath ) {
         
