@@ -75,7 +75,9 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
     }
     /**
      * Sets the given transient.
-     * @since 3.1.3
+     * 
+     * @since       3.1.3
+     * @return      boolean     True if set; otherwise, false.
      */
     static public function setTransient( $sTransientKey, $vValue, $iExpiration=0 ) {
 
@@ -86,12 +88,12 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
 
         self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) ? self::$_bIsNetworkAdmin : is_network_admin();
         
-        $_vTransient = ( self::$_bIsNetworkAdmin ) ? set_site_transient( $sTransientKey, $vValue, $iExpiration ) : set_transient( $sTransientKey, $vValue, $iExpiration );
+        $_bIsSet = ( self::$_bIsNetworkAdmin ) ? set_site_transient( $sTransientKey, $vValue, $iExpiration ) : set_transient( $sTransientKey, $vValue, $iExpiration );
 
         // reset prior value of $_wp_using_ext_object_cache
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp; 
 
-        return $_vTransient;     
+        return $_bIsSet;     
     }
     
     /**
