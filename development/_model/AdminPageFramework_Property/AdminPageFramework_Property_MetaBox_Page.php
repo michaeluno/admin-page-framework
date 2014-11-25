@@ -22,8 +22,8 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
 
     /**
      * Defines the property type.
-     * @remark Setting the property type helps to check whether some components are loaded such as scripts that can be reused per a class type basis.
-     * @since 3.0.0
+     * @remark      Setting the property type helps to check whether some components are loaded such as scripts that can be reused per a class type basis.
+     * @since       3.0.0
      * @internal
      */
     public $_sPropertyType = 'page_meta_box';
@@ -64,7 +64,7 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
     
     /**
      * Determines the current page and sets the appropriate properties.
-     * @since 3.0.0
+     * @since       3.0.0
      * @internal
      */
     public function _replyToSetUpProperties() {
@@ -84,7 +84,7 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
         
     /**
      * Retrieves the screen ID (hook suffix) of the given page slug.
-     * @since 3.0.0
+     * @since       3.0.0
      * @internal
      */
     public function _getScreenIDOfPage( $sPageSlug ) {
@@ -98,8 +98,8 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
     /**
      * Checks if the given page slug is one of the pages added by the framework.
      * 
-     * @sicne 3.0.0
-     * @return boolean Returns true if it is of framework's added page; otherwise, false.
+     * @since       3.0.0
+     * @return      boolean     Returns true if it is of framework's added page; otherwise, false.
      */
     public function isPageAdded( $sPageSlug='' ) {    
         
@@ -112,29 +112,29 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
     /**
      * Checks if the current loading page is in the given page tab.
      * 
-     * @remark If the user is in the default tab page, it's possible that the $_GET['tab'] key is not set.
-     * @since 3.0.0
-     * return boolean
+     * @remark      If the user is in the default tab page, it's possible that the $_GET['tab'] key is not set.
+     * @since       3.0.0
+     * return       boolean
      */
     public function isCurrentTab( $sTabSlug ) {
         
-        $sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
-        if ( ! $sCurrentPageSlug ) { return false; }
+        $_sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
+        if ( ! $_sCurrentPageSlug ) { return false; }
         
-        $sCurrentTabSlug = isset( $_GET['tab'] ) 
+        $_sCurrentTabSlug = isset( $_GET['tab'] ) 
             ? $_GET['tab']
-            : $this->getDefaultInPageTab( $sCurrentPageSlug );
+            : $this->getDefaultInPageTab( $_sCurrentPageSlug );
             
-        return ( $sTabSlug == $sCurrentTabSlug );
+        return ( $sTabSlug == $_sCurrentTabSlug );
 
     }
     
     /**
      * Retrieves the default in-page tab from the given tab slug.
      * 
-     * @since 3.0.0
-     * @remark Used in the __call() method in the main class.
-     * @return string The default in-page tab slug if found; otherwise, an empty string.
+     * @since       3.0.0
+     * @remark      Used in the `__call()` method in the main class.
+     * @return      string      The default in-page tab slug if found; otherwise, an empty string.
      */         
     public function getDefaultInPageTab( $sPageSlug ) {
     
@@ -147,7 +147,7 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
     
     /**
      * Returns the option key for the given page slug that is supposed to be one of the added page by the framework.
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function getOptionKey( $sPageSlug ) {
         
