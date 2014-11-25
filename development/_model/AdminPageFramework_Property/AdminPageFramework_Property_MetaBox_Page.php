@@ -71,7 +71,7 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
         
         if ( ! isset( $_GET['page'] ) ) { return; }
                 
-        $this->oAdminPage = $this->_getOwnerObjectByPageSlug( $_GET['page'] );
+        $this->oAdminPage = $this->_getOwnerObjectOfPage( $_GET['page'] );
         if ( ! $this->oAdminPage ) { return; }
         
         $this->aHelpTabs = $this->oAdminPage->oProp->aHelpTabs; // the $this->oHelpPane object access it.
@@ -89,7 +89,7 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
      */
     public function _getScreenIDOfPage( $sPageSlug ) {
 
-        return ( $_oAdminPage = $this->_getOwnerObjectByPageSlug( $sPageSlug ) )
+        return ( $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug ) )
             ? $_oAdminPage->oProp->aPages[ $sPageSlug ]['_page_hook'] . ( is_network_admin() ? '-network' : '' )
             : '';
         
@@ -103,7 +103,7 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
      */
     public function isPageAdded( $sPageSlug='' ) {    
         
-        return ( $_oAdminPage = $this->_getOwnerObjectByPageSlug( $sPageSlug ) )
+        return ( $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug ) )
             ? $_oAdminPage->oProp->isPageAdded( $sPageSlug )
             : false;
 
@@ -139,7 +139,7 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
     public function getDefaultInPageTab( $sPageSlug ) {
     
         if ( ! $sPageSlug ) { return ''; }
-        return ( $_oAdminPage = $this->_getOwnerObjectByPageSlug( $sPageSlug ) )
+        return ( $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug ) )
             ? $_oAdminPage->oProp->getDefaultInPageTab( $sPageSlug )
             : '';    
 
@@ -152,7 +152,7 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
     public function getOptionKey( $sPageSlug ) {
         
         if ( ! $sPageSlug ) { return ''; }
-        return ( $_oAdminPage = $this->_getOwnerObjectByPageSlug( $sPageSlug ) )
+        return ( $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug ) )
             ? $_oAdminPage->oProp->sOptionKey
             : '';     
         
@@ -169,7 +169,7 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
      * @since       3.4.1       Changed the name from `_getOwneerClass`.
      * @internal
      */
-    private function _getOwnerObjectByPageSlug( $sPageSlug ) {
+    private function _getOwnerObjectOfPage( $sPageSlug ) {
         
         if ( ! isset( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) ) { return null; }
         if ( ! is_array( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) ) { return null; }
