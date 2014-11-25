@@ -450,6 +450,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.4.1 = 
+- Added the `validate()` and `content()` methods for the meta box and page meta box factory classes.
 - Changed not to lose the input data when a form validation error occurs.
 - Fixed a bug that the action hooks and their predefined callbacks `submit_{instantiated class name}_{page slug}` and `submit_after_{instantiated class name}_{page slug}` did not work.
 

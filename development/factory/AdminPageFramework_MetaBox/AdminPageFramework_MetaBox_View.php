@@ -58,8 +58,12 @@ abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBo
         $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
         
         /* Render the filtered output */
-        echo $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $_aOutput ) );
-
+        echo $this->oUtil->addAndApplyFilters(
+            $this, 
+            "content_{$this->oProp->sClassName}", 
+            $this->content( implode( PHP_EOL, $_aOutput ) )
+        );            
+        
     }
     
     

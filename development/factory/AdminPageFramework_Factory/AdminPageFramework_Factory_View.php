@@ -116,6 +116,19 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
                         
     }    
         
+    /**
+     * The content filter method,
+     * 
+     * The user may just override this method instead of defining a `content_{...}` callback method.
+     * 
+     * @since       3.4.1
+     * @param       string      $sContent       The filtering content string.
+     */
+    public function content() {
+        $_aParams = func_get_args();
+        $sContent = isset( $_aParams[ 0 ] ) ? $_aParams[ 0 ] : null;
+        return $sContent;
+    }            
     
 }
 endif;

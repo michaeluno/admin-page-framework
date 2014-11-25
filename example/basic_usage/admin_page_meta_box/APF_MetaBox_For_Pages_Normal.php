@@ -57,8 +57,8 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
         
     }
     
-    /*
-     * ( optional ) Use this method to insert your custom text.
+    /**
+     * (optional) Use this method to insert your custom text.
      */
     public function do_APF_MetaBox_For_Pages_Normal() { // do_{instantiated class name}
         ?>
@@ -67,10 +67,38 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
         
     }
     
-    public function validation_APF_MetaBox_For_Pages_Normal( $aNewOptions, $aOldOptions, $oAdminPage ) { // validtion_{instantiated class name}
+    /**
+     * The content filter callback method.
+     * 
+     * Alternatively use the `content_{instantiated class name}` method instead.
+     */
+    public function content( $sContent ) {
+        
+        $_sInsert = "<p>" . sprintf( __( 'This text is inserted with the <code>%1$s</code> method.', 'admin-page-framework-demo' ), __FUNCTION__ ) . "</p>";
+        return $_sInsert . $sContent;        
+        
+    }
+    
+    /**
+     * The content filter callback method.
+     */
+    public function content_APF_MetaBox_For_Pages_Normal( $sContent ) { // content_{instantiated class name}
+        
+        $_sInsert = "<p>" . sprintf( __( 'This text is inserted with the <code>%1$s</code> hook.', 'admin-page-framework-demo' ), __FUNCTION__ ) . "</p>";
+        return $sContent . $_sInsert;
+        
+    }    
+    
+    
+    /**
+     * (optional) The predefined validation callback method.
+     * 
+     * Alternatively, use the `validation_{instantiated class name}` method instead.
+     */
+    public function validate( $aInput, $aOldInput, $oAdminPage ) { // validtion_{instantiated class name}
         
         // Do something with the submitted data.
-        return $aNewOptions;
+        return $aInput;
         
     }
 

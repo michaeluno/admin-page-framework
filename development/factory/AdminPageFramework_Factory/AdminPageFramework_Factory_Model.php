@@ -239,5 +239,16 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         
     }
     
+    /**
+     * The validation callback method.
+     * 
+     * The user may just override this method instead of defining a `validation_{...}` callback method.
+     * 
+     * @since       3.4.1
+     */
+    public function validate( $aInput, $aOldInput, $oFactory ) {
+        return $aInput;
+    }    
+    
 }
 endif;

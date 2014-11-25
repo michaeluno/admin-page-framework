@@ -107,15 +107,15 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      */
     protected function _getInputArray( array $aFieldDefinitionArrays, array $aSectionDefinitionArrays ) {
         
-        // Compose an array consisting of the submitted registered field values.
-        $aInput = array();
+        // Construct an array consisting of the submitted registered field values.
+        $_aInput = array();
         foreach( $aFieldDefinitionArrays as $_sSectionID => $_aSubSectionsOrFields ) {
             
             // If a section is not set,
             if ( '_default' == $_sSectionID ) {
                 $_aFields = $_aSubSectionsOrFields;
                 foreach( $_aFields as $_aField ) {
-                    $aInput[ $_aField['field_id'] ] = isset( $_POST[ $_aField['field_id'] ] ) 
+                    $_aInput[ $_aField['field_id'] ] = isset( $_POST[ $_aField['field_id'] ] ) 
                         ? $_POST[ $_aField['field_id'] ] 
                         : null;
                 }
@@ -123,14 +123,14 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             }     
 
             // At this point, the section is set
-            $aInput[ $_sSectionID ] = isset( $aInput[ $_sSectionID ] ) ? $aInput[ $_sSectionID ] : array();
+            $_aInput[ $_sSectionID ] = isset( $_aInput[ $_sSectionID ] ) ? $_aInput[ $_sSectionID ] : array();
             
             // If the section does not contain sub sections,
             if ( ! count( $this->oUtil->getIntegerElements( $_aSubSectionsOrFields ) ) ) {
                 
                 $_aFields = $_aSubSectionsOrFields;
                 foreach( $_aFields as $_aField ) {
-                    $aInput[ $_sSectionID ][ $_aField['field_id'] ] = isset( $_POST[ $_sSectionID ][ $_aField['field_id'] ] )
+                    $_aInput[ $_sSectionID ][ $_aField['field_id'] ] = isset( $_POST[ $_sSectionID ][ $_aField['field_id'] ] )
                         ? $_POST[ $_sSectionID ][ $_aField['field_id'] ]
                         : null;
                 }     
@@ -141,14 +141,14 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             // Otherwise, it's sub-sections. 
             // Since the registered fields don't have information how many items the user added, parse the submitted data.
             foreach( $_POST[ $_sSectionID ] as $_iIndex => $_aFields ) { // will include the main section as well.
-                $aInput[ $_sSectionID ][ $_iIndex ] = isset( $_POST[ $_sSectionID ][ $_iIndex ] ) 
+                $_aInput[ $_sSectionID ][ $_iIndex ] = isset( $_POST[ $_sSectionID ][ $_iIndex ] ) 
                     ? $_POST[ $_sSectionID ][ $_iIndex ]
                     : null;
             }
                             
         }
     
-        return $aInput;
+        return $_aInput;
         
     }
     
@@ -252,7 +252,13 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             : array();
         
         // Apply filters to the array of the submitted values.
-        $_aInput        = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $_aInput, $_aSavedMeta, $this );
+        $_aInput = $this->oUtil->addAndApplyFilters( 
+            $this, 
+            "validation_{$this->oProp->sClassName}",
+            $this->validate( $_aInput, $_aSavedMeta, $this ),
+            $_aSavedMeta, 
+            $this 
+        ); 
  
         // If there are validation errors. Change the post status to 'pending'.
         if ( $this->hasFieldError() ) {

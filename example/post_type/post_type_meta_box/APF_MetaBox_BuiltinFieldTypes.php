@@ -183,15 +183,34 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
   
     }
     
-    public function content_APF_MetaBox_BuiltinFieldTypes( $sContent ) { // content_{instantiated class name}
+    /**
+     * The content filter callback method.
+     * 
+     * Alternatively use the `content_{instantiated class name}` method instead.
+     */
+    public function content( $sContent ) {
         
-        // Modify the output $sContent . '<pre>Insert</pre>'
-        $sInsert = "<p>" . sprintf( __( 'This text is inserted with the <code>%1$s</code> hook.', 'admin-page-framework-demo' ), __FUNCTION__ ) . "</p>";
-        return $sInsert . $sContent;
+        $_sInsert = "<p>" . sprintf( __( 'This text is inserted with the <code>%1$s</code> method.', 'admin-page-framework-demo' ), __FUNCTION__ ) . "</p>";
+        return $_sInsert . $sContent;        
         
     }
     
-    public function validation_APF_MetaBox_BuiltinFieldTypes( $aInput, $aOldInput, $oAdmin ) { // validation_{instantiated class name}
+    /**
+     * The content filter callback method.
+     */
+    public function content_APF_MetaBox_BuiltinFieldTypes( $sContent ) { // content_{instantiated class name}
+        
+        $_sInsert = "<p>" . sprintf( __( 'This text is inserted with the <code>%1$s</code> hook.', 'admin-page-framework-demo' ), __FUNCTION__ ) . "</p>";
+        return $sContent . $_sInsert;
+        
+    }
+    
+    /**
+     * One of the predefined validation callback methods,
+     * 
+     * Alternatively, you may use `validataion_{instantiated class name}()` method,
+     */
+    public function validate( $aInput, $aOldInput, $oAdmin ) {
     
         $_bIsValid  = true;
         $_aErrors   = array();
