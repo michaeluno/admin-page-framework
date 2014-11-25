@@ -49,7 +49,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
      * Loads the field type necessary components.
      * 
      * @since       2.1.5
-     * @since       3.3.1       Changed from changed from `_replyToFieldLoader()`.
+     * @since       3.3.1       Changed from `_replyToFieldLoader()`.
      */ 
     protected function setUp() {}
     
@@ -57,7 +57,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
      * Returns the field type specific JavaScript script.
      * 
      * @since       2.1.5
-     * @since       3.3.1       Changed from changed from `_replyToGetScripts()`.
+     * @since       3.3.1       Changed from `_replyToGetScripts()`.
      */ 
     protected function getScripts() {
         return "";     
