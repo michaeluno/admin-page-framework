@@ -136,6 +136,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
             ob_end_clean(); // end buffer and remove the buffer
                         
             // Apply the content filters.
+            // @todo call the content() method.
             echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $_sContent );
 
             // Do the page actions.
