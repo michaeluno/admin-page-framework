@@ -215,7 +215,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
         $_bIsValid  = true;
         $_aErrors   = array();
 
-        // You can check the passed values and correct the data by modifying them.
+        // You can check the passed values with the log() method of the oDebug object.
         // $this->oDebug->log( $aInput );     
         
         // Validate the submitted data.

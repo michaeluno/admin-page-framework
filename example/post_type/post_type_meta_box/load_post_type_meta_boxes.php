@@ -17,7 +17,7 @@ new APF_MetaBox_BuiltinFieldTypes(
     'normal',                                        // context (what kind of metabox this is)
     'high'                                           // priority
 );
-return;
+
 include( dirname( __FILE__ ) . '/APF_MetaBox_TabbedSections.php' );    
 new APF_MetaBox_TabbedSections(
     null,  // meta box ID - can be null. If null is passed, the ID gets automatically generated and the class name with all lower case characters will be applied.

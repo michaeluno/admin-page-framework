@@ -253,6 +253,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
             : $_oFieldsTable->getFields( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) );
                 
         /* Filter the output */
+        // @todo call the content() method.
         $_sOutput = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $_aOutput ) );
         
         /* Do action */
@@ -285,6 +286,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
         }
             
         /* Apply validation filters to the submitted option array. */
+        // @todo call the validate() method.
         $aSubmittedOptions                  = $this->oUtil->addAndApplyFilters( $this, 'validation_' . $this->oProp->sClassName, $aSubmittedOptions, $aOldOptions, $this );        
         $aTaxonomyFieldOptions[ $iTermID ]  = $this->oUtil->uniteArrays( $aSubmittedOptions, $aOldOptions );
         update_option( $this->oProp->sOptionKey, $aTaxonomyFieldOptions );
@@ -305,7 +307,8 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Facto
         $this->oForm->format();
         $this->oForm->applyConditions();
         
-        // @todo    Examine whether setDynamicElements() should be performed or not...
+        // @todo    Examine whether applyFiltersToFields() should be performed here or not.
+        // @todo    Examine whether setDynamicElements() should be performed here or not.
         
         $this->_registerFields( $this->oForm->aConditionedFields );
         

@@ -29,30 +29,42 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
          */
         $this->addSettingFields(
             array(
-                'field_id' => 'metabox_text_field',
-                'type' => 'text',
-                'title' => __( 'Text Input', 'admin-page-framework-demo' ),
-                'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
-                'help' => __( 'This is help text.', 'admin-page-framework-demo' ),
-                'help_aside' => __( 'This is additional help text which goes to the side bar of the help pane.', 'admin-page-framework-demo' ),
+                'field_id'      => 'metabox_text_field',
+                'type'          => 'text',
+                'title'         => __( 'Text Input', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'help'          => __( 'This is help text.', 'admin-page-framework-demo' ),
+                'help_aside'    => __( 'This is additional help text which goes to the side bar of the help pane.', 'admin-page-framework-demo' ),
             ),
             array(
-                'field_id' => 'metabox_text_field_repeatable',
-                'type' => 'text',
-                'title' => __( 'Text Repeatable', 'admin-page-framework-demo' ),
-                'repeatable' =>    true
+                'field_id'      => 'metabox_text_field_repeatable',
+                'type'          => 'text',
+                'title'         => __( 'Text Repeatable', 'admin-page-framework-demo' ),
+                'repeatable'    => true
             ),     
             array(
-                'field_id' => 'metabox_textarea_field',
-                'type' => 'textarea',
-                'title' => __( 'Text Area', 'admin-page-framework-demo' ),
-                'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
-                'help' => __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-demo' ),
-                'default' => __( 'This is a default text value.', 'admin-page-framework-demo' ),
-                'attributes' => array(
+                'field_id'      => 'metabox_textarea_field',
+                'type'          => 'textarea',
+                'title'         => __( 'Text Area', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'help'          => __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-demo' ),
+                'default'       => __( 'This is a default text value.', 'admin-page-framework-demo' ),
+                'attributes'    => array(
                     'cols' => 40,     
                 ),
-            )
+            ),
+            // array(
+                // 'field_id' => 'submit_in_meta_box',
+                // 'type' => 'submit',
+                // 'show_title_column' => false,
+                // 'label_min_width' => 0,
+                // 'attributes' => array(
+                    // 'fieldset' => array(
+                        // 'style' => 'float:right;',
+                    // ),
+                // ),
+            // ),            
+            array()
         );     
         
     }
@@ -95,11 +107,33 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
      * 
      * Alternatively, use the `validation_{instantiated class name}` method instead.
      */
-    public function validate( $aInput, $aOldInput, $oAdminPage ) { // validtion_{instantiated class name}
+    public function validate( $aInput, $aOldInput, $oAdminPage ) {
         
-        // Do something with the submitted data.
-        return $aInput;
+        $_bIsValid  = true;
+        $_aErrors   = array();
+
+        // You can check the passed values with the log() method of the oDebug object.
+        // $this->oDebug->log( $aInput );     
+        // $this->oDebug->log( $aOldInput );
         
+        // Validate the submitted data.
+        if ( strlen( trim( $aInput['metabox_text_field'] ) ) < 3 ) {
+            
+            $_aErrors['metabox_text_field'] = __( 'The entered text is too short! Type more than 2 characters.', 'admin-page-framework-demo' ) . ': ' . $aInput['metabox_text_field'];
+            $_bIsValid = false;     
+            
+        }
+        
+        if ( ! $_bIsValid ) {
+            
+            $this->setFieldErrors( $_aErrors );
+            $this->setSettingNotice( __( 'There was an error in your input in meta box form fields', 'admin-page-framework-demo' ) );    
+            return $aOldInput;
+            
+        }
+
+        return $aInput;        
+
     }
 
     

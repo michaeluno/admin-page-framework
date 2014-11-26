@@ -27,16 +27,17 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
      * @remark The third parameter should not be by reference as an expression will be passed.
      * 
      * @internal
-     * @since   3.0.0
-     * @since   3.2.0   Added the $aCallbacks parameter.
-     * @param   array   $aField                 An array storing the field definition array.
-     * @param   array   $aOptions               An array storing the stored data in the database.
-     * @param   array   $aErrors                An array storing the field errors.
-     * @param   array   $aFieldTypeDefinitions  An array storing registered field type definitions.
-     * @param   object  $oMsg                   An object storing the system messages.
-     * @param   array   $aCallbacks             An array storing the form-field specific callbacks.     
+     * @since       3.0.0
+     * @since       3.2.0       Added the $aCallbacks parameter.
+     * @since       3.4.1       Removed the reference (&) of the second parameter to let a function call being passed.
+     * @param       array       $aField                 An array storing the field definition array.
+     * @param       array       $aOptions               An array storing the stored data in the database.
+     * @param       array       $aErrors                An array storing the field errors.
+     * @param       array       $aFieldTypeDefinitions  An array storing registered field type definitions.
+     * @param       object      $oMsg                   An object storing the system messages.
+     * @param       array       $aCallbacks             An array storing the form-field specific callbacks.     
      */
-    public function __construct( &$aField, &$aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg, array $aCallbacks=array() ) {
+    public function __construct( &$aField, $aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg, array $aCallbacks=array() ) {
 
         /* 1. Set up the properties that will be accessed later in the methods. */
         $aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) 

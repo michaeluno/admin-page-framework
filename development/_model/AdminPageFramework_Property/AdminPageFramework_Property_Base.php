@@ -458,11 +458,30 @@ abstract class AdminPageFramework_Property_Base {
      * 
      * This method should be extended in the extended class.
      * 
-     * @since 3.1.0
+     * @since       3.1.0
      * @internal
      */
     protected function _getOptions() { return array(); }
 
+    /**
+     * Returns the last user form input array.
+     * 
+     * @remark      This temporary data is not always set. This is only set when the form needs to show a confirmation message to the user such as for sending an email.
+     * @since       3.3.0
+     * @since       3.4.1       Moved from `AdminPageFramework_Property_Page`.
+     * @internal
+     * @return      array   The last input array.
+     */
+    protected function _getLastInput() {
+        
+        $_vValue = AdminPageFramework_WPUtility::getTransient( 'apf_tfd' . md5( 'temporary_form_data_' . $this->sClassName . get_current_user_id() ) );
+        if ( is_array( $_vValue ) ) {
+            return $_vValue;
+        }
+        return array();
+        
+    }
+    
     /*
      * Magic methods
      * */
@@ -477,6 +496,21 @@ abstract class AdminPageFramework_Property_Base {
             $this->aScriptInfo = $this->getCallerInfo( $this->sCallerPath );
             return $this->aScriptInfo;    
         }
+        
+        // 3.4.1+ Moved from `AdminPageFramework_Property_Page` as meta box classes also access it.
+        // If $this->aOptions is called for the first time, retrieve the option data from the database and assign them to the property.
+        // Once this is done, calling $this->aOptions will not trigger the __get() magic method any more.
+        if ( 'aOptions' === $sName ) {
+            $this->aOptions = $this->_getOptions();
+            return $this->aOptions;    
+        }        
+        
+        // 3.3.0+   Sets and returns the last user form input data as an array.
+        // 3.4.1+   Moved from `AdminPageFramework_Property_Page` as meta box classes also access it.
+        if ( 'aLastInput' === $sName ) {
+            $this->aLastInput = $this->_getLastInput();
+            return $this->aLastInput;
+        }        
         
         // For regular undefined items, 
         // return 'undefined';

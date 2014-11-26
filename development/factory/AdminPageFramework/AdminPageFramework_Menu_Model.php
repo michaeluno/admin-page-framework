@@ -321,7 +321,9 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
                 
                 // Ensure only it is added one time per page slug.
                 if ( ! isset( $this->oProp->aPageHooks[ $_sPageHook ] ) ) {
-                    add_action( 'current_screen' , array( $this, "load_pre_" . $sPageSlug ) );    
+                    // 3.4.1+ Give a lower priority as the page meta box class also hooks the current_screen to register form elements.
+                    // When the validation callback is triggered, their form registration should be done already. So this hook should be loaded later than them.
+                    add_action( 'current_screen' , array( $this, "load_pre_" . $sPageSlug ), 20 );    
                 }
                 $this->oProp->aPageHooks[ $sPageSlug ] = is_network_admin() 
                     ? $_sPageHook . '-network' 

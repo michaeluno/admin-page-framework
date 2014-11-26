@@ -68,6 +68,9 @@ if ( ! class_exists( 'AdminPageFramework_Documentation' ) ) :
  *     <li>**field_definition_{instantiated class name}_{section id}_{field ID}** – [3.0.2+] receives the form field definition array of the given input field ID that has a section. The first parameter: the field definition array. The second parameter: the integer representing sub-section index if the field belongs to a sub-section.</li>
  *     <li>**pages_{instantiated class name}** – receives the registered page arrays. The first parameter: pages container array.</li> 
  *     <li>**tabs_{instantiated class name}_{page slug}** – receives the registered in-page tab arrays. The first parameter: tabs container array.</li> 
+ *     <li>**options_update_status_{instantiated class name}** – [3.4.1+] receives an array of options update status. First parameter: (array) an array of options update status.</li>
+ *     <li>**options_update_status_{page slug}** – [3.4.1+] receives an array of options update status. First parameter: (array) an array of options update status.</li>
+ *     <li>**options_update_status_{page slug}_{tab slug}** – [3.4.1+] receives an array of options update status. First parameter: (array) an array of options update status.</li>
  *     <li>**validation_{instantiated class name}_{field id}** – [3.0.0+] receives the form submission value of the field that does not have a section. The first parameter: ( string|array ) submitted input value. The second parameter: ( string|array ) the old value stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
  *     <li>**validation_{instantiated class name}_{section_id}_{field id}** – [3.0.0+] receives the form submission value of the field that has a section. The first parameter: ( string|array ) submitted input value. The second parameter: ( string|array ) the old value stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
  *     <li>**validation_{instantiated class name}_{section id}** – [3.0.0+] receives the form submission values that belongs to the section.. The first parameter: ( array ) the array of submitted input values that belong to the section. The second parameter: ( array ) the array of the old values stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
@@ -77,6 +80,9 @@ if ( ! class_exists( 'AdminPageFramework_Documentation' ) ) :
  *     <li>**validation_saved_options_{instantiated class name}** – [3.1.2+] receives the saved form options as an array. The first parameter: the stored options array. The second parameter: the caller object.</li>
  *     <li>**validation_saved_options_{page slug}** – [3.0.0+] receives the saved form options as an array of the page. The first parameter: the stored options array of the page. The second parameter: the caller object.</li>
  *     <li>**validation_saved_options_{page slug}_{tab slug}** – [3.0.0+] receives the saved form options as an array of the tab. The first parameter: the stored options array of the tab. The second parameter: the caller object.</li>
+ *     <li>**validation_saved_options_without_dynamic_elements_{instantiated class name}** – [3.4.1+] receives the saved form options as an array without dynamic elements such as repeatable and sortable fields. The first parameter: the stored options array. The second parameter: the caller object.</li>
+ *     <li>**validation_saved_options_without_dynamic_elements_{page slug}** – [3.4.1+] receives the saved form options as an array of the page without dynamic elements such as repeatable and sortable fields. The first parameter: the stored options array of the page. The second parameter: the caller object.</li>
+ *     <li>**validation_saved_options_without_dynamic_elements_{page slug}_{tab slug}** – [3.4.1+] receives the saved form options as an array of the tab without dynamic elements such as repeatable and sortable fields. The first parameter: the stored options array of the tab. The second parameter: the caller object.</li>
  *     <li>**style_{page slug}_{tab slug}** – receives the output of the CSS rules applied to the tab page of the slug.</li>
  *     <li>**style_{page slug}** – receives the output of the CSS rules applied to the page of the slug.</li>
  *     <li>**style_{instantiated class name}** – receives the output of the CSS rules applied to the pages added by the instantiated class object.</li>
@@ -164,6 +170,9 @@ if ( ! class_exists( 'AdminPageFramework_Documentation' ) ) :
  *  pages_{instantiated class name}
  *  tabs_{instantiated class name}_{page slug}
  *  
+ *  options_update_status_{instantiated class name}
+ *  options_update_status_{page slug}
+ *  options_update_status_{page slug}_{tab slug}
  *  submit_{instantiated class name}_{pressed submit field id}
  *  submit_{instantiated class name}_{section id}
  *  submit_{instantiated class name}_{section id}_{field id}
@@ -173,6 +182,9 @@ if ( ! class_exists( 'AdminPageFramework_Documentation' ) ) :
  *  validation_saved_options_{instantiated class name}
  *  validation_saved_options_{page slug}_{tab slug}
  *  validation_saved_options_{page slug}
+ *  validation_saved_options_without_dynamic_elements_{instantiated class name}
+ *  validation_saved_options_without_dynamic_elements_{page slug}_{tab slug}
+ *  validation_saved_options_without_dynamic_elements_{page slug}
  *  validation_{instantiated class name}_{field id (which does not have a section)}
  *  validation_{instantiated class name}_{section_id}
  *  validation_{instantiated class name}_{section id}_{field id}

@@ -109,8 +109,9 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
      * @since 2.0.0
      * @since 2.1.0 Moved from the meta box class.
      * @internal
+     * @remark      Do not set this here to let the overload method _get() to be triggered when it is called.
      */  
-    public $aOptions = array();
+    // public $aOptions = array();
     
     /**
      * Stores the media uploader box's title.
@@ -152,6 +153,21 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
         parent::__construct( $oCaller, null, $sClassName, $sCapability, $sTextDomain, $sFieldsType ); // meta boxes don't need the caller script path.
             
     }
+    
+    /**
+     * Returns the options array.
+     * 
+     * @since       3.4.1
+     * @internal
+     * @return      array       an empty array.
+     * @remark      For meta boxes, the options array needs to be set after the fields are set and conditioned 
+     * because the options array structure relies on the registered section and field ids. 
+     * So here the method just returns an empty array.
+     * 
+     */
+    protected function _getOptions() {
+        return array();
+    }    
     
 }
 endif;

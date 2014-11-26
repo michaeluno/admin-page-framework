@@ -315,60 +315,32 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
     protected function _getOptions() {
     
         $_aOptions = AdminPageFramework_WPUtility::addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
-            $GLOBALS['aAdminPageFramework']['aPageClasses'][ $this->sClassName ], // the caller object
+            $this->oCaller, // 3.4.1+ changed from $GLOBALS['aAdminPageFramework']['aPageClasses'][ $this->sClassName ], // the caller object
             'options_' . $this->sClassName, // options_{instantiated class name}
             $this->sOptionKey ? get_option( $this->sOptionKey, array() ) : array()
         );
+// @todo examine whether it is appropriate to merge with $_aLastInput or it should be done in the getSavedOptions() factory method.
         $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] ? $this->_getLastInput() : array();
         $_aOptions   = empty( $_aOptions ) ? array() : AdminPageFramework_WPUtility::getAsArray( $_aOptions );     
         $_aOptions   = $_aLastInput + $_aOptions;
         return $_aOptions;
     }
-    
-    /**
-     * Returns the last user form input array.
-     * 
-     * @remark  This temporrary data is not always set. This is only set when the form needs to show a confirmation message to the user such as for sending an email.
-     * @since   3.3.0
-     * @internal
-     * @return  array   The last input array.
-     */
-    protected function _getLastInput() {
         
-        $_vValue = AdminPageFramework_WPUtility::getTransient( 'apf_tfd' . md5( 'temporary_form_data_' . $this->sClassName . get_current_user_id() ) );
-        if ( is_array( $_vValue ) ) {
-            return $_vValue;
-        }
-        return array();
-        
-    }
-    
     /*
      * Magic methods
      * */
     /**
      * 
-     * @since       3.2.0   Removed the ampersand prepended in the method name.
+     * @since       3.2.0       Removed the ampersand prepended in the method name.
+     * @since       3.4.1       Deprecated
+     * @deprecated
      */
-    public function __get( $sName ) {
-        
-        // If $this->aOptions is called for the first time, retrieve the option data from the database and assign them to the property.
-        // Once this is done, calling $this->aOptions will not trigger the __get() magic method any more.
-        if ( 'aOptions' === $sName ) {
-            $this->aOptions = $this->_getOptions();
-            return $this->aOptions;    
-        }
-        
-        // [3.3.0+] Sets and returns the last user form input data as an array.
-        if ( 'aLastInput' === $sName ) {
-            $this->aLastInput = $this->_getLastInput();
-            return $this->aLastInput;
-        }
-        
+/*     public function __get( $sName ) {
+                        
         // For regular undefined items, 
         return parent::__get( $sName );
         
-    }
+    } */
     
     /*
      * Utility methods

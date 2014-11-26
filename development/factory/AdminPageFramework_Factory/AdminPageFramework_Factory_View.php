@@ -93,6 +93,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
     /**
      * Returns the field output from the given field definition array.
      * 
+     * @remark      This method will be called multiple times in a single page load depending on how many fields have been registered.
      * @since       3.0.0
      * @internal
      */
@@ -100,13 +101,14 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 
         $_oField = new AdminPageFramework_FormField( 
             $aField,                                // the field definition array
-// @todo change it to $this->getSavedOptions()
+            // @todo change it to $this->getSavedOptions()
             $this->oProp->aOptions,                 // the stored form data
             $this->_getFieldErrors(),               // the field error array.
             $this->oProp->aFieldTypeDefinitions,    // the field type definition array.
             $this->oMsg,                            // the system message object
             $this->oProp->aFieldCallbacks           // field output element callables.
         ); 
+
         return $this->oUtil->addAndApplyFilters(
             $this,
             array( 'field_' . $this->oProp->sClassName . '_' . $aField['field_id'] ), // field_ + {extended class name} + _ {field id}

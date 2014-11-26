@@ -449,9 +449,12 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.4.1 = 
+= 3.4.1 =
+- Added the `options_update_status_{...}` and `validation_saved_options_without_dynamic_elements_` filters for the admin page factory class.
+- Added the `field_definition_{...}` filters for the page meta box class.
 - Added the `validate()` and `content()` methods for the meta box and page meta box factory classes.
-- Changed not to lose the input data when a form validation error occurs.
+- Changed not to lose the input data when a form validation error occurs for the meta box, page meta box, and page classes.
+- Fixed a bug that the old options of the second parameter passed in a validation callback method of the page meta box class did not hold dynamic elements.
 - Fixed a bug that the action hooks and their predefined callbacks `submit_{instantiated class name}_{page slug}` and `submit_after_{instantiated class name}_{page slug}` did not work.
 
 = 3.4.0 - 2014/11/23 =

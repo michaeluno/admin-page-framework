@@ -89,7 +89,8 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
                 // if it's a sub-section
                 if ( is_numeric( $_iSubSectionIndexOrFieldID ) && is_int( $_iSubSectionIndexOrFieldID + 0 ) ) {    
 
-                    if ( $_bIsSubSectionLoaded ) continue; // no need to repeat the same set of fields
+                    // no need to repeat the same set of fields
+                    if ( $_bIsSubSectionLoaded ) { continue; } 
                     $_bIsSubSectionLoaded = true;
                     foreach( $_aSubSectionOrField as $_aField ) {
                         $this->_registerField( $_aField );     
@@ -138,7 +139,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Returns the settings error array set by the user in the validation callback.
      * 
-     * The scope public it is accessed from the outside. This is mainly for field callback methods to create inner nested or different type of fields
+     * The scope is public because it is accessed from outside ofo the class. This is mainly for field callback methods to create inner nested or different type of fields
      * as instantiating a field object requires this value.
      * 
      * @since       3.4.0
@@ -183,6 +184,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @since       3.0.3
      * @internal
      * @return      mixed If the error is not set, returns false; otherwise, the stored error array.
+     * @todo        Examine which class uses this method. It looks like this can be deprecated as there is the `hasFieldError()` method.
      */
     protected function _isValidationErrors() {
 
@@ -249,6 +251,23 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     public function validate( $aInput, $aOldInput, $oFactory ) {
         return $aInput;
     }    
+    
+    /**
+     * Saves user last input in the database as a transient.
+     * 
+     * To get the set input, call `$this->oProp->aLastInput`.
+     * 
+     * @since       3.4.1
+     * @return      boolean     True if set; otherwise, false.
+     */
+    public function _setLastInput( array $aLastInput ) {
+        return $this->oUtil->setTransient( 
+            'apf_tfd' . md5( 'temporary_form_data_' . $this->oProp->sClassName . get_current_user_id() ),
+            $aLastInput, 
+            60*60 
+        );
+    }
+
     
 }
 endif;

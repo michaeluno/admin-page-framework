@@ -52,17 +52,21 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
             
             if ( is_string( $_asTabArrayOrPageSlug ) ) {     
                 $_sPageSlug = $_asTabArrayOrPageSlug;
-                add_filter( "validation_saved_options_{$_sPageSlug}", array( $this, '_replyToFilterPageOptions' ) );
+                // add_filter( "validation_saved_options_{$_sPageSlug}", array( $this, '_replyToFilterPageOptions' ) );
+                add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ) );
                 add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );
+                add_filter( "options_update_status_{$_sPageSlug}", array( $this, '_replyToModifyOptionsUpdateStatus' ) );
                 continue;
             }
             
             // At this point, the array key is the page slug.
             $_sPageSlug = $_sIndexOrPageSlug;
             $_aTabs     = $_asTabArrayOrPageSlug;
-            add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );
+            add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );           
             foreach( $_aTabs as $_sTabSlug ) {
-                add_filter( "validation_saved_options_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptions' ) );
+                // add_filter( "validation_saved_options_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptions' ) );
+                add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ) );
+                add_filter( "options_update_status_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToModifyOptionsUpdateStatus' ) );
             }
             
         }
@@ -78,8 +82,8 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
     protected function getFieldOutput( $aField ) {
         
         /* Since meta box fields don't have the `option_key` key which is required to compose the name attribute in the regular pages. */
-        $sOptionKey             = $this->_getOptionKey();
-        $aField['option_key']   = $sOptionKey ? $sOptionKey : null;
+        $_sOptionKey            = $this->_getOptionKey();
+        $aField['option_key']   = $_sOptionKey ? $_sOptionKey : null;
         $aField['page_slug']    = isset( $_GET['page'] ) ? $_GET['page'] : ''; // set an empty string to make it yield true for isset() so that saved options will be checked.
 
         return parent::getFieldOutput( $aField );
@@ -156,9 +160,19 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * 
      * @since       3.0.0
      * @param       array       $aPageOptions
+     * @deprecated  3.4.1
      */
     public function _replyToFilterPageOptions( $aPageOptions ) {
-        return $this->oForm->dropRepeatableElements( $aPageOptions );    
+        return $aPageOptions;
+        // return $this->oForm->dropRepeatableElements( $aPageOptions );    
+    }
+    /**
+     * Filters the array of the options witout dynamic elements.
+     * 
+     * @since       3.4.1       Deprecated `_replyToFilterPageOptions()`.
+     */
+    public function _replyToFilterPageOptionsWODynamicElements( $aOptionsWODynamicElements ) {
+        return $this->oForm->dropRepeatableElements( $aOptionsWODynamicElements );    
     }
     
     /**
@@ -172,7 +186,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * @param       array       $aOldPageOptions        The array holing the saved options of the page. Note that this will be empty if non of generic page fields are created.
      */
     public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions ) {
-        
+
         // The field values of this class will not be included in the parameter array. So get them.
         $_aFieldsModel          = $this->oForm->getFieldsModel();
         $_aNewMetaBoxInput      = $this->oUtil->castArrayContents( $_aFieldsModel, $_POST );
@@ -180,12 +194,44 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         $_aOtherOldMetaBoxInput = $this->oUtil->invertCastArrayContents( $aOldPageOptions, $_aFieldsModel );
 
         // Apply filters - third party scripts will have access to the input.
-        $_aNewMetaBoxInput = stripslashes_deep( $_aNewMetaBoxInput ); // fixes magic quotes
-        $_aNewMetaBoxInput = $this->oUtil->addAndApplyFilters( $this, "validation_{$this->oProp->sClassName}", $_aNewMetaBoxInput, $_aOldMetaBoxInput, $this );
+        $_aNewMetaBoxInput      = stripslashes_deep( $_aNewMetaBoxInput ); // fixes magic quotes
+        $_aNewMetaBoxInputRaw   = $_aNewMetaBoxInput; // copy one for a validation error.
+        $_aNewMetaBoxInput      = $this->validate( $_aNewMetaBoxInput, $_aOldMetaBoxInput, $this );           
+        $_aNewMetaBoxInput      = $this->oUtil->addAndApplyFilters( 
+            $this, 
+            "validation_{$this->oProp->sClassName}", 
+            $_aNewMetaBoxInput, 
+            $_aOldMetaBoxInput, 
+            $this 
+        );
+    
+        // If there are validation errors. set the last input.
+        if ( $this->hasFieldError() ) {
+            $this->_setLastInput( $_aNewMetaBoxInputRaw );           
+        }    
     
         // Now merge the input values with the passed page options, and plus the old data to cover different in-page tab field options.
-        return $this->oUtil->uniteArrays( $_aNewMetaBoxInput, $aNewPageOptions, $_aOtherOldMetaBoxInput );
+        return $this->oUtil->uniteArrays( $_aNewMetaBoxInput, $aNewPageOptions, $_aOtherOldMetaBoxInput );       
                         
+    }
+    
+    /**
+     * Modifies the options update status array.
+     * 
+     * This is to insert the 'field_errors' key into the options update status array when there is a field error.
+     * 
+     * @since       3.4.1
+     */
+    public function _replyToModifyOptionsUpdateStatus( $aStatus ) {
+        
+        if ( ! $this->hasFieldError() ) {
+            return $aStatus;
+        }
+        return array( 
+                'field_errors' => true 
+            ) 
+            + $this->oUtil->getAsArray( $aStatus );
+        
     }
     
     /**
@@ -198,13 +244,17 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
     public function _registerFormElements( $oScreen ) {
                 
         // Schedule to add head tag elements and help pane contents.     
-        if ( ! $this->_isInThePage() ) return;
+        if ( ! $this->_isInThePage() ) { return; }
         
         $this->_loadDefaultFieldTypeDefinitions();
         
         // Format the fields array.
         $this->oForm->format();
         $this->oForm->applyConditions(); // will create the conditioned elements.
+        $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );
+        
+        // Finalize the options array as it still holds values that are not of this class form fields.
+        $this->_setOptionArray( $_GET['page'], $this->oForm->aConditionedFields );
         
         // Add the repeatable section elements to the fields definition array.
         $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
@@ -212,6 +262,48 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         $this->_registerFields( $this->oForm->aConditionedFields );
 
     }     
+    
+    /**
+     * Sets the aOptions property array in the property object. 
+     * 
+     * The `$this->oProp->aOptions` property should be already set in the `_replyToSetUpProperties()` method of the `AdminPageFramework_Property_Metabox_Page`.
+     * But the array is not finalized and it stores all the page's options. So the field values that are not of this class should be removed.
+     * 
+     * @since       3.4.1    
+     * @remark      Overrides the parent method defined in the meta box class.
+     * @internal    
+     */
+    protected function _setOptionArray( $sPageSlug, $aFields ) {
+        
+        // Remove elements that are not registered in this class. Here `array_key_exists()` is used instead of `isset()` to check the element existence
+        // as `isset()` returns false when a null value is set.
+        // @todo Examine why there are values of null assigned as the field value (confirmed in 3.4.0.) It could be that because dynamic elements were removed.
+        $_aOptions = array();
+        foreach( $aFields as $_sSectionID => $_aFields ) {
+            if ( '_default' == $_sSectionID  ) {
+                foreach( $_aFields as $_aField ) {
+                    if ( array_key_exists( $_aField['field_id'], $this->oProp->aOptions ) ) {
+                        $_aOptions[ $_aField['field_id'] ] = $this->oProp->aOptions[ $_aField['field_id'] ];
+                    }
+                }
+            }
+            if ( array_key_exists( $_sSectionID, $this->oProp->aOptions ) ) {
+                $_aOptions = $this->oProp->aOptions[ $_sSectionID ];
+            }
+        }        
+
+        // Apply the filters to let third party scripts to set own options array.
+        $this->oProp->aOptions = $this->oUtil->addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+            $this, // the caller object
+            'options_' . $this->oProp->sClassName, // options_{instantiated class name}
+            $_aOptions
+        );
+        
+        $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] ? $this->oProp->aLastInput : array();
+        $this->oProp->aOptions = empty( $this->oProp->aOptions ) ? array() : $this->oUtil->getAsArray( $this->oProp->aOptions );
+        $this->oProp->aOptions = $_aLastInput + $this->oProp->aOptions;
+
+    }
             
 }
 endif;
