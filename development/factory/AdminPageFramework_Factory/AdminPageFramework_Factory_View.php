@@ -126,7 +126,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
      * @since       3.4.1
      * @param       string      $sContent       The filtering content string.
      */
-    public function content() {
+    public function content( $sContent ) {
         $_aParams = func_get_args();
         $sContent = isset( $_aParams[ 0 ] ) ? $_aParams[ 0 ] : null;
         return $sContent;
