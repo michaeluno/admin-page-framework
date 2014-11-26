@@ -117,20 +117,18 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
             ob_start(); // start buffer
                                         
             // Render the form elements.
-            if ( $this->oProp->bEnableForm ) {
-                  
-                if ( $this->oForm->isPageAdded( $sPageSlug ) ) {
-
-                    $this->aFieldErrors = isset( $this->aFieldErrors ) ? $this->aFieldErrors : $this->_getFieldErrors( $sPageSlug ); 
-                    $_oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->aFieldErrors, $this->oMsg );
-                    $this->oForm->setCurrentPageSlug( $sPageSlug );
-                    $this->oForm->setCurrentTabSlug( $sTabSlug );
-                    $this->oForm->applyConditions();
-                    $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName ); // applies filters to the conditioned field definition arrays.
-                    $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
-                    echo $_oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
-
-                } 
+            if ( $this->oProp->bEnableForm && $this->oForm->isPageAdded( $sPageSlug ) ) {
+     
+                $this->aFieldErrors = isset( $this->aFieldErrors ) ? $this->aFieldErrors : $this->_getFieldErrors( $sPageSlug ); 
+                $_oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->aFieldErrors, $this->oMsg );
+                
+                // @deprecated 3.4.1 the followings are already done in _replyToRegisterSettings().
+                // $this->oForm->setCurrentPageSlug( $sPageSlug );
+                // $this->oForm->setCurrentTabSlug( $sTabSlug );
+                // $this->oForm->applyConditions();
+                // $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName ); // applies filters to the conditioned field definition arrays.
+                // $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
+                echo $_oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
                 
             }     
              
@@ -179,7 +177,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                     ) 
                 . " >";
                 
-            // @todo: The framework no longer relies on WordPress Settings API so check if the following line is necessary or not.
+            // Embed the '_wp_http_referer' hidden field that is checked in the submit data processing method.
             settings_fields( $this->oProp->sOptionKey );
             
         }

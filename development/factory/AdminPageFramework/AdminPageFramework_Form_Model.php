@@ -181,9 +181,10 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
         // 2-3. Now set required properties for conditioning.
         $this->oForm->setCurrentPageSlug( isset( $_GET['page'] ) && $_GET['page'] ? $_GET['page'] : '' );
         $this->oForm->setCurrentTabSlug( $this->oProp->getCurrentTab() );
-        
+
         // 2-4. Do conditioning.
         $this->oForm->applyConditions();
+        $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName ); // applies filters to the conditioned field definition arrays.
         $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
         
         /* 3. Define field types. This class adds filters for the field type definitions so that framework's built-in field types will be added. */
