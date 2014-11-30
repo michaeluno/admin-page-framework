@@ -60,8 +60,21 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
      * 
      * This method is triggered when a field definition array that calls this field type is parsed. 
      */ 
-    protected function setUp() {}    
-
+    protected function setUp() {
+        add_action( 'admin_footer', array( $this, '_replyToAddScript' ) );
+    }    
+        static public $_bAddedScriptToFooter;
+        public function _replyToAddScript() {
+            
+            if ( isset( self::$_bAddedScriptToFooter ) && self::$_bAddedScriptToFooter ) {
+                return;
+            }
+            self::$_bAddedScriptToFooter = true;
+            echo "<script async defer id='github-bjs' src='" . $this->resolveSRC( dirname( __FILE__ ) . '/asset/github-buttons/buttons.js' ) . "'>"
+                . "</script>";
+            
+        }
+    
 
     /**
      * Returns an array holding the urls of enqueuing scripts.
@@ -91,16 +104,16 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
      */
     protected function getEnqueuingScripts() { 
         return array(
-            array( 
-                'src'           => dirname( __FILE__ ) . '/asset/github-buttons/buttons.js',
-                'handle_id'     => 'github-bjs',
-                'in_footer'     => true,
-                'attributes'    => array(
-                    'async'     => '',
-                    'defer'     => '',
-                    'id'        => 'github-bjs',
-                ),
-            ),
+            // array( 
+                // 'src'           => dirname( __FILE__ ) . '/asset/github-buttons/buttons.js',
+                // 'handle_id'     => 'github-bjs',
+                // 'in_footer'     => true,
+                // 'attributes'    => array(
+                    // 'async'     => '',
+                    // 'defer'     => '',
+                    // 'id'        => 'github-bjs',
+                // ),
+            // ),
         );
     }
     
