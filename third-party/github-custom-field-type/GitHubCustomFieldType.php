@@ -126,10 +126,10 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
      */
     protected function getEnqueuingStyles() { 
         return array(    
-            array( 
-                'src'       => dirname( __FILE__ ) . '/asset/github-buttons/assets/css/main.css',
-                'handle_id' => 'github_button_css',
-            ),
+            // array( 
+                // 'src'       => dirname( __FILE__ ) . '/asset/github-buttons/assets/css/main.css',
+                // 'handle_id' => 'github_button_css',
+            // ),
         );
     }            
 
