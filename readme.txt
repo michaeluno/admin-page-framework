@@ -455,6 +455,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the `validate()` and `content()` methods for the meta box and page meta box factory classes.
 - Changed the timing of `field_definition_{...}` filters of the admin page class.
 - Changed not to lose the input data when a form validation error occurs for the meta box, page meta box, and page classes.
+- Fixed an issue that github buttons of the `github` field type did not load in some sites.
 - Fixed a bug that repeatable sections could not be repeated when there is no collapsible section in the page.
 - Fixed a bug that the old options of the second parameter passed in a validation callback method of the page meta box class did not hold dynamic elements.
 - Fixed a bug that the action hooks and their predefined callbacks `submit_{instantiated class name}_{page slug}` and `submit_after_{instantiated class name}_{page slug}` did not work.
