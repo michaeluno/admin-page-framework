@@ -109,8 +109,10 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         if ( ! sSectionTabSlug || sSectionTabSlug === '_default' ) {
             nodeNewSection.find( '.admin-page-framework-section-title' ).not( '.admin-page-framework-collapsible-section-title' ).hide();
         }
-        // Bind the click event to the collapsible section(s) bar.
-        nodeNewSection.find( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' ).enableAPFCollapsibleButton();
+        // Bind the click event to the collapsible section(s) bar. If a collapsible section is not added, the jQuery plugin is not added.
+        if( 'function' === typeof nodeNewSection.enableAPFCollapsibleButton ){ 
+            nodeNewSection.find( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' ).enableAPFCollapsibleButton();
+        }
                         
         /* Add the cloned new field element */        
         nodeNewSection.insertAfter( nodeSectionContainer );    
