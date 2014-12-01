@@ -94,15 +94,15 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
 class APF extends AdminPageFramework {
 
     public function setUp() {
-		
-    	$this->setRootMenuPage( 'Settings' );	// where to belong
-		$this->addSubMenuItem(
-			array(
-				'title'		=>	'My First Page',
-				'page_slug'	=>	'myfirstpage'
-			)
-		);
-			
+        
+        $this->setRootMenuPage( 'Settings' );    // where to belong
+        $this->addSubMenuItem(
+            array(
+                'title'        => 'My First Page',
+                'page_slug'    => 'myfirstpage'
+            )
+        );
+            
     }
 
     public function do_myfirstpage() {  // do_{page slug}
@@ -119,9 +119,9 @@ new APF;
 ### Create a Form
 
 <p align="center">
-	<a href="https://lh6.googleusercontent.com/-T5_iUiJAlR8/Uty9YKlpkzI/AAAAAAAABhg/8mcpt6h_XHU/s0/my_first_form.png" title="Admin Page Framework - My First Form">
-		<img src="https://lh6.googleusercontent.com/-T5_iUiJAlR8/Uty9YKlpkzI/AAAAAAAABhg/8mcpt6h_XHU/s400/my_first_form.png" alt="Admin Page Framework - My First Form" />
-	</a>
+    <a href="https://lh6.googleusercontent.com/-T5_iUiJAlR8/Uty9YKlpkzI/AAAAAAAABhg/8mcpt6h_XHU/s0/my_first_form.png" title="Admin Page Framework - My First Form">
+        <img src="https://lh6.googleusercontent.com/-T5_iUiJAlR8/Uty9YKlpkzI/AAAAAAAABhg/8mcpt6h_XHU/s400/my_first_form.png" alt="Admin Page Framework - My First Form" />
+    </a>
 </p>
 
 ```PHP
@@ -135,44 +135,44 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
 class APF_MyFirstFrom extends AdminPageFramework {
 
     public function setUp() {
-		
-    	$this->setRootMenuPage( 'My Settings' );	// create a root page 
-		$this->addSubMenuItem(
-			array(
-				'title'		=>	'My First Form',
-				'page_slug'	=>	'my_first_form'
-			)
-		);
-					
+        
+        $this->setRootMenuPage( 'My Settings' );    // create a root page 
+        $this->addSubMenuItem(
+            array(
+                'title'        => 'My First Form',
+                'page_slug'    => 'my_first_form'
+            )
+        );
+                    
     }
-	
-	/**
-	 * The pre-defined callback method that is triggered when the page loads.
-	 */
-	public function load_my_first_form( $oAdminPage ) {	// load_{page slug}
-	
-		$this->addSettingSections(	
-			array(
-				'section_id'	=>	'my_first_text_section',	
-				'page_slug'		=>	'my_first_form',	
-			)
-		);
-		
-		$this->addSettingFields(
-			array(	
-				'field_id'		=>	'text',
-				'section_id'	=>	'my_first_text_section',
-				'title'			=>	'Text',
-				'type'			=>	'text',
-				'default'		=>	123456,
-			),
-			array(	
-				'field_id'		=>	'submit',
-				'type'			=>	'submit',
-			)
-		);
-		
-	}
+    
+    /**
+     * The pre-defined callback method that is triggered when the page loads.
+     */
+    public function load_my_first_form( $oAdminPage ) {    // load_{page slug}
+    
+        $this->addSettingSections(    
+            array(
+                'section_id'    => 'my_first_text_section',    
+                'page_slug'     => 'my_first_form',    
+            )
+        );
+        
+        $this->addSettingFields(
+            array(    
+                'field_id'      => 'text',
+                'section_id'    => 'my_first_text_section',
+                'title'         => 'Text',
+                'type'          => 'text',
+                'default'       => 123456,
+            ),
+            array(    
+                'field_id'      => 'submit',
+                'type'          => 'submit',
+            )
+        );
+        
+    }
     
 }
 new APF_MyFirstFrom;
