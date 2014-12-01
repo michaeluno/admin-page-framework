@@ -40,12 +40,12 @@ class APF_PostType extends AdminPageFramework_PostType {
                     'parent'             => __( 'Parent APF Post', 'admin-page-framework-demo' ),
                     'plugin_listing_table_title_cell_link' => __( 'APF Posts', 'admin-page-framework-demo' ), // framework specific key. [3.0.6+]
                 ),
-                'public'            =>    true,
+                'public'            => true,
                 'menu_position'     => 110,
                 'supports'          => array( 'title' ), // e.g. array( 'title', 'editor', 'comments', 'thumbnail', 'excerpt' ),    
                 'taxonomies'        => array( '' ),
                 'has_archive'       => true,
-                'show_admin_column' => true, // this is for custom taxonomies to automatically add the column in the listing table.
+                'show_admin_column' => true, // [3.5+ core] this is for custom taxonomies to automatically add the column in the listing table.
                 'menu_icon'         => $this->oProp->bIsAdmin 
                     ? ( version_compare( $GLOBALS['wp_version'], '3.8', '>=' ) ? 'dashicons-wordpress' : plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ) )
                     : null, // do not call the function in the front-end.
