@@ -19,7 +19,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
         'preview_text'          => 'The quick brown fox jumps over the lazy dog. Foxy parsons quiz and cajole the lovably dim wiki-girl. Watch “Jeopardy!”, Alex Trebek’s fun TV quiz game. How razorback-jumping frogs can level six piqued gymnasts! All questions asked by five watched experts — amaze the judge.',
         'attributes'            => array(
             'input'         => array(
-                'size'      => 60,    
+                'size'      => 40,    
                 'maxlength' => 400,
             ),
             'preview'       => array(),
