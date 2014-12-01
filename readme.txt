@@ -449,6 +449,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.4.2 =
+- Changed the timing of the `setUp()` method of the post type factory class to let the post type arguments set in the method.
+
 = 3.4.1 - 2014/12/21 =
 - Added the `options_update_status_{...}` and `validation_saved_options_without_dynamic_elements_` filters for the admin page factory class.
 - Added the `field_definition_{...}` filters for the page meta box class.

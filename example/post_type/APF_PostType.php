@@ -14,12 +14,16 @@ class APF_PostType extends AdminPageFramework_PostType {
     /**
      * This method is called at the end of the constructor.
      * 
-     * Use this method to set post type arguments and add custom taxonomies as those need to be done in the front-end as well.
-     * Also, to add custom taxonomies, the setUp() method is too late.
-     * 
      * ALternatevely, you may use the start_{instantiated class name} method, which also is called at the end of the constructor.
      */
-    public function start() {    
+    public function start() {}
+    
+    /**
+     * Use this method to set up the post type.
+     * 
+     * ALternatevely, you may use the set_up_{instantiated class name} method, which also is called at the end of the constructor.
+     */
+    public function setUp() {    
 
         $this->setArguments(
             array( // argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
@@ -89,13 +93,6 @@ class APF_PostType extends AdminPageFramework_PostType {
             )
         );
                 
-    }
-    
-    /**
-     * Automatically called with the 'wp_loaded' hook.
-     */
-    public function setUp() {
-
         if ( $this->oProp->bIsAdmin ) {
                 
             $this->setAutoSave( false );
