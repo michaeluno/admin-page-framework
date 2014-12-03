@@ -263,7 +263,7 @@ class APF_Demo_Contact extends AdminPageFramework {
                     'MySQL'                 => '', 
                     'Server'                => '',
                 ) 
-                + get_option( 'APF_Demo' ), // the stored options of the main demo class
+                + get_option( 'APF_Demo', array() ), // the stored options of the main demo class
                 'attributes'    => array(
                     'rows'          =>  10,
                 ),
