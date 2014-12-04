@@ -255,7 +255,7 @@ class AdminPageFramework_Message {
                 case 'nonce_verification_failed':
                     return __( 'A problem occurred while processing the form data. Please try again.', 'admin-page-framework' );
                 case 'send_email':  // 3.3.0+
-                    return __( 'Are you sure you want to send the email?', 'admin-page-framewok' );
+                    return __( 'Is it okay to send the email?', 'admin-page-framewok' );
                 case 'email_sent':  // 3.3.0+
                     return __( 'The email has been sent.', 'admin-page-framework' );
                 case 'email_could_not_send':  // 3.3.0+
