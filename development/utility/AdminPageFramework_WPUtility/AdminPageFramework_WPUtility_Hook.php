@@ -19,6 +19,23 @@ if ( ! class_exists( 'AdminPageFramework_WPUtility_Hook' ) ) :
 class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Page {
     
     /**
+     * Registers an action by adding the given callback to the specified action hook.
+     * 
+     * If the action has been already done, it calls the callback right away.
+     * 
+     * @since       3.4.2
+     * @todo        Create a similar function for filters.
+     */
+    static public function registerAction( $sActionHook, $oCallable ) {
+      
+        if ( did_action( $sActionHook ) ) {
+            return call_user_func_array( $oCallable );
+        }
+        add_action( $sActionHook, $oCallable );
+
+    }
+    
+    /**
      * Triggers the do_action() function with the given action names and the arguments.
      * 
      * This is useful to perform do_action() on multiple action hooks with the same set of arguments.
