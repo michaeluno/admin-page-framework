@@ -265,7 +265,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         // Check if the sending email is confirmed - this should be done before the redirect because the user may set a redirect and email. In that case, send the email first and redirect to the set page.
         if ( $_bConfirmedToSendEmail ) {
             // @todo Consider passing $aInput rather than $aInputRaw.
-            $this->_sendEmail( $aInputRaw, $_sPressedInputName, $_sSubmitSectionID );
+            $this->_sendEmailInBackground( $aInputRaw, $_sPressedInputName, $_sSubmitSectionID );
             $this->oProp->_bDisableSavingOptions = true;
             $this->oUtil->deleteTransient( 'apf_tfd' . md5( 'temporary_form_data_' . $this->oProp->sClassName . get_current_user_id() ) );
             return $aInputRaw;
@@ -344,9 +344,11 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
          * 
          * @since   3.3.0
          */
-        private function _sendEmail( $aInput, $sPressedInputNameFlat, $sSubmitSectionID ) {
+        private function _sendEmailInBackground( $aInput, $sPressedInputNameFlat, $sSubmitSectionID ) {
             
-            $_aEmailOptions = $this->oUtil->getTransient( 'apf_em_' . md5( $sPressedInputNameFlat . get_current_user_id() ) );
+            $_sTranskentKey = 'apf_em_' . md5( $sPressedInputNameFlat . get_current_user_id() );
+            $_aEmailOptions = $this->oUtil->getTransient( $_sTranskentKey );
+            $this->oUtil->deleteTransient( $_sTranskentKey );
             $_aEmailOptions = $this->oUtil->getAsArray( $_aEmailOptions ) + array(
                 'to'            => '',
                 'subject'       => '',
@@ -358,29 +360,31 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 'name'          => '',
             );
 
-            if ( $_bIsHTML = $this->_getEmailArgument( $aInput, $_aEmailOptions, 'is_html', $sSubmitSectionID ) ) {
-                add_filter( 'wp_mail_content_type', array( $this, '_replyToSetMailContentTypeToHTML' ) );
-            }
-            if ( $this->_sEmailSenderAddress = $this->_getEmailArgument( $aInput, $_aEmailOptions, 'from', $sSubmitSectionID ) ) {
-                add_filter( 'wp_mail_from', array( $this, '_replyToSetEmailSenderAddress' ) );
-            }
-            if ( $this->_sEmailSenderName = $this->_getEmailArgument( $aInput, $_aEmailOptions, 'name', $sSubmitSectionID ) ) {
-                add_filter( 'wp_mail_from_name', array( $this, '_replyToSetEmailSenderAddress' ) );
-            }
+            $_sTransientKey  = 'apf_emd_' . md5( $sPressedInputNameFlat . get_current_user_id() );
+            $_aFormEmailData = array(
+                'email_options' => $_aEmailOptions,
+                'input'         => $aInput,
+                'section_id'    => $sSubmitSectionID,
+            );
+            $_bIsSet = $this->oUtil->setTransient( $_sTransientKey,  $_aFormEmailData, 100 );
             
-            $_bSent         = wp_mail( 
-                $this->_getEmailArgument( $aInput, $_aEmailOptions, 'to', $sSubmitSectionID ),
-                $this->_getEmailArgument( $aInput, $_aEmailOptions, 'subject', $sSubmitSectionID ),
-                $_bIsHTML 
-                    ? $this->oUtil->getReadableListOfArrayAsHTML( ( array ) $this->_getEmailArgument( $aInput, $_aEmailOptions, 'message', $sSubmitSectionID ) )
-                    : $this->oUtil->getReadableListOfArray( ( array ) $this->_getEmailArgument( $aInput, $_aEmailOptions, 'message', $sSubmitSectionID ) ),
-                $this->_getEmailArgument( $aInput, $_aEmailOptions, 'headers', $sSubmitSectionID ),
-                $this->_getEmailArgument( $aInput, $_aEmailOptions, 'attachments', $sSubmitSectionID )
-            );         
-            remove_filter( 'wp_mail_content_type', array( $this, '_replyToSetMailContentTypeToHTML' ) );
-            remove_filter( 'wp_mail_from', array( $this, '_replyToSetEmailSenderAddress' ) );
-            remove_filter( 'wp_mail_from_name', array( $this, '_replyToSetEmailSenderAddress' ) );
+            // Send the email in the background.
+            $_oaResponse = wp_remote_get( 
+                add_query_arg( 
+                    array( 
+                        'apf_action' => 'email',
+                        'transient'  => $_sTransientKey,
+                    ), 
+                    admin_url( $GLOBALS['pagenow'] ) 
+                ),
+                array( 
+                    'timeout'     => 0.01, 
+                    'sslverify'   => false, 
+                ) 
+            );  
             
+            // not possible to tell whether it is sent or not at the moment because it is performed in the background.
+            $_bSent      = $_bIsSet;    
             $this->setSettingNotice( 
                 $this->oMsg->get( 
                     $_bSent 
@@ -391,54 +395,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             );
         
         }   
-            /**
-             * Sets the mail content type to HTML.
-             * @since   3.3.0
-             */
-            public function _replyToSetMailContentTypeToHTML( $sContentType ) {
-                return 'text/html';
-            }
-            /**
-             * Sets the email sender address.
-             * 
-             * @since   3.3.0
-             */            
-            function _replyToSetEmailSenderAddress( $sEmailSenderAddress ) {
-                return $this->_sEmailSenderAddress;
-            }            
-            /**
-             * Sets the email sender name.
-             * 
-             * @since   3.3.0
-             */            
-            function _replyToSetEmailSenderName( $sEmailSenderAddress ) {
-                return $this->_sEmailSenderName;
-            }            
-                        
-            
-            /**
-             * Returns the email argument value by the given key.
-             * 
-             * If the element is a string, pass it as it is. If it is an array representing the dimensional key structure, retrieve it from the input array.
-             * 
-             * @since   3.3.0
-             */
-            private function _getEmailArgument( $aInput, array $aEmailOptions, $sKey, $sSectionID ) {
-                
-                // If the dimensional key representation array is passed, find the value from the given input array.
-                if ( is_array( $aEmailOptions[ $sKey ] ) ) {
-                    return $this->oUtil->getArrayValueByArrayKeys( $aInput, $aEmailOptions[ $sKey ] );
-                }
-                
-                // If the key element is empty, search the corresponding item in the same section. 
-                if ( ! $aEmailOptions[ $sKey ] ) {
-                    return $this->oUtil->getArrayValueByArrayKeys( $aInput, array( $sSectionID, $sKey ) );
-                }
-                
-                // At this point, a string value should be set.
-                return $aEmailOptions[ $sKey ];
-                
-            }
+ 
             
         /**
          * Confirms the given submit button action and sets a confirmation message as a field error message and admin notice.

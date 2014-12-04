@@ -70,14 +70,67 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
             return;
         }
         
-        if ( $this->oProp->bIsAdmin ) {
+        if ( ! $this->oProp->bIsAdmin ) {
+            return;
+        }
         
-            add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToRegisterSettings' ), 20 );
-            add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToCheckRedirects' ), 21 ); // should be loaded after registering the settings.
+        add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToRegisterSettings' ), 20 );
+        add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToCheckRedirects' ), 21 ); // should be loaded after registering the settings.
+        
+        // Form emails.
+        if ( isset( $_GET['apf_action'], $_GET['transient'] ) && 'email' === $_GET['apf_action'] ) {
+            
+            // wp_mail() will be loaded by the time 'plugins_loaded' is loaded.
+            $this->oUtil->registerAction( 'plugins_loaded', array( $this, '_replyToSendFormEmail' ) );
+
+        }
+        
+    }
+        
+        /**
+         * Indicates whether the email method is triggred or not.
+         * 
+         * Since multiple factory instances can load the constructor, it is possible that the method is called multiple times.
+         * 
+         * @since       3.4.2
+         */
+        static public $_bDoneEmail = false;
+        
+        /**
+         * Sends a form email.
+         * 
+         * This should be called only in the background.
+         * 
+         * @since       3.4.2
+         */
+        public function _replyToSendFormEmail() {
+            
+            if ( self::$_bDoneEmail ) {
+                return;
+            }
+            self::$_bDoneEmail = true;
+
+            $_sTransient = isset( $_GET['transient'] ) ? $_GET['transient'] : '';
+            if ( ! $_sTransient ) {
+                return;
+            }
+            $_aFormEmail = $this->oUtil->getTransient( $_sTransient );
+            $this->oUtil->deleteTransient( $_sTransient );
+            if ( ! is_array( $_aFormEmail ) ) {
+                return;
+            }
+
+            $_oEmail = new AdminPageFramework_FormEmail( 
+                $_aFormEmail['email_options'], 
+                $_aFormEmail['input'], 
+                $_aFormEmail['section_id'] 
+            );
+            $_bSent = $_oEmail->send();
+
+            exit;
             
         }
-                    
-    }
+        
         
     /**
      * Check if a redirect transient is set and if so it redirects to the set page.

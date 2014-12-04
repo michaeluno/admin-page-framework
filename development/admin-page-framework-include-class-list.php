@@ -24,6 +24,7 @@ $aClassFiles = array(
 	"AdminPageFramework_View"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework/AdminPageFramework_View.php", 
 	"AdminPageFramework_CustomSubmitFields"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework/validation/AdminPageFramework_CustomSubmitFields.php", 
 	"AdminPageFramework_ExportOptions"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework/validation/AdminPageFramework_ExportOptions.php", 
+	"AdminPageFramework_FormEmail"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework/validation/AdminPageFramework_FormEmail.php", 
 	"AdminPageFramework_ImportOptions"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework/validation/AdminPageFramework_ImportOptions.php", 
 	"AdminPageFramework_Factory"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/AdminPageFramework_Factory.php", 
 	"AdminPageFramework_Factory_Controller"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/AdminPageFramework_Factory_Controller.php", 
