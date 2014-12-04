@@ -79,5 +79,89 @@ class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hoo
         
     }
     
+    /**
+     * Downloads a file by the given URL.
+     * 
+     * @remark      The downloaded file should be unlinked(deleted) after it is ued as this function does not do it.
+     * @since       3.4.2
+     * @see         download_url() in file.php in core.
+     */
+    static public function download( $sURL, $iTimeOut=300 ) {
+        
+        if ( false === filter_var( $sURL, FILTER_VALIDATE_URL ) ) {
+            return false;
+        }
+
+        $_sTmpFileName = self::setTempPath( self::getBaseNameOfURL( $sURL ) );
+        if ( ! $_sTmpFileName ) {
+            return false;
+        }
+
+        $_aoResponse = wp_safe_remote_get( 
+            $sURL, 
+            array( 
+                'timeout'   => $iTimeOut, 
+                'stream'    => true, 
+                'filename'  => $_sTmpFileName
+            )
+        );
+
+        if ( is_wp_error( $_aoResponse ) ) {
+            unlink( $_sTmpFileName );
+            return false;
+        }
+
+        if ( 200 != wp_remote_retrieve_response_code( $_aoResponse ) ){
+            unlink( $_sTmpFileName );
+            return false;
+        }
+
+        $_sContent_md5 = wp_remote_retrieve_header( $_aoResponse, 'content-md5' );
+        if ( $_sContent_md5 ) {
+            $_boIsMD5 = verify_file_md5( $_sTmpFileName, $_sContent_md5 );
+            if ( is_wp_error( $_boIsMD5 ) ) {
+                unlink( $_sTmpFileName );
+                return false;
+            }
+        }
+
+        return $_sTmpFileName;
+    }    
+    
+    /**
+     * Sets a temporary file in the system temporary directory and return the file path.
+     * 
+     * This function respects the file name passed to the parameter.
+     * 
+     * @since       3.4.2
+     */
+    static public function setTempPath( $sFilePath='' ) {
+        
+        $_sDir = get_temp_dir();
+        
+        $sFilePath = basename( $sFilePath );
+        if ( empty( $sFilePath ) ) {            
+            $sFilePath = time() . '.tmp';
+        }
+
+        $sFilePath = $_sDir . wp_unique_filename( $_sDir, $sFilePath );
+        touch($sFilePath);
+        return $sFilePath;
+        
+    }    
+    
+    /**
+     * Returns the base name of a URL.
+     * 
+     * @since       3.4.2
+     */
+    static public function getBaseNameOfURL( $sURL ) {
+        
+        $_sPath         = parse_url( $sURL, PHP_URL_PATH) ; 
+        $_sFileBaseName = basename( $_sPath );
+        return $_sFileBaseName;
+        
+    }
+    
 }
 endif;
