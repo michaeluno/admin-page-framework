@@ -386,7 +386,9 @@ To specify a custom size to the preview element of the `image` field type, set a
     'title'         => __( 'Image', 'admin-page-framework-demo' ),
     'type'          => 'image',
     'attributes'    => array(
-        'style' => 'max-width:300px;',
+        'preview' => array(
+            'style' => 'max-width: 200px;',
+        ),
     ),
 ),`
 
