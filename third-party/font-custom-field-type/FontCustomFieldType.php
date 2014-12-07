@@ -57,24 +57,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
     protected function setUp() {
         
         $this->enqueueMediaUploader();    // defined in the parent class.
-        
-        wp_enqueue_script( 'jquery' );
-        wp_enqueue_script( 'jquery-ui-core' );
 
-        wp_enqueue_script(
-            'getAPFFontUploaderSelectObject',
-            $this->resolveSRC( dirname( __FILE__ ) . '/js/getAPFFontUploaderSelectObject.js' ),
-            array( 'jquery' )    // dependency
-        );
-        wp_localize_script(
-            'getAPFFontUploaderSelectObject', 
-            'oAPFFontUploader',     // the translation object name - used in the above script
-            array(  
-                'upload_font'   => __( 'Upload Font', 'admin-page-framework-demo' ),
-                'use_this_font' => __( 'Use This Font', 'admin-page-framework-demo' ),
-            ) 
-        );
-    
     }    
 
     /**
@@ -103,9 +86,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
     protected function getScripts() { 
         return // $this->_getScript_CustomMediaUploaderObject() . PHP_EOL
             $this->getScript_FontSelector(
-                "admin_page_framework", 
-                __( 'Upload Font', 'admin-page-framework-demo' ),
-                __( 'Use This Font', 'admin-page-framework-demo' )
+                "admin_page_framework"
             ) . PHP_EOL
             . $this->getScript_CreateSlider()
             . $this->getScript_RepeatableFields();
@@ -282,7 +263,12 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
         /**
          * Returns the font selector JavaScript script to be loaded in the head tag of the created admin pages.
          */        
-        private function getScript_FontSelector( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) {
+        private function getScript_FontSelector( $sReferrer ) {
+            
+            
+            $_sThickBoxTitle         = esc_js( __( 'Upload Font', 'admin-page-framework-demo' ) );
+            $_sThickBoxButtonUseThis = esc_js( __( 'Use This Font', 'admin-page-framework-demo' ) );
+            $_sInsertFromURL         = esc_js( $this->oMsg->get( 'insert_from_url' ) );
             
             if( ! function_exists( 'wp_enqueue_media' ) )    // means the WordPress version is 3.4.x or below
                 return "
@@ -296,7 +282,7 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
                             window.original_send_to_editor = window.send_to_editor;
                             window.send_to_editor = hfAPFSendToEditorFont;
                             var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
-                            tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
+                            tb_show( '{$_sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$_sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
                             return false;    // do not click the button after the script by returning false.                                    
                         });    
                     }                    
@@ -345,11 +331,13 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
                         oAPFOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
                         
                         // Assign a custom select object.
-                        wp.media.view.MediaFrame.Select = fExternalSource ? getAPFFontUploaderSelectObject() : oAPFOriginalImageUploaderSelectObject;
+                        wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalImageUploaderSelectObject;
                         var _oFontUploader = wp.media({
-                            title: '{$sThickBoxTitle}',
+                            title:      fExternalSource
+                                ? '{$_sInsertFromURL}'
+                                : '{$_sThickBoxTitle}',                            
                             button: {
-                                text: '{$sThickBoxButtonUseThis}'
+                                text: '{$_sThickBoxButtonUseThis}'
                             },
                             
                             library: {
@@ -369,27 +357,39 @@ class FontCustomFieldType extends AdminPageFramework_FieldType {
                             var state = _oFontUploader.state();
                             
                             // Check if it's an external URL
-                            if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) 
-                                var image = state.props.attributes;    
-                            
+                            if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) {
+                                
+                                // 3.4.2+ Somehow the image object breaks when it is passed to a function or cloned or enclosed in an object so recreateing it manually.
+                                var _oFont = {}, _sKey;
+                                for ( _sKey in state.props.attributes ) {
+                                    _oFont[ _sKey ] = state.props.attributes[ _sKey ];
+                                }    
+                                
+                            } 
+                                
                             // If the image variable is not defined at this point, it's an attachment, not an external URL.
-                            if ( typeof( image ) !== 'undefined'  ) {
-                                setFontPreviewElementWithDelay( sInputID, image );
+                            if ( 'undefined' !== typeof( _oFont ) ) {
+                                setFontPreviewElementWithDelay( sInputID, _oFont );
                             } else {
                                 
                                 var _oNewField;
-                                _oFontUploader.state().get( 'selection' ).each( function( attachment, iIndex ) {
-                                    attachment = attachment.toJSON();
+                                _oFontUploader.state().get( 'selection' ).each( function( oAttachment, iIndex ) {
+                                    
+                                    var _oAttributes = oAttachment.hasOwnProperty( 'attributes' )
+                                        ? oAttachment.attributes
+                                        : {};                                       
                                     if( 0 === iIndex ){    
                                         // place first attachment in field
-                                        setFontPreviewElementWithDelay( sInputID, attachment );
+                                        setFontPreviewElementWithDelay( sInputID, _oAttributes );
                                         return true;
                                     } 
                                         
-                                    var _oFieldContainer    = 'undefined' === typeof _oNewField ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) : _oNewField;
+                                    var _oFieldContainer    = 'undefined' === typeof _oNewField 
+                                        ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) 
+                                        : _oNewField;
                                     _oNewField              = jQuery( this ).addAPFRepeatableField( _oFieldContainer.attr( 'id' ) );
                                     var sInputIDOfNewField = _oNewField.find( 'input' ).attr( 'id' );
-                                    setFontPreviewElementWithDelay( sInputIDOfNewField, attachment );
+                                    setFontPreviewElementWithDelay( sInputIDOfNewField, _oAttributes );
         
                                 });                
                                 

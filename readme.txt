@@ -454,6 +454,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.4.2 =
 - Added the ability to accept URLs for the `attachments` argument for the `email` argument of the `submit` field type.
 - Changed the timing of the `setUp()` method of the post type factory class to let the post type arguments set in the method.
+- Fixed an issue of the custom media uploader with IE8.
+- Fixed a bug that the `Insert from URL` pane of the custom uploader modal window did not function even when the `allow_external_source` is set to `true`.
 
 = 3.4.1 - 2014/12/21 =
 - Added the `options_update_status_{...}` and `validation_saved_options_without_dynamic_elements_` filters for the admin page factory class.

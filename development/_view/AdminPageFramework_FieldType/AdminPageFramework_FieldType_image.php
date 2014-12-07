@@ -57,9 +57,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
     public function _replyToGetScripts() {     
         return // $this->_getScript_CustomMediaUploaderObject() . PHP_EOL    
             $this->_getScript_ImageSelector( 
-                "admin_page_framework", 
-                $this->oMsg->get( 'upload_image' ),
-                $this->oMsg->get( 'use_this_image' )
+                "admin_page_framework"
             )  . PHP_EOL
             . $this->_getScript_RegisterCallbacks();
     }
@@ -200,21 +198,26 @@ JAVASCRIPTS;
         
         /**
          * Returns the image selector JavaScript script to be loaded in the head tag of the created admin pages.
-         * @var string
-         * @remark It is accessed from the main class and meta box class.
-         * @remark Moved to the base class since 2.1.0.
-         * @access private    
+         * 
+         * @var         string
+         * @remark      It is accessed from the main class and meta box class.
+         * @remark      Moved to the base class since 2.1.0.
+         * @access      private    
          * @internal
-         * @return string The image selector script.
-         * @since 2.0.0
-         * @since 2.1.5 Moved from the AdminPageFramework_Property_Base class. Changed the name from getImageSelectorScript(). Changed the scope to private and not static anymore.
+         * @return      string      The image selector script.
+         * @since       2.0.0
+         * @since       2.1.5       Moved from the AdminPageFramework_Property_Base class. Changed the name from getImageSelectorScript(). Changed the scope to private and not static anymore.
+         * @since       2.4.2       Remved the second an the thir parameter as additional message items need to be defined.
          */     
-        private function _getScript_ImageSelector( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) {
+        private function _getScript_ImageSelector( $sReferrer ) {
+                            
+            $_sThickBoxTitle         = esc_js( $this->oMsg->get( 'upload_image' ) );
+            $_sThickBoxButtonUseThis = esc_js( $this->oMsg->get( 'use_this_image' ) );
+            $_sInsertFromURL         = esc_js( $this->oMsg->get( 'insert_from_url' ) );
+
+            // if the WordPress version is 3.4.x or below
+            if ( ! function_exists( 'wp_enqueue_media' ) ) {
             
-            $sThickBoxTitle         = esc_js( $sThickBoxTitle );
-            $sThickBoxButtonUseThis = esc_js( $sThickBoxButtonUseThis );
-             
-            if ( ! function_exists( 'wp_enqueue_media' ) ) // means the WordPress version is 3.4.x or below
                 return <<<JAVASCRIPTS
 /**
  * Bind/rebinds the thickbox script the given selector element.
@@ -228,7 +231,7 @@ setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
         window.original_send_to_editor  = window.send_to_editor;
         window.send_to_editor           = hfAPFSendToEditorImage;
         var fExternalSource             = jQuery( this ).attr( 'data-enable_external_source' );
-        tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
+        tb_show( '{$_sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$_sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
         return false; // do not click the button after the script by returning false.     
     });    
 }     
@@ -283,6 +286,8 @@ var hfAPFSendToEditorImage = function( sRawHTML ) {
 
 }
 JAVASCRIPTS;
+            }
+            
             return <<<JAVASCRIPTS
 // Global Function Literal 
 /**
@@ -311,50 +316,65 @@ setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
         // Store the original select object in a global variable
         oAPFOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
         
-        // Assign a custom select object.
+        // Assign a custom select object
         wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalImageUploaderSelectObject;
         _oCustomImageUploader = wp.media({
-            title:      '{$sThickBoxTitle}',
+            id:         sInputID,
+            title:      fExternalSource ? '{$_sInsertFromURL}' : '{$_sThickBoxTitle}',
             button:     {
-                text: '{$sThickBoxButtonUseThis}'
-            },
-            library:    { type : 'image' },
+                text: '{$_sThickBoxButtonUseThis}'
+            },       
+            type:       'image', 
+            library:    { type : 'image' },                             
             multiple:   fMultiple,  // Set this to true to allow multiple files to be selected
-            metadata:   { test : 'testing' },
+            metadata:   {},
         });
-
+        
+        
         // When the uploader window closes, 
         _oCustomImageUploader.on( 'escape', function() {
             _bEscaped = true;
             return false;
         });
         _oCustomImageUploader.on( 'close', function() {
-
+ 
             var state = _oCustomImageUploader.state();     
             // Check if it's an external URL
             if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) {
-                var image = state.props.attributes;    
+                
+                // 3.4.2+ Somehow the image object breaks when it is passed to a function or cloned or enclosed in an object so recreateing it manually.
+                var _oImage = {}, _sKey;
+                for ( _sKey in state.props.attributes ) {
+                    _oImage[ _sKey ] = state.props.attributes[ _sKey ];
+                }      
+                
             }
             
-            // If the image variable is not defined at this point, it's an attachment, not an external URL.
-            if ( typeof( image ) !== 'undefined'  ) {
-                setImagePreviewElementWithDelay( sInputID, image );
+            // If the _oImage variable is not defined at this point, it's an attachment, not an external URL.
+            if ( typeof( _oImage ) !== 'undefined'  ) {
+                setImagePreviewElementWithDelay( sInputID, _oImage );
+          
             } else {
                 
                 var _oNewField;
-                _oCustomImageUploader.state().get( 'selection' ).each( function( attachment, iIndex ) {
+                _oCustomImageUploader.state().get( 'selection' ).each( function( oAttachment, iIndex ) {
 
-                    attachment = attachment.toJSON();
+                    var _oAttributes = oAttachment.hasOwnProperty( 'attributes' )
+                        ? oAttachment.attributes
+                        : {};
+                    
                     if ( 0 === iIndex ){    
                         // place first attachment in the field
-                        setImagePreviewElementWithDelay( sInputID, attachment );
+                        setImagePreviewElementWithDelay( sInputID, _oAttributes );
                         return true;
                     } 
 
-                    var _oFieldContainer    = 'undefined' === typeof _oNewField ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) : _oNewField;
+                    var _oFieldContainer    = 'undefined' === typeof _oNewField 
+                        ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) 
+                        : _oNewField;
                     _oNewField              = jQuery( this ).addAPFRepeatableField( _oFieldContainer.attr( 'id' ) );
                     var sInputIDOfNewField  = _oNewField.find( 'input' ).attr( 'id' );
-                    setImagePreviewElementWithDelay( sInputIDOfNewField, attachment );
+                    setImagePreviewElementWithDelay( sInputIDOfNewField, _oAttributes );
                     
                 });     
                 
@@ -364,15 +384,17 @@ setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
             wp.media.view.MediaFrame.Select = oAPFOriginalImageUploaderSelectObject;
                             
         });
-        
+      
         // Open the uploader dialog
-        _oCustomImageUploader.open();     
-        return false;       
+        _oCustomImageUploader.open();
+        return false;
+        
     });    
 
     var setImagePreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
-    
+ 
         iMilliSeconds = 'undefined' === typeof iMilliSeconds ? 100 : iMilliSeconds;
+           
         setTimeout( function (){
             if ( ! _bEscaped ) {
                 setImagePreviewElement( sInputID, oImage );
@@ -411,7 +433,7 @@ removeInputValuesForImage = function( oElem ) {
 setImagePreviewElement = function( sInputID, oImage ) {
 
     var oImage      = jQuery.extend( 
-        // {}, 
+        true,   // recursive
         { 
             caption:    '',  
             alt:        '',
@@ -430,7 +452,7 @@ setImagePreviewElement = function( sInputID, oImage ) {
     var _sCaption   = jQuery( '<div/>' ).text( oImage.caption ).html();
     var _sAlt       = jQuery( '<div/>' ).text( oImage.alt ).html();
     var _sTitle     = jQuery( '<div/>' ).text( oImage.title ).html();
-    
+
     // If the user wants the attributes to be saved, set them in the input tags.
     jQuery( 'input#' + sInputID ).val( oImage.url ); // the url field is mandatory so it does not have the suffix.
     jQuery( 'input#' + sInputID + '_id' ).val( oImage.id );

@@ -78,8 +78,6 @@ class AdminPageFramework_Message {
             'could_not_load_importing_data'         => null,
             'imported_data'                         => null,
             'not_imported_data'                     => null,
-            'upload_image'                          => null,
-            'use_this_image'                        => null,
             'reset_options'                         => null,
             'confirm_perform_task'                  => null,
             'specified_option_been_deleted'         => null,
@@ -107,6 +105,8 @@ class AdminPageFramework_Message {
             'manage'                                => null,
             
             // AdminPageFramework_FieldType_{...}
+            'upload_image'                          => null,
+            'use_this_image'                        => null,            
             'select_image'                          => null,
             'upload_file'                           => null,
             'use_this_file'                         => null,
@@ -115,6 +115,13 @@ class AdminPageFramework_Message {
             'select_all'                            => null,    // 3.3.0+
             'select_none'                           => null,    // 3.3.0+
             'no_term_found'                         => null,    // 3.3.2+
+            'insert_from_url'                       => null,    // 3.4.2+
+            
+            // AdminPageFramework_Script_{...}
+            'select'                                => null,    // 3.4.2+
+            'insert'                                => null,    // 3.4.2+                               
+            'use_this'                              => null,    // 3.4.2+                               
+            'return_to_library'                     => null,    // 3.4.2+                               
             
             // AdminPageFramework_PageLoadInfo_Base
             'queries_in_seconds'                    => null,
@@ -246,6 +253,8 @@ class AdminPageFramework_Message {
                     return __( 'Upload Image', 'admin-page-framework' );
                 case 'use_this_image':
                     return __( 'Use This Image', 'admin-page-framework' );
+                case 'insert_from_url':
+                    return __( 'Insert from URL', 'admin-page-framework' );
                 case 'reset_options':
                     return __( 'Are you sure you want to reset the options?', 'admin-page-framework' );
                 case 'confirm_perform_task':
@@ -306,6 +315,16 @@ class AdminPageFramework_Message {
                     return __( 'Select None', 'admin-page-framework' );          
                 case 'no_term_found':   // 3.3.2+
                     return __( 'No term found.', 'admin-page-framework' );
+
+                // AdminPageFramework_Script_{...}
+                case 'select':          // 3.4.2+
+                    return __( 'Select', 'admin-page-framework' );          
+                case 'insert':          // 3.4.2+
+                    return __( 'Insert', 'admin-page-framework' );                              
+                case 'use_this':        // 3.4.2+
+                    return __( 'Use This', 'admin-page-framework' );                   
+                case 'return_to_library':        // 3.4.2+
+                    return __( 'Return to Library', 'admin-page-framework' );
                     
                 // AdminPageFramework_PageLoadInfo_Base
                 case 'queries_in_seconds':
@@ -316,7 +335,7 @@ class AdminPageFramework_Message {
                     return __( 'Peak memory usage %1$s MB.', 'admin-page-framework' );
                 case 'initial_memory_usage':
                     return __( 'Initial memory usage  %1$s MB.', 'admin-page-framework' );
-        
+                
                 // AdminPageFramework_FormField
                 case 'allowed_maximum_number_of_fields':
                     return __( 'The allowed maximum number of fields is {0}.', 'admin-page-framework' );

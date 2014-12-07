@@ -53,7 +53,11 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
         
         // means the WordPress version is 3.4.x or below
         if ( ! function_exists( 'wp_enqueue_media' ) ) { return ""; } 
- 
+
+        // Labels
+        $_sReturnToLibrary  = esc_js( $_oMsg->get( 'return_to_library' ) );
+        $_sSelect           = esc_js( $_oMsg->get( 'select' ) );
+        $_sInsert           = esc_js( $_oMsg->get( 'insert' ) );
         
         /**
          * Returns the custom uploader frame object.
@@ -70,10 +74,10 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
                 wp.media.view.MediaFrame.prototype.initialize.apply( this, arguments );
 
                 _.defaults( this.options, {
-                    multiple:  true,
-                    editing:   false,
-                    state:    'insert',
-                    metadata:   {},
+                    multiple:   true,
+                    editing:    false,
+                    state:      'insert',
+                    metadata:   {}
                 });
 
                 this.createSelection();
@@ -97,7 +101,6 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
                         library:    wp.media.query( options.library ),
                         multiple:   options.multiple ? 'reset' : false,
                         editable:   true,
-
                         // If the user isn't allowed to edit fields,
                         // can they still edit it locally?
                         allowLocalEdits: true,
@@ -178,7 +181,7 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
 
             editSelectionContent: function() {
                 var state = this.state(),
-                    selection = state.get('selection'),
+                    selection = state.get( 'selection' ),
                     view;
 
                 view = new wp.media.view.AttachmentsBrowser({
@@ -194,11 +197,11 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
                 }).render();
 
                 view.toolbar.set( 'backToLibrary', {
-                    text:     'Return to Library',
+                    text:     '{$_sReturnToLibrary}',
                     priority: -100,
 
                     click: function() {
-                        this.controller.content.mode('browse');
+                        this.controller.content.mode( 'browse' );
                     }
                 });
 
@@ -206,19 +209,19 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
                 this.content.set( view );
             },
 
-            // Toolbars
+            // Toolbars             
             selectionStatusToolbar: function( view ) {
                 var editable = this.state().get('editable');
 
                 view.set( 'selection', new wp.media.view.Selection({
                     controller: this,
-                    collection: this.state().get('selection'),
+                    collection: this.state().get( 'selection' ),
                     priority:   -40,
 
                     // If the selection is editable, pass the callback to
                     // switch the content mode.
                     editable: editable && function() {
-                        this.controller.content.mode('edit-selection');
+                        this.controller.content.mode( 'edit-selection' );
                     }
                 }).render() );
             },
@@ -231,12 +234,12 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
                 view.set( 'insert', {
                     style:    'primary',
                     priority: 80,
-                    text:     'Select Image',
+                    text:     '{$_sSelect}',
                     requires: { selection: true },
 
                     click: function() {
                         var state = controller.state(),
-                            selection = state.get('selection');
+                            selection = state.get( 'selection' );
 
                         controller.close();
                         state.trigger( 'insert', selection ).reset();
@@ -250,13 +253,24 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
                     state: this.options.state || 'upload'
                 });
             },
-                
+           
             mainEmbedToolbar: function( toolbar ) {
+                
+                /**
+                 * 3.4.2+ When the vertical menu is switched to the Insert from URL pane, if the library has a value, 
+                 * it causes an error saying 'undefined is not a funciton' with the line calling library.on(...).
+                 * So here we need to unset the 'library' element.
+                 */
+                var state = this.state();    
+                state.set( 'library', false );
+
                 toolbar.view = new wp.media.view.Toolbar.Embed({
                     controller: this,
-                    text: 'Insert Image'
+                    text: '{$_sInsert}'
                 });
-            }     
+   
+            }        
+            
         });
     }            
     

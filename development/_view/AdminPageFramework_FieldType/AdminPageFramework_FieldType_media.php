@@ -58,9 +58,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
     public function _replyToGetScripts() {
         return // $this->_getScript_CustomMediaUploaderObject() . PHP_EOL // defined in the parent class
             $this->_getScript_MediaUploader(
-                "admin_page_framework", 
-                $this->oMsg->get( 'upload_file' ),
-                $this->oMsg->get( 'use_this_file' )
+                "admin_page_framework"
             ) . PHP_EOL
             . $this->_getScript_RegisterCallbacks();
     }    
@@ -179,15 +177,18 @@ JAVASCRIPTS;
         /**
          * Returns the media uploader JavaScript script to be loaded in the head tag of the created admin pages.
          * 
-         * @since 2.1.3
-         * @since 2.1.5 Moved from ... Chaned the name from getMediaUploaderScript().
+         * @since       2.1.3
+         * @since       2.1.5       Moved from ... Chaned the name from getMediaUploaderScript().
+         * @since       2.4.2       Remved the second an the thir parameter as additional message items need to be defined.
          */
-        private function _getScript_MediaUploader( $sReferrer, $sThickBoxTitle, $sThickBoxButtonUseThis ) {
+        private function _getScript_MediaUploader( $sReferrer ) {
+
+            $_sThickBoxTitle         = esc_js( $this->oMsg->get( 'upload_file' ) );
+            $_sThickBoxButtonUseThis = esc_js( $this->oMsg->get( 'use_this_file' ) );
+            $_sInsertFromURL         = esc_js( $this->oMsg->get( 'insert_from_url' ) );
             
-            $sThickBoxTitle         = esc_js( $sThickBoxTitle );
-            $sThickBoxButtonUseThis = esc_js( $sThickBoxButtonUseThis );            
-            
-            if ( ! function_exists( 'wp_enqueue_media' ) ) // means the WordPress version is 3.4.x or below
+            // If the WordPress version is 3.4.x or below
+            if ( ! function_exists( 'wp_enqueue_media' ) ) {
                 return <<<JAVASCRIPTS
                     /**
                      * Bind/rebinds the thickbox script the given selector element.
@@ -201,7 +202,7 @@ JAVASCRIPTS;
                             window.original_send_to_editor = window.send_to_editor;
                             window.send_to_editor = hfAPFSendToEditorMedia;
                             var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
-                            tb_show( '{$sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
+                            tb_show( '{$_sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$_sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
                             return false; // do not click the button after the script by returning false.     
                         });    
                     }     
@@ -226,7 +227,8 @@ JAVASCRIPTS;
 
                     }
 JAVASCRIPTS;
-                
+            }
+            
             return <<<JAVASCRIPTS
                 // Global Function Literal 
                 /**
@@ -258,9 +260,11 @@ JAVASCRIPTS;
                         // Assign a custom select object.
                         wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalMediaUploaderSelectObject;
                         _oMediaUploader = wp.media({
-                            title:      '{$sThickBoxTitle}',
+                            title:      fExternalSource
+                                ? '{$_sInsertFromURL}'
+                                : '{$_sThickBoxTitle}',
                             button:     {
-                                text: '{$sThickBoxButtonUseThis}'
+                                text: '{$_sThickBoxButtonUseThis}'
                             },
                             multiple:   fMultiple, // Set this to true to allow multiple files to be selected
                             metadata:   {},
@@ -277,27 +281,39 @@ JAVASCRIPTS;
                             
                             // Check if it's an external URL
                             if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) {
-                                var image = state.props.attributes;    
+
+                                // 3.4.2+ Somehow the image object breaks when it is passed to a function or cloned or enclosed in an object so recreateing it manually.
+                                var _oMedia = {}, _sKey;
+                                for ( _sKey in state.props.attributes ) {
+                                    _oMedia[ _sKey ] = state.props.attributes[ _sKey ];
+                                }      
+                                
                             }
                             
                             // If the image variable is not defined at this point, it's an attachment, not an external URL.
-                            if ( typeof( image ) !== 'undefined'  ) {
-                                setMediaPreviewElementWithDelay( sInputID, image );
+                            if ( typeof( _oMedia ) !== 'undefined'  ) {
+                                setMediaPreviewElementWithDelay( sInputID, _oMedia );
                             } else {
                                 
                                 var _oNewField;
-                                _oMediaUploader.state().get( 'selection' ).each( function( attachment, iIndex ) {
-                                    attachment = attachment.toJSON();
+                                _oMediaUploader.state().get( 'selection' ).each( function( oAttachment, iIndex ) {
+
+                                    var _oAttributes = oAttachment.hasOwnProperty( 'attributes' )
+                                        ? oAttachment.attributes
+                                        : {};                                    
+                                    
                                     if( 0 === iIndex ){    
                                         // place first attachment in field
-                                        setMediaPreviewElementWithDelay( sInputID, attachment );
+                                        setMediaPreviewElementWithDelay( sInputID, _oAttributes );
                                         return true;
                                     } 
                                         
-                                    var _oFieldContainer    = 'undefined' === typeof _oNewField ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) : _oNewField;
+                                    var _oFieldContainer    = 'undefined' === typeof _oNewField 
+                                        ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) 
+                                        : _oNewField;
                                     _oNewField              = jQuery( this ).addAPFRepeatableField( _oFieldContainer.attr( 'id' ) );
                                     var sInputIDOfNewField  = _oNewField.find( 'input' ).attr( 'id' );
-                                    setMediaPreviewElementWithDelay( sInputIDOfNewField, attachment );
+                                    setMediaPreviewElementWithDelay( sInputIDOfNewField, _oAttributes );
                                 
                                 });     
                                 
