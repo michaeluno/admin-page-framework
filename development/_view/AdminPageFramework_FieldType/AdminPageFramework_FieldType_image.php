@@ -297,7 +297,32 @@ setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
 
     var _bEscaped = false; // indicates whether the frame is escaped/canceled.
     var _oCustomImageUploader;
+
+    // The input element.
+    jQuery( '#' + sInputID + '[data-show_preview="1"]' ).unbind( 'change' ); // for repeatable fields
+    jQuery( '#' + sInputID + '[data-show_preview="1"]' ).change( function( e ) {
+        
+        var _sImageURL = jQuery( this ).val();
+        
+        // Check if it is a valid image url.
+        jQuery( '<img>', {
+            src: _sImageURL,
+            error: function() {},
+            load: function() { 
+                // if valid,  set the preview.
+                setImagePreviewElement( 
+                    sInputID, 
+                    { 
+                        url: _sImageURL 
+                    } 
+                );
+            }
+        });
+        
+        
+    } );
     
+    // The Select button element.
     jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
     jQuery( '#select_image_' + sInputID ).click( function( e ) {
      
@@ -403,7 +428,7 @@ setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
         }, iMilliSeconds );
         
     }
-
+        
 }    
 /**
  * Removes the set values to the input tags.
@@ -577,9 +602,10 @@ CSSRULES;
         $_aBaseAttributes = $aField['attributes'] + array( 'class' => null );
         unset( $_aBaseAttributes['input'], $_aBaseAttributes['button'], $_aBaseAttributes['preview'], $_aBaseAttributes['name'], $_aBaseAttributes['value'], $_aBaseAttributes['type'], $_aBaseAttributes['remove_button'] );
         $_aInputAttributes = array(
-            'name'  => $aField['attributes']['name'] . ( $_iCountAttributes ? "[url]" : "" ),
-            'value' => $_sImageURL,
-            'type'  => 'text',
+            'name'              => $aField['attributes']['name'] . ( $_iCountAttributes ? "[url]" : "" ),
+            'value'             => $_sImageURL,
+            'type'              => 'text',
+            'data-show_preview' => $aField['show_preview'], // 3.4.2+ Referenced to bind an input update event to the preview updater script.
         ) + $aField['attributes']['input'] + $_aBaseAttributes;
         $_aButtonAtributes          = $aField['attributes']['button'] + $_aBaseAttributes;
         $_aRemoveButtonAtributes    = $aField['attributes']['remove_button'] + $_aBaseAttributes;
@@ -638,7 +664,7 @@ CSSRULES;
          */
         protected function _getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) {
 
-            if ( ! $aField['show_preview'] ) return '';
+            if ( ! $aField['show_preview'] ) { return ''; }
             
             $sImageURL = $this->resolveSRC( $sImageURL, true );
             return 

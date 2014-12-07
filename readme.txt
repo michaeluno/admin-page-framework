@@ -452,6 +452,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.4.2 =
+- Added the ability to automatically update the preview element of an image field when an image URL is manually typed without using the upload window.
 - Added the ability to accept URLs for the `attachments` argument for the `email` argument of the `submit` field type.
 - Changed the timing of the `setUp()` method of the post type factory class to let the post type arguments set in the method.
 - Fixed an issue of the custom media uploader with IE8.
