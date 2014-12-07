@@ -299,8 +299,8 @@ setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
     var _oCustomImageUploader;
 
     // The input element.
-    jQuery( '#' + sInputID + '[data-show_preview="1"]' ).unbind( 'change' ); // for repeatable fields
-    jQuery( '#' + sInputID + '[data-show_preview="1"]' ).change( function( e ) {
+    jQuery( '#' + sInputID + '[data-show_preview=\"1\"]' ).unbind( 'change' ); // for repeatable fields
+    jQuery( '#' + sInputID + '[data-show_preview=\"1\"]' ).change( function( e ) {
         
         var _sImageURL = jQuery( this ).val();
         
