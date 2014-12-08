@@ -65,7 +65,12 @@ abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework
         if ( ! isset( $_GET['page'] ) ) {
             return false;
         }
-            
+        
+        // For in-page tabs.
+        if ( array_key_exists( $_GET['page'], $this->oProp->aPageSlugs ) ) {
+            return true;
+        }
+        
         return in_array( $_GET['page'], $this->oProp->aPageSlugs );
         
     }     

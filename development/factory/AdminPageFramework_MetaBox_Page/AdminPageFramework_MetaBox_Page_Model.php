@@ -114,19 +114,19 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
     public function _replyToAddMetaBox( $sPageHook='' ) {
 
         foreach( $this->oProp->aPageSlugs as $sKey => $asPage ) {
-            
+
             if ( is_string( $asPage ) )  {
                 $this->_addMetaBox( $asPage );
                 continue;
             }
             if ( ! is_array( $asPage ) ) { continue; }
             
-            $sPageSlug = $sKey;
-            foreach( $asPage as $sTabSlug ) {
+            $_sPageSlug = $sKey;
+            foreach( $asPage as $_sTabSlug ) {
                 
-                if ( ! $this->oProp->isCurrentTab( $sTabSlug ) ) { continue; }
+                if ( ! $this->oProp->isCurrentTab( $_sTabSlug ) ) { continue; }
                 
-                $this->_addMetaBox( $sPageSlug );
+                $this->_addMetaBox( $_sPageSlug );
                 
             }
             
