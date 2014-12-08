@@ -369,6 +369,18 @@ the callbacks of the filters and the actions.</p>
 	<li><strong>tabs_{instantiated class name}_{page slug}</strong> – receives the
 	registered in-page tab arrays. The first parameter: tabs container array.</li>
 
+	<li><strong>options_update_status_{instantiated class name}</strong> –
+	[3.4.1+] receives an array of options update status. First parameter: (array) an
+	array of options update status.</li>
+
+	<li><strong>options_update_status_{page slug}</strong> – [3.4.1+] receives an
+	array of options update status. First parameter: (array) an array of options
+	update status.</li>
+
+	<li><strong>options_update_status_{page slug}_{tab slug}</strong> – [3.4.1+]
+	receives an array of options update status. First parameter: (array) an array of
+	options update status.</li>
+
 	<li><strong>validation_{instantiated class name}_{field id}</strong> –
 	[3.0.0+] receives the form submission value of the field that does not have a
 	section. The first parameter: ( string|array ) submitted input value. The second
@@ -413,6 +425,24 @@ the callbacks of the filters and the actions.</p>
 
 	<li><strong>validation_saved_options_{page slug}_{tab slug}</strong> –
 	[3.0.0+] receives the saved form options as an array of the tab. The first
+	parameter: the stored options array of the tab. The second parameter: the caller
+	object.</li>
+
+	<li><strong>validation_saved_options_without_dynamic_elements_{instantiated
+	class name}</strong> – [3.4.1+] receives the saved form options as an array
+	without dynamic elements such as repeatable and sortable fields. The first
+	parameter: the stored options array. The second parameter: the caller
+	object.</li>
+
+	<li><strong>validation_saved_options_without_dynamic_elements_{page
+	slug}</strong> – [3.4.1+] receives the saved form options as an array of the
+	page without dynamic elements such as repeatable and sortable fields. The first
+	parameter: the stored options array of the page. The second parameter: the
+	caller object.</li>
+
+	<li><strong>validation_saved_options_without_dynamic_elements_{page slug}_{tab
+	slug}</strong> – [3.4.1+] receives the saved form options as an array of the
+	tab without dynamic elements such as repeatable and sortable fields. The first
 	parameter: the stored options array of the tab. The second parameter: the caller
 	object.</li>
 
@@ -656,6 +686,10 @@ class="php-keyword1">class</span> name}
  tabs_{instantiated <span
 class="php-keyword1">class</span> name}_{page slug}
 
+ options_update_status_{instantiated <span
+class="php-keyword1">class</span> name}
+ options_update_status_{page slug}
+ options_update_status_{page slug}_{tab slug}
  submit_{instantiated <span
 class="php-keyword1">class</span> name}_{pressed submit field id}
  submit_{instantiated <span
@@ -672,6 +706,10 @@ class="php-keyword1">class</span> name}
 class="php-keyword1">class</span> name}
  validation_saved_options_{page slug}_{tab slug}
  validation_saved_options_{page slug}
+ validation_saved_options_without_dynamic_elements_{instantiated <span
+class="php-keyword1">class</span> name}
+ validation_saved_options_without_dynamic_elements_{page slug}_{tab slug}
+ validation_saved_options_without_dynamic_elements_{page slug}
  validation_{instantiated <span
 class="php-keyword1">class</span> name}_{field id (which does not have a section)}
  validation_{instantiated <span

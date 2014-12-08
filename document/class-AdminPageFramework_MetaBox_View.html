@@ -227,6 +227,53 @@ AdminPageFramework_Factory
 
 
 		<h2>Methods summary</h2>
+		<table class="summary table table-bordered table-striped" id="methods">
+		<tr data-order="content" id="_content">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_content">#</a>
+			<code>content( <span>string <var>$sContent</var></span> )</code>
+
+
+			<div class="description detailed">
+				
+<p>The content filter method,</p>
+
+<p>The user may just override this method instead of defining a
+<code>content_{...}</code> callback method.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sContent</var></dt>
+						<dd><code>string</code><br>$sContent The filtering content string.</dd>
+					</dl></div>
+
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.4.1<br>
+					</div>
+					<h4>Remark</h4>
+					<div class="list">
+							Declare this method in each factory class as the form of parameters varies and
+if parameters are different, it triggers PHP strict standard warnings.<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		</table>
 
 		<h3>Methods inherited from <a href="class-AdminPageFramework_MetaBox_Model.html#methods">AdminPageFramework_MetaBox_Model</a></h3>
 		<p class="elementList">
@@ -259,16 +306,17 @@ AdminPageFramework_Factory
 		<h3>Methods inherited from AdminPageFramework_Factory_Model</h3>
 		<p class="elementList">
 			<code>_getFieldErrors()</code>, 
-			<code>_getSavedOptions()</code>, 
 			<code>_isValidationErrors()</code>, 
 			<code>_loadDefaultFieldTypeDefinitions()</code>, 
 			<code>_registerFields()</code>, 
 			<code>_replyToDeleteFieldErrors()</code>, 
 			<code>_replyToSaveFieldErrors()</code>, 
 			<code>_replyToSaveNotices()</code>, 
+			<code>_setLastInput()</code>, 
 			<code>_setUp()</code>, 
 			<code>getFieldErrors()</code>, 
-			<code>getSavedOptions()</code>
+			<code>getSavedOptions()</code>, 
+			<code>validate()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">

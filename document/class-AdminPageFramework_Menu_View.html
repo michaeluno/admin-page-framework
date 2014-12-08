@@ -344,16 +344,14 @@ AdminPageFramework_Page_View_MetaBox
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Form_Model</h3>
 		<p class="elementList">
-			<code>_getSavedOptions()</code>, 
 			<code>_replyToCheckRedirects()</code>, 
-			<code>_replyToRegisterSettings()</code>
+			<code>_replyToRegisterSettings()</code>, 
+			<code>_replyToSendFormEmail()</code>, 
+			<code>getSavedOptions()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Form_Model_Validation</h3>
 		<p class="elementList">
 			<code>_handleSubmittedData()</code>, 
-			<code>_replyToSetEmailSenderAddress()</code>, 
-			<code>_replyToSetEmailSenderName()</code>, 
-			<code>_replyToSetMailContentTypeToHTML()</code>, 
 			<code>_validateSubmittedData()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Form_Model_Port</h3>
@@ -391,9 +389,10 @@ AdminPageFramework_Page_View_MetaBox
 			<code>_replyToDeleteFieldErrors()</code>, 
 			<code>_replyToSaveFieldErrors()</code>, 
 			<code>_replyToSaveNotices()</code>, 
+			<code>_setLastInput()</code>, 
 			<code>_setUp()</code>, 
 			<code>getFieldErrors()</code>, 
-			<code>getSavedOptions()</code>
+			<code>validate()</code>
 		</p>
 		<h3>Methods inherited from AdminPageFramework_Factory_Router</h3>
 		<p class="elementList">
@@ -420,6 +419,7 @@ AdminPageFramework_Page_View_MetaBox
 
 		<h3>Properties inherited from AdminPageFramework_Form_Model</h3>
 		<p class="elementList">
+			<code><var>$_bDoneEmail</var></code>, 
 			<code><var>$_sFieldsType</var></code>, 
 			<code><var>$_sTargetPageSlug</var></code>, 
 			<code><var>$_sTargetSectionTabSlug</var></code>, 
