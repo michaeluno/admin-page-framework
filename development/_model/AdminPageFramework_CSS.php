@@ -72,6 +72,20 @@ class AdminPageFramework_CSS {
     font-weight: lighter;
     text-align: right;
 }
+
+/* Debug containers */
+pre.dump-array {
+    border: 1px solid #ededed;
+    margin: 24px 2em;
+    margin: 1.714285714rem 2em;
+    padding: 24px;
+    padding: 1.714285714rem;				
+    overflow-x: auto; 
+    white-space: pre-wrap;
+    background-color: #FFF;
+    margin-bottom: 2em;
+    width: auto;
+}
 CSSRULES;
 
         return $_sCSS . PHP_EOL 
