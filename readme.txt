@@ -363,7 +363,7 @@ In addition, you can change the attributes of the following container elements b
 - `fields` - the `div` tag element containing the sub-fields and the main field.
 - `field` - the `div` tag element containing each field.
 
-This submit button will float on the right.
+This submit button will float right.
 `
 array(    
     'field_id'          => 'submit',
@@ -376,6 +376,21 @@ array(
         ),
     ),                    
 )    
+`
+
+For meta boxe and widget form fields (as they have a sligtly different styling than generic admin pages),
+`
+array(
+    'field_id'          => 'submit_in_meta_box',
+    'type'              => 'submit',
+    'show_title_column' => false,
+    'label_min_width'   => 0,
+    'attributes'        => array(
+        'field' => array(
+            'style' => 'float:right; width:auto;',
+        ),                   
+    ),
+),
 `
 
 <h4>Change Preview Image Size of the 'image' Field Type</h4>

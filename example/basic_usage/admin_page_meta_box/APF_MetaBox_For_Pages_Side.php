@@ -32,14 +32,14 @@ class APF_MetaBox_For_Pages_Side extends AdminPageFramework_MetaBox_Page {
                 'default' => array( 'size' => 5, 'unit' => '%' ),
             ),
             array(
-                'field_id' => 'submit_in_meta_box',
-                'type' => 'submit',
+                'field_id'          => 'submit_in_meta_box',
+                'type'              => 'submit',
                 'show_title_column' => false,
-                'label_min_width' => 0,
-                'attributes' => array(
-                    'fieldset' => array(
-                        'style' => 'float:right;',
-                    ),
+                'label_min_width'   => 0,
+                'attributes'        => array(
+                    'field' => array(
+                        'style' => 'float:right; width:auto;',
+                    ),                   
                 ),
             ),
             array()
