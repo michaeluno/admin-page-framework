@@ -175,7 +175,7 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
             if ( 'by_toggle_all_button' === sContext ) {
                 return;
             }
-console.log( 'clicked' );
+
             // If collapse_others_on_expand argument is true, collapse others 
             if ( 'expand' === _sAction && _oThis.data( 'collapse_others_on_expand' ) ) {
                 _oThis.parent().parent().children().children( '* > .admin-page-framework-collapsible-content' ).not( _oTargetContent ).slideUp( 'fast', function() {
