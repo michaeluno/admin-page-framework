@@ -466,10 +466,12 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.4.3 =
-- Added a style for debug output container elements.
+= 3.4.3 - 2014/12/15 =
+- Added CSS rules for debug output container elements.
 - Changed the format of ID of section container elements.
-- Fixed a bug that page meta boxes could not be added by in-page tab.
+- Fixed a bug that repeated fields could not be removed in page meta boxes started in v3.4.1.
+- Fixed a bug that in page meta boxes, the `select` field type with the `is_multiple` argument enabled could not store the submitted data properly.
+- Fixed a bug that page meta boxes could not be added by in-page tab slug.
 
 = 3.4.2 - 2014/12/08 =
 - Added the ability to automatically update the preview element of an image field when an image URL is manually typed without using the upload window.

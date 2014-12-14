@@ -21,24 +21,37 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_MetaBox_Page {
          */
         $this->addSettingFields(
             array(
-                'field_id' => 'checkbox_field',
-                'type' => 'checkbox',
-                'title' => __( 'Checkbox Input', 'admin-page-framework-demo' ),
-                'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
-                'label' => __( 'This is a check box.', 'admin-page-framework-demo' ),
+                'field_id'      => 'checkbox_field',
+                'type'          => 'checkbox',
+                'title'         => __( 'Checkbox Input', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'label'         => __( 'This is a check box.', 'admin-page-framework-demo' ),
             ),
             array(
-                'field_id' => 'select_filed',
-                'type' => 'select',
-                'title' => __( 'Select Box', 'admin-page-framework-demo' ),
-                'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
-                'label' => array( 
-                    'one' => __( 'One', 'admin-page-framework-demo' ),
-                    'two' => __( 'Two', 'admin-page-framework-demo' ),
+                'field_id'      => 'select_filed',
+                'type'          => 'select',
+                'title'         => __( 'Select Box', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'label'         => array( 
+                    'one'   => __( 'One', 'admin-page-framework-demo' ),
+                    'two'   => __( 'Two', 'admin-page-framework-demo' ),
                     'three' => __( 'Three', 'admin-page-framework-demo' ),
                 ),
-                'default'             => 'one', // 0 means the first item
+                'default'       => 'one', // 0 means the first item
             ),     
+            array(
+                'field_id'      => 'multiple_select_filed',
+                'type'          => 'select',
+                'title'         => __( 'Multiple Select Options', 'admin-page-framework-demo' ),
+                'label'         => array( 
+                    'a'     => 'Apple',
+                    'b'     => 'Banana',
+                    'c'     => 'Cherry',
+                    'd'     => 'Durian',
+                    'e'     => 'Eggplant',
+                ),
+                'is_multiple'      => true,
+            ),                 
             array (
                 'field_id' => 'radio_field',
                 'type' => 'radio',

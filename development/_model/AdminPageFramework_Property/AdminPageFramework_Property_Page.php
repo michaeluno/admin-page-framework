@@ -358,6 +358,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
         if ( $this->_bDisableSavingOptions ) {
             return;
         }
+    
         return update_option( $this->sOptionKey, $aOptions !== null ? $aOptions : $this->aOptions );
         
     }

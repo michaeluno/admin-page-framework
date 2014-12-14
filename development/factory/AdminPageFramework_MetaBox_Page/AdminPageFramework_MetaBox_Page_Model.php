@@ -47,25 +47,26 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      */
     protected function _setUpValidationHooks( $oScreen ) {
 
-        /* Validation hooks */
+        // Validation hooks
         foreach( $this->oProp->aPageSlugs as $_sIndexOrPageSlug => $_asTabArrayOrPageSlug ) {
             
             if ( is_string( $_asTabArrayOrPageSlug ) ) {     
                 $_sPageSlug = $_asTabArrayOrPageSlug;
-                // add_filter( "validation_saved_options_{$_sPageSlug}", array( $this, '_replyToFilterPageOptions' ) );
-                add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ) );
+                // add_filter( "validation_saved_options_{$_sPageSlug}", array( $this, '_replyToFilterPageOptions' ) ); // 3.4.1 deprecated 
+                add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ) );  // 3.4.1+
                 add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );
                 add_filter( "options_update_status_{$_sPageSlug}", array( $this, '_replyToModifyOptionsUpdateStatus' ) );
                 continue;
             }
             
-            // At this point, the array key is the page slug.
+            // At this point, the array key is the page slug. It means the user specified the tab(s).
             $_sPageSlug = $_sIndexOrPageSlug;
             $_aTabs     = $_asTabArrayOrPageSlug;
-            add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );           
             foreach( $_aTabs as $_sTabSlug ) {
+                add_filter( "validation_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );
+                // deprecated 3.4.1+
                 // add_filter( "validation_saved_options_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptions' ) );
-                add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ) );
+                add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ) ); // 3.4.1+
                 add_filter( "options_update_status_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToModifyOptionsUpdateStatus' ) );
             }
             
@@ -164,15 +165,21 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      */
     public function _replyToFilterPageOptions( $aPageOptions ) {
         return $aPageOptions;
-        // return $this->oForm->dropRepeatableElements( $aPageOptions );    
+        // return $this->oForm->dropRepeatableElements( $aPageOptions );        // deprecated 3.4.1
     }
     /**
-     * Filters the array of the options witout dynamic elements.
+     * Filters the array of the options without dynamic elements.
      * 
      * @since       3.4.1       Deprecated `_replyToFilterPageOptions()`.
      */
     public function _replyToFilterPageOptionsWODynamicElements( $aOptionsWODynamicElements ) {
-        return $this->oForm->dropRepeatableElements( $aOptionsWODynamicElements );    
+        
+        // $this->oUtil->invertCastArrayContents( $_aPageOptions, $aTabOptions )
+        // Drop repeatable elements.
+        $_aOption = $this->oForm->dropRepeatableElements( $aOptionsWODynamicElements );
+        
+        // Drop the submitted elements to avoid merging multiple select options.
+        return $_aOption;
     }
     
     /**
@@ -191,7 +198,9 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         $_aFieldsModel          = $this->oForm->getFieldsModel();
         $_aNewMetaBoxInput      = $this->oUtil->castArrayContents( $_aFieldsModel, $_POST );
         $_aOldMetaBoxInput      = $this->oUtil->castArrayContents( $_aFieldsModel, $aOldPageOptions );
-        $_aOtherOldMetaBoxInput = $this->oUtil->invertCastArrayContents( $aOldPageOptions, $_aFieldsModel );
+        
+        // 3.4.3+ deprecated
+        // $_aOtherOldMetaBoxInput = $this->oUtil->invertCastArrayContents( $aOldPageOptions, $_aFieldsModel ); 
 
         // Apply filters - third party scripts will have access to the input.
         $_aNewMetaBoxInput      = stripslashes_deep( $_aNewMetaBoxInput ); // fixes magic quotes
@@ -211,7 +220,11 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         }    
     
         // Now merge the input values with the passed page options, and plus the old data to cover different in-page tab field options.
-        return $this->oUtil->uniteArrays( $_aNewMetaBoxInput, $aNewPageOptions, $_aOtherOldMetaBoxInput );       
+        return $this->oUtil->uniteArrays( 
+            $_aNewMetaBoxInput, 
+            $aNewPageOptions
+            // $_aOtherOldMetaBoxInput  // 3.4.3+ deprecated 
+        );       
                         
     }
     

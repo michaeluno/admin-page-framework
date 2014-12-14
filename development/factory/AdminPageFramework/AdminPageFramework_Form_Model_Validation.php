@@ -136,7 +136,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         if ( ! $this->oProp->_bDisableSavingOptions ) {  
             $_bUpdated = $this->oProp->updateOption( $_aInput );
         }
-        
+
         // 6. Trigger the submit_after_{...} action hooks. [3.3.1+]
         $this->oUtil->addAndDoActions(
             $this,
@@ -540,7 +540,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
          * @return      array       The filtered input array.
          */
         private function _getFilteredOptions( $aInput, $aInputRaw, $aOptions, $sPageSlug, $sTabSlug ) {
-               
+            
             $_aOptionsWODynamicElements = $this->oUtil->addAndApplyFilter( 
                 $this, 
                 "validation_saved_options_without_dynamic_elements_{$this->oProp->sClassName}", 
@@ -578,7 +578,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 $sPageSlug,
                 $sTabSlug
             );
-        
+
             // For the class
             return $this->oUtil->addAndApplyFilter( 
                 $this, 
@@ -587,7 +587,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 $aOptions, 
                 $this 
             );
-        
+   
         }    
             
             /**
@@ -672,14 +672,22 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 $_aTabOnlyOptions   = $this->oForm->getTabOnlyOptions( $aOptions, $sPageSlug, $sTabSlug ); // does not respect page meta box fields
                 $aTabOptions        = $this->oForm->getTabOptions( $aOptions, $sPageSlug, $sTabSlug ); // respects page meta box fields
                 $aTabOptions        = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $aTabOptions, $this );
-            
+                $_aOtherTabOptions  = $this->oForm->getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug );
+                
+                $_aTabOptionsWODynamicElements = $this->oUtil->addAndApplyFilter( 
+                    $this, 
+                    "validation_saved_options_without_dynamic_elements_{$sPageSlug}_{$sTabSlug}", 
+                    $this->oForm->getTabOptions( $aOptionsWODynamicElements, $sPageSlug, $sTabSlug ), 
+                    $this 
+                );
+                
                 // Consider each field has a different individual capability. In that case, the key itself will not be sent,
                 // which causes data loss when a lower capability user submits the form but it was stored by a higher capability user.
                 // So merge the submitted array with the old stored array only for the first level.     
-                $_aTabOnlyOptionsWODynamicElements = $this->oForm->getTabOnlyOptions( $aOptionsWODynamicElements, $sPageSlug, $sTabSlug ); // this method excludes injected elements such as page-meta-box fields
-                $_aTabOnlyOptionsWODynamicElements = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_without_dynamic_elements_{$sPageSlug}_{$sTabSlug}", $_aTabOnlyOptionsWODynamicElements, $this );    // 3.4.1+
-                $aInput = $aInput + $this->oForm->getTabOptions( $_aTabOnlyOptionsWODynamicElements, $sPageSlug, $sTabSlug );
+                $_aTabOnlyOptionsWODynamicElements = $this->oForm->getTabOnlyOptions( $_aTabOptionsWODynamicElements, $sPageSlug, $sTabSlug ); // excludes embedded elements such as page-meta-box fields
+                $aInput = $aInput + $_aTabOnlyOptionsWODynamicElements;
                 
+                // Validate the input data.
                 $aInput = $this->oUtil->addAndApplyFilter( 
                     $this, 
                     "validation_{$sPageSlug}_{$sTabSlug}",
@@ -687,10 +695,22 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                     $aTabOptions,
                     $this 
                 );
+                
+                // Get embedded options. This is for page meta boxes.
+                $_aEmbeddedOptionsWODynamicElements = $this->oUtil->invertCastArrayContents(
+                    $_aTabOptionsWODynamicElements,
+                    $_aTabOnlyOptionsWODynamicElements
+                );  
+                $_aEmbeddedOptionsWODynamicElements = $this->oUtil->invertCastArrayContents(
+                    $_aEmbeddedOptionsWODynamicElements,
+                    $aInput
+                ); // remove submitted elements to avoid merging with multiple select options.
+                
                 return $this->oUtil->uniteArrays( 
                     $aInput, 
                     $this->oUtil->invertCastArrayContents( $aTabOptions, $_aTabOnlyOptions ), // will only consist of page meta box fields
-                    $this->oForm->getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug )
+                    $_aOtherTabOptions,
+                    $_aEmbeddedOptionsWODynamicElements      // 3.4.3+ For page met boxes.
                 );
                 
             }     
@@ -705,16 +725,25 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 if ( ! $sPageSlug ) { return $aInput; }
 
                 // Prepare the saved page option array.
-                $_aPageOptions = $this->oForm->getPageOptions( $aOptions, $sPageSlug ); // this method respects injected elements into the page ( page meta box fields )     
-                $_aPageOptions = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}", $_aPageOptions, $this );
+                $_aPageOptions      = $this->oForm->getPageOptions( $aOptions, $sPageSlug ); // this method respects injected elements into the page ( page meta box fields )     
+                $_aPageOptions      = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}", $_aPageOptions, $this );
+                $_aOtherPageOptions = $this->oUtil->invertCastArrayContents( $this->oForm->getOtherPageOptions( $aOptions, $sPageSlug ), $_aPageOptions );
+                
+                $_aPageOptionsWODynamicElements = $this->oUtil->addAndApplyFilter( 
+                    $this, 
+                    "validation_saved_options_without_dynamic_elements_{$sPageSlug}", 
+                    $this->oForm->getPageOptions( $aOptionsWODynamicElements, $sPageSlug ), 
+                    $this 
+                );                
+                
                 
                 // Consider each field has a different individual capability. In that case, the key itself will not be sent,
                 // which causes data loss when a lower capability user submits the form but it was stored by a higher capability user.
                 // So merge the submitted array with the old stored array only for the first level.     
-                $_aPageOnlyOptionsWODynamicElements = $this->oForm->getPageOnlyOptions( $aOptionsWODynamicElements, $sPageSlug ); // this method excludes injected elements
-                $_aPageOnlyOptionsWODynamicElements = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_without_dynamic_elements_{$sPageSlug}", $_aPageOnlyOptionsWODynamicElements, $this );    // 3.4.1+
-                $aInput = $aInput + $this->oForm->getPageOptions( $_aPageOnlyOptionsWODynamicElements, $sPageSlug );
+                $_aPageOnlyOptionsWODynamicElements = $this->oForm->getPageOnlyOptions( $_aPageOptionsWODynamicElements, $sPageSlug ); // excludes embedded elements like page meta box fields
+                $aInput = $aInput + $_aPageOnlyOptionsWODynamicElements;
                 
+                // Validate the input data.
                 $aInput = $this->oUtil->addAndApplyFilter(
                     $this, 
                     "validation_{$sPageSlug}", 
@@ -729,14 +758,25 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                     : ( ! $sTabSlug // if the tab is not specified, do not merge the input array with the page options as the input array already includes the page options. This is for dynamic elements(repeatable sections).
                         ? array()
                         : $_aPageOptions
-                    );
-            
+                    );    
+                
+                // Get embedded options. This is for mainly page meta boxes.
+                $_aEmbeddedOptionsWODynamicElements = $this->oUtil->invertCastArrayContents(
+                    $_aPageOptionsWODynamicElements,
+                    $_aPageOnlyOptionsWODynamicElements
+                );    
+                $_aEmbeddedOptionsWODynamicElements = $this->oUtil->invertCastArrayContents(
+                    $_aEmbeddedOptionsWODynamicElements,
+                    $aInput
+                ); // remove submitted elements to avoid merging with multiple select options.
+        
                 return $this->oUtil->uniteArrays( 
                     $aInput, 
                     $_aPageOptions, // repeatable elements have been dropped
-                    $this->oUtil->invertCastArrayContents( $this->oForm->getOtherPageOptions( $aOptions, $sPageSlug ), $_aPageOptions )
+                    $_aOtherPageOptions,    
+                    $_aEmbeddedOptionsWODynamicElements  // page meta box fields etc.
                 );    
-                                
+
             }     
             
             /**

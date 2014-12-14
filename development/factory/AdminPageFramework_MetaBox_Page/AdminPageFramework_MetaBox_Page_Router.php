@@ -41,7 +41,7 @@ abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework
      */
     protected  function _isInstantiatable() {
         
-        // Disable in admin-ajax.php
+        // Disable the functionality in admin-ajax.php
         if ( isset( $GLOBALS['pagenow'] ) && 'admin-ajax.php' === $GLOBALS['pagenow'] ) {
             return false;
         }
