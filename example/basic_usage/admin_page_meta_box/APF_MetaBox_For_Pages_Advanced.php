@@ -51,32 +51,37 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_MetaBox_Page {
                     'e'     => 'Eggplant',
                 ),
                 'is_multiple'      => true,
+                'attributes'       => array(
+                    'select'    =>  array(
+                        'size'  => 5,
+                    ),                
+                ),
             ),                 
             array (
-                'field_id' => 'radio_field',
-                'type' => 'radio',
-                'title' => __( 'Radio Group', 'admin-page-framework-demo' ),
-                'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
-                'label' => array( 
-                    'one' => __( 'Option One', 'demo' ),
-                    'two' => __( 'Option Two', 'demo' ),
-                    'three' => __( 'Option Three', 'demo' ),
+                'field_id'      => 'radio_field',
+                'type'          => 'radio',
+                'title'         => __( 'Radio Group', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'label'         => array( 
+                    'one'   => __( 'Option One', 'admin-page-framework-demo' ),
+                    'two'   => __( 'Option Two', 'admin-page-framework-demo' ),
+                    'three' => __( 'Option Three', 'admin-page-framework-demo' ),
                 ),
-                'default' => 'one',
+                'default'       => 'one',
             ),
             array (
-                'field_id' => 'checkbox_group_field',
-                'type' => 'checkbox',
-                'title' => __( 'Checkbox Group', 'admin-page-framework-demo' ),
-                'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
-                'label' => array( 
-                    'one' => __( 'Option One', 'admin-page-framework-demo' ),
-                    'two' => __( 'Option Two', 'admin-page-framework-demo' ),
+                'field_id'      => 'checkbox_group_field',
+                'type'          => 'checkbox',
+                'title'         => __( 'Checkbox Group', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'label'         => array( 
+                    'one'   => __( 'Option One', 'admin-page-framework-demo' ),
+                    'two'   => __( 'Option Two', 'admin-page-framework-demo' ),
                     'three' => __( 'Option Three', 'admin-page-framework-demo' ),
                 ),
                 'default' => array(
-                    'one' => true,
-                    'two' => false,
+                    'one'   => true,
+                    'two'   => false,
                     'three' => false,
                 ),
             ),
@@ -100,11 +105,13 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_MetaBox_Page {
         
     }
     
-    public function validatioN_APF_MetaBox_For_Pages_Advanced( $aNewOptions, $aOldOptions, $oAdminPage ) {
-        
-        // Do something with the submitted data.
+    /**
+     * Validates the submitted form data.
+     * 
+     * Alternatively you can use `validation_{class name}()` predefined callback method.
+     */
+    public function validate( $aNewOptions, $aOldOptions, $oAdminPage ) {
         return $aNewOptions;
     }
-
     
 }

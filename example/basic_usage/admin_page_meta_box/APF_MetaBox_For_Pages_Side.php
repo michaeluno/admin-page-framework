@@ -54,11 +54,15 @@ class APF_MetaBox_For_Pages_Side extends AdminPageFramework_MetaBox_Page {
         
     }
 
-    public function validation_APF_MetaBox_For_Pages_Side( $aNewOptions, $aOldOptions ) { // validation_{instantiated class name}
-
-        // Do something with the submitted values.
+    
+    /**
+     * Validates the submitted form data.
+     * 
+     * Alternatively you can use `validation_{class name}()` predefined callback method.
+     */
+    public function validate( $aNewOptions, $aOldOptions, $oAdminPage ) {
         return $aNewOptions;
-        
-    }
+    }    
+    
     
 }

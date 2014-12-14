@@ -105,7 +105,7 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
     /**
      * (optional) The predefined validation callback method.
      * 
-     * Alternatively, use the `validation_{instantiated class name}` method instead.
+     * Alternatively, use the `validation_{instantiated class name}()` method instead.
      */
     public function validate( $aInput, $aOldInput, $oAdminPage ) {
         
