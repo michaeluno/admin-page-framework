@@ -180,6 +180,17 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 return $_aSection['_fields_type'];
             }
         }
+        /**
+         * Returns the section ID of the first found item of the given sections.
+         * 
+         * @since   3.4.3
+         */
+        private function _getSectionsSectionID( array $aSections=array() ) {
+            // Only the first iteration item is needed
+            foreach( $aSections as $_aSection ) {
+                return $_aSection['section_id'];
+            }
+        }
         
         /**
          * Returns an output string of sections tables.
@@ -202,7 +213,8 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             $_sSectionTabSlug   = '';
             $_aSectionTabList   = array();
             $_aOutput           = array();
-            $_sSectionsID       = 'sections-' . md5( serialize( $aSections ) );
+            $_sThisSectionID    = $this->_getSectionsSectionID( $aSections );
+            $_sSectionsID       = 'sections-' . $_sThisSectionID; // md5( serialize( $aSections ) );
             $_aCollapsible      = $this->_getCollapsibleArgument( $aSections );
             $_aCollapsible      = isset( $_aCollapsible['container'] ) && 'sections' === $_aCollapsible['container'] ? $_aCollapsible : array();
         
@@ -254,7 +266,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 : ( empty( $_aCollapsible ) ? '' : $this->_getCollapsibleSectionTitleBlock( $_aCollapsible, 'sections' ) )
                     . "<div " . $this->generateAttributes(
                             array(
-                                'id'    => "sections-" . md5( serialize( $aSections ) ), 
+                                'id'    => $_sSectionsID, 
                                 'class' => $this->generateClassAttribute( 
                                     'admin-page-framework-sections',
                                     ! $_sSectionTabSlug || '_default' === $_sSectionTabSlug 
@@ -264,6 +276,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                                         ? null
                                         : 'admin-page-framework-collapsible-sections-content admin-page-framework-collapsible-content accordion-section-content'
                                 ),
+                                'data-seciton_id'   => $_sThisSectionID,   // 3.4.3+ to help find the sections container for custom scripts that groups sections.
                             )
                         ) . ">"                 
                         . ( $_sSectionTabSlug // if the section tab slug yields true, insert the section tab list

@@ -466,9 +466,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-
 = 3.4.3 =
 - Added a style for debug output container elements.
+- Changed the format of ID of section container elements
 - Fixed a bug that page meta boxes could not be added by in-page tab.
 
 = 3.4.2 - 2014/12/08 =
