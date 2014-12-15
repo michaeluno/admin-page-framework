@@ -119,6 +119,15 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
                 ? count( $vValue )
                 : null
             );
+        $vValue                 = is_object( $vValue )
+            ? ( method_exists( $vValue, '__toString' ) 
+                ? ( string ) $_vValue           // cast string
+                : get_object_vars( $_vValue )  // convert it to array.
+            )
+            : $vValue;
+        $vValue                 = is_array( $vValue )
+            ? self::getSliceByDepth( $vValue, 5 )
+            : $vValue;
         file_put_contents( 
             $sFilePath, 
             $_sHeading . PHP_EOL 
@@ -141,6 +150,33 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
          */
         static public function logArray( $asArray, $sFilePath=null ) {
             self::log( $asArray, $sFilePath );     
-        }        
+        }      
+
+    /**
+     * Slices the given array by depth.
+     * 
+     * @since       3.4.4
+     */
+    static public function getSliceByDepth( array $aSubject, $iDepth=0 ) {
+
+        foreach ( $aSubject as $_sKey => $_vValue ) {
+            if ( is_object( $_vValue ) ) {
+                $aSubject[ $_sKey ] = method_exists( $_vValue, '__toString' ) 
+                    ? ( string ) $_vValue           // cast string
+                    : get_object_vars( $_vValue );  // convert it to array.
+            }
+            if ( is_array( $_vValue ) ) {
+                if ( $iDepth > 0 ) {
+                    $aSubject[ $_sKey ] = self::getSliceByDepth( $_vValue, --$iDepth );
+                    continue;
+                } 
+                unset( $aSubject[ $_sKey ] );
+            }
+        }
+        return $aSubject;
+        
+    }        
+
+        
 }
 endif;
