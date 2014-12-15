@@ -173,13 +173,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * @since       3.4.1       Deprecated `_replyToFilterPageOptions()`.
      */
     public function _replyToFilterPageOptionsWODynamicElements( $aOptionsWODynamicElements ) {
-        
-        // $this->oUtil->invertCastArrayContents( $_aPageOptions, $aTabOptions )
-        // Drop repeatable elements.
-        $_aOption = $this->oForm->dropRepeatableElements( $aOptionsWODynamicElements );
-        
-        // Drop the submitted elements to avoid merging multiple select options.
-        return $_aOption;
+        return $this->oForm->dropRepeatableElements( $aOptionsWODynamicElements );        
     }
     
     /**
