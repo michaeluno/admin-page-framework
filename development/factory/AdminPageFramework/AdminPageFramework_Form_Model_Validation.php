@@ -722,7 +722,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                     $_aTabOnlyOptionsWODynamicElements
                 );     
       
-                $aData['aInput'] = $aData['aInput'] + $_aOtherTabOptions
+                $aData['aInput'] = $aData['aInput'] + $_aOtherTabOptions;
                 return $aData;
                 
             }     
