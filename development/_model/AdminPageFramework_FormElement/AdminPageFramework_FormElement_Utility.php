@@ -75,12 +75,12 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
             $_sFieldID = $_sFieldOrSectionID;     
             if ( ! $this->isCurrentUserCapable( '_default', $_sFieldID ) ) {
                 continue;
-            }     
+            }
             if ( $this->isRepeatableField( $_sFieldID, '_default' ) ) {
                 unset( $aOptions[ $_sFieldID ] );
             }
         
-        }
+        }    
         return $aOptions;
         
     }    
@@ -127,6 +127,7 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
          * @since       3.0.0
          * @internal
          * @todo        Examine whether the method name should have an underscore prefixed.
+         * @todo        Examine whether it should check with conditioned field array. 
          */     
         private function isRepeatableField( $sFieldID, $sSectionID ) {
             
