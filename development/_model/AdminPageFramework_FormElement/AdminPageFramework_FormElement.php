@@ -347,8 +347,8 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             $aSection = $this->uniteArrays(
                 $aSection,
                 array( 
-                    '_fields_type' => $sFieldsType,
-                    'capability' => $sCapability,
+                    '_fields_type'  => $sFieldsType,
+                    'capability'    => $sCapability,
                 ),
                 self::$_aStructure_Section
             );
@@ -440,7 +440,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         /**
          * Returns the formatted field array.
          * 
-         * @since 3.0.0
+         * @since       3.0.0
          */
         protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {
             
@@ -449,7 +449,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             $_aField = $this->uniteArrays(
                 array( 
                     '_fields_type'          => $sFieldsType,
-                    '_caller_object'        => $oCallerObject,
+                    '_caller_object'        => $oCallerObject,  // 3.4.1+ Stores the caller object. 
                 )
                 + $aField,
                 array( 
