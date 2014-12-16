@@ -466,7 +466,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.4.4 =
+= 3.4.4 - 2014/12/17 =
 - Fixed a bug that in in-page tabs saving form values of page meta box fields caused data loss of other in-page tabs, introduced in v3.4.3.
 
 = 3.4.3 - 2014/12/15 =
