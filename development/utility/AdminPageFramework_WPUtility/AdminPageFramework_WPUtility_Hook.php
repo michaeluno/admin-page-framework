@@ -115,16 +115,21 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
      */ 
     static public function addAndDoAction( $oCallerObject, $sActionHook, $vArgs1=null, $vArgs2=null, $_and_more=null ) {
         
-        $iArgs          = func_num_args();
-        $aArgs          = func_get_args();
-        $oCallerObject  = $aArgs[ 0 ];
-        $sActionHook    = $aArgs[ 1 ];
-        if ( ! $sActionHook ) { return; }
-        add_action( $sActionHook, array( $oCallerObject, $sActionHook ), 10, $iArgs - 2 );
-        unset( $aArgs[ 0 ] ); // remove the first element, the caller object
-        call_user_func_array( 'do_action' , $aArgs );
+        $_iArgs          = func_num_args();
+        $_aArgs          = func_get_args();
+        $_oCallerObject  = $_aArgs[ 0 ];
+        $_sActionHook    = $_aArgs[ 1 ];
+        if ( ! $_sActionHook ) { return; }
+        add_action( $_sActionHook, array( $_oCallerObject, $_sActionHook ), 10, $_iArgs - 2 );
+        // unset( $_aArgs[ 0 ] ); // remove the first element, the caller object
+        array_shift( $_aArgs );
+        call_user_func_array( 'do_action' , $_aArgs );
         
     }
+    /**
+     * Registers filter hooks and then triggers them right away.
+     * @since       2.0.0
+     */    
     static public function addAndApplyFilters() { // Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
             
         $aArgs          = func_get_args();    
@@ -141,16 +146,34 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
         return $vInput;
         
     }
-    static public function addAndApplyFilter() { // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
-
-        $iArgs          = func_num_args();
-        $aArgs          = func_get_args();
-        $oCallerObject  = $aArgs[ 0 ];
-        $sFilter        = $aArgs[ 1 ];
-        if ( ! $sFilter ) { return $aArgs[ 2 ]; }
-        add_filter( $sFilter, array( $oCallerObject, $sFilter ), 10, $iArgs - 2 ); // this enables to trigger the method named $sFilter and the magic method __call() will be called
-        unset( $aArgs[ 0 ] ); // remove the first element, the caller object // array_shift( $aArgs );     
-        return call_user_func_array( 'apply_filters', $aArgs ); // $aArgs: $vInput, $vArgs...
+    /**
+     * Registers a filter hook and then triggers the filter right away.
+     * @since       2.0.0
+     * @param       object      $oCallerObject
+     * @param       string      $sFilter            The filter hook name.
+     * @param       mixed       $vData              The filtering data
+     * @param       mixed       $vArgs              The arguments.
+     */
+    static public function addAndApplyFilter() { // Parameters: $oCallerObject, $sFilter, $vData, $vArgs...
+        
+        // Parameters
+        $_iArgs          = func_num_args();
+        $_aArgs          = func_get_args();
+        $_oCallerObject  = $_aArgs[ 0 ];
+        $_sFilter        = $_aArgs[ 1 ];
+        if ( ! $_sFilter ) { 
+            return $_aArgs[ 2 ]; 
+        }
+        
+        // Register the method named $_sFilter with the filter hook name $_sFilter.
+        add_filter( $_sFilter, array( $_oCallerObject, $_sFilter ), 10, $_iArgs - 2 ); 
+        
+        // Remove the first element, the caller object //      
+        // unset( $_aArgs[ 0 ] ); 
+        array_shift( $_aArgs );     // removes the caller object     
+        
+        // Trigger the magic method __call().
+        return call_user_func_array( 'apply_filters', $_aArgs ); // $_aArgs: $vData, $vArgs...
         
     }     
     
