@@ -168,7 +168,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * Before calling this method, $sOptionKey and $sClassName properties must be set.
      * 
      * @since       3.0.0
-     * @since       3.4.4       Aded the $oCallerObject parameter.
+     * @since       3.4.1       Added the $oCallerObject parameter.
      */
     protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {
         
