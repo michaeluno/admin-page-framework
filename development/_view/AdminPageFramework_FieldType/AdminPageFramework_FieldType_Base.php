@@ -121,20 +121,20 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
     /**
      * Returns another field output by the given field definition array.
      * 
-     * This is used to create nested fields or dynamically create a differnt type of field.
+     * This is used to create nested fields or dynamically create a different type of field.
      * @since       3.4.0
      * @return      string      The field output.
      */
     protected function geFieldOutput( array $aField ) {
         
-        if ( is_object( ! $aField['_caller_object'] ) ) {
+        if ( ! is_object( $aField['_caller_object'] ) ) {
             return '';
         }
         $aField['_nested_depth']++;
         $_oCaller   = $aField['_caller_object'];
         $_aOptions  = $_oCaller->getSavedOptions();
         $_oField    = new AdminPageFramework_FormField( 
-            $aField,                                   // the field definition array
+            $aField,                                    // the field definition array
             $_aOptions,                                 // the stored form data
             $_oCaller->getFieldErrors(),                // the field error array.
             $_oCaller->oProp->aFieldTypeDefinitions,    // the field type definition array.
