@@ -267,7 +267,6 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
             60*60 
         );
     }
-
     
 }
 endif;

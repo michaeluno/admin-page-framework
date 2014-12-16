@@ -350,6 +350,22 @@ abstract class AdminPageFramework_Factory_Router {
         trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ), $sMethodName ), E_USER_ERROR );
         
     }     
+    
+    /**
+     * Called when the object is called as a string.
+     *
+     * Field definition arrays contain the object reference and when the debug log method tries to dump it, the output gets too long.
+     * So shorten the it here.
+     * 
+     * @since       3.4.4
+     */   
+    public function __toString() {
         
+        $_iCount     = count( get_object_vars( $this ) );
+        $_sClassName = get_class( $this );
+        return '(object) ' . $_sClassName . ': ' . $_iCount . ' properties.';
+        
+    }
+ 
 }
 endif;
