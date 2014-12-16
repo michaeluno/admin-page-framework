@@ -53,7 +53,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
             if ( is_string( $_asTabArrayOrPageSlug ) ) {     
                 $_sPageSlug = $_asTabArrayOrPageSlug;
                 // add_filter( "validation_saved_options_{$_sPageSlug}", array( $this, '_replyToFilterPageOptions' ) ); // 3.4.1 deprecated 
-                add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ) );  // 3.4.1+
+                add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ), 10, 2 );  // 3.4.1+
                 add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );
                 add_filter( "options_update_status_{$_sPageSlug}", array( $this, '_replyToModifyOptionsUpdateStatus' ) );
                 continue;
@@ -66,7 +66,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
                 add_filter( "validation_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );
                 // deprecated 3.4.1+
                 // add_filter( "validation_saved_options_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptions' ) );
-                add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ) ); // 3.4.1+
+                add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ), 10, 2 ); // 3.4.1+
                 add_filter( "options_update_status_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToModifyOptionsUpdateStatus' ) );
             }
             
@@ -172,8 +172,8 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * 
      * @since       3.4.1       Deprecated `_replyToFilterPageOptions()`.
      */
-    public function _replyToFilterPageOptionsWODynamicElements( $aOptionsWODynamicElements ) {
-        return $this->oForm->dropRepeatableElements( $aOptionsWODynamicElements );        
+    public function _replyToFilterPageOptionsWODynamicElements( $aOptionsWODynamicElements, $oFactory ) {
+        return $this->oForm->dropRepeatableElements( $aOptionsWODynamicElements );
     }
     
     /**

@@ -238,7 +238,8 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
      * @access      protected
      * @remark      This method is not intended for the users to use.
      * @remark      the scope must be protected to be accessed from the extended class. The <em>AdminPageFramework</em> class uses this method in the overloading <em>__call()</em> method.
-     * @param       array       $aInput     The modifying submitted form data. It will be merged with the original saved options so that other page's data will not be lost.
+     * @param       array       $aInput     The submitted form user input data merged with the default option values. The variable contents will be validated and merged with the original saved options.
+     * @param       array       $aInputRaw  The submitted form user input data as a row array.
      * @param       array       &$aStatus   A status array that will be inserted in the url $_GET query array in next page load, passed by reference.
      * @return      array       Returns the filtered validated input which will be saved in the options table.
      * @internal
@@ -458,7 +459,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             }
             
             // The key to delete is not specified.
-            if ( $sKeyToReset == 1 || $sKeyToReset === true ) {
+            if ( 1 == $sKeyToReset || true === $sKeyToReset ) {
                 delete_option( $this->oProp->sOptionKey );
                 return array();
             }
@@ -538,54 +539,40 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
          * @since       2.1.5       Added the `$sPressedFieldID` and `$sPressedInputID` parameters.
          * @since       3.0.0       Removed the `$sPressedFieldID` and `$sPressedInputID` parameters.
          * @return      array       The filtered input array.
+         * @param       array       $aInput             The submitted form data merged with the default option values.
+         * @param       array       $aInputRaw          The submitted form data.
+         * @param       array       $aStoredData        The options data stored in the database.
+         * @param       string      $sPageSlug          The page slug that the form belongs to.
+         * @param       string      $sTabSlug           The tab slug that the form belongs to.
          */
-        private function _getFilteredOptions( $aInput, $aInputRaw, $aOptions, $sPageSlug, $sTabSlug ) {
-            
-            $_aOptionsWODynamicElements = $this->oUtil->addAndApplyFilter( 
-                $this, 
-                "validation_saved_options_without_dynamic_elements_{$this->oProp->sClassName}", 
-                $this->oForm->dropRepeatableElements( $aOptions ),
-                $this
-            ); // 3.4.1+ 
+        private function _getFilteredOptions( $aInput, $aInputRaw, $aStoredData, $sPageSlug, $sTabSlug ) {
 
-            // For each submitted element
-            $aInput         = $this->_validateEachField( 
-                $aInput, 
-                $aOptions, 
-                $_aOptionsWODynamicElements, 
-                $aInputRaw, 
-                $sPageSlug, 
-                $sTabSlug 
+            $_aData = array(
+                'sPageSlug'         => $sPageSlug,
+                'sTabSlug'          => $sTabSlug,            
+                'aInput'            => $aInput,
+                'aStoredData'       => $aStoredData,
+                'aStoredTabData'    => array(), // stores options of the belonging in-page tab.
+                'aStoredDataWODynamicElements'  => $this->oUtil->addAndApplyFilter( 
+                    $this, 
+                    "validation_saved_options_without_dynamic_elements_{$this->oProp->sClassName}", 
+                    $this->oForm->dropRepeatableElements( $aStoredData ),
+                    $this
+                ),               
+                'aStoredTabDataWODynamicElements' => array(),
+                'aEmbeddedDataWODynamicElements'  => array(),   // stores page meta box field options. This will be updated inside the validation methods.
             );
             
-            // For tabs     
-            $_aTabOptions   = array(); // stores options of the belonging in-page tab.
-            $aInput         = $this->_validateTabFields( 
-                $aInput, 
-                $aOptions, 
-                $_aOptionsWODynamicElements, 
-                $_aTabOptions,  // passed by reference
-                $sPageSlug,
-                $sTabSlug 
-            );
- 
-            // For pages
-            $aInput = $this->_validatePageFields( 
-                $aInput,
-                $aOptions,
-                $_aOptionsWODynamicElements,
-                $_aTabOptions,
-                $sPageSlug,
-                $sTabSlug
-            );
-
+            // For each submitted element, tabs, and pages.
+            $_aData = $this->_validateEachField( $_aData, $aInputRaw );
+            $_aData = $this->_validateTabFields( $_aData );
+            $_aData = $this->_validatePageFields( $_aData );
+            
             // For the class
-            return $this->oUtil->addAndApplyFilter( 
-                $this, 
+            return $this->_getValidatedData(
                 "validation_{$this->oProp->sClassName}", 
-                $aInput, 
-                $aOptions, 
-                $this 
+                $_aData['aInput'], 
+                $_aData['aStoredData']
             );
    
         }    
@@ -594,191 +581,251 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
              * Validates each field or section.
              * 
              * @since       3.0.2
+             * @since       3.4.4       Stored all arguments in one argument of an array.
              */
-            private function _validateEachField( array $aInput, array $aOptions, array $aOptionsWODynamicElements, array $aInputToParse, $sPageSlug, $sTabSlug ) {
+            private function _validateEachField( array $aData, array $aInputToParse ) {
                 
-                foreach( $aInputToParse as $sID => $aSectionOrFields ) { // $sID is either a section id or a field id
+                foreach( $aInputToParse as $_sID => $_aSectionOrFields ) { // $_sID is either a section id or a field id
                     
                     // For each section
-                    if ( $this->oForm->isSection( $sID ) ) {
+                    if ( $this->oForm->isSection( $_sID ) ) {
                         
                         // If the parsing item does not belong to the current page, do not call the validation callback method.
-                        if ( 
-                            ( $sPageSlug && isset( $this->oForm->aSections[ $sID ][ 'page_slug' ] ) && $this->oForm->aSections[ $sID ][ 'page_slug' ] != $sPageSlug )
-                            || ( $sTabSlug && isset( $this->oForm->aSections[ $sID ][ 'tab_slug' ] ) && $this->oForm->aSections[ $sID ][ 'tab_slug' ] != $sTabSlug )
-                        ) {
+                        if ( ! $this->_isValidSection( $_sID, $aData['sPageSlug'], $aData['sTabSlug'] ) ) {
                             continue;
-                        }
+                        }                             
                         
-                        // Call the validation method.
-                        foreach( $aSectionOrFields as $sFieldID => $aFields ) { // For fields
-                            $aInput[ $sID ][ $sFieldID ] = $this->oUtil->addAndApplyFilter( 
-                                $this, 
-                                "validation_{$this->oProp->sClassName}_{$sID}_{$sFieldID}", 
-                                $aInput[ $sID ][ $sFieldID ], 
-                                isset( $aOptions[ $sID ][ $sFieldID ] ) ? $aOptions[ $sID ][ $sFieldID ] : null,
-                                $this
+                        // Call the validation callback method.
+                        foreach( $_aSectionOrFields as $_sFieldID => $_aFields ) { // For fields
+                            $aData['aInput'][ $_sID ][ $_sFieldID ] = $this->_getValidatedData(
+                                "validation_{$this->oProp->sClassName}_{$_sID}_{$_sFieldID}", 
+                                $aData['aInput'][ $_sID ][ $_sFieldID ], 
+                                isset( $aData['aStoredData'][ $_sID ][ $_sFieldID ] ) 
+                                    ? $aData['aStoredData'][ $_sID ][ $_sFieldID ] 
+                                    : null
                             );
                         }
                         
                         // For an entire section - consider each field has a different individual capability. In that case, the key itself will not be sent,
                         // which causes data loss when a lower capability user submits the form but it was stored by a higher capability user.
                         // So merge the submitted array with the old stored array only for the first level.
-                        $_aSectionInput = is_array( $aInput[ $sID ] ) ? $aInput[ $sID ] : array();
-                        $_aSectionInput = $_aSectionInput + ( isset( $aOptionsWODynamicElements[ $sID ] ) && is_array( $aOptionsWODynamicElements[ $sID ] ) ? $aOptionsWODynamicElements[ $sID ] : array() );
-                        $aInput[ $sID ] = $this->oUtil->addAndApplyFilter( 
-                            $this, 
-                            "validation_{$this->oProp->sClassName}_{$sID}", 
+                        $_aSectionInput = is_array( $aData['aInput'][ $_sID ] ) 
+                            ? $aData['aInput'][ $_sID ] 
+                            : array();
+                        $_aSectionInput = $_aSectionInput 
+                            + ( 
+                                isset( $aData['aStoredDataWODynamicElements'][ $_sID ] ) && is_array( $aData['aStoredDataWODynamicElements'][ $_sID ] ) 
+                                    ? $aData['aStoredDataWODynamicElements'][ $_sID ] 
+                                    : array() 
+                            );
+                        
+                        $aData['aInput'][ $_sID ] = $this->_getValidatedData(
+                            "validation_{$this->oProp->sClassName}_{$_sID}", 
                             $_aSectionInput,
-                            isset( $aOptions[ $sID ] ) ? $aOptions[ $sID ] : null,
-                            $this
+                            isset( $aData['aStoredData'][ $_sID ] ) 
+                                ? $aData['aStoredData'][ $_sID ] 
+                                : null
                         );     
                         
                         continue;
                         
                     }
                                         
-                    // Check if the parsing item(the default section) belongs to the current page; if not, do not call the validation callback method.
-                    if ( 
-                        ( $sPageSlug && isset( $this->oForm->aSections[ '_default' ][ 'page_slug' ] ) && $this->oForm->aSections[ '_default' ][ 'page_slug' ] != $sPageSlug )
-                        || ( $sTabSlug && isset( $this->oForm->aSections[ '_default' ][ 'tab_slug' ] ) && $this->oForm->aSections[ '_default' ][ 'tab_slug' ] != $sTabSlug )
-                    ) {
+                    // Check if the parsing item (the default section) belongs to the current page; if not, do not call the validation callback method.
+                    if ( ! $this->_isValidSection( '_default', $aData['sPageSlug'], $aData['sTabSlug'] ) ) {
                         continue;
-                    }     
+                    }  
+                    
                     // For a field
-                    $aInput[ $sID ] = $this->oUtil->addAndApplyFilter( 
-                        $this, 
-                        "validation_{$this->oProp->sClassName}_{$sID}", 
-                        $aInput[ $sID ], 
-                        isset( $aOptions[ $sID ] ) ? $aOptions[ $sID ] : null,
-                        $this
+                    $aData['aInput'][ $_sID ] = $this->_getValidatedData(
+                        "validation_{$this->oProp->sClassName}_{$_sID}",
+                        $aData['aInput'][ $_sID ],
+                        isset( $aData['aStoredData'][ $_sID ] ) 
+                            ? $aData['aStoredData'][ $_sID ] 
+                            : null
                     );
                     
                 }
                 
-                return $aInput;
+                return $aData;
                 
-            }    
+            }   
+
+                /**
+                 * Checks whether the given section belongs to the passed page and tab.
+                 * 
+                 * @since       3.4.4
+                 */
+                private function _isValidSection( $sSectionID, $sPageSlug, $sTabSlug ) {
+                    
+                    if ( 
+                        $sPageSlug
+                        && isset( $this->oForm->aSections[ $sSectionID ][ 'page_slug' ] ) 
+                        && $sPageSlug !== $this->oForm->aSections[ $sSectionID ][ 'page_slug' ] 
+                    ) {
+                        return false;
+                    }
+                    if ( 
+                        $sTabSlug 
+                        && isset( $this->oForm->aSections[ $sSectionID ][ 'tab_slug' ] ) 
+                        && $sTabSlug !== $this->oForm->aSections[ $sSectionID ][ 'tab_slug' ]
+                    ) {
+                        return false;
+                    }     
+                    return true;
+                    
+                }
             
             /**
              * Validates field options which belong to the given in-page tab.
              * 
              * @since       3.0.2
              */
-            private function _validateTabFields( array $aInput, array $aOptions, array $aOptionsWODynamicElements, & $aTabOptions, $sPageSlug, $sTabSlug ) {
+            private function _validateTabFields( array $aData ) {
                 
-                if ( ! ( $sTabSlug && $sPageSlug ) ) { return $aInput; }
-                                
-                $_aTabOnlyOptions   = $this->oForm->getTabOnlyOptions( $aOptions, $sPageSlug, $sTabSlug ); // does not respect page meta box fields
-                $aTabOptions        = $this->oForm->getTabOptions( $aOptions, $sPageSlug, $sTabSlug ); // respects page meta box fields
-                $aTabOptions        = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}_{$sTabSlug}", $aTabOptions, $this );
-                $_aOtherTabOptions  = $this->oForm->getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug );
-                
-                $_aTabOptionsWODynamicElements = $this->oUtil->addAndApplyFilter( 
+                if ( ! $aData['sTabSlug'] || ! $aData['sPageSlug'] ) { 
+                    return $aData; 
+                }
+                    
+                $aData['aStoredTabData']        = $this->oForm->getTabOptions( $aData['aStoredData'], $aData['sPageSlug'], $aData['sTabSlug'] ); // respects page meta box fields
+                $aData['aStoredTabData']        = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$aData['sPageSlug']}_{$aData['sTabSlug']}", $aData['aStoredTabData'], $this );
+                $_aOtherTabOptions  = $this->oForm->getOtherTabOptions( $aData['aStoredData'], $aData['sPageSlug'], $aData['sTabSlug'] );
+
+                // This options data contain embedded options.
+                $aData['aStoredTabDataWODynamicElements'] = $this->oForm->getTabOptions( $aData['aStoredDataWODynamicElements'], $aData['sPageSlug'], $aData['sTabSlug'] );
+                $aData['aStoredTabDataWODynamicElements'] = $this->oUtil->addAndApplyFilter( 
                     $this, 
-                    "validation_saved_options_without_dynamic_elements_{$sPageSlug}_{$sTabSlug}", 
-                    $this->oForm->getTabOptions( $aOptionsWODynamicElements, $sPageSlug, $sTabSlug ), 
+                    "validation_saved_options_without_dynamic_elements_{$aData['sPageSlug']}_{$aData['sTabSlug']}", 
+                    $aData['aStoredTabDataWODynamicElements'], 
                     $this 
                 );
+                // Update the aStoredDataWODynamicElements element as it will be used in page validation method. Removed elements for in-page tabs should take effect.
+                $aData['aStoredDataWODynamicElements'] = $aData['aStoredTabDataWODynamicElements'] + $aData['aStoredDataWODynamicElements'];
                 
                 // Consider each field has a different individual capability. In that case, the key itself will not be sent,
                 // which causes data loss when a lower capability user submits the form but it was stored by a higher capability user.
                 // So merge the submitted array with the old stored array only for the first level.     
-                $_aTabOnlyOptionsWODynamicElements = $this->oForm->getTabOnlyOptions( $_aTabOptionsWODynamicElements, $sPageSlug, $sTabSlug ); // excludes embedded elements such as page-meta-box fields
-                $aInput = $aInput + $_aTabOnlyOptionsWODynamicElements;
-                
+                $_aTabOnlyOptionsWODynamicElements = $this->oForm->getTabOnlyOptions( $aData['aStoredTabDataWODynamicElements'], $aData['sPageSlug'], $aData['sTabSlug'] ); // excludes embedded elements such as page-meta-box fields
+                $aData['aInput'] = $aData['aInput'] + $_aTabOnlyOptionsWODynamicElements;
+
                 // Validate the input data.
-                $aInput = $this->oUtil->addAndApplyFilter( 
-                    $this, 
-                    "validation_{$sPageSlug}_{$sTabSlug}",
-                    $aInput,
-                    $aTabOptions,
-                    $this 
+                $aData['aInput'] = $this->_getValidatedData(
+                    "validation_{$aData['sPageSlug']}_{$aData['sTabSlug']}",
+                    $aData['aInput'],
+                    $aData['aStoredTabData']
                 );
-                
+
                 // Get embedded options. This is for page meta boxes.
-                $_aEmbeddedOptionsWODynamicElements = $this->oUtil->invertCastArrayContents(
-                    $_aTabOptionsWODynamicElements,
+                $aData['aEmbeddedDataWODynamicElements'] = $this->_getEmbeddedOptions( 
+                    $aData['aInput'], 
+                    $aData['aStoredTabDataWODynamicElements'],
                     $_aTabOnlyOptionsWODynamicElements
-                );  
-                $_aEmbeddedOptionsWODynamicElements = $this->oUtil->invertCastArrayContents(
-                    $_aEmbeddedOptionsWODynamicElements,
-                    $aInput
-                ); // remove submitted elements to avoid merging with multiple select options.
-                
-                return $this->oUtil->uniteArrays( 
-                    $aInput, 
-                    $this->oUtil->invertCastArrayContents( $aTabOptions, $_aTabOnlyOptions ), // will only consist of page meta box fields
-                    $_aOtherTabOptions,
-                    $_aEmbeddedOptionsWODynamicElements      // 3.4.3+ For page met boxes.
-                );
+                );     
+      
+                $aData['aInput'] = $aData['aInput'] + $_aOtherTabOptions
+                return $aData;
                 
             }     
-            
+                
             /**
              * Validates field options which belong to the given page.
              * 
              * @since       3.0.2
              */
-            private function _validatePageFields( array $aInput, array $aOptions, array $aOptionsWODynamicElements, array $aTabOptions, $sPageSlug, $sTabSlug ) {
-                
-                if ( ! $sPageSlug ) { return $aInput; }
+            private function _validatePageFields( array $aData ) {
+           
+                if ( ! $aData['sPageSlug'] ) { 
+                    return $aData['aInput']; 
+                }
 
                 // Prepare the saved page option array.
-                $_aPageOptions      = $this->oForm->getPageOptions( $aOptions, $sPageSlug ); // this method respects injected elements into the page ( page meta box fields )     
-                $_aPageOptions      = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$sPageSlug}", $_aPageOptions, $this );
-                $_aOtherPageOptions = $this->oUtil->invertCastArrayContents( $this->oForm->getOtherPageOptions( $aOptions, $sPageSlug ), $_aPageOptions );
+                $_aPageOptions      = $this->oForm->getPageOptions( $aData['aStoredData'], $aData['sPageSlug'] ); // this method respects injected elements into the page ( page meta box fields )     
+                $_aPageOptions      = $this->oUtil->addAndApplyFilter( $this, "validation_saved_options_{$aData['sPageSlug']}", $_aPageOptions, $this );
+                $_aOtherPageOptions = $this->oUtil->invertCastArrayContents( $this->oForm->getOtherPageOptions( $aData['aStoredData'], $aData['sPageSlug'] ), $_aPageOptions );
                 
                 $_aPageOptionsWODynamicElements = $this->oUtil->addAndApplyFilter( 
                     $this, 
-                    "validation_saved_options_without_dynamic_elements_{$sPageSlug}", 
-                    $this->oForm->getPageOptions( $aOptionsWODynamicElements, $sPageSlug ), 
+                    "validation_saved_options_without_dynamic_elements_{$aData['sPageSlug']}", 
+                    $this->oForm->getPageOptions( $aData['aStoredDataWODynamicElements'], $aData['sPageSlug'] ),     // united with the in-page tab specific data in order to override the page-specific dynamic elements.
                     $this 
                 );                
-                
-                
+
                 // Consider each field has a different individual capability. In that case, the key itself will not be sent,
                 // which causes data loss when a lower capability user submits the form but it was stored by a higher capability user.
                 // So merge the submitted array with the old stored array only for the first level.     
-                $_aPageOnlyOptionsWODynamicElements = $this->oForm->getPageOnlyOptions( $_aPageOptionsWODynamicElements, $sPageSlug ); // excludes embedded elements like page meta box fields
-                $aInput = $aInput + $_aPageOnlyOptionsWODynamicElements;
+                $_aPageOnlyOptionsWODynamicElements = $this->oForm->getPageOnlyOptions( $_aPageOptionsWODynamicElements, $aData['sPageSlug'] ); // excludes embedded elements like page meta box fields
+                $aData['aInput'] = $aData['aInput'] + $_aPageOnlyOptionsWODynamicElements;
                 
                 // Validate the input data.
-                $aInput = $this->oUtil->addAndApplyFilter(
-                    $this, 
-                    "validation_{$sPageSlug}", 
-                    $aInput,            // new values
-                    $_aPageOptions,     // stored page options
-                    $this 
+                $aData['aInput'] = $this->_getValidatedData(
+                    "validation_{$aData['sPageSlug']}", 
+                    $aData['aInput'],  // new values
+                    $_aPageOptions     // stored page options
                 );
 
                 // If it's in a tab-page, drop the elements which belong to the tab so that arrayed-options will not be merged such as multiple select options.
-                $_aPageOptions = $sTabSlug && ! empty( $aTabOptions ) 
-                    ? $this->oUtil->invertCastArrayContents( $_aPageOptions, $aTabOptions ) 
-                    : ( ! $sTabSlug // if the tab is not specified, do not merge the input array with the page options as the input array already includes the page options. This is for dynamic elements(repeatable sections).
+                $_aPageOptions = $aData['sTabSlug'] && ! empty( $aData['aStoredTabData'] ) 
+                    ? $this->oUtil->invertCastArrayContents( $_aPageOptions, $aData['aStoredTabData'] ) 
+                    : ( ! $aData['sTabSlug'] // if the tab is not specified, do not merge the input array with the page options as the input array already includes the page options. This is for dynamic elements(repeatable sections).
                         ? array()
                         : $_aPageOptions
                     );    
                 
-                // Get embedded options. This is for mainly page meta boxes.
-                $_aEmbeddedOptionsWODynamicElements = $this->oUtil->invertCastArrayContents(
-                    $_aPageOptionsWODynamicElements,
-                    $_aPageOnlyOptionsWODynamicElements
-                );    
-                $_aEmbeddedOptionsWODynamicElements = $this->oUtil->invertCastArrayContents(
-                    $_aEmbeddedOptionsWODynamicElements,
-                    $aInput
-                ); // remove submitted elements to avoid merging with multiple select options.
-        
-                return $this->oUtil->uniteArrays( 
-                    $aInput, 
+                // Get embedded options. This is for page meta boxes. Merging with the array defined earlier because in-page tabs also update this value.
+                $_aEmbeddedOptionsWODynamicElements = $aData['aEmbeddedDataWODynamicElements'] 
+                    + $this->_getEmbeddedOptions( 
+                        $aData['aInput'], 
+                        $_aPageOptionsWODynamicElements,
+                        $_aPageOnlyOptionsWODynamicElements 
+                    );                 
+                                
+                $aData['aInput'] = $aData['aInput'] + $this->oUtil->uniteArrays( 
                     $_aPageOptions, // repeatable elements have been dropped
                     $_aOtherPageOptions,    
                     $_aEmbeddedOptionsWODynamicElements  // page meta box fields etc.
                 );    
+                
+                return $aData;
 
             }     
             
+                /**
+                 * Returns the embedded options.
+                 * 
+                 * Page meta boxes embeds additional option elements. This method extracts those data.
+                 * 
+                 * @since       3.4.4
+                 */
+                private function _getEmbeddedOptions( array $aInput, array $aOptions, array $aPageSpecificOptions ) {
+                
+                    $_aEmbeddedData = $this->oUtil->invertCastArrayContents(
+                        $aOptions,
+                        $aPageSpecificOptions
+                    );  
+                    return $this->oUtil->invertCastArrayContents(
+                        $_aEmbeddedData,
+                        $aInput
+                    );
+                     
+                }            
+
+                /**
+                 * Returns the data applied validation filters.
+                 * 
+                 * This is just a shorter version of calling the addAndApplyFilter() method.
+                 * 
+                 * @since       3.4.4
+                 */
+                private function _getValidatedData( $sFilterName, $aInput, $aStoredData ) {
+                    return $this->oUtil->addAndApplyFilter( 
+                        $this, 
+                        $sFilterName, 
+                        $aInput, 
+                        $aStoredData,
+                        $this
+                    );                    
+                }
+                
             /**
              * Removes option array elements that belong to the given page/tab by their slug.
              * 
