@@ -80,6 +80,9 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
         // Form emails.
         if ( isset( $_GET['apf_action'], $_GET['transient'] ) && 'email' === $_GET['apf_action'] ) {
             
+            // Set the server not to abort even the client browser terminates.
+            ignore_user_abort( true );
+            
             // wp_mail() will be loaded by the time 'plugins_loaded' is loaded.
             $this->oUtil->registerAction( 'plugins_loaded', array( $this, '_replyToSendFormEmail' ) );
 
@@ -88,7 +91,7 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
     }
         
         /**
-         * Indicates whether the email method is triggred or not.
+         * Indicates whether the email method is triggered or not.
          * 
          * Since multiple factory instances can load the constructor, it is possible that the method is called multiple times.
          * 
