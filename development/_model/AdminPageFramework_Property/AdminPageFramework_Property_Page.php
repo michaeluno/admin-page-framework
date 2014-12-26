@@ -320,6 +320,10 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
             $this->sOptionKey ? get_option( $this->sOptionKey, array() ) : array()
         );
 // @todo examine whether it is appropriate to merge with $_aLastInput or it should be done in the getSavedOptions() factory method.
+// It seems it is better to merge the last input array here because this method is only called once when the aOptions property is first accessed
+// while getSavedOptions() method is called every time a field is processed for outputs.
+// However, in getSavedOptions, also the last input array is merged when the 'confirmation' query key is set,
+// that should be done here.
         $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] ? $this->_getLastInput() : array();
         $_aOptions   = empty( $_aOptions ) ? array() : AdminPageFramework_WPUtility::getAsArray( $_aOptions );     
         $_aOptions   = $_aLastInput + $_aOptions;
