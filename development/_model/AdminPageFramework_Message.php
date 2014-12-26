@@ -83,7 +83,7 @@ class AdminPageFramework_Message {
             'specified_option_been_deleted'         => null,
             'nonce_verification_failed'             => null,
             'send_email'                            => null,    // 3.3.0+
-            'email_sent'                            => null,    // 3.3.0+
+            'email_sent'                            => null,    // 3.3.0+, 3.3.5+ deprecated 
             'email_scheduled'                       => null,    // 3.3.5+
             'email_could_not_send'                  => null,    // 3.3.0+
             
@@ -266,7 +266,7 @@ class AdminPageFramework_Message {
                     return __( 'A problem occurred while processing the form data. Please try again.', 'admin-page-framework' );
                 case 'send_email':  // 3.3.0+
                     return __( 'Is it okay to send the email?', 'admin-page-framework' );
-                case 'email_sent':  // 3.3.0+
+                case 'email_sent':  // 3.3.0+, 3.3.5+ deprecated 
                     return __( 'The email has been sent.', 'admin-page-framework' );
                 case 'email_scheduled':  // 3.3.5+
                     return __( 'The email has been scheduled.', 'admin-page-framework' );                    
