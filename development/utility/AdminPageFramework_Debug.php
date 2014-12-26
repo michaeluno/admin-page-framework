@@ -121,8 +121,8 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
             );
         $vValue                 = is_object( $vValue )
             ? ( method_exists( $vValue, '__toString' ) 
-                ? ( string ) $_vValue           // cast string
-                : get_object_vars( $_vValue )  // convert it to array.
+                ? ( string ) $vValue          // cast string
+                : ( array ) $vValue           // cast array
             )
             : $vValue;
         $vValue                 = is_array( $vValue )
