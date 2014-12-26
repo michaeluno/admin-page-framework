@@ -189,8 +189,16 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 unset( $aStatus[ 'field_errors' ] );
                 $_aRemoveQueries[] = 'field_errors';
             }        
-            return $this->oUtil->getQueryURL( $aStatus, $_aRemoveQueries, $_SERVER['REQUEST_URI'] );            
-            
+            // return $this->oUtil->getQueryURL( $aStatus, $_aRemoveQueries, $_SERVER['REQUEST_URI'] );            
+         
+            return $this->oUtil->addAndApplyFilters(    // 3.4.4+
+                $this, 
+                array( 
+                    "setting_update_url_{$this->oProp->sClassName}", 
+                ), 
+                $this->oUtil->getQueryURL( $aStatus, $_aRemoveQueries, $_SERVER['REQUEST_URI'] )
+            ); 
+         
         }
         /**
          * Verifies the form submit.
@@ -268,8 +276,9 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             // @todo Consider passing $aInput rather than $aInputRaw.
             $this->_sendEmailInBackground( $aInputRaw, $_sPressedInputName, $_sSubmitSectionID );
             $this->oProp->_bDisableSavingOptions = true;
-            unset( $aStatus['confirmation'] );
             $this->oUtil->deleteTransient( 'apf_tfd' . md5( 'temporary_form_data_' . $this->oProp->sClassName . get_current_user_id() ) );
+            // Schedule to remove the confirmation url query key.
+            add_action( "setting_update_url_{$this->oProp->sClassName}", array( $this, '_replyToRemoveConfirmationQueryKey' ) );
             return $aInputRaw;
         }                
         
@@ -338,6 +347,15 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         return $aInput;
         
     }
+    
+        /**
+         * Removes the 'confirmation' key in the query url.
+         * 
+         * @since   3.4.5
+         */
+        public function _replyToRemoveConfirmationQueryKey( $sSettingUpdateURL ) {
+            return remove_query_arg( array( 'confirmation', ), $sSettingUpdateURL );
+        }
     
         /**
          * Sends an email set via the form.

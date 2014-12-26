@@ -467,6 +467,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.4.5 =
+- Added the `setting_update_url_{instantiated class name}` filter hook and the pre-defined callback method.
 - Fixed a url query key after submitting a contact form.
 
 = 3.4.4 - 2014/12/17 =
