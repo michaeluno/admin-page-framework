@@ -468,7 +468,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 3.4.5 =
 - Added the `setting_update_url_{instantiated class name}` filter hook and the pre-defined callback method.
+- Fixed an issue on some servers that the script got aborted while sending an email of the contact form.
 - Fixed a url query key after submitting a contact form.
+- Tweaked the styling of the form confirmation message container element.
 
 = 3.4.4 - 2014/12/17 =
 - Fixed a bug that in in-page tabs saving form values of page meta box fields caused data loss of other in-page tabs, introduced in v3.4.3.
