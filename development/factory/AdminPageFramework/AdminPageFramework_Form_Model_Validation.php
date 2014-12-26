@@ -268,6 +268,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             // @todo Consider passing $aInput rather than $aInputRaw.
             $this->_sendEmailInBackground( $aInputRaw, $_sPressedInputName, $_sSubmitSectionID );
             $this->oProp->_bDisableSavingOptions = true;
+            unset( $aStatus['confirmation'] );
             $this->oUtil->deleteTransient( 'apf_tfd' . md5( 'temporary_form_data_' . $this->oProp->sClassName . get_current_user_id() ) );
             return $aInputRaw;
         }                
