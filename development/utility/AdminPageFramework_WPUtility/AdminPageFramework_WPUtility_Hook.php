@@ -29,7 +29,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
     static public function registerAction( $sActionHook, $oCallable ) {
       
         if ( did_action( $sActionHook ) ) {
-            return call_user_func_array( $oCallable );
+            return call_user_func_array( $oCallable, array() );
         }
         add_action( $sActionHook, $oCallable );
 
