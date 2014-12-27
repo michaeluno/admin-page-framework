@@ -197,7 +197,7 @@ CSSRULES;
     protected function getField( $aField ) { 
 
         $aInputAttributes = array(
-            'type'    =>    'textarea',
+            // 'type'    =>    'textarea',
         ) + $aField['attributes'];
         $aInputAttributes['class']    .= ' system';
         unset( $aInputAttributes['value'] );
@@ -289,6 +289,7 @@ CSSRULES;
                     __( 'Table Prefix Length', 'admin-page-framework' )     => strlen( $wpdb->prefix ),
                     __( 'Table Prefix Status', 'admin-page-framework' )     => strlen( $wpdb->prefix ) >16 ? __( 'Too Long', 'admin-page-framework' ) : __( 'Acceptable', 'admin-page-frmework' ),
                     'wp_remote_post()'                                      => $this->_getWPRemotePostStatus(),
+                    'wp_remote_get()'                                       => $this->_getWPRemoteGetStatus(),
                     __( 'WP_CONTENT_DIR Writeable', 'admin-page-framework' ) => $this->_getYesOrNo( is_writable( WP_CONTENT_DIR ) ),
                     __( 'Active Plugins', 'admin-page-framework' )          => PHP_EOL . $this->_getActivePlugins(),
                     __( 'Network Active Plugins', 'admin-page-framework' )  => PHP_EOL . $this->_getNetworkActivePlugins(),
@@ -351,6 +352,7 @@ CSSRULES;
                 }
                 
                 /**
+                 * Checks if the wp_remote_post() function is functioning.
                  * 
                  */
                 private function _getWPRemotePostStatus() {
@@ -358,15 +360,36 @@ CSSRULES;
                     $_vResponse = $this->getTransient( 'apf_rp_check' );
                     $_vResponse = false === $_vResponse
                         ? wp_remote_post( 
-                            'https://www.paypal.com/cgi-bin/webscr', 
+                            // 'https://www.paypal.com/cgi-bin/webscr', 
+                            add_query_arg( $_GET, admin_url( $GLOBALS['pagenow'] ) ),
                             array(
                                 'sslverify'     => false,
                                 'timeout'       => 60,
-                                'body'          => array( 'cmd' => '_notify-validate' ),
+                                'body'          => array( 'apf_remote_request_test' => '_testing', 'cmd' => '_notify-validate' ),
                             )
                         )
                         : $_vResponse;
                     $this->setTransient( 'apf_rp_check', $_vResponse, 60 );
+                    return $this->_getFunctionalOrNot( ! is_wp_error( $_vResponse ) && $_vResponse['response']['code'] >= 200 && $_vResponse['response']['code'] < 300 ) ;
+                    
+                }   
+                /**
+                 * Checks if the wp_remote_post() function is functioning.
+                 * 
+                 */
+                private function _getWPRemoteGetStatus() {
+                    
+                    $_vResponse = $this->getTransient( 'apf_rg_check' );
+                    $_vResponse = false === $_vResponse
+                        ? wp_remote_get( 
+                            add_query_arg( $_GET + array( 'apf_remote_request_test' => '_testing' ), admin_url( $GLOBALS['pagenow'] ) ),
+                            array(
+                                'sslverify'     => false,
+                                'timeout'       => 60,
+                            )
+                        )
+                        : $_vResponse;
+                    $this->setTransient( 'apf_rg_check', $_vResponse, 60 );
                     return $this->_getFunctionalOrNot( ! is_wp_error( $_vResponse ) && $_vResponse['response']['code'] >= 200 && $_vResponse['response']['code'] < 300 ) ;
                     
                 }                  
