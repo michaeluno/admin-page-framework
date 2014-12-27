@@ -185,6 +185,20 @@ The documentation is already included in the demo plugin and it is likely up-to-
 ### Tutorials ###
 [Online tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
 
+1. [Create an Admin Page](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/01-create-an-admin-page/)
+2. [Create a Form](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/02-create-a-form/)
+3. [Create a Page Group](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/03-create-a-page-group/)
+4. [Create In-page Tabs](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/04-create-inpage-tabs/)
+5. [Organize a Form with Sections](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/05-organize-a-form-with-sections/)
+6. [Use Section Tabs and Repeatable Sections](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/06-use-section-tabs-and-repeatable-sections/)
+7. [Validate Submitted Form Data of a Single Field](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/07-validate-submitted-form-data-of-a-single-field/)
+8. [Validate Submitted Form Data of Multiple Fields](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/08-validate-submitted-form-data-of-multiple-fields/)
+9. [Add a Meta Box in an Admin Page](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/09-add-a-meta-box-in-an-admin-page/)
+10. [Add a Page Meta Box Specific to an In-page Tab](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/10-add-a-page-meta-box-specific-to-an-in-page-tab/)
+11. [Add a Meta Box for Posts](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/11-add-a-meta-box-for-posts/)
+12. [Create a Custom Post Type and Custom Taxonomy](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/12-create-a-custom-post-type-and-custom-taxonomy/)
+13. [Add a Meta Box to a Custom Post Type](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/13-add-a-meta-box-for-a-custom-post-type/)
+
 ## Bugs ##
 If you find an issue, let us know [here](https://github.com/michaeluno/admin-page-framework/issues)!
 
