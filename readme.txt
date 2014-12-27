@@ -488,6 +488,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.4.6 =
+- Added more information for the `system` field type.
+
 = 3.4.5 - 2014/12/27 =
 - Added the `setting_update_url_{instantiated class name}` filter hook and the pre-defined callback method.
 - CHanged the `getValue()` method of the admin page factory class to respect last input arrays.

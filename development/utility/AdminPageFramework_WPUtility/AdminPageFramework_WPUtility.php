@@ -16,7 +16,7 @@ if ( ! class_exists( 'AdminPageFramework_WPUtility' ) ) :
  * @subpackage Utility
  * @internal
  */
-class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_Post {
+class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
     
     /**
      * Indicates whether the flushing rewrite rules has been performed or not.

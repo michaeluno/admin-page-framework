@@ -90,5 +90,41 @@ abstract class AdminPageFramework_Utility_String {
             : strlen( $sString );
     }    
         
+   
+    /**
+     * Returns a number from the given human readable size representation.
+     * @since       3.3.6
+     */     
+    static public function getNumberOfReadableSize( $nSize ) {
+        
+        $_nReturn     = substr( $nSize, 0, -1 );
+        switch( strtoupper( substr( $nSize, -1 ) ) ) {
+            case 'P':
+                $_nReturn *= 1024;
+            case 'T':
+                $_nReturn *= 1024;
+            case 'G':
+                $_nReturn *= 1024;
+            case 'M':
+                $_nReturn *= 1024;
+            case 'K':
+                $_nReturn *= 1024;
+        }
+        return $_nReturn;
+        
+    }   
+    
+    /**
+     * Returns a human readable size from the given byte number.
+     * @since       3.3.6
+     */     
+    static public function getReadableBytes( $nBytes ) {
+        $_aUnits    = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
+        $_nLog      = log( $nBytes, 1024 );
+        $_iPower    = ( int ) $_nLog;
+        $_iSize     = pow( 1024, $_nLog - $_iPower );
+        return $_iSize . $_aUnits[ $_iPower ];
+    }
+    
 }
 endif;

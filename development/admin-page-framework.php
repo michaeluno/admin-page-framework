@@ -104,6 +104,18 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
             
     }
     
+    /**
+     * Returns the information of this class.
+     * 
+     * @since       3.3.6
+     */
+    static public function getInfo() {
+        $_oReflection = new ReflectionClass( __CLASS__ );
+        return $_oReflection->getConstants()
+            + $_oReflection->getStaticProperties()
+        ;
+    }     
+    
 }
 endif;
 
