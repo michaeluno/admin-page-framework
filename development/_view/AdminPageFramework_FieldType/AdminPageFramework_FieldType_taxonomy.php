@@ -14,6 +14,7 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_taxonomy' ) ) :
  * @subpackage      FieldType
  * @since           2.1.5
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
+ * @internel
  */
 class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType {
     
