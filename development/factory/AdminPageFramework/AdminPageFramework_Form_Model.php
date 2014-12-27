@@ -88,6 +88,11 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
 
         }
         
+        // Get and post method checking.
+        if ( isset( $_REQUEST['apf_remote_request_test'] ) && '_testing' === $_REQUEST['apf_remote_request_test'] ) {
+            exit( 'OK' );
+        }
+        
     }
         
         /**
