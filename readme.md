@@ -88,7 +88,7 @@ The distribution package includes the demo plugin which uses the framework and i
 /* Plugin Name: Admin Page Framework - Getting Started */ 
 
 if ( ! class_exists( 'AdminPageFramework' ) ) {
-    include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+    include( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
 }
     
 class APF extends AdminPageFramework {
@@ -129,7 +129,7 @@ new APF;
 /* Plugin Name: Admin Page Framework - My First Form */ 
 
 if ( ! class_exists( 'AdminPageFramework' ) ) {
-    include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+    include( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
 }
     
 class APF_MyFirstFrom extends AdminPageFramework {
