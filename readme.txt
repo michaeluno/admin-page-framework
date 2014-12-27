@@ -122,7 +122,7 @@ You need to include the library file in your PHP script. The file is located in 
 
 `
 if ( ! class_exists( 'AdminPageFramework' ) ) {
-    include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+    include( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
 }
 `
     
@@ -171,7 +171,7 @@ new APF;
 /* Plugin Name: Admin Page Framework - Getting Started */ 
 
 if ( ! class_exists( 'AdminPageFramework' ) ) {
-    include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+    include( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
 }
     
 class APF extends AdminPageFramework {
@@ -205,7 +205,7 @@ new APF;
 /* Plugin Name: Admin Page Framework - My First Form */ 
 
 if ( ! class_exists( 'AdminPageFramework' ) ) {
-    include_once( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+    include( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
 }
     
 class APF_MyFirstFrom extends AdminPageFramework {
@@ -466,7 +466,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.4.5 =
+= 3.4.5 - 2014/12/27 =
 - Added the `setting_update_url_{instantiated class name}` filter hook and the pre-defined callback method.
 - CHanged the `getValue()` method of the admin page factory class to respect last input arrays.
 - Fixed a bug that caused a PHP warning that prevented a contact form from being sent on servers with some error reporting settings.
