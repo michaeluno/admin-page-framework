@@ -222,7 +222,7 @@ CSSRULES;
          * Returns the system information value for a textarea tag.
          */
         private function _getSystemInfomation( $asValue=null, $asCustomData=null, $iPrintType=1 ) {
-            
+
             global $wpdb;
             
             $_aData = $this->getAsArray( $asCustomData );
