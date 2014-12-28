@@ -25,6 +25,12 @@ class AdminPageFramework_Requirement {
     private $_aRequirements = array();
     
     /**
+     * Stores warning messages of insufficient items.
+     * @since       3.4.6
+     */
+    public $aWarnings = array();
+    
+    /**
      * The default criteria and their error messages.
      * 
      * @since       3.4.6
@@ -70,24 +76,33 @@ class AdminPageFramework_Requirement {
      * 
      * @since       3.4.6
      */ 
-    public function __construct( array $aRequirements=array() ) {
+    public function __construct( array $aRequirements=array(), $sScriptName='' ) {
         
         // Avoid undefined index warnings.
-        $this->_aRequirements              = $aRequirements + $this->_aDefaultRequirements;    
-        $this->_aRequirements              = array_filter( $this->_aRequirements, 'is_array' );
-        $this->_aRequirements['php']       = $this->_aRequirements['php'] + $this->_aDefaultRequirements['php'];
-        $this->_aRequirements['wordpress'] = $this->_aRequirements['wordpress'] + $this->_aDefaultRequirements['wordpress'];
-        $this->_aRequirements['mysql']     = $this->_aRequirements['mysql'] + $this->_aDefaultRequirements['mysql'];
+        $aRequirements          = $aRequirements + $this->_aDefaultRequirements;    
+        $aRequirements          = array_filter( $aRequirements, 'is_array' );
+        foreach( array( 'php', 'mysql', 'wordpress' ) as $_iIndex => $_sName ) {
+            if ( isset( $aRequirements[ $_sName ] ) ) {
+                $aRequirements[ $_sName ] = $aRequirements[ $_sName ] + $this->_aDefaultRequirements[ $_sName ];
+            }
+        }
+        $this->_aRequirements   = $aRequirements;
+        
+        // Store the script name for admin notices.
+        $this->_sScriptName     = $sScriptName;
         
     }
     
     /**
-     * Returns a warning array by checking requirements.
+     * Performs checks.
      * 
      * If it is not empty, it means there is a missing requirement.
      * @since       3.4.6
+     * @return      integer         The number of warnings.
      */
-    public function get() {      
+    public function check() {      
+        
+        $_aWarnings = array();
         
         // PHP
         if ( isset( $this->_aRequirements['php']['version'] ) && ! $this->_checkPHPVersion( $this->_aRequirements['php']['version'] ) ) {
@@ -107,14 +122,15 @@ class AdminPageFramework_Requirement {
         // Check the rest.
         $_aWarnings = array_merge(
             $_aWarnings,
-            $this->_checkFunctions( $this->_aRequirements['functions'] ),
-            $this->_checkClasses( $this->_aRequirements['classes'] ),
-            $this->_checkConstants( $this->_aRequirements['constants'] ),
-            $this->_checkFiles( $this->_aRequirements['files'] )
+            isset( $this->_aRequirements['functions'] ) ? $this->_checkFunctions( $this->_aRequirements['functions'] ) : array(),
+            isset( $this->_aRequirements['classes'] ) ? $this->_checkClasses( $this->_aRequirements['classes'] ) : array(),
+            isset( $this->_aRequirements['constants'] ) ? $this->_checkConstants( $this->_aRequirements['constants'] ) : array(),
+            isset( $this->_aRequirements['files'] ) ? $this->_checkFiles( $this->_aRequirements['files'] ) : array()
         );
         
-        return array_filter( $_aWarnings ); // drop empty elements.
-
+        $this->aWarnings = array_filter( $_aWarnings ); // drop empty elements.
+        return count( $this->aWarnings );
+        
     }        
         
         /**
@@ -199,6 +215,75 @@ class AdminPageFramework_Requirement {
                 return $_aWarnings;
                 
             }    
+    /**
+     * Sets up admin notices to display warnings.
+     * 
+     * @since       3.4.6
+     */
+    public function setAdminNotices() {
+        add_action( 'admin_notices', array( $this, '_replyToPrintAdminNotices' ) );
+    }
+    /**
+     * Prints warnings.
+     * @since       3.4.6
+     */    
+        public function _replyToPrintAdminNotices() {
             
+            $_aWarnings     = array_unique( $this->aWarnings );
+            if ( empty( $_aWarnings ) ) {
+                return;
+            }
+            echo "<div class='error'>"
+                    . "<p>" 
+                        . $this->_getWarnings()
+                    . "</p>"
+                . "</div>";        
+            
+        }    
+        
+        /**
+         * Returns the warnings.
+         * 
+         * @since        3.4.6
+         */
+        private function _getWarnings() {
+
+            $_aWarnings     = array_unique( $this->aWarnings );            
+            if ( empty( $_aWarnings ) ) {
+                return '';
+            }        
+            $_sScripTitle   = $this->_sScriptName 
+                ?  "<strong>" . $this->_sScriptName . "</strong>:&nbsp;" 
+                : '';            
+            return $_sScripTitle
+               . implode( '<br />', $_aWarnings );
+            
+        }
+    
+    /**
+     * Deactivates the plugin.
+     * @since       3.4.6
+     */
+    public function deactivatePlugin( $sPluginFilePath, $sMessage='', $bIsOnActivation=false ) {
+        
+        add_action( 'admin_notices', array( $this, '_replyToPrintAdminNotices' ) );
+        $this->aWarnings[] = '<strong>' . $sMessage . '</strong>';
+        if ( ! function_exists( 'deactivate_plugins' ) ) {
+            if ( ! @include( ABSPATH . '/wp-admin/includes/plugin.php' ) ) {
+                return;
+            }
+        }
+        deactivate_plugins( $sPluginFilePath );       
+        
+        // If it is in the activation hook, WordPress cannot display or add admin notices. So the script needs to exit.
+        // Before that, we can display messages to the user.
+        if ( $bIsOnActivation ) {
+            
+            $_sPluginListingPage = add_query_arg( array(), $GLOBALS['pagenow'] );
+            wp_die( $this->_getWarnings() . "<p><a href='$_sPluginListingPage'>Go back</a>.</p>" );
+            
+        }
+        
+    }
 }
 endif;
