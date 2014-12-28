@@ -240,6 +240,9 @@ CSSRULES;
                 'MySQL'                 => isset( $_aData['MySQL'] )
                     ? null
                     : $this->getMySQLInfo(),
+                'MySQL Error Log'       => isset( $_aData['MySQL Error Log'] ) 
+                    ? null
+                    : $this->getMySQLErrorLog( 200 ),
                 'Server'                => isset( $_aData['Server'] )
                     ? null
                     : $this->_getServerInfo(),

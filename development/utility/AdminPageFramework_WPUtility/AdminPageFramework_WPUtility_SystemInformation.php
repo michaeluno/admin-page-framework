@@ -56,5 +56,33 @@ class AdminPageFramework_WPUtility_SystemInformation extends AdminPageFramework_
         
     }        
     
+    /**
+     * Returns the MySQL error log path.
+     * @since       3.3.6
+     */
+    static public function getMySQLErrorLogPath() {
+        
+        $_aMySQLInfo = self::getMySQLInfo();
+        return isset( $_aMySQLInfo['log_error'] )
+            ? $_aMySQLInfo['log_error']
+            : '';
+        
+    }
+    
+    /**
+     * Returns a PHP error log.
+     * @since       3.3.6
+     */
+    static public function getMySQLErrorLog( $iLines=1 ) {
+        
+        $_sLog = self::getFileTailContents( self::getMySQLErrorLogPath(), $iLines );
+        
+        // @todo If empty, return an alternative.
+        return $_sLog
+            ? $_sLog
+            : '';
+                
+    }          
+    
 }
 endif;

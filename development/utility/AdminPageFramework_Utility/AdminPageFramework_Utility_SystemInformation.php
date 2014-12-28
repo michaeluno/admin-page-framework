@@ -11,12 +11,12 @@ if ( ! class_exists( 'AdminPageFramework_Utility_SystemInformation' ) ) :
  * Provides utility methods to return various system information.
  *
  * @since       3.3.6
- * @extends     AdminPageFramework_Utility_Array
+ * @extends     AdminPageFramework_Utility_File
  * @package     AdminPageFramework
  * @subpackage  Utility
  * @internal
  */
-abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFramework_Utility_URL {
+abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFramework_Utility_File {
     
     /**
      * Caches the result of PHP information array.
@@ -120,7 +120,7 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
      * @return      array|string        The error log path. It can be multiple. If so an array holding them will be returned.
      */
     static public function getPHPErrorLogPath() {
-        
+                
         $_aPHPInfo = self::getPHPInfo();
         return isset( $_aPHPInfo['PHP Core']['error_log'] ) 
             ? $_aPHPInfo['PHP Core']['error_log']
@@ -134,21 +134,12 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
      */
     static public function getPHPErrorLog( $iLines=1 ) {
         
-        $_asPHPErrorLogPath = self::getPHPErrorLogPath();
-        $_aPHPErrorLogPath  = is_array( $_asPHPErrorLogPath ) ? $_asPHPErrorLogPath : array( $_asPHPErrorLogPath );
-        $_aPHPErrorLogPath  = array_values( $_aPHPErrorLogPath );
-        $_sPath             = array_shift( $_aPHPErrorLogPath );        
-        return file_exists( $_sPath ) 
-            ? trim( 
-                implode( 
-                    "", 
-                    array_slice( 
-                        file( $_sPath ), 
-                        - $iLines 
-                    ) 
-                ) 
-            )
-            : '';
+        $_sLog = self::getFileTailContents( self::getPHPErrorLogPath(), $iLines );
+        
+        // If empty, it could be the log file could not be located. In that case, return the last error.
+        return $_sLog
+            ? $_sLog
+            : print_r( @error_get_last(), true );   
         
     }        
         

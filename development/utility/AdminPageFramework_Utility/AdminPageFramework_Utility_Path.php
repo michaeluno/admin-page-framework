@@ -10,10 +10,10 @@ if ( ! class_exists( 'AdminPageFramework_Utility_Path' ) ) :
 /**
  * Provides utility methods dealing with file paths which do not use WordPress functions.
  *
- * @since 2.0.0
- * @extends AdminPageFramework_Utility_Array
- * @package AdminPageFramework
- * @subpackage Utility
+ * @since       2.0.0
+ * @extends     AdminPageFramework_Utility_Array
+ * @package     AdminPageFramework
+ * @subpackage  Utility
  * @internal
  */
 abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utility_Array {
