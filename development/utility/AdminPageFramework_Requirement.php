@@ -61,16 +61,24 @@ class AdminPageFramework_Requirement {
     /**
      * Sets up properties.
      * 
+     * To disable checking on particular item, sent non-array value to the element.
+     * 
+     * $aRequirement = array(
+     *  'mysql' => '',  // <-- mysql will be skipped.
+     *  'php' ...
+     * )
+     * 
      * @since       3.4.6
      */ 
     public function __construct( array $aRequirements=array() ) {
         
         // Avoid undefined index warnings.
         $this->_aRequirements              = $aRequirements + $this->_aDefaultRequirements;    
+        $this->_aRequirements              = array_filter( $this->_aRequirements, 'is_array' );
         $this->_aRequirements['php']       = $this->_aRequirements['php'] + $this->_aDefaultRequirements['php'];
         $this->_aRequirements['wordpress'] = $this->_aRequirements['wordpress'] + $this->_aDefaultRequirements['wordpress'];
         $this->_aRequirements['mysql']     = $this->_aRequirements['mysql'] + $this->_aDefaultRequirements['mysql'];
-
+        
     }
     
     /**
@@ -102,7 +110,7 @@ class AdminPageFramework_Requirement {
             $this->_checkFunctions( $this->_aRequirements['functions'] ),
             $this->_checkClasses( $this->_aRequirements['classes'] ),
             $this->_checkConstants( $this->_aRequirements['constants'] ),
-            $this->_checkFiles( $this->_aRequirements['files'] );
+            $this->_checkFiles( $this->_aRequirements['files'] )
         );
         
         return array_filter( $_aWarnings ); // drop empty elements.
@@ -140,7 +148,7 @@ class AdminPageFramework_Requirement {
                 
             return $_sInstalledMySQLVersion
                 ? version_compare( $_sInstalledMySQLVersion, $sMySQLVersion, ">=" )
-                : return true;
+                : true;
             
         }
 
@@ -191,5 +199,6 @@ class AdminPageFramework_Requirement {
                 return $_aWarnings;
                 
             }    
+            
 }
 endif;
