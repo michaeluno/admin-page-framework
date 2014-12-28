@@ -482,6 +482,12 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *               <li>**select_none_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
     *           </ul>
     *       </li>
+    *       <li>**system** - [3.3.0+] a custom textara field that displays system information.
+    *           <ul>
+    *               <li>**data** - (optional, array) an associative array ta that holds the data to display.</li>
+    *               <li>**print_type** - [3.3.6+] (optional, integer) Indicates how the data array should be displayed. 1: readable array representation. 2. the output of the print_r() function. Default: `1`.</li>
+    *           </ul>
+    *       </li>
     * </ul>    
     * @param        array (optional) another field array.
     * @param        array (optional) add more field arrays to the next parameters as many as necessary.
