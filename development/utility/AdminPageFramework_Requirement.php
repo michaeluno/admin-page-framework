@@ -19,11 +19,15 @@ class AdminPageFramework_Requirement {
 
     /**
      * Stores the criteria of the requirements.
+     * 
+     * @since       3.4.6
      */
     private $_aRequirements = array();
     
     /**
      * The default criteria and their error messages.
+     * 
+     * @since       3.4.6
      */
     private $_aDefaultRequirements = array(
         'php' => array(
@@ -56,6 +60,8 @@ class AdminPageFramework_Requirement {
         
     /**
      * Sets up properties.
+     * 
+     * @since       3.4.6
      */ 
     public function __construct( array $aRequirements=array() ) {
         
@@ -71,21 +77,22 @@ class AdminPageFramework_Requirement {
      * Returns a warning array by checking requirements.
      * 
      * If it is not empty, it means there is a missing requirement.
+     * @since       3.4.6
      */
     public function get() {      
         
         // PHP
-        if ( ! $this->_checkPHPVersion( $this->_aRequirements['php']['version'] ) ) {
+        if ( isset( $this->_aRequirements['php']['version'] ) && ! $this->_checkPHPVersion( $this->_aRequirements['php']['version'] ) ) {
             $_aWarnings[] = sprintf( $this->_aRequirements['php']['error'], $this->_aRequirements['php']['version'] );
         }
 
         // WordPress
-        if ( ! $this->_checkWordPressVersion( $this->_aRequirements['wordpress']['version'] ) ) {
+        if ( isset( $this->_aRequirements['wordpress']['version'] ) && ! $this->_checkWordPressVersion( $this->_aRequirements['wordpress']['version'] ) ) {
             $_aWarnings[] = sprintf( $this->_aRequirements['wordpress']['error'], $this->_aRequirements['wordpress']['version'] );
         }
         
         // MySQL
-        if ( ! $this->_checkMySQLVersion( $this->_aRequirements['mysql']['version'] ) ) {
+        if ( isset( $this->_aRequirements['mysql']['version'] ) && ! $this->_checkMySQLVersion( $this->_aRequirements['mysql']['version'] ) ) {
             $_aWarnings[] = sprintf( $this->_aRequirements['mysql']['error'], $this->_aRequirements['mysql']['version'] );
         }        
         
@@ -106,6 +113,7 @@ class AdminPageFramework_Requirement {
          * Checks if the given version is greater than or equal to the installed PHP version.
          * 
          * @return      boolean     True if the given version is greater or equal to the current version. Otherwise, false.
+         * @since       3.4.6
          */
         private function _checkPHPVersion( $sPHPVersion ) {
             return version_compare( phpversion(), $sPHPVersion, ">=" );
@@ -113,6 +121,7 @@ class AdminPageFramework_Requirement {
         
         /**
          * Checks if the given version is greater than or equal to the installed WordPress verison.
+         * @since       3.4.6
          */
         private function _checkWordPressVersion( $sWordPressVersion ) {
             return version_compare( $GLOBALS['wp_version'], $sWordPressVersion, ">=" );
@@ -120,6 +129,7 @@ class AdminPageFramework_Requirement {
         
         /**
          * Checks if the given version is greater than or equal to the installed MySQL version.
+         * @since       3.4.6
          */
         private function _checkMySQLVersion( $sMySQLVersion ) {
             
@@ -136,24 +146,28 @@ class AdminPageFramework_Requirement {
 
         /**
          * Checks if the given classes exists.
+         * @since       3.4.6
          */
         private function _checkClasses( $aClasses ) {
             return $this->_getWarningsByFunctionName( 'class_exists', $aClasses );
         }
         /**
          * Checks if the given functions exists
+         * @since       3.4.6
          */
         private function _checkFunctions( $aFunctions ) {
             return $this->_getWarningsByFunctionName( 'function_exists', $aFunctions );
         }    
         /**
          * Checks if the given constants are defined.
+         * @since       3.4.6
          */
         private function _checkConstants( $aConstants ) {
             return $this->_getWarningsByFunctionName( 'defined', $aConstants );
         }    
         /**
          * Checks if the given files exist.
+         * @since       3.4.6
          */
         private function _checkFiles( $aFilePaths ) {
             return $this->_getWarningsByFunctionName( 'file_exists', $aFilePaths );
@@ -163,6 +177,7 @@ class AdminPageFramework_Requirement {
              * 
              * if it returns non true (false), it stores the subject warning and returns the array holding the warnings.
              * 
+             * @since       3.4.6
              * @return      array           The warning array.
              */
             private function _getWarningsByFunctionName( $sFuncName, $aSubjects ) {
