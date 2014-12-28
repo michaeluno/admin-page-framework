@@ -48,6 +48,7 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      */
     protected $aDefaultKeys = array(
         'data'          =>  array(),        // [3.2.0+] Stores the data to be displayed
+        'print_type'    =>  1,              // [3.3.6+] 1: readable representation of array. 2: print_r()
         'attributes'    =>    array(
             'rows'          => 60,
             'autofocus'     => null,
@@ -211,7 +212,7 @@ CSSRULES;
                         : "" 
                     )
                     . "<textarea " . $this->generateAttributes( $aInputAttributes ) . " >"    
-                        . esc_textarea( $this->_getSystemInfomation( $aField['value'], $aField['data'] ) )
+                        . esc_textarea( $this->_getSystemInfomation( $aField['value'], $aField['data'], $aField['print_type'] ) )
                     . "</textarea>"
                     . $aField['after_input']
                 . "</label>"
@@ -219,7 +220,7 @@ CSSRULES;
             . $aField['after_label'];
         
     }    
-        private function _getSystemInfomation( $asValue=null, $asCustomData=null ) {
+        private function _getSystemInfomation( $asValue=null, $asCustomData=null, $iPrintType=1 ) {
             
             global $wpdb;
             
@@ -257,7 +258,15 @@ CSSRULES;
                 // Skipping an empty element allows the user to remove a section by setting an empty section.
                 if ( empty( $_aInfo ) ) { continue; }
             
-                $_aOutput[] = $this->getReadableArrayContents( $_sSection, $_aInfo, 32 ) . PHP_EOL;
+                switch ( $iPrintType ) {
+                    default:
+                    case 1:
+                        $_aOutput[] = $this->getReadableArrayContents( $_sSection, $_aInfo, 32 ) . PHP_EOL;
+                    case 2:
+                        $_aOutput[] = "[{$_sSection}]" . PHP_EOL
+                            . print_r( $_aInfo, true ) . PHP_EOL;
+                    
+                }
                 
             }
             return implode( PHP_EOL, $_aOutput );
