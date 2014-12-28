@@ -22,13 +22,13 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      * 
      * The slug is used for the type key in a field definition array.
      *     $this->addSettingFields(
-            array(
-                'section_id'    => '...',
-                'type'          => 'system',        // <--- THIS PART
-                'field_id'      => '...',
-                'title'         => '...',
-            )
-        );
+     *      array(
+     *          'section_id'    => '...',
+     *          'type'          => 'system',        // <--- THIS PART
+     *          'field_id'      => '...',
+     *          'title'         => '...',
+     *      )
+     *  );
      */
     public $aFieldTypeSlugs = array( 'system', );
     
@@ -37,13 +37,13 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      * 
      * The keys are used for the field definition array.
      *     $this->addSettingFields(
-            array(
-                'section_id'    => '...',    
-                'type'          => '...',
-                'field_id'      => '...',
-                'my_custom_key' => '...',    // <-- THIS PART
-            )
-        );
+     *      array(
+     *          'section_id'    => '...',    
+     *          'type'          => '...',
+     *          'field_id'      => '...',
+     *          'my_custom_key' => '...',    // <-- THIS PART
+     *      )
+     *  );
      * @remark            $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
@@ -197,11 +197,9 @@ CSSRULES;
      */
     protected function getField( $aField ) { 
 
-        $aInputAttributes = array(
-            // 'type'    =>    'textarea',
-        ) + $aField['attributes'];
-        $aInputAttributes['class']    .= ' system';
-        unset( $aInputAttributes['value'] );
+        $_aInputAttributes           = $aField['attributes'];
+        $_aInputAttributes['class'] .= ' system';
+        unset( $_aInputAttributes['value'] );
         return 
             $aField['before_label']
             . "<div class='admin-page-framework-input-label-container'>"
@@ -211,7 +209,7 @@ CSSRULES;
                         ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
                         : "" 
                     )
-                    . "<textarea " . $this->generateAttributes( $aInputAttributes ) . " >"    
+                    . "<textarea " . $this->generateAttributes( $_aInputAttributes ) . " >"    
                         . esc_textarea( $this->_getSystemInfomation( $aField['value'], $aField['data'], $aField['print_type'] ) )
                     . "</textarea>"
                     . $aField['after_input']
@@ -220,6 +218,9 @@ CSSRULES;
             . $aField['after_label'];
         
     }    
+        /**
+         * Returns the system information value for a textarea tag.
+         */
         private function _getSystemInfomation( $asValue=null, $asCustomData=null, $iPrintType=1 ) {
             
             global $wpdb;
@@ -260,12 +261,13 @@ CSSRULES;
             
                 switch ( $iPrintType ) {
                     default:
-                    case 1:
+                    case 1: // use the framework readable representation of arrays.
                         $_aOutput[] = $this->getReadableArrayContents( $_sSection, $_aInfo, 32 ) . PHP_EOL;
-                    case 2:
+                        break;
+                    case 2: // use print_r()
                         $_aOutput[] = "[{$_sSection}]" . PHP_EOL
                             . print_r( $_aInfo, true ) . PHP_EOL;
-                    
+                        break;
                 }
                 
             }
