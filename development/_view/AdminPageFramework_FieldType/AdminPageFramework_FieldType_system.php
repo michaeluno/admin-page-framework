@@ -234,6 +234,9 @@ CSSRULES;
                 'PHP'                   => isset( $_aData['PHP'] )
                     ? null
                     : $this->_getPHPInfo(),
+                'PHP Error Log'         => isset( $_aData['PHP Error Log'] )
+                    ? null
+                    : $this->getPHPErrorLog( 200 ),
                 'MySQL'                 => isset( $_aData['MySQL'] )
                     ? null
                     : $this->getMySQLInfo(),
@@ -293,7 +296,7 @@ CSSRULES;
                     __( 'WP_CONTENT_DIR Writeable', 'admin-page-framework' ) => $this->_getYesOrNo( is_writable( WP_CONTENT_DIR ) ),
                     __( 'Active Plugins', 'admin-page-framework' )          => PHP_EOL . $this->_getActivePlugins(),
                     __( 'Network Active Plugins', 'admin-page-framework' )  => PHP_EOL . $this->_getNetworkActivePlugins(),
-
+                    __( 'Constants', 'admin-page-framework' )               => $this->getDefinedConstants( 'user' ),
                 );          
                 return self::$_aSiteInfo;
                 
@@ -430,7 +433,12 @@ CSSRULES;
                     __( 'SOAP', 'admin-page-framework' )                    => $this->_getSupportedOrNot( class_exists( 'SoapClient' ) ),
                     __( 'SUHOSIN', 'admin-page-framework' )                 => $this->_getSupportedOrNot( extension_loaded( 'suhosin' ) ),
                     'ini_set()'                                             => $this->_getSupportedOrNot( function_exists( 'ini_set' ) ),
-                ) + $this->getPHPInfo();
+                ) 
+                + $this->getPHPInfo()
+                + array( 
+                    __( 'Constants', 'admin-page-framework' )               => $this->getDefinedConstants( null, 'user' )
+                )
+                ;
                 
                 return self::$_aPHPInfo;
                 
