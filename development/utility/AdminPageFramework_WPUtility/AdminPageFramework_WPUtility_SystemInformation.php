@@ -10,7 +10,7 @@ if ( ! class_exists( 'AdminPageFramework_WPUtility_SystemInformation' ) ) :
 /**
  * Provides utility methods to retrieve various system information.
  *
- * @since       3.3.6
+ * @since       3.4.6
  * @extends     AdminPageFramework_Utility
  * @package     AdminPageFramework
  * @subpackage  Utility
@@ -20,13 +20,13 @@ class AdminPageFramework_WPUtility_SystemInformation extends AdminPageFramework_
 
     /**
      * Caches the MySQL information.
-     * @since       3.3.6
+     * @since       3.4.6
      */
     static private $_aMySQLInfo;
 
     /**
      * Returns MySQL configurations.
-     * @since       3.3.6
+     * @since       3.4.6
      */
     static public function getMySQLInfo() {
         
@@ -58,7 +58,7 @@ class AdminPageFramework_WPUtility_SystemInformation extends AdminPageFramework_
     
     /**
      * Returns the MySQL error log path.
-     * @since       3.3.6
+     * @since       3.4.6
      */
     static public function getMySQLErrorLogPath() {
         
@@ -71,7 +71,7 @@ class AdminPageFramework_WPUtility_SystemInformation extends AdminPageFramework_
     
     /**
      * Returns a PHP error log.
-     * @since       3.3.6
+     * @since       3.4.6
      */
     static public function getMySQLErrorLog( $iLines=1 ) {
         

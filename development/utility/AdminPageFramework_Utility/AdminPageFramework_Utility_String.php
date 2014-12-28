@@ -93,7 +93,7 @@ abstract class AdminPageFramework_Utility_String {
    
     /**
      * Returns a number from the given human readable size representation.
-     * @since       3.3.6
+     * @since       3.4.6
      */     
     static public function getNumberOfReadableSize( $nSize ) {
         
@@ -116,7 +116,7 @@ abstract class AdminPageFramework_Utility_String {
     
     /**
      * Returns a human readable size from the given byte number.
-     * @since       3.3.6
+     * @since       3.4.6
      */     
     static public function getReadableBytes( $nBytes ) {
         $_aUnits    = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );

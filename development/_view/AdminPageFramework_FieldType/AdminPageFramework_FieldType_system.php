@@ -48,7 +48,7 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      */
     protected $aDefaultKeys = array(
         'data'          =>  array(),        // [3.2.0+] Stores the data to be displayed
-        'print_type'    =>  1,              // [3.3.6+] 1: readable representation of array. 2: print_r()
+        'print_type'    =>  1,              // [3.4.6+] 1: readable representation of array. 2: print_r()
         'attributes'    =>    array(
             'rows'          => 60,
             'autofocus'     => null,
@@ -281,7 +281,7 @@ CSSRULES;
             static private $_aSiteInfo;
             /**
              * Returns the Wordpress installed site.
-             * since        3.3.6
+             * since        3.4.6
              */
             private function _getSiteInfo() {
                 
@@ -412,13 +412,13 @@ CSSRULES;
                 }                  
             /**
              * Caches the php information.
-             * @since       3.3.6
+             * @since       3.4.6
              */
             static private $_aPHPInfo;
             
             /**
              * Returns the PHP information.
-             * @since       3.3.6
+             * @since       3.4.6
              */
             private function _getPHPInfo() {
                 
@@ -460,7 +460,7 @@ CSSRULES;
                       
             /**
              * Returns the web server information.
-             * @since       3.3.6
+             * @since       3.4.6
              */                      
             private function _getServerInfo() {
                 

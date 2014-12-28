@@ -10,7 +10,7 @@ if ( ! class_exists( 'AdminPageFramework_Utility_SystemInformation' ) ) :
 /**
  * Provides utility methods to return various system information.
  *
- * @since       3.3.6
+ * @since       3.4.6
  * @extends     AdminPageFramework_Utility_File
  * @package     AdminPageFramework
  * @subpackage  Utility
@@ -20,14 +20,14 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
     
     /**
      * Caches the result of PHP information array.
-     * @since       3.3.6
+     * @since       3.4.6
      */
     static private $_aPHPInfo;
     
     /**
      * Returns the PHP information as an array.
      * 
-     * @since       3.3.6
+     * @since       3.4.6
      */
     static public function getPHPInfo() {
 
@@ -90,7 +90,7 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
     /**
      * Returns an array of constants.
      * 
-     * @since       3.3.6
+     * @since       3.4.6
      * @param       array|string      $asCategory      The category key names of the returning array.
      */
     static public function getDefinedConstants( $asCategories=null, $asRemovingCategories=null ) {
@@ -116,7 +116,7 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
     /**
      * Returns PHP error log path.
      * 
-     * @since       3.3.6
+     * @since       3.4.6
      * @return      array|string        The error log path. It can be multiple. If so an array holding them will be returned.
      */
     static public function getPHPErrorLogPath() {
@@ -130,7 +130,7 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
     
     /**
      * Returns a PHP error log.
-     * @since       3.3.6
+     * @since       3.4.6
      */
     static public function getPHPErrorLog( $iLines=1 ) {
         
