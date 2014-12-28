@@ -57,6 +57,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Debug"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Debug.php", 
 	"AdminPageFramework_ErrorReporting"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_ErrorReporting.php", 
 	"AdminPageFramework_RegisterClasses"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_RegisterClasses.php", 
+	"AdminPageFramework_Requirement"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Requirement.php", 
 	"AdminPageFramework_Utility"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Utility/AdminPageFramework_Utility.php", 
 	"AdminPageFramework_Utility_Array"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Utility/AdminPageFramework_Utility_Array.php", 
 	"AdminPageFramework_Utility_File"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Utility/AdminPageFramework_Utility_File.php", 
