@@ -69,17 +69,21 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
 
         $_aOutput = array();
         foreach( $_aSections as $_sSection ) {
-            $n = substr( $_sSection, 0, strpos( $_sSection, '</h2>' ) );
+            $_iIndex = substr( $_sSection, 0, strpos( $_sSection, '</h2>' ) );
             preg_match_all(
                 '#%S%(?:<td>(.*?)</td>)?(?:<td>(.*?)</td>)?(?:<td>(.*?)</td>)?%E%#',
                 $_sSection, 
                 $_aAskApache, 
                 PREG_SET_ORDER
             );
-            foreach( $_aAskApache as $m ) {
-                $_aOutput[ $n ][ $m[ 1 ] ] = ( ! isset( $m[3] )|| $m[2] == $m[3] )
-                    ? $m[2] 
-                    : array_slice( $m, 2 );
+            foreach( $_aAskApache as $_aMatches ) {
+                if ( ! isset( $_aMatches[ 1 ], $_aMatches[ 2 ] ) ) {
+                    array_slice( $_aMatches, 2 );
+                    continue;
+                }
+                $_aOutput[ $_iIndex ][ $_aMatches[ 1 ] ] = ! isset( $_aMatches[ 3 ] ) || $_aMatches[ 2 ] == $_aMatches[ 3 ]
+                    ? $_aMatches[ 2 ] 
+                    : array_slice( $_aMatches, 2 );
             }
         }
         self::$_aPHPInfo = $_aOutput;
@@ -102,13 +106,11 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
         $_aConstants            = get_defined_constants( true );
         
         if ( empty( $_aCategories ) ) {
-            return array_diff( $_aConstants, $_aRemovingCategories );
-            return $_aConstants;
+            return self::dropElementsByKey( $_aConstants, $_aRemovingCategories );
         }
-
-        return array_diff( 
-            array_intersect_key( $_aConstants, array_flip( $_aCategories ) ), 
-            $_aRemovingCategories 
+        return self::dropElementsByKey( 
+            array_intersect_key( $_aConstants, array_flip( $_aCategories ) ),
+            $_aRemovingCategories
         );
                 
     }        

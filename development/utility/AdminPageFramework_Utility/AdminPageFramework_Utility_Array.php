@@ -64,7 +64,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     /**
      * Returns the element value by the given key as an array.
      * 
-     * When the retrieving element value is unknow whether it is set and it is an array, use this method 
+     * When the retrieving element value is unknown whether it is set and it is an array, use this method 
      * to save the line of isset() and is_array().
      * 
      * @since       3.4.0
@@ -518,6 +518,23 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
                 continue;
             }
             unset( $aArray[ $_sKey ] );
+        }
+        return $aArray;
+        
+    }
+    
+    /**
+     * Removes given keys fro the array.
+     * 
+     * This is used to drop unnecessary keys for a multidimensional array as multidimensinal arrays can cause PHP warnings used with `array_diff()`.
+     * 
+     * @since       3.4.6
+     */
+    static public function dropElementsByKey( array $aArray, $asKeys ) {
+        
+        $_aKeys = is_array( $asKeys ) ? $asKeys : array( $asKeys );
+        foreach( $_aKeys as $_isKey ) {
+            unset( $aArray[ $_isKey ] );
         }
         return $aArray;
         
