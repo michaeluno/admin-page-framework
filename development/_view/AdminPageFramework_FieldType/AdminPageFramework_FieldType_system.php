@@ -238,16 +238,16 @@ CSSRULES;
                     : $this->_getPHPInfo(),
                 'PHP Error Log'         => isset( $_aData['PHP Error Log'] )
                     ? null
-                    : $this->getPHPErrorLog( 200 ),
+                    : $this->_getPHPErrorLog(),
                 'MySQL'                 => isset( $_aData['MySQL'] )
                     ? null
                     : $this->getMySQLInfo(),
                 'MySQL Error Log'       => isset( $_aData['MySQL Error Log'] ) 
                     ? null
-                    : $this->getMySQLErrorLog( 200 ),
+                    : $this->_getMySQLErrorLog(),
                 'Server'                => isset( $_aData['Server'] )
                     ? null
-                    : $this->_getServerInfo(),
+                    : $this->_getWebServerInfo(),
                 'Browser'               => isset( $_aData['Browser'] )
                     ? null
                     : @get_browser( null, true ),
@@ -274,7 +274,33 @@ CSSRULES;
             return implode( PHP_EOL, $_aOutput );
             
         }
+            /**
+             * Returns a PHP error log.
+             * 
+             * @since       3.4.6
+             */
+            private function _getPHPErrorLog() {
+
+                $_sLog = $this->getPHPErrorLog( 200 );
+                return empty( $_sLog )
+                    ? __( 'No log found.', 'admin-page-framework' )
+                    : $_sLog;
             
+            }
+            
+            /**
+             * Returns a MySQL error log.
+             * 
+             * @since       3.4.6
+             */
+            private function _getMySQLErrorLog() {
+                
+                $_sLog = $this->getMySQLErrorLog( 200 );
+                return empty( $_sLog )
+                    ? __( 'No log found.', 'admin-page-framework' )
+                    : $_sLog;
+                    
+            }
             /**
              * Caches the WordPress installed site information.
              */
@@ -462,7 +488,7 @@ CSSRULES;
              * Returns the web server information.
              * @since       3.4.6
              */                      
-            private function _getServerInfo() {
+            private function _getWebServerInfo() {
                 
                 return array(
                     __( 'Web Server', 'admin-page-framework' )                  => $_SERVER['SERVER_SOFTWARE'],
