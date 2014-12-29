@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FormElement_Page' ) ) :
+
 /**
  * Provides methods that deal with field and section definition arrays specific to the ones that belong to generic pages created by the framework.
  * 
@@ -490,4 +490,3 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
     }
 
 }
-endif;

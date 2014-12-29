@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Resource_MetaBox' ) ) :
+
 /**
  * {@inheritdoc}
  * 
@@ -184,4 +184,3 @@ class AdminPageFramework_Resource_MetaBox extends AdminPageFramework_Resource_Ba
     }
 
 }
-endif;

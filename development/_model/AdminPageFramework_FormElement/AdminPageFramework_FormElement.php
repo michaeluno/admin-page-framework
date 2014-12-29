@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FormElement' ) ) :
+
 /**
  * Provides methods to compose form elements
  * 
@@ -656,4 +656,3 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
     }
         
 }
-endif;

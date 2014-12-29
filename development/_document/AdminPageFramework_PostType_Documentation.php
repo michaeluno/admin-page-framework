@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_PostType_Documentation' ) ) :
+
 /**
  * Provides an abstract base class to create custom post types with some additional features.
  * 
@@ -33,4 +33,3 @@ if ( ! class_exists( 'AdminPageFramework_PostType_Documentation' ) ) :
  * @heading     Post Type
  */
 abstract class AdminPageFramework_PostType_Documentation {}
-endif;

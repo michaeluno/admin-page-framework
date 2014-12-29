@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_HelpPane_Page' ) ) :
+
 /**
  * Provides methods to manipulate the help screen sections.
  * 
@@ -136,4 +136,3 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
     }
     
 }
-endif;

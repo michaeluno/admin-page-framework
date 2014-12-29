@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_WPUtility_SystemInformation' ) ) :
+
 /**
  * Provides utility methods to retrieve various system information.
  *
@@ -85,4 +85,3 @@ class AdminPageFramework_WPUtility_SystemInformation extends AdminPageFramework_
     }          
     
 }
-endif;

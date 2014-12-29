@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Form_Model' ) ) :
+
 /**
  * Interact with the database for the forms.
  *
@@ -354,7 +354,5 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
 
         return $_aLastInput + $this->oProp->aOptions;
     }
-
-            
+         
 }
-endif;

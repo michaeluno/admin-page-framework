@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Factory_Controller' ) ) :
+
 /**
  * Provides methods for models.
  * 
@@ -677,4 +677,3 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     }
 
 }
-endif;

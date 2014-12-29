@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_PageLoadInfo_PostType' ) ) :
+
 /**
  * Collects data of page loads of the added post type pages. 
  * @since 2.1.7
@@ -58,4 +58,3 @@ class AdminPageFramework_PageLoadInfo_PostType extends AdminPageFramework_PageLo
     }    
     
 }
-endif;

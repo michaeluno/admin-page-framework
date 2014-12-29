@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FieldType_number' ) ) :
+
 /**
  * Defines the number, and range field type.
  * 
@@ -56,4 +56,3 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_t
     }
     
 }
-endif;

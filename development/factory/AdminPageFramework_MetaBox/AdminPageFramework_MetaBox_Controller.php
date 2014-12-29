@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_MetaBox_Controller' ) ) :
+
 /**
  * Provides UI related methods.
  *
@@ -122,7 +122,5 @@ abstract class AdminPageFramework_MetaBox_Controller extends AdminPageFramework_
     public function enqueueScript( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {    
         return $this->oResource->_enqueueScript( $sSRC, $aPostTypes, $aCustomArgs );
     }    
-            
     
 }
-endif;

@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Script_RepeatableField' ) ) :
+
 /**
  * Provides JavaScript scripts for repeatable fields.
  * 
@@ -213,4 +213,3 @@ JAVASCRIPTS;
     }
 
 }
-endif;

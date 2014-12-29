@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_WPUtility_Post' ) ) :
+
 /**
  * Provides utility methods dealing with post data.
  *
@@ -34,6 +34,4 @@ class AdminPageFramework_WPUtility_Post extends AdminPageFramework_WPUtility_Opt
         
     }
 
-    
 }
-endif;

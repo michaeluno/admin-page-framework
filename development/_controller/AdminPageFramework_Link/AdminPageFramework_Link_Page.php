@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Link_Page' ) ) :
+
 /**
  * Provides methods for HTML link elements for admin pages created by the framework, except the pages of custom post types.
  *
@@ -182,4 +182,3 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
         
     }     
 }
-endif;

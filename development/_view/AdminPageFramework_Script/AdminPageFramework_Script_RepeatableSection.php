@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Script_RepeatableSection' ) ) :
+
 /**
  * Provides JavaScript utility scripts.
  * 
@@ -296,4 +296,3 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
 JAVASCRIPTS;
     }
 }
-endif;

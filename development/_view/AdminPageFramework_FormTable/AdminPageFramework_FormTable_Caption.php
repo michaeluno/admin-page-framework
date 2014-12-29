@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FormTable_Caption' ) ) :
+
 /**
  * Provides methods to render section table captions.
  * 
@@ -142,4 +142,3 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
         }      
             
 }
-endif;

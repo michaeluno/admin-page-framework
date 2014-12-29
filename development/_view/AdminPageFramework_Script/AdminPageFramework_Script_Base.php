@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Script_Base' ) ) :
+
 /**
  * Provides an abstract base to create an automatic script insertion class.
  * 
@@ -87,4 +87,3 @@ class AdminPageFramework_Script_Base {
     }
 
 }
-endif;

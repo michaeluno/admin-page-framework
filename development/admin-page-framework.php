@@ -9,7 +9,7 @@
  * @license     MIT <http://opensource.org/licenses/MIT>
  * @package     AdminPageFramework
  */
-if ( ! class_exists( 'AdminPageFramework_Registry_Base' ) ) :
+
 /**
  * Provides plugin and theme developers with simpler means of creating option pages, custom post types, meta boxes, and widgets..
  * 
@@ -29,11 +29,11 @@ if ( ! class_exists( 'AdminPageFramework_Registry_Base' ) ) :
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.4.6b07
+ * @version             3.4.6b08
  */
 abstract class AdminPageFramework_Registry_Base {
     
-    const Version       = '3.4.6b07'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const Version       = '3.4.6b08'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const Name          = 'Admin Page Framework';
     const Description   = 'Provides plugin and theme developers with simpler means of creating option pages, custom post types, meta boxes, and widgets.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
@@ -44,8 +44,7 @@ abstract class AdminPageFramework_Registry_Base {
     const Contributors  = '';    
     
 }
-endif;
-if ( ! class_exists( 'AdminPageFramework_Registry' ) ) :
+
 /**
  * Defines the framework common information.
  * 
@@ -117,9 +116,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
     }     
     
 }
-endif;
 
-if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :
 /**
  * Loads the Admin Page Framework library.
  * 
@@ -143,9 +140,10 @@ final class AdminPageFramework_Bootstrap {
         }
         
         // If the autoloader class exists, it means the framework has been loaded somewhere else.
-        if ( class_exists( 'AdminPageFramework_RegisterClasses' ) ) {
-            return;
-        }
+        // [3.4.6+] Deprecated as the minified version does not have if ( class_exists( )  checks any more so all the classes get loaded.
+        // if ( class_exists( 'AdminPageFramework_RegisterClasses' ) ) {
+            // return;
+        // }
         
         // Sets up registry properties.
         AdminPageFramework_Registry::setUp( $sLibraryPath );
@@ -165,4 +163,3 @@ final class AdminPageFramework_Bootstrap {
     
 }
 new AdminPageFramework_Bootstrap( __FILE__ ); // do it now
-endif;

@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Form_View' ) ) :
+
 /**
  * Deals with displaying outputs of forms.
  *
@@ -85,4 +85,3 @@ abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Mode
         
     }   
 }
-endif;

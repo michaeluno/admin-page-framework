@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Form_Model_Validation' ) ) :
+
 /**
  * Deals with validating submitted options.
  * 
@@ -869,4 +869,3 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             }
             
 }
-endif;

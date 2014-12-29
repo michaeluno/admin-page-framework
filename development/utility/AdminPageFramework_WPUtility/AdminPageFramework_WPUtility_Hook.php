@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_WPUtility_Hook' ) ) :
+
 /**
  * Provides utility methods regarding WordPress hooks (actions and filters) which use WordPress built-in functions and classes.
  *
@@ -203,4 +203,3 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
     }    
     
 }
-endif;

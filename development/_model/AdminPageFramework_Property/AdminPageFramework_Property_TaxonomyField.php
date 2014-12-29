@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Property_TaxonomyField' ) ) :
+
 /**
  * Provides the space to store the shared properties for taxonomy fields.
  *  
@@ -41,4 +41,3 @@ class AdminPageFramework_Property_TaxonomyField extends AdminPageFramework_Prope
     public $sOptionKey;
 
 }
-endif;

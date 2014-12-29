@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_HelpPane_MetaBox' ) ) :
+
 /**
  * Provides methods to manipulate the contextual help tab .
  *
@@ -112,4 +112,3 @@ class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Ba
     }
     
 }
-endif;

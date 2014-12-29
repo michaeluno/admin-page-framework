@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Form_Model_Port' ) ) :
+
 /**
  * Deals with exporting and importing options.
  * 
@@ -215,4 +215,3 @@ abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Rou
     }         
             
 }
-endif;

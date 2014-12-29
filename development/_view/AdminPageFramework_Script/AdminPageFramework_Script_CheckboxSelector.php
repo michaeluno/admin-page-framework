@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Script_CheckboxSelector' ) ) :
+
 /**
  * Provides JavaScript scripts to store temporary option data.
  * 
@@ -56,4 +56,3 @@ JAVASCRIPTS;
     }
 
 }
-endif;

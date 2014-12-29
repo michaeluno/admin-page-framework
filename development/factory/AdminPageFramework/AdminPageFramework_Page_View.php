@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Page_View' ) ) :
+
 /**
  * Provides methods to manipulate menu items.
  *
@@ -437,4 +437,3 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
             }
             
 }
-endif;

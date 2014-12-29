@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FormTable' ) ) :
+
 /**
  * Provides methods to render setting sections and fields.
  * 
@@ -386,7 +386,5 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             . "</div>";
         
     }
-
-            
+       
 }
-endif;

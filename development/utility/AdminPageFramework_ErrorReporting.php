@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_ErrorReporting' ) ) :
+
 /**
  * Retrieves the server set error reporting level.
  * 
@@ -90,4 +90,3 @@ class AdminPageFramework_ErrorReporting {
 
         }
 }
-endif;

@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_ExportOptions' ) ) :
+
 /**
  * Provides methods to export option data.
  *
@@ -91,4 +91,3 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
         }
     }
 }
-endif;

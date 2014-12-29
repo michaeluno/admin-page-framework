@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Page_Controller' ) ) :
+
 /**
  * Provides methods to manipulate how admin pages are displayed.
  *
@@ -249,4 +249,3 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
     }
   
 }
-endif;

@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Factory_View' ) ) :
+
 /**
  * Provides methods for views.
  * 
@@ -132,4 +132,3 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
     // }            
     
 }
-endif;

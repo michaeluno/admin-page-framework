@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Link_PostType' ) ) :
+
 /**
  * Provides methods for HTML link elements for custom post types.
  *
@@ -146,4 +146,3 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
         return $this->aFooterInfo['sRight'];     
     }
 }
-endif;

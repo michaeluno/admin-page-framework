@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_NetworkAdmin' ) ) :
+
 /**
  * The factory class that creates network admin pages.
  *
@@ -130,4 +130,3 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
     }
     
 }
-endif;

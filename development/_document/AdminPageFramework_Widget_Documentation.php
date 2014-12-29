@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Widget_Documentation' ) ) :
+
 /**
  * Provides an abstract base to create widgets and their forms.
  * 
@@ -24,4 +24,3 @@ if ( ! class_exists( 'AdminPageFramework_Widget_Documentation' ) ) :
  * @example     ../../../example/APF_Widget.php
  */
 abstract class AdminPageFramework_Widget_Documentation {}
-endif;

@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_MetaBox_Router' ) ) :
+
 /**
  * Handles routing of function calls and instantiation of associated classes.
  *
@@ -119,7 +119,4 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
           
     }    
     
-    
-    
 }
-endif;

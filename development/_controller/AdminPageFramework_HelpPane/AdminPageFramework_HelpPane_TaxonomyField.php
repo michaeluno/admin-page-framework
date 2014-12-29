@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_HelpPane_TaxonomyField' ) ) :
+
 /**
  * Provides methods to manipulate the contextual help tab for the taxonomy field class.
  *
@@ -39,4 +39,3 @@ class AdminPageFramework_HelpPane_TaxonomyField extends AdminPageFramework_HelpP
     }
     
 }
-endif;

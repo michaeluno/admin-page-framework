@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Input_select' ) ) :
+
 /**
  * Provides methods to output form input element of drop-down list.
  * 
@@ -139,4 +139,3 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
             }
     
 }
-endif;

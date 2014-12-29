@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_TaxonomyField_Documentaion' ) ) :
+
 /**
  * Provides an abstract base class to create custom fields in texonomy definition pages.
  *
@@ -46,4 +46,3 @@ if ( ! class_exists( 'AdminPageFramework_TaxonomyField_Documentaion' ) ) :
  * @heading     Taxonomy Field
  */
 abstract class AdminPageFramework_TaxonomyField_Documentaion {}
-endif;

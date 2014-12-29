@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_WPUtility_Page' ) ) :
+
 /**
  * Provides utility methods to detect types of admin pages which use WordPress functions and classes.
  *
@@ -216,7 +216,5 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         return '';
         
     }
-    
-            
+      
 }
-endif;

@@ -6,7 +6,6 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Property_Base' ) ) :
 
 /**
  * The base class for Property classes.
@@ -518,4 +517,3 @@ abstract class AdminPageFramework_Property_Base {
     }
     
 }
-endif;

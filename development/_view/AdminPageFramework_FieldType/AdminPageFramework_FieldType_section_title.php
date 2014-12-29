@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FieldType_section_title' ) ) :
+
 /**
  * Defines the section_tab field type.
  * 
@@ -102,4 +102,3 @@ CSSRULES;
     }
             
 }
-endif;

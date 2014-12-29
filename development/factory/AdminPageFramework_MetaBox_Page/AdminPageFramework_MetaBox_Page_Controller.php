@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_MetaBox_Page_Controller' ) ) :
+
 /**
  * Provides controller methods for creating meta boxes in pages added by the framework.
  * 
@@ -71,4 +71,3 @@ abstract class AdminPageFramework_MetaBox_Page_Controller extends AdminPageFrame
     }
     
 }
-endif;

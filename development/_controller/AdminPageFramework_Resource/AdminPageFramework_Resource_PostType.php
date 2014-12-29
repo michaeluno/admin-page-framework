@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Resource_PostType' ) ) :
+
 /**
  * {@inheritdoc}
  * 
@@ -23,4 +23,3 @@ if ( ! class_exists( 'AdminPageFramework_Resource_PostType' ) ) :
  * @internal
  */
 class AdminPageFramework_Resource_PostType extends AdminPageFramework_Resource_MetaBox {}
-endif;

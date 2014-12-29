@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) :
+
 /**
  * Provides methods for creating meta boxes for post types.
  *
@@ -65,4 +65,3 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Con
     }
     
 }
-endif;

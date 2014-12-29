@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Property_PostType' ) ) :
+
 /**
  * Provides the space to store the shared properties for custom post types.
  * 
@@ -173,4 +173,3 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
     }
         
 }
-endif;

@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_MetaBox_Page_Model' ) ) :
+
 /**
  * Provides model methods for creating meta boxes in pages added by the framework.
  * 
@@ -313,4 +313,3 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
     }
             
 }
-endif;

@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Input_checkbox' ) ) :
+
 /**
  * Provides methods to output form input element of check boxes.
  * 
@@ -84,8 +84,7 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
             )
             + $this->aField['attributes']
             ;
-                
+
     }
     
 }
-endif;

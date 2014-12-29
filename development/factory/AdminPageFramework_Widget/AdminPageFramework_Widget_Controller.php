@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Widget_Controller' ) ) :
+
 /**
  * Provides methods of views for the widget factory class.
  * 
@@ -138,4 +138,3 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
     }  
     
 }
-endif;

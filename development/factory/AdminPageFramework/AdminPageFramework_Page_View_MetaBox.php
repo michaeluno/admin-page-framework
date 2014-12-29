@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Page_View_MetaBox' ) ) :
+
 /**
  * Provides methods to insert meta boxes in pages added by the framework.
  *
@@ -231,4 +231,3 @@ JAVASCRIPTS;
         }
     
 }
-endif;

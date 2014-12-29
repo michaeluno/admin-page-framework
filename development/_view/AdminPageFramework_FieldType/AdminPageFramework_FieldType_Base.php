@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FieldType_Base' ) ) :
+
 /**
  * The base class of field type classes that define input field types.
  * 
@@ -323,4 +323,3 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
         }     
         
 }
-endif;

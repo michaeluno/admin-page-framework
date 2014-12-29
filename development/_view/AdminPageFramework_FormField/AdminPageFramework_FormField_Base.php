@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FormField_Base' ) ) :
+
 /**
  * The base class of the form input field class that provides methods for rendering form input fields.
  * 
@@ -170,8 +170,5 @@ JAVASCRIPTS;
             . "</script>";
             
     }
-    
-  
         
 }
-endif;

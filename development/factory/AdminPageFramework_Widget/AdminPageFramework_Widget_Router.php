@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Widget_Router' ) ) :
+
 /**
  * Provides routing methods for the widget factory class.
  * 
@@ -42,4 +42,3 @@ abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Facto
     }
     
 }
-endif;

@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Widget_Factory' ) ) :
+
 /**
  * A back-end factory class that redirects callback methods to the main widget class.
  * 
@@ -123,4 +123,3 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
     }
 
 }
-endif;

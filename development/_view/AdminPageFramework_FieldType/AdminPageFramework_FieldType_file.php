@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FieldType_file' ) ) :
+
 /**
  * Defines the file field type.
  * 
@@ -69,4 +69,3 @@ class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_tex
     }    
 
 }
-endif;

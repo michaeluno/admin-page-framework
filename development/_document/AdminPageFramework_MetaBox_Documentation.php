@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_MetaBox_Documentation' ) ) :
+
 /**
  * Provides an abstract base class to create meta boxes in post editing pages.
  *
@@ -42,4 +42,3 @@ if ( ! class_exists( 'AdminPageFramework_MetaBox_Documentation' ) ) :
  * @heading         Meta Box
  */
 abstract class AdminPageFramework_MetaBox_Documentation {}
-endif;

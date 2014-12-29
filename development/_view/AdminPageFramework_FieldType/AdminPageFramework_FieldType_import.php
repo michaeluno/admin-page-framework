@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FieldType_import' ) ) :
+
 /**
  * Defines the import field type.
  * 
@@ -163,4 +163,3 @@ CSSRULES;
     }
         
 }
-endif;

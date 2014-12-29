@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Link_Base' ) ) :
+
 /**
  * Provides methods for HTML link elements.
  *
@@ -67,4 +67,3 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
         
     }
 }
-endif;

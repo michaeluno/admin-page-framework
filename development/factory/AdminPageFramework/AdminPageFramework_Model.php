@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Model' ) ) :
+
 /**
  * Deals with retrieving/saving data from the database.
  *
@@ -17,4 +17,3 @@ if ( ! class_exists( 'AdminPageFramework_Model' ) ) :
  * @internal
  */
 abstract class AdminPageFramework_Model extends AdminPageFramework_Menu_Controller {}
-endif;

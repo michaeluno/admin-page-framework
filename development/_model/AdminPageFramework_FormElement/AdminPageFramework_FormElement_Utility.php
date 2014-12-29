@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FormElement_Utility' ) ) :
+
 /**
  * Provides public methods used outside the class definition.
  * 
@@ -309,4 +309,3 @@ class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtilit
     }
     
 }
-endif;

@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Utility_Path' ) ) :
+
 /**
  * Provides utility methods dealing with file paths which do not use WordPress functions.
  *
@@ -83,4 +83,3 @@ abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utilit
     }    
         
 }
-endif;

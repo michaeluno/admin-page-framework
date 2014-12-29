@@ -5,7 +5,7 @@
  * http://en.michaeluno.jp/admin-page-framework/
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  */
-if ( ! class_exists( 'AdminPageFramework_Documentation' ) ) :
+
 /**
  * Handles creation of admin pages and setting forms.
  * 
@@ -264,4 +264,3 @@ if ( ! class_exists( 'AdminPageFramework_Documentation' ) ) :
  * @heading     Admin Page
  */
 class AdminPageFramework_Documentaiton {}
-endif;

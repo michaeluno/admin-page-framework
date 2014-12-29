@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_View' ) ) :
+
 /**
  * Deals with displaying outputs.
  *
@@ -48,4 +48,3 @@ abstract class AdminPageFramework_View extends AdminPageFramework_Model {
     }         
     
 }
-endif;

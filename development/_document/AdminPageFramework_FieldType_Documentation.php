@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FieldType_Documentation' ) ) :
+
 /**
  * Provides an abstract base to be extend to create field types.
  * 
@@ -163,4 +163,3 @@ if ( ! class_exists( 'AdminPageFramework_FieldType_Documentation' ) ) :
  * @heading     Field Type
  */
 abstract class AdminPageFramework_FieldType_Documentation {}
-endif;

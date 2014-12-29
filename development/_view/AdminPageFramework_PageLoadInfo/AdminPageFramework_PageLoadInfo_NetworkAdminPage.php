@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_PageLoadInfo_NetworkAdminPage' ) ) :
+
 /**
  * Collects data of page loads of the added pages.
  *
@@ -68,4 +68,3 @@ class AdminPageFramework_PageLoadInfo_NetworkAdminPage extends AdminPageFramewor
     }     
     
 }
-endif;

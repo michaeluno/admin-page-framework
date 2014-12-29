@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Resource_Page' ) ) :
+
 /**
  * {@inheritdoc}
  * 
@@ -213,4 +213,3 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
 
     }
 }
-endif;

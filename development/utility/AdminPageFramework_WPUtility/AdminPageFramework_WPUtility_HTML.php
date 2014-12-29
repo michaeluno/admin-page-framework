@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_WPUtility_HTML' ) ) :
+
 /**
  * Provides utility methods regarding admin pages which use WordPress functions and classes.
  *
@@ -65,4 +65,3 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
     }
 
 }
-endif;

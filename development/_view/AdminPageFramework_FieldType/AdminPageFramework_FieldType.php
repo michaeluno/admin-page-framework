@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FieldType' ) ) :
+
 /**
  * The base class for the users to create their custom field types.
  * 
@@ -199,4 +199,3 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
     /**#@-*/
     
 }
-endif;

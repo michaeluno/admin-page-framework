@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Input_Base' ) ) :
+
 /**
  * The base class of form input classes that return outputs of input form elements.
  * 
@@ -68,4 +68,3 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtilit
     public function get() {}
     
 }
-endif;

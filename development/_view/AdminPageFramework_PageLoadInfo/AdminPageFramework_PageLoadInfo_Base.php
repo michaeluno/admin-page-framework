@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_PageLoadInfo_Base' ) ) :
+
 /**
  * Collects data of page loads in admin pages.
  *
@@ -122,4 +122,3 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
         }
 
 }
-endif;

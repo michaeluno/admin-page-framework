@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Script_CollapsibleSection' ) ) :
+
 /**
  * Provides JavaScript utility scripts.
  * 
@@ -191,4 +191,3 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
 JAVASCRIPTS;
     }
 }
-endif;

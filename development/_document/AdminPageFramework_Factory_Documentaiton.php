@@ -5,7 +5,7 @@
  * http://en.michaeluno.jp/admin-page-framework/
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  */
-if ( ! class_exists( 'AdminPageFramework_Documentation' ) ) :
+
 /**
  * Provides an abstract root factory base for framework factory classes.
  * 
@@ -17,4 +17,3 @@ if ( ! class_exists( 'AdminPageFramework_Documentation' ) ) :
  * @heading     Factory
  */
 class AdminPageFramework_Factory_Documentaiton {}
-endif;

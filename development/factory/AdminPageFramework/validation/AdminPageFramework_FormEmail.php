@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FormEmail' ) ) :
+
 /**
  * Sends email as a part of form validation.
  *   
@@ -194,4 +194,3 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_WPUtility {
         }
       
 }
-endif;

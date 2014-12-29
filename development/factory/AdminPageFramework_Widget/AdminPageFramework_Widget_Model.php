@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Widget_Model' ) ) :
+
 /**
  * Provides methods of models for the widget factory class.
  * 
@@ -119,4 +119,3 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
     }   
     
 }
-endif;

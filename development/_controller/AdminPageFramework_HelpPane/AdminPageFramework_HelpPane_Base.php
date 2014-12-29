@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_HelpPane_Base' ) ) :
+
 /**
  * Provides base methods and properties for manipulating the contextual help tabs.
  * 
@@ -71,4 +71,3 @@ abstract class AdminPageFramework_HelpPane_Base extends AdminPageFramework_Debug
         return "<div class='contextual-help-description'>" . $sHelpDescription . "</div>";
     }
 }
-endif;

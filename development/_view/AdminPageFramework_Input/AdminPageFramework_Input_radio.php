@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Input_radio' ) ) :
+
 /**
  * Provides methods to output form input element of radio buttons.
  * 
@@ -71,4 +71,3 @@ class AdminPageFramework_Input_radio extends AdminPageFramework_Input_Base {
     }
     
 }
-endif;

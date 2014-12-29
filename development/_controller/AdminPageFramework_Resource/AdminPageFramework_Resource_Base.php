@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Resource_Base' ) ) :
+
 /**
  * Provides methods to enqueue or insert resource elements.
  *  
@@ -477,4 +477,3 @@ abstract class AdminPageFramework_Resource_Base {
     }
     
 }
-endif;

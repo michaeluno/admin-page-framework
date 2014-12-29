@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Requirement' ) ) :
+
 /**
  * Checks if the site has given requirements.
  * 
@@ -286,4 +286,3 @@ class AdminPageFramework_Requirement {
         
     }
 }
-endif;

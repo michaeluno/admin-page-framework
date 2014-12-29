@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FieldType_text' ) ) :
+
 /**
  * Defines the text field type.
  * 
@@ -81,4 +81,3 @@ CSSRULES;
     }
             
 }
-endif;

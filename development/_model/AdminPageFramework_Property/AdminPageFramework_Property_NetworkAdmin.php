@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Property_NetworkAdmin' ) ) :
+
 /**
  * Stores properties of a network admin object.
  * 
@@ -69,4 +69,3 @@ class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Proper
     }    
     
 }
-endif;

@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_WPUtility_Option' ) ) :
+
 /**
  * Provides utility methods dealing with the options table which use WordPress functions.
  *
@@ -146,4 +146,3 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
     }    
     
 }
-endif;

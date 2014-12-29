@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Utility_SystemInformation' ) ) :
+
 /**
  * Provides utility methods to return various system information.
  *
@@ -144,4 +144,3 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
     }        
         
 }
-endif;

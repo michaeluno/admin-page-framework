@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FormField' ) ) :
+
 /**
  * Provides methods for rendering form input fields.
  *
@@ -542,4 +542,3 @@ $__aField['_fields_container_id_model'] = "field-{$__aField['_input_id_model']}"
                                                 
             }     
 }
-endif;

@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FieldTypeRegistration' ) ) :
+
 /**
  * Provides means to define field types.
  * 
@@ -142,4 +142,3 @@ class AdminPageFramework_FieldTypeRegistration  {
             
     }
 }
-endif;

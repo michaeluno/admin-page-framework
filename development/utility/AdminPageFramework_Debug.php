@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Debug' ) ) :
+
 /**
  * Provides debugging methods.
  *
@@ -179,4 +179,3 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
 
         
 }
-endif;

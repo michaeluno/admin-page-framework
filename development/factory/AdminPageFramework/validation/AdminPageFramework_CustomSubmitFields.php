@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_CustomSubmitFields' ) ) :
+
 /**
  * Provides helper methods that deal with custom submit fields and retrieve custom key elements.
  *
@@ -73,4 +73,3 @@ abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_
     }
         
 }
-endif;

@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_RegisterClasses' ) ) :
+
 /**
  * Registers classes in the given directory to be auto-loaded.
  *
@@ -175,4 +175,3 @@ class AdminPageFramework_RegisterClasses {
         }
     
 }
-endif;

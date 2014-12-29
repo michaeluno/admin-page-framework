@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FieldType_size' ) ) :
+
 /**
  * Defines the size field type.
  * 
@@ -187,4 +187,3 @@ CSSRULES;
     }
 
 }
-endif;

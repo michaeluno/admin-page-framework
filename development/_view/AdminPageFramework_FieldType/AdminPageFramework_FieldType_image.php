@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FieldType_image' ) ) :
+
 /**
  * Defines the image field type.
  * 
@@ -793,4 +793,3 @@ JAVASCRIPTS;
         }
         
 }
-endif;

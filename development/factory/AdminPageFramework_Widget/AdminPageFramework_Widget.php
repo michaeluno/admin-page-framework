@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Widget' ) ) :
+
 /**
  * Provides methods for creating widgets.
  * 
@@ -62,4 +62,3 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
     }
                 
 }
-endif;

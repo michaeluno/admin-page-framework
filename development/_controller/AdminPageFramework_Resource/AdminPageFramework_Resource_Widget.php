@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Resource_Widget' ) ) :
+
 /**
  * {@inheritdoc}
  * 
@@ -151,4 +151,3 @@ class AdminPageFramework_Resource_Widget extends AdminPageFramework_Resource_Bas
     
 
 }
-endif;

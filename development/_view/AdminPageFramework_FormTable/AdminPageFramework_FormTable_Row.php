@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_FormTable_Row' ) ) :
+
 /**
  * Provides methods to render table rows for form fields.
  * 
@@ -205,7 +205,5 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
                 . "</label>";
             
         }
-            
-            
+                     
 }
-endif;

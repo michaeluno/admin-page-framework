@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Property_MetaBox_Page' ) ) :
+
 /**
  * Provides the space to store the shared properties for meta boxes.
  * 
@@ -183,4 +183,3 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
         
     }
 }
-endif;

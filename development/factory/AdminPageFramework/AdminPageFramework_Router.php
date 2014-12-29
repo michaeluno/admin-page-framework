@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Router' ) ) :
+
 /**
  * Deals with redirecting function calls and instantiating classes.
  *
@@ -162,6 +162,10 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                 return;
             }
         
+            // [3.4.6+] Set the page and tab slugs to the default form section so that added form fields without a section will appear in different pages and tabs.
+            $this->oForm->aSections[ '_default' ]['page_slug']  = $sPageSlug ? $sPageSlug : null;
+            $this->oForm->aSections[ '_default' ]['tab_slug']   = $sTabSlug ? $sTabSlug : null;
+        
             // Do actions, class ->  page -> in-page tab
             $this->oUtil->addAndDoActions( 
                 $this, // the caller object
@@ -172,7 +176,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                 $this // the admin page object - this lets third-party scripts use the framework methods.
             );
             
-            // It is possible that a in-page tab is added during the above hooks and the current page is the default tab without the tab GET query key in the url. 
+            // It is possible that an in-page tab is added during the above hooks and the current page is the default tab without the tab GET query key in the url. 
             $this->_finalizeInPageTabs();
             $this->oUtil->addAndDoActions( 
                 $this, // the caller object
@@ -263,4 +267,3 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     }    
     
 }
-endif;

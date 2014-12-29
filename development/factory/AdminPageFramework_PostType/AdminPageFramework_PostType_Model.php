@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_PostType_Model' ) ) :
+
 /**
  * Provides methods of models for the post type factory class.
  * 
@@ -179,6 +179,4 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
 
     }
     
-    
 }
-endif;

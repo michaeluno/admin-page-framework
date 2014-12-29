@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_Property_Page' ) ) :
+
 /**
  * Provides the space to store the shared properties.
  * 
@@ -487,4 +487,3 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
     }    
         
 }
-endif;
