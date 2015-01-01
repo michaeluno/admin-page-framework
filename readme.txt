@@ -493,6 +493,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added a utility class that checks requirements of servers such as PHP and MySQL versions etc.
 - Added the `print_type` argument to the `system` field type.
 - Added more information for the `system` field type.
+- Changed the timing of importing and exporting of the `import` and `export` field types to be done after performing validation callbacks.
 
 = 3.4.5.1 - 2014/01/01 =
 - Removed the minified version as the WordPress plugin team demanded to do so.
