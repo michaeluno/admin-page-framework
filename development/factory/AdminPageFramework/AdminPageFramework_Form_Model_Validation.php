@@ -282,16 +282,6 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             return $aInputRaw;
         }                
         
-        // Import
-        if ( isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) {
-            return $this->_importOptions( $this->oProp->aOptions, $_sPageSlug, $_sTabSlug );
-        } 
-        
-        // Export
-        if ( isset( $_POST['__export']['submit'] ) ) {
-            exit( $this->_exportOptions( $this->oProp->aOptions, $_sPageSlug, $_sTabSlug ) );     
-        }
-        
         // Reset
         if ( $_bIsReset ) {
             $aStatus = $aStatus + array( 'confirmation' => 'reset' );
@@ -316,8 +306,19 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             $this->_setLastInput( $aInputRaw );
             $aStatus = $aStatus + array( 'field_errors' => $_bHasFieldErrors );  // 3.4.1+
         } 
+               
    
         /* 4. Custom submit actions [part 2] - these should be done after applying the filters. */
+        
+        // Import - moved to after the validation callbacks (3.4.6+)
+        if ( ! $_bHasFieldErrors && isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) {
+            return $this->_importOptions( $this->oProp->aOptions, $_sPageSlug, $_sTabSlug );
+        } 
+        
+        // Export - moved to after the validation callbacks (3.4.6+)
+        if ( ! $_bHasFieldErrors && isset( $_POST['__export']['submit'] ) ) {
+            exit( $this->_exportOptions( $this->oProp->aOptions, $_sPageSlug, $_sTabSlug ) );     
+        }
         
         // Reset
         if ( $_sKeyToReset ) {
@@ -569,7 +570,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             $_aData = array(
                 'sPageSlug'         => $sPageSlug,
                 'sTabSlug'          => $sTabSlug,            
-                'aInput'            => $aInput,
+                'aInput'            => $this->oUtil->getAsArray( $aInput ),
                 'aStoredData'       => $aStoredData,
                 'aStoredTabData'    => array(), // stores options of the belonging in-page tab.
                 'aStoredDataWODynamicElements'  => $this->oUtil->addAndApplyFilter( 
