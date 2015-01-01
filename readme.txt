@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms
 Requires at least:  3.3
 Tested up to:       4.1.0
-Stable tag:         3.4.5
+Stable tag:         3.4.5.1
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,7 +79,8 @@ You can include your own custom field types when they are necessary. The reason 
 - `ace` - a rich code editor.
 
 = Necessary Files =
-- **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
+- **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied. 
+- the minified version has been remvoed in 3.4.5.1 for an issue with wordpress.org. The file is still available [here](https://raw.githubusercontent.com/michaeluno/admin-page-framework/3.4.5/library/admin-page-framework.min.php).
 
 = Documentation =
 The HTML documentation is included in the distribution package and can be accessed via the sidebar menu that the demo plugin creates.
