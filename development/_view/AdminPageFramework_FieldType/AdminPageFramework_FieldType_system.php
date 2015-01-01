@@ -250,7 +250,8 @@ CSSRULES;
                     : $this->_getWebServerInfo(),
                 'Browser'               => isset( $_aData['Browser'] )
                     ? null
-                    : @get_browser( null, true ),
+                    : $this->_getClientInfo(),
+
             );
             
             $_aOutput   = array();
@@ -274,6 +275,20 @@ CSSRULES;
             return implode( PHP_EOL, $_aOutput );
             
         }
+            /**
+             * Returns a client information
+             * 
+             * @since       3.4.6
+             */
+            private function _getClientInfo() {
+                $_aBrowser = get_browser( $_SERVER['HTTP_USER_AGENT'], true );
+                unset( $_aBrowser['browser_name_regex'] );  // this element causes output to be blank
+                return empty( $_aBrowser ) 
+                    ? __( 'No browser information found.', 'admin-page-framework' )
+                    : $_aBrowser;
+                   
+            }
+            
             /**
              * Returns a PHP error log.
              * 
