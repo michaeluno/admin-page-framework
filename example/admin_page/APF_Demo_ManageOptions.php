@@ -149,17 +149,17 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
                 ),
             ),     
             array(
-                'field_id' => 'export_format_type',     
-                'section_id' => 'exports',
-                'title' => __( 'Export Format Type', 'admin-page-framework-demo' ),
-                'type' => 'radio',
-                'description' => __( 'Choose the file format. Array means the PHP serialized array.', 'admin-page-framework-demo' ),
-                'label' => array( 
-                    'json' => __( 'JSON', 'admin-page-framework-demo' ),
+                'field_id'      => 'export_format_type',     
+                'section_id'    => 'exports',
+                'title'         => __( 'Export Format Type', 'admin-page-framework-demo' ),
+                'type'          => 'radio',
+                'description'   => __( 'Choose the file format. Array means the PHP serialized array.', 'admin-page-framework-demo' ),
+                'label'         => array( 
+                    'json'  => __( 'JSON', 'admin-page-framework-demo' ),
                     'array' => __( 'Serialized Array', 'admin-page-framework-demo' ),
-                    'text' => __( 'Text', 'admin-page-framework-demo' ),
+                    'text'  => __( 'Text', 'admin-page-framework-demo' ),
                 ),
-                'default' => 'json',
+                'default'       => 'json',
             ),     
             array( // Single Export Button
                 'field_id' => 'export_single',
@@ -280,9 +280,9 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
     /*
      * Import and Export Callbacks
      * */
-    public function export_name_APF_Demo_exports_export_single( $sFileName, $sFieldID, $sInputID ) { // export_name_{instantiated class name}_{export section id}_{export field id}
+    public function export_name_APF_Demo_ManageOptions_exports_export_single( $sFileName, $sFieldID, $sInputID, $vData, $oAdminPage ) { // export_name_{instantiated class name}_{export section id}_{export field id}
 
-        // Change the exporting file name based on the selected format type in the other field.
+        // Change the exporting file name based on the selected format type in the other field.     
         $sSelectedFormatType = isset( $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] )
             ? $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] 
             : null;    
@@ -301,7 +301,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
         return $sReturnName;
         
     }
-    public function export_format_APF_Demo_exports_export_single( $sFormatType, $sFieldID ) { // export_format_{instantiated class name}_{export section id}_{export field id}
+    public function export_format_APF_Demo_ManageOptions_exports_export_single( $sFormatType, $sFieldID ) { // export_format_{instantiated class name}_{export section id}_{export field id}
 
         // Set the internal formatting type based on the selected format type in the other field.
         return isset( $_POST[ $this->oProp->sOptionKey ]['exports']['export_format_type'] ) 
@@ -316,7 +316,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
             : $sFormatType;
         
     }
-    public function import_APF_Demo_imports_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) { // import_{instantiated class name}_{import section id}_{import field id}
+    public function import_APF_Demo_ManageOptions_imports_import_single( $vData, $aOldOptions, $sFieldID, $sInputID, $sImportFormat, $sOptionKey ) { // import_{instantiated class name}_{import section id}_{import field id}
 
         if ( $sImportFormat == 'text' ) {
             $this->setSettingNotice( __( 'The text import type is not supported.', 'admin-page-framework-demo' ) );
