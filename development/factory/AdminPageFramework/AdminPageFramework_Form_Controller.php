@@ -296,7 +296,7 @@ abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_For
      */
     public function getFieldValue( $sFieldID, $sSectionID='' ) {
                                
-        trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is deprecated: %1$s. Use %2$s instead.', $this->oProp->sTextDomain ), __METHOD__, 'getValue()' ), E_USER_NOTICE );
+        trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is deprecated: %1$s. Use %2$s instead.', $this->oProp->sTextDomain ), __METHOD__, 'getValue()' ), E_USER_WARNING );
     
         $_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $this->oProp->getDefaultOptions( $this->oForm->aFields ) );
         /* If it's saved, return it */
