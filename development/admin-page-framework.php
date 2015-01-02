@@ -29,11 +29,11 @@
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.4.6b08
+ * @version             3.4.6b09
  */
 abstract class AdminPageFramework_Registry_Base {
     
-    const Version       = '3.4.6b08'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const Version       = '3.4.6b09'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const Name          = 'Admin Page Framework';
     const Description   = 'Provides plugin and theme developers with simpler means of creating option pages, custom post types, meta boxes, and widgets.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
@@ -95,7 +95,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
     static function getVersion() {
         
         if ( ! isset( self::$sAutoLoaderPath ) ) {
-            trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is called too early. Perform <code>%2$s</code> earlier.', 'admin-page-framework' ), __METHOD__, 'setUp()' ), E_USER_NOTICE );
+            trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is called too early. Perform <code>%2$s</code> earlier.', 'admin-page-framework' ), __METHOD__, 'setUp()' ), E_USER_WARNING );
             return self::Version;
         }
         return self::Version 
