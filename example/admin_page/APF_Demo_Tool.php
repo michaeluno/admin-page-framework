@@ -66,7 +66,7 @@ class APF_Demo_Tool extends AdminPageFramework {
     public function replyToLoadPage( $oAdminPage ) {    // load_ + {page slug}
         
         include( dirname( __FILE__ ) . '/tool/APF_Demo_Tool_Tab_MinifiedVersion.php' ); 
-        new APF_Demo_Tool_Tab_MinifiedVersion( $this, 'apf_tool', 'minified_version' );
+        new APF_Demo_Tool_Tab_MinifiedVersion( $this, 'apf_tool', 'minifier' );
 
     }
     

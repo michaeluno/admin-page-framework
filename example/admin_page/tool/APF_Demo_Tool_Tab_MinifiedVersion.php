@@ -19,7 +19,7 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
     public function __construct( $oFactory, $sPageSlug='', $sTabSlug='' ) {
     
         $this->oFactory     = $oFactory;
-        // $this->sClassName   = $oFactory->oProp->sClassName;
+        $this->sClassName   = $oFactory->oProp->sClassName;
         $this->sPageSlug    = $sPageSlug ? $sPageSlug : $this->sPageSlug;
         $this->sTabSlug     = $sTabSlug ? $sTabSlug : $this->sTabSlug;
         $this->sSectionID   = $this->sTabSlug;
@@ -33,14 +33,16 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Minified Version', 'admin-page-framework-demo' ),
+                'title'         => __( 'Minifier', 'admin-page-framework-demo' ),
             )
         );  
         
         // load + page slug + tab slug
         add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToAddFormElements' ) );
         add_action( 'validation_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToValidateSubmittedData' ), 10, 3 );
-        add_action( 'export_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToFilterExportingData' ), 10, 4 );
+        // add_action( 'export_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToGenerateMinifiedVersion' ), 10, 4 );
+        add_action( "export_{$this->sClassName}_{$this->sSectionID}_generate", array( $this, 'replyToGenerateMinifiedVersion' ), 10, 4 );
+        add_action( "export_{$this->sClassName}_{$this->sSectionID}_download", array( $this, 'replyToDownloadMinifiedVersion' ), 10, 4 );
         add_action( 'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToFilterFileName' ), 10, 5 );
           
     }
@@ -96,12 +98,37 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
                 ),
             ),            
             array( 
-                'field_id'          => 'send',
+                'field_id'          => 'download',
+                'title'             => __( 'Download', 'admin-page-framework-demo' ),
                 'type'              => 'export',
                 'label_min_width'   => 0,
                 'value'             => __( 'Download', 'adimn-page-framework-demo' ),
                 'file_name'         => 'admin-page-framework.min.php',  // the default file name. This will be modified by the filter.
                 'format'            => 'text',  // 'json', 'text', 'array'
+            // @todo fixed the url of the external source.
+                'description'       => sprintf( 
+                    __( 'Download the minified version from an <a href="%1$s">external source</a> and rename it.', 'admin-page-framework-demo' ), 
+                    'https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/library/admin-page-framework.min.php' 
+                ),
+                'attributes'        => array(   
+                    'disabled'      => version_compare( PHP_VERSION, '5.3.0' ) >= 0
+                        ? null
+                        : 'disabled',
+                    // 'field' => array(
+                        // 'style' => 'float:right; clear:none; display: inline;',
+                    // ),
+                ),    
+             
+            ),                 
+            array( 
+                'field_id'          => 'generate',
+                'title'             => __( 'Generate', 'admin-page-framework-demo' ),
+                'type'              => 'export',
+                'label_min_width'   => 0,
+                'value'             => __( 'Generate', 'admin-page-framework-demo' ),
+                'file_name'         => 'admin-page-framework.min.php',  // the default file name. This will be modified by the filter.
+                'format'            => 'text',  // 'json', 'text', 'array'
+                'description'       => __( 'Generates the minified version from the source code', 'admin-page-framework-demo' ),
                 'after_field'       => version_compare( PHP_VERSION, '5.3.0' ) >= 0
                     ? ''
                     : '<p class="field-error">*' . __( 'At least PHP v5.3.0 is required to minify scripts.', 'admin-page-framework-demo' ) . '</p>',
@@ -161,14 +188,47 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
         
     }
     
+    /**
+     * Downloads the minified version and rename classes to the user set value.
+     * 
+     * @since       3.4.6
+     */
+    public function replyToDownloadMinifiedVersion( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
         
+        // @todo fix the url
+        $_vResponse = wp_remote_get( 
+            "https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/library/admin-page-framework.min.php",
+            array(
+                'sslverify'     => false,
+                'timeout'       => 60,
+            )
+        );
+        $_sError = __( 'There was a problem with downloading the file. Error type: %1$s.', 'admin-page-framework-demo' );
+        if ( is_wp_error( $_vResponse ) ) {
+            wp_die( sprintf( $_sError, __( 'WP ERROR', 'admin-page-framework-demo' ) ) );
+        }
+        if ( 200 > $_vResponse['response']['code'] ) {
+            wp_die( sprintf( $_sError, $_vResponse['response']['code'] ) );
+        }
+        if ( 300 <= $_vResponse['response']['code'] ) {
+            wp_die( sprintf( $_sError, $_vResponse['response']['code'] ) );
+        }
+        if ( ! isset( $_vResponse['body'] ) ) {
+            wp_die( sprintf( $_sError, 'Undefined index "body"' ) );
+        }
+        
+        return $this->_modifyClassNames( $_vResponse['body'] );
+        
+    }
     
     /**
      * Filters the exporting data.
      * 
      * @remark      The callback method for the "export_{page slug}_{tab slug}".
+     * @since       3.4.6
      */
-    public function replyToFilterExportingData( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
+    public function replyToGenerateMinifiedVersion( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
+
                
         require( APFDEMO_DIRNAME . '/tool/minifier/class/PHP_Class_Files_Minifier.php' );
 
@@ -202,6 +262,7 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
                 ),			        
             )
         );
+        return $this->_modifyClassNames( $_oMinifier->get() );
         
         $_sPrefix = isset( $_POST[ $this->oFactory->oProp->sClassName ][ $this->sSectionID ][ 'class_prefix' ] ) && $_POST[ $this->oFactory->oProp->sClassName ][ $this->sSectionID ][ 'class_prefix' ]
             ? $_POST[ $this->oFactory->oProp->sClassName ][ $this->sSectionID ][ 'class_prefix' ]
@@ -214,6 +275,25 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
         );
                 
     }
+        /**
+         * Modifies the class names of the minified script.
+         * 
+         * @since       3.4.6
+         */
+        private function _modifyClassNames( $sCode ) {
+
+            $_sPrefix = isset( $_POST[ $this->oFactory->oProp->sClassName ][ $this->sSectionID ][ 'class_prefix' ] ) && $_POST[ $this->oFactory->oProp->sClassName ][ $this->sSectionID ][ 'class_prefix' ]
+                ? $_POST[ $this->oFactory->oProp->sClassName ][ $this->sSectionID ][ 'class_prefix' ]
+                : '';             
+            
+            return str_replace( 
+                'AdminPageFramework',         // search 
+                $_sPrefix . 'AdminPageFramework',         // replace
+                $sCode // subject
+            );
+        
+            
+        }
     /**
      * Filters the file name.
      * 
@@ -223,7 +303,7 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
     
         /* Inside $_POST
          * [APF_Demo_Tool] => Array (
-         *   [minified_version] => Array (
+         *   [minifier] => Array (
          *       [class_prefix] => 
          *       [minified_script_name] => admin-page-framework.min.php
          *   )
