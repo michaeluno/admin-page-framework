@@ -490,6 +490,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.4.6 =
+- Added a page that let the user download the minified version of the framework.
 - Added a utility class that checks requirements of servers such as PHP and MySQL versions etc.
 - Added the `print_type` argument to the `system` field type.
 - Added more information for the `system` field type.
