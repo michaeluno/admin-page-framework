@@ -95,7 +95,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                         "submit_{instantiated class name}_{pressed input id}", 
                         "submit_{instantiated class name}_{pressed field id}"
                     ), 
-                E_USER_NOTICE 
+                E_USER_WARNING 
             );
         }
         $this->oUtil->addAndDoActions(
