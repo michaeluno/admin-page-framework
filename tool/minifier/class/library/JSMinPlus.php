@@ -1926,7 +1926,7 @@ class JSTokenizer
 				break;
 
 				case "'":
-					if (preg_match('/^\'(?:[^\\\\\'\r\n]++|\\\\(?:.|\r?\n))*\'/', $input, $match))
+					if (preg_match('/^\'(?:[^\\\\\'\r\n]++|\\\\(?:.|\r?\n))*\'/', $input, $match))  // ' syntax fixer
 					{
 						$tt = TOKEN_STRING;
 					}
