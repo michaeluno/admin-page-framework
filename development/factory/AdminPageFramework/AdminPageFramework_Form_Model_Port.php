@@ -30,11 +30,11 @@ abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Rou
      */
     protected function _importOptions( $aStoredOptions, $sPageSlug, $sTabSlug ) {
         
-        $oImport = new AdminPageFramework_ImportOptions( $_FILES['__import'], $_POST['__import'] );    
-        $sSectionID = $oImport->getSiblingValue( 'section_id' );
-        $sPressedFieldID = $oImport->getSiblingValue( 'field_id' );
-        $sPressedInputID = $oImport->getSiblingValue( 'input_id' );
-        $bMerge = $oImport->getSiblingValue( 'is_merge' );
+        $oImport            = new AdminPageFramework_ImportOptions( $_FILES['__import'], $_POST['__import'] );    
+        $sSectionID         = $oImport->getSiblingValue( 'section_id' );
+        $sPressedFieldID    = $oImport->getSiblingValue( 'field_id' );
+        $sPressedInputID    = $oImport->getSiblingValue( 'input_id' );
+        $bMerge             = $oImport->getSiblingValue( 'is_merge' );
     
         // Check if there is an upload error.
         if ( $oImport->getError() > 0 ) {
@@ -54,7 +54,8 @@ abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Rou
                 "import_mime_types_{$this->oProp->sClassName}" ),
             array( 'text/plain', 'application/octet-stream' ),        // .json file is dealt as a binary file.
             $sPressedFieldID,
-            $sPressedInputID
+            $sPressedInputID,
+            $this           // 3.4.6+
         );                
 
         // Check the uploaded file MIME type.
@@ -84,7 +85,8 @@ abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Rou
             ),
             $oImport->getFormatType(), // the set format type, array, json, or text.
             $sPressedFieldID,
-            $sPressedInputID
+            $sPressedInputID,
+            $this           // 3.4.6+
         );    
 
         // Format it.
@@ -103,7 +105,8 @@ abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Rou
             ),
             $oImport->getSiblingValue( 'option_key' ),    
             $sPressedFieldID,
-            $sPressedInputID
+            $sPressedInputID,
+            $this           // 3.4.6+
         );
         
         // Apply filters to the importing data.
@@ -123,7 +126,8 @@ abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Rou
             $sPressedInputID,
             $sFormatType,
             $sImportOptionKey,
-            $bMerge
+            $bMerge.
+            $this           // 3.4.6+
         );
 
         // Set the update notice
@@ -156,10 +160,10 @@ abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Rou
      */
     protected function _exportOptions( $vData, $sPageSlug, $sTabSlug ) {
 
-        $oExport = new AdminPageFramework_ExportOptions( $_POST['__export'], $this->oProp->sClassName );
-        $sSectionID = $oExport->getSiblingValue( 'section_id' );
-        $sPressedFieldID = $oExport->getSiblingValue( 'field_id' );
-        $sPressedInputID = $oExport->getSiblingValue( 'input_id' );
+        $oExport            = new AdminPageFramework_ExportOptions( $_POST['__export'], $this->oProp->sClassName );
+        $sSectionID         = $oExport->getSiblingValue( 'section_id' );
+        $sPressedFieldID    = $oExport->getSiblingValue( 'field_id' );
+        $sPressedInputID    = $oExport->getSiblingValue( 'input_id' );
         
         // If the data is set in transient,
         $vData = $oExport->getTransientIfSet( $vData );
@@ -177,7 +181,8 @@ abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Rou
             ),
             $vData,
             $sPressedFieldID,
-            $sPressedInputID
+            $sPressedInputID,
+            $this               // 3.4.6+
         );    
         
         $sFileName = $this->oUtil->addAndApplyFilters(
@@ -192,7 +197,9 @@ abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Rou
             ),
             $oExport->getFileName(),
             $sPressedFieldID,
-            $sPressedInputID
+            $sPressedInputID,
+            $vData,     // 3.4.6+
+            $this       // 3.4.6+
         );    
         
         $sFormatType = $this->oUtil->addAndApplyFilters(
@@ -207,7 +214,8 @@ abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Rou
             ),
             $oExport->getFormat(),
             $sPressedFieldID,
-            $sPressedInputID
+            $sPressedInputID,
+            $this       // 3.4.6+
         );    
         $oExport->doExport( $vData, $sFileName, $sFormatType );
         exit;
