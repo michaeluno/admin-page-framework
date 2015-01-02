@@ -49,6 +49,14 @@ new APF_Demo(
         'admin-page-framework-demo' // the text domain        
     );
 
+    include( APFDEMO_DIRNAME . '/example/admin_page/APF_Demo_Tool.php' );
+    new APF_Demo_Tool(
+        '',
+        APFDEMO_FILE,
+        'read',
+        'admin-page-framework-demo'
+    );
+    
     // Add the contact page
     include( APFDEMO_DIRNAME . '/example/admin_page/APF_Demo_Contact.php' );
     new APF_Demo_Contact(
