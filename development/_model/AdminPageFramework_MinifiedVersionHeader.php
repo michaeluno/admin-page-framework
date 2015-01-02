@@ -7,10 +7,11 @@
  * 
  */
 
-// If accessed from a browser, exit.
-if ( php_sapi_name() !== 'cli' ) {
-    exit;
-}
+// If accessed from a browser, exit. 
+// [3.4.6+] no longer checks cli as this is called from the Tool admin page.
+// if ( php_sapi_name() !== 'cli' ) {
+    // exit;
+// }
  
 // For the minifier script.
 if ( file_exists( dirname( dirname( __FILE__ ) ) . '/admin-page-framework.php' ) ) {
