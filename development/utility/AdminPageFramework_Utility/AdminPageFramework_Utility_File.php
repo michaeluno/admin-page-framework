@@ -45,5 +45,21 @@ abstract class AdminPageFramework_Utility_File extends AdminPageFramework_Utilit
             : '';
         
     }                 
+    
+    /**
+     * Sanitizes the given file name.
+     * 
+     * @since       3.4.6
+     */
+    static public function sanitizeFileName( $sFileName, $sReplacement='_' ) {
+        
+        // Remove anything which isn't a word, whitespace, number
+        // or any of the following caracters -_~,;:[]().        
+        $sFileName = preg_replace( "([^\w\s\d\-_~,;:\[\]\(\).])", $sReplacement, $sFileName );
+        
+        // Remove any runs of periods.
+        return preg_replace( "([\.]{2,})", '', $sFileName );
+        
+    }
           
 }
