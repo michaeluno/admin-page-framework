@@ -2,7 +2,7 @@
 /* 
     Plugin Name:    Admin Page Framework - Demo
     Plugin URI:     http://en.michaeluno.jp/admin-page-framework
-    Description:    Demonstrates the features of the Admin Page Framework class.
+    Description:    Demonstrates the features of Admin Page Framework.
     Author:         Michael Uno
     Author URI:     http://michaeluno.jp
     Version:        3.4.6b12
