@@ -281,7 +281,11 @@ CSSRULES;
              * @since       3.4.6
              */
             private function _getClientInfo() {
-                $_aBrowser = get_browser( $_SERVER['HTTP_USER_AGENT'], true );
+                 
+                // Check the browscap value in the ini file first to prevent warnings from being populated
+                $_aBrowser = @ini_get( 'browscap' ) 
+                    ? get_browser( $_SERVER['HTTP_USER_AGENT'], true )
+                    : array();
                 unset( $_aBrowser['browser_name_regex'] );  // this element causes output to be blank
                 return empty( $_aBrowser ) 
                     ? __( 'No browser information found.', 'admin-page-framework' )
