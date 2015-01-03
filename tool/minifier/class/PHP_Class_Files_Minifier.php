@@ -28,10 +28,12 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
         'output_buffer'     => true,
         'write_to_file'     => true,        // 1.2.0+
         'character_encode'  => 'UTF-8',     // 1.2.0+
+        'use_beautifier'    => true,        // 1.2.0+
         'header_type'       => 'DOCBLOCK',    
         'exclude_classes'   => array(),
         'css_heredoc_keys'  => array( 'CSSRULES' ),     // 1.1.0+
         'js_heredoc_keys'   => array( 'JAVASCRIPTS' ),  // 1.1.0+
+        'carriage_return'   => PHP_EOL,
         // Search options
         'search'    =>    array(
             'allowed_extensions' => array( 'php' ),    // e.g. array( 'php', 'inc' )
@@ -108,17 +110,17 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
      */
     public function __construct( $asScanDirPaths, $sOutputFilePath='', array $aOptions=array() ) {
 
-        $this->sOutputFilePath      = $sOutputFilePath;
+        $this->sOutputFilePath       = $sOutputFilePath;
         
-        $aOptions                   = $aOptions + self::$_aStructure_Options;
-        $aOptions['search']         = $aOptions['search'] + self::$_aStructure_Options['search'];
-        $aOptions['write_to_file']  = file_exists( $sOutputFilePath ) ? $aOptions['write_to_file'] : false;
-        $aOptions['output_buffer']  = $aOptions['write_to_file'] ? $aOptions['output_buffer'] : false;
-        $_sCarriageReturn   = php_sapi_name() == 'cli' ? PHP_EOL : '<br />';
+        $aOptions                    = $aOptions + self::$_aStructure_Options;
+        $aOptions['search']          = $aOptions['search'] + self::$_aStructure_Options['search'];
+        $aOptions['write_to_file']   = file_exists( $sOutputFilePath ) ? $aOptions['write_to_file'] : false;
+        $aOptions['output_buffer']   = $aOptions['write_to_file'] ? $aOptions['output_buffer'] : false;
+        $aOptions['carriage_return'] = php_sapi_name() == 'cli' ? PHP_EOL : '<br />';
         $_aScanDirPaths     = ( array ) $asScanDirPaths;
         
             if ( $aOptions['output_buffer'] ) {
-                echo 'Searching files under the directory: ' . implode( ', ', $_aScanDirPaths ) . $_sCarriageReturn;
+                echo 'Searching files under the directory: ' . implode( ', ', $_aScanDirPaths ) . $aOptions['carriage_return'];
             }
         
         /* Store the file contents into an array. */
@@ -126,34 +128,38 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
         unset( $_aFiles[ pathinfo( $sOutputFilePath, PATHINFO_FILENAME ) ] );    // it's possible that the minified file also gets loaded but we don't want it.
 
             if ( $aOptions['output_buffer'] ) {                
-                echo sprintf( 'Found %1$s file(s)', count( $_aFiles ) ) . $_sCarriageReturn;
+                echo sprintf( 'Found %1$s file(s)', count( $_aFiles ) ) . $aOptions['carriage_return'];
                 foreach ( $_aFiles as $_aFile ) {
-                    echo $_aFile['path'] . $_sCarriageReturn;
-                    // echo implode( ', ', $_aFile['defined_classes'] ) . $_sCarriageReturn;
+                    echo $_aFile['path'] . $aOptions['carriage_return'];
+                    // echo implode( ', ', $_aFile['defined_classes'] ) . $aOptions['carriage_return'];
                 }
-            }            
-       
+            }    
+        // Apply the beautifier [1.2.0+]
+        if ( $aOptions['use_beautifier'] ) {
+            $_aFiles = $this->beautify( $_aFiles, $aOptions );     
+        }     
+            
         /* Minify CSS Rules in variables defined with the heredoc syntax [1.1.0+] */
-        $_aFiles = $this->minifyCSS( $_aFiles, $aOptions['css_heredoc_keys'], $aOptions['output_buffer'] ? $_sCarriageReturn : false );
+        $_aFiles = $this->minifyCSS( $_aFiles, $aOptions['css_heredoc_keys'], $aOptions['output_buffer'] ? $aOptions['carriage_return'] : false );
         
         /* Minify JavaScript scripts in variables defined with the heredoc syntax [1.1.0+] */
         $_sPathJSMinPlus = dirname( __FILE__ ) . '/library/JSMinPlus.php';
         if ( file_exists( $_sPathJSMinPlus ) ) {
             include( $_sPathJSMinPlus );
-            $_aFiles = $this->minifyJS( $_aFiles, $aOptions['js_heredoc_keys'], $aOptions['output_buffer'] ? $_sCarriageReturn : false );
-        }       
+            $_aFiles = $this->minifyJS( $_aFiles, $aOptions['js_heredoc_keys'], $aOptions['output_buffer'] ? $aOptions['carriage_return'] : false );
+        }             
 
         /* Generate the output script header comment */
-        $this->sHeaderComment = $this->_getHeaderComment( $_aFiles, $aOptions );
+        $this->sHeaderComment = trim( $this->_getHeaderComment( $_aFiles, $aOptions ) );
             if ( $aOptions['output_buffer'] ) {
-                echo( $this->sHeaderComment ) . $_sCarriageReturn;
+                echo( $this->sHeaderComment ) . $aOptions['carriage_return'];
             }        
         
         /* Sort the classes - in some PHP versions, parent classes must be defined before extended classes. */
         $this->aFiles = $this->sort( $_aFiles, $aOptions['exclude_classes'] );
         
             if ( $aOptions['output_buffer'] ) {
-                echo sprintf( 'Sorted %1$s file(s).', count( $this->aFiles ) ) . $_sCarriageReturn;
+                echo sprintf( 'Sorted %1$s file(s).', count( $this->aFiles ) ) . $aOptions['carriage_return'];
             }        
                     
         /* Write to a file */
@@ -163,7 +169,89 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
         }
         
     }
-
+    
+    /**
+     * Beautifies the PHP code.
+     * 
+     * @since       1.2.0
+     */
+    public function beautify( array $aFiles, array $aOptions ) {
+        
+        if ( ! function_exists( 'token_get_all' ) ) {
+            echo 'Warning: The Tokenizer PHP extension needs to be installed to beautify PHP code.' . $aOptions['carriage_return'];
+            $aFiles;
+        }
+        
+        // Find Beautifier.php in ./library/PHP_Beautifier/ directory.
+        $_sBeautifierPath = $this->_getBeautifierPath();
+        if ( ! file_exists( $_sBeautifierPath ) ) {
+            echo 'Warning: The PHP_Beautifier needs to be placed in ./library/PHP_Beautifier directory.' . $aOptions['carriage_return'];
+            $aFiles;            
+        }
+        
+        // Perform beautification.
+        include_once( $_sBeautifierPath );
+        if ( $aOptions['output_buffer'] ) {
+            echo 'Beautifying PHP code.' . $aOptions['carriage_return'];
+        }        
+        foreach( $aFiles as &$_aFile ) {
+            // PHP_Beautifier needs the beginning < ?php notation. So add it for parsing and remove it after that.
+            $_aFile['code'] = $this->_getBeautifiedPHPCode( '<?php ' . $_aFile['code'] );
+            $_aFile['code'] = trim( preg_replace( '/^<\?php/', '', $_aFile['code'] ) );
+        }
+   
+        return $aFiles;
+        
+    }   
+    
+        /**
+         * Beautifies PHP code with the PHP_Beautify library.
+         * 
+         * @since       1.2.0
+         * @see         http://beautifyphp.sourceforge.net/docs/
+         * @see         http://beautifyphp.sourceforge.net/docs/PHP_Beautifier/tutorial_PHP_Beautifier.howtouse.script.pkg.html
+         */
+        private function _getBeautifiedPHPCode( $sCode ) {
+                        
+            // Create the instance
+            $_oBeautifier = new PHP_Beautifier(); 
+         
+            // Set the indent char, number of chars to indent and newline char
+            $_oBeautifier->setIndentChar(' ');
+            $_oBeautifier->setIndentNumber( 4 );
+            $_oBeautifier->setNewLine( "\n" );
+            
+            // Set the code
+            $_oBeautifier->setInputString( $sCode );
+            
+            // Process the file. DON'T FORGET TO USE IT
+            $_oBeautifier->process();
+            return $_oBeautifier->get();            
+            
+        }
+        /**
+         * Returns the path of Beautifier.php.
+         * @since   1.2.0
+         */
+        private function _getBeautifierPath() {
+            
+            // Scan the 'library' directory and return the script path if found.
+            $_aScannedFiles = $this->_formatFileArray( 
+                $this->_getFileLists( 
+                    dirname( __FILE__ ) . '/library', 
+                    self::$_aStructure_Options['search'] 
+                )
+            );
+            if ( isset( $_aScannedFiles['Beautifier']['path'] ) ) {
+                return $_aScannedFiles['Beautifier']['path'];
+            } 
+        // @todo download it. https://github.com/clbustos/PHP_Beautifier/archive/master.zip
+            
+            // Not found
+            return '';
+            
+        }
+    
     /**
      * Minifies JavaScript scripts in variables defined with the heredoc syntax. 
      * @since       1.1.0
@@ -352,40 +440,45 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
         $_bMBFunctionExists = function_exists( 'mb_convert_encoding' );
         $aFiles             = empty( $aFiles ) ? $this->aFiles : $aFiles;
         $sHeadingComment    = $sHeadingComment ? $sHeadingComment : $this->sHeaderComment;
+        
         // Create a heading.
         $_aData     = array();
         $_aData[]   = $_bMBFunctionExists
-            ? mb_convert_encoding( '<?php ' . PHP_EOL . $sHeadingComment . ' ', $sCharEncode, 'auto' )
-            : '<?php ' . PHP_EOL . $sHeadingComment . ' ';
+            ? mb_convert_encoding( '<?php ' . PHP_EOL . $sHeadingComment . PHP_EOL, $sCharEncode, 'auto' )
+            : '<?php ' . PHP_EOL . $sHeadingComment . PHP_EOL;
             
         foreach( $aFiles as $_aFile ) {
             $_aData[] = $_bMBFunctionExists
-                ? mb_convert_encoding( $_aFile['code'], $sCharEncode, 'auto' )
-                : $_aFile['code'];
+                ? mb_convert_encoding( $_aFile['code'] . PHP_EOL, $sCharEncode, 'auto' )
+                : $_aFile['code'] . PHP_EOL;
         }
                 
-        return implode( '', $_aData );
+        return trim( implode( '', $_aData ) );
         
     }
     
     /**
      * Write the output to a file.
      */
-    public function write( $sFilePath='' ) {
+    public function write( $sFilePath='', $sData='' ) {
         
-        $_sData     = isset( $this->sData ) ? $this->sData : $this->get();
-        $_sFilePath = $sFilePath && file_exists( $sFilePath ) 
+        $_sData     = ! empty( $sData )
+            ? $sData
+            : ( 
+                isset( $this->sData ) 
+                    ? $this->sData 
+                    : $this->get() 
+            );
+        $_sFilePath = $sFilePath
             ? $sFilePath 
-            : isset( $this->sOutputFilePath )
+            : ( isset( $this->sOutputFilePath )
                 ? $this->sOutputFilePath
-                : '';
+                : '' );
         
         // Remove the existing file.
         if ( file_exists( $_sFilePath ) ) {
             unlink( $_sFilePath );
-        } else {
-            return;
-        }        
+        }   
         
         // Write to a file.
         file_put_contents( $_sFilePath, $_sData, FILE_APPEND | LOCK_EX );
