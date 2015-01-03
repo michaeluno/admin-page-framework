@@ -32,12 +32,10 @@ if ( is_admin() ) {
 
 /* Include the library file */
 if ( ! class_exists( 'AdminPageFramework' ) ) {
-    $_sMinifiedVersionPath    = APFDEMO_DIRNAME . '/library/admin-page-framework-min.php';
-    $_bIsDebugMode            = defined( 'WP_DEBUG' ) && WP_DEBUG;
     include( 
-        ! $_bIsDebugMode && file_exists( $_sMinifiedVersionPath )
-            ? $_sMinifiedVersionPath // use the minified version in your plugins or themes.
-            : APFDEMO_DIRNAME . '/development/admin-page-framework.php' // use the development version when you need to do debugging.
+        defined( 'WP_DEBUG' ) && WP_DEBUG
+            ? APFDEMO_DIRNAME . '/development/admin-page-framework.php' // use the development version when you need to do debugging.
+            : APFDEMO_DIRNAME . '/library/admin-page-framework.min.php' // use the minified version in your plugins or themes.
     );
 }
 
