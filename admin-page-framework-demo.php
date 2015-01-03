@@ -5,7 +5,7 @@
     Description:    Demonstrates the features of the Admin Page Framework class.
     Author:         Michael Uno
     Author URI:     http://michaeluno.jp
-    Version:        3.4.6b10
+    Version:        3.4.6b11
     Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -33,7 +33,7 @@ if ( is_admin() ) {
 /* Include the library file */
 if ( ! class_exists( 'AdminPageFramework' ) ) {
     $_sMinifiedVersionPath    = APFDEMO_DIRNAME . '/library/admin-page-framework-min.php';
-    $_bIsDebugMode            = defined( 'WP_DEBUG' ) && WP_DEBUG ;
+    $_bIsDebugMode            = defined( 'WP_DEBUG' ) && WP_DEBUG;
     include( 
         ! $_bIsDebugMode && file_exists( $_sMinifiedVersionPath )
             ? $_sMinifiedVersionPath // use the minified version in your plugins or themes.
