@@ -129,10 +129,9 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
 
             if ( $aOptions['output_buffer'] ) {                
                 echo sprintf( 'Found %1$s file(s)', count( $_aFiles ) ) . $aOptions['carriage_return'];
-                foreach ( $_aFiles as $_aFile ) {
-                    echo $_aFile['path'] . $aOptions['carriage_return'];
-                    // echo implode( ', ', $_aFile['defined_classes'] ) . $aOptions['carriage_return'];
-                }
+                // foreach ( $_aFiles as $_aFile ) {
+                    // echo $_aFile['path'] . $aOptions['carriage_return'];
+                // }
             }    
         // Apply the beautifier [1.2.0+]
         if ( $aOptions['use_beautifier'] ) {
@@ -176,17 +175,21 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
      * @since       1.2.0
      */
     public function beautify( array $aFiles, array $aOptions ) {
-        
+         
         if ( ! function_exists( 'token_get_all' ) ) {
-            echo 'Warning: The Tokenizer PHP extension needs to be installed to beautify PHP code.' . $aOptions['carriage_return'];
-            $aFiles;
+            if ( $aOptions['output_buffer'] ) {
+                echo 'Warning: The Tokenizer PHP extension needs to be installed to beautify PHP code.' . $aOptions['carriage_return'];
+            }
+            return $aFiles;
         }
         
         // Find Beautifier.php in ./library/PHP_Beautifier/ directory.
-        $_sBeautifierPath = $this->_getBeautifierPath();
+        $_sBeautifierPath = $this->_getBeautifierPath( $aOptions );
         if ( ! file_exists( $_sBeautifierPath ) ) {
-            echo 'Warning: The PHP_Beautifier needs to be placed in ./library/PHP_Beautifier directory.' . $aOptions['carriage_return'];
-            $aFiles;            
+            if ( $aOptions['output_buffer'] ) {
+                echo 'Warning: The PHP_Beautifier needs to be placed in ./library/PHP_Beautifier directory.' . $aOptions['carriage_return'];
+            }
+            return $aFiles;            
         }
         
         // Perform beautification.
@@ -233,25 +236,167 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
          * Returns the path of Beautifier.php.
          * @since   1.2.0
          */
-        private function _getBeautifierPath() {
+        private function _getBeautifierPath( array $aOptions=array() ) {
             
-            // Scan the 'library' directory and return the script path if found.
-            $_aScannedFiles = $this->_formatFileArray( 
-                $this->_getFileLists( 
-                    dirname( __FILE__ ) . '/library', 
-                    self::$_aStructure_Options['search'] 
-                )
+            $_sPath = $this->_findBeautifierPath();
+            if ( $_sPath ) {
+                return $_sPath;
+            }
+            
+            // Download it.
+            $_bDownloaded = $this->_downloadZip( 
+                "https://github.com/clbustos/PHP_Beautifier/archive/master.zip",
+                dirname( __FILE__ ) . '/library/PHP_Beautifier/php_beautifier.zip',
+                $aOptions
             );
-            if ( isset( $_aScannedFiles['Beautifier']['path'] ) ) {
-                return $_aScannedFiles['Beautifier']['path'];
-            } 
-        // @todo download it. https://github.com/clbustos/PHP_Beautifier/archive/master.zip
+            if ( ! $_bDownloaded ) {                
+                return '';
+            }
+        
+            $this->_unZip(
+                dirname( __FILE__ ) . '/library/PHP_Beautifier/php_beautifier.zip',
+                $aOptions            
+            );            
             
-            // Not found
-            return '';
+            $_sPath = $this->_findBeautifierPath();
+            return $_sPath
+                ? $_sPath
+                : '';
             
         }
-    
+            /**
+             * Attempts to find the the beutifier path.
+             * @since       1.2.0
+             */
+            private function _findBeautifierPath() {
+                
+                // Scan the 'library' directory and return the script path if found.
+                $_aScannedFiles = $this->_formatFileArray( 
+                    $this->_getFileLists( 
+                        dirname( __FILE__ ) . '/library', 
+                        self::$_aStructure_Options['search'] 
+                    )
+                );
+                if ( isset( $_aScannedFiles['Beautifier']['path'] ) ) {
+                    return $_aScannedFiles['Beautifier']['path'];
+                } 
+             
+            }
+            /**
+             * 
+             */
+            private function _unzip( $sFilePath, array $aOptions=array() ) {
+                
+                if ( ! class_exists( 'ZipArchive' ) ) {
+                    if ( $aOptions['output_buffer'] ) {
+                        echo "The zlib PHP extension is required to extract zip files." . $aOptions['carriage_return'];
+                    }                                        
+                    return;
+                }
+                
+                /* Open the Zip file */
+                $_oZip = new ZipArchive;
+                if( $_oZip->open( $sFilePath ) != "true" ) {
+                    if ( $aOptions['output_buffer'] ) {
+                        echo "Error :- Unable to open the Zip File" . $aOptions['carriage_return'];
+                    }                          
+                } 
+                
+                /* Extract Zip File */
+                $_oZip->extractTo( dirname( $sFilePath ) );
+                $_oZip->close();                
+                
+            }
+            /**
+             * Downloads the given url.
+             * @since       1.2.0
+             */
+            private function _downloadZip( $sURL, $sFilePath, array $aOptions=array() ) {
+                
+                // The cURL extension is required.
+                if ( ! function_exists( 'curl_init' ) ) {
+                    
+                    if ( $aOptions['output_buffer'] ) {
+                        echo 'To download a file, the cURL PHP extension needs to be installed. You are using PHP ' . PHP_VERSION . '.' . $aOptions['carriage_return'];
+                    }                    
+                    return false;
+                }
+                
+                // Create the directory if not exists.
+                $_sDirPath = dirname( $sFilePath );
+                if ( ! is_dir( $_sDirPath ) ) {
+                    mkdir( $_sDirPath, 0777, true );
+                }                
+      
+                // Remove the existing file.
+                if ( file_exists( $sFilePath ) ) {
+                    unlink( $sFilePath );
+                }   
+                
+                $sURL = $this->_getRedirectedURL( $sURL );
+                
+                $_hZipResource = fopen( $sFilePath , "w" );
+                    if ( $aOptions['output_buffer'] ) {
+                        echo 'Downloading PHP Beautifier.' . $aOptions['carriage_return'];
+                    }                          
+                // Get The Zip File From Server
+                $ch = curl_init();
+                curl_setopt( $ch, CURLOPT_URL, $sURL );
+                curl_setopt( $ch, CURLOPT_FAILONERROR, true );
+                curl_setopt( $ch, CURLOPT_HEADER, 0);
+                curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
+                curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
+                curl_setopt( $ch, CURLOPT_BINARYTRANSFER,true );
+                curl_setopt( $ch, CURLOPT_TIMEOUT, 10);
+                curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 0 );
+                curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 0 ); 
+                curl_setopt( $ch, CURLOPT_FILE, $_hZipResource );
+                $page = curl_exec( $ch );
+                if( ! $page && $aOptions['output_buffer'] ) {
+                    echo "Download Error : " . curl_error( $ch ) . $aOptions['carriage_return'];
+                    curl_close( $ch );            
+                    return false;
+                }
+                curl_close( $ch );                
+                return true;
+            }
+            
+            /**
+             * Returns the final destination of redirected URL.
+             * 
+             * @since   1.2.0  
+             */
+            private function _getRedirectedURL( $sURL ) {
+                
+                $ch = curl_init( $sURL );
+                curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true); // follow redirects
+                curl_setopt( $ch, 
+                    CURLOPT_USERAGENT, 
+                    'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.7 '
+                    . '(KHTML, like Gecko) Chrome/7.0.517.41 Safari/534.7'  // imitate chrome
+                ); 
+                curl_setopt( $ch, CURLOPT_NOBODY, true ); // HEAD request only (faster)
+                curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true ); // don't echo results
+                curl_exec( $ch );
+                $_sFinalURL = curl_getinfo( $ch, CURLINFO_EFFECTIVE_URL ); // get last URL followed
+                curl_close($ch);
+                
+                return $_sFinalURL
+                    ? $_sFinalURL
+                    : $sURL;
+                
+            }
+            // function _createDir( $path ) {
+                // if ( is_dir( $path ) ) { 
+                    // return true; 
+                // }
+                // $prev_path = substr($path, 0, strrpos( $path, '/', -2 ) + 1 );
+                // $return = $this->_createDir( $prev_path );
+                // return $return && is_writable( $prev_path )
+                    // ? mkdir( $path, 0777, true ) 
+                    // : false;
+            // }            
+            
     /**
      * Minifies JavaScript scripts in variables defined with the heredoc syntax. 
      * @since       1.1.0
@@ -294,7 +439,6 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
         }
         
         return $aFiles;
-        
      
     }
         /**
