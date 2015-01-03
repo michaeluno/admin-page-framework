@@ -1,6 +1,6 @@
 ## CHange Log
 
-### 1.0.4
+### 1.0.4 - 2015/01/01
 - Fixed an issue that non array variable is passed to a foreach.
 
 ### 1.0.3 - 2014/10/18
