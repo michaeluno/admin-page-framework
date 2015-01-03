@@ -10,7 +10,7 @@
 /**
  * The base class of script creator.
  * 
- * @version		1.0.3
+ * @version		1.0.4
  */
 abstract class PHP_Class_Files_Script_Generator_Base {
 
@@ -36,7 +36,8 @@ abstract class PHP_Class_Files_Script_Generator_Base {
 	 * Returns an array holding a list of file paths combined from multiple sources.
 	 */
 	protected function _getFileLists( $asDirPaths, $aSearchOptions ) {
-		$_aFiles = array();
+		$_aFiles    = array();
+        $asDirPaths = is_array( $asDirPaths ) ? $asDirPaths : array( $asDirPaths );
 		foreach( $asDirPaths as $_sDirPath ) {
 			$_aFiles = array_merge( $this->_getFileList( $_sDirPath, $aSearchOptions ), $_aFiles );
 		}
