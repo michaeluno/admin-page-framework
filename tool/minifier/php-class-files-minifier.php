@@ -8,7 +8,7 @@
 /* Set necessary paths */
 $sTargetBaseDir		= dirname( dirname( dirname( __FILE__ ) ) );
 $sTargetDir			= $sTargetBaseDir . '/development';
-$sResultFilePath	= $sTargetBaseDir . '/library/admin-page-framework-min.php';
+$sResultFilePath	= $sTargetBaseDir . '/library/admin-page-framework.min.php';
 $sLicenseFileName	= 'MIT-LICENSE.txt';
 $sLicenseFilePath	= $sTargetDir . '/' . $sLicenseFileName;
 $sHeaderClassName	= 'AdminPageFramework_MinifiedVersionHeader';
