@@ -136,11 +136,14 @@ class APF_Demo_Contact_Tab_Report {
                 'title'         => __( 'Saved Options', 'admin-page-framework-demo' ),
                 'data'          => array(
                     // Removes the default data by passing an empty value below.
-                    'Admin Page Framework'  => '', 
-                    'WordPress'             => '', 
-                    'PHP'                   => '', 
-                    'MySQL'                 => '', 
+                    'WordPress'             => '',
+                    'Admin Page Framework'  => '',
                     'Server'                => '',
+                    'PHP'                   => '',
+                    'PHP Error Log'         => '',
+                    'MySQL'                 => '',
+                    'MySQL Error Log'       => '',                    
+                    'Browser'               => '',                    
                 ) 
                 + get_option( 'APF_Demo', array() ), // the stored options of the main demo class
                 'attributes'    => array(
