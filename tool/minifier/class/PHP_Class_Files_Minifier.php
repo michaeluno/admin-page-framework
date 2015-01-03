@@ -385,17 +385,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
                     ? $_sFinalURL
                     : $sURL;
                 
-            }
-            // function _createDir( $path ) {
-                // if ( is_dir( $path ) ) { 
-                    // return true; 
-                // }
-                // $prev_path = substr($path, 0, strrpos( $path, '/', -2 ) + 1 );
-                // $return = $this->_createDir( $prev_path );
-                // return $return && is_writable( $prev_path )
-                    // ? mkdir( $path, 0777, true ) 
-                    // : false;
-            // }            
+            }       
             
     /**
      * Minifies JavaScript scripts in variables defined with the heredoc syntax. 
@@ -561,9 +551,9 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
             $iMoved = 0;
             foreach( $aFiles as $sClassName => &$aFile ) {
             
-                if ( ! $aFile['dependency'] ) continue;
-                if ( ! isset( $aFiles[ $aFile['dependency'] ] ) ) continue;    // it can be an external components.
-                if ( ! $aFile['code'] ) continue;
+                if ( ! $aFile['dependency'] ) { continue; }
+                if ( ! isset( $aFiles[ $aFile['dependency'] ] ) ) { continue; }   // it can be an external components.
+                if ( ! $aFile['code'] ) { continue; }
                 $aFiles[ $aFile['dependency'] ]['code'] .= $aFile['code'];
                 $aFile['code'] = '';
                 $iMoved++;
