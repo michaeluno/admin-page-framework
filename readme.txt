@@ -8,7 +8,7 @@ Stable tag:         3.4.5.1
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
-Provides simpler means of building administration pages for plugin and theme developers. 
+Facilitates building administration pages for plugin and theme developers.
 
 == Description ==
 It provides plugin and theme developers with easier means of creating option pages. Extend the library class and pass your arrays that define the form elements to the predefined class methods. The library handles all the complex coding behind the scene and creates the pages and the forms for you. The package includes a demo plugin which helps you walk through necessary features.
@@ -79,8 +79,7 @@ You can include your own custom field types when they are necessary. The reason 
 - `ace` - a rich code editor.
 
 = Necessary Files =
-- **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied. 
-- the minified version has been remvoed in 3.4.5.1 for an issue with wordpress.org. The file is still available [here](https://raw.githubusercontent.com/michaeluno/admin-page-framework/3.4.5/library/admin-page-framework.min.php).
+- **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
 
 = Documentation =
 The HTML documentation is included in the distribution package and can be accessed via the sidebar menu that the demo plugin creates.
