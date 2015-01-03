@@ -105,43 +105,36 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
                 'value'             => __( 'Download', 'adimn-page-framework-demo' ),
                 'file_name'         => 'admin-page-framework.min.php',  // the default file name. This will be modified by the filter.
                 'format'            => 'text',  // 'json', 'text', 'array'
-            // @todo fixed the url of the external source.
                 'description'       => sprintf( 
                     __( 'Download the minified version from an <a href="%1$s">external source</a> and rename it.', 'admin-page-framework-demo' ), 
                     'https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/library/admin-page-framework.min.php' 
                 ),
                 'attributes'        => array(   
-                    'disabled'      => version_compare( PHP_VERSION, '5.3.0' ) >= 0
-                        ? null
-                        : 'disabled',
-                    // 'field' => array(
-                        // 'style' => 'float:right; clear:none; display: inline;',
-                    // ),
-                ),    
-             
-            ),                 
-            array( 
-                'field_id'          => 'generate',
-                'title'             => __( 'Generate', 'admin-page-framework-demo' ),
-                'type'              => 'export',
-                'label_min_width'   => 0,
-                'value'             => __( 'Generate', 'admin-page-framework-demo' ),
-                'file_name'         => 'admin-page-framework.min.php',  // the default file name. This will be modified by the filter.
-                'format'            => 'text',  // 'json', 'text', 'array'
-                'description'       => __( 'Generates the minified version from the source code', 'admin-page-framework-demo' ),
-                'after_field'       => version_compare( PHP_VERSION, '5.3.0' ) >= 0
-                    ? ''
-                    : '<p class="field-error">*' . __( 'At least PHP v5.3.0 is required to minify scripts.', 'admin-page-framework-demo' ) . '</p>',
-                'attributes'        => array(   
-                    'disabled'      => version_compare( PHP_VERSION, '5.3.0' ) >= 0
-                        ? null
-                        : 'disabled',
                     // 'field' => array(
                         // 'style' => 'float:right; clear:none; display: inline;',
                     // ),
                 ),    
              
             ),     
+            // The generator button is disabled until the beautifier part gets completed.
+            // array( 
+                // 'field_id'          => 'generate',
+                // 'title'             => __( 'Generate', 'admin-page-framework-demo' ),
+                // 'type'              => 'export',
+                // 'label_min_width'   => 0,
+                // 'value'             => __( 'Generate', 'admin-page-framework-demo' ),
+                // 'file_name'         => 'admin-page-framework.min.php',  // the default file name. This will be modified by the filter.
+                // 'format'            => 'text',  // 'json', 'text', 'array'
+                // 'description'       => __( 'Generates the minified version from the source code', 'admin-page-framework-demo' ),
+                // 'after_field'       => version_compare( PHP_VERSION, '5.3.0' ) >= 0
+                    // ? ''
+                    // : '<p class="field-error">*' . __( 'At least PHP v5.3.0 is required to minify scripts.', 'admin-page-framework-demo' ) . '</p>',
+                // 'attributes'        => array(   
+                    // 'disabled'      => version_compare( PHP_VERSION, '5.3.0' ) >= 0
+                        // ? null
+                        // : 'disabled',
+                // ),    
+            // ),     
             array()    
         );        
         
@@ -195,7 +188,6 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
      */
     public function replyToDownloadMinifiedVersion( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
         
-        // @todo fix the url
         $_vResponse = wp_remote_get( 
             "https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/library/admin-page-framework.min.php",
             array(
