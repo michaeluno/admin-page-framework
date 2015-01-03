@@ -2,7 +2,7 @@
 
 ### Welcome to our GitHub Repository
 
-Admin Page Framework is an OOP based open source WordPress library that facilitate theme and plugin development. 
+Admin Page Framework is an OOP based open source WordPress library that facilitates theme and plugin development. 
 
 ## Screenshots ##
 
