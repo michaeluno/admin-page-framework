@@ -9,10 +9,13 @@ sScriptSlug = ReadIni( oWshShell.CurrentDirectory & "\git-archive.ini", "Script"
 Dim sOutputDirPath
 sOutputDirPath = ReadIni( oWshShell.CurrentDirectory & "\git-archive.ini", "Path", "output_dir" )
 
+Dim sRepositoryDirPath
+sRepositoryDirPath = ReadIni( oWshShell.CurrentDirectory & "\git-archive.ini", "Path", "repository_dir" )
+
 ' Set the command.
 Dim sCommand
 sCommand = "cmd /K " _ 
- & "cd ..\..\ & " _
+ & "cd " & sRepositoryDirPath & " & " _
  & "git archive --format zip --output " & sOutputDirPath & "\" & sScriptSlug & ".zip HEAD & " _
  & "cd " & sOutputDirPath & " & " _
  & "unzip -o " & sScriptSlug & ".zip -d .\" & sScriptSlug ' -o is to override
