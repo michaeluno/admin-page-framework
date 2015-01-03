@@ -260,6 +260,12 @@ new APF_MyFirstFrom;
 <h5><strong>What is this for?</strong></h5>
 This is a PHP class library that helps to create option pages and form fields in the administration panel. In addition, it helps to manage to save, export, and import options.
 
+<h5><strong>Who needs it??</strong></h5>
+- WordPress plugin/theme developers who want to speed up creating setting forms, widgets, contact form etc. and don't want to require their users to install extra dependencies. 
+
+<h5><strong>Do my plugin/theme users have to install Admin Page Framework??</strong></h5>
+No. Include the minified version of the framework in your distribution package.
+
 <h5><strong>I've written a useful class, functions, and even custom field types that will be useful for others! Do you want to include it?</strong></h5>
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is available. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
 
