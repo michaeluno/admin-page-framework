@@ -173,6 +173,14 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
      * @param   boolean|string  $bsCarriageReturns      If the output buffer is enabled, the carriage return value; otherwise, false.
      */     
     public function minifyJS( array $aFiles, array $aHereDocKeys=array(), $bsCarriageReturn=false ) {
+        
+        // The JSMinPlus library crashes in PHP 5.2.9 or below.
+        if ( version_compare( PHP_VERSION, '5.2.9' ) <= 0 ) {
+            if ( $bsCarriageReturn ) {
+                echo sprintf( 'JavaScript scripts are not minified. It requires PHP above 5.2.9 to minify JavaScripts. You are using PHP %1$s.', PHP_VERSION );
+            }
+            return $aFiles;
+        }     
      
         $_iMinified = $_iCount = 0;
         foreach( $aFiles as $_sClassName => &$_aFile ) {
