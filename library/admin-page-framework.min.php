@@ -7,7 +7,7 @@
 abstract class AdminPageFramework_Registry_Base {
     const Version = '3.4.6b12';
     const Name = 'Admin Page Framework';
-    const Description = 'Provides plugin and theme developers with simpler means of creating option pages, custom post types, meta boxes, and widgets.';
+    const Description = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
     const Author = 'Michael Uno';
     const AuthorURI = 'http://en.michaeluno.jp/';
@@ -216,7 +216,8 @@ if (!class_exists('AdminPageFramework_Factory_Router')):
             return '(object) ' . $_sClassName . ': ' . $_iCount . ' properties.';
         }
     }
-endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Factory_Router {
+endif;
+abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Factory_Router {
     protected function _setUp() {
         $this->setUp();
     }
@@ -298,7 +299,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
     public function _setLastInput(array $aLastInput) {
         return $this->oUtil->setTransient('apf_tfd' . md5('temporary_form_data_' . $this->oProp->sClassName . get_current_user_id()), $aLastInput, 60 * 60);
     }
-}abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factory_Model {
+}
+abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factory_Model {
     function __construct($oProp) {
         parent::__construct($oProp);
         if ($this->_isInThePage() && !$this->oProp->bIsAdminAjax) {
@@ -345,7 +347,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         $_oField = new AdminPageFramework_FormField($aField, $this->oProp->aOptions, $this->_getFieldErrors(), $this->oProp->aFieldTypeDefinitions, $this->oMsg, $this->oProp->aFieldCallbacks);
         return $this->oUtil->addAndApplyFilters($this, array('field_' . $this->oProp->sClassName . '_' . $aField['field_id']), $_oField->_getFieldOutput(), $aField);
     }
-}abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_Factory_View {
+}
+abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_Factory_View {
     public function start() {
     }
     public function setUp() {
@@ -425,8 +428,10 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         }
         return false;
     }
-}abstract class AdminPageFramework_Factory extends AdminPageFramework_Factory_Controller {
-}abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
+}
+abstract class AdminPageFramework_Factory extends AdminPageFramework_Factory_Controller {
+}
+abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     protected static $_aHookPrefixes = array('start_' => 'start_', 'set_up_' => 'set_up_', 'load_' => 'load_', 'load_after_' => 'load_after_', 'do_before_' => 'do_before_', 'do_after_' => 'do_after_', 'do_form_' => 'do_form_', 'do_' => 'do_', 'submit_' => 'submit_', 'content_top_' => 'content_top_', 'content_bottom_' => 'content_bottom_', 'content_' => 'content_', 'validation_' => 'validation_', 'validation_saved_options_' => 'validation_saved_options_', 'export_name' => 'export_name', 'export_format' => 'export_format', 'export_' => 'export_', 'import_name' => 'import_name', 'import_format' => 'import_format', 'import_' => 'import_', 'style_common_ie_' => 'style_common_ie_', 'style_common_' => 'style_common_', 'style_ie_' => 'style_ie_', 'style_' => 'style_', 'script_' => 'script_', 'field_' => 'field_', 'section_head_' => 'section_head_', 'fields_' => 'fields_', 'sections_' => 'sections_', 'pages_' => 'pages_', 'tabs_' => 'tabs_', 'field_types_' => 'field_types_', 'field_definition_' => 'field_definition_', 'options_' => 'options_',);
     function __construct($sOptionKey = null, $sCallerPath = null, $sCapability = 'manage_options', $sTextDomain = 'admin-page-framework') {
         $this->oProp = isset($this->oProp) ? $this->oProp : new AdminPageFramework_Property_Page($this, $sCallerPath, get_class($this), $sOptionKey, $sCapability, $sTextDomain);
@@ -499,7 +504,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         }
         return in_array($_GET['page'], $aPageSlugs);
     }
-}abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Router {
+}
+abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Router {
     protected function _importOptions($aStoredOptions, $sPageSlug, $sTabSlug) {
         $oImport = new AdminPageFramework_ImportOptions($_FILES['__import'], $_POST['__import']);
         $sSectionID = $oImport->getSiblingValue('section_id');
@@ -545,7 +551,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         $oExport->doExport($vData, $sFileName, $sFormatType);
         exit;
     }
-}abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Factory {
+}
+abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Factory {
     function __construct($sMetaBoxID, $sTitle, $asPostTypeOrScreenID = array('post'), $sContext = 'normal', $sPriority = 'default', $sCapability = 'edit_posts', $sTextDomain = 'admin-page-framework') {
         if (empty($asPostTypeOrScreenID)) {
             return;
@@ -586,7 +593,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         add_action('add_meta_boxes', array($this, '_replyToAddMetaBox'));
         $this->_setUpValidationHooks($oScreen);
     }
-}abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaBox_Router {
+}
+abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaBox_Router {
     private $_bIsNewPost = false;
     protected function _setUpValidationHooks($oScreen) {
         if ('attachment' === $oScreen->post_type && in_array('attachment', $this->oProp->aPostTypes)) {
@@ -733,7 +741,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         }
         return true;
     }
-}abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Factory {
+}
+abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Factory {
     public function _isInThePage() {
         if (!$this->oProp->bIsAdmin) {
             return false;
@@ -755,7 +764,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         }
         parent::__call($sMethodName, $aArgs);
     }
-}abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_PostType_Router {
+}
+abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_PostType_Router {
     function __construct($oProp) {
         parent::__construct($oProp);
         if (did_action('init')) {
@@ -809,7 +819,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
             unset($this->oProp->aTaxonomyRemoveSubmenuPages[$sSubmenuPageSlug]);
         }
     }
-}abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Factory {
+}
+abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Factory {
     static protected $_sFieldsType = 'taxonomy';
     function __construct($asTaxonomySlug, $sOptionKey = '', $sCapability = 'manage_options', $sTextDomain = 'admin-page-framework') {
         if (empty($asTaxonomySlug)) {
@@ -933,7 +944,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         }
         return parent::__call($sMethodName, $aArgs);
     }
-}abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Factory {
+}
+abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Factory {
     public function __call($sMethodName, $aArgs = null) {
         if ('setup_pre' === $sMethodName) {
             $this->_setUp();
@@ -946,7 +958,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         }
         parent::__call($sMethodName, $aArgs);
     }
-}abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget_Router {
+}
+abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget_Router {
     function __construct($oProp) {
         parent::__construct($oProp);
         if (did_action('widgets_init')) {
@@ -976,7 +989,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         $this->oForm->setDynamicElements($this->oProp->aOptions);
         $this->_registerFields($this->oForm->aConditionedFields);
     }
-}abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramework_Form_Model_Port {
+}
+abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramework_Form_Model_Port {
     protected function _handleSubmittedData() {
         if (!$this->_verifyFormSubmit()) {
             return;
@@ -1246,7 +1260,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         }
         return $this->oForm->getOtherPageOptions($aOptions, $sPageSlug);
     }
-}abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Model_Validation {
+}
+abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Model_Validation {
     protected $aFieldErrors;
     static protected $_sFieldsType = 'page';
     protected $_sTargetPageSlug = null;
@@ -1365,7 +1380,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         $_aLastInput = $_bHasConfirmation || $_bHasFieldErrors ? $this->oProp->aLastInput : array();
         return $_aLastInput + $this->oProp->aOptions;
     }
-}abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBox_Model {
+}
+abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBox_Model {
     public function _replyToPrintMetaBoxContents($oPost, $vArgs) {
         $_aOutput = array();
         $_aOutput[] = wp_nonce_field($this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false);
@@ -1377,7 +1393,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
     public function content($sContent) {
         return $sContent;
     }
-}abstract class AdminPageFramework_MetaBox_Controller extends AdminPageFramework_MetaBox_View {
+}
+abstract class AdminPageFramework_MetaBox_Controller extends AdminPageFramework_MetaBox_View {
     public function setUp() {
     }
     public function enqueueStyles($aSRCs, $aPostTypes = array(), $aCustomArgs = array()) {
@@ -1392,7 +1409,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
     public function enqueueScript($sSRC, $aPostTypes = array(), $aCustomArgs = array()) {
         return $this->oResource->_enqueueScript($sSRC, $aPostTypes, $aCustomArgs);
     }
-}abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Controller {
+}
+abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Controller {
     static protected $_sFieldsType = 'post_meta_box';
     function __construct($sMetaBoxID, $sTitle, $asPostTypeOrScreenID = array('post'), $sContext = 'normal', $sPriority = 'default', $sCapability = 'edit_posts', $sTextDomain = 'admin-page-framework') {
         if (!$this->_isInstantiatable()) {
@@ -1403,7 +1421,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         parent::__construct($sMetaBoxID, $sTitle, $asPostTypeOrScreenID, $sContext, $sPriority, $sCapability, $sTextDomain);
         $this->oUtil->addAndDoAction($this, "start_{$this->oProp->sClassName}", $this);
     }
-}abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostType_Model {
+}
+abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostType_Model {
     function __construct($oProp) {
         parent::__construct($oProp);
         if ($this->_isInThePage()) {
@@ -1475,7 +1494,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
     private function _getStylesForPostTypeScreenIcon($sSRC) {
         $sNone = 'none';
         $sSRC = $this->oUtil->resolveSRC($sSRC);
-        return "#post-body-content {margin-bottom: 10px;}#edit-slug-box {display: {$sNone};}#icon-edit.icon32.icon32-posts-{$this->oProp->sPostType} {background: url('{$sSRC}') no-repeat;background-size: 32px 32px;} ";     }
+        return "#post-body-content {margin-bottom: 10px;}#edit-slug-box {display: {$sNone};}#icon-edit.icon32.icon32-posts-{$this->oProp->sPostType} {background: url('{$sSRC}') no-repeat;background-size: 32px 32px;} ";
+    }
     public function content($sContent) {
         return $sContent;
     }
@@ -1492,7 +1512,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         }
         return $this->oUtil->addAndApplyFilters($this, "content_{$this->oProp->sClassName}", $this->content($sContent));
     }
-}abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework_PostType_View {
+}
+abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework_PostType_View {
     function __construct($oProp) {
         if (did_action('init')) {
             $this->setup_pre();
@@ -1568,7 +1589,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
     protected function setFooterInfoRight($sHTML, $bAppend = true) {
         if (isset($this->oLink)) $this->oLink->aFooterInfo['sRight'] = $bAppend ? $this->oLink->aFooterInfo['sRight'] . $sHTML : $sHTML;
     }
-}abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_Controller {
+}
+abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_Controller {
     public function __construct($sPostType, $aArgs = array(), $sCallerPath = null, $sTextDomain = 'admin-page-framework') {
         if (empty($sPostType)) {
             return;
@@ -1579,7 +1601,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         parent::__construct($this->oProp);
         $this->oUtil->addAndDoAction($this, "start_{$this->oProp->sClassName}", $this);
     }
-}abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_Model {
+}
+abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_Model {
     public function content($sContent, $aArguments, $aFormData) {
         return $sContent;
     }
@@ -1591,7 +1614,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
     public function _replyToGetSectionHeaderOutput($sSectionDescription, $aSection) {
         return $this->oUtil->addAndApplyFilters($this, array('section_head_' . $this->oProp->sClassName . '_' . $aSection['section_id']), $sSectionDescription);
     }
-}abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_Widget_View {
+}
+abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_Widget_View {
     function __construct($oProp) {
         parent::__construct($oProp);
         if ($this->_isInThePage()):
@@ -1629,7 +1653,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
     protected function setArguments(array $aArguments = array()) {
         $this->oProp->aWidgetArguments = $aArguments;
     }
-}abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Controller {
+}
+abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Controller {
     static protected $_sFieldsType = 'widget';
     public function __construct($sWidgetTitle, $aWidgetArguments = array(), $sCapability = 'edit_theme_options', $sTextDomain = 'admin-page-framework') {
         if (empty($sWidgetTitle)) {
@@ -1641,7 +1666,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         parent::__construct($this->oProp);
         $this->oUtil->addAndDoAction($this, "start_{$this->oProp->sClassName}", $this);
     }
-}abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
+}
+abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
     public function _replyToGetSectionHeaderOutput($sSectionDescription, $aSection) {
         return $this->oUtil->addAndApplyFilters($this, array('section_head_' . $this->oProp->sClassName . '_' . $aSection['section_id']), $sSectionDescription);
     }
@@ -1660,7 +1686,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         unset($_oField);
         return $this->oUtil->addAndApplyFilters($this, array(isset($aField['section_id']) && $aField['section_id'] != '_default' ? 'field_' . $this->oProp->sClassName . '_' . $aField['section_id'] . '_' . $_sFieldID : 'field_' . $this->oProp->sClassName . '_' . $_sFieldID,), $_sFieldOutput, $aField);
     }
-}abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
+}
+abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
     public function addSettingSections($aSection1, $aSection2 = null, $_and_more = null) {
         foreach (func_get_args() as $asSection) {
             $this->addSettingSection($asSection);
@@ -1728,7 +1755,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         }
         return null;
     }
-}abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework_MetaBox_View {
+}
+abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework_MetaBox_View {
     function __construct($sMetaBoxID, $sTitle, $asPageSlugs = array(), $sContext = 'normal', $sPriority = 'default', $sCapability = 'manage_options', $sTextDomain = 'admin-page-framework') {
         parent::__construct($sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain);
         $this->oUtil->addAndDoAction($this, "start_{$this->oProp->sClassName}", $this);
@@ -1751,7 +1779,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         }
         return in_array($_GET['page'], $this->oProp->aPageSlugs);
     }
-}abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_MetaBox_Page_Router {
+}
+abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_MetaBox_Page_Router {
     static protected $_sFieldsType = 'page_meta_box';
     function __construct($sMetaBoxID, $sTitle, $asPageSlugs = array(), $sContext = 'normal', $sPriority = 'default', $sCapability = 'manage_options', $sTextDomain = 'admin-page-framework') {
         $this->oProp = new AdminPageFramework_Property_MetaBox_Page($this, get_class($this), $sCapability, $sTextDomain, self::$_sFieldsType);
@@ -1862,7 +1891,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         $this->oProp->aOptions = empty($this->oProp->aOptions) ? array() : $this->oUtil->getAsArray($this->oProp->aOptions);
         $this->oProp->aOptions = $_aLastInput + $this->oProp->aOptions;
     }
-}abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Controller {
+}
+abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Controller {
     static protected $_aScreenIconIDs = array('edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',);
     static protected $_aStructure_InPageTabElements = array('page_slug' => null, 'tab_slug' => null, 'title' => null, 'order' => null, 'show_in_page_tab' => true, 'parent_tab_slug' => null,);
     protected function _finalizeInPageTabs() {
@@ -1891,8 +1921,10 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
     public function _replyToFinalizeInPageTabs() {
         $this->_finalizeInPageTabs();
     }
-}abstract class AdminPageFramework_MetaBox_Page_View extends AdminPageFramework_MetaBox_Page_Model {
-}abstract class AdminPageFramework_MetaBox_Page_Controller extends AdminPageFramework_MetaBox_Page_View {
+}
+abstract class AdminPageFramework_MetaBox_Page_View extends AdminPageFramework_MetaBox_Page_Model {
+}
+abstract class AdminPageFramework_MetaBox_Page_Controller extends AdminPageFramework_MetaBox_Page_View {
     public function enqueueStyles($aSRCs, $sPageSlug = '', $sTabSlug = '', $aCustomArgs = array()) {
         if (method_exists($this->oResource, '_enqueueStyles')) {
             return $this->oResource->_enqueueStyles($aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs);
@@ -1913,7 +1945,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
             return $this->oResource->_enqueueScript($sSRC, $sPageSlug, $sTabSlug, $aCustomArgs);
         }
     }
-}abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBox_Page_Controller {
+}
+abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBox_Page_Controller {
     function __construct($sMetaBoxID, $sTitle, $asPageSlugs = array(), $sContext = 'normal', $sPriority = 'default', $sCapability = 'manage_options', $sTextDomain = 'admin-page-framework') {
         if (empty($asPageSlugs)) {
             return;
@@ -1923,7 +1956,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         }
         parent::__construct($sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain);
     }
-}abstract class AdminPageFramework_Page_View_MetaBox extends AdminPageFramework_Page_Model {
+}
+abstract class AdminPageFramework_Page_View_MetaBox extends AdminPageFramework_Page_Model {
     function __construct($sOptionKey = null, $sCallerPath = null, $sCapability = 'manage_options', $sTextDomain = 'admin-page-framework') {
         parent::__construct($sOptionKey, $sCallerPath, $sCapability, $sTextDomain);
         if ($this->oProp->bIsAdminAjax) {
@@ -2017,9 +2051,11 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
             return;
         }
         $GLOBALS['aAdminPageFramework']['bAddedMetaBoxScript'] = true;
-        $_sScript = "jQuery(document).ready(function(){ postboxes.add_postbox_toggles(pagenow) });";         echo '<script class="admin-page-framework-insert-metabox-script">' . $_sScript . '</script>';
+        $_sScript = "jQuery(document).ready(function(){ postboxes.add_postbox_toggles(pagenow) });";
+        echo '<script class="admin-page-framework-insert-metabox-script">' . $_sScript . '</script>';
     }
-}abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View_MetaBox {
+}
+abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View_MetaBox {
     protected function _renderPage($sPageSlug, $sTabSlug = null) {
         $this->oUtil->addAndDoActions($this, $this->oUtil->getFilterArrayByPrefix('do_before_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true), $this); ?>
         <div class="wrap">
@@ -2158,7 +2194,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         $sParentTabSlug = isset($this->oProp->aInPageTabs[$sPageSlug][$sTabSlug]['parent_tab_slug']) ? $this->oProp->aInPageTabs[$sPageSlug][$sTabSlug]['parent_tab_slug'] : $sTabSlug;
         return isset($this->oProp->aInPageTabs[$sPageSlug][$sParentTabSlug]['show_in_page_tab']) && $this->oProp->aInPageTabs[$sPageSlug][$sParentTabSlug]['show_in_page_tab'] ? $sParentTabSlug : '';
     }
-}abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Page_View {
+}
+abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Page_View {
     public function addInPageTabs($aTab1, $aTab2 = null, $_and_more = null) {
         foreach (func_get_args() as $asTab) {
             $this->addInPageTab($asTab);
@@ -2232,7 +2269,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
             $aPage[$sPageSlug]['page_heading_tab_tag'] = $sTag;
         }
     }
-}abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Controller {
+}
+abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Controller {
     protected $_aBuiltInRootMenuSlugs = array('dashboard' => 'index.php', 'posts' => 'edit.php', 'media' => 'upload.php', 'links' => 'link-manager.php', 'pages' => 'edit.php?post_type=page', 'comments' => 'edit-comments.php', 'appearance' => 'themes.php', 'plugins' => 'plugins.php', 'users' => 'users.php', 'tools' => 'tools.php', 'settings' => 'options-general.php', 'network admin' => "network_admin_menu",);
     protected static $_aStructure_SubMenuLinkForUser = array('type' => 'link', 'title' => null, 'href' => null, 'capability' => null, 'order' => null, 'show_page_heading_tab' => true, 'show_in_menu' => true,);
     protected static $_aStructure_SubMenuPageForUser = array('type' => 'page', 'title' => null, 'page_title' => null, 'menu_title' => null, 'page_slug' => null, 'screen_icon' => null, 'capability' => null, 'order' => null, 'show_page_heading_tab' => true, 'show_in_menu' => true, 'href_icon_32x32' => null, 'screen_icon_id' => null, 'show_page_title' => null, 'show_page_heading_tabs' => null, 'show_in_page_tabs' => null, 'in_page_tab_tag' => null, 'page_heading_tab_tag' => null,);
@@ -2340,8 +2378,10 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         }
         return $sAdminTitle;
     }
-}abstract class AdminPageFramework_Menu_View extends AdminPageFramework_Menu_Model {
-}abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Menu_View {
+}
+abstract class AdminPageFramework_Menu_View extends AdminPageFramework_Menu_Model {
+}
+abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Menu_View {
     function __construct($sOptionKey = null, $sCallerPath = null, $sCapability = 'manage_options', $sTextDomain = 'admin-page-framework') {
         parent::__construct($sOptionKey, $sCallerPath, $sCapability, $sTextDomain);
         if ($this->oProp->bIsAdminAjax) {
@@ -2395,8 +2435,10 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         $aSubMenuPage['page_slug'] = $this->oUtil->sanitizeSlug($aSubMenuPage['page_slug']);
         $this->oProp->aPages[$aSubMenuPage['page_slug']] = $this->_formatSubMenuPageArray($aSubMenuPage);
     }
-}abstract class AdminPageFramework_Model extends AdminPageFramework_Menu_Controller {
-}abstract class AdminPageFramework_View extends AdminPageFramework_Model {
+}
+abstract class AdminPageFramework_Model extends AdminPageFramework_Menu_Controller {
+}
+abstract class AdminPageFramework_View extends AdminPageFramework_Model {
     public function _replyToPrintAdminNotices() {
         if (!$this->_isInThePage()) {
             return;
@@ -2408,7 +2450,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
     public function content($sContent) {
         return $sContent;
     }
-}abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
+}
+abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
     public function setUp() {
     }
     public function addHelpTab($aHelpTab) {
@@ -2483,7 +2526,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
     static public function getOption($sOptionKey, $asKey = null, $vDefault = null) {
         return AdminPageFramework_WPUtility::getOption($sOptionKey, $asKey, $vDefault);
     }
-}abstract class AdminPageFramework extends AdminPageFramework_Controller {
+}
+abstract class AdminPageFramework extends AdminPageFramework_Controller {
     public function __construct($sOptionKey = null, $sCallerPath = null, $sCapability = 'manage_options', $sTextDomain = 'admin-page-framework') {
         if (!$this->_isInstantiatable()) {
             return;
@@ -2491,7 +2535,8 @@ endif;abstract class AdminPageFramework_Factory_Model extends AdminPageFramework
         parent::__construct($sOptionKey, $sCallerPath ? trim($sCallerPath) : $sCallerPath = (is_admin() && (isset($GLOBALS['pagenow']) && in_array($GLOBALS['pagenow'], array('plugins.php',)) || isset($_GET['page'])) ? AdminPageFramework_Utility::getCallerScriptPath(__FILE__) : null), $sCapability, $sTextDomain);
         $this->oUtil->addAndDoAction($this, 'start_' . $this->oProp->sClassName, $this);
     }
-}abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
+}
+abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
     protected $_aBuiltInRootMenuSlugs = array('dashboard' => 'index.php', 'sites' => 'sites.php', 'themes' => 'themes.php', 'plugins' => 'plugins.php', 'users' => 'users.php', 'settings' => 'settings.php', 'updates' => 'update-core.php',);
     public function __construct($sOptionKey = null, $sCallerPath = null, $sCapability = 'manage_network', $sTextDomain = 'admin-page-framework') {
         if (!$this->_isInstantiatable()) {
@@ -2788,7 +2833,8 @@ abstract class AdminPageFramework_Utility_String {
         $_iSize = pow(1024, $_nLog - $_iPower);
         return $_iSize . $_aUnits[$_iPower];
     }
-}abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {
+}
+abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {
     public static function getCorrespondingArrayValue($vSubject, $sKey, $sDefault = '', $bBlankToDefault = false) {
         if (!isset($vSubject)) {
             return $sDefault;
@@ -2999,7 +3045,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return $aArray;
     }
-}abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utility_Array {
+}
+abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utility_Array {
     static public function getRelativePath($from, $to) {
         $from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
         $to = is_dir($to) ? rtrim($to, '\/') . '/' : $to;
@@ -3037,7 +3084,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return $_sCallerFilePath;
     }
-}abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility_Path {
+}
+abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility_Path {
     static public function getCurrentURL() {
         $sSSL = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? true : false;
         $sServerProtocol = strtolower($_SERVER['SERVER_PROTOCOL']);
@@ -3047,7 +3095,8 @@ abstract class AdminPageFramework_Utility_String {
         $sHost = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
         return $sProtocol . '://' . $sHost . $sPort . $_SERVER['REQUEST_URI'];
     }
-}abstract class AdminPageFramework_Utility_File extends AdminPageFramework_Utility_URL {
+}
+abstract class AdminPageFramework_Utility_File extends AdminPageFramework_Utility_URL {
     static public function getFileTailContents($asPath = array(), $iLines = 1) {
         $_aPath = is_array($asPath) ? $asPath : array($asPath);
         $_aPath = array_values($_aPath);
@@ -3058,7 +3107,8 @@ abstract class AdminPageFramework_Utility_String {
         $sFileName = preg_replace("([^\w\s\d\-_~,;:\[\]\(\).])", $sReplacement, $sFileName);
         return preg_replace("([\.]{2,})", '', $sFileName);
     }
-}abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFramework_Utility_File {
+}
+abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFramework_Utility_File {
     static private $_aPHPInfo;
     static public function getPHPInfo() {
         if (isset(self::$_aPHPInfo)) {
@@ -3103,7 +3153,8 @@ abstract class AdminPageFramework_Utility_String {
         $_sLog = self::getFileTailContents(self::getPHPErrorLogPath(), $iLines);
         return $_sLog ? $_sLog : print_r(@error_get_last(), true);
     }
-}abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_SystemInformation {
+}
+abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_SystemInformation {
     static public function sanitizeLength($sLength, $sUnit = 'px') {
         return is_numeric($sLength) ? $sLength . $sUnit : $sLength;
     }
@@ -3169,7 +3220,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return $_aNewArray;
     }
-}class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
+}
+class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
     static public function getCurrentAdminURL() {
         $sRequestURI = $GLOBALS['is_IIS'] ? $_SERVER['PATH_INFO'] : $_SERVER["REQUEST_URI"];
         $sPageURL = 'on' == @$_SERVER["HTTPS"] ? "https://" : "http://";
@@ -3213,7 +3265,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return $sSRC;
     }
-}class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL {
+}
+class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL {
     static public function generateAttributes(array $aAttributes) {
         foreach ($aAttributes as $_sAttribute => & $_vProperty) {
             if (is_array($_vProperty) || is_object($_vProperty)) {
@@ -3231,7 +3284,8 @@ abstract class AdminPageFramework_Utility_String {
     static public function generateDataAttributes(array $aArray) {
         return self::generateAttributes(self::getDataAttributeArray($aArray));
     }
-}class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTML {
+}
+class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTML {
     static public function getCurrentPostType() {
         static $_sCurrentPostType;
         if ($_sCurrentPostType) {
@@ -3329,7 +3383,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return '';
     }
-}class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Page {
+}
+class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Page {
     static public function registerAction($sActionHook, $oCallable) {
         if (did_action($sActionHook)) {
             return call_user_func_array($oCallable, array());
@@ -3408,7 +3463,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return $bReverse ? array_reverse($_aFilters) : $_aFilters;
     }
-}class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hook {
+}
+class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hook {
     static public function getScriptData($sPath, $sType = 'plugin') {
         $aData = get_file_data($sPath, array('sName' => 'Name', 'sURI' => 'URI', 'sScriptName' => 'Script Name', 'sLibraryName' => 'Library Name', 'sLibraryURI' => 'Library URI', 'sPluginName' => 'Plugin Name', 'sPluginURI' => 'Plugin URI', 'sThemeName' => 'Theme Name', 'sThemeURI' => 'Theme URI', 'sVersion' => 'Version', 'sDescription' => 'Description', 'sAuthor' => 'Author', 'sAuthorURI' => 'Author URI', 'sTextDomain' => 'Text Domain', 'sDomainPath' => 'Domain Path', 'sNetwork' => 'Network', '_sitewide' => 'Site Wide Only',), $sType);
         switch (trim($sType)) {
@@ -3474,7 +3530,8 @@ abstract class AdminPageFramework_Utility_String {
         $_sFileBaseName = basename($_sPath);
         return $_sFileBaseName;
     }
-}class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_File {
+}
+class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_File {
     static private $_bIsNetworkAdmin;
     static public function deleteTransient($sTransientKey) {
         global $_wp_using_ext_object_cache;
@@ -3519,7 +3576,8 @@ abstract class AdminPageFramework_Utility_String {
         $_aKeys = self::shiftTillTrue(self::getAsArray($asKey));
         return self::getArrayValueByArrayKeys($_aOptions, $_aKeys, $vDefault);
     }
-}class AdminPageFramework_WPUtility_Post extends AdminPageFramework_WPUtility_Option {
+}
+class AdminPageFramework_WPUtility_Post extends AdminPageFramework_WPUtility_Option {
     static public function getSavedMetaArray($iPostID, array $aKeys) {
         $_aSavedMeta = array();
         foreach ($aKeys as $_sKey) {
@@ -3527,7 +3585,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return $_aSavedMeta;
     }
-}class AdminPageFramework_WPUtility_SystemInformation extends AdminPageFramework_WPUtility_Post {
+}
+class AdminPageFramework_WPUtility_SystemInformation extends AdminPageFramework_WPUtility_Post {
     static private $_aMySQLInfo;
     static public function getMySQLInfo() {
         if (isset(self::$_aMySQLInfo)) {
@@ -3552,7 +3611,8 @@ abstract class AdminPageFramework_Utility_String {
         $_sLog = self::getFileTailContents(self::getMySQLErrorLogPath(), $iLines);
         return $_sLog ? $_sLog : '';
     }
-}class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
+}
+class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
     static private $_bIsFlushed;
     static public function FlushRewriteRules() {
         $_bIsFlushed = isset(self::$_bIsFlushed) ? self::$_bIsFlushed : false;
@@ -3562,7 +3622,8 @@ abstract class AdminPageFramework_Utility_String {
         flush_rewrite_rules();
         self::$_bIsFlushed = true;
     }
-}abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_WPUtility {
+}
+abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_WPUtility {
     public function __construct($aPostElement) {
         $this->aPost = $aPostElement;
         $this->sInputID = $this->getInputID($aPostElement['submit']);
@@ -3579,7 +3640,8 @@ abstract class AdminPageFramework_Utility_String {
             return $this->sInputID;
         }
     }
-}class AdminPageFramework_FormEmail extends AdminPageFramework_WPUtility {
+}
+class AdminPageFramework_FormEmail extends AdminPageFramework_WPUtility {
     public function __construct(array $aEmailOptions, array $aInput, $sSubmitSectionID) {
         $this->aEmailOptions = $aEmailOptions;
         $this->aInput = $aInput;
@@ -3657,7 +3719,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return $aEmailOptions[$sKey];
     }
-}class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
+}
+class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
     static public function dump($asArray, $sFilePath = null) {
         echo self::getArray($asArray, $sFilePath);
     }
@@ -3716,7 +3779,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return $aSubject;
     }
-}abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility {
+}
+abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility {
     protected function _setFooterInfoLeft($aScriptInfo, &$sFooterInfoLeft) {
         $sDescription = empty($aScriptInfo['sDescription']) ? "" : "&#13;{$aScriptInfo['sDescription']}";
         $sVersion = empty($aScriptInfo['sVersion']) ? "" : "&nbsp;{$aScriptInfo['sVersion']}";
@@ -3731,7 +3795,8 @@ abstract class AdminPageFramework_Utility_String {
         $sLibraryInfo = empty($aScriptInfo['sURI']) ? $aScriptInfo['sName'] : "<a href='{$aScriptInfo['sURI']}' target='_blank' title='{$aScriptInfo['sName']}{$sVersion}{$sDescription}'>{$aScriptInfo['sName']}</a>";
         $sFooterInfoRight = $this->oMsg->get('powered_by') . '&nbsp;' . $sLibraryInfo . ", <a href='http://wordpress.org' target='_blank' title='WordPress {$GLOBALS['wp_version']}'>WordPress</a>";
     }
-}class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtility {
+}
+class AdminPageFramework_FormElement_Utility extends AdminPageFramework_WPUtility {
     public function dropRepeatableElements(array $aOptions) {
         foreach ($aOptions as $_sFieldOrSectionID => $_aSectionOrFieldValue) {
             if ($this->isSection($_sFieldOrSectionID)) {
@@ -3838,7 +3903,8 @@ abstract class AdminPageFramework_Utility_String {
         $this->aConditionedFields = $this->addAndApplyFilter($oCaller, "field_definition_{$sClassName}", $this->aConditionedFields);
         $this->aConditionedFields = $this->formatFields($this->aConditionedFields, $this->sFieldsType, $this->sCapability);
     }
-}class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Utility {
+}
+class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Utility {
     static public $_aStructure_Section = array('section_id' => '_default', '_fields_type' => null, 'page_slug' => null, 'tab_slug' => null, 'section_tab_slug' => null, 'title' => null, 'description' => null, 'capability' => null, 'if' => true, 'order' => null, 'help' => null, 'help_aside' => null, 'repeatable' => null, 'attributes' => array('class' => null, 'style' => null, 'tab' => array(),), 'class' => array('tab' => array(),), 'hidden' => false, 'collapsible' => false, '_is_first_index' => false, '_is_last_index' => false,);
     static public $_aStructure_CollapsibleArguments = array('title' => null, 'is_collapsed' => true, 'toggle_all_button' => null, 'collapse_others_on_expand' => true, 'container' => 'sections');
     static public $_aStructure_Field = array('field_id' => null, 'type' => null, 'section_id' => null, 'section_title' => null, 'page_slug' => null, 'tab_slug' => null, 'option_key' => null, 'class_name' => null, 'capability' => null, 'title' => null, 'tip' => null, 'description' => null, 'error_message' => null, 'before_label' => null, 'after_label' => null, 'if' => true, 'order' => null, 'default' => null, 'value' => null, 'help' => null, 'help_aside' => null, 'repeatable' => null, 'sortable' => null, 'show_title_column' => true, 'hidden' => null, '_fields_type' => null, '_section_index' => null, 'attributes' => null, 'class' => array('fieldrow' => array(), 'fieldset' => array(), 'fields' => array(), 'field' => array(),), '_caller_object' => null, '_nested_depth' => 0,);
@@ -4073,7 +4139,8 @@ abstract class AdminPageFramework_Utility_String {
             }
         }
     }
-}abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUtility {
+}
+abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUtility {
     public $_sFieldSetType = '';
     public $aFieldTypeSlugs = array('default');
     protected $aDefaultKeys = array();
@@ -4180,7 +4247,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return $aTabs;
     }
-}abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType_Base {
+}
+abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType_Base {
     public function _replyToFieldLoader() {
         $this->setUp();
     }
@@ -4226,7 +4294,8 @@ abstract class AdminPageFramework_Utility_String {
     protected function getEnqueuingStyles() {
         return array();
     }
-}abstract class AdminPageFramework_FormOutput extends AdminPageFramework_WPUtility {
+}
+abstract class AdminPageFramework_FormOutput extends AdminPageFramework_WPUtility {
     protected function _getFieldContainerAttributes($aField, $aAttributes = array(), $sContext = 'fieldrow') {
         $_aAttributes = $this->uniteArrays(isset($aField['attributes'][$sContext]) && is_array($aField['attributes'][$sContext]) ? $aField['attributes'][$sContext] : array(), $aAttributes);
         $_aAttributes['class'] = $this->generateClassAttribute(isset($_aAttributes['class']) ? $_aAttributes['class'] : array(), isset($aField['class'][$sContext]) ? $aField['class'][$sContext] : array());
@@ -4235,7 +4304,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return $this->generateAttributes($_aAttributes);
     }
-}class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
+}
+class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
     public function __construct(&$aField, $aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg, array $aCallbacks = array()) {
         $aFieldTypeDefinition = isset($aFieldTypeDefinitions[$aField['type']]) ? $aFieldTypeDefinitions[$aField['type']] : $aFieldTypeDefinitions['default'];
         $aFieldTypeDefinition['aDefaultKeys']['attributes'] = array('fieldrow' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldrow'], 'fieldset' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldset'], 'fields' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fields'], 'field' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['field'],);
@@ -4276,12 +4346,15 @@ abstract class AdminPageFramework_Utility_String {
         $_sButtons = "<div class='admin-page-framework-repeatable-field-buttons' {$_sSettingsAttributes} >" . "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small {$_sDashiconMinus}' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>" . ($_bDashiconSupported ? '' : '-') . "</a>" . "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small {$_sDashiconPlus}' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>" . ($_bDashiconSupported ? '' : '+') . "</a>" . "</div>";
         $_aJSArray = json_encode($aSettings);
         $_sButtonsHTML = '"' . $_sButtons . '"';
-        $_sScript = "jQuery(document).ready(function(){ var _nodePositionIndicators=jQuery('#{$sFieldsContainerID} .admin-page-framework-field .repeatable-field-buttons');if(_nodePositionIndicators.length>0){ _nodePositionIndicators.replaceWith($_sButtonsHTML) }else if(!jQuery('#{$sFieldsContainerID} .admin-page-framework-repeatable-field-buttons').length)jQuery('#{$sFieldsContainerID} .admin-page-framework-field').prepend($_sButtonsHTML);jQuery('#{$sFieldsContainerID}').updateAPFRepeatableFields($_aJSArray) });";         return "<script type='text/javascript'>" . $_sScript . "</script>";
+        $_sScript = "jQuery(document).ready(function(){ var _nodePositionIndicators=jQuery('#{$sFieldsContainerID} .admin-page-framework-field .repeatable-field-buttons');if(_nodePositionIndicators.length>0){ _nodePositionIndicators.replaceWith($_sButtonsHTML) }else if(!jQuery('#{$sFieldsContainerID} .admin-page-framework-repeatable-field-buttons').length)jQuery('#{$sFieldsContainerID} .admin-page-framework-field').prepend($_sButtonsHTML);jQuery('#{$sFieldsContainerID}').updateAPFRepeatableFields($_aJSArray) });";
+        return "<script type='text/javascript'>" . $_sScript . "</script>";
     }
     protected function _getSortableFieldEnablerScript($sFieldsContainerID) {
-        $_sScript = "jQuery(document).ready(function(){ jQuery(this).enableAPFSortable('$sFieldsContainerID') });";         return "<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>" . $_sScript . "</script>";
+        $_sScript = "jQuery(document).ready(function(){ jQuery(this).enableAPFSortable('$sFieldsContainerID') });";
+        return "<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>" . $_sScript . "</script>";
     }
-}class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
+}
+class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
     private function _getInputName($aField = null, $sKey = '', $hfFilterCallback = null) {
         $sKey = ( string )$sKey;
         $aField = isset($aField) ? $aField : $this->aField;
@@ -4470,7 +4543,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return isset($aOptions[$aField['section_id']][$aField['field_id']]) ? $aOptions[$aField['section_id']][$aField['field_id']] : null;
     }
-}abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtility {
+}
+abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtility {
     public $aField = array();
     public $aOptions = array();
     public $aStructureOptions = array('input_container_tag' => 'span', 'input_container_attributes' => array('class' => 'admin-page-framework-input-container',), 'label_container_tag' => 'span', 'label_container_attributes' => array('class' => 'admin-page-framework-input-label-string',),);
@@ -4480,7 +4554,8 @@ abstract class AdminPageFramework_Utility_String {
     }
     public function get() {
     }
-}class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFields {
+}
+class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFields {
     public function __construct($aPostExport, $sClassName) {
         parent::__construct($aPostExport);
         $this->sClassName = $sClassName;
@@ -4519,7 +4594,8 @@ abstract class AdminPageFramework_Utility_String {
                 die(serialize(( array )$vData));
             }
     }
-}class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFields {
+}
+class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFields {
     public function __construct($aFilesImport, $aPostImport) {
         parent::__construct($aPostImport);
         $this->aFilesImport = $aFilesImport;
@@ -4557,7 +4633,8 @@ abstract class AdminPageFramework_Utility_String {
         $this->sFormatType = isset($this->sFormatType) && $this->sFormatType ? $this->sFormatType : $this->getSubmitValueByType($this->aPost, $this->sInputID, 'format');
         return $this->sFormatType;
     }
-}abstract class AdminPageFramework_HelpPane_Base extends AdminPageFramework_Debug {
+}
+abstract class AdminPageFramework_HelpPane_Base extends AdminPageFramework_Debug {
     protected $_oScreen;
     function __construct($oProp) {
         $this->oProp = $oProp;
@@ -4572,7 +4649,8 @@ abstract class AdminPageFramework_Utility_String {
     protected function _formatHelpDescription($sHelpDescription) {
         return "<div class='contextual-help-description'>" . $sHelpDescription . "</div>";
     }
-}class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
+}
+class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
     private $oProp;
     public function __construct(&$oProp, $oMsg = null) {
         if (!$oProp->bIsAdmin) {
@@ -4665,7 +4743,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return array_merge($aLinks, $aAddingLinks);
     }
-}class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
+}
+class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
     public $aFooterInfo = array('sLeft' => '', 'sRight' => '',);
     public function __construct($oProp, $oMsg = null) {
         if (!$oProp->bIsAdmin) {
@@ -4713,7 +4792,8 @@ abstract class AdminPageFramework_Utility_String {
     public function _replyToAddInfoInFooterRight($sLinkHTML = '') {
         return $this->aFooterInfo['sRight'];
     }
-}class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement {
+}
+class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement {
     protected $sDefaultPageSlug;
     public function isPageAdded($sPageSlug) {
         foreach ($this->aSections as $_sSectionID => $_aSection) {
@@ -4924,7 +5004,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return $_aStoredOptionsOfTheTab;
     }
-}class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Base {
+}
+class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Base {
     public $aFieldTypeSlugs = array('image',);
     protected $aDefaultKeys = array('attributes_to_store' => array(), 'show_preview' => true, 'allow_external_source' => true, 'attributes' => array('input' => array('size' => 40, 'maxlength' => 400,), 'button' => array(), 'remove_button' => array(), 'preview' => array(),),);
     public function _replyToFieldLoader() {
@@ -4935,16 +5016,20 @@ abstract class AdminPageFramework_Utility_String {
     }
     protected function _getScript_RegisterCallbacks() {
         $_aJSArray = json_encode($this->aFieldTypeSlugs);
-        return "jQuery(document).ready(function(){ jQuery().registerAPFCallback({ added_repeatable_field:function(node,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;if(node.find('.select_image').length<=0)return;var sValue=node.find('input').first().val();if(1!==iCallType||!sValue){ node.find('.image_preview').hide();node.find('.image_preview img').attr('src','') };var nodeFieldContainer=node.closest('.admin-page-framework-field'),iOccurrence=1===iCallType?1:0;nodeFieldContainer.nextAll().andSelf().each(function(iIndex){ var nodeButton=jQuery(this).find('.select_image');if(!(1===iCallType&&0!==iIndex)){ nodeButton.incrementIDAttribute('id',iOccurrence);jQuery(this).find('.image_preview').incrementIDAttribute('id',iOccurrence);jQuery(this).find('.image_preview img').incrementIDAttribute('id',iOccurrence) };var nodeImageInput=jQuery(this).find('.image-field input');if(nodeImageInput.length<=0)return true;var fExternalSource=jQuery(nodeButton).attr('data-enable_external_source');setAPFImageUploader(nodeImageInput.attr('id'),true,fExternalSource) }) },removed_repeatable_field:function(oNextFieldContainer,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;if(oNextFieldContainer.find('.select_image').length<=0)return;var iOccurrence=1===iCallType?1:0;oNextFieldContainer.nextAll().andSelf().each(function(iIndex){ var nodeButton=jQuery(this).find('.select_image');if(!(1===iCallType&&0!==iIndex)){ nodeButton.decrementIDAttribute('id',iOccurrence);jQuery(this).find('.image_preview').decrementIDAttribute('id',iOccurrence);jQuery(this).find('.image_preview img').decrementIDAttribute('id',iOccurrence) };var nodeImageInput=jQuery(this).find('.image-field input');if(nodeImageInput.length<=0)return true;var fExternalSource=jQuery(nodeButton).attr('data-enable_external_source');setAPFImageUploader(nodeImageInput.attr('id'),true,fExternalSource) }) },sorted_fields:function(node,sFieldType,sFieldsTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;if(node.find('.select_image').length<=0)return;var iCount=0,iOccurrence=1===iCallType?1:0;node.children('.admin-page-framework-field').each(function(){ var nodeButton=jQuery(this).find('.select_image');nodeButton.setIndexIDAttribute('id',iCount,iOccurrence);jQuery(this).find('.image_preview').setIndexIDAttribute('id',iCount,iOccurrence);jQuery(this).find('.image_preview img').setIndexIDAttribute('id',iCount,iOccurrence);var nodeImageInput=jQuery(this).find('.image-field input');if(nodeImageInput.length<=0)return true;setAPFImageUploader(nodeImageInput.attr('id'),true,jQuery(nodeButton).attr('data-enable_external_source'));iCount++ }) }}) });";     }
+        return "jQuery(document).ready(function(){ jQuery().registerAPFCallback({ added_repeatable_field:function(node,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;if(node.find('.select_image').length<=0)return;var sValue=node.find('input').first().val();if(1!==iCallType||!sValue){ node.find('.image_preview').hide();node.find('.image_preview img').attr('src','') };var nodeFieldContainer=node.closest('.admin-page-framework-field'),iOccurrence=1===iCallType?1:0;nodeFieldContainer.nextAll().andSelf().each(function(iIndex){ var nodeButton=jQuery(this).find('.select_image');if(!(1===iCallType&&0!==iIndex)){ nodeButton.incrementIDAttribute('id',iOccurrence);jQuery(this).find('.image_preview').incrementIDAttribute('id',iOccurrence);jQuery(this).find('.image_preview img').incrementIDAttribute('id',iOccurrence) };var nodeImageInput=jQuery(this).find('.image-field input');if(nodeImageInput.length<=0)return true;var fExternalSource=jQuery(nodeButton).attr('data-enable_external_source');setAPFImageUploader(nodeImageInput.attr('id'),true,fExternalSource) }) },removed_repeatable_field:function(oNextFieldContainer,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;if(oNextFieldContainer.find('.select_image').length<=0)return;var iOccurrence=1===iCallType?1:0;oNextFieldContainer.nextAll().andSelf().each(function(iIndex){ var nodeButton=jQuery(this).find('.select_image');if(!(1===iCallType&&0!==iIndex)){ nodeButton.decrementIDAttribute('id',iOccurrence);jQuery(this).find('.image_preview').decrementIDAttribute('id',iOccurrence);jQuery(this).find('.image_preview img').decrementIDAttribute('id',iOccurrence) };var nodeImageInput=jQuery(this).find('.image-field input');if(nodeImageInput.length<=0)return true;var fExternalSource=jQuery(nodeButton).attr('data-enable_external_source');setAPFImageUploader(nodeImageInput.attr('id'),true,fExternalSource) }) },sorted_fields:function(node,sFieldType,sFieldsTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;if(node.find('.select_image').length<=0)return;var iCount=0,iOccurrence=1===iCallType?1:0;node.children('.admin-page-framework-field').each(function(){ var nodeButton=jQuery(this).find('.select_image');nodeButton.setIndexIDAttribute('id',iCount,iOccurrence);jQuery(this).find('.image_preview').setIndexIDAttribute('id',iCount,iOccurrence);jQuery(this).find('.image_preview img').setIndexIDAttribute('id',iCount,iOccurrence);var nodeImageInput=jQuery(this).find('.image-field input');if(nodeImageInput.length<=0)return true;setAPFImageUploader(nodeImageInput.attr('id'),true,jQuery(nodeButton).attr('data-enable_external_source'));iCount++ }) }}) });";
+    }
     private function _getScript_ImageSelector($sReferrer) {
         $_sThickBoxTitle = esc_js($this->oMsg->get('upload_image'));
         $_sThickBoxButtonUseThis = esc_js($this->oMsg->get('use_this_image'));
         $_sInsertFromURL = esc_js($this->oMsg->get('insert_from_url'));
         if (!function_exists('wp_enqueue_media')) {
-            return "setAPFImageUploader=function(sInputID,fMultiple,fExternalSource){ jQuery('#select_image_'+sInputID).unbind('click');jQuery('#select_image_'+sInputID).click(function(){ var sPressedID=jQuery(this).attr('id');window.sInputID=sPressedID.substring(13);window.original_send_to_editor=window.send_to_editor;window.send_to_editor=hfAPFSendToEditorImage;var fExternalSource=jQuery(this).attr('data-enable_external_source');tb_show('{$_sThickBoxTitle}','media-upload.php?post_id=1&amp;enable_external_source='+fExternalSource+'&amp;referrer={$sReferrer}&amp;button_label={$_sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true',false);return false }) };var hfAPFSendToEditorImage=function(sRawHTML){ var sHTML='<div>'+sRawHTML+'</div>',src=jQuery('img',sHTML).attr('src'),alt=jQuery('img',sHTML).attr('alt'),title=jQuery('img',sHTML).attr('title'),width=jQuery('img',sHTML).attr('width'),height=jQuery('img',sHTML).attr('height'),classes=jQuery('img',sHTML).attr('class'),id=classes?classes.replace(/(.*?)wp-image-/,''):'',sCaption=sRawHTML.replace(/\[(\w+).*?\](.*?)\[\/(\w+)\]/m,'$2').replace(/<a.*?>(.*?)<\/a>/m,''),align=sRawHTML.replace(/^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg,'$2'),link=jQuery(sHTML).find('a:first').attr('href'),sCaption=jQuery('<div/>').text(sCaption).html(),sAlt=jQuery('<div/>').text(alt).html(),title=jQuery('<div/>').text(title).html(),sInputID=window.sInputID;jQuery('#'+sInputID).val(src);jQuery('#'+sInputID+'_id').val(id);jQuery('#'+sInputID+'_width').val(width);jQuery('#'+sInputID+'_height').val(height);jQuery('#'+sInputID+'_caption').val(sCaption);jQuery('#'+sInputID+'_alt').val(sAlt);jQuery('#'+sInputID+'_title').val(title);jQuery('#'+sInputID+'_align').val(align);jQuery('#'+sInputID+'_link').val(link);jQuery('#image_preview_'+sInputID).attr('alt',alt);jQuery('#image_preview_'+sInputID).attr('title',title);jQuery('#image_preview_'+sInputID).attr('data-classes',classes);jQuery('#image_preview_'+sInputID).attr('data-id',id);jQuery('#image_preview_'+sInputID).attr('src',src);jQuery('#image_preview_container_'+sInputID).css('display','');jQuery('#image_preview_'+sInputID).show();window.send_to_editor=window.original_send_to_editor;tb_remove() };";         }
-        return "setAPFImageUploader=function(sInputID,fMultiple,fExternalSource){ var _bEscaped=false,_oCustomImageUploader;jQuery('#'+sInputID+'[data-show_preview=\"1\"]').unbind('change');jQuery('#'+sInputID+'[data-show_preview=\"1\"]').change(function(e){ var _sImageURL=jQuery(this).val();jQuery('<img>',{ src:_sImageURL,error:function(){  },load:function(){ setImagePreviewElement(sInputID,{ url:_sImageURL}) }}) });jQuery('#select_image_'+sInputID).unbind('click');jQuery('#select_image_'+sInputID).click(function(e){ var sInputID=jQuery(this).attr('id').substring(13);window.wpActiveEditor=null;e.preventDefault();if('object'===typeof _oCustomImageUploader){ _oCustomImageUploader.open();return };oAPFOriginalImageUploaderSelectObject=wp.media.view.MediaFrame.Select;wp.media.view.MediaFrame.Select=fExternalSource?getAPFCustomMediaUploaderSelectObject():oAPFOriginalImageUploaderSelectObject;_oCustomImageUploader=wp.media({ id:sInputID,title:fExternalSource?'{$_sInsertFromURL}':'{$_sThickBoxTitle}',button:{ text:'{$_sThickBoxButtonUseThis}'},type:'image',library:{ type:'image'},multiple:fMultiple,metadata:{ }});_oCustomImageUploader.on('escape',function(){ _bEscaped=true;return false });_oCustomImageUploader.on('close',function(){ var state=_oCustomImageUploader.state();if(typeof(state.props)!='undefined'&&typeof(state.props.attributes)!='undefined'){ var _oImage={ },_sKey;for(_sKey in state.props.attributes)_oImage[_sKey]=state.props.attributes[_sKey] };if(typeof _oImage!=='undefined'){ setImagePreviewElementWithDelay(sInputID,_oImage) }else { var _oNewField;_oCustomImageUploader.state().get('selection').each(function(oAttachment,iIndex){ var _oAttributes=oAttachment.hasOwnProperty('attributes')?oAttachment.attributes:{ };if(0===iIndex){ setImagePreviewElementWithDelay(sInputID,_oAttributes);return true };var _oFieldContainer='undefined'===typeof _oNewField?jQuery('#'+sInputID).closest('.admin-page-framework-field'):_oNewField;_oNewField=jQuery(this).addAPFRepeatableField(_oFieldContainer.attr('id'));var sInputIDOfNewField=_oNewField.find('input').attr('id');setImagePreviewElementWithDelay(sInputIDOfNewField,_oAttributes) }) };wp.media.view.MediaFrame.Select=oAPFOriginalImageUploaderSelectObject });_oCustomImageUploader.open();return false });var setImagePreviewElementWithDelay=function(sInputID,oImage,iMilliSeconds){ iMilliSeconds='undefined'===typeof iMilliSeconds?100:iMilliSeconds;setTimeout(function(){ if(!_bEscaped)setImagePreviewElement(sInputID,oImage);_bEscaped=false },iMilliSeconds) } };removeInputValuesForImage=function(oElem){ var _oImageInput=jQuery(oElem).closest('.admin-page-framework-field').find('.image-field input');if(_oImageInput.length<=0)return;var _sInputID=_oImageInput.first().attr('id');setImagePreviewElement(_sInputID,{ }) };setImagePreviewElement=function(sInputID,oImage){ var oImage=jQuery.extend(true,{ caption:'',alt:'',title:'',url:'',id:'',width:'',height:'',align:'',link:''},oImage),_sCaption=jQuery('<div/>').text(oImage.caption).html(),_sAlt=jQuery('<div/>').text(oImage.alt).html(),_sTitle=jQuery('<div/>').text(oImage.title).html();jQuery('input#'+sInputID).val(oImage.url);jQuery('input#'+sInputID+'_id').val(oImage.id);jQuery('input#'+sInputID+'_width').val(oImage.width);jQuery('input#'+sInputID+'_height').val(oImage.height);jQuery('input#'+sInputID+'_caption').val(_sCaption);jQuery('input#'+sInputID+'_alt').val(_sAlt);jQuery('input#'+sInputID+'_title').val(_sTitle);jQuery('input#'+sInputID+'_align').val(oImage.align);jQuery('input#'+sInputID+'_link').val(oImage.link);jQuery('#image_preview_'+sInputID).attr('data-id',oImage.id);jQuery('#image_preview_'+sInputID).attr('data-width',oImage.width);jQuery('#image_preview_'+sInputID).attr('data-height',oImage.height);jQuery('#image_preview_'+sInputID).attr('data-caption',_sCaption);jQuery('#image_preview_'+sInputID).attr('alt',_sAlt);jQuery('#image_preview_'+sInputID).attr('title',_sTitle);jQuery('#image_preview_'+sInputID).attr('src',oImage.url);if(oImage.url){ jQuery('#image_preview_container_'+sInputID).show() }else jQuery('#image_preview_container_'+sInputID).hide() };";     }
+            return "setAPFImageUploader=function(sInputID,fMultiple,fExternalSource){ jQuery('#select_image_'+sInputID).unbind('click');jQuery('#select_image_'+sInputID).click(function(){ var sPressedID=jQuery(this).attr('id');window.sInputID=sPressedID.substring(13);window.original_send_to_editor=window.send_to_editor;window.send_to_editor=hfAPFSendToEditorImage;var fExternalSource=jQuery(this).attr('data-enable_external_source');tb_show('{$_sThickBoxTitle}','media-upload.php?post_id=1&amp;enable_external_source='+fExternalSource+'&amp;referrer={$sReferrer}&amp;button_label={$_sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true',false);return false }) };var hfAPFSendToEditorImage=function(sRawHTML){ var sHTML='<div>'+sRawHTML+'</div>',src=jQuery('img',sHTML).attr('src'),alt=jQuery('img',sHTML).attr('alt'),title=jQuery('img',sHTML).attr('title'),width=jQuery('img',sHTML).attr('width'),height=jQuery('img',sHTML).attr('height'),classes=jQuery('img',sHTML).attr('class'),id=classes?classes.replace(/(.*?)wp-image-/,''):'',sCaption=sRawHTML.replace(/\[(\w+).*?\](.*?)\[\/(\w+)\]/m,'$2').replace(/<a.*?>(.*?)<\/a>/m,''),align=sRawHTML.replace(/^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg,'$2'),link=jQuery(sHTML).find('a:first').attr('href'),sCaption=jQuery('<div/>').text(sCaption).html(),sAlt=jQuery('<div/>').text(alt).html(),title=jQuery('<div/>').text(title).html(),sInputID=window.sInputID;jQuery('#'+sInputID).val(src);jQuery('#'+sInputID+'_id').val(id);jQuery('#'+sInputID+'_width').val(width);jQuery('#'+sInputID+'_height').val(height);jQuery('#'+sInputID+'_caption').val(sCaption);jQuery('#'+sInputID+'_alt').val(sAlt);jQuery('#'+sInputID+'_title').val(title);jQuery('#'+sInputID+'_align').val(align);jQuery('#'+sInputID+'_link').val(link);jQuery('#image_preview_'+sInputID).attr('alt',alt);jQuery('#image_preview_'+sInputID).attr('title',title);jQuery('#image_preview_'+sInputID).attr('data-classes',classes);jQuery('#image_preview_'+sInputID).attr('data-id',id);jQuery('#image_preview_'+sInputID).attr('src',src);jQuery('#image_preview_container_'+sInputID).css('display','');jQuery('#image_preview_'+sInputID).show();window.send_to_editor=window.original_send_to_editor;tb_remove() };";
+        }
+        return "setAPFImageUploader=function(sInputID,fMultiple,fExternalSource){ var _bEscaped=false,_oCustomImageUploader;jQuery('#'+sInputID+'[data-show_preview=\"1\"]').unbind('change');jQuery('#'+sInputID+'[data-show_preview=\"1\"]').change(function(e){ var _sImageURL=jQuery(this).val();jQuery('<img>',{ src:_sImageURL,error:function(){  },load:function(){ setImagePreviewElement(sInputID,{ url:_sImageURL}) }}) });jQuery('#select_image_'+sInputID).unbind('click');jQuery('#select_image_'+sInputID).click(function(e){ var sInputID=jQuery(this).attr('id').substring(13);window.wpActiveEditor=null;e.preventDefault();if('object'===typeof _oCustomImageUploader){ _oCustomImageUploader.open();return };oAPFOriginalImageUploaderSelectObject=wp.media.view.MediaFrame.Select;wp.media.view.MediaFrame.Select=fExternalSource?getAPFCustomMediaUploaderSelectObject():oAPFOriginalImageUploaderSelectObject;_oCustomImageUploader=wp.media({ id:sInputID,title:fExternalSource?'{$_sInsertFromURL}':'{$_sThickBoxTitle}',button:{ text:'{$_sThickBoxButtonUseThis}'},type:'image',library:{ type:'image'},multiple:fMultiple,metadata:{ }});_oCustomImageUploader.on('escape',function(){ _bEscaped=true;return false });_oCustomImageUploader.on('close',function(){ var state=_oCustomImageUploader.state();if(typeof(state.props)!='undefined'&&typeof(state.props.attributes)!='undefined'){ var _oImage={ },_sKey;for(_sKey in state.props.attributes)_oImage[_sKey]=state.props.attributes[_sKey] };if(typeof _oImage!=='undefined'){ setImagePreviewElementWithDelay(sInputID,_oImage) }else { var _oNewField;_oCustomImageUploader.state().get('selection').each(function(oAttachment,iIndex){ var _oAttributes=oAttachment.hasOwnProperty('attributes')?oAttachment.attributes:{ };if(0===iIndex){ setImagePreviewElementWithDelay(sInputID,_oAttributes);return true };var _oFieldContainer='undefined'===typeof _oNewField?jQuery('#'+sInputID).closest('.admin-page-framework-field'):_oNewField;_oNewField=jQuery(this).addAPFRepeatableField(_oFieldContainer.attr('id'));var sInputIDOfNewField=_oNewField.find('input').attr('id');setImagePreviewElementWithDelay(sInputIDOfNewField,_oAttributes) }) };wp.media.view.MediaFrame.Select=oAPFOriginalImageUploaderSelectObject });_oCustomImageUploader.open();return false });var setImagePreviewElementWithDelay=function(sInputID,oImage,iMilliSeconds){ iMilliSeconds='undefined'===typeof iMilliSeconds?100:iMilliSeconds;setTimeout(function(){ if(!_bEscaped)setImagePreviewElement(sInputID,oImage);_bEscaped=false },iMilliSeconds) } };removeInputValuesForImage=function(oElem){ var _oImageInput=jQuery(oElem).closest('.admin-page-framework-field').find('.image-field input');if(_oImageInput.length<=0)return;var _sInputID=_oImageInput.first().attr('id');setImagePreviewElement(_sInputID,{ }) };setImagePreviewElement=function(sInputID,oImage){ var oImage=jQuery.extend(true,{ caption:'',alt:'',title:'',url:'',id:'',width:'',height:'',align:'',link:''},oImage),_sCaption=jQuery('<div/>').text(oImage.caption).html(),_sAlt=jQuery('<div/>').text(oImage.alt).html(),_sTitle=jQuery('<div/>').text(oImage.title).html();jQuery('input#'+sInputID).val(oImage.url);jQuery('input#'+sInputID+'_id').val(oImage.id);jQuery('input#'+sInputID+'_width').val(oImage.width);jQuery('input#'+sInputID+'_height').val(oImage.height);jQuery('input#'+sInputID+'_caption').val(_sCaption);jQuery('input#'+sInputID+'_alt').val(_sAlt);jQuery('input#'+sInputID+'_title').val(_sTitle);jQuery('input#'+sInputID+'_align').val(oImage.align);jQuery('input#'+sInputID+'_link').val(oImage.link);jQuery('#image_preview_'+sInputID).attr('data-id',oImage.id);jQuery('#image_preview_'+sInputID).attr('data-width',oImage.width);jQuery('#image_preview_'+sInputID).attr('data-height',oImage.height);jQuery('#image_preview_'+sInputID).attr('data-caption',_sCaption);jQuery('#image_preview_'+sInputID).attr('alt',_sAlt);jQuery('#image_preview_'+sInputID).attr('title',_sTitle);jQuery('#image_preview_'+sInputID).attr('src',oImage.url);if(oImage.url){ jQuery('#image_preview_container_'+sInputID).show() }else jQuery('#image_preview_container_'+sInputID).hide() };";
+    }
     public function _replyToGetStyles() {
-        return ".admin-page-framework-field .image_preview {border: none; clear:both; margin-top: 0.4em;margin-bottom: 0.8em;display: block; max-width: 100%;height: auto; width: inherit;} .admin-page-framework-field .image_preview img { height: auto; max-width: 100%;display: block; }.widget .admin-page-framework-field .image_preview {max-width: 100%;}@media only screen and ( max-width: 1200px ) {.admin-page-framework-field .image_preview {max-width: 600px;} } @media only screen and ( max-width: 900px ) {.admin-page-framework-field .image_preview {max-width: 440px;}}@media only screen and ( max-width: 600px ) {.admin-page-framework-field .image_preview {max-width: 300px;}} @media only screen and ( max-width: 480px ) {.admin-page-framework-field .image_preview {max-width: 240px;}}@media only screen and ( min-width: 1200px ) {.admin-page-framework-field .image_preview {max-width: 600px;}}.admin-page-framework-field-image input {margin-right: 0.5em;vertical-align: middle;}.select_image.button.button-small,.remove_image.button.button-small{ vertical-align: middle;}.remove_image.button.button-small {margin-left: 0.2em;}@media screen and (max-width: 782px) {.admin-page-framework-field-image input {margin: 0.5em 0.5em 0.5em 0;}} ";     }
+        return ".admin-page-framework-field .image_preview {border: none; clear:both; margin-top: 0.4em;margin-bottom: 0.8em;display: block; max-width: 100%;height: auto; width: inherit;} .admin-page-framework-field .image_preview img { height: auto; max-width: 100%;display: block; }.widget .admin-page-framework-field .image_preview {max-width: 100%;}@media only screen and ( max-width: 1200px ) {.admin-page-framework-field .image_preview {max-width: 600px;} } @media only screen and ( max-width: 900px ) {.admin-page-framework-field .image_preview {max-width: 440px;}}@media only screen and ( max-width: 600px ) {.admin-page-framework-field .image_preview {max-width: 300px;}} @media only screen and ( max-width: 480px ) {.admin-page-framework-field .image_preview {max-width: 240px;}}@media only screen and ( min-width: 1200px ) {.admin-page-framework-field .image_preview {max-width: 600px;}}.admin-page-framework-field-image input {margin-right: 0.5em;vertical-align: middle;}.select_image.button.button-small,.remove_image.button.button-small{ vertical-align: middle;}.remove_image.button.button-small {margin-left: 0.2em;}@media screen and (max-width: 782px) {.admin-page-framework-field-image input {margin: 0.5em 0.5em 0.5em 0;}} ";
+    }
     public function _replyToGetField($aField) {
         $_aOutput = array();
         $_iCountAttributes = count(( array )$aField['attributes_to_store']);
@@ -4979,7 +5064,8 @@ abstract class AdminPageFramework_Utility_String {
         $_aAttributes['class'] = $this->generateClassAttribute('select_image button button-small ', trim($aButtonAttributes['class']) ? $aButtonAttributes['class'] : $_sDashIconSelector);
         $_sButton = "<a " . $this->generateAttributes($_aAttributes) . ">" . ($_bIsLabelSet ? $aButtonAttributes['data-label'] : (strrpos($_aAttributes['class'], 'dashicons') ? '' : $this->oMsg->get('select_image'))) . "</a>";
         $_sButtonHTML = '"' . $_sButton . '"';
-        $_sScript = "if(0===jQuery('a#select_image_{$sInputID}').length)jQuery('input#{$sInputID}').after($_sButtonHTML);jQuery(document).ready(function(){ setAPFImageUploader('{$sInputID}','{$bRpeatable}','{$bExternalSource}') });";         return "<script type='text/javascript' class='admin-page-framework-image-uploader-button'>" . $_sScript . "</script>" . PHP_EOL;
+        $_sScript = "if(0===jQuery('a#select_image_{$sInputID}').length)jQuery('input#{$sInputID}').after($_sButtonHTML);jQuery(document).ready(function(){ setAPFImageUploader('{$sInputID}','{$bRpeatable}','{$bExternalSource}') });";
+        return "<script type='text/javascript' class='admin-page-framework-image-uploader-button'>" . $_sScript . "</script>" . PHP_EOL;
     }
     protected function _getRemoveButtonScript($sInputID, array $aButtonAttributes) {
         if (!function_exists('wp_enqueue_media')) {
@@ -4992,16 +5078,20 @@ abstract class AdminPageFramework_Utility_String {
         $_aAttributes['class'] = $this->generateClassAttribute('remove_value remove_image button button-small', trim($aButtonAttributes['class']) ? $aButtonAttributes['class'] : $_sDashIconSelector);
         $_sButtonHTML = "<a " . $this->generateAttributes($_aAttributes) . ">" . ($_bIsLabelSet ? $_aAttributes['data-label'] : (strrpos($_aAttributes['class'], 'dashicons') ? '' : 'x')) . "</a>";
         $_sButtonHTML = '"' . $_sButtonHTML . '"';
-        $_sScript = "if(0===jQuery('a#remove_image_{$sInputID}').length)jQuery('input#{$sInputID}').after($_sButtonHTML);";         return "<script type='text/javascript' class='admin-page-framework-image-remove-button'>" . $_sScript . "</script>" . PHP_EOL;
+        $_sScript = "if(0===jQuery('a#remove_image_{$sInputID}').length)jQuery('input#{$sInputID}').after($_sButtonHTML);";
+        return "<script type='text/javascript' class='admin-page-framework-image-remove-button'>" . $_sScript . "</script>" . PHP_EOL;
     }
-}class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType {
+}
+class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array('checkbox');
     protected $aDefaultKeys = array('select_all_button' => false, 'select_none_button' => false,);
     protected function getScripts() {
         new AdminPageFramework_Script_CheckboxSelector;
-        return "jQuery(document).ready(function(){ jQuery('.admin-page-framework-checkbox-container[data-select_all_button]').each(function(){ jQuery(this).before('<div class=\"select_all_button_container\" onclick=\"jQuery( this ).selectALLAPFCheckboxes(); return false;\"><a class=\"select_all_button button button-small\">'+jQuery(this).data('select_all_button')+'</a></div>') });jQuery('.admin-page-framework-checkbox-container[data-select_none_button]').each(function(){ jQuery(this).before('<div class=\"select_none_button_container\" onclick=\"jQuery( this ).deselectAllAPFCheckboxes(); return false;\"><a class=\"select_all_button button button-small\">'+jQuery(this).data('select_none_button')+'</a></div>') }) });";     }
+        return "jQuery(document).ready(function(){ jQuery('.admin-page-framework-checkbox-container[data-select_all_button]').each(function(){ jQuery(this).before('<div class=\"select_all_button_container\" onclick=\"jQuery( this ).selectALLAPFCheckboxes(); return false;\"><a class=\"select_all_button button button-small\">'+jQuery(this).data('select_all_button')+'</a></div>') });jQuery('.admin-page-framework-checkbox-container[data-select_none_button]').each(function(){ jQuery(this).before('<div class=\"select_none_button_container\" onclick=\"jQuery( this ).deselectAllAPFCheckboxes(); return false;\"><a class=\"select_all_button button button-small\">'+jQuery(this).data('select_none_button')+'</a></div>') }) });";
+    }
     protected function getStyles() {
-        return ".select_all_button_container, .select_none_button_container{display: inline-block;margin-bottom: 0.4em;}.admin-page-framework-checkbox-label {margin-top: 0.1em;}.admin-page-framework-field input[type='checkbox'] {margin-right: 0.5em;} .admin-page-framework-field-checkbox .admin-page-framework-input-label-container {padding-right: 1em;}.admin-page-framework-field-checkbox .admin-page-framework-input-label-string{display: inline; }";     }
+        return ".select_all_button_container, .select_none_button_container{display: inline-block;margin-bottom: 0.4em;}.admin-page-framework-checkbox-label {margin-top: 0.1em;}.admin-page-framework-field input[type='checkbox'] {margin-right: 0.5em;} .admin-page-framework-field-checkbox .admin-page-framework-input-label-container {padding-right: 1em;}.admin-page-framework-field-checkbox .admin-page-framework-input-label-string{display: inline; }";
+    }
     protected $_sCheckboxClassSelector = 'apf_checkbox';
     protected function getField($aField) {
         $_aOutput = array();
@@ -5014,7 +5104,8 @@ abstract class AdminPageFramework_Utility_String {
         $_aCheckboxContainerAttributes = array('class' => 'admin-page-framework-checkbox-container', 'data-select_all_button' => $aField['select_all_button'] ? (!is_string($aField['select_all_button']) ? $this->oMsg->get('select_all') : $aField['select_all_button']) : null, 'data-select_none_button' => $aField['select_none_button'] ? (!is_string($aField['select_none_button']) ? $this->oMsg->get('select_none') : $aField['select_none_button']) : null,);
         return "<div " . $this->generateAttributes($_aCheckboxContainerAttributes) . ">" . "<div class='repeatable-field-buttons'></div>" . implode(PHP_EOL, $_aOutput) . "</div>";
     }
-}class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
+}
+class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array('color');
     protected $aDefaultKeys = array('attributes' => array('size' => 10, 'maxlength' => 400, 'value' => 'transparent',),);
     protected function setUp() {
@@ -5027,37 +5118,45 @@ abstract class AdminPageFramework_Utility_String {
         }
     }
     protected function getStyles() {
-        return ".repeatable .colorpicker {display: inline;}.admin-page-framework-field-color .wp-picker-container {vertical-align: middle;}.admin-page-framework-field-color .ui-widget-content {border: none;background: none;color: transparent;}.admin-page-framework-field-color .ui-slider-vertical {width: inherit;height: auto;margin-top: -11px;}.admin-page-framework-field-color .admin-page-framework-field .admin-page-framework-input-label-container {vertical-align: top; }.admin-page-framework-field-color .admin-page-framework-repeatable-field-buttons {margin-top: 0;}";     }
+        return ".repeatable .colorpicker {display: inline;}.admin-page-framework-field-color .wp-picker-container {vertical-align: middle;}.admin-page-framework-field-color .ui-widget-content {border: none;background: none;color: transparent;}.admin-page-framework-field-color .ui-slider-vertical {width: inherit;height: auto;margin-top: -11px;}.admin-page-framework-field-color .admin-page-framework-field .admin-page-framework-input-label-container {vertical-align: top; }.admin-page-framework-field-color .admin-page-framework-repeatable-field-buttons {margin-top: 0;}";
+    }
     protected function getScripts() {
         $_aJSArray = json_encode($this->aFieldTypeSlugs);
         $_sDoubleQuote = '\"';
-        return "registerAPFColorPickerField=function(osTragetInput){ var osTargetInput=typeof osTragetInput==='string'?'#'+osTragetInput:osTragetInput,sInputID=typeof osTragetInput==='string'?osTragetInput:osTragetInput.attr('id');'use strict';if('object'===typeof jQuery.wp&&'function'===typeof jQuery.wp.wpColorPicker){ { var aColorPickerOptions={ defaultColor:false,change:function(event,ui){  },clear:function(){  },hide:true,palettes:true};jQuery(osTargetInput).wpColorPicker(aColorPickerOptions) } }else jQuery('#color_'+sInputID).farbtastic(osTargetInput) };jQuery(document).ready(function(){ jQuery().registerAPFCallback({ added_repeatable_field:function(node,sFieldType,sFieldTagID,sCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;var nodeNewColorInput=node.find('input.input_color');if(nodeNewColorInput.length<=0)return;var nodeIris=node.find('.wp-picker-container').first();if(nodeIris.length>0)var nodeNewColorInput=nodeNewColorInput.clone();var sInputID=nodeNewColorInput.attr('id'),sInputValue=nodeNewColorInput.val()?nodeNewColorInput.val():'transparent',sInputStyle=sInputValue!='transparent'&&nodeNewColorInput.attr('style')?nodeNewColorInput.attr('style'):'';nodeNewColorInput.val(sInputValue);nodeNewColorInput.attr('style',sInputStyle);if(nodeIris.length>0){ jQuery(nodeIris).replaceWith(nodeNewColorInput) }else node.find('.colorpicker').replaceWith('<div class=\"colorpicker\" id=\"color_'+sInputID+'\"></div>');registerAPFColorPickerField(nodeNewColorInput) }}) });";     }
+        return "registerAPFColorPickerField=function(osTragetInput){ var osTargetInput=typeof osTragetInput==='string'?'#'+osTragetInput:osTragetInput,sInputID=typeof osTragetInput==='string'?osTragetInput:osTragetInput.attr('id');'use strict';if('object'===typeof jQuery.wp&&'function'===typeof jQuery.wp.wpColorPicker){ { var aColorPickerOptions={ defaultColor:false,change:function(event,ui){  },clear:function(){  },hide:true,palettes:true};jQuery(osTargetInput).wpColorPicker(aColorPickerOptions) } }else jQuery('#color_'+sInputID).farbtastic(osTargetInput) };jQuery(document).ready(function(){ jQuery().registerAPFCallback({ added_repeatable_field:function(node,sFieldType,sFieldTagID,sCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;var nodeNewColorInput=node.find('input.input_color');if(nodeNewColorInput.length<=0)return;var nodeIris=node.find('.wp-picker-container').first();if(nodeIris.length>0)var nodeNewColorInput=nodeNewColorInput.clone();var sInputID=nodeNewColorInput.attr('id'),sInputValue=nodeNewColorInput.val()?nodeNewColorInput.val():'transparent',sInputStyle=sInputValue!='transparent'&&nodeNewColorInput.attr('style')?nodeNewColorInput.attr('style'):'';nodeNewColorInput.val(sInputValue);nodeNewColorInput.attr('style',sInputStyle);if(nodeIris.length>0){ jQuery(nodeIris).replaceWith(nodeNewColorInput) }else node.find('.colorpicker').replaceWith('<div class=\"colorpicker\" id=\"color_'+sInputID+'\"></div>');registerAPFColorPickerField(nodeNewColorInput) }}) });";
+    }
     protected function getField($aField) {
         $aField['attributes'] = array('color' => $aField['value'], 'type' => 'text', 'class' => trim('input_color ' . $aField['attributes']['class']),) + $aField['attributes'];
         return $aField['before_label'] . "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ($aField['label'] && !$aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength($aField['label_min_width']) . ";'>" . $aField['label'] . "</span>" : "") . "<input " . $this->generateAttributes($aField['attributes']) . " />" . $aField['after_input'] . "<div class='repeatable-field-buttons'></div>" . "</label>" . "<div class='colorpicker' id='color_{$aField['input_id']}'></div>" . $this->_getColorPickerEnablerScript("{$aField['input_id']}") . "</div>" . $aField['after_label'];
     }
     private function _getColorPickerEnablerScript($sInputID) {
-        $_sScript = "jQuery(document).ready(function(){ registerAPFColorPickerField('{$sInputID}') });";         return "<script type='text/javascript' class='color-picker-enabler-script'>" . $_sScript . "</script>";
+        $_sScript = "jQuery(document).ready(function(){ registerAPFColorPickerField('{$sInputID}') });";
+        return "<script type='text/javascript' class='color-picker-enabler-script'>" . $_sScript . "</script>";
     }
-}class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType {
+}
+class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType {
     public $aDefaultKeys = array();
     public function _replyToGetField($aField) {
         return $aField['before_label'] . "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ($aField['label'] && !$aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength($aField['label_min_width']) . ";'>" . $aField['label'] . "</span>" : "") . $aField['value'] . $aField['after_input'] . "</label>" . "</div>" . $aField['after_label'];
     }
-}class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType {
+}
+class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array('hidden');
     protected $aDefaultKeys = array();
     protected function getField($aField) {
         return $aField['before_label'] . "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ($aField['label'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength($aField['label_min_width']) . ";'>" . $aField['label'] . "</span>" : "") . "<input " . $this->generateAttributes($aField['attributes']) . " />" . $aField['after_input'] . "</label>" . "</div>" . $aField['after_label'];
     }
-}class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType {
+}
+class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array('radio');
     protected $aDefaultKeys = array('label' => array(), 'attributes' => array(),);
     protected function getStyles() {
-        return ".admin-page-framework-field input[type='radio'] {margin-right: 0.5em;} .admin-page-framework-field-radio .admin-page-framework-input-label-container {padding-right: 1em;} .admin-page-framework-field-radio .admin-page-framework-input-container {display: inline;} .admin-page-framework-field-radio .admin-page-framework-input-label-string{display: inline; }";     }
+        return ".admin-page-framework-field input[type='radio'] {margin-right: 0.5em;} .admin-page-framework-field-radio .admin-page-framework-input-label-container {padding-right: 1em;} .admin-page-framework-field-radio .admin-page-framework-input-container {display: inline;} .admin-page-framework-field-radio .admin-page-framework-input-label-string{display: inline; }";
+    }
     protected function getScripts() {
         $_aJSArray = json_encode($this->aFieldTypeSlugs);
-        return "jQuery(document).ready(function(){ jQuery().registerAPFCallback({ added_repeatable_field:function(nodeField,sFieldType,sFieldTagID,sCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;nodeField.closest('.admin-page-framework-fields').find('input[type=radio][checked=checked]').attr('checked','checked');nodeField.find('input[type=radio]').change(function(){ jQuery(this).closest('.admin-page-framework-field').find('input[type=radio]').attr('checked',false);jQuery(this).attr('checked','checked') }) }}) });";     }
+        return "jQuery(document).ready(function(){ jQuery().registerAPFCallback({ added_repeatable_field:function(nodeField,sFieldType,sFieldTagID,sCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;nodeField.closest('.admin-page-framework-fields').find('input[type=radio][checked=checked]').attr('checked','checked');nodeField.find('input[type=radio]').change(function(){ jQuery(this).closest('.admin-page-framework-field').find('input[type=radio]').attr('checked',false);jQuery(this).attr('checked','checked') }) }}) });";
+    }
     protected function getField($aField) {
         $_aOutput = array();
         $_oRadio = new AdminPageFramework_Input_radio($aField);
@@ -5069,30 +5168,37 @@ abstract class AdminPageFramework_Utility_String {
         return implode(PHP_EOL, $_aOutput);
     }
     private function _getUpdateCheckedScript($sInputID) {
-        $_sScript = "jQuery(document).ready(function(){ jQuery('input[type=radio][data-id=\"{$sInputID}\"]').change(function(){ jQuery(this).closest('.admin-page-framework-field').find('input[type=radio][data-id=\"{$sInputID}\"]').attr('checked',false);jQuery(this).attr('checked','checked') }) });";         return "<script type='text/javascript' class='radio-button-checked-attribute-updater'>" . $_sScript . "</script>";
+        $_sScript = "jQuery(document).ready(function(){ jQuery('input[type=radio][data-id=\"{$sInputID}\"]').change(function(){ jQuery(this).closest('.admin-page-framework-field').find('input[type=radio][data-id=\"{$sInputID}\"]').attr('checked',false);jQuery(this).attr('checked','checked') }) });";
+        return "<script type='text/javascript' class='radio-button-checked-attribute-updater'>" . $_sScript . "</script>";
     }
-}class AdminPageFramework_FieldType_section_title extends AdminPageFramework_FieldType {
+}
+class AdminPageFramework_FieldType_section_title extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array('section_title',);
     protected $aDefaultKeys = array('label_min_width' => 30, 'attributes' => array('size' => 20, 'maxlength' => 100,),);
     protected function getStyles() {
-        return ".admin-page-framework-section-tab .admin-page-framework-field-section_title {padding: 0.5em;} .admin-page-framework-section-tab .admin-page-framework-field-section_title .admin-page-framework-input-label-string { vertical-align: middle; }.admin-page-framework-section-tab .admin-page-framework-fields {display: inline-block;} .admin-page-framework-field.admin-page-framework-field-section_title {float: none;} .admin-page-framework-field.admin-page-framework-field-section_title input {background-color: #fff;color: #333;border-color: #ddd;box-shadow: inset 0 1px 2px rgba(0,0,0,.07);border-width: 1px;border-style: solid;outline: 0;box-sizing: border-box;vertical-align: middle;}";     }
+        return ".admin-page-framework-section-tab .admin-page-framework-field-section_title {padding: 0.5em;} .admin-page-framework-section-tab .admin-page-framework-field-section_title .admin-page-framework-input-label-string { vertical-align: middle; }.admin-page-framework-section-tab .admin-page-framework-fields {display: inline-block;} .admin-page-framework-field.admin-page-framework-field-section_title {float: none;} .admin-page-framework-field.admin-page-framework-field-section_title input {background-color: #fff;color: #333;border-color: #ddd;box-shadow: inset 0 1px 2px rgba(0,0,0,.07);border-width: 1px;border-style: solid;outline: 0;box-sizing: border-box;vertical-align: middle;}";
+    }
     protected function getField($aField) {
         return $aField['before_label'] . "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ($aField['label'] && !$aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength($aField['label_min_width']) . ";'>" . $aField['label'] . "</span>" : "") . "<input " . $this->generateAttributes(array('type' => 'text') + $aField['attributes']) . " />" . $aField['after_input'] . "<div class='repeatable-field-buttons'></div>" . "</label>" . "</div>" . $aField['after_label'];
     }
-}class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType {
+}
+class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array('select',);
     protected $aDefaultKeys = array('label' => array(), 'is_multiple' => false, 'attributes' => array('select' => array('size' => 1, 'autofocusNew' => null, 'multiple' => null, 'required' => null,), 'optgroup' => array(), 'option' => array(),),);
     protected function getStyles() {
-        return ".admin-page-framework-field-select .admin-page-framework-input-label-container {vertical-align: top; }.admin-page-framework-field-select .admin-page-framework-input-label-container {padding-right: 1em;}";     }
+        return ".admin-page-framework-field-select .admin-page-framework-input-label-container {vertical-align: top; }.admin-page-framework-field-select .admin-page-framework-input-label-container {padding-right: 1em;}";
+    }
     protected function getField($aField) {
         $_oSelectInput = new AdminPageFramework_Input_select($aField);
         return $aField['before_label'] . "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength($aField['label_min_width']) . ";'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . $_oSelectInput->get() . $aField['after_input'] . "<div class='repeatable-field-buttons'></div>" . "</label>" . "</div>" . $aField['after_label'];
     }
-}class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
+}
+class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array('submit',);
     protected $aDefaultKeys = array('redirect_url' => null, 'href' => null, 'reset' => null, 'email' => null, 'attributes' => array('class' => 'button button-primary',),);
     protected function getStyles() {
-        return ".admin-page-framework-field input[type='submit'] {margin-bottom: 0.5em;}";     }
+        return ".admin-page-framework-field input[type='submit'] {margin-bottom: 0.5em;}";
+    }
     protected function getField($aField) {
         $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->get('submit');
         if (isset($aField['attributes']['src'])) {
@@ -5155,7 +5261,8 @@ abstract class AdminPageFramework_Utility_String {
             return $aField['default'];
         }
     }
-}class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_submit {
+}
+class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_submit {
     public $aFieldTypeSlugs = array('export',);
     protected $aDefaultKeys = array('data' => null, 'format' => 'json', 'file_name' => null, 'attributes' => array('class' => 'button button-primary',),);
     protected function setUp() {
@@ -5194,7 +5301,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return $sOptionKey . '_' . date("Ymd") . '.' . $sExt;
     }
-}class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_submit {
+}
+class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_submit {
     public $aFieldTypeSlugs = array('import',);
     protected $aDefaultKeys = array('option_key' => null, 'format' => 'json', 'is_merge' => false, 'attributes' => array('class' => 'button button-primary', 'file' => array('accept' => 'audio/*|video/*|image/*|MIME_type', 'class' => 'import', 'type' => 'file',), 'submit' => array('class' => 'import button button-primary', 'type' => 'submit',),),);
     protected function setUp() {
@@ -5203,7 +5311,8 @@ abstract class AdminPageFramework_Utility_String {
         return "";
     }
     protected function getStyles() {
-        return ".admin-page-framework-field-import input {margin-right: 0.5em;}.admin-page-framework-field-import label,.form-table td fieldset.admin-page-framework-fieldset .admin-page-framework-field-import label { display: inline; }";     }
+        return ".admin-page-framework-field-import input {margin-right: 0.5em;}.admin-page-framework-field-import label,.form-table td fieldset.admin-page-framework-fieldset .admin-page-framework-field-import label { display: inline; }";
+    }
     protected function getField($aField) {
         $aField['attributes']['name'] = "__import[submit][{$aField['input_id']}]";
         $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->get('import');
@@ -5216,7 +5325,8 @@ abstract class AdminPageFramework_Utility_String {
         $aHiddenAttributes = array('type' => 'hidden',);
         return "<input " . $this->generateAttributes(array('name' => "__import[{$aField['input_id']}][input_id]", 'value' => $aField['input_id'],) + $aHiddenAttributes) . "/>" . "<input " . $this->generateAttributes(array('name' => "__import[{$aField['input_id']}][field_id]", 'value' => $aField['field_id'],) + $aHiddenAttributes) . "/>" . "<input " . $this->generateAttributes(array('name' => "__import[{$aField['input_id']}][section_id]", 'value' => isset($aField['section_id']) && $aField['section_id'] != '_default' ? $aField['section_id'] : '',) + $aHiddenAttributes) . "/>" . "<input " . $this->generateAttributes(array('name' => "__import[{$aField['input_id']}][is_merge]", 'value' => $aField['is_merge'],) + $aHiddenAttributes) . "/>" . "<input " . $this->generateAttributes(array('name' => "__import[{$aField['input_id']}][option_key]", 'value' => $aField['option_key'],) + $aHiddenAttributes) . "/>" . "<input " . $this->generateAttributes(array('name' => "__import[{$aField['input_id']}][format]", 'value' => $aField['format'],) + $aHiddenAttributes) . "/>";
     }
-}class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
+}
+class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array('system',);
     protected $aDefaultKeys = array('data' => array(), 'print_type' => 1, 'attributes' => array('rows' => 60, 'autofocus' => null, 'disabled' => null, 'formNew' => null, 'maxlength' => null, 'placeholder' => null, 'readonly' => 'readonly', 'required' => null, 'wrap' => null, 'style' => null, 'onclick' => 'this.focus();this.select()',),);
     protected function construct() {
@@ -5231,12 +5341,14 @@ abstract class AdminPageFramework_Utility_String {
     }
     protected function getScripts() {
         $aJSArray = json_encode($this->aFieldTypeSlugs);
-        return "jQuery(document).ready(function(){ jQuery().registerAPFCallback({ added_repeatable_field:function(oCopiedNode,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$aJSArray)<=-1)return;var nodeNewAutoComplete=oCopiedNode.find('input.autocomplete');if(nodeNewAutoComplete.length<=0)return }}) });";     }
+        return "jQuery(document).ready(function(){ jQuery().registerAPFCallback({ added_repeatable_field:function(oCopiedNode,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$aJSArray)<=-1)return;var nodeNewAutoComplete=oCopiedNode.find('input.autocomplete');if(nodeNewAutoComplete.length<=0)return }}) });";
+    }
     protected function getIEStyles() {
         return '';
     }
     protected function getStyles() {
-        return ".admin-page-framework-field-system {width: 100%;}.admin-page-framework-field-system .admin-page-framework-input-label-container {width: 100%;}.admin-page-framework-field-system textarea {background-color: #f9f9f9; width: 97%; outline: 0; font-family: Consolas, Monaco, monospace;white-space: pre;word-wrap: normal;overflow-x: scroll;}";     }
+        return ".admin-page-framework-field-system {width: 100%;}.admin-page-framework-field-system .admin-page-framework-input-label-container {width: 100%;}.admin-page-framework-field-system textarea {background-color: #f9f9f9; width: 97%; outline: 0; font-family: Consolas, Monaco, monospace;white-space: pre;word-wrap: normal;overflow-x: scroll;}";
+    }
     protected function getField($aField) {
         $_aInputAttributes = $aField['attributes'];
         $_aInputAttributes['class'].= ' system';
@@ -5359,7 +5471,8 @@ abstract class AdminPageFramework_Utility_String {
     private function _getFunctionalOrNot($bBoolean) {
         return $bBoolean ? __('Functional', 'admin-page-framework') : __('Not functional', 'admin-page-framework');
     }
-}class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType {
+}
+class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array('taxonomy',);
     protected $aDefaultKeys = array('taxonomy_slugs' => 'category', 'height' => '250px', 'max_width' => '100%', 'show_post_count' => true, 'attributes' => array(), 'select_all_button' => true, 'select_none_button' => true, 'label_no_term_found' => null, 'label_list_title' => '', 'query' => array('child_of' => 0, 'parent' => '', 'orderby' => 'name', 'order' => 'ASC', 'hide_empty' => false, 'hierarchical' => true, 'number' => '', 'pad_counts' => false, 'exclude' => array(), 'exclude_tree' => array(), 'include' => array(), 'fields' => 'all', 'slug' => '', 'get' => '', 'name__like' => '', 'description__like' => '', 'offset' => '', 'search' => '', 'cache_domain' => 'core',), 'queries' => array(),);
     protected function setUp() {
@@ -5367,11 +5480,14 @@ abstract class AdminPageFramework_Utility_String {
     }
     protected function getScripts() {
         $_aJSArray = json_encode($this->aFieldTypeSlugs);
-        return "var enableAPFTabbedBox=function(nodeTabBoxContainer){ jQuery(nodeTabBoxContainer).each(function(){ jQuery(this).find('.tab-box-tab').each(function(i){ if(0===i)jQuery(this).addClass('active');jQuery(this).click(function(e){ e.preventDefault();jQuery(this).siblings('li.active').removeClass('active');jQuery(this).addClass('active');var thisTab=jQuery(this).find('a').attr('href');active_content=jQuery(this).closest('.tab-box-container').find(thisTab).css('display','block');active_content.siblings().css('display','none') }) }) }) };jQuery(document).ready(function(){ enableAPFTabbedBox(jQuery('.tab-box-container'));jQuery().registerAPFCallback({ added_repeatable_field:function(oClonedField,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;oClonedField.nextAll().andSelf().each(function(){ jQuery(this).find('div').incrementIDAttribute('id');jQuery(this).find('li.tab-box-tab a').incrementIDAttribute('href');jQuery(this).find('li.category-list').incrementIDAttribute('id');enableAPFTabbedBox(jQuery(this).find('.tab-box-container')) }) },removed_repeatable_field:function(oNextFieldConainer,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;oNextFieldConainer.nextAll().andSelf().each(function(){ jQuery(this).find('div').decrementIDAttribute('id');jQuery(this).find('li.tab-box-tab a').decrementIDAttribute('href');jQuery(this).find('li.category-list').decrementIDAttribute('id') }) }}) });";     }
+        return "var enableAPFTabbedBox=function(nodeTabBoxContainer){ jQuery(nodeTabBoxContainer).each(function(){ jQuery(this).find('.tab-box-tab').each(function(i){ if(0===i)jQuery(this).addClass('active');jQuery(this).click(function(e){ e.preventDefault();jQuery(this).siblings('li.active').removeClass('active');jQuery(this).addClass('active');var thisTab=jQuery(this).find('a').attr('href');active_content=jQuery(this).closest('.tab-box-container').find(thisTab).css('display','block');active_content.siblings().css('display','none') }) }) }) };jQuery(document).ready(function(){ enableAPFTabbedBox(jQuery('.tab-box-container'));jQuery().registerAPFCallback({ added_repeatable_field:function(oClonedField,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;oClonedField.nextAll().andSelf().each(function(){ jQuery(this).find('div').incrementIDAttribute('id');jQuery(this).find('li.tab-box-tab a').incrementIDAttribute('href');jQuery(this).find('li.category-list').incrementIDAttribute('id');enableAPFTabbedBox(jQuery(this).find('.tab-box-container')) }) },removed_repeatable_field:function(oNextFieldConainer,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;oNextFieldConainer.nextAll().andSelf().each(function(){ jQuery(this).find('div').decrementIDAttribute('id');jQuery(this).find('li.tab-box-tab a').decrementIDAttribute('href');jQuery(this).find('li.category-list').decrementIDAttribute('id') }) }}) });";
+    }
     protected function getStyles() {
-        return ".admin-page-framework-field .taxonomy-checklist li { margin: 8px 0 8px 20px; }.admin-page-framework-field div.taxonomy-checklist {padding: 8px 0 8px 10px;margin-bottom: 20px;}.admin-page-framework-field .taxonomy-checklist ul {list-style-type: none;margin: 0;}.admin-page-framework-field .taxonomy-checklist ul ul {margin-left: 1em;}.admin-page-framework-field .taxonomy-checklist-label {white-space: nowrap; }.admin-page-framework-field .tab-box-container.categorydiv {max-height: none;}.admin-page-framework-field .tab-box-tab-text {display: inline-block;}.admin-page-framework-field .tab-box-tabs {line-height: 12px;margin-bottom: 0;}.admin-page-framework-field .tab-box-tabs .tab-box-tab.active {display: inline;border-color: #dfdfdf #dfdfdf #fff;margin-bottom: 0px;padding-bottom: 2px;background-color: #fff;}.admin-page-framework-field .tab-box-container { position: relative; width: 100%; clear: both;margin-bottom: 1em;}.admin-page-framework-field .tab-box-tabs li a { color: #333; text-decoration: none; }.admin-page-framework-field .tab-box-contents-container {padding: 0 0 0 1.8em;padding: 0.55em 0.5em 0.55em 1.8em;border: 1px solid #dfdfdf; background-color: #fff;}.admin-page-framework-field .tab-box-contents { overflow: hidden; overflow-x: hidden; position: relative; top: -1px; height: 300px;}.admin-page-framework-field .tab-box-content { display: none; overflow: auto; display: block; position: relative; overflow-x: hidden;}.admin-page-framework-field .tab-box-content .taxonomychecklist {margin-right: 3.2em;}.admin-page-framework-field .tab-box-content:target, .admin-page-framework-field .tab-box-content:target, .admin-page-framework-field .tab-box-content:target { display: block; }.admin-page-framework-field .tab-box-content .select_all_button_container, .admin-page-framework-field .tab-box-content .select_none_button_container{margin-top: 0.8em;}.admin-page-framework-field .taxonomychecklist .children {margin-top: 6px;margin-left: 1em;}";     }
+        return ".admin-page-framework-field .taxonomy-checklist li { margin: 8px 0 8px 20px; }.admin-page-framework-field div.taxonomy-checklist {padding: 8px 0 8px 10px;margin-bottom: 20px;}.admin-page-framework-field .taxonomy-checklist ul {list-style-type: none;margin: 0;}.admin-page-framework-field .taxonomy-checklist ul ul {margin-left: 1em;}.admin-page-framework-field .taxonomy-checklist-label {white-space: nowrap; }.admin-page-framework-field .tab-box-container.categorydiv {max-height: none;}.admin-page-framework-field .tab-box-tab-text {display: inline-block;}.admin-page-framework-field .tab-box-tabs {line-height: 12px;margin-bottom: 0;}.admin-page-framework-field .tab-box-tabs .tab-box-tab.active {display: inline;border-color: #dfdfdf #dfdfdf #fff;margin-bottom: 0px;padding-bottom: 2px;background-color: #fff;}.admin-page-framework-field .tab-box-container { position: relative; width: 100%; clear: both;margin-bottom: 1em;}.admin-page-framework-field .tab-box-tabs li a { color: #333; text-decoration: none; }.admin-page-framework-field .tab-box-contents-container {padding: 0 0 0 1.8em;padding: 0.55em 0.5em 0.55em 1.8em;border: 1px solid #dfdfdf; background-color: #fff;}.admin-page-framework-field .tab-box-contents { overflow: hidden; overflow-x: hidden; position: relative; top: -1px; height: 300px;}.admin-page-framework-field .tab-box-content { display: none; overflow: auto; display: block; position: relative; overflow-x: hidden;}.admin-page-framework-field .tab-box-content .taxonomychecklist {margin-right: 3.2em;}.admin-page-framework-field .tab-box-content:target, .admin-page-framework-field .tab-box-content:target, .admin-page-framework-field .tab-box-content:target { display: block; }.admin-page-framework-field .tab-box-content .select_all_button_container, .admin-page-framework-field .tab-box-content .select_none_button_container{margin-top: 0.8em;}.admin-page-framework-field .taxonomychecklist .children {margin-top: 6px;margin-left: 1em;}";
+    }
     protected function getIEStyles() {
-        return ".tab-box-content { display: block; }.tab-box-contents { overflow: hidden;position: relative; }b { position: absolute; top: 0px; right: 0px; width:1px; height: 251px; overflow: hidden; text-indent: -9999px; }";     }
+        return ".tab-box-content { display: block; }.tab-box-contents { overflow: hidden;position: relative; }b { position: absolute; top: 0px; right: 0px; width:1px; height: 251px; overflow: hidden; text-indent: -9999px; }";
+    }
     protected function getField($aField) {
         $aTabs = array();
         $aCheckboxes = array();
@@ -5400,15 +5516,18 @@ abstract class AdminPageFramework_Utility_String {
         $_oTaxonomy = get_taxonomy($sTaxonomySlug);
         return isset($_oTaxonomy->label) ? $_oTaxonomy->label : null;
     }
-}class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
+}
+class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array('text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', 'week',);
     protected $aDefaultKeys = array('attributes' => array('maxlength' => 400,),);
     protected function getStyles() {
-        return ".admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container {vertical-align: top; }";     }
+        return ".admin-page-framework-field-text .admin-page-framework-field .admin-page-framework-input-label-container {vertical-align: top; }";
+    }
     protected function getField($aField) {
         return $aField['before_label'] . "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ($aField['label'] && !$aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength($aField['label_min_width']) . ";'>" . $aField['label'] . "</span>" : "") . "<input " . $this->generateAttributes($aField['attributes']) . " />" . $aField['after_input'] . "<div class='repeatable-field-buttons'></div>" . "</label>" . "</div>" . $aField['after_label'];
     }
-}class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_text {
+}
+class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_text {
     public $aFieldTypeSlugs = array('file',);
     protected $aDefaultKeys = array('attributes' => array('accept' => 'audio/*|video/*|image/*|MIME_type',),);
     protected function setUp() {
@@ -5422,20 +5541,24 @@ abstract class AdminPageFramework_Utility_String {
     protected function getField($aField) {
         return parent::getField($aField);
     }
-}class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_text {
+}
+class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_text {
     public $aFieldTypeSlugs = array('number', 'range');
     protected $aDefaultKeys = array('attributes' => array('size' => 30, 'maxlength' => 400, 'class' => null, 'min' => null, 'max' => null, 'step' => null, 'readonly' => null, 'required' => null, 'placeholder' => null, 'list' => null, 'autofocus' => null, 'autocomplete' => null,),);
     protected function getStyles() {
         return "";
     }
-}class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType {
+}
+class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array('textarea');
     protected $aDefaultKeys = array('rich' => false, 'attributes' => array('autofocus' => null, 'cols' => 60, 'disabled' => null, 'formNew' => null, 'maxlength' => null, 'placeholder' => null, 'readonly' => null, 'required' => null, 'rows' => 4, 'wrap' => null,),);
     public function getScripts() {
         $_aJSArray = json_encode($this->aFieldTypeSlugs);
-        return "jQuery(document).ready(function(){ jQuery('link#editor-buttons-css').appendTo('#wpwrap');var isHandleable=function(oField,sFieldType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return false;if('object'!==typeof tinyMCEPreInit)return;return true },removeEditor=function(sTextAreaID){ if('object'!==typeof tinyMCEPreInit)return;var oTextArea=jQuery('#'+sTextAreaID),sTextAreaValue=oTextArea.val();tinyMCE.execCommand('mceRemoveEditor',false,sTextAreaID);delete tinyMCEPreInit.mceInit[sTextAreaID];delete tinyMCEPreInit.qtInit[sTextAreaID];oTextArea.val(sTextAreaValue) },updateEditor=function(sTextAreaID,oTinyMCESettings,oQickTagSettings){ removeEditor(sTextAreaID);var aTMCSettings=jQuery.extend({ },oTinyMCESettings,{ selector:'#'+sTextAreaID,body_class:sTextAreaID,height:'100px',setup:function(ed){ if(tinymce.majorVersion>=4){ ed.on('change',function(){ jQuery('#'+this.id).val(this.getContent());jQuery('#'+this.id).html(this.getContent()) }) }else ed.onChange.add(function(ed,l){ jQuery('#'+ed.id).val(ed.getContent());jQuery('#'+ed.id).html(ed.getContent()) }) }}),aQTSettings=jQuery.extend({ },oQickTagSettings,{ id:sTextAreaID});tinyMCEPreInit.mceInit[sTextAreaID]=aTMCSettings;tinyMCEPreInit.qtInit[sTextAreaID]=aQTSettings;QTags.instances[aQTSettings.id]=aQTSettings;quicktags(aQTSettings);QTags._buttonsInit();window.tinymce.dom.Event.domLoaded=true;tinyMCE.init(aTMCSettings);jQuery(this).find('.wp-editor-wrap').first().on('click.wp-editor',function(){ if(this.id)window.wpActiveEditor=this.id.slice(3,-5) }) },shouldEmpty=function(iCallType,iIndex,iCountNextAll,iSectionIndex){ if(0===iCallType)return(0===iCountNextAll||0===iIndex);return(0===iSectionIndex) };jQuery().registerAPFCallback({ added_repeatable_field:function(oCopied,sFieldType,sFieldTagID,iCallType,iSectionIndex,iFieldIndex){ if(!isHandleable(oCopied,sFieldType))return;var oTextAreas=oCopied.find('textarea.wp-editor-area');if(oTextAreas.length<=0)return;var oWrap=oCopied.find('.wp-editor-wrap');if(oWrap.length<=0)return;var oSettings=jQuery().getAPFInputOptions(oWrap.attr('data-id')),iOccurrence=1===iCallType?1:0,oFieldsNextAll=oCopied.closest('.admin-page-framework-field').nextAll();oFieldsNextAll.andSelf().each(function(iIndex){ var oWrap=jQuery(this).find('.wp-editor-wrap');if(oWrap.length<=0)return true;var oTextArea=jQuery(this).find('textarea.wp-editor-area').first().clone().show().removeAttr('aria-hidden');if(shouldEmpty(iCallType,iIndex,oFieldsNextAll.length,iSectionIndex)){ oTextArea.val('');oTextArea.empty() };var oEditorContainer=jQuery(this).find('.wp-editor-container').first().clone().empty(),oToolBar=jQuery(this).find('.wp-editor-tools').first().clone();oWrap.empty().prepend(oEditorContainer.prepend(oTextArea.show())).prepend(oToolBar);updateEditor(oTextArea.attr('id'),oSettings.TinyMCE,oSettings.QuickTags);oToolBar.find('a,div').incrementIDAttribute('id',iOccurrence);jQuery(this).find('.wp-editor-wrap a').incrementIDAttribute('data-editor',iOccurrence);jQuery(this).find('.wp-editor-wrap,.wp-editor-tools,.wp-editor-container').incrementIDAttribute('id',iOccurrence);if(0===iCallType)jQuery(this).find('a.wp-switch-editor').trigger('click');if(1===iCallType)return false }) },removed_repeatable_field:function(oNextFieldContainer,sFieldType,sFieldTagID,iCallType,iSectionIndex,iFieldIndex){ if(!isHandleable(oNextFieldContainer,sFieldType))return;var oWrap=oNextFieldContainer.find('.wp-editor-wrap');if(oWrap.length<=0){ removeEditor(sFieldTagID.substring(6));return };var oSettings=jQuery().getAPFInputOptions(oWrap.attr('data-id')),iOccurrence=1===iCallType?1:0;oNextFieldContainer.closest('.admin-page-framework-field').nextAll().andSelf().each(function(iIndex){ var oWrap=jQuery(this).find('.wp-editor-wrap');if(oWrap.length<=0)return true;var oTextArea=jQuery(this).find('textarea.wp-editor-area').first().show().removeAttr('aria-hidden'),oEditorContainer=jQuery(this).find('.wp-editor-container').first().clone().empty(),oToolBar=jQuery(this).find('.wp-editor-tools').first().clone(),oTextAreaPrevious=oTextArea.clone().incrementIDAttribute('id',iOccurrence);oWrap.empty().prepend(oEditorContainer.prepend(oTextArea.show())).prepend(oToolBar);if(0===iIndex)removeEditor(oTextAreaPrevious.attr('id'));updateEditor(oTextArea.attr('id'),oSettings.TinyMCE,oSettings.QuickTags);oToolBar.find('a,div').decrementIDAttribute('id',iOccurrence);jQuery(this).find('.wp-editor-wrap a').decrementIDAttribute('data-editor',iOccurrence);jQuery(this).find('.wp-editor-wrap,.wp-editor-tools,.wp-editor-container').decrementIDAttribute('id',iOccurrence);if(0===iCallType)jQuery(this).find('a.wp-switch-editor').trigger('click');if(1===iCallType)return false }) },stopped_sorting_fields:function(oSortedFields,sFieldType,sFieldsTagID,iCallType){ if(!isHandleable(oSortedFields,sFieldType))return;var iOccurrence=1===iCallType?1:0;oSortedFields.children('.admin-page-framework-field').each(function(iIndex){ var oTextAreas=jQuery(this).find('textarea.wp-editor-area');if(oTextAreas.length<=0)return true;var oWrap=jQuery(this).find('.wp-editor-wrap');if(oWrap.length<=0)return true;var oSettings=jQuery().getAPFInputOptions(oWrap.attr('data-id')),oTextArea=jQuery(this).find('textarea.wp-editor-area').first().show().removeAttr('aria-hidden'),oEditorContainer=jQuery(this).find('.wp-editor-container').first().clone().empty(),oToolBar=jQuery(this).find('.wp-editor-tools').first().clone();oWrap.empty().prepend(oEditorContainer.prepend(oTextArea.show())).prepend(oToolBar);updateEditor(oTextArea.attr('id'),oSettings.TinyMCE,oSettings.QuickTags);oToolBar.find('a,div').setIndexIDAttribute('id',iIndex,iOccurrence);jQuery(this).find('.wp-editor-wrap a').setIndexIDAttribute('data-editor',iIndex,iOccurrence);jQuery(this).find('.wp-editor-wrap,.wp-editor-tools,.wp-editor-container').setIndexIDAttribute('id',iIndex,iOccurrence);jQuery(this).find('a.wp-switch-editor').trigger('click') }) },saved_widget:function(oWidget){ if('object'!==typeof tinyMCEPreInit)return;var _sWidgetInitialTextareaID;jQuery(oWidget).find('.admin-page-framework-field').each(function(iIndex){ var oTextAreas=jQuery(this).find('textarea.wp-editor-area');if(oTextAreas.length<=0)return true;var oWrap=jQuery(this).find('.wp-editor-wrap');if(oWrap.length<=0)return true;var oTextArea=jQuery(this).find('textarea.wp-editor-area').first(),_sID=oTextArea.attr('id'),_sInitialTextareaID=_sID.replace(/(widget-.+-)([0-9]+)(-)/i,'$1__i__$3');_sWidgetInitialTextareaID='undefined'===typeof tinyMCEPreInit.mceInit[_sInitialTextareaID]?_sWidgetInitialTextareaID:_sInitialTextareaID;if('undefined'===typeof tinyMCEPreInit.mceInit[_sWidgetInitialTextareaID])return true;updateEditor(oTextArea.attr('id'),tinyMCEPreInit.mceInit[_sWidgetInitialTextareaID],tinyMCEPreInit.qtInit[_sWidgetInitialTextareaID]);jQuery().storeAPFInputOptions(oWrap.attr('data-id'),{ TinyMCE:tinyMCEPreInit.mceInit[_sWidgetInitialTextareaID],QuickTags:tinyMCEPreInit.qtInit[_sWidgetInitialTextareaID]}) }) }}) });";     }
+        return "jQuery(document).ready(function(){ jQuery('link#editor-buttons-css').appendTo('#wpwrap');var isHandleable=function(oField,sFieldType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return false;if('object'!==typeof tinyMCEPreInit)return;return true },removeEditor=function(sTextAreaID){ if('object'!==typeof tinyMCEPreInit)return;var oTextArea=jQuery('#'+sTextAreaID),sTextAreaValue=oTextArea.val();tinyMCE.execCommand('mceRemoveEditor',false,sTextAreaID);delete tinyMCEPreInit.mceInit[sTextAreaID];delete tinyMCEPreInit.qtInit[sTextAreaID];oTextArea.val(sTextAreaValue) },updateEditor=function(sTextAreaID,oTinyMCESettings,oQickTagSettings){ removeEditor(sTextAreaID);var aTMCSettings=jQuery.extend({ },oTinyMCESettings,{ selector:'#'+sTextAreaID,body_class:sTextAreaID,height:'100px',setup:function(ed){ if(tinymce.majorVersion>=4){ ed.on('change',function(){ jQuery('#'+this.id).val(this.getContent());jQuery('#'+this.id).html(this.getContent()) }) }else ed.onChange.add(function(ed,l){ jQuery('#'+ed.id).val(ed.getContent());jQuery('#'+ed.id).html(ed.getContent()) }) }}),aQTSettings=jQuery.extend({ },oQickTagSettings,{ id:sTextAreaID});tinyMCEPreInit.mceInit[sTextAreaID]=aTMCSettings;tinyMCEPreInit.qtInit[sTextAreaID]=aQTSettings;QTags.instances[aQTSettings.id]=aQTSettings;quicktags(aQTSettings);QTags._buttonsInit();window.tinymce.dom.Event.domLoaded=true;tinyMCE.init(aTMCSettings);jQuery(this).find('.wp-editor-wrap').first().on('click.wp-editor',function(){ if(this.id)window.wpActiveEditor=this.id.slice(3,-5) }) },shouldEmpty=function(iCallType,iIndex,iCountNextAll,iSectionIndex){ if(0===iCallType)return(0===iCountNextAll||0===iIndex);return(0===iSectionIndex) };jQuery().registerAPFCallback({ added_repeatable_field:function(oCopied,sFieldType,sFieldTagID,iCallType,iSectionIndex,iFieldIndex){ if(!isHandleable(oCopied,sFieldType))return;var oTextAreas=oCopied.find('textarea.wp-editor-area');if(oTextAreas.length<=0)return;var oWrap=oCopied.find('.wp-editor-wrap');if(oWrap.length<=0)return;var oSettings=jQuery().getAPFInputOptions(oWrap.attr('data-id')),iOccurrence=1===iCallType?1:0,oFieldsNextAll=oCopied.closest('.admin-page-framework-field').nextAll();oFieldsNextAll.andSelf().each(function(iIndex){ var oWrap=jQuery(this).find('.wp-editor-wrap');if(oWrap.length<=0)return true;var oTextArea=jQuery(this).find('textarea.wp-editor-area').first().clone().show().removeAttr('aria-hidden');if(shouldEmpty(iCallType,iIndex,oFieldsNextAll.length,iSectionIndex)){ oTextArea.val('');oTextArea.empty() };var oEditorContainer=jQuery(this).find('.wp-editor-container').first().clone().empty(),oToolBar=jQuery(this).find('.wp-editor-tools').first().clone();oWrap.empty().prepend(oEditorContainer.prepend(oTextArea.show())).prepend(oToolBar);updateEditor(oTextArea.attr('id'),oSettings.TinyMCE,oSettings.QuickTags);oToolBar.find('a,div').incrementIDAttribute('id',iOccurrence);jQuery(this).find('.wp-editor-wrap a').incrementIDAttribute('data-editor',iOccurrence);jQuery(this).find('.wp-editor-wrap,.wp-editor-tools,.wp-editor-container').incrementIDAttribute('id',iOccurrence);if(0===iCallType)jQuery(this).find('a.wp-switch-editor').trigger('click');if(1===iCallType)return false }) },removed_repeatable_field:function(oNextFieldContainer,sFieldType,sFieldTagID,iCallType,iSectionIndex,iFieldIndex){ if(!isHandleable(oNextFieldContainer,sFieldType))return;var oWrap=oNextFieldContainer.find('.wp-editor-wrap');if(oWrap.length<=0){ removeEditor(sFieldTagID.substring(6));return };var oSettings=jQuery().getAPFInputOptions(oWrap.attr('data-id')),iOccurrence=1===iCallType?1:0;oNextFieldContainer.closest('.admin-page-framework-field').nextAll().andSelf().each(function(iIndex){ var oWrap=jQuery(this).find('.wp-editor-wrap');if(oWrap.length<=0)return true;var oTextArea=jQuery(this).find('textarea.wp-editor-area').first().show().removeAttr('aria-hidden'),oEditorContainer=jQuery(this).find('.wp-editor-container').first().clone().empty(),oToolBar=jQuery(this).find('.wp-editor-tools').first().clone(),oTextAreaPrevious=oTextArea.clone().incrementIDAttribute('id',iOccurrence);oWrap.empty().prepend(oEditorContainer.prepend(oTextArea.show())).prepend(oToolBar);if(0===iIndex)removeEditor(oTextAreaPrevious.attr('id'));updateEditor(oTextArea.attr('id'),oSettings.TinyMCE,oSettings.QuickTags);oToolBar.find('a,div').decrementIDAttribute('id',iOccurrence);jQuery(this).find('.wp-editor-wrap a').decrementIDAttribute('data-editor',iOccurrence);jQuery(this).find('.wp-editor-wrap,.wp-editor-tools,.wp-editor-container').decrementIDAttribute('id',iOccurrence);if(0===iCallType)jQuery(this).find('a.wp-switch-editor').trigger('click');if(1===iCallType)return false }) },stopped_sorting_fields:function(oSortedFields,sFieldType,sFieldsTagID,iCallType){ if(!isHandleable(oSortedFields,sFieldType))return;var iOccurrence=1===iCallType?1:0;oSortedFields.children('.admin-page-framework-field').each(function(iIndex){ var oTextAreas=jQuery(this).find('textarea.wp-editor-area');if(oTextAreas.length<=0)return true;var oWrap=jQuery(this).find('.wp-editor-wrap');if(oWrap.length<=0)return true;var oSettings=jQuery().getAPFInputOptions(oWrap.attr('data-id')),oTextArea=jQuery(this).find('textarea.wp-editor-area').first().show().removeAttr('aria-hidden'),oEditorContainer=jQuery(this).find('.wp-editor-container').first().clone().empty(),oToolBar=jQuery(this).find('.wp-editor-tools').first().clone();oWrap.empty().prepend(oEditorContainer.prepend(oTextArea.show())).prepend(oToolBar);updateEditor(oTextArea.attr('id'),oSettings.TinyMCE,oSettings.QuickTags);oToolBar.find('a,div').setIndexIDAttribute('id',iIndex,iOccurrence);jQuery(this).find('.wp-editor-wrap a').setIndexIDAttribute('data-editor',iIndex,iOccurrence);jQuery(this).find('.wp-editor-wrap,.wp-editor-tools,.wp-editor-container').setIndexIDAttribute('id',iIndex,iOccurrence);jQuery(this).find('a.wp-switch-editor').trigger('click') }) },saved_widget:function(oWidget){ if('object'!==typeof tinyMCEPreInit)return;var _sWidgetInitialTextareaID;jQuery(oWidget).find('.admin-page-framework-field').each(function(iIndex){ var oTextAreas=jQuery(this).find('textarea.wp-editor-area');if(oTextAreas.length<=0)return true;var oWrap=jQuery(this).find('.wp-editor-wrap');if(oWrap.length<=0)return true;var oTextArea=jQuery(this).find('textarea.wp-editor-area').first(),_sID=oTextArea.attr('id'),_sInitialTextareaID=_sID.replace(/(widget-.+-)([0-9]+)(-)/i,'$1__i__$3');_sWidgetInitialTextareaID='undefined'===typeof tinyMCEPreInit.mceInit[_sInitialTextareaID]?_sWidgetInitialTextareaID:_sInitialTextareaID;if('undefined'===typeof tinyMCEPreInit.mceInit[_sWidgetInitialTextareaID])return true;updateEditor(oTextArea.attr('id'),tinyMCEPreInit.mceInit[_sWidgetInitialTextareaID],tinyMCEPreInit.qtInit[_sWidgetInitialTextareaID]);jQuery().storeAPFInputOptions(oWrap.attr('data-id'),{ TinyMCE:tinyMCEPreInit.mceInit[_sWidgetInitialTextareaID],QuickTags:tinyMCEPreInit.qtInit[_sWidgetInitialTextareaID]}) }) }}) });";
+    }
     protected function getStyles() {
-        return ".admin-page-framework-field-textarea .admin-page-framework-input-label-string {vertical-align: top;margin-top: 2px;} .admin-page-framework-field-textarea .wp-core-ui.wp-editor-wrap {margin-bottom: 0.5em;}.admin-page-framework-field-textarea.admin-page-framework-field .admin-page-framework-input-label-container {vertical-align: top; } .postbox .admin-page-framework-field-textarea .admin-page-framework-input-label-container {width: 100%;}";     }
+        return ".admin-page-framework-field-textarea .admin-page-framework-input-label-string {vertical-align: top;margin-top: 2px;} .admin-page-framework-field-textarea .wp-core-ui.wp-editor-wrap {margin-bottom: 0.5em;}.admin-page-framework-field-textarea.admin-page-framework-field .admin-page-framework-input-label-container {vertical-align: top; } .postbox .admin-page-framework-field-textarea .admin-page-framework-input-label-container {width: 100%;}";
+    }
     protected function getField($aField) {
         return "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ($aField['label'] && !$aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength($aField['label_min_width']) . ";'>" . $aField['label'] . "</span>" : "") . $this->_getEditor($aField) . "<div class='repeatable-field-buttons'></div>" . $aField['after_input'] . "</label>" . "</div>";
     }
@@ -5451,9 +5574,11 @@ abstract class AdminPageFramework_Utility_String {
         return $_sContent . $this->_getScriptForRichEditor($aField['attributes']['id']);
     }
     private function _getScriptForRichEditor($sIDSelector) {
-        $_sScript = "jQuery(document).ready(function(){ jQuery('#wp-{$sIDSelector}-wrap').attr('data-id','{$sIDSelector}');if('object'!==typeof tinyMCEPreInit)return;jQuery().storeAPFInputOptions('{$sIDSelector}',{ TinyMCE:tinyMCEPreInit.mceInit['{$sIDSelector}'],QuickTags:tinyMCEPreInit.qtInit['{$sIDSelector}']}) });";         return "<script type='text/javascript' class='admin-page-framework-textarea-enabler'>" . $_sScript . "</script>";
+        $_sScript = "jQuery(document).ready(function(){ jQuery('#wp-{$sIDSelector}-wrap').attr('data-id','{$sIDSelector}');if('object'!==typeof tinyMCEPreInit)return;jQuery().storeAPFInputOptions('{$sIDSelector}',{ TinyMCE:tinyMCEPreInit.mceInit['{$sIDSelector}'],QuickTags:tinyMCEPreInit.qtInit['{$sIDSelector}']}) });";
+        return "<script type='text/javascript' class='admin-page-framework-textarea-enabler'>" . $_sScript . "</script>";
     }
-}class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
+}
+class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
     public function __construct($aFieldTypeDefinitions, array $aFieldErrors, $oMsg = null) {
         $this->aFieldTypeDefinitions = $aFieldTypeDefinitions;
         $this->aFieldErrors = $aFieldErrors;
@@ -5527,7 +5652,8 @@ abstract class AdminPageFramework_Utility_String {
             return '';
         }
         self::$_bLoadedTabEnablerScript = true;
-        $_sScript = "jQuery(document).ready(function(){ jQuery('.admin-page-framework-section-tabs-contents').createTabs() });";         return "<script type='text/javascript' class='admin-page-framework-section-tabs-script'>" . $_sScript . "</script>";
+        $_sScript = "jQuery(document).ready(function(){ jQuery('.admin-page-framework-section-tabs-contents').createTabs() });";
+        return "<script type='text/javascript' class='admin-page-framework-section-tabs-script'>" . $_sScript . "</script>";
     }
     static private $_bLoadedCollapsibleSectionsEnablerScript = false;
     protected function _getCollapsibleSectionsEnablerScript() {
@@ -5555,9 +5681,11 @@ abstract class AdminPageFramework_Utility_String {
         $_sButtons = "<div class='admin-page-framework-repeatable-section-buttons' {$_sSettingsAttributes} >" . "<a class='repeatable-section-remove button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>" . "<a class='repeatable-section-add button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>" . "</div>";
         $_sButtonsHTML = '"' . $_sButtons . '"';
         $_aJSArray = json_encode($aSettings);
-        $_sScript = "jQuery(document).ready(function(){ jQuery('#{$sContainerTagID} .admin-page-framework-section-caption').each(function(){ jQuery(this).show();var _oButtons=jQuery($_sButtonsHTML);if(jQuery(this).children('.admin-page-framework-collapsible-section-title').children('fieldset').length>0)_oButtons.addClass('section_title_field_sibling');var _oCollapsibleSectionTitle=jQuery(this).find('.admin-page-framework-collapsible-section-title');if(_oCollapsibleSectionTitle.length){ { _oButtons.find('.repeatable-section-button').removeClass('button-large');_oCollapsibleSectionTitle.prepend(_oButtons) } }else jQuery(this).prepend(_oButtons) });jQuery('#{$sContainerTagID}').updateAPFRepeatableSections($_aJSArray) });";         return "<script type='text/javascript' class='admin-page-framework-seciton-repeatable-script'>" . $_sScript . "</script>";
+        $_sScript = "jQuery(document).ready(function(){ jQuery('#{$sContainerTagID} .admin-page-framework-section-caption').each(function(){ jQuery(this).show();var _oButtons=jQuery($_sButtonsHTML);if(jQuery(this).children('.admin-page-framework-collapsible-section-title').children('fieldset').length>0)_oButtons.addClass('section_title_field_sibling');var _oCollapsibleSectionTitle=jQuery(this).find('.admin-page-framework-collapsible-section-title');if(_oCollapsibleSectionTitle.length){ { _oButtons.find('.repeatable-section-button').removeClass('button-large');_oCollapsibleSectionTitle.prepend(_oButtons) } }else jQuery(this).prepend(_oButtons) });jQuery('#{$sContainerTagID}').updateAPFRepeatableSections($_aJSArray) });";
+        return "<script type='text/javascript' class='admin-page-framework-seciton-repeatable-script'>" . $_sScript . "</script>";
     }
-}class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
+}
+class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
     public function get() {
         $_aParams = func_get_args() + array(0 => '', 1 => array());
         $_sLabel = $_aParams[0];
@@ -5569,7 +5697,8 @@ abstract class AdminPageFramework_Utility_String {
         $_sKey = $_aParams[0];
         return $this->getElement($this->aField['attributes'], $_sKey, array()) + array('type' => 'checkbox', 'id' => $this->aField['input_id'] . '_' . $_sKey, 'checked' => $this->getCorrespondingArrayValue($this->aField['attributes']['value'], $_sKey, null) ? 'checked' : null, 'value' => 1, 'name' => is_array($this->aField['label']) ? "{$this->aField['attributes']['name']}[{$_sKey}]" : $this->aField['attributes']['name'], 'data-id' => $this->aField['input_id'],) + $this->aField['attributes'];
     }
-}class AdminPageFramework_Input_radio extends AdminPageFramework_Input_Base {
+}
+class AdminPageFramework_Input_radio extends AdminPageFramework_Input_Base {
     public function get() {
         $_aParams = func_get_args() + array(0 => '', 1 => array());
         $_sLabel = $_aParams[0];
@@ -5581,7 +5710,8 @@ abstract class AdminPageFramework_Utility_String {
         $sKey = $_aParams[0];
         return $this->getElement($this->aField['attributes'], $sKey, array()) + array('type' => 'radio', 'checked' => isset($this->aField['attributes']['value']) && $this->aField['attributes']['value'] == $sKey ? 'checked' : null, 'value' => $sKey, 'id' => $this->aField['input_id'] . '_' . $sKey, 'data-default' => $this->aField['default'], 'data-id' => $this->aField['input_id'],) + $this->aField['attributes'];
     }
-}class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
+}
+class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
     public $aStructureOptions = array('input_container_tag' => 'span', 'input_container_attributes' => array('class' => 'admin-page-framework-input-container',), 'label_container_tag' => 'span', 'label_container_attributes' => array('class' => 'admin-page-framework-input-label-string',),);
     public function get() {
         $_bIsMultiple = $this->aField['is_multiple'] ? true : ($this->aField['attributes']['select']['multiple'] ? true : false);
@@ -5606,7 +5736,8 @@ abstract class AdminPageFramework_Utility_String {
     private function _getOptionTag($sLabel, array $aAttributes = array()) {
         return "<option " . $this->generateAttributes($aAttributes) . " >" . $sLabel . "</option>";
     }
-}class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Base {
+}
+class AdminPageFramework_HelpPane_MetaBox extends AdminPageFramework_HelpPane_Base {
     function __construct($oProp) {
         parent::__construct($oProp);
         if ($oProp->bIsAdminAjax) {
@@ -5639,7 +5770,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return true;
     }
-}class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base {
+}
+class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base {
     protected static $_aStructure_HelpTabUserArray = array('page_slug' => null, 'page_tab_slug' => null, 'help_tab_title' => null, 'help_tab_id' => null, 'help_tab_content' => null, 'help_tab_sidebar_content' => null,);
     function __construct($oProp) {
         parent::__construct($oProp);
@@ -5672,7 +5804,8 @@ abstract class AdminPageFramework_Utility_String {
             $this->oProp->aHelpTabs[$aHelpTab['help_tab_id']]['aSidebar'][] = $this->_formatHelpDescription($aHelpTab['help_tab_sidebar_content']);
         }
     }
-}class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_image {
+}
+class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_image {
     public $aFieldTypeSlugs = array('media',);
     protected $aDefaultKeys = array('attributes_to_store' => array(), 'show_preview' => true, 'allow_external_source' => true, 'attributes' => array('input' => array('size' => 40, 'maxlength' => 400,), 'button' => array(), 'remove_button' => array(), 'preview' => array(),),);
     public function _replyToFieldLoader() {
@@ -5683,16 +5816,20 @@ abstract class AdminPageFramework_Utility_String {
     }
     protected function _getScript_RegisterCallbacks() {
         $_aJSArray = json_encode($this->aFieldTypeSlugs);
-        return "jQuery(document).ready(function(){ jQuery().registerAPFCallback({ added_repeatable_field:function(node,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;if(node.find('.select_media').length<=0)return;var nodeFieldContainer=node.closest('.admin-page-framework-field'),iOccurence=iCallType===1?1:0;nodeFieldContainer.nextAll().andSelf().each(function(iIndex){ nodeButton=jQuery(this).find('.select_media');if(!(iCallType===1&&iIndex!==0))nodeButton.incrementIDAttribute('id',iOccurence);var nodeMediaInput=jQuery(this).find('.media-field input');if(nodeMediaInput.length<=0)return true;setAPFMediaUploader(nodeMediaInput.attr('id'),true,jQuery(nodeButton).attr('data-enable_external_source')) }) },removed_repeatable_field:function(oNextFieldConainer,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;if(oNextFieldConainer.find('.select_media').length<=0)return;var iOccurence=iCallType===1?1:0;oNextFieldConainer.nextAll().andSelf().each(function(iIndex){ nodeButton=jQuery(this).find('.select_media');if(!(iCallType===1&&iIndex!==0))nodeButton.decrementIDAttribute('id',iOccurence);var nodeMediaInput=jQuery(this).find('.media-field input');if(nodeMediaInput.length<=0)return true;setAPFMediaUploader(nodeMediaInput.attr('id'),true,jQuery(nodeButton).attr('data-enable_external_source')) }) },sorted_fields:function(node,sFieldType,sFieldsTagID){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;if(node.find('.select_media').length<=0)return;var iCount=0;node.children('.admin-page-framework-field').each(function(){ nodeButton=jQuery(this).find('.select_media');nodeButton.setIndexIDAttribute('id',iCount);var nodeMediaInput=jQuery(this).find('.media-field input');if(nodeMediaInput.length<=0)return true;setAPFMediaUploader(nodeMediaInput.attr('id'),true,jQuery(nodeButton).attr('data-enable_external_source'));iCount++ }) }}) });";     }
+        return "jQuery(document).ready(function(){ jQuery().registerAPFCallback({ added_repeatable_field:function(node,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;if(node.find('.select_media').length<=0)return;var nodeFieldContainer=node.closest('.admin-page-framework-field'),iOccurence=iCallType===1?1:0;nodeFieldContainer.nextAll().andSelf().each(function(iIndex){ nodeButton=jQuery(this).find('.select_media');if(!(iCallType===1&&iIndex!==0))nodeButton.incrementIDAttribute('id',iOccurence);var nodeMediaInput=jQuery(this).find('.media-field input');if(nodeMediaInput.length<=0)return true;setAPFMediaUploader(nodeMediaInput.attr('id'),true,jQuery(nodeButton).attr('data-enable_external_source')) }) },removed_repeatable_field:function(oNextFieldConainer,sFieldType,sFieldTagID,iCallType){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;if(oNextFieldConainer.find('.select_media').length<=0)return;var iOccurence=iCallType===1?1:0;oNextFieldConainer.nextAll().andSelf().each(function(iIndex){ nodeButton=jQuery(this).find('.select_media');if(!(iCallType===1&&iIndex!==0))nodeButton.decrementIDAttribute('id',iOccurence);var nodeMediaInput=jQuery(this).find('.media-field input');if(nodeMediaInput.length<=0)return true;setAPFMediaUploader(nodeMediaInput.attr('id'),true,jQuery(nodeButton).attr('data-enable_external_source')) }) },sorted_fields:function(node,sFieldType,sFieldsTagID){ if(jQuery.inArray(sFieldType,$_aJSArray)<=-1)return;if(node.find('.select_media').length<=0)return;var iCount=0;node.children('.admin-page-framework-field').each(function(){ nodeButton=jQuery(this).find('.select_media');nodeButton.setIndexIDAttribute('id',iCount);var nodeMediaInput=jQuery(this).find('.media-field input');if(nodeMediaInput.length<=0)return true;setAPFMediaUploader(nodeMediaInput.attr('id'),true,jQuery(nodeButton).attr('data-enable_external_source'));iCount++ }) }}) });";
+    }
     private function _getScript_MediaUploader($sReferrer) {
         $_sThickBoxTitle = esc_js($this->oMsg->get('upload_file'));
         $_sThickBoxButtonUseThis = esc_js($this->oMsg->get('use_this_file'));
         $_sInsertFromURL = esc_js($this->oMsg->get('insert_from_url'));
         if (!function_exists('wp_enqueue_media')) {
-            return "setAPFMediaUploader=function(sInputID,fMultiple,fExternalSource){ jQuery('#select_media_'+sInputID).unbind('click');jQuery('#select_media_'+sInputID).click(function(){ var sPressedID=jQuery(this).attr('id');window.sInputID=sPressedID.substring(13);window.original_send_to_editor=window.send_to_editor;window.send_to_editor=hfAPFSendToEditorMedia;var fExternalSource=jQuery(this).attr('data-enable_external_source');tb_show('{$_sThickBoxTitle}','media-upload.php?post_id=1&amp;enable_external_source='+fExternalSource+'&amp;referrer={$sReferrer}&amp;button_label={$_sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true',false);return false }) };var hfAPFSendToEditorMedia=function(sRawHTML,param){ var sHTML='<div>'+sRawHTML+'</div>',src=jQuery('a',sHTML).attr('href'),classes=jQuery('a',sHTML).attr('class'),id=classes?classes.replace(/(.*?)wp-image-/,''):'',sInputID=window.sInputID;jQuery('#'+sInputID).val(src);jQuery('#'+sInputID+'_id').val(id);window.send_to_editor=window.original_send_to_editor;tb_remove() };";         }
-        return "setAPFMediaUploader=function(sInputID,fMultiple,fExternalSource){ var _bEscaped=false,_oMediaUploader;jQuery('#select_media_'+sInputID).unbind('click');jQuery('#select_media_'+sInputID).click(function(e){ var sInputID=jQuery(this).attr('id').substring(13);window.wpActiveEditor=null;e.preventDefault();if('object'===typeof _oMediaUploader){ _oMediaUploader.open();return };oAPFOriginalMediaUploaderSelectObject=wp.media.view.MediaFrame.Select;wp.media.view.MediaFrame.Select=fExternalSource?getAPFCustomMediaUploaderSelectObject():oAPFOriginalMediaUploaderSelectObject;_oMediaUploader=wp.media({ title:fExternalSource?'{$_sInsertFromURL}':'{$_sThickBoxTitle}',button:{ text:'{$_sThickBoxButtonUseThis}'},multiple:fMultiple,metadata:{ }});_oMediaUploader.on('escape',function(){ _bEscaped=true;return false });_oMediaUploader.on('close',function(){ var state=_oMediaUploader.state();if(typeof(state.props)!='undefined'&&typeof(state.props.attributes)!='undefined'){ var _oMedia={ },_sKey;for(_sKey in state.props.attributes)_oMedia[_sKey]=state.props.attributes[_sKey] };if(typeof _oMedia!=='undefined'){ setMediaPreviewElementWithDelay(sInputID,_oMedia) }else { var _oNewField;_oMediaUploader.state().get('selection').each(function(oAttachment,iIndex){ var _oAttributes=oAttachment.hasOwnProperty('attributes')?oAttachment.attributes:{ };if(0===iIndex){ setMediaPreviewElementWithDelay(sInputID,_oAttributes);return true };var _oFieldContainer='undefined'===typeof _oNewField?jQuery('#'+sInputID).closest('.admin-page-framework-field'):_oNewField;_oNewField=jQuery(this).addAPFRepeatableField(_oFieldContainer.attr('id'));var sInputIDOfNewField=_oNewField.find('input').attr('id');setMediaPreviewElementWithDelay(sInputIDOfNewField,_oAttributes) }) };wp.media.view.MediaFrame.Select=oAPFOriginalMediaUploaderSelectObject });_oMediaUploader.open();return false });var setMediaPreviewElementWithDelay=function(sInputID,oImage,iMilliSeconds){ iMilliSeconds='undefiend'===typeof iMilliSeconds?100:iMilliSeconds;setTimeout(function(){ if(!_bEscaped)setMediaPreviewElement(sInputID,oImage);_bEscaped=false },iMilliSeconds) } };removeInputValuesForMedia=function(oElem){ var _oImageInput=jQuery(oElem).closest('.admin-page-framework-field').find('.media-field input');if(_oImageInput.length<=0)return;var _sInputID=_oImageInput.first().attr('id');setMediaPreviewElement(_sInputID,{ }) };setMediaPreviewElement=function(sInputID,oSelectedFile){ jQuery('#'+sInputID).val(oSelectedFile.url);jQuery('#'+sInputID+'_id').val(oSelectedFile.id);jQuery('#'+sInputID+'_caption').val(jQuery('<div/>').text(oSelectedFile.caption).html());jQuery('#'+sInputID+'_description').val(jQuery('<div/>').text(oSelectedFile.description).html()) };";     }
+            return "setAPFMediaUploader=function(sInputID,fMultiple,fExternalSource){ jQuery('#select_media_'+sInputID).unbind('click');jQuery('#select_media_'+sInputID).click(function(){ var sPressedID=jQuery(this).attr('id');window.sInputID=sPressedID.substring(13);window.original_send_to_editor=window.send_to_editor;window.send_to_editor=hfAPFSendToEditorMedia;var fExternalSource=jQuery(this).attr('data-enable_external_source');tb_show('{$_sThickBoxTitle}','media-upload.php?post_id=1&amp;enable_external_source='+fExternalSource+'&amp;referrer={$sReferrer}&amp;button_label={$_sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true',false);return false }) };var hfAPFSendToEditorMedia=function(sRawHTML,param){ var sHTML='<div>'+sRawHTML+'</div>',src=jQuery('a',sHTML).attr('href'),classes=jQuery('a',sHTML).attr('class'),id=classes?classes.replace(/(.*?)wp-image-/,''):'',sInputID=window.sInputID;jQuery('#'+sInputID).val(src);jQuery('#'+sInputID+'_id').val(id);window.send_to_editor=window.original_send_to_editor;tb_remove() };";
+        }
+        return "setAPFMediaUploader=function(sInputID,fMultiple,fExternalSource){ var _bEscaped=false,_oMediaUploader;jQuery('#select_media_'+sInputID).unbind('click');jQuery('#select_media_'+sInputID).click(function(e){ var sInputID=jQuery(this).attr('id').substring(13);window.wpActiveEditor=null;e.preventDefault();if('object'===typeof _oMediaUploader){ _oMediaUploader.open();return };oAPFOriginalMediaUploaderSelectObject=wp.media.view.MediaFrame.Select;wp.media.view.MediaFrame.Select=fExternalSource?getAPFCustomMediaUploaderSelectObject():oAPFOriginalMediaUploaderSelectObject;_oMediaUploader=wp.media({ title:fExternalSource?'{$_sInsertFromURL}':'{$_sThickBoxTitle}',button:{ text:'{$_sThickBoxButtonUseThis}'},multiple:fMultiple,metadata:{ }});_oMediaUploader.on('escape',function(){ _bEscaped=true;return false });_oMediaUploader.on('close',function(){ var state=_oMediaUploader.state();if(typeof(state.props)!='undefined'&&typeof(state.props.attributes)!='undefined'){ var _oMedia={ },_sKey;for(_sKey in state.props.attributes)_oMedia[_sKey]=state.props.attributes[_sKey] };if(typeof _oMedia!=='undefined'){ setMediaPreviewElementWithDelay(sInputID,_oMedia) }else { var _oNewField;_oMediaUploader.state().get('selection').each(function(oAttachment,iIndex){ var _oAttributes=oAttachment.hasOwnProperty('attributes')?oAttachment.attributes:{ };if(0===iIndex){ setMediaPreviewElementWithDelay(sInputID,_oAttributes);return true };var _oFieldContainer='undefined'===typeof _oNewField?jQuery('#'+sInputID).closest('.admin-page-framework-field'):_oNewField;_oNewField=jQuery(this).addAPFRepeatableField(_oFieldContainer.attr('id'));var sInputIDOfNewField=_oNewField.find('input').attr('id');setMediaPreviewElementWithDelay(sInputIDOfNewField,_oAttributes) }) };wp.media.view.MediaFrame.Select=oAPFOriginalMediaUploaderSelectObject });_oMediaUploader.open();return false });var setMediaPreviewElementWithDelay=function(sInputID,oImage,iMilliSeconds){ iMilliSeconds='undefiend'===typeof iMilliSeconds?100:iMilliSeconds;setTimeout(function(){ if(!_bEscaped)setMediaPreviewElement(sInputID,oImage);_bEscaped=false },iMilliSeconds) } };removeInputValuesForMedia=function(oElem){ var _oImageInput=jQuery(oElem).closest('.admin-page-framework-field').find('.media-field input');if(_oImageInput.length<=0)return;var _sInputID=_oImageInput.first().attr('id');setMediaPreviewElement(_sInputID,{ }) };setMediaPreviewElement=function(sInputID,oSelectedFile){ jQuery('#'+sInputID).val(oSelectedFile.url);jQuery('#'+sInputID+'_id').val(oSelectedFile.id);jQuery('#'+sInputID+'_caption').val(jQuery('<div/>').text(oSelectedFile.caption).html());jQuery('#'+sInputID+'_description').val(jQuery('<div/>').text(oSelectedFile.description).html()) };";
+    }
     public function _replyToGetStyles() {
-        return ".admin-page-framework-field-media input {margin-right: 0.5em;vertical-align: middle;}@media screen and (max-width: 782px) {.admin-page-framework-field-media input {margin: 0.5em 0.5em 0.5em 0;}} .select_media.button.button-small,.remove_media.button.button-small{ vertical-align: middle;}.remove_media.button.button-small {margin-left: 0.2em;}";     }
+        return ".admin-page-framework-field-media input {margin-right: 0.5em;vertical-align: middle;}@media screen and (max-width: 782px) {.admin-page-framework-field-media input {margin: 0.5em 0.5em 0.5em 0;}} .select_media.button.button-small,.remove_media.button.button-small{ vertical-align: middle;}.remove_media.button.button-small {margin-left: 0.2em;}";
+    }
     public function _replyToGetField($aField) {
         return parent::_replyToGetField($aField);
     }
@@ -5707,7 +5844,8 @@ abstract class AdminPageFramework_Utility_String {
         $_aAttributes['class'] = $this->generateClassAttribute('select_media button button-small ', trim($aButtonAttributes['class']) ? $aButtonAttributes['class'] : $_sDashIconSelector);
         $_sButton = "<a " . $this->generateAttributes($_aAttributes) . ">" . ($_bIsLabelSet ? $aButtonAttributes['data-label'] : (strrpos($_aAttributes['class'], 'dashicons') ? '' : $this->oMsg->get('select_file'))) . "</a>";
         $_sButtonHTML = '"' . $_sButton . '"';
-        $_sScript = "if(jQuery('a#select_media_{$sInputID}').length==0)jQuery('input#{$sInputID}').after($_sButtonHTML);jQuery(document).ready(function(){ setAPFMediaUploader('{$sInputID}','{$bRpeatable}','{$bExternalSource}') });";         return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" . $_sScript . "</script>" . PHP_EOL;
+        $_sScript = "if(jQuery('a#select_media_{$sInputID}').length==0)jQuery('input#{$sInputID}').after($_sButtonHTML);jQuery(document).ready(function(){ setAPFMediaUploader('{$sInputID}','{$bRpeatable}','{$bExternalSource}') });";
+        return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" . $_sScript . "</script>" . PHP_EOL;
     }
     protected function _getRemoveButtonScript($sInputID, array $aButtonAttributes) {
         if (!function_exists('wp_enqueue_media')) {
@@ -5720,15 +5858,18 @@ abstract class AdminPageFramework_Utility_String {
         $_aAttributes['class'] = $this->generateClassAttribute('remove_value remove_media button button-small', trim($aButtonAttributes['class']) ? $aButtonAttributes['class'] : $_sDashIconSelector);
         $_sButton = "<a " . $this->generateAttributes($_aAttributes) . ">" . ($_bIsLabelSet ? $_aAttributes['data-label'] : (strrpos($_aAttributes['class'], 'dashicons') ? '' : 'x')) . "</a>";
         $_sButtonHTML = '"' . $_sButton . '"';
-        $_sScript = "if(0===jQuery('a#remove_media_{$sInputID}').length)jQuery('input#{$sInputID}').after($_sButtonHTML);";         return "<script type='text/javascript' class='admin-page-framework-media-remove-button'>" . $_sScript . "</script>" . PHP_EOL;
+        $_sScript = "if(0===jQuery('a#remove_media_{$sInputID}').length)jQuery('input#{$sInputID}').after($_sButtonHTML);";
+        return "<script type='text/javascript' class='admin-page-framework-media-remove-button'>" . $_sScript . "</script>" . PHP_EOL;
     }
-}class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType_checkbox {
+}
+class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType_checkbox {
     public $aFieldTypeSlugs = array('posttype',);
     protected $aDefaultKeys = array('slugs_to_remove' => null, 'query' => array(), 'operator' => 'and', 'attributes' => array('size' => 30, 'maxlength' => 400,), 'select_all_button' => true, 'select_none_button' => true,);
     protected $aDefaultRemovingPostTypeSlugs = array('revision', 'attachment', 'nav_menu_item',);
     protected function getStyles() {
         $_sParentStyles = parent::getStyles();
-        return $_sParentStyles . ".admin-page-framework-field input[type='checkbox'] {margin-right: 0.5em;} .admin-page-framework-field-posttype .admin-page-framework-input-label-container {padding-right: 1em;}";     }
+        return $_sParentStyles . ".admin-page-framework-field input[type='checkbox'] {margin-right: 0.5em;} .admin-page-framework-field-posttype .admin-page-framework-input-label-container {padding-right: 1em;}";
+    }
     protected function getField($aField) {
         $this->_sCheckboxClassSelector = '';
         $aField['label'] = $this->_getPostTypeArrayForChecklist(isset($aField['slugs_to_remove']) ? $this->getAsArray($aField['slugs_to_remove']) : $this->aDefaultRemovingPostTypeSlugs, $aField['query'], $aField['operator']);
@@ -5743,12 +5884,14 @@ abstract class AdminPageFramework_Utility_String {
         }
         return array_diff_key($_aPostTypes, array_flip($aSlugsToRemove));
     }
-}class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_select {
+}
+class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_select {
     public $aFieldTypeSlugs = array('size',);
     protected $aDefaultKeys = array('is_multiple' => false, 'units' => null, 'attributes' => array('size' => array('size' => 10, 'maxlength' => 400, 'min' => null, 'max' => null,), 'unit' => array('multiple' => null, 'size' => 1, 'autofocusNew' => null, 'required' => null,), 'optgroup' => array(), 'option' => array(),),);
     protected $aDefaultUnits = array('px' => 'px', '%' => '%', 'em' => 'em', 'ex' => 'ex', 'in' => 'in', 'cm' => 'cm', 'mm' => 'mm', 'pt' => 'pt', 'pc' => 'pc',);
     protected function getStyles() {
-        return ".admin-page-framework-field-size input {text-align: right;}.admin-page-framework-field-size select.size-field-select {vertical-align: 0px; }.admin-page-framework-field-size label {width: auto; } .form-table td fieldset .admin-page-framework-field-size label {display: inline;}";     }
+        return ".admin-page-framework-field-size input {text-align: right;}.admin-page-framework-field-size select.size-field-select {vertical-align: 0px; }.admin-page-framework-field-size label {width: auto; } .form-table td fieldset .admin-page-framework-field-size label {display: inline;}";
+    }
     protected function getField($aField) {
         $aField['units'] = isset($aField['units']) ? $aField['units'] : $this->aDefaultUnits;
         $aBaseAttributes = $aField['attributes'];
@@ -5762,7 +5905,8 @@ abstract class AdminPageFramework_Utility_String {
         $_oUnitInput = new AdminPageFramework_Input_select($_aUnitField);
         return $aField['before_label'] . "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength($aField['label_min_width']) . ";'>" . "<label " . $this->generateAttributes($aSizeLabelAttributes) . ">" . $this->getFieldElementByKey($aField['before_label'], 'size') . ($aField['label'] && !$aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength($aField['label_min_width']) . ";'>" . $aField['label'] . "</span>" : "") . "<input " . $this->generateAttributes($aSizeAttributes) . " />" . $this->getFieldElementByKey($aField['after_input'], 'size') . "</label>" . "<label " . $this->generateAttributes(array('for' => $_aUnitAttributes['id'], 'class' => $_aUnitAttributes['disabled'] ? 'disabled' : null,)) . ">" . $this->getFieldElementByKey($aField['before_label'], 'unit') . $_oUnitInput->get() . $this->getFieldElementByKey($aField['after_input'], 'unit') . "<div class='repeatable-field-buttons'></div>" . "</label>" . "</div>" . $aField['after_label'];
     }
-}class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base {
+}
+class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base {
     public function getFieldRows(array $aFields, $hfCallback) {
         if (!is_callable($hfCallback)) {
             return '';
@@ -5812,7 +5956,8 @@ abstract class AdminPageFramework_Utility_String {
     private function _getFieldTitle(array $aField) {
         return "<label for='" . AdminPageFramework_FormField::_getInputID($aField) . "'>" . "<a id='{$aField['field_id']}'></a>" . "<span title='" . esc_attr(strip_tags(isset($aField['tip']) ? $aField['tip'] : (is_array($aField['description'] ? implode('&#10;', $aField['description']) : $aField['description'])))) . "'>" . $aField['title'] . (in_array($aField['_fields_type'], array('widget', 'post_meta_box', 'page_meta_box')) && isset($aField['title']) && '' !== $aField['title'] ? "<span class='title-colon'>:</span>" : '') . "</span>" . "</label>";
     }
-}abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_FormTable_Row {
+}
+abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_FormTable_Row {
     protected function _getCaption(array $aSection, $hfSectionCallback, $iSectionIndex, $aFields, $hfFieldCallback) {
         if (!$aSection['description'] && !$aSection['title']) {
             return "<caption class='admin-page-framework-section-caption' style='display:none;'></caption>";
@@ -5862,7 +6007,8 @@ abstract class AdminPageFramework_Utility_String {
         }
         return implode(PHP_EOL, $_aOutput);
     }
-}class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption {
+}
+class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption {
     public function getFormTables($aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback) {
         $_aOutput = array();
         $_sFieldsType = $this->_getSectionsFieldsType($aSections);
@@ -5961,7 +6107,8 @@ abstract class AdminPageFramework_Utility_String {
         $_aSectionAttributes['style'] = $this->generateStyleAttribute($_aSectionAttributes['style'], $aSection['hidden'] ? 'display:none' : null);
         return "<div " . $this->generateAttributes($_aSectionAttributes) . ">" . implode(PHP_EOL, $_aOutput) . "</div>";
     }
-}class AdminPageFramework_HelpPane_MetaBox_Page extends AdminPageFramework_HelpPane_MetaBox {
+}
+class AdminPageFramework_HelpPane_MetaBox_Page extends AdminPageFramework_HelpPane_MetaBox {
     protected function _isInThePage() {
         if (!$this->oProp->bIsAdmin) return false;
         if (!isset($_GET['page'])) return false;
@@ -5969,11 +6116,13 @@ abstract class AdminPageFramework_Utility_String {
         if (!isset($_GET['tab'])) return true;
         return $this->oProp->isCurrentTab($_GET['tab']);
     }
-}class AdminPageFramework_HelpPane_TaxonomyField extends AdminPageFramework_HelpPane_MetaBox {
+}
+class AdminPageFramework_HelpPane_TaxonomyField extends AdminPageFramework_HelpPane_MetaBox {
     public function _replyToRegisterHelpTabTextForMetaBox() {
         $this->_setHelpTab($this->oProp->sMetaBoxID, $this->oProp->sTitle, $this->oProp->aHelpTabText, $this->oProp->aHelpTabTextSide);
     }
-}class AdminPageFramework_HelpPane_Widget extends AdminPageFramework_HelpPane_MetaBox {
+}
+class AdminPageFramework_HelpPane_Widget extends AdminPageFramework_HelpPane_MetaBox {
 }
 abstract class AdminPageFramework_Resource_Base {
     protected static $_aStructure_EnqueuingResources = array('sSRC' => null, 'aPostTypes' => array(), 'sPageSlug' => null, 'sTabSlug' => null, 'sType' => null, 'handle_id' => null, 'dependencies' => array(), 'version' => false, 'translation' => array(), 'in_footer' => false, 'media' => 'all', 'attributes' => array(),);
@@ -6125,7 +6274,8 @@ abstract class AdminPageFramework_Resource_Base {
             unset($this->oProp->aEnqueuingScripts[$_sKey]);
         }
     }
-}class AdminPageFramework_Resource_MetaBox extends AdminPageFramework_Resource_Base {
+}
+class AdminPageFramework_Resource_MetaBox extends AdminPageFramework_Resource_Base {
     public function _enqueueStyles($aSRCs, $aPostTypes = array(), $aCustomArgs = array()) {
         $_aHandleIDs = array();
         foreach (( array )$aSRCs as $_sSRC) {
@@ -6180,7 +6330,8 @@ abstract class AdminPageFramework_Resource_Base {
             return $this->_enqueueSRC($aEnqueueItem);
         }
     }
-}class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base {
+}
+class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base {
     public function _enqueueStyles($aSRCs, $sPageSlug = '', $sTabSlug = '', $aCustomArgs = array()) {
         $_aHandleIDs = array();
         foreach (( array )$aSRCs as $_sSRC) {
@@ -6244,8 +6395,10 @@ abstract class AdminPageFramework_Resource_Base {
             return $this->_enqueueSRC($aEnqueueItem);
         }
     }
-}class AdminPageFramework_Resource_MetaBox_Page extends AdminPageFramework_Resource_Page {
-}class AdminPageFramework_Resource_Widget extends AdminPageFramework_Resource_Base {
+}
+class AdminPageFramework_Resource_MetaBox_Page extends AdminPageFramework_Resource_Page {
+}
+class AdminPageFramework_Resource_Widget extends AdminPageFramework_Resource_Base {
     public function _enqueueStyles($aSRCs, $aCustomArgs = array()) {
         $_aHandleIDs = array();
         foreach (( array )$aSRCs as $_sSRC) {
@@ -6294,8 +6447,10 @@ abstract class AdminPageFramework_Resource_Base {
     public function _forceToEnqueueScript($sSRC, $aCustomArgs = array()) {
         return $this->_enqueueScript($sSRC, $aCustomArgs);
     }
-}class AdminPageFramework_Resource_PostType extends AdminPageFramework_Resource_MetaBox {
-}class AdminPageFramework_Resource_TaxonomyField extends AdminPageFramework_Resource_MetaBox {
+}
+class AdminPageFramework_Resource_PostType extends AdminPageFramework_Resource_MetaBox {
+}
+class AdminPageFramework_Resource_TaxonomyField extends AdminPageFramework_Resource_MetaBox {
     public function _enqueueStyles($aSRCs, $aCustomArgs = array(), $_deprecated = null) {
         $_aHandleIDs = array();
         foreach (( array )$aSRCs as $_sSRC) {
@@ -6350,35 +6505,47 @@ abstract class AdminPageFramework_Resource_Base {
 }
 class AdminPageFramework_CSS {
     static public function getDefaultCSS() {
-        $_sCSS = ".wrap div.updated.admin-page-framework-settings-notice-container, .wrap div.error.admin-page-framework-settings-notice-container, .media-upload-form div.error.admin-page-framework-settings-notice-container{clear: both;margin-top: 16px;}.wrap div.error.confirmation.admin-page-framework-settings-notice-container {border-color: #368ADD;}.contextual-help-description {clear: left;display: block;margin: 1em 0;}.contextual-help-tab-title {font-weight: bold;}.admin-page-framework-content {margin-bottom: 1.48em; display: inline-table; width: 100%; }.admin-page-framework-container #poststuff .admin-page-framework-content h3 {font-weight: bold;font-size: 1.3em;margin: 1em 0;padding: 0;font-family: 'Open Sans', sans-serif;}.admin-page-framework-in-page-tab .nav-tab.nav-tab-active {border-bottom-width: 2px;}.admin-page-framework-info {font-size: 0.8em;font-weight: lighter;text-align: right;}pre.dump-array {border: 1px solid #ededed;margin: 24px 2em;margin: 1.714285714rem 2em;padding: 24px;padding: 1.714285714rem;overflow-x: auto; white-space: pre-wrap;background-color: #FFF;margin-bottom: 2em;width: auto;}";         return $_sCSS . PHP_EOL . self::_getFormSectionRules() . PHP_EOL . self::_getFormFieldRules() . PHP_EOL . self::_getCollapsibleSectionsRules() . PHP_EOL . self::_getFieldErrorRules() . PHP_EOL . self::_getMetaBoxFormRules() . PHP_EOL . self::_getWidgetFormRules() . PHP_EOL . self::_getPageLoadStatsRules() . PHP_EOL . self::_getVersionSpecificRules($GLOBALS['wp_version']);
+        $_sCSS = ".wrap div.updated.admin-page-framework-settings-notice-container, .wrap div.error.admin-page-framework-settings-notice-container, .media-upload-form div.error.admin-page-framework-settings-notice-container{clear: both;margin-top: 16px;}.wrap div.error.confirmation.admin-page-framework-settings-notice-container {border-color: #368ADD;}.contextual-help-description {clear: left;display: block;margin: 1em 0;}.contextual-help-tab-title {font-weight: bold;}.admin-page-framework-content {margin-bottom: 1.48em; display: inline-table; width: 100%; }.admin-page-framework-container #poststuff .admin-page-framework-content h3 {font-weight: bold;font-size: 1.3em;margin: 1em 0;padding: 0;font-family: 'Open Sans', sans-serif;}.admin-page-framework-in-page-tab .nav-tab.nav-tab-active {border-bottom-width: 2px;}.admin-page-framework-info {font-size: 0.8em;font-weight: lighter;text-align: right;}pre.dump-array {border: 1px solid #ededed;margin: 24px 2em;margin: 1.714285714rem 2em;padding: 24px;padding: 1.714285714rem;overflow-x: auto; white-space: pre-wrap;background-color: #FFF;margin-bottom: 2em;width: auto;}";
+        return $_sCSS . PHP_EOL . self::_getFormSectionRules() . PHP_EOL . self::_getFormFieldRules() . PHP_EOL . self::_getCollapsibleSectionsRules() . PHP_EOL . self::_getFieldErrorRules() . PHP_EOL . self::_getMetaBoxFormRules() . PHP_EOL . self::_getWidgetFormRules() . PHP_EOL . self::_getPageLoadStatsRules() . PHP_EOL . self::_getVersionSpecificRules($GLOBALS['wp_version']);
     }
     static private function _getFormSectionRules() {
-        return ".admin-page-framework-section {margin-bottom: 1em; }.admin-page-framework-sectionset {margin-bottom: 1em; }";     }
+        return ".admin-page-framework-section {margin-bottom: 1em; }.admin-page-framework-sectionset {margin-bottom: 1em; }";
+    }
     static private function _getFormFieldRules() {
-        return "td.admin-page-framework-field-td-no-title {padding-left: 0;padding-right: 0;}.admin-page-framework-section .form-table {margin-top: 0;}.admin-page-framework-section .form-table td label { display: inline;}.admin-page-framework-section-tabs-contents {margin-top: 1em;}.admin-page-framework-section-tabs { margin: 0;}.admin-page-framework-tab-content { padding: 0.5em 2em 1.5em 2em;margin: 0;border-style: solid;border-width: 1px;border-color: #dfdfdf;background-color: #fdfdfd; }.admin-page-framework-section-tab {background-color: transparent;vertical-align: bottom; }.admin-page-framework-section-tab.active {background-color: #fdfdfd; }.admin-page-framework-section-tab h4 {margin: 0;padding: 8px 14px 10px;font-size: 1.2em;}.admin-page-framework-section-tab.nav-tab {padding: 0;}.admin-page-framework-section-tab.nav-tab a {text-decoration: none;color: #464646;vertical-align: inherit; outline: 0; }.admin-page-framework-section-tab.nav-tab a:focus { box-shadow: none;}.admin-page-framework-section-tab.nav-tab.active a {color: #000;}.admin-page-framework-repeatable-section-buttons {float: right;clear: right;margin-top: 1em;}.admin-page-framework-section-caption {text-align: left;margin: 0;}.admin-page-framework-section .admin-page-framework-section-title {}.admin-page-framework-fields {display: table; width: 100%;table-layout: fixed;}.admin-page-framework-field input[type='number'] {text-align: right;} .admin-page-framework-fields .disabled,.admin-page-framework-fields .disabled input,.admin-page-framework-fields .disabled textarea,.admin-page-framework-fields .disabled select,.admin-page-framework-fields .disabled option {color: #BBB;}.admin-page-framework-fields hr {border: 0; height: 0;border-top: 1px solid #dfdfdf; }.admin-page-framework-fields .delimiter {display: inline;}.admin-page-framework-fields-description {margin-bottom: 0;}.admin-page-framework-field {float: left;clear: both;display: inline-block;margin: 1px 0;}.admin-page-framework-field label{display: inline-block; width: 100%;}.admin-page-framework-field .admin-page-framework-input-label-container {margin-bottom: 0.25em;}@media only screen and ( max-width: 780px ) { .admin-page-framework-field .admin-page-framework-input-label-container {margin-bottom: 0.5em;}} .admin-page-framework-field .admin-page-framework-input-label-string {padding-right: 1em; vertical-align: middle; display: inline-block; }.admin-page-framework-field .admin-page-framework-input-button-container {padding-right: 1em; }.admin-page-framework-field .admin-page-framework-input-container {display: inline-block;vertical-align: middle;}.admin-page-framework-field-image .admin-page-framework-input-label-container { vertical-align: middle;}.admin-page-framework-field .admin-page-framework-input-label-container {display: inline-block; vertical-align: middle; } .repeatable .admin-page-framework-field {clear: both;display: block;}.admin-page-framework-repeatable-field-buttons {float: right; margin: 0.1em 0 0.5em 0.3em;vertical-align: middle;}.admin-page-framework-repeatable-field-buttons .repeatable-field-button {margin: 0 0.1em;font-weight: normal;vertical-align: middle;text-align: center;}@media only screen and (max-width: 960px) {.admin-page-framework-repeatable-field-buttons {margin-top: 0;}}.sortable .admin-page-framework-field {clear: both;float: left;display: inline-block;padding: 1em 1.2em 0.78em;margin: 1px 0 0 0;border-top-width: 1px;border-bottom-width: 1px;border-bottom-style: solid;-webkit-user-select: none;-moz-user-select: none;user-select: none; text-shadow: #fff 0 1px 0;-webkit-box-shadow: 0 1px 0 #fff;box-shadow: 0 1px 0 #fff;-webkit-box-shadow: inset 0 1px 0 #fff;box-shadow: inset 0 1px 0 #fff;-webkit-border-radius: 3px;border-radius: 3px;background: #f1f1f1;background-image: -webkit-gradient(linear, left bottom, left top, from(#ececec), to(#f9f9f9));background-image: -webkit-linear-gradient(bottom, #ececec, #f9f9f9);background-image: -moz-linear-gradient(bottom, #ececec, #f9f9f9);background-image: -o-linear-gradient(bottom, #ececec, #f9f9f9);background-image: linear-gradient(to top, #ececec, #f9f9f9);border: 1px solid #CCC;background: #F6F6F6;} .admin-page-framework-fields.sortable {margin-bottom: 1.2em; } .admin-page-framework-field .button.button-small {width: auto;} .font-lighter {font-weight: lighter;} .admin-page-framework-field .button.button-small.dashicons {font-size: 1.2em;padding-left: 0.2em;padding-right: 0.22em;}";     }
+        return "td.admin-page-framework-field-td-no-title {padding-left: 0;padding-right: 0;}.admin-page-framework-section .form-table {margin-top: 0;}.admin-page-framework-section .form-table td label { display: inline;}.admin-page-framework-section-tabs-contents {margin-top: 1em;}.admin-page-framework-section-tabs { margin: 0;}.admin-page-framework-tab-content { padding: 0.5em 2em 1.5em 2em;margin: 0;border-style: solid;border-width: 1px;border-color: #dfdfdf;background-color: #fdfdfd; }.admin-page-framework-section-tab {background-color: transparent;vertical-align: bottom; }.admin-page-framework-section-tab.active {background-color: #fdfdfd; }.admin-page-framework-section-tab h4 {margin: 0;padding: 8px 14px 10px;font-size: 1.2em;}.admin-page-framework-section-tab.nav-tab {padding: 0;}.admin-page-framework-section-tab.nav-tab a {text-decoration: none;color: #464646;vertical-align: inherit; outline: 0; }.admin-page-framework-section-tab.nav-tab a:focus { box-shadow: none;}.admin-page-framework-section-tab.nav-tab.active a {color: #000;}.admin-page-framework-repeatable-section-buttons {float: right;clear: right;margin-top: 1em;}.admin-page-framework-section-caption {text-align: left;margin: 0;}.admin-page-framework-section .admin-page-framework-section-title {}.admin-page-framework-fields {display: table; width: 100%;table-layout: fixed;}.admin-page-framework-field input[type='number'] {text-align: right;} .admin-page-framework-fields .disabled,.admin-page-framework-fields .disabled input,.admin-page-framework-fields .disabled textarea,.admin-page-framework-fields .disabled select,.admin-page-framework-fields .disabled option {color: #BBB;}.admin-page-framework-fields hr {border: 0; height: 0;border-top: 1px solid #dfdfdf; }.admin-page-framework-fields .delimiter {display: inline;}.admin-page-framework-fields-description {margin-bottom: 0;}.admin-page-framework-field {float: left;clear: both;display: inline-block;margin: 1px 0;}.admin-page-framework-field label{display: inline-block; width: 100%;}.admin-page-framework-field .admin-page-framework-input-label-container {margin-bottom: 0.25em;}@media only screen and ( max-width: 780px ) { .admin-page-framework-field .admin-page-framework-input-label-container {margin-bottom: 0.5em;}} .admin-page-framework-field .admin-page-framework-input-label-string {padding-right: 1em; vertical-align: middle; display: inline-block; }.admin-page-framework-field .admin-page-framework-input-button-container {padding-right: 1em; }.admin-page-framework-field .admin-page-framework-input-container {display: inline-block;vertical-align: middle;}.admin-page-framework-field-image .admin-page-framework-input-label-container { vertical-align: middle;}.admin-page-framework-field .admin-page-framework-input-label-container {display: inline-block; vertical-align: middle; } .repeatable .admin-page-framework-field {clear: both;display: block;}.admin-page-framework-repeatable-field-buttons {float: right; margin: 0.1em 0 0.5em 0.3em;vertical-align: middle;}.admin-page-framework-repeatable-field-buttons .repeatable-field-button {margin: 0 0.1em;font-weight: normal;vertical-align: middle;text-align: center;}@media only screen and (max-width: 960px) {.admin-page-framework-repeatable-field-buttons {margin-top: 0;}}.sortable .admin-page-framework-field {clear: both;float: left;display: inline-block;padding: 1em 1.2em 0.78em;margin: 1px 0 0 0;border-top-width: 1px;border-bottom-width: 1px;border-bottom-style: solid;-webkit-user-select: none;-moz-user-select: none;user-select: none; text-shadow: #fff 0 1px 0;-webkit-box-shadow: 0 1px 0 #fff;box-shadow: 0 1px 0 #fff;-webkit-box-shadow: inset 0 1px 0 #fff;box-shadow: inset 0 1px 0 #fff;-webkit-border-radius: 3px;border-radius: 3px;background: #f1f1f1;background-image: -webkit-gradient(linear, left bottom, left top, from(#ececec), to(#f9f9f9));background-image: -webkit-linear-gradient(bottom, #ececec, #f9f9f9);background-image: -moz-linear-gradient(bottom, #ececec, #f9f9f9);background-image: -o-linear-gradient(bottom, #ececec, #f9f9f9);background-image: linear-gradient(to top, #ececec, #f9f9f9);border: 1px solid #CCC;background: #F6F6F6;} .admin-page-framework-fields.sortable {margin-bottom: 1.2em; } .admin-page-framework-field .button.button-small {width: auto;} .font-lighter {font-weight: lighter;} .admin-page-framework-field .button.button-small.dashicons {font-size: 1.2em;padding-left: 0.2em;padding-right: 0.22em;}";
+    }
     static private function _getCollapsibleSectionsRules() {
-        $_sCSSRules = ".admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title{font-size:13px;background-color: #fff;padding: 15px 18px;margin-top: 1em; border-top: 1px solid #eee;border-bottom: 1px solid #eee;}.admin-page-framework-collapsible-sections-title.collapsed.admin-page-framework-collapsible-section-title.collapsed {border-bottom: 1px solid #dfdfdf;margin-bottom: 1em; }.admin-page-framework-collapsible-section-title {margin-top: 0;}.admin-page-framework-collapsible-section-title.collapsed {margin-bottom: 0;}#poststuff .metabox-holder .admin-page-framework-collapsible-sections-title.admin-page-framework-section-title h3,#poststuff .metabox-holder .admin-page-framework-collapsible-section-title.admin-page-framework-section-title h3{font-size: 1em;margin: 0;}.admin-page-framework-collapsible-sections-title.accordion-section-title:after,.admin-page-framework-collapsible-section-title.accordion-section-title:after {top: 12px;right: 15px;}.admin-page-framework-collapsible-sections-title.accordion-section-title:after,.admin-page-framework-collapsible-section-title.accordion-section-title:after {content: '\\f142';}.admin-page-framework-collapsible-sections-title.accordion-section-title.collapsed:after,.admin-page-framework-collapsible-section-title.accordion-section-title.collapsed:after {content: '\\f140';}.admin-page-framework-collapsible-sections-content, .admin-page-framework-collapsible-section-content{border: 1px solid #dfdfdf;border-top: 0;background-color: #fff;}tbody.admin-page-framework-collapsible-content {display: table-caption; padding: 10px 20px 15px 20px;}tbody.admin-page-framework-collapsible-content.table-caption {display: table-caption; }.admin-page-framework-collapsible-toggle-all-button-container {margin-top: 1em;margin-bottom: 1em;width: 100%;display: table; }.admin-page-framework-collapsible-toggle-all-button.button {height: 36px;line-height: 34px;padding: 0 16px 6px;font-size: 20px;width: auto;}.admin-page-framework-collapsible-section-title .admin-page-framework-repeatable-section-buttons {margin: 0;margin-right: 2em; margin-top: -0.32em;}.admin-page-framework-collapsible-section-title .admin-page-framework-repeatable-section-buttons.section_title_field_sibling {margin-top: 0;}.admin-page-framework-collapsible-section-title .repeatable-section-button {background: none; }";         if (version_compare($GLOBALS['wp_version'], '3.8', '<')) {
-            $_sCSSRules.= ".admin-page-framework-collapsible-sections-title.accordion-section-title:after,.admin-page-framework-collapsible-section-title.accordion-section-title:after {content: '';top: 18px;}.admin-page-framework-collapsible-sections-title.accordion-section-title.collapsed:after,.admin-page-framework-collapsible-section-title.accordion-section-title.collapsed:after {content: '';} .admin-page-framework-collapsible-toggle-all-button.button {font-size: 1em;}.admin-page-framework-collapsible-section-title .admin-page-framework-repeatable-section-buttons {top: -8px;}";         }
+        $_sCSSRules = ".admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title{font-size:13px;background-color: #fff;padding: 15px 18px;margin-top: 1em; border-top: 1px solid #eee;border-bottom: 1px solid #eee;}.admin-page-framework-collapsible-sections-title.collapsed.admin-page-framework-collapsible-section-title.collapsed {border-bottom: 1px solid #dfdfdf;margin-bottom: 1em; }.admin-page-framework-collapsible-section-title {margin-top: 0;}.admin-page-framework-collapsible-section-title.collapsed {margin-bottom: 0;}#poststuff .metabox-holder .admin-page-framework-collapsible-sections-title.admin-page-framework-section-title h3,#poststuff .metabox-holder .admin-page-framework-collapsible-section-title.admin-page-framework-section-title h3{font-size: 1em;margin: 0;}.admin-page-framework-collapsible-sections-title.accordion-section-title:after,.admin-page-framework-collapsible-section-title.accordion-section-title:after {top: 12px;right: 15px;}.admin-page-framework-collapsible-sections-title.accordion-section-title:after,.admin-page-framework-collapsible-section-title.accordion-section-title:after {content: '\\f142';}.admin-page-framework-collapsible-sections-title.accordion-section-title.collapsed:after,.admin-page-framework-collapsible-section-title.accordion-section-title.collapsed:after {content: '\\f140';}.admin-page-framework-collapsible-sections-content, .admin-page-framework-collapsible-section-content{border: 1px solid #dfdfdf;border-top: 0;background-color: #fff;}tbody.admin-page-framework-collapsible-content {display: table-caption; padding: 10px 20px 15px 20px;}tbody.admin-page-framework-collapsible-content.table-caption {display: table-caption; }.admin-page-framework-collapsible-toggle-all-button-container {margin-top: 1em;margin-bottom: 1em;width: 100%;display: table; }.admin-page-framework-collapsible-toggle-all-button.button {height: 36px;line-height: 34px;padding: 0 16px 6px;font-size: 20px;width: auto;}.admin-page-framework-collapsible-section-title .admin-page-framework-repeatable-section-buttons {margin: 0;margin-right: 2em; margin-top: -0.32em;}.admin-page-framework-collapsible-section-title .admin-page-framework-repeatable-section-buttons.section_title_field_sibling {margin-top: 0;}.admin-page-framework-collapsible-section-title .repeatable-section-button {background: none; }";
+        if (version_compare($GLOBALS['wp_version'], '3.8', '<')) {
+            $_sCSSRules.= ".admin-page-framework-collapsible-sections-title.accordion-section-title:after,.admin-page-framework-collapsible-section-title.accordion-section-title:after {content: '';top: 18px;}.admin-page-framework-collapsible-sections-title.accordion-section-title.collapsed:after,.admin-page-framework-collapsible-section-title.accordion-section-title.collapsed:after {content: '';} .admin-page-framework-collapsible-toggle-all-button.button {font-size: 1em;}.admin-page-framework-collapsible-section-title .admin-page-framework-repeatable-section-buttons {top: -8px;}";
+        }
         return $_sCSSRules;
     }
     static private function _getMetaBoxFormRules() {
-        return ".postbox .title-colon {margin-left: 0.2em;}.postbox .admin-page-framework-section .form-table > tbody > tr > td,.postbox .admin-page-framework-section .form-table > tbody > tr > th{display: inline-block;width: 100%;padding: 0;float: right;clear: right; }.postbox .admin-page-framework-field {width: 96%; }.postbox .sortable .admin-page-framework-field {width: auto;} .postbox .admin-page-framework-section .form-table > tbody > tr > th {font-size: 13px;line-height: 1.5;margin: 1em 0px;font-weight: 700;}#poststuff .metabox-holder .admin-page-framework-section-title h3 {border: none;font-weight: bold;font-size: 1.3em;margin: 1em 0;padding: 0;font-family: 'Open Sans', sans-serif; cursor: inherit; -webkit-user-select: inherit;-moz-user-select: inherit;user-select: inherit;text-shadow: none;-webkit-box-shadow: none;box-shadow: none;background: none;} ";     }
+        return ".postbox .title-colon {margin-left: 0.2em;}.postbox .admin-page-framework-section .form-table > tbody > tr > td,.postbox .admin-page-framework-section .form-table > tbody > tr > th{display: inline-block;width: 100%;padding: 0;float: right;clear: right; }.postbox .admin-page-framework-field {width: 96%; }.postbox .sortable .admin-page-framework-field {width: auto;} .postbox .admin-page-framework-section .form-table > tbody > tr > th {font-size: 13px;line-height: 1.5;margin: 1em 0px;font-weight: 700;}#poststuff .metabox-holder .admin-page-framework-section-title h3 {border: none;font-weight: bold;font-size: 1.3em;margin: 1em 0;padding: 0;font-family: 'Open Sans', sans-serif; cursor: inherit; -webkit-user-select: inherit;-moz-user-select: inherit;user-select: inherit;text-shadow: none;-webkit-box-shadow: none;box-shadow: none;background: none;} ";
+    }
     static private function _getWidgetFormRules() {
-        return ".widget .admin-page-framework-section .form-table > tbody > tr > td,.widget .admin-page-framework-section .form-table > tbody > tr > th{display: inline-block;width: 100%;padding: 0;float: right;clear: right; }.widget .admin-page-framework-field,.widget .admin-page-framework-input-label-container{width: 100%;}.widget .sortable .admin-page-framework-field {padding: 4% 4.4% 3.2% 4.4%;width: 91.2%;}.widget .admin-page-framework-field input {margin-bottom: 0.1em;margin-top: 0.1em;}.widget .admin-page-framework-field input[type=text],.widget .admin-page-framework-field textarea {width: 100%;} @media screen and ( max-width: 782px ) {.widget .admin-page-framework-fields {width: 99.2%;}.widget .admin-page-framework-field input[type='checkbox'], .widget .admin-page-framework-field input[type='radio'] {margin-top: 0;}}";     }
+        return ".widget .admin-page-framework-section .form-table > tbody > tr > td,.widget .admin-page-framework-section .form-table > tbody > tr > th{display: inline-block;width: 100%;padding: 0;float: right;clear: right; }.widget .admin-page-framework-field,.widget .admin-page-framework-input-label-container{width: 100%;}.widget .sortable .admin-page-framework-field {padding: 4% 4.4% 3.2% 4.4%;width: 91.2%;}.widget .admin-page-framework-field input {margin-bottom: 0.1em;margin-top: 0.1em;}.widget .admin-page-framework-field input[type=text],.widget .admin-page-framework-field textarea {width: 100%;} @media screen and ( max-width: 782px ) {.widget .admin-page-framework-fields {width: 99.2%;}.widget .admin-page-framework-field input[type='checkbox'], .widget .admin-page-framework-field input[type='radio'] {margin-top: 0;}}";
+    }
     static private function _getFieldErrorRules() {
-        return ".field-error, .section-error{color: red;float: left;clear: both;margin-bottom: 0.5em;}.repeatable-section-error,.repeatable-field-error {float: right;clear: both;color: red;margin-left: 1em;}";     }
+        return ".field-error, .section-error{color: red;float: left;clear: both;margin-bottom: 0.5em;}.repeatable-section-error,.repeatable-field-error {float: right;clear: both;color: red;margin-left: 1em;}";
+    }
     static private function _getPageLoadStatsRules() {
-        return "#admin-page-framework-page-load-stats {clear: both;display: inline-block;width: 100%}#admin-page-framework-page-load-stats li{display: inline;margin-right: 1em;} #wpbody-content {padding-bottom: 140px;}";     }
+        return "#admin-page-framework-page-load-stats {clear: both;display: inline-block;width: 100%}#admin-page-framework-page-load-stats li{display: inline;margin-right: 1em;} #wpbody-content {padding-bottom: 140px;}";
+    }
     static private function _getVersionSpecificRules($sWPVersion) {
         $_sCSSRules = '';
         if (version_compare($sWPVersion, '3.8', '<')) {
-            $_sCSSRules.= ".admin-page-framework-field .remove_value.button.button-small {line-height: 1.5em; }.widget .admin-page-framework-section table.mceLayout {table-layout: fixed;}";         }
+            $_sCSSRules.= ".admin-page-framework-field .remove_value.button.button-small {line-height: 1.5em; }.widget .admin-page-framework-section table.mceLayout {table-layout: fixed;}";
+        }
         if (version_compare($sWPVersion, '3.8', '>=')) {
-            $_sCSSRules.= ".widget .admin-page-framework-section .form-table th{font-size: 13px;font-weight: normal;margin-bottom: 0.2em;}.widget .admin-page-framework-section .form-table {margin-top: 1em;}.admin-page-framework-repeatable-field-buttons {margin: 2px 0 0 0.3em;} @media screen and ( max-width: 782px ) {.admin-page-framework-fieldset {overflow-x: hidden;}}";         }
+            $_sCSSRules.= ".widget .admin-page-framework-section .form-table th{font-size: 13px;font-weight: normal;margin-bottom: 0.2em;}.widget .admin-page-framework-section .form-table {margin-top: 1em;}.admin-page-framework-repeatable-field-buttons {margin: 2px 0 0 0.3em;} @media screen and ( max-width: 782px ) {.admin-page-framework-fieldset {overflow-x: hidden;}}";
+        }
         return $_sCSSRules;
     }
     static public function getDefaultCSSIE() {
-        return "tbody.admin-page-framework-collapsible-content > tr > th,tbody.admin-page-framework-collapsible-content > tr > td{padding-right: 20px;padding-left: 20px;}";     }
+        return "tbody.admin-page-framework-collapsible-content > tr > th,tbody.admin-page-framework-collapsible-content > tr > td{padding-right: 20px;padding-left: 20px;}";
+    }
 }
 class AdminPageFramework_Message {
     public $aMessages = array();
@@ -6661,7 +6828,8 @@ abstract class AdminPageFramework_Property_Base {
             return $this->aLastInput;
         }
     }
-}class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Base {
+}
+class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Base {
     public $_sPropertyType = 'post_meta_box';
     public $sMetaBoxID = '';
     public $sTitle = '';
@@ -6682,7 +6850,8 @@ abstract class AdminPageFramework_Property_Base {
     protected function _getOptions() {
         return array();
     }
-}class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base {
+}
+class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base {
     public $_sPropertyType = 'page';
     public $sFieldsType = 'page';
     public $sClassName;
@@ -6780,7 +6949,8 @@ abstract class AdminPageFramework_Property_Base {
     public function _replyToGetCapability() {
         return $this->sCapability;
     }
-}class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Property_Page {
+}
+class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Property_Page {
     public $_sPropertyType = 'network_admin_page';
     public $sFieldsType = 'network_admin_page';
     protected function _getOptions() {
@@ -6792,7 +6962,8 @@ abstract class AdminPageFramework_Property_Base {
         }
         return update_site_option($this->sOptionKey, $aOptions !== null ? $aOptions : $this->aOptions);
     }
-}class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_Base {
+}
+class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_Base {
     public $_sPropertyType = 'post_type';
     public $sPostType = '';
     public $aPostTypeArgs = array();
@@ -6821,14 +6992,16 @@ abstract class AdminPageFramework_Property_Base {
             break;
         }
     }
-}class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Base {
+}
+class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Base {
     public $_sPropertyType = 'widget';
     public $sFieldsType = 'widget';
     public $sClassName = '';
     public $sCallerPath = '';
     public $sWidgetTitle = '';
     public $aWidgetArguments = array();
-}class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Property_MetaBox {
+}
+class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Property_MetaBox {
     public $_sPropertyType = 'page_meta_box';
     public $aPageSlugs = array();
     public $oAdminPage;
@@ -6894,7 +7067,8 @@ abstract class AdminPageFramework_Property_Base {
         }
         return null;
     }
-}class AdminPageFramework_Property_TaxonomyField extends AdminPageFramework_Property_MetaBox {
+}
+class AdminPageFramework_Property_TaxonomyField extends AdminPageFramework_Property_MetaBox {
     public $_sPropertyType = 'taxonomy_field';
     public $aTaxonomySlugs;
     public $sOptionKey;
@@ -7021,7 +7195,8 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
         $_iSize = pow(1024, $_nLog - $_iPower);
         return $_iSize . $_aUnits[$_iPower];
     }
-}class AdminPageFramework_PageLoadInfo_NetworkAdminPage extends AdminPageFramework_PageLoadInfo_Base {
+}
+class AdminPageFramework_PageLoadInfo_NetworkAdminPage extends AdminPageFramework_PageLoadInfo_Base {
     private static $_oInstance;
     private static $aClassNames = array();
     function __construct($oProp, $oMsg) {
@@ -7044,7 +7219,8 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
             add_filter('update_footer', array($this, '_replyToGetPageLoadInfo'), 999);
         }
     }
-}class AdminPageFramework_PageLoadInfo_Page extends AdminPageFramework_PageLoadInfo_Base {
+}
+class AdminPageFramework_PageLoadInfo_Page extends AdminPageFramework_PageLoadInfo_Base {
     private static $_oInstance;
     private static $aClassNames = array();
     public static function instantiate($oProp, $oMsg) {
@@ -7058,7 +7234,8 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
             add_filter('update_footer', array($this, '_replyToGetPageLoadInfo'), 999);
         }
     }
-}class AdminPageFramework_PageLoadInfo_PostType extends AdminPageFramework_PageLoadInfo_Base {
+}
+class AdminPageFramework_PageLoadInfo_PostType extends AdminPageFramework_PageLoadInfo_Base {
     private static $_oInstance;
     private static $aClassNames = array();
     public static function instantiate($oProp, $oMsg) {
@@ -7103,17 +7280,22 @@ class AdminPageFramework_Script_Base {
         $_oMsg = $_aParams[0];
         return "";
     }
-}class AdminPageFramework_Script_AttributeUpdator extends AdminPageFramework_Script_Base {
+}
+class AdminPageFramework_Script_AttributeUpdator extends AdminPageFramework_Script_Base {
     static public function getScript() {
         $_aParams = func_get_args() + array(null);
         $_oMsg = $_aParams[0];
-        return "(function($){ $.fn.incrementIDAttribute=function(sAttribute,biOccurrence){ return this.attr(sAttribute,function(iIndex,sValue){ return updateID(iIndex,sValue,1,biOccurrence) }) };$.fn.incrementNameAttribute=function(sAttribute,biOccurrence){ return this.attr(sAttribute,function(iIndex,sValue){ return updateName(iIndex,sValue,1,biOccurrence) }) };$.fn.decrementIDAttribute=function(sAttribute,biOccurrence){ return this.attr(sAttribute,function(iIndex,sValue){ return updateID(iIndex,sValue,-1,biOccurrence) }) };$.fn.decrementNameAttribute=function(sAttribute,biOccurrence){ return this.attr(sAttribute,function(iIndex,sValue){ return updateName(iIndex,sValue,-1,biOccurrence) }) };$.fn.setIndexIDAttribute=function(sAttribute,iIndex,biOccurrence){ return this.attr(sAttribute,function(i,sValue){ return updateID(iIndex,sValue,0,biOccurrence) }) };$.fn.setIndexNameAttribute=function(sAttribute,iIndex,biOccurrence){ return this.attr(sAttribute,function(i,sValue){ return updateName(iIndex,sValue,0,biOccurrence) }) };var sanitizeOccurrence=function(biOccurrence){ if('undefined'===typeof biOccurrence)return-1;if(true===biOccurrence)return 1;if(false===biOccurrence)return-1;if(0===biOccurrence)return-1;if('number'===typeof biOccurrence)return biOccurrence;return-1 },updateID=function(iIndex,sID,iIncrementType,biOccurrence){ if('undefined'===typeof sID)return sID;var _iCurrentOccurrence=1,_oNeedle=new RegExp('(.+?)__(\\\d+)(?=([_-]|$))','g'),_oMatch=sID.match(_oNeedle),_iTotalMatch=null!==_oMatch&&_oMatch.hasOwnProperty('length')?_oMatch.length:0;if(_iTotalMatch===0)return sID;var _iOccurrence=sanitizeOccurrence(biOccurrence),_bIsBackwards=_iOccurrence<0;_iOccurrence=_bIsBackwards?_iTotalMatch+1+_iOccurrence:_iOccurrence;return sID.replace(_oNeedle,function(sFullMatch,sMatch0,sMatch1){ if(_iCurrentOccurrence!==_iOccurrence){ _iCurrentOccurrence++;return sFullMatch };switch(iIncrementType){case 1:var _sResult=sMatch0+'__'+(Number(sMatch1)+1);break;case -1:var _sResult=sMatch0+'__'+(Number(sMatch1)-1);break;default:var _sResult=sMatch0+'__'+iIndex;break};_iCurrentOccurrence++;return _sResult }) },updateName=function(iIndex,sName,iIncrementType,biOccurrence){ if('undefined'===typeof sName)return sName;var _iCurrentOccurrence=1,_oNeedle=new RegExp('(.+?)\\\[(\\\d+)(?=\\\])','g'),_oMatch=sName.match(_oNeedle),_iTotalMatch=null!==_oMatch&&_oMatch.hasOwnProperty('length')?_oMatch.length:0;if(_iTotalMatch===0)return sName;var _iOccurrence=sanitizeOccurrence(biOccurrence),_bIsBackwards=_iOccurrence<0;_iOccurrence=_bIsBackwards?_iTotalMatch+1+_iOccurrence:_iOccurrence;return sName.replace(_oNeedle,function(sFullMatch,sMatch0,sMatch1){ if(_iCurrentOccurrence!==_iOccurrence){ _iCurrentOccurrence++;return sFullMatch };switch(iIncrementType){case 1:var _sResult=sMatch0+'['+(Number(sMatch1)+1);break;case -1:var _sResult=sMatch0+'['+(Number(sMatch1)-1);break;default:var _sResult=sMatch0+'['+iIndex;break};_iCurrentOccurrence++;return _sResult }) } }(jQuery));";     }
-}class AdminPageFramework_Script_CheckboxSelector extends AdminPageFramework_Script_Base {
+        return "(function($){ $.fn.incrementIDAttribute=function(sAttribute,biOccurrence){ return this.attr(sAttribute,function(iIndex,sValue){ return updateID(iIndex,sValue,1,biOccurrence) }) };$.fn.incrementNameAttribute=function(sAttribute,biOccurrence){ return this.attr(sAttribute,function(iIndex,sValue){ return updateName(iIndex,sValue,1,biOccurrence) }) };$.fn.decrementIDAttribute=function(sAttribute,biOccurrence){ return this.attr(sAttribute,function(iIndex,sValue){ return updateID(iIndex,sValue,-1,biOccurrence) }) };$.fn.decrementNameAttribute=function(sAttribute,biOccurrence){ return this.attr(sAttribute,function(iIndex,sValue){ return updateName(iIndex,sValue,-1,biOccurrence) }) };$.fn.setIndexIDAttribute=function(sAttribute,iIndex,biOccurrence){ return this.attr(sAttribute,function(i,sValue){ return updateID(iIndex,sValue,0,biOccurrence) }) };$.fn.setIndexNameAttribute=function(sAttribute,iIndex,biOccurrence){ return this.attr(sAttribute,function(i,sValue){ return updateName(iIndex,sValue,0,biOccurrence) }) };var sanitizeOccurrence=function(biOccurrence){ if('undefined'===typeof biOccurrence)return-1;if(true===biOccurrence)return 1;if(false===biOccurrence)return-1;if(0===biOccurrence)return-1;if('number'===typeof biOccurrence)return biOccurrence;return-1 },updateID=function(iIndex,sID,iIncrementType,biOccurrence){ if('undefined'===typeof sID)return sID;var _iCurrentOccurrence=1,_oNeedle=new RegExp('(.+?)__(\\\d+)(?=([_-]|$))','g'),_oMatch=sID.match(_oNeedle),_iTotalMatch=null!==_oMatch&&_oMatch.hasOwnProperty('length')?_oMatch.length:0;if(_iTotalMatch===0)return sID;var _iOccurrence=sanitizeOccurrence(biOccurrence),_bIsBackwards=_iOccurrence<0;_iOccurrence=_bIsBackwards?_iTotalMatch+1+_iOccurrence:_iOccurrence;return sID.replace(_oNeedle,function(sFullMatch,sMatch0,sMatch1){ if(_iCurrentOccurrence!==_iOccurrence){ _iCurrentOccurrence++;return sFullMatch };switch(iIncrementType){case 1:var _sResult=sMatch0+'__'+(Number(sMatch1)+1);break;case -1:var _sResult=sMatch0+'__'+(Number(sMatch1)-1);break;default:var _sResult=sMatch0+'__'+iIndex;break};_iCurrentOccurrence++;return _sResult }) },updateName=function(iIndex,sName,iIncrementType,biOccurrence){ if('undefined'===typeof sName)return sName;var _iCurrentOccurrence=1,_oNeedle=new RegExp('(.+?)\\\[(\\\d+)(?=\\\])','g'),_oMatch=sName.match(_oNeedle),_iTotalMatch=null!==_oMatch&&_oMatch.hasOwnProperty('length')?_oMatch.length:0;if(_iTotalMatch===0)return sName;var _iOccurrence=sanitizeOccurrence(biOccurrence),_bIsBackwards=_iOccurrence<0;_iOccurrence=_bIsBackwards?_iTotalMatch+1+_iOccurrence:_iOccurrence;return sName.replace(_oNeedle,function(sFullMatch,sMatch0,sMatch1){ if(_iCurrentOccurrence!==_iOccurrence){ _iCurrentOccurrence++;return sFullMatch };switch(iIncrementType){case 1:var _sResult=sMatch0+'['+(Number(sMatch1)+1);break;case -1:var _sResult=sMatch0+'['+(Number(sMatch1)-1);break;default:var _sResult=sMatch0+'['+iIndex;break};_iCurrentOccurrence++;return _sResult }) } }(jQuery));";
+    }
+}
+class AdminPageFramework_Script_CheckboxSelector extends AdminPageFramework_Script_Base {
     static public function getScript() {
         $_aParams = func_get_args() + array(null);
         $_oMsg = $_aParams[0];
-        return "(function($){ $.fn.selectALLAPFCheckboxes=function(){ jQuery(this).parent().find('input[type=checkbox]').attr('checked',true) };$.fn.deselectAllAPFCheckboxes=function(){ jQuery(this).parent().find('input[type=checkbox]').attr('checked',false) } }(jQuery));";     }
-}class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Script_Base {
+        return "(function($){ $.fn.selectALLAPFCheckboxes=function(){ jQuery(this).parent().find('input[type=checkbox]').attr('checked',true) };$.fn.deselectAllAPFCheckboxes=function(){ jQuery(this).parent().find('input[type=checkbox]').attr('checked',false) } }(jQuery));";
+    }
+}
+class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Script_Base {
     public function construct() {
         wp_enqueue_script('juery');
         wp_enqueue_script('juery-ui-accordion');
@@ -7126,8 +7308,10 @@ class AdminPageFramework_Script_Base {
         $_sDashIconSort = version_compare($GLOBALS['wp_version'], '3.8', '<') ? '' : 'dashicons dashicons-sort';
         $_sToggleAllButton = "<div class='admin-page-framework-collapsible-toggle-all-button-container'>" . "<span class='admin-page-framework-collapsible-toggle-all-button button " . $_sDashIconSort . "' title='" . esc_attr($_sLabelToggleAllSections) . "'>" . ($_sDashIconSort ? '' : $_sLabelToggleAll) . "</span>" . "</div>";
         $_sToggleAllButtonHTML = '"' . $_sToggleAllButton . '"';
-        return "(function($){ jQuery(document).ready(function(){ jQuery('.admin-page-framework-collapsible-sections-title[data-is_collapsed=\"0\"]').next('.admin-page-framework-collapsible-sections-content').slideDown('fast');jQuery('.admin-page-framework-collapsible-section-title[data-is_collapsed=\"0\"]').closest('.admin-page-framework-section-table').find('tbody').slideDown('fast');jQuery('.admin-page-framework-collapsible-section-title[data-is_collapsed=\"1\"]').closest('.admin-page-framework-section-table').find('tbody').hide();jQuery('.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title').enableAPFCollapsibleButton();jQuery('.admin-page-framework-collapsible-title[data-toggle_all_button!=\"0\"]').each(function(){ var _oThis=jQuery(this),_bForSections=jQuery(this).hasClass('admin-page-framework-collapsible-sections-title'),_isPositions=jQuery(this).data('toggle_all_button'),_isPositions=1===_isPositions?'top-right':_isPositions,_aPositions='string'===typeof _isPositions?_isPositions.split(','):['top-right'];jQuery.each(_aPositions,function(iIndex,_sPosition){ var _oButton=jQuery($_sToggleAllButtonHTML),_sLeftOrRight=-1!==jQuery.inArray(_sPosition,['top-right','bottom-right','0'])?'right':'left';_oButton.find('.admin-page-framework-collapsible-toggle-all-button').css('float',_sLeftOrRight);var _sTopOrBottom=-1!==jQuery.inArray(_sPosition,['top-right','top-left','0'])?'before':'after';if(_bForSections){ { var _oTargetElement='before'===_sTopOrBottom?_oThis:_oThis.next('.admin-page-framework-collapsible-content');_oTargetElement[_sTopOrBottom](_oButton) } }else _oThis.closest('.admin-page-framework-section')[_sTopOrBottom](_oButton);_oButton.click(function(){ _oButton.toggleClass('flipped');if(_oButton.hasClass('flipped')&&_oButton.hasClass('dashicons')){ _oButton.css('transform','rotateY( 180deg )') }else _oButton.css('transform','');if(_bForSections){ _oButton.parent().parent().children().children('* > .admin-page-framework-collapsible-title').each(function(){ jQuery(this).trigger('click',['by_toggle_all_button']) }) }else _oButton.closest('.admin-page-framework-sections').children('.admin-page-framework-section').children('.admin-page-framework-section-table').children('caption').children('.admin-page-framework-collapsible-title').each(function(){ jQuery(this).trigger('click',['by_toggle_all_button']) }) }) }) }) });$.fn.enableAPFCollapsibleButton=function(){ jQuery(this).click(function(event,sContext){ var _oThis=jQuery(this),_sContainerType=jQuery(this).hasClass('admin-page-framework-collapsible-sections-title')?'sections':'section',_oTargetContent='sections'===_sContainerType?jQuery(this).next('.admin-page-framework-collapsible-content').first():jQuery(this).parent().siblings('tbody'),_sAction=_oTargetContent.is(':visible')?'collapse':'expand';_oThis.removeClass('collapsed');_oTargetContent.slideToggle('fast',function(){ var _bIsChrome=navigator.userAgent.toLowerCase().indexOf('chrome')>-1;if('expand'===_sAction&&'section'===_sContainerType&&!_bIsChrome)_oTargetContent.css('display','block');if(_oTargetContent.is(':visible')){ _oThis.removeClass('collapsed') }else _oThis.addClass('collapsed') });if('by_toggle_all_button'===sContext)return;if('expand'===_sAction&&_oThis.data('collapse_others_on_expand'))_oThis.parent().parent().children().children('* > .admin-page-framework-collapsible-content').not(_oTargetContent).slideUp('fast',function(){ jQuery(this).prev('.admin-page-framework-collapsible-title').addClass('collapsed') }) }) } }(jQuery));";     }
-}class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_Base {
+        return "(function($){ jQuery(document).ready(function(){ jQuery('.admin-page-framework-collapsible-sections-title[data-is_collapsed=\"0\"]').next('.admin-page-framework-collapsible-sections-content').slideDown('fast');jQuery('.admin-page-framework-collapsible-section-title[data-is_collapsed=\"0\"]').closest('.admin-page-framework-section-table').find('tbody').slideDown('fast');jQuery('.admin-page-framework-collapsible-section-title[data-is_collapsed=\"1\"]').closest('.admin-page-framework-section-table').find('tbody').hide();jQuery('.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title').enableAPFCollapsibleButton();jQuery('.admin-page-framework-collapsible-title[data-toggle_all_button!=\"0\"]').each(function(){ var _oThis=jQuery(this),_bForSections=jQuery(this).hasClass('admin-page-framework-collapsible-sections-title'),_isPositions=jQuery(this).data('toggle_all_button'),_isPositions=1===_isPositions?'top-right':_isPositions,_aPositions='string'===typeof _isPositions?_isPositions.split(','):['top-right'];jQuery.each(_aPositions,function(iIndex,_sPosition){ var _oButton=jQuery($_sToggleAllButtonHTML),_sLeftOrRight=-1!==jQuery.inArray(_sPosition,['top-right','bottom-right','0'])?'right':'left';_oButton.find('.admin-page-framework-collapsible-toggle-all-button').css('float',_sLeftOrRight);var _sTopOrBottom=-1!==jQuery.inArray(_sPosition,['top-right','top-left','0'])?'before':'after';if(_bForSections){ { var _oTargetElement='before'===_sTopOrBottom?_oThis:_oThis.next('.admin-page-framework-collapsible-content');_oTargetElement[_sTopOrBottom](_oButton) } }else _oThis.closest('.admin-page-framework-section')[_sTopOrBottom](_oButton);_oButton.click(function(){ _oButton.toggleClass('flipped');if(_oButton.hasClass('flipped')&&_oButton.hasClass('dashicons')){ _oButton.css('transform','rotateY( 180deg )') }else _oButton.css('transform','');if(_bForSections){ _oButton.parent().parent().children().children('* > .admin-page-framework-collapsible-title').each(function(){ jQuery(this).trigger('click',['by_toggle_all_button']) }) }else _oButton.closest('.admin-page-framework-sections').children('.admin-page-framework-section').children('.admin-page-framework-section-table').children('caption').children('.admin-page-framework-collapsible-title').each(function(){ jQuery(this).trigger('click',['by_toggle_all_button']) }) }) }) }) });$.fn.enableAPFCollapsibleButton=function(){ jQuery(this).click(function(event,sContext){ var _oThis=jQuery(this),_sContainerType=jQuery(this).hasClass('admin-page-framework-collapsible-sections-title')?'sections':'section',_oTargetContent='sections'===_sContainerType?jQuery(this).next('.admin-page-framework-collapsible-content').first():jQuery(this).parent().siblings('tbody'),_sAction=_oTargetContent.is(':visible')?'collapse':'expand';_oThis.removeClass('collapsed');_oTargetContent.slideToggle('fast',function(){ var _bIsChrome=navigator.userAgent.toLowerCase().indexOf('chrome')>-1;if('expand'===_sAction&&'section'===_sContainerType&&!_bIsChrome)_oTargetContent.css('display','block');if(_oTargetContent.is(':visible')){ _oThis.removeClass('collapsed') }else _oThis.addClass('collapsed') });if('by_toggle_all_button'===sContext)return;if('expand'===_sAction&&_oThis.data('collapse_others_on_expand'))_oThis.parent().parent().children().children('* > .admin-page-framework-collapsible-content').not(_oTargetContent).slideUp('fast',function(){ jQuery(this).prev('.admin-page-framework-collapsible-title').addClass('collapsed') }) }) } }(jQuery));";
+    }
+}
+class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_Base {
     public function construct() {
         wp_enqueue_script('jquery');
         if (function_exists('wp_enqueue_media')) {
@@ -7146,52 +7330,69 @@ class AdminPageFramework_Script_Base {
         $_sReturnToLibrary = esc_js($_oMsg->get('return_to_library'));
         $_sSelect = esc_js($_oMsg->get('select'));
         $_sInsert = esc_js($_oMsg->get('insert'));
-        return "(function($){ getAPFCustomMediaUploaderSelectObject=function(){ return wp.media.view.MediaFrame.Select.extend({ initialize:function(){ wp.media.view.MediaFrame.prototype.initialize.apply(this,arguments);_.defaults(this.options,{ multiple:true,editing:false,state:'insert',metadata:{ }});this.createSelection();this.createStates();this.bindHandlers();this.createIframeStates() },createStates:function(){ var options=this.options;this.states.add([new wp.media.controller.Library({ id:'insert',title:'Insert Media',priority:20,toolbar:'main-insert',filterable:'image',library:wp.media.query(options.library),multiple:options.multiple?'reset':false,editable:true,allowLocalEdits:true,displaySettings:true,displayUserSettings:true}),new wp.media.controller.Embed(options)]);if(wp.media.view.settings.post.featuredImageId)this.states.add(new wp.media.controller.FeaturedImage()) },bindHandlers:function(){ this.on('router:create:browse',this.createRouter,this);this.on('router:render:browse',this.browseRouter,this);this.on('content:create:browse',this.browseContent,this);this.on('content:render:upload',this.uploadContent,this);this.on('toolbar:create:select',this.createSelectToolbar,this);this.on('menu:create:gallery',this.createMenu,this);this.on('toolbar:create:main-insert',this.createToolbar,this);this.on('toolbar:create:main-gallery',this.createToolbar,this);this.on('toolbar:create:featured-image',this.featuredImageToolbar,this);this.on('toolbar:create:main-embed',this.mainEmbedToolbar,this);var handlers={ menu:{ 'default':'mainMenu'},content:{ embed:'embedContent','edit-selection':'editSelectionContent'},toolbar:{ 'main-insert':'mainInsertToolbar'}};_.each(handlers,function(regionHandlers,region){ _.each(regionHandlers,function(callback,handler){ this.on(region+':render:'+handler,this[callback],this) },this) },this) },mainMenu:function(view){ view.set({ 'library-separator':new wp.media.View({ className:'separator',priority:100})}) },embedContent:function(){ var view=new wp.media.view.Embed({ controller:this,model:this.state()}).render();this.content.set(view);view.url.focus() },editSelectionContent:function(){ var state=this.state(),selection=state.get('selection'),view;view=new wp.media.view.AttachmentsBrowser({ controller:this,collection:selection,selection:selection,model:state,sortable:true,search:false,dragInfo:true,AttachmentView:wp.media.view.Attachment.EditSelection}).render();view.toolbar.set('backToLibrary',{ text:'{$_sReturnToLibrary}',priority:-100,click:function(){ this.controller.content.mode('browse') }});this.content.set(view) },selectionStatusToolbar:function(view){ var editable=this.state().get('editable');view.set('selection',new wp.media.view.Selection({ controller:this,collection:this.state().get('selection'),priority:-40,editable:editable&&function(){ this.controller.content.mode('edit-selection') }}).render()) },mainInsertToolbar:function(view){ var controller=this;this.selectionStatusToolbar(view);view.set('insert',{ style:'primary',priority:80,text:'{$_sSelect}',requires:{ selection:true},click:function(){ var state=controller.state(),selection=state.get('selection');controller.close();state.trigger('insert',selection).reset() }}) },featuredImageToolbar:function(toolbar){ this.createSelectToolbar(toolbar,{ text:l10n.setFeaturedImage,state:this.options.state||'upload'}) },mainEmbedToolbar:function(toolbar){ var state=this.state();state.set('library',false);toolbar.view=new wp.media.view.Toolbar.Embed({ controller:this,text:'{$_sInsert}'}) }}) } }(jQuery));";     }
-}class AdminPageFramework_Script_OptionStorage extends AdminPageFramework_Script_Base {
+        return "(function($){ getAPFCustomMediaUploaderSelectObject=function(){ return wp.media.view.MediaFrame.Select.extend({ initialize:function(){ wp.media.view.MediaFrame.prototype.initialize.apply(this,arguments);_.defaults(this.options,{ multiple:true,editing:false,state:'insert',metadata:{ }});this.createSelection();this.createStates();this.bindHandlers();this.createIframeStates() },createStates:function(){ var options=this.options;this.states.add([new wp.media.controller.Library({ id:'insert',title:'Insert Media',priority:20,toolbar:'main-insert',filterable:'image',library:wp.media.query(options.library),multiple:options.multiple?'reset':false,editable:true,allowLocalEdits:true,displaySettings:true,displayUserSettings:true}),new wp.media.controller.Embed(options)]);if(wp.media.view.settings.post.featuredImageId)this.states.add(new wp.media.controller.FeaturedImage()) },bindHandlers:function(){ this.on('router:create:browse',this.createRouter,this);this.on('router:render:browse',this.browseRouter,this);this.on('content:create:browse',this.browseContent,this);this.on('content:render:upload',this.uploadContent,this);this.on('toolbar:create:select',this.createSelectToolbar,this);this.on('menu:create:gallery',this.createMenu,this);this.on('toolbar:create:main-insert',this.createToolbar,this);this.on('toolbar:create:main-gallery',this.createToolbar,this);this.on('toolbar:create:featured-image',this.featuredImageToolbar,this);this.on('toolbar:create:main-embed',this.mainEmbedToolbar,this);var handlers={ menu:{ 'default':'mainMenu'},content:{ embed:'embedContent','edit-selection':'editSelectionContent'},toolbar:{ 'main-insert':'mainInsertToolbar'}};_.each(handlers,function(regionHandlers,region){ _.each(regionHandlers,function(callback,handler){ this.on(region+':render:'+handler,this[callback],this) },this) },this) },mainMenu:function(view){ view.set({ 'library-separator':new wp.media.View({ className:'separator',priority:100})}) },embedContent:function(){ var view=new wp.media.view.Embed({ controller:this,model:this.state()}).render();this.content.set(view);view.url.focus() },editSelectionContent:function(){ var state=this.state(),selection=state.get('selection'),view;view=new wp.media.view.AttachmentsBrowser({ controller:this,collection:selection,selection:selection,model:state,sortable:true,search:false,dragInfo:true,AttachmentView:wp.media.view.Attachment.EditSelection}).render();view.toolbar.set('backToLibrary',{ text:'{$_sReturnToLibrary}',priority:-100,click:function(){ this.controller.content.mode('browse') }});this.content.set(view) },selectionStatusToolbar:function(view){ var editable=this.state().get('editable');view.set('selection',new wp.media.view.Selection({ controller:this,collection:this.state().get('selection'),priority:-40,editable:editable&&function(){ this.controller.content.mode('edit-selection') }}).render()) },mainInsertToolbar:function(view){ var controller=this;this.selectionStatusToolbar(view);view.set('insert',{ style:'primary',priority:80,text:'{$_sSelect}',requires:{ selection:true},click:function(){ var state=controller.state(),selection=state.get('selection');controller.close();state.trigger('insert',selection).reset() }}) },featuredImageToolbar:function(toolbar){ this.createSelectToolbar(toolbar,{ text:l10n.setFeaturedImage,state:this.options.state||'upload'}) },mainEmbedToolbar:function(toolbar){ var state=this.state();state.set('library',false);toolbar.view=new wp.media.view.Toolbar.Embed({ controller:this,text:'{$_sInsert}'}) }}) } }(jQuery));";
+    }
+}
+class AdminPageFramework_Script_OptionStorage extends AdminPageFramework_Script_Base {
     static public function getScript() {
         $_aParams = func_get_args() + array(null);
         $_oMsg = $_aParams[0];
-        return "(function($){ $.fn.aAPFInputOptions={ };$.fn.storeAPFInputOptions=function(sID,vOptions){ var sID=sID.replace(/__\d+_/,'___');$.fn.aAPFInputOptions[sID]=vOptions };$.fn.getAPFInputOptions=function(sID){ var sID=sID.replace(/__\d+_/,'___');return('undefined'===typeof $.fn.aAPFInputOptions[sID])?null:$.fn.aAPFInputOptions[sID] } }(jQuery));";     }
-}class AdminPageFramework_Script_RegisterCallback extends AdminPageFramework_Script_Base {
+        return "(function($){ $.fn.aAPFInputOptions={ };$.fn.storeAPFInputOptions=function(sID,vOptions){ var sID=sID.replace(/__\d+_/,'___');$.fn.aAPFInputOptions[sID]=vOptions };$.fn.getAPFInputOptions=function(sID){ var sID=sID.replace(/__\d+_/,'___');return('undefined'===typeof $.fn.aAPFInputOptions[sID])?null:$.fn.aAPFInputOptions[sID] } }(jQuery));";
+    }
+}
+class AdminPageFramework_Script_RegisterCallback extends AdminPageFramework_Script_Base {
     static public function getScript() {
         $_aParams = func_get_args() + array(null);
         $_oMsg = $_aParams[0];
-        return "(function($){ $.fn.aAPFAddRepeatableFieldCallbacks=[];$.fn.aAPFRemoveRepeatableFieldCallbacks=[];$.fn.aAPFSortedFieldsCallbacks=[];$.fn.aAPFStoppedSortingFieldsCallbacks=[];$.fn.aAPFAddedWidgetCallbacks=[];$.fn.callBackAddRepeatableField=function(sFieldType,sID,iCallType,iSectionIndex,iFieldIndex){ var oThisNode=this;$.fn.aAPFAddRepeatableFieldCallbacks.forEach(function(hfCallback){ if(jQuery.isFunction(hfCallback))hfCallback(oThisNode,sFieldType,sID,iCallType,iSectionIndex,iFieldIndex) }) };$.fn.callBackRemoveRepeatableField=function(sFieldType,sID,iCallType,iSectionIndex,iFieldIndex){ var oThisNode=this;$.fn.aAPFRemoveRepeatableFieldCallbacks.forEach(function(hfCallback){ if(jQuery.isFunction(hfCallback))hfCallback(oThisNode,sFieldType,sID,iCallType,iSectionIndex.iFieldIndex) }) };$.fn.callBackSortedFields=function(sFieldType,sID,iCallType){ var oThisNode=this;$.fn.aAPFSortedFieldsCallbacks.forEach(function(hfCallback){ if(jQuery.isFunction(hfCallback))hfCallback(oThisNode,sFieldType,sID,iCallType) }) };$.fn.callBackStoppedSortingFields=function(sFieldType,sID,iCallType){ var oThisNode=this;$.fn.aAPFStoppedSortingFieldsCallbacks.forEach(function(hfCallback){ if(jQuery.isFunction(hfCallback))hfCallback(oThisNode,sFieldType,sID,iCallType) }) };$(document).bind('admin_page_framework_saved_widget',function(event,oWidget){ $.each($.fn.aAPFAddedWidgetCallbacks,function(iIndex,hfCallback){ if(!$.isFunction(hfCallback))return true;hfCallback(oWidget) }) });$.fn.registerAPFCallback=function(oOptions){ var oSettings=$.extend({ added_repeatable_field:null,removed_repeatable_field:null,sorted_fields:null,stopped_sorting_fields:null,saved_widget:null},oOptions);$.fn.aAPFAddRepeatableFieldCallbacks.push(oSettings.added_repeatable_field);$.fn.aAPFRemoveRepeatableFieldCallbacks.push(oSettings.removed_repeatable_field);$.fn.aAPFSortedFieldsCallbacks.push(oSettings.sorted_fields);$.fn.aAPFStoppedSortingFieldsCallbacks.push(oSettings.stopped_sorting_fields);$.fn.aAPFAddedWidgetCallbacks.push(oSettings.saved_widget);return } }(jQuery));";     }
-}class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Script_Base {
+        return "(function($){ $.fn.aAPFAddRepeatableFieldCallbacks=[];$.fn.aAPFRemoveRepeatableFieldCallbacks=[];$.fn.aAPFSortedFieldsCallbacks=[];$.fn.aAPFStoppedSortingFieldsCallbacks=[];$.fn.aAPFAddedWidgetCallbacks=[];$.fn.callBackAddRepeatableField=function(sFieldType,sID,iCallType,iSectionIndex,iFieldIndex){ var oThisNode=this;$.fn.aAPFAddRepeatableFieldCallbacks.forEach(function(hfCallback){ if(jQuery.isFunction(hfCallback))hfCallback(oThisNode,sFieldType,sID,iCallType,iSectionIndex,iFieldIndex) }) };$.fn.callBackRemoveRepeatableField=function(sFieldType,sID,iCallType,iSectionIndex,iFieldIndex){ var oThisNode=this;$.fn.aAPFRemoveRepeatableFieldCallbacks.forEach(function(hfCallback){ if(jQuery.isFunction(hfCallback))hfCallback(oThisNode,sFieldType,sID,iCallType,iSectionIndex.iFieldIndex) }) };$.fn.callBackSortedFields=function(sFieldType,sID,iCallType){ var oThisNode=this;$.fn.aAPFSortedFieldsCallbacks.forEach(function(hfCallback){ if(jQuery.isFunction(hfCallback))hfCallback(oThisNode,sFieldType,sID,iCallType) }) };$.fn.callBackStoppedSortingFields=function(sFieldType,sID,iCallType){ var oThisNode=this;$.fn.aAPFStoppedSortingFieldsCallbacks.forEach(function(hfCallback){ if(jQuery.isFunction(hfCallback))hfCallback(oThisNode,sFieldType,sID,iCallType) }) };$(document).bind('admin_page_framework_saved_widget',function(event,oWidget){ $.each($.fn.aAPFAddedWidgetCallbacks,function(iIndex,hfCallback){ if(!$.isFunction(hfCallback))return true;hfCallback(oWidget) }) });$.fn.registerAPFCallback=function(oOptions){ var oSettings=$.extend({ added_repeatable_field:null,removed_repeatable_field:null,sorted_fields:null,stopped_sorting_fields:null,saved_widget:null},oOptions);$.fn.aAPFAddRepeatableFieldCallbacks.push(oSettings.added_repeatable_field);$.fn.aAPFRemoveRepeatableFieldCallbacks.push(oSettings.removed_repeatable_field);$.fn.aAPFSortedFieldsCallbacks.push(oSettings.sorted_fields);$.fn.aAPFStoppedSortingFieldsCallbacks.push(oSettings.stopped_sorting_fields);$.fn.aAPFAddedWidgetCallbacks.push(oSettings.saved_widget);return } }(jQuery));";
+    }
+}
+class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Script_Base {
     static public function getScript() {
         $_aParams = func_get_args() + array(null);
         $_oMsg = $_aParams[0];
         $sCannotAddMore = $_oMsg->get('allowed_maximum_number_of_fields');
         $sCannotRemoveMore = $_oMsg->get('allowed_minimum_number_of_fields');
-        return "(function($){ $.fn.updateAPFRepeatableFields=function(aSettings){ var nodeThis=this,sFieldsContainerID=nodeThis.find('.repeatable-field-add').first().data('id');if(!$.fn.aAPFRepeatableFieldsOptions)$.fn.aAPFRepeatableFieldsOptions=[];if(!$.fn.aAPFRepeatableFieldsOptions.hasOwnProperty(sFieldsContainerID))$.fn.aAPFRepeatableFieldsOptions[sFieldsContainerID]=$.extend({ max:0,min:0},aSettings);var aOptions=$.fn.aAPFRepeatableFieldsOptions[sFieldsContainerID];$(nodeThis).find('.admin-page-framework-repeatable-field-buttons').attr('data-max',aOptions.max);$(nodeThis).find('.admin-page-framework-repeatable-field-buttons').attr('data-min',aOptions.min);$(nodeThis).find('.repeatable-field-add').unbind('click');$(nodeThis).find('.repeatable-field-add').click(function(){ $(this).addAPFRepeatableField();return false });$(nodeThis).find('.repeatable-field-remove').unbind('click');$(nodeThis).find('.repeatable-field-remove').click(function(){ $(this).removeAPFRepeatableField();return false });var sFieldID=nodeThis.find('.repeatable-field-add').first().closest('.admin-page-framework-field').attr('id'),nCurrentFieldCount=jQuery('#'+sFieldsContainerID).find('.admin-page-framework-field').length;if(aOptions.min>0&&nCurrentFieldCount>0)if((aOptions.min-nCurrentFieldCount)>0)$('#'+sFieldID).addAPFRepeatableField(sFieldID) };$.fn.addAPFRepeatableField=function(sFieldContainerID){ if(typeof sFieldContainerID==='undefined')var sFieldContainerID=$(this).closest('.admin-page-framework-field').attr('id');var nodeFieldContainer=$('#'+sFieldContainerID),nodeNewField=nodeFieldContainer.clone(),nodeFieldsContainer=nodeFieldContainer.closest('.admin-page-framework-fields'),sFieldsContainerID=nodeFieldsContainer.attr('id');if(!$.fn.aAPFRepeatableFieldsOptions.hasOwnProperty(sFieldsContainerID)){ var nodeButtonContainer=nodeFieldContainer.find('.admin-page-framework-repeatable-field-buttons');$.fn.aAPFRepeatableFieldsOptions[sFieldsContainerID]={ max:nodeButtonContainer.attr('data-max'),min:nodeButtonContainer.attr('data-min')} };var sMaxNumberOfFields=$.fn.aAPFRepeatableFieldsOptions[sFieldsContainerID]['max'];if(sMaxNumberOfFields!=0&&nodeFieldsContainer.find('.admin-page-framework-field').length>=sMaxNumberOfFields){ var nodeLastRepeaterButtons=nodeFieldContainer.find('.admin-page-framework-repeatable-field-buttons').last(),sMessage=$(this).formatPrintText('{$sCannotAddMore}',sMaxNumberOfFields),nodeMessage=$('<span class=\"repeatable-error repeatable-field-error\" id=\"repeatable-error-'+sFieldsContainerID+'\" >'+sMessage+'</span>');if(nodeFieldsContainer.find('#repeatable-error-'+sFieldsContainerID).length>0){ nodeFieldsContainer.find('#repeatable-error-'+sFieldsContainerID).replaceWith(nodeMessage) }else nodeLastRepeaterButtons.before(nodeMessage);nodeMessage.delay(2e3).fadeOut(1e3);return };nodeNewField.find('input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea').val('');nodeNewField.find('.repeatable-error').remove();nodeNewField.insertAfter(nodeFieldContainer);nodeFieldContainer.nextAll().each(function(){ $(this).incrementIDAttribute('id');$(this).find('label').incrementIDAttribute('for');$(this).find('input,textarea,select').incrementIDAttribute('id');$(this).find('input:not(.apf_checkbox),textarea,select').incrementNameAttribute('name');$(this).find('input.apf_checkbox').incrementNameAttribute('name',-2) });nodeNewField.updateAPFRepeatableFields();nodeFieldContainer.find('input[type=radio][checked=checked]').attr('checked','checked');nodeNewField.callBackAddRepeatableField(nodeNewField.data('type'),nodeNewField.attr('id'),0,0,0);var nodeRemoveButtons=nodeFieldsContainer.find('.repeatable-field-remove');if(nodeRemoveButtons.length>1)nodeRemoveButtons.css('visibility','visible');return nodeNewField };$.fn.removeAPFRepeatableField=function(){ var nodeFieldContainer=$(this).closest('.admin-page-framework-field'),nodeFieldsContainer=$(this).closest('.admin-page-framework-fields'),sFieldsContainerID=nodeFieldsContainer.attr('id'),sMinNumberOfFields=$.fn.aAPFRepeatableFieldsOptions[sFieldsContainerID]['min'];if(sMinNumberOfFields!=0&&nodeFieldsContainer.find('.admin-page-framework-field').length<=sMinNumberOfFields){ var nodeLastRepeaterButtons=nodeFieldContainer.find('.admin-page-framework-repeatable-field-buttons').last(),sMessage=$(this).formatPrintText('{$sCannotRemoveMore}',sMinNumberOfFields),nodeMessage=$('<span class=\"repeatable-error repeatable-field-error\" id=\"repeatable-error-'+sFieldsContainerID+'\">'+sMessage+'</span>');if(nodeFieldsContainer.find('#repeatable-error-'+sFieldsContainerID).length>0){ nodeFieldsContainer.find('#repeatable-error-'+sFieldsContainerID).replaceWith(nodeMessage) }else nodeLastRepeaterButtons.before(nodeMessage);nodeMessage.delay(2e3).fadeOut(1e3);return };nodeFieldContainer.nextAll().each(function(){ $(this).decrementIDAttribute('id');$(this).find('label').decrementIDAttribute('for');$(this).find('input,textarea,select').decrementIDAttribute('id');$(this).find('input:not(.apf_checkbox),textarea,select').decrementNameAttribute('name');$(this).find('input.apf_checkbox').decrementNameAttribute('name',-2) });var oNextField=nodeFieldContainer.next();nodeFieldContainer.remove();oNextField.callBackRemoveRepeatableField(nodeFieldContainer.data('type'),nodeFieldContainer.attr('id'),0,0,0);var nodeRemoveButtons=nodeFieldsContainer.find('.repeatable-field-remove');if(1===nodeRemoveButtons.length)nodeRemoveButtons.css('visibility','hidden') } }(jQuery));";     }
-}class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Script_Base {
+        return "(function($){ $.fn.updateAPFRepeatableFields=function(aSettings){ var nodeThis=this,sFieldsContainerID=nodeThis.find('.repeatable-field-add').first().data('id');if(!$.fn.aAPFRepeatableFieldsOptions)$.fn.aAPFRepeatableFieldsOptions=[];if(!$.fn.aAPFRepeatableFieldsOptions.hasOwnProperty(sFieldsContainerID))$.fn.aAPFRepeatableFieldsOptions[sFieldsContainerID]=$.extend({ max:0,min:0},aSettings);var aOptions=$.fn.aAPFRepeatableFieldsOptions[sFieldsContainerID];$(nodeThis).find('.admin-page-framework-repeatable-field-buttons').attr('data-max',aOptions.max);$(nodeThis).find('.admin-page-framework-repeatable-field-buttons').attr('data-min',aOptions.min);$(nodeThis).find('.repeatable-field-add').unbind('click');$(nodeThis).find('.repeatable-field-add').click(function(){ $(this).addAPFRepeatableField();return false });$(nodeThis).find('.repeatable-field-remove').unbind('click');$(nodeThis).find('.repeatable-field-remove').click(function(){ $(this).removeAPFRepeatableField();return false });var sFieldID=nodeThis.find('.repeatable-field-add').first().closest('.admin-page-framework-field').attr('id'),nCurrentFieldCount=jQuery('#'+sFieldsContainerID).find('.admin-page-framework-field').length;if(aOptions.min>0&&nCurrentFieldCount>0)if((aOptions.min-nCurrentFieldCount)>0)$('#'+sFieldID).addAPFRepeatableField(sFieldID) };$.fn.addAPFRepeatableField=function(sFieldContainerID){ if(typeof sFieldContainerID==='undefined')var sFieldContainerID=$(this).closest('.admin-page-framework-field').attr('id');var nodeFieldContainer=$('#'+sFieldContainerID),nodeNewField=nodeFieldContainer.clone(),nodeFieldsContainer=nodeFieldContainer.closest('.admin-page-framework-fields'),sFieldsContainerID=nodeFieldsContainer.attr('id');if(!$.fn.aAPFRepeatableFieldsOptions.hasOwnProperty(sFieldsContainerID)){ var nodeButtonContainer=nodeFieldContainer.find('.admin-page-framework-repeatable-field-buttons');$.fn.aAPFRepeatableFieldsOptions[sFieldsContainerID]={ max:nodeButtonContainer.attr('data-max'),min:nodeButtonContainer.attr('data-min')} };var sMaxNumberOfFields=$.fn.aAPFRepeatableFieldsOptions[sFieldsContainerID]['max'];if(sMaxNumberOfFields!=0&&nodeFieldsContainer.find('.admin-page-framework-field').length>=sMaxNumberOfFields){ var nodeLastRepeaterButtons=nodeFieldContainer.find('.admin-page-framework-repeatable-field-buttons').last(),sMessage=$(this).formatPrintText('{$sCannotAddMore}',sMaxNumberOfFields),nodeMessage=$('<span class=\"repeatable-error repeatable-field-error\" id=\"repeatable-error-'+sFieldsContainerID+'\" >'+sMessage+'</span>');if(nodeFieldsContainer.find('#repeatable-error-'+sFieldsContainerID).length>0){ nodeFieldsContainer.find('#repeatable-error-'+sFieldsContainerID).replaceWith(nodeMessage) }else nodeLastRepeaterButtons.before(nodeMessage);nodeMessage.delay(2e3).fadeOut(1e3);return };nodeNewField.find('input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea').val('');nodeNewField.find('.repeatable-error').remove();nodeNewField.insertAfter(nodeFieldContainer);nodeFieldContainer.nextAll().each(function(){ $(this).incrementIDAttribute('id');$(this).find('label').incrementIDAttribute('for');$(this).find('input,textarea,select').incrementIDAttribute('id');$(this).find('input:not(.apf_checkbox),textarea,select').incrementNameAttribute('name');$(this).find('input.apf_checkbox').incrementNameAttribute('name',-2) });nodeNewField.updateAPFRepeatableFields();nodeFieldContainer.find('input[type=radio][checked=checked]').attr('checked','checked');nodeNewField.callBackAddRepeatableField(nodeNewField.data('type'),nodeNewField.attr('id'),0,0,0);var nodeRemoveButtons=nodeFieldsContainer.find('.repeatable-field-remove');if(nodeRemoveButtons.length>1)nodeRemoveButtons.css('visibility','visible');return nodeNewField };$.fn.removeAPFRepeatableField=function(){ var nodeFieldContainer=$(this).closest('.admin-page-framework-field'),nodeFieldsContainer=$(this).closest('.admin-page-framework-fields'),sFieldsContainerID=nodeFieldsContainer.attr('id'),sMinNumberOfFields=$.fn.aAPFRepeatableFieldsOptions[sFieldsContainerID]['min'];if(sMinNumberOfFields!=0&&nodeFieldsContainer.find('.admin-page-framework-field').length<=sMinNumberOfFields){ var nodeLastRepeaterButtons=nodeFieldContainer.find('.admin-page-framework-repeatable-field-buttons').last(),sMessage=$(this).formatPrintText('{$sCannotRemoveMore}',sMinNumberOfFields),nodeMessage=$('<span class=\"repeatable-error repeatable-field-error\" id=\"repeatable-error-'+sFieldsContainerID+'\">'+sMessage+'</span>');if(nodeFieldsContainer.find('#repeatable-error-'+sFieldsContainerID).length>0){ nodeFieldsContainer.find('#repeatable-error-'+sFieldsContainerID).replaceWith(nodeMessage) }else nodeLastRepeaterButtons.before(nodeMessage);nodeMessage.delay(2e3).fadeOut(1e3);return };nodeFieldContainer.nextAll().each(function(){ $(this).decrementIDAttribute('id');$(this).find('label').decrementIDAttribute('for');$(this).find('input,textarea,select').decrementIDAttribute('id');$(this).find('input:not(.apf_checkbox),textarea,select').decrementNameAttribute('name');$(this).find('input.apf_checkbox').decrementNameAttribute('name',-2) });var oNextField=nodeFieldContainer.next();nodeFieldContainer.remove();oNextField.callBackRemoveRepeatableField(nodeFieldContainer.data('type'),nodeFieldContainer.attr('id'),0,0,0);var nodeRemoveButtons=nodeFieldsContainer.find('.repeatable-field-remove');if(1===nodeRemoveButtons.length)nodeRemoveButtons.css('visibility','hidden') } }(jQuery));";
+    }
+}
+class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Script_Base {
     static public function getScript() {
         $_aParams = func_get_args() + array(null);
         $_oMsg = $_aParams[0];
         $sCannotAddMore = $_oMsg->get('allowed_maximum_number_of_sections');
         $sCannotRemoveMore = $_oMsg->get('allowed_minimum_number_of_sections');
-        return "(function($){ $.fn.updateAPFRepeatableSections=function(aSettings){ var nodeThis=this,sSectionsContainerID=nodeThis.find('.repeatable-section-add').first().closest('.admin-page-framework-sectionset').attr('id');if(!$.fn.aAPFRepeatableSectionsOptions)$.fn.aAPFRepeatableSectionsOptions=[];if(!$.fn.aAPFRepeatableSectionsOptions.hasOwnProperty(sSectionsContainerID))$.fn.aAPFRepeatableSectionsOptions[sSectionsContainerID]=$.extend({ max:0,min:0},aSettings);var aOptions=$.fn.aAPFRepeatableSectionsOptions[sSectionsContainerID];$(nodeThis).find('.repeatable-section-add').click(function(){ $(this).addAPFRepeatableSection();return false });$(nodeThis).find('.repeatable-section-remove').click(function(){ $(this).removeAPFRepeatableSection();return false });var sSectionID=nodeThis.find('.repeatable-section-add').first().closest('.admin-page-framework-section').attr('id'),nCurrentSectionCount=jQuery('#'+sSectionsContainerID).find('.admin-page-framework-section').length;if(aOptions.min>0&&nCurrentSectionCount>0)if((aOptions.min-nCurrentSectionCount)>0)$('#'+sSectionID).addAPFRepeatableSection(sSectionID) };$.fn.addAPFRepeatableSection=function(sSectionContainerID){ if(typeof sSectionContainerID==='undefined')var sSectionContainerID=$(this).closest('.admin-page-framework-section').attr('id');var nodeSectionContainer=$('#'+sSectionContainerID),nodeNewSection=nodeSectionContainer.clone(),nodeSectionsContainer=nodeSectionContainer.closest('.admin-page-framework-sectionset'),sSectionsContainerID=nodeSectionsContainer.attr('id'),nodeTabsContainer=$('#'+sSectionContainerID).closest('.admin-page-framework-sectionset').find('.admin-page-framework-section-tabs'),sMaxNumberOfSections=$.fn.aAPFRepeatableSectionsOptions[sSectionsContainerID]['max'];if(sMaxNumberOfSections!=0&&nodeSectionsContainer.find('.admin-page-framework-section').length>=sMaxNumberOfSections){ var nodeLastRepeaterButtons=nodeSectionContainer.find('.admin-page-framework-repeatable-section-buttons').last(),sMessage=$(this).formatPrintText('{$sCannotAddMore}',sMaxNumberOfSections),nodeMessage=$('<span class=\"repeatable-section-error\" id=\"repeatable-section-error-'+sSectionsContainerID+'\">'+sMessage+'</span>');if(nodeSectionsContainer.find('#repeatable-section-error-'+sSectionsContainerID).length>0){ nodeSectionsContainer.find('#repeatable-section-error-'+sSectionsContainerID).replaceWith(nodeMessage) }else nodeLastRepeaterButtons.before(nodeMessage);nodeMessage.delay(2e3).fadeOut(1e3);return };nodeNewSection.find('input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea').val('');nodeNewSection.find('.repeatable-section-error').remove();var sSectionTabSlug=nodeNewSection.find('.admin-page-framework-section-caption').first().attr('data-section_tab');if(!sSectionTabSlug||sSectionTabSlug==='_default')nodeNewSection.find('.admin-page-framework-section-title').not('.admin-page-framework-collapsible-section-title').hide();if('function'===typeof nodeNewSection.enableAPFCollapsibleButton)nodeNewSection.find('.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title').enableAPFCollapsibleButton();nodeNewSection.insertAfter(nodeSectionContainer);nodeSectionContainer.find('input[type=radio][checked=checked]').attr('checked','checked');nodeSectionContainer.nextAll().each(function(iSectionIndex){ incrementAttributes(this);$(this).find('.admin-page-framework-field').each(function(iFieldIndex){ $(this).updateAPFRepeatableFields();$(this).callBackAddRepeatableField($(this).data('type'),$(this).attr('id'),1,iSectionIndex,iFieldIndex) }) });nodeNewSection.updateAPFRepeatableSections();nodeNewSection.find('.admin-page-framework-fields.sortable').each(function(){ $(this).enableAPFSortable() });if(nodeTabsContainer.length>0&&!nodeSectionContainer.hasClass('is_subsection_collapsible')){ var nodeTab=nodeTabsContainer.find('#section_tab-'+sSectionContainerID),nodeNewTab=nodeTab.clone();nodeNewTab.removeClass('active');nodeNewTab.find('input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea').val('');nodeNewTab.insertAfter(nodeTab);nodeTab.nextAll().each(function(){ incrementAttributes(this);$(this).find('a.anchor').incrementIDAttribute('href') });nodeTabsContainer.closest('.admin-page-framework-section-tabs-contents').createTabs('refresh') };var nodeRemoveButtons=nodeSectionsContainer.find('.repeatable-section-remove');if(nodeRemoveButtons.length>1)nodeRemoveButtons.show();return nodeNewSection };var incrementAttributes=function(oElement,iOccurrence){ var iOccurrence='undefined'!==typeof iOccurrence?iOccurrence:1;$(oElement).incrementIDAttribute('id',iOccurrence);$(oElement).find('tr.admin-page-framework-fieldrow').incrementIDAttribute('id',iOccurrence);$(oElement).find('.admin-page-framework-fieldset').incrementIDAttribute('id',iOccurrence);$(oElement).find('.admin-page-framework-fieldset').incrementIDAttribute('data-field_id',iOccurrence);$(oElement).find('.admin-page-framework-fields').incrementIDAttribute('id',iOccurrence);$(oElement).find('.admin-page-framework-field').incrementIDAttribute('id',iOccurrence);$(oElement).find('table.form-table').incrementIDAttribute('id',iOccurrence);$(oElement).find('.repeatable-field-add').incrementIDAttribute('data-id',iOccurrence);$(oElement).find('label').incrementIDAttribute('for',iOccurrence);$(oElement).find('input,textarea,select').incrementIDAttribute('id',iOccurrence);$(oElement).find('input,textarea,select').incrementNameAttribute('name',iOccurrence) };$.fn.removeAPFRepeatableSection=function(){ var nodeSectionContainer=$(this).closest('.admin-page-framework-section'),sSectionConteinrID=nodeSectionContainer.attr('id'),nodeSectionsContainer=$(this).closest('.admin-page-framework-sectionset'),sSectionsContainerID=nodeSectionsContainer.attr('id'),nodeTabsContainer=nodeSectionsContainer.find('.admin-page-framework-section-tabs'),nodeTabs=nodeTabsContainer.find('.admin-page-framework-section-tab'),sMinNumberOfSections=$.fn.aAPFRepeatableSectionsOptions[sSectionsContainerID]['min'];if(sMinNumberOfSections!=0&&nodeSectionsContainer.find('.admin-page-framework-section').length<=sMinNumberOfSections){ var nodeLastRepeaterButtons=nodeSectionContainer.find('.admin-page-framework-repeatable-section-buttons').last(),sMessage=$(this).formatPrintText('{$sCannotRemoveMore}',sMinNumberOfSections),nodeMessage=$('<span class=\"repeatable-section-error\" id=\"repeatable-section-error-'+sSectionsContainerID+'\">'+sMessage+'</span>');if(nodeSectionsContainer.find('#repeatable-section-error-'+sSectionsContainerID).length>0){ nodeSectionsContainer.find('#repeatable-section-error-'+sSectionsContainerID).replaceWith(nodeMessage) }else nodeLastRepeaterButtons.before(nodeMessage);nodeMessage.delay(2e3).fadeOut(1e3);return };var oNextAllSections=nodeSectionContainer.nextAll(),_bIsSubsectionCollapsible=nodeSectionContainer.hasClass('is_subsection_collapsible');nodeSectionContainer.remove();oNextAllSections.each(function(iSectionIndex){ decrementAttributes(this);$(this).find('.admin-page-framework-field').each(function(iFieldIndex){ $(this).callBackRemoveRepeatableField($(this).data('type'),$(this).attr('id'),1,iSectionIndex,iFieldIndex) }) });if(nodeTabsContainer.length>0&&nodeTabs.length>1&&!_bIsSubsectionCollapsible){ nodeSelectionTab=nodeTabsContainer.find('#section_tab-'+sSectionConteinrID);nodeSelectionTab.nextAll().each(function(){ $(this).find('a.anchor').decrementIDAttribute('href');decrementAttributes(this) });if(nodeSelectionTab.prev().length){ nodeSelectionTab.prev().addClass('active') }else nodeSelectionTab.next().addClass('active');nodeSelectionTab.remove();nodeTabsContainer.closest('.admin-page-framework-section-tabs-contents').createTabs('refresh') };var nodeRemoveButtons=nodeSectionsContainer.find('.repeatable-section-remove');if(1===nodeRemoveButtons.length){ nodeRemoveButtons.css('display','none');var sSectionTabSlug=nodeSectionsContainer.find('.admin-page-framework-section-caption').first().attr('data-section_tab');if(!sSectionTabSlug||sSectionTabSlug==='_default')nodeSectionsContainer.find('.admin-page-framework-section-title').first().show() } };var decrementAttributes=function(oElement,iOccurrence){ var iOccurrence='undefined'!==typeof iOccurrence?iOccurrence:1;$(oElement).decrementIDAttribute('id');$(oElement).find('tr.admin-page-framework-fieldrow').decrementIDAttribute('id',iOccurrence);$(oElement).find('.admin-page-framework-fieldset').decrementIDAttribute('id',iOccurrence);$(oElement).find('.admin-page-framework-fieldset').decrementIDAttribute('data-field_id',iOccurrence);$(oElement).find('.admin-page-framework-fields').decrementIDAttribute('id',iOccurrence);$(oElement).find('.admin-page-framework-field').decrementIDAttribute('id',iOccurrence);$(oElement).find('table.form-table').decrementIDAttribute('id',iOccurrence);$(oElement).find('.repeatable-field-add').decrementIDAttribute('data-id',iOccurrence);$(oElement).find('label').decrementIDAttribute('for',iOccurrence);$(oElement).find('input,textarea,select').decrementIDAttribute('id',iOccurrence);$(oElement).find('input,textarea,select').decrementNameAttribute('name',iOccurrence) } }(jQuery));";     }
-}class AdminPageFramework_Script_Sortable extends AdminPageFramework_Script_Base {
+        return "(function($){ $.fn.updateAPFRepeatableSections=function(aSettings){ var nodeThis=this,sSectionsContainerID=nodeThis.find('.repeatable-section-add').first().closest('.admin-page-framework-sectionset').attr('id');if(!$.fn.aAPFRepeatableSectionsOptions)$.fn.aAPFRepeatableSectionsOptions=[];if(!$.fn.aAPFRepeatableSectionsOptions.hasOwnProperty(sSectionsContainerID))$.fn.aAPFRepeatableSectionsOptions[sSectionsContainerID]=$.extend({ max:0,min:0},aSettings);var aOptions=$.fn.aAPFRepeatableSectionsOptions[sSectionsContainerID];$(nodeThis).find('.repeatable-section-add').click(function(){ $(this).addAPFRepeatableSection();return false });$(nodeThis).find('.repeatable-section-remove').click(function(){ $(this).removeAPFRepeatableSection();return false });var sSectionID=nodeThis.find('.repeatable-section-add').first().closest('.admin-page-framework-section').attr('id'),nCurrentSectionCount=jQuery('#'+sSectionsContainerID).find('.admin-page-framework-section').length;if(aOptions.min>0&&nCurrentSectionCount>0)if((aOptions.min-nCurrentSectionCount)>0)$('#'+sSectionID).addAPFRepeatableSection(sSectionID) };$.fn.addAPFRepeatableSection=function(sSectionContainerID){ if(typeof sSectionContainerID==='undefined')var sSectionContainerID=$(this).closest('.admin-page-framework-section').attr('id');var nodeSectionContainer=$('#'+sSectionContainerID),nodeNewSection=nodeSectionContainer.clone(),nodeSectionsContainer=nodeSectionContainer.closest('.admin-page-framework-sectionset'),sSectionsContainerID=nodeSectionsContainer.attr('id'),nodeTabsContainer=$('#'+sSectionContainerID).closest('.admin-page-framework-sectionset').find('.admin-page-framework-section-tabs'),sMaxNumberOfSections=$.fn.aAPFRepeatableSectionsOptions[sSectionsContainerID]['max'];if(sMaxNumberOfSections!=0&&nodeSectionsContainer.find('.admin-page-framework-section').length>=sMaxNumberOfSections){ var nodeLastRepeaterButtons=nodeSectionContainer.find('.admin-page-framework-repeatable-section-buttons').last(),sMessage=$(this).formatPrintText('{$sCannotAddMore}',sMaxNumberOfSections),nodeMessage=$('<span class=\"repeatable-section-error\" id=\"repeatable-section-error-'+sSectionsContainerID+'\">'+sMessage+'</span>');if(nodeSectionsContainer.find('#repeatable-section-error-'+sSectionsContainerID).length>0){ nodeSectionsContainer.find('#repeatable-section-error-'+sSectionsContainerID).replaceWith(nodeMessage) }else nodeLastRepeaterButtons.before(nodeMessage);nodeMessage.delay(2e3).fadeOut(1e3);return };nodeNewSection.find('input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea').val('');nodeNewSection.find('.repeatable-section-error').remove();var sSectionTabSlug=nodeNewSection.find('.admin-page-framework-section-caption').first().attr('data-section_tab');if(!sSectionTabSlug||sSectionTabSlug==='_default')nodeNewSection.find('.admin-page-framework-section-title').not('.admin-page-framework-collapsible-section-title').hide();if('function'===typeof nodeNewSection.enableAPFCollapsibleButton)nodeNewSection.find('.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title').enableAPFCollapsibleButton();nodeNewSection.insertAfter(nodeSectionContainer);nodeSectionContainer.find('input[type=radio][checked=checked]').attr('checked','checked');nodeSectionContainer.nextAll().each(function(iSectionIndex){ incrementAttributes(this);$(this).find('.admin-page-framework-field').each(function(iFieldIndex){ $(this).updateAPFRepeatableFields();$(this).callBackAddRepeatableField($(this).data('type'),$(this).attr('id'),1,iSectionIndex,iFieldIndex) }) });nodeNewSection.updateAPFRepeatableSections();nodeNewSection.find('.admin-page-framework-fields.sortable').each(function(){ $(this).enableAPFSortable() });if(nodeTabsContainer.length>0&&!nodeSectionContainer.hasClass('is_subsection_collapsible')){ var nodeTab=nodeTabsContainer.find('#section_tab-'+sSectionContainerID),nodeNewTab=nodeTab.clone();nodeNewTab.removeClass('active');nodeNewTab.find('input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea').val('');nodeNewTab.insertAfter(nodeTab);nodeTab.nextAll().each(function(){ incrementAttributes(this);$(this).find('a.anchor').incrementIDAttribute('href') });nodeTabsContainer.closest('.admin-page-framework-section-tabs-contents').createTabs('refresh') };var nodeRemoveButtons=nodeSectionsContainer.find('.repeatable-section-remove');if(nodeRemoveButtons.length>1)nodeRemoveButtons.show();return nodeNewSection };var incrementAttributes=function(oElement,iOccurrence){ var iOccurrence='undefined'!==typeof iOccurrence?iOccurrence:1;$(oElement).incrementIDAttribute('id',iOccurrence);$(oElement).find('tr.admin-page-framework-fieldrow').incrementIDAttribute('id',iOccurrence);$(oElement).find('.admin-page-framework-fieldset').incrementIDAttribute('id',iOccurrence);$(oElement).find('.admin-page-framework-fieldset').incrementIDAttribute('data-field_id',iOccurrence);$(oElement).find('.admin-page-framework-fields').incrementIDAttribute('id',iOccurrence);$(oElement).find('.admin-page-framework-field').incrementIDAttribute('id',iOccurrence);$(oElement).find('table.form-table').incrementIDAttribute('id',iOccurrence);$(oElement).find('.repeatable-field-add').incrementIDAttribute('data-id',iOccurrence);$(oElement).find('label').incrementIDAttribute('for',iOccurrence);$(oElement).find('input,textarea,select').incrementIDAttribute('id',iOccurrence);$(oElement).find('input,textarea,select').incrementNameAttribute('name',iOccurrence) };$.fn.removeAPFRepeatableSection=function(){ var nodeSectionContainer=$(this).closest('.admin-page-framework-section'),sSectionConteinrID=nodeSectionContainer.attr('id'),nodeSectionsContainer=$(this).closest('.admin-page-framework-sectionset'),sSectionsContainerID=nodeSectionsContainer.attr('id'),nodeTabsContainer=nodeSectionsContainer.find('.admin-page-framework-section-tabs'),nodeTabs=nodeTabsContainer.find('.admin-page-framework-section-tab'),sMinNumberOfSections=$.fn.aAPFRepeatableSectionsOptions[sSectionsContainerID]['min'];if(sMinNumberOfSections!=0&&nodeSectionsContainer.find('.admin-page-framework-section').length<=sMinNumberOfSections){ var nodeLastRepeaterButtons=nodeSectionContainer.find('.admin-page-framework-repeatable-section-buttons').last(),sMessage=$(this).formatPrintText('{$sCannotRemoveMore}',sMinNumberOfSections),nodeMessage=$('<span class=\"repeatable-section-error\" id=\"repeatable-section-error-'+sSectionsContainerID+'\">'+sMessage+'</span>');if(nodeSectionsContainer.find('#repeatable-section-error-'+sSectionsContainerID).length>0){ nodeSectionsContainer.find('#repeatable-section-error-'+sSectionsContainerID).replaceWith(nodeMessage) }else nodeLastRepeaterButtons.before(nodeMessage);nodeMessage.delay(2e3).fadeOut(1e3);return };var oNextAllSections=nodeSectionContainer.nextAll(),_bIsSubsectionCollapsible=nodeSectionContainer.hasClass('is_subsection_collapsible');nodeSectionContainer.remove();oNextAllSections.each(function(iSectionIndex){ decrementAttributes(this);$(this).find('.admin-page-framework-field').each(function(iFieldIndex){ $(this).callBackRemoveRepeatableField($(this).data('type'),$(this).attr('id'),1,iSectionIndex,iFieldIndex) }) });if(nodeTabsContainer.length>0&&nodeTabs.length>1&&!_bIsSubsectionCollapsible){ nodeSelectionTab=nodeTabsContainer.find('#section_tab-'+sSectionConteinrID);nodeSelectionTab.nextAll().each(function(){ $(this).find('a.anchor').decrementIDAttribute('href');decrementAttributes(this) });if(nodeSelectionTab.prev().length){ nodeSelectionTab.prev().addClass('active') }else nodeSelectionTab.next().addClass('active');nodeSelectionTab.remove();nodeTabsContainer.closest('.admin-page-framework-section-tabs-contents').createTabs('refresh') };var nodeRemoveButtons=nodeSectionsContainer.find('.repeatable-section-remove');if(1===nodeRemoveButtons.length){ nodeRemoveButtons.css('display','none');var sSectionTabSlug=nodeSectionsContainer.find('.admin-page-framework-section-caption').first().attr('data-section_tab');if(!sSectionTabSlug||sSectionTabSlug==='_default')nodeSectionsContainer.find('.admin-page-framework-section-title').first().show() } };var decrementAttributes=function(oElement,iOccurrence){ var iOccurrence='undefined'!==typeof iOccurrence?iOccurrence:1;$(oElement).decrementIDAttribute('id');$(oElement).find('tr.admin-page-framework-fieldrow').decrementIDAttribute('id',iOccurrence);$(oElement).find('.admin-page-framework-fieldset').decrementIDAttribute('id',iOccurrence);$(oElement).find('.admin-page-framework-fieldset').decrementIDAttribute('data-field_id',iOccurrence);$(oElement).find('.admin-page-framework-fields').decrementIDAttribute('id',iOccurrence);$(oElement).find('.admin-page-framework-field').decrementIDAttribute('id',iOccurrence);$(oElement).find('table.form-table').decrementIDAttribute('id',iOccurrence);$(oElement).find('.repeatable-field-add').decrementIDAttribute('data-id',iOccurrence);$(oElement).find('label').decrementIDAttribute('for',iOccurrence);$(oElement).find('input,textarea,select').decrementIDAttribute('id',iOccurrence);$(oElement).find('input,textarea,select').decrementNameAttribute('name',iOccurrence) } }(jQuery));";
+    }
+}
+class AdminPageFramework_Script_Sortable extends AdminPageFramework_Script_Base {
     protected function construct() {
         wp_enqueue_script('jquery-ui-sortable');
     }
     static public function getScript() {
         $_aParams = func_get_args() + array(null);
         $_oMsg = $_aParams[0];
-        return "(function($){ $.fn.enableAPFSortable=function(sFieldsContainerID){ var _oTarget=typeof sFieldsContainerID==='string'?$('#'+sFieldsContainerID+'.sortable'):this;_oTarget.unbind('sortupdate');_oTarget.unbind('sortstop');var _oSortable=_oTarget.sortable({ items:'> div:not( .disabled )'});_oSortable.bind('sortstop',function(){ $(this).callBackStoppedSortingFields($(this).data('type'),$(this).attr('id'),0) });_oSortable.bind('sortupdate',function(){ var _oFields=$(this).children('div').reverse();_oFields.each(function(iIterationIndex){ var _iIndex=_oFields.length-iIterationIndex-1;$(this).setIndexIDAttribute('id',_iIndex);$(this).find('label').setIndexIDAttribute('for',_iIndex);$(this).find('input,textarea,select').setIndexIDAttribute('id',_iIndex);$(this).find('input:not(.apf_checkbox),textarea,select').setIndexNameAttribute('name',_iIndex);$(this).find('input.apf_checkbox').setIndexNameAttribute('name',_iIndex,-2);$(this).find('input[type=radio]').each(function(){ var sAttr=$(this).prop('checked');if('undefined'!==typeof sAttr&&false!==sAttr)$(this).attr('checked','checked') }) });$(this).find('input[type=radio][checked=checked]').attr('checked','checked');$(this).callBackSortedFields($(this).data('type'),$(this).attr('id'),0) }) } }(jQuery));";     }
-}class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
+        return "(function($){ $.fn.enableAPFSortable=function(sFieldsContainerID){ var _oTarget=typeof sFieldsContainerID==='string'?$('#'+sFieldsContainerID+'.sortable'):this;_oTarget.unbind('sortupdate');_oTarget.unbind('sortstop');var _oSortable=_oTarget.sortable({ items:'> div:not( .disabled )'});_oSortable.bind('sortstop',function(){ $(this).callBackStoppedSortingFields($(this).data('type'),$(this).attr('id'),0) });_oSortable.bind('sortupdate',function(){ var _oFields=$(this).children('div').reverse();_oFields.each(function(iIterationIndex){ var _iIndex=_oFields.length-iIterationIndex-1;$(this).setIndexIDAttribute('id',_iIndex);$(this).find('label').setIndexIDAttribute('for',_iIndex);$(this).find('input,textarea,select').setIndexIDAttribute('id',_iIndex);$(this).find('input:not(.apf_checkbox),textarea,select').setIndexNameAttribute('name',_iIndex);$(this).find('input.apf_checkbox').setIndexNameAttribute('name',_iIndex,-2);$(this).find('input[type=radio]').each(function(){ var sAttr=$(this).prop('checked');if('undefined'!==typeof sAttr&&false!==sAttr)$(this).attr('checked','checked') }) });$(this).find('input[type=radio][checked=checked]').attr('checked','checked');$(this).callBackSortedFields($(this).data('type'),$(this).attr('id'),0) }) } }(jQuery));";
+    }
+}
+class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
     static public function getScript() {
         $_aParams = func_get_args() + array(null);
         $_oMsg = $_aParams[0];
-        return "(function($){ $.fn.createTabs=function(asOptions){ var _bIsRefresh=(typeof asOptions==='string'&&asOptions==='refresh');if(typeof asOptions==='object')var aOptions=$.extend({ },asOptions);this.children('ul').each(function(){ var bSetActive=false;$(this).children('li').each(function(i){ var sTabContentID=$(this).children('a').attr('href');if(!_bIsRefresh&&!bSetActive&&$(this).is(':visible')){ $(this).addClass('active');bSetActive=true };if($(this).hasClass('active')){ $(sTabContentID).show() }else $(sTabContentID).css('display','none');$(this).addClass('nav-tab');$(this).children('a').addClass('anchor');$(this).unbind('click');$(this).click(function(e){ e.preventDefault();$(this).siblings('li.active').removeClass('active');$(this).addClass('active');var sTabContentID=$(this).find('a').attr('href'),_oActiveContent=$(this).parent().parent().find(sTabContentID).css('display','block');_oActiveContent.siblings(':not( ul )').css('display','none') }) }) }) } }(jQuery));";     }
-}class AdminPageFramework_Script_Utility extends AdminPageFramework_Script_Base {
+        return "(function($){ $.fn.createTabs=function(asOptions){ var _bIsRefresh=(typeof asOptions==='string'&&asOptions==='refresh');if(typeof asOptions==='object')var aOptions=$.extend({ },asOptions);this.children('ul').each(function(){ var bSetActive=false;$(this).children('li').each(function(i){ var sTabContentID=$(this).children('a').attr('href');if(!_bIsRefresh&&!bSetActive&&$(this).is(':visible')){ $(this).addClass('active');bSetActive=true };if($(this).hasClass('active')){ $(sTabContentID).show() }else $(sTabContentID).css('display','none');$(this).addClass('nav-tab');$(this).children('a').addClass('anchor');$(this).unbind('click');$(this).click(function(e){ e.preventDefault();$(this).siblings('li.active').removeClass('active');$(this).addClass('active');var sTabContentID=$(this).find('a').attr('href'),_oActiveContent=$(this).parent().parent().find(sTabContentID).css('display','block');_oActiveContent.siblings(':not( ul )').css('display','none') }) }) }) } }(jQuery));";
+    }
+}
+class AdminPageFramework_Script_Utility extends AdminPageFramework_Script_Base {
     static public function getScript() {
         $_aParams = func_get_args() + array(null);
         $_oMsg = $_aParams[0];
-        return "(function($){ $.fn.reverse=[].reverse;$.fn.formatPrintText=function(){ var aArgs=arguments;return aArgs[0].replace(/{(\d+)}/g,function(match,number){ return typeof aArgs[parseInt(number)+1]!='undefined'?aArgs[parseInt(number)+1]:match }) } }(jQuery));";     }
-}class AdminPageFramework_Script_Widget extends AdminPageFramework_Script_Base {
+        return "(function($){ $.fn.reverse=[].reverse;$.fn.formatPrintText=function(){ var aArgs=arguments;return aArgs[0].replace(/{(\d+)}/g,function(match,number){ return typeof aArgs[parseInt(number)+1]!='undefined'?aArgs[parseInt(number)+1]:match }) } }(jQuery));";
+    }
+}
+class AdminPageFramework_Script_Widget extends AdminPageFramework_Script_Base {
     static public function getScript() {
         $_aParams = func_get_args() + array(null);
         $_oMsg = $_aParams[0];
-        return "(function($){ $(document).ready(function(){ $(document).ajaxComplete(function(event,XMLHttpRequest,ajaxOptions){ var _aRequest={ },_iIndex,_aSplit,_oWidget,_aPairs='string'===typeof ajaxOptions.data?ajaxOptions.data.split('&'):{ };for(_iIndex in _aPairs){ _aSplit=_aPairs[_iIndex].split('=');_aRequest[decodeURIComponent(_aSplit[0])]=decodeURIComponent(_aSplit[1]) };if(_aRequest.action&&('save-widget'===_aRequest.action)){ _oWidget=$('input.widget-id[value=\"'+_aRequest['widget-id']+'\"]').parents('.widget');if($(_oWidget).find('.admin-page-framework-sectionset').length<=0)return;if(!XMLHttpRequest.responseText){ wpWidgets.save(_oWidget,0,1,0);return };$(document).trigger('admin_page_framework_saved_widget',_oWidget) } }) }) }(jQuery));";     }
+        return "(function($){ $(document).ready(function(){ $(document).ajaxComplete(function(event,XMLHttpRequest,ajaxOptions){ var _aRequest={ },_iIndex,_aSplit,_oWidget,_aPairs='string'===typeof ajaxOptions.data?ajaxOptions.data.split('&'):{ };for(_iIndex in _aPairs){ _aSplit=_aPairs[_iIndex].split('=');_aRequest[decodeURIComponent(_aSplit[0])]=decodeURIComponent(_aSplit[1]) };if(_aRequest.action&&('save-widget'===_aRequest.action)){ _oWidget=$('input.widget-id[value=\"'+_aRequest['widget-id']+'\"]').parents('.widget');if($(_oWidget).find('.admin-page-framework-sectionset').length<=0)return;if(!XMLHttpRequest.responseText){ wpWidgets.save(_oWidget,0,1,0);return };$(document).trigger('admin_page_framework_saved_widget',_oWidget) } }) }) }(jQuery));";
+    }
 }

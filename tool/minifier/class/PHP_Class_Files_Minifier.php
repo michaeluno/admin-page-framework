@@ -133,10 +133,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
                     // echo $_aFile['path'] . $aOptions['carriage_return'];
                 // }
             }    
-        // Apply the beautifier [1.2.0+]
-        if ( $aOptions['use_beautifier'] ) {
-            $_aFiles = $this->beautify( $_aFiles, $aOptions );     
-        }     
+ 
             
         /* Minify CSS Rules in variables defined with the heredoc syntax [1.1.0+] */
         $_aFiles = $this->minifyCSS( $_aFiles, $aOptions['css_heredoc_keys'], $aOptions['output_buffer'] ? $aOptions['carriage_return'] : false );
@@ -160,7 +157,12 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
             if ( $aOptions['output_buffer'] ) {
                 echo sprintf( 'Sorted %1$s file(s).', count( $this->aFiles ) ) . $aOptions['carriage_return'];
             }        
-                    
+            
+        // Apply the beautifier [1.2.0+]
+        if ( $aOptions['use_beautifier'] ) {
+            $this->aFiles = $this->beautify( $this->aFiles, $aOptions );     
+        }    
+            
         /* Write to a file */
         $this->sData = $this->get( $this->aFiles, $this->sHeaderComment, $aOptions['character_encode'] );
         if ( $aOptions['write_to_file'] ) {
