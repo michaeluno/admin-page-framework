@@ -1,8 +1,7 @@
 <?php
 /**
- * The example script of the minifier script.
- * 
- * Note that this is not ready to be used for anybody.
+ * Minifies PHP files into a single file.
+ *
  */
 
 /* Set necessary paths */
