@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms
 Requires at least:  3.3
 Tested up to:       4.1.0
-Stable tag:         3.4.5.1
+Stable tag:         3.4.6
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,7 +79,8 @@ You can include your own custom field types when they are necessary. The reason 
 - `ace` - a rich code editor.
 
 = Necessary Files =
-- **`admin-page-framework.min.php`** is in the *library* folder. Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
+- **`admin-page-framework.min.php`** is in the *library* folder. Or you can get it from `Dashboard` -> `Admin Page Framework` -> `Tool` -> `Minifier.`
+- Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
 
 = Documentation =
 The HTML documentation is included in the distribution package and can be accessed via the sidebar menu that the demo plugin creates.
@@ -494,12 +495,13 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.4.6 =
+= 3.4.6 - 2014/01/06 =
 - Added a page that let the user download the minified version of the framework.
 - Added a utility class that checks requirements of servers such as PHP and MySQL versions etc.
 - Added the `print_type` argument to the `system` field type.
 - Added more information for the `system` field type.
 - Added (revived) the minified version and now it is be human readable.
+- Fixed an issue that the form fields were not registered in pages except the first added page.
 - Changed the timing of importing and exporting of the `import` and `export` field types to be done after performing validation callbacks.
 
 = 3.4.5.1 - 2014/01/01 =
