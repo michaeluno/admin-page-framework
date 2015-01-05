@@ -40,7 +40,6 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
         // load + page slug + tab slug
         add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToAddFormElements' ) );
         add_action( 'validation_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToValidateSubmittedData' ), 10, 3 );
-        // add_action( 'export_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToGenerateMinifiedVersion' ), 10, 4 );
         add_action( "export_{$this->sClassName}_{$this->sSectionID}_generate", array( $this, 'replyToGenerateMinifiedVersion' ), 10, 4 );
         add_action( "export_{$this->sClassName}_{$this->sSectionID}_download", array( $this, 'replyToDownloadMinifiedVersion' ), 10, 4 );
         add_action( 'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToFilterFileName' ), 10, 5 );
@@ -104,6 +103,17 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
                 'label_min_width'   => 0,
                 'value'             => __( 'Download', 'adimn-page-framework-demo' ),
                 'file_name'         => 'admin-page-framework.min.php',  // the default file name. This will be modified by the filter.
+                'format'            => 'text',  // 'json', 'text', 'array'      
+                'description'       => __( 'Download the minified version.', 'admin-page-framework-demo' ),
+            ),              
+            
+/*             array( 
+                'field_id'          => 'download',
+                'title'             => __( 'Download', 'admin-page-framework-demo' ),
+                'type'              => 'export',
+                'label_min_width'   => 0,
+                'value'             => __( 'Download', 'adimn-page-framework-demo' ),
+                'file_name'         => 'admin-page-framework.min.php',  // the default file name. This will be modified by the filter.
                 'format'            => 'text',  // 'json', 'text', 'array'
                 'description'       => sprintf( 
                     __( 'Download the minified version from an <a href="%1$s">external source</a> and rename it.', 'admin-page-framework-demo' ), 
@@ -115,7 +125,7 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
                     // ),
                 ),    
              
-            ),     
+            ),   */   
             // The generator button is disabled until the beautifier part gets completed.
             // array( 
                 // 'field_id'          => 'generate',
@@ -182,11 +192,27 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
     }
     
     /**
+     * Lets the user download the minified version of Admin Page Framework.
+     * 
+     * @since   3.4.6
+     */
+    public function replyToDownloadMinifiedVersion( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
+        
+        $_sMinifiedVersionPath = APFDEMO_DIRNAME . '/library/admin-page-framework.min.php';
+        if ( file_exists( $_sMinifiedVersionPath ) ) {
+            return $this->_modifyClassNames( file_get_contents( $_sMinifiedVersionPath ) );
+        }
+        return $aSavedData;
+        
+    }
+        
+    /**
      * Downloads the minified version and rename classes to the user set value.
      * 
      * @since       3.4.6
+     * @deprecated  temporarily disabled.
      */
-    public function replyToDownloadMinifiedVersion( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
+    public function __replyToDownloadMinifiedVersion( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
         
         $_vResponse = wp_remote_get( 
             "https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/library/admin-page-framework.min.php",
@@ -218,6 +244,7 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
      * 
      * @remark      The callback method for the "export_{page slug}_{tab slug}".
      * @since       3.4.6
+     * @deprecated  Temporarily disabled
      */
     public function replyToGenerateMinifiedVersion( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
 
