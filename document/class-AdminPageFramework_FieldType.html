@@ -140,65 +140,83 @@ AdminPageFramework_Utility_URL
 		</dd>
 		<dd style="padding-left:120px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_Utility
+AdminPageFramework_Utility_File
 			
 			
 		</dd>
 		<dd style="padding-left:150px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_WPUtility_URL
+AdminPageFramework_Utility_SystemInformation
 			
 			
 		</dd>
 		<dd style="padding-left:180px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_WPUtility_HTML
+AdminPageFramework_Utility
 			
 			
 		</dd>
 		<dd style="padding-left:210px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_WPUtility_Page
+AdminPageFramework_WPUtility_URL
 			
 			
 		</dd>
 		<dd style="padding-left:240px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_WPUtility_Hook
+AdminPageFramework_WPUtility_HTML
 			
 			
 		</dd>
 		<dd style="padding-left:270px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_WPUtility_File
+AdminPageFramework_WPUtility_Page
 			
 			
 		</dd>
 		<dd style="padding-left:300px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_WPUtility_Option
+AdminPageFramework_WPUtility_Hook
 			
 			
 		</dd>
 		<dd style="padding-left:330px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_WPUtility_Post
+AdminPageFramework_WPUtility_File
 			
 			
 		</dd>
 		<dd style="padding-left:360px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_WPUtility
+AdminPageFramework_WPUtility_Option
 			
 			
 		</dd>
 		<dd style="padding-left:390px">
 			<img src="resources/inherit.png" alt="Extended by">
-AdminPageFramework_FieldType_Base
+AdminPageFramework_WPUtility_Post
 			
 			
 		</dd>
 		<dd style="padding-left:420px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_WPUtility_SystemInformation
+			
+			
+		</dd>
+		<dd style="padding-left:450px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_WPUtility
+			
+			
+		</dd>
+		<dd style="padding-left:480px">
+			<img src="resources/inherit.png" alt="Extended by">
+AdminPageFramework_FieldType_Base
+			
+			
+		</dd>
+		<dd style="padding-left:510px">
 			<img src="resources/inherit.png" alt="Extended by">
 <b><span>AdminPageFramework_FieldType</span></b>			
 			
@@ -661,6 +679,12 @@ class="php-quote">'my_style2'</span>,
 		<p class="elementList">
 			<code>FlushRewriteRules()</code>
 		</p>
+		<h3>Methods inherited from AdminPageFramework_WPUtility_SystemInformation</h3>
+		<p class="elementList">
+			<code>getMySQLErrorLog()</code>, 
+			<code>getMySQLErrorLogPath()</code>, 
+			<code>getMySQLInfo()</code>
+		</p>
 		<h3>Methods inherited from AdminPageFramework_WPUtility_Post</h3>
 		<p class="elementList">
 			<code>getSavedMetaArray()</code>
@@ -721,6 +745,18 @@ class="php-quote">'my_style2'</span>,
 			<code>getQueryValueInURLByKey()</code>, 
 			<code>sanitizeLength()</code>
 		</p>
+		<h3>Methods inherited from AdminPageFramework_Utility_SystemInformation</h3>
+		<p class="elementList">
+			<code>getDefinedConstants()</code>, 
+			<code>getPHPErrorLog()</code>, 
+			<code>getPHPErrorLogPath()</code>, 
+			<code>getPHPInfo()</code>
+		</p>
+		<h3>Methods inherited from AdminPageFramework_Utility_File</h3>
+		<p class="elementList">
+			<code>getFileTailContents()</code>, 
+			<code>sanitizeFileName()</code>
+		</p>
 		<h3>Methods inherited from AdminPageFramework_Utility_URL</h3>
 		<p class="elementList">
 			<code>getCurrentURL()</code>
@@ -734,6 +770,7 @@ class="php-quote">'my_style2'</span>,
 		<p class="elementList">
 			<code>castArrayContents()</code>, 
 			<code>dropElementByValue()</code>, 
+			<code>dropElementsByKey()</code>, 
 			<code>dropElementsByType()</code>, 
 			<code>getArrayDimension()</code>, 
 			<code>getArrayValueByArrayKeys()</code>, 
@@ -759,6 +796,8 @@ class="php-quote">'my_style2'</span>,
 		<h3>Methods inherited from AdminPageFramework_Utility_String</h3>
 		<p class="elementList">
 			<code>fixNumber()</code>, 
+			<code>getNumberOfReadableSize()</code>, 
+			<code>getReadableBytes()</code>, 
 			<code>getStringLength()</code>, 
 			<code>minifyCSS()</code>, 
 			<code>sanitizeSlug()</code>, 
