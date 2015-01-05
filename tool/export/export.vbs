@@ -1,28 +1,49 @@
+''''''''''''''''''''''''''''''''''
+' Git Archive Export Script for Windows 1.0.0
+' 
+''''''''''''''''''''''''''''''''''
+
 ' Shell object
 Dim oWshShell
 Set oWshShell = CreateObject( "WScript.Shell" )
 
 ' Set the script slug. This is used for the file name and directory name of the output.
-Dim sScriptSlug
-sScriptSlug = ReadIni( oWshShell.CurrentDirectory & "\git-archive.ini", "Script", "slug" )
+sConfigFilePath             = oWshShell.CurrentDirectory & "/settings.ini"
+sScriptSlug                 = ReadIni( sConfigFilePath, "Script", "slug" )
 
-Dim sOutputDirPath
-sOutputDirPath = ReadIni( oWshShell.CurrentDirectory & "\git-archive.ini", "Path", "output_dir" )
+sLocalWorkingCopyDirPath    = Trim ( ReadIni( sConfigFilePath, "Path", "local_working_copy_dir" ) )
+sLocalWorkingCopyDirPath    = getFullPath( sLocalWorkingCopyDirPath )
+sLocalWorkingCopyDirPathWQ  = chr( 34 ) & sLocalWorkingCopyDirPath & chr( 34 )
 
-Dim sRepositoryDirPath
-sRepositoryDirPath = ReadIni( oWshShell.CurrentDirectory & "\git-archive.ini", "Path", "repository_dir" )
+sOutputDirPath              = Trim( ReadIni( sConfigFilePath, "Path", "output_dir" ) )
+sOutputDirPath              = getFullPath( sOutputDirPath )
+sOutputDirPathWQ            = chr( 34 ) & sOutputDirPath & chr( 34 )
 
-' Set the command.
-Dim sCommand
-sCommand = "cmd /K " _ 
- & "cd " & sRepositoryDirPath & " & " _
- & "git archive --format zip --output " & sOutputDirPath & "\" & sScriptSlug & ".zip HEAD & " _
- & "cd " & sOutputDirPath & " & " _
- & "unzip -o " & sScriptSlug & ".zip -d .\" & sScriptSlug ' -o is to override
+' Run the command.
+sZipPathWQ  = chr( 34 ) & sOutputDirPath & "\" & sScriptSlug & ".zip" & chr( 34 )
+sCommand    = "cmd /c " _ 
+    & "cd /d " & sLocalWorkingCopyDirPath & " & " _
+    & "git archive --format zip --output " & sZipPathWQ & " HEAD & " _
+    & "cd /d " & sOutputDirPathWQ & " & " _
+    & "unzip -o " & sScriptSlug & ".zip -d .\" & sScriptSlug 
+oWshShell.Run sCommand, 1, true
 
-' Run the command
-oWshShell.run sCommand, 1, true
+' Open the output directory in explorer.
+sCommand    = "explorer.exe /e, " & sOutputDirPathWQ
+oWshShell.Run sCommand, 1, false
 Set oWshShell = Nothing
+
+
+''''''''''''' Functions '''''''''''''''
+' Returns the full path.
+' @remark       Do not enclose the path in double quotes.
+Function getFullPath( sPath )
+
+    Dim oFSO
+    Set oFSO = CreateObject( "Scripting.FileSystemObject" )
+    getFullPath = oFSO.GetAbsolutePathName( sPath )
+
+End Function
 
 ' see http://www.robvanderwoude.com/vbstech_files_ini.php
 Function ReadIni( myFilePath, mySection, myKey )
