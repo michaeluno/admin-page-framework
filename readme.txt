@@ -269,14 +269,6 @@ No. Include the minified version of the framework in your distribution package.
 <h5>Where can I get the minified version of the framework?</h5>
 It is in the `library` directory of the plugin. Or go to **Dashboard** -> **Admin Page Framework** -> **Tool** -> **Minifier** and press **Download**.
 
-<h5><strong>I've written a useful class, functions, and even custom field types that will be useful for others! Do you want to include it?</strong></h5>
-The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is available. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
-
-<h5><strong>How can I contribute to improving the documentation?</strong></h5>
-You are welcome to submit documentation. Please follow the [Documentation Guideline](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md). 
-
-In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
-
 <h5><strong>Does my commercial product incorporating your framework library have to be released under GPL2v+?</strong></h5>
 No. The demo plugin is released under GPLv2 or later but the library itself is released under MIT. Make sure to include only the library file.
 
@@ -330,6 +322,15 @@ Yes, See the demo.
 
 <h4>More FAQ Items</h4>
 Check out the [questions tagged as FAQ](https://github.com/michaeluno/admin-page-framework/issues?q=is%3Aissue+label%3AFAQ) on GitHub.
+
+<h4>Supporting the Project</h4>
+<h5><strong>I've written a useful class, functions, and even custom field types that will be useful for others! Do you want to include it?</strong></h5>
+The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is available. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
+
+<h5><strong>How can I contribute to improving the documentation?</strong></h5>
+You are welcome to submit documentation. Please follow the [Documentation Guideline](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md). 
+
+In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
 
 <h4>Tutorials</h4>
 [Index](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
