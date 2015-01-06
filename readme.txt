@@ -496,12 +496,12 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.4.6 - 2014/01/06 =
-- Added a page that let the user download the minified version of the framework.
+- Added a page that lets the user download the minified version of the framework in the demo examples.
 - Added a utility class that checks requirements of servers such as PHP and MySQL versions etc.
 - Added the `print_type` argument to the `system` field type.
-- Added more information for the `system` field type.
-- Added (revived) the minified version and now it is be human readable.
-- Fixed an issue that the form fields were not registered in pages except the first added page.
+- Added more information to the `system` field type.
+- Added (revived) the minified version and it is now human readable.
+- Fixed an issue that form fields were not registered in pages except first added ones.
 - Changed the timing of importing and exporting of the `import` and `export` field types to be done after performing validation callbacks.
 
 = 3.4.5.1 - 2014/01/01 =
