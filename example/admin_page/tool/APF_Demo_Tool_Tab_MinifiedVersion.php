@@ -75,7 +75,7 @@ class APF_Demo_Tool_Tab_MinifiedVersion {
                 'title'             => __( 'Class Prefix', 'admin-page-framework-demo' ),
                 'type'              => 'text',
                 'description'       => __( 'Set alphanumeric characters for the class names', 'admin-page-framework-demo' )
-                    . __( 'For example, if you set here <code>MyPluginName_</code>, you will need to extend the class named <code>MyClassName_AdminPageFramework</code> instead of <code>AdminPageFramework</code>.', 'admin-page-framework-demo' )
+                    . ' ' .  __( 'For example, if you set here <code>MyPluginName_</code>, you will need to extend the class named <code>MyClassName_AdminPageFramework</code> instead of <code>AdminPageFramework</code>.', 'admin-page-framework-demo' )
                     . ' e.g.<code>MyPluginName_</code>',
                 'attributes'        => array(
                     'size'          => 30,
