@@ -79,7 +79,7 @@ You can include your own custom field types when they are necessary. The reason 
 - `ace` - a rich code editor.
 
 = Necessary Files =
-- **`admin-page-framework.min.php`** is in the *library* folder. Or you can get it from `Dashboard` -> `Admin Page Framework` -> `Tool` -> `Minifier.`
+- **`admin-page-framework.min.php`** is in the *library* folder. Or you can get it from **Dashboard** -> **Admin Page Framework** -> **Tool** -> **Minifier**.
 - Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
 
 = Documentation =
@@ -260,11 +260,14 @@ new APF_MyFirstFrom;
 <h5><strong>What is this for?</strong></h5>
 This is a PHP class library that helps to create option pages and form fields in the administration panel. In addition, it helps to manage to save, export, and import options.
 
-<h5><strong>Who needs it??</strong></h5>
-- WordPress plugin/theme developers who want to speed up creating setting forms, widgets, contact form etc. and don't want to require their users to install extra dependencies. 
+<h5><strong>Who needs it?</strong></h5>
+WordPress plugin/theme developers who want to speed up creating setting forms, widgets, contact form etc. and don't want to require their users to install extra dependencies. 
 
-<h5><strong>Do my plugin/theme users have to install Admin Page Framework??</strong></h5>
+<h5><strong>Do my plugin/theme users have to install Admin Page Framework?</strong></h5>
 No. Include the minified version of the framework in your distribution package.
+
+<h5>Where can I get the minified version of the framework?</h5>
+It is in the `library` directory of the plugin. Or go to **Dashboard** -> **Admin Page Framework** -> **Tool** -> **Minifier** and press **Download**.
 
 <h5><strong>I've written a useful class, functions, and even custom field types that will be useful for others! Do you want to include it?</strong></h5>
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is available. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
@@ -354,12 +357,31 @@ This means if you choose a very simple page slug such as <code>about</code> for 
 
 To avoid this, make sure to use a unique page slug. One way to do that is to add a prefix like <code>apf_about</code>. 
 
-<h4>Change PHP Class Names</h4>
-When you include the framework, change the class names that the framework uses. This is because if there is a plugin that uses a lesser version of the framework and it is loaded earlier than yours, your script may not work properly.
+<h4>Change Framework PHP Class Names</h4>
+There is one thing you need to be careful when you include the framework: the framework version conflicts. Imagine you publish a plugin using the framework v3.4.6 and your plugin user installs a plugin using the framework v3.0.0 which is below your framework version. If the other plugin loads earlier than yours, your plugin may not work properly and vice versa.
 
-All the class names have the prefix <code>AdminPageFramework</code> so just change it to something like <code>MyPlugin_AdminPageFramework</code>. 
+There is a way to avoid such a conflict: change the PHP class names of the framework you include. All the class names have the prefix <code>AdminPageFramework</code> so just change it to something like <code>MyPlugin_AdminPageFramework</code>. 
 
-Most text editors supports the *Replace All* command so just use that. By the time WordPress's minimum required PHP version becomes 5.3 or higher, we can use namespaces then this problem will be solved.
+- Option A. Open the minified version in your code editor and replace all the strings of `AdminPageFramework` to something like `MyPugin_AdminPageFramewok` where `MyPlugin_` is your desired string. Most text editors supports the *Replace All* command so just use that.
+- Option B. Activate the demo plugin and go to **Dashboard** -> **Admin Page Framework** -> **Tool** -> **Minifier**. Set the prefix in the option field and download the file.
+
+If you do not modify the framework class names, you are supposed to extend the `AdminPageFramework` factory class.
+
+`
+class MyAdminPage extends AdminPageFramework {
+    ...
+}
+`
+
+When you modify the framework class names, make sure you extend the class with the modified name.
+
+`
+class MyAdminPage extends MyPlugin_AdminPageFramework {
+    ...
+}
+`
+
+By the time WordPress's minimum required PHP version becomes 5.3 or higher, we can use name spaces then this problem will be solved.
 
 <h4>Change Framework's System Messages</h4>
 The default messages defined by the framework can be changed. For example, when you import a setting with the framework, the setting notice "The options have been updated." will be displayed. 
