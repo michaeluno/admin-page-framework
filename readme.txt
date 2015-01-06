@@ -501,7 +501,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the `print_type` argument to the `system` field type.
 - Added more information to the `system` field type.
 - Added (revived) the minified version and it is now human readable.
-- Fixed an issue that form fields were not registered in pages except first added ones.
+- Fixed an issue that form fields without setting a section were not registered in pages except first added ones.
 - Changed the timing of importing and exporting of the `import` and `export` field types to be done after performing validation callbacks.
 
 = 3.4.5.1 - 2014/01/01 =
