@@ -52,7 +52,7 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
             // For table columns
             add_filter( "manage_{$this->oProp->sPostType}_posts_columns", array( $this, '_replyToSetColumnHeader' ) );
             add_filter( "manage_edit-{$this->oProp->sPostType}_sortable_columns", array( $this, '_replyToSetSortableColumns' ) );
-            add_action( "manage_{$this->oProp->sPostType}_posts_custom_column", array( $this, '_replyToSetColumnCell' ), 10, 2 );
+            add_action( "manage_{$this->oProp->sPostType}_posts_custom_column", array( $this, '_replyToPrintColumnCell' ), 10, 2 );
         
             // Auto-save
             add_action( 'admin_enqueue_scripts', array( $this, '_replyToDisableAutoSave' ) );     
@@ -80,9 +80,9 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * 
      * This method should be overridden by the user in their extended class.
      * 
-     * @since 2.0.0
-     * @remark A callback for the <em>manage_{post type}_post)_columns</em> hook.
-     * @return void
+     * @since       2.0.0
+     * @remark      A callback for the <em>manage_{post type}_post)_columns</em> hook.
+     * @return      void
      * @internal
      */ 
     public function _replyToSetColumnHeader( $aHeaderColumns ) {
@@ -90,10 +90,13 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
     }    
     
     /**
+     * Prints the cell column output.
      * 
      * @internal
+     * @since       3.0.x
+     * @since       3.5.0       Renamed from `_replyToSetColumnCell`.
      */
-    public function _replyToSetColumnCell( $sColumnTitle, $iPostID ) { 
+    public function _replyToPrintColumnCell( $sColumnTitle, $iPostID ) { 
                 
         // cell_{post type}_{custom column key}
         echo $this->oUtil->addAndApplyFilter( $this, "cell_{$this->oProp->sPostType}_{$sColumnTitle}", $sCell='', $iPostID );
