@@ -320,8 +320,10 @@ $this->setRootMenuPageBySlug( 'MyAdminPageClassA' );
 <h5><strong>Can I create pages in the network admin area?</strong></h5>
 Yes, See the demo.
 
-<h4>More FAQ Items</h4>
-Check out the [questions tagged as FAQ](https://github.com/michaeluno/admin-page-framework/issues?q=is%3Aissue+label%3AFAQ) on GitHub.
+<h5><strong>I cannot find what I'd like to do in tutorials and documentation. Where else should I look for more information?</strong></h5>
+
+- You may directly read the code of the demo plugin. The demo plugin code is located in the `example` directory.
+- Ask questions in the [support forum](https://wordpress.org/support/plugin/admin-page-framework).
 
 <h4>Supporting the Project</h4>
 <h5><strong>I've written a useful class, functions, and even custom field types that will be useful for others! Do you want to include it?</strong></h5>
@@ -331,6 +333,9 @@ The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admi
 You are welcome to submit documentation. Please follow the [Documentation Guideline](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md). 
 
 In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
+
+<h4>More FAQ Items</h4>
+Check out the [questions tagged as FAQ](https://github.com/michaeluno/admin-page-framework/issues?q=is%3Aissue+label%3AFAQ) on GitHub.
 
 <h4>Tutorials</h4>
 [Index](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
