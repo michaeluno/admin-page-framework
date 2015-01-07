@@ -457,6 +457,7 @@ abstract class AdminPageFramework_Property_Base {
      * 
      * This method should be extended in the extended class.
      * 
+     * @remark      This method is triggerd from the __get() overload magic method to set the $aOptions property.
      * @since       3.1.0
      * @internal
      */

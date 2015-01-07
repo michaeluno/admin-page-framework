@@ -109,13 +109,15 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
             $this->oProp->aFieldCallbacks           // field output element callables.
         ); 
 
-        return $this->oUtil->addAndApplyFilters(
+        $_sOutput = $this->oUtil->addAndApplyFilters(
             $this,
             array( 'field_' . $this->oProp->sClassName . '_' . $aField['field_id'] ), // field_ + {extended class name} + _ {field id}
             $_oField->_getFieldOutput(), // field output
             $aField // the field array
         );     
-                        
+
+        return $_sOutput;
+        
     }    
         
     /**

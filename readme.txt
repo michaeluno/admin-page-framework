@@ -523,6 +523,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.5.0 =
+- Added user meta factory class for adding fields in the user profile page.
+
 = 3.4.6 - 2014/01/06 =
 - Added a page that lets the user download the minified version of the framework in the demo examples.
 - Added a utility class that checks requirements of servers such as PHP and MySQL versions etc.

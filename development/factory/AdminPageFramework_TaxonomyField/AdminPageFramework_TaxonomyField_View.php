@@ -59,6 +59,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
             $_aOutput[] = wp_nonce_field( $this->oProp->sClassHash, $this->oProp->sClassHash, true, false );
             
             /* Set the option property array */
+            // @todo Move _setOptionArray() to _replyToRegisterFormElements().
             $this->_setOptionArray( $iTermID, $this->oProp->sOptionKey );
             
             /* Format the fields arrays - taxonomy fields do not support sections */

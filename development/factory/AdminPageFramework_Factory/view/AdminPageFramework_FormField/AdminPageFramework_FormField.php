@@ -231,10 +231,13 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                 $__aField['_input_name']                = $this->_getInputName( $__aField, $__aField['_is_multiple_fields'] ? $__sKey : '', $aCallbacks['hfName'] );    
                 $__aField['_input_name_flat']           = $this->_getFlatInputName( $__aField, $__aField['_is_multiple_fields'] ? $__sKey : '', $aCallbacks['hfNameFlat'] ); // used for submit, export, import field types     
                 $__aField['_field_container_id']        = "field-{$__aField['input_id']}"; // used in the attribute below plus it is also used in the sample custom field type.
-// These models are for generating ids and names dynamically.
-$__aField['_input_id_model']            = $this->_getInputID( $__aField, '-fi-',  $aCallbacks['hfID'] ); // 3.3.1+ referred by the repeatable field script
-$__aField['_input_name_model']          = $this->_getInputName( $__aField, $__aField['_is_multiple_fields'] ? '-fi-': '', $aCallbacks['hfName'] );      // 3.3.1+ referred by the repeatable field script
-$__aField['_fields_container_id_model'] = "field-{$__aField['_input_id_model']}"; // [3.3.1+] referred by the repeatable field script
+
+                    // @todo for issue #158 https://github.com/michaeluno/admin-page-framework/issues/158               
+                    // These models are for generating ids and names dynamically.
+                    $__aField['_input_id_model']            = $this->_getInputID( $__aField, '-fi-',  $aCallbacks['hfID'] ); // 3.3.1+ referred by the repeatable field script
+                    $__aField['_input_name_model']          = $this->_getInputName( $__aField, $__aField['_is_multiple_fields'] ? '-fi-': '', $aCallbacks['hfName'] );      // 3.3.1+ referred by the repeatable field script
+                    $__aField['_fields_container_id_model'] = "field-{$__aField['_input_id_model']}"; // [3.3.1+] referred by the repeatable field script
+                    
                 $__aField['_fields_container_id']       = "fields-{$this->aField['tag_id']}";
                 $__aField['_fieldset_container_id']     = "fieldset-{$this->aField['tag_id']}";
                 $__aField                               = $this->uniteArrays(
@@ -289,7 +292,7 @@ $__aField['_fields_container_id_model'] = "field-{$__aField['_input_id_model']}"
                     . $__aField['after_field'];
 
             }     
-            
+
             return implode( PHP_EOL, $_aOutput );
             
         }
@@ -428,7 +431,7 @@ $__aField['_fields_container_id_model'] = "field-{$__aField['_input_id_model']}"
         /**
          * Returns the array of fields 
          * 
-         * @since 3.0.0
+         * @since       3.0.0
          */
         protected function _constructFieldsArray( &$aField, &$aOptions ) {
 
