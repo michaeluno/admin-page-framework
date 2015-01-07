@@ -21,34 +21,34 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
          */
         $this->addSettingFields(
             array(
-                'field_id' => 'text_field',
-                'type' => 'text',
-                'title' => __( 'Text Input', 'admin-page-framework-demo' ),
-                'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
-                'help' => 'This is help text.',
-                'help_aside' => 'This is additional help text which goes to the side bar of the help pane.',
+                'field_id'      => 'text_field',
+                'type'          => 'text',
+                'title'         => __( 'Text Input', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'help'          => 'This is help text.',
+                'help_aside'    => 'This is additional help text which goes to the side bar of the help pane.',
             ),
             array(
-                'field_id' => 'text_field_repeatable',
-                'type' => 'text',
-                'title' => __( 'Text Repeatable', 'admin-page-framework-demo' ),
-                'repeatable' =>    true
+                'field_id'      => 'text_field_repeatable',
+                'type'          => 'text',
+                'title'         => __( 'Text Repeatable', 'admin-page-framework-demo' ),
+                'repeatable'    => true
             ),     
             array(
-                'field_id' => 'textarea_field',
-                'type' => 'textarea',
-                'title' => __( 'Text Area', 'admin-page-framework-demo' ),
-                'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
-                'help' => __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-demo' ),
-                'default' => __( 'This is a default text value.', 'admin-page-framework-demo' ),
-                'attributes' => array(
+                'field_id'      => 'textarea_field',
+                'type'          => 'textarea',
+                'title'         => __( 'Text Area', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'help'          => __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-demo' ),
+                'default'       => __( 'This is a default text value.', 'admin-page-framework-demo' ),
+                'attributes'    => array(
                     'cols' => 40,     
                 ),
             ),
             array(
-                'field_id' => 'image_upload',
-                'type' => 'image',
-                'title' => __( 'Image Upload', 'admin-page-framework-demo' ),
+                'field_id'      => 'image_upload',
+                'type'          => 'image',
+                'title'         => __( 'Image Upload', 'admin-page-framework-demo' ),
             )
         );     
     
