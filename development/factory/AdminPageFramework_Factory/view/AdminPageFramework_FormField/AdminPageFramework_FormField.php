@@ -56,8 +56,8 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                 $_sResult = "{$aField['field_id']}{$_sKey}";
                 break;
                 
-            // [3.2.0+] 
-            case 'widget':  
+            case 'widget':      // 3.2.0+
+            case 'user_meta':   // 3.5.0+
                 $_sResult       = isset( $aField['section_id'] ) && $aField['section_id'] && '_default' != $aField['section_id']
                     ? "{$aField['section_id']}{$_sSectionIndex}[{$aField['field_id']}]"
                     : "{$aField['field_id']}";            
@@ -111,8 +111,8 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                 $_sResult = "{$aField['field_id']}{$_sKey}";
                 break;
             
-            // 3.2.0+                
-            case 'widget':  
+            case 'widget':      // 3.2.0+                
+            case 'user_meta':   // 3.5.0+            
                 $_sResult       = isset( $aField['section_id'] ) && $aField['section_id'] && '_default' != $aField['section_id']
                     ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}"
                     : "{$aField['field_id']}";            
@@ -175,30 +175,30 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
     
     /** 
      * Retrieves the input field HTML output.
-     * @since 2.0.0
-     * @since 2.1.6 Moved the repeater script outside the fieldset tag.
+     * @since       2.0.0
+     * @since       2.1.6       Moved the repeater script outside the fieldset tag.
      */ 
     public function _getFieldOutput() {
         
-        $aFieldsOutput = array(); 
+        $_aFieldsOutput = array(); 
 
         /* 1. Prepend the field error message. */
         $_sFieldError = $this->_getFieldError( $this->aErrors, $this->aField['section_id'], $this->aField['field_id'] );
         if ( $_sFieldError ) {
-            $aFieldsOutput[] = $_sFieldError;
+            $_aFieldsOutput[] = $_sFieldError;
         }
                     
         /* 2. Set the tag ID used for the field container HTML tags. */
         $this->aField['tag_id'] = $this->_getInputTagBaseID( $this->aField, $this->aCallbacks['hfTagID'] );
             
         /* 3. Construct fields array for sub-fields */
-        $aFields = $this->_constructFieldsArray( $this->aField, $this->aOptions );
+        $_aFields = $this->_constructFieldsArray( $this->aField, $this->aOptions );
 
         /* 4. Get the field and its sub-fields output. */
-        $aFieldsOutput[] = $this->_getFieldsOutput( $aFields, $this->aCallbacks );
+        $_aFieldsOutput[] = $this->_getFieldsOutput( $_aFields, $this->aCallbacks );
                     
         /* 5. Return the entire output */
-        return $this->_getFinalOutput( $this->aField, $aFieldsOutput, count( $aFields ) );
+        return $this->_getFinalOutput( $this->aField, $_aFieldsOutput, count( $_aFields ) );
 
     }
     
