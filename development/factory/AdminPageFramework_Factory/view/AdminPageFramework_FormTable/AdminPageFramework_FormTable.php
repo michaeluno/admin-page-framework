@@ -105,7 +105,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
     
         return implode( PHP_EOL, $_aOutput ) 
             . $this->_getSectionTabsEnablerScript()
-            . ( defined( 'WP_DEBUG' ) && WP_DEBUG && in_array( $_sFieldsType, array( 'widget', 'post_meta_box', 'page_meta_box', ) )
+            . ( defined( 'WP_DEBUG' ) && WP_DEBUG && in_array( $_sFieldsType, array( 'widget', 'post_meta_box', 'page_meta_box', 'user_meta' ) )
                 ? "<div class='admin-page-framework-info'>" 
                         . 'Debug Info: ' . AdminPageFramework_Registry::Name . ' '. AdminPageFramework_Registry::getVersion() 
                     . "</div>"
