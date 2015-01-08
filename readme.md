@@ -177,6 +177,220 @@ class APF_MyFirstFrom extends AdminPageFramework {
 }
 new APF_MyFirstFrom;
 ```
+
+### Create a Meta Box
+```php
+<?php
+/* Plugin Name: Admin Page Framework - Post Meta Box Example */ 
+
+if ( ! class_exists( 'AdminPageFramework' ) ) {
+    include( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+}
+if ( ! class_exists( 'AdminPageFramework_MetaBox' ) ) {
+    return;
+}
+class APF_MyMetaBox extends AdminPageFramework_MetaBox {
+        
+
+    public function setUp() {
+                
+        $this->addSettingFields(
+            array(
+                'field_id'      => 'checkbox_field',
+                'type'          => 'checkbox',
+                'title'         => __( 'Checkbox Input', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'label'         => __( 'This is a check box.', 'admin-page-framework-demo' ),
+            ),
+            array(
+                'field_id'      => 'select_filed',
+                'type'          => 'select',
+                'title'         => __( 'Select Box', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'default'       => 'one', // 0 means the first item
+                'label'         => array( 
+                    'one'   => __( 'One', 'admin-page-framework-demo' ),
+                    'two'   => __( 'Two', 'admin-page-framework-demo' ),
+                    'three' => __( 'Three', 'admin-page-framework-demo' ),
+                ),
+            ),     
+            array (
+                'field_id'      => 'radio_field',
+                'type'          => 'radio',
+                'title'         => __( 'Radio Group', 'admin-page-framework-demo' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'default'       => 'one',
+                'label'         => array( 
+                    'one'   => __( 'This option is the first item of the radio button example field and lets the user choose one from many.', 'admin-page-framework-demo' ),
+                    'two'   => __( 'This option is the second item of the radio button example field.', 'admin-page-framework-demo' ),
+                    'three' => __( 'This option is the third item of the radio button example field.', 'admin-page-framework-demo' ),
+                ),
+            )
+        );     
+
+    }
+
+    /**
+     * One of the predefined validation callback methods,
+     * 
+     * Alternatively, you may use `validataion_{instantiated class name}()` method,
+     */
+    public function validate( $aInput, $aOldInput, $oAdmin ) {
+        return $aInput;
+    }
+    
+}
+new APF_MyMetaBox(
+    null,  // meta box ID - can be null. If null is passed, the ID gets automatically generated and the class name with all lower case characters will be applied.
+    __( 'Admin Page Framework Meta Box Example', 'admin-page-framework-demo' ), // title
+    array( 'post', 'page' ),                         // post type slugs: post, page, etc.
+    'normal',                                        // context (what kind of metabox this is)
+    'high'                                           // priority
+);
+```
+
+### Create a Widget
+```php
+<?php
+/* Plugin Name: Admin Page Framework - Widget Example */ 
+
+if ( ! class_exists( 'AdminPageFramework' ) ) {
+    include( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+}
+if ( ! class_exists( 'AdminPageFramework_Widget' ) ) {
+    return;
+}
+class APF_MyWidget extends AdminPageFramework_Widget {
+        
+    /**
+     * Sets up arguments.
+     * 
+     * Alternatively you may use set_up_{instantiated class name} method.
+     */
+    public function setUp() {
+
+        $this->setArguments( 
+            array(
+                'description'   =>  __( 'This is a sample widget with built-in field types created by Admin Page Framework.', 'admin-page-framework-demo' ),
+            ) 
+        );
+    
+    }    
+
+    /**
+     * Sets up the form.
+     * 
+     * Alternatively you may use load_{instantiated class name} method.
+     */
+    public function load( $oAdminWidget ) {
+        
+        $this->addSettingFields(             
+            array(
+                'field_id'      => 'image',
+                'type'          => 'image',
+                'title'         => __( 'Image', 'admin-page-framework-demo' ),
+            ),         
+            array(
+                'field_id'      => 'color',
+                'type'          => 'color',
+                'title'         => __( 'Color', 'admin-page-framework-demo' ),
+            )
+        );        
+
+        
+    }
+    
+    /**
+     * Validates the submitted form data.
+     * 
+     * Alternatively you may use validation_{instantiated class name} method.
+     */
+    public function validate( $aSubmit, $aStored, $oAdminWidget ) {
+            
+        return $aSubmit;
+        
+    }    
+    
+    /**
+     * Print out the contents in the front-end.
+     * 
+     * Alternatively you may use the content_{instantiated class name} method.
+     */
+    public function content( $sContent, $aArguments, $aFormData ) {
+        
+        return $sContent
+            . '<p>' . __( 'Hello world! This is a widget created by Admin Page Framework.', 'admin-page-framework-demo' ) . '</p>'
+            . AdminPageFramework_Debug::get( $aArguments )
+            . AdminPageFramework_Debug::get( $aFormData );
+    
+    }
+        
+}
+new APF_MyWidget( 
+    __( 'My Widget', 'admin-page-framework-demo' ) // the widget title
+);
+```
+
+### Create User Meta Fields
+
+```php
+<?php
+/* Plugin Name: Admin Page Framework - User Meta Example */ 
+
+if ( ! class_exists( 'AdminPageFramework' ) ) {
+    include( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+}
+if ( ! class_exists( 'AdminPageFramework_UserMeta' ) ) {
+    return;
+}
+
+class APF_MyUserMeta extends AdminPageFramework_UserMeta {
+	
+    public function setUp() {
+                   
+        $this->addSettingFields(
+            array(    
+                'field_id'      => 'text_field',
+                'type'          => 'text',
+                'title'         => __( 'Text', 'admin-page-framework-demo' ),
+                'repeatable'    => true,
+                'sortable'      => true,
+                'description'   => 'Type something here.',   
+            ),        
+            array(    
+                'field_id'      => 'text_area',
+                'type'          => 'textarea',
+                'title'         => __( 'Text Area', 'admin-page-framework-demo' ),
+                'default'       => 'Hi there!',   
+            ),        
+            array(    
+                'field_id'      => 'radio_buttons',
+                'type'          => 'radio',
+                'title'         => __( 'Radio', 'admin-page-framework-demo' ),
+                'label'         => array(
+                    'a' => 'A',
+                    'b' => 'B',
+                    'c' => 'C',
+                ),
+                'default'       => 'a',
+            )          
+        );      
+        
+    }
+    
+    /**
+     * A pre-defined validation callback method.
+     */
+    public function validate( $aInput, $aOldInput, $oFactory ) {
+        return $aInput;        
+    }
+    
+}
+new APF_MyUserMeta;
+```
+
+
+
 ## Documentation ##
 [Online documentation](http://admin-page-framework.michaeluno.jp/en/v3/)
 
