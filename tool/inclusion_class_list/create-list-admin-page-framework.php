@@ -31,7 +31,8 @@ new PHP_Class_Files_Inclusion_Script_Creator(
 	$sResultFilePath, 
 	array(
 		'header_class_name'	=>	'AdminPageFramework_InclusionClassFilesHeader',
-		'output_buffer'		=>	true,
+        'header_class_path'	=>	$sTargetBaseDir . '/development/document/AdminPageFramework_InclusionClassFilesHeader.php',
+		'output_buffer'		=>	false,
 		'header_type'		=>	'CONSTANTS',	
 		'exclude_classes'	=>	array( 'AdminPageFramework_MinifiedVersionHeader', 'AdminPageFramework_InclusionClassFilesHeader', 'admin-page-framework' ),
 		// 'output_var_name'	=>	'$aAdminPageFramework_Inclusion_Class_Files',
@@ -39,7 +40,7 @@ new PHP_Class_Files_Inclusion_Script_Creator(
 		'search'			=>	array(
 			'allowed_extensions'	=>	array( 'php' ),	// e.g. array( 'php', 'inc' )
 			// 'exclude_dir_paths'		=>	array( $sTargetBaseDir . '/include/class/admin' ),
-			'exclude_dir_names'		=>	array( '_document' ),
+			'exclude_dir_names'		=>	array( '_document', 'document' ),
 			'is_recursive'			=>	true,
 		),			
 	)

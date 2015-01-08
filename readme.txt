@@ -11,7 +11,7 @@ License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 Facilitates WordPress plugin and theme development.
 
 == Description ==
-It provides plugin and theme developers with easier means of building option pages. Extend the library class and pass your arrays that define the form elements to the predefined class methods. The library handles all the complex coding behind the scene and creates the pages and the forms for you. The package includes a demo plugin which helps you walk through necessary features.
+It provides plugin and theme developers with easier means of building option pages. Extend the library class and pass your arrays that define the form elements to the predefined class methods. The library handles all the complex coding behind the scene and creates the pages and the forms for you. 
 
 **Notes:** this framework does not do anything by itself. If you are not a developer, you do not need this.
 
@@ -77,6 +77,9 @@ You can include your own custom field types when they are necessary. The reason 
 - `image_checkbox`, `image_radio` - displays images instead of text labels to be selected.
 - `reset` - a custom submit button that initialize the text form inputs.
 - `ace` - a rich code editor.
+
+= Demo =
+Install the demo plugin and it will demonstrates the possible features you can do with the framework. 
 
 = Necessary Files =
 - **`admin-page-framework.min.php`** is in the *library* folder. Or you can get it from **Dashboard** -> **Admin Page Framework** -> **Tool** -> **Minifier**.
@@ -869,105 +872,5 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Fixed an issue that registering multiple taxonomies after the `init` hook failed registering second or later items.
 - Fixed a bug that a last item did not set when selecting multiple items in the fields of the `image`, `media`, `font` field types.
 - Fixed a bug in the `autocomplete` custom field type that the default post type slug was not set properly when the page that the field is displayed contains the `post_type` query key in the url.
-
-= 3.1.7 - 2014/09/12 =
-- Added the `github` custom field type that displays GitHub buttons.
-- Fixed an incompatibility issue of the `grid` custom field type with Internet Explorer.
-- Fixed an incompatibility issue of the `link` custom field type with WordPress 3.8.x or below and Internet Explorer.
-- Fixed a bug that the `checkbox` field type could not be repeated and sorted.
-- Fixed an incompatibility issue of the `autocomplete` field type with WordPress 4.0 when `WP_DEBUG` is enabled.
-
-= 3.1.6 - 2014/09/08 =
-- Added the `stopped_sorting_fields` JavaScript hook for field type that supports sortable fields.
-- Added support of repeatable and sortable rich text editor of the `textarea` field type except quick tags.
-- Added an example of a download button in the demo plugin.
-- Added the `system` custom field type.
-- Changed the timing of the `removed_repeatable_field` callback for sections from before removing the section to after removing it.
-- Tweaked the styling of switchable tabs of tabbed sections to remove dotted outlines when focused or activated which occur in FireFox.
-- Fixed an incompatibility issue with WordPress 4.0 for the media modal frame.
-
-= 3.1.5 - 2014/08/31 =
-- Added the `content_{instantiated class name}` hook and the default `content()` callback method that filters the post type post content for the post type class.
-- Added the ability to flush rewrite rules automatically upon plugin de/activation and theme activation.
-- Changed the post type class to perform the set-ups including post type and taxonomy registration immediately if the class is instantiated after the `init` hook.
-- Fixed an issue that then the user opens multiple pages created by the framework in the browser and submit one of the forms, the other forms failed nonce verification.
-- Fixed a bug that caused JavaScript errors in `post.php` when adding meta box fields with the framework, which caused the media button not to function in the page.
-
-= 3.1.4 - 2014/08/29 =
-- Added the ability to search users for the `autocomplete` custom field type.
-- Fixed an issue that field error transients and admin notice transients were not handled properly when multiple WordPress users on the site are working on admin pages created by the framework.
-- Fixed an issue that options did not save when the site enables object caching.
-
-= 3.1.3 - 2014/08/13 =
-- Added the `load_after_{instantiated class name}` hook that is triggered right after the `load_{...}` hooks are triggered.
-- Added the `set_up_{instantiated class name}` hook that is triggered right after the `setUp()` method is called.
-- Added the footer link in the custom taxonomy pages created by the framework (`tags.php`, `edit-tags.php`).
-- Added the ability for the `autocomplete` custom field type to support multiple post types and post statues.
-- Added the `link` custom field type in the demo plugin.
-- Changed the timing of finalizing in-page tabs so that in-page tabs now can be added in `load_{...}` hook callbacks.
-- Changed the `start_{instantiated class name}`, `do_{...}`, `do_before_{...}`, `do_after_{...}`, and `do_form_{...}` action hook to pass the class object instance in the first parameter of the callback methods.
-- Tweaked the process of post type registration to improve performance.
-- Tweaked the performance by eliminating unnecessary function calls.
-- Tweaked the styling of media select buttons.
-- Fixed bugs that in the network admin area, transients were not handled properly.
-- Fixed a bug that admin notices were not displayed in the network admin pages.
-- Fixed a bug that the `load_{...}` hooks are triggered more than once per page.
-- Fixed a bug that the same setting notice message got displayed the number of times of the framework object instances when another framework page with a form is loaded while saving the form data in the page.
-
-= 3.1.2 - 2014/08/09 =
-- Added the `validation_saved_options_{instantiated class name}` filter hook.
-- Changed the timing of loading field type definitions in the taxonomy and meta box classes to allow define custom field types in the `setUp()` method.
-- Changed the `load_{...}` hook callbacks to be able to add form elements.
-- Fixed an issue that nonce verification failed when there is an output of `WP_List_Table` in the framework page with the framework form elements.
-- Fixed a bug that meta boxes for the `post` post type created with the framework meta box class did not appear in `post-new.php` page.
-
-= 3.1.1 - 2014/08/01 =
-- Added the `before_fieldset` and `after_fieldset` arguments for the field definition array.
-- Added the third parameter to the `addTaxonomy()` method to accept multiple object types in the post type class.
-- Changed the `label_min_width` argument to accept non pixel values.
-- Changed the default value of the `order` argument of in-page tabs to 10.
-- Changed the field definition arrays to be formatted after applying filters of the `field_definition_{instantiated class name}` hook.
-- Changed the timing of `field_definition_{instantiated class name}` filter hook to be triggered after all `field_definition_{instantiated class name}_{section id}_{field_id}` and `field_definition_{instantiated class name}_{field_id}` filter hooks.
-- Fixed a bug that the `show_in_menu` argument of the `addSubMenuItems()` method did not take effect.
-- Fixed an issue that the `order` argument of in-page tabs did not take effect when in-page tabs are added via the `tabs_{instantiated class name}` filter.
-- Fixed an issue that the `label_min_width` argument of a field definition array was no longer effective as of v3.1.0.
-- Fixed a bug that the stored values of repeatable fields with a custom capability got lost when a lower capability user submits the form.
-- Fixed a bug that items of repeatable fields of page-meta-boxes could not be removed.
-
-= 3.1.0 - 2014/07/18 =
-- Added the `options_{instantiated class name}` filter hook to suppress the data used to display the form values.
-- Added the `AdminPageFramework_Debug::log()` method.
-- Added the ability not to set the default link to the custom post type post listing table's page in the plugin listing table page by passing an empty string to the 'plugin_listing_table_title_cell_link` key of the 'label' argument option.
-- Added the `date_range`, `date_time_range`, `time_range` custom field type.
-- Added the ability to set options for the `date`, `date_time`, and `time` custom field types.
-- Added the `hasSettingNotice()` method that checks if at least one setting notice has been set or not.
-- Added the `admin-page-framework-subfield` class selector to the div element's class attribute of field containers of sub-fields. 
-- Added the `field_definition_{instantiated class name}` filter hook that applies to all the defined field arrays.
-- Added the `disableSavingOptions()` method that disables the functionality to save submitted form data into the options table.
-- Added the `setPluginSettingsLinkLabel()` method which enables to set the text label to the automatically embedded link to the plugin listing table of the plugin title cell in addition to disabling the functionality.
-- Added the `start()` method which is automatically called at the end of the constructor, which can be used when the instantiated class name cannot be determined. 
-- Added the ability to disable settings notices by passing false to the `$_GET{'settings-notice']` key.
-- Added the `AdminPageFramework_NetworkAdmin` abstract class that enables to add pages in the network admin area.
-- Tweaked the styling of the `number` input type to align the text on the right.
-- Tweaked the styling of the `checkbox` field type not to wrap the label after the checkbox.
-- Tweaked the styling of field td element when the `show_title_column` option is set to false to disable the title.
-- Changed the `removed_repeatable_field` callback to be triggered after the element is removed.
-- Changed the target form action url not to contain the `settings-updated` key.
-- Changed the demo plugin to be separated into smaller components.
-- Changed the `validation_{...}` callback methods to receive a third parameter of the class object so that third party scripts can access object members inside from the validation method.
-- Changed the `AdminPageFramework` class to accept an empty string value to be passed to the first parameter of the constructor, to be used to disable saving options.
-- Changed the scope of `oUtil`, `oDebug`, and `oMsg` objects to public from protected to be accessed from an instantiated object.
-- Changed the `section_head` filter hook to be triggered even when the section description is not set.
-- Changed not to redirect to options.php when a form created by the framework is submitted in the pages created by the framework.
-- Fixed a bug that a value of `0` did not get displayed but and empty string instead.
-- Fixed a bug that sub-fields could not properly have the default key-values of the field definition of the type.
-- Fixed a bug that in PHP v5.2.x, setting a section error message caused a string "A" to be inserted in each belonging field.
-- Fixed a bug that previously set field error arrays were lost if the `setFieldErrors()` method is performed multiple times in a page load.
-- Fixed a bug that page load info was not inserted when multiple admin page objects were instantiated.
-- Fixed a bug that duplicated setting notices were displayed.
-- Fixed a bug that the redirect transient remained when a field error is set and caused unexpected redirects when the 'href' argument is set for the submit field type.
-- Fixed an issue that `textarea` input field was placed in the wrong position when the browser turned off JavaScript.
-- Fixed a bug that the `autocomplete` custom field type's JavaScript script could not run when the prePopulate option is set and the value is saved without changing.
-- Fixed an issue in the class autoloader that caused a PHP fatal error in some non GNU OSes such as Solaris in the development version.
 
 [Old Change Log Items](https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/changelog.md)
