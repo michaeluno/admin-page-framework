@@ -61,9 +61,12 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
                 array(
                     'title'         => __( 'Tools', 'admin-page-framework-loader' ),
                     'page_slug'     => AdminPageFrameworkLoader_Registry::AdminPage_Tool,    // page slug
-                ),       
+                ),
+                array(
+                    'title'         => __( 'Contact', 'admin-page-framework-loader' ),
+                    'page_slug'     => AdminPageFrameworkLoader_Registry::AdminPage_Contact,    // page slug
+                ),                
                 array()
-                
             );
             
         }
@@ -73,11 +76,18 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
         $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
         $this->setPluginSettingsLinkLabel( __( 'Tools', 'admin-page-framework-loader' ) ); // pass an empty string.
                  
-        // Define the tool page.
+        // Tools 
         new AdminPageFrameworkLoader_Tool_Minifier( 
             $this,
             AdminPageFrameworkLoader_Registry::AdminPage_Tool,
             'minifier'
+        );
+        
+        // Contact
+        new AdminPageFrameworkLoader_Contact_Report(
+            $this,
+            AdminPageFrameworkLoader_Registry::AdminPage_Contact,
+            'report'
         );
                 
         if ( 'plugins.php' === $this->oProp->sPageNow ) {

@@ -49,14 +49,11 @@ final class AdminPageFrameworkLoader_Bootstrap {
         $this->_loadClasses( $this->_sFilePath );
 
         // 4. Set up activation hook.
-        // register_activation_hook( $this->_sFilePath, array( $this, '_replyToDoWhenPluginActivates' ) );
+        register_activation_hook( $this->_sFilePath, array( $this, '_replyToPluginActivation' ) );
         
         // 5. Set up deactivation hook.
-        // register_deactivation_hook( $this->_sFilePath, array( $this, '_replyToDoWhenPluginDeactivates' ) );
-                
-        // 7. Check requirements.
-        register_activation_hook( $this->_sFilePath, array( $this, '_replyToCheckRequirements' ) );
-        
+        register_deactivation_hook( $this->_sFilePath, array( $this, '_replyToPluginDeactivation' ) );
+                 
         // 8. Schedule to load plugin specific components.
         add_action( 'plugins_loaded', array( $this, '_replyToLoadPluginComponents' ) );
                         
@@ -98,62 +95,66 @@ final class AdminPageFrameworkLoader_Bootstrap {
     }
 
     /**
-     * 
-     * @since            3.5.0
-     */
-    public function _replyToCheckRequirements() {
-
-        $_oRequirementCheck = new AdminPageFramework_Requirement(
-            array(
-                'php'       => array(
-                    'version'    => AdminPageFrameworkLoader_Registry::RequiredPHPVersion,
-                    'error'      => __( 'The plugin requires the PHP version %1$s or higher.', 'uploader-anywheere' ),
-                ),
-                'wordpress' => array(
-                    'version'    => AdminPageFrameworkLoader_Registry::RequiredWordPressVersion,
-                    'error'      => __( 'The plugin requires the WordPress version %1$s or higher.', 'uploader-anywheere' ),
-                ),
-                'mysql'     => '',  // disabled
-                // array(
-                    // 'version'    =>    '5.5.24',
-                    // 'error' => __( 'The plugin requires the MySQL version %1$s or higher.', 'uploader-anywheere' ),
-                // ),
-                'functions' =>  '', // disabled
-                // array(
-                    // '_test'          => 'This is a test',
-                    // 'curl_version' => sprintf( __( 'The plugin requires the %1$s to be installed.', 'uploader-anywheere' ), 'the cURL library' ),
-                // ),
-                'classes'       => '',  // disabled
-                // 'classes' => array(
-                    // 'DOMDocument' => sprintf( __( 'The plugin requires the <a href="%1$s">libxml</a> extension to be activated.', 'pseudo-image' ), 'http://www.php.net/manual/en/book.libxml.php' ),
-                // ),
-                'constants'    => '',   // disabled
-            ),
-            AdminPageFrameworkLoader_Registry::Name
-        );
-        $_iWarnings = $_oRequirementCheck->check();
-        if ( $_iWarnings  ) {            
-
-            $_oRequirementCheck->deactivatePlugin( 
-                $this->_sFilePath, 
-                __( 'Deactivating the plugin', 'admin-page-framework-loader' ),  // additional message
-                true    // is in the activation hook. 
-            );
-                        
-        }        
-         
-    }
-
-    /**
      * The plugin activation callback method.
      */    
-    public function _replyToDoWhenPluginActivates() {}
+    public function _replyToPluginActivation() {
+
+        // Check requirements.
+        $this->_checkRequirements();
+        
+    }
+        /**
+         * 
+         * @since            3.5.0
+         */
+        private function _checkRequirements() {
+
+            $_oRequirementCheck = new AdminPageFramework_Requirement(
+                array(
+                    'php'       => array(
+                        'version'    => AdminPageFrameworkLoader_Registry::RequiredPHPVersion,
+                        'error'      => __( 'The plugin requires the PHP version %1$s or higher.', 'uploader-anywheere' ),
+                    ),
+                    'wordpress' => array(
+                        'version'    => AdminPageFrameworkLoader_Registry::RequiredWordPressVersion,
+                        'error'      => __( 'The plugin requires the WordPress version %1$s or higher.', 'uploader-anywheere' ),
+                    ),
+                    'mysql'     => '',  // disabled
+                    // array(
+                        // 'version'    =>    '5.5.24',
+                        // 'error' => __( 'The plugin requires the MySQL version %1$s or higher.', 'uploader-anywheere' ),
+                    // ),
+                    'functions' =>  '', // disabled
+                    // array(
+                        // '_test'          => 'This is a test',
+                        // 'curl_version' => sprintf( __( 'The plugin requires the %1$s to be installed.', 'uploader-anywheere' ), 'the cURL library' ),
+                    // ),
+                    'classes'       => '',  // disabled
+                    // 'classes' => array(
+                        // 'DOMDocument' => sprintf( __( 'The plugin requires the <a href="%1$s">libxml</a> extension to be activated.', 'pseudo-image' ), 'http://www.php.net/manual/en/book.libxml.php' ),
+                    // ),
+                    'constants'    => '',   // disabled
+                ),
+                AdminPageFrameworkLoader_Registry::Name
+            );
+            $_iWarnings = $_oRequirementCheck->check();
+            if ( $_iWarnings  ) {            
+
+                $_oRequirementCheck->deactivatePlugin( 
+                    $this->_sFilePath, 
+                    __( 'Deactivating the plugin', 'admin-page-framework-loader' ),  // additional message
+                    true    // is in the activation hook. 
+                );
+                            
+            }        
+             
+        }    
 
     /**
      * The plugin deactivation callback method.
      */
-    public function _replyToDoWhenPluginDeactivates() {}
-    
+    public function _replyToPluginDeactivation() {}
+        
     /**
      * Load localization files.
      *
