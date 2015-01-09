@@ -140,19 +140,13 @@ if ( ! defined( 'ABSPATH' ) ) { return; }
 if ( defined( 'DOWING_UNINSTALL' ) ) { return; }
 
 // Include the library file 
-if ( class_exists( 'AdminPageFramework' ) ) {
-    trigger_error( 
-        AdminPageFrameworkLoader_Registry::Name . ' : ' . 'The framework is already included. This plugin will not load it to avoid library conflicts.',
-        E_USER_ERROR 
+if ( ! class_exists( 'AdminPageFramework' ) ) {    
+    include( 
+        defined( 'WP_DEBUG' ) && WP_DEBUG
+            ? dirname( __FILE__ ) . '/development/admin-page-framework.php' // use the development version when you need to do debugging.
+            : dirname( __FILE__ ) . '/library/admin-page-framework.min.php' // use the minified version in your plugins or themes.
     );
-    return;    
 }
-include( 
-    defined( 'WP_DEBUG' ) && WP_DEBUG
-        ? dirname( __FILE__ ) . '/development/admin-page-framework.php' // use the development version when you need to do debugging.
-        : dirname( __FILE__ ) . '/library/admin-page-framework.min.php' // use the minified version in your plugins or themes.
-);
-
 
 // Include the framework loader plugin pages extra components.
 include( dirname( __FILE__ ) . '/include/class/boot/AdminPageFrameworkLoader_Bootstrap.php' );
