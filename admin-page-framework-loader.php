@@ -29,20 +29,35 @@ class AdminPageFrameworkLoader_Registry_Base {
 }
 /**
  * Provides plugin information.
+ * 
+ * The plugin will refer to these information.
+ * 
  * @since       3.5.0
+ * @remark      
  */
 final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_Registry_Base {
 	        
-	// The plugin itself uses these values.
+    /**
+     * The plugin option key used for the options table.
+     */
 	const OptionKey                 = 'admin_page_framework_loader';
-	const TransientPrefix           = 'APFL_';    // Up to 8 characters as transient name allows 45 characters or less ( 40 for site transients ) so that md5 (32 characters) can be added
+    
+    /**
+     * The transient prefix. 
+     * 
+     * @remark      This is also accessed from uninstall.php so do not remove.
+     * @remark      Up to 8 characters as transient name allows 45 characters or less ( 40 for site transients ) so that md5 (32 characters) can be added
+     */
+	const TransientPrefix           = 'APFL_';
+    
 	const TextDomain                = 'admin-page-framework-loader';
-	const TextDomainPath            = './language';
+	// const TextDomainPath            = './language';    
     
 	// const AdminPage_ = '...';
 	// const AdminPage_Root            = 'AdminPageFrameworkLoader_AdminPage';    // the root menu page slug
 	// const AdminPage_Settings        = 'si_settings';    // the root menu page slug
 	const AdminPage_Tool            = 'apfl_tool';    // the root menu page slug
+    const AdminPage_Contact         = 'apfl_contact';
     
     // const PostType_ = '';
 	// const PostType_ImageGroup       = 'cfi_image_group';        // up to 20 characters
@@ -88,12 +103,12 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
     }    
     
 }
-
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /* Registry set up. */
 AdminPageFrameworkLoader_Registry::setUp( __FILE__ );
+
+// Do no load if accessed directly - not exiting because the uninstall.php or inclusion list generator will load this file.
+if ( ! defined( 'ABSPATH' ) ) { return; }
+if ( ! defined( 'DOWING_UNINSTALL' ) ) { return; }
 
 // Include the library file 
 if ( class_exists( 'AdminPageFramework' ) ) {
