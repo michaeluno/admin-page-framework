@@ -5,7 +5,7 @@
     Description:    Loads Admin Page Framework and some tools.
     Author:         Michael Uno
     Author URI:     http://michaeluno.jp
-    Version:        3.5.0b03
+    Version:        3.5.0b04
     Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -16,7 +16,7 @@
  */
 class AdminPageFrameworkLoader_Registry_Base {
 
-	const Version        = '3.5.0';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+	const Version        = '3.5.0b04';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
 	const Name           = 'Admin Page Framework Loader';
 	const Description    = 'Loads Admin Page Framework and some tools.';
 	const URI            = 'http://en.michaeluno.jp/';
@@ -108,7 +108,7 @@ AdminPageFrameworkLoader_Registry::setUp( __FILE__ );
 
 // Do no load if accessed directly - not exiting because the uninstall.php or inclusion list generator will load this file.
 if ( ! defined( 'ABSPATH' ) ) { return; }
-if ( ! defined( 'DOWING_UNINSTALL' ) ) { return; }
+if ( defined( 'DOWING_UNINSTALL' ) ) { return; }
 
 // Include the library file 
 if ( class_exists( 'AdminPageFramework' ) ) {
