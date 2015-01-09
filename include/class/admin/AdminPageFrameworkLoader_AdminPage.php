@@ -60,11 +60,11 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             $this->addSubMenuItems( 
                 array(
                     'title'         => __( 'Tools', 'admin-page-framework-loader' ),
-                    'page_slug'     => AdminPageFrameworkLoader_Registry::AdminPage_Tool,    // page slug
+                    'page_slug'     => AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],    // page slug
                 ),
                 array(
                     'title'         => __( 'Contact', 'admin-page-framework-loader' ),
-                    'page_slug'     => AdminPageFrameworkLoader_Registry::AdminPage_Contact,    // page slug
+                    'page_slug'     => AdminPageFrameworkLoader_Registry::$aAdminPages['contact'],    // page slug
                 ),                
                 array()
             );
@@ -79,14 +79,14 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
         // Tools 
         new AdminPageFrameworkLoader_Tool_Minifier( 
             $this,
-            AdminPageFrameworkLoader_Registry::AdminPage_Tool,
+            AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],
             'minifier'
         );
         
         // Contact
         new AdminPageFrameworkLoader_Contact_Report(
             $this,
-            AdminPageFrameworkLoader_Registry::AdminPage_Contact,
+            AdminPageFrameworkLoader_Registry::$aAdminPages['contact'],
             'report'
         );
                 

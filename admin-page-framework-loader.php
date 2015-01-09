@@ -50,19 +50,17 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      */
 	const TransientPrefix           = 'APFL_';
     
+    /**
+     * The text domain slug and its path.
+     * 
+     * These will be accessed from the bootstrap script.
+     */
 	const TextDomain                = 'admin-page-framework-loader';
-	// const TextDomainPath            = './language';    
+	const TextDomainPath            = '/language';    
     
-	// const AdminPage_ = '...';
-	// const AdminPage_Root            = 'AdminPageFrameworkLoader_AdminPage';    // the root menu page slug
-	// const AdminPage_Settings        = 'si_settings';    // the root menu page slug
-	const AdminPage_Tool            = 'apfl_tool';    // the root menu page slug
-    const AdminPage_Contact         = 'apfl_contact';
-    
-    // const PostType_ = '';
-	// const PostType_ImageGroup       = 'cfi_image_group';        // up to 20 characters
-    
-	// const Taxonomy_ = '';
+    /**
+     * Requirements.
+     */
 	const RequiredPHPVersion        = '5.2.4';
 	const RequiredWordPressVersion  = '3.3';
 	    
@@ -70,6 +68,37 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
 	static public $sFilePath = '';
 	static public $sDirPath  = '';
 	
+    /**
+     * Requirements.
+     */
+    static public $aRequirements = array(
+        'WordPress' => '3.3',
+        'PHP'       => '5.2.4',
+        'MySQL'     => '5.0.0',
+    );
+    
+    /**
+     * Used admin pages.
+     */
+    static public $aAdminPages = array(
+        // key => 'page slug'
+        'tool'      => 'apfl_tools',
+        'contact'   => 'apfl_contact',
+    
+    );
+    
+    /**
+     * Used post types.
+     */
+    static public $aPostTypes = array(
+    );
+    
+    /**
+     * Used taxonomies.
+     */
+    static public $aTaxonomies = array(
+    );
+    
 	/**
 	 * Sets up static properties.
 	 */

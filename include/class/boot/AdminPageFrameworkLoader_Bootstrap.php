@@ -54,7 +54,7 @@ final class AdminPageFrameworkLoader_Bootstrap {
         // 5. Set up deactivation hook.
         register_deactivation_hook( $this->_sFilePath, array( $this, '_replyToPluginDeactivation' ) );
                  
-        // 8. Schedule to load plugin specific components.
+        // 6. Schedule to load plugin specific components.
         add_action( 'plugins_loaded', array( $this, '_replyToLoadPluginComponents' ) );
                         
     }    
@@ -112,18 +112,17 @@ final class AdminPageFrameworkLoader_Bootstrap {
             $_oRequirementCheck = new AdminPageFramework_Requirement(
                 array(
                     'php'       => array(
-                        'version'    => AdminPageFrameworkLoader_Registry::RequiredPHPVersion,
+                        'version'    => AdminPageFrameworkLoader_Registry::$aRequirements['PHP'],
                         'error'      => __( 'The plugin requires the PHP version %1$s or higher.', 'uploader-anywheere' ),
                     ),
                     'wordpress' => array(
-                        'version'    => AdminPageFrameworkLoader_Registry::RequiredWordPressVersion,
+                        'version'    => AdminPageFrameworkLoader_Registry::$aRequirements['WordPress'],
                         'error'      => __( 'The plugin requires the WordPress version %1$s or higher.', 'uploader-anywheere' ),
                     ),
-                    'mysql'     => '',  // disabled
-                    // array(
-                        // 'version'    =>    '5.5.24',
-                        // 'error' => __( 'The plugin requires the MySQL version %1$s or higher.', 'uploader-anywheere' ),
-                    // ),
+                    'mysql'     => array(
+                        'version'    => AdminPageFrameworkLoader_Registry::$aRequirements['MySQL'],
+                        'error' => __( 'The plugin requires the MySQL version %1$s or higher.', 'uploader-anywheere' ),
+                    ),
                     'functions' =>  '', // disabled
                     // array(
                         // '_test'          => 'This is a test',
@@ -167,13 +166,13 @@ final class AdminPageFrameworkLoader_Bootstrap {
         load_plugin_textdomain( 
             AdminPageFrameworkLoader_Registry::TextDomain, 
             false, 
-            dirname( plugin_basename( $this->_sFilePath ) ) . '/language/'
+            dirname( plugin_basename( $this->_sFilePath ) ) . '/' . AdminPageFrameworkLoader_Registry::TextDomainPath
         );
             
         load_plugin_textdomain( 
             'admin-page-framework', 
             false, 
-            dirname( plugin_basename( $this->_sFilePath ) ) . '/language/'
+            dirname( plugin_basename( $this->_sFilePath ) ) . '/' . AdminPageFrameworkLoader_Registry::TextDomainPath
         );        
         
     }        
