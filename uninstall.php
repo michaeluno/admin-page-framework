@@ -29,13 +29,11 @@ if ( ! defined( 'DOWING_UNINSTALL' ) ) {
  * Set the main plugin file name here.
  */
 $_sMaingPluginFileName  = 'admin-page-framework-loader.php';
-$_bMainFileLoaded       = true;
 if ( file_exists( dirname( __FILE__ ). '/' . $_sMaingPluginFileName ) ) {
-    $_bMainFileLoaded = include( $_sMaingPluginFileName );
+   include( $_sMaingPluginFileName );
 }
-$_bRegistryClassExists   = class_exists( 'AdminPageFrameworkLoader_Registry' );
 
-if ( $_bRegistryClassExists ) :
+if ( class_exists( 'AdminPageFrameworkLoader_Registry' ) ) :
 
     // Delete the plugin option
     delete_option( AdminPageFrameworkLoader_Registry::OptionKey );
@@ -52,6 +50,3 @@ if ( $_bRegistryClassExists ) :
     }
     
 endif;
-
-        
-        
