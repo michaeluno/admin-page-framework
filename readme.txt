@@ -240,7 +240,6 @@ class APF_MyFirstFrom extends AdminPageFramework {
         $this->addSettingFields(
             array(    
                 'field_id'      => 'text',
-                'section_id'    => 'my_first_text_section',
                 'title'         => 'Text',
                 'type'          => 'text',
                 'default'       => 123456,
