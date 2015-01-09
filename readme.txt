@@ -739,6 +739,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 3.5.0 =
 - Added user meta factory class for adding fields in the user profile page.
+- Changed the demo plugin to be a loader plugin that loads Admin Page Framework.
 
 = 3.4.6 - 2014/01/06 =
 - Added a page that lets the user download the minified version of the framework in the demo examples.
