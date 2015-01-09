@@ -29,11 +29,11 @@
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.5.0b03
+ * @version             3.5.0b04
  */
 abstract class AdminPageFramework_Registry_Base {
     
-    const Version       = '3.5.0b03'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const Version       = '3.5.0b04'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const Name          = 'Admin Page Framework';
     const Description   = 'Facilitates WordPress plugin and theme development.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
@@ -55,7 +55,7 @@ abstract class AdminPageFramework_Registry_Base {
 final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base {
         
     const TextDomain        = 'admin-page-framework';
-    const TextDomainPath    = './language';
+    const TextDomainPath    = '/language';
     
     /**
      * Indicates whether the framework is loaded from the minified version or not.
@@ -104,7 +104,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
     }
     
     /**
-     * Returns the information of this class.
+     * Returns an information array of this class.
      * 
      * @since       3.4.6
      */
@@ -138,12 +138,6 @@ final class AdminPageFramework_Bootstrap {
         if ( ! defined( 'ABSPATH' ) ) {
             return; 
         }
-        
-        // If the autoloader class exists, it means the framework has been loaded somewhere else.
-        // [3.4.6+] Deprecated as the minified version does not have if ( class_exists( )  checks any more so all the classes get loaded.
-        // if ( class_exists( 'AdminPageFramework_RegisterClasses' ) ) {
-            // return;
-        // }
         
         // Sets up registry properties.
         AdminPageFramework_Registry::setUp( $sLibraryPath );
