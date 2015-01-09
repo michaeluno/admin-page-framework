@@ -16,88 +16,30 @@
  * @action      do      admin_page_framework_loader_action_after_loading_plugin
  * @since       3.5.0
  */
-final class AdminPageFrameworkLoader_Bootstrap {
+final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_PluginBootstrap {
     
-    /**
-     * Indicates whether the bootstrap has been loaded or not so that multiple instances of this class won't be created.      
-     */
-    static public $_bLoaded = false;
-        
-    /**
-     * Sets up properties and hooks.
-     * 
-     */
-    public function __construct( $sPluginFilePath ) {
-        
-        // Do not allow multiple instances per page load.
-        if ( self::$_bLoaded ) {
-            return;
-        }
-        self::$_bLoaded = true;
-        
-        // Set up properties
-        $this->_sFilePath = $sPluginFilePath;
-        $this->_bIsAdmin = is_admin();
-        
-        // 1. Define constants.
-        // $this->_defineConstants();
-        
-        // 2. Set global variables.
-        // $this->_setGlobalVariables();
-            
-        // 3. Set up auto-load classes.
-        $this->_loadClasses( $this->_sFilePath );
-
-        // 4. Set up activation hook.
-        register_activation_hook( $this->_sFilePath, array( $this, '_replyToPluginActivation' ) );
-        
-        // 5. Set up deactivation hook.
-        register_deactivation_hook( $this->_sFilePath, array( $this, '_replyToPluginDeactivation' ) );
-                 
-        // 6. Schedule to load plugin specific components.
-        add_action( 'plugins_loaded', array( $this, '_replyToLoadPluginComponents' ) );
-                        
-    }    
-    
-    /**
-     * Sets up constants.
-     */
-    // private function _defineConstants() {}
-    
-    /**
-     * Sets up global variables.
-     */
-    // private function _setGlobalVariables() {}
-    
+     
     /**
      * Register classes to be auto-loaded.
      * 
      * @since       3.5.0
      */
-    private function _loadClasses( $sFilePath ) {
+    public function getClasses() {
         
-        $_sPluginDir    = dirname( $sFilePath );
-                                        
         // Include the include lists. The including file reassigns the list(array) to the $_aClassFiles variable.
         $_aClassFiles   = array();
-        $_bLoaded       = include( $_sPluginDir . '/include/admin-page-framework-loader-include-class-file-list.php' );
+        $_bLoaded       = include( dirname( $this->sFilePath ) . '/include/admin-page-framework-loader-include-class-file-list.php' );
         if ( ! $_bLoaded ) {
-            return;
+            return $_aClassFiles;
         }
-        
-        // Register classes
-        new AdminPageFramework_RegisterClasses( 
-            array(),        // scanning dirs
-            array(),        // autoloader options
-            $_aClassFiles   // pre-generated class list
-        );
+        return $_aClassFiles;
                 
     }
 
     /**
      * The plugin activation callback method.
      */    
-    public function _replyToPluginActivation() {
+    public function replyToPluginActivation() {
 
         // Check requirements.
         $this->_checkRequirements();
@@ -137,10 +79,10 @@ final class AdminPageFrameworkLoader_Bootstrap {
                 AdminPageFrameworkLoader_Registry::Name
             );
             $_iWarnings = $_oRequirementCheck->check();
-            if ( $_iWarnings  ) {            
+            if ( $_iWarnings ) {            
 
                 $_oRequirementCheck->deactivatePlugin( 
-                    $this->_sFilePath, 
+                    $this->sFilePath, 
                     __( 'Deactivating the plugin', 'admin-page-framework-loader' ),  // additional message
                     true    // is in the activation hook. 
                 );
@@ -149,30 +91,27 @@ final class AdminPageFrameworkLoader_Bootstrap {
              
         }    
 
-    /**
-     * The plugin deactivation callback method.
-     */
-    public function _replyToPluginDeactivation() {}
         
     /**
      * Load localization files.
-     *
+     * 
+     * @remark      A callback for the 'init' hook.
      */
-    private function _localize() {
+    public function setLocalization() {
         
         // This plugin does not have messages to be displayed in the front end.
-        if ( ! $this->_bIsAdmin ) { return; }
+        if ( ! $this->bIsAdmin ) { return; }
         
         load_plugin_textdomain( 
             AdminPageFrameworkLoader_Registry::TextDomain, 
             false, 
-            dirname( plugin_basename( $this->_sFilePath ) ) . '/' . AdminPageFrameworkLoader_Registry::TextDomainPath
+            dirname( plugin_basename( $this->sFilePath ) ) . '/' . AdminPageFrameworkLoader_Registry::TextDomainPath
         );
             
         load_plugin_textdomain( 
             'admin-page-framework', 
             false, 
-            dirname( plugin_basename( $this->_sFilePath ) ) . '/' . AdminPageFrameworkLoader_Registry::TextDomainPath
+            dirname( plugin_basename( $this->sFilePath ) ) . '/' . AdminPageFrameworkLoader_Registry::TextDomainPath
         );        
         
     }        
@@ -182,27 +121,20 @@ final class AdminPageFrameworkLoader_Bootstrap {
      * 
      * @remark        All the necessary classes should have been already loaded.
      */
-    public function _replyToLoadPluginComponents() {
-
-        // 1. Set up localization.
-        $this->_localize();
+    public function loadComponents() {
     
         // 3. Admin pages
-        if ( $this->_bIsAdmin ) {
+        if ( $this->bIsAdmin ) {
             
             // 3.1. Create admin pages - just the example link in the submenu.
             // @todo check the option value and if the admin page option is true, load it.
             new AdminPageFrameworkLoader_AdminPage( 
                 AdminPageFrameworkLoader_Registry::OptionKey,
-                $this->_sFilePath   // caller script path
+                $this->sFilePath   // caller script path
             );
                     
         }            
-        
-        // Modules should use this hook.
-        do_action( 'admin_page_framework_loader_action_after_loading_plugin' );
-        
+ 
     }
-
-        
+    
 }

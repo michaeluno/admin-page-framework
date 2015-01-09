@@ -1,6 +1,6 @@
 <?php
 /* 
-    Plugin Name:    Admin Page Framework Loader
+    Plugin Name:    Admin Page Framework - Loader
     Plugin URI:     http://en.michaeluno.jp/admin-page-framework
     Description:    Loads Admin Page Framework and some tools.
     Author:         Michael Uno
@@ -150,7 +150,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
 
 // Include the framework loader plugin pages extra components.
 include( dirname( __FILE__ ) . '/include/class/boot/AdminPageFrameworkLoader_Bootstrap.php' );
-new AdminPageFrameworkLoader_Bootstrap( __FILE__ );
+new AdminPageFrameworkLoader_Bootstrap( __FILE__, 'admin_page_framework_loader' );
 
 /*
  * If you find this framework useful, include it in your project!
