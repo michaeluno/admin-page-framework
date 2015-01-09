@@ -68,10 +68,14 @@ Admin Page Framework is an OOP based open source WordPress library that facilita
 
 ## Installation ##
 
-- The latest development version can be found [here](https://github.com/michaeluno/admin-page-framework/branches). 
-- The latest stable version can be downloaded [here](http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip).
+There are mainly two ways to include the framework.
 
-The distribution package includes the demo plugin which uses the framework and is ready to be installed as a WordPress plugin. Just upload the unpacked folder to the `...\wp-content\plugins` folder then activate it. The sample pages will be created.
+1. Use the framework loader plugin. 
+    - The latest development version can be found [here](https://github.com/michaeluno/admin-page-framework/branches). 
+    - The latest stable version can be downloaded [here](http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip).
+
+2. Copy and include the minified version in your distribution package. The file is located in the `library` directory.
+
 
 ## Example ##
 
@@ -389,12 +393,10 @@ class APF_MyUserMeta extends AdminPageFramework_UserMeta {
 new APF_MyUserMeta;
 ```
 
-
-
 ## Documentation ##
 [Online documentation](http://admin-page-framework.michaeluno.jp/en/v3/)
 
-The documentation is already included in the demo plugin and it is likely up-to-date than the online version. Navigate from the sidebar menu of the admin panel, `Dashboard` > `Admin Page Framework` > `Documentation`.
+The documentation is included in the demo plugin and it is likely up-to-date than the online version. Navigate from the sidebar menu of the admin panel, `Dashboard` > `Admin Page Framework` > `Documentation`.
 
 ### Tutorials ###
 [Online tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)

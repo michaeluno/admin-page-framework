@@ -17,7 +17,7 @@ It provides plugin and theme developers with easier means of building option pag
 
 = What you can do =
 
-with it easily create:
+easily create:
 
 - **Top-level Page, Sub Pages, and In-page Tabs** - where your users will access to operate your plugin or theme.
 - **Forms** - to let your users store their options.
