@@ -56,26 +56,6 @@ final class AdminPageFramework_Bootstrap {
     }
 }
 new AdminPageFramework_Bootstrap(__FILE__);
-class AdminPageFramework_Documentaiton {
-}
-class AdminPageFramework_Factory_Documentaiton {
-}
-abstract class AdminPageFramework_FieldType_Documentation {
-}
-abstract class AdminPageFramework_MetaBox_Documentation {
-}
-abstract class AdminPageFramework_MetaBox_Page_Documentation {
-}
-if (!class_exists('AdminPageFramework_NetworkAdmin_Documentation')):
-    abstract class AdminPageFramework_NetworkAdmin_Documentation {
-    }
-endif;
-abstract class AdminPageFramework_PostType_Documentation {
-}
-abstract class AdminPageFramework_TaxonomyField_Documentaion {
-}
-abstract class AdminPageFramework_Widget_Documentation {
-}
 abstract class AdminPageFramework_Factory_Router {
     public $oProp;
     function __construct($oProp) {

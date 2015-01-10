@@ -52,7 +52,7 @@ new PHP_Class_Files_Minifier(
 		'search'			=>	array(
 			'allowed_extensions'	=>	array( 'php' ),	// e.g. array( 'php', 'inc' )
 			// 'exclude_dir_paths'		=>	array( $sTargetBaseDir . '/include/class/admin' ),
-			'exclude_dir_names'		=>	array( '_document' ),
+			'exclude_dir_names'		=>	array( '_document', 'document' ),
 			'is_recursive'			=>	true,
 		),			        
 	)
