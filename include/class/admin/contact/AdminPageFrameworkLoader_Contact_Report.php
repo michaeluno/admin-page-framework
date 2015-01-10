@@ -1,8 +1,6 @@
 <?php
 /**
- * Admin Page Framework - Demo
- * 
- * Demonstrates the usage of Admin Page Framework.
+ * Admin Page Framework - Loader
  * 
  * http://en.michaeluno.jp/admin-page-framework/
  * Copyright (c) 2013-2015 Michael Uno; Licensed GPLv2
