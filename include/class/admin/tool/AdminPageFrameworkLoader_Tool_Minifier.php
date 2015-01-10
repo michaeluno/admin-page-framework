@@ -173,8 +173,8 @@ class AdminPageFrameworkLoader_Tool_Minifier {
          */
         private function _modifyClassNames( $sCode ) {
 
-            $_sPrefix = isset( $_POST[ $this->oFactory->oProp->sClassName ][ $this->sSectionID ][ 'class_prefix' ] ) && $_POST[ $this->oFactory->oProp->sClassName ][ $this->sSectionID ][ 'class_prefix' ]
-                ? $_POST[ $this->oFactory->oProp->sClassName ][ $this->sSectionID ][ 'class_prefix' ]
+            $_sPrefix = isset( $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'class_prefix' ] ) && $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'class_prefix' ]
+                ? $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'class_prefix' ]
                 : '';             
             
             return str_replace( 
@@ -191,7 +191,7 @@ class AdminPageFrameworkLoader_Tool_Minifier {
      * @remark      The callback method for the "export_name_{page slug}_{tab slug}" filter.
      */
     public function replyToFilterFileName( $sFileName, $sFieldID, $sInputID, $vExportingData, $oAdminPage ) { 
-    
+
         /* Inside $_POST
          * [APF_Demo_Tool] => Array (
          *   [minifier] => Array (
@@ -200,10 +200,10 @@ class AdminPageFrameworkLoader_Tool_Minifier {
          *   )
          * ) 
          */
-        return isset( $_POST[ $this->oFactory->oProp->sClassName ][ $this->sSectionID ][ 'minified_script_name' ] ) && $_POST[ $this->oFactory->oProp->sClassName ][ $this->sSectionID ][ 'minified_script_name' ]
-            ? $_POST[ $this->oFactory->oProp->sClassName ][ $this->sSectionID ][ 'minified_script_name' ]
+        return isset( $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ] ) && $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ]
+            ? $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ]
             : $sFileName;      
-        
+
     }    
     
 }
