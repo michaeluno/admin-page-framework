@@ -19,13 +19,12 @@
 abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Controller {
     
     /**
-     * Used to refer the built-in root menu slugs.
+     * A look-up array for the built-in root menu slugs.
      * 
      * @since       2.0.0
      * @since       3.1.0       Changed it non-static.
      * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
-     * @remark      Not for the user.
-     * @var         array Holds the built-in root menu slugs.
+     * @var         array       Holds the built-in root menu slugs.
      * @internal
      */ 
     protected $_aBuiltInRootMenuSlugs = array(
@@ -45,7 +44,7 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
     );     
 
     /**    
-     * Represents the structure of the sub-menu link array for the users.
+     * Represents the structure of the sub-menu link array.
      * 
      * @since       2.0.0
      * @since       2.1.4       Changed to be static since it is used from multiple classes.
@@ -65,7 +64,7 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
     );
         
     /**
-     * Represents the structure of sub-menu page array for the users.
+     * Represents the structure of sub-menu page array.
      * 
      * @since       2.0.0
      * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
