@@ -49,11 +49,14 @@ class AdminPageFramework_CSS {
 
 /* Page Meta Boxes */
 .admin-page-framework-content {
+
     margin-bottom: 1.48em;     
-    /* Fixes the bottom margin getting placed at the top. */
-    display: inline-table;
-/* display: block; */
     width: 100%; /* This allows float:right elements to go to the very right end of the page. */
+    
+    /* display: inline-table; */ /* @deprecated 3.5.0. Fixes the bottom margin getting placed at the top. */
+    /* [3.5.0+] The above display: inline-table makes it hard to display code blocks with overflow as container cannot have solid width. */
+    display: block; 
+
 }
 
 /* Regular Heading Titles - the meta box container element affects the styles of regular main content output. So it needs to be fixed. */

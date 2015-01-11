@@ -747,16 +747,17 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Support ==
-<h4>Online Manual</h4>
-[Documentation](http://admin-page-framework.michaeluno.jp/en/v3/).
+<h4>Documentation</h4>
+- [Online Manual](http://admin-page-framework.michaeluno.jp/en/v3/).
+- [Tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3)
 
 <h4>Getting Helped</h4>
-To get helped, visit the [support forum](https://wordpress.org/support/plugin/admin-page-framework).
+Have questions? Visit the [support forum](https://wordpress.org/support/plugin/admin-page-framework).
 
 <h4>Help the Developer</h4>
 Admin Page Framework won't grow without your support. There are various ways to contribute.
 
-- Post a <strong>[review](https://wordpress.org/support/view/plugin-reviews/admin-page-framework?filter=5)</strong>.
+- Write a <strong>[review](https://wordpress.org/support/view/plugin-reviews/admin-page-framework?filter=5)</strong>.
 - <strong>[Donate](http://en.michaeluno.jp/donate)</strong>.
 - Post [ideas](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
 - Translate.
@@ -770,6 +771,7 @@ Admin Page Framework won't grow without your support. There are various ways to 
 - Fixed a bug that `style_{...}` and `script_{...}` filters were triggered twice in generic admin pages.
 - Fixed a bug that `style_{page slug}_{tab slug}`, `style_{page_slug}`, `script_{page slug}_{tab slug}`, and `script_{page slug}_{tab slug}` were not available.
 - Changed the demo plugin to be a loader plugin that loads Admin Page Framework.
+- Tweaked the styling of admin page container elements.
 
 = 3.4.6 - 2014/01/06 =
 - Added a page that lets the user download the minified version of the framework in the demo examples.
