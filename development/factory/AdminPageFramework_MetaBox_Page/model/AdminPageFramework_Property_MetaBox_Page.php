@@ -130,6 +130,15 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
     }
     
     /**
+     * Returns the currently loading in-page tab slug.
+     * @since       3.5.0
+     */
+    public function getCurrentTab( $sPageSlug ) {
+        $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug );
+        return $_oAdminPage->oProp->getCurrentTab( $sPageSlug );
+    }
+    
+    /**
      * Retrieves the default in-page tab from the given tab slug.
      * 
      * @since       3.0.0
