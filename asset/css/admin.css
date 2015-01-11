@@ -1,0 +1,10 @@
+.admin-page-framework-content ul li {
+    margin-left: 2em;    
+    list-style-type: disc;
+}
+.admin-page-framework-content {
+    display: block;
+}
+.admin-page-framework-content a{
+    text-decoration: none;
+}

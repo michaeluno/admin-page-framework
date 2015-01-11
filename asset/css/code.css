@@ -1,0 +1,41 @@
+/* Code blocks */
+pre {				
+    display: block;
+    border: 1px solid #ededed;
+    margin: 2em 0;
+    padding: 2em;
+    overflow-x: auto; 
+    background-color: #FFF;
+    
+    white-space: pre;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -o-pre-wrap;
+
+    width: 92%;
+    overflow-x: auto;
+    
+}
+pre code {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    line-height: 1em;
+}
+pre > code {
+    display: block;     
+    color: #666;
+    font-family: Consolas, Monaco, Lucida Console, monospace;
+    line-height: 1.714285714;
+
+    background-color: transparent;
+    margin: 0;
+    padding: 0;     
+    white-space: pre;   /* Do not fold code lines */
+
+    width: 100%;    
+   
+}	
+pre code code {
+    display: inherit;
+}
