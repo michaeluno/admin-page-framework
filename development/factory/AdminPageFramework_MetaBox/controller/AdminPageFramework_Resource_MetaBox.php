@@ -19,7 +19,7 @@
  * @use         AdminPageFramework_Utility
  * @package     AdminPageFramework
  * @extends     AdminPageFramework_Resource_Base
- * @subpackage  HeadTag
+ * @subpackage  Resource
  * @internal
  */
 class AdminPageFramework_Resource_MetaBox extends AdminPageFramework_Resource_Base {

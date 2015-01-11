@@ -19,7 +19,7 @@
  * @use         AdminPageFramework_Utility
  * @package     AdminPageFramework
  * @extends     AdminPageFramework_Resource_Page
- * @subpackage  HeadTag
+ * @subpackage  Resource
  * @internal
  * @remark      Note that this class extends the resource class of the page factory while the property class extends the meta box factory.
  */
