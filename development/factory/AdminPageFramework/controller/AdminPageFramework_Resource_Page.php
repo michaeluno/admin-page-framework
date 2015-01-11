@@ -284,7 +284,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
     protected function _enqueueSRCByConditoin( $aEnqueueItem ) {
 
         $sCurrentPageSlug   = isset( $_GET['page'] ) ? $_GET['page'] : '';
-        $sCurrentTabSlug    = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sCurrentPageSlug );
+        $sCurrentTabSlug    = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getCurrentTab();
         $sPageSlug          = $aEnqueueItem['sPageSlug'];
         $sTabSlug           = $aEnqueueItem['sTabSlug'];
         
