@@ -17,7 +17,7 @@
  * @since       3.3.0       Changed the name from `AdminPageFramework_HeadTag_Base`.
  * @use         AdminPageFramework_Utility
  * @package     AdminPageFramework
- * @subpackage  HeadTag
+ * @subpackage  Resource
  * @internal
  */
 abstract class AdminPageFramework_Resource_Base {
@@ -85,9 +85,9 @@ abstract class AdminPageFramework_Resource_Base {
         $this->oProp = $oProp;
         $this->oUtil = new AdminPageFramework_WPUtility;
         
-        if ( in_array( $this->oProp->sPageNow, array( 'admin-ajax.php' ) ) ) {
+        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
             return;
-        }     
+        }        
         
         // Hook the admin header to insert custom admin stylesheets and scripts.
         add_action( 'admin_enqueue_scripts', array( $this, '_replyToEnqueueScripts' ) );
@@ -302,15 +302,7 @@ abstract class AdminPageFramework_Resource_Base {
         
         static $_iCallCount     = 1;    
         static $_iCallCountIE   = 1;    
-            
-        // This method has two chances to be loaded in a single page to support embedding in the footer.
-        // However, it should not be loaded twice.
-        static $_bloaded        = false;
-        if ( $_bloaded ) {
-            return;
-        }
-        $_bloaded = true;
-            
+                        
         $_oCaller   = $this->oProp->_getCallerObject();     
 
         // Print out the filtered styles.
@@ -355,14 +347,6 @@ abstract class AdminPageFramework_Resource_Base {
      * @internal
      */
     protected function _printClassSpecificScripts( $sIDPrefix ) {
-        
-        // This method has two chances to be loaded in a single page to support embedding in the footer.
-        // However, it should not be loaded twice.
-        static $_bloaded        = false;
-        if ( $_bloaded ) {
-            return;
-        }
-        $_bloaded = true;        
         
         static $_iCallCount = 1;
         $_sScript = $this->oUtil->addAndApplyFilters( 
