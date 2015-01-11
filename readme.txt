@@ -396,23 +396,6 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 <h3>Roadmap</h3>
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
-== Support ==
-<h4>Documentation</h4>
-- [Online Manual](http://admin-page-framework.michaeluno.jp/en/v3/).
-- [Tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3)
-
-<h4>Getting Helped</h4>
-Have questions? Visit the [support forum](https://wordpress.org/support/plugin/admin-page-framework).
-
-<h4>Help the Developer</h4>
-Admin Page Framework won't grow without your support. There are various ways to contribute.
-
-- Write a <strong>[review](https://wordpress.org/support/view/plugin-reviews/admin-page-framework?filter=5)</strong>.
-- <strong>[Donate](http://en.michaeluno.jp/donate)</strong>.
-- Post [ideas](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
-- Translate.
-- Report [bugs](https://github.com/michaeluno/admin-page-framework/issues).
-
 == Changelog ==
 
 = 3.5.0 =

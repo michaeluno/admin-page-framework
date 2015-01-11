@@ -1,3 +1,16 @@
+== New Features ==
+<h3>User Meta Fields</h3>
+
+Now you can add custom fields in the user profile page so that each user can store their own options.
+
+![User Meta Fields](%PLUGIN_DIR_URL%/asset/image/new_feature/user_meta_fields.jpg "User Mata Fields")
+
+<h3>Framework Loader</h3>
+The plugin is no longer a demo plugin of Admin Page Framework but it serves as a framework loader and make the framework functionality available to the entire site. 
+
+If you choose it to activate this plugin, and let it run in the background, you don't have to manually include the framework file in your plugins or themes. 
+
+
 == Introduction ==
 <h2>Experience the power of OOP based development!</h2>
 
@@ -13,18 +26,6 @@
 >
 > Apart from the OOP aspect, Admin Page Framework inserts filter and action hooks all over the place. 
 > As you build forms and pages, your program will be automatically extensible that allows third party developers to add more features.
-
-== New Features ==
-<h3>User Meta Fields</h3>
-
-Now you can add custom fields in the user profile page so that each user can store their own options.
-
-![User Meta Fields](%PLUGIN_DIR_URL%/asset/image/new_feature/user_meta_fields.jpg "User Mata Fields")
-
-<h3>Framework Loader</h3>
-The plugin is no longer a demo plugin of Admin Page Framework but it serves as a framework loader and make the framework functionality available to the entire site. 
-
-If you choose it to activate this plugin, and let it run in the background, you don't have to manually include the framework file in your plugins or themes. 
 
 == Getting Started ==
 
