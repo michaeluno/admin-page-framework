@@ -128,7 +128,8 @@ The HTML documentation is included in the distribution package and can be access
 = Getting Started =
 
 <h5><strong>Step 1</strong> - Include <em><strong>admin-page-framework.min.php</strong></em></h5>
-You need to include the library file in your PHP script. The file is located in the `library` folder of the uncompressed plugin file.
+You need to include the library file in your PHP script. The file is located in the `library` folder of the uncompressed plugin files.
+Or get it via `Dashboard` -> `Admin Page Framework` -> `Tools` -> `Minifier`. 
 
 `
 if ( ! class_exists( 'AdminPageFramework' ) ) {
@@ -137,11 +138,22 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
 `
     
 <h5><strong>Step 2</strong> - Extend the Library Class</h5>
+Extend the framework factory class and define your own class. 
 
 `
 class APF_GettingStarted extends AdminPageFramework {
 }
 `
+
+If you got the library file via the `Minifier` page and added a prefix to the class names, you need to use your own class names here. Say you added a prefix `MyPlugin_` then it should be like this.
+
+`
+class APF_GettingStarted extends MyPlugin_AdminPageFramework {
+}
+`
+
+
+
 
 <h5><strong>Step 3</strong> - Define the <em>setUp()</em> Method</h5>
 
@@ -734,11 +746,29 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 <h3>Roadmap</h3>
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
+== Support ==
+<h4>Online Manual</h4>
+[Documentation](http://admin-page-framework.michaeluno.jp/en/v3/).
+
+<h4>Getting Helped</h4>
+To get helped, visit the [support forum](https://wordpress.org/support/plugin/admin-page-framework).
+
+<h4>Help the Developer</h4>
+Admin Page Framework won't grow without your support. There are various ways to contribute.
+
+- Post a <strong>[review](https://wordpress.org/support/view/plugin-reviews/admin-page-framework?filter=5)</strong>.
+- <strong>[Donate](http://en.michaeluno.jp/donate)</strong>.
+- Post [ideas](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
+- Translate.
+- Report [bugs](https://github.com/michaeluno/admin-page-framework/issues).
+
 == Changelog ==
 
 = 3.5.0 =
 - Added a utility class for plugin bootstraps.
 - Added user meta factory class for adding fields in the user profile page.
+- Fixed a bug that `style_{...}` and `script_{...}` filters were triggered twice in generic admin pages.
+- Fixed a bug that `style_{page slug}_{tab slug}`, `style_{page_slug}`, `script_{page slug}_{tab slug}`, and `script_{page slug}_{tab slug}` were not available.
 - Changed the demo plugin to be a loader plugin that loads Admin Page Framework.
 
 = 3.4.6 - 2014/01/06 =

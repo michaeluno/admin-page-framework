@@ -21,6 +21,8 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
         if ( ! $this->oProp->bIsAdmin ) {
             return;
         }
+        
+        // Allows the user to switch the menu visibility.
         if ( isset( $_GET['enable_apfl_admin_pages'] ) ) {
             
             // Update the options and reload the page
@@ -51,45 +53,36 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             
             $this->setRootMenuPage( 
                 'Admin Page Framework',     // menu slug
-                version_compare( $GLOBALS['wp_version'], '3.8', '>=' )   // menu icon
-                    ? 'dashicons-wordpress' 
-                    : AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/wp-logo_16x16.png'
+                AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/wp-logo_16x16.png',
+                5  // menu position
             ); 
-        
+                        
             // Add pages
-            $this->addSubMenuItems( 
-                array(
-                    'title'         => __( 'Tools', 'admin-page-framework-loader' ),
-                    'page_slug'     => AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],    // page slug
-                ),
-                array(
-                    'title'         => __( 'Contact', 'admin-page-framework-loader' ),
-                    'page_slug'     => AdminPageFrameworkLoader_Registry::$aAdminPages['contact'],    // page slug
-                ),                
-                array()
+            new AdminPageFrameworkLoader_AdminPage_About(
+                $this,
+                AdminPageFrameworkLoader_Registry::$aAdminPages['about'],    // page slug
+                __( 'About', 'admin-page-framework-loader' )                
+            );
+            new AdminPageFrameworkLoader_AdminPage_Tool( 
+                $this,
+                AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],    // page slug
+                __( 'Tools', 'admin-page-framework-loader' )
+            );
+            new AdminPageFrameworkLoader_AdminPage_Help( 
+                $this ,
+                AdminPageFrameworkLoader_Registry::$aAdminPages['help'],    // page slug
+                __( 'Help', 'admin-page-framework-loader' )
             );
             
         }
+        
+        $this->oProp->sWrapperClassAttribute = "wrap about-wrap";
         
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
         $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
         $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
         $this->setPluginSettingsLinkLabel( __( 'Tools', 'admin-page-framework-loader' ) ); // pass an empty string.
-                 
-        // Tools 
-        new AdminPageFrameworkLoader_Tool_Minifier( 
-            $this,
-            AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],
-            'minifier'
-        );
-        
-        // Contact
-        new AdminPageFrameworkLoader_Contact_Report(
-            $this,
-            AdminPageFrameworkLoader_Registry::$aAdminPages['contact'],
-            'report'
-        );
-                
+       
         if ( 'plugins.php' === $this->oProp->sPageNow ) {
             $_sPluginBaseName = plugin_basename( AdminPageFrameworkLoader_Registry::$sFilePath );
             add_filter( "plugin_action_links_{$_sPluginBaseName}", array( $this, 'replyToAddAdminPageSwitcher' ) );

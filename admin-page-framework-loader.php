@@ -17,7 +17,7 @@
 class AdminPageFrameworkLoader_Registry_Base {
 
 	const Version        = '3.5.0b04';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
-	const Name           = 'Admin Page Framework Loader';
+	const Name           = 'Admin Page Framework - Loader';
 	const Description    = 'Loads Admin Page Framework and some tools.';
 	const URI            = 'http://en.michaeluno.jp/';
 	const Author         = 'miunosoft (Michael Uno)';
@@ -82,8 +82,9 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      */
     static public $aAdminPages = array(
         // key => 'page slug'
+        'about'     => 'apfl_about',
         'tool'      => 'apfl_tools',
-        'contact'   => 'apfl_contact',
+        'help'      => 'apfl_contact',
     
     );
     

@@ -27,7 +27,7 @@ if (
 echo 'Started...' . $sCarriageReturn;
 new PHP_Class_Files_Inclusion_Script_Creator(
 	$sTargetBaseDir,
-	array( $sTargetBaseDir . '/include/class', ), 	// scan directory paths
+	array( $sTargetBaseDir . '/include/class', $sTargetBaseDir . '/include/library' ), 	// scan directory paths
 	$sResultFilePath, 
 	array(
 		// 'header_class_name'	=>	'AdminPageFramework_InclusionClassFilesHeader',

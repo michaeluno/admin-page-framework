@@ -37,7 +37,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
             $this   // the argument 1
         );
         ?>
-        <div class="wrap">
+        <div class="<?php echo esc_attr( $this->oProp->sWrapperClassAttribute ); ?>">
             <?php
                 // Screen icon, page heading tabs(page title), and in-page tabs.
                 $sContentTop  = $this->_getScreenIcon( $sPageSlug );    

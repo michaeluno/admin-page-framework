@@ -296,11 +296,20 @@ abstract class AdminPageFramework_Resource_Base {
      * @since       3.0.0
      * @since       3.2.0       Made the properties storing styles empty. Moved to the base class.
      * @internal
+     * @return      void
      */
     protected function _printClassSpecificStyles( $sIDPrefix ) {
-            
+        
         static $_iCallCount     = 1;    
         static $_iCallCountIE   = 1;    
+            
+        // This method has two chances to be loaded in a single page to support embedding in the footer.
+        // However, it should not be loaded twice.
+        static $_bloaded        = false;
+        if ( $_bloaded ) {
+            return;
+        }
+        $_bloaded = true;
             
         $_oCaller   = $this->oProp->_getCallerObject();     
 
@@ -346,6 +355,14 @@ abstract class AdminPageFramework_Resource_Base {
      * @internal
      */
     protected function _printClassSpecificScripts( $sIDPrefix ) {
+        
+        // This method has two chances to be loaded in a single page to support embedding in the footer.
+        // However, it should not be loaded twice.
+        static $_bloaded        = false;
+        if ( $_bloaded ) {
+            return;
+        }
+        $_bloaded = true;        
         
         static $_iCallCount = 1;
         $_sScript = $this->oUtil->addAndApplyFilters( 

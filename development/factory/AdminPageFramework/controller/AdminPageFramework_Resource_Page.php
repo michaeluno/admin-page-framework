@@ -22,7 +22,106 @@
  * @internal
  */
 class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base {
- 
+    
+    /**
+     * Stores whether the `_printClassSpecificStyles()` method is called.
+     */
+    // static private $_bLoadedPrintClassSpecificStyles = false;
+    
+    /**
+     * Applies page and tab specific filters to inline CSS rules.
+     * 
+     * @since       3.5.0
+     * @return      void
+     */
+    protected function _printClassSpecificStyles( $sIDPrefix ) {
+     
+        // This method can be called two times in a page to support embedding in the footer. 
+        static $_bLoaded = false;
+        if ( $_bLoaded ) {
+            parent::_printClassSpecificStyles( $sIDPrefix );
+            return;
+        }        
+        $_bLoaded   = true;
+        
+        $_oCaller   = $this->oProp->_getCallerObject();     
+        
+        // Check if it is an added page and tab.
+        $_sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
+        $_sPageSlug = $this->oProp->isPageAdded( $_sPageSlug )
+            ? $_sPageSlug
+            : '';
+        $_sTabSlug  = $this->oProp->getCurrentTab();
+        $_sTabSlug  = isset( $this->oProp->aInPageTabs[ $_sPageSlug ][ $_sTabSlug ] )
+            ? $_sTabSlug
+            : '';
+        
+        // tab 
+        if ( $_sPageSlug && $_sTabSlug ) {
+            $this->oProp->sStyle     = $this->oUtil->addAndApplyFilters( 
+                $_oCaller, 
+                "style_{$_sPageSlug}_{$_sTabSlug}", 
+                $this->oProp->sStyle 
+            );                 
+        }
+        
+        // page
+        if ( $_sPageSlug ) {
+            $this->oProp->sStyle     = $this->oUtil->addAndApplyFilters( 
+                $_oCaller, 
+                "style_{$_sPageSlug}", 
+                $this->oProp->sStyle 
+            );     
+        }
+        
+        // The parent method should be called after updating the $this->oProp->sStyle property above.
+        parent::_printClassSpecificStyles( $sIDPrefix );
+        
+    }
+    
+    /**
+     * Applies page and tab specific filters to inline JaveScript scirpts.
+     * 
+     * @since       3.5.0
+     * @return      void
+     */
+    protected function _printClassSpecificScripts( $sIDPrefix ) {
+       
+        // This method can be called two times in a page to support embedding in the footer. 
+        static $_bLoaded = false;
+        if ( $_bLoaded ) {
+            parent::_printClassSpecificScripts( $sIDPrefix );
+            return;
+        }        
+        $_bLoaded   = true;
+       
+        $_oCaller   = $this->oProp->_getCallerObject();     
+        $_sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
+        $_sTabSlug  = $this->oProp->getCurrentTab();
+        
+        // tab 
+        if ( $_sPageSlug && $_sTabSlug ) {
+            $this->oProp->sScript     = $this->oUtil->addAndApplyFilters( 
+                $_oCaller, 
+                "script_{$_sPageSlug}_{$_sTabSlug}", 
+                $this->oProp->sScript 
+            );                 
+        }
+        
+        // page
+        if ( $_sPageSlug ) {
+            $this->oProp->sScript     = $this->oUtil->addAndApplyFilters( 
+                $_oCaller, 
+                "script_{$_sPageSlug}", 
+                $this->oProp->sScript 
+            );     
+        }        
+        
+        // The parent method should be called after updating the $this->oProp->sScript property above.
+        parent::_printClassSpecificScripts( $sIDPrefix );
+        
+    }
+    
     /**
      * Enqueues styles by page slug and tab slug.
      * 

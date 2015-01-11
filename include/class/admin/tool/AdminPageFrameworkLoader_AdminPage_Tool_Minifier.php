@@ -15,15 +15,16 @@
  * @since       3.4.6
  * @since       3.5.0       Moved from the demo.
  */
-class AdminPageFrameworkLoader_Tool_Minifier {
+class AdminPageFrameworkLoader_AdminPage_Tool_Minifier {
 
-    public function __construct( $oFactory, $sPageSlug='', $sTabSlug='' ) {
+    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
     
         $this->oFactory     = $oFactory;
         $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug ? $sPageSlug : $this->sPageSlug;
-        $this->sTabSlug     = $sTabSlug ? $sTabSlug : $this->sTabSlug;
+        $this->sPageSlug    = $sPageSlug; 
+        $this->sTabSlug     = $sTabSlug;
         $this->sSectionID   = $this->sTabSlug;
+        
         $this->_addTab();
     
     }

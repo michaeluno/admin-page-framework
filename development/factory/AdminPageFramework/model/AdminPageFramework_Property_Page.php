@@ -262,6 +262,15 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
     public $aPageHooks = array();
      
     /**
+     * Stores the wrapper element class attribute.
+     * 
+     * This allows users to set own class selector such as "wrap about-wrap" for About pages.
+     * 
+     * @since       3.5.0
+     */ 
+    public $sWrapperClassAttribute = 'wrap';
+     
+    /**
      * Constructs the instance of AdminPageFramework_Property_Page class object.
      * 
      * @remark      Used by the setInPageTabsVisibility() method.
