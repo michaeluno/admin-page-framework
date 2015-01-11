@@ -17,7 +17,7 @@
  * @since       3.2.0
  * @since       3.3.0       Changed the name from AdminPageFramework_HeadTag_Widget.
  * @package     AdminPageFramework
- * @subpackage  HeadTag
+ * @subpackage  Resource
  * @extends     AdminPageFramework_Resource_Base
  * @internal
  */

@@ -16,8 +16,8 @@
  * 
  * @since       3.0.0
  * @since       3.3.0       Changed the name from AdminPageFramework_HeadTag_TaxonomyField.
- * @package     Admin Page Framework
- * @subpackage  HeadTag
+ * @package     AdminPageFramework
+ * @subpackage  Resource
  * @extends     AdminPageFramework_Resource_MetaBox
  * @internal
  */

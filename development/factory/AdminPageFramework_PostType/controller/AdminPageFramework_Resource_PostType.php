@@ -19,7 +19,7 @@
  * @since       3.3.0       Changed the name from AdminPageFramework_HeadTag_PostType.
  * @package     AdminPageFramework
  * @extends     AdminPageFramework_Resource_MetaBox
- * @subpackage  HeadTag
+ * @subpackage  Resource
  * @internal
  */
 class AdminPageFramework_Resource_PostType extends AdminPageFramework_Resource_MetaBox {}
