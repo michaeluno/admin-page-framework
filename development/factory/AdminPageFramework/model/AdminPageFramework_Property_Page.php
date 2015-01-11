@@ -396,14 +396,22 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * The tricky part is that even no tab is set in the $_GET array, it's possible that it could be in the page of the default tab.
      * This method will check that.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
+     * @since       3.5.0       Added the `$sCurrentPageSlug` parameter because the page-meta-box class determines the caller factory object by page slug.
      */
-    public function getCurrentTab() {
+    public function getCurrentTab( $sCurrentPageSlug='' ) {
         
-        if ( isset( $_GET['tab'] ) && $_GET['tab'] ) return $_GET['tab'];
-        
-        return isset( $_GET['page'] ) && $_GET['page']
-            ? $this->getDefaultInPageTab( $_GET['page'] )
+        if ( isset( $_GET['tab'] ) && $_GET['tab'] ) { 
+            return $_GET['tab'];
+        }
+        $sCurrentPageSlug = $sCurrentPageSlug
+            ? $sCurrentPageSlug
+            : ( isset( $_GET['page'] ) && $_GET['page']
+                ? $_GET['page']
+                : ''
+            );
+        return $sCurrentPageSlug
+            ? $this->getDefaultInPageTab( $sCurrentPageSlug )
             : null;
             
     }

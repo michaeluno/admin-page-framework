@@ -17,16 +17,11 @@
  * @since       2.1.5
  * @since       3.3.0       Changed the name from AdminPageFramework_HeadTag_Page.
  * @package     AdminPageFramework
- * @subpackage  HeadTag
+ * @subpackage  Resource
  * @extends     AdminPageFramework_Resource_Base
  * @internal
  */
 class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base {
-    
-    /**
-     * Stores whether the `_printClassSpecificStyles()` method is called.
-     */
-    // static private $_bLoadedPrintClassSpecificStyles = false;
     
     /**
      * Applies page and tab specific filters to inline CSS rules.
@@ -51,7 +46,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         $_sPageSlug = $this->oProp->isPageAdded( $_sPageSlug )
             ? $_sPageSlug
             : '';
-        $_sTabSlug  = $this->oProp->getCurrentTab();
+        $_sTabSlug  = $this->oProp->getCurrentTab( $_sPageSlug ); 
         $_sTabSlug  = isset( $this->oProp->aInPageTabs[ $_sPageSlug ][ $_sTabSlug ] )
             ? $_sTabSlug
             : '';
@@ -97,7 +92,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
        
         $_oCaller   = $this->oProp->_getCallerObject();     
         $_sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
-        $_sTabSlug  = $this->oProp->getCurrentTab();
+        $_sTabSlug  = $this->oProp->getCurrentTab( $_sPageSlug );
         
         // tab 
         if ( $_sPageSlug && $_sTabSlug ) {
@@ -284,10 +279,10 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
     protected function _enqueueSRCByConditoin( $aEnqueueItem ) {
 
         $sCurrentPageSlug   = isset( $_GET['page'] ) ? $_GET['page'] : '';
-        $sCurrentTabSlug    = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getCurrentTab();
+        $sCurrentTabSlug    = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getCurrentTab( $sCurrentPageSlug );
         $sPageSlug          = $aEnqueueItem['sPageSlug'];
         $sTabSlug           = $aEnqueueItem['sTabSlug'];
-        
+
         // If the page slug is not specified and the currently loading page is one of the pages that is added by the framework,
         if ( ! $sPageSlug && $this->oProp->isPageAdded( $sCurrentPageSlug ) ) { // means script-global(among pages added by the framework)
             return $this->_enqueueSRC( $aEnqueueItem );

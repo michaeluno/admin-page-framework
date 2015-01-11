@@ -50,7 +50,9 @@ class AdminPageFramework_CSS {
 /* Page Meta Boxes */
 .admin-page-framework-content {
     margin-bottom: 1.48em;     
-    display: inline-table; /* Fixes the bottom margin getting placed at the top. */
+    /* Fixes the bottom margin getting placed at the top. */
+    display: inline-table;
+/* display: block; */
     width: 100%; /* This allows float:right elements to go to the very right end of the page. */
 }
 

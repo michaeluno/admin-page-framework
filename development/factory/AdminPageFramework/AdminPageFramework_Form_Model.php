@@ -240,8 +240,9 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
         $this->oForm->format();
 
         // 2-3. Now set required properties for conditioning.
-        $this->oForm->setCurrentPageSlug( isset( $_GET['page'] ) && $_GET['page'] ? $_GET['page'] : '' );
-        $this->oForm->setCurrentTabSlug( $this->oProp->getCurrentTab() );
+        $_sCurrentPageSlug = isset( $_GET['page'] ) && $_GET['page'] ? $_GET['page'] : '';
+        $this->oForm->setCurrentPageSlug( $_sCurrentPageSlug );
+        $this->oForm->setCurrentTabSlug( $this->oProp->getCurrentTab( $_sCurrentPageSlug ) );
 
         // 2-4. Do conditioning.
         $this->oForm->applyConditions();

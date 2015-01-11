@@ -180,7 +180,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             $this->_finalizeInPageTabs();
             $this->oUtil->addAndDoActions( 
                 $this, // the caller object
-                array( "load_{$sPageSlug}_" . $this->oProp->getCurrentTab() ),
+                array( "load_{$sPageSlug}_" . $this->oProp->getCurrentTab( $sPageSlug ) ),
                 $this // the admin page object - this lets third-party scripts use the framework methods.
             );         
             
