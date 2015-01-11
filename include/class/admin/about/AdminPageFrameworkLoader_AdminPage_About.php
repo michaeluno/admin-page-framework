@@ -40,21 +40,16 @@ class AdminPageFrameworkLoader_AdminPage_About {
             );
 
             // Tabs
-            // new AdminPageFrameworkLoader_AdminPage_About_Home( 
-                // $this->oFactory,        // factory object
-                // $this->sPageSlug,       // page slug
-                // 'home'                  // tab slug
-            // );        
+            new AdminPageFrameworkLoader_AdminPage_About_Welcome( 
+                $this->oFactory,        // factory object
+                $this->sPageSlug,       // page slug
+                'welcome'                  // tab slug
+            );        
             new AdminPageFrameworkLoader_AdminPage_About_Guide(
                 $this->oFactory,        // factory object
                 $this->sPageSlug,       // page slug
                 'guide'                 // tab slug            
-            );
-            new AdminPageFrameworkLoader_AdminPage_About_Tip(
-                $this->oFactory,        // factory object
-                $this->sPageSlug,       // page slug
-                'tips'                  // tab slug                                    
-            );            
+            );         
             new AdminPageFrameworkLoader_AdminPage_About_ChangeLog(
                 $this->oFactory,        // factory object
                 $this->sPageSlug,       // page slug
@@ -65,11 +60,6 @@ class AdminPageFrameworkLoader_AdminPage_About {
                 $this->sPageSlug,       // page slug
                 'credit'                // tab slug            
             );     
-            // new AdminPageFrameworkLoader_AdminPage_About_Help(
-                // $this->oFactory,        // factory object
-                // $this->sPageSlug,       // page slug
-                // 'help'                  // tab slug                        
-            // );
             
         }
         
@@ -80,6 +70,8 @@ class AdminPageFrameworkLoader_AdminPage_About {
      */
     public function replyToLoadPage( $oFactory ) {
 
+        $oFactory->oProp->sWrapperClassAttribute = "wrap about-wrap";
+    
         add_filter( "content_top_{$this->sPageSlug}", array( $this, 'replyToFilterContentTop' ) );
         add_action( "style_{$this->sPageSlug}", array( $this, 'replyToAddInlineCSS' ) );
     
@@ -96,9 +88,7 @@ class AdminPageFrameworkLoader_AdminPage_About {
      * @remark      A callback method of the "style_{page slug}" filter hook.
      */
     public function replyToAddInlineCSS( $sCSSRules ) {
-// AdminPageFramework_Debug::log( 'called' );
-// AdminPageFramework_Debug::log( $sCSSRules );
-
+        
         $_sBadgeURL = esc_url( AdminPageFrameworkLoader_Registry::getPluginURL( 'asset/image/icon-128x128.png' ) );
         return $sCSSRules
             . ".apf-badge {

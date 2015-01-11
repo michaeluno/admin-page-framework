@@ -14,7 +14,7 @@
  * 
  * @since       3.5.0    
  */
-class AdminPageFrameworkLoader_AdminPage_About_Tip {
+class AdminPageFrameworkLoader_AdminPage_Help_Tip {
 
     public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
     
@@ -58,10 +58,16 @@ class AdminPageFrameworkLoader_AdminPage_About_Tip {
             'Other Notes',  
             AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt'
         );
-        
         $_oParsedown = new Parsedown();
         echo $_oParsedown->text( $_sChangeLog );
-       
+        
+        $_sChangeLog = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
+            'Tutorials',  
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt'
+        );
+        $_oParsedown = new Parsedown();
+        echo $_oParsedown->text( $_sChangeLog );
+        
     }
     
 }

@@ -55,10 +55,17 @@ class AdminPageFrameworkLoader_AdminPage_About_Guide {
     public function replyToDoTab() {
             
         $_sContent = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
-            'Installation',  
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt'
+            'Getting Started',  
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt'
         );
-                
+        $_oParsedown = new Parsedown();
+
+        echo $_oParsedown->text( $_sContent );            
+            
+        $_sContent = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
+            'Tutorials',  
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt'
+        );
         $_oParsedown = new Parsedown();
         echo $_oParsedown->text( $_sContent );
 

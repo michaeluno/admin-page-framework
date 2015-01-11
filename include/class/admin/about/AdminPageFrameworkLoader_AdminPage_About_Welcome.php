@@ -14,7 +14,7 @@
  * 
  * @since       3.5.0    
  */
-class AdminPageFrameworkLoader_AdminPage_About_Help {
+class AdminPageFrameworkLoader_AdminPage_About_Welcome {
 
     public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
     
@@ -34,7 +34,7 @@ class AdminPageFrameworkLoader_AdminPage_About_Help {
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Help', 'admin-page-framework-loader' ),
+                'title'         => __( "What's New", 'admin-page-framework-loader' ),   // '
             )
         );  
         
@@ -49,13 +49,34 @@ class AdminPageFrameworkLoader_AdminPage_About_Help {
     public function replyToLoadTab( $oAdminPage ) {
         
         add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
+        add_filter( "content_top_{$this->sPageSlug}_{$this->sTabSlug}", array( $this, 'replyToModifyTopContent' ) );
+    }
+    
+    public function replyToModifyTopContent( $sContent ) {
 
+        $_sContent = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
+            'Introduction',  
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt'
+        );
+        $_oParsedown = new Parsedown();    
+        
+        return "<div class='introduction'>" 
+                . $_oParsedown->text( $_sContent ) 
+            . "</div>"
+            . $sContent;
+            
     }
     
     public function replyToDoTab() {
-        
-        
-       
+    
+        $_sContent = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
+            'New Features',  
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt'
+        );
+        $_oParsedown = new Parsedown();
+        echo $_oParsedown->text( $_sContent );            
+
+    
     }
     
 }

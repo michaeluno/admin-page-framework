@@ -56,7 +56,7 @@ class AdminPageFrameworkLoader_AdminPage_Help_Information {
     
         $_sContent = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
             'Support',  
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt'
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt'
         );
                 
         $_oParsedown = new Parsedown();

@@ -75,13 +75,14 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             );
             
         }
-        
-        $this->oProp->sWrapperClassAttribute = "wrap about-wrap";
-        
+                
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
         $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
         $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
         $this->setPluginSettingsLinkLabel( __( 'Tools', 'admin-page-framework-loader' ) ); // pass an empty string.
+           
+        $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css' );
+        $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css' );
        
         if ( 'plugins.php' === $this->oProp->sPageNow ) {
             $_sPluginBaseName = plugin_basename( AdminPageFrameworkLoader_Registry::$sFilePath );

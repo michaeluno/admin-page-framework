@@ -44,7 +44,12 @@ class AdminPageFrameworkLoader_AdminPage_Help {
                 $this->oFactory,
                 $this->sPageSlug,   // page slug
                 'information'       // tab slug 
-            );         
+            );     
+            new AdminPageFrameworkLoader_AdminPage_Help_Tip(
+                $this->oFactory,        // factory object
+                $this->sPageSlug,       // page slug
+                'tips'                  // tab slug                                    
+            );               
             new AdminPageFrameworkLoader_AdminPage_Help_FAQ(
                 $this->oFactory,
                 $this->sPageSlug,   // page slug
