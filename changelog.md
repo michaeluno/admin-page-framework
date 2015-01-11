@@ -2,6 +2,28 @@
 
 == Changelog ==
 
+= 3.2.1 - 2014/09/29 =
+- Added an example of using the `content_top_{...}` and the `style_common_admin_page_framework` filters.
+- Added the `style_common_admin_page_framework` hook.
+- Added support for a file path to be passed for image submit buttons.
+- Added support for custom queries for the `posttype` field type.
+- Added the `radio_checkbox` custom field type.
+- Added the `image_checkbox` custom field type.
+- Tweaked the styling of field error messages.
+- Fixed an issue that sortable fields could not be rendered properly when being dragged in browser screen widths of less than 782px in Chrome in WordPress above v3.8.
+- Fixed the `content_top_{...}` hooks and the methods were not available.
+
+= 3.2.0 - 2014/09/25 =
+- Added an example of using an image for a submit button.
+- Added the option to set custom button labels via the `data-label` attribute for the `image`, `media`, and `font` field types.
+- Added the remove button for the `image`, `media`, and `font` field types.
+- Added the default and Japanese translation files.
+- Added the `show_post_count` argument for the `taxonomy` field type and made it enabled by default.
+- Added the widget factory class and the examples of creating widgets with the framework in the demo plugin.
+- Fixed an issue that registering multiple taxonomies after the `init` hook failed registering second or later items.
+- Fixed a bug that a last item did not set when selecting multiple items in the fields of the `image`, `media`, `font` field types.
+- Fixed a bug in the `autocomplete` custom field type that the default post type slug was not set properly when the page that the field is displayed contains the `post_type` query key in the url.
+
 = 3.1.7 - 2014/09/12 =
 - Added the `github` custom field type that displays GitHub buttons.
 - Fixed an incompatibility issue of the `grid` custom field type with Internet Explorer.
