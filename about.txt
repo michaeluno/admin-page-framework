@@ -24,7 +24,7 @@ If you choose it to activate this plugin, and let it run in the background, you 
 > Admin Page Framework consists of several abstract factory classes that you extend.
 > You just add your code on top of it. It naturally becomes extensible, highly customizable, and more organized.
 >
-> Apart from the OOP aspect, Admin Page Framework inserts filter and action hooks as you build your pages and forms.
+> Moreover, Admin Page Framework inserts filter and action hooks as you build your pages and forms.
 > Your program will be automatically extensible by allowing third party developers to add more features.
 
 == Getting Started ==
