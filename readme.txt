@@ -399,6 +399,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.0 =
+- Added a utility class for WordPres Readme parser and the markdown syntax.
 - Added a utility class for plugin bootstraps.
 - Added user meta factory class for adding fields in the user profile page.
 - Fixed a bug that `style_{...}` and `script_{...}` filters were triggered twice in generic admin pages.
