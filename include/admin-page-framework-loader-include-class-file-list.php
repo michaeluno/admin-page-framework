@@ -1,6 +1,5 @@
 <?php 
 $_aClassFiles = array( 
-	"Parsedown"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/library/Parsedown.php", 
 	"AdminPageFrameworkLoader_AdminPage"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/AdminPageFrameworkLoader_AdminPage.php", 
 	"AdminPageFrameworkLoader_AdminPage_About"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/about/AdminPageFrameworkLoader_AdminPage_About.php", 
 	"AdminPageFrameworkLoader_AdminPage_About_ChangeLog"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/about/AdminPageFrameworkLoader_AdminPage_About_ChangeLog.php", 
@@ -15,7 +14,6 @@ $_aClassFiles = array(
 	"AdminPageFrameworkLoader_AdminPage_Tool"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/tool/AdminPageFrameworkLoader_AdminPage_Tool.php", 
 	"AdminPageFrameworkLoader_AdminPage_Tool_Minifier"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/tool/AdminPageFrameworkLoader_AdminPage_Tool_Minifier.php", 
 	"AdminPageFrameworkLoader_Bootstrap"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/boot/AdminPageFrameworkLoader_Bootstrap.php", 
-	"AdminPageFrameworkLoader_Utility"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_Utility.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_Information"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/help/AdminPageFrameworkLoader_AdminPage_Help_Informationt.php", 
 	"names',"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/tool/AdminPageFrameworkLoader_AdminPage_Tool_Minifier.php", 
 	"named"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/tool/AdminPageFrameworkLoader_AdminPage_Tool_Minifier.php", 
