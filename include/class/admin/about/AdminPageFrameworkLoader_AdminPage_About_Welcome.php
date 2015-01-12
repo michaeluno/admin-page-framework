@@ -17,7 +17,7 @@
 class AdminPageFrameworkLoader_AdminPage_About_Welcome {
 
     public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
-    
+
         $this->oFactory     = $oFactory;
         $this->sClassName   = $oFactory->oProp->sClassName;
         $this->sPageSlug    = $sPageSlug; 
@@ -47,7 +47,7 @@ class AdminPageFrameworkLoader_AdminPage_About_Welcome {
      * Triggered when the tab is loaded.
      */
     public function replyToLoadTab( $oAdminPage ) {
-        
+
         add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
         add_filter( "content_top_{$this->sPageSlug}_{$this->sTabSlug}", array( $this, 'replyToModifyTopContent' ) );
     }
