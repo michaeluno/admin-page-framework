@@ -18,7 +18,6 @@
  */
 final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_PluginBootstrap {
     
-     
     /**
      * Register classes to be auto-loaded.
      * 
@@ -41,7 +40,6 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
      */    
     public function replyToPluginActivation() {
 
-        // Check requirements.
         $this->_checkRequirements();
         
     }
@@ -52,45 +50,19 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
         private function _checkRequirements() {
 
             $_oRequirementCheck = new AdminPageFramework_Requirement(
-                array(
-                    'php'       => array(
-                        'version'    => AdminPageFrameworkLoader_Registry::$aRequirements['PHP'],
-                        'error'      => __( 'The plugin requires the PHP version %1$s or higher.', 'uploader-anywheere' ),
-                    ),
-                    'wordpress' => array(
-                        'version'    => AdminPageFrameworkLoader_Registry::$aRequirements['WordPress'],
-                        'error'      => __( 'The plugin requires the WordPress version %1$s or higher.', 'uploader-anywheere' ),
-                    ),
-                    'mysql'     => array(
-                        'version'    => AdminPageFrameworkLoader_Registry::$aRequirements['MySQL'],
-                        'error' => __( 'The plugin requires the MySQL version %1$s or higher.', 'uploader-anywheere' ),
-                    ),
-                    'functions' =>  '', // disabled
-                    // array(
-                        // '_test'          => 'This is a test',
-                        // 'curl_version' => sprintf( __( 'The plugin requires the %1$s to be installed.', 'uploader-anywheere' ), 'the cURL library' ),
-                    // ),
-                    'classes'       => '',  // disabled
-                    // 'classes' => array(
-                        // 'DOMDocument' => sprintf( __( 'The plugin requires the <a href="%1$s">libxml</a> extension to be activated.', 'pseudo-image' ), 'http://www.php.net/manual/en/book.libxml.php' ),
-                    // ),
-                    'constants'    => '',   // disabled
-                ),
+                AdminPageFrameworkLoader_Registry::$aRequirements,
                 AdminPageFrameworkLoader_Registry::Name
             );
-            $_iWarnings = $_oRequirementCheck->check();
-            if ( $_iWarnings ) {            
-
+            
+            if ( $_oRequirementCheck->check() ) {            
                 $_oRequirementCheck->deactivatePlugin( 
                     $this->sFilePath, 
                     __( 'Deactivating the plugin', 'admin-page-framework-loader' ),  // additional message
-                    true    // is in the activation hook. 
+                    true    // is in the activation hook. This will exit the script.
                 );
-                            
             }        
              
         }    
-
         
     /**
      * Load localization files.
@@ -123,17 +95,21 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
      */
     public function loadComponents() {
     
-        // 3. Admin pages
+        // Admin pages
         if ( $this->bIsAdmin ) {
             
-            // 3.1. Create admin pages - just the example link in the submenu.
-            // @todo check the option value and if the admin page option is true, load it.
             new AdminPageFrameworkLoader_AdminPage( 
-                AdminPageFrameworkLoader_Registry::OptionKey,
+                AdminPageFrameworkLoader_Registry::$aOptionKeys['main'],
                 $this->sFilePath   // caller script path
             );
-                    
-        }            
+                        
+        }   
+        
+        // Demo
+        // new AdminPageFrameworkLoader_Demo( 
+            // AdminPageFrameworkLoader_Registry::$aOptionKeys['demo'],
+            // $this->sFilePath   // caller script path
+        // );        
  
     }
     

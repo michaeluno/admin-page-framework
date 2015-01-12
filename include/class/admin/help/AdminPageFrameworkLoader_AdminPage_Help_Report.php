@@ -143,7 +143,7 @@ class AdminPageFrameworkLoader_AdminPage_Help_Report {
                     'MySQL Error Log'       => '',                    
                     'Browser'               => '',                    
                 ) 
-                + get_option( AdminPageFrameworkLoader_Registry::OptionKey, array() ), // the stored options of the main demo class
+                + $this->oFactory->oProp->aOptions, // the stored options of the main demo class
                 'attributes'    => array(
                     'rows'          =>  10,
                 ),

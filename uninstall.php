@@ -36,7 +36,7 @@ if ( file_exists( dirname( __FILE__ ). '/' . $_sMaingPluginFileName ) ) {
 if ( class_exists( 'AdminPageFrameworkLoader_Registry' ) ) :
 
     // Delete the plugin option
-    delete_option( AdminPageFrameworkLoader_Registry::OptionKey );
+    delete_option( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
     
     // Delete transients
     $_aPrefixes = array(

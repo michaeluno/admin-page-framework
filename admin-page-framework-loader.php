@@ -40,7 +40,10 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
     /**
      * The plugin option key used for the options table.
      */
-	const OptionKey                 = 'admin_page_framework_loader';
+    static public $aOptionKeys = array(
+        'main'    => 'admin_page_framework_loader',
+        'demo'    => 'admin_page_framework_demo',
+    );
     
     /**
      * The transient prefix. 
@@ -57,25 +60,45 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      */
 	const TextDomain                = 'admin-page-framework-loader';
 	const TextDomainPath            = '/language';    
-    
-    /**
-     * Requirements.
-     */
-	const RequiredPHPVersion        = '5.2.4';
-	const RequiredWordPressVersion  = '3.3';
-	    
+    	    
 	// These properties will be defined in the setUp() method.
 	static public $sFilePath = '';
 	static public $sDirPath  = '';
 	
     /**
      * Requirements.
-     */
+     */    
     static public $aRequirements = array(
-        'WordPress' => '3.3',
-        'PHP'       => '5.2.4',
-        'MySQL'     => '5.0.0',
-    );
+        'php' => array(
+            'version'   => '5.2.4',
+            'error'     => 'The plugin requires the PHP version %1$s or higher.',
+        ),
+        'wordpress'         => array(
+            'version'   => '3.3',
+            'error'     => 'The plugin requires the WordPress version %1$s or higher.',
+        ),
+        'mysql'             => array(
+            'version'   => '5.0',
+            'error'     => 'The plugin requires the MySQL version %1$s or higher.',
+        ),
+        'functions'     =>  '', // disabled
+        // array(
+            // e.g. 'mblang' => 'The plugin requires the mbstring extension.',
+        // ),
+        'classes'       => '', // disabled
+        // array(
+            // e.g. 'DOMDocument' => 'The plugin requires the DOMXML extension.',
+        // ),
+        'constants'     => '',  // disabled
+        // array(
+            // e.g. 'THEADDONFILE' => 'The plugin requires the ... addon to be installed.',
+            // e.g. 'APSPATH' => 'The script cannot be loaded directly.',
+        // ),
+        'files'         =>  '', // disabled
+        // array(
+            // e.g. 'home/my_user_name/my_dir/scripts/my_scripts.php' => 'The required script could not be found.',
+        // ),
+    );    
     
     /**
      * Used admin pages.
