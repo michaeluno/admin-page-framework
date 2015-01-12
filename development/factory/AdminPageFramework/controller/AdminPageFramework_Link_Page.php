@@ -83,11 +83,17 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
         } else {
             $this->oProp->aPluginDescriptionLinks = array_merge( $this->oProp->aPluginDescriptionLinks , $asLinks );
         }
-    
+
+        if ( 'plugins.php' !== $this->oProp->sPageNow ) {
+            return;
+        }
+        
         add_filter( 'plugin_row_meta', array( $this, '_replyToAddLinkToPluginDescription' ), 10, 2 );
 
     }
     public function _addLinkToPluginTitle( $asLinks ) {
+        
+        static $_sPluginBaseName;        
         
         if ( ! is_array( $asLinks ) ) {
             $this->oProp->aPluginTitleLinks[] = $asLinks;
@@ -95,7 +101,14 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
             $this->oProp->aPluginTitleLinks = array_merge( $this->oProp->aPluginTitleLinks, $asLinks );
         }
         
-        add_filter( 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ), array( $this, '_replyToAddLinkToPluginTitle' ) );
+        if ( 'plugins.php' !== $this->oProp->sPageNow ) {
+            return;
+        }
+        
+        if ( ! isset( $_sPluginBaseName ) ) {
+            $_sPluginBaseName = plugin_basename( $this->oProp->aScriptInfo['sPath'] );
+            add_filter( "plugin_action_links_{$_sPluginBaseName}", array( $this, '_replyToAddLinkToPluginTitle' ) );
+        }
 
     }
         
@@ -152,33 +165,43 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
     
     public function _replyToAddLinkToPluginDescription( $aLinks, $sFile ) {
 
-        if ( $sFile != plugin_basename( $this->oProp->aScriptInfo['sPath'] ) ) { return $aLinks; }
-        
-        // Backward compatibility sanitisation.
-        $aAddingLinks = array();
-        foreach( $this->oProp->aPluginDescriptionLinks as $linksHTML ) {
-            if ( is_array( $linksHTML ) ) {  // should not be an array
-                $aAddingLinks = array_merge( $linksHTML, $aAddingLinks );
-            } else {
-                $aAddingLinks[] = ( string ) $linksHTML;
-            }
+        if ( $sFile != plugin_basename( $this->oProp->aScriptInfo['sPath'] ) ) { 
+            return $aLinks; 
         }
         
-        return array_merge( $aLinks, $aAddingLinks );
+        // Backward compatibility sanitisation.
+        $_aAddingLinks = array();
+        foreach( array_filter( $this->oProp->aPluginDescriptionLinks ) as $_sLLinkHTML ) {
+            
+            if ( ! $_sLLinkHTML ) {
+                continue;
+            }
+            if ( is_array( $_sLLinkHTML ) ) {  // should not be an array
+                $_aAddingLinks = array_merge( $_sLLinkHTML, $_aAddingLinks );
+                continue;
+            } 
+            $_aAddingLinks[] = ( string ) $_sLLinkHTML;
+            
+        }
+        return array_merge( $aLinks, $_aAddingLinks );
         
     }     
     public function _replyToAddLinkToPluginTitle( $aLinks ) {
 
-        // Backward compatibility sanitisation.
-        $aAddingLinks = array();
-        foreach( $this->oProp->aPluginTitleLinks as $linksHTML ) {
-            if ( is_array( $linksHTML ) ) { // should not be an array
-                $aAddingLinks = array_merge( $linksHTML, $aAddingLinks );
-            } else {
-                $aAddingLinks[] = ( string ) $linksHTML;
+        $_aAddingLinks = array();
+        foreach( array_filter( $this->oProp->aPluginTitleLinks ) as $_sLinkHTML ) {
+            
+            if ( ! $_sLinkHTML ) {
+                continue;
             }
+            if ( is_array( $_sLinkHTML ) ) {
+                $_aAddingLinks = array_merge( $_sLinkHTML, $aAddingLinks );
+                continue;
+            } 
+            $_aAddingLinks[] = ( string ) $_sLinkHTML;
+            
         }
-        return array_merge( $aLinks, $aAddingLinks );
+        return array_merge( $aLinks, $_aAddingLinks );
         
     }     
 }
