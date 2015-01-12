@@ -72,6 +72,11 @@ class AdminPageFramework_CSS {
 .admin-page-framework-in-page-tab .nav-tab.nav-tab-active {
     border-bottom-width: 2px;
 }
+/* Give a space between generic admin notice containers and the in-page navigation tabs */
+.wrap .admin-page-framework-in-page-tab div.error, 
+.wrap .admin-page-framework-in-page-tab div.updated {
+    margin-top: 15px;
+}
 
 /* Framework System Information */
 .admin-page-framework-info {
