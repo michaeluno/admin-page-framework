@@ -55,7 +55,7 @@ abstract class AdminPageFramework_Registry_Base {
 final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base {
         
     const TextDomain        = 'admin-page-framework';
-    const TextDomainPath    = '/language';
+    const TextDomainPath    = '/language';  // not used at the moment
     
     /**
      * Indicates whether the framework is loaded from the minified version or not.

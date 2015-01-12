@@ -147,6 +147,7 @@ $aClassFiles = array(
 	"AdminPageFramework_HelpPane_Widget"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Widget/controller/AdminPageFramework_HelpPane_Widget.php", 
 	"AdminPageFramework_Resource_Widget"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Widget/controller/AdminPageFramework_Resource_Widget.php", 
 	"AdminPageFramework_Property_Widget"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Widget/model/AdminPageFramework_Property_Widget.php", 
+	"AdminPageFramework_AdminNotice"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_AdminNotice.php", 
 	"AdminPageFramework_Debug"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Debug.php", 
 	"AdminPageFramework_ErrorReporting"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_ErrorReporting.php", 
 	"AdminPageFramework_PluginBootstrap"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_PluginBootstrap.php", 

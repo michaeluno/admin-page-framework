@@ -10,7 +10,7 @@
 */ 
 
 /**
- * The base class of the registry class which provides basic plugin information.
+ * The base registry information.
  * 
  * @since       3.5.0
  */
@@ -85,7 +85,6 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
         'about'     => 'apfl_about',
         'tool'      => 'apfl_tools',
         'help'      => 'apfl_contact',
-    
     );
     
     /**
@@ -133,10 +132,10 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
     }    
     
 }
-/* Registry set up. */
+// Registry set-up.
 AdminPageFrameworkLoader_Registry::setUp( __FILE__ );
 
-// Do no load if accessed directly - not exiting because the uninstall.php or inclusion list generator will load this file.
+// Initial checks. - Do no load if accessed directly, not exiting because the 'uninstall.php' or inclusion list generator will load this file.
 if ( ! defined( 'ABSPATH' ) ) { return; }
 if ( defined( 'DOWING_UNINSTALL' ) ) { return; }
 
@@ -147,11 +146,30 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
             ? dirname( __FILE__ ) . '/development/admin-page-framework.php' // use the development version when you need to do debugging.
             : dirname( __FILE__ ) . '/library/admin-page-framework.min.php' // use the minified version in your plugins or themes.
     );
+} 
+
+// Avoid version conflicts.
+if ( ! class_exists( 'AdminPageFramework_Registry' ) || version_compare( AdminPageFramework_Registry::Version, AdminPageFrameworkLoader_Registry::Version, '<' ) ) {
+    function _setWarning_AdminPageFrameworkLoader_VersionConflict() {
+        echo "<div class='error'><p>" 
+                . sprintf( 
+                    'Admin Page Framework Loader: The framework has been already loaded and its version is lesser than yours. Your framework will not be loaded to avoid unexpected results. Loaded Version: %1$s. Your Version: %2$s.', 
+                    class_exists( 'AdminPageFramework_Registry' )
+                        ? AdminPageFramework_Registry::Version
+                        : 'unknown',
+                    AdminPageFrameworkLoader_Registry::Version
+                )
+            . "</p></div>";
+    }
+    add_action( 'admin_notices', '_setWarning_AdminPageFrameworkLoader_VersionConflict' );
+    return;    
 }
 
-// Include the framework loader plugin pages extra components.
+// Include the framework loader plugin components.
 include( dirname( __FILE__ ) . '/include/class/boot/AdminPageFrameworkLoader_Bootstrap.php' );
-new AdminPageFrameworkLoader_Bootstrap( __FILE__, 'admin_page_framework_loader' );
+if ( class_exists( 'AdminPageFrameworkLoader_Bootstrap' ) ) {   // for backward compatibility
+    new AdminPageFrameworkLoader_Bootstrap( __FILE__, 'admin_page_framework_loader' );
+}
 
 /*
  * If you find this framework useful, include it in your project!
