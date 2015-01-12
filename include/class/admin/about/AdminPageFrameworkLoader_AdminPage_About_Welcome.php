@@ -53,15 +53,16 @@ class AdminPageFrameworkLoader_AdminPage_About_Welcome {
     }
     
     public function replyToModifyTopContent( $sContent ) {
-
-        $_sContent = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
-            'Introduction',  
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt'
-        );
-        $_oParsedown = new Parsedown();    
         
+        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt',
+            array(
+                '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
+                '%WP_ADMIN_URL%'    => admin_url(),
+            )
+        );
         return "<div class='introduction'>" 
-                . $_oParsedown->text( $_sContent ) 
+                . $_oWPReadmeParser->getSection( 'Introduction' ) 
             . "</div>"
             . $sContent;
             
@@ -69,13 +70,14 @@ class AdminPageFrameworkLoader_AdminPage_About_Welcome {
     
     public function replyToDoTab() {
     
-        $_sContent = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
-            'New Features',  
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt'
-        );
-        $_oParsedown = new Parsedown();
-        echo $_oParsedown->text( $_sContent );            
-
+        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt',
+            array(
+                '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
+                '%WP_ADMIN_URL%'    => admin_url(),
+            )
+        );    
+        echo $_oWPReadmeParser->getSection( 'New Features' );          
     
     }
     

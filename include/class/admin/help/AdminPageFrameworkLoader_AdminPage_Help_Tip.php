@@ -54,19 +54,20 @@ class AdminPageFrameworkLoader_AdminPage_Help_Tip {
     
     public function replyToDoTab() {
         
-        $_sChangeLog = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
-            'Other Notes',  
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt'
+        $_aReplacements   = array(
+            '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
+            '%WP_ADMIN_URL%'    => admin_url(),
         );
-        $_oParsedown = new Parsedown();
-        echo $_oParsedown->text( $_sChangeLog );
-        
-        $_sChangeLog = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
-            'Tutorials',  
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt'
-        );
-        $_oParsedown = new Parsedown();
-        echo $_oParsedown->text( $_sChangeLog );
+        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt',
+            $_aReplacements
+        );    
+        echo $_oWPReadmeParser->getSection( 'Other Notes' );  
+        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt',
+            $_aReplacements
+        );    
+        echo $_oWPReadmeParser->getSection( 'Tutorials' );
         
     }
     

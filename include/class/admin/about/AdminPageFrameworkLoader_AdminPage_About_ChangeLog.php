@@ -80,19 +80,24 @@ class AdminPageFrameworkLoader_AdminPage_About_ChangeLog {
      * @since       3.5.0
      */
 	private function _getChangeLog( $sSection ) {
-            
-        $_sChangeLog = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
-            $sSection,  
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt'
-        );
-        $_sChangeLog .= AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
-            $sSection,  
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/changelog.md'
-        );
         
-        $_oParsedown = new Parsedown();        
+        $_aReplacements   = array(
+            '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
+            '%WP_ADMIN_URL%'    => admin_url(),
+        );
+        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt',
+            $_aReplacements
+        );    
+        $_sChangeLog = $_oWPReadmeParser->getSection( $sSection );  
+        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/changelog.md',
+            $_aReplacements
+        );    
+        $_sChangeLog .= $_oWPReadmeParser->getSection( $sSection );  
+           
         return $_sChangeLog
-            ? $_oParsedown->text( $_sChangeLog )
+            ? $_sChangeLog
             : '<p>' . __( 'No valid changlog was found.', 'admin-page-framework-loader' ) . '</p>';
         
 	}    

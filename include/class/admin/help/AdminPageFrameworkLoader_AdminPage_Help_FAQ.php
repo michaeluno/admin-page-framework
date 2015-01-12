@@ -54,13 +54,15 @@ class AdminPageFrameworkLoader_AdminPage_Help_FAQ {
     
     public function replyToDoTab() {
     
-        $_sContent = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
-            'Frequently asked questions',  
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt'
+        $_aReplacements   = array(
+            '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
+            '%WP_ADMIN_URL%'    => admin_url(),
         );
-                
-        $_oParsedown = new Parsedown();
-        echo $_oParsedown->text( $_sContent );
+        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt',
+            $_aReplacements
+        );    
+        echo $_oWPReadmeParser->getSection( 'Frequently asked questions' );      
     
     }
     

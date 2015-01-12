@@ -54,20 +54,15 @@ class AdminPageFrameworkLoader_AdminPage_About_Guide {
     
     public function replyToDoTab() {
             
-        $_sContent = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
-            'Getting Started',  
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt'
-        );
-        $_oParsedown = new Parsedown();
-
-        echo $_oParsedown->text( $_sContent );            
-            
-        $_sContent = AdminPageFrameworkLoader_Utility::getWPReadMeSection( 
-            'Tutorials',  
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt'
-        );
-        $_oParsedown = new Parsedown();
-        echo $_oParsedown->text( $_sContent );
+        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt',
+            array(
+                '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
+                '%WP_ADMIN_URL%'    => admin_url(),
+            )
+        );    
+        echo $_oWPReadmeParser->getSection( 'Getting Started' );  
+        echo $_oWPReadmeParser->getSection( 'Tutorials' );          
 
     }
     
