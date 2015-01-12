@@ -2,11 +2,10 @@
 /**
  * Parses WordPress readme files.
  *    
- * @package      Admin Page Framework Loader
+ * @package      Admin Page Framework
  * @copyright    Copyright (c) 2015, <Michael Uno>
  * @author       Michael Uno
  * @authorurl    http://michaeluno.jp
- * @since        3.5.0
  */
 
 /**
@@ -14,6 +13,8 @@
  * 
  * @since       3.5.0
  * @uses        AdminPageFramework_Parsedown
+ * @package     AdminPageFramework
+ * @subpackage  Utility
  */
 class AdminPageFramework_WPReadmeParser {
     
