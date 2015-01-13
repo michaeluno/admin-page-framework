@@ -1,0 +1,108 @@
+.apfl_cell {
+	padding: 0 1em;
+	line-height: 1.5em;
+}
+.apfl_columns_first_col {
+	margin-left: 0px;
+	clear: left;
+}
+/*  SECTIONS  ============================================================================= */
+.apfl_columns_row {
+	clear: both;
+	padding: 0px;
+	margin: 0px;
+}
+/*  GROUPING  ============================================================================= */
+.apfl_columns_box:before,
+.apfl_columns_box:after {
+	content:"";
+	display:table;
+}
+.apfl_columns_box:after {
+	clear:both;
+}
+.apfl_columns_box {
+	float: none;
+	width: 100%;		
+	zoom:1; /* For IE 6/7 (trigger hasLayout) */
+}
+/*  GRID COLUMN SETUP   ==================================================================== */
+.apfl_columns_col {
+	display: block;
+	float:left;
+	margin: 1% 0 1% 1.6%;
+}
+.apfl_columns_col:first-child { margin-left: 0; } /* all browsers except IE6 and lower */
+/*  REMOVE MARGINS AS ALL GO FULL WIDTH AT 800 PIXELS */
+@media only screen and (max-width: 800px) {
+	.apfl_columns_col { 
+		margin: 1% 0 1% 0%;
+	}
+}
+/*  GRID OF TWO   ============================================================================= */
+.apfl_col_element_of_1 {
+	width: 100%;
+}
+.apfl_col_element_of_2 {
+	width: 49.2%;
+}
+.apfl_col_element_of_3 {
+	width: 32.2%; 
+}
+.apfl_col_element_of_4 {
+	width: 23.8%;
+}
+.apfl_col_element_of_5 {
+	width: 18.72%;
+}
+.apfl_col_element_of_6 {
+	width: 15.33%;
+}
+.apfl_col_element_of_7 {
+	width: 12.91%;
+}
+.apfl_col_element_of_8 {
+	width: 11.1%; 
+}
+.apfl_col_element_of_9 {
+	width: 9.68%; 
+}
+.apfl_col_element_of_10 {
+	width: 8.56%; 
+}
+.apfl_col_element_of_11 {
+	width: 7.63%; 
+}
+.apfl_col_element_of_12 {
+	width: 6.86%; 
+}
+
+/*  GO FULL WIDTH AT LESS THAN 800 PIXELS */
+@media only screen and (max-width: 800px) {
+	.apfl_col_element_of_2,
+	.apfl_col_element_of_3,
+	.apfl_col_element_of_4,
+	.apfl_col_element_of_5,
+	.apfl_col_element_of_6,
+	.apfl_col_element_of_7,
+	.apfl_col_element_of_8,
+	.apfl_col_element_of_9,
+	.apfl_col_element_of_10,
+	.apfl_col_element_of_11,
+	.apfl_col_element_of_12
+	{	width: 49.2%;  }			
+}
+@media only screen and (max-width: 600px) {
+	.apfl_col_element_of_2,
+	.apfl_col_element_of_3,
+	.apfl_col_element_of_4,
+	.apfl_col_element_of_5,
+	.apfl_col_element_of_6,
+	.apfl_col_element_of_7,
+	.apfl_col_element_of_8,
+	.apfl_col_element_of_9,
+	.apfl_col_element_of_10,
+	.apfl_col_element_of_11,
+	.apfl_col_element_of_12
+	{	width: 100%;  }			
+}

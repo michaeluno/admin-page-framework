@@ -14,6 +14,7 @@ $_aClassFiles = array(
 	"AdminPageFrameworkLoader_AdminPage_Tool"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/tool/AdminPageFrameworkLoader_AdminPage_Tool.php", 
 	"AdminPageFrameworkLoader_AdminPage_Tool_Minifier"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/tool/AdminPageFrameworkLoader_AdminPage_Tool_Minifier.php", 
 	"AdminPageFrameworkLoader_Bootstrap"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/boot/AdminPageFrameworkLoader_Bootstrap.php", 
+	"AdminPageFrameworkLoader_Demo"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/demo/AdminPageFrameworkLoader_Demo.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_Information"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/help/AdminPageFrameworkLoader_AdminPage_Help_Informationt.php", 
 	"names',"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/tool/AdminPageFrameworkLoader_AdminPage_Tool_Minifier.php", 
 	"named"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/tool/AdminPageFrameworkLoader_AdminPage_Tool_Minifier.php", 

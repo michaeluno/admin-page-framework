@@ -79,6 +79,10 @@ class AdminPageFrameworkLoader_AdminPage_About {
             AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/about.css', 
             $this->sPageSlug 
         );
+        $oFactory->enqueueStyle( 
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/column.css', 
+            $this->sPageSlug 
+        );                
         
     } 
     

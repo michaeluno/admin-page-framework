@@ -59,7 +59,7 @@ class AdminPageFrameworkLoader_AdminPage_Help_Information {
             '%WP_ADMIN_URL%'    => admin_url(),
         );
         $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt',
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
             $_aReplacements
         );    
         echo $_oWPReadmeParser->getSection( 'Support' );  

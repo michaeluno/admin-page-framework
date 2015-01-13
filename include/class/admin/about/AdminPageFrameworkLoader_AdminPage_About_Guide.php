@@ -55,7 +55,7 @@ class AdminPageFrameworkLoader_AdminPage_About_Guide {
     public function replyToDoTab() {
             
         $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt',
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
             array(
                 '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
                 '%WP_ADMIN_URL%'    => admin_url(),

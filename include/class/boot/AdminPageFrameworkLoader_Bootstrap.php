@@ -10,6 +10,10 @@
  * 
  */
 
+if ( ! class_exists( 'AdminPageFramework_PluginBootstrap' ) ) {
+    return;
+}
+ 
 /**
  * Loads the plugin.
  * 
@@ -41,6 +45,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
     public function replyToPluginActivation() {
 
         $this->_checkRequirements();
+        $this->_gotoWelcomePage();
         
     }
         /**
@@ -63,7 +68,16 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
             }        
              
         }    
-        
+        /**
+         * Sends the user to the Welcome screen on first activation of Admin Page Framework 
+         * as well as each time the plugin gets updated to a new version.
+         * 
+         * @since       3.5.0
+         * @return      void
+         */
+        private function _goToWelcomePage() {
+            return;           
+        }
     /**
      * Load localization files.
      * 
@@ -106,10 +120,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
         }   
         
         // Demo
-        // new AdminPageFrameworkLoader_Demo( 
-            // AdminPageFrameworkLoader_Registry::$aOptionKeys['demo'],
-            // $this->sFilePath   // caller script path
-        // );        
+        new AdminPageFrameworkLoader_Demo;
  
     }
     

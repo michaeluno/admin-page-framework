@@ -64,7 +64,7 @@ class AdminPageFrameworkLoader_AdminPage_Help_Tip {
         );    
         echo $_oWPReadmeParser->getSection( 'Other Notes' );  
         $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/about.txt',
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
             $_aReplacements
         );    
         echo $_oWPReadmeParser->getSection( 'Tutorials' );
