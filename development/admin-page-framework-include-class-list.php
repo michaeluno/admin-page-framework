@@ -150,6 +150,7 @@ $aClassFiles = array(
 	"AdminPageFramework_AdminNotice"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_AdminNotice.php", 
 	"AdminPageFramework_PluginBootstrap"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_PluginBootstrap.php", 
 	"AdminPageFramework_Requirement"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Requirement.php", 
+	"AdminPageFramework_TableOfContents"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_TableOfContents.php", 
 	"AdminPageFramework_WPReadmeParser"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_WPReadmeParser/AdminPageFramework_WPReadmeParser.php", 
 	"AdminPageFramework_Parsedown"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_WPReadmeParser/AdminPageFramework_Parsedown/AdminPageFramework_Parsedown.php", 
 	"AdminPageFramework_Debug"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/core/AdminPageFramework_Debug.php", 

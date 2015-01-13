@@ -61,9 +61,16 @@ class AdminPageFrameworkLoader_AdminPage_About_Guide {
                 '%WP_ADMIN_URL%'    => admin_url(),
             )
         );    
-        echo $_oWPReadmeParser->getSection( 'Getting Started' );  
-        echo $_oWPReadmeParser->getSection( 'Tutorials' );          
-
+        $_sContent  = $_oWPReadmeParser->getSection( 'Getting Started' );  
+        $_sContent .= $_oWPReadmeParser->getSection( 'Tutorials' );
+        
+        $_oTOC = new AdminPageFramework_TableOfContents(
+            $_sContent,
+            4,
+            __( 'Contents', 'admin-page-framework-loader' )
+        );
+        echo $_oTOC->get();
+        
     }
     
 }

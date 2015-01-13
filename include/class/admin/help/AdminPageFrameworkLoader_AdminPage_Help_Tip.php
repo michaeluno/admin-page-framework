@@ -62,12 +62,20 @@ class AdminPageFrameworkLoader_AdminPage_Help_Tip {
             AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt',
             $_aReplacements
         );    
-        echo $_oWPReadmeParser->getSection( 'Other Notes' );  
+        $_sContent  = $_oWPReadmeParser->getSection( 'Other Notes' );  
         $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
             AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
             $_aReplacements
         );    
-        echo $_oWPReadmeParser->getSection( 'Tutorials' );
+        $_sContent .= "<h3>" . __( 'Tutorials', 'admin-page-framework-loader' ) . "</h3>"
+            . $_oWPReadmeParser->getSection( 'Tutorials' );
+        
+        $_oTOC = new AdminPageFramework_TableOfContents(
+            $_sContent,
+            4,
+            __( 'Contents', 'admin-page-framework-loader' )
+        );
+        echo $_oTOC->get();        
         
     }
     
