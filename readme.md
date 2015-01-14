@@ -182,6 +182,8 @@ class APF_MyFirstFrom extends AdminPageFramework {
 new APF_MyFirstFrom;
 ```
 
+See more code examples in `Dashboard` -> `AdminPageFramework` -> `Help` -> `Examples`.
+
 ## Documentation ##
 [Online documentation](http://admin-page-framework.michaeluno.jp/en/v3/)
 
@@ -231,7 +233,7 @@ If you like the library, please rate and review it in the [WordPress Plugin Dire
 
 ## Copyright and License ##
 
-### Admin Page Framework ###
+### Admin Page Framework (Framework Files Only)###
 Released under the [MIT license](./development/MIT-LICENSE.txt).
 Copyright © 2014 Michael Uno
 
@@ -258,7 +260,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 [http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT)
 
-### Admin Page Framework Loader ###
+### Admin Page Framework (WordPress Plugin that loads Admin Page Framework) ###
 Released under the [GPL v2](./LICENSE.txt) or later.
 Copyright © 2014 Michael Uno
 

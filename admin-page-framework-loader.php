@@ -1,6 +1,6 @@
 <?php
 /* 
-    Plugin Name:    Admin Page Framework Loader
+    Plugin Name:    Admin Page Framework
     Plugin URI:     http://en.michaeluno.jp/admin-page-framework
     Description:    Facilitates WordPress plugin and theme development.
     Author:         Michael Uno
@@ -17,7 +17,7 @@
 class AdminPageFrameworkLoader_Registry_Base {
 
 	const Version        = '3.5.0b09';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
-	const Name           = 'Admin Page Framework Loader';
+	const Name           = 'Admin Page Framework';
 	const Description    = 'Facilitates WordPress plugin and theme development.';
 	const URI            = 'http://en.michaeluno.jp/';
 	const Author         = 'miunosoft (Michael Uno)';
