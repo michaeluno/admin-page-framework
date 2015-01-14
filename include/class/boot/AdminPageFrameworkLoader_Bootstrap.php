@@ -112,6 +112,13 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
         // Admin pages
         if ( $this->bIsAdmin ) {
             
+            // Dashboard
+            new AdminPageFrameworkLoader_AdminPageWelcome( 
+                '', // disable options
+                $this->sFilePath   // caller script path
+            );
+            
+            // Loader plugin admin pages.
             new AdminPageFrameworkLoader_AdminPage( 
                 AdminPageFrameworkLoader_Registry::$aOptionKeys['main'],
                 $this->sFilePath   // caller script path

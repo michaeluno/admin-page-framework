@@ -14,10 +14,10 @@
  * 
  * @since       3.5.0    
  */
-class AdminPageFrameworkLoader_AdminPage_About_Welcome {
+class AdminPageFrameworkLoader_AdminPage_Help_Information {
 
     public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
-
+    
         $this->oFactory     = $oFactory;
         $this->sClassName   = $oFactory->oProp->sClassName;
         $this->sPageSlug    = $sPageSlug; 
@@ -34,7 +34,7 @@ class AdminPageFrameworkLoader_AdminPage_About_Welcome {
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( "What's New", 'admin-page-framework-loader' ),   // '
+                'title'         => __( "Support", 'admin-page-framework-loader' ),   // '
             )
         );  
         
@@ -47,38 +47,23 @@ class AdminPageFrameworkLoader_AdminPage_About_Welcome {
      * Triggered when the tab is loaded.
      */
     public function replyToLoadTab( $oAdminPage ) {
-
-        add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
-        add_filter( "content_top_{$this->sPageSlug}_{$this->sTabSlug}", array( $this, 'replyToModifyTopContent' ) );
-    }
-    
-    public function replyToModifyTopContent( $sContent ) {
         
-        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
-            array(
-                '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
-                '%WP_ADMIN_URL%'    => admin_url(),
-            )
-        );
-        return "<div class='introduction'>" 
-                . $_oWPReadmeParser->getSection( 'Introduction' ) 
-            . "</div>"
-            . $sContent;
-            
+        add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
+
     }
     
     public function replyToDoTab() {
     
+        $_aReplacements   = array(
+            '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
+            '%WP_ADMIN_URL%'    => admin_url(),
+        );
         $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
             AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
-            array(
-                '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
-                '%WP_ADMIN_URL%'    => admin_url(),
-            )
+            $_aReplacements
         );    
-        echo $_oWPReadmeParser->getSection( 'New Features' );          
-    
+        echo $_oWPReadmeParser->get( 'Support' );  
+ 
     }
     
 }

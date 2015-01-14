@@ -14,7 +14,7 @@
  * 
  * @since       3.5.0    
  */
-class AdminPageFrameworkLoader_AdminPage_About_ChangeLog {
+class AdminPageFrameworkLoader_AdminPageWelcome_ChangeLog {
 
     public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
     

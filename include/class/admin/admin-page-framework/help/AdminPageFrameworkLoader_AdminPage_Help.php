@@ -41,30 +41,40 @@ class AdminPageFrameworkLoader_AdminPage_Help {
 
             // Tabs
             new AdminPageFrameworkLoader_AdminPage_Help_Information(
-                $this->oFactory,
+                $this->oFactory,    // factory object
                 $this->sPageSlug,   // page slug
                 'information'       // tab slug 
             );     
+            new AdminPageFrameworkLoader_AdminPage_Help_Guide(
+                $this->oFactory,    
+                $this->sPageSlug,   
+                'guide'              
+            );                 
             new AdminPageFrameworkLoader_AdminPage_Help_Tip(
-                $this->oFactory,    // factory object
-                $this->sPageSlug,   // page slug
-                'tips'              // tab slug                                    
+                $this->oFactory,    
+                $this->sPageSlug,   
+                'tips'              
             );               
             new AdminPageFrameworkLoader_AdminPage_Help_FAQ(
                 $this->oFactory,
-                $this->sPageSlug,   // page slug
-                'faq'               // tab slug 
+                $this->sPageSlug, 
+                'faq'              
             );      
             new AdminPageFrameworkLoader_AdminPage_Help_Example(
                 $this->oFactory,
-                $this->sPageSlug,   // page slug
-                'examples'          // tab slug             
+                $this->sPageSlug, 
+                'examples'              
             );
             new AdminPageFrameworkLoader_AdminPage_Help_Report(
                 $this->oFactory,
-                $this->sPageSlug,   // page slug
-                'report'            // tab slug 
+                $this->sPageSlug,  
+                'report'          
             );      
+            new AdminPageFrameworkLoader_AdminPage_Help_About(
+                $this->oFactory,
+                $this->sPageSlug, 
+                'about'            
+            );     
             
         }
         

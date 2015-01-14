@@ -71,11 +71,11 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             ); 
                         
             // Add pages
-            new AdminPageFrameworkLoader_AdminPage_About(
-                $this,
-                AdminPageFrameworkLoader_Registry::$aAdminPages['about'],    // page slug
-                __( 'About', 'admin-page-framework-loader' )                
-            );
+            // new AdminPageFrameworkLoader_AdminPage_About(
+                // $this,
+                // AdminPageFrameworkLoader_Registry::$aAdminPages['about'],    // page slug
+                // __( 'About', 'admin-page-framework-loader' )                
+            // );
             new AdminPageFrameworkLoader_AdminPage_Tool( 
                 $this,
                 AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],    // page slug
