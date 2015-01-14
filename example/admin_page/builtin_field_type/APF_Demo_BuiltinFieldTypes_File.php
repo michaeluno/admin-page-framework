@@ -103,7 +103,7 @@ class APF_Demo_BuiltinFieldTypes_File {
                 'title'         => __( 'Select an Image', 'admin-page-framework-demo' ),
                 'type'          => 'image',
                 'label'         => __( 'First', 'admin-page-framework-demo' ),
-                'default'       =>  plugins_url( 'asset/image/wordpress-logo-2x.png' , APFDEMO_FILE ),
+                'default'       =>  plugins_url( 'asset/image/demo/wordpress-logo-2x.png' , APFDEMO_FILE ),
                 'allow_external_source' => false,
                 'attributes'    => array(
                     'preview' => array(

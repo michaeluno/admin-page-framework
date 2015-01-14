@@ -73,17 +73,21 @@ class AdminPageFrameworkLoader_AdminPage_Help_FAQ {
                                 ? array( 'top-right' )
                                 : false
                             ),
-                        // 'container'         => 'section',
                     )
                 )
             );
             $oAdminPage->addSettingFields(    
                 'faq_items_' . $_iIndex , // the target section ID     
                 array(
-                    'field_id'      => 'faq',
-                    'type'          => 'faq',
-                    'show_title_column'  => false,
-                    'before_field'   => $_sContent,
+                    'field_id'          => 'faq',   // non-existent field type
+                    'type'              => 'faq',
+                    'show_title_column' => false,
+                    'before_field'      => $_sContent,
+                    'attributes'        => array(
+                        'field'    => array(
+                            'style' => 'display:none;',
+                        ),
+                    ),
                 )
             );                 
             

@@ -228,10 +228,14 @@ Check out the [tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials
 Have questions? Visit the [support forum](https://wordpress.org/support/plugin/admin-page-framework).
 
 <h3>Help the Developer</h3>
+
 Admin Page Framework won't grow without your support. There are various ways to contribute.
 
+- <div class="donate-button">
+    <a href="http://en.michaeluno.jp/donate"><img src="%PLUGIN_DIR_URL%/asset/image/donation.gif" alt="Donate" /></a>
+</div>
+
 - Write a <strong>[review](https://wordpress.org/support/view/plugin-reviews/admin-page-framework?filter=5)</strong>.
-- <strong>[Donate](http://en.michaeluno.jp/donate)</strong>.
 - Post [ideas](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
 - Translate.
 - Report [bugs](https://github.com/michaeluno/admin-page-framework/issues).

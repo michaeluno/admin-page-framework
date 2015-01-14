@@ -8,3 +8,10 @@
 .admin-page-framework-content a{
     text-decoration: none;
 }
+
+.donate-button {
+    max-width: 100px;
+}
+.donate-button img {
+    width: 100%;
+}
