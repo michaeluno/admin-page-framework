@@ -2,6 +2,7 @@
 /**
  * Changed the class name to be used in Admin Page Framework.
  * by Michael Uno
+ * @since       2015/01/14
  */
 
 #
