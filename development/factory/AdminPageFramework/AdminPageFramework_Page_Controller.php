@@ -60,6 +60,7 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
      *     <li>**order** - (optional, integer) the order number of the tab. The lager the number is, the lower the position it is placed in the menu.</li>
      *     <li>**show_in_page_tab** - (optional, boolean) default: `false`. If this is set to false, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
      *     <li>**parent_tab_slug** - (optional, string) this needs to be set if the above show_in_page_tab is true so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
+     *     <li>**url** - [3.5.0+] (optional, string) If this is set, the link url of the navigation tab will be this url. Use this to create link only tab.</li>
      * </ul>
      * @param       array       $aTab2      Another in-page tab array.
      * @param       array       $_and_more  (optional) Add in-page tab arrays as many as necessary to the next parameters.
