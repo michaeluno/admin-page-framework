@@ -159,7 +159,9 @@ Yes, it works with [WordPress MU](https://codex.wordpress.org/WordPress_MU).
 <h5><strong>Can I set a custom post type as a root page?</strong></h5>
 Yes. For built-in root menu items or create your own ones, you need to use the `setRootMenuPage()` method. For root pages of custom post types, use `setRootMenuPageBySlug()`.
 
-`$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );    `
+`
+$this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );
+`
 
 <h5><strong>How do I retrieve the stored options?</strong></h5>
 The framework stores them as an organized multidimensional array in the options table in a single row. So use the `get_option()` function and pass the instantiated class name as the key or the custom key if you specify one in the constructor. 

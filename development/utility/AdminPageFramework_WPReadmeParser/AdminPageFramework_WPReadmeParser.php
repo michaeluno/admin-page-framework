@@ -11,6 +11,20 @@
 /**
  * Parses WordPress readme files.
  * 
+ * <h3>Examples</h3>
+ * <code>
+ * $_sText   = '...';
+ * $_oParser = new AdminPageFramework_WPReadmeParser;
+ * $_oParser->setText( $_sText );
+ * $_sText   = $_oParser->get();
+ * </code>
+ * 
+ * <code>
+ * $_sFilePath  = dirname( __FILE__ ) . '/aa/bbb/readme.txt';
+ * $_oParser    = new AdminPageFramework_WPReadmeParser( $_sFilePath );
+ * $_sFAQ       = $_oParser->get( 'Frequently asked questions' );
+ * </code>
+ * 
  * @since       3.5.0
  * @uses        AdminPageFramework_Parsedown
  * @package     AdminPageFramework
@@ -50,7 +64,7 @@ class AdminPageFramework_WPReadmeParser {
         $this->sText            = file_exists( $sFilePath )
             ? file_get_contents( $sFilePath )
             : '';
-        $this->_aContents       = $this->sText
+        $this->_aSections       = $this->sText
             ? $this->_getSplitContentsBySection( $this->sText )
             : array();    
         $this->aReplacements    = $aReplacements;
@@ -64,7 +78,7 @@ class AdminPageFramework_WPReadmeParser {
      */
     public function setText( $sText ) {
         $this->sText        = $sText;
-        $this->_aContents   = $this->sText
+        $this->_aSections   = $this->sText
             ? $this->_getSplitContentsBySection( $this->sText )
             : array();
     }
@@ -81,6 +95,16 @@ class AdminPageFramework_WPReadmeParser {
                 PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY 
             );            
         }
+    /**
+     * Returns the parsed text.
+     * 
+     * @since       3.5.0
+     */
+    public function get( $sSectionName='' ) {
+        return $sSectionName
+            ? $this->getSection( $sSectionName )
+            : $this->_getParsedText( $this->sText );
+    }
     
     /**
      * Retrieves the section.
@@ -91,24 +115,34 @@ class AdminPageFramework_WPReadmeParser {
     public function getSection( $sSectionName ) {
         
         $_sContent = $this->getRawSection( $sSectionName );
-
-        // inline backticks.
-        $_sContent = preg_replace( '/`(.*?)`/', '<code>\\1</code>', $_sContent );   
-        
-        // multi-line backticks - store code blocks in a separate place
-        $_sContent = preg_replace_callback( '/`(.*?)`/ms', array( $this, '_replyToReplaceCodeBlocks' ), $_sContent );
-        
-        // WordPress specific sub sections
-        $_sContent = preg_replace( '/= (.*?) =/', '<h4>\\1</h4>', $_sContent );
-        
-        // Replace user set strings.
-        $_sContent = str_replace( array_keys( $this->aReplacements ), array_values( $this->aReplacements ), $_sContent );
-                
-        // Markdown
-        $_oParsedown = new AdminPageFramework_Parsedown();        
-        return $_oParsedown->text( $_sContent );
+        return $this->_getParsedText( $_sContent );
         
     }
+        
+        /**
+         * Returns the parsed text.
+         * @since       3.5.0
+         */
+        private function _getParsedText( $sContent ) {
+
+            // inline backticks.
+            $_sContent = preg_replace( '/`(.*?)`/', '<code>\\1</code>', $sContent );   
+            
+            // multi-line backticks - store code blocks in a separate place
+            $_sContent = preg_replace_callback( '/`(.*?)`/ms', array( $this, '_replyToReplaceCodeBlocks' ), $_sContent );
+            
+            // WordPress specific sub sections
+            $_sContent = preg_replace( '/= (.*?) =/', '<h4>\\1</h4>', $_sContent );
+            
+            // Replace user set strings.
+            $_sContent = str_replace( array_keys( $this->aReplacements ), array_values( $this->aReplacements ), $_sContent );
+                    
+            // Markdown
+            $_oParsedown = new AdminPageFramework_Parsedown();        
+            return $_oParsedown->text( $_sContent );
+            
+        }
+    
         /**
          * Returns the modified code block.
          * 
@@ -138,10 +172,10 @@ class AdminPageFramework_WPReadmeParser {
      */
     public function getRawSection( $sSectionName ) {
 
-        $_iIndex   = array_search( $sSectionName, $this->_aContents );  
+        $_iIndex   = array_search( $sSectionName, $this->_aSections );  
         return false === $_iIndex
             ? ''
-            : trim( $this->_aContents[ $_iIndex + 1 ] );
+            : trim( $this->_aSections[ $_iIndex + 1 ] );
     
     }
     

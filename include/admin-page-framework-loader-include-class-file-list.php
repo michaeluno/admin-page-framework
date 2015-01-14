@@ -7,6 +7,7 @@ $_aClassFiles = array(
 	"AdminPageFrameworkLoader_AdminPage_About_Guide"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/about/AdminPageFrameworkLoader_AdminPage_About_Guide.php", 
 	"AdminPageFrameworkLoader_AdminPage_About_Welcome"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/about/AdminPageFrameworkLoader_AdminPage_About_Welcome.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/help/AdminPageFrameworkLoader_AdminPage_Help.php", 
+	"AdminPageFrameworkLoader_AdminPage_Help_Example"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/help/AdminPageFrameworkLoader_AdminPage_Help_Example.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_FAQ"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/help/AdminPageFrameworkLoader_AdminPage_Help_FAQ.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_Informationt"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/help/AdminPageFrameworkLoader_AdminPage_Help_Informationt.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_Report"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/help/AdminPageFrameworkLoader_AdminPage_Help_Report.php", 

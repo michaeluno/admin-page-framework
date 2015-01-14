@@ -14,7 +14,7 @@
  * 
  * @since       3.5.0    
  */
-class AdminPageFrameworkLoader_AdminPage_Help_Information {
+class AdminPageFrameworkLoader_AdminPage_Help_Example {
 
     public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
     
@@ -34,7 +34,7 @@ class AdminPageFrameworkLoader_AdminPage_Help_Information {
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( "Support", 'admin-page-framework-loader' ),   // '
+                'title'         => __( 'Examples', 'admin-page-framework-loader' ),
             )
         );  
         
@@ -53,17 +53,17 @@ class AdminPageFrameworkLoader_AdminPage_Help_Information {
     }
     
     public function replyToDoTab() {
-    
+        
         $_aReplacements   = array(
             '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
             '%WP_ADMIN_URL%'    => admin_url(),
         );
         $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/examples.txt',
             $_aReplacements
         );    
-        echo $_oWPReadmeParser->get( 'Support' );  
-    
+        echo $_oWPReadmeParser->get( 'Examples' );
+        
     }
     
 }

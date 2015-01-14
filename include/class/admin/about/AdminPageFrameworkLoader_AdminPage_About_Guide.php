@@ -67,7 +67,7 @@ class AdminPageFrameworkLoader_AdminPage_About_Guide {
         $_oTOC = new AdminPageFramework_TableOfContents(
             $_sContent,
             4,
-            __( 'Contents', 'admin-page-framework-loader' )
+            "<h3>" . __( 'Contents', 'admin-page-framework-loader' ) . "</h3>"
         );
         echo $_oTOC->get();
         

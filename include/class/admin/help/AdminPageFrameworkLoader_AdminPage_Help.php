@@ -23,7 +23,7 @@ class AdminPageFrameworkLoader_AdminPage_Help {
     
         $this->_addPage();
     
-        add_action( "load_{$this->sPageSlug}", array( $this, 'replyToLoadPage' ) );    
+        add_action( "load_{$this->sPageSlug}", array( $this, 'replyToLoadPage' ) );       
     
     }
         
@@ -46,15 +46,20 @@ class AdminPageFrameworkLoader_AdminPage_Help {
                 'information'       // tab slug 
             );     
             new AdminPageFrameworkLoader_AdminPage_Help_Tip(
-                $this->oFactory,        // factory object
-                $this->sPageSlug,       // page slug
-                'tips'                  // tab slug                                    
+                $this->oFactory,    // factory object
+                $this->sPageSlug,   // page slug
+                'tips'              // tab slug                                    
             );               
             new AdminPageFrameworkLoader_AdminPage_Help_FAQ(
                 $this->oFactory,
                 $this->sPageSlug,   // page slug
                 'faq'               // tab slug 
             );      
+            new AdminPageFrameworkLoader_AdminPage_Help_Example(
+                $this->oFactory,
+                $this->sPageSlug,   // page slug
+                'examples'          // tab slug             
+            );
             new AdminPageFrameworkLoader_AdminPage_Help_Report(
                 $this->oFactory,
                 $this->sPageSlug,   // page slug
@@ -72,13 +77,33 @@ class AdminPageFrameworkLoader_AdminPage_Help {
 
         // add_filter( "content_top_{$this->sPageSlug}", array( $this, 'replyToFilterContentTop' ) );
         // add_action( "style_{$this->sPageSlug}", array( $this, 'replyToAddInlineCSS' ) );
-    
+        add_action( "do_after_{$this->sPageSlug}", array( $this, 'replyToDoAfterPage' ) );    
+        
         $oFactory->enqueueStyle( 
             AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/help.css', 
             $this->sPageSlug
         );
         
     } 
-            
+    
+    /**
+     * Output custom page contents.
+     */
+    public function replyToDoAfterPage() {
+        
+        
+        $_aReplacements   = array(
+            '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
+            '%WP_ADMIN_URL%'    => admin_url(),
+        );
+        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
+            $_aReplacements
+        );    
+        echo "<h3>" . __( 'Tutorials', 'admin-page-framework-loader' ) . "</h3>"
+            . $_oWPReadmeParser->getSection( 'Tutorials' );    
+        
+        
+    }
         
 }
