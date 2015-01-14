@@ -50,7 +50,8 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
         'title'             => null,
         'order'             => null,
         'show_in_page_tab'  => true,
-        'parent_tab_slug'   => null, // this needs to be set if the above show_in_page_tab is false so that the framework can mark the parent tab to be active when the hidden page is accessed.
+        'parent_tab_slug'   => null,    // this needs to be set if the above show_in_page_tab is false so that the framework can mark the parent tab to be active when the hidden page is accessed.
+        'url'               => null,    // 3.5.0+ This allows the user set custom link.
     );
     
     /**
@@ -74,16 +75,16 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
             
             if ( ! isset( $this->oProp->aInPageTabs[ $sPageSlug ] ) ) { continue; }
             
-            // Apply filters to let modify the in-page tab array.
-            $this->oProp->aInPageTabs[ $sPageSlug ] = $this->oUtil->addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
-                $this,
-                "tabs_{$this->oProp->sClassName}_{$sPageSlug}",
-                $this->oProp->aInPageTabs[ $sPageSlug ]     
+            // Apply filters to modify the in-page tab array.
+            $this->oProp->aInPageTabs[ $sPageSlug ] = $this->oUtil->addAndApplyFilter(
+                $this,  // caller object
+                "tabs_{$this->oProp->sClassName}_{$sPageSlug}", // filter name
+                $this->oProp->aInPageTabs[ $sPageSlug ]     // filtering value
             );    
-            // Added in-page arrays may be missing necessary keys so merge them with the default array structure.
+            
+            // Added items may be missing necessary keys so format them
             foreach( $this->oProp->aInPageTabs[ $sPageSlug ] as &$aInPageTab ) {
-                $aInPageTab = $aInPageTab + self::$_aStructure_InPageTabElements;
-                $aInPageTab['order'] = is_null( $aInPageTab['order'] ) ? 10 : $aInPageTab['order'];
+                $aInPageTab = $this->_formatInPageTab( $aInPageTab );
             }
                         
             // Sort the in-page tab array.
@@ -103,6 +104,20 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
         }
 
     }     
+        /**
+         * Formats the in-page tab definition array.
+         * 
+         * @since       3.5.0
+         */
+        private function _formatInPageTab( array $aInPageTab ) {
+            
+            $aInPageTab = $aInPageTab + self::$_aStructure_InPageTabElements;
+            
+            $aInPageTab['order'] = is_null( $aInPageTab['order'] ) ? 10 : $aInPageTab['order'];
+            
+            return $aInPageTab;
+            
+        }
         /**
          * An alias of _finalizeInPageTabs().
          * @deprecated  3.3.0

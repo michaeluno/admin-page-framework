@@ -214,16 +214,17 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
     * 
     * @since        2.0.0
     * @since        3.0.0       Changed the scope to public from protected.
+    * @since        3.5.0       Changed the scope to public as it was stil protected.
     * @param        string      the menu title.
     * @param        string      the URL linked to the menu.
     * @param        string      (optional) the <a href="http://codex.wordpress.org/Roles_and_Capabilities" target="_blank">access level</a>.
     * @param        string      (optional) the order number. The larger it is, the lower the position it gets.
     * @param        string      (optional) if set to false, the menu title will not be listed in the tab navigation menu at the top of the page.
-    * @access       protected
+    * @access       public
     * @return       void
     * @internal
     */    
-    protected function addSubMenuLink( array $aSubMenuLink ) {
+    public function addSubMenuLink( array $aSubMenuLink ) {
         
         // If required keys are not set, return.
         if ( ! isset( $aSubMenuLink['href'], $aSubMenuLink['title'] ) ) { return; }
@@ -242,11 +243,12 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
      * 
      * @since       2.0.0
      * @since       3.0.0       The scope was changed to public from protected.
+     * @since       3.5.0       The scope was changes to public as it was still protected.
      * @internal
      * @return      void
      * @remark      The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
      */ 
-    protected function addSubMenuPages() {
+    public function addSubMenuPages() {
         foreach ( func_get_args() as $aSubMenuPage ) {
             $this->addSubMenuPage( $aSubMenuPage );
         }
@@ -274,6 +276,7 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
      * @since       2.1.2       A key name was changed.
      * @since       2.1.6       $sScreenIcon accepts a file path.
      * @since       3.0.0       The scope was changed to public from protected. Deprecated all the parameters made it to accept them as an array. A key name was changed.
+     * @since       3.5.0       Changed the scope to public as it was protected.
      * @remark      The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
      * @param       array       The sub menu page array.
      * <h4>Sub Menu Page Array</h4>
@@ -291,7 +294,7 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
      * @return      void
      * @internal
      */ 
-    protected function addSubMenuPage( array $aSubMenuPage ) {
+    public function addSubMenuPage( array $aSubMenuPage ) {
 
         if ( ! isset( $aSubMenuPage['page_slug'] ) ) { return; }
             
@@ -299,5 +302,5 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
         $this->oProp->aPages[ $aSubMenuPage['page_slug'] ] = $this->_formatSubMenuPageArray( $aSubMenuPage );
         
     }
-                       
+    
 }

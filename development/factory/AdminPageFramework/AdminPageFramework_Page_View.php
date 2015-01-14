@@ -352,22 +352,25 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
         }
 
         /**
-         * Retrieves the output of in-page tab navigation bar as HTML.
+         * Retrieves the output of in-page tab navigation tabs bar as HTML.
          * 
          * @since       2.0.0
-         * @since       3.3.1       Moved from `AdminPageFramework_Page`.
-         * @return      string     the output of in-page tabs.
+         * @since       3.3.1        Moved from `AdminPageFramework_Page`.
+         * @since       3.5.0        Deprecated the third $aOutput parameter.
+         * @return      string       The output of in-page tabs.
          */     
-        private function _getInPageTabs( $sCurrentPageSlug, $sTag='h3', $aOutput=array() ) {
+        private function _getInPageTabs( $sCurrentPageSlug, $sTag='h3' ) {
+            
+            $aOutput = array();
             
             // If in-page tabs are not set, return an empty string.
             if ( empty( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] ) ) { 
-                return implode( '', $aOutput ); 
+                return ''; 
             }
                     
             // Determine the current tab slug.
-            $sCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sCurrentPageSlug );
-            $sCurrentTabSlug = $this->_getParentTabSlug( $sCurrentPageSlug, $sCurrentTabSlug );
+            $_sCurrentTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sCurrentPageSlug );
+            $_sCurrentTabSlug = $this->_getParentTabSlug( $sCurrentPageSlug, $_sCurrentTabSlug );
 
             $sTag = $this->oProp->aPages[ $sCurrentPageSlug ][ 'in_page_tab_tag' ]
                 ? $this->oProp->aPages[ $sCurrentPageSlug ][ 'in_page_tab_tag' ]
@@ -376,32 +379,38 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
             
             // If the in-page tabs' visibility is set to false, returns the title.
             if ( ! $this->oProp->aPages[ $sCurrentPageSlug ][ 'show_in_page_tabs' ] ) {
-                return isset( $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title'] ) 
-                    ? "<{$sTag}>{$this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sCurrentTabSlug ]['title']}</{$sTag}>" 
+                return isset( $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $_sCurrentTabSlug ]['title'] ) 
+                    ? "<{$sTag}>{$this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $_sCurrentTabSlug ]['title']}</{$sTag}>" 
                     : "";
             }
 
-            // Get the actual string buffer.
-            foreach( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] as $sTabSlug => $aInPageTab ) {
+            // Get the output.
+            foreach( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] as $_sTabSlug => $_aInPageTab ) {
                         
                 // If it's hidden and its parent tab is not set, skip
-                if ( ! $aInPageTab['show_in_page_tab'] && ! isset( $aInPageTab['parent_tab_slug'] ) ) { continue; }
+                if ( ! $_aInPageTab['show_in_page_tab'] && ! isset( $_aInPageTab['parent_tab_slug'] ) ) { continue; }
                 
-                // The parent tab means the root tab when there is a hidden tab that belongs to it. Also check it the specified parent tab exists.
-                $sInPageTabSlug = isset( $aInPageTab['parent_tab_slug'], $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $aInPageTab['parent_tab_slug'] ] ) 
-                    ? $aInPageTab['parent_tab_slug'] 
-                    : $aInPageTab['tab_slug'];
+                // The parent tab means the root tab when there is a hidden tab that belongs to it. Also check if the specified parent tab exists.
+                $_sInPageTabSlug = isset( $_aInPageTab['parent_tab_slug'], $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $_aInPageTab['parent_tab_slug'] ] ) 
+                    ? $_aInPageTab['parent_tab_slug'] 
+                    : $_aInPageTab['tab_slug'];
                                         
-                $aOutput[ $sInPageTabSlug ] = "<a " . $this->oUtil->generateAttributes(
+                $aOutput[ $_sInPageTabSlug ] = "<a " . $this->oUtil->generateAttributes(
                         array(
                             'class' => $this->oUtil->generateClassAttribute(
                                 'nav-tab',
-                                $sCurrentTabSlug == $sInPageTabSlug ? "nav-tab-active" : "" // check whether the current tab is the active one
+                                $_sCurrentTabSlug == $_sInPageTabSlug        // check whether the current tab is the active one
+                                    ? "nav-tab-active" 
+                                    : "" 
                             ),
-                            'href'  => esc_url( $this->oUtil->getQueryAdminURL( array( 'page' => $sCurrentPageSlug, 'tab' => $sInPageTabSlug ), $this->oProp->aDisallowedQueryKeys ) ),
+                            'href'  => esc_url( 
+                                isset( $_aInPageTab['url'] )
+                                    ? $_aInPageTab['url']
+                                    : $this->oUtil->getQueryAdminURL( array( 'page' => $sCurrentPageSlug, 'tab' => $_sInPageTabSlug ), $this->oProp->aDisallowedQueryKeys )
+                            ),
                         )    
                     ) . ">"
-                        . $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $sInPageTabSlug ]['title']
+                        . $this->oProp->aInPageTabs[ $sCurrentPageSlug ][ $_sInPageTabSlug ]['title']
                     . "</a>";
             
             }     

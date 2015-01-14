@@ -68,7 +68,7 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
      * @remark      In-page tabs are different from page-heading tabs which is automatically added with page titles.  
      * @return      void
      */             
-    public function addInPageTabs( $aTab1, $aTab2=null, $_and_more=null ) {
+    public function addInPageTabs( /* $aTab1, $aTab2=null, $_and_more=null */ ) {
         foreach( func_get_args() as $asTab ) { 
             $this->addInPageTab( $asTab ); 
         }
@@ -89,7 +89,8 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
      */         
     public function addInPageTab( $asInPageTab ) {    
         
-        static $__sTargetPageSlug; // stores the target page slug which will be applied when no page slug is specified.
+        // Store the target page slug which will be applied when no page slug is specified.
+        static $__sTargetPageSlug; 
         if ( ! is_array( $asInPageTab ) ) {
             $__sTargetPageSlug = is_string( $asInPageTab ) ? $asInPageTab : $__sTargetPageSlug; // set the target page slug
             return;
@@ -100,7 +101,7 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
         if ( ! isset( $aInPageTab['page_slug'], $aInPageTab['tab_slug'] ) ) return; // check the required keys.
         
         $iCountElement      = isset( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] ) ? count( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] ) : 0;
-        $aInPageTab         = array( // sanitize some elements
+        $aInPageTab         = array( 
             'page_slug' => $this->oUtil->sanitizeSlug( $aInPageTab['page_slug'] ),
             'tab_slug'  => $this->oUtil->sanitizeSlug( $aInPageTab['tab_slug'] ),
             'order'     => is_numeric( $aInPageTab['order'] ) ? $aInPageTab['order'] : $iCountElement + 10,
@@ -247,5 +248,5 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
         }
         
     }
-  
+ 
 }

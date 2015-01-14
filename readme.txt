@@ -406,6 +406,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.0 =
+- Added the `url` argument for in-page tab definition arrays that allows the user to add link navigation tab.
 - Added a utility class for WordPres Readme parser and the markdown syntax.
 - Added a utility class for plugin bootstraps.
 - Added user meta factory class for adding fields in the user profile page.
