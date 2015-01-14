@@ -141,7 +141,7 @@ class AdminPageFramework_WPReadmeParser {
         $_iIndex   = array_search( $sSectionName, $this->_aContents );  
         return false === $_iIndex
             ? ''
-            : $this->_aContents[ $_iIndex + 1 ];
+            : trim( $this->_aContents[ $_iIndex + 1 ] );
     
     }
     
