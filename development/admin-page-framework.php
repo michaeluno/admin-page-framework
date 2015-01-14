@@ -82,7 +82,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
         self::$sFilePath            = $sFilePath ? $sFilePath : __FILE__;
         self::$sDirPath             = dirname( self::$sFilePath );
         self::$sFileURI             = plugins_url( '', self::$sFilePath );
-        self::$sAutoLoaderPath      = self::$sDirPath . '/utility/core/AdminPageFramework_RegisterClasses.php';
+        self::$sAutoLoaderPath      = self::$sDirPath . '/factory/AdminPageFramework_Factory/utility/AdminPageFramework_RegisterClasses.php';
         self::$bIsMinifiedVersion   = ! file_exists( self::$sAutoLoaderPath );
         
     }    
