@@ -112,7 +112,7 @@ abstract class AdminPageFramework_PluginBootstrap {
                 do_action( "{$this->sHookPrefix}_action_before_loading_plugin" );
             }
         
-            $this->loadComponents();
+            $this->setUp();
             
             // Modules should use this hook.
             if ( $this->sHookPrefix ) {
@@ -191,7 +191,7 @@ abstract class AdminPageFramework_PluginBootstrap {
      * 
      * @since       3.5.0
      */
-    public function loadComponents() {}
+    public function setUp() {}
         
     /**
      * The user constructor method.

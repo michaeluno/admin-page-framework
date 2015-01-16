@@ -107,7 +107,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
      * 
      * @remark        All the necessary classes should have been already loaded.
      */
-    public function loadComponents() {
+    public function setUp() {
     
         // Admin pages
         if ( $this->bIsAdmin ) {

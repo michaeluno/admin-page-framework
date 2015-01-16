@@ -233,7 +233,7 @@ If you like the library, please rate and review it in the [WordPress Plugin Dire
 
 ## Copyright and License ##
 
-### Admin Page Framework (Framework Files Only)###
+### Admin Page Framework (Framework Files)###
 Released under the [MIT license](./development/MIT-LICENSE.txt).
 Copyright © 2014 Michael Uno
 
@@ -260,7 +260,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 [http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT)
 
-### Admin Page Framework (WordPress Plugin that loads Admin Page Framework) ###
+### Admin Page Framework (WordPress Plugin) ###
 Released under the [GPL v2](./LICENSE.txt) or later.
 Copyright © 2014 Michael Uno
 
