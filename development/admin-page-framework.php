@@ -131,20 +131,13 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
  * @internal
  */
 final class AdminPageFramework_Bootstrap {
-    
-    /**
-     * Caches the loading status.
-     * @since       3.5.0
-     */
-    static private $_bLoaded = false;
-    
+        
     function __construct( $sLibraryPath ) {
         
         // Prevent it from being loaded multiple times.
-        if ( self::$_bLoaded ) {
+        if ( isset( self::$sAutoLoaderPath ) ) {
             return;
         }
-        self::$_bLoaded = true;
         
         // The minifier script will include this file ( but it does not include WordPress ) to use the reflection class to extract the docblock
         if ( ! defined( 'ABSPATH' ) ) {
