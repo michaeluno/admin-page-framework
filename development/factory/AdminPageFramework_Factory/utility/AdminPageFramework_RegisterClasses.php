@@ -2,6 +2,8 @@
 /**
  * Admin Page Framework
  * 
+ * Helps to set up auto-load classes.
+ * 
  * http://en.michaeluno.jp/admin-page-framework/
  * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
  * 
@@ -9,11 +11,16 @@
 
 /**
  * Registers classes in the given directory to be auto-loaded.
- *
- * @since 3.0.0
- * @package AdminPageFramework
- * @subpackage Utility
+ * 
+ * @since       3.0.0
+ * @package     AdminPageFramework
+ * @subpackage  Utility
  * @internal
+ * @version     1.0.0
+ * @example
+ * `
+ * new RegisterClasses( array( $sMyDirPath, $sAnotherDirPath ) );
+ * `
  */
 class AdminPageFramework_RegisterClasses {
     
@@ -26,41 +33,61 @@ class AdminPageFramework_RegisterClasses {
      * Represents the structure of the recursive option array.
      * 
      */
-    static protected $_aStructure_RecursiveOptions = array(
-        'is_recursive' =>    true,
-        'exclude_dir_paths' => array(),
-        'exclude_dir_names' => array( 'asset', 'assets', 'css', 'js', 'image', 'images', 'license', 'document', 'documents' ),
-        'allowed_extensions' => array( 'php', ), // 'inc'
+    static protected $_aStructure_Options = array(
+        'is_recursive'          => true,
+        'exclude_dir_paths'     => array(),
+        'exclude_dir_names'     => array( 'asset', 'assets', 'css', 'js', 'image', 'images', 'license', 'document', 'documents' ),
+        'allowed_extensions'    => array( 'php', ), // 'inc'
+        'include_function'      => 'include',
+        'exclude_class_names'   => array( /* 'SomeClass', 'SomeOtherClass' */ ),
     );
     
     /**
      * Sets up properties and performs registering classes.
      * 
-     * param array|string $asScanDirPath     the target directory path to scan
-     * param array $aSearchOptions The recursive settings
-     *         array(
-     *             'is_recursive' => true, // determines whether the scan should be performed recursively.
-     *             'exclude_dir_paths' => array(), // set excluding directory paths without ending slash with numeric keys.
-     *             'exclude_dir_names' => array(), // set excluding directory names.
-     *             'allowed_extensions' => array(),
-     *         )
-     * param array $aClasses     the link to the array storing registered classes outside this object.
+     * param    array|string       $asScanDirPath       the target directory path to scan
+     * param    array              $aOptions            The recursive settings
+     * <code>
+     *  array(
+     *      'is_recursive'       => true, // determines whether the scan should be performed recursively.
+     *      'exclude_dir_paths'  => array(), // set excluding directory paths without ending slash with numeric keys.
+     *      'exclude_dir_names'  => array(), // set excluding directory names.
+     *      'allowed_extensions' => array(),
+     *  )
+     * </code>
+     * param    array              $aClasses            the link to the array storing registered classes outside this object.
      * The structure of %aClasses must be consist of elements of a key-value pair of a file path and the key of the class name.
+     * <code>
      * array(
      *     'MyClassName' => 'MyClassName.php',
      *     'MyClassName2' => 'MyClassName2.php',
      * )
+     * </code>
      * @remark The directory paths set for the 'exclude_dir_paths' option should use the system directory separator.
      */
-    function __construct( $asScanDirPaths, array $aSearchOptions=array(), array $aClasses=array() ) {
-            
-        $this->_aClasses = $aClasses + $this->_constructClassArray( $asScanDirPaths, $aSearchOptions + self::$_aStructure_RecursiveOptions );
-        $this->_registerClasses();
+    function __construct( $asScanDirPaths, array $aOptions=array(), array $aClasses=array() ) {
+        
+        $_aOptions = $aOptions + self::$_aStructure_Options;
+        $this->_aClasses   = $aClasses + $this->_constructClassArray( $asScanDirPaths, $_aOptions );
+        $_sIncludeFunciton = in_array( $_aOptions['include_function'], array( 'require', 'require_once', 'include', 'include_once' ) )
+            ? $_aOptions['include_function']
+            : 'include';    // default      
+        $this->_registerClasses( $_sIncludeFunciton );        
         
     }
     
     /**
      * Sets up the array consisting of class paths with the key of file name w/o extension.
+     * 
+     * It will look like
+     * array(
+     *      // class Name (w/o ext) => path 
+     *      'MyClassA' => '.../aaa/MyClassA.php',
+     *      'MyClassB' => '.../bbb/MyClassB.php',
+     *      'MyClassC' => '.../ccc/MyClassC.php',
+     *      ... 
+     * )
+     * 
      */
     protected function _constructClassArray( $asScanDirPaths, array $aSearchOptions ) {
         
@@ -73,10 +100,20 @@ class AdminPageFramework_RegisterClasses {
                 $_aFilePaths = array_merge( $this->getFilePaths( $_sClassDirPath, $aSearchOptions ), $_aFilePaths );
             }
         }
+        
+        // Store classes in an array.
         $_aClasses = array();
         foreach( $_aFilePaths as $_sFilePath ) {
-            $_aClasses[ pathinfo( $_sFilePath, PATHINFO_FILENAME ) ] = $_sFilePath; // the file name without extension will be assigned to the key
+            
+            // Class name without a file extension.
+            $_sClassNameWOExt = pathinfo( $_sFilePath, PATHINFO_FILENAME );
+            if ( in_array( $_sClassNameWOExt, $aSearchOptions['exclude_class_names'] ) ) {
+                continue;
+            }
+            $_aClasses[ $_sClassNameWOExt ] = $_sFilePath; 
+            
         }
+        
         return $_aClasses;
             
     }
@@ -85,11 +122,11 @@ class AdminPageFramework_RegisterClasses {
          * Returns an array of scanned file paths.
          * 
          * The returning array structure looks like this:
-            array
-              0 => string '.../class/MyClass.php'
-              1 => string '.../class/MyClass2.php'
-              2 => string '.../class/MyClass3.php'
-              ...
+         *  array
+         *    0 => string '.../class/MyClass.php'
+         *    1 => string '.../class/MyClass2.php'
+         *    2 => string '.../class/MyClass3.php'
+         *    ...
          * 
          */
         protected function getFilePaths( $sClassDirPath, array $aSearchOptions ) {
@@ -158,20 +195,27 @@ class AdminPageFramework_RegisterClasses {
      * This registers the method to be triggered when an unknown class is instantiated. 
      * 
      */
-    protected function _registerClasses() {
-        spl_autoload_register( array( $this, '_replyToAutoLoad' ) );
+    protected function _registerClasses( $sIncludeFunction ) {
+        spl_autoload_register( array( $this, '_replyToAutoLoad_' . $sIncludeFunction ) );
     }    
         /**
          * Responds to the PHP auto-loader and includes the passed class based on the previously stored path associated with the class name in the constructor.
          */
-        public function _replyToAutoLoad( $sCalledUnknownClassName ) {     
-            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) {
-                return;
-            }
-            // if ( ! file_exists( $this->_aClasses[ $sCalledUnknownClassName ] ) ) {
-                // return;
-            // }
+        public function _replyToAutoLoad_include( $sCalledUnknownClassName ) {            
+            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { return; }
             include( $this->_aClasses[ $sCalledUnknownClassName ] );
         }
+        public function _replyToAutoLoad_include_once( $sCalledUnknownClassName ) {            
+            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { return; }
+            include_once( $this->_aClasses[ $sCalledUnknownClassName ] );
+        }        
+        public function _replyToAutoLoad_require( $sCalledUnknownClassName ) {            
+            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { return; }
+            require( $this->_aClasses[ $sCalledUnknownClassName ] );
+        }        
+        public function _replyToAutoLoad_require_once( $sCalledUnknownClassName ) {            
+            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { return; }
+            require_once( $this->_aClasses[ $sCalledUnknownClassName ] );
+        } 
     
 }
