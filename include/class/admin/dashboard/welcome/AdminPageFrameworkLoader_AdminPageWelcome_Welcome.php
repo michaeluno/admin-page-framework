@@ -54,7 +54,9 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Welcome {
     
     public function replyToModifyTopContent( $sContent ) {
         
-        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+        // Disabled the About information.
+        return $sContent;
+/*         $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
             AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
             array(
                 '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
@@ -65,7 +67,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Welcome {
             . "<div class='introduction headline-feature'>" 
                 . $_oWPReadmeParser->getSection( 'Introduction' ) 
             . "</div>"
-            ;
+            ; */
             
     }
     
