@@ -223,6 +223,10 @@ CSSRULES;
          */
         private function _getSystemInfomation( $asValue=null, $asCustomData=null, $iPrintType=1 ) {
 
+            if ( isset( $asValue ) ) {
+                return $asValue;
+            }
+        
             global $wpdb;
             
             $_aData = $this->getAsArray( $asCustomData );
