@@ -64,9 +64,6 @@ class AdminPageFrameworkLoader_AdminPage_Help_Information {
         );    
         echo $_oWPReadmeParser->get( 'Support' );  
  
-echo "<pre>" . print_r( $this->oFactory->oProp->aOptions, true ) . "</pre>";
-// delete_option( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
-
     }
     
 }
