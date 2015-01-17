@@ -42,9 +42,13 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      */
     static public $aOptionKeys = array(
         'main'    => 'admin_page_framework_loader',
-        'demo'    => 'admin_page_framework_demo',
+        'demo'    => array(
+            'main'          => 'APF_Demo',
+            'taxonomy'      => 'APF_TaxonomyField',
+            'basic_usage'   => 'APF_BasicUsage',
+        )
     );
-    
+
     /**
      * The transient prefix. 
      * 
