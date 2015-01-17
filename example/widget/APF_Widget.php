@@ -62,7 +62,7 @@ class APF_Widget extends AdminPageFramework_Widget {
             array(
                 'field_id'      => 'textarea',
                 'type'          => 'textarea',
-                'title'         => __( 'TextArea', 'admin-page-framework-demo' ),
+                'title'         => __( 'Text Area', 'admin-page-framework-demo' ),
                 // 'rich'          => true,
             ),
             array(
