@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -510,10 +510,9 @@ CSSRULES;
                             . esc_textarea( $aField['value'] )
                         . "</textarea>";
             }
-            
+
             // Rich editor
-            // Capture the output buffer.
-            ob_start(); // Start buffer.
+            ob_start();
             wp_editor( 
                 $aField['value'],
                 $aField['attributes']['id'],  
@@ -535,8 +534,8 @@ CSSRULES;
                     )
                 )
             );
-            $_sContent = ob_get_contents(); // Assign the content buffer to a variable.
-            ob_end_clean(); // End buffer and remove the buffer.
+            $_sContent = ob_get_contents();
+            ob_end_clean();
             
             return $_sContent
                 . $this->_getScriptForRichEditor( $aField['attributes']['id'] );
@@ -544,9 +543,7 @@ CSSRULES;
         }
     
         /**
-         * Provides the JavaScript script that hides the rich editor until the document gets loaded and places into the right position.
-         * 
-         * This adds a script that forces the rich editor element to be inside the field table cell.
+         * Provides the JavaScript script that stores quick tags and tinymce settings.
          * 
          * @since 2.1.2
          * @since 2.1.5 Moved from AdminPageFramework_FormField.
