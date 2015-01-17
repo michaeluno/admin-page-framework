@@ -259,7 +259,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
         ?>
         <h3><?php _e( 'Framework Properties', 'admin-page-framework-demo' ); ?></h3>
         <p><?php _e( 'These are the property values stored in the framework. Advanced users may change the property values by directly modifying the <code>$this->oProp</code> object.', 'admin-page-framework-demo' ); ?></p>
-        <pre><code>$this-&gt;oDebug-&gt;getArray( get_object_vars( $this-&gt;oProp ) );</code></pre>     
+        <pre class="dump-array"><code>$this-&gt;oDebug-&gt;getArray( get_object_vars( $this-&gt;oProp ) );</code></pre>     
         <?php
             $this->oDebug->dumpArray( get_object_vars( $this->oProp ) );
     }
