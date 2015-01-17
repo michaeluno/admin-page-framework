@@ -155,7 +155,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             );        
             return $_bEnabled
                 ? "<a href='{$_sLink}'>" . __( 'Disable Demo', 'admin-page-framework-loader' ) . "</a>"
-                : "<a href='{$_sLink}'>" . __( 'Enable Demo', 'admin-page-framework-loader' ) . "</a>";
+                : "<a href='{$_sLink}'><strong style='font-size: 1em;'>" . __( 'Enable Demo', 'admin-page-framework-loader' ) . "</strong></a>";
             
         }            
 
