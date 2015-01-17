@@ -80,7 +80,14 @@ class APF_Demo extends AdminPageFramework {
         // Disable the action link in the plugin listing table.
         $this->setPluginSettingsLinkLabel( '' );    
         // $this->setPluginSettingsLinkLabel( __( 'Built-in Field Types', 'admin-page-framework-demo' ) );
-
+        
+        // Add pages       
+        new APF_Demo_CustomFieldType(
+            $this,
+            'custom_field_type',
+            __( 'Custom Field Type', 'admin-page-framework-demo' )
+        );
+        
         // Include files that define in-page tabs and form elements.
         $_sClassName = get_class( $this );
         new APF_Demo_BuiltinFieldTypes_Text;

@@ -14,9 +14,8 @@ class AdminPageFrameworkLoader_Demo {
     public function __construct() {
 
         // Check if the demo is enabled.
-        $_aMainOptions  = get_option( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
-        $_bDemoEnabled  = isset( $_aMainOptions['enable_demo'] ) && $_aMainOptions['enable_demo'];
-        if ( ! $_bDemoEnabled ) {
+        $_oOption = AdminPageFrameworkLoader_Option::getInstance();
+        if ( ! $_oOption->get( 'enable_demo' ) ) {
             return;
         }
         
@@ -29,43 +28,13 @@ class AdminPageFrameworkLoader_Demo {
         
         // Include example components.
         $this->_includePostTypes();
-        $this->_includeWidgets();
-        $this->_includeAdminPages();
         $this->_includeBasicExamples();
+        $this->_includeAdminPages();
         $this->_includeNetworkAdminPages();
+        $this->_includeWidgets();
      
     }
-        private function _includeNetworkAdminPages() {
-            if ( ! is_network_admin() ) {
-                return;
-            }
-            new APF_NetworkAdmin(
-                null,                       // passing the option key used by the main pages.
-                APFDEMO_FILE,               // the caller script path.
-                'manage_options',           // the default capability
-                'admin-page-framework-demo' // the text domain        
-            );
-            new APF_NetworkAdmin_CustomFieldTypes(
-                'APF_NetworkAdmin',
-                APFDEMO_FILE,               // the caller script path.
-                'manage_options',           // the default capability
-                'admin-page-framework-demo' // the text domain                    
-            );     
-            new APF_NetworkAdmin_ManageOptions( 
-                'APF_NetworkAdmin', 
-                APFDEMO_FILE,               // the caller script path.
-                'manage_options',           // the default capability
-                'admin-page-framework-demo' // the text domain                    
-            );
-            new APF_MetaBox_For_Pages_Side(    
-                'apf_metabox_for_pages_side',       // meta box id
-                __( 'Sample Meta Box for Admin Pages Inserted in Advanced Area', 'admin-page-framework-demo' ), // title
-                array( 'apf_builtin_field_types' ), // page slugs - setting multiple slugs is possible
-                'side',                             // context
-                'default'                           // priority
-            );               
-            
-        }
+
         private function _includeBasicExamples() {
                         
             if ( ! is_admin() ) { return; }
@@ -112,7 +81,7 @@ class AdminPageFrameworkLoader_Demo {
                 'manage_options',           // the default capability
                 'admin-page-framework-demo' // the text domain
             );
-
+                        
             // Add the Manage Options page.
             new APF_Demo_ManageOptions( 
                 'APF_Demo',                 // passing the option key used by the main pages.
@@ -135,7 +104,40 @@ class AdminPageFrameworkLoader_Demo {
             // Modify the top part of the pages from a separate script
             new APF_Demo_AddPluginTitle;            
             
+
         }
+        
+        private function _includeNetworkAdminPages() {
+            if ( ! is_network_admin() ) {
+                return;
+            }
+            new APF_NetworkAdmin(
+                null,                       // passing the option key used by the main pages.
+                APFDEMO_FILE,               // the caller script path.
+                'manage_options',           // the default capability
+                'admin-page-framework-demo' // the text domain        
+            );
+            // new APF_NetworkAdmin_CustomFieldTypes(
+                // 'APF_NetworkAdmin',
+                // APFDEMO_FILE,               // the caller script path.
+                // 'manage_options',           // the default capability
+                // 'admin-page-framework-demo' // the text domain                    
+            // );     
+            new APF_NetworkAdmin_ManageOptions( 
+                'APF_NetworkAdmin', 
+                APFDEMO_FILE,               // the caller script path.
+                'manage_options',           // the default capability
+                'admin-page-framework-demo' // the text domain                    
+            );
+            new APF_MetaBox_For_Pages_Side(    
+                'apf_metabox_for_pages_side',       // meta box id
+                __( 'Sample Meta Box for Admin Pages Inserted in Advanced Area', 'admin-page-framework-demo' ), // title
+                array( 'apf_builtin_field_types' ), // page slugs - setting multiple slugs is possible
+                'side',                             // context
+                'default'                           // priority
+            );               
+            
+        }        
         
         private function _includeWidgets() {
             
