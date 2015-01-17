@@ -236,6 +236,8 @@ Admin Page Framework won't grow without your support. There are various ways to 
 </div>
 
 - Write a <strong>[review](https://wordpress.org/support/view/plugin-reviews/admin-page-framework?filter=5)</strong>.
+
+<h3>Get Involved</h3>
 - Post [ideas](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
 - Translate.
 - Report [bugs](https://github.com/michaeluno/admin-page-framework/issues).
