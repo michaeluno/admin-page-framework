@@ -9,6 +9,13 @@
  * @since        3.5.0
  */
 
+/**
+ * Constructs the Welcome admin page
+ * 
+ * @filter      apply       admin_page_framework_loader_filter_admin_welcome_redirect_url        Applies to the redirecting welcome url. Use this filter to disable the redirection upon plugin installation.
+ * 
+ * @since       3.5.0
+ */
 class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
     
     /**
@@ -31,7 +38,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
             $_oOption->set( 'version_upgraded_from', AdminPageFrameworkLoader_Registry::Version );
             $_oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::Version );
             $_oOption->save();
-            exit( $this->_gotToWelcomePage() );
+            $this->_gotToWelcomePage();
             
         }
         if ( $_oOption->hasUpgraded() ) {
@@ -40,18 +47,20 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
             $_oOption->set( 'version_upgraded_from', $_oOption->get( 'version_saved' ) );
             $_oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::Version );
             $_oOption->save();
-            exit( $this->_gotToWelcomePage() );
+            $this->_gotToWelcomePage();
             
         }
         
     }
-        private function _gotToWelcomePage() {            
-            wp_safe_redirect( 
-                add_query_arg( 
+        private function _gotToWelcomePage() {        
+            $_sWelcomePageURL = apply_filters( 
+                'admin_page_framework_loader_filter_admin_welcome_redirect_url',
+                    add_query_arg( 
                     array( 'page' => AdminPageFrameworkLoader_Registry::$aAdminPages['about'] ),
                     admin_url( 'index.php' )   // Dashboard
-                )
-            );            
+                )                
+            );
+            exit( wp_safe_redirect( $_sWelcomePageURL ) );
         }
     
     /**
@@ -154,12 +163,19 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
      */
     public function replyToAddInlineCSS( $sCSSRules ) {
         
-        $_sBadgeURL = esc_url( AdminPageFrameworkLoader_Registry::getPluginURL( 'asset/image/icon-128x128.png' ) );
+        $_sBadgeURL     = esc_url( AdminPageFrameworkLoader_Registry::getPluginURL( 'asset/image/icon-128x128.png' ) );
+        
+        $_sWP38OrBelow  = version_compare( $GLOBALS['wp_version'], '3.8', '<' )
+            ? ".about-wrap .introduction h2 {
+                    padding: 1em;
+                }"
+            : "";
+        
         return $sCSSRules
             . ".apf-badge {
                     background: url('{$_sBadgeURL}') no-repeat;
                 }            
-            ";
+            " . $_sWP38OrBelow;
         
     }
         

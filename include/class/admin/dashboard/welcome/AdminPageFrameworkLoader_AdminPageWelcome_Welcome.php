@@ -61,10 +61,11 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Welcome {
                 '%WP_ADMIN_URL%'    => admin_url(),
             )
         );
-        return "<div class='introduction'>" 
+        return $sContent
+            . "<div class='introduction headline-feature'>" 
                 . $_oWPReadmeParser->getSection( 'Introduction' ) 
             . "</div>"
-            . $sContent;
+            ;
             
     }
     
