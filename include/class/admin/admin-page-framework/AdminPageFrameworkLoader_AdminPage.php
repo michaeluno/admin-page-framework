@@ -67,7 +67,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             $this->setRootMenuPage( 
                 'Admin Page Framework',     // menu slug
                 AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/wp-logo_16x16.png',
-                5  // menu position
+                4  // menu position
             ); 
                         
             // Add pages
