@@ -10,7 +10,50 @@
  */
 
 class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
+    
+    /**
+     * User constructor.
+     * 
+     * @since       3.5.0
+     */
+    public function start() {
         
+        if ( ! is_admin() ) {
+            return;
+        }
+        
+        $_oOption = AdminPageFrameworkLoader_Option::getInstance();
+                
+        // When newly installed, the 'welcomed' value is not set.
+        if ( ! $_oOption->get( 'welcomed' ) ) {
+            
+            $_oOption->set( 'welcomed', true );
+            $_oOption->set( 'version_upgraded_from', AdminPageFrameworkLoader_Registry::Version );
+            $_oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::Version );
+            $_oOption->save();
+            exit( $this->_gotToWelcomePage() );
+            
+        }
+        if ( $_oOption->hasUpgraded() ) {
+
+            $_oOption->set( 'welcomed', true );
+            $_oOption->set( 'version_upgraded_from', $_oOption->get( 'version_saved' ) );
+            $_oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::Version );
+            $_oOption->save();
+            exit( $this->_gotToWelcomePage() );
+            
+        }
+        
+    }
+        private function _gotToWelcomePage() {            
+            wp_safe_redirect( 
+                add_query_arg( 
+                    array( 'page' => AdminPageFrameworkLoader_Registry::$aAdminPages['about'] ),
+                    admin_url( 'index.php' )   // Dashboard
+                )
+            );            
+        }
+    
     /**
      * Sets up admin pages.
      * 

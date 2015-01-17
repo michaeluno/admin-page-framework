@@ -75,6 +75,11 @@ class AdminPageFrameworkLoader_AdminPage_Help {
                 $this->sPageSlug, 
                 'about'            
             );     
+            new AdminPageFrameworkLoader_AdminPage_Help_Debug(
+                $this->oFactory,
+                $this->sPageSlug,             
+                'debug'
+            );            
             
         }
         

@@ -14,7 +14,7 @@
  * 
  * @since       3.5.0    
  */
-class AdminPageFrameworkLoader_AdminPage_Help_Information {
+class AdminPageFrameworkLoader_AdminPage_Help_Debug {
 
     public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
     
@@ -24,7 +24,9 @@ class AdminPageFrameworkLoader_AdminPage_Help_Information {
         $this->sTabSlug     = $sTabSlug;
         $this->sSectionID   = $this->sTabSlug;
         
-        $this->_addTab();
+        if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {            
+            $this->_addTab();
+        }
     
     }
     
@@ -34,7 +36,7 @@ class AdminPageFrameworkLoader_AdminPage_Help_Information {
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( "Support", 'admin-page-framework-loader' ),   // '
+                'title'         => __( 'Debug', 'admin-page-framework-loader' ),
             )
         );  
         
@@ -49,24 +51,23 @@ class AdminPageFrameworkLoader_AdminPage_Help_Information {
     public function replyToLoadTab( $oAdminPage ) {
         
         add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
-
+        
+        $oAdminPage->addSettingFIeld(
+            array(
+                'field_id'  => 'reset',
+                'type'      => 'submit',
+                'reset'     => true,
+                'show_title_column' => false,
+                'value'     => __( 'Reset', 'admin-page-framework-loader' ),
+            )
+        );
     }
     
     public function replyToDoTab() {
-    
-        $_aReplacements   = array(
-            '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
-            '%WP_ADMIN_URL%'    => admin_url(),
-        );
-        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
-            $_aReplacements
-        );    
-        echo $_oWPReadmeParser->get( 'Support' );  
- 
-echo "<pre>" . print_r( $this->oFactory->oProp->aOptions, true ) . "</pre>";
-// delete_option( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
-
+        
+        echo "<h3>" . __( 'Saved Options', 'admin-page-framework-loader' ) . "</h3>";
+        $this->oFactory->oDebug->dump( $this->oFactory->oProp->aOptions );
+        
     }
     
 }

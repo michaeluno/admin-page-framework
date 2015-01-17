@@ -45,7 +45,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
     public function replyToPluginActivation() {
 
         $this->_checkRequirements();
-        $this->_gotoWelcomePage();
+        // $this->_setOptions();
         
     }
         /**
@@ -69,15 +69,29 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
              
         }    
         /**
-         * Sends the user to the Welcome screen on first activation of Admin Page Framework 
-         * as well as each time the plugin gets updated to a new version.
+         * Sets transients.
+         * 
+         * One is for user redirect to the welcome page.
          * 
          * @since       3.5.0
          * @return      void
          */
-        private function _goToWelcomePage() {
-            return;           
+        private function _setOptions() {
+            
+            // Check if the plugin option is set.
+            $_aOptions = get_option( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
+            if ( is_array( $_aOptions ) && ! empty( $_aOptions ) ) {
+                return;           
+            }
+            
+            // If not, it means the user newly installed the plugin.
+            $_aOptions = array(
+                'welcomed'  => false,
+                'version' => '',
+            );
+            
         }
+        
     /**
      * Load localization files.
      * 
@@ -114,13 +128,13 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
             
             // Dashboard
             new AdminPageFrameworkLoader_AdminPageWelcome( 
-                '', // disable options
+                '', // disable saving form data.
                 $this->sFilePath   // caller script path
             );
             
             // Loader plugin admin pages.
             new AdminPageFrameworkLoader_AdminPage( 
-                AdminPageFrameworkLoader_Registry::$aOptionKeys['main'],
+                AdminPageFrameworkLoader_Registry::$aOptionKeys['main'],    // the option key
                 $this->sFilePath   // caller script path
             );
                         
