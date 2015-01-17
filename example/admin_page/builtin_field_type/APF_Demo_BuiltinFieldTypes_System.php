@@ -106,8 +106,11 @@ class APF_Demo_BuiltinFieldTypes_System {
                     'Admin Page Framework'  => '', 
                     'WordPress'             => '', 
                     'PHP'                   => '', 
-                    'MySQL'                 => '', 
                     'Server'                => '',
+                    'PHP Error Log'         => '',
+                    'MySQL'                 => '', 
+                    'MySQL Error Log'       => '',                    
+                    'Browser'               => '',                         
                 ) 
                 + $oAdminPage->oProp->aOptions,
                 'attributes'    => array(
