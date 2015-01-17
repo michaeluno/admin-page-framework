@@ -33,13 +33,17 @@ class AdminPageFrameworkLoader_Option {
      * 
      * @since      3.5.0
      */
-    static public function getInstance() {
+    static public function getInstance( $sOptionKey='' ) {
         
         if ( isset( self::$oInstance ) ) {
             return self::$oInstance;
         }
         $_sClassName = __CLASS__;
-        self::$oInstance = new $_sClassName( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
+        self::$oInstance = new $_sClassName( 
+            $sOptionKey
+                ? $sOptionKey
+                : AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] 
+        );
         return self::$oInstance;
     }         
     
