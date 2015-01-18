@@ -1,7 +1,7 @@
 <?php 
 
 abstract class AdminPageFramework_Registry_Base {
-    const Version = '3.5.0b13';
+    const Version = '3.5.0b14';
     const Name = 'Admin Page Framework';
     const Description = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
@@ -148,8 +148,9 @@ abstract class AdminPageFramework_Factory_Router {
     protected function _getLinkInstancce($oProp, $oMsg) {
         switch ($oProp->sFieldsType) {
             case 'page':
-            case 'network_admin_page':
                 return new AdminPageFramework_Link_Page($oProp, $oMsg);
+            case 'network_admin_page':
+                return new AdminPageFramework_Link_NetworkAdmin($oProp, $oMsg);
             case 'post_meta_box':
                 return null;
             case 'page_meta_box':
@@ -4822,7 +4823,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
     }
 }
 class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
-    private $oProp;
+    public $oProp;
     public function __construct(&$oProp, $oMsg = null) {
         if (!$oProp->bIsAdmin) {
             return;
@@ -5928,6 +5929,39 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
     }
     public function _replyToAddInfoInFooterRight($sLinkHTML = '') {
         return $this->aFooterInfo['sRight'];
+    }
+}
+class AdminPageFramework_Link_NetworkAdmin extends AdminPageFramework_Link_Page {
+    public $oProp;
+    public function __construct(&$oProp, $oMsg = null) {
+        if (!$oProp->bIsAdmin) {
+            return;
+        }
+        $this->oProp = $oProp;
+        $this->oMsg = $oMsg;
+        if ($oProp->bIsAdminAjax) {
+            return;
+        }
+        $this->oProp->sLabelPluginSettingsLink = null === $this->oProp->sLabelPluginSettingsLink ? $this->oMsg->get('settings') : $this->oProp->sLabelPluginSettingsLink;
+        add_action('in_admin_footer', array($this, '_replyToSetFooterInfo'));
+        if (in_array($this->oProp->sPageNow, array('plugins.php')) && 'plugin' == $this->oProp->aScriptInfo['sType']) {
+            add_filter('network_admin_plugin_action_links_' . plugin_basename($this->oProp->aScriptInfo['sPath']), array($this, '_replyToAddSettingsLinkInPluginListingPage'));
+        }
+    }
+    public function _addLinkToPluginTitle($asLinks) {
+        static $_sPluginBaseName;
+        if (!is_array($asLinks)) {
+            $this->oProp->aPluginTitleLinks[] = $asLinks;
+        } else {
+            $this->oProp->aPluginTitleLinks = array_merge($this->oProp->aPluginTitleLinks, $asLinks);
+        }
+        if ('plugins.php' !== $this->oProp->sPageNow) {
+            return;
+        }
+        if (!isset($_sPluginBaseName)) {
+            $_sPluginBaseName = plugin_basename($this->oProp->aScriptInfo['sPath']);
+            add_filter("network_admin_plugin_action_links_{$_sPluginBaseName}", array($this, '_replyToAddLinkToPluginTitle'));
+        }
     }
 }
 class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement {

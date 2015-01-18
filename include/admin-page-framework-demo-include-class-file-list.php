@@ -43,7 +43,7 @@ $_aClassFiles = array(
 	"APF_MetaBox_TabbedSections"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/post_type/post_type_meta_box/APF_MetaBox_TabbedSections.php", 
 	"APF_TaxonomyField"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/post_type/taxonomy/APF_TaxonomyField.php", 
 	"APF_Widget"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/widget/APF_Widget.php", 
-	"name"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/network_admin/APF_NetworkAdmin_ManageOptions.php", 
-	"property"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/network_admin/APF_NetworkAdmin_ManageOptions.php", 
+	"name"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_SavedData.php", 
+	"property"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_SavedData.php", 
 	"name}</code>"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/post_type/taxonomy/APF_TaxonomyField.php", 
 );
