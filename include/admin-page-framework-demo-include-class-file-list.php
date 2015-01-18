@@ -1,7 +1,6 @@
 <?php 
 $_aClassFiles = array( 
 	"APF_Demo"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/APF_Demo.php", 
-	"APF_Demo_AddPluginTitle"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/APF_Demo_AddPluginTitle.php", 
 	"APF_Demo_BuiltinFieldTypes_Callbacks"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_Callbacks.php", 
 	"APF_Demo_BuiltinFieldTypes_Checklist"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_Checklist.php", 
 	"APF_Demo_BuiltinFieldTypes_File"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_File.php", 

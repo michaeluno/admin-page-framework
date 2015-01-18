@@ -101,10 +101,6 @@ class AdminPageFrameworkLoader_Demo {
                 'admin-page-framework-demo' // the text domain        
             );
             
-            // Modify the top part of the pages from a separate script
-            new APF_Demo_AddPluginTitle;            
-            
-
         }
         
         private function _includeNetworkAdminPages() {
