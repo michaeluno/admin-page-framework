@@ -69,44 +69,6 @@ class APF_Demo_HiddenPage {
         $_sLinkToGoBack = esc_url( $oAdminPage->oUtil->getQueryAdminURL( array( 'page' => 'apf_sample_page' ) ) );
         echo "<a href='{$_sLinkToGoBack}'>" . __( 'Go Back', 'admin-page-framework-demo' ). "</a>";
         
-        // Let's do something here. 
-        // Fetch posts of the custom post type of this demo plugin.        
-        echo "<h3>" . __( 'Query Posts by Custom Meta Value', 'admin-page-framework-demo' ) . "</h3>";
-        echo "<p>" . __( 'Here we are going to retrieve posts of the demo plugin\'s custom post type.', 'admin-page-framework-demo' ) . "</p>"; // 'syntax fixer
-        $_aArgs = array(
-            'post_type'         => 'apf_posts', // the post type slug used for the demo plugin
-            'posts_per_page'    => 100,          // retrieve 100 posts. Set -1 for all.
-            'post_status'       => 'publish',   // published post
-            'meta_query' => array(
-                'relation' => 'AND',
-                array(
-                    'key'       => '_my_custom_date_timestamp',          // the field ID
-                    'value'     => date( 'Y/m/d' ) - 24*60*60*7,        // seven days ago
-                    'compare'   => '>=',    // newer than seven days 
-                )
-            ),
-        );
-        $_oResult = new WP_Query( $_aArgs );      
-
-        echo "<p>" . sprintf( __( 'Found %1$s post(s).', 'admin-page-framework-demo' ), $_oResult->post_count ) . "</p>";
-        if ( ! $_oResult->post_count ) {
-            return;
-        }
-        echo "<ul>";
-        echo "<li>" 
-                . "<strong>" . __( 'Date', 'admin-page-framework-demo' ) . "</strong>, "
-                . "<strong>" . __( 'Post ID', 'admin-page-framework-demo' ) . "</strong>, " 
-                . "<strong>" . __( 'Title', 'admin-page-framework-demo' ) . "</strong>"
-            . "</li>";        
-        foreach( $_oResult->posts as $_oPost ) {
-            echo "<li>" 
-                    . get_post_meta( $_oPost->ID, 'my_custom_date', true ) . ", "
-                    . $_oPost->ID . ", " 
-                    . $_oPost->post_title 
-                . "</li>";
-        }
-        echo "</ul>";
-
     }    
 
 }
