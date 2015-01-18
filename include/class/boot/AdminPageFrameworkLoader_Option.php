@@ -5,11 +5,13 @@
 class AdminPageFrameworkLoader_Option {
 
     /**
-     * Stores the self-instance.
+     * Stores instances by option key.
      * 
      * @since       3.5.0
      */
-    static public $oInstance = null;    
+    static public $aInstances = array(
+        // key => object
+    );
     
     /**
      * Stores the option values.
@@ -27,6 +29,11 @@ class AdminPageFrameworkLoader_Option {
     protected $sOptionKey = '';    
          
     /**
+     * Stores whether the currently loading page is in the network admin area.
+     */
+    protected $bIsNetworkAdmin = false;     
+         
+    /**
      * Returns the instance of the class.
      * 
      * This is to ensure only one instance exists.
@@ -35,16 +42,18 @@ class AdminPageFrameworkLoader_Option {
      */
     static public function getInstance( $sOptionKey='' ) {
         
-        if ( isset( self::$oInstance ) ) {
-            return self::$oInstance;
+        $sOptionKey = $sOptionKey 
+            ? $sOptionKey
+            : AdminPageFrameworkLoader_Registry::$aOptionKeys['main'];
+        
+        if ( isset( self::$aInstances[ $sOptionKey ] ) ) {
+            return self::$aInstances[ $sOptionKey ];
         }
         $_sClassName = __CLASS__;
-        self::$oInstance = new $_sClassName( 
-            $sOptionKey
-                ? $sOptionKey
-                : AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] 
-        );
-        return self::$oInstance;
+        self::$aInstances[ $sOptionKey ] = new $_sClassName( $sOptionKey );
+            
+        return self::$aInstances[ $sOptionKey ];
+        
     }         
     
     /**
@@ -52,17 +61,20 @@ class AdminPageFrameworkLoader_Option {
      */
     public function __construct( $sOptionKey ) {
         
-        $this->sOptionKey   = $sOptionKey;
-        $this->aOptions     = $this->_getFormattedOptions( $sOptionKey );
-
+        $this->sOptionKey       = $sOptionKey;
+        $this->aOptions         = $this->_getFormattedOptions( $sOptionKey );
+        $this->bIsNetworkAdmin  = is_network_admin();
+        
     }    
     
     /**
      * Returns the formatted options array.
      */
     private function _getFormattedOptions( $sOptionKey ) {
-        
-        return get_option( $sOptionKey, array() ) + $this->aOptions;
+                    
+        return $this->bIsNetworkAdmin
+            ? get_option( $sOptionKey, array() ) + $this->aOptions
+            : get_site_option( $sOptionKey, array() ) + $this->aOptions;
         
     }
     
@@ -95,17 +107,33 @@ class AdminPageFrameworkLoader_Option {
             $_aParts = array_slice( $_aParts, 0, $iDepth );
             return implode( '.', $_aParts );
         }    
-        
+    
+    /**
+     * Deletes the option from the database.
+     */
+    public function delete()  {
+        return $this->bIsNetworkAdmin
+            ? delete_option( $this->sOptionKey )
+            : delete_site_option( $this->sOptionKey );
+    }
+    
     /**
      * Saves the options.
      */
     public function save( $aOptions=null ) {
-        update_option( 
-            $this->sOptionKey, 
-            $aOptions ? 
-                $aOptions 
-                : $this->aOptions 
-        );
+        return $this->bIsNetworkAdmin
+            ? update_option( 
+                $this->sOptionKey, 
+                $aOptions ? 
+                    $aOptions 
+                    : $this->aOptions 
+            )
+            : update_site_option(
+                $this->sOptionKey, 
+                $aOptions ? 
+                    $aOptions 
+                    : $this->aOptions             
+            );
     }
     
     /**
