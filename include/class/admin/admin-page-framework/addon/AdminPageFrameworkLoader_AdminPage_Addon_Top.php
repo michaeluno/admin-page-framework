@@ -17,10 +17,11 @@
 class AdminPageFrameworkLoader_AdminPage_Addon_Top {
     
     /**
-     * Stores the RSS url to fetch an addon list.
+     * Stores the RSS url to fetch an add-on list.
      * @since       3.5.0
      */
     private $sRSSURL = '';  // e.g. 'http://feeds.feedburner.com/MiunosoftFetchTweetsExtension';
+    // private $sRSSURL = 'http://feeds.feedburner.com/MiunosoftFetchTweetsExtension';
 
     public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
     
@@ -78,69 +79,98 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
             'sClassAttrCol'      => 'apfl_columns_col',
             'sClassAttrFirstCol' => 'apfl_columns_first_col',
         );    
-        private $_aColumnInfoDefault = array (    // this will be modified as the items get rendered
-            'bRowTagClosed'    => false,
-            'iCurrRowPos'      => 0,
-            'iCurrColPos'      => 0,
-        );        
     
         private function _getAddOnList() {
 
-            $_oFeedList = new AdminPageFrameworkLoader_FeedLister;
-            $_aFeedItems = $_oFeedList->get( $this->sRSSURL );
+            $_oFeedList  = new AdminPageFrameworkLoader_FeedList( $this->sRSSURL );
+            $_aFeedItems = $this->_getDemo() + $_oFeedList->get();
             if ( empty( $_aFeedItems ) ) {
                 echo "<p>" . __( 'No add-on could be found.', 'admin-page-framework-loader' ) . "</p>";
                 return;
             }
             
-            $_aOutput   = array();
-            $_iMaxCols  = 3;
-            $this->_aColumnInfo = $this->_aColumnInfoDefault;
+            $_aOutput       = array();
+            $_iMaxCols      = 3;
+            $_aColumnInfo   = array (    // this will be modified as the items get rendered
+                'bRowTagOpened'    => false,
+                'bRowTagClosed'    => false,
+                'iCurrRowPos'      => 0,
+                'iCurrColPos'      => 0,
+            );
+            
+            $_sSiteURL          = get_bloginfo( 'url' );
+            $_sSiteURLWPQuery   = preg_replace( '/\?.*/', '', $_sSiteURL );
+            
             foreach( $_aFeedItems as $_sTitle => $_aItem ) {
                 
-                if ( ! isset( $_aItem['title'] ) ) { continue; }
-                
+                if ( ! is_array( $_aItem ) ) {
+                    continue;
+                }
+                if ( ! isset( $_aItem['title'] ) ) { 
+                    continue; 
+                }
+
                 // Increment the position
-                $this->_aColumnInfo['iCurrColPos']++;
+                $_aColumnInfo['iCurrColPos']++;
+                
+                $_aItem = $_aItem + array(
+                    'label'         => __( 'Get it Now', 'admin-page-framework-loader' ),
+                    'content'       => null,
+                    'description'   => null,
+                    'title'         => null,
+                    'date'          => null,
+                    'author'        => null,
+                    'link'          => null,
+                );
+
+                $_sLinkURLWPQuery   = preg_replace( '/\?.*/', '', $_aItem['link'] );
+                $_sTarget           =  false === strpos( $_sLinkURLWPQuery , $_sSiteURLWPQuery ) 
+                    ? '_blank'
+                    : '';
                 
                 // Enclose the item buffer into the item container
-                $strItem = '<div class="' . $this->_aColumnOption['sClassAttrCol'] 
+                $_sItem = '<div class="' . $this->_aColumnOption['sClassAttrCol'] 
                     . ' apfl_col_element_of_' . $_iMaxCols . ' '
                     . ' apfl_extension '
-                    . ( ( $this->_aColumnInfo['iCurrColPos'] == 1 ) ?  $this->_aColumnOption['sClassAttrFirstCol']  : '' )
+                    . ( ( $_aColumnInfo['iCurrColPos'] == 1 ) ?  $this->_aColumnOption['sClassAttrFirstCol']  : '' )
                     . '"'
                     . '>' 
                         . '<div class="apfl_addon_item">' 
                             . "<h4 class='apfl_feed_item_title'>{$_aItem['title']}</h4>"
                             . $_aItem['description'] 
                             . "<div class='get-now apfl_feed_item_link_button'>"
-                                . "<a href='{$_aItem['strLink']}' target='_blank' rel='nofollow'>" 
-                                    . "<input class='button button-secondary' type='submit' value='" . __( 'Get it Now', 'admin-page-framework-loader' ) . "' />"
+                                . "<a href='{$_aItem['link']}' target='{$_sTarget}' rel='nofollow' class='button button-secondary'>" 
+                                    . $_aItem['label']
                                 . "</a>"
                             . "</div>"
                         . '</div>'
                     . '</div>';    
                     
                 // If it's the first item in the row, add the class attribute. 
-                // Be aware that at this point, the tag will be unclosed. Therefore, it must be closed somewhere. 
-                if ( $this->_aColumnInfo['iCurrColPos'] == 1 ) 
-                    $strItem = '<div class="' . $this->_aColumnOption['sClassAttrRow']  . '">' . $strItem;
+                // Be aware that at this point, the tag will be unclosed. Therefore, it must be closed later at some point. 
+                if ( 1 == $_aColumnInfo['iCurrColPos'] ) {
+                    $_aColumnInfo['bRowTagOpened'] = true;
+                    $_sItem = '<div class="' . $this->_aColumnOption['sClassAttrRow']  . '">' 
+                        . $_sItem;
+                }
             
                 // If the current column position reached the set max column, increment the current position of row
-                if ( $this->_aColumnInfo['iCurrColPos'] % $_iMaxCols == 0 ) {
-                    $this->_aColumnInfo['iCurrRowPos']++;        // increment the row number
-                    $this->_aColumnInfo['iCurrColPos'] = 0;        // reset the current column position
-                    $strItem .= '</div>';  // close the section(row) div tag
-                    $this->_aColumnInfo['bRowTagClosed'] = true;
+                if ( 0 === ( $_aColumnInfo['iCurrColPos'] % $_iMaxCols ) ) {
+                    $_aColumnInfo['iCurrRowPos']++;          // increment the row number
+                    $_aColumnInfo['iCurrColPos'] = 0;        // reset the current column position
+                    $_sItem .= '</div>';  // close the section(row) div tag
+                    $_aColumnInfo['bRowTagClosed'] = true;
                 }        
                 
-                $_aOutput[] = $strItem;
+                $_aOutput[] = $_sItem;
             
             }
             
             // if the section(row) tag is not closed, close it
-            if ( ! $this->_aColumnInfo['bRowTagClosed'] ) $_aOutput[] .= '</div>';    
-            $this->_aColumnInfo['bRowTagClosed'] = true;
+            if ( $_aColumnInfo['bRowTagOpened'] && ! $_aColumnInfo['bRowTagClosed'] ) { 
+                $_aOutput[] .= '</div>';    
+            }
+            $_aColumnInfo['bRowTagClosed'] = true;
             
             // enclose the output in the group tag
             return '<div class="apfl_addon_list_container">' 
@@ -149,6 +179,41 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
                     . '</div>'
                 . '</div>';
                         
+        }
+        
+        /**
+         * 
+         * @return      array       The demo content.
+         */
+        private function _getDemo() {
+            
+            $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
+            $_bEnabled = $_oOption->get( 'enable_demo' );
+            
+            $_sTitle = __( 'Demo', 'admin=page-framework-loader' );
+            return array( 
+                $_sTitle => array(
+                    'title'         => $_sTitle,
+                    'description'   => '<div style="text-align: center;" class="aligncenter"><img class="aligncenter" src="' . AdminPageFrameworkLoader_Registry::getPluginURL( '/asset/image/icon-128x128.png' ) . '" alt="' . esc_attr( $_sTitle ) . '"/></div>'
+                        . '<p>'
+                            . __( 'Showcases the features of Admin Page Framework.', 'admin-page-framework-loader' )
+                        . '</p>',
+                    'link'          => add_query_arg( 
+                        array( 
+                            'enable_apfl_demo_pages' => $_bEnabled 
+                                ? 0 
+                                : 1,
+                        ) + $_GET,
+                        admin_url( $GLOBALS['pagenow'] )
+                    ),
+                    'label'         => $_bEnabled
+                        ? __( 'Deactivate', 'admin-page-framework-loader' )
+                        : __( 'Activate', 'admin-page-framework-loader' ),
+                )
+            );
+            
+            return array();
+            
         }
     
 }
