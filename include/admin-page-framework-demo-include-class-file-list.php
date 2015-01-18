@@ -29,7 +29,6 @@ $_aClassFiles = array(
 	"APF_NetworkAdmin"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/network_admin/APF_NetworkAdmin.php", 
 	"APF_NetworkAdmin_CustomFieldTypes"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/network_admin/APF_NetworkAdmin_CustomFieldTypes.php", 
 	"APF_NetworkAdmin_ManageOptions"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/network_admin/APF_NetworkAdmin_ManageOptions.php", 
-	"load_network_admin_pages"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/network_admin/load_network_admin_pages.php", 
 	"APF_PostType"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/post_type/APF_PostType.php", 
 	"APF_MetaBox_BuiltinFieldTypes"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/post_type/post_type_meta_box/APF_MetaBox_BuiltinFieldTypes.php", 
 	"APF_MetaBox_CollapsibleSections"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/post_type/post_type_meta_box/APF_MetaBox_CollapsibleSections.php", 

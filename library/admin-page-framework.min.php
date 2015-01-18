@@ -1,7 +1,7 @@
 <?php 
 
 abstract class AdminPageFramework_Registry_Base {
-    const Version = '3.5.0b12';
+    const Version = '3.5.0b13';
     const Name = 'Admin Page Framework';
     const Description = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
@@ -6527,6 +6527,9 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
         return $aField['before_label'] . "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ($aField['label'] && !$aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength($aField['label_min_width']) . ";'>" . $aField['label'] . "</span>" : "") . "<textarea " . $this->generateAttributes($_aInputAttributes) . " >" . esc_textarea($this->_getSystemInfomation($aField['value'], $aField['data'], $aField['print_type'])) . "</textarea>" . $aField['after_input'] . "</label>" . "</div>" . $aField['after_label'];
     }
     private function _getSystemInfomation($asValue = null, $asCustomData = null, $iPrintType = 1) {
+        if (isset($asValue)) {
+            return $asValue;
+        }
         global $wpdb;
         $_aData = $this->getAsArray($asCustomData);
         $_aData = $_aData + array('Admin Page Framework' => isset($_aData['Admin Page Framework']) ? null : AdminPageFramework_Registry::getInfo(), 'WordPress' => isset($_aData['WordPress']) ? null : $this->_getSiteInfo(), 'PHP' => isset($_aData['PHP']) ? null : $this->_getPHPInfo(), 'PHP Error Log' => isset($_aData['PHP Error Log']) ? null : $this->_getPHPErrorLog(), 'MySQL' => isset($_aData['MySQL']) ? null : $this->getMySQLInfo(), 'MySQL Error Log' => isset($_aData['MySQL Error Log']) ? null : $this->_getMySQLErrorLog(), 'Server' => isset($_aData['Server']) ? null : $this->_getWebServerInfo(), 'Browser' => isset($_aData['Browser']) ? null : $this->_getClientInfo(),);
