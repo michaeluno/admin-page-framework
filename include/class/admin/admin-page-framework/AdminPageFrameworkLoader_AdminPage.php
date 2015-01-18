@@ -76,6 +76,11 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
                 AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],    // page slug
                 __( 'Tools', 'admin-page-framework-loader' )
             );
+            new AdminPageFrameworkLoader_AdminPage_Addon(
+                $this,
+                AdminPageFrameworkLoader_Registry::$aAdminPages['addon'],    // page slug
+                __( 'Add Ons', 'admin-page-framework-loader' )            
+            );
             new AdminPageFrameworkLoader_AdminPage_Help( 
                 $this,
                 AdminPageFrameworkLoader_Registry::$aAdminPages['help'],    // page slug

@@ -109,7 +109,8 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      */
     static public $aAdminPages = array(
         // key => 'page slug'
-        'about'     => 'apfl_about',
+        'about'     => 'apfl_about',        // the welcome page
+        'addon'     => 'apfl_addons',
         'tool'      => 'apfl_tools',
         'help'      => 'apfl_contact',
     );
