@@ -221,7 +221,7 @@ Check out the [tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials
 
 == Support ==
 <h3>Documentation</h3>
-- [Online Manual](http://admin-page-framework.michaeluno.jp/en/v3/).
+- [Online Manual](http://admin-page-framework.michaeluno.jp/en/v3/package-AdminPageFramework.html).
 - [Tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3)
 
 <h3>Getting Helped</h3>
