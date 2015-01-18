@@ -19,6 +19,7 @@ class AdminPageFrameworkLoader_Option {
     public $aOptions = array(
         'welcomed'              => false,       // if the welcome screen is displayed, this will be true.
         'enable_admin_pages'    => true,        // whether or not to enable the admin pages of the loader plugin.
+        'enable_demo'           => false,
         'version_upgraded_from' => null,        // the version number that the user has upgraded from
         'version_saved'         => null,        // represents the option version.
     );
@@ -61,17 +62,17 @@ class AdminPageFrameworkLoader_Option {
      */
     public function __construct( $sOptionKey ) {
         
+        $this->bIsNetworkAdmin  = is_network_admin();   // must be done first
         $this->sOptionKey       = $sOptionKey;
         $this->aOptions         = $this->_getFormattedOptions( $sOptionKey );
-        $this->bIsNetworkAdmin  = is_network_admin();
-        
+         
     }    
     
     /**
      * Returns the formatted options array.
      */
     private function _getFormattedOptions( $sOptionKey ) {
-                    
+ 
         return $this->bIsNetworkAdmin
             ? get_site_option( $sOptionKey, array() ) + $this->aOptions
             : get_option( $sOptionKey, array() ) + $this->aOptions;
