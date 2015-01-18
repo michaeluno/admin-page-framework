@@ -137,12 +137,17 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
                 AdminPageFrameworkLoader_Registry::$aOptionKeys['main'],    // the option key
                 $this->sFilePath   // caller script path
             );
-                        
+
+            new AdminPageFrameworkLoader_NetworkAdmin(
+                AdminPageFrameworkLoader_Registry::$aOptionKeys['main'],    // the option key
+                $this->sFilePath   // caller script path            
+            );
+            
         }   
         
         // Demo
         new AdminPageFrameworkLoader_Demo;
- 
+        
     }
     
 }

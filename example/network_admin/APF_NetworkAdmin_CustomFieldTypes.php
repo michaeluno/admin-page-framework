@@ -40,6 +40,9 @@ class APF_NetworkAdmin_CustomFieldTypes extends AdminPageFramework_NetworkAdmin 
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
         $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs
 
+        $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
+        
+        
         // Include custom field type pages (in-page tabs).
         $_sClassName = get_class( $this );
         include( APFDEMO_DIRNAME . '/example/admin_page/custom_field_type/APF_Demo_CustomFieldTypes_Date.php' );
