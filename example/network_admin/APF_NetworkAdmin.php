@@ -25,7 +25,8 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
         /* (optional) Determine the page style */
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
         $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs
-          
+        $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
+               
         /* (required) Add sub-menu items (pages or links) */
         $this->addSubMenuItems(    
             array(
@@ -68,23 +69,14 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
 
         // Include custom field type pages (in-page tabs).
         $_sClassName = get_class( $this );
-        include( APFDEMO_DIRNAME . '/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_Text.php' );
         new APF_Demo_BuiltinFieldTypes_Text;
-        include( APFDEMO_DIRNAME . '/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_Selector.php' );
         new APF_Demo_BuiltinFieldTypes_Selector;
-        include( APFDEMO_DIRNAME . '/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_File.php' );
         new APF_Demo_BuiltinFieldTypes_File( $_sClassName );
-        include( APFDEMO_DIRNAME . '/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_Checklist.php' );
         new APF_Demo_BuiltinFieldTypes_Checklist;
-        include( APFDEMO_DIRNAME . '/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_MISC.php' );
         new APF_Demo_BuiltinFieldTypes_MISC;
-        include( APFDEMO_DIRNAME . '/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_Verification.php' );
         new APF_Demo_BuiltinFieldTypes_Verification( $_sClassName );
-        include( APFDEMO_DIRNAME . '/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_Mixed.php' );
         new APF_Demo_BuiltinFieldTypes_Mixed;
-        include( APFDEMO_DIRNAME . '/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_Sections.php' );
         new APF_Demo_BuiltinFieldTypes_Sections;
-        include( APFDEMO_DIRNAME . '/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_System.php' );
         new APF_Demo_BuiltinFieldTypes_System;
  
     }
