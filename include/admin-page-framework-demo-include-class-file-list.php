@@ -1,7 +1,7 @@
 <?php 
 $_aClassFiles = array( 
 	"APF_Demo"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/APF_Demo.php", 
-	"APF_Demo_HiddenPage"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/APF_Demo_HiddenPage.php", 
+	"APF_Demo_AddPluginTitle"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/APF_Demo_AddPluginTitle.php", 
 	"APF_Demo_BuiltinFieldTypes_Callbacks"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_Callbacks.php", 
 	"APF_Demo_BuiltinFieldTypes_Checklist"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_Checklist.php", 
 	"APF_Demo_BuiltinFieldTypes_File"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/builtin_field_type/APF_Demo_BuiltinFieldTypes_File.php", 
@@ -18,7 +18,7 @@ $_aClassFiles = array(
 	"APF_Demo_CustomFieldType"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/custom_field_type/APF_Demo_CustomFieldType.php", 
 	"APF_Demo_CustomFieldType_ACE"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/custom_field_type/APF_Demo_CustomFieldType_ACE.php", 
 	"APF_Demo_CustomFieldType_Sample"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/custom_field_type/APF_Demo_CustomFieldType_Sample.php", 
-	"APF_Demo_AddPluginTitle"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/hidden_page/APF_Demo_AddPluginTitle.php", 
+	"APF_Demo_HiddenPage"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/hidden_page/APF_Demo_HiddenPage.php", 
 	"APF_Demo_ManageOptions"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions.php", 
 	"APF_BasicUsage"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/APF_BasicUsage.php", 
 	"APF_MetaBox_For_Pages_Advanced"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Advanced.php", 
