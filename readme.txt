@@ -410,6 +410,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added a utility class for WordPres Readme parser and the markdown syntax.
 - Added a utility class for plugin bootstraps.
 - Added user meta factory class for adding fields in the user profile page.
+- Fixed the network admin factory class could not add plugin action links via the `addLinkToPluginTitle()` method.
 - Fixed an issue that empty strings could be inserted with the `addLinkToPluginTitle()` and `addLinkToPluginDescription()` method.
 - Fixed a bug that `style_{...}` and `script_{...}` filters were triggered twice in generic admin pages.
 - Fixed a bug that `style_{page slug}_{tab slug}`, `style_{page_slug}`, `script_{page slug}_{tab slug}`, and `script_{page slug}_{tab slug}` were not available.

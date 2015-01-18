@@ -24,8 +24,9 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
     /**
      * The property object, commonly shared.
      * @since       2.0.0
+     * @since        3.5.0       Made it public as the network admin class extend this clsss.
      */ 
-    private $oProp;
+    public $oProp;
     
     public function __construct( &$oProp, $oMsg=null ) {
     

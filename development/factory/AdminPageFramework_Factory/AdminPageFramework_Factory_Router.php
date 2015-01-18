@@ -257,11 +257,12 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      */
     protected function _getLinkInstancce( $oProp, $oMsg ) {
-        
+
         switch ( $oProp->sFieldsType ) {
             case 'page':
-            case 'network_admin_page':
                 return new AdminPageFramework_Link_Page( $oProp, $oMsg );
+            case 'network_admin_page':            
+                return new AdminPageFramework_Link_NetworkAdmin( $oProp, $oMsg );
             case 'post_meta_box':
                 return null;
             case 'page_meta_box':

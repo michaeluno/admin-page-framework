@@ -130,6 +130,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Resource_MetaBox_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_MetaBox_Page/controller/AdminPageFramework_Resource_MetaBox_Page.php", 
 	"AdminPageFramework_Property_MetaBox_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_MetaBox_Page/model/AdminPageFramework_Property_MetaBox_Page.php", 
 	"AdminPageFramework_NetworkAdmin"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_NetworkAdmin/AdminPageFramework_NetworkAdmin.php", 
+	"AdminPageFramework_Link_NetworkAdmin"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_NetworkAdmin/controller/AdminPageFramework_Link_NetworkAdmin.php", 
 	"AdminPageFramework_Property_NetworkAdmin"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_NetworkAdmin/model/AdminPageFramework_Property_NetworkAdmin.php", 
 	"AdminPageFramework_PageLoadInfo_NetworkAdminPage"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_NetworkAdmin/view/AdminPageFramework_PageLoadInfo_NetworkAdminPage.php", 
 	"AdminPageFramework_PostType"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_PostType/AdminPageFramework_PostType.php", 
