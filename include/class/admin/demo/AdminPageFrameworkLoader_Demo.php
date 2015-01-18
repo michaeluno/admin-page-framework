@@ -119,14 +119,7 @@ class AdminPageFrameworkLoader_Demo {
                 'manage_options',           // the default capability
                 'admin-page-framework-demo' // the text domain                    
             );
-            new APF_MetaBox_For_Pages_Side(    
-                'apf_metabox_for_pages_side',       // meta box id
-                __( 'Sample Meta Box for Admin Pages Inserted in Advanced Area', 'admin-page-framework-demo' ), // title
-                array( 'apf_builtin_field_types' ), // page slugs - setting multiple slugs is possible
-                'side',                             // context
-                'default'                           // priority
-            );               
-            
+
         }        
         
         private function _includeWidgets() {
