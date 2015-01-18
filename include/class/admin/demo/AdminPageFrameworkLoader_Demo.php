@@ -116,13 +116,7 @@ class AdminPageFrameworkLoader_Demo {
                 APFDEMO_FILE,               // the caller script path.
                 'manage_options',           // the default capability
                 'admin-page-framework-demo' // the text domain        
-            );
-            // new APF_NetworkAdmin_CustomFieldTypes(
-                // 'APF_NetworkAdmin',
-                // APFDEMO_FILE,               // the caller script path.
-                // 'manage_options',           // the default capability
-                // 'admin-page-framework-demo' // the text domain                    
-            // );     
+            ); 
             new APF_NetworkAdmin_ManageOptions( 
                 'APF_NetworkAdmin', 
                 APFDEMO_FILE,               // the caller script path.
