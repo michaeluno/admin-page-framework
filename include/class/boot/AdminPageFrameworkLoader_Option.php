@@ -73,8 +73,8 @@ class AdminPageFrameworkLoader_Option {
     private function _getFormattedOptions( $sOptionKey ) {
                     
         return $this->bIsNetworkAdmin
-            ? get_option( $sOptionKey, array() ) + $this->aOptions
-            : get_site_option( $sOptionKey, array() ) + $this->aOptions;
+            ? get_site_option( $sOptionKey, array() ) + $this->aOptions
+            : get_option( $sOptionKey, array() ) + $this->aOptions;
         
     }
     
@@ -113,26 +113,24 @@ class AdminPageFrameworkLoader_Option {
      */
     public function delete()  {
         return $this->bIsNetworkAdmin
-            ? delete_option( $this->sOptionKey )
-            : delete_site_option( $this->sOptionKey );
+            ? delete_site_option( $this->sOptionKey )
+            : delete_option( $this->sOptionKey );
     }
     
     /**
      * Saves the options.
      */
     public function save( $aOptions=null ) {
+
+        $_aOptions = $aOptions ? $aOptions : $this->aOptions;
         return $this->bIsNetworkAdmin
-            ? update_option( 
+            ? update_site_option(
                 $this->sOptionKey, 
-                $aOptions ? 
-                    $aOptions 
-                    : $this->aOptions 
+                $_aOptions
             )
-            : update_site_option(
+            : update_option( 
                 $this->sOptionKey, 
-                $aOptions ? 
-                    $aOptions 
-                    : $this->aOptions             
+                $_aOptions
             );
     }
     
@@ -165,7 +163,7 @@ class AdminPageFrameworkLoader_Option {
     public function update( /* $asKeys, $mValue */ ) {
         
         $_aParameters   = func_get_args();
-        call_user_func_array( array( $this, 'set' ), array( $_aParameters ) );
+        call_user_func_array( array( $this, 'set' ),  $_aParameters );
         $this->save();
 
     }
