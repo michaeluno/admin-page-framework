@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -61,8 +61,8 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
      */     
     static public function doActions( $aActionHooks, $vArgs1=null, $vArgs2=null, $_and_more=null ) {
         
-        $aArgs = func_get_args();     
-        $aActionHooks = $aArgs[ 0 ];
+        $aArgs          = func_get_args();     
+        $aActionHooks   = $aArgs[ 0 ];
         foreach( ( array ) $aActionHooks as $sActionHook  ) {
             $aArgs[ 0 ] = $sActionHook;
             call_user_func_array( 'do_action' , $aArgs );
@@ -121,40 +121,65 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
         $_sActionHook    = $_aArgs[ 1 ];
         if ( ! $_sActionHook ) { return; }
         add_action( $_sActionHook, array( $_oCallerObject, $_sActionHook ), 10, $_iArgs - 2 );
-        // unset( $_aArgs[ 0 ] ); // remove the first element, the caller object
-        array_shift( $_aArgs );
+        array_shift( $_aArgs ); // remove the first element, the caller object
         call_user_func_array( 'do_action' , $_aArgs );
         
     }
     /**
      * Registers filter hooks and then triggers them right away.
+     * 
+     * <h3>Example</h3>
+     * `
+     &  $_sFilteredValue = $this->addAndApplyFilters(
+     &      $this,
+     &      array( 
+     &          "my_first_filter",
+     &          "my_second_filter",
+     &      ),
+     &      $_sFilteringValue
+     &  );    
+     * `
+     * 
      * @since       2.0.0
      */    
-    static public function addAndApplyFilters() { // Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
+    static public function addAndApplyFilters( /* $oCallerObject, $aFilters, $vInput, $vArgs... */ ) { 
             
-        $aArgs          = func_get_args();    
-        $oCallerObject  = $aArgs[ 0 ];
-        $aFilters       = $aArgs[ 1 ];
-        $vInput         = $aArgs[ 2 ];
+        $_aArgs         = func_get_args();    
+        // $oCallerObject  = $_aArgs[ 0 ];
+        $_aFilters      = $_aArgs[ 1 ];
+        $_vInput        = $_aArgs[ 2 ];
 
-        foreach( ( array ) $aFilters as $sFilter ) {
-            if ( ! $sFilter ) { continue; }
-            $aArgs[ 1 ] = $sFilter;
-            $aArgs[ 2 ] = $vInput;
-            $vInput = call_user_func_array( array( get_class(), 'addAndApplyFilter' ) , $aArgs );     
+        foreach( ( array ) $_aFilters as $_sFilter ) {
+            if ( ! $_sFilter ) { continue; }
+            $_aArgs[ 1 ] = $_sFilter;
+            $_aArgs[ 2 ] = $_vInput;    // assigns the updated value as it is filtered in previous iterations
+            $_vInput = call_user_func_array( 
+                array( get_class(), 'addAndApplyFilter' ), 
+                $_aArgs 
+            );
         }
-        return $vInput;
+        return $_vInput;
         
     }
     /**
      * Registers a filter hook and then triggers the filter right away.
+     * 
+     * <h3>Example</h3>
+     * `
+     &  $_sFilteredValue = $this->addAndApplyFilters(
+     &      $this,
+     &      "my_first_filter",
+     &      $_sFilteringValue
+     &  );    
+     * `
+     * 
      * @since       2.0.0
      * @param       object      $oCallerObject
      * @param       string      $sFilter            The filter hook name.
      * @param       mixed       $vData              The filtering data
      * @param       mixed       $vArgs              The arguments.
      */
-    static public function addAndApplyFilter() { // Parameters: $oCallerObject, $sFilter, $vData, $vArgs...
+    static public function addAndApplyFilter( /* $oCallerObject, $sFilter, $vData, $vArgs... */ ) { 
         
         // Parameters
         $_iArgs          = func_num_args();
@@ -168,8 +193,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
         // Register the method named $_sFilter with the filter hook name $_sFilter.
         add_filter( $_sFilter, array( $_oCallerObject, $_sFilter ), 10, $_iArgs - 2 ); 
         
-        // Remove the first element, the caller object //      
-        // unset( $_aArgs[ 0 ] ); 
+        // Remove the first element, the caller object 
         array_shift( $_aArgs );     // removes the caller object     
         
         // Trigger the magic method __call().
@@ -198,7 +222,9 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
         if ( $sClassName ) {
             $_aFilters[] = "{$sPrefix}{$sClassName}";
         }
-        return $bReverse ? array_reverse( $_aFilters ) : $_aFilters;    
+        return $bReverse 
+            ? array_reverse( $_aFilters ) 
+            : $_aFilters;    
         
     }    
     
