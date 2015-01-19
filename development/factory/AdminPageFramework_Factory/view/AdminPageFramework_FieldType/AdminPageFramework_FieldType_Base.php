@@ -88,7 +88,10 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
     
     /**
      * Sets up hooks and properties.
+     * 
      * @internal
+     * @since       2.1.5
+     * @since       3.5.0       'admin_page_framework' can be passed to register the field type sitewide.
      */
     function __construct( $asClassName, $asFieldTypeSlug=null, $oMsg=null, $bAutoRegister=true ) {
             
@@ -166,8 +169,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
      * 
      * @remark      The scope is public since AdminPageFramework_FieldType class allows the user to use this method.
      * @since       2.1.5
-     * @since       3.0.0 Added the $sFieldTypeSlug parameter.
-     * @since       3.0.3 Tweaked it to have better execution speed.
+     * @since       3.0.0       Added the $sFieldTypeSlug parameter.
+     * @since       3.0.3       Tweaked it to have better execution speed.
      * @internal
      */
     public function getDefinitionArray( $sFieldTypeSlug='' ) {
@@ -317,7 +320,6 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
             if ( ! $_REQUEST['enable_external_source'] ) {
                 unset( $aTabs['type_url'] ); // removes the 'From URL' tab in the thick box.
             }
-            
             return $aTabs;
             
         }     
