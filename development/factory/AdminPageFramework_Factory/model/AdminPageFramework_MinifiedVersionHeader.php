@@ -7,15 +7,15 @@
  * 
  */
 
-// If accessed from a browser, exit. 
-if ( php_sapi_name() !== 'cli' ) {
-    exit;
-}
- 
-// For the minifier script.
-$_sFrameworkFilePath = dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/admin-page-framework.php';
-if ( file_exists( $_sFrameworkFilePath ) ) {
-    include_once( $_sFrameworkFilePath );
+// If accessed from a browser, 
+if ( php_sapi_name() === 'cli' ) {
+     
+    // For the minifier script.
+    $_sFrameworkFilePath = dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/admin-page-framework.php';
+    if ( file_exists( $_sFrameworkFilePath ) ) {
+        include_once( $_sFrameworkFilePath );
+    }
+    
 }
 
 /**
