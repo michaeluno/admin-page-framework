@@ -18,7 +18,6 @@ $_aClassFiles = array(
 	"APF_Demo_CustomFieldType_ACE"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/custom_field_type/APF_Demo_CustomFieldType_ACE.php", 
 	"APF_Demo_CustomFieldType_GitHub"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/custom_field_type/APF_Demo_CustomFieldType_GitHub.php", 
 	"APF_Demo_CustomFieldType_Sample"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/custom_field_type/APF_Demo_CustomFieldType_Sample.php", 
-	"APF_Demo_CustomFieldTypes_GitHub"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/custom_field_type/APF_Demo_CustomFieldTypes_GitHub.php", 
 	"APF_Demo_HiddenPage"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/hidden_page/APF_Demo_HiddenPage.php", 
 	"APF_Demo_ManageOptions"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions.php", 
 	"APF_Demo_ManageOptions_Export"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_Export.php", 
