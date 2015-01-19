@@ -23,7 +23,7 @@ class AdminPageFramework_FieldTypeRegistration  {
      * 
      * @since   2.1.5
      */
-    protected static $aDefaultFieldTypeSlugs = array(
+    static protected $aDefaultFieldTypeSlugs = array(
         'default', // undefined ones will be applied 
         'text',
         'number',

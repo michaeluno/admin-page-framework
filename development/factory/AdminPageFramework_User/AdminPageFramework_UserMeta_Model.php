@@ -25,7 +25,7 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
      */
     public function _replyToRegisterFormElements( $oScreen ) {
     
-        $this->_loadDefaultFieldTypeDefinitions();
+        $this->_loadFieldTypeDefinitions();
         
         // Format the fields array.
         $this->oForm->format();

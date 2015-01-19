@@ -49,9 +49,10 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * Loads the default field type definition.
      * 
      * @since       2.1.5
+     * @since       3.5.0       Changed the sope to protected as it is internal. Changed the name from `_loadDefaultFieldTypeDefinitions()` as it applies filters so custom field types also get registered here.
      * @internal
      */
-    public function _loadDefaultFieldTypeDefinitions() {
+    protected function _loadFieldTypeDefinitions() {
         
         if ( empty( self::$_aFieldTypeDefinitions ) ) {
             
@@ -64,9 +65,12 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
             
         } 
                 
-        $this->oProp->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+        $this->oProp->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilters( 
             $this,
-            'field_types_' . $this->oProp->sClassName, // 'field_types_' . {extended class name}
+            array( 
+                'field_types_admin_page_framework',         // 3.5.0+ Allows sitewide field type registration.
+                "field_types_{$this->oProp->sClassName}",
+            ),
             self::$_aFieldTypeDefinitions
         );     
         

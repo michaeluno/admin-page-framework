@@ -102,7 +102,7 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
      */
     public function _registerFormElements( $aOptions ) {
                     
-        $this->_loadDefaultFieldTypeDefinitions();  // defined in the framework factory class.    
+        $this->_loadFieldTypeDefinitions();  // defined in the framework factory class.    
         
         // Set the internal options array. The framework refers this array when rendering the form.
         $this->oProp->aOptions = $aOptions;

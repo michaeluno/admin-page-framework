@@ -69,7 +69,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      */
     public function _replyToRegisterFormElements( $oScreen ) {
               
-        $this->_loadDefaultFieldTypeDefinitions();
+        $this->_loadFieldTypeDefinitions();
         
         // Format the fields array.
         $this->oForm->format();

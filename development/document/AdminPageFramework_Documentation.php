@@ -63,6 +63,8 @@
  *     <li>**sections_{instantiated class name}** – receives the registered section arrays. The first parameter: sections container array.</li> 
  *     <li>**fields_{instantiated class name}** – receives the registered field arrays. The first parameter: fields container array.</li> 
  *     <li>**fields_{instantiated class name}_{section id}** – [3.0.0+] receives the registered field arrays which belong to the specified section. The first parameter: fields container array.</li> 
+ *     <li>**field_types_admin_page_framework** – [3.5.0+] receives a field type definitions array. The first parameter: a field type definitions array.</li>
+ *     <li>**field_types_{instantiated class name}** – receives a field type definitions array. The first parameter: a field type definitions array.</li>
  *     <li>**field_definition_{instantiated class name}** – [3.1.0+] receives all the form field definition arrays of set in the class. The first parameter: the field definition arrays.</li>
  *     <li>**field_definition_{instantiated class name}_{field ID}** – [3.0.2+] receives the form field definition array of the given input field ID that does not have a section. The first parameter: the field definition array.</li>
  *     <li>**field_definition_{instantiated class name}_{section id}_{field ID}** – [3.0.2+] receives the form field definition array of the given input field ID that has a section. The first parameter: the field definition array. The second parameter: the integer representing sub-section index if the field belongs to a sub-section.</li>

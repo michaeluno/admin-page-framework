@@ -21,7 +21,8 @@
  * </ul>
  * <h3>Methods and Filter Hooks</h3>
  * <ul>
- *     <li>**field_types_{instantiated class name}** – receives the field type definition array. The first parameter: the field type definition array.</li>
+ *     <li>**field_types_admin_page_framework** – [3.5.0+] receives a field type definitions array. The first parameter: a field type definitions array.</li>
+ *     <li>**field_types_{instantiated class name}** – receives a field type definitions array. The first parameter: a field type definitions array.</li>
  *     <li>**field_{instantiated class name}_{field ID}** – receives the form input field output of the given input field ID. The first parameter: output string. The second parameter: the array of option.</li>
  *     <li>**content_{instantiated class name}** – receives the entire output of the meta box. The first parameter: the output HTML string.</li>
  *     <li>**style_common_admin_page_framework** –  [3.2.1+] receives the output of the base CSS rules applied to common CSS rules shared by the framework.</li>
