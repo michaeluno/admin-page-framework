@@ -76,8 +76,9 @@ abstract class AdminPageFramework_PluginBootstrap {
         // 7. Set up localization
         add_action( 'init', array( $this, 'setLocalization' ) );
         
-        // 8. Call the user constructor.
+        // 8. Call user constructors.
         $this->construct();
+        $this->start();
         
     }    
     
@@ -194,12 +195,21 @@ abstract class AdminPageFramework_PluginBootstrap {
     public function setUp() {}
         
     /**
-     * The user constructor method.
+     * The protected user constructor method.
      * 
      * For extension plugins, use this method to hook into the "{$this->sHookPrefix}_action_after_loading_plugin" action hook.
      * 
      * @since       3.5.0
+     * @access      protected       This is meant to be called within the class definition. For public access use the `start()` method.
      */
-    public function construct() {}
-    
+    protected function construct() {}
+ 
+    /**
+     * The public user constructor method.
+     * 
+     * @since       3.5.0
+     * @access      public
+     */
+    public function start() {}
+ 
 }
