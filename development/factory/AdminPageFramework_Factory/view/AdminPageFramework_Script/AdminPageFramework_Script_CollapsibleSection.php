@@ -21,8 +21,9 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
      * The user constructor.
      * 
      * @since       3.4.0
+     * @since       3.5.0       Made the scope `protected` from `public` to be consistent with other classes.
      */
-    public function construct() {
+    protected function construct() {
 
         wp_enqueue_script( 'juery' );
         wp_enqueue_script( 'juery-ui-accordion' );    

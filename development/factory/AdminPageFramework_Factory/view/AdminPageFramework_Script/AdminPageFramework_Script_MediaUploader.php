@@ -22,8 +22,9 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
      * The user constructor.
      * 
      * @since       3.3.1
+     * @since       3.5.0       Made the scope `protected` from `public` to be consistent with other classes.
      */
-    public function construct() {
+    protected function construct() {
         
         wp_enqueue_script( 'jquery' );    
         
