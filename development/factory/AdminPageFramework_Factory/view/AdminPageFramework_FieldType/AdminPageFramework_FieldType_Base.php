@@ -91,9 +91,14 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
      * 
      * @internal
      * @since       2.1.5
-     * @since       3.5.0       'admin_page_framework' can be passed to register the field type sitewide.
+     * @since       3.5.0       'admin_page_framework' can be passed to register the field type site-wide.
+     * @param       string|array        $asClassName            The instantiated class name that uses the field type(s). To enable it site-wide, pass `admin_page_framework`. 
+     * This value will be used to the `field_types_{instantiated class name}` filter to set field definition callbacks.
+     * @param       string|array        $asFieldTypeSlug        The field type slugs. To have multiple slugs for one definition, pass an array holding the slugs.
+     * @param       object              $oMsg                   The framework message object.
+     * @param       boolean             $bAutoRegister          Whether or not to register the field type(s).
      */
-    function __construct( $asClassName, $asFieldTypeSlug=null, $oMsg=null, $bAutoRegister=true ) {
+    function __construct( $asClassName='admin_page_framework', $asFieldTypeSlug=null, $oMsg=null, $bAutoRegister=true ) {
             
         $this->aFieldTypeSlugs  = empty( $asFieldTypeSlug ) ? $this->aFieldTypeSlugs : ( array ) $asFieldTypeSlug;
         $this->oMsg             = $oMsg ? $oMsg : AdminPageFramework_Message::getInstance();
