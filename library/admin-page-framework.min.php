@@ -3366,12 +3366,11 @@ class AdminPageFramework_Message {
         }
     }
 }
-if (php_sapi_name() !== 'cli') {
-    exit;
-}
-$_sFrameworkFilePath = dirname(dirname(dirname(dirname(__FILE__)))) . '/admin-page-framework.php';
-if (file_exists($_sFrameworkFilePath)) {
-    include_once ($_sFrameworkFilePath);
+if (php_sapi_name() === 'cli') {
+    $_sFrameworkFilePath = dirname(dirname(dirname(dirname(__FILE__)))) . '/admin-page-framework.php';
+    if (file_exists($_sFrameworkFilePath)) {
+        include_once ($_sFrameworkFilePath);
+    }
 }
 final class AdminPageFramework_MinifiedVersionHeader extends AdminPageFramework_Registry_Base {
     const Name = 'Admin Page Framework - Minified Version';
