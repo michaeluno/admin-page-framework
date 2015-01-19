@@ -2,4 +2,4 @@
 *.vbs export-ignore
 .gitattributes export-ignore  
 .gitignore export-ignore
-/tool/minifier/class/library/PHP_Beautifier
+/tool export-ignore
