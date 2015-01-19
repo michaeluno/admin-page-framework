@@ -24,13 +24,8 @@ $_aClassFiles = array(
 	"AdminPageFrameworkLoader_Bootstrap"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/boot/AdminPageFrameworkLoader_Bootstrap.php", 
 	"AdminPageFrameworkLoader_Option"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/boot/AdminPageFrameworkLoader_Option.php", 
 	"AdminPageFrameworkLoader_FeedList"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_FeedList.php", 
-	"AdminPageFrameworkLoader_SmiplePie"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_SmiplePie.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_Information"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Informationt.php", 
 	"names',"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/tool/AdminPageFrameworkLoader_AdminPage_Tool_Minifier.php", 
 	"named"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/tool/AdminPageFrameworkLoader_AdminPage_Tool_Minifier.php", 
 	"AdminPageFrameworkLoader_NetworkAdmin"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/network-admin/AdminPageFrameworkLoader_NwtworkAdmin.php", 
-	"AdminPageFrameworkLoader_SimplePie__"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_SmiplePie.php", 
-	"AdminPageFrameworkLoader_SimplePie"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_SmiplePie.php", 
-	"AdminPageFrameworkLoader_Cache"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_SmiplePie.php", 
-	"AdminPageFrameworkLoader_Feed_Cache_Transient"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_SmiplePie.php", 
 );
