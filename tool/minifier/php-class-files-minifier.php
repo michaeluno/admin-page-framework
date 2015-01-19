@@ -11,7 +11,7 @@ $sResultFilePath	= $sTargetBaseDir . '/library/admin-page-framework.min.php';
 $sLicenseFileName	= 'MIT-LICENSE.txt';
 $sLicenseFilePath	= $sTargetDir . '/' . $sLicenseFileName;
 $sHeaderClassName	= 'AdminPageFramework_MinifiedVersionHeader';
-$sHeaderClassPath	= $sTargetDir . '/document/AdminPageFramework_MinifiedVersionHeader.php';
+$sHeaderClassPath	= $sTargetDir . '/factory/AdminPageFramework_Factory/model/AdminPageFramework_MinifiedVersionHeader.php';
 
 // For get about the rest.
 
