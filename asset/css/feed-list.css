@@ -5,3 +5,11 @@
 .apfl_feed_item_link_button {
     text-align: center;        
 }
+.apfl_addon_item {
+    border: 1px solid #bbb;
+    background-color: #fff;
+    padding: 0.5em 2em 3em 2em;
+}
+.apfl_addon_item  img {
+    max-width: 100%;
+}

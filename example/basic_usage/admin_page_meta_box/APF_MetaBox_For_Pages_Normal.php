@@ -40,7 +40,7 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
                 'field_id'      => 'metabox_text_field_repeatable',
                 'type'          => 'text',
                 'title'         => __( 'Text Repeatable', 'admin-page-framework-demo' ),
-                'repeatable'    => true
+                'repeatable'    => true,
             ),     
             array(
                 'field_id'      => 'metabox_textarea_field',
