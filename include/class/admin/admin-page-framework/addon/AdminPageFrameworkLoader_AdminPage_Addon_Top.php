@@ -20,8 +20,8 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
      * Stores the RSS url to fetch an add-on list.
      * @since       3.5.0
      */
-    // private $sRSSURL = '';  // e.g. 'http://feeds.feedburner.com/MiunosoftFetchTweetsExtension';
-    private $sRSSURL = 'http://feeds.feedburner.com/MiunosoftFetchTweetsExtension';
+    private $sRSSURL = '';  // e.g. 'http://feeds.feedburner.com/MiunosoftFetchTweetsExtension';
+    // private $sRSSURL = 'http://feeds.feedburner.com/MiunosoftFetchTweetsExtension';
 
     public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
     
