@@ -20,9 +20,11 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
      * Stores the RSS url to fetch an add-on list.
      * @since       3.5.0
      */
-    private $sRSSURL = '';  // e.g. 'http://feeds.feedburner.com/MiunosoftFetchTweetsExtension';
-    // private $sRSSURL = 'http://feeds.feedburner.com/MiunosoftFetchTweetsExtension';
-
+    private $sRSSURL = 'http://feeds.feedburner.com/MiunosoftTagsAdd-ons';  
+    
+    /**
+     * Set up properties.
+     */
     public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
     
         $this->oFactory     = $oFactory;
@@ -32,8 +34,14 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
         $this->sSectionID   = $this->sTabSlug;
         
         $this->_addTab();
-    
+        
+        // Enable this to renew caches of the feed.
+        // add_filter( 'wp_feed_cache_transient_lifetime', array( $this, '_replyToSetFeedLifespan' ) );
+        
     }
+        public function _replyToSetFeedLifespan( $iSeconds ) {
+            return 0;            
+        }
     
     private function _addTab() {
         
@@ -137,7 +145,9 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
                     . '>' 
                         . '<div class="apfl_addon_item">' 
                             . "<h4 class='apfl_feed_item_title'>{$_aItem['title']}</h4>"
-                            . $_aItem['description'] 
+                            . "<div class='apfl_feed_item_description'>"
+                                . $_aItem['description'] 
+                            . "</div>"
                             . "<div class='get-now apfl_feed_item_link_button'>"
                                 . "<a href='{$_aItem['link']}' target='{$_sTarget}' rel='nofollow' class='button button-secondary'>" 
                                     . $_aItem['label']
