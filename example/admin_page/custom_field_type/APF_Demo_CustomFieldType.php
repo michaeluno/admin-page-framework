@@ -50,6 +50,11 @@ class APF_Demo_CustomFieldType {
                 $this->sPageSlug,   // page slug
                 'sample'       // tab slug             
             );
+            new APF_Demo_CustomFieldType_GitHub(
+                $this->oFactory,    // factory object
+                $this->sPageSlug,   // page slug
+                'github'       // tab slug                         
+            );
             
             // Add a link
             $this->oFactory->addInPageTabs(    

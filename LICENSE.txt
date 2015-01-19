@@ -17,6 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 The plugin incorporates work covered by the following copyright:
 
+
 Admin Page Framework
 Copyright (c) 2004-2013 Michael Uno
 Licensed MIT
@@ -25,6 +26,25 @@ Licensed MIT
 jQuery
 Copyright 2013 jQuery Foundation and other contributors,
 <http://jqueryui.com/>
+
+
+github-buttons
+Copyright (c) 2014, なつき  
+All rights reserved.
+Licensed The BSD 2-Clause License
+<https://github.com/ntkme/github-buttons>
+
+Octicons
+(c) 2012-2014 GitHub
+Font License: SIL OFL 1.1 (http://scripts.sil.org/OFL)
+Applies to all font files
+
+Code License: MIT (http://choosealicense.com/licenses/mit/)
+Applies to all other files
+<https://octicons.github.com/>
+
+As a special exception, if you create a document which uses the above font files, and embed those fonts or unaltered portions of the fonts into the document, these fonts do not by themself cause the resulting document to be covered by the GNU General Public License v2 or later. This exception does not however invalidate any other reasons why the document might be covered by the GNU General Public License v2 or later. If you modify these fonts, you may extend this exception to your version of the font, but you are not obligated to do so. If you do not wish to do so, delete this exception statement from your version.
+
 
 The documentation component of the demo plugin incorporates work covered by the following copyright:
 
@@ -36,12 +56,12 @@ All rights reserved.
 Licensed the New BSD License or the GNU General Public License (GPL) version 2 or 3.
 <http://apigen.org/>
 
+
 The tool component of the demo plugin incorporates work covered by the following copyright:
 
 JSMinPlus version 1.4  
 Tino Zijdel <crisp@tweakers.net>
 <http://crisp.tweakblogs.net/blog/cat/716>
-
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 

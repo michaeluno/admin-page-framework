@@ -48,8 +48,37 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Credit {
      */
     public function replyToLoadTab( $oAdminPage ) {
         
-        add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
-
+        add_action( 'do_form_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
+        
+        new GitHubCustomFieldType( 'admin_page_framework' ); 
+        
+        $oAdminPage->addSettingSections(    
+            $this->sPageSlug, // the target page slug                
+            array(
+                'section_id'    => $this->sSectionID,
+                'tab_slug'      => $this->sTabSlug,
+                // 'title'         => __( 'GitHub Repository', 'admin-page-framework-loader' ),
+                // 'description'   => __( 'Admin Page Framework uses GitHub.', 'admin-page-framework-loader' ),
+            )
+        );           
+        $oAdminPage->addSettingFields(
+            $this->sSectionID, // the target section id
+            array(
+                'field_id'      => 'github_star',
+                'type'          => 'github',     
+                'user_name'     => 'michaeluno',    // the GitHub account ID
+                'button_type'   => 'star',          // either of the followings: follow, star, watch, fork, issue
+                'count'         => false,
+                'repository'    => 'admin-page-framework',
+                'size'          => 'mega',
+                'attributes'    => array(
+                    'data-text' => ' ' . AdminPageFrameworkLoader_Registry::Name . ' ' . AdminPageFrameworkLoader_Registry::Version . ' ',
+                    // 'data-icon' => 'octicon-mark-github',
+                ),
+                'description'   => __( 'Star the repository and get Involved!', 'admin-page-framework-demo' ),
+                'show_title_column' => false,
+            )
+        );
     }
     
     public function replyToDoTab() {

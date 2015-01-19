@@ -1,5 +1,6 @@
 <?php 
 $_aClassFiles = array( 
+	"GitHubCustomFieldType"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/library/github-custom-field-type/GitHubCustomFieldType.php", 
 	"AdminPageFrameworkLoader_AdminPage"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php", 
 	"AdminPageFrameworkLoader_AdminPage_Addon"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon.php", 
 	"AdminPageFrameworkLoader_AdminPage_Addon_Top"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon_Top.php", 
