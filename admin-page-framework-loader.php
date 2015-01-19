@@ -58,6 +58,14 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
 	const TransientPrefix           = 'APFL_';
     
     /**
+     * The hook slug used for the prefix of action and filter hook names.
+     * 
+     * @remark      The ending underscore is not necessary.
+     */
+    const HookSlug                = 'admin_page_framework_loader';
+        
+    
+    /**
      * The text domain slug and its path.
      * 
      * These will be accessed from the bootstrap script.
@@ -196,7 +204,10 @@ if ( ! class_exists( 'AdminPageFramework_Registry' ) || version_compare( AdminPa
 // Include the framework loader plugin components.
 include( dirname( __FILE__ ) . '/include/class/boot/AdminPageFrameworkLoader_Bootstrap.php' );
 if ( class_exists( 'AdminPageFrameworkLoader_Bootstrap' ) ) {   // for backward compatibility
-    new AdminPageFrameworkLoader_Bootstrap( __FILE__, 'admin_page_framework_loader' );
+    new AdminPageFrameworkLoader_Bootstrap( 
+        __FILE__,
+        AdminPageFrameworkLoader_Registry::HookSlug 
+    );
 }
 
 /*
