@@ -17,9 +17,6 @@ Admin Page Framework provides plugin and theme developers with easier means of b
 
 **Notes:** this framework does not do anything by itself. If you are not a developer, you do not need this.
 
-= Getting Started =
-Go to **Dashboard** -> **Admin Page Framework** -> **About** -> **Getting Started**.
-
 = What you can do =
 
 easily create:
@@ -46,7 +43,7 @@ easily create:
 - **Custom Field Types** - your own field type can be registered. This allows you to design own fields such as a combination of a checkbox with a text field. 
 - **Portable** - use the framework as a library and include the minified version and your plugin or theme does not require an extra plugin to be installed. Therefore, your product will be perfectly portable.
 
-= Built-in Field Types =
+<h4>Built-in Field Types</h4>
 - `text` - a normal field to enter text input.
 - `password` - a masked text input field.
 - `textarea` - a text input field with multiple lines. It supports TinyMCE rich text editor.
@@ -67,33 +64,31 @@ easily create:
 - `section_title` - a text field type that will be placed in the section title so that it lets the user set the section title.
 - `system` - displays the site system information.
 
-= Bundled Custom Field Types = 
-You can include your own custom field types when they are necessary. The reason that they are not built-in is to keep the library size as small as possible. The followings are example custom field types.
+<h4>Bundled Custom Field Types</h4>
+With custom field types, you can create more detailed customized field outputs. 
 
-- `geometry` - a location selector with the Google map.
-- `date`, `time`, `date_time`, `date_range`, `time_range`, `date_time_range` - date and time fields with the date picker.
-- `dial` - a dial input field.
-- `font` - a font uploader and its preview.
-- `revealer` - a selector field that displays a hidden HTML element.
-- `grid` - a drag and drop grid composer.
-- `autocomplete` - a custom text field that shows a predefined pop-up autocomplete list.
-- `link` - it lets pick a post and set the url.
-- `github` - displays GitHub buttons.
-- `image_checkbox`, `image_radio` - displays images instead of text labels to be selected.
-- `reset` - a custom submit button that initialize the text form inputs.
+The demo component includes the following example custom field types.
+
 - `ace` - a rich code editor.
+- `sample` - a sample custom field type with a JavaScript script.
+- `github` - displays GitHub buttons.
 
-= Demo =
-Install the demo plugin and it will demonstrates the possible features you can do with the framework. 
+If you want a field type that are not listed here, you can check the [field type pack](http://en.michaeluno.jp/admin-page-framework/field-type-pack) or request a new one in the forum.
 
-= Necessary Files =
+<h4>Getting Started</h4>
+Go to **Dashboard** -> **Admin Page Framework** -> **About** -> **Getting Started**.
+
+<h4>Demo</h4>
+Activate the demo pages to see the possible features of the framework. To activate it, go to **Dashboard** -> **Admin Page Framework** -> **Add Ons** -> **Demo**.
+
+<h4>Necessary Files</h4>
 - **`admin-page-framework.min.php`** is in the *library* folder. Or you can get it from **Dashboard** -> **Admin Page Framework** -> **Tool** -> **Minifier**.
 - Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
 
-= Documentation =
+<h4>Documentation</h4>
 - [Online Documentation](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html)
 
-= Tutorials =
+<h4>Tutorials</h4>
 [Index](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
 
 1. [Create an Admin Page](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/01-create-an-admin-page/)
@@ -132,7 +127,6 @@ Install the demo plugin and it will demonstrates the possible features you can d
 2. Activate it.
 
 For the usage instruction to get started, go to **Dashboard** -> **Admin Page Framework** -> **About** -> **Getting Started** and create your first plugin.
-`
 
 == Frequently asked questions ==
 
