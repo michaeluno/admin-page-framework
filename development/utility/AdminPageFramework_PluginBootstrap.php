@@ -33,14 +33,7 @@ abstract class AdminPageFramework_PluginBootstrap {
      * Stores the hook prefix.
      */
     public $sHookPrefix;
-    
-    /**
-     * Indicates whether the bootstrap has been loaded or not so that multiple instances of this class won't be created.      
-     * @internal
-     * @access      public      This should be public as this is an abstract class. Private static properties gets shared by extended classes.
-     */
-    static public $_bLoaded = false;
-        
+            
     /**
      * Sets up properties and hooks.
      * 
@@ -51,9 +44,10 @@ abstract class AdminPageFramework_PluginBootstrap {
      */
     public function __construct( $sPluginFilePath, $sPluginHookPrefix='', $sSetUpHook='plugins_loaded', $iPriority=10 ) {
         
-        // Do not allow multiple instances per page load.
-        if ( self::$_bLoaded ) { return; }
-        self::$_bLoaded = true;
+        // Check if it has been loaded.
+        if ( $this->_hasLoaded() ) {
+            return;
+        }
         
         // 1. Set up properties
         $this->sFilePath   = $sPluginFilePath;
@@ -98,7 +92,22 @@ abstract class AdminPageFramework_PluginBootstrap {
         
         
     }    
-    
+        
+        /* 
+         * Do not allow multiple instances of the extended class per page load. 
+         * 
+         * @remark      It does not use a static property but a static local variable so that it takes effect in each extended class.
+         * @since       3.5.0
+         */        
+        protected function _hasLoaded() {
+            
+            static $_bLoaded = false;
+            if ( $_bLoaded ) { return true; }
+            $_bLoaded = true;            
+            return false;
+            
+        }
+        
         /**
          * Register classes to be auto-loaded.
          * 
