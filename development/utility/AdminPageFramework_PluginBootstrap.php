@@ -37,48 +37,65 @@ abstract class AdminPageFramework_PluginBootstrap {
     /**
      * Indicates whether the bootstrap has been loaded or not so that multiple instances of this class won't be created.      
      * @internal
+     * @access      public      This should be public as this is an abstract class. Private static properties gets shared by extended classes.
      */
     static public $_bLoaded = false;
         
     /**
      * Sets up properties and hooks.
      * 
+     * @param       string      $sPluginFilePath        The plugin file path.
+     * @param       string      $sPluginHookPrefix      The plugin hook slug without underscore. This will be used to construct hook names.
+     * @param       string      $sSetUpHook             The action hook name for the setUp callback. Default 'plugins_loaded'.
+     * @param       string      $iPriority              The priority. Set a lower number to get loader earlier. Default: `10`.
      */
-    public function __construct( $sPluginFilePath, $sPluginHookPrefix='' ) {
+    public function __construct( $sPluginFilePath, $sPluginHookPrefix='', $sSetUpHook='plugins_loaded', $iPriority=10 ) {
         
         // Do not allow multiple instances per page load.
         if ( self::$_bLoaded ) { return; }
         self::$_bLoaded = true;
         
-        // Set up properties
+        // 1. Set up properties
         $this->sFilePath   = $sPluginFilePath;
         $this->bIsAdmin    = is_admin();
         $this->sHookPrefix = $sPluginHookPrefix;
+        $this->sSetUpHook  = $sSetUpHook;
+        $this->iPriority   = $iPriority;
         
-        // 1. Define constants.
+        // 2. Call the (public) user constructor.
+        $_bValid = $this->start();
+        if ( false === $_bValid ) {
+            return;
+        }
+        
+        // 3. Define constants.
         $this->setConstants();
         
-        // 2. Set global variables.
+        // 4. Set global variables.
         $this->setGlobals();
             
-        // 3. Set up auto-load classes.
+        // 5. Set up auto-load classes.
         $this->_registerClasses();
 
-        // 4. Set up activation hook.
+        // 6. Set up activation hook.
         register_activation_hook( $this->sFilePath, array( $this, 'replyToPluginActivation' ) );
         
-        // 5. Set up deactivation hook.
+        // 7. Set up deactivation hook.
         register_deactivation_hook( $this->sFilePath, array( $this, 'replyToPluginDeactivation' ) );
                  
-        // 6. Schedule to load plugin specific components.
-        add_action( 'plugins_loaded', array( $this, '_replyToLoadPluginComponents' ) );
-        
-        // 7. Set up localization
+        // 8. Schedule to load plugin specific components.
+        if ( ! $this->sSetUpHook || did_action( $this->sSetUpHook ) )  {
+            $this->_replyToLoadPluginComponents();
+        } else {
+            add_action( $this->sSetUpHook, array( $this, '_replyToLoadPluginComponents' ), $this->iPriority );
+        }
+
+        // 9. Set up localization
         add_action( 'init', array( $this, 'setLocalization' ) );
         
-        // 8. Call user constructors.
+        // 10. Call the (protected) user constructor.
         $this->construct();
-        $this->start();
+        
         
     }    
     
@@ -209,6 +226,7 @@ abstract class AdminPageFramework_PluginBootstrap {
      * 
      * @since       3.5.0
      * @access      public
+     * @return      void|boolean     Return false to stop loading components.
      */
     public function start() {}
  
