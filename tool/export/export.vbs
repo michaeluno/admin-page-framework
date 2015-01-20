@@ -29,7 +29,7 @@ sCommand    = "cmd /c " _
 oWshShell.Run sCommand, 1, true
 
 ' Open the output directory in explorer.
-sCommand    = "explorer.exe /e, " & sOutputDirPathWQ
+sCommand = "explorer.exe /select, " & sZipPathWQ
 oWshShell.Run sCommand, 1, false
 Set oWshShell = Nothing
 

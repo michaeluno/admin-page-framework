@@ -19,18 +19,24 @@ sOutputDirPath              = Trim( ReadIni( sConfigFilePath, "Path", "output_di
 sOutputDirPath              = getFullPath( sOutputDirPath )
 sOutputDirPathWQ            = chr( 34 ) & sOutputDirPath & chr( 34 )
 
+
+
 ' Run the command.
 sZipPathWQ  = chr( 34 ) & sOutputDirPath & "\" & sScriptSlug & ".zip" & chr( 34 )
-sCommand    = "cmd /c " _ 
+sCommand = "cmd /c " _ 
     & "cd /d " & sLocalWorkingCopyDirPath & " & " _
-    & "git archive --format zip --output " & sZipPathWQ & " HEAD  " 
+    & "git archive --format zip --output " & sZipPathWQ & " HEAD" 
 oWshShell.Run sCommand, 1, true
 
-' Open the output directory in explorer.
-sCommand    = "explorer.exe /e, " & sOutputDirPathWQ
-oWshShell.Run sCommand, 1, false
 Set oWshShell = Nothing
+Set oWshShell = CreateObject( "WScript.Shell" )
 
+' Open the output directory in explorer.
+sCommand = "explorer.exe /select, " & sZipPathWQ
+oWshShell.Run sCommand, 1, false
+
+
+Set oWshShell = Nothing
 
 ''''''''''''' Functions '''''''''''''''
 ' Returns the full path.
