@@ -34,6 +34,7 @@ class AdminPageFrameworkLoader_AdminPage_Addon {
                 array(
                     'title'         => $this->sPageTitle,
                     'page_slug'     => $this->sPageSlug,    // page slug
+                    'order'         => 990, // the Help page is 1000
                 )
             );
 
