@@ -27,7 +27,7 @@ class APF_Demo_Contact extends AdminPageFramework {
         $this->setCapability( 'read' );
         
         /* ( required ) Set the root page */
-        $this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );    
+        $this->setRootMenuPageBySlug( 'edit.php?post_type=' . AdminPageFrameworkLoader_Registry::$aPostTypes['demo'] );    
         
         /* ( required ) Add sub-menu items (pages or links) */
         $this->addSubMenuItems(     

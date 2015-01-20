@@ -128,6 +128,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      * Used post types.
      */
     static public $aPostTypes = array(
+        'demo'      => 'apf_posts',
     );
     
     /**

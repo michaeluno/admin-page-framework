@@ -121,7 +121,7 @@ class APF_Demo_BuiltinFieldTypes_Callbacks {
     public function field_definition_APF_Demo_callbacks_apf_post_titles( $aField ) { // field_definition_{instantiated class name}_{section id}_{field_id}
         
         $aField['title'] = __( 'APF Custom Post Titles', 'admin-page-framework-demo' );
-        $aField['label'] = $this->_getPostTitles( 'apf_posts' );
+        $aField['label'] = $this->_getPostTitles( AdminPageFrameworkLoader_Registry::$aPostTypes['demo'] );
         return $aField;
         
     }    
