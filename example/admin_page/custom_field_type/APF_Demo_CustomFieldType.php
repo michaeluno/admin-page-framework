@@ -63,6 +63,7 @@ class APF_Demo_CustomFieldType {
                     'tab_slug'      => 'more',
                     'title'         => __( 'More', 'admin-page-framework-loader' ),
                     'url'           => 'http://en.michaeluno.jp/admin-page-framwork/field-type-pack',
+                    'order'         => 999,
                 )
             );  
                     
