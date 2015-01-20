@@ -9,6 +9,12 @@
  * @since        3.5.0
  */
 
+ /**
+  * 
+  * 
+  * @action     do      admin_page_framework_loader_action_before_loading_demo
+  * @action     do      admin_page_framework_loader_action_after_loading_demo
+  */
 class AdminPageFrameworkLoader_Demo {
     
     public function __construct() {
@@ -26,6 +32,8 @@ class AdminPageFrameworkLoader_Demo {
         define( 'APFDEMO_FILE', AdminPageFrameworkLoader_Registry::$sFilePath );
         define( 'APFDEMO_DIRNAME', AdminPageFrameworkLoader_Registry::$sDirPath );
         
+        do_action( 'admin_page_framework_loader_action_before_loading_demo' );
+        
         // Include example components.
         $this->_includePostTypes();
         $this->_includeBasicExamples();
@@ -33,6 +41,8 @@ class AdminPageFrameworkLoader_Demo {
         $this->_includeNetworkAdminPages();
         $this->_includeWidgets();
      
+        do_action( 'admin_page_framework_loader_action_after_loading_demo' );
+        
     }
 
         private function _includeBasicExamples() {
