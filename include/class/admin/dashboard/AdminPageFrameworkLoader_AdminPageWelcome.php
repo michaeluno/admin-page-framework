@@ -29,29 +29,40 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
             return;
         }
         
-        $_oOption = AdminPageFrameworkLoader_Option::getInstance();
-                
-        // When newly installed, the 'welcomed' value is not set.
-        if ( ! $_oOption->get( 'welcomed' ) ) {
-            
-            $_oOption->set( 'welcomed', true );
-            $_oOption->set( 'version_upgraded_from', AdminPageFrameworkLoader_Registry::Version );
-            $_oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::Version );
-            $_oOption->save();
-            $this->_gotToWelcomePage();
-            
-        }
-        if ( $_oOption->hasUpgraded() ) {
-
-            $_oOption->set( 'welcomed', true );
-            $_oOption->set( 'version_upgraded_from', $_oOption->get( 'version_saved' ) );
-            $_oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::Version );
-            $_oOption->save();
-            $this->_gotToWelcomePage();
-            
-        }
+        add_action( 'admin_init', array( $this, '_replyToHandleRedirects' ) );
         
     }
+        /**
+         * Handles page redirects.
+         * 
+         * This is called with the'admin_init' hook to prevent the plugin from performing the redirect when the plugin is not activated or intervene the activation process.
+         * If this is called in the start() method above, it will redirect the user to the page during the activation process and the user gets a page that is not created because the plugin is not activated.
+         */
+        public function _replyToHandleRedirects() {
+                
+            $_oOption = AdminPageFrameworkLoader_Option::getInstance();
+                    
+            // When newly installed, the 'welcomed' value is not set.
+            if ( ! $_oOption->get( 'welcomed' ) ) {
+                
+                $_oOption->set( 'welcomed', true );
+                $_oOption->set( 'version_upgraded_from', AdminPageFrameworkLoader_Registry::Version );
+                $_oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::Version );
+                $_oOption->save();
+                $this->_gotToWelcomePage();
+                
+            }
+            if ( $_oOption->hasUpgraded() ) {
+
+                $_oOption->set( 'welcomed', true );
+                $_oOption->set( 'version_upgraded_from', $_oOption->get( 'version_saved' ) );
+                $_oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::Version );
+                $_oOption->save();
+                $this->_gotToWelcomePage();
+                
+            }            
+            
+        }
         private function _gotToWelcomePage() {        
             $_sWelcomePageURL = apply_filters( 
                 'admin_page_framework_loader_filter_admin_welcome_redirect_url',
@@ -80,7 +91,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
         // Sub-pages
         $this->addSubMenuItems( 
             array(
-                'title'         => AdminPageFrameworkLoader_Registry::Name,
+                'title'         => AdminPageFrameworkLoader_Registry::ShortName,
                 'page_slug'     => AdminPageFrameworkLoader_Registry::$aAdminPages['about'],    // page slug
                 'show_in_menu'  => false,
             )
@@ -187,8 +198,8 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
      */
     public function replyToFilterContentTop( $sContent ) {
 
-        $_sVersion      = '- ' . AdminPageFramework_Registry::Version;
-        $_sPluginName   = AdminPageFramework_Registry::Name . ' ' . $_sVersion;
+        $_sVersion      = '- ' . AdminPageFrameworkLoader_Registry::Version;
+        $_sPluginName   = AdminPageFrameworkLoader_Registry::ShortName . ' ' . $_sVersion;
         
         $_aOutput   = array();
         $_aOutput[] = "<h1>" 

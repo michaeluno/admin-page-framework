@@ -83,7 +83,6 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Credit {
     
     public function replyToDoTab() {
         
-        $_sVersion      = '- ' . AdminPageFramework_Registry::Version;
         $_aOutput   = array();	
         $_aOutput[] = "<p class='about-description'>"
                 . __( 'Admin Page Framework is created by the following contributors.', 'admin-page-framework-loader' )

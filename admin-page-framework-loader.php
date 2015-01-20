@@ -18,6 +18,7 @@ class AdminPageFrameworkLoader_Registry_Base {
 
 	const Version        = '3.5.0b18';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
 	const Name           = 'Admin Page Framework - Loader'; // the name is not 'Admin Page Framework' because warning messages gets confusing.
+    const ShortName      = 'Admin Page Framework';  // used for a menu title etc.
 	const Description    = 'Loads Admin Page Framework which facilitates WordPress plugin and theme development.';
 	const URI            = 'http://en.michaeluno.jp/';
 	const Author         = 'miunosoft (Michael Uno)';
