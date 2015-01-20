@@ -1,11 +1,11 @@
 <?php
 /* 
-    Plugin Name:    Admin Page Framework
+    Plugin Name:    Admin Page Framework - Loader
     Plugin URI:     http://en.michaeluno.jp/admin-page-framework
-    Description:    Facilitates WordPress plugin and theme development.
+    Description:    Loads Admin Page Framework which facilitates WordPress plugin and theme development.
     Author:         Michael Uno
     Author URI:     http://michaeluno.jp
-    Version:        3.5.0b1
+    Version:        3.5.0b18
     Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -16,9 +16,9 @@
  */
 class AdminPageFrameworkLoader_Registry_Base {
 
-	const Version        = '3.5.0b1';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
-	const Name           = 'Admin Page Framework';
-	const Description    = 'Facilitates WordPress plugin and theme development.';
+	const Version        = '3.5.0b18';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+	const Name           = 'Admin Page Framework - Loader'; // the name is not 'Admin Page Framework' because warning messages gets confusing.
+	const Description    = 'Loads Admin Page Framework which facilitates WordPress plugin and theme development.';
 	const URI            = 'http://en.michaeluno.jp/';
 	const Author         = 'miunosoft (Michael Uno)';
 	const AuthorURI      = 'http://en.michaeluno.jp/';
@@ -55,7 +55,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      * @remark      This is also accessed from uninstall.php so do not remove.
      * @remark      Up to 8 characters as transient name allows 45 characters or less ( 40 for site transients ) so that md5 (32 characters) can be added
      */
-	const TransientPrefix           = 'APFL_';
+	const TransientPrefix         = 'APFL_';
     
     /**
      * The hook slug used for the prefix of action and filter hook names.
@@ -167,6 +167,40 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
         ;
     }    
     
+    /**
+     * Stores admin notices.
+     * @since       3.5.0
+     */
+    static public $_aAdminNotices = array();
+    /**
+     * Sets an admin notice.
+     * @since       3.5.0
+     */ 
+    static public function setAdminNotice( $sMessage, $sClassAttribute='error' ) {
+        if ( ! is_admin() ) { return; }
+        self::$_aAdminNotices[] = array(
+            'message'           => $sMessage,
+            'class_attribute'   => $sClassAttribute,
+        );
+        add_action( 'admin_notices', array( __CLASS__, '_replyToSetAdminNotice' ) );
+    }
+        /**
+         * Displayes the set admin notices.
+         * @since       3.5.0
+         */
+        static public function _replyToSetAdminNotice() {
+            foreach( self::$_aAdminNotices as $_aAdminNotice ) {                
+                echo "<div class='" . esc_attr( $_aAdminNotice['class_attribute'] ) . "'>"
+                        ."<p>" 
+                            . sprintf( 
+                                '<strong>%1$s</strong>: ' . $_aAdminNotice['message'],
+                                self::Name . ' ' . self::Version
+                            )
+                        . "</p>"
+                    . "</div>";
+            }
+        }    
+    
 }
 // Registry set-up.
 AdminPageFrameworkLoader_Registry::setUp( __FILE__ );
@@ -186,27 +220,23 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
 
 // Avoid version conflicts.
 if ( ! class_exists( 'AdminPageFramework_Registry' ) || version_compare( AdminPageFramework_Registry::Version, AdminPageFrameworkLoader_Registry::Version, '<' ) ) {
-    function _setWarning_AdminPageFrameworkLoader_VersionConflict() {
-        echo "<div class='error'><p>" 
-                . sprintf( 
-                    'Admin Page Framework Loader: The framework has been already loaded and its version is lesser than yours. Your framework will not be loaded to avoid unexpected results. Loaded Version: %1$s. Your Version: %2$s.', 
-                    class_exists( 'AdminPageFramework_Registry' )
-                        ? AdminPageFramework_Registry::Version
-                        : 'unknown',
-                    AdminPageFrameworkLoader_Registry::Version
-                )
-            . "</p></div>";
-    }
-    add_action( 'admin_notices', '_setWarning_AdminPageFrameworkLoader_VersionConflict' );
-    return;    
+    AdminPageFrameworkLoader_Registry::setAdminNotice(
+        sprintf( 
+            'The framework has been already loaded and its version is lesser than yours. Your framework will not be loaded to avoid unexpected results. Loaded Version: %1$s. Your Version: %2$s.',
+            class_exists( 'AdminPageFramework_Registry' )
+                ? AdminPageFramework_Registry::Version
+                : 'unknown',
+            AdminPageFrameworkLoader_Registry::Version            
+        )
+    );
 }
 
 // Include the framework loader plugin components.
-include( dirname( __FILE__ ) . '/include/class/boot/AdminPageFrameworkLoader_Bootstrap.php' );
+include( AdminPageFrameworkLoader_Registry::$sDirPath . '/include/class/boot/AdminPageFrameworkLoader_Bootstrap.php' );
 if ( class_exists( 'AdminPageFrameworkLoader_Bootstrap' ) ) {   // for backward compatibility
     new AdminPageFrameworkLoader_Bootstrap( 
-        __FILE__,
-        AdminPageFrameworkLoader_Registry::HookSlug 
+        AdminPageFrameworkLoader_Registry::$sFilePath,
+        AdminPageFrameworkLoader_Registry::HookSlug    // hook prefix
     );
 }
 
