@@ -36,6 +36,7 @@ class AdminPageFrameworkLoader_AdminPage_Help {
                 array(
                     'title'         => $this->sPageTitle,
                     'page_slug'     => $this->sPageSlug,    // page slug
+                    'order'         => 1000,        // to be the last menu item
                 )
             );
 
