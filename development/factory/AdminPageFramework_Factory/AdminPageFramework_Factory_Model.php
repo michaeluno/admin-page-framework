@@ -112,10 +112,11 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         /**
          * Registers a field.
          * 
-         * @since 3.0.4
+         * @since       3.0.4
+         * @since       3.5.0       Changed the scope to protected as the admin page factory class overrides it.
          * @internal
          */
-        private function _registerField( array $aField ) {
+        protected function _registerField( array $aField ) {
             
             // Load head tag elements for fields.
             AdminPageFramework_FieldTypeRegistration::_setFieldResources( $aField, $this->oProp, $this->oResource ); // Set relevant scripts and styles for the input field.
@@ -136,8 +137,10 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @since       3.4.0
      */
     public function getSavedOptions() {
-// @todo: implement the last input data that is available for the page factory using $aLastInput for ther factory fields.
+        
+        // @todo: implement the last input data that is available for the page factory using $aLastInput for their factory fields.
         return $this->oProp->aOptions;
+        
     }
 
     /**
