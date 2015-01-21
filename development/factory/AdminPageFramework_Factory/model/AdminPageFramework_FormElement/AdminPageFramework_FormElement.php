@@ -83,7 +83,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         'page_slug'         => null,    // This will be assigned automatically in the formatting method.
         'tab_slug'          => null,    // This will be assigned automatically in the formatting method.
         'option_key'        => null,    // This will be assigned automatically in the formatting method.
-        'class_name'        => null,    // used by the export field type
+        'class_name'        => null,    // Stores the instantiated class name. Used by the export field type. Also a third party custom field type uses it.
         'capability'        => null,        
         'title'             => null,    
         'tip'               => null,    
