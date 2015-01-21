@@ -27,7 +27,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
      * @since       3.2.0
      */
     static public function dump( $asArray, $sFilePath=null ) {
-        echo self::getArray( $asArray, $sFilePath );
+        echo self::get( $asArray, $sFilePath );
     }    
         /**
          * Prints out the given array contents
@@ -51,11 +51,11 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
      */
     static public function get( $asArray, $sFilePath=null, $bEscape=true ) {
 
-        if ( $sFilePath ) self::logArray( $asArray, $sFilePath );     
+        if ( $sFilePath ) self::log( $asArray, $sFilePath );     
         
         return $bEscape
-            ? "<pre class='dump-array'>" . htmlspecialchars( print_r( $asArray, true ) ) . "</pre>" // esc_html() has a bug that breaks with complex HTML code.
-            : print_r( $asArray, true ); // non-escape is used for exporting data into file.    
+            ? "<pre class='dump-array'>" . htmlspecialchars( self::getAsString( $asArray ) ) . "</pre>" // esc_html() has a bug that breaks with complex HTML code.
+            : self::getAsString( $asArray ); // non-escape is used for exporting data into file.    
         
     }
         /**
@@ -119,15 +119,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
                 ? count( $vValue )
                 : null
             );
-        $vValue                 = is_object( $vValue )
-            ? ( method_exists( $vValue, '__toString' ) 
-                ? ( string ) $vValue          // cast string
-                : ( array ) $vValue           // cast array
-            )
-            : $vValue;
-        $vValue                 = is_array( $vValue )
-            ? self::getSliceByDepth( $vValue, 5 )
-            : $vValue;
+        
         file_put_contents( 
             $sFilePath, 
             $_sHeading . PHP_EOL 
@@ -135,7 +127,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
                     . $_sType 
                     . ( null !== $_iLengths ? ', length: ' . $_iLengths : '' )
                 . ') '
-                . print_r( $vValue, true ) . PHP_EOL . PHP_EOL,
+                . self::getAsString( $vValue ) . PHP_EOL . PHP_EOL,
             FILE_APPEND 
         );     
         $_fPreviousTimeStamp = $_fCurrentTimeStamp;
@@ -151,7 +143,28 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
         static public function logArray( $asArray, $sFilePath=null ) {
             self::log( $asArray, $sFilePath );     
         }      
-
+        
+    /**
+     * Returns a string representation of the given value.
+     * @since       3.5.0
+     * @param       mized       $mValue     The value to get as a string
+     */
+    static public function getAsString( $mValue ) {
+        
+        $mValue                 = is_object( $mValue )
+            ? ( method_exists( $mValue, '__toString' ) 
+                ? ( string ) $mValue          // cast string
+                : ( array ) $mValue           // cast array
+            )
+            : $mValue;
+        $mValue                 = is_array( $mValue )
+            ? self::getSliceByDepth( $mValue, 5 )
+            : $mValue;
+            
+        return print_r( $mValue, true );
+        
+    }
+    
     /**
      * Slices the given array by depth.
      * 
