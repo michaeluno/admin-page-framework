@@ -362,7 +362,7 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * Called when the object is called as a string.
      *
-     * Field definition arrays contain the object reference and when the debug log method tries to dump it, the output gets too long.
+     * Field definition arrays contain the factory object reference and when the debug log method tries to dump it, the output gets too long.
      * So shorten it here.
      * 
      * @since       3.4.4
