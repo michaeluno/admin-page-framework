@@ -267,7 +267,16 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         $_sSubmitSectionID          = $this->_getPressedSubmitButtonData( $_aSubmit, 'section_id' );
         $_bConfirmingToSendEmail    = $this->_getPressedSubmitButtonData( $_aSubmit, 'confirming_sending_email' );
         $_bConfirmedToSendEmail     = $this->_getPressedSubmitButtonData( $_aSubmit, 'confirmed_sending_email' );
-                  
+
+        // Submit Information - [3.5.0+] this will be passed to validation callback methods.
+        $_aSubmitInformation        = array(
+            'page_slug'     => $_sPageSlug,
+            'tab_slug'      => $_sTabSlug,
+            // 'input_name'    => $_sPressedInputName,  // removed as the format of it may change later at some point.
+            'input_id'      => $this->_getPressedSubmitButtonData( $_aSubmit, 'input_id' ), 
+            'section_id'    => $_sSubmitSectionID,
+            'field_id'      => $this->_getPressedSubmitButtonData( $_aSubmit, 'field_id' ),
+        );
         
         // 2. Custom submit actions [part 1]
         // Check if the sending email is confirmed - this should be done before the redirect because the user may set a redirect and email. In that case, send the email first and redirect to the set page.
@@ -299,7 +308,12 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         }
     
         // 3. Validate the submitted input data 
-        $aInput           = $this->_getFilteredOptions( $aInput, $aInputRaw, $aOptions, $_sPageSlug, $_sTabSlug );
+        $aInput           = $this->_getFilteredOptions( 
+            $aInput, 
+            $aInputRaw, 
+            $aOptions, 
+            $_aSubmitInformation   // 3.5.0+
+        );
         $_bHasFieldErrors = $this->hasFieldError();
         if ( $_bHasFieldErrors ) {
             $this->_setLastInput( $aInputRaw );
@@ -557,18 +571,18 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
          * @since       2.0.0
          * @since       2.1.5       Added the `$sPressedFieldID` and `$sPressedInputID` parameters.
          * @since       3.0.0       Removed the `$sPressedFieldID` and `$sPressedInputID` parameters.
+         * @since       3.5.0       Removed the $sTabSlug and $sPageSlug parameters as they are contained in $aSubmitInformation.
          * @return      array       The filtered input array.
          * @param       array       $aInput             The submitted form data merged with the default option values.
          * @param       array       $aInputRaw          The submitted form data.
          * @param       array       $aStoredData        The options data stored in the database.
-         * @param       string      $sPageSlug          The page slug that the form belongs to.
-         * @param       string      $sTabSlug           The tab slug that the form belongs to.
+         * @param       array       $aSubmitInformation Extra information of form submission such as pressed submit field ID.
          */
-        private function _getFilteredOptions( $aInput, $aInputRaw, $aStoredData, $sPageSlug, $sTabSlug ) {
+        private function _getFilteredOptions( $aInput, $aInputRaw, $aStoredData, $aSubmitInformation ) {
 
             $_aData = array(
-                'sPageSlug'         => $sPageSlug,
-                'sTabSlug'          => $sTabSlug,            
+                'sPageSlug'         => $aSubmitInformation['page_slug'],
+                'sTabSlug'          => $aSubmitInformation['tab_slug'],            
                 'aInput'            => $this->oUtil->getAsArray( $aInput ),
                 'aStoredData'       => $aStoredData,
                 'aStoredTabData'    => array(), // stores options of the belonging in-page tab.
@@ -580,6 +594,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 ),               
                 'aStoredTabDataWODynamicElements' => array(),
                 'aEmbeddedDataWODynamicElements'  => array(),   // stores page meta box field options. This will be updated inside the validation methods.
+                'aSubmitInformation'    => $aSubmitInformation, // 3.5.0+
             );
             
             // For each submitted element, tabs, and pages.
@@ -591,7 +606,8 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             return $this->_getValidatedData(
                 "validation_{$this->oProp->sClassName}", 
                 $_aData['aInput'], 
-                $_aData['aStoredData']
+                $_aData['aStoredData'],
+                $_aData['aSubmitInformation']   // 3.5.0+
             );
    
         }    
@@ -621,7 +637,8 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                                 $aData['aInput'][ $_sID ][ $_sFieldID ], 
                                 isset( $aData['aStoredData'][ $_sID ][ $_sFieldID ] ) 
                                     ? $aData['aStoredData'][ $_sID ][ $_sFieldID ] 
-                                    : null
+                                    : null,
+                                $aData['aSubmitInformation']    // 3.5.0+
                             );
                         }
                         
@@ -643,7 +660,8 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                             $_aSectionInput,
                             isset( $aData['aStoredData'][ $_sID ] ) 
                                 ? $aData['aStoredData'][ $_sID ] 
-                                : null
+                                : null,
+                            $aData['aSubmitInformation']
                         );     
                         
                         continue;
@@ -661,7 +679,8 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                         $aData['aInput'][ $_sID ],
                         isset( $aData['aStoredData'][ $_sID ] ) 
                             ? $aData['aStoredData'][ $_sID ] 
-                            : null
+                            : null,
+                        $aData['aSubmitInformation']
                     );
                     
                 }
@@ -731,7 +750,8 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 $aData['aInput'] = $this->_getValidatedData(
                     "validation_{$aData['sPageSlug']}_{$aData['sTabSlug']}",
                     $aData['aInput'],
-                    $aData['aStoredTabData']
+                    $aData['aStoredTabData'],
+                    $aData['aSubmitInformation']    // 3.5.0+
                 );
 
                 // Get embedded options. This is for page meta boxes.
@@ -778,8 +798,9 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 // Validate the input data.
                 $aData['aInput'] = $this->_getValidatedData(
                     "validation_{$aData['sPageSlug']}", 
-                    $aData['aInput'],  // new values
-                    $_aPageOptions     // stored page options
+                    $aData['aInput'],                   // new values
+                    $_aPageOptions,                     // stored page options
+                    $aData['aSubmitInformation']        // submit information 3.5.0+
                 );
 
                 // If it's in a tab-page, drop the elements which belong to the tab so that arrayed-options will not be merged such as multiple select options.
@@ -834,14 +855,20 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                  * This is just a shorter version of calling the addAndApplyFilter() method.
                  * 
                  * @since       3.4.4
+                 * @internal
+                 * @param       string      $sFilterName    The filter hook name.
+                 * @param       array       $aInput         The submitted form data.
+                 * @param       array       $aStoredData    The stored option.
+                 * @param       array       $aSubmitInfo    [3.5.0+] The form submit information such as the field ID of the pressed submit field.
                  */
-                private function _getValidatedData( $sFilterName, $aInput, $aStoredData ) {
+                private function _getValidatedData( $sFilterName, $aInput, $aStoredData, $aSubmitInfo=array() ) {
                     return $this->oUtil->addAndApplyFilter( 
-                        $this, 
-                        $sFilterName, 
-                        $aInput, 
-                        $aStoredData,
-                        $this
+                        $this,          // caller
+                        $sFilterName,   // hook name
+                        $aInput,        // 1st argument
+                        $aStoredData,   // 2nd argument
+                        $this,          // 3rd argument
+                        $aSubmitInfo    // 4th argument 3.5.0+
                     );                    
                 }
                 
