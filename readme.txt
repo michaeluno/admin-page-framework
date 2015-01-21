@@ -400,6 +400,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.0 =
+- Added the a method to the field type class that is triggered when a field of the field type is registered.
 - Added the `field_types_admin_page_framework` filter that allows you to register field types sitewide.
 - Added the `url` argument for in-page tab definition arrays that allows the user to add link navigation tab.
 - Added a utility class for WordPres Readme parser and the markdown syntax.

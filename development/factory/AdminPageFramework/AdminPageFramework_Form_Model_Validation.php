@@ -189,7 +189,6 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 unset( $aStatus[ 'field_errors' ] );
                 $_aRemoveQueries[] = 'field_errors';
             }        
-            // return $this->oUtil->getQueryURL( $aStatus, $_aRemoveQueries, $_SERVER['REQUEST_URI'] );            
          
             return $this->oUtil->addAndApplyFilters(    // 3.4.4+
                 $this, 

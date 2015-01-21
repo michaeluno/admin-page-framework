@@ -195,6 +195,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
             'hfGetIEStyles'         => array( $this, "_replyToGetInputIEStyles" ),
             'hfFieldLoader'         => array( $this, "_replyToFieldLoader" ),
             'hfFieldSetTypeSetter'  => array( $this, "_replyToFieldTypeSetter" ),
+            'hfDoOnRegistration'    => array( $this, "_replyToDoOnFieldRegistration" ), // 3.5.0+
             'aEnqueueScripts'       => $this->_replyToGetEnqueuingScripts(), // urls of the scripts
             'aEnqueueStyles'        => $this->_replyToGetEnqueuingStyles(), // urls of the styles
             'aDefaultKeys'          => $_aDefaultKeys,       
@@ -213,17 +214,25 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
     public function _replyToGetInputIEStyles() { return ''; }           // should return the style for IE
     public function _replyToGetStyles() { return ''; }                  // should return the style
     public function _replyToFieldLoader() {}                            // do stuff that should be done when the field type is loaded for the first time.
-        /**#@-*/
+    /**#@-*/
     /**
      * Sets the field set type.
      * 
      * Called when enqueuing the field type's head tag elements.
-     * @since 3.0.0
+     * @since       3.0.0
      * @internal
      */
     public function _replyToFieldTypeSetter( $sFieldSetType='' ) {
         $this->_sFieldSetType = $sFieldSetType;
     }
+    
+    /**
+     * Called when the given field of this field type is registered.
+     * 
+     * @since       3.5.0
+     * @internal
+     */
+    public function _replyToDoOnFieldRegistration( array $aField ) {}
     
     /**
      * 
@@ -241,7 +250,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
      * @internal
      */
     protected function _replyToGetEnqueuingStyles() { return array(); } // should return an array holding the urls of enqueuing items
-    
+        
     /*
      * Shared methods
      */

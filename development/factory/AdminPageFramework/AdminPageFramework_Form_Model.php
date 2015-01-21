@@ -263,7 +263,7 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
         );     
         */
 
-        /* 4. Set up the contextual help pane */ 
+        /* 4. Set up the contextual help pane for sections. */ 
         foreach( $this->oForm->aConditionedSections as $_aSection ) {
                                     
             if ( empty( $_aSection['help'] ) ) {
@@ -285,52 +285,9 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
                 
         }
 
-        /* 5. Set head tag and help pane elements */
-        foreach( $this->oForm->aConditionedFields as $_sSectionID => $_aSubSectionOrFields ) {
-            
-            foreach( $_aSubSectionOrFields as $_sSubSectionIndexOrFieldID => $_aSubSectionOrField ) {
-                
-                // If the iterating item is a sub-section array.
-                if ( is_numeric( $_sSubSectionIndexOrFieldID ) && is_int( $_sSubSectionIndexOrFieldID + 0 ) ) {
-                    
-                    $_iSubSectionIndex  = $_sSubSectionIndexOrFieldID;
-                    $_aSubSection       = $_aSubSectionOrField;
-                    foreach( $_aSubSection as $__sFieldID => $__aField ) {     
-                        AdminPageFramework_FieldTypeRegistration::_setFieldResources( $__aField, $this->oProp, $this->oResource ); // Set relevant scripts and styles for the input field.
-                    }
-                    continue;
-                    
-                }
-                    
-                /* 5-1. Add the given field. */
-                $aField = $_aSubSectionOrField;
+        /* 5. Register fields - set head tag and help pane elements */
+        $this->_registerFields( $this->oForm->aConditionedFields );
 
-                /* 5-2. Set relevant scripts and styles for the input field. */
-                AdminPageFramework_FieldTypeRegistration::_setFieldResources( $aField, $this->oProp, $this->oResource ); // Set relevant scripts and styles for the input field.
-            
-                /* 5-3. For the contextual help pane, */
-                if ( ! empty( $aField['help'] ) ) {
-                    $this->addHelpTab( 
-                        array(
-                            'page_slug'                 => $aField['page_slug'],
-                            'page_tab_slug'             => $aField['tab_slug'],
-                            'help_tab_title'            => $aField['section_title'],
-                            'help_tab_id'               => $aField['section_id'],
-                            'help_tab_content'          => "<span class='contextual-help-tab-title'>" 
-                                    . $aField['title'] 
-                                . "</span> - " . PHP_EOL
-                                . $aField['help'],
-                            'help_tab_sidebar_content'  => $aField['help_aside'] 
-                                ? $aField['help_aside'] 
-                                : "",
-                        )
-                    );
-                }
-                
-            }
-            
-        }
-        
         /* 6. Enable the form - Set the form enabling flag so that the <form></form> tag will be inserted in the page. */
         $this->oProp->bEnableForm = true;    
         
@@ -338,7 +295,47 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
         $this->_handleSubmittedData();    
         
     }
-        
+
+        /**
+         * Registers a field.
+         * 
+         * @since       3.5.0
+         * @internal
+         */
+        protected function _registerField( array $aField ) {
+            
+            // Load head tag elements for fields.
+            AdminPageFramework_FieldTypeRegistration::_setFieldResources( $aField, $this->oProp, $this->oResource ); 
+
+            // For the contextual help pane,
+            if ( $aField['help'] ) {
+                $this->addHelpTab( 
+                    array(
+                        'page_slug'                 => $aField['page_slug'],
+                        'page_tab_slug'             => $aField['tab_slug'],
+                        'help_tab_title'            => $aField['section_title'],
+                        'help_tab_id'               => $aField['section_id'],
+                        'help_tab_content'          => "<span class='contextual-help-tab-title'>" 
+                                . $aField['title'] 
+                            . "</span> - " . PHP_EOL
+                            . $aField['help'],
+                        'help_tab_sidebar_content'  => $aField['help_aside'] 
+                            ? $aField['help_aside'] 
+                            : "",
+                    )
+                );
+            }
+                              
+            // Call the field type callback method to let it know the field type is registered.
+            if ( 
+                isset( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ][ 'hfDoOnRegistration' ] ) 
+                && is_callable( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ][ 'hfDoOnRegistration' ] )
+            ) {
+                call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ][ 'hfDoOnRegistration' ], array( $aField ) );
+            }            
+            
+        }            
+            
     /**
      * Returns the saved options.
      * 

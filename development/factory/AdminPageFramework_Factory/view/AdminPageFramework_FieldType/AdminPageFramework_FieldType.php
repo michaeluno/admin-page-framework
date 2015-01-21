@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -32,6 +32,14 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
     public function _replyToGetInputIEStyles() { return $this->getIEStyles(); }             // should return the style for IE
     public function _replyToGetStyles() { return $this->getStyles(); }                      // should return the style
     public function _replyToGetField( $aField ) {  return $this->getField( $aField ); }     // should return the field output
+   
+    /**
+     * Responds to a call back which is triggered when a field is registered.
+     * @since       3.5.0       
+     */
+    public function _replyToDoOnFieldRegistration( $aField ) { 
+        return $this->doOnFieldRegistration( $aField ); 
+    }
    
     protected function _replyToGetEnqueuingScripts() { return $this->getEnqueuingScripts(); }   // should return an array holding the urls of enqueuing items
     protected function _replyToGetEnqueuingStyles() { return $this->getEnqueuingStyles(); }     // should return an array holding the urls of enqueuing items
@@ -196,6 +204,12 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      * </code>
      */    
     protected function getEnqueuingStyles() { return array(); } // should return an array holding the urls of enqueuing items
+    
+    /**
+     * Called when the given field of this field type is registered.
+     * @since       3.5.0
+     */
+    protected function doOnFieldRegistration( array $aField ) {}
     /**#@-*/
     
 }
