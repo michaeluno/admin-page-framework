@@ -128,7 +128,7 @@ No. Include the minified version of the framework in your distribution package.
 It is in the `library` directory of the plugin. Or go to **Dashboard** -> **Admin Page Framework** -> **Tool** -> **Minifier** and press **Download**.
 
 <h5><strong>Does my commercial product incorporating your framework library have to be released under GPL2v+?</strong></h5>
-No. The demo plugin is released under GPLv2 or later but the library itself is released under MIT. Make sure to include only the library file.
+No. The loader plugin is released under GPLv2 or later but the library itself is released under MIT. Make sure to include only the library file.
 
 <h5><strong>Does the framework work with WordPress Multi-site?</strong></h5>
 Yes, it works with [WordPress MU](https://codex.wordpress.org/WordPress_MU).
