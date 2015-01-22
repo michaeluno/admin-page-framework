@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.3
 Tested up to:       4.1.0
-Stable tag:         3.4.6
+Stable tag:         3.5.0
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -369,7 +369,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.5.0 =
+= 3.5.0 - 2015/01/22=
 - Added the forth parameter of submit information to the validation filter callbacks so that callback methods can know which framework field submit button is pressed etc.
 - Added the a method to the field type class that is triggered when a field of the field type is registered.
 - Added the `field_types_admin_page_framework` filter that allows you to register field types sitewide.
@@ -384,7 +384,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Changed the demo plugin to be a loader plugin that loads Admin Page Framework.
 - Tweaked the styling of admin page container elements.
 
-= 3.4.6 - 2014/01/06 =
+= 3.4.6 - 2015/01/06 =
 - Added a page that lets the user download the minified version of the framework in the demo examples.
 - Added a utility class that checks requirements of servers such as PHP and MySQL versions etc.
 - Added the `print_type` argument to the `system` field type.
@@ -393,7 +393,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Fixed an issue that form fields without setting a section were not registered in pages except first added ones.
 - Changed the timing of importing and exporting of the `import` and `export` field types to be done after performing validation callbacks.
 
-= 3.4.5.1 - 2014/01/01 =
+= 3.4.5.1 - 2015/01/01 =
 - Removed the minified version as the WordPress plugin team demanded to do so.
 
 = 3.4.5 - 2014/12/27 =
