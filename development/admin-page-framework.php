@@ -29,17 +29,17 @@
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.5.0
+ * @version             3.5.1b01
  */
 abstract class AdminPageFramework_Registry_Base {
     
-    const Version       = '3.5.0'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const Version       = '3.5.1b01'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const Name          = 'Admin Page Framework';
     const Description   = 'Facilitates WordPress plugin and theme development.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
     const Author        = 'Michael Uno';
     const AuthorURI     = 'http://en.michaeluno.jp/';
-    const Copyright     = 'Copyright (c) 2013-2014, Michael Uno';
+    const Copyright     = 'Copyright (c) 2013-2015, Michael Uno';
     const License       = 'MIT <http://opensource.org/licenses/MIT>';
     const Contributors  = '';    
     
