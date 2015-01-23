@@ -30,72 +30,79 @@ abstract class AdminPageFramework_Factory_Router {
     
     /**
      * The object that provides the debug methods. 
+     * 
      * @internal
-     * @remark Do not even declare the property to trigger the getter method.
-     * @access public
-     * @since 2.0.0
-     * @since 3.1.0 Changed the scope to public from protected.
+     * @access      public
+     * @since       2.0.0
+     * @since       3.1.0   Changed the scope to public from protected.
      */     
-    // public $oDebug;
+    public $oDebug;
     /**
      * Provides the utility methods. 
+     * 
      * @internal
-     * @remark Do not even declare the property to trigger the getter method.
-     * @since 2.0.0
-     * @since 3.1.0 Changed the scope to public from protected.
+     * @since       2.0.0
+     * @since       3.1.0     Changed the scope to public from protected.
      */         
-    // public $oUtil;
+    public $oUtil;
     /**
      * Provides the methods for text messages of the framework. 
-     * @since 2.0.0
-     * @access public
+     * 
+     * @since       2.0.0
+     * @since       3.1.0     Changed the scope to public from protected.
+     * @access      public
      * @internal
-     * @remark Do not even declare the property to trigger the getter method.
-     * @since 3.1.0 Changed the scope to public from protected.
      */         
-    // public $oMsg;    
+    public $oMsg;
     
     /**
      * @internal
-     * @since 3.0.0
-     * @remark Do not even declare the property to trigger the getter method.
+     * @since       3.0.0
      */     
-     // protected $oForm = null;    
+    protected $oForm;
     
     /**
      * Inserts page load information into the footer area of the page. 
      * 
-     * @remark Do not even declare the property to trigger the getter method.
      */
-    // protected $oPageLoadInfo;
+    protected $oPageLoadInfo;
     
     /**
      * Provides the methods to insert head tag elements.
      * 
-     * @remark Do not even declare the property to trigger the getter method.
      * @since   3.3.0   Changed the name from $oResource as it has become to deal with footer elements.
      */
-    // protected $oResource;
+    protected $oResource;
     
     /**
      * Provides methods to manipulate contextual help pane.
-     * 
-     * @remark Do not even declare the property to trigger the getter method.
      */
-    // protected $oHelpPane;
+    protected $oHelpPane;
     
     /**
      * Provides the methods for creating HTML link elements. 
      * 
-     * @remark Do not even declare the property to trigger the getter method.
      */    
-    // protected $oLink;
+    protected $oLink;
     
     /**
      * Sets up built-in objects.
      */
     function __construct( $oProp ) {
 
+        // Let them overload.
+        unset( 
+            $this->oDebug, 
+            $this->oUtil, 
+            $this->oMsg, 
+            $this->oForm, 
+            $this->oPageLoadInfo,
+            $this->oResource,
+            $this->oHelpPane,
+            $this->oLink
+        );
+        
+        // Property object
         $this->oProp = $oProp;
     
         if ( $this->oProp->bIsAdmin && ! $this->oProp->bIsAdminAjax ) {
@@ -355,7 +362,13 @@ abstract class AdminPageFramework_Factory_Router {
             return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
         }
         
-        trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ), $sMethodName ), E_USER_WARNING );
+        trigger_error( 
+            'Admin Page Framework: ' . ' : ' . sprintf( 
+                __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ),
+                $sMethodName 
+            ), 
+            E_USER_WARNING 
+        );
         
     }     
     
