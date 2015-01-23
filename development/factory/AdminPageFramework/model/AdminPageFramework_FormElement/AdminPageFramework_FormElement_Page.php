@@ -254,23 +254,6 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
         }    
         
     /**
-     * Returns the field definition array by applying conditions. 
-     * 
-     * This method is intended to be extended to let the extended class customize the conditions.
-     * 
-     * @since 3.0.0
-     */
-    protected function getConditionedField( $aField ) {
-        
-        // Check capability. If the access level is not sufficient, skip.
-        if ( ! current_user_can( $aField['capability'] ) ) { return null; }
-        if ( ! $aField['if'] ) { return null; }
-        return $aField;
-        
-    }
-
-    
-    /**
      * Retrieves the stored options of the given page slug.
      * 
      * The other pages' option data will not be contained in the returning array.
