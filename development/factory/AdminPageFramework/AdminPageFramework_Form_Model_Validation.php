@@ -404,7 +404,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             $_bIsSet = $this->oUtil->setTransient( $_sTransientKey,  $_aFormEmailData, 100 );
             
             // Send the email in the background.
-            $_aoResponse = wp_remote_get( 
+            wp_remote_get( 
                 add_query_arg( 
                     array( 
                         'apf_action' => 'email',
