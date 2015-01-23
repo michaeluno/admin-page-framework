@@ -31,7 +31,7 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * The object that provides the debug methods. 
      * @internal
-     * @remark Do not even declare the property to allow it to trigger the getter method.
+     * @remark Do not even declare the property to trigger the getter method.
      * @access public
      * @since 2.0.0
      * @since 3.1.0 Changed the scope to public from protected.
@@ -40,7 +40,7 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * Provides the utility methods. 
      * @internal
-     * @remark Do not even declare the property to allow ti to be trigger the getter method.
+     * @remark Do not even declare the property to trigger the getter method.
      * @since 2.0.0
      * @since 3.1.0 Changed the scope to public from protected.
      */         
@@ -50,7 +50,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @since 2.0.0
      * @access public
      * @internal
-     * @remark Do not even declare the property to allow it to trigger the getter method.
+     * @remark Do not even declare the property to trigger the getter method.
      * @since 3.1.0 Changed the scope to public from protected.
      */         
     // public $oMsg;    
@@ -58,21 +58,21 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * @internal
      * @since 3.0.0
-     * @remark Do not even declare the property to allow it to trigger the getter method.
+     * @remark Do not even declare the property to trigger the getter method.
      */     
      // protected $oForm = null;    
     
     /**
      * Inserts page load information into the footer area of the page. 
      * 
-     * @remark Do not even declare the property to allow it to trigger the getter method.
+     * @remark Do not even declare the property to trigger the getter method.
      */
     // protected $oPageLoadInfo;
     
     /**
      * Provides the methods to insert head tag elements.
      * 
-     * @remark Do not even declare the property to allow it to trigger the getter method.
+     * @remark Do not even declare the property to trigger the getter method.
      * @since   3.3.0   Changed the name from $oResource as it has become to deal with footer elements.
      */
     // protected $oResource;
@@ -80,14 +80,14 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * Provides methods to manipulate contextual help pane.
      * 
-     * @remark Do not even declare the property to allow it to trigger the getter method.
+     * @remark Do not even declare the property to trigger the getter method.
      */
     // protected $oHelpPane;
     
     /**
      * Provides the methods for creating HTML link elements. 
      * 
-     * @remark Do not even declare the property to allow it to trigger the getter method.
+     * @remark Do not even declare the property to trigger the getter method.
      */    
     // protected $oLink;
     
@@ -99,7 +99,7 @@ abstract class AdminPageFramework_Factory_Router {
         $this->oProp = $oProp;
     
         if ( $this->oProp->bIsAdmin && ! $this->oProp->bIsAdminAjax ) {
-            add_action( 'current_screen', array( $this, '_replyToLoadComponents' ) ); // set a higher priority
+            add_action( 'current_screen', array( $this, '_replyToLoadComponents' ) );
         }
         
         // Call the start method - defined in the controller class.
@@ -111,7 +111,7 @@ abstract class AdminPageFramework_Factory_Router {
          * Determines whether the class component classes should be instantiated or not.
          * @internal
          */
-        public function _replyToLoadComponents( $oScreen ) {
+        public function _replyToLoadComponents( /* $oScreen */ ) {
 
             if ( 'plugins.php' === $this->oProp->sPageNow ) {
                 $this->oLink = isset( $this->oLink ) // the user may have already accessed it
@@ -188,7 +188,7 @@ abstract class AdminPageFramework_Factory_Router {
                 return new AdminPageFramework_FormElement( $oProp->sFieldsType, $oProp->sCapability, $this );
             case 'taxonomy':
             case 'widget':      // 3.2.0+
-            case 'user_meta':        // 3.5.0+
+            case 'user_meta':   // 3.5.0+
                 return new AdminPageFramework_FormElement( $oProp->sFieldsType, $oProp->sCapability, $this );
             
         }     
