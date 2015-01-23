@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -20,6 +20,36 @@
  * @internal
  */
 class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
+
+    /**
+     * Stores the field definition array.
+     */
+    public $aField = array();
+    
+    /**
+     * Stores field type definitions.
+     */
+    public $aFIeldTypeDefinitions = array();
+        
+    /**
+     * Stores stored options in the database.
+     */
+    public $aOptions = array();
+
+    /**
+     * Stores field error messages.
+     */
+    public $aErrors = array();
+    
+    /**
+     * Stores the message object
+     */
+    public $oMsg;
+    
+    /**
+     * Stores callables.
+     */
+    public $aCallbacks = array();
             
     /**
      * Sets up properties and load necessary scripts.
