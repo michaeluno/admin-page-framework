@@ -124,11 +124,10 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         // 4. Validate the data.
         $_aStatus   = array( 'settings-updated' => true );        
         $_aInput    = $this->_validateSubmittedData( 
-            $_aInput, 
+            $_aInput,       // submitted user input
             $_aInputRaw,    // without default values being merged.
-            $_aOptions,
-            $_aDefaultOptions,
-            $_aStatus   // passed by reference
+            $_aOptions,     // stored options data 
+            $_aStatus       // passed by reference
         ); 
         
         // 5. Save the data.
@@ -247,11 +246,12 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
      * @remark      the scope must be protected to be accessed from the extended class. The <em>AdminPageFramework</em> class uses this method in the overloading <em>__call()</em> method.
      * @param       array       $aInput     The submitted form user input data merged with the default option values. The variable contents will be validated and merged with the original saved options.
      * @param       array       $aInputRaw  The submitted form user input data as a row array.
+     * @param       array       $aOptions   The stored options (input) data.
      * @param       array       &$aStatus   A status array that will be inserted in the url $_GET query array in next page load, passed by reference.
      * @return      array       Returns the filtered validated input which will be saved in the options table.
      * @internal
      */ 
-    protected function _validateSubmittedData( $aInput, $aInputRaw, $aOptions, $aDefaultOptions, &$aStatus ) {
+    protected function _validateSubmittedData( $aInput, $aInputRaw, $aOptions, &$aStatus ) {
 
         // 1. Set up local variables.
         
