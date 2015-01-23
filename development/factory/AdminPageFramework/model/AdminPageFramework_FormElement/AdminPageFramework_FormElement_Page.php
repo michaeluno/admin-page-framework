@@ -10,9 +10,9 @@
 /**
  * Provides methods that deal with field and section definition arrays specific to the ones that belong to generic pages created by the framework.
  * 
- * @package AdminPageFramework
- * @subpackage Property
- * @since 3.0.0
+ * @package     AdminPageFramework
+ * @subpackage  Property
+ * @since       3.0.0
  * @internal
  */
 class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement {
@@ -20,14 +20,14 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
     /**
      * Stores the default the page slug.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     protected $sDefaultPageSlug;
     
     /**
      * Checks if the given page slug is added to a section.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function isPageAdded( $sPageSlug ) {
 
@@ -43,7 +43,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
     /**
      * Returns the registered field that belongs to the given page by slug.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function getFieldsByPageSlug( $sPageSlug, $sTabSlug='' ) {
         
@@ -53,7 +53,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
     
     /**
      * Returns the registered sections that belong to the given page by slug.
-     * @since 3.0.0.
+     * @since       3.0.0.
      */
     public function getSectionsByPageSlug( $sPageSlug, $sTabSlug='' ) {
         
@@ -78,8 +78,8 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * 
      * Used by fields type that require the page_slug key.
      * 
-     * @since 2.0.0
-     * @return string|null
+     * @since       2.0.0
+     * @return      string|null
      * @internal
      */ 
     public function getPageSlugBySectionID( $sSectionID ) {
@@ -91,7 +91,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
     /**
      * Sets the default page slug property.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function setDefaultPageSlug( $sDefaultPageSlug ) {
         $this->sDefaultPageSlug = $sDefaultPageSlug;
@@ -148,7 +148,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
     /**
      * Returns the formatted section array.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     protected function formatSection( array $aSection, $sFieldsType, $sCapability, $iCountOfElements ) {
         
@@ -168,8 +168,8 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * Before calling this method, $sOptionKey and $sClassName properties must be set.
      * 
      * @since       3.0.0
-     * @since       3.4.1       Added the $oCallerObject parameter.
-     * @return      array|void       An array of formatted field definition array. If required keys are not set, nothing will be returned. 
+     * @since       3.4.1           Added the $oCallerObject parameter.
+     * @return      array|void      An array of formatted field definition array. If required keys are not set, nothing will be returned. 
      */
     protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {
         
@@ -194,22 +194,20 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      */
     protected function getConditionedSection( array $aSection ) {
 
-        // Check the conditions
-        if ( ! current_user_can( $aSection['capability'] ) ) return;
-        if ( ! $aSection['if'] ) return;    
-        if ( ! $aSection['page_slug'] ) return;    
-        if ( 'options.php' != $this->getPageNow() && $this->sCurrentPageSlug != $aSection['page_slug'] ) return;    
-        if ( ! $this->_isSectionOfCurrentTab( $aSection, $this->sCurrentPageSlug, $this->sCurrentTabSlug ) ) return;
+        if ( ! current_user_can( $aSection['capability'] ) ) { return; }
+        if ( ! $aSection['if'] ) { return; }
+        if ( ! $aSection['page_slug'] ) { return; }
+        if ( 'options.php' != $this->getPageNow() && $this->sCurrentPageSlug != $aSection['page_slug'] ) { return; }
+        if ( ! $this->_isSectionOfCurrentTab( $aSection, $this->sCurrentPageSlug, $this->sCurrentTabSlug ) ) { return; }
         return $aSection;
         
     }
         /**
          * Checks if the given section belongs to the currently loading tab.
          * 
-         * @since 2.0.0
-         * @since 3.0.0 Moved from the setting class.
-         * @return boolean Returns true if the section belongs to the current tab page. Otherwise, false.
-         * @deprecated
+         * @since       2.0.0
+         * @since       3.0.0       Moved from the setting class.
+         * @return      boolean     Returns true if the section belongs to the current tab page. Otherwise, false.
          */     
         private function _isSectionOfCurrentTab( $aSection, $sCurrentPageSlug, $sCurrentTabSlug ) {
             
@@ -314,9 +312,9 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * 
      * This is used to merge the submitted form input data with the previously stored option data except the given page.
      * 
-     * @since 2.0.0
-     * @since 3.0.0 Moved from the settings class.
-     * @return array     the array storing the options excluding the key of the given page slug. 
+     * @since       2.0.0
+     * @since       3.0.0     Moved from the settings class.
+     * @return      array     An array storing the options excluding the key of the given page slug.
      */ 
     public function getOtherPageOptions( $aOptions, $sPageSlug ) {
 
@@ -380,7 +378,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * @param       string      $sPageSlug     the page slug to check
      * @param       string      $sTabSlug      the tab slug to check
      * @return      array       the stored options excluding the currently specified tab's sections and their fields.
-     *      If not found, an empty array will be returned.
+     * If not found, an empty array will be returned.
      */ 
     public function getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug ) {
 
@@ -388,10 +386,13 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
         foreach( $this->aFields as $_sSectionID => $_aSubSectionsOrFields ) {
             
             // Check the section
-            if (     // if the section is of the given page and the given tab, skip
+            if (     
                 isset( $this->aSections[ $_sSectionID ]['page_slug'] ) && $this->aSections[ $_sSectionID ]['page_slug'] == $sPageSlug 
                 && isset( $this->aSections[ $_sSectionID ]['tab_slug'] ) && $this->aSections[ $_sSectionID ]['tab_slug'] == $sTabSlug
-            ) { continue; }
+            ) { 
+                // if the section is of the given page and the given tab, skip
+                continue; 
+            }
             
             // At this point, the passed element belongs to the other tabs since the section of the given tab is skipped.
             foreach ( $_aSubSectionsOrFields as $_isSubSectionIndexOrFieldID => $_aSubSectionOrField  ) {
