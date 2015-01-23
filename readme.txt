@@ -369,7 +369,12 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.5.0 - 2015/01/22=
+= 3.5.1 - 2015/01/23 =
+- Fixed a bug in the `enqueueScripts()` method of the admin page factory class.
+- Fixed a bug that message objects were not properly instantiated. 
+- Fixed PHP strict standard warnings.
+
+= 3.5.0 - 2015/01/22 =
 - Added the forth parameter of submit information to the validation filter callbacks so that callback methods can know which framework field submit button is pressed etc.
 - Added the a method to the field type class that is triggered when a field of the field type is registered.
 - Added the `field_types_admin_page_framework` filter that allows you to register field types sitewide.
