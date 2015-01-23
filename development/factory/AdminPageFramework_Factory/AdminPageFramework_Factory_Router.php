@@ -71,9 +71,15 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * Provides the methods to insert head tag elements.
      * 
-     * @since   3.3.0   Changed the name from $oResource as it has become to deal with footer elements.
+     * @since   3.3.0   Changed the name from $oHeadTag as it has become to deal with footer elements.
      */
     protected $oResource;
+    
+    /**
+     * Provides the methods to insert head tag elements.
+     * @deprecated
+     */
+    protected $oHeadTag;
     
     /**
      * Provides methods to manipulate contextual help pane.
@@ -340,8 +346,8 @@ abstract class AdminPageFramework_Factory_Router {
                 case 'oHeadTag':    // 3.3.0+ for backward compatibility
                     return $this->oResource;                
             case 'oHelpPane':
-                $this->oHelpPange = $this->_getHelpPaneInstance( $this->oProp );
-                return $this->oHelpPange;
+                $this->oHelpPane = $this->_getHelpPaneInstance( $this->oProp );
+                return $this->oHelpPane;
             case 'oLink':
                 $this->oLink = $this->_getLinkInstancce( $this->oProp, $this->oMsg );
                 return $this->oLink;
