@@ -54,7 +54,7 @@ class AdminPageFramework_Message {
          * @deprecated  3.2.0
          */
         public static function instantiate( $sTextDomain='admin-page-framework' ) {
-            return self::getInstantiate( $sTextDomain );
+            return self::getInstance( $sTextDomain );
         }
         
     public function __construct( $sTextDomain='admin-page-framework' ) {
