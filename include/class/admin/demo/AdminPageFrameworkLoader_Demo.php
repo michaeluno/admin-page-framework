@@ -144,7 +144,7 @@ class AdminPageFrameworkLoader_Demo {
                 
             new APF_PostType( 
                 AdminPageFrameworkLoader_Registry::$aPostTypes['demo'],                // the post type slug
-                null,                       // the argument array. Here null is passed because it is defined inside the class.
+                array(),                    // the argument array. Here an empty array is passed because it is defined inside the class.
                 APFDEMO_FILE,               // the caller script path.
                 'admin-page-framework-demo' // the text domain.
             );   
