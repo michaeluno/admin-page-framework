@@ -13,6 +13,7 @@
  * Adds the Contact page to the demo plugin.
  * 
  * @since       3.5.0       Moved from the demo.
+ * @filter      apply       admin_page_framework_loader_filter_admin_add_ons        Receives an array holding add-on information to list.
  */
 class AdminPageFrameworkLoader_AdminPage_Addon_Top {
     
@@ -36,12 +37,9 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
         $this->_addTab();
         
         // Enable this to renew caches of the feed.
-        // add_filter( 'wp_feed_cache_transient_lifetime', array( $this, '_replyToSetFeedLifespan' ) );
+        // add_filter( 'wp_feed_cache_transient_lifetime', '__return_zero' );
         
     }
-        public function _replyToSetFeedLifespan( $iSeconds ) {
-            return 0;            
-        }
     
     private function _addTab() {
         
@@ -73,30 +71,32 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
         $this->oFactory->setInPageTabsVisibility( false );
         
     }
-        
+    
+    /**
+     * Called when the tab is being rendered.
+     */
     public function replyToDoTab() {
         
-        echo $this->_getAddOnList();
+        $_oFeedList  = new AdminPageFrameworkLoader_FeedList( $this->sRSSURL );
+        $_aFeedItems = apply_filters( AdminPageFrameworkLoader_Registry::HookSlug . '_filter_admin_add_ons', $this->_getDemo() + $_oFeedList->get() );
+        if ( empty( $_aFeedItems ) ) {
+            echo "<p>" . __( 'No add-on could be found.', 'admin-page-framework-loader' ) . "</p>";
+            return;
+        }        
+        
+        echo $this->_getList( $_aFeedItems );
         
     }
     
-        private $_aColumnOption = array (
-            'sClassAttr'         => 'apfl_columns',
-            'sClassAttrGroup'    => 'apfl_columns_box',
-            'sClassAttrRow'      => 'apfl_columns_row',
-            'sClassAttrCol'      => 'apfl_columns_col',
-            'sClassAttrFirstCol' => 'apfl_columns_first_col',
-        );    
-    
-        private function _getAddOnList() {
+        /**
+         * Generates an output of a list of boxes from the given array.
+         * 
+         * @since       3.5.0
+         * @since       3.5.1       Removed the part that fetches a RSS feed.
+         */
+        private function _getList( array $aFeedItem ) {
 
-            $_oFeedList  = new AdminPageFrameworkLoader_FeedList( $this->sRSSURL );
-            $_aFeedItems = $this->_getDemo() + $_oFeedList->get();
-            if ( empty( $_aFeedItems ) ) {
-                echo "<p>" . __( 'No add-on could be found.', 'admin-page-framework-loader' ) . "</p>";
-                return;
-            }
-            
+            // Local variables
             $_aOutput       = array();
             $_iMaxCols      = 3;
             $_aColumnInfo   = array (    // this will be modified as the items get rendered
@@ -104,12 +104,19 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
                 'bRowTagClosed'    => false,
                 'iCurrRowPos'      => 0,
                 'iCurrColPos'      => 0,
-            );
-            
+            );            
+            $_aColumnOption = array (
+                'sClassAttr'         => 'apfl_columns',
+                'sClassAttrGroup'    => 'apfl_columns_box',
+                'sClassAttrRow'      => 'apfl_columns_row',
+                'sClassAttrCol'      => 'apfl_columns_col',
+                'sClassAttrFirstCol' => 'apfl_columns_first_col',
+            );                
+                
             $_sSiteURL          = get_bloginfo( 'url' );
-            $_sSiteURLWPQuery   = preg_replace( '/\?.*/', '', $_sSiteURL );
+            $_sSiteURLWOQuery   = preg_replace( '/\?.*/', '', $_sSiteURL );
             
-            foreach( $_aFeedItems as $_sTitle => $_aItem ) {
+            foreach( $aFeedItem as $_sTitle => $_aItem ) {
                 
                 if ( ! is_array( $_aItem ) ) {
                     continue;
@@ -131,16 +138,16 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
                     'link'          => null,
                 );
 
-                $_sLinkURLWPQuery   = preg_replace( '/\?.*/', '', $_aItem['link'] );
-                $_sTarget           =  false === strpos( $_sLinkURLWPQuery , $_sSiteURLWPQuery ) 
+                $_sLinkURLWOQuery   = preg_replace( '/\?.*/', '', $_aItem['link'] );
+                $_sTarget           = false === strpos( $_sLinkURLWOQuery , $_sSiteURLWOQuery )
                     ? '_blank'
                     : '';
                 
                 // Enclose the item buffer into the item container
-                $_sItem = '<div class="' . $this->_aColumnOption['sClassAttrCol'] 
+                $_sItem = '<div class="' . $_aColumnOption['sClassAttrCol'] 
                     . ' apfl_col_element_of_' . $_iMaxCols . ' '
                     . ' apfl_extension '
-                    . ( ( $_aColumnInfo['iCurrColPos'] == 1 ) ?  $this->_aColumnOption['sClassAttrFirstCol']  : '' )
+                    . ( ( 1 == $_aColumnInfo['iCurrColPos'] ) ?  $_aColumnOption['sClassAttrFirstCol']  : '' )
                     . '"'
                     . '>' 
                         . '<div class="apfl_addon_item">' 
@@ -160,7 +167,7 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
                 // Be aware that at this point, the tag will be unclosed. Therefore, it must be closed later at some point. 
                 if ( 1 == $_aColumnInfo['iCurrColPos'] ) {
                     $_aColumnInfo['bRowTagOpened'] = true;
-                    $_sItem = '<div class="' . $this->_aColumnOption['sClassAttrRow']  . '">' 
+                    $_sItem = '<div class="' . $_aColumnOption['sClassAttrRow']  . '">' 
                         . $_sItem;
                 }
             
@@ -184,7 +191,7 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
             
             // enclose the output in the group tag
             return '<div class="apfl_addon_list_container">' 
-                    . '<div class="' . $this->_aColumnOption['sClassAttr'] . ' ' . $this->_aColumnOption['sClassAttrGroup'] . '">'
+                    . '<div class="' . $_aColumnOption['sClassAttr'] . ' ' . $_aColumnOption['sClassAttrGroup'] . '">'
                         . implode( '', $_aOutput )
                     . '</div>'
                 . '</div>';
@@ -221,9 +228,7 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
                         : __( 'Activate', 'admin-page-framework-loader' ),
                 )
             );
-            
-            return array();
-            
+                        
         }
     
 }
