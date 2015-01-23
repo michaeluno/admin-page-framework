@@ -169,6 +169,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * 
      * @since       3.0.0
      * @since       3.4.1       Added the $oCallerObject parameter.
+     * @return      array|void       An array of formatted field definition array. If required keys are not set, nothing will be returned. 
      */
     protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {
         

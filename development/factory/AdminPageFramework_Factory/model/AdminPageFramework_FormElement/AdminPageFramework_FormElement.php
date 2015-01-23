@@ -395,7 +395,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                         
                         $_iCountElement = isset( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ] ) ? count( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ] ) : 0 ;
                         $_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, $_iSectionIndex, $_abSectionRepeatable, $this->oCaller );
-                        if ( $_aField ) {
+                        if ( ! empty( $_aField ) ) {
                             $_aNewFields[ $_sSectionID ][ $_iSectionIndex ][ $_aField['field_id'] ] = $_aField;     
                         }
                         
@@ -414,7 +414,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                 // Insert the formatted field definition array.
                 $_iCountElement = isset( $_aNewFields[ $_sSectionID ] ) ? count( $_aNewFields[ $_sSectionID ] ) : 0; // the count is needed to set each order value.
                 $_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, null, $_abSectionRepeatable, $this->oCaller );
-                if ( $_aField ) {
+                if ( ! empty( $_aField ) ) {
                     $_aNewFields[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
                 }
                 
@@ -441,6 +441,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
          * Returns the formatted field array.
          * 
          * @since       3.0.0
+         * @return      array|void       An array of formatted field definition array. If required keys are not set, nothing will be returned. 
          */
         protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {
             
