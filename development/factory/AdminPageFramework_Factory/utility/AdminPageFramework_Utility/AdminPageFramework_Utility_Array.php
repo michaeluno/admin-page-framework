@@ -137,7 +137,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * @remark      The parameters are variadic and can add arrays as many as necessary.
      * @return      array     the united array.
      */
-    public static function uniteArrays( $aPrecedence, $aDefault1 ) {
+    public static function uniteArrays( /* $aPrecedence, $aDefault1 */ ) {
                 
         $_aArgs  = array_reverse( func_get_args() );
         $_aArray = array();
