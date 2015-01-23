@@ -25,6 +25,34 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
     protected $sDefaultPageSlug;
     
     /**
+     * Stores the option key used for the options database table.
+     * @since       3.0.0
+     * @since       3.5.0       Declared as a default property.
+     */
+    protected $sOptionKey;
+    
+    /**
+     * Stores the class name of the caller object.
+     * @since       3.0.0
+     * @since       3.5.0       Declared as a default property.
+     */
+    protected $sClassName;
+    
+    /**
+     * Stores the currently loading page slug.
+     * @since       3.0.0
+     * @since       3.5.0       Declared as a default property.
+     */
+    protected $sCurrentPageSlug;
+
+    /**
+     * Stores the currently loading page slug.
+     * @since       3.0.0
+     * @since       3.5.0       Declared as a default property.
+     */
+    protected $sCurrentTabSlug;
+    
+    /**
      * Checks if the given page slug is added to a section.
      * 
      * @since       3.0.0
@@ -102,7 +130,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * 
      * Used by the field formatting method.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function setOptionKey( $sOptionKey ) {
         $this->sOptionKey = $sOptionKey;
@@ -113,7 +141,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * 
      * Used by the field formatting method.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function setCallerClassName( $sClassName ) {
         $this->sClassName = $sClassName;     
@@ -124,7 +152,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * 
      * Used by the conditioning method for sections.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function setCurrentPageSlug( $sCurrentPageSlug ) {
         $this->sCurrentPageSlug = $sCurrentPageSlug;
