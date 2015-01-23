@@ -27,6 +27,13 @@ class AdminPageFramework_Message {
     public $aMessages = array();
     
     /**
+     * Stores the text domain.
+     * @since       3.x
+     * @since       3.5.0       Declared as a default property.
+     */
+    protected $_sTextDomain = 'admin-page-framework';
+    
+    /**
      * Stores the self instance by text domain.
      * @internal
      * @since       3.2.0
@@ -180,13 +187,7 @@ class AdminPageFramework_Message {
      * @since   3.2.0
      */    
     public function output( $sKey ) {
-        
-        if ( isset( $this->aMessages[ $sKey ] ) ) {
-            _e( $this->aMessages[ $sKey ], $this->_sTextDomain );
-        } else {
-            _e( $this->{$sKey}, $this->_sTextDomain );
-        }
-        
+        echo $this->get( $sKey );
     }   
         
         /**
