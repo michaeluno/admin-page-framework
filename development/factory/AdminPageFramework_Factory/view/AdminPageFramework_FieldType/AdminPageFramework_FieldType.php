@@ -208,8 +208,9 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
     /**
      * Called when the given field of this field type is registered.
      * @since       3.5.0
+     * @since       3.5.1       Removed a type hint in the first parameter.
      */
-    protected function doOnFieldRegistration( array $aField ) {}
+    protected function doOnFieldRegistration( $aField ) {}
     /**#@-*/
     
 }
