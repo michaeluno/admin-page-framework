@@ -99,6 +99,7 @@ class AdminPageFramework_WPReadmeParser {
      * Returns the parsed text.
      * 
      * @since       3.5.0
+     * @return string
      */
     public function get( $sSectionName='' ) {
         return $sSectionName
@@ -184,6 +185,7 @@ class AdminPageFramework_WPReadmeParser {
      * Retrieves syntax highlighted PHP code.
      * 
      * @since       3.5.0
+     * @param string $sCode
      */
     public function getSyntaxHighlightedPHPCode( $sCode ) {
         
