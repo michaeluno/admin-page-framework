@@ -79,6 +79,7 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
         $this->oProp->sPostType     = AdminPageFramework_WPUtility::sanitizeSlug( $sPostType );
         $this->oProp->aPostTypeArgs = $aArgs; // for the argument array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
 
+        // Make sure to call the parent construct first as the factory router need to set up sub-class objects.
         parent::__construct( $this->oProp );
                 
         $this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}", $this );

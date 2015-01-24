@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -24,17 +24,15 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * Sets up hooks and properties.
      * 
      * @internal
+     * @remark      Make sure to call the parent construct first as the factory router need to set up sub-class objects.
      */
     function __construct( $oProp ) {
         
         parent::__construct( $oProp );
         
-        // When instantiating this class from the plugin activation hook, 'init' is already done.
-        if ( did_action( 'init' ) ) {
-            $this->_replyToRegisterPostType();
-        } else {
-            add_action( 'init', array( $this, '_replyToRegisterPostType' ), 999 ); // this is loaded in the front-end as well so should not be admin_init. Also "if ( is_admin() )" should not be used either.
-        }
+        // Post type registration should be done after the setUp() method.
+        // Post type has front-tend components so should not be admin_init. Also "if ( is_admin() )" should not be used either.
+        add_action( "set_up_{$this->oProp->sClassName}", array( $this, '_replyToRegisterPostType' ), 999 );
         
         // Properties
         $this->oProp->aColumnHeaders = array(

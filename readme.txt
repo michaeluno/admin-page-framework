@@ -369,6 +369,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.5.1.1 - 2015/01/24 = 
+- Fixed a bug that caused non-object type PHP error in the post type factory class introduced in v3.5.1.
+
 = 3.5.1 - 2015/01/23 =
 - Fixed a bug in the `enqueueScripts()` method of the admin page factory class.
 - Fixed a bug that message objects were not properly instantiated. 

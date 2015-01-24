@@ -23,20 +23,19 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
      * Sets up hooks and properties.
      * 
      * @internal
+     * @remark      Make sure to call the parent construct first as the factory router need to set up sub-class objects.
      */
     function __construct( $oProp ) {
+                
+        parent::__construct( $oProp );
         
         // 3.4.2+ Changed the hook to init from wp_loaded.
-        if ( did_action( 'init' ) ) {  // For the activation hook.
-            $this->setup_pre();
+        // 3.5.1+ Moved to after the constructor.
+        if ( did_action( 'init' ) ) {  
+            $this->setup_pre(); 
         } {
             add_action( 'init', array( $this, 'setup_pre' ) );     
         }
-        
-        // Parent classes includes the model class and it registers the post type with the init hook.
-        // For the case this class is instniated after the init hook, the setUp() method should be called earlier than that.
-        // Thus, the parent constructor must be called after the call of setup_pre() above.        
-        parent::__construct( $oProp );
         
     }
 
@@ -173,7 +172,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
     * @return   void
     */ 
     protected function addTaxonomy( $sTaxonomySlug, array $aArgs, array $aAdditionalObjectTypes=array() ) {
-        
+AdminPageFramework_Debug::log( $this->oUtil );
         $sTaxonomySlug = $this->oUtil->sanitizeSlug( $sTaxonomySlug );
         $this->oProp->aTaxonomies[ $sTaxonomySlug ] = $aArgs;    
         if ( isset( $aArgs['show_table_filter'] ) && $aArgs['show_table_filter'] ) {

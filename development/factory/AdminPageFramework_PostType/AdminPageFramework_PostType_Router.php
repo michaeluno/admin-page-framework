@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -47,10 +47,17 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
     public function __call( $sMethodName, $aArgs=null ) {    
     
         if ( 'setup_pre' == $sMethodName ) { 
+        
+            // @todo introduce "set_up_pre_{ class name }" action hook.
+        
             $this->_setUp();
+            
+            // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
             $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
+            
             $this->oProp->_bSetupLoaded = true;
             return;
+            
         }
 
         if ( has_filter( $sMethodName ) ) {

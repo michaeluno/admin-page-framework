@@ -27,10 +27,17 @@ abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Facto
     public function __call( $sMethodName, $aArgs=null ) {    
     
         if ( 'setup_pre' === $sMethodName ) { 
+        
+            // @todo introduce "set_up_pre_{ class name }" action hook.
             $this->_setUp();
+            
+            // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
+            // @todo Examine why the same action hook 'set_up_{class name}' is added in the AdminPageFramework_Widget_Model class.
             $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
+            
             $this->oProp->_bSetupLoaded = true;            
             return;
+            
         }
 
         if ( has_filter( $sMethodName ) ) {

@@ -180,9 +180,6 @@ abstract class AdminPageFramework_Factory_Router {
      */
     public function _isInThePage() { return true; }
     
-    /*
-     * Route
-     */
     /**
      * Instantiate a form object based on the type.
      * 

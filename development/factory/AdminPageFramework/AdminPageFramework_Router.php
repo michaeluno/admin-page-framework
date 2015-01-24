@@ -115,10 +115,17 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         $sTabSlug   = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );    
 
         if ( 'setup_pre' === $sMethodName ) {
+            
+            // @todo introduce "set_up_pre_{ class name }" action hook.
+            
             $this->_setUp();
+            
+            // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
             $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
+            
             $this->oProp->_bSetupLoaded = true;
             return;
+            
         }
         
         // If it is a pre callback method, call the redirecting method.     
