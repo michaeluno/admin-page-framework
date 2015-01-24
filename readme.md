@@ -4,6 +4,8 @@
 
 Admin Page Framework is an OOP based open source WordPress library that facilitates theme and plugin development. 
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/michaeluno/admin-page-framework/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/michaeluno/admin-page-framework/?branch=master)
+
 ## Screenshots ##
 
 <p align="center">
