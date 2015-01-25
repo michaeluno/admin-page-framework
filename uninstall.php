@@ -21,8 +21,8 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
  * We are going to load the main file to get the registry class. And in the main file, 
  * if this constant is set, it will return after declaring the registry class.
  **/
-if ( ! defined( 'DOWING_UNINSTALL' ) ) {
-    define( 'DOWING_UNINSTALL', true  );
+if ( ! defined( 'DOING_UNINSTALL' ) ) {
+    define( 'DOING_UNINSTALL', true  );
 }
 
 /**

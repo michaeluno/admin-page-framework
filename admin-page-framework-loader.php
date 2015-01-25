@@ -209,7 +209,7 @@ AdminPageFrameworkLoader_Registry::setUp( __FILE__ );
 
 // Initial checks. - Do no load if accessed directly, not exiting because the 'uninstall.php' or inclusion list generator will load this file.
 if ( ! defined( 'ABSPATH' ) ) { return; }
-if ( defined( 'DOWING_UNINSTALL' ) ) { return; }
+if ( defined( 'DOING_UNINSTALL' ) ) { return; }
 
 // Include the library file 
 if ( ! class_exists( 'AdminPageFramework' ) ) {    
