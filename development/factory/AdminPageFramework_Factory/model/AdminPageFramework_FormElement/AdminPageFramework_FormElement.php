@@ -154,15 +154,15 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
     /**
      * Stores the target page slug which will be applied when no page slug is specified.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     protected $_sTargetSectionID = '_default';    
     
     /**
      * Stores the default access level of the fields.
      * 
-     * @remark The scope is public to allow change the value externally.
-     * @since 3.0.0
+     * @remark      The scope is public to let the value being changed externally.
+     * @since       3.0.0
      */
     public $sCapability = 'manage_option';
     
@@ -209,35 +209,48 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      */
     public function removeSection( $sSectionID ) {
         
-        if ( '_default' === $sSectionID ){  return; }
+        if ( '_default' === $sSectionID ){ 
+            return; 
+        }
         
-        unset( $this->aSections[ $sSectionID ] );
-        unset( $this->aFields[ $sSectionID ] );
+        unset( 
+            $this->aSections[ $sSectionID ],
+            $this->aFields[ $sSectionID ]
+        );
         
     }
     
     /*
      * Adds the given field definition array to the form property.
      * 
-     * @since 3.0.0
-     * @return array|string|null If the passed field is set, it returns the set field array. If the target section id is set, the set section id is returned. Otherwise null.
+     * @since       3.0.0
+     * @param       array|string            $asField        A field definition array.
+     * @return      array|string|null       If the passed field is set, it returns the set field array. If the target section id is set, the set section id is returned. Otherwise null.
      */    
     public function addField( $asField ) {
         
         if ( ! is_array( $asField ) ) {
-            $this->_sTargetSectionID = is_string( $asField ) ? $asField : $this->_sTargetSectionID;
+            $this->_sTargetSectionID = is_string( $asField ) 
+                ? $asField 
+                : $this->_sTargetSectionID;
             return $this->_sTargetSectionID;
         }
         $aField = $asField;
-        $this->_sTargetSectionID = isset( $aField['section_id'] ) ? $aField['section_id'] : $this->_sTargetSectionID;
+        $this->_sTargetSectionID = isset( $aField['section_id'] ) 
+            ? $aField['section_id'] 
+            : $this->_sTargetSectionID;
         
         $aField = $this->uniteArrays( 
-            array( '_fields_type' => $this->sFieldsType ),
-            $aField, 
-            array( 'section_id' => $this->_sTargetSectionID ),
-            self::$_aStructure_Field
+            array( '_fields_type' => $this->sFieldsType )
+            + $aField, 
+            array( 'section_id' => $this->_sTargetSectionID )
+            + self::$_aStructure_Field
         );
-        if ( ! isset( $aField['field_id'], $aField['type'] ) ) { return null; } // Check the required keys as these keys are necessary.
+        
+        // Requrired Keys
+        if ( ! isset( $aField['field_id'], $aField['type'] ) ) { 
+            return null; 
+        } 
             
         // Sanitize the IDs since they are used as a callback method name.
         $aField['field_id']     = $this->sanitizeSlug( $aField['field_id'] );
@@ -323,10 +336,14 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         $_aNewSectionArray = array();
         foreach( $aSections as $_sSectionID => $_aSection ) {
 
-            if ( ! is_array( $_aSection ) ) { continue; }
+            if ( ! is_array( $_aSection ) ) { 
+                continue; 
+            }
 
             $_aSection = $this->formatSection( $_aSection, $sFieldsType, $sCapability, count( $_aNewSectionArray ) );
-            if ( ! $_aSection ) { continue; }
+            if ( ! $_aSection ) { 
+                continue; 
+            }
             
             $_aNewSectionArray[ $_sSectionID ] = $_aSection;
             
@@ -355,7 +372,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                 
             $aSection['order'] = is_numeric( $aSection['order'] ) ? $aSection['order'] : $iCountOfElements + 10;
             
-            // 3.4.0
+            // 3.4.0+
             if ( empty( $aSection['collapsible'] ) ) {
                 $aSection['collapsible'] = $aSection['collapsible'];
             } else {
@@ -378,17 +395,21 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
     /**
      * Formats the stored fields definition array.
      * 
-     * @since 3.0.0
-     * @since 3.1.1 Added a parameter. Changed to return the formatted sections array.
+     * @since       3.0.0
+     * @since       3.1.1       Added a parameter. Changed to return the formatted sections array.
      */
     public function formatFields( array $aFields, $sFieldsType, $sCapability ) {
 
         $_aNewFields = array();
-        foreach ( $aFields as $_sSectionID => $_aSubSectionsOrFields ) {
+        foreach( $aFields as $_sSectionID => $_aSubSectionsOrFields ) {
             
-            if ( ! isset( $this->aSections[ $_sSectionID ] ) ) { continue; }
+            if ( ! isset( $this->aSections[ $_sSectionID ] ) ) { 
+                continue; 
+            }
 
-            $_aNewFields[ $_sSectionID ] = isset( $_aNewFields[ $_sSectionID ] ) ? $_aNewFields[ $_sSectionID ] : array();
+            $_aNewFields[ $_sSectionID ] = isset( $_aNewFields[ $_sSectionID ] ) 
+                ? $_aNewFields[ $_sSectionID ] 
+                : array();
             
             // If there are sub-section items.
             $_abSectionRepeatable = $this->aSections[ $_sSectionID ]['repeatable']; // a setting array or boolean or true/false
@@ -417,7 +438,10 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             foreach( $_aSectionedFields as $_sFieldID => $_aField ) {
                 
                 // Insert the formatted field definition array.
-                $_iCountElement = isset( $_aNewFields[ $_sSectionID ] ) ? count( $_aNewFields[ $_sSectionID ] ) : 0; // the count is needed to set each order value.
+                // the count is needed to set each order value.
+                $_iCountElement = isset( $_aNewFields[ $_sSectionID ] ) 
+                    ? count( $_aNewFields[ $_sSectionID ] ) 
+                    : 0; 
                 $_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, null, $_abSectionRepeatable, $this->oCaller );
                 if ( ! empty( $_aField ) ) {
                     $_aNewFields[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
@@ -450,7 +474,9 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
          */
         protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {
             
-            if ( ! isset( $aField['field_id'], $aField['type'] ) ) { return; }
+            if ( ! isset( $aField['field_id'], $aField['type'] ) ) { 
+                return; 
+            }
             
             $_aField = $this->uniteArrays(
                 array( 
@@ -621,7 +647,9 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         
         foreach( $aOptions as $_sSectionID => $_aSubSectionOrFields ) {
             
-            if ( ! is_array( $_aSubSectionOrFields ) ) { continue; }
+            if ( ! is_array( $_aSubSectionOrFields ) ) { 
+                continue; 
+            }
             
             $_aSubSection = array();
             foreach( $_aSubSectionOrFields as $_isIndexOrFieldID => $_aSubSectionOrFieldOptions ) {
