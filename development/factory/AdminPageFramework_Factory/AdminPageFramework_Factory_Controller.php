@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -211,7 +211,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      */    
     public function addSettingSections( $aSection1, $aSection2=null, $_and_more=null ) {
         
-        foreach( func_get_args() as $asSection ) { $this->addSettingSection( $asSection ); }
+        foreach( func_get_args() as $asSection ) { 
+            $this->addSettingSection( $asSection ); 
+        }
         
         // Reset the stored target tab slug and the target section tab slug.
         $this->_sTargetSectionTabSlug = null;
@@ -494,7 +496,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     * @return       void
     */ 
     public function addSettingFields( $aField1, $aField2=null, $_and_more=null ) {
-        foreach( func_get_args() as $aField ) $this->addSettingField( $aField );
+        foreach( func_get_args() as $aField ) { 
+            $this->addSettingField( $aField ); 
+        }
     }    
         
     /**
