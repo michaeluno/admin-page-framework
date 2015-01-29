@@ -235,29 +235,29 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                 : $this->_sTargetSectionID;
             return $this->_sTargetSectionID;
         }
-        $aField = $asField;
-        $this->_sTargetSectionID = isset( $aField['section_id'] ) 
-            ? $aField['section_id'] 
+        $_aFIeld = $asField;
+        $this->_sTargetSectionID = isset( $_aFIeld['section_id'] ) 
+            ? $_aFIeld['section_id'] 
             : $this->_sTargetSectionID;
         
-        $aField = $this->uniteArrays( 
+        $_aFIeld = $this->uniteArrays( 
             array( '_fields_type' => $this->sFieldsType )
-            + $aField, 
+            + $_aFIeld, 
             array( 'section_id' => $this->_sTargetSectionID )
             + self::$_aStructure_Field
         );
         
         // Requrired Keys
-        if ( ! isset( $aField['field_id'], $aField['type'] ) ) { 
+        if ( ! isset( $_aFIeld['field_id'], $_aFIeld['type'] ) ) { 
             return null; 
         } 
             
         // Sanitize the IDs since they are used as a callback method name.
-        $aField['field_id']     = $this->sanitizeSlug( $aField['field_id'] );
-        $aField['section_id']   = $this->sanitizeSlug( $aField['section_id'] );     
+        $_aFIeld['field_id']     = $this->sanitizeSlug( $_aFIeld['field_id'] );
+        $_aFIeld['section_id']   = $this->sanitizeSlug( $_aFIeld['section_id'] );     
         
-        $this->aFields[ $aField['section_id'] ][ $aField['field_id'] ] = $aField;
-        return $aField;
+        $this->aFields[ $_aFIeld['section_id'] ][ $_aFIeld['field_id'] ] = $_aFIeld;
+        return $_aFIeld;
         
     }    
         
