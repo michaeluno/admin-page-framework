@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -20,6 +20,9 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
     
     /**
      * Sets up internal properties.
+     * 
+     * @since       3.2.0
+     * @return      void
      */
 	public function __construct( $oCaller, $sWidgetTitle, array $aArguments=array() ) {
 		
@@ -39,6 +42,9 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
     
     /**
      * Displays the widget contents in the front end.
+     * 
+     * @since       3.2.0
+     * @return      void
      */
 	public function widget( $aArguments, $aFormData ) {
 
@@ -67,6 +73,9 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
     
     /**
      * Validates the submitted form data.
+     * 
+     * @since       3.2.0
+     * @return      mixed       The validated form data. The type should be an array but it is dealt by the framework user it will be unknown.
      */
 	public function update( $aSubmittedFormData, $aSavedFormData ) {
                 
@@ -82,9 +91,12 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
     
     /**
      * Constructs the widget form.
+     * 
+     * @remark      In widgets.php, this method will be called at leaset once when WordPress list widgets on the left hand side of the page.
+     * @return      void
      */
 	public function form( $aFormData ) {
-
+        
         // Trigger the load() method and load_{...} actions. The user sets up the form.
         $this->oCaller->load( $this->oCaller );
         $this->oCaller->oUtil->addAndDoActions( 
@@ -118,7 +130,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
     public function _replyToAddClassSelector( $sClassSelectors ) {
         
         $sClassSelectors .= ' widefat';
-        return trim ( $sClassSelectors );
+        return trim( $sClassSelectors );
         
     }
 
