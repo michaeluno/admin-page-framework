@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.3
 Tested up to:       4.1.0
-Stable tag:         3.5.0
+Stable tag:         3.5.1.1
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,9 +85,7 @@ Activate the demo pages to see the possible features of the framework. To activa
 
 <h4>Documentation</h4>
 - [Online Documentation](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html)
-
-<h4>Tutorials</h4>
-[Index](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
+- [Tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
 
 == Screenshots ==
 1. **Text Fields**
@@ -368,6 +366,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+
+= 3.5.2 =
+- Changed to accept a string to be set in the `class` argument of the section definition array.
 
 = 3.5.1.1 - 2015/01/24 = 
 - Fixed a bug that caused non-object type PHP error in the post type factory class introduced in v3.5.1.

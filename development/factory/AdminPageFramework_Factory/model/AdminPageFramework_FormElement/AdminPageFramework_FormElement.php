@@ -365,6 +365,11 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                 $aSection['collapsible']['toggle_all_button'] = implode( ',', $this->getAsArray( $aSection['collapsible']['toggle_all_button'] ) );
             }
             
+            // 3.5.2+ Accept a string value set to the 'class' elemnet.
+            $aSection['class'] = is_array( $aSection['class'] ) 
+                ? $aSection['class']
+                : $this->getAsArray( $aSection['class'] );
+            
             return $aSection;
             
         }
