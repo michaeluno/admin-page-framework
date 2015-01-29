@@ -92,7 +92,6 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
     /**
      * Constructs the widget form.
      * 
-     * @remark      In widgets.php, this method will be called at leaset once when WordPress list widgets on the left hand side of the page.
      * @return      void
      */
 	public function form( $aFormData ) {
@@ -119,6 +118,17 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
       
         // Render the form. 
         $this->oCaller->_printWidgetForm();
+       
+        /** 
+         * Initialize the form object that stores registered sections and fields
+         * because this class gets called multiple times to render the form including added widgets and the initial widget that gets listed on the lsft hand side of the page.
+         * @since       3.5.2
+         */
+        $this->oCaller->oForm = new AdminPageFramework_FormElement( 
+            $this->oCaller->oProp->sFieldsType, 
+            $this->oCaller->oProp->sCapability, 
+            $this->oCaller
+        );   
        
 	}
     

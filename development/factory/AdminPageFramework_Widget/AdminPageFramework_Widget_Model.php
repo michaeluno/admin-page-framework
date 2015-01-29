@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -83,12 +83,16 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
     public function _replyToRegisterWidget() {
         
         global $wp_widget_factory;
-        if ( ! is_object( $wp_widget_factory ) ) { return; }
+        if ( ! is_object( $wp_widget_factory ) ) { 
+            return; 
+        }
         
         $wp_widget_factory->widgets[ $this->oProp->sClassName ] = new AdminPageFramework_Widget_Factory( 
             $this, 
             $this->oProp->sWidgetTitle, 
-            is_array( $this->oProp->aWidgetArguments ) ? $this->oProp->aWidgetArguments : array() 
+            is_array( $this->oProp->aWidgetArguments ) 
+                ? $this->oProp->aWidgetArguments 
+                : array() 
         );
         
     }
@@ -113,7 +117,6 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
   
         // Add the repeatable section elements to the fields definition array.
         $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
-  
         $this->_registerFields( $this->oForm->aConditionedFields ); // defined in the framework factory model class.
                 
     }   

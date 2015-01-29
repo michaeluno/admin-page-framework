@@ -57,10 +57,12 @@ abstract class AdminPageFramework_Factory_Router {
     public $oMsg;
     
     /**
+     * The form object that provides methods to handle form sections and fields.
      * @internal
      * @since       3.0.0
+     * @since       3.5.2       Changed the scope to public from protected as the widget class needs to initialize this object.
      */     
-    protected $oForm;
+    public $oForm;
     
     /**
      * Inserts page load information into the footer area of the page. 
