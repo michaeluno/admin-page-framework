@@ -172,7 +172,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
     * @return   void
     */ 
     protected function addTaxonomy( $sTaxonomySlug, array $aArgs, array $aAdditionalObjectTypes=array() ) {
-AdminPageFramework_Debug::log( $this->oUtil );
+
         $sTaxonomySlug = $this->oUtil->sanitizeSlug( $sTaxonomySlug );
         $this->oProp->aTaxonomies[ $sTaxonomySlug ] = $aArgs;    
         if ( isset( $aArgs['show_table_filter'] ) && $aArgs['show_table_filter'] ) {
