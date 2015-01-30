@@ -56,7 +56,12 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                 $_sResult = "{$aField['field_id']}{$_sKey}";
                 break;
                 
-            case 'widget':      // 3.2.0+
+            case 'widget':      // 3.2.0+, 3.5.2+ Fixed a bug that secion names were not set properly
+                $_sResult       = isset( $aField['section_id'] ) && $aField['section_id'] && '_default' != $aField['section_id']
+                    ? "[{$aField['section_id']}]{$_sSectionIndex}[{$aField['field_id']}]"
+                    : "[{$aField['field_id']}]";            
+                $_sResultTail   = $_sKey;                  
+                break;            
             case 'user_meta':   // 3.5.0+
                 $_sResult       = isset( $aField['section_id'] ) && $aField['section_id'] && '_default' != $aField['section_id']
                     ? "{$aField['section_id']}{$_sSectionIndex}[{$aField['field_id']}]"

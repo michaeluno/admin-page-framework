@@ -110,7 +110,7 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
         
         // Set the internal options array. The framework refers this array when rendering the form.
         $this->oProp->aOptions = $aOptions;
-     
+
         // Format the fields array.
         $this->oForm->format();
         $this->oForm->applyConditions(); // will set $this->oForm->aConditionedFields

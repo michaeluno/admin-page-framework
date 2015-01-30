@@ -86,6 +86,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             $aSavedFormData,
             $this->oCaller
         );
+
         
 	}
     
@@ -95,7 +96,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
      * @return      void
      */
 	public function form( $aFormData ) {
-        
+
         // Trigger the load() method and load_{...} actions. The user sets up the form.
         $this->oCaller->load( $this->oCaller );
         $this->oCaller->oUtil->addAndDoActions( 
@@ -111,7 +112,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
         $this->oCaller->oProp->aFieldCallbacks = array( 
             'hfID'          => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
             'hfTagID'       => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
-            'hfName'        => array( $this, 'get_field_name' ),  // defined in the WP_Widget class.
+            'hfName'        => array( $this, 'get_field_name' ),  // defined in this class.
             // 'hfClass'       => array( $this, '_replyToAddClassSelector' ),
             // 'hfNameFlat'    => array( $this, '' ),
         );              
@@ -144,4 +145,13 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
         
     }
 
+	/**
+	 * Overrides the get_field_name() method defined in the WP_Widget class to support form sections.
+	 *
+     * @since       3.5.2
+	 */
+	public function get_field_name( $sFieldName ) {
+		return 'widget-' . $this->id_base . '[' . $this->number . ']' . $sFieldName;
+	}    
+    
 }
