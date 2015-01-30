@@ -368,6 +368,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.2 =
+- Fixed a bug in the widget factory class that mixing fields without a section and with a section caused duplicated fields.
 - Changed to accept a string to be set in the `class` argument of the section definition array.
 
 = 3.5.1.1 - 2015/01/24 = 
