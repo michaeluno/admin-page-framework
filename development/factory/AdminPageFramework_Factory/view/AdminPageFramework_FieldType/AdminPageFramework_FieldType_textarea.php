@@ -114,6 +114,7 @@ jQuery( document ).ready( function(){
                 selector:       '#' + sTextAreaID,
                 body_class:     sTextAreaID,
                 height:         '100px',  
+                menubar:        false,
                 setup :         function( ed ) {    // see: http://www.tinymce.com/wiki.php/API3:event.tinymce.Editor.onChange
                     // It seems for tinyMCE 4 or above the on() method must be used.
                     if ( tinymce.majorVersion >= 4 ) {
