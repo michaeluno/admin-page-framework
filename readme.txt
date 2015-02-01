@@ -71,7 +71,7 @@ With custom field types, you can create more detailed customized field outputs. 
 - `sample` - a sample custom field type with a JavaScript script.
 - `github` - displays GitHub buttons.
 
-If you want a field type that are not listed here, you can check the [field type pack](http://en.michaeluno.jp/admin-page-framework/field-type-pack) or request a new one in the forum.
+If you want a field type that are not listed here, you can check the [field type pack](http://admin-page-framework.michaeluno.jp/add-ons/field-type-pack/) or request a new one in the forum.
 
 <h4>Getting Started</h4>
 Go to **Dashboard** -> **Admin Page Framework** -> **About** -> **Getting Started**.
@@ -85,7 +85,7 @@ Activate the demo pages to see the possible features of the framework. To activa
 
 <h4>Documentation</h4>
 - [Online Documentation](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html)
-- [Tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
+- [Tutorials](http://admin-page-framework.michaeluno.jp/tutorials/)
 
 == Screenshots ==
 1. **Text Fields**
@@ -367,9 +367,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.5.2 =
+= 3.5.2 - 2015/02/02 =
 - Fixed a bug in the widget factory class that form sections could not be set.
-- Changed to accept a string to be set in the `class` argument of the section definition array.
+- Changed the `class` argument of the section definition array to accept a string.
 
 = 3.5.1.1 - 2015/01/24 = 
 - Fixed a bug that caused non-object type PHP error in the post type factory class introduced in v3.5.1.
