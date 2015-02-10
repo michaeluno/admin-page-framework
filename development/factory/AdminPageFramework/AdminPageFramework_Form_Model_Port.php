@@ -60,14 +60,14 @@ abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Rou
 
         // Check the uploaded file MIME type.
         $_sType = $oImport->getType();
-        if ( ! in_array( $oImport->getType(), $aMIMEType ) ) {        
+        if ( ! in_array( $_sType, $aMIMEType ) ) {        
             $this->setSettingNotice( sprintf( $this->oMsg->get( 'uploaded_file_type_not_supported' ), $_sType ) );
             return $aStoredOptions;        // do not change the framework's options.
         }
 
         // Retrieve the importing data.
         $vData = $oImport->getImportData();
-        if ( $vData === false ) {
+        if ( false === $vData ) {
             $this->setSettingNotice( $this->oMsg->get( 'could_not_load_importing_data' ) );     
             return $aStoredOptions; // do not change the framework's options.
         }
@@ -145,8 +145,8 @@ abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Rou
         }
     
         // The option data to be saved will be returned.
-        return $bMerge ?
-            $this->oUtil->uniteArrays( $vData, $aStoredOptions )
+        return $bMerge
+            ? $this->oUtil->uniteArrays( $vData, $aStoredOptions )
             : $vData;
                         
     }
