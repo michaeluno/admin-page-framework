@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -106,84 +106,143 @@ CSSRULES;
      */
     protected function getField( $aField ) {
     
-        /* 1. Initial set-up of the field definition array */
         $aField['units'] = isset( $aField['units'] ) 
             ? $aField['units']
             : $this->aDefaultUnits;
     
-        /* 2. Prepare attributes */
-        
-        /* 2-1. Base attributes */
-        $aBaseAttributes = $aField['attributes'];
-        unset( $aBaseAttributes['unit'], $aBaseAttributes['size'] ); 
-        
-        /* 2-2. Size attributes */     
-        $aSizeAttributes = array(
-            'type'  => 'number',
-            'id'    => $aField['input_id'] . '_' . 'size',
-            'name'  => $aField['_input_name'] . '[size]',
-            'value' => isset( $aField['value']['size'] ) ? $aField['value']['size'] : '',
-        ) 
-        + $this->getFieldElementByKey( $aField['attributes'], 'size', $this->aDefaultKeys['attributes']['size'] )
-        + $aBaseAttributes;
-        
-        /* 2-3. Size label attributes */     
-        $aSizeLabelAttributes = array(
-            'for'   => $aSizeAttributes['id'],
-            'class' => $aSizeAttributes['disabled'] ? 'disabled' : null,
-        );
-        
-        /* 2-4. Unit attributes */   
-        $_bIsMultiple    = $aField['is_multiple'] 
-            ? true 
-            : ( $aField['attributes']['unit']['multiple'] ? true : false );
-        $_aUnitAttributes = array(
-            'type'      => 'select',
-            'id'        => $aField['input_id'] . '_' . 'unit',
-            'multiple'  => $_bIsMultiple ? 'multiple' : null,
-            'name'      => $_bIsMultiple ? "{$aField['_input_name']}[unit][]" : "{$aField['_input_name']}[unit]",
-            'value'     => isset( $aField['value']['unit'] ) ? $aField['value']['unit'] : '',
-        )
-        + $this->getFieldElementByKey( $aField['attributes'], 'unit', $this->aDefaultKeys['attributes']['unit'] )
-        + $aBaseAttributes;
-               
-        // Create a select input object
-        $_aUnitField = array( 
-            'label' => $aField['units'],
-        ) + $aField;
-        $_aUnitField['attributes']['select'] =  $_aUnitAttributes;
-        $_oUnitInput = new AdminPageFramework_Input_select( $_aUnitField );
-        
+        // Base attributes
+        $_aBaseAttributes       = $aField['attributes'];
+        unset( $_aBaseAttributes['unit'], $_aBaseAttributes['size'] ); 
+              
         /* 3. Return the output */
         return
             $aField['before_label']
             . "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
-                /* The size (number) part */
-                . "<label " . $this->generateAttributes( $aSizeLabelAttributes ) . ">"
-                    . $this->getFieldElementByKey( $aField['before_label'], 'size' )
-                    . ( $aField['label'] && ! $aField['repeatable']
-                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
-                        : "" 
-                    )
-                    . "<input " . $this->generateAttributes( $aSizeAttributes ) . " />" // this method is defined in the base class
-                    . $this->getFieldElementByKey( $aField['after_input'], 'size' )
-                . "</label>"
-                /* The unit (select) part */
-                . "<label " . $this->generateAttributes( 
-                        array(
-                            'for'       => $_aUnitAttributes['id'],
-                            'class'     => $_aUnitAttributes['disabled'] ? 'disabled' : null,                        
-                        ) 
-                    ) 
-                    . ">"
-                    . $this->getFieldElementByKey( $aField['before_label'], 'unit' )
-                    . $_oUnitInput->get()
-                    . $this->getFieldElementByKey( $aField['after_input'], 'unit' )
-                    . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
-                . "</label>"     
+                . $this->_getNumberInputPart( $aField, $_aBaseAttributes )  // The size (number) part
+                . $this->_getUnitSelectInput( $aField, $_aBaseAttributes )  // The unit (select) part
             . "</div>"
             . $aField['after_label'];             
         
     }
+        /**
+         * Returns the HTML output of the number input part.
+         * 
+         * @since       3.5.3
+         * @return      string      The number input output.
+         */
+        private function _getNumberInputPart( array $aField, array $aBaseAttributes ) {
+            
+            // Size and Size Label
+            $_aSizeAttributes       = $this->_getSizeAttributes( $aField, $aBaseAttributes );
+            $_aSizeLabelAttributes  = array(
+                'for'   => $_aSizeAttributes['id'],
+                'class' => $_aSizeAttributes['disabled'] ? 'disabled' : null,
+            );                  
+            
+            return "<label " . $this->generateAttributes( $_aSizeLabelAttributes ) . ">"
+                . $this->getFieldElementByKey( $aField['before_label'], 'size' )
+                . ( $aField['label'] && ! $aField['repeatable']
+                    ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" 
+                            . $aField['label'] 
+                        . "</span>"
+                    : "" 
+                )
+                . "<input " . $this->generateAttributes( $_aSizeAttributes ) . " />" // this method is defined in the base class
+                . $this->getFieldElementByKey( $aField['after_input'], 'size' )
+            . "</label>";            
+            
+        }
+        
+        /**
+         * Returns the HTML output of the unit select input part.
+         * 
+         * @since       3.5.3
+         * @return      string      The unit select input output.
+         */
+        private function _getUnitSelectInput( array $aField, array $aBaseAttributes ) {
+            
+            // Unit
+            $_aUnitAttributes = $this->_getUnitAttributes( $aField, $aBaseAttributes );
+        
+            // Create a select input object
+            $_oUnitInput = $this->_getUnitInputObject( $aField, $_aUnitAttributes );
+            
+            return "<label " . $this->generateAttributes( 
+                    array(
+                        'for'       => $_aUnitAttributes['id'],
+                        'class'     => $_aUnitAttributes['disabled'] 
+                            ? 'disabled' 
+                            : null, 
+                    ) 
+                ) 
+                . ">"
+                . $this->getFieldElementByKey( $aField['before_label'], 'unit' )
+                . $_oUnitInput->get()
+                . $this->getFieldElementByKey( $aField['after_input'], 'unit' )
+                . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
+            . "</label>";
+            
+        }    
+            /**
+             * Returns an unit attribute array.
+             * @since       3.5.3    
+             * @return      array       an unit attribute array
+             */
+            private function _getUnitAttributes( array $aField, array $aBaseAttributes ) {
+                
+                $_bIsMultiple    = $aField['is_multiple'] 
+                    ? true 
+                    : ( $aField['attributes']['unit']['multiple'] ? true : false );                    
+                return array(
+                    'type'      => 'select',
+                    'id'        => $aField['input_id'] . '_' . 'unit',
+                    'multiple'  => $_bIsMultiple ? 'multiple' : null,
+                    'name'      => $_bIsMultiple ? "{$aField['_input_name']}[unit][]" : "{$aField['_input_name']}[unit]",
+                    'value'     => isset( $aField['value']['unit'] ) ? $aField['value']['unit'] : '',
+                )
+                + $this->getFieldElementByKey( $aField['attributes'], 'unit', $this->aDefaultKeys['attributes']['unit'] )
+                + $aBaseAttributes;        
+                
+            }        
+            /**
+             * Returns a select input object for the unit select input part.
+             * @since       3.5.3
+             * @return      object      a select input object.
+             */
+            private function _getUnitInputObject( array $aField, array $aUnitAttributes ) {
 
+                $_aUnitField = array( 
+                    'label' => $aField['units'],
+                ) + $aField;
+                $_aUnitField['attributes']['select'] =  $aUnitAttributes;
+                return new AdminPageFramework_Input_select( $_aUnitField );
+            
+            }             
+        
+    
+        /**
+         * Returns an size attribute array.
+         * @since       3.5.3    
+         * @return      array       an size attribute array
+         */
+        private function _getSizeAttributes( array $aField, array $aBaseAttributes ) {
+            
+            return array(
+                    'type'  => 'number',
+                    'id'    => $aField['input_id'] . '_' . 'size',
+                    'name'  => $aField['_input_name'] . '[size]',
+                    'value' => isset( $aField['value']['size'] ) 
+                        ? $aField['value']['size'] 
+                        : '',
+                ) 
+                + $this->getFieldElementByKey( 
+                    $aField['attributes'], 
+                    'size', 
+                    $this->aDefaultKeys['attributes']['size'] 
+                )
+                + $aBaseAttributes;        
+                
+        }    
+   
+        
 }
