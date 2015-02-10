@@ -115,9 +115,10 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
         $_aInput = $this->oUtil->addAndApplyFilters( 
             $this, 
             "validation_{$this->oProp->sClassName}",
-            is_callable( array( $this, 'validate' ) )
-                ? call_user_func_array( array( $this, 'validate' ), array( $_aInput, $_aSavedMeta, $this ) )
-                : $_aInput, // 3.5.3+                        
+            call_user_func_array( 
+                array( $this, 'validate' ), // triggers __call()
+                array( $_aInput, $_aSavedMeta, $this )
+            ), // 3.5.3+
             $_aSavedMeta, 
             $this 
         ); 

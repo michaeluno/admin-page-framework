@@ -222,9 +222,10 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         // Apply filters - third party scripts will have access to the input.
         $_aNewMetaBoxInput      = stripslashes_deep( $_aNewMetaBoxInput ); // fixes magic quotes
         $_aNewMetaBoxInputRaw   = $_aNewMetaBoxInput; // copy one for a validation error.
-        $_aNewMetaBoxInput      = is_callable( array( $this, 'validate' ) )
-            ? call_user_func_array( array( $this, 'validate' ), array( $_aNewMetaBoxInput, $_aOldMetaBoxInput, $this, $aSubmitInfo ) )
-            : $_aNewMetaBoxInput;
+        $_aNewMetaBoxInput      = call_user_func_array( 
+            array( $this, 'validate' ),     // triggers __call()
+            array( $_aNewMetaBoxInput, $_aOldMetaBoxInput, $this, $aSubmitInfo ) 
+        ); // 3.5.3+
         $_aNewMetaBoxInput      = $this->oUtil->addAndApplyFilters( 
             $this, 
             "validation_{$this->oProp->sClassName}", 

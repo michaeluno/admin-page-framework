@@ -605,9 +605,10 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             // For the class             
             return $this->_getValidatedData(
                 "validation_{$this->oProp->sClassName}", 
-                is_callable( array( $this, 'validate' ) )
-                    ? call_user_func_array( array( $this, 'validate' ), array( $_aData['aInput'], $_aData['aStoredData'], $this, $_aData['aSubmitInformation'] ) )
-                    : $_aData['aInput'], // 3.5.3+
+                call_user_func_array( 
+                    array( $this, 'validate' ),     // triggers __call()
+                    array( $_aData['aInput'], $_aData['aStoredData'], $this, $_aData['aSubmitInformation'] )
+                ),    // 3.5.3+
                 $_aData['aStoredData'],
                 $_aData['aSubmitInformation']   // 3.5.0+
             );
