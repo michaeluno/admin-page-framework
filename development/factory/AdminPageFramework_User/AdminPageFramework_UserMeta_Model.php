@@ -13,9 +13,20 @@
  * @since           3.5.0
  * @package         AdminPageFramework
  * @subpackage      UserMeta
- * @internal
  */
 abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_UserMeta_Router {
+      
+    /**
+     * A validation callback method.
+     * 
+     * The user may just override this method instead of defining a `validation_{...}` callback method.
+     * 
+     * @since       3.4.1
+     * @since       3.5.3       Moved from `AdminPageFramework_Factory_Model`.
+     */
+    public function validate( $aInput, $aOldInput, $oFactory ) {
+        return $aInput;
+    }   
    
     /**
      * Registers form fields and sections.
@@ -41,6 +52,7 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
          * Sets the options array.
          * 
          * @since       3.5.0
+         * @internal
          */
         protected function _setOptionArray( $iUserID ) {
 
@@ -80,6 +92,7 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
      * Saves the custom user profile field values.
      * 
      * @since       3.5.0
+     * @internal
      */
     public function _replyToSaveFieldValues( $iUserID ) {
 
@@ -123,6 +136,7 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
          * 
          * @since       3.5.0
          * @return      array       The saved meta data.
+         * @internal
          */
         private function _getSavedMetaArray( $iUserID, array $aKeys ) {
                         
@@ -214,5 +228,5 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
             return $_aInput;
             
         }       
-    
+
 }

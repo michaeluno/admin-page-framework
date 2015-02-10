@@ -23,13 +23,10 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Calls the setUp() method. 
      * 
-     * All the factory classes should call this method instead of directly calling the setUp() method.
-     * This is because it allows the developer to design an abstract base class per package basis.
-     * For example, if a plugin uses multiple meta-box classes and they all need to register certain field types, 
-     * creating a base class that deals with the registration will be convenient. For that the developer can simply override 
-     * this method rather than using the start_{instantiated class name} hook in each extended class.
-     * 
-     * @since 3.1.0
+     * @since       3.1.0
+     * @todo        Deprecate this method. This method was intended to be used in a user defined abstract class 
+     * but it requires to call the setUp() method in the overridden method so it's not that useful.
+     * @internal
      */
     protected function _setUp() { 
         $this->setUp();
@@ -264,10 +261,11 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * The user may just override this method instead of defining a `validation_{...}` callback method.
      * 
      * @since       3.4.1
+     * @remark      Declare this method in each factory class as the form of parameters will be different which triggers PHP strict standard warnings.
      */
-    public function validate( $aInput, $aOldInput, $oFactory ) {
-        return $aInput;
-    }    
+    // public function validate( $aInput, $aOldInput, $oFactory ) {
+        // return $aInput;
+    // }
     
     /**
      * Saves user last input in the database as a transient.
@@ -276,6 +274,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * 
      * @since       3.4.1
      * @return      boolean     True if set; otherwise, false.
+     * @internal
      */
     public function _setLastInput( array $aLastInput ) {
         return $this->oUtil->setTransient( 

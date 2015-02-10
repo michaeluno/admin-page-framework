@@ -368,6 +368,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.3 =
+- Added the `validate()` method in the admin page factory class.
 
 = 3.5.2 - 2015/02/02 =
 - Fixed a bug in the widget factory class that form sections could not be set.

@@ -14,9 +14,20 @@
  * @since           3.5.0
  * @package         AdminPageFramework
  * @subpackage      TaxonomyField
- * @internal
  */
 abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework_TaxonomyField_Router {
+
+    /**
+     * A validation callback method.
+     * 
+     * The user may just override this method instead of defining a `validation_{...}` callback method.
+     * 
+     * @since       3.4.1
+     * @since       3.5.3       Moved from `AdminPageFramework_Factory_Model`.
+     */
+    public function validate( $aInput, $aOldInput, $oFactory ) {
+        return $aInput;
+    }      
    
     /**
      * Modifies the columns of the taxonomy term listing table in the edit-tags.php page.
@@ -91,7 +102,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * @since       unknown
      * @since       3.0.0     the scope is changed to protected as the taxonomy field class redefines it.
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
-     * #internal
+     * @internal
      * @todo        Add the `options_{instantiated class name}` filter.
      */
     protected function _setOptionArray( $iTermID=null, $sOptionKey ) {

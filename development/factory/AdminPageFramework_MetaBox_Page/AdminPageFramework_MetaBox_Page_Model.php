@@ -14,7 +14,6 @@
  * @since           3.0.4
  * @package         AdminPageFramework
  * @subpackage      PageMetaBox
- * @internal
  */
 abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_MetaBox_Page_Router {
 
@@ -41,9 +40,23 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
     }
         
     /**
+     * A validation callback method.
+     * 
+     * The user may just override this method instead of defining a `validation_{...}` callback method.
+     * 
+     * @since       3.4.1
+     * @since       3.5.3       Moved from `AdminPageFramework_Factory_Model`.
+     * @todo        Examine if the forth parameter of submit info can be added or not.
+     */
+    public function validate( $aInput, $aOldInput, $oFactory ) {
+        return $aInput;
+    }              
+        
+    /**
      * Sets up validation hooks.
      * 
      * @since       3.3.0
+     * @internal
      */
     protected function _setUpValidationHooks( $oScreen ) {
 
@@ -162,6 +175,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * @since       3.0.0
      * @param       array       $aPageOptions
      * @deprecated  3.4.1
+     * @internal
      */
     public function _replyToFilterPageOptions( $aPageOptions ) {
         return $aPageOptions;
@@ -171,6 +185,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * Filters the array of the options without dynamic elements.
      * 
      * @since       3.4.1       Deprecated `_replyToFilterPageOptions()`.
+     * @internal
      */
     public function _replyToFilterPageOptionsWODynamicElements( $aOptionsWODynamicElements, $oFactory ) {
         return $this->oForm->dropRepeatableElements( $aOptionsWODynamicElements );
@@ -228,6 +243,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * This is to insert the 'field_errors' key into the options update status array when there is a field error.
      * 
      * @since       3.4.1
+     * @internal
      */
     public function _replyToModifyOptionsUpdateStatus( $aStatus ) {
         

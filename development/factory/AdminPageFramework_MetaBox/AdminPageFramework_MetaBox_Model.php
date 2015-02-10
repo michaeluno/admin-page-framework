@@ -26,9 +26,22 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
     private $_bIsNewPost = false;    
 
     /**
+     * A validation callback method.
+     * 
+     * The user may just override this method instead of defining a `validation_{...}` callback method.
+     * 
+     * @since       3.4.1
+     * @since       3.5.3       Moved from `AdminPageFramework_Factory_Model`. or not.
+     */
+    public function validate( $aInput, $aOldInput, $oFactory ) {
+        return $aInput;
+    }         
+    
+    /**
      * Sets up validation hooks.
      * 
      * @since       3.3.0
+     * @internal
      */
     protected function _setUpValidationHooks( $oScreen ) {
 
@@ -101,6 +114,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
         /**
          * Returns the post ID associated with the loading page.
          * @since   3.4.1
+         * @internal
          */
         private function _getPostID()  {
             
@@ -253,7 +267,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * The filter is either 'wp_insert_attachment_data' or 'wp_insert_post_data' and is triggered when a post has not been created so no post id is assigned.
      * 
      * @since       3.3.0
-	 *
+	 * @internal
 	 * @param       array       $aPostData      An array of slashed post data.
      * @param       array       $aUnmodified    An array of sanitized, but otherwise unmodified post data.
      */
@@ -313,6 +327,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          * This method is called when a publishing post contains a field error of meta boxes added by the framework.
          * And the query url gets modified to disable the WordPress default admin notice, "Post published.".
          * 
+         * @internal
          * @since       3.3.0
          * @return      string      The modified url to be redirected after publishing the post.
          */
@@ -358,6 +373,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          * Checks whether the function call of processing submitted field values is valid or not.
          * 
          * @since       3.3.0
+         * @internal
          */
         private function _validateCall() {
             

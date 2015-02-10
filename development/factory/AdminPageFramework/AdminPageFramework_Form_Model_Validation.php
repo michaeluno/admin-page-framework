@@ -605,7 +605,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             // For the class
             return $this->_getValidatedData(
                 "validation_{$this->oProp->sClassName}", 
-                $_aData['aInput'], 
+                $this->validate( $_aData['aInput'], $_aData['aStoredData'], $_aData['aSubmitInformation'] ) // 3.5.3+
                 $_aData['aStoredData'],
                 $_aData['aSubmitInformation']   // 3.5.0+
             );
