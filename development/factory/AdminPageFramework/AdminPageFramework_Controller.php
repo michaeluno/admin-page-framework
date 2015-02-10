@@ -14,7 +14,6 @@
  * @since           3.3.1
  * @package         AdminPageFramework
  * @subpackage      AdminPage
- * @internal
  */
 abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
     
@@ -31,22 +30,6 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      *             'title' => 'Form Fields',
      *             'page_slug' => 'apf_form_fields',
      *         )
-     *     );     
-     *     $this->addSettingSections(
-     *         array(
-     *             'section_id' => 'text_fields',
-     *             'page_slug' => 'apf_form_fields',
-     *             'title' => 'Text Fields',
-     *             'description' => 'These are text type fields.',
-     *         )
-     *     );
-     *     $this->addSettingFields(
-     *         array(    
-     *             'field_id' => 'text',
-     *             'section_id' => 'text_fields',
-     *             'title' => 'Text',
-     *             'type' => 'text',
-     *         )    
      *     );     
      * }</code>
      * @abstract
