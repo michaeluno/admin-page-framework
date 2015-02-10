@@ -1,21 +1,19 @@
 <?php
 /**
- * Provides an abstract base to create a bootstrap class for Wordpress plugins.
- *    
- * @package      Admin Page Framework Loader
- * @copyright    Copyright (c) 2015, <Michael Uno>
- * @author       Michael Uno
- * @authorurl    http://michaeluno.jp
- * @since        3.5.0
+ * Admin Page Framework
  * 
+ * http://en.michaeluno.jp/admin-page-framework/
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  */
 
 /**
- * Loads the plugin.
+ * Provides an abstract base to create a bootstrap class for Wordpress plugins.
  * 
  * @action      do      {hook prefix}_action_before_loading_plugin
  * @action      do      {hook prefix}_action_after_loading_plugin
  * @since       3.5.0
+ * @package     AdminPageFramework
+ * @subpackage  Utility
  */
 abstract class AdminPageFramework_PluginBootstrap {
     

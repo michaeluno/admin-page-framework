@@ -22,7 +22,7 @@
  * <code>
  * $_sFilePath  = dirname( __FILE__ ) . '/aa/bbb/readme.txt';
  * $_oParser    = new AdminPageFramework_WPReadmeParser( $_sFilePath );
- * $_sFAQ       = $_oParser->get( 'Frequently asked questions' );
+ * $_sFAQ       = $_oParser->get( 'Frequently asked questions' ); // passing the section name
  * </code>
  * 
  * @since       3.5.0
@@ -35,6 +35,7 @@ class AdminPageFramework_WPReadmeParser {
     /**
      * Represents the structure of the array storing callbacks.
      * @since       3.5.0
+     * @internal
      */
     static private $_aStructure_Callbacks = array(
         'code_block'        => null,
@@ -99,7 +100,7 @@ class AdminPageFramework_WPReadmeParser {
      * Returns the parsed text.
      * 
      * @since       3.5.0
-     * @return string
+     * @return      string
      */
     public function get( $sSectionName='' ) {
         return $sSectionName
@@ -112,6 +113,7 @@ class AdminPageFramework_WPReadmeParser {
      * 
      * @return      string      The section content.
      * @since       3.5.0
+     * @internal
      */
     public function getSection( $sSectionName ) {
         
@@ -123,6 +125,7 @@ class AdminPageFramework_WPReadmeParser {
         /**
          * Returns the parsed text.
          * @since       3.5.0
+         * @internal
          */
         private function _getParsedText( $sContent ) {
 
@@ -148,6 +151,7 @@ class AdminPageFramework_WPReadmeParser {
          * Returns the modified code block.
          * 
          * @since       3.5.0
+         * @internal
          */
         public function _replyToReplaceCodeBlocks( $aMatches ) {
             
@@ -167,9 +171,10 @@ class AdminPageFramework_WPReadmeParser {
         }
     
     /**
-     * Returns the section output by section name.
+     * Returns the section raw output by section name.
      * 
      * @since       3.5.0
+     * @internal
      */
     public function getRawSection( $sSectionName ) {
 
@@ -185,7 +190,8 @@ class AdminPageFramework_WPReadmeParser {
      * Retrieves syntax highlighted PHP code.
      * 
      * @since       3.5.0
-     * @param string $sCode
+     * @param       string      $sCode
+     * @internal
      */
     public function getSyntaxHighlightedPHPCode( $sCode ) {
         

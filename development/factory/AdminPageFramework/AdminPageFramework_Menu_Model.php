@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -15,6 +15,7 @@
  * @extends         AdminPageFramework_Menu_Model
  * @package         AdminPageFramework
  * @subpackage      AdminPage
+ * @internal
  */
 abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Controller {
     

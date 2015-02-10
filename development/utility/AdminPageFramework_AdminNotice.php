@@ -21,7 +21,7 @@
  * 
  * @since       3.5.0
  * @uses        AdminPageFramework_Parsedown
- * @package     AdminPageFramwork
+ * @package     AdminPageFramework
  * @subpackage  Utility
  */
 class AdminPageFramework_AdminNotice {

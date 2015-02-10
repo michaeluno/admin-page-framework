@@ -24,6 +24,7 @@
  * @package     AdminPageFramework
  * @subpackage  Utility
  * @since       3.5.0
+ * @internal
  */
 class AdminPageFramework_Parsedown
 {

@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -35,6 +35,7 @@ abstract class AdminPageFramework_UserMeta_View extends AdminPageFramework_UserM
      * 
      * @remark      Called in the _replyTODetermineToLoad() method.
      * @since       3.5.0
+     * @internal
      */
     public function _replyToPrintFields( $oUser ) {
 

@@ -3,8 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  */
 
 /**
@@ -14,6 +13,7 @@
  * @since           3.5.0
  * @package         AdminPageFramework
  * @subpackage      UserMeta
+ * @internal
  */
 abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_UserMeta_Router {
    
