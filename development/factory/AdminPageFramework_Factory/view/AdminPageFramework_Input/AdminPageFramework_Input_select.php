@@ -86,8 +86,6 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
         private function _getDropDownList( $sInputID, array $aLabels, array $aAttributes ) {
             
             $_aOutput   = array();
-            $_aValues   = $this->getAsArray( $aAttributes['value'] );
-
             foreach( $aLabels as $__sKey => $__asLabel ) {
                 
                 // For the optgroup tag,
@@ -108,7 +106,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
                         $aAttributes, 
                         $sInputID, 
                         $__sKey,
-                        $_aValues 
+                        $this->getAsArray( $aAttributes['value'] )
                     ) 
                 );
                     
