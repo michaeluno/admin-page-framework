@@ -3,7 +3,7 @@
  * One of the abstract class of the plugin admin page class.
  * 
  * @package      Admin Page Framework Loader
- * @copyright    Copyright (c) 2014, Michael Uno
+ * @copyright    Copyright (c) 2014-2015, Michael Uno
  * @author       Michael Uno
  * @authorurl    http://michaeluno.jp
  * @since        3.5.0
@@ -31,8 +31,6 @@ class AdminPageFrameworkLoader_NetworkAdmin extends AdminPageFramework_NetworkAd
             // Update the options and reload the page
             $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
             $_oOption->update( 'enable_demo', $_GET['enable_apfl_demo_pages'] );
-// AdminPageFramework_Debug::log( 'enabled/disabled demo' );
-// AdminPageFramework_Debug::log( $_oOption->aOptions );
             exit( wp_safe_redirect( remove_query_arg( 'enable_apfl_demo_pages' ) ) );
             
         }
