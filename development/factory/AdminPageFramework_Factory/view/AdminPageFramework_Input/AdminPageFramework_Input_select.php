@@ -92,40 +92,71 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
                 
                 // For the optgroup tag,
                 if ( is_array( $__asLabel ) ) {
-                
-                    $_aOptGroupAttributes = isset( $aAttributes['optgroup'][ $__sKey ] ) && is_array( $aAttributes['optgroup'][ $__sKey ] )
-                        ? $aAttributes['optgroup'][ $__sKey ] + $aAttributes['optgroup']
-                        : $aAttributes['optgroup'];
-                        
-                    $_aOutput[] = "<optgroup label='{$__sKey}'" . $this->generateAttributes( $_aOptGroupAttributes ) . ">"
-                            . $this->_getDropDownList( $sInputID, $__asLabel, $aAttributes )
-                        . "</optgroup>";
+                    $_aOutput[] = $this->_getOptGroup(
+                        $aAttributes, 
+                        $sInputID, 
+                        $__sKey, 
+                        $__asLabel
+                    );
                     continue;
-                    
                 }
                 
-                // For the option tag,
-                $_sLabel    = $__asLabel;
-                $_aValues   = isset( $aAttributes['option'][ $__sKey ]['value'] )
-                    ? $aAttributes['option'][ $__sKey ]['value']
-                    : $_aValues;
+                // The option tag,
                 $_aOutput[] = $this->_getOptionTag( 
-                    $_sLabel,   // the text label the user sees to be selected
-                    array(      // the attributes array. Here the id and value etc. are set.
-                        'id'        => $sInputID . '_' . $__sKey,
-                        'value'     => $__sKey,
-                        'selected'  => in_array( ( string ) $__sKey, $_aValues ) 
-                            ? 'selected' 
-                            : null,                                        
-                    ) + ( isset( $aAttributes['option'][ $__sKey ] ) && is_array( $aAttributes['option'][ $__sKey ] )
-                        ? $aAttributes['option'][ $__sKey ] + $aAttributes['option']
-                        : $aAttributes['option'] )     
+                    $__asLabel,   // the text label the user sees to be selected
+                    $this->_getOptionTagAttributes( 
+                        $aAttributes, 
+                        $sInputID, 
+                        $__sKey,
+                        $_aValues 
+                    ) 
                 );
                     
             }
             return implode( PHP_EOL, $_aOutput );    
             
         }
+            /**
+             * Returns an HTML output of optgroup tag.
+             * @since       3.5.3
+             * @return      string      an HTML output of optgroup tag.
+             */
+            private function _getOptGroup( array $aAttributes, $sInputID, $sKey, $asLabel ) {
+             
+                $_aOptGroupAttributes = isset( $aAttributes['optgroup'][ $sKey ] ) && is_array( $aAttributes['optgroup'][ $sKey ] )
+                    ? $aAttributes['optgroup'][ $sKey ] + $aAttributes['optgroup']
+                    : $aAttributes['optgroup'];
+                $_aOptGroupAttributes = array(
+                    'label' => $sKey,
+                ) + $_aOptGroupAttributes;
+                return "<optgroup " . $this->generateAttributes( $_aOptGroupAttributes ) . ">"
+                        . $this->_getDropDownList( $sInputID, $asLabel, $aAttributes )
+                    . "</optgroup>";
+             
+            }
+        
+            /**
+             * 
+             * @since        3.5.3
+             */
+            private function _getOptionTagAttributes( array $aAttributes, $sInputID, $sKey, $aValues ) {
+            
+                $aValues   = isset( $aAttributes['option'][ $sKey ]['value'] )
+                    ? $aAttributes['option'][ $sKey ]['value']
+                    : $aValues;            
+            
+                return array(      
+                        'id'        => $sInputID . '_' . $sKey,
+                        'value'     => $sKey,
+                        'selected'  => in_array( ( string ) $sKey, $aValues ) 
+                            ? 'selected' 
+                            : null,                                        
+                    ) + ( isset( $aAttributes['option'][ $sKey ] ) && is_array( $aAttributes['option'][ $sKey ] )
+                        ? $aAttributes['option'][ $sKey ] + $aAttributes['option']
+                        : $aAttributes['option'] );
+            
+            }
+        
             /**
              * 
              * @sicne       3.4.0
