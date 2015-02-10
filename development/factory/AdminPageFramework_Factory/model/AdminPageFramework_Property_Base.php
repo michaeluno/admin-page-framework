@@ -404,54 +404,7 @@ abstract class AdminPageFramework_Property_Base {
         return 'unknown';    
     
     }    
-        
-    
-    /**
-     * Checks if the current page is post editing page that belongs to the given post type(s).
-     * 
-     * @since 3.0.0
-     * @param array|string The post type slug(s) to check. If this is empty, the method just checks the current page is a post definition page.
-     * Otherwise, it will check if the page belongs to the given post type(s).
-     * @return boolean
-     * @deprecated
-     */
-    public function isPostDefinitionPage( $asPostTypes=array() ) {
-        
-        $_aPostTypes = ( array ) $asPostTypes;
-        
-        // If it's not the post definition page, 
-        if ( ! in_array( $this->sPageNow, array( 'post.php', 'post-new.php', ) ) ) {
-            return false;
-        }
-        
-        // If the parameter is empty, 
-        if ( empty( $_aPostTypes ) ) {
-            return true;
-        }
-        
-        // If the parameter the post type are set and it's in the given post types, 
-        if ( isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], $_aPostTypes ) ) {
-            return true;
-        }
-        
-        // Find the post type from the post ID.
-        $this->_sCurrentPostType = isset( $this->_sCurrentPostType )
-            ? $this->_sCurrentPostType
-            : ( isset( $_GET['post'] )
-                ? get_post_type( $_GET['post'] )
-                : ''
-            );
-        
-        // If the found post type is in the given post types,
-        if ( isset( $_GET['post'], $_GET['action'] ) && in_array( $this->_sCurrentPostType, $_aPostTypes ) ) {
-            return true;     
-        }     
-        
-        // Otherwise,
-        return false;
-        
-    }    
-    
+            
     /**
      * Retrieves the option array.
      * 
