@@ -20,6 +20,7 @@
 abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostType_Model {    
 
     /**
+     * Sets up hooks.
      * 
      * @internal    
      * @remark      Make sure to call the parent construct first as the factory router need to set up sub-class objects.
@@ -169,8 +170,9 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
         /**
          * Sets the given screen icon to the post type screen icon.
          * 
-         * @since 2.1.3
-         * @since 2.1.6 The $sSRC parameter can accept file path.
+         * @since       2.1.3
+         * @since       2.1.6     The $sSRC parameter can accept file path.
+         * @internal
          */
         private function _getStylesForPostTypeScreenIcon( $sSRC ) {
             
@@ -197,15 +199,16 @@ CSSRULES;
      * 
      * This method is called in the same timing of the content_{instantiated class name.}. This is shorthand for it.
      * 
-     * @remark  This class should be overridden in the extended class.
-     * @since   3.1.5
+     * @remark      This class should be overridden in the extended class.
+     * @since       3.1.5
      */
     public function content( $sContent ) { return $sContent; }
     
     /**
      * Filters the post type post content.
      * 
-     * @since   3.1.5
+     * @since       3.1.5
+     * @internal
      */
     public function _replyToFilterPostTypeContent( $sContent ) {
         

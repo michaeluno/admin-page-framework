@@ -44,7 +44,7 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
     }
 
     /**
-    * The method for all necessary set-ups.
+    * The method for necessary set-ups.
     * 
     * <h4>Example</h4>
     * <code>
@@ -65,6 +65,76 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
     /**
      * The method for setting up form elements.
      * 
+     * <h4>Example</h4>
+     * <code>
+     *  public function load( $oAdminWidget ) {
+     *      
+     *      $this->addSettingFields(
+     *          array(
+     *              'field_id'      => 'title',
+     *              'type'          => 'text',
+     *              'title'         => __( 'Title', 'admin-page-framework-demo' ),
+     *              'default'       => 'Hi there!',
+     *          ),
+     *          array(
+     *              'field_id'      => 'repeatable_text',
+     *              'type'          => 'text',
+     *              'title'         => __( 'Text Repeatable', 'admin-page-framework-demo' ),
+     *              'repeatable'    => true,
+     *              'sortable'      => true,
+     *          ),
+     *          array(
+     *              'field_id'      => 'textarea',
+     *              'type'          => 'textarea',
+     *              'title'         => __( 'Text Area', 'admin-page-framework-demo' ),
+     *          ),
+     *          array(
+     *              'field_id'      => 'checkbox',
+     *              'type'          => 'checkbox',
+     *              'title'         => __( 'Check Box', 'admin-page-framework-demo' ),
+     *              'label'         => __( 'This is a check box in a widget form.', 'admin-page-framework-demo' ),
+     *          ),     
+     *          array(
+     *              'field_id'      => 'radio',
+     *              'type'          => 'radio',
+     *              'title'         => __( 'Radio Buttons', 'admin-page-framework-demo' ),
+     *              'label'         => array(
+     *                  'one'   =>  __( 'One', 'admin-page-framework-demo' ),
+     *                  'two'   =>  __( 'Two', 'admin-page-framework-demo' ),
+     *                  'three' =>  __( 'Three', 'admin-page-framework-demo' ),
+     *              ),
+     *              'default'       => 'two',
+     *          ),      
+     *          array(
+     *              'field_id'      => 'select',
+     *              'type'          => 'select',
+     *              'title'         => __( 'Dropdown', 'admin-page-framework-demo' ),
+     *              'label'         => array(
+     *                  'i'     =>  __( 'I', 'admin-page-framework-demo' ),
+     *                  'ii'    =>  __( 'II', 'admin-page-framework-demo' ),
+     *                  'iii'   =>  __( 'III', 'admin-page-framework-demo' ),
+     *              ),
+     *          ),                
+     *          array(
+     *              'field_id'      => 'image',
+     *              'type'          => 'image',
+     *              'title'         => __( 'Image', 'admin-page-framework-demo' ),
+     *          ),
+     *          array(
+     *              'field_id'      => 'media',
+     *              'type'          => 'media',
+     *              'title'         => __( 'Media', 'admin-page-framework-demo' ),
+     *          ),            
+     *          array(
+     *              'field_id'      => 'color',
+     *              'type'          => 'color',
+     *              'title'         => __( 'Color', 'admin-page-framework-demo' ),
+     *          ),
+     *          array()
+     *      );        
+     *      
+     *  }
+     * </code>
      * @since       3.2.0
      */
     public function load( $oAdminWidget ) {}
