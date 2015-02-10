@@ -435,7 +435,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
             }     
             
         }    
-    
+            
         /**
          * Returns the array of fields 
          * 
@@ -443,80 +443,124 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
          */
         protected function _constructFieldsArray( &$aField, &$aOptions ) {
 
-            /* Get the set value(s) */
-            $vSavedValue    = $this->_getStoredInputFieldValue( $aField, $aOptions );
+            // Get the set value(s)
+            $_mSavedValue    = $this->_getStoredInputFieldValue( $aField, $aOptions );
             
-            /* Separate the first field and sub-fields */
-            $aFirstField    = array();
-            $aSubFields     = array();
-            foreach( $aField as $nsIndex => $vFieldElement ) {
-                if ( is_numeric( $nsIndex ) ) {
-                    $aSubFields[] = $vFieldElement;
-                } else {
-                    $aFirstField[ $nsIndex ] = $vFieldElement;
-                }
-            }     
-            
-            /* Create the sub-fields of repeatable fields based on the saved values */
-            if ( $aField['repeatable'] ) {
-                foreach( ( array ) $vSavedValue as $iIndex => $vValue ) {
-                    if ( 0 == $iIndex ) { continue; }
-                    $aSubFields[ $iIndex - 1 ] = isset( $aSubFields[ $iIndex - 1 ] ) && is_array( $aSubFields[ $iIndex - 1 ] ) 
-                        ? $aSubFields[ $iIndex - 1 ] 
-                        : array();     
-                }
-            }
-            
-            /* Put the initial field and the sub-fields together in one array */
-            foreach( $aSubFields as &$aSubField ) {
-                
-                /* Before merging recursively, evacuate the label element which should not be merged */
-                $aLabel = isset( $aSubField['label'] ) 
-                    ? $aSubField['label']
-                    : ( isset( $aFirstField['label'] )
-                         ? $aFirstField['label'] 
-                         : null
-                    );
-                
-                /* Do recursive array merging */
-                $aSubField = $this->uniteArrays( $aSubField, $aFirstField ); // the 'attributes' array of some field types have more than one dimensions. // $aSubField = $aSubField + $aFirstField;
-                
-                /* Restore the label element */
-                $aSubField['label'] = $aLabel;
-                
-            }
-            $aFields = array_merge( array( $aFirstField ), $aSubFields );
-                    
-            /* Set the saved values */     
-            if ( count( $aSubFields ) > 0 || $aField['repeatable'] || $aField['sortable'] ) { // means the elements are saved in an array.
-                foreach( $aFields as $iIndex => &$aThisField ) {
-                    $aThisField['_saved_value'] = isset( $vSavedValue[ $iIndex ] ) ? $vSavedValue[ $iIndex ] : null;
-                    $aThisField['_is_multiple_fields'] = true;
-                }
-            } else {
-                $aFields[ 0 ]['_saved_value'] = $vSavedValue;
-                $aFields[ 0 ]['_is_multiple_fields'] = false;
-            } 
+            // Construct fields array.
+            $_aFields = $this->_getFieldsWithSubs( $aField, $_mSavedValue );
+                 
+            // Set the saved values
+            $this->_setSavedFieldsValue( $_aFields, $_mSavedValue, $aField );
 
-            /* Determine the value */
-            unset( $aThisField ); // PHP requires this for a previously used variable as reference.
-            foreach( $aFields as &$aThisField ) {
-                $aThisField['_is_value_set_by_user'] = isset( $aThisField['value'] );
-                $aThisField['value'] = isset( $aThisField['value'] ) 
-                    ? $aThisField['value'] 
-                    : ( isset( $aThisField['_saved_value'] ) 
-                        ? $aThisField['_saved_value']
-                        : ( isset( $aThisField['default'] )
-                            ? $aThisField['default']
-                            : null
-                        )
-                    );     
-            }
+            // Determine the value
+            $this->_setFieldsValue( $_aFields ); // by reference
 
-            return $aFields;
+            return $_aFields;
             
         }
+            /**
+             * Returns fields array which includes sub-fields.
+             * 
+             * @since       3.5.3
+             */
+            private function _getFieldsWithSubs( array $aField, $mSavedValue ) {
+
+                // Separate the first field and sub-fields
+                $aFirstField    = array();
+                $aSubFields     = array();
+                foreach( $aField as $_nsIndex => $_mFieldElement ) {
+                    if ( is_numeric( $_nsIndex ) ) {
+                        $aSubFields[] = $_mFieldElement;
+                    } else {
+                        $aFirstField[ $_nsIndex ] = $_mFieldElement;
+                    }
+                }     
+                
+                // Create the sub-fields of repeatable fields based on the saved values.
+                if ( $aField['repeatable'] ) {
+                    foreach( ( array ) $mSavedValue as $iIndex => $vValue ) {
+                        if ( 0 == $iIndex ) { continue; }
+                        $aSubFields[ $iIndex - 1 ] = isset( $aSubFields[ $iIndex - 1 ] ) && is_array( $aSubFields[ $iIndex - 1 ] ) 
+                            ? $aSubFields[ $iIndex - 1 ] 
+                            : array();     
+                    }
+                }
+                
+                // Put the initial field and the sub-fields together in one array.
+                foreach( $aSubFields as &$aSubField ) {
+                    
+                    /* Before merging recursively, evacuate the label element which should not be merged */
+                    $aLabel = isset( $aSubField['label'] ) 
+                        ? $aSubField['label']
+                        : ( isset( $aFirstField['label'] )
+                             ? $aFirstField['label'] 
+                             : null
+                        );
+                    
+                    /* Do recursive array merge */
+                    $aSubField = $this->uniteArrays( $aSubField, $aFirstField ); // the 'attributes' array of some field types have more than one dimensions. // $aSubField = $aSubField + $aFirstField;
+                    
+                    /* Restore the label element */
+                    $aSubField['label'] = $aLabel;
+                    
+                }
+                return array_merge( array( $aFirstField ), $aSubFields );            
+                
+            }
+            /**
+             * Sets saved field values to the given field arrays.
+             * 
+             * @since       3.5.3
+             */
+            private function _setSavedFieldsValue( array &$aFields, $mSavedValue, $aField ) {
+             
+                // Determine whether the elements are saved in an array.
+                $_bHasSubFields = count( $aFields ) > 1 || $aField['repeatable'] || $aField['sortable'];
+                if ( ! $_bHasSubFields ) {
+                    $aFields[ 0 ]['_saved_value'] = $mSavedValue;
+                    $aFields[ 0 ]['_is_multiple_fields'] = false;
+                    return;                    
+                }
+         
+                foreach( $aFields as $_iIndex => &$_aThisField ) {
+                    $_aThisField['_saved_value'] = isset( $mSavedValue[ $_iIndex ] ) 
+                        ? $mSavedValue[ $_iIndex ] 
+                        : null;
+                    $_aThisField['_is_multiple_fields'] = true;
+                }
         
+            } 
+            
+            /**
+             * Sets the value to the given fields array.
+             * 
+             * @since       3.5.3
+             */
+            private function _setFieldsValue( array &$aFields ) {
+                foreach( $aFields as &$_aField ) {
+                    $_aField['_is_value_set_by_user'] = isset( $_aField['value'] );
+                    $_aField['value']                 = $this->_getSetFieldValue( $_aField );
+                }
+            }
+            /**
+             * Returns the set field value.
+             * 
+             * @since       3.5.3
+             */
+            private function _getSetFieldValue( array $aField ) {
+                
+                if ( isset( $aField['value'] ) ) {
+                    return $aField['value'];
+                }
+                if ( isset( $aField['_saved_value'] ) ) {
+                    return $aField['_saved_value'];
+                }
+                if ( isset( $aField['default'] ) ) {
+                    return $aField['default'];
+                }
+                return null;                  
+                
+            }            
             /**
              * Returns the stored field value.
              * 
