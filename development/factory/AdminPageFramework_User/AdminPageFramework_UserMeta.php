@@ -3,13 +3,13 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
 /**
  * Provides methods for creating meta boxes for post types.
- *
+ * 
  * @abstract
  * @since           3.5.0
  * @package         AdminPageFramework
@@ -27,6 +27,10 @@ abstract class AdminPageFramework_UserMeta extends AdminPageFramework_UserMeta_C
     /**
      * Sets up the property objects.
      * 
+     * <h4>Example<h4>
+     * <code>
+     * new APF_MyUserMeta( 'manage_options' );
+     * </code>
      * @since       3.5.0
      * @todo        Examine the appropriate default capability level.
      */
