@@ -70,7 +70,7 @@ class AdminPageFramework_AdminNotice {
             foreach( $aAttributes as $_sAttribute => $_asProperty ) {
                 
                 if ( 'style' === $_sAttribute && is_array( $_asProperty ) ) {
-                    $_asProperty = $this->_getInlineCSS();
+                    $_asProperty = $this->_getInlineCSS( $_asProperty );
                 }
                 
                 // Must be resolved as a string.
