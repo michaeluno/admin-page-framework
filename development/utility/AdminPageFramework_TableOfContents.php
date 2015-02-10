@@ -20,6 +20,7 @@
  * @since       3.5.0
  * @package     AdminPageFramework
  * @subpackage  Utility
+ * @internal    This is still in a beta stage.
  */
 class AdminPageFramework_TableOfContents {
     
@@ -28,6 +29,7 @@ class AdminPageFramework_TableOfContents {
      * 
      * @param       string      $sHTML      The HTML text to parse.
      * @param       integer     $iDepth     The header number to parse.
+     * @param       string      $sTitle     The heading title which appears at the beginning of the output.
      */
     public function __construct( $sHTML, $iDepth=4, $sTitle='' ) {
         
@@ -45,7 +47,7 @@ class AdminPageFramework_TableOfContents {
      */
     public function get() {
         return $this->getTOC()
-            . $this->getCOntents();
+            . $this->getContents();
     }
     
     /**
