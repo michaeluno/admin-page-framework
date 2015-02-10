@@ -13,6 +13,7 @@
  * @since           3.5.0
  * @package         AdminPageFramework
  * @subpackage      UserMeta
+ * @internal
  */
 abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_UserMeta_Router {
       
@@ -23,10 +24,11 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
      * 
      * @since       3.4.1
      * @since       3.5.3       Moved from `AdminPageFramework_Factory_Model`.
+     * @remark      Do not even declare this method to avoid PHP strict standard warnings.
      */
-    public function validate( $aInput, $aOldInput, $oFactory ) {
-        return $aInput;
-    }   
+    // public function validate( $aInput, $aOldInput, $oFactory ) {
+        // return $aInput;
+    // }   
    
     /**
      * Registers form fields and sections.
@@ -113,7 +115,9 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
         $_aInput = $this->oUtil->addAndApplyFilters( 
             $this, 
             "validation_{$this->oProp->sClassName}",
-            $this->validate( $_aInput, $_aSavedMeta, $this ),
+            is_callable( array( $this, 'validate' ) )
+                ? call_user_func_array( array( $this, 'validate' ), array( $_aInput, $_aSavedMeta, $this ) )
+                : $_aInput, // 3.5.3+                        
             $_aSavedMeta, 
             $this 
         ); 

@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -14,6 +14,7 @@
  * @since           3.0.4
  * @package         AdminPageFramework
  * @subpackage      PageMetaBox
+ * @internal
  */
 abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_MetaBox_Page_Router {
 
@@ -47,10 +48,15 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * @since       3.4.1
      * @since       3.5.3       Moved from `AdminPageFramework_Factory_Model`.
      * @todo        Examine if the forth parameter of submit info can be added or not.
+     * @param       array       $aInput         The submit form data.
+     * @param       array       $aOldInput      The previously submit form data stored in the database.
+     * @param       object      $oFactory       The page meta box factory object.
+     * @param       array       $aSubmitInfo    [3.5.3+] An array holding submit information such as which submit field is pressed.
+     * @remark      Not defining this method for backward compatibility to avoid strict standard warnings of PHP.
      */
-    public function validate( $aInput, $aOldInput, $oFactory ) {
-        return $aInput;
-    }              
+    // public function validate( $aInput, $aOldInput, $oFactory, $aSubmitInfo ) {
+        // return $aInput;
+    // }              
         
     /**
      * Sets up validation hooks.
@@ -67,7 +73,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
                 $_sPageSlug = $_asTabArrayOrPageSlug;
                 // add_filter( "validation_saved_options_{$_sPageSlug}", array( $this, '_replyToFilterPageOptions' ) ); // 3.4.1 deprecated 
                 add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ), 10, 2 );  // 3.4.1+
-                add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );
+                add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 4 );
                 add_filter( "options_update_status_{$_sPageSlug}", array( $this, '_replyToModifyOptionsUpdateStatus' ) );
                 continue;
             }
@@ -76,7 +82,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
             $_sPageSlug = $_sIndexOrPageSlug;
             $_aTabs     = $_asTabArrayOrPageSlug;
             foreach( $_aTabs as $_sTabSlug ) {
-                add_filter( "validation_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToValidateOptions' ), 10, 3 );
+                add_filter( "validation_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToValidateOptions' ), 10, 4 );
                 // deprecated 3.4.1+
                 // add_filter( "validation_saved_options_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptions' ) );
                 add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ), 10, 2 ); // 3.4.1+
@@ -200,8 +206,10 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * @sicne       3.0.0
      * @param       array       $aNewPageOptions        The array holing the field values of the page sent from the framework page class (the main class).
      * @param       array       $aOldPageOptions        The array holing the saved options of the page. Note that this will be empty if non of generic page fields are created.
+     * @param       object      $oAdminPage             The admin page factory class object.
+     * @param       array       $aSubmitInfo            An array containing submit information such as a pressed submit field ID.
      */
-    public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions ) {
+    public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions, $oAdminPage, $aSubmitInfo ) {
 
         // The field values of this class will not be included in the parameter array. So get them.
         $_aFieldsModel          = $this->oForm->getFieldsModel();
@@ -214,13 +222,16 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         // Apply filters - third party scripts will have access to the input.
         $_aNewMetaBoxInput      = stripslashes_deep( $_aNewMetaBoxInput ); // fixes magic quotes
         $_aNewMetaBoxInputRaw   = $_aNewMetaBoxInput; // copy one for a validation error.
-        $_aNewMetaBoxInput      = $this->validate( $_aNewMetaBoxInput, $_aOldMetaBoxInput, $this );           
+        $_aNewMetaBoxInput      = is_callable( array( $this, 'validate' ) )
+            ? call_user_func_array( array( $this, 'validate' ), array( $_aNewMetaBoxInput, $_aOldMetaBoxInput, $this, $aSubmitInfo ) )
+            : $_aNewMetaBoxInput;
         $_aNewMetaBoxInput      = $this->oUtil->addAndApplyFilters( 
             $this, 
             "validation_{$this->oProp->sClassName}", 
             $_aNewMetaBoxInput, 
             $_aOldMetaBoxInput, 
-            $this 
+            $this,
+            $aSubmitInfo
         );
     
         // If there are validation errors. set the last input.

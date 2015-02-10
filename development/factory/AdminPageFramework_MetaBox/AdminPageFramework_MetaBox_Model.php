@@ -32,10 +32,11 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * 
      * @since       3.4.1
      * @since       3.5.3       Moved from `AdminPageFramework_Factory_Model`. or not.
+     * @remark      Do not even declare this method to avoid PHP strict standard warnings.
      */
-    public function validate( $aInput, $aOldInput, $oFactory ) {
-        return $aInput;
-    }         
+    // public function validate( $aInput, $aOldInput, $oFactory ) {
+        // return $aInput;
+    // }         
     
     /**
      * Sets up validation hooks.
@@ -299,7 +300,9 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
         $_aInput = $this->oUtil->addAndApplyFilters( 
             $this, 
             "validation_{$this->oProp->sClassName}",
-            $this->validate( $_aInput, $_aSavedMeta, $this ),
+            is_callable( array( $this, 'validate' ) )
+                ? call_user_func_array( array( $this, 'validate' ), array( $_aInput, $_aSavedMeta, $this ) )
+                : $_aInput, // 3.5.3+            
             $_aSavedMeta, 
             $this 
         ); 
