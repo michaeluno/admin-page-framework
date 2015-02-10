@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.3
 Tested up to:       4.1.0
-Stable tag:         3.5.1.1
+Stable tag:         3.5.2
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -114,7 +114,7 @@ For usage instructions to get started, go to **Dashboard** -> **Admin Page Frame
 
 <h4>About the Project</h4>
 <h5><strong>What is this for?</strong></h5>
-This is a PHP class library that helps to create option pages and form fields in the administration panel. In addition, it helps to manage to save, export, and import options.
+This is a PHP class-based WordPress library that helps to create option pages and form fields in the administration area. In addition, it helps to manage to save, export, and import options.
 
 <h5><strong>Who needs it?</strong></h5>
 WordPress plugin/theme developers who want to speed up creating setting forms, widgets, contact form etc. and don't want to require their users to install extra dependencies. 
@@ -122,7 +122,7 @@ WordPress plugin/theme developers who want to speed up creating setting forms, w
 <h5><strong>Do my plugin/theme users have to install Admin Page Framework?</strong></h5>
 No. Include the minified version of the framework in your distribution package.
 
-<h5>Where can I get the minified version of the framework?</h5>
+<h5><strong>Where can I get the minified version of the framework?</strong></h5>
 It is in the `library` directory of the plugin. Or go to **Dashboard** -> **Admin Page Framework** -> **Tool** -> **Minifier** and press **Download**.
 
 <h5><strong>Does my commercial product incorporating your framework library have to be released under GPL2v+?</strong></h5>
@@ -366,6 +366,8 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+
+= 3.5.3 =
 
 = 3.5.2 - 2015/02/02 =
 - Fixed a bug in the widget factory class that form sections could not be set.
