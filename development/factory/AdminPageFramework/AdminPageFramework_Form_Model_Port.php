@@ -146,7 +146,7 @@ abstract class AdminPageFramework_Form_Model_Port extends AdminPageFramework_Rou
     
         // The option data to be saved will be returned.
         return $bMerge ?
-            $this->oUtil->unitArrays( $vData, $aStoredOptions )
+            $this->oUtil->uniteArrays( $vData, $aStoredOptions )
             : $vData;
                         
     }
