@@ -56,6 +56,7 @@ class AdminPageFramework_AdminNotice {
                         . $this->sNotice 
                     . "</p>"
                 . "</div>";
+                
         }
         
         /**
@@ -64,18 +65,18 @@ class AdminPageFramework_AdminNotice {
          */
         private function _getAttributes( array $aAttributes )  {
             
-            $_sQuoteCharactor   ="'";
+            $_sQuoteCharactor   = "'";
             $_aOutput           = array();
             foreach( $aAttributes as $_sAttribute => $_asProperty ) {
                 
                 if ( 'style' === $_sAttribute && is_array( $_asProperty ) ) {
-                    $_asProperty = $this->_getStyle();
+                    $_asProperty = $this->_getInlineCSS();
                 }
                 
                 // Must be resolved as a string.
-                if ( is_array( $_asProperty ) ) { continue; }  
-                if ( is_object( $_asProperty ) ) { continue; }  
-                if ( is_null( $_asProperty ) ) { continue; }
+                if ( in_array( gettype( $_asProperty ), array( 'array', 'object', 'NULL' ) ) ) {
+                    continue;
+                }
                             
                 $_aOutput[] = "{$_sAttribute}={$_sQuoteCharactor}" 
                         . esc_attr( $_asProperty )
@@ -88,15 +89,15 @@ class AdminPageFramework_AdminNotice {
         /**
          * Generates HTML inline style attribute from an array.
          * @since       3.5.0
+         * @return      string      The generated inline CSS rules.
          */               
-        private function _getStyle( array $aCSSRules ) {
+        private function _getInlineCSS( array $aCSSRules ) {
             
-            $_sOutput = '';
+            $_aOutput = array();
             foreach( $aCSSRules as $_sProperty => $_sValue ) {
-                $_sOutput .= $_sProperty . ': ' . $_sValue . '; ';
+                $_aOutput[] = $_sProperty . ': ' . $_sValue;
             }
-            return trim( $_sOutput );            
-            
+            return implode( '; ', $_aOutput );
             
         }
     
