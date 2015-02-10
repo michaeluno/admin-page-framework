@@ -158,6 +158,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *       )
      * );</code>
      * @since       3.0.0     
+     * @since       3.5.3       Removed the parameter declarations as they are caught with func_get_args().
      * @access      public
      * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
      * @remark      The target section tab slug will be reset once the method returns.
@@ -209,7 +210,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @param       array       (optional)  add more section array to the next parameters as many as necessary.
      * @return      void
      */    
-    public function addSettingSections( $aSection1, $aSection2=null, $_and_more=null ) {
+    public function addSettingSections( /* $aSection1, $aSection2=null, $_and_more=null */ ) {
         
         foreach( func_get_args() as $asSection ) { 
             $this->addSettingSection( $asSection ); 
@@ -225,11 +226,11 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * 
      * This is useful when adding section arrays in loops.
      * 
-     * @since       3.0.0            Changed the scope to public from protected.
+     * @since       3.0.0               Changed the scope to public from protected.
      * @access      public
      * @remark      The actual registration will be performed in the `_replyToRegisterSettings()` method with the `admin_menu` hook.
      * @remark      The `$oForm` property should be created in each extended class.
-     * @param       array|string     the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be omitted.
+     * @param       array|string        the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be omitted.
      * @return      void
      */
     public function addSettingSection( $aSection ) {
@@ -249,8 +250,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     * It inserts the given field definition arrays into the class property and later they are parsed when fields are registered. The field definition array requires specific keys. Refer to the parameter section of this method.
     * 
     * @since        2.0.0
+    * @since        3.5.3       Removed the parameter declarations as they are caught with the func_get_args().
     * @remark       Accepts variadic parameters; the number of accepted parameters are not limited to three.
-    * @param        array     the field definition array.
+    * @param        array       the field definition array.
     * <h4>Built-in Field Types</h4>
     * <ul>
     *       <li>**text** - a normal field to enter text input.</li>
@@ -495,7 +497,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     * @param        array (optional) add more field arrays to the next parameters as many as necessary.
     * @return       void
     */ 
-    public function addSettingFields( $aField1, $aField2=null, $_and_more=null ) {
+    public function addSettingFields( /* $aField1, $aField2=null, $_and_more=null */ ) {
         foreach( func_get_args() as $aField ) { 
             $this->addSettingField( $aField ); 
         }

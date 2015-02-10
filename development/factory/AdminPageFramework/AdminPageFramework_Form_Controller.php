@@ -45,6 +45,7 @@ abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_For
      *
      * @since       2.0.0
      * @since       3.0.0           Changed the scope to public from protected.
+     * @since       3.5.3           Removed the parameter declarations as they are caught with the func_get_args().
      * @access      public
      * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
      * @remark      The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
@@ -68,7 +69,7 @@ abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_For
      * @param       array           (optional) add more section array to the next parameters as many as necessary.
      * @return      void
      */     
-    public function addSettingSections( $aSection1, $aSection2=null, $_and_more=null ) {
+    public function addSettingSections( /* $aSection1, $aSection2=null, $_and_more=null */ ) {
         
         foreach( func_get_args() as $asSection ) { 
             $this->addSettingSection( $asSection ); 
@@ -132,6 +133,7 @@ abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_For
     * 
     * @since        2.0.0
     * @since        3.0.0       Changed the scope to public from protected.
+    * @since        3.5.3       Removed the parameter declarations as they are caught with the func_get_args().
     * @access       public
     * @remark       Accepts variadic parameters; the number of accepted parameters are not limited to three.
     * @param        string      $sSectionID1        the section ID to remove.
@@ -139,7 +141,7 @@ abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_For
     * @param        string      $_and_more          (optional) add more section IDs to the next parameters as many as necessary.
     * @return       void
     */    
-    public function removeSettingSections( $sSectionID1=null, $sSectionID2=null, $_and_more=null ) {    
+    public function removeSettingSections( /* $sSectionID1=null, $sSectionID2=null, $_and_more=null */ ) {    
         
         foreach( func_get_args() as $_sSectionID ) {
             $this->oForm->removeSection( $_sSectionID );
@@ -193,12 +195,13 @@ abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_For
      * );</code>
      * 
      * @since       2.0.0
-     * @since       3.0.0 Changed the scope to public from protected.
+     * @since       3.0.0       Changed the scope to public from protected.
+     * @since       3.5.3       Removed the parameter declarations as they are caught with the func_get_args().
      * @access      public
      * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
      * @remark      The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
      */     
-    public function addSettingFields( $aField1, $aField2=null, $_and_more=null ) {    
+    public function addSettingFields( /* $aField1, $aField2=null, $_and_more=null */ ) {    
         foreach( func_get_args() as $aField ) { 
             $this->addSettingField( $aField ); 
         }
