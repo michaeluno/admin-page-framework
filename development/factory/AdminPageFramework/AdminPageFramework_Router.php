@@ -128,6 +128,11 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             
         }
         
+        // validate()
+        if ( 'validate' === $sMethodName ) {
+            return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
+        }
+        
         // If it is a pre callback method, call the redirecting method.     
         if ( substr( $sMethodName, 0, strlen( 'section_pre_' ) ) == 'section_pre_' ) return $this->_renderSectionDescription( $sMethodName );  // add_settings_section() callback - defined in AdminPageFramework_Setting
         if ( substr( $sMethodName, 0, strlen( 'field_pre_' ) ) == 'field_pre_' ) return $this->_renderSettingField( $aArgs[ 0 ], $sPageSlug );  // add_settings_field() callback - defined in AdminPageFramework_Setting
