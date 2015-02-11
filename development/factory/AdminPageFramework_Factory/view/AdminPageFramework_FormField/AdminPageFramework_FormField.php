@@ -529,22 +529,15 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                 // Separate the first field and sub-fields
                 $aFirstField    = array();
                 $aSubFields     = array();
-                $this->_divideMainAndSubFields( 
-                    $aField, 
-                    $aFirstField,   // by reference - gets updated in the method
-                    $aSubFields     // by reference - gets updated in the method
-                );
+                
+                // $aFirstField and $aSubFields get updated in the method
+                $this->_divideMainAndSubFields( $aField, $aFirstField, $aSubFields );
                             
-                $this->_fillRepeatableElements( 
-                    $aField, 
-                    $aSubFields,    // by reference - gets updated in the method
-                    $mSavedValue 
-                 );
+                // $aSubFields gets updated in the method
+                $this->_fillRepeatableElements( $aField, $aSubFields, $mSavedValue );
                                 
-                $this->_fillSubFields( 
-                    $aSubFields,    // by reference - gets updated in the method
-                    $aFirstField 
-                );
+                 // $aSubFields gets updated in the method
+                $this->_fillSubFields( $aSubFields, $aFirstField );
 
                 // Put them together
                 return array_merge( array( $aFirstField ), $aSubFields );
@@ -584,7 +577,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                     $_aSavedValue = ( array ) $mSavedValue;
                     unset( $_aSavedValue[ 0 ] );
                     foreach( $_aSavedValue as $_iIndex => $vValue ) {
-                        $aSubFields[ $_iIndex - 1 ] = isset( $aSubFields[ $_iIndex - 1 ] ) && is_array( $aSubFields[ $iIndex - 1 ] ) 
+                        $aSubFields[ $_iIndex - 1 ] = isset( $aSubFields[ $_iIndex - 1 ] ) && is_array( $aSubFields[ $_iIndex - 1 ] ) 
                             ? $aSubFields[ $_iIndex - 1 ] 
                             : array();     
                     }       
@@ -608,10 +601,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                             );
                         
                         // Do recursive array merge - the 'attributes' array of some field types have more than one dimensions.
-                        $_aSubField = $this->uniteArrays(
-                            $_aSubField, 
-                            $aFirstField
-                        ); 
+                        $_aSubField = $this->uniteArrays( $_aSubField, $aFirstField ); 
                         
                         // Restore the label element.
                         $_aSubField['label'] = $_aLabel;
