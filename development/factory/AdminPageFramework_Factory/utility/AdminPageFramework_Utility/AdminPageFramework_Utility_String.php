@@ -126,4 +126,16 @@ abstract class AdminPageFramework_Utility_String {
         return $_iSize . $_aUnits[ $_iPower ];
     }
     
+    /**
+     * Checks if the given string has a certain prefix.
+     * 
+     * Used mainly in the __call() method to determine the called undefined method name has a certain prefix.
+     * 
+     * @since       3.5.3
+     * @return      boolean     True if it has the given prefix; otherwise, false.
+     */
+    static public function hasPrefix( $sNeedle, $sHaystack ) {
+        return $sNeedle === substr( $sHaystack, 0, strlen( $sNeedle ) );
+    }
+        
 }
