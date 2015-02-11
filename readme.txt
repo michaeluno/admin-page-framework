@@ -368,7 +368,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.3 =
-- Added the `validate()` method in the admin page factory class.
+- Added the `validate()` and `content()` methods in the admin page factory class.
 - Added the fourth parameter to the `validate()` method of page meta box factory class to receive submit information.
 
 = 3.5.2 - 2015/02/02 =
