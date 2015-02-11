@@ -131,20 +131,33 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
          */
         static private function _getLogContents( $mValue ) {
 
-            $_iLengths  = is_string( $mValue ) || is_integer( $mValue )
-                ? strlen( $mValue  )
-                : ( is_array( $mValue )
-                    ? count( $mValue )
-                    : null
-                );        
+            $_sType     = gettype( $mValue );
+            $_iLengths  = self::_getValueLength( $mValue, $_sType );
             return '(' 
-                . gettype( $mValue )
+                . $_sType
                 . ( null !== $_iLengths ? ', length: ' . $_iLengths : '' )
             . ') '
             . self::getAsString( $mValue ) 
             . PHP_EOL . PHP_EOL;
         
-        }        
+        }      
+            /**
+             * Returns a length of a value.
+             * @since       3.5.3
+             * @internal
+             * @return      integer|null        For string or integer, the string length. For array, the element lengths. For other types, null.
+             */
+            static private function _getValueLength( $mValue, $sVariableType ) {
+                
+                if ( in_array( $sVariableType, array( 'string', 'integer' ) ) ) {
+                    return strlen( $mValue );
+                }
+                if ( 'array' === $sVariableType ) {
+                    return count( $mValue );
+                }
+                return null;
+                
+            }
         /**
          * Returns the heading part of a log item.
          * @since       3.5.3
