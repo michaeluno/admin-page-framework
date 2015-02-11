@@ -39,33 +39,4 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
 
     }
   
-    /**
-     * Redirects undefined callback methods or to the appropriate methods.
-     * 
-     * @internal
-     */
-    public function __call( $sMethodName, $aArgs=null ) {    
-    
-        if ( 'setup_pre' == $sMethodName ) { 
-        
-            // @todo introduce "set_up_pre_{ class name }" action hook.
-        
-            $this->_setUp();
-            
-            // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
-            $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
-            
-            $this->oProp->_bSetupLoaded = true;
-            return;
-            
-        }
-
-        if ( has_filter( $sMethodName ) ) {
-            return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
-        }
-        
-        return parent::__call( $sMethodName, $aArgs );
-                
-    }
-    
 }
