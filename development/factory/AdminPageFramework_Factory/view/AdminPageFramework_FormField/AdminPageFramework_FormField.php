@@ -468,45 +468,96 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                 // Separate the first field and sub-fields
                 $aFirstField    = array();
                 $aSubFields     = array();
-                foreach( $aField as $_nsIndex => $_mFieldElement ) {
-                    if ( is_numeric( $_nsIndex ) ) {
-                        $aSubFields[] = $_mFieldElement;
-                    } else {
-                        $aFirstField[ $_nsIndex ] = $_mFieldElement;
-                    }
-                }     
+                $this->_divideMainAndSubFields( 
+                    $aField, 
+                    $aFirstField,   // by reference - gets updated in the method
+                    $aSubFields     // by reference - gets updated in the method
+                );
+                            
+                $this->_fillRepeatableElements( 
+                    $aField, 
+                    $aSubFields,    // by reference - gets updated in the method
+                    $mSavedValue 
+                 );
+                                
+                $this->_fillSubFields( 
+                    $aSubFields,    // by reference - gets updated in the method
+                    $aFirstField 
+                );
+
+                // Put them together
+                return array_merge( array( $aFirstField ), $aSubFields );
                 
-                // Create the sub-fields of repeatable fields based on the saved values.
-                if ( $aField['repeatable'] ) {
-                    foreach( ( array ) $mSavedValue as $iIndex => $vValue ) {
-                        if ( 0 == $iIndex ) { continue; }
-                        $aSubFields[ $iIndex - 1 ] = isset( $aSubFields[ $iIndex - 1 ] ) && is_array( $aSubFields[ $iIndex - 1 ] ) 
-                            ? $aSubFields[ $iIndex - 1 ] 
+            }            
+                /**
+                 * Divide the fields into the main field and sub fields.
+                 * 
+                 * @remark      The method will update the arrays passed to the second and the third parameter.
+                 * @since       3.5.3
+                 * @internal
+                 * @return      void
+                 */
+                private function _divideMainAndSubFields( array $aField, array &$aFirstField, array &$aSubFields ) {
+                    foreach( $aField as $_nsIndex => $_mFieldElement ) {
+                        if ( is_numeric( $_nsIndex ) ) {
+                            $aSubFields[] = $_mFieldElement;
+                        } else {
+                            $aFirstField[ $_nsIndex ] = $_mFieldElement;
+                        }
+                    }     
+                }   
+                /**
+                 * Fills sub-fields with repeatable fields.
+                 * 
+                 * This method creates the sub-fields of repeatable fields based on the saved values.
+                 * 
+                 * @remark      This method updates the passed array to the second parameter.
+                 * @sicne       3.5.3
+                 * @internal
+                 * @return      void
+                 */
+                private function _fillRepeatableElements( array $aField, array &$aSubFields, $mSavedValue ) {
+                    if ( ! $aField['repeatable'] ) {
+                        return;
+                    }
+                    $_aSavedValue = ( array ) $mSavedValue;
+                    unset( $_aSavedValue[ 0 ] );
+                    foreach( $_aSavedValue as $_iIndex => $vValue ) {
+                        $aSubFields[ $_iIndex - 1 ] = isset( $aSubFields[ $_iIndex - 1 ] ) && is_array( $aSubFields[ $iIndex - 1 ] ) 
+                            ? $aSubFields[ $_iIndex - 1 ] 
                             : array();     
+                    }       
+                }
+                /**
+                 * Fillds sub-fields.
+                 * @since       3.5.3
+                 * @internal
+                 * @return      void
+                 */
+                private function _fillSubFields( array &$aSubFields, array $aFirstField ) {                
+                            
+                    foreach( $aSubFields as &$_aSubField ) {
+                        
+                        // Evacuate the label element which should not be merged.
+                        $_aLabel = isset( $_aSubField['label'] ) 
+                            ? $_aSubField['label']
+                            : ( isset( $aFirstField['label'] )
+                                 ? $aFirstField['label'] 
+                                 : null
+                            );
+                        
+                        // Do recursive array merge - the 'attributes' array of some field types have more than one dimensions.
+                        $_aSubField = $this->uniteArrays(
+                            $_aSubField, 
+                            $aFirstField
+                        ); 
+                        
+                        // Restore the label element.
+                        $_aSubField['label'] = $_aLabel;
+                        
                     }
                 }
                 
-                // Put the initial field and the sub-fields together in one array.
-                foreach( $aSubFields as &$aSubField ) {
-                    
-                    /* Before merging recursively, evacuate the label element which should not be merged */
-                    $aLabel = isset( $aSubField['label'] ) 
-                        ? $aSubField['label']
-                        : ( isset( $aFirstField['label'] )
-                             ? $aFirstField['label'] 
-                             : null
-                        );
-                    
-                    /* Do recursive array merge */
-                    $aSubField = $this->uniteArrays( $aSubField, $aFirstField ); // the 'attributes' array of some field types have more than one dimensions. // $aSubField = $aSubField + $aFirstField;
-                    
-                    /* Restore the label element */
-                    $aSubField['label'] = $aLabel;
-                    
-                }
-                return array_merge( array( $aFirstField ), $aSubFields );            
-                
-            }
             /**
              * Sets saved field values to the given field arrays.
              * 
