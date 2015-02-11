@@ -16,6 +16,9 @@
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
+ * @method          _renderPage( $_sPageSlug, $_sTabSlug )      
+ * @method          _renderSectionDescription( $sMethodName )           defined in AdminPageFramework_Setting
+ * @method          _renderSettingField( $_mFirstArg, $_sPageSlug )     defined in AdminPageFramework_Setting
  */
 abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     
@@ -58,43 +61,69 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      */
     public function __call( $sMethodName, $aArgs=null ) {     
 
-        $_sPageSlug = isset( $_GET['page'] )
-            ? $_GET['page'] 
-            : null;    
-        $_sTabSlug  = isset( $_GET['tab'] )
-            ? $_GET['tab'] 
-            : $this->oProp->getDefaultInPageTab( $_sPageSlug );
-        $_mFirstArg = isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
+        $_sPageSlug             = isset( $_GET['page'] ) ? $_GET['page'] : null;    
+        $_sTabSlug              = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $_sPageSlug );
+        $_mFirstArg             = isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
+        $_aKnownMethodPrefixes  = array(
+            'section_pre_',
+            'field_pre_',
+            'load_pre_',
+        );        
         
-        switch( $sMethodName ) {
-            
+        switch( $this->_getCallbackName( $sMethodName, $_sPageSlug, $_aKnownMethodPrefixes ) ) {
             case 'setup_pre':
                 $this->_doSetUp();
                 return;
-            
+                
             // A callback of the call_page_{page slug} action hook
             case $this->oProp->sClassHash . '_page_' . $_sPageSlug:
                 return $this->_renderPage( $_sPageSlug, $_sTabSlug );   // defined in AdminPageFramework_Page.
+             
+            // add_settings_section() callback 
+            case 'section_pre_':
+                return $this->_renderSectionDescription( $sMethodName );    // defined in AdminPageFramework_Setting
                 
-        }
-               
-        // If it is a pre callback method, call the redirecting method.     
-        if ( $this->oUtil->hasPrefix( 'section_pre_', $sMethodName ) ) {
-            // add_settings_section() callback - defined in AdminPageFramework_Setting
-            return $this->_renderSectionDescription( $sMethodName );  
-        } 
-        else if ( $this->oUtil->hasPrefix( 'field_pre_', $sMethodName ) ) {
-            // add_settings_field() callback - defined in AdminPageFramework_Setting
-            return $this->_renderSettingField( $_mFirstArg, $_sPageSlug );  
-        }
-        else if ( $this->oUtil->hasPrefix( 'load_pre_', $sMethodName ) ) {
-            // load-{page} callback
-            return $this->_doPageLoadCall( $sMethodName, $_sPageSlug, $_sTabSlug, $_mFirstArg );
-        }
-
-        return parent::__call( $sMethodName, $aArgs );
+            // add_settings_field() callback - 
+            case 'field_pre_':
+                return $this->_renderSettingField( $_mFirstArg, $_sPageSlug );  // defined in AdminPageFramework_Setting
+            
+            // load-{page} callback            
+            case 'load_pre_':
+                return $this->_doPageLoadCall( $sMethodName, $_sPageSlug, $_sTabSlug, $_mFirstArg );
+            
+            default:
+                return parent::__call( $sMethodName, $aArgs );
+        }        
         
     }    
+        /**
+         * Attempts to find the factory class callback method for the given method name.
+         * 
+         * @since       3.5.3
+         * @return      string      The found callback method name or the prefix of a known callback method name. An empty string if not found.
+         */
+        private function _getCallbackName( $sMethodName, $sPageSlug, array $aKnownMethodPrefixes=array() ) {
+            
+            if ( in_array( 
+                    $sMethodName, 
+                    array( 
+                        'setup_pre',  
+                        $this->oProp->sClassHash . '_page_' . $sPageSlug
+                    ) 
+                ) 
+            ) {
+                return $sMethodName;
+            }
+            
+            foreach( $aKnownMethodPrefixes as $_sMethodPrefix ) {
+                if ( $this->oUtil->hasPrefix( $_sMethodPrefix, $sMethodName ) ) {
+                    return $_sMethodPrefix;
+                }
+            }
+            return '';
+            
+        }    
+        
         /**
          * Calls the setUp() method.
          * @since       3.5.3
