@@ -71,7 +71,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                 <div id="poststuff">
                     <div id="post-body" class="metabox-holder columns-<?php echo $this->_getNumberOfColumns(); ?>">
                     <?php
-                        $this->_printMainContent( $sPageSlug, $sTabSlug );
+                        $this->_printMainPageContent( $sPageSlug, $sTabSlug );
                         $this->_printMetaBox( 'side', 1 );      // defined in the parent class.
                         $this->_printMetaBox( 'normal', 2 );
                         $this->_printMetaBox( 'advanced', 3 );
@@ -103,42 +103,34 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
          * @since       3.0.0
          * @since       3.3.1       Moved from `AdminPageFramework_Page`.
          */
-        private function _printMainContent( $sPageSlug, $sTabSlug ) {
+        private function _printMainPageContent( $sPageSlug, $sTabSlug ) {
             
             /* Check if a sidebar meta box is registered */
-            $_bIsSideMetaboxExist = ( isset( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) && count( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) > 0 );
+            $_bSideMetaboxExists = ( isset( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) 
+                && count( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) > 0 );
 
             echo "<!-- main admin page content -->";
             echo "<div class='admin-page-framework-content'>";
-            if ( $_bIsSideMetaboxExist ) {
+            if ( $_bSideMetaboxExists ) {
                 echo "<div id='post-body-content'>";
             }
     
-            /* Capture the output buffer */
-            ob_start(); // start buffer
-                                        
-            // Render the form elements.
-            if ( $this->oProp->bEnableForm && $this->oForm->isPageAdded( $sPageSlug ) ) {
-     
-                $this->aFieldErrors = isset( $this->aFieldErrors ) ? $this->aFieldErrors : $this->_getFieldErrors( $sPageSlug ); 
-                $_oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->aFieldErrors, $this->oMsg );
-                
-                // @deprecated 3.4.1 the followings are already done in _replyToRegisterSettings().
-                // $this->oForm->setCurrentPageSlug( $sPageSlug );
-                // $this->oForm->setCurrentTabSlug( $sTabSlug );
-                // $this->oForm->applyConditions();
-                // $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName ); // applies filters to the conditioned field definition arrays.
-                // $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
-                echo $_oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
-                
-            }     
-             
-            $_sContent = ob_get_contents(); // assign the content buffer to a variable
-            ob_end_clean(); // end buffer and remove the buffer
-                        
+            $_sContent = call_user_func_array( 
+                array( $this, 'content' ),     // triggers __call()
+                array( $this->_getMainPageContentOutput( $sPageSlug ) )
+            );    // 3.5.3+
+            
             // Apply the content filters.
-            // @todo call the content() method.
-            echo $this->oUtil->addAndApplyFilters( $this, $this->oUtil->getFilterArrayByPrefix( 'content_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, false ), $_sContent );
+            echo $this->oUtil->addAndApplyFilters( 
+                $this,
+                $this->oUtil->getFilterArrayByPrefix( 
+                    'content_', 
+                    $this->oProp->sClassName, 
+                    $sPageSlug, 
+                    $sTabSlug, 
+                    false ), 
+                $_sContent 
+            );
 
             // Do the page actions.
             $this->oUtil->addAndDoActions(
@@ -147,12 +139,60 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                 $this // the argument 1
             );     
             
-            if ( $_bIsSideMetaboxExist ) {
+            if ( $_bSideMetaboxExists ) {
                 echo "</div><!-- #post-body-content -->";
             }
             echo "</div><!-- .admin-page-framework-content -->";
         }
-    
+            /**
+             * Returns the main admin page HTML output.
+             * @since       3.5.3
+             * @internal
+             * @return      string      The main admin page HTML output.
+             */
+            private function _getMainPageContentOutput( $sPageSlug ) {
+                
+                ob_start(); 
+                echo $this->_getFormOutput( $sPageSlug );
+                $_sContent = ob_get_contents(); 
+                ob_end_clean(); 
+                return $_sContent;
+                
+            }
+                /**
+                 * Returns the form output of the page.
+                 * @since       3.5.3
+                 * @internal
+                 * @return      string      The form output of the page.
+                 */
+                private function _getFormOutput( $sPageSlug ) {
+                    
+                    if ( ! $this->oProp->bEnableForm ) {
+                        return '';
+                    }
+                    if ( ! $this->oForm->isPageAdded( $sPageSlug ) ) {
+                        return '';
+                    }
+                             
+                    $this->aFieldErrors = isset( $this->aFieldErrors )
+                        ? $this->aFieldErrors 
+                        : $this->_getFieldErrors( $sPageSlug ); 
+                        
+                    $_oFieldsTable = new AdminPageFramework_FormTable(
+                        $this->oProp->aFieldTypeDefinitions, 
+                        $this->aFieldErrors, 
+                        $this->oMsg
+                    );
+                    
+                    return $_oFieldsTable->getFormTables( 
+                        $this->oForm->aConditionedSections, 
+                        $this->oForm->aConditionedFields, 
+                        array( $this, '_replyToGetSectionHeaderOutput' ), 
+                        array( $this, '_replyToGetFieldOutput' ) 
+                     );
+                       
+                }
+                
         /**
          * Retrieves the form opening tag.
          * 
@@ -364,10 +404,29 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                  */
                 private function _getPageHeadingtabNavigationBarItem( array $aSubPage, $sCurrentPageSlug ) {
                     
-                    // For added sub-pages
-                    if ( isset( $aSubPage['page_slug'] ) && $aSubPage['show_page_heading_tab'] ) {
+                    switch( $aSubPage['type'] ) {
+                        case 'link':
+                            return $this->_getPageHeadingtabNavigationBarLinkItem( $aSubPage );
+                        default:
+                            return $this->_getPageHeadingtabNavigationBarPageItem( $aSubPage, $sCurrentPageSlug );
+                    }
+                     
+                }
+                    /**
+                     * Returns the HTML output of a navigation bar item of a sub-page.
+                     * @since       3.5.3
+                     * @internal
+                     * @return      string      the HTML output of a navigation bar item of a sub-page.
+                     */
+                    private function _getPageHeadingtabNavigationBarPageItem( array $aSubPage, $sCurrentPageSlug ) {
                         
-                        // Check if the current tab number matches the iteration number. If not match, then assign blank; otherwise put the active class name.
+                        if ( ! isset( $aSubPage['page_slug'] ) ) {
+                            return '';
+                        }
+                        if ( ! $aSubPage['show_page_heading_tab'] ) {
+                            return '';
+                        }
+                                                    
                         return "<a " . $this->oUtil->generateAttributes(
                                 array(
                                     'class' => $this->oUtil->generateClassAttribute(
@@ -388,16 +447,23 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                                 )    
                             ) . ">"
                                 . $aSubPage['title']
-                            . "</a>";
-                            
+                            . "</a>";                 
+                        
                     }
-                    
-                    // For added menu links
-                    if ( 
-                        isset( $aSubPage['href'] )
-                        && 'link' === $aSubPage['type'] 
-                        && $aSubPage['show_page_heading_tab']
-                    ) {
+                    /**
+                     * Returns the HTML output of a navigation bar item of a link.
+                     * @since       3.5.3
+                     * @internal
+                     * @return      string      the HTML output of a navigation bar item of a link.
+                     */                    
+                    private function _getPageHeadingtabNavigationBarLinkItem( array $aSubPage ) {
+                        
+                        if ( ! isset( $aSubPage['href'] ) ) {
+                            return '';
+                        }
+                        if ( ! $aSubPage['show_page_heading_tab'] ) {
+                            return '';
+                        }                        
                         return "<a " . $this->oUtil->generateAttributes(
                                 array(
                                     'class' => 'nav-tab link',
@@ -406,10 +472,9 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                             ) . ">" 
                                 . $aSubPage['title']
                             . "</a>";
-                    }                    
+                            
+                    }
                     
-                }
-            
         /**
          * Retrieves the output of in-page tab navigation tabs bar as HTML.
          * 
