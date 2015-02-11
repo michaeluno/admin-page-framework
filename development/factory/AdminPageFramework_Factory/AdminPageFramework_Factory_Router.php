@@ -366,18 +366,33 @@ abstract class AdminPageFramework_Factory_Router {
      * Redirects dynamic function calls to the pre-defined internal method.
      * 
      * @internal
+     * @todo        Introduce "set_up_pre_{ class name }" action hook.
      */
-    function __call( $sMethodName, $aArgs=null ) {    
+    public function __call( $sMethodName, $aArgs=null ) {    
          
-        if ( has_filter( $sMethodName ) ) {
-            return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
+        $_mFirstArg = isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
+        
+        switch ( $sMethodName ) {
+            case 'validate':
+            case 'content':
+                return $_mFirstArg;
+            case 'setup_pre':
+                $this->_setUp();
+                
+                // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
+                $this->oUtil->addAndDoAction( 
+                    $this, 
+                    "set_up_{$this->oProp->sClassName}", 
+                    $this 
+                );
+                $this->oProp->_bSetupLoaded = true;            
+                return;
         }
         
-        // validate()
-        if ( 'validate' === $sMethodName ) {
-            return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
-        }        
-        
+        if ( has_filter( $sMethodName ) ) {
+            return $_mFirstArg;
+        }
+                
         trigger_error( 
             'Admin Page Framework: ' . ' : ' . sprintf( 
                 __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ),
