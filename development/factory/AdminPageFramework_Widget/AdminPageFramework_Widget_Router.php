@@ -44,7 +44,7 @@ abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Facto
             return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
         }
         
-        parent::__call( $sMethodName, $aArgs );
+        return parent::__call( $sMethodName, $aArgs );
                 
     }
     
