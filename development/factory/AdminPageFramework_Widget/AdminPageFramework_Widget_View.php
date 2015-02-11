@@ -58,13 +58,12 @@ abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_
             $this->oMsg 
         );
         
-        $_aOutput[]     = $_oFieldsTable->getFormTables( 
+        echo $_oFieldsTable->getFormTables( 
             $this->oForm->aConditionedSections, 
             $this->oForm->aConditionedFields, 
             array( $this, '_replyToGetSectionHeaderOutput' ),   // defined below
             array( $this, '_replyToGetFieldOutput' )            // defined in the factory view class.
         );
-        echo implode( PHP_EOL, $_aOutput );
         
     }
     
