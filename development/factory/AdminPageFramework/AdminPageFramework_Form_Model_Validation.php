@@ -19,7 +19,7 @@
  * @subpackage      AdminPage
  * @internal
  */
-abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramework_Form_Model_Port {     
+abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramework_Form_Model_Export {     
        
     /**
      * Handles the form submitted data.
