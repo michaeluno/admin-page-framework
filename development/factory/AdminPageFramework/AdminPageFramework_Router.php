@@ -19,60 +19,6 @@
  */
 abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     
-    /**
-     * Stores the prefixes of the filters used by this framework.
-     * 
-     * This must not use the private scope as the extended class accesses it, such as 'start_' and must use the public since another class uses this externally.
-     * 
-     * @since       2.0.0
-     * @since       2.1.5       Made it public from protected since the HeadTag class accesses it.
-     * @since       3.0.0       Moved from `AdminPageFramework_Page`. Changed the scope to protected as the head tag class no longer access this property.
-     * @since       3.3.1       Moved from `AdminPageFramework_Base`. Deprecated
-     * @var         array
-     * @static
-     * @access      protected
-     * @internal
-     * @deprecated  3.3.1
-     */ 
-    protected static $_aHookPrefixes = array(    
-        'start_'                        => 'start_',
-        'set_up_'                       => 'set_up_', // 3.1.3+
-        'load_'                         => 'load_',     
-        'load_after_'                   => 'load_after_', // 3.1.3+
-        'do_before_'                    => 'do_before_',
-        'do_after_'                     => 'do_after_',
-        'do_form_'                      => 'do_form_',
-        'do_'                           => 'do_',
-        'submit_'                       => 'submit_', // 3.0.0+
-        'content_top_'                  => 'content_top_',         // 3.2.1+
-        'content_bottom_'               => 'content_bottom_',     // 3.0.0+
-        'content_'                      => 'content_',
-        'validation_'                   => 'validation_',
-        'validation_saved_options_'     => 'validation_saved_options_', // [3.0.0+]
-        'export_name'                   => 'export_name',
-        'export_format'                 => 'export_format',
-        'export_'                       => 'export_',
-        'import_name'                   => 'import_name',
-        'import_format'                 => 'import_format',
-        'import_'                       => 'import_',
-        'style_common_ie_'              => 'style_common_ie_',
-        'style_common_'                 => 'style_common_',
-        'style_ie_'                     => 'style_ie_',
-        'style_'                        => 'style_',
-        'script_'                       => 'script_',
-        
-        'field_'                        => 'field_',
-        'section_head_'                 => 'section_head_', // 3.0.0+ Changed from 'section_'
-        'fields_'                       => 'fields_',
-        'sections_'                     => 'sections_',
-        'pages_'                        => 'pages_',
-        'tabs_'                         => 'tabs_',
-        
-        'field_types_'                  => 'field_types_',
-        'field_definition_'             => 'field_definition_', // 3.0.2+
-        'options_'                      => 'options_', // 3.1.0+
-    );    
-    
     /**'
      * Sets up hooks and properties.
      * 
@@ -97,7 +43,9 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     }
     
     /**
-     * The magic method which redirects callback-function calls with the pre-defined prefixes for hooks to the appropriate methods. 
+     * Handles undefined function calls.
+     * 
+     * This method redirects callback-function calls with the pre-defined prefixes for hooks to the appropriate methods. 
      * 
      * @access      public
      * @remark      the users do not need to call or extend this method unless they know what they are doing.
@@ -110,70 +58,84 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      */
     public function __call( $sMethodName, $aArgs=null ) {     
 
-        // The currently loading in-page tab slug. Be careful that not all cases $sMethodName have the page slug.
-        $sPageSlug  = isset( $_GET['page'] ) ? $_GET['page'] : null;    
-        $sTabSlug   = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $sPageSlug );    
-
-        if ( 'setup_pre' === $sMethodName ) {
+        $_sPageSlug = isset( $_GET['page'] )
+            ? $_GET['page'] 
+            : null;    
+        $_sTabSlug  = isset( $_GET['tab'] )
+            ? $_GET['tab'] 
+            : $this->oProp->getDefaultInPageTab( $_sPageSlug );
+        $_mFirstArg = isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
+        
+        switch( $sMethodName ) {
             
-            // @todo introduce "set_up_pre_{ class name }" action hook.
+            case 'setup_pre':
+                $this->_doSetUp();
+                return;
+            
+            // A callback of the call_page_{page slug} action hook
+            case $this->oProp->sClassHash . '_page_' . $_sPageSlug:
+                return $this->_renderPage( $_sPageSlug, $_sTabSlug );   // defined in AdminPageFramework_Page.
+                
+        }
+               
+        // If it is a pre callback method, call the redirecting method.     
+        if ( $this->oUtil->hasPrefix( 'section_pre_', $sMethodName ) ) {
+            // add_settings_section() callback - defined in AdminPageFramework_Setting
+            return $this->_renderSectionDescription( $sMethodName );  
+        } 
+        else if ( $this->oUtil->hasPrefix( 'field_pre_', $sMethodName ) ) {
+            // add_settings_field() callback - defined in AdminPageFramework_Setting
+            return $this->_renderSettingField( $_mFirstArg, $_sPageSlug );  
+        }
+        else if ( $this->oUtil->hasPrefix( 'load_pre_', $sMethodName ) ) {
+            // load-{page} callback
+            return $this->_doPageLoadCall( $sMethodName, $_sPageSlug, $_sTabSlug, $_mFirstArg );
+        }
+
+        return parent::__call( $sMethodName, $aArgs );
+        
+    }    
+        /**
+         * Calls the setUp() method.
+         * @since       3.5.3
+         * @internal
+         * @return      void
+         * @todo        introduce "set_up_pre_{ class name }" action hook.
+         */
+        private function _doSetUp() {
             
             $this->_setUp();
             
             // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
-            $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
+            $this->oUtil->addAndDoAction( 
+                $this, 
+                "set_up_{$this->oProp->sClassName}", 
+                $this 
+            );
             
-            $this->oProp->_bSetupLoaded = true;
-            return;
+            $this->oProp->_bSetupLoaded = true;            
             
         }
         
-        // validate()
-        if ( 'validate' === $sMethodName ) {
-            return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
-        }
-        
-        // If it is a pre callback method, call the redirecting method.     
-        if ( substr( $sMethodName, 0, strlen( 'section_pre_' ) ) == 'section_pre_' ) return $this->_renderSectionDescription( $sMethodName );  // add_settings_section() callback - defined in AdminPageFramework_Setting
-        if ( substr( $sMethodName, 0, strlen( 'field_pre_' ) ) == 'field_pre_' ) return $this->_renderSettingField( $aArgs[ 0 ], $sPageSlug );  // add_settings_field() callback - defined in AdminPageFramework_Setting
-        if ( substr( $sMethodName, 0, strlen( 'load_pre_' ) ) == 'load_pre_' ) {
-            
-            return substr( $sMethodName, strlen( 'load_pre_' ) ) === $sPageSlug
-                ? $this->_doPageLoadCall( $sPageSlug, $sTabSlug, $aArgs[ 0 ] )  // load-{page} callback
-                : null;
-
-        }
-
-        // The callback of the call_page_{page slug} action hook
-        if ( $sMethodName == $this->oProp->sClassHash . '_page_' . $sPageSlug ) {
-            return $this->_renderPage( $sPageSlug, $sTabSlug ); // the method is defined in the AdminPageFramework_Page class.
-        }
-
-        if ( has_filter( $sMethodName ) ) {
-            return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
-        }
-                        
-        trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ), $sMethodName ), E_USER_WARNING );
-        
-    }    
- 
         /**
          * Redirects the callback of the load-{page} action hook to the framework's callback.
          * 
          * @since       2.1.0
          * @since       3.3.1       Moved from `AdminPageFramework_Base`.
+         * @since       3.5.3       Added the $sMethodName parameter.
+         * 
          * @access      protected
          * @internal
          * @remark      This method will be triggered before the header gets sent.
          * @return      void
          * @internal
          */ 
-        protected function _doPageLoadCall( $sPageSlug, $sTabSlug, $oScreen ) {
+        protected function _doPageLoadCall( $sMethodName, $sPageSlug, $sTabSlug, $oScreen ) {
             
-            if ( ! isset( $this->oProp->aPageHooks[ $sPageSlug ] ) || $oScreen->id !== $this->oProp->aPageHooks[ $sPageSlug ] ) {
+            if ( ! $this->isPageLoadCall( $sMethodName, $sPageSlug, $oScreen->id ) ) {
                 return;
             }
-        
+            
             // [3.4.6+] Set the page and tab slugs to the default form section so that added form fields without a section will appear in different pages and tabs.
             $this->oForm->aSections[ '_default' ]['page_slug']  = $sPageSlug ? $sPageSlug : null;
             $this->oForm->aSections[ '_default' ]['tab_slug']   = $sTabSlug ? $sTabSlug : null;
@@ -203,7 +165,29 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             );
             
         }
-        
+            /**
+             * Determines whether the function call is of a page load.
+             * @since       3.5.3
+             * @internal
+             * @return      boolean     True if it is a page load call; othwrwise, false.
+             * @param       string      $sMethodName        The undefined method name that is passed to the __call() overload method.
+             * @param       string      $sPageSlug          The currently loading page slug.
+             * @param       string      $sScreenID          The screen ID that the WordPress screen object gives.
+             */
+            private function isPageLoadCall( $sMethodName, $sPageSlug, $sScreenID ) {
+                
+                if ( substr( $sMethodName, strlen( 'load_pre_' ) ) !== $sPageSlug ) {
+                    return false;
+                }
+                if ( ! isset( $this->oProp->aPageHooks[ $sPageSlug ] ) ) {
+                    return false;
+                }
+                if ( $sScreenID !== $this->oProp->aPageHooks[ $sPageSlug ] ) {
+                    return false;
+                }
+                return true;
+                
+            }        
     /* Shared methods */
     /**
      * Calculates the subtraction of two values with the array key of `order`.
