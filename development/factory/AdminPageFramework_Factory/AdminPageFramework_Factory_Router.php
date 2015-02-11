@@ -18,6 +18,7 @@
  * @subpackage  Factory
  * @internal
  * @method      void    start()   User constructor. Defined in `AdminPageFramework_Factory_Controller`.
+ * @method      void    _setUp()    
  */
 abstract class AdminPageFramework_Factory_Router {
     
