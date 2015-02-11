@@ -64,7 +64,7 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
             return isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
         }
         
-        parent::__call( $sMethodName, $aArgs );
+        return parent::__call( $sMethodName, $aArgs );
                 
     }
     
