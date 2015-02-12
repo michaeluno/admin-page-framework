@@ -141,10 +141,11 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
      * When a plugin is network activated, the global $pagenow variable sometimes is not set. Some framework's objects rely on the value of it.
      * So this method will provide an alternative mean when it is not set.
      * 
-     * @since 3.0.5
+     * @since       3.0.5
      */
     static public function getPageNow() {
-        
+
+        // Use the cache,
         if ( isset( self::$_sPageNow ) ) {
             return self::$_sPageNow;
         }
@@ -154,48 +155,91 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
             self::$_sPageNow = $GLOBALS['pagenow'];
             return self::$_sPageNow;
         }
-                
-        // Front-end
-        if ( ! is_admin() ) {
-            if ( preg_match( '#([^/]+\.php)([?/].*?)?$#i', $_SERVER['PHP_SELF'], $_aMatches ) ) {
-                self::$_sPageNow = strtolower( $_aMatches[ 1 ] );
-                return self::$_sPageNow;
-            }
-            self::$_sPageNow = 'index.php';
-            return self::$_sPageNow;
-        }
-        
-        // Back-end - wp-admin pages are checked more carefully     
-        if ( is_network_admin() )
-            preg_match( '#/wp-admin/network/?(.*?)$#i', $_SERVER['PHP_SELF'], $_aMatches );
-        elseif ( is_user_admin() )
-            preg_match( '#/wp-admin/user/?(.*?)$#i', $_SERVER['PHP_SELF'], $_aMatches );
-        else
-            preg_match( '#/wp-admin/?(.*?)$#i', $_SERVER['PHP_SELF'], $_aMatches );
+                        
+        self::$_sPageNow = is_admin() 
+            ? self::_getPageNow_BackEnd() 
+            : self::_getPageNow_FrontEnd();
             
-        $_sPageNow = $_aMatches[ 1 ];
-        $_sPageNow = trim( $_sPageNow, '/' );
-        $_sPageNow = preg_replace( '#\?.*?$#', '', $_sPageNow );
-        if ( '' === $_sPageNow || 'index' === $_sPageNow || 'index.php' === $_sPageNow ) {
-            self::$_sPageNow = 'index.php';
-            return self::$_sPageNow;
-        } 
-            
-        preg_match( '#(.*?)(/|$)#', $_sPageNow, $_aMatches );
-        $_sPageNow = strtolower( $_aMatches[1] );
-        if ( '.php' !== substr( $_sPageNow, -4, 4 ) ) {
-            $_sPageNow .= '.php'; // for Options +Multiviews: /wp-admin/themes/index.php (themes.php is queried)
-            self::$_sPageNow = $_sPageNow;
-        }
-        return self::$_sPageNow;     
+        return self::$_sPageNow;          
         
     }
+        /**
+         * Returns the current page url base name.
+         * 
+         * Assumes the current page is not in the admin area.
+         * 
+         * @since       3.5.3
+         * @return      string      The current page url base name.
+         */
+        static private function _getPageNow_FrontEnd() {
+            if ( preg_match( '#([^/]+\.php)([?/].*?)?$#i', $_SERVER['PHP_SELF'], $_aMatches ) ) {
+                return strtolower( $_aMatches[ 1 ] );
+            }
+            return 'index.php';                
+        }    
+
+        /**
+         * Returns the current page url base name of the admin page.
+         * 
+         * Assumes the current page is in the admin area.
+         * @remark      In admin area, it is checked carefully than in the fron-end.
+         * @since       3.5.3
+         * @return      string      The current page url base name of the admin page.
+         */
+        static private function _getPageNow_BackEnd() {
+             
+            $_sPageNow = self::_getPageNowAdminURLBasePath();
+            if ( self::_isInAdminIndex( $_sPageNow ) ) {
+                return 'index.php';
+            }       
+            
+            preg_match( '#(.*?)(/|$)#', $_sPageNow, $_aMatches );
+            $_sPageNow = strtolower( $_aMatches[ 1 ] );
+            if ( '.php' !== substr( $_sPageNow, -4, 4 ) ) {
+                $_sPageNow .= '.php'; // for Options +Multiviews: /wp-admin/themes/index.php (themes.php is queried)
+            }
+            return $_sPageNow;
+            
+        }   
+            /**
+             * Reurn the base part of the crurrently loading admin url.
+             * @since       3.5.3
+             * @internal
+             * return       string      The base part of the crurrently loading admin url.
+             */
+            static private function _getPageNowAdminURLBasePath() {
+                
+                if ( is_network_admin() ) {
+                    $_sNeedle = '#/wp-admin/network/?(.*?)$#i';
+                }
+                else if ( is_user_admin() ) {
+                    $_sNeedle = '#/wp-admin/user/?(.*?)$#i';
+                }
+                else {
+                    $_sNeedle = '#/wp-admin/?(.*?)$#i';
+                }                
+                preg_match( $_sNeedle, $_SERVER['PHP_SELF'], $_aMatches );
+                return preg_replace( '#\?.*?$#', '', trim( $_aMatches[ 1 ], '/' ) );
+                
+            }
+            /**
+             * Checkes whether the passed base url name is of the admin index page.
+             * @since       3.5.3
+             * return       boolean      Whether the passed base url name is of the admin index page.
+             */
+            static private function _isInAdminIndex( $sPageNow ) {
+                return in_array(
+                    $sPageNow,
+                    array( '', 'index', 'index.php' )
+                );
+            }
+        
     
     /**
      * Returns the current loading screen id.
      * 
-     * @since 3.1.0
-     * @return string The found screen ID.
+     * @since       3.1.0
+     * @return      string      The found screen ID.
      */
     static public function getCurrentScreenID() {
         
