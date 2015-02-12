@@ -319,8 +319,10 @@ CSSRULES;
                     default:
                     case 'php':
                         $_sLog = $this->getPHPErrorLog( 200 );
+                        break;
                     case 'mysql':
                         $_sLog = $this->getMySQLErrorLog( 200 );
+                        break;
                 }
                 return empty( $_sLog )
                     ? __( 'No log found.', 'admin-page-framework' )
