@@ -371,7 +371,7 @@ abstract class AdminPageFramework_Factory_Router {
      */
     public function __call( $sMethodName, $aArgs=null ) {    
          
-        $_mFirstArg = isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
+        list( $_mFirstArg )     = $aArgs;
         
         switch ( $sMethodName ) {
             case 'validate':
