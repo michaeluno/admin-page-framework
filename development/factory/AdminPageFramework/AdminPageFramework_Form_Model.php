@@ -88,7 +88,7 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
 
         }
         
-        // Get and post method checking.
+        // Checking the GET and POST methods.
         if ( isset( $_REQUEST['apf_remote_request_test'] ) && '_testing' === $_REQUEST['apf_remote_request_test'] ) {
             exit( 'OK' );
         }
@@ -118,7 +118,7 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
             }
             self::$_bDoneEmail = true;
 
-            $_sTransient = isset( $_GET['transient'] ) ? $_GET['transient'] : '';
+            $_sTransient = $this->oUtil->getElement( $_GET, 'transient', '' );
             if ( ! $_sTransient ) {
                 return;
             }

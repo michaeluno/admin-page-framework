@@ -614,9 +614,11 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
              */
             private function _getCurrentTabSlug( $sCurrentPageSlug ) {
                 
-                $_sCurrentTabSlug = isset( $_GET['tab'] ) 
-                    ? $_GET['tab'] 
-                    : $this->oProp->getDefaultInPageTab( $sCurrentPageSlug );
+                $_sCurrentTabSlug = $this->oUtil->getElement( 
+                    $_GET,
+                    'tab', 
+                    $this->oProp->getDefaultInPageTab( $sCurrentPageSlug )
+                );
                 return $this->_getParentTabSlug( 
                     $sCurrentPageSlug, 
                     $_sCurrentTabSlug 

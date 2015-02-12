@@ -93,19 +93,29 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
         // Store the target page slug which will be applied when no page slug is specified.
         static $__sTargetPageSlug; 
         if ( ! is_array( $asInPageTab ) ) {
-            $__sTargetPageSlug = is_string( $asInPageTab ) ? $asInPageTab : $__sTargetPageSlug; // set the target page slug
+            $__sTargetPageSlug = is_string( $asInPageTab ) 
+                ? $asInPageTab 
+                : $__sTargetPageSlug; // set the target page slug
             return;
         }         
 
         $aInPageTab         = $this->oUtil->uniteArrays( $asInPageTab, self::$_aStructure_InPageTabElements, array( 'page_slug' => $__sTargetPageSlug ) ); // avoid undefined index warnings.     
         $__sTargetPageSlug  = $aInPageTab['page_slug']; // set the target page slug for next calls
-        if ( ! isset( $aInPageTab['page_slug'], $aInPageTab['tab_slug'] ) ) return; // check the required keys.
+
+        // check the required keys.
+        if ( ! isset( $aInPageTab['page_slug'], $aInPageTab['tab_slug'] ) ) { 
+            return; 
+        }
         
-        $iCountElement      = isset( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] ) ? count( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] ) : 0;
+        $iCountElement      = isset( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] )
+            ? count( $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ] )
+            : 0;
         $aInPageTab         = array( 
             'page_slug' => $this->oUtil->sanitizeSlug( $aInPageTab['page_slug'] ),
             'tab_slug'  => $this->oUtil->sanitizeSlug( $aInPageTab['tab_slug'] ),
-            'order'     => is_numeric( $aInPageTab['order'] ) ? $aInPageTab['order'] : $iCountElement + 10,
+            'order'     => is_numeric( $aInPageTab['order'] ) 
+                ? $aInPageTab['order'] 
+                : $iCountElement + 10,
         ) + $aInPageTab;
 
         $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ][ $aInPageTab['tab_slug'] ] = $aInPageTab;

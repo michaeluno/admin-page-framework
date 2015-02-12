@@ -71,10 +71,12 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
         $_sSlug         = $this->_isBuiltInMenuItem( $sRootMenuLabel ); // if true, this method returns the slug
         $this->oProp->aRootMenu = array(
             'sTitle'        => $sRootMenuLabel,
-            'sPageSlug'     => $_sSlug ? $_sSlug : $this->oProp->sClassName,    
+            'sPageSlug'     => $_sSlug 
+                ? $_sSlug 
+                : $this->oProp->sClassName,
             'sIcon16x16'    => $this->oUtil->resolveSRC( $sIcon16x16 ),
             'iPosition'     => $iMenuPosition,
-            'fCreateRoot'   => $_sSlug ? false : true,
+            'fCreateRoot'   => empty( $_sSlug ),
         );    
                     
     }
@@ -111,8 +113,8 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
      */ 
     public function setRootMenuPageBySlug( $sRootMenuSlug ) {
         
-        $this->oProp->aRootMenu['sPageSlug'] = $sRootMenuSlug; // do not sanitize the slug here because post types includes a question mark.
-        $this->oProp->aRootMenu['fCreateRoot'] = false; // indicates to use an existing menu item. 
+        $this->oProp->aRootMenu['sPageSlug']    = $sRootMenuSlug; // do not sanitize the slug here because post types includes a question mark.
+        $this->oProp->aRootMenu['fCreateRoot']  = false; // indicates to use an existing menu item. 
         
     }
     
@@ -227,10 +229,14 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
     public function addSubMenuLink( array $aSubMenuLink ) {
         
         // If required keys are not set, return.
-        if ( ! isset( $aSubMenuLink['href'], $aSubMenuLink['title'] ) ) { return; }
+        if ( ! isset( $aSubMenuLink['href'], $aSubMenuLink['title'] ) ) { 
+            return; 
+        }
         
         // If the set URL is not valid, return.
-        if ( ! filter_var( $aSubMenuLink['href'], FILTER_VALIDATE_URL ) ) { return; }
+        if ( ! filter_var( $aSubMenuLink['href'], FILTER_VALIDATE_URL ) ) { 
+            return; 
+        }
 
         $this->oProp->aPages[ $aSubMenuLink['href'] ] = $this->_formatSubmenuLinkArray( $aSubMenuLink );
             
@@ -296,7 +302,9 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
      */ 
     public function addSubMenuPage( array $aSubMenuPage ) {
 
-        if ( ! isset( $aSubMenuPage['page_slug'] ) ) { return; }
+        if ( ! isset( $aSubMenuPage['page_slug'] ) ) { 
+            return; 
+        }
             
         $aSubMenuPage['page_slug'] = $this->oUtil->sanitizeSlug( $aSubMenuPage['page_slug'] );
         $this->oProp->aPages[ $aSubMenuPage['page_slug'] ] = $this->_formatSubMenuPageArray( $aSubMenuPage );

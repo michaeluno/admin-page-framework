@@ -70,9 +70,9 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         // copy one for parsing as $aInput will be merged with the default options.
         $_aInputRaw  = $_aInput;       
         
-        // Merge the submitted input data with the default options. Now $_aInput is modified.
-        $_sTabSlug   = isset( $_POST['tab_slug'] )   ? $_POST['tab_slug']    : ''; 
-        $_sPageSlug  = isset( $_POST['page_slug'] )  ? $_POST['page_slug']   : '';        
+        // Merge the submitted input data with the default options. Now $_aInput is modified.       
+        $_sTabSlug   = $this->oUtil->getElement( $_POST, 'tab_slug', '' );
+        $_sPageSlug  = $this->oUtil->getElement( $_POST, 'page_slug', '' );
         $_aInput     = $this->oUtil->uniteArrays( 
             $_aInput, 
             $this->oUtil->castArrayContents( 
@@ -83,7 +83,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         );                
 
         /* 3. Execute the submit_{...} actions. */
-        $_aSubmit           = isset( $_POST['__submit'] )   ? $_POST['__submit']    : array();
+        $_aSubmit           = $this->oUtil->getElement( $_POST, '__submit', array() );
         $_sPressedFieldID   = $this->_getPressedSubmitButtonData( $_aSubmit, 'field_id' );
         $_sPressedInputID   = $this->_getPressedSubmitButtonData( $_aSubmit, 'input_id' );        
         $_sSubmitSectionID  = $this->_getPressedSubmitButtonData( $_aSubmit, 'section_id' );
@@ -256,9 +256,9 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         // 1. Set up local variables.
         
         // no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
-        $_sTabSlug  = isset( $_POST['tab_slug'] )   ? $_POST['tab_slug']    : ''; 
-        $_sPageSlug = isset( $_POST['page_slug'] )  ? $_POST['page_slug']   : '';
-        $_aSubmit   = isset( $_POST['__submit'] )   ? $_POST['__submit']    : array();
+        $_sTabSlug  = $this->oUtil->getElement( $_POST, 'tab_slug', '' );
+        $_sPageSlug = $this->oUtil->getElement( $_POST, 'page_slug', '' );
+        $_aSubmit   = $this->oUtil->getElement( $_POST, '__submit', array() );
         
         // Retrieve the pressed submit field data.
         $_sPressedInputName         = $this->_getPressedSubmitButtonData( $_aSubmit, 'name' );

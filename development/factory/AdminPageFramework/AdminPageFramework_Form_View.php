@@ -47,7 +47,7 @@ abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Mode
     public function _replyToGetFieldOutput( $aField ) {
 
         $_sCurrentPageSlug  = $this->oProp->getCurrentPageSlug();
-        $_sSectionID        = isset( $aField['section_id'] ) ? $aField['section_id'] : '_default';
+        $_sSectionID        = $this->oUtil->getElement( $aField, 'section_id', '_default' );
         $_sFieldID          = $aField['field_id'];
         
         // If the specified field does not exist, do nothing.

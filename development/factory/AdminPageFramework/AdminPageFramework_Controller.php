@@ -363,9 +363,9 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
             
         $sID = $sID ? $sID : md5( $sMessage );
         $this->oProp->aAdminNotices[ md5( $sMessage ) ] = array(  
-            'sMessage' => $sMessage,
-            'sClassSelector' => $sClassSelector,
-            'sID' => $sID,
+            'sMessage'          => $sMessage,
+            'sClassSelector'    => $sClassSelector,
+            'sID'               => $sID,
         );
         if ( is_network_admin() ) {
             add_action( 'network_admin_notices', array( $this, '_replyToPrintAdminNotices' ) );

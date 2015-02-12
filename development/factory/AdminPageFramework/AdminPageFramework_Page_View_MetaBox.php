@@ -71,14 +71,15 @@ abstract class AdminPageFramework_Page_View_MetaBox extends AdminPageFramework_P
     protected function _getNumberOfColumns() {
     
         $_sCurrentScreenID = $this->oUtil->getCurrentScreenID();
-        if ( isset( $GLOBALS['wp_meta_boxes'][ $_sCurrentScreenID ][ 'side' ] ) && count( $GLOBALS['wp_meta_boxes'][ $_sCurrentScreenID ][ 'side' ] ) > 0 )
+        if ( isset( $GLOBALS['wp_meta_boxes'][ $_sCurrentScreenID ][ 'side' ] ) && count( $GLOBALS['wp_meta_boxes'][ $_sCurrentScreenID ][ 'side' ] ) > 0 ) {
             return 2;
+        }
         return 1;
 
         // the below does not seem to work
-        return 1 == get_current_screen()->get_columns() 
-            ? '1' 
-            : '2';     
+        // return 1 == get_current_screen()->get_columns() 
+            // ? '1' 
+            // : '2';     
         
     }
     
@@ -94,7 +95,8 @@ abstract class AdminPageFramework_Page_View_MetaBox extends AdminPageFramework_P
         
         $_sCurrentScreenID = $this->oUtil->getCurrentScreenID();
         
-        add_filter( 'get_user_option_' . 'screen_layout_' . $_sCurrentScreenID, array( $this, '_replyToReturnDefaultNumberOfScreenColumns' ), 10, 3 ); // this will give the screen object the default value
+        // this will give the screen object the default value
+        add_filter( 'get_user_option_' . 'screen_layout_' . $_sCurrentScreenID, array( $this, '_replyToReturnDefaultNumberOfScreenColumns' ), 10, 3 ); 
         
         if ( $sScreenID == $_sCurrentScreenID ) {
             $aColumns[ $_sCurrentScreenID ] = 2;
@@ -117,16 +119,16 @@ abstract class AdminPageFramework_Page_View_MetaBox extends AdminPageFramework_P
             }
             $sPageSlug = $sPageSlug 
                 ? $sPageSlug 
-                : ( isset( $_GET['page'] )
-                    ? $_GET['page']
-                    : ''
-                );
+                : $this->oUtil-> getElement( $_GET, 'page', '' );
+                
             if ( ! $sPageSlug ) {     
                 return false;
             }
             
             foreach( $GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses'] as $sClassName => $oMetaBox ) {
-                if ( $this->_isPageOfMetaBox( $sPageSlug, $oMetaBox ) ) return true;     
+                if ( $this->_isPageOfMetaBox( $sPageSlug, $oMetaBox ) ) { 
+                    return true; 
+                }
             }
 
             return false;
@@ -140,7 +142,7 @@ abstract class AdminPageFramework_Page_View_MetaBox extends AdminPageFramework_P
          */
         private function _isPageOfMetaBox( $sPageSlug, $oMetaBox ) {
             
-            if ( in_array( $sPageSlug , $oMetaBox->oProp->aPageSlugs ) ) {     
+            if ( in_array( $sPageSlug , $oMetaBox->oProp->aPageSlugs ) ) {
                 return true; // for numeric keys with a string value.
             }
             if ( ! array_key_exists( $sPageSlug , $oMetaBox->oProp->aPageSlugs ) ) {
@@ -148,17 +150,10 @@ abstract class AdminPageFramework_Page_View_MetaBox extends AdminPageFramework_P
             }
             
             /* So the page slug key and its tab array is set. This means the user want to specify the meta box visibility per a tab basis. */     
-            $aTabs = $oMetaBox->oProp->aPageSlugs[ $sPageSlug ];
-    
-            $sCurrentTabSlug = isset( $_GET['tab'] ) 
-                ? $_GET['tab']
-                : ( isset( $_GET['page'] ) 
-                    ? $this->oProp->getDefaultInPageTab( $_GET['page'] )
-                    : ''
-                );
-            if ( $sCurrentTabSlug && in_array( $sCurrentTabSlug, $aTabs ) ) return true;
-                        
-            return false;
+            $_aTabs             = $oMetaBox->oProp->aPageSlugs[ $sPageSlug ];
+            $_sCurrentTabSlug   = $this->oProp->getCurrentTabSlug();
+            return ( $_sCurrentTabSlug && in_array( $_sCurrentTabSlug, $_aTabs ) );
+                
         }
         
     /**
@@ -168,9 +163,13 @@ abstract class AdminPageFramework_Page_View_MetaBox extends AdminPageFramework_P
     public function _replyToReturnDefaultNumberOfScreenColumns( $vStoredData, $sOptionKey, $oUser ) {
 
         $_sCurrentScreenID = $this->oUtil->getCurrentScreenID();
-        if ( $sOptionKey != 'screen_layout_' . $_sCurrentScreenID ) return $vStoredData; // if the option key is different, do nothing.
+        
+        // if the option key is different, do nothing.
+        if ( $sOptionKey != 'screen_layout_' . $_sCurrentScreenID ) { 
+            return $vStoredData; 
+        }
     
-        return ( $vStoredData )
+        return $vStoredData
             ? $vStoredData
             : $this->_getNumberOfColumns(); // the default value;
         
@@ -213,7 +212,7 @@ abstract class AdminPageFramework_Page_View_MetaBox extends AdminPageFramework_P
          */
         public function _replyToAddMetaboxScript() {
 
-            if ( isset( $GLOBALS['aAdminPageFramework']['bAddedMetaBoxScript'] ) && $GLOBALS['aAdminPageFramework']['bAddedMetaBoxScript'] ) {     
+            if ( isset( $GLOBALS['aAdminPageFramework']['bAddedMetaBoxScript'] ) && $GLOBALS['aAdminPageFramework']['bAddedMetaBoxScript'] ) {
                 return;
             }
             $GLOBALS['aAdminPageFramework']['bAddedMetaBoxScript'] = true;

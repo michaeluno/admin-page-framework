@@ -164,9 +164,7 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
                 $this->oProp->aRootMenu['sPageSlug'],   // Menu ID 
                 '',                                     // Page content displaying function - the root page will be removed so no need to register a function.
                 $this->oProp->aRootMenu['sIcon16x16'],  // icon path
-                isset( $this->oProp->aRootMenu['iPosition'] ) 
-                    ? $this->oProp->aRootMenu['iPosition'] 
-                    : null                              // menu position
+                $this->oUtil->getElement( $this->oProp->aRootMenu, 'iPosition', null )  // menu position
             );
         }
         
@@ -178,6 +176,8 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
          * @internal
          */
         private function _formatSubMenuItemArray( $aSubMenuItem ) {
+            
+            $aSubMenuItem = $this->oUtil->getAsArray( $aSubMenuItem );
             
             if ( isset( $aSubMenuItem['page_slug'] ) ) {
                 return $this->_formatSubMenuPageArray( $aSubMenuItem );
@@ -198,19 +198,24 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
      * @since       3.3.1       Changed the scope to `protected` from `private` as the method is called from a different class.
      * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
      * @internal
+     * @remark      Assumes the passed sub-menu link argument array is formatted to have required keys.
      */
-    protected function _formatSubmenuLinkArray( $aSubMenuLink ) {
+    protected function _formatSubmenuLinkArray( array $aSubMenuLink ) {
         
         // If the set URL is not valid, return.
-        if ( ! filter_var( $aSubMenuLink['href'], FILTER_VALIDATE_URL ) ) { return array(); }
+        if ( ! filter_var( $aSubMenuLink['href'], FILTER_VALIDATE_URL ) ) { 
+            return array(); 
+        }
         
-        return $this->oUtil->uniteArrays(     
-            array(  
-                'capability'    => isset( $aSubMenuLink['capability'] ) ? $aSubMenuLink['capability'] : $this->oProp->sCapability,
-                'order'         => isset( $aSubMenuLink['order'] ) && is_numeric( $aSubMenuLink['order'] ) ? $aSubMenuLink['order'] : count( $this->oProp->aPages ) + 10,
-            ),
-            $aSubMenuLink + self::$_aStructure_SubMenuLinkForUser
-        );     
+        return array(  
+                'capability'    => $this->oUtil->getElement( $aSubMenuLink, 'capability', $this->oProp->sCapability ),
+                'order'         => isset( $aSubMenuLink['order'] ) && is_numeric( $aSubMenuLink['order'] )
+                    ? $aSubMenuLink['order'] 
+                    : count( $this->oProp->aPages ) + 10,
+            )
+            + $aSubMenuLink 
+            + self::$_aStructure_SubMenuLinkForUser
+            ;     
         
     }
         
@@ -221,27 +226,30 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
      * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
      * @internal
      */
-    protected function _formatSubMenuPageArray( $aSubMenuPage ) {
+    protected function _formatSubMenuPageArray( array $aSubMenuPage ) {
         
-        $aSubMenuPage = $aSubMenuPage + self::$_aStructure_SubMenuPageForUser;
-
-        $aSubMenuPage['screen_icon_id'] = trim( $aSubMenuPage['screen_icon_id'] );
-        return $this->oUtil->uniteArrays(
-            array( 
-                'href_icon_32x32'   => $this->oUtil->resolveSRC( $aSubMenuPage['screen_icon'], true ),
-                'screen_icon_id'    => in_array( $aSubMenuPage['screen_icon'], self::$_aScreenIconIDs ) ? $aSubMenuPage['screen_icon'] : 'generic', // $_aScreenIconIDs is defined in the page class.
-                'capability'        => isset( $aSubMenuPage['capability'] ) ? $aSubMenuPage['capability'] : $this->oProp->sCapability,
-                'order'             => is_numeric( $aSubMenuPage['order'] ) ? $aSubMenuPage['order'] : count( $this->oProp->aPages ) + 10,
-            ),
-            $aSubMenuPage,
-            array(
+        $aSubMenuPage = $aSubMenuPage 
+            + array(
                 'show_page_title'           => $this->oProp->bShowPageTitle, // boolean
                 'show_page_heading_tabs'    => $this->oProp->bShowPageHeadingTabs, // boolean
                 'show_in_page_tabs'         => $this->oProp->bShowInPageTabs, // boolean
                 'in_page_tab_tag'           => $this->oProp->sInPageTabTag, // string
                 'page_heading_tab_tag'      => $this->oProp->sPageHeadingTabTag, // string
+            )       
+            + self::$_aStructure_SubMenuPageForUser;
+
+        $aSubMenuPage['screen_icon_id'] = trim( $aSubMenuPage['screen_icon_id'] );
+        return array( 
+                'href_icon_32x32'   => $this->oUtil->resolveSRC( $aSubMenuPage['screen_icon'], true ),
+                'screen_icon_id'    => in_array( $aSubMenuPage['screen_icon'], self::$_aScreenIconIDs ) 
+                    ? $aSubMenuPage['screen_icon'] 
+                    : 'generic', // $_aScreenIconIDs is defined in the page class.
+                'capability'        => $this->oUtil->getElement( $aSubMenuPage, 'capability', $this->oProp->sCapability ),
+                'order'             => is_numeric( $aSubMenuPage['order'] ) 
+                    ? $aSubMenuPage['order'] 
+                    : count( $this->oProp->aPages ) + 10,
             )
-        );     
+            + $aSubMenuPage;
         
     }
                
@@ -254,60 +262,56 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
          * @remark      Used in the `buildMenu()` method. 
          * @remark      Within the `admin_menu` hook callback process.
          * @remark      The sub menu page slug should be unique because `add_submenu_page()` can add one callback per page slug.
+         * @remark      Assumes the argument array is aready formatted.
          * @internal
          * @return      string      The page hook if the page is added.
          */ 
-        private function _registerSubMenuItem( $aArgs ) {
+        private function _registerSubMenuItem( array $aArgs ) {
 
-            if ( ! isset( $aArgs['type'] ) ) { return ''; }
-
-            // Check the capability
-            $_sCapability    = isset( $aArgs['capability'] ) ? $aArgs['capability'] : $this->oProp->sCapability;
-            if ( ! current_user_can( $_sCapability ) ) {     
+            if ( ! current_user_can( $aArgs['capability'] ) ) {
                 return '';
             }
-
-            // Local variables                    
+                 
             $_sRootPageSlug = $this->oProp->aRootMenu['sPageSlug'];
-            $_sMenuSlug     = plugin_basename( $_sRootPageSlug ); // Make it compatible with the add_submenu_page() function.
+            $_sMenuSlug     = plugin_basename( $_sRootPageSlug ); // to be compatible with add_submenu_page()
             
-            // There are two types, page or link.
             switch( $aArgs['type'] ) {
                 case 'page':
                     // it's possible that the page_slug key is not set if the user uses a method like setPageHeadingTabsVisibility() prior to addSubMenuItam().
-                    return isset( $aArgs['page_slug'] )
-                        ? $this->_addPageSubmenuItem(
-                            $_sRootPageSlug,
-                            $_sMenuSlug,
-                            $aArgs['page_slug'],
-                            isset( $aArgs['page_title'] ) ? $aArgs['page_title'] : $aArgs['title'],
-                            isset( $aArgs['menu_title'] ) ? $aArgs['menu_title'] : $aArgs['title'],
-                            $_sCapability,
-                            $aArgs['show_in_menu']
-                        )
-                        : '';
+                    return $this->_addPageSubmenuItem(
+                        $_sRootPageSlug,
+                        $_sMenuSlug,
+                        $aArgs['page_slug'],
+                        $this->oUtil->getElement( $aArgs, 'page_title', $aArgs['title'] ),
+                        $this->oUtil->getElement( $aArgs, 'menu_title', $aArgs['title'] ),
+                        $aArgs['capability'],
+                        $aArgs['show_in_menu']
+                    );
                 case 'link':
-                    return $aArgs['show_in_menu']
-                        ? $this->_addLinkSubmenuItem( 
-                            $_sMenuSlug, 
-                            $aArgs['title'], 
-                            $_sCapability,
-                            $aArgs['href'] 
-                        )
-                        : '';
+                    return $this->_addLinkSubmenuItem( 
+                        $_sMenuSlug, 
+                        $aArgs['title'], 
+                        $aArgs['capability'],
+                        $aArgs['href'],
+                        $aArgs['show_in_menu']
+                    );
+                default:
+                    return '';
             }
-            return '';
-            
+      
         }     
             /**
              * Adds a page sub-menu item.
              * 
              * @since       3.3.0
              * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
-             * @return      string The page hook of the added page.
+             * @return      string      The page hook of the added page.
              */
             private function _addPageSubmenuItem( $sRootPageSlug, $sMenuSlug, $sPageSlug, $sPageTitle, $sMenuTitle, $sCapability, $bShowInMenu ) {
                 
+                if ( ! $sPageSlug ) {
+                    return '';
+                }
                 $_sPageHook = add_submenu_page( 
                     $sRootPageSlug,         // the root(parent) page slug
                     $sPageTitle,            // page title
@@ -377,9 +381,14 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
              * 
              * @since       3.3.0
              * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
+             * @since       3.5.3       Added the `$bShowInMenu` parameter.
+             * @return      void
              */
-            private function _addLinkSubmenuItem( $sMenuSlug, $sTitle, $sCapability, $sHref ) {
-               if ( ! isset( $GLOBALS['submenu'][ $sMenuSlug ] ) ) {
+            private function _addLinkSubmenuItem( $sMenuSlug, $sTitle, $sCapability, $sHref, $bShowInMenu ) {
+                if ( ! $bShowInMenu ) {
+                    return;
+                }
+                if ( ! isset( $GLOBALS['submenu'][ $sMenuSlug ] ) ) {
                     $GLOBALS['submenu'][ $sMenuSlug ] = array();
                 }
                 $GLOBALS['submenu'][ $sMenuSlug ][] = array ( 

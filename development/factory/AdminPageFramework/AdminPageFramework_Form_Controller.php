@@ -95,29 +95,45 @@ abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_For
     public function addSettingSection( $asSection ) {
                 
         if ( ! is_array( $asSection ) ) {
-            $this->_sTargetPageSlug = is_string( $asSection ) ? $asSection : $this->_sTargetPageSlug;
+            $this->_sTargetPageSlug = is_string( $asSection )
+                ? $asSection 
+                : $this->_sTargetPageSlug;
             return;
         } 
         
         $aSection = $asSection;
-        $this->_sTargetPageSlug         = isset( $aSection['page_slug'] ) ? $aSection['page_slug'] : $this->_sTargetPageSlug;
-        $this->_sTargetTabSlug          = isset( $aSection['tab_slug'] ) ? $aSection['tab_slug'] : $this->_sTargetTabSlug;
-        $this->_sTargetSectionTabSlug   = isset( $aSection['section_tab_slug'] ) ? $aSection['section_tab_slug'] : $this->_sTargetSectionTabSlug;
+        $this->_sTargetPageSlug         = $this->oUtil->getElement( $aSection, 'page_slug', $this->_sTargetPageSlug );
+        $this->_sTargetTabSlug          = $this->oUtil->getElement( $aSection, 'tab_slug', $this->_sTargetTabSlug );
+        $this->_sTargetSectionTabSlug   = $this->oUtil->getElement( $aSection, 'section_tab_slug', $this->_sTargetSectionTabSlug );
         $aSection = $this->oUtil->uniteArrays( 
             $aSection, 
             array( 
-                'page_slug'         => $this->_sTargetPageSlug ? $this->_sTargetPageSlug : null, // checking the value allows the user to reset the internal target manually
-                'tab_slug'          => $this->_sTargetTabSlug ? $this->_sTargetTabSlug : null,
-                'section_tab_slug'  => $this->_sTargetSectionTabSlug ? $this->_sTargetSectionTabSlug : null,
+                'page_slug'         => $this->_sTargetPageSlug, 
+                'tab_slug'          => $this->_sTargetTabSlug, 
+                'section_tab_slug'  => $this->_sTargetSectionTabSlug, 
+
+                // @depreacated 3.5.3+ Not sure if the checking the property values are necessary.
+                // checking the value allows the user to reset the internal target manually
+                // 'page_slug'         => $this->_sTargetPageSlug ? $this->_sTargetPageSlug : null, 
+                // 'tab_slug'          => $this->_sTargetTabSlug ? $this->_sTargetTabSlug : null,
+                // 'section_tab_slug'  => $this->_sTargetSectionTabSlug ? $this->_sTargetSectionTabSlug : null,
+                
             )
         ); // avoid undefined index warnings.
         
-        $aSection['page_slug']          = $aSection['page_slug'] ? $this->oUtil->sanitizeSlug( $aSection['page_slug'] ) : ( $this->oProp->sDefaultPageSlug ? $this->oProp->sDefaultPageSlug : null );
+        $aSection['page_slug']          = $aSection['page_slug'] 
+            ? $this->oUtil->sanitizeSlug( $aSection['page_slug'] ) 
+            : ( $this->oProp->sDefaultPageSlug 
+                ? $this->oProp->sDefaultPageSlug 
+                : null 
+            );
         $aSection['tab_slug']           = $this->oUtil->sanitizeSlug( $aSection['tab_slug'] );
         $aSection['section_tab_slug']   = $this->oUtil->sanitizeSlug( $aSection['section_tab_slug'] );
         
-        // The page slug is necessary.
-        if ( ! $aSection['page_slug'] ) { return; }
+        // A page slug is required.
+        if ( ! $aSection['page_slug'] ) {
+            return; 
+        }
         $this->oForm->addSection( $aSection );
         
     }
