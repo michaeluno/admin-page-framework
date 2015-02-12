@@ -68,7 +68,7 @@ class APF_MetaBox_RepeatableTabbedSections extends AdminPageFramework_MetaBox {
                 'label'         => array(
                     'a' => 'A',
                     'b' => 'B',
-                    'c' => 'c',     
+                    'c' => 'C',     
                 ),
             ),     
             array(

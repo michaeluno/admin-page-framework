@@ -70,7 +70,7 @@ class APF_MetaBox_CollapsibleSections extends AdminPageFramework_MetaBox {
                 'label' => array(
                     'a' => 'A',
                     'b' => 'B',
-                    'c' => 'c',     
+                    'c' => 'C',     
                 ),
             )
         );

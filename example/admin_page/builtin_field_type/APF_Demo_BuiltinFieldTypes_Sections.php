@@ -234,7 +234,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'label' => array(
                     'a' => 'A',
                     'b' => 'B',
-                    'c' => 'c',     
+                    'c' => 'C',     
                 ),
             ),     
             array()
@@ -275,7 +275,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'label' => array(
                     'a' => 'A',
                     'b' => 'B',
-                    'c' => 'c',     
+                    'c' => 'C',     
                 ),
             ),     
             array(

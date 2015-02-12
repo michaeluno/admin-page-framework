@@ -69,7 +69,7 @@ class APF_MetaBox_TabbedSections extends AdminPageFramework_MetaBox {
                 'label' => array(
                     'a' => 'A',
                     'b' => 'B',
-                    'c' => 'c',     
+                    'c' => 'C',     
                 ),
             )
         );    
