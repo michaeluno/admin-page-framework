@@ -249,13 +249,13 @@ CSSRULES;
                     'Admin Page Framework'  => isset( $_aData['Admin Page Framework'] )
                         ? null
                         : AdminPageFramework_Registry::getInfo(),
-                    'WordPress'             => $this->_getSiteInfo( ! isset( $_aData['WordPress'] ) ),
+                    'WordPress'             => $this->_getSiteInfoWithCache( ! isset( $_aData['WordPress'] ) ),
                     'PHP'                   => $this->_getPHPInfo( ! isset( $_aData['PHP'] ) ),
-                    'PHP Error Log'         => $this->_getPHPErrorLog( ! isset( $_aData['PHP Error Log'] ) ),
+                    'PHP Error Log'         => $this->_getErrorLogByType( 'php', ! isset( $_aData['PHP Error Log'] ) ),
                     'MySQL'                 => isset( $_aData['MySQL'] )
                         ? null
                         : $this->getMySQLInfo(),    // defined in the utility class.
-                    'MySQL Error Log'       => $this->_getMySQLErrorLog( ! isset( $_aData['MySQL Error Log'] ) ),
+                    'MySQL Error Log'       => $this->_getErrorLogByType( 'mysql', ! isset( $_aData['MySQL Error Log'] ) ),
                     'Server'                => $this->_getWebServerInfo( ! isset( $_aData['Server'] ) ),
                     'Browser'               => $this->_getClientInfo( ! isset( $_aData['Browser'] ) ),
                 );
@@ -303,84 +303,83 @@ CSSRULES;
             }
             
             /**
-             * Returns a PHP error log.
+             * Returns a error log by type.
              * 
-             * @since       3.4.6
-             * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
-             * @return      string      The PHP error log.
+             * @since       3.5.3
+             * @return      string      The found error log.
+             * @param       string      $sType          The error log type. Either 'php' or 'mysql' is accepted.
+             * @param       boolean     $bGenerateInfo  Whether to generate a log. This is for the caller method to reduce a conditinal statement.
              */
-            private function _getPHPErrorLog( $bGenerateInfo=true ) {
-                
+            private function _getErrorLogByType( $sType, $bGenerateInfo=true ) {
+
                 if ( ! $bGenerateInfo ) {
                     return '';
                 }
-                
-                $_sLog = $this->getPHPErrorLog( 200 );
-                return empty( $_sLog )
-                    ? __( 'No log found.', 'admin-page-framework' )
-                    : $_sLog;
-            
-            }
-            
-            /**
-             * Returns a MySQL error log.
-             * 
-             * @since       3.4.6
-             * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
-             */
-            private function _getMySQLErrorLog( $bGenerateInfo=true ) {
-                
-                if ( ! $bGenerateInfo ) {
-                    return '';
+                switch ( $sType ) {
+                    default:
+                    case 'php':
+                        $_sLog = $this->getPHPErrorLog( 200 );
+                    case 'mysql':
+                        $_sLog = $this->getMySQLErrorLog( 200 );
                 }
-                
-                $_sLog = $this->getMySQLErrorLog( 200 );
                 return empty( $_sLog )
                     ? __( 'No log found.', 'admin-page-framework' )
-                    : $_sLog;
-                    
+                    : $_sLog;            
+                
             }
+
             /**
              * Caches the WordPress installed site information.
              */
             static private $_aSiteInfo;
             /**
-             * Returns the Wordpress installed site.
+             * Returns the Wordpress installed site. 
+             * 
+             * Uses a cache if stored in a previous call.
+             * 
              * @since       3.4.6
              * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
+             * @return      array      The generated site information array.
              */
-            private function _getSiteInfo( $bGenerateInfo=true ) {
+            private function _getSiteInfoWithCache( $bGenerateInfo=true ) {
                 
                 if ( ! $bGenerateInfo || isset( self::$_aSiteInfo ) ) {
                     return self::$_aSiteInfo;
                 }
-                
-                global $wpdb;
-                
-                self::$_aSiteInfo = array(
-                    __( 'Version', 'admin-page-framework' )                 => $GLOBALS['wp_version'],
-                    __( 'Language', 'admin-page-framework' )                => ( defined( 'WPLANG' ) && WPLANG ? WPLANG : 'en_US' ),
-                    __( 'Memory Limit', 'admin-page-framework' )            => $this->getReadableBytes( $this->getNumberOfReadableSize( WP_MEMORY_LIMIT ) ),
-                    __( 'Multi-site', 'admin-page-framework' )              => $this->_getYesOrNo( is_multisite() ), 
-                    __( 'Permalink Structure', 'admin-page-framework' )     => get_option( 'permalink_structure' ), 
-                    __( 'Active Theme', 'admin-page-framework' )            => $this->_getActiveThemeName(),
-                    __( 'Registered Post Statuses', 'admin-page-framework' ) => implode( ', ', get_post_stati() ),
-                    'WP_DEBUG'                                              => $this->_getEnabledOrDisabled( defined( 'WP_DEBUG' ) && WP_DEBUG ),
-                    'WP_DEBUG_LOG'                                            => $this->_getEnabledOrDisabled( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ),
-                    'WP_DEBUG_DISPLAY'                                        => $this->_getEnabledOrDisabled( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ),
-                    __( 'Table Prefix', 'admin-page-framework' )            => $wpdb->prefix,
-                    __( 'Table Prefix Length', 'admin-page-framework' )     => strlen( $wpdb->prefix ),
-                    __( 'Table Prefix Status', 'admin-page-framework' )     => strlen( $wpdb->prefix ) >16 ? __( 'Too Long', 'admin-page-framework' ) : __( 'Acceptable', 'admin-page-frmework' ),
-                    'wp_remote_post()'                                      => $this->_getWPRemotePostStatus(),
-                    'wp_remote_get()'                                       => $this->_getWPRemoteGetStatus(),
-                    __( 'WP_CONTENT_DIR Writeable', 'admin-page-framework' ) => $this->_getYesOrNo( is_writable( WP_CONTENT_DIR ) ),
-                    __( 'Active Plugins', 'admin-page-framework' )          => PHP_EOL . $this->_getActivePlugins(),
-                    __( 'Network Active Plugins', 'admin-page-framework' )  => PHP_EOL . $this->_getNetworkActivePlugins(),
-                    __( 'Constants', 'admin-page-framework' )               => $this->getDefinedConstants( 'user' ),
-                );          
+                self::$_aSiteInfo = self::_getSiteInfo();
                 return self::$_aSiteInfo;
                 
             }
+                /**
+                 * Returns the WordPress site information.
+                 * @internal
+                 * @since       3.5.3
+                 * @return      array       The WordPress site information.
+                 */
+                private function _getSiteInfo() {
+                    global $wpdb;
+                    return array(
+                        __( 'Version', 'admin-page-framework' )                  => $GLOBALS['wp_version'],
+                        __( 'Language', 'admin-page-framework' )                 => defined( 'WPLANG' ) && WPLANG ? WPLANG : 'en_US',
+                        __( 'Memory Limit', 'admin-page-framework' )             => $this->getReadableBytes( $this->getNumberOfReadableSize( WP_MEMORY_LIMIT ) ),
+                        __( 'Multi-site', 'admin-page-framework' )               => $this->_getYesOrNo( is_multisite() ), 
+                        __( 'Permalink Structure', 'admin-page-framework' )      => get_option( 'permalink_structure' ), 
+                        __( 'Active Theme', 'admin-page-framework' )             => $this->_getActiveThemeName(),
+                        __( 'Registered Post Statuses', 'admin-page-framework' ) => implode( ', ', get_post_stati() ),
+                        'WP_DEBUG'                                               => $this->_getEnabledOrDisabled( defined( 'WP_DEBUG' ) && WP_DEBUG ),
+                        'WP_DEBUG_LOG'                                           => $this->_getEnabledOrDisabled( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ),
+                        'WP_DEBUG_DISPLAY'                                       => $this->_getEnabledOrDisabled( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ),
+                        __( 'Table Prefix', 'admin-page-framework' )             => $wpdb->prefix,
+                        __( 'Table Prefix Length', 'admin-page-framework' )      => strlen( $wpdb->prefix ),
+                        __( 'Table Prefix Status', 'admin-page-framework' )      => strlen( $wpdb->prefix ) > 16 ? __( 'Too Long', 'admin-page-framework' ) : __( 'Acceptable', 'admin-page-frmework' ),
+                        'wp_remote_post()'                                       => $this->_getWPRemotePostStatus(),
+                        'wp_remote_get()'                                        => $this->_getWPRemoteGetStatus(),
+                        __( 'WP_CONTENT_DIR Writeable', 'admin-page-framework' ) => $this->_getYesOrNo( is_writable( WP_CONTENT_DIR ) ),
+                        __( 'Active Plugins', 'admin-page-framework' )           => PHP_EOL . $this->_getActivePlugins(),
+                        __( 'Network Active Plugins', 'admin-page-framework' )   => PHP_EOL . $this->_getNetworkActivePlugins(),
+                        __( 'Constants', 'admin-page-framework' )                => $this->getDefinedConstants( 'user' ),
+                    );                        
+                }
                 /**
                  * Returns the active theme name.
                  */
