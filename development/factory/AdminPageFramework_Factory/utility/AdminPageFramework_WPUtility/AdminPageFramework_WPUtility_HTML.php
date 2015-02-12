@@ -56,7 +56,7 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
     /**
      * Generates a string of data attributes from the given associative array.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     static public function generateDataAttributes( array $aArray ) {
         
@@ -64,4 +64,17 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
         
     }
 
+    /**
+     * Generates an HTML tag.
+     * @since       3.5.3
+     */
+    static public function generateHTMLTag( $sTagName, array $aAttributes, $sValue=null ) {
+        $_sTag              = tag_escape( $sTagName );
+        return ! isset( $sValue )
+            ? "<" . $_sTag . " " . self::generateAttributes( $aAttributes ) . " />"
+            : "<" . $_sTag . " " . self::generateAttributes( $aAttributes ) . ">"
+                    . $sValue
+                . "</{$_sTag}>";
+    }
+    
 }
