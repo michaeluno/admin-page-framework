@@ -372,49 +372,79 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
             return;
         }
     
-        return update_option( $this->sOptionKey, $aOptions !== null ? $aOptions : $this->aOptions );
+        return update_option( 
+            $this->sOptionKey, 
+            null !== $aOptions
+                ? $aOptions 
+                : $this->aOptions 
+        );
         
     }
     
     
     /**
      * Checks if the given page slug is one of the pages added by the framework.
-     * @since 2.0.0
-     * @since 2.1.0 Set the default value to the parameter and if the parameter value is empty, it applies the current $_GET['page'] value.
-     * @return boolean Returns true if it is of framework's added page; otherwise, false.
+     * @since       2.0.0
+     * @since       2.1.0       Set the default value to the parameter and if the parameter value is empty, it applies the current $_GET['page'] value.
+     * @return      boolean      Returns true if it is of framework's added page; otherwise, false.
      */
     public function isPageAdded( $sPageSlug='' ) {    
         
-        $sPageSlug = $sPageSlug ? trim( $sPageSlug ) : ( isset( $_GET['page'] ) ? $_GET['page'] : '' );
+        $sPageSlug = trim( $sPageSlug );
+        $sPageSlug = $sPageSlug 
+            ? $sPageSlug 
+            : $this->getCurrentPageSlug();
         return isset( $this->aPages[ $sPageSlug ] );
 
     }
     
     /**
+     * Retrieves the currently loading page slug.
+     * 
+     * @since       3.5.3
+     * @return      string      The found page slug. An empty string if not found.
+     * @remark      Do not return `null` when not found as some framework methods check the retuened value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an emtpy string ('').
+     */
+    public function getCurrentPageSlug() {
+        return isset( $_GET['page'] ) 
+            ? $_GET['page'] 
+            : '';
+    }
+
+    /**
      * Retrieves the currently loading tab slug.
      * 
-     * The tricky part is that even no tab is set in the $_GET array, it's possible that it could be in the page of the default tab.
-     * This method will check that.
+     * The tricky part is that even no tab is set in the $_GET array, it's possible that it could be the default tab of the loading page.
+     * This method checks that.
      * 
      * @since       3.0.0
      * @since       3.5.0       Added the `$sCurrentPageSlug` parameter because the page-meta-box class determines the caller factory object by page slug.
-     */
-    public function getCurrentTab( $sCurrentPageSlug='' ) {
+     * @since       3.5.3       Changed the name from 'getCurrentTab()' to be more specific.
+     * @return      string      The found tab slug. An empty string if not found.
+     * @remark      Do not return `null` when not found as some framework methods check the retuened value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an emtpy string ('').
+     */    
+    public function getCurrentTabSlug( $sCurrentPageSlug='' ) {
         
         if ( isset( $_GET['tab'] ) && $_GET['tab'] ) { 
             return $_GET['tab'];
         }
         $sCurrentPageSlug = $sCurrentPageSlug
             ? $sCurrentPageSlug
-            : ( isset( $_GET['page'] ) && $_GET['page']
-                ? $_GET['page']
-                : ''
-            );
+            : $this->getCurrentPageSlug();
         return $sCurrentPageSlug
             ? $this->getDefaultInPageTab( $sCurrentPageSlug )
-            : null;
+            : '';
             
-    }
+    }    
+        /**
+         * An alias of getCurrentTabSlug();
+         * 
+         * @deprecated  3.5.3
+         */
+        public function getCurrentTab( $sCurrentPageSlug='' ) {
+            return $this->getCurrentTabSlug( $sCurrentPageSlug );            
+        }
+    
     /**
      * Retrieves the default in-page tab from the given tab slug.
      * 
@@ -426,7 +456,9 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      */         
     public function getDefaultInPageTab( $sPageSlug ) {
     
-        if ( ! $sPageSlug ) return '';     
+        if ( ! $sPageSlug ) { 
+            return ''; 
+        }
         return isset( $this->aDefaultInPageTabs[ $sPageSlug ] ) 
             ? $this->aDefaultInPageTabs[ $sPageSlug ]
             : '';
@@ -447,10 +479,11 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
                 
                 $_vDefault = $this->_getDefautValue( $_aField );
                 
-                if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' )
+                if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
                     $_aDefaultOptions[ $_aField['section_id'] ][ $_sFieldID ] = $_vDefault;
-                else
+                } else {
                     $_aDefaultOptions[ $_sFieldID ] = $_vDefault;
+                }
                     
             }
                 
@@ -496,11 +529,12 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
             
         }
     
-    /*
-     * callback methods
+    /**
+     * Returns the set capability.
+     * @callback        option_page_capability_{$this->sOptionKey}
      */ 
     public function _replyToGetCapability() {
         return $this->sCapability;
-    }    
+    }
         
 }

@@ -128,15 +128,33 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
         return ( $sTabSlug == $_sCurrentTabSlug );
 
     }
+    /**
+     * Retrieves the currently loading page slug.
+     * 
+     * @since       3.5.3
+     * @return      string      The found page slug. An empty string if not found.
+     * @remark      Do not return `null` when not found as some framework methods check the retuened value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an emtpy string (''). 
+    */     
+    public function getCurrentPageSlug() {
+        return isset( $_GET['page'] ) ? $_GET['page'] : '';       
+    }
     
     /**
      * Returns the currently loading in-page tab slug.
      * @since       3.5.0
+     * @since       3.5.3       Changed the name from `getCurrentTab()` to be more specific.
      */
-    public function getCurrentTab( $sPageSlug ) {
+    public function getCurrentTabSlug( $sPageSlug ) {
         $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug );
-        return $_oAdminPage->oProp->getCurrentTab( $sPageSlug );
+        return $_oAdminPage->oProp->getCurrentTabSlug( $sPageSlug );
     }
+        /**
+         * An alias of `getCurrentTabSlug()`.
+         * @depreacated     3.5.3       Use `getCurrentTabSlug()`.
+         */
+        public function getCurretTab( $sPageSlug ) {
+            return $this->getCurrentTabSlug( $sPageSlug );
+        }
     
     /**
      * Retrieves the default in-page tab from the given tab slug.

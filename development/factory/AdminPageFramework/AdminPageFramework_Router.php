@@ -61,9 +61,9 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      */
     public function __call( $sMethodName, $aArgs=null ) {     
 
-        $_sPageSlug             = isset( $_GET['page'] ) ? $_GET['page'] : null;    
-        $_sTabSlug              = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getDefaultInPageTab( $_sPageSlug );
-        $_mFirstArg             = isset( $aArgs[ 0 ] ) ? $aArgs[ 0 ] : null;
+        $_sPageSlug             = $this->oProp->getCurrentPageSlug();
+        $_sTabSlug              = $this->oProp->getCurrentTabSlug( $_sPageSlug );
+        $_mFirstArg             = $this->oUtil->getElement( $aArgs, 0 );
         $_aKnownMethodPrefixes  = array(
             'section_pre_',
             'field_pre_',
@@ -183,7 +183,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             $this->_finalizeInPageTabs();
             $this->oUtil->addAndDoActions( 
                 $this, // the caller object
-                array( "load_{$sPageSlug}_" . $this->oProp->getCurrentTab( $sPageSlug ) ),
+                array( "load_{$sPageSlug}_" . $this->oProp->getCurrentTabSlug( $sPageSlug ) ),
                 $this // the admin page object - this lets third-party scripts use the framework methods.
             );         
             

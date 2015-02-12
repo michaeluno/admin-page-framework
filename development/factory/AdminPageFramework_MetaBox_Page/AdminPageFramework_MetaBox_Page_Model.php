@@ -4,7 +4,6 @@
  * 
  * http://en.michaeluno.jp/admin-page-framework/
  * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
- * 
  */
 
 /**
@@ -101,11 +100,10 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      */
     protected function getFieldOutput( $aField ) {
         
-        /* Since meta box fields don't have the `option_key` key which is required to compose the name attribute in the regular pages. */
+        //. Since meta box fields don't have the `option_key` key which is required to compose the name attribute in the regular pages. 
         $_sOptionKey            = $this->_getOptionKey();
         $aField['option_key']   = $_sOptionKey ? $_sOptionKey : null;
-        $aField['page_slug']    = isset( $_GET['page'] ) ? $_GET['page'] : ''; // set an empty string to make it yield true for isset() so that saved options will be checked.
-
+        $aField['page_slug']    = $this->oProp->getCurrentPageSlug(); // set an empty string to make it yield true for isset() so that saved options will be checked.
         return parent::getFieldOutput( $aField );
         
     }
@@ -185,7 +183,6 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      */
     public function _replyToFilterPageOptions( $aPageOptions ) {
         return $aPageOptions;
-        // return $this->oForm->dropRepeatableElements( $aPageOptions );        // deprecated 3.4.1
     }
     /**
      * Filters the array of the options without dynamic elements.
@@ -328,9 +325,9 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         }        
 
         // Apply the filters to let third party scripts to set own options array.
-        $this->oProp->aOptions = $this->oUtil->addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+        $this->oProp->aOptions = $this->oUtil->addAndApplyFilter(
             $this, // the caller object
-            'options_' . $this->oProp->sClassName, // options_{instantiated class name}
+            'options_' . $this->oProp->sClassName,
             $_aOptions
         );
         

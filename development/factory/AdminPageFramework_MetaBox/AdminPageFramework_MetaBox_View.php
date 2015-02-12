@@ -32,33 +32,24 @@ abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBo
         // Use nonce for verification
         $_aOutput   = array();
         $_aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
-          
-        // @deprecated 3.3.2+ Moved to _registerFormElements() method.
-        // Condition the sections and fields definition arrays.
-        // $this->oForm->applyConditions(); // will set $this->oForm->aConditionedFields internally
-        // $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );
-        
-        // @deprecated 3.4.1 This procedure is done in the _registerFormElements() method.
-        // Set the option array - the framework will refer to this data when displaying the fields.
-        // if ( isset( $this->oProp->aOptions ) ) {
-            // $this->_setOptionArray( 
-                // isset( $oPost->ID ) ? $oPost->ID : ( isset( $_GET['page'] ) ? $_GET['page'] : null ), 
-                // $this->oForm->aConditionedFields 
-            // ); // will set $this->oProp->aOptions
-        // }
-        
-        // @deprecated 3.4.1 This procedure is done in the _registerFormElements() method.
-        // Add the repeatable section elements to the fields definition array.
-        // $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
-                            
+                                 
         // Get the fields output.
-        $_oFieldsTable  = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg );
-        $_aOutput[]     = $_oFieldsTable->getFormTables( $this->oForm->aConditionedSections, $this->oForm->aConditionedFields, array( $this, '_replyToGetSectionHeaderOutput' ), array( $this, '_replyToGetFieldOutput' ) );
+        $_oFieldsTable  = new AdminPageFramework_FormTable( 
+            $this->oProp->aFieldTypeDefinitions, 
+            $this->_getFieldErrors(), 
+            $this->oMsg
+        );
+        $_aOutput[]     = $_oFieldsTable->getFormTables(
+            $this->oForm->aConditionedSections, 
+            $this->oForm->aConditionedFields, 
+            array( $this, '_replyToGetSectionHeaderOutput' ), 
+            array( $this, '_replyToGetFieldOutput' ) 
+        );
 
-        /* Do action */
+        // Do actions
         $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
         
-        /* Render the filtered output */
+        // Render the filtered output.
         echo $this->oUtil->addAndApplyFilters(
             $this, 
             "content_{$this->oProp->sClassName}", 

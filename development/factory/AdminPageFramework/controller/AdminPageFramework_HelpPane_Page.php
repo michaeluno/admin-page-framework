@@ -66,26 +66,41 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
      */  
     public function _replyToRegisterHelpTabs() {
             
-        $sCurrentPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
-        $sCurrentPageTabSlug = isset( $_GET['tab'] ) ? $_GET['tab'] : ( isset( $this->oProp->aDefaultInPageTabs[ $sCurrentPageSlug ] ) ? $this->oProp->aDefaultInPageTabs[ $sCurrentPageSlug ] : '' );
+        $_sCurrentPageSlug  = $this->oProp->getCurrentPageSlug();
+        $_sCurrentTabSlug   = $this->oProp->getCurrentTabSlug( $_sCurrentPageSlug );
         
-        if ( empty( $sCurrentPageSlug ) ) return;
-        if ( ! $this->oProp->isPageAdded( $sCurrentPageSlug ) ) return;
+        if ( ! $this->oProp->isPageAdded( $_sCurrentTabSlug ) ) { 
+            return; 
+        }
         
         foreach( $this->oProp->aHelpTabs as $aHelpTab ) {
+            $this->_registerHelpTab( $aHelpTab, $_sCurrentPageSlug, $_sCurrentTabSlug );
+        }
+        
+    }
+        /**
+         * Registers a help tab item.
+         * @since       3.5.3
+         * @internal
+         * @return      void
+         */
+        private function _registerHelpTab( array $aHelpTab, $sCurrentPageSlug, $sCurrentTabSlug ) {
             
-            if ( $sCurrentPageSlug != $aHelpTab['sPageSlug'] ) continue;
-            if ( isset( $aHelpTab['sPageTabSlug'] ) && ! empty( $aHelpTab['sPageTabSlug'] ) && $sCurrentPageTabSlug != $aHelpTab['sPageTabSlug'] ) continue;
+            if ( $sCurrentPageSlug != $aHelpTab['sPageSlug'] ) { 
+                return;
+            }
+            if ( isset( $aHelpTab['sPageTabSlug'] ) && ! empty( $aHelpTab['sPageTabSlug'] ) && $sCurrentTabSlug != $aHelpTab['sPageTabSlug'] ) {
+                return;
+            }
                 
             $this->_setHelpTab( 
                 $aHelpTab['sID'], 
                 $aHelpTab['sTitle'], 
                 $aHelpTab['aContent'], 
                 $aHelpTab['aSidebar']
-            );
+            );            
+            
         }
-        
-    }
     
     /**
      * Adds the given contextual help tab contents into the property.

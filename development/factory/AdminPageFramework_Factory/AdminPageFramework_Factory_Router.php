@@ -290,7 +290,7 @@ abstract class AdminPageFramework_Factory_Router {
                 return new AdminPageFramework_Link_PostType( $oProp, $oMsg );
             case 'taxonomy':
             case 'widget':  // 3.2.0+
-            case 'user_meta':
+            case 'user_meta':   // 3.5.0+
             default:
                 return null;
         }     
@@ -318,6 +318,7 @@ abstract class AdminPageFramework_Factory_Router {
                 return AdminPageFramework_PageLoadInfo_PostType::instantiate( $oProp, $oMsg );
             case 'taxonomy':
             case 'widget':  // 3.2.0+
+            case 'user_meta':   // 3.5.0+
             default:
                 return null;
         }     

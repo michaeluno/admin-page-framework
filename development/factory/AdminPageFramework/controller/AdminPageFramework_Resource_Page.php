@@ -42,11 +42,11 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         $_oCaller   = $this->oProp->_getCallerObject();     
         
         // Check if it is an added page and tab.
-        $_sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
+        $_sPageSlug = $this->oProp->getCurrentPageSlug();
         $_sPageSlug = $this->oProp->isPageAdded( $_sPageSlug )
             ? $_sPageSlug
             : '';
-        $_sTabSlug  = $this->oProp->getCurrentTab( $_sPageSlug ); 
+        $_sTabSlug  = $this->oProp->getCurrentTabSlug( $_sPageSlug ); 
         $_sTabSlug  = isset( $this->oProp->aInPageTabs[ $_sPageSlug ][ $_sTabSlug ] )
             ? $_sTabSlug
             : '';
@@ -91,8 +91,8 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         $_bLoaded   = true;
        
         $_oCaller   = $this->oProp->_getCallerObject();     
-        $_sPageSlug = isset( $_GET['page'] ) ? $_GET['page'] : '';
-        $_sTabSlug  = $this->oProp->getCurrentTab( $_sPageSlug );
+        $_sPageSlug = $this->oProp->getCurrentPageSlug();
+        $_sTabSlug  = $this->oProp->getCurrentTabSlug( $_sPageSlug );
         
         // tab 
         if ( $_sPageSlug && $_sTabSlug ) {
@@ -299,8 +299,8 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
      */
     protected function _enqueueSRCByConditoin( $aEnqueueItem ) {
 
-        $sCurrentPageSlug   = isset( $_GET['page'] ) ? $_GET['page'] : '';
-        $sCurrentTabSlug    = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->oProp->getCurrentTab( $sCurrentPageSlug );
+        $sCurrentPageSlug   = $this->oProp->getCurrentPageSlug();
+        $sCurrentTabSlug    = $this->oProp->getCurrentTabSlug( $sCurrentPageSlug );
         $sPageSlug          = $aEnqueueItem['sPageSlug'];
         $sTabSlug           = $aEnqueueItem['sTabSlug'];
 
