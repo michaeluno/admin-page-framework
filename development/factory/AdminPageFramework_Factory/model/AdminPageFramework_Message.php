@@ -213,9 +213,7 @@ class AdminPageFramework_Message {
      * @since 3.1.3
      */
     public function __get( $sPropertyName ) {
-    
-        return $this->_getTranslation( $sPropertyName );
-        
+        return $this->_getTranslation( $sPropertyName ); 
     }
         /**
          * Returns the translated text label from the given label key.
