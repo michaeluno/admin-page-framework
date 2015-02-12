@@ -54,14 +54,11 @@ abstract class AdminPageFramework_Form_Model_Export extends AdminPageFramework_F
          * @return      string      the filtered export data.
          */
         private function _getFilteredExportingData( array $aArguments, $mData ) {                   
-            return $this->oUtil->addAndApplyFilters(
-                $this,
-                $this->_getExportFilterHookNames( 'export_', $aArguments ),
-                $mData,
-                $aArguments['pressed_field_id'],
-                $aArguments['pressed_input_id'],
-                $this               // 3.4.6+
-            );    
+            return $this->_getFilteredItemForPortByPrefix(
+                'export_',
+                $mData,    
+                $aArguments
+            );
         }      
         /**
          * Returns the export file name.
@@ -72,7 +69,7 @@ abstract class AdminPageFramework_Form_Model_Export extends AdminPageFramework_F
         private function _getExportFileName( array $aArguments, $sExportFileName, $mData ) {        
             return $this->oUtil->addAndApplyFilters(
                 $this,
-                $this->_getExportFilterHookNames( 'export_name_', $aArguments ),
+                $this->_getPortFilterHookNames( 'export_name_', $aArguments ),
                 $sExportFileName, 
                 $aArguments['pressed_field_id'],
                 $aArguments['pressed_input_id'],
@@ -87,25 +84,11 @@ abstract class AdminPageFramework_Form_Model_Export extends AdminPageFramework_F
          * @return      string      The export format type.
          */        
         private function _getExportFormatType( array $aArguments, $sExportFileFormat ) {  
-            return $this->oUtil->addAndApplyFilters(
-                $this,
-                $this->_getExportFilterHookNames( 'export_format_', $aArguments ),
-                $sExportFileFormat,
-                $aArguments['pressed_field_id'],
-                $aArguments['pressed_input_id'],
-                $this       // 3.4.6+
-            ); 
+            return $this->_getFilteredItemForPortByPrefix(
+                'export_format_',
+                $sExportFileFormat,    
+                $aArguments
+            );        
         }
 
-    /**
-     * Returns an array holding the generated filter names by the given prefix.
-     * 
-     * @access      private
-     * @since       3.5.3
-     * @return      array       An array holding the generated filter names by the given prefix.
-     */        
-    private function _getExportFilterHookNames( $sPrefix, array $aArguments ) {
-        return parent::_getImportFilterHookNames( $sPrefix, $aArguments );
-    }
-    
 }

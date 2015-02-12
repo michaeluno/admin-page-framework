@@ -114,15 +114,12 @@ abstract class AdminPageFramework_Form_Model_Import extends AdminPageFramework_R
          * @since       3.5.3
          * @return      array       An array holding processable MIME types.       
          */
-        private function _getImportMIMEType( array $aArguments ) {            
-            return $this->oUtil->addAndApplyFilters(
-                $this,
-                $this->_getImportFilterHookNames( 'import_mime_types_', $aArguments ),
+        private function _getImportMIMEType( array $aArguments ) {  
+            return $this->_getFilteredItemForPortByPrefix(
+                'import_mime_types_',
                 array( 'text/plain', 'application/octet-stream' ), // .json file is dealt as a binary file.
-                $aArguments['pressed_field_id'],
-                $aArguments['pressed_input_id'],
-                $this           // 3.4.6+
-            );  
+                $aArguments
+            ); 
         }    
             
         /**
@@ -132,14 +129,11 @@ abstract class AdminPageFramework_Form_Model_Import extends AdminPageFramework_R
          * @return      string      The import format type. Should be either 'array', 'json', or 'text'.
          */
         private function _getImportFormatType( array $aArguments, $sFormatType ) {
-            return $this->oUtil->addAndApplyFilters(
-                $this,
-                $this->_getImportFilterHookNames( 'import_format_', $aArguments ),
-                $sFormatType, // the set format type, array, json, or text.
-                $aArguments['pressed_field_id'],
-                $aArguments['pressed_input_id'],
-                $this           // 3.4.6+
-            );    
+            return $this->_getFilteredItemForPortByPrefix(
+                'import_format_',
+                $sFormatType,
+                $aArguments
+            );
         }            
             
         /**
@@ -149,13 +143,10 @@ abstract class AdminPageFramework_Form_Model_Import extends AdminPageFramework_R
          * @return      string      The import option key.
          */    
         private function _getImportOptionKey( array $aArguments, $sImportOptionKey ) {
-            return $this->oUtil->addAndApplyFilters(
-                $this,
-                $this->_getImportFilterHookNames( 'import_option_key_', $aArguments ),
+            return $this->_getFilteredItemForPortByPrefix(
+                'import_option_key_',
                 $sImportOptionKey,    
-                $aArguments['pressed_field_id'],
-                $aArguments['pressed_input_id'],
-                $this           // 3.4.6+
+                $aArguments
             );
         }
  
@@ -168,7 +159,7 @@ abstract class AdminPageFramework_Form_Model_Import extends AdminPageFramework_R
         private function _getFilteredImportData( array $aArguments, $mData, $aStoredOptions, $sFormatType, $sImportOptionKey ) {
             return $this->oUtil->addAndApplyFilters(
                 $this,
-                $this->_getImportFilterHookNames( 'import_', $aArguments ),
+                $this->_getPortFilterHookNames( 'import_', $aArguments ),
                 $mData,
                 $aStoredOptions,
                 $aArguments['pressed_field_id'],
@@ -181,14 +172,36 @@ abstract class AdminPageFramework_Form_Model_Import extends AdminPageFramework_R
         }
         
     /**
+     * Returns the value which filterss for export/import options were applied.
+     * 
+     * @internal    
+     * @since       3.5.3
+     * @access      protected
+     * @remark      Accessed from `AdminPageFramework_Form_Model_Export`.
+     * @return      mixed       The filtered value.
+     * @param       string      The filter prefix.
+     * @param       mixed       The subject filtering value.
+     * @param       array       An argument array holding submit information. Part of this will be passed to the filter callbacks but this itself does not mean is for the filter callbacks.
+     */
+    protected function _getFilteredItemForPortByPrefix( $sPrefix, $mFilteringValue, array $aArguments ) {
+        return $this->oUtil->addAndApplyFilters(
+            $this,
+            $this->_getPortFilterHookNames( $sPrefix, $aArguments ),
+            $mFilteringValue,    
+            $aArguments['pressed_field_id'],
+            $aArguments['pressed_input_id'],
+            $this           // 3.4.6+
+        );                
+    }
+    /**
      * Returns an array holding the generated filter names by the given prefix.
      * 
      * @access      protected
-     * @remark      this method is accessed from `AdminPageFramework_Form_Model_Export`.
+     * @remark      Accessed from `AdminPageFramework_Form_Model_Export`.
      * @since       3.5.3
      * @return      array       An array holding the generated filter names by the given prefix.
      */
-    protected function _getImportFilterHookNames( $sPrefix, array $aArguments ) {
+    protected function _getPortFilterHookNames( $sPrefix, array $aArguments ) {
         
         return array(
             $sPrefix . $aArguments['class_name'] . '_' . $aArguments['pressed_input_id'],
