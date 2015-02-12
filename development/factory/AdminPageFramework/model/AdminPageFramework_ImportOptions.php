@@ -40,6 +40,14 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
         )
     */
     
+    /**
+     * Stores files array that store the subject uploaded file paths.
+     */
+    public $aFielsImport = array();
+    
+    /**
+     * Sets up properties.
+     */
     public function __construct( $aFilesImport, $aPostImport ) {
 
         // Call the parent constructor. This must be done before the getFieldID() method that uses the $aPostElement property.
