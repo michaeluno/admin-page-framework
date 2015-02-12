@@ -362,7 +362,7 @@ CSSRULES;
                     global $wpdb;
                     return array(
                         __( 'Version', 'admin-page-framework' )                  => $GLOBALS['wp_version'],
-                        __( 'Language', 'admin-page-framework' )                 => defined( 'WPLANG' ) && WPLANG ? WPLANG : 'en_US',
+                        __( 'Language', 'admin-page-framework' )                 => $this->_getSiteLanguage(),
                         __( 'Memory Limit', 'admin-page-framework' )             => $this->getReadableBytes( $this->getNumberOfReadableSize( WP_MEMORY_LIMIT ) ),
                         __( 'Multi-site', 'admin-page-framework' )               => $this->_getYesOrNo( is_multisite() ), 
                         __( 'Permalink Structure', 'admin-page-framework' )      => get_option( 'permalink_structure' ), 
@@ -373,7 +373,7 @@ CSSRULES;
                         'WP_DEBUG_DISPLAY'                                       => $this->_getEnabledOrDisabled( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ),
                         __( 'Table Prefix', 'admin-page-framework' )             => $wpdb->prefix,
                         __( 'Table Prefix Length', 'admin-page-framework' )      => strlen( $wpdb->prefix ),
-                        __( 'Table Prefix Status', 'admin-page-framework' )      => strlen( $wpdb->prefix ) > 16 ? __( 'Too Long', 'admin-page-framework' ) : __( 'Acceptable', 'admin-page-frmework' ),
+                        __( 'Table Prefix Status', 'admin-page-framework' )      => $this->_getTooLongOrAcceptable( strlen( $wpdb->prefix ) > 16 ),
                         'wp_remote_post()'                                       => $this->_getWPRemotePostStatus(),
                         'wp_remote_get()'                                        => $this->_getWPRemoteGetStatus(),
                         __( 'WP_CONTENT_DIR Writeable', 'admin-page-framework' ) => $this->_getYesOrNo( is_writable( WP_CONTENT_DIR ) ),
@@ -382,6 +382,14 @@ CSSRULES;
                         __( 'Constants', 'admin-page-framework' )                => $this->getDefinedConstants( 'user' ),
                     );                        
                 }
+                /**
+                 * Returns the site language slug.
+                 * @since       3.5.3
+                 * @return      string      the site language slug.
+                 */
+                private function _getSiteLanguage() {
+                    return defined( 'WPLANG' ) && WPLANG ? WPLANG : 'en_US';
+                }                
                 /**
                  * Returns the active theme name.
                  */
@@ -577,5 +585,10 @@ CSSRULES;
             ? __( 'Functional', 'admin-page-framework' )
             : __( 'Not functional', 'admin-page-framework' );                                
     }
+    private function _getTooLongOrAcceptable( $bTooLongOrAccepted ) {
+        return $bTooLongOrAccepted
+            ? __( 'Too Long', 'admin-page-framework' ) 
+            : __( 'Acceptable', 'admin-page-frmework' );
+    }    
  
 }
