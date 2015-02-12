@@ -332,8 +332,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         );
         
         $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] ? $this->oProp->aLastInput : array();
-        $this->oProp->aOptions = empty( $this->oProp->aOptions ) ? array() : $this->oUtil->getAsArray( $this->oProp->aOptions );
-        $this->oProp->aOptions = $_aLastInput + $this->oProp->aOptions;
+        $this->oProp->aOptions = $_aLastInput + $this->oUtil->getAsArray( $this->oProp->aOptions );
 
     }
             

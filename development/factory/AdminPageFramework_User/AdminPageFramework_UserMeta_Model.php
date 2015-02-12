@@ -83,8 +83,7 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
             );
 
             $_aLastInput    = isset( $_GET['field_errors'] ) && $_GET['field_errors'] ? $this->oProp->aLastInput : array();
-            $_aOptions      = empty( $_aOptions ) ? array() : AdminPageFramework_WPUtility::getAsArray( $_aOptions );
-            $_aOptions      = $_aLastInput + $_aOptions;
+            $_aOptions      = $_aLastInput + AdminPageFramework_WPUtility::getAsArray( $_aOptions );
             
             $this->oProp->aOptions = $_aOptions;
 

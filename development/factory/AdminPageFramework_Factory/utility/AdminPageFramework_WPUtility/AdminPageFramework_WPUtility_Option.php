@@ -115,7 +115,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         
         // Now either the section ID or field ID is given. 
         $_aOptions  = get_option( $sOptionKey, array() );
-        $_aKeys     = self::shiftTillTrue( self::getAsArray( $asKey ) );
+        $_aKeys     = self::shiftTillTrue( self::getAsArray( $asKey, true ) );
 
         return self::getArrayValueByArrayKeys( self::uniteArrays( $_aOptions, $aOptions ), $_aKeys, $vDefault );
         
@@ -139,7 +139,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         
         // Now either the section ID or field ID is given. 
         $_aOptions  = get_site_option( $sOptionKey, array() );
-        $_aKeys     = self::shiftTillTrue( self::getAsArray( $asKey ) );
+        $_aKeys     = self::shiftTillTrue( self::getAsArray( $asKey, true ) );
 
         return self::getArrayValueByArrayKeys( $_aOptions, $_aKeys, $vDefault );
         

@@ -76,14 +76,16 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
      */    
     static public function isCustomTaxonomyPage( $asPostTypes=array() ) {
         
-        $_aPostTypes = is_array( $asPostTypes ) ? $asPostTypes : empty( $asPostTypes ) ? array() : array( $asPostTypes ) ;
-        
         if ( ! in_array( self::getPageNow(), array( 'tags.php', 'edit-tags.php', ) ) ) {
             return false;
         }
         
+        $_aPostTypes = self::getAsArray( $asPostTypes );        
+        
         // If the parameter is empty, 
-        if ( empty( $_aPostTypes ) ) { return true; }
+        if ( empty( $_aPostTypes ) ) { 
+            return true; 
+        }
         
         // If the parameter of the post type is set and it's in the given post types, 
         return in_array( self::getCurrentPostType(), $_aPostTypes );
@@ -100,13 +102,17 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
      */
     static public function isPostDefinitionPage( $asPostTypes=array() ) {
         
-        $_aPostTypes = is_array( $asPostTypes ) ? $asPostTypes : empty( $asPostTypes ) ? array() : array( $asPostTypes );
-
         // If it's not the post definition page, 
-        if ( ! in_array( self::getPageNow(), array( 'post.php', 'post-new.php', ) ) ) return false;
+        if ( ! in_array( self::getPageNow(), array( 'post.php', 'post-new.php', ) ) ) { 
+            return false;
+        }
 
+        $_aPostTypes = self::getAsArray( $asPostTypes );        
+        
         // If the parameter is empty, 
-        if ( empty( $_aPostTypes ) ) return true;
+        if ( empty( $_aPostTypes ) ) { 
+            return true;
+        }
 
         // If the parameter of the post type is set and it's in the given post types, 
         return in_array( self::getCurrentPostType(), $_aPostTypes );

@@ -59,7 +59,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
                 . "<select " . $this->generateAttributes( $_aSelectTagAttributes ) . " >"
                     . $this->_getDropDownList( 
                         $this->aField['input_id'], 
-                        $this->getAsArray( $this->aField['label'] ),
+                        $this->getAsArray( $this->aField['label'], true ),
                         $this->aField['attributes']
                     )
                 . "</select>"
@@ -106,7 +106,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
                         $aAttributes, 
                         $sInputID, 
                         $__sKey,
-                        $this->getAsArray( $aAttributes['value'] )
+                        $this->getAsArray( $aAttributes['value'], true )
                     ) 
                 );
                     

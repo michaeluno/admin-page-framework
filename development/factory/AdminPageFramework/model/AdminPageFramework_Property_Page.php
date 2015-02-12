@@ -334,8 +334,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 // However, in getSavedOptions, also the last input array is merged when the 'confirmation' query key is set,
 // that should be done here.
         $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] ? $this->_getLastInput() : array();
-        $_aOptions   = empty( $_aOptions ) ? array() : AdminPageFramework_WPUtility::getAsArray( $_aOptions );     
-        $_aOptions   = $_aLastInput + $_aOptions;
+        $_aOptions   = $_aLastInput + AdminPageFramework_WPUtility::getAsArray( $_aOptions );
         return $_aOptions;
     }
         

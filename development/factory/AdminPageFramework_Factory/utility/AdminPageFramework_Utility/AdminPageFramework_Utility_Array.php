@@ -71,7 +71,10 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * @since       3.4.0
      */
     static public function getElementAsArray( $aSubject, $isKey, $vDefault=null ) {
-        return self::getAsArray( self::getElement( $aSubject, $isKey, $vDefault ) );
+        return self::getAsArray( 
+            self::getElement( $aSubject, $isKey, $vDefault ),
+            true       // preserve an empty value
+        );
     }
     
     /**
@@ -239,7 +242,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * 
      * @since       3.0.0
      */
-    static public function getNonIntegerElements( $aParse ) {
+    static public function getNonIntegerElements( array $aParse ) {
         
         foreach ( $aParse as $isKey => $v ) {
             if ( is_numeric( $isKey ) && is_int( $isKey+ 0 ) ) {
@@ -369,17 +372,29 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }    
     
     /**
-     * Casts array but does not create an empty element with the zero key when null is given.
+     * Casts array but does not create an empty element with the zero key when false is given.
      * 
-     * @since 3.0.1
+     * @since       3.0.1
+     * @since       3.5.3       Added the `$bPreserveEmpty` parameter.
+     * 
+     * @param       mixed       $mValue        
+     * @param       boolean     bPreserveEmpty      If fasle is given, `null`, `false`, empty sttring ( `''` ), `0` will not create an element.
      */
-    static public function getAsArray( $asValue ) {
+    static public function getAsArray( $mValue, $bPreserveEmpty=false ) {
         
-        if ( is_array( $asValue ) ) { return $asValue; }
+        if ( is_array( $mValue ) ) {
+            return $mValue; 
+        }
         
-        if ( ! isset( $asValue ) ) { return array(); }
-                
-        return ( array ) $asValue; // finally
+        if ( $bPreserveEmpty ) {
+            return ( array ) $mValue;
+        }
+        
+        if ( empty( $mValue ) ) {
+            return array();
+        }
+                        
+        return ( array ) $mValue;
         
     }
     
@@ -512,8 +527,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      */
     static public function dropElementByValue( array $aArray, $vValue ) {
          
-        $_aValues = is_array( $vValue ) ? $vValue : array( $vValue );
-        foreach( $_aValues as $_vValue ) {
+        foreach( self::getAsArray( $vValue, true ) as $_vValue ) {
             $_sKey = array_search( $_vValue, $aArray, true );
             if ( $_sKey === false ) {
                 continue;
@@ -533,8 +547,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      */
     static public function dropElementsByKey( array $aArray, $asKeys ) {
         
-        $_aKeys = is_array( $asKeys ) ? $asKeys : array( $asKeys );
-        foreach( $_aKeys as $_isKey ) {
+        foreach( self::getAsArray( $asKeys, true ) as $_isKey ) {
             unset( $aArray[ $_isKey ] );
         }
         return $aArray;

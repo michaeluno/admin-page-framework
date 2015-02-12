@@ -82,7 +82,9 @@ CSSRULES;
         
         $this->_sCheckboxClassSelector = '';    // disable the checkbox class selector.
         $aField['label'] = $this->_getPostTypeArrayForChecklist( 
-            isset( $aField['slugs_to_remove'] ) ? $this->getAsArray( $aField['slugs_to_remove'] ) : $this->aDefaultRemovingPostTypeSlugs,    // slugs to remove
+            isset( $aField['slugs_to_remove'] ) 
+                ? $this->getAsArray( $aField['slugs_to_remove'] ) 
+                : $this->aDefaultRemovingPostTypeSlugs,    // slugs to remove
             $aField['query'],
             $aField['operator']
         );

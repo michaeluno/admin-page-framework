@@ -105,7 +105,7 @@ CSSRULES;
         // $_asValue   = $aField['attributes']['value'];
         $_oCheckbox = new AdminPageFramework_Input_checkbox( $aField );
         
-        foreach( $this->getAsArray( $aField['label'] ) as $_sKey => $_sLabel ) {
+        foreach( $this->getAsArray( $aField['label'], true ) as $_sKey => $_sLabel ) {
             
             $_aInputAttributes = $_oCheckbox->getAttributeArray( $_sKey );
             $_aInputAttributes['class'] = $this->generateClassAttribute( $_aInputAttributes['class'], $this->_sCheckboxClassSelector );
