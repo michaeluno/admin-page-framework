@@ -43,7 +43,7 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
     /**
      * Stores files array that store the subject uploaded file paths.
      */
-    public $aFielsImport = array();
+    public $aFilesImport = array();
     
     /**
      * Sets up properties.
