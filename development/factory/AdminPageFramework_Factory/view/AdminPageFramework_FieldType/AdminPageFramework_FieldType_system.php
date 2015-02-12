@@ -249,28 +249,15 @@ CSSRULES;
                     'Admin Page Framework'  => isset( $_aData['Admin Page Framework'] )
                         ? null
                         : AdminPageFramework_Registry::getInfo(),
-                    'WordPress'             => isset( $_aData['WordPress'] )
-                        ? null
-                        : $this->_getSiteInfo(),
-                    'PHP'                   => isset( $_aData['PHP'] )
-                        ? null
-                        : $this->_getPHPInfo(),
-                    'PHP Error Log'         => isset( $_aData['PHP Error Log'] )
-                        ? null
-                        : $this->_getPHPErrorLog(),
+                    'WordPress'             => $this->_getSiteInfo( ! isset( $_aData['WordPress'] ) ),
+                    'PHP'                   => $this->_getPHPInfo( ! isset( $_aData['PHP'] ) ),
+                    'PHP Error Log'         => $this->_getPHPErrorLog( ! isset( $_aData['PHP Error Log'] ) ),
                     'MySQL'                 => isset( $_aData['MySQL'] )
                         ? null
-                        : $this->getMySQLInfo(),
-                    'MySQL Error Log'       => isset( $_aData['MySQL Error Log'] ) 
-                        ? null
-                        : $this->_getMySQLErrorLog(),
-                    'Server'                => isset( $_aData['Server'] )
-                        ? null
-                        : $this->_getWebServerInfo(),
-                    'Browser'               => isset( $_aData['Browser'] )
-                        ? null
-                        : $this->_getClientInfo(),
-
+                        : $this->getMySQLInfo(),    // defined in the utility class.
+                    'MySQL Error Log'       => $this->_getMySQLErrorLog( ! isset( $_aData['MySQL Error Log'] ) ),
+                    'Server'                => $this->_getWebServerInfo( ! isset( $_aData['Server'] ) ),
+                    'Browser'               => $this->_getClientInfo( ! isset( $_aData['Browser'] ) ),
                 );
                 
                 // Dropping empty elements allows the user to remove a section by setting an empty section.
@@ -296,8 +283,13 @@ CSSRULES;
              * Returns a client information
              * 
              * @since       3.4.6
+             * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
              */
-            private function _getClientInfo() {
+            private function _getClientInfo( $bGenerateInfo=true ) {
+                 
+                if ( ! $bGenerateInfo ) {
+                    return '';
+                }
                  
                 // Check the browscap value in the ini file first to prevent warnings from being populated
                 $_aBrowser = @ini_get( 'browscap' ) 
@@ -314,9 +306,15 @@ CSSRULES;
              * Returns a PHP error log.
              * 
              * @since       3.4.6
+             * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
+             * @return      string      The PHP error log.
              */
-            private function _getPHPErrorLog() {
-
+            private function _getPHPErrorLog( $bGenerateInfo=true ) {
+                
+                if ( ! $bGenerateInfo ) {
+                    return '';
+                }
+                
                 $_sLog = $this->getPHPErrorLog( 200 );
                 return empty( $_sLog )
                     ? __( 'No log found.', 'admin-page-framework' )
@@ -328,8 +326,13 @@ CSSRULES;
              * Returns a MySQL error log.
              * 
              * @since       3.4.6
+             * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
              */
-            private function _getMySQLErrorLog() {
+            private function _getMySQLErrorLog( $bGenerateInfo=true ) {
+                
+                if ( ! $bGenerateInfo ) {
+                    return '';
+                }
                 
                 $_sLog = $this->getMySQLErrorLog( 200 );
                 return empty( $_sLog )
@@ -343,11 +346,12 @@ CSSRULES;
             static private $_aSiteInfo;
             /**
              * Returns the Wordpress installed site.
-             * since        3.4.6
+             * @since       3.4.6
+             * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
              */
-            private function _getSiteInfo() {
+            private function _getSiteInfo( $bGenerateInfo=true ) {
                 
-                if ( isset( self::$_aSiteInfo ) ) {
+                if ( ! $bGenerateInfo || isset( self::$_aSiteInfo ) ) {
                     return self::$_aSiteInfo;
                 }
                 
@@ -481,10 +485,11 @@ CSSRULES;
             /**
              * Returns the PHP information.
              * @since       3.4.6
+             * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
              */
-            private function _getPHPInfo() {
+            private function _getPHPInfo( $bGenerateInfo=true ) {
                 
-                if ( isset( self::$_aPHPInfo ) ) {
+                if ( ! $bGenerateInfo || isset( self::$_aPHPInfo ) ) {
                     return self::$_aPHPInfo;
                 }
                 
@@ -523,19 +528,22 @@ CSSRULES;
             /**
              * Returns the web server information.
              * @since       3.4.6
+             * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
              */                      
-            private function _getWebServerInfo() {
-                
-                return array(
-                    __( 'Web Server', 'admin-page-framework' )                  => $_SERVER['SERVER_SOFTWARE'],
-                    'SSL'                                                       => $this->_getYesOrNo( is_ssl() ),
-                    __( 'Session', 'admin-page-framework' )                     => $this->_getEnabledOrDisabled( isset( $_SESSION ) ),
-                    __( 'Session Name', 'admin-page-framework' )                => esc_html( @ini_get( 'session.name' ) ),
-                    __( 'Session Cookie Path', 'admin-page-framework' )         => esc_html( @ini_get( 'session.cookie_path' ) ),
-                    __( 'Session Save Path', 'admin-page-framework' )           => esc_html( @ini_get( 'session.save_path' ) ),
-                    __( 'Session Use Cookies', 'admin-page-framework' )         => $this->_getOnOrOff( @ini_get( 'session.use_cookies' ) ),
-                    __( 'Session Use Only Cookies', 'admin-page-framework' )    => $this->_getOnOrOff( @ini_get( 'session.use_only_cookies' ) ),                                    
-                ) + $_SERVER;                
+            private function _getWebServerInfo( $bGenerateInfo=true ) {
+                        
+                return $bGenerateInfo 
+                    ? array(
+                        __( 'Web Server', 'admin-page-framework' )                  => $_SERVER['SERVER_SOFTWARE'],
+                        'SSL'                                                       => $this->_getYesOrNo( is_ssl() ),
+                        __( 'Session', 'admin-page-framework' )                     => $this->_getEnabledOrDisabled( isset( $_SESSION ) ),
+                        __( 'Session Name', 'admin-page-framework' )                => esc_html( @ini_get( 'session.name' ) ),
+                        __( 'Session Cookie Path', 'admin-page-framework' )         => esc_html( @ini_get( 'session.cookie_path' ) ),
+                        __( 'Session Save Path', 'admin-page-framework' )           => esc_html( @ini_get( 'session.save_path' ) ),
+                        __( 'Session Use Cookies', 'admin-page-framework' )         => $this->_getOnOrOff( @ini_get( 'session.use_cookies' ) ),
+                        __( 'Session Use Only Cookies', 'admin-page-framework' )    => $this->_getOnOrOff( @ini_get( 'session.use_only_cookies' ) ),                                    
+                    ) + $_SERVER
+                    : '';
                 
             }
                     
