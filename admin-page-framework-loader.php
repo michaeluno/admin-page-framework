@@ -5,7 +5,7 @@
     Description:    Loads Admin Page Framework which facilitates WordPress plugin and theme development.
     Author:         Michael Uno
     Author URI:     http://michaeluno.jp
-    Version:        3.5.3b07
+    Version:        3.5.3b08
     Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -16,7 +16,7 @@
  */
 class AdminPageFrameworkLoader_Registry_Base {
 
-	const Version        = '3.5.3b07';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+	const Version        = '3.5.3b08';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
 	const Name           = 'Admin Page Framework - Loader'; // the name is not 'Admin Page Framework' because warning messages gets confusing.
     const ShortName      = 'Admin Page Framework';  // used for a menu title etc.
 	const Description    = 'Loads Admin Page Framework which facilitates WordPress plugin and theme development.';
@@ -94,20 +94,20 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
             'version'   => '5.0',
             'error'     => 'The plugin requires the MySQL version %1$s or higher.',
         ),
-        'functions'     =>  '', // disabled
+        'functions'         => '', // disabled
         // array(
             // e.g. 'mblang' => 'The plugin requires the mbstring extension.',
         // ),
-        'classes'       => '', // disabled
+        'classes'           => '', // disabled
         // array(
             // e.g. 'DOMDocument' => 'The plugin requires the DOMXML extension.',
         // ),
-        'constants'     => '',  // disabled
+        'constants'         => '', // disabled
         // array(
             // e.g. 'THEADDONFILE' => 'The plugin requires the ... addon to be installed.',
             // e.g. 'APSPATH' => 'The script cannot be loaded directly.',
         // ),
-        'files'         =>  '', // disabled
+        'files'             => '', // disabled
         // array(
             // e.g. 'home/my_user_name/my_dir/scripts/my_scripts.php' => 'The required script could not be found.',
         // ),
