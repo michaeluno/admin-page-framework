@@ -21,6 +21,33 @@
 class AdminPageFramework_FormEmail extends AdminPageFramework_WPUtility {
      
     /**
+     * Stores email options.
+     * @since       3.4.2
+     */
+    public $aEmailOptions = array();
+    
+    /**
+     * Stores form submit data
+     * @since       3.4.2
+     */
+    public $aInput = array();
+    
+    /**
+     * Stores the secion ID of the email form.
+     * @since       3.4.2
+     */
+    public $sSubmitSectionID;
+    
+    /**
+     * Stores file paths to be deleted.
+     * 
+     * Used for download external attached files.
+     * 
+     * @sicne       3.4.2
+     */
+    private $_aPathsToDelete = array();
+    
+    /**
      * Sets up properties.
      */
     public function __construct( array $aEmailOptions, array $aInput, $sSubmitSectionID ) {
