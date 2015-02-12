@@ -53,42 +53,73 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
      */
     public function _replyToPrintSettingNotice() {
             
-        if ( ! $this->_isInThePage() ) { return; }
+        if ( ! $this->_isInThePage() ) { 
+            return; 
+        }
             
         // Ensure this method is called only once per a page load.
-        if ( self::$_bSettingNoticeLoaded ) { return; }
+        if ( self::$_bSettingNoticeLoaded ) { 
+            return;
+        }
         self::$_bSettingNoticeLoaded = true;
 
         $_iUserID  = get_current_user_id();
         $_aNotices = $this->oUtil->getTransient( "apf_notices_{$_iUserID}" );
-        if ( false === $_aNotices ) { return; }
+        if ( false === $_aNotices ) { 
+            return; 
+        }
         $this->oUtil->deleteTransient( "apf_notices_{$_iUserID}" );
     
         // By setting false to the 'settings-notice' key, it's possible to disable the notifications set with the framework.
-        if ( isset( $_GET['settings-notice'] ) && ! $_GET['settings-notice'] ) { return; }
-        
-        // Display the settings notices.
-        $_aPeventDuplicates = array();
-        foreach ( ( array ) $_aNotices as $__aNotice ) {
-            if ( ! isset( $__aNotice['aAttributes'], $__aNotice['sMessage'] ) || ! is_array( $__aNotice ) ) {
-                continue;
-            }
-            $_sNotificationKey = md5( serialize( $__aNotice ) );
-            if ( isset( $_aPeventDuplicates[ $_sNotificationKey ] ) ) {
-                continue;
-            }
-            $_aPeventDuplicates[ $_sNotificationKey ] = true;
-            $__aNotice['aAttributes']['class'] = isset( $__aNotice['aAttributes']['class'] )
-                ? $__aNotice['aAttributes']['class'] . ' admin-page-framework-settings-notice-container'
-                : 'admin-page-framework-settings-notice-container';
-            echo "<div " . $this->oUtil->generateAttributes( $__aNotice['aAttributes'] ). ">"
-                    . "<p class='admin-page-framework-settings-notice-message'>" . $__aNotice['sMessage'] . "</p>"
-                . "</div>";
-            
+        if ( isset( $_GET['settings-notice'] ) && ! $_GET['settings-notice'] ) { 
+            return; 
         }
         
+        $this->_printSettingNotices( $_aNotices );
+        
     }
-    
+        /**
+         * Displays settings notices.
+         * @since       3.5.3
+         * @internal
+         */
+        private function _printSettingNotices( $aNotices ) {
+            
+            $_aPeventDuplicates = array();
+            foreach ( array_filter( ( array ) $aNotices, 'is_array' ) as $_aNotice ) {
+                
+                $_sNotificationKey = md5( serialize( $_aNotice ) );
+                if ( isset( $_aPeventDuplicates[ $_sNotificationKey ] ) ) {
+                    continue;
+                }
+                $_aPeventDuplicates[ $_sNotificationKey ] = true;
+                
+                echo $this->_getSettingNotice( $_aNotice );
+                
+            }            
+            
+        }
+            /**
+             * Returns an admin setting notice HTML output generated from the given notification definition array.
+             * @since       3.5.3
+             * @internal
+             * @return      string      The admin setting notice HTML output.
+             */
+            private function _getSettingNotice( array $aNotice ) {
+                
+                if ( ! isset( $aNotice['aAttributes'], $aNotice['sMessage'] ) ) {
+                    return '';
+                }
+                $aNotice['aAttributes']['class'] = isset( $aNotice['aAttributes']['class'] )
+                    ? $aNotice['aAttributes']['class'] . ' admin-page-framework-settings-notice-container'
+                    : 'admin-page-framework-settings-notice-container';
+                return "<div " . $this->oUtil->generateAttributes( $aNotice['aAttributes'] ). ">"
+                        . "<p class='admin-page-framework-settings-notice-message'>" 
+                            . $aNotice['sMessage'] 
+                        . "</p>"
+                    . "</div>";  
+                    
+            }    
     
     /**
      * Returns the field output from the given field definition array.
