@@ -75,27 +75,10 @@ CSSRULES;
         if ( isset( $aField['attributes']['src'] ) ) {
             $aField['attributes']['src'] = $this->resolveSRC( $aField['attributes']['src'] );
         }
-        $_bIsImageButton    = isset( $aField['attributes']['src'] ) && filter_var( $aField['attributes']['src'], FILTER_VALIDATE_URL );
-        $_aInputAttributes  = array(
-                // the type must be set because child class including export will use this method; in that case, the export type will be assigned which input tag does not support
-                'type'  => $_bIsImageButton ? 'image' : 'submit', 
-                'value' => ( $_sValue = $this->_getInputFieldValueFromLabel( $aField ) ),
-            ) 
-            + $aField['attributes']
-            + array(
-                'title' => $_sValue,
-                'alt'   => $_bIsImageButton ? 'submit' : '',
-            );
 
-        $_aLabelAttributes          = array(
-            'style' => $aField['label_min_width'] ? "min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";" : null,
-            'for'   => $_aInputAttributes['id'],
-            'class' => $_aInputAttributes['disabled'] ? 'disabled' : null,
-        );
-        $_aLabelContainerAttributes = array(
-            'style' => $aField['label_min_width'] ? "min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";" : null,
-            'class' => 'admin-page-framework-input-label-container admin-page-framework-input-button-container admin-page-framework-input-container',
-        );
+        $_aInputAttributes          = $this->_getInputAttributes( $aField );
+        $_aLabelAttributes          = $this->_getLabelAttributes( $aField, $_aInputAttributes );
+        $_aLabelContainerAttributes = $this->_getLabelContainerAttributes( $aField );
 
         return 
             $aField['before_label']
@@ -111,7 +94,57 @@ CSSRULES;
             . $aField['after_label'];
         
     }
-    
+        /**
+         * Returns the label attribute array.
+         * @since       3.5.3
+         * @return      array       The label attribute array.
+         */            
+        private function _getLabelAttributes( array $aField, array $aInputAttributes ) {
+            return array(
+                'style' => $aField['label_min_width'] 
+                    ? "min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";" 
+                    : null,
+                'for'   => $aInputAttributes['id'],
+                'class' => $aInputAttributes['disabled'] 
+                    ? 'disabled' 
+                    : null,
+            );
+        }
+        /**
+         * Returns the label container attribute array.
+         * @since       3.5.3
+         * @return      array       The label container attribute array.
+         */        
+        private function _getLabelContainerAttributes( array $aField ) {           
+            return array(
+                'style' => $aField['label_min_width'] 
+                    ? "min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";" 
+                    : null,
+                'class' => 'admin-page-framework-input-label-container'
+                    . ' admin-page-framework-input-button-container'
+                    . ' admin-page-framework-input-container',
+            );
+        }    
+        /**
+         * Returns the input attribute array.
+         * @since       3.5.3
+         * @return      array       The input attribute array.
+         */
+        private function _getInputAttributes( array $aField ) {
+            $_bIsImageButton    = isset( $aField['attributes']['src'] ) && filter_var( $aField['attributes']['src'], FILTER_VALIDATE_URL );
+            $_sValue            = $this->_getInputFieldValueFromLabel( $aField );
+            return array(
+                    // the type must be set because child class including export will use this method; in that case, the export type will be assigned which input tag does not support
+                    'type'  => $_bIsImageButton ? 'image' : 'submit', 
+                    'value' => $_sValue,
+                ) 
+                + $aField['attributes']
+                + array(
+                    'title' => $_sValue,
+                    'alt'   => $_bIsImageButton ? 'submit' : '',
+                );             
+        }
+        
     /**
      * Returns extra output for the field.
      * 
@@ -130,121 +163,163 @@ CSSRULES;
     protected function _getExtraInputFields( &$aField ) {
         
         $_aOutput   = array();
-        $_aOutput[] = "<input " 
-                . $this->generateAttributes( 
-                    array(
-                        'type'  => 'hidden',
-                        'name'  => "__submit[{$aField['input_id']}][input_id]",
-                        'value' => $aField['input_id'],
-                    ) 
-                )
-            . " />";
-        $_aOutput[] = "<input " 
-                . $this->generateAttributes( 
-                    array(
-                        'type'  => 'hidden',
-                        'name'  => "__submit[{$aField['input_id']}][field_id]",
-                        'value' => $aField['field_id'],
-                    ) 
-                )
-            . " />";
-        $_aOutput[] = "<input " 
-                . $this->generateAttributes( 
-                    array(
-                        'type'  => 'hidden',
-                        'name'  => "__submit[{$aField['input_id']}][name]",
-                        'value' => $aField['_input_name_flat'],
-                    ) 
-                )
-            . " />";
-        $_aOutput[] = "<input " 
-                . $this->generateAttributes( 
-                    array(
-                        'type'  => 'hidden',
-                        'name'  => "__submit[{$aField['input_id']}][section_id]",
-                        'value' => isset( $aField['section_id'] ) && '_default' !== $aField['section_id'] 
-                            ? $aField['section_id'] 
-                            : '',
-                    ) 
-                )
-            . " />";
-            
-        /* for the redirect_url key */
-        if ( $aField['redirect_url'] ) {
-            $_aOutput[] = "<input " 
-                . $this->generateAttributes( 
-                    array(
-                        'type'  => 'hidden',
-                        'name'  => "__submit[{$aField['input_id']}][redirect_url]",
-                        'value' => $aField['redirect_url'],
-                    ) 
-                )
-                . " />";
-        }
-        /* for the href key */
-        if ( $aField['href'] ) {            
-            $_aOutput[] = "<input " 
-                . $this->generateAttributes( 
-                    array(
-                        'type'  => 'hidden',
-                        'name'  => "__submit[{$aField['input_id']}][link_url]",
-                        'value' => $aField['href'],
-                    ) 
-                )
-                . " />";
-        }
-        /* for the 'reset' key */
-        if ( $aField['reset'] ) {            
-            $_aOutput[] = ! $this->_checkConfirmationDisplayed( $aField['_input_name_flat'], 'reset' )
-                ? "<input "
-                    . $this->generateAttributes( 
-                        array(
-                            'type'  => 'hidden',
-                            'name'  => "__submit[{$aField['input_id']}][is_reset]",
-                            'value' => '1',
-                        ) 
-                    )
-                . " />"
-                : "<input "
-                    . $this->generateAttributes( 
-                        array(
-                            'type'  => 'hidden',
-                            'name'  => "__submit[{$aField['input_id']}][reset_key]",
-                            'value' => is_array( $aField['reset'] )   // set the option array key to delete.
-                                ? implode( '|', $aField['reset'] )
-                                : $aField['reset'],
-                        )
-                    )
-                . " />";    
-        }
-        /* for the 'email' key */
-        if ( ! empty( $aField['email'] ) ) {
-            
-            $this->setTransient( 'apf_em_' . md5( $aField['_input_name_flat'] . get_current_user_id() ), $aField['email'] );
-            $_aOutput[] = ! $this->_checkConfirmationDisplayed( $aField['_input_name_flat'], 'email' )
-                ? "<input "
-                    . $this->generateAttributes( 
-                        array(
-                            'type'  => 'hidden',
-                            'name'  => "__submit[{$aField['input_id']}][confirming_sending_email]",
-                            'value' => '1',
-                        ) 
-                    )
-                    . " />" 
-                : "<input "
-                    . $this->generateAttributes( 
-                        array(
-                            'type'  => 'hidden',
-                            'name'  => "__submit[{$aField['input_id']}][confirmed_sending_email]",
-                            'value' => '1',
-                        ) 
-                    )
-                    . " />";
-        }
-        return implode( PHP_EOL, $_aOutput );  
+        $_aOutput[] = $this->generateHTMLTag( 
+            'input',
+            array(
+                'type'  => 'hidden',
+                'name'  => "__submit[{$aField['input_id']}][input_id]",
+                'value' => $aField['input_id'],
+            )
+        );
+        $_aOutput[] = $this->generateHTMLTag( 
+            'input',
+            array(
+                'type'  => 'hidden',
+                'name'  => "__submit[{$aField['input_id']}][field_id]",
+                'value' => $aField['field_id'],
+            ) 
+        );            
+        $_aOutput[] = $this->generateHTMLTag( 
+            'input',
+            array(
+                'type'  => 'hidden',
+                'name'  => "__submit[{$aField['input_id']}][name]",
+                'value' => $aField['_input_name_flat'],
+            ) 
+        );         
+        $_aOutput[] = $this->_getHiddenInput_SectionID( $aField );
+        $_aOutput[] = $this->_getHiddenInput_Redirect( $aField );
+        $_aOutput[] = $this->_getHiddenInput_Href( $aField );       
+        $_aOutput[] = $this->_getHiddenInput_Reset( $aField );
+        $_aOutput[] = $this->_getHiddenInput_Email( $aField );
+        return implode( PHP_EOL, array_filter( $_aOutput ) );  
         
     }
-         
+        /**
+         * Returns the hidden input tag for the section id argument.
+         * 
+         * @since       3.5.3
+         * @internal
+         * @return      string      the HTML input tag output for the section id argument.
+         */    
+        private function _getHiddenInput_SectionID( array $aField ) {
+            return $this->generateHTMLTag( 
+                'input',
+                array(
+                    'type'  => 'hidden',
+                    'name'  => "__submit[{$aField['input_id']}][section_id]",
+                    'value' => isset( $aField['section_id'] ) && '_default' !== $aField['section_id'] 
+                        ? $aField['section_id'] 
+                        : '',
+                ) 
+            );                  
+        }    
+        /**
+         * Returns the hidden input tag for the rediret url argument.
+         * 
+         * @since       3.5.3
+         * @internal
+         * @return      string      the HTML input tag output for the rediret url argument.
+         */
+        private function _getHiddenInput_Redirect( array $aField ) {
+            if ( ! $aField['redirect_url'] ) {
+                return '';
+            }
+            return $this->generateHTMLTag( 
+                'input',
+                array(
+                    'type'  => 'hidden',
+                    'name'  => "__submit[{$aField['input_id']}][redirect_url]",
+                    'value' => $aField['redirect_url'],
+                ) 
+            );
+        }     
+        /**
+         * Returns the hidden input tag for the rediret url argument.
+         * 
+         * @since       3.5.3
+         * @internal
+         * @return      string      the HTML input tag output for the rediret url argument.
+         */
+        private function _getHiddenInput_Href( array $aField ) {
+            if ( ! $aField['href'] ) {
+                return '';
+            }
+            return $this->generateHTMLTag( 
+                'input',
+                array(
+                    'type'  => 'hidden',
+                    'name'  => "__submit[{$aField['input_id']}][link_url]",
+                    'value' => $aField['href'],
+                ) 
+            );
+        }        
+        /**
+         * Returns the hidden input tag for the 'reset' argument.
+         * 
+         * @since       3.5.3
+         * @internal
+         * @return      string      the HTML input tag output for the 'reset' argument.
+         */        
+        private function _getHiddenInput_Reset( array $aField ) {
+            if ( ! $aField['reset'] ) {
+                return '';
+            }
+            return ! $this->_checkConfirmationDisplayed( $aField['_input_name_flat'], 'reset' )
+                ? $this->generateHTMLTag( 
+                    'input',
+                    array(
+                        'type'  => 'hidden',
+                        'name'  => "__submit[{$aField['input_id']}][is_reset]",
+                        'value' => '1',
+                    ) 
+                )
+                : $this->generateHTMLTag( 
+                    'input',
+                    array(
+                        'type'  => 'hidden',
+                        'name'  => "__submit[{$aField['input_id']}][reset_key]",
+                        'value' => is_array( $aField['reset'] )   // set the option array key to delete.
+                            ? implode( '|', $aField['reset'] )
+                            : $aField['reset'],
+                    )
+                );      
+        }
+        /**
+         * Returns the hidden input tag for the 'email' argument.
+         * 
+         * @since       3.5.3
+         * @internal
+         * @return      string      the HTML input tag output for the 'email' argument.
+         */ 
+        private function _getHiddenInput_Email( array $aField ) {
+            
+            if ( empty( $aField['email'] ) ) {
+                return '';
+            }
+            $this->setTransient( 
+                'apf_em_' . md5( $aField['_input_name_flat'] . get_current_user_id() ), 
+                $aField['email'] 
+            );
+            return ! $this->_checkConfirmationDisplayed( $aField['_input_name_flat'], 'email' )
+                ? $this->generateHTMLTag( 
+                    'input',
+                    array(
+                        'type'  => 'hidden',
+                        'name'  => "__submit[{$aField['input_id']}][confirming_sending_email]",
+                        'value' => '1',
+                    ) 
+                )
+                : $this->generateHTMLTag( 
+                    'input',
+                    array(
+                        'type'  => 'hidden',
+                        'name'  => "__submit[{$aField['input_id']}][confirmed_sending_email]",
+                        'value' => '1',
+                    ) 
+                );                
+        }
+    
         /**
          * A helper function for the above getSubmitField() that checks if a reset confirmation message has been displayed or not when the 'reset' key is set.
          * 
