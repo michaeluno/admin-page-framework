@@ -70,12 +70,7 @@ CSSRULES;
      */
     protected function getField( $aField ) {
         
-        $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->get( 'submit' );
-        
-        if ( isset( $aField['attributes']['src'] ) ) {
-            $aField['attributes']['src'] = $this->resolveSRC( $aField['attributes']['src'] );
-        }
-
+        $aField                     = $this->_getFormatedFieldArray( $aField );
         $_aInputAttributes          = $this->_getInputAttributes( $aField );
         $_aLabelAttributes          = $this->_getLabelAttributes( $aField, $_aInputAttributes );
         $_aLabelContainerAttributes = $this->_getLabelContainerAttributes( $aField );
@@ -94,6 +89,23 @@ CSSRULES;
             . $aField['after_label'];
         
     }
+        /**
+         * Returns the formatted field definition array.
+         * @since       3.5.3
+         * @return      array       The formatted field definitnion array.
+         */
+        private function _getFormatedFieldArray( array $aField ) {
+            
+            $aField['label'] = $aField['label'] 
+                ? $aField['label'] 
+                : $this->oMsg->get( 'submit' );
+            
+            if ( isset( $aField['attributes']['src'] ) ) {
+                $aField['attributes']['src'] = $this->resolveSRC( $aField['attributes']['src'] );
+            }            
+            return $aField;
+            
+        }    
         /**
          * Returns the label attribute array.
          * @since       3.5.3
@@ -188,8 +200,8 @@ CSSRULES;
             ) 
         );         
         $_aOutput[] = $this->_getHiddenInput_SectionID( $aField );
-        $_aOutput[] = $this->_getHiddenInput_Redirect( $aField );
-        $_aOutput[] = $this->_getHiddenInput_Href( $aField );       
+        $_aOutput[] = $this->_getHiddenInputByKey( $aField, 'redirect_url' );       
+        $_aOutput[] = $this->_getHiddenInputByKey( $aField, 'href' );       
         $_aOutput[] = $this->_getHiddenInput_Reset( $aField );
         $_aOutput[] = $this->_getHiddenInput_Email( $aField );
         return implode( PHP_EOL, array_filter( $_aOutput ) );  
@@ -213,47 +225,26 @@ CSSRULES;
                         : '',
                 ) 
             );                  
-        }    
+        }           
         /**
-         * Returns the hidden input tag for the rediret url argument.
+         * Returns the hidden input tag for the given key argument.
          * 
          * @since       3.5.3
          * @internal
-         * @return      string      the HTML input tag output for the rediret url argument.
-         */
-        private function _getHiddenInput_Redirect( array $aField ) {
-            if ( ! $aField['redirect_url'] ) {
-                return '';
-            }
-            return $this->generateHTMLTag( 
-                'input',
-                array(
-                    'type'  => 'hidden',
-                    'name'  => "__submit[{$aField['input_id']}][redirect_url]",
-                    'value' => $aField['redirect_url'],
-                ) 
-            );
-        }     
-        /**
-         * Returns the hidden input tag for the rediret url argument.
-         * 
-         * @since       3.5.3
-         * @internal
-         * @return      string      the HTML input tag output for the rediret url argument.
-         */
-        private function _getHiddenInput_Href( array $aField ) {
-            if ( ! $aField['href'] ) {
-                return '';
-            }
-            return $this->generateHTMLTag( 
-                'input',
-                array(
-                    'type'  => 'hidden',
-                    'name'  => "__submit[{$aField['input_id']}][link_url]",
-                    'value' => $aField['href'],
-                ) 
-            );
-        }        
+         * @return      string      the HTML input tag output for the given key argument.
+         */        
+        private function _getHiddenInputByKey( array $aField, $sKey ) {
+            return isset( $aField[ $sKey ] )
+                ? $this->generateHTMLTag( 
+                    'input',
+                    array(
+                        'type'  => 'hidden',
+                        'name'  => "__submit[{$aField['input_id']}][{$sKey}]",
+                        'value' => $aField[ $sKey ],
+                    ) 
+                )
+                : '';            
+        }       
         /**
          * Returns the hidden input tag for the 'reset' argument.
          * 
