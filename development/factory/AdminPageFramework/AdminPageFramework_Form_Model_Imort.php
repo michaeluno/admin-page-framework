@@ -59,7 +59,7 @@ abstract class AdminPageFramework_Form_Model_Import extends AdminPageFramework_R
         // Retrieve the importing data.
         $_mData = $_oImport->getImportData();
         if ( false === $_mData ) {
-            $this->setSettingNotice( $this->oMsg->get( 'could_not_load_importing_data' ) );     
+            $this->setSettingNotice( $this->oMsg->get( 'could_not_load_importing_data' ) );
             return $aStoredOptions; // do not change the framework's options.
         }
         
@@ -75,18 +75,8 @@ abstract class AdminPageFramework_Form_Model_Import extends AdminPageFramework_R
         // Apply filters to the importing data.
         $_mData = $this->_getFilteredImportData( $_aArguments, $_mData, $aStoredOptions, $_sFormatType, $_sImportOptionKey );
     
-        // Set the update notice
-        $_bEmpty = empty( $_mData );
-        $this->setSettingNotice(  
-            $_bEmpty 
-                ? $this->oMsg->get( 'not_imported_data' ) 
-                : $this->oMsg->get( 'imported_data' ), 
-            $_bEmpty 
-                ? 'error' 
-                : 'updated',
-            $this->oProp->sOptionKey, // message id
-            false // do not override 
-        );
+        // Set an update notice
+        $this->_setImportAdminNotice( empty( $_mData ) );
                 
         if ( $_sImportOptionKey != $this->oProp->sOptionKey ) {
             update_option( $_sImportOptionKey, $_mData );
@@ -100,6 +90,26 @@ abstract class AdminPageFramework_Form_Model_Import extends AdminPageFramework_R
                         
     }
         /**
+         * Sets update admin notice.
+         * @since       3.5.3
+         * @return      vooid
+         */
+        private function _setImportAdminNotice( $bEmpty ) {
+            
+            $this->setSettingNotice(  
+                $bEmpty 
+                    ? $this->oMsg->get( 'not_imported_data' ) 
+                    : $this->oMsg->get( 'imported_data' ), 
+                $bEmpty 
+                    ? 'error' 
+                    : 'updated',
+                $this->oProp->sOptionKey, // message id
+                false // do not override 
+            );            
+            
+        }
+        
+        /**
          * Returns the filtered MIME types for a importing file.
          * @since       3.5.3
          * @return      array       An array holding processable MIME types.       
@@ -107,20 +117,7 @@ abstract class AdminPageFramework_Form_Model_Import extends AdminPageFramework_R
         private function _getImportMIMEType( array $aArguments ) {            
             return $this->oUtil->addAndApplyFilters(
                 $this,
-                array( 
-                    'import_mime_types_' . $aArguments['class_name'] . '_' . $aArguments['pressed_input_id'], 
-                    $aArguments['section_id']
-                        ? 'import_mime_types_' . $aArguments['class_name'] . '_' . $aArguments['section_id'] . '_' . $aArguments['pressed_field_id']
-                        : 'import_mime_types_' . $aArguments['class_name'] . '_' . $aArguments['pressed_field_id'], 
-                    $aArguments['section_id']
-                        ? 'import_mime_types_' . $aArguments['class_name'] . '_' . $aArguments['section_id']
-                        : null, 
-                    $aArguments['tab_slug']
-                        ? 'import_mime_types_' . $aArguments['page_slug'] . '_' . $aArguments['tab_slug']
-                        : null, 
-                    'import_mime_types_' . $aArguments['page_slug'], 
-                    'import_mime_types_' . $aArguments['class_name'],
-                ),
+                $this->_getImportFilterHookNames( 'import_mime_types_', $aArguments ),
                 array( 'text/plain', 'application/octet-stream' ), // .json file is dealt as a binary file.
                 $aArguments['pressed_field_id'],
                 $aArguments['pressed_input_id'],
@@ -137,20 +134,7 @@ abstract class AdminPageFramework_Form_Model_Import extends AdminPageFramework_R
         private function _getImportFormatType( array $aArguments, $sFormatType ) {
             return $this->oUtil->addAndApplyFilters(
                 $this,
-                array( 
-                    'import_format_' . $aArguments['class_name'] . '_' . $aArguments['pressed_input_id'],
-                    $aArguments['section_id'] 
-                        ? 'import_format_' . $aArguments['class_name'] . '_' . $aArguments['section_id'] . '_' . $aArguments['pressed_field_id']
-                        : 'import_format_' . $aArguments['class_name'] . '_' . $aArguments['pressed_field_id'],
-                    $aArguments['section_id'] 
-                        ? 'import_format_' . $aArguments['class_name'] . '_' . $aArguments['section_id']
-                        : null,
-                    $aArguments['tab_slug'] 
-                        ? 'import_format_' . $aArguments['page_slug'] . '_' . $aArguments['tab_slug']
-                        : null,
-                    'import_format_' . $aArguments['page_slug'],
-                    'import_format_' . $aArguments['class_name']
-                ),
+                $this->_getImportFilterHookNames( 'import_format_', $aArguments ),
                 $sFormatType, // the set format type, array, json, or text.
                 $aArguments['pressed_field_id'],
                 $aArguments['pressed_input_id'],
@@ -167,20 +151,7 @@ abstract class AdminPageFramework_Form_Model_Import extends AdminPageFramework_R
         private function _getImportOptionKey( array $aArguments, $sImportOptionKey ) {
             return $this->oUtil->addAndApplyFilters(
                 $this,
-                array(
-                    'import_option_key_' . $aArguments['class_name'] . '_' . $aArguments['pressed_input_id'],
-                    $aArguments['section_id'] 
-                        ? 'import_option_key_' . $aArguments['class_name'] . '_' . $aArguments['section_id'] . '_' . $aArguments['pressed_field_id']
-                        : 'import_option_key_' . $aArguments['class_name'] . '_' . $aArguments['pressed_field_id'],
-                    $aArguments['section_id'] 
-                        ? 'import_option_key_' . $aArguments['class_name'] . '_' . $aArguments['section_id']
-                        : null,
-                    $aArguments['tab_slug'] 
-                        ? 'import_option_key_' . $aArguments['page_slug'] . '_' . $aArguments['tab_slug'] 
-                        : null,
-                    'import_option_key_' . $aArguments['page_slug'],
-                    'import_option_key_' . $aArguments['class_name']
-                ),
+                $this->_getImportFilterHookNames( 'import_option_key_', $aArguments ),
                 $sImportOptionKey,    
                 $aArguments['pressed_field_id'],
                 $aArguments['pressed_input_id'],
@@ -197,20 +168,7 @@ abstract class AdminPageFramework_Form_Model_Import extends AdminPageFramework_R
         private function _getFilteredImportData( array $aArguments, $mData, $aStoredOptions, $sFormatType, $sImportOptionKey ) {
             return $this->oUtil->addAndApplyFilters(
                 $this,
-                array(
-                    'import_' . $aArguments['class_name'] . '_' . $aArguments['pressed_input_id'],
-                    $aArguments['section_id'] 
-                        ? 'import_' . $aArguments['class_name'] . '_' . $aArguments['section_id'] .'_' . $aArguments['pressed_field_id']
-                        : 'import_' . $aArguments['class_name'] . '_' . $aArguments['pressed_field_id'],
-                    $aArguments['section_id'] 
-                        ? 'import_' . $aArguments['class_name'] . '_' . $aArguments['section_id'] 
-                        : null,
-                    $aArguments['tab_slug'] 
-                        ? 'import_' . $aArguments['page_slug'] . '_' . $aArguments['tab_slug']
-                        : null,
-                    'import_' . $aArguments['page_slug'],
-                    'import_' . $aArguments['class_name']
-                ),
+                $this->_getImportFilterHookNames( 'import_', $aArguments ),
                 $mData,
                 $aStoredOptions,
                 $aArguments['pressed_field_id'],
@@ -221,5 +179,32 @@ abstract class AdminPageFramework_Form_Model_Import extends AdminPageFramework_R
                 $this           // 3.4.6+
             );
         }
- 
+        
+    /**
+     * Returns an array holding the generated filter names by the given prefix.
+     * 
+     * @access      protected
+     * @remark      this method is accessed from `AdminPageFramework_Form_Model_Export`.
+     * @since       3.5.3
+     * @return      array       An array holding the generated filter names by the given prefix.
+     */
+    protected function _getImportFilterHookNames( $sPrefix, array $aArguments ) {
+        
+        return array(
+            $sPrefix . $aArguments['class_name'] . '_' . $aArguments['pressed_input_id'],
+            $aArguments['section_id'] 
+                ? $sPrefix . $aArguments['class_name'] . '_' . $aArguments['section_id'] .'_' . $aArguments['pressed_field_id']
+                : $sPrefix . $aArguments['class_name'] . '_' . $aArguments['pressed_field_id'],
+            $aArguments['section_id'] 
+                ? $sPrefix . $aArguments['class_name'] . '_' . $aArguments['section_id'] 
+                : null,
+            $aArguments['tab_slug'] 
+                ? $sPrefix . $aArguments['page_slug'] . '_' . $aArguments['tab_slug']
+                : null,
+            $sPrefix . $aArguments['page_slug'],
+            $sPrefix . $aArguments['class_name']
+        );            
+        
+    }
+    
 }

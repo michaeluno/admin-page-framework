@@ -48,28 +48,15 @@ abstract class AdminPageFramework_Form_Model_Export extends AdminPageFramework_F
         
     }      
         /**
-         * 
+         * Returns the filtered export data.
          * @since       3.5.3
          * @iunternal   
-         * @return      string
+         * @return      string      the filtered export data.
          */
-        private function _getFilteredExportingData( array $aArguments, $mData ) {
-    
-            // 'section_id'        
-                   
+        private function _getFilteredExportingData( array $aArguments, $mData ) {                   
             return $this->oUtil->addAndApplyFilters(
                 $this,
-                array( 
-                    'export_' . $aArguments['class_name'] . '_' . $aArguments['pressed_input_id'], 
-                    $aArguments['section_id'] 
-                        ? 'export_' . $aArguments['class_name'] . '_' . $aArguments['section_id'] . '_' . $aArguments['pressed_field_id'] 
-                        : 'export_' . $aArguments['class_name'] . '_' . $aArguments['pressed_field_id'],     
-                    $aArguments['tab_slug']
-                        ? 'export_' . $aArguments['page_slug'] . '_' . $aArguments['tab_slug'] 
-                        : null,     // null will be skipped in the method
-                    'export_' . $aArguments['page_slug'], 
-                    'export_' . $aArguments['class_name'] 
-                ),
+                $this->_getExportFilterHookNames( 'export_', $aArguments ),
                 $mData,
                 $aArguments['pressed_field_id'],
                 $aArguments['pressed_input_id'],
@@ -77,26 +64,15 @@ abstract class AdminPageFramework_Form_Model_Export extends AdminPageFramework_F
             );    
         }      
         /**
-         * 
+         * Returns the export file name.
          * @since       3.5.3
          * @iunternal   
-         * @return      string
+         * @return      string      The export file name.
          */        
         private function _getExportFileName( array $aArguments, $sExportFileName, $mData ) {        
             return $this->oUtil->addAndApplyFilters(
                 $this,
-                array( 
-                    'export_name_' . $aArguments['class_name'] . '_' . $aArguments['pressed_input_id'],
-                    'export_name_' . $aArguments['class_name'] . '_' . $aArguments['pressed_field_id'],
-                    $aArguments['section_id'] 
-                        ? 'export_name_' . $aArguments['class_name'] . '_' . $aArguments['section_id'] . '_' . $aArguments['pressed_field_id']
-                        : 'export_name_' . $aArguments['class_name'] . '_' . $aArguments['pressed_field_id'],
-                    $aArguments['tab_slug'] 
-                        ? 'export_name_' . $aArguments['page_slug'] . '_' . $aArguments['tab_slug'] 
-                        : null,
-                    'export_name_' . $aArguments['page_slug'],
-                    'export_name_' . $aArguments['class_name'] 
-                ),
+                $this->_getExportFilterHookNames( 'export_name_', $aArguments ),
                 $sExportFileName, 
                 $aArguments['pressed_field_id'],
                 $aArguments['pressed_input_id'],
@@ -105,27 +81,15 @@ abstract class AdminPageFramework_Form_Model_Export extends AdminPageFramework_F
             );    
         }
         /**
-         * 
+         * Returns the export format type.
          * @since       3.5.3
          * @iunternal   
-         * @return      string
+         * @return      string      The export format type.
          */        
-        private function _getExportFormatType( array $aArguments, $sExportFileFormat ) {
-            
+        private function _getExportFormatType( array $aArguments, $sExportFileFormat ) {  
             return $this->oUtil->addAndApplyFilters(
                 $this,
-                array( 
-                    'export_format_' . $aArguments['class_name'] . '_' . $aArguments['pressed_input_id'],
-                    'export_format_' . $aArguments['class_name'] . '_' . $aArguments['pressed_field_id'],
-                    $aArguments['section_id'] 
-                        ? 'export_format_' . $aArguments['class_name'] . '_' . $aArguments['section_id'] . '_' . $aArguments['pressed_field_id'] 
-                        : 'export_format_' . $aArguments['class_name'] . '_' . $aArguments['pressed_field_id'],
-                    $aArguments['tab_slug'] 
-                        ? 'export_format_' . $aArguments['page_slug'] . '_' . $aArguments['tab_slug']
-                        : null,
-                    'export_format_' . $aArguments['page_slug'],
-                    'export_format_' . $aArguments['class_name'] 
-                ),
+                $this->_getExportFilterHookNames( 'export_format_', $aArguments ),
                 $sExportFileFormat,
                 $aArguments['pressed_field_id'],
                 $aArguments['pressed_input_id'],
@@ -133,4 +97,15 @@ abstract class AdminPageFramework_Form_Model_Export extends AdminPageFramework_F
             ); 
         }
 
+    /**
+     * Returns an array holding the generated filter names by the given prefix.
+     * 
+     * @access      private
+     * @since       3.5.3
+     * @return      array       An array holding the generated filter names by the given prefix.
+     */        
+    private function _getExportFilterHookNames( $sPrefix, array $aArguments ) {
+        return parent::_getImportFilterHookNames( $sPrefix, $aArguments );
+    }
+    
 }
