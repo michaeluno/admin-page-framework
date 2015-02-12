@@ -104,35 +104,51 @@ class AdminPageFramework_Requirement {
         
         $_aWarnings = array();
         
-        // PHP
-        if ( isset( $this->_aRequirements['php']['version'] ) && ! $this->_checkPHPVersion( $this->_aRequirements['php']['version'] ) ) {
-            $_aWarnings[] = sprintf( $this->_aRequirements['php']['error'], $this->_aRequirements['php']['version'] );
-        }
-
-        // WordPress
-        if ( isset( $this->_aRequirements['wordpress']['version'] ) && ! $this->_checkWordPressVersion( $this->_aRequirements['wordpress']['version'] ) ) {
-            $_aWarnings[] = sprintf( $this->_aRequirements['wordpress']['error'], $this->_aRequirements['wordpress']['version'] );
-        }
+        // PHP, WordPress, MySQL
+        $_aWarnings[] = $this->_getWarningByType( 'php' );
+        $_aWarnings[] = $this->_getWarningByType( 'wordpress' );
+        $_aWarnings[] = $this->_getWarningByType( 'mysql' );
         
-        // MySQL
-        if ( isset( $this->_aRequirements['mysql']['version'] ) && ! $this->_checkMySQLVersion( $this->_aRequirements['mysql']['version'] ) ) {
-            $_aWarnings[] = sprintf( $this->_aRequirements['mysql']['error'], $this->_aRequirements['mysql']['version'] );
-        }        
+        // Ensure necessary array elements.
+        $this->_aRequirements = $this->_aRequirements + array(
+            'functions' => array(),
+            'classes'   => array(),
+            'constants' => array(),
+            'files'     => array(),
+        );
         
         // Check the rest.
         $_aWarnings = array_merge(
             $_aWarnings,
-            isset( $this->_aRequirements['functions'] ) ? $this->_checkFunctions( $this->_aRequirements['functions'] ) : array(),
-            isset( $this->_aRequirements['classes'] ) ? $this->_checkClasses( $this->_aRequirements['classes'] ) : array(),
-            isset( $this->_aRequirements['constants'] ) ? $this->_checkConstants( $this->_aRequirements['constants'] ) : array(),
-            isset( $this->_aRequirements['files'] ) ? $this->_checkFiles( $this->_aRequirements['files'] ) : array()
+            $this->_checkFunctions( $this->_aRequirements['functions'] ),
+            $this->_checkClasses( $this->_aRequirements['classes'] ),
+            $this->_checkConstants( $this->_aRequirements['constants'] ),
+            $this->_checkFiles( $this->_aRequirements['files'] )
         );
         
         $this->aWarnings = array_filter( $_aWarnings ); // drop empty elements.
         return count( $this->aWarnings );
         
     }        
-        
+        /**
+         * Returns a php warning if present.
+         * @since       3.5.3
+         * @internal
+         * @return      string      The warning.
+         */
+        private function _getWarningByType( $sType ) {
+            if ( ! isset( $this->_aRequirements[ $sType ][ 'version' ] ) ) {
+                return '';
+            }
+            if ( $this->_checkPHPVersion( $this->_aRequirements[ $sType ][ 'version' ] ) ) {
+                return '';
+            }
+            return sprintf(
+                $this->_aRequirements[ $sType ][ 'error' ], 
+                $this->_aRequirements[ $sType ][ 'version' ] 
+            );
+        }        
+   
         /**
          * Checks if the given version is greater than or equal to the installed PHP version.
          * 
@@ -173,28 +189,36 @@ class AdminPageFramework_Requirement {
          * @since       3.4.6
          */
         private function _checkClasses( $aClasses ) {
-            return $this->_getWarningsByFunctionName( 'class_exists', $aClasses );
+            return empty( $aClasses )
+                ? array()
+                : $this->_getWarningsByFunctionName( 'class_exists', $aClasses );
         }
         /**
          * Checks if the given functions exists
          * @since       3.4.6
          */
         private function _checkFunctions( $aFunctions ) {
-            return $this->_getWarningsByFunctionName( 'function_exists', $aFunctions );
+            return empty( $aFunctions )
+                ? array()
+                : $this->_getWarningsByFunctionName( 'function_exists', $aFunctions );
         }    
         /**
          * Checks if the given constants are defined.
          * @since       3.4.6
          */
         private function _checkConstants( $aConstants ) {
-            return $this->_getWarningsByFunctionName( 'defined', $aConstants );
+            return empty( $aConstants )
+                ? array()
+                : $this->_getWarningsByFunctionName( 'defined', $aConstants );
         }    
         /**
          * Checks if the given files exist.
          * @since       3.4.6
          */
         private function _checkFiles( $aFilePaths ) {
-            return $this->_getWarningsByFunctionName( 'file_exists', $aFilePaths );
+            return empty( $aFilePaths )
+                ? array()
+                : $this->_getWarningsByFunctionName( 'file_exists', $aFilePaths );
         }
             /**
              * Performs the given function to get warnings.
@@ -205,16 +229,15 @@ class AdminPageFramework_Requirement {
              * @return      array           The warning array.
              */
             private function _getWarningsByFunctionName( $sFuncName, $aSubjects ) {
-                
                 $_aWarnings = array();
                 foreach( $aSubjects as $_sSubject => $_sWarning ) {
                     if ( ! call_user_func_array( $sFuncName, array( $_sSubject ) ) ) {
                         $_aWarnings[] = sprintf( $_sWarning, $_sSubject );
                     }
                 }
-                return $_aWarnings;
-                
+                return $_aWarnings;                
             }    
+            
     /**
      * Sets up admin notices to display warnings.
      * 
@@ -223,10 +246,10 @@ class AdminPageFramework_Requirement {
     public function setAdminNotices() {
         add_action( 'admin_notices', array( $this, '_replyToPrintAdminNotices' ) );
     }
-    /**
-     * Prints warnings.
-     * @since       3.4.6
-     */    
+        /**
+         * Prints warnings.
+         * @since       3.4.6
+         */    
         public function _replyToPrintAdminNotices() {
             
             $_aWarnings     = array_unique( $this->aWarnings );
@@ -239,27 +262,26 @@ class AdminPageFramework_Requirement {
                     . "</p>"
                 . "</div>";        
             
-        }    
-        
-        /**
-         * Returns the warnings.
-         * 
-         * @since        3.4.6
-         */
-        private function _getWarnings() {
+        }            
+            /**
+             * Returns the warnings.
+             * 
+             * @since        3.4.6
+             */
+            private function _getWarnings() {
 
-            $_aWarnings     = array_unique( $this->aWarnings );            
-            if ( empty( $_aWarnings ) ) {
-                return '';
-            }        
-            $_sScripTitle   = $this->_sScriptName 
-                ?  "<strong>" . $this->_sScriptName . "</strong>:&nbsp;" 
-                : '';            
-            return $_sScripTitle
-               . implode( '<br />', $_aWarnings );
-            
-        }
-    
+                $_aWarnings     = array_unique( $this->aWarnings );            
+                if ( empty( $_aWarnings ) ) {
+                    return '';
+                }        
+                $_sScripTitle   = $this->_sScriptName 
+                    ?  "<strong>" . $this->_sScriptName . "</strong>:&nbsp;" 
+                    : '';            
+                return $_sScripTitle
+                   . implode( '<br />', $_aWarnings );
+                
+            }
+        
     /**
      * Deactivates the plugin.
      * @since       3.4.6
