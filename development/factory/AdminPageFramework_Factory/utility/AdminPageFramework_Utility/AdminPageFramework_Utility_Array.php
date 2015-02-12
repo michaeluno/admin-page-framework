@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -51,9 +51,10 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     /**
      * Returns the element value by the given key. 
      * 
-     * It just saves the isset() function call and allows a default value to be set.
+     * It just saves an isset() conditional check and allows a default value to be set.
      * 
      * @since       3.4.0
+     * @return      mixed       The set value or the default value.
      */
     static public function getElement( $aSubject, $isKey, $vDefault=null ) {
         return isset( $aSubject[ $isKey ] )
