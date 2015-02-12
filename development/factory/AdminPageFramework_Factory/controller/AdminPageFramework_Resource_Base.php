@@ -77,6 +77,20 @@ abstract class AdminPageFramework_Resource_Base {
     protected $_aHandleIDs = array();
       
     /**
+     * A property object.
+     * 
+     * @remark      Set in the constructor.
+     */ 
+    public $oProp;
+    
+    /**
+     * A utility object.
+     * 
+     * @remark      Set in the constructor.
+     */
+    public $oUtil;
+    
+    /**
      * Sets up properties and hooks.
      * @internal
      */
