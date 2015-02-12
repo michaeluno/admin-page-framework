@@ -297,7 +297,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         }
         
         // Link button
-        if ( $_sLinkURL = $this->_getPressedSubmitButtonData( $_aSubmit, 'link_url' ) ) {
+        if ( $_sLinkURL = $this->_getPressedSubmitButtonData( $_aSubmit, 'href' ) ) {
             exit( wp_redirect( $_sLinkURL ) ); // if the associated submit button for the link is pressed, it will be redirected.
         }
         
