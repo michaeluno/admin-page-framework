@@ -220,65 +220,78 @@ CSSRULES;
     }    
         /**
          * Returns the system information value for a textarea tag.
+         * 
+         * @return      string      The human readable system information.
          */
         private function _getSystemInfomation( $asValue=null, $asCustomData=null, $iPrintType=1 ) {
 
             if ( isset( $asValue ) ) {
                 return $asValue;
             }
-        
-            global $wpdb;
-            
-            $_aData = $this->getAsArray( $asCustomData );
-            $_aData = $_aData + array(
-                'Admin Page Framework'  => isset( $_aData['Admin Page Framework'] )
-                    ? null
-                    : AdminPageFramework_Registry::getInfo(),
-                'WordPress'             => isset( $_aData['WordPress'] )
-                    ? null
-                    : $this->_getSiteInfo(),
-                'PHP'                   => isset( $_aData['PHP'] )
-                    ? null
-                    : $this->_getPHPInfo(),
-                'PHP Error Log'         => isset( $_aData['PHP Error Log'] )
-                    ? null
-                    : $this->_getPHPErrorLog(),
-                'MySQL'                 => isset( $_aData['MySQL'] )
-                    ? null
-                    : $this->getMySQLInfo(),
-                'MySQL Error Log'       => isset( $_aData['MySQL Error Log'] ) 
-                    ? null
-                    : $this->_getMySQLErrorLog(),
-                'Server'                => isset( $_aData['Server'] )
-                    ? null
-                    : $this->_getWebServerInfo(),
-                'Browser'               => isset( $_aData['Browser'] )
-                    ? null
-                    : $this->_getClientInfo(),
 
-            );
-            
             $_aOutput   = array();
-            foreach( $_aData as $_sSection => $_aInfo ) {
-
-                // Skipping an empty element allows the user to remove a section by setting an empty section.
-                if ( empty( $_aInfo ) ) { continue; }
-            
-                switch ( $iPrintType ) {
-                    default:
-                    case 1: // use the framework readable representation of arrays.
-                        $_aOutput[] = $this->getReadableArrayContents( $_sSection, $_aInfo, 32 ) . PHP_EOL;
-                        break;
-                    case 2: // use print_r()
-                        $_aOutput[] = "[{$_sSection}]" . PHP_EOL
-                            . print_r( $_aInfo, true ) . PHP_EOL;
-                        break;
-                }
-                
+            foreach( $this->_getFormattedSystemInformation( $asCustomData ) as $_sSection => $_aInfo ) {
+                $_aOutput[] = $this->_getSystemInfoBySection( $_sSection, $_aInfo, $iPrintType );
             }
             return implode( PHP_EOL, $_aOutput );
             
         }
+            /**
+             * Returns the formatted system information array.
+             * @since       3.5.3
+             * @internal
+             * @return      array       the formatted system information array.
+             */
+            private function _getFormattedSystemInformation( $asCustomData ) {
+                
+                $_aData = $this->getAsArray( $asCustomData );
+                $_aData = $_aData + array(
+                    'Admin Page Framework'  => isset( $_aData['Admin Page Framework'] )
+                        ? null
+                        : AdminPageFramework_Registry::getInfo(),
+                    'WordPress'             => isset( $_aData['WordPress'] )
+                        ? null
+                        : $this->_getSiteInfo(),
+                    'PHP'                   => isset( $_aData['PHP'] )
+                        ? null
+                        : $this->_getPHPInfo(),
+                    'PHP Error Log'         => isset( $_aData['PHP Error Log'] )
+                        ? null
+                        : $this->_getPHPErrorLog(),
+                    'MySQL'                 => isset( $_aData['MySQL'] )
+                        ? null
+                        : $this->getMySQLInfo(),
+                    'MySQL Error Log'       => isset( $_aData['MySQL Error Log'] ) 
+                        ? null
+                        : $this->_getMySQLErrorLog(),
+                    'Server'                => isset( $_aData['Server'] )
+                        ? null
+                        : $this->_getWebServerInfo(),
+                    'Browser'               => isset( $_aData['Browser'] )
+                        ? null
+                        : $this->_getClientInfo(),
+
+                );
+                
+                // Dropping empty elements allows the user to remove a section by setting an empty section.
+                return array_filter( $_aData );
+                
+            }        
+            /**
+             * Returns the system information by section.
+             * @since       3.5.3
+             * @return      string      The system information by section.
+             */
+            private function _getSystemInfoBySection( $sSectionName, $aData, $iPrintType ) {
+                switch ( $iPrintType ) {
+                    default:
+                    case 1: // use the framework readable representation of arrays.
+                        return $this->getReadableArrayContents( $sSectionName, $aData, 32 ) . PHP_EOL;
+                    case 2: // use print_r()
+                        return "[{$sSectionName}]" . PHP_EOL
+                            . print_r( $aData, true ) . PHP_EOL;
+                }                      
+            }
             /**
              * Returns a client information
              * 
