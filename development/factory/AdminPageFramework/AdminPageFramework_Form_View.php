@@ -54,7 +54,9 @@ abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Mode
         if ( $aField['page_slug'] != $_sCurrentPageSlug ) { return ''; }
 
         // Retrieve the field error array.
-        $this->aFieldErrors = isset( $this->aFieldErrors ) ? $this->aFieldErrors : $this->_getFieldErrors( $_sCurrentPageSlug ); 
+        $this->aFieldErrors = isset( $this->aFieldErrors ) 
+            ? $this->aFieldErrors 
+            : $this->_getFieldErrors( $_sCurrentPageSlug ); 
 
         // Render the form field.         
         $sFieldType = isset( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] ) && is_callable( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] )

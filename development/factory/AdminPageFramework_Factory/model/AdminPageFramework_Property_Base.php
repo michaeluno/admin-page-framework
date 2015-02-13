@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -11,9 +11,9 @@
  * The base class for Property classes.
  * 
  * Provides the common methods  and properties for the property classes that are used by the main class, the meta box class, and the post type class.
- * @since 2.1.0
- * @package AdminPageFramework
- * @subpackage Property
+ * @since       2.1.0
+ * @package     AdminPageFramework
+ * @subpackage  Property
  * @internal
  */ 
 abstract class AdminPageFramework_Property_Base {
@@ -271,12 +271,19 @@ abstract class AdminPageFramework_Property_Base {
         'hfNameFlat'    => null,    // the flat input name attribute
         'hfClass'       => null,    // the class attribute
     );
+    
+    /**
+     * The utility object.
+     * @since       3.5.3
+     */
+    public $oUtil;
                 
     /**
      * Sets up necessary property values.
      */
     public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
         
+        $this->oUtil            = new AdminPageFramework_WPUtility; // 3.5.3+
         $this->oCaller          = $oCaller;
         $this->sCallerPath      = $sCallerPath ? $sCallerPath : null;
         $this->sClassName       = $sClassName;     
@@ -287,7 +294,7 @@ abstract class AdminPageFramework_Property_Base {
         $GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
             ? $GLOBALS['aAdminPageFramework']
             : array( 'aFieldFlags' => array() );
-        $this->sPageNow         = AdminPageFramework_WPUtility::getPageNow();
+        $this->sPageNow         = $this->oUtil->getPageNow();
         $this->bIsAdmin         = is_admin();
         $this->bIsAdminAjax     = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
         
@@ -367,7 +374,7 @@ abstract class AdminPageFramework_Property_Base {
             return $_aCallerInfo;
         }
         if ( 'plugin' == $_aCallerInfo['sType'] ) {
-            return AdminPageFramework_WPUtility::getScriptData( $_aCallerInfo['sPath'], $_aCallerInfo['sType'] ) + $_aCallerInfo;
+            return $this->oUtil->getScriptData( $_aCallerInfo['sPath'], $_aCallerInfo['sType'] ) + $_aCallerInfo;
         }
         if ( 'theme' == $_aCallerInfo['sType'] ) {
             $_oTheme = wp_get_theme(); // stores the theme info object
@@ -427,7 +434,7 @@ abstract class AdminPageFramework_Property_Base {
      */
     protected function _getLastInput() {
         
-        $_vValue = AdminPageFramework_WPUtility::getTransient( 'apf_tfd' . md5( 'temporary_form_data_' . $this->sClassName . get_current_user_id() ) );
+        $_vValue = $this->oUtil->getTransient( 'apf_tfd' . md5( 'temporary_form_data_' . $this->sClassName . get_current_user_id() ) );
         if ( is_array( $_vValue ) ) {
             return $_vValue;
         }

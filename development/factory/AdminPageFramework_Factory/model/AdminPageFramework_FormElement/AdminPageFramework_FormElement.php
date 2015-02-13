@@ -196,10 +196,12 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
         $aSection['section_id'] = $this->sanitizeSlug( $aSection['section_id'] );
         
         $this->aSections[ $aSection['section_id'] ] = $aSection;    
-        $this->aFields[ $aSection['section_id'] ]   = isset( $this->aFields[ $aSection['section_id'] ] ) 
-            ? $this->aFields[ $aSection['section_id'] ] 
-            : array();
-
+        $this->aFields[ $aSection['section_id'] ]   = $this->getElement(
+            $this->aFields,  // subject array
+            $aSection['section_id'], // key
+            array()      // default
+        );                                
+        
     }
     
     /**
@@ -236,10 +238,12 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             return $this->_sTargetSectionID;
         }
         $_aField = $asField;
-        $this->_sTargetSectionID = isset( $_aField['section_id'] ) 
-            ? $_aField['section_id'] 
-            : $this->_sTargetSectionID;
-        
+        $this->_sTargetSectionID = $this->getElement(
+            $_aField,  // subject array
+            'section_id', // key
+            $this->_sTargetSectionID      // default
+        );                               
+            
         $_aField = $this->uniteArrays( 
             array( '_fields_type' => $this->sFieldsType )
             + $_aField, 
@@ -407,9 +411,11 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                 continue; 
             }
 
-            $_aNewFields[ $_sSectionID ] = isset( $_aNewFields[ $_sSectionID ] ) 
-                ? $_aNewFields[ $_sSectionID ] 
-                : array();
+            $_aNewFields[ $_sSectionID ] = $this->getElement(
+                $_aNewFields,  // subject array
+                $_sSectionID, // key
+                array()      // default
+            );                                                                
             
             // If there are sub-section items.
             $_abSectionRepeatable = $this->aSections[ $_sSectionID ]['repeatable']; // a setting array or boolean or true/false
@@ -419,7 +425,9 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                                             
                     foreach( $_aFields as $_aField ) {
                         
-                        $_iCountElement = isset( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ] ) ? count( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ] ) : 0 ;
+                        $_iCountElement = isset( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ] ) 
+                            ? count( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ] ) 
+                            : 0 ;
                         $_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, $_iSectionIndex, $_abSectionRepeatable, $this->oCaller );
                         if ( ! empty( $_aField ) ) {
                             $_aNewFields[ $_sSectionID ][ $_iSectionIndex ][ $_aField['field_id'] ] = $_aField;     
@@ -494,14 +502,14 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             );
             $_aField['field_id']    = $this->sanitizeSlug( $_aField['field_id'] );
             $_aField['section_id']  = $this->sanitizeSlug( $_aField['section_id'] );     
-            $_aField['tip']         = esc_attr( strip_tags( 
-                isset( $_aField['tip'] ) 
-                    ? $_aField['tip'] 
-                    : ( 
-                        is_array( $_aField['description'] ) 
-                            ? implode( '&#10;', $_aField['description'] ) 
-                            : $_aField['description'] 
-                    ) 
+            $_aField['tip']         = esc_attr( strip_tags(
+                $this->getElement(
+                    $_aField,  // subject array
+                    'tip', // key
+                    is_array( $_aField['description'] )     // default
+                        ? implode( '&#10;', $_aField['description'] ) 
+                        : $_aField['description'] 
+                )
             ) );
             $_aField['order']       = is_numeric( $_aField['order'] ) ? $_aField['order'] : $iCountOfElements + 10;
                         

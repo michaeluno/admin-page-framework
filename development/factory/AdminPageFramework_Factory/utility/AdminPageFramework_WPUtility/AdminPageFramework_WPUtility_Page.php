@@ -21,7 +21,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
     /**
      * Attempts to retrieve the current admin post type
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     static public function getCurrentPostType() {
                  
@@ -69,36 +69,26 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
     /**
      * Checks if the current page is a custom taxonomy of the give post types.
      * 
-     * @since 3.1.3
-     * 
-     * @param array|string The post type slug(s) to check. If this is empty, the method just checks the current page is a taxonomy page.
-     * @return boolean
+     * @since       3.1.3
+     * @param       array|string        The post type slug(s) to check. If this is empty, the method just checks the current page is a taxonomy page.
+     * @return      boolean
      */    
     static public function isCustomTaxonomyPage( $asPostTypes=array() ) {
         
         if ( ! in_array( self::getPageNow(), array( 'tags.php', 'edit-tags.php', ) ) ) {
             return false;
         }
-        
-        $_aPostTypes = self::getAsArray( $asPostTypes );        
-        
-        // If the parameter is empty, 
-        if ( empty( $_aPostTypes ) ) { 
-            return true; 
-        }
-        
-        // If the parameter of the post type is set and it's in the given post types, 
-        return in_array( self::getCurrentPostType(), $_aPostTypes );
+        return self::isCurrentPostTypeIn( $asPostTypes );
 
     }
     
     /**
      * Checks if the current page is a post editing page that belongs to the given post type(s).
      * 
-     * @since 3.0.0
-     * @param array|string The post type slug(s) to check. If this is empty, the method just checks the current page is a post definition page.
+     * @since       3.0.0
+     * @param       array|string        The post type slug(s) to check. If this is empty, the method just checks the current page is a post definition page.
      * Otherwise, it will check if the page belongs to the given post type(s).
-     * @return boolean
+     * @return      boolean
      */
     static public function isPostDefinitionPage( $asPostTypes=array() ) {
         
@@ -106,7 +96,19 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         if ( ! in_array( self::getPageNow(), array( 'post.php', 'post-new.php', ) ) ) { 
             return false;
         }
-
+        return self::isCurrentPostTypeIn( $asPostTypes );
+          
+    }   
+        
+    /**
+     * Checks if the curently loading page's post type is of the given post types.
+     * 
+     * @param       array|string        $asPostTypes        The post type slugs that the current post type belongs to. 
+     * @return      boolean             True if the current post type belongs to the given post types. If an empty value is passed to the first parameter, returns always true.
+     * @since       3.5.3
+     */
+    static public function isCurrentPostTypeIn( $asPostTypes ) {
+        
         $_aPostTypes = self::getAsArray( $asPostTypes );        
         
         // If the parameter is empty, 
@@ -115,9 +117,9 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         }
 
         // If the parameter of the post type is set and it's in the given post types, 
-        return in_array( self::getCurrentPostType(), $_aPostTypes );
+        return in_array( self::getCurrentPostType(), $_aPostTypes );            
         
-    }     
+    }
     
     /**
      * Checks if the current page is in the post listing page of the given page slug(s).
@@ -126,11 +128,15 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
      */
     static public function isPostListingPage( $asPostTypes=array() ) {
                 
-        if ( 'edit.php' != self::getPageNow() ) return false;
+        if ( 'edit.php' != self::getPageNow() ) { 
+            return false;
+        }
         
-        $_aPostTypes = is_array( $asPostTypes ) ? $asPostTypes : empty( $asPostTypes ) ? array() : array( $asPostTypes ) ;
+        $_aPostTypes = self::getAsArray( $asPostTypes );    
         
-        if ( ! isset( $_GET['post_type'] )  ) return in_array( 'post', $_aPostTypes );
+        if ( ! isset( $_GET['post_type'] )  ) { 
+            return in_array( 'post', $_aPostTypes );
+        }
 
         return in_array( $_GET['post_type'], $_aPostTypes );
         

@@ -487,9 +487,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
         private function _getInPageTabs( $sCurrentPageSlug, $sTag='h3' ) {
             
             // If in-page tabs are not set, return an empty string.
-            $_aInPageTabs = isset( $this->oProp->aInPageTabs[ $sCurrentPageSlug ] )
-                ? $this->oProp->aInPageTabs[ $sCurrentPageSlug ]
-                : array();
+            $_aInPageTabs = $this->oUtil->getElement( $this->oProp->aInPageTabs, $sCurrentPageSlug, array() );
             if ( empty( $_aInPageTabs ) ) { 
                 return ''; 
             }

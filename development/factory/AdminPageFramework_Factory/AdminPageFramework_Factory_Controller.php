@@ -578,15 +578,23 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     public function setFieldErrors( $aErrors ) {
         
         // The field-errors array will be stored in this global array element.
-        $GLOBALS['aAdminPageFramework']['aFieldErrors'] = isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ? $GLOBALS['aAdminPageFramework']['aFieldErrors'] : array();
+        $GLOBALS['aAdminPageFramework']['aFieldErrors'] = $this->oUtil->getElement( 
+            $GLOBALS,  // subject array
+            array( 'aAdminPageFramework', 'aFieldErrors' ), // key
+            array()      // default
+        );                    
+
         if ( empty( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ) {
             add_action( 'shutdown', array( $this, '_replyToSaveFieldErrors' ) ); // the method is defined in the controller class.
         }
         
         $_sID = md5( $this->oProp->sClassName );
-        $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] = isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] )
-            ? $this->oUtil->uniteArrays( $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ], $aErrors )
-            : $aErrors;
+        $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] = $this->oUtil->getElement( 
+            $GLOBALS,  // subject array
+            array( 'aAdminPageFramework', 'aFieldErrors', $_sID ), // key
+            $aErrors      // default
+        );                        
+    
     
     }   
     
@@ -623,7 +631,12 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     public function setSettingNotice( $sMessage, $sType='error', $asAttributes=array(), $bOverride=true ) {
         
         // The framework user set notification messages will be stored in this global array element.
-        $GLOBALS['aAdminPageFramework']['aNotices'] = isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ? $GLOBALS['aAdminPageFramework']['aNotices'] : array();
+        $GLOBALS['aAdminPageFramework']['aNotices'] = $this->oUtil->getElement( 
+            $GLOBALS,  // subject array
+            array( 'aAdminPageFramework', 'aNotices' ), // key
+            array()      // default
+        );                                
+        
         
         // If the array is empty, save the array at shutdown.
         if ( empty( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) {

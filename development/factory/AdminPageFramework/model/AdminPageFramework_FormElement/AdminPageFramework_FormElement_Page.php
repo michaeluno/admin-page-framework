@@ -206,9 +206,11 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
         if ( ! $_aField ) { return; }
         $_aField['option_key']      = $this->sOptionKey;
         $_aField['class_name']      = $this->sClassName;
-        $_aField['page_slug']       = isset( $this->aSections[ $_aField['section_id'] ]['page_slug'] ) ? $this->aSections[ $_aField['section_id'] ]['page_slug'] : null;
-        $_aField['tab_slug']        = isset( $this->aSections[ $_aField['section_id'] ]['tab_slug'] ) ? $this->aSections[ $_aField['section_id'] ]['tab_slug'] : null;
-        $_aField['section_title']   = isset( $this->aSections[ $_aField['section_id'] ]['title'] ) ? $this->aSections[ $_aField['section_id'] ]['title'] : null; // used for the contextual help pane.
+        $_aField['page_slug']       = $this->getElement( $this->aSections, array( $_aField['section_id'], 'page_slug' ), null );
+        $_aField['tab_slug']        = $this->getElement( $this->aSections, array( $_aField['section_id'], 'tab_slug' ), null );
+        
+        // used for the contextual help pane.
+        $_aField['section_title']   = $this->getElement( $this->aSections, array( $_aField['section_id'], 'title' ), null );
         return $_aField;
         
     }
@@ -284,7 +286,9 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
         foreach( $this->aFields as $_sSectionID => $_aFields ) {
             
             // Check the section
-            if ( isset( $this->aSections[ $_sSectionID ]['page_slug'] ) && $this->aSections[ $_sSectionID ]['page_slug'] != $sPageSlug ) continue;
+            if ( isset( $this->aSections[ $_sSectionID ]['page_slug'] ) && $this->aSections[ $_sSectionID ]['page_slug'] != $sPageSlug ) {
+                continue;
+            }
 
             // At this point, the element belongs the given page slug as the section is of the given page slug's.
             foreach( $_aFields as $_sFieldID => $_aField ) {

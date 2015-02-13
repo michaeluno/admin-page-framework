@@ -54,12 +54,25 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * It just saves an isset() conditional check and allows a default value to be set.
      * 
      * @since       3.4.0
+     * @since       3.5.3       The second parameter accepts an array representing dimensional keys.
      * @return      mixed       The set value or the default value.
+     * @param       array       $aSubject       The subject array to parse.
+     * @param       mixsd       $aisKey         The key to check. If an array is passed, it checks dimensional keys. 
+     * @param       mixed       $mDefault       The default value to return when the key is not set.
      */
-    static public function getElement( $aSubject, $isKey, $vDefault=null ) {
-        return isset( $aSubject[ $isKey ] )
-            ? $aSubject[ $isKey ]
-            : $vDefault;
+    static public function getElement( $aSubject, $aisKey, $mDefault=null ) {
+        
+        return self::getArrayValueByArrayKeys( 
+            $aSubject, 
+            self::getAsArray( $aisKey, true ),
+            $mDefault
+        );
+        
+        // 3.5.3+ @deprecated 
+        // return isset( $aSubject[ $isKey ] )
+            // ? $aSubject[ $isKey ]
+            // : $mDefault;
+            
     }
     
     /**
@@ -104,7 +117,11 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         
         $aMod = array();
         foreach( $aModel as $sKey => $_v ) {
-            $aMod[ $sKey ] = isset( $aSubject[ $sKey ] ) ? $aSubject[ $sKey ] : null;
+            $aMod[ $sKey ] = self::getElement(
+                $aSubject,  // subject array
+                $sKey,      // key
+                null        // default
+            );                 
         }
         return $aMod;
         
@@ -215,7 +232,8 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     /**
      * Removes non-numeric keys from the array 
      * 
-     * @since 3.0.0
+     * @since       3.0.0
+     * @todo        Examine the differences from `array_filter( $aSubject, 'is_int' );`
      */
     static public function getIntegerElements( $aParse ) {
         

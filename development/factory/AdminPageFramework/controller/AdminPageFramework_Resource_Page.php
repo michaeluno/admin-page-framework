@@ -47,9 +47,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
             ? $_sPageSlug
             : '';
         $_sTabSlug  = $this->oProp->getCurrentTabSlug( $_sPageSlug ); 
-        $_sTabSlug  = isset( $this->oProp->aInPageTabs[ $_sPageSlug ][ $_sTabSlug ] )
-            ? $_sTabSlug
-            : '';
+        $_sTabSlug  = $this->oUtil->getElement( $this->oProp->aInPageTabs, array( $_sPageSlug, $_sTabSlug ), '' );
         
         // tab 
         if ( $_sPageSlug && $_sTabSlug ) {

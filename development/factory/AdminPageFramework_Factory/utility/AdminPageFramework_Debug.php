@@ -87,8 +87,16 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
         static $_fPreviousTimeStamp = 0;
         
         $_oCallerInfo       = debug_backtrace();
-        $_sCallerFunction   = isset( $_oCallerInfo[ 1 ]['function'] ) ? $_oCallerInfo[ 1 ]['function'] : '';
-        $_sCallerClass      = isset( $_oCallerInfo[ 1 ]['class'] ) ? $_oCallerInfo[ 1 ]['class'] : '';
+        $_sCallerFunction   = self::getElement(
+            $_oCallerInfo,  // subject array
+            array( 1, 'function' ), // key
+            ''      // default
+        );                        
+        $_sCallerClass      = self::getElement(
+            $_oCallerInfo,  // subject array
+            array( 1, 'class' ), // key
+            ''      // default
+        );           
         $_fCurrentTimeStamp = microtime( true );
         
         file_put_contents( 
@@ -169,8 +177,12 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
             static $_iPageLoadID; // identifies the page load.
             static $_nGMTOffset;
             
-            $_nGMTOffset        = isset( $_nGMTOffset ) ? $_nGMTOffset : get_option( 'gmt_offset' );
-            $_iPageLoadID       = $_iPageLoadID ? $_iPageLoadID : uniqid();
+            $_nGMTOffset        = isset( $_nGMTOffset ) 
+                ? $_nGMTOffset 
+                : get_option( 'gmt_offset' );
+            $_iPageLoadID       = $_iPageLoadID 
+                ? $_iPageLoadID 
+                : uniqid();
             $_nNow              = $fCurrentTimeStamp + ( $_nGMTOffset * 60 * 60 );
             $_nMicroseconds     = str_pad( round( ( $_nNow - floor( $_nNow ) ) * 10000 ), 4, '0' );
             
@@ -195,16 +207,20 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
             static private function _getFormattedElapsedTime( $nElapsed ) {
                 
                 $_aElapsedParts     = explode( ".", ( string ) $nElapsed );
-                $_sElapsedFloat     = str_pad( 
-                    isset( $_aElapsedParts[ 1 ] ) 
-                    ? $_aElapsedParts[ 1 ] 
-                    : 0, 
+                $_sElapsedFloat     = str_pad(
+                    self::getElement(
+                        $_aElapsedParts,  // subject array
+                        1, // key
+                        0      // default
+                    ),      
                     3, 
                     '0'
                 );
-                $_sElapsed          = isset( $_aElapsedParts[ 0 ] ) 
-                    ? $_aElapsedParts[ 0 ] 
-                    : 0;
+                $_sElapsed          = self::getElement(
+                    $_aElapsedParts,  // subject array
+                    0,  // key
+                    0   // default
+                );                                   
                 $_sElapsed          = strlen( $_sElapsed ) > 1 
                     ? '+' . substr( $_sElapsed, -1, 2 ) 
                     : ' ' . $_sElapsed;
@@ -229,13 +245,13 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
      */
     static public function getAsString( $mValue ) {
         
-        $mValue                 = is_object( $mValue )
+        $mValue = is_object( $mValue )
             ? ( method_exists( $mValue, '__toString' ) 
                 ? ( string ) $mValue          // cast string
                 : ( array ) $mValue           // cast array
             )
             : $mValue;
-        $mValue                 = is_array( $mValue )
+        $mValue = is_array( $mValue )
             ? self::getSliceByDepth( $mValue, 5 )
             : $mValue;
             

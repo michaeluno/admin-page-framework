@@ -323,7 +323,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      */
     protected function _getOptions() {
     
-        $_aOptions = AdminPageFramework_WPUtility::addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+        $_aOptions = $this->oUtil->addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
             $this->oCaller, // 3.4.1+ changed from $GLOBALS['aAdminPageFramework']['aPageClasses'][ $this->sClassName ], // the caller object
             'options_' . $this->sClassName, // options_{instantiated class name}
             $this->sOptionKey ? get_option( $this->sOptionKey, array() ) : array()
@@ -334,7 +334,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 // However, in getSavedOptions, also the last input array is merged when the 'confirmation' query key is set,
 // that should be done here.
         $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] ? $this->_getLastInput() : array();
-        $_aOptions   = $_aLastInput + AdminPageFramework_WPUtility::getAsArray( $_aOptions );
+        $_aOptions   = $_aLastInput + $this->oUtil->getAsArray( $_aOptions );
         return $_aOptions;
     }
         
@@ -405,9 +405,11 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * @remark      Do not return `null` when not found as some framework methods check the retuened value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an emtpy string ('').
      */
     public function getCurrentPageSlug() {
-        return isset( $_GET['page'] ) 
-            ? $_GET['page'] 
-            : '';
+        return $this->oUtil->getElement( 
+            $_GET,  // subject array
+            'page', // key
+            ''      // default
+        );            
     }
 
     /**
@@ -458,10 +460,12 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
         if ( ! $sPageSlug ) { 
             return ''; 
         }
-        return isset( $this->aDefaultInPageTabs[ $sPageSlug ] ) 
-            ? $this->aDefaultInPageTabs[ $sPageSlug ]
-            : '';
-
+        return $this->oUtil->getElement( 
+            $this->aDefaultInPageTabs,  // subject array
+            $sPageSlug, // key
+            ''    // default
+        );
+        
     }    
         
     /**
@@ -501,29 +505,35 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
         private function _getDefautValue( $aField ) {
             
             // Check if sub-fields exist whose keys are numeric
-            $_aSubFields = AdminPageFramework_Utility::getIntegerElements( $aField );
-            
+            $_aSubFields = $this->oUtil->getIntegerElements( $aField );
+
             // If there are no sub-fields     
             if ( count( $_aSubFields ) == 0 ) {
-                $_aField = $aField;
-                return isset( $_aField['value'] )
-                    ? $_aField['value']
-                    : ( isset( $_aField['default'] )
-                        ? $_aField['default']
-                        : null
-                    );
+                return $this->oUtil->getElement(
+                    $aField,   // subject
+                    'value',    // key
+                    $this->oUtil->getElement(   // default value
+                        $aField,   // subject  
+                        'default',  // key
+                        null        // default value
+                    )
+                );
             }
             
             // Otherwise, there are sub-fields
             $_aDefault = array();
             array_unshift( $_aSubFields, $aField ); // insert the main field into the very first index.
-            foreach( $_aSubFields as $_iIndex => $_aField ) 
-                $_aDefault[ $_iIndex ] = isset( $_aField['value'] )
-                    ? $_aField['value']
-                    : ( isset( $_aField['default'] )
-                        ? $_aField['default']
-                        : null
-                    );
+            foreach( $_aSubFields as $_iIndex => $_aField ) {
+                $_aDefault[ $_iIndex ] = $this->oUtil->getElement( 
+                    $_aField,   // subject
+                    'value',    // key
+                    $this->oUtil->getElement(   // default value
+                        $_aField,   // subject  
+                        'default',  // key
+                        null        // default value
+                    )
+                ); 
+            }
             return $_aDefault;
             
         }

@@ -638,9 +638,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                             $aData['aInput'][ $_sID ][ $_sFieldID ] = $this->_getValidatedData(
                                 "validation_{$this->oProp->sClassName}_{$_sID}_{$_sFieldID}", 
                                 $aData['aInput'][ $_sID ][ $_sFieldID ], 
-                                isset( $aData['aStoredData'][ $_sID ][ $_sFieldID ] ) 
-                                    ? $aData['aStoredData'][ $_sID ][ $_sFieldID ] 
-                                    : null,
+                                $this->oUtil->getElement( $aData, array( 'aStoredData', $_sID, $_sFieldID ), null ),    // isset( $aData['aStoredData'][ $_sID ][ $_sFieldID ] ) ? $aData['aStoredData'][ $_sID ][ $_sFieldID ] : null,
                                 $aData['aSubmitInformation']    // 3.5.0+
                             );
                         }
@@ -661,9 +659,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                         $aData['aInput'][ $_sID ] = $this->_getValidatedData(
                             "validation_{$this->oProp->sClassName}_{$_sID}", 
                             $_aSectionInput,
-                            isset( $aData['aStoredData'][ $_sID ] ) 
-                                ? $aData['aStoredData'][ $_sID ] 
-                                : null,
+                            $this->oUtil->getElement( $aData, array( 'aStoredData', $_sID ), null ),    // isset( $aData['aStoredData'][ $_sID ] ) ? $aData['aStoredData'][ $_sID ] : null,
                             $aData['aSubmitInformation']
                         );     
                         
@@ -680,9 +676,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                     $aData['aInput'][ $_sID ] = $this->_getValidatedData(
                         "validation_{$this->oProp->sClassName}_{$_sID}",
                         $aData['aInput'][ $_sID ],
-                        isset( $aData['aStoredData'][ $_sID ] ) 
-                            ? $aData['aStoredData'][ $_sID ] 
-                            : null,
+                        $this->oUtil->getElement( $aData, array( 'aStoredData', $_sID ), null ),    // isset( $aData['aStoredData'][ $_sID ] ) ? $aData['aStoredData'][ $_sID ] : null,
                         $aData['aSubmitInformation']
                     );
                     

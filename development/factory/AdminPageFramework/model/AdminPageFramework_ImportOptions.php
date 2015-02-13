@@ -57,13 +57,14 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
         
     }
     
-    private function getElementInFilesArray( $aFilesImport, $sInputID, $sElementKey='error' ) {
+    private function getElementInFilesArray( array $aFilesImport, $sInputID, $sElementKey='error' ) {
 
         $sElementKey = strtolower( $sElementKey );
-        
-        return isset( $aFilesImport[ $sElementKey ][ $sInputID ] )
-            ? $aFilesImport[ $sElementKey ][ $sInputID ]
-            : null;
+        return $this->getElement( 
+            $aFilesImport,  // subject array
+            array( $sElementKey, $sInputID ), // dimensional keys
+            null    // default
+        );
         
     }    
         

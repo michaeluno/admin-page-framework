@@ -49,9 +49,11 @@ abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_
      */ 
     protected function getSubmitValueByType( $aElement, $sInputID, $sElementKey='format' ) {
             
-        return ( isset( $aElement[ $sInputID ][ $sElementKey ] ) )
-            ? $aElement[ $sInputID ][ $sElementKey ]
-            : null;
+        return $this->getElement( 
+            $aElement,  // subject array
+            array( $sInputID, $sElementKey ), // dimensional keys
+            null    // default
+        );
         
     }     
     
