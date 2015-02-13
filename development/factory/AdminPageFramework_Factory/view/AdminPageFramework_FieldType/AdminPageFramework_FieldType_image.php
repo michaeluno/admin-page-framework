@@ -3,19 +3,21 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
 /**
  * Defines the image field type.
  * 
- * @package AdminPageFramework
- * @subpackage FieldType
- * @since 2.1.5
+ * @package     AdminPageFramework
+ * @subpackage  FieldType
+ * @since       2.1.5
+ * @since       3.5.3       Changed it to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  * @internal
+ * @extends     AdminPageFramework_FieldType
  */
-class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Base {
+class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
     
     /**
      * Defines the field type slugs used for this field type.
@@ -47,14 +49,14 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType_Ba
     /**
      * Loads the field type necessary components.
      */ 
-    public function _replyToFieldLoader() {     
+    protected function setUp() {
         $this->enqueueMediaUploader();
     }    
     
     /**
      * Returns the field type specific JavaScript script.
      */ 
-    public function _replyToGetScripts() {     
+    protected function getScripts() {
         return // $this->_getScript_CustomMediaUploaderObject() . PHP_EOL    
             $this->_getScript_ImageSelector( 
                 "admin_page_framework"
@@ -511,7 +513,7 @@ JAVASCRIPTS;
     /**
      * Returns the field type specific CSS rules.
      */ 
-    public function _replyToGetStyles() {
+    protected function getStyles() { 
         return <<<CSSRULES
 /* Image Field Preview Container */
 .admin-page-framework-field .image_preview {
@@ -587,10 +589,10 @@ CSSRULES;
      * 
      * @since   2.1.5
      * @since   3.0.0   Reconstructed entirely.
+     * @since   3.5.3   Changed the name from `_replyToGetField()`.
      */
-    public function _replyToGetField( $aField ) {
+    protected function getField( $aField ) {
         
-        /* Local variables */
         $_aOutput = array();
         $_iCountAttributes = count( ( array ) $aField['attributes_to_store'] ); // If the saving extra attributes are not specified, the input field will be single only for the URL. 
         $_sCaptureAttribute = $_iCountAttributes ? 'url' : '';
@@ -598,7 +600,7 @@ CSSRULES;
                 ? ( isset( $aField['attributes']['value'][ $_sCaptureAttribute ] ) ? $aField['attributes']['value'][ $_sCaptureAttribute ] : "" )
                 : $aField['attributes']['value'];
         
-        /* Set up the attribute arrays */
+        // Set up the attribute arrays 
         $_aBaseAttributes = $aField['attributes'] + array( 'class' => null );
         unset( $_aBaseAttributes['input'], $_aBaseAttributes['button'], $_aBaseAttributes['preview'], $_aBaseAttributes['name'], $_aBaseAttributes['value'], $_aBaseAttributes['type'], $_aBaseAttributes['remove_button'] );
         $_aInputAttributes = array(
@@ -611,7 +613,7 @@ CSSRULES;
         $_aRemoveButtonAtributes    = $aField['attributes']['remove_button'] + $_aBaseAttributes;
         $_aPreviewAtrributes        = $aField['attributes']['preview'] + $_aBaseAttributes;
 
-        /* Construct the field output */
+        // Construct the field output 
         $_aOutput[] =
             $aField['before_label']
             . "<div class='admin-page-framework-input-label-container admin-page-framework-input-container {$aField['type']}-field'>" // image-field ( this will be media-field for the media field type )
@@ -638,22 +640,30 @@ CSSRULES;
     }
         /**
          * Returns extra input fields to set capturing attributes.
+         * 
+         * This adds input fields for saving extra attributes. 
+         * It overrides the name attribute of the default text field for URL and saves them as an array.
+         * 
          * @since 3.0.0
          */
         protected function getExtraInputFields( &$aField ) {
             
-            // Add the input fields for saving extra attributes. It overrides the name attribute of the default text field for URL and saves them as an array.
             $_aOutputs = array();
-            foreach( ( array ) $aField['attributes_to_store'] as $sAttribute )
+            foreach( ( array ) $aField['attributes_to_store'] as $sAttribute ) {
                 $_aOutputs[] = "<input " . $this->generateAttributes( 
-                        array(
-                            'id'        => "{$aField['input_id']}_{$sAttribute}",
-                            'type'      => 'hidden',
-                            'name'      => "{$aField['_input_name']}[{$sAttribute}]",
-                            'disabled'  => isset( $aField['attributes']['disabled'] ) && $aField['attributes']['disabled'] ? 'disabled' : null,
-                            'value'     => isset( $aField['attributes']['value'][ $sAttribute ] ) ? $aField['attributes']['value'][ $sAttribute ] : '',
-                        )
-                    ) . "/>";
+                    array(
+                        'id'        => "{$aField['input_id']}_{$sAttribute}",
+                        'type'      => 'hidden',
+                        'name'      => "{$aField['_input_name']}[{$sAttribute}]",
+                        'disabled'  => isset( $aField['attributes']['disabled'] ) && $aField['attributes']['disabled'] 
+                            ? 'disabled' 
+                            : null,
+                        'value'     => isset( $aField['attributes']['value'][ $sAttribute ] ) 
+                            ? $aField['attributes']['value'][ $sAttribute ] 
+                            : '',
+                    )
+                ) . "/>";
+            }
             return implode( PHP_EOL, $_aOutputs );
             
         }
