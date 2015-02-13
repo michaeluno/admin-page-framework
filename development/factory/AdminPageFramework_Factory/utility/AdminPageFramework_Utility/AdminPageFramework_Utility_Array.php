@@ -55,10 +55,10 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * 
      * @since       3.4.0
      * @since       3.5.3       The second parameter accepts an array representing dimensional keys.
-     * @return      mixed       The set value or the default value.
      * @param       array       $aSubject       The subject array to parse.
-     * @param       mixsd       $aisKey         The key to check. If an array is passed, it checks dimensional keys. 
+     * @param       string|array|integer        $aisKey         The key to check. If an array is passed, it checks dimensional keys. 
      * @param       mixed       $mDefault       The default value to return when the key is not set.
+     * @return      mixed       The set value or the default value.
      */
     static public function getElement( $aSubject, $aisKey, $mDefault=null ) {
         
