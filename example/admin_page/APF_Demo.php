@@ -15,7 +15,7 @@ class APF_Demo extends AdminPageFramework {
      * ( Required ) In the setUp() method, you will define admin pages.
      */
     public function setUp() { // this method automatically gets triggered with the wp_loaded hook. 
-
+AdminPageFramework_Debug::log( AdminPageFramework_Debug::getQueryValueInURLByKey( admin_url(), 'test' ) );
         /* ( optional ) this can be set via the constructor. For available values, see https://codex.wordpress.org/Roles_and_Capabilities */
         $this->setCapability( 'read' );
         
