@@ -8,6 +8,7 @@ filter:
         - 'tool/*'
         - 'test/*'
         - 'development/utility/AdminPageFramework_WPReadmeParser/AdminPageFramework_Parsedown/AdminPageFramework_Parsedown.php'
+        - '*/library/*'
 
 coding_style:
     php:
