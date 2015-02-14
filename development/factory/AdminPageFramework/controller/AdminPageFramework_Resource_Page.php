@@ -38,16 +38,10 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
             return;
         }        
         $_bLoaded   = true;
-        
+     
         $_oCaller   = $this->oProp->_getCallerObject();     
-        
-        // Check if it is an added page and tab.
-        $_sPageSlug = $this->oProp->getCurrentPageSlug();
-        $_sPageSlug = $this->oProp->isPageAdded( $_sPageSlug )
-            ? $_sPageSlug
-            : '';
-        $_sTabSlug  = $this->oProp->getCurrentTabSlug( $_sPageSlug ); 
-        $_sTabSlug  = $this->oUtil->getElement( $this->oProp->aInPageTabs, array( $_sPageSlug, $_sTabSlug ), '' );
+        $_sPageSlug = $this->_getCurrentPageSlugForFilter();
+        $_sTabSlug  = $this->_getCurrentTabSlugForFilter( $_sPageSlug );
         
         // tab 
         if ( $_sPageSlug && $_sTabSlug ) {
@@ -71,7 +65,35 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         parent::_printClassSpecificStyles( $sIDPrefix );
         
     }
-    
+        /**
+         * Returns the currently loaded page slug to apply resource filters.
+         * 
+         * If the page has not been added, an empty value will be returned.
+         * 
+         * @since       3.5.3
+         * @return      string      The page slug if the page has been added.
+         */
+        private function _getCurrentPageSlugForFilter() {
+            $_sPageSlug = $this->oProp->getCurrentPageSlug();
+            return $this->oProp->isPageAdded( $_sPageSlug )
+                ? $_sPageSlug
+                : '';            
+        }
+        /**
+         * Returns the currently loaded tab slug to apply resource filters.
+         * 
+         * If the tab has not been added, an empty value will be returned.
+         * 
+         * @since       3.5.3
+         * @return      string      The tab slug if the tab has been added.
+         */
+        private function _getCurrentTabSlugForFilter( $sPageSlug ) {
+            $_sTabSlug  = $this->oProp->getCurrentTabSlug( $sPageSlug ); 
+            return isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $_sTabSlug ] )
+                ? $_sTabSlug
+                : '';          
+        }
+        
     /**
      * Applies page and tab specific filters to inline JaveScript scirpts.
      * 
@@ -89,8 +111,8 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         $_bLoaded   = true;
        
         $_oCaller   = $this->oProp->_getCallerObject();     
-        $_sPageSlug = $this->oProp->getCurrentPageSlug();
-        $_sTabSlug  = $this->oProp->getCurrentTabSlug( $_sPageSlug );
+        $_sPageSlug = $this->_getCurrentPageSlugForFilter();
+        $_sTabSlug  = $this->_getCurrentTabSlugForFilter( $_sPageSlug );
         
         // tab 
         if ( $_sPageSlug && $_sTabSlug ) {
