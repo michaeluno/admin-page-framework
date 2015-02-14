@@ -41,7 +41,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
             self::getAsArray( $aisKey, true ),
             $mDefault
         );
-        return in_array( $_mValue, $_aToDefault )
+        return in_array( $_mValue, $_aToDefault, true /* important! type-sensitive */ ) 
             ? $mDefault
             : $_mValue;
                     
