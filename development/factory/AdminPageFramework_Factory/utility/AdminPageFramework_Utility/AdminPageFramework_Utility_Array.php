@@ -17,93 +17,36 @@
  * @internal
  */
 abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {
-    
-    /**
-     * Retrieves a corresponding array value from the given array.
-     * 
-     * When there are multiple arrays and they have similar index structures but it's not certain if one has the key and the others,
-     * use this method to retrieve the corresponding key value. 
-     * 
-     * @remark      This is mainly used by the field array to insert user-defined key values.
-     * @return      string|array    If the key does not exist in the passed array, it will return the default. If the subject value is not an array, it will return the subject value itself.
-     * @since       2.0.0
-     * @since       2.1.3           Added the $bBlankToDefault parameter that sets the default value if the subject value is empty.
-     * @since       2.1.5           Changed the scope to public static from protected as converting all the utility methods to all public static.
-     */
-    public static function getCorrespondingArrayValue( $vSubject, $sKey, $sDefault='', $bBlankToDefault=false ) {    
-                
-        // If $vSubject is null,
-        if ( ! isset( $vSubject ) ) { return $sDefault; }
-            
-        // If the $bBlankToDefault flag is set and the subject value is a blank string, return the default value.
-        if ( $bBlankToDefault && $vSubject == '' ) { return  $sDefault; }
-            
-        // If $vSubject is not an array, 
-        if ( ! is_array( $vSubject ) ) { return ( string ) $vSubject; } // consider it as string.
         
-        // Consider $vSubject as array.
-        if ( isset( $vSubject[ $sKey ] ) ) { return $vSubject[ $sKey ]; }
-        
-        return $sDefault;
-        
-    }
-    
     /**
      * Returns the element value by the given key. 
      * 
-     * It just saves an isset() conditional check and allows a default value to be set.
+     * It just saves isset() conditional checks and allows a default value to be set.
      * 
      * @since       3.4.0
-     * @since       3.5.3       The second parameter accepts an array representing dimensional keys.
-     * @param       array       $aSubject       The subject array to parse.
+     * @since       3.5.3       The second parameter accepts an array representing dimensional keys. Added the fourth parameter to set values that the default value will be applied to.
+     * @param       array                       $aSubject       The subject array to parse.
      * @param       string|array|integer        $aisKey         The key to check. If an array is passed, it checks dimensional keys. 
-     * @param       mixed       $mDefault       The default value to return when the key is not set.
+     * @param       mixed                       $mDefault       The default value to return when the key is not set.
+     * @param       string|array                $asToDefault    When the returning value matches oen of the set values here, the value(s) will be discarded and the default value will be applied.
      * @return      mixed       The set value or the default value.
      */
-    static public function getElement( $aSubject, $aisKey, $mDefault=null ) {
+    static public function getElement( $aSubject, $aisKey, $mDefault=null, $asToDefault=array( null ) ) {
         
-        return self::getArrayValueByArrayKeys( 
+        $_aToDefault = is_null( $asToDefault )
+            ? array( null )
+            : self::getAsArray( $asToDefault, true );
+        $_mValue     = self::getArrayValueByArrayKeys( 
             $aSubject, 
             self::getAsArray( $aisKey, true ),
             $mDefault
         );
-        
-        // 3.5.3+ @deprecated 
-        // return isset( $aSubject[ $isKey ] )
-            // ? $aSubject[ $isKey ]
-            // : $mDefault;
+        return in_array( $_mValue, $_aToDefault )
+            ? $mDefault
+            : $_mValue;
+                    
+    }
             
-    }
-    
-    /**
-     * Returns the element value by the given key as an array.
-     * 
-     * When the retrieving element value is unknown whether it is set and it is an array, use this method 
-     * to save the line of isset() and is_array().
-     * 
-     * @since       3.4.0
-     */
-    static public function getElementAsArray( $aSubject, $isKey, $vDefault=null ) {
-        return self::getAsArray( 
-            self::getElement( $aSubject, $isKey, $vDefault ),
-            true       // preserve an empty value
-        );
-    }
-    
-    /**
-     * Finds the dimension depth of the given array.
-     * 
-     * @since       2.0.0
-     * @remark      There is a limitation that this only checks the first element so if the second or other elements have deeper dimensions, it will not be caught.
-     * @param       array       $array     the subject array to check.
-     * @return      integer     returns the number of dimensions of the array.
-     */
-    public static function getArrayDimension( $array ) {
-        return ( is_array( reset( $array ) ) ) 
-            ? self::getArrayDimension( reset( $array ) ) + 1 
-            : 1;
-    }
-    
     /**
      * Casts array contents into another while keeping the same key structure.
      * 
@@ -140,7 +83,9 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         
         $_aMod = array();
         foreach( $sModel as $_sKey => $_v ) {
-            if ( array_key_exists( $_sKey, $aSubject ) ) { continue; }
+            if ( array_key_exists( $_sKey, $aSubject ) ) { 
+                continue; 
+            }
             $_aMod[ $_sKey ] = $_v;
         }
         return $_aMod;
@@ -160,9 +105,8 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      */
     public static function uniteArrays( /* $aPrecedence, $aDefault1 */ ) {
                 
-        $_aArgs  = array_reverse( func_get_args() );
         $_aArray = array();
-        foreach( $_aArgs as $_aArg ) {
+        foreach( array_reverse( func_get_args() ) as $_aArg ) {
             $_aArray = self::uniteArraysRecursive( $_aArg, $_aArray );
         }
         return $_aArray;
@@ -214,6 +158,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * Determines whether the element is the last element of an array by the given key.
      * 
      * @since       3.0.0
+     * @return      boolean
      */
     static public function isLastElement( array $aArray, $sKey ) {
         end( $aArray );
@@ -223,6 +168,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * Determines whether element is the first element of an array by the given key.
      * 
      * @since       3.4.0
+     * @return      boolean
      */
     static public function isFirstElement( array $aArray, $sKey ) {
         reset( $aArray );
@@ -234,6 +180,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * 
      * @since       3.0.0
      * @todo        Examine the differences from `array_filter( $aSubject, 'is_int' );`
+     * @return      array
      */
     static public function getIntegerElements( $aParse ) {
         
@@ -259,6 +206,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * Removes integer keys from the array.
      * 
      * @since       3.0.0
+     * @return      array
      */
     static public function getNonIntegerElements( array $aParse ) {
         
@@ -274,7 +222,8 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     /**
      * Re-composes the given array by numerizing the keys. 
      * 
-     * @since 3.0.0
+     * @since       3.0.0
+     * @return      array
      */
     static public function numerizeElements( $aSubject ) {
         
@@ -319,21 +268,13 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         return $_aNumeric;
         
     }
-    
-    /**
-     * Check if the given array is an associative array.
-     * 
-     * @since 3.0.0
-     * @remark Not yet used.
-     */
-    static public function isAssociativeArray( array $aArray ) {
-        return ( bool ) count( array_filter( array_keys( $aArray ), 'is_string' ) );
-    }    
-    
+        
     /**
      * Shift array elements until it gets an element that yields true and re-index with numeric keys.
      * 
-     * @since 3.0.1
+     * @since       3.0.1
+     * @todo        Examine whether simply useing `array_filter( $aArray )` solves the problem that used this method. If it does, deprecate this method.
+     * @return      array
      */
     static public function shiftTillTrue( array $aArray ) {
         
@@ -370,19 +311,23 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * 
      * 
      * @since       3.0.1
+     * @return      mixed
      */
     static public function getArrayValueByArrayKeys( $aArray, $aKeys, $vDefault=null ) {
         
-        $sKey = array_shift( $aKeys );
-        if ( isset( $aArray[ $sKey ] ) ) {
+        $_sKey = array_shift( $aKeys );
+ 
+        if ( array_key_exists( $_sKey, $aArray ) ) {
             
             if ( empty( $aKeys ) ) { // no more keys 
-                return $aArray[ $sKey ];
+                return $aArray[ $_sKey ];
             }
             
-            if ( is_array( $aArray[ $sKey ] ) ) {
-                return self::getArrayValueByArrayKeys( $aArray[ $sKey ], $aKeys, $vDefault );
+            if ( is_array( $aArray[ $_sKey ] ) ) {
+                return self::getArrayValueByArrayKeys( $aArray[ $_sKey ], $aKeys, $vDefault );
             }
+            
+            return $aArray[ $_sKey ];   // 3.5.3+ Fixes an issue that setting a non existent key resulted in null.
             
         }
         return $vDefault;
@@ -390,13 +335,14 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }    
     
     /**
-     * Casts array but does not create an empty element with the zero key when false is given.
+     * Casts array but does not create an empty element with the zero key when non-true value is given.
      * 
+     * @remark      If `null` is passed an empty array `array()` will be returned.
      * @since       3.0.1
      * @since       3.5.3       Added the `$bPreserveEmpty` parameter.
-     * 
-     * @param       mixed       $mValue        
-     * @param       boolean     bPreserveEmpty      If fasle is given, `null`, `false`, empty sttring ( `''` ), `0` will not create an element.
+     * @param       mixed       $mValue             The subject value.
+     * @param       boolean     bPreserveEmpty      If fasle is given, `false`, empty sttring ( `''` ), `0` will not create an element.
+     * @return      array       The cast array.
      */
     static public function getAsArray( $mValue, $bPreserveEmpty=false ) {
         
@@ -417,10 +363,11 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }
     
     /**
-     * Returns the readable list of the given array contents.
+     * Returns a readable list of the given array contents.
      * 
-     * @remark      If the second dimension element is an array it will be enclosed in parenthesis.
+     * @remark      If the second dimension element is an array, it will be enclosed in parenthesis.
      * @since       3.3.0
+     * @return      string      A readable list generated from the given array.
      */
     static public function getReadableListOfArray( array $aArray ) {
         
@@ -432,9 +379,10 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         
     }
     /**
-     * Returns the readable array contents.
+     * Generates readable array contents.
      * 
-     * @since   3.3.0
+     * @since       3.3.0
+     * @return      string      The generated human readable array contents.
      */
     static public function getReadableArrayContents( $sKey, $vValue, $sLabelCharLengths=16, $iOffset=0 ) {
         
@@ -469,6 +417,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * Returns the readable list of the given array contents as HTML.
      * 
      * @since       3.3.0
+     * @return      string      The HTML list generated from the given array.
      */
     static public function getReadableListOfArrayAsHTML( array $aArray ) {
 
@@ -476,43 +425,44 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         foreach( $aArray as $_sKey => $_vValue ) {        
             $_aOutput[] = "<ul class='array-contents'>" 
                     .  self::getReadableArrayContentsHTML( $_sKey, $_vValue )
-                . "</ul>". PHP_EOL;
+                . "</ul>" . PHP_EOL;
         }
         return implode( PHP_EOL, $_aOutput );    
         
     } 
-    /**
-     * Returns the readable array contents.
-     * 
-     * @since   3.3.0
-     */    
-    static public function getReadableArrayContentsHTML( $sKey, $vValue ) {
-        
-        // Output container.
-        $_aOutput   = array();
-        
-        // Title - array key
-        $_aOutput[] = $sKey 
-            ? "<h3 class='array-key'>" . $sKey . "</h3>"
-            : "";
+        /**
+         * Returns the readable array contents.
+         * 
+         * @since       3.3.0
+         * @return      string      The HTML output generated from the given array.
+         */    
+        static public function getReadableArrayContentsHTML( $sKey, $vValue ) {
             
-        // If it does not have a nested array or object, 
-        if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) {
-            $_aOutput[] = "<div class='array-value'>" 
-                    . html_entity_decode( nl2br( str_replace( ' ', '&nbsp;', $vValue ) ), ENT_QUOTES )
-                . "</div>";
-            return "<li>" . implode( PHP_EOL, $_aOutput ) . "</li>";    
+            // Output container.
+            $_aOutput   = array();
+            
+            // Title - array key
+            $_aOutput[] = $sKey 
+                ? "<h3 class='array-key'>" . $sKey . "</h3>"
+                : "";
+                
+            // If it does not have a nested array or object, 
+            if ( ! in_array( gettype( $vValue ), array( 'array', 'object' ) ) ) {
+                $_aOutput[] = "<div class='array-value'>" 
+                        . html_entity_decode( nl2br( str_replace( ' ', '&nbsp;', $vValue ) ), ENT_QUOTES )
+                    . "</div>";
+                return "<li>" . implode( PHP_EOL, $_aOutput ) . "</li>";    
+            }
+            
+            // Now it is a nested item.
+            foreach ( $vValue as $_sKey => $_vValue ) {   
+                $_aOutput[] =  "<ul class='array-contents'>" 
+                        . self::getReadableArrayContentsHTML( $_sKey, $_vValue ) 
+                    . "</ul>";
+            }
+            return implode( PHP_EOL, $_aOutput ) ;
+            
         }
-        
-        // Now it is a nested item.
-        foreach ( $vValue as $_sKey => $_vValue ) {   
-            $_aOutput[] =  "<ul class='array-contents'>" 
-                    . self::getReadableArrayContentsHTML( $_sKey, $_vValue ) 
-                . "</ul>";
-        }
-        return implode( PHP_EOL, $_aOutput ) ;
-        
-    }
     
     /**
      * Removes array elements by the specified type.
@@ -528,6 +478,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      *  - object
      *  - resource
      *  - NULL
+     * @return      array       The modified array.
      */
     static public function dropElementsByType( array $aArray, $aTypes=array( 'array' ) ) {
         
@@ -542,6 +493,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     /**
      * Removes an array element(s) by the given value.
      * @since       3.4.0
+     * @return      array       The modified array.
      */
     static public function dropElementByValue( array $aArray, $vValue ) {
          
@@ -562,6 +514,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * This is used to drop unnecessary keys for a multidimensional array as multidimensinal arrays can cause PHP warnings used with `array_diff()`.
      * 
      * @since       3.4.6
+     * @return      array       The modified array.
      */
     static public function dropElementsByKey( array $aArray, $asKeys ) {
         

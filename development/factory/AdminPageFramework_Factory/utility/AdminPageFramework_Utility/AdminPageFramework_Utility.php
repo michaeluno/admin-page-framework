@@ -120,8 +120,9 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
      * <code>button button-primary remove_button</code>
      * 
      * @since   3.2.0
+     * @todo    Fix an issue that occurs when a multidimentinal array is passed, which causes a warning:  Notice: Array to string conversion.
      */
-    static public function generateClassAttribute( $asClassSelectors ) {
+    static public function generateClassAttribute( /* $asClassSelectors1, $asClassSelectors12 */ ) {
         
         $_aClasses  = array();
         foreach( func_get_args() as $_asClasses ) {

@@ -15,15 +15,15 @@
  * @subpackage Utility
  * @internal
  */
-abstract class AdminPageFramework_Utility_String {
+abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Utility_Deprecated {
     
     /**
      * Converts non-alphabetic characters to underscore.
      * 
-     * @access public
-     * @since 2.0.0
-     * @remark it must be public 
-     * @return string|null The sanitized string.
+     * @since       2.0.0
+     * @return      string|null     The sanitized string.
+     * @todo        Change the method name as it does not tell for what it will sanitized.
+     * @todo        Examine why null needs to be returned.
      */ 
     public static function sanitizeSlug( $sSlug ) {
         return is_null( $sSlug )
@@ -34,10 +34,10 @@ abstract class AdminPageFramework_Utility_String {
     /**
      * Converts non-alphabetic characters to underscore except hyphen(dash).
      * 
-     * @access public
-     * @since 2.0.0
-     * @remark it must be public 
-     * @return string The sanitized string.
+     * @since       2.0.0
+     * @return      string|null      The sanitized string.
+     * @todo        Change the method name as it does not tell for what it will sanitized.
+     * @todo        Examine why null needs to be returned.
      */ 
     public static function sanitizeString( $sString ) {
         return is_null( $sString )
@@ -47,20 +47,26 @@ abstract class AdminPageFramework_Utility_String {
         
     
     /**
-     * Checks if the passed value is a number and set it to the default if not.
+     * Checks if the passed value is a number and sets it to the default if not.
      * 
-     * This is useful for form data validation. If it is a number and exceeds the set maximum number, 
+     * This is useful for form data validation. If it is a number and exceeds a set maximum number, 
      * it sets it to the maximum value. If it is a number and is below the minimum number, it sets to the minimum value.
      * Set a blank value for no limit.
      * 
-     * @since 2.0.0
-     * @return string|integer A numeric value will be returned. 
+     * @since       2.0.0
+     * @return      string|integer      A numeric value will be returned. 
      */ 
-    static public function fixNumber( $nToFix, $nDefault, $nMin="", $nMax="" ) {
+    static public function fixNumber( $nToFix, $nDefault, $nMin='', $nMax='' ) {
 
-        if ( ! is_numeric( trim( $nToFix ) ) ) return $nDefault;
-        if ( $nMin !== "" && $nToFix < $nMin ) return $nMin;
-        if ( $nMax !== "" && $nToFix > $nMax ) return $nMax;
+        if ( ! is_numeric( trim( $nToFix ) ) ) { 
+            return $nDefault; 
+        }
+        if ( $nMin !== '' && $nToFix < $nMin ) { 
+            return $nMin; 
+        }
+        if ( $nMax !== '' && $nToFix > $nMax ) { 
+            return $nMax; 
+        }
         return $nToFix;
         
     }     
@@ -68,7 +74,8 @@ abstract class AdminPageFramework_Utility_String {
     /**
      * Compresses CSS rules.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
+     * @return      string
      */
     static public function minifyCSS( $sCSSRules ) {
         
@@ -82,7 +89,8 @@ abstract class AdminPageFramework_Utility_String {
     
     /**
      * Returns the given string length.
-     * @since   3.3.0
+     * @since       3.3.0
+     * @return      integer|null        Null if an array is given.
      */
     static public function getStringLength( $sString ) {
         return function_exists( 'mb_strlen' )
@@ -90,10 +98,10 @@ abstract class AdminPageFramework_Utility_String {
             : strlen( $sString );
     }    
         
-   
     /**
      * Returns a number from the given human readable size representation.
      * @since       3.4.6
+     * @return      string|integer
      */     
     static public function getNumberOfReadableSize( $nSize ) {
         
@@ -117,6 +125,7 @@ abstract class AdminPageFramework_Utility_String {
     /**
      * Returns a human readable size from the given byte number.
      * @since       3.4.6
+     * @return      string
      */     
     static public function getReadableBytes( $nBytes ) {
         $_aUnits    = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
