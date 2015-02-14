@@ -16,7 +16,7 @@
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  * @internal
  */
-class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType {
+class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType_checkbox {
     
     /**
      * Defines the field type slugs used for this field type.
@@ -384,22 +384,7 @@ CSSRULES;
                     + $aField['query']                             
                 );
             }
-            /**
-             * Returns an attribute array for check box container element.
-             * @since       3.5.3
-             * @return      array       The generated attribute array.
-             */
-            private function _getCheckboxContainerAttributes( array $aField ) {   
-                return array(
-                    'class'                     => 'admin-page-framework-checkbox-container',
-                    'data-select_all_button'    => $aField['select_all_button'] 
-                        ? ( ! is_string( $aField['select_all_button'] ) ? $this->oMsg->get( 'select_all' ) : $aField['select_all_button'] )
-                        : null,
-                    'data-select_none_button'   => $aField['select_none_button'] 
-                        ? ( ! is_string( $aField['select_none_button'] ) ? $this->oMsg->get( 'select_none' ) : $aField['select_none_button'] )
-                        : null,
-                );                    
-            } 
+     
             /**
              * Returns an array consisting of keys whose value is true.
              * 

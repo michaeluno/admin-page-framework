@@ -121,10 +121,11 @@ CSSRULES;
         /**
          * Returns the checkbox container element attributes array.
          * @internal
+         * @access      protected   The taxonomy field type class accesses this method.
          * @sinec       3.5.3
          * @return      array       The generated attributes array.
          */
-        private function _getCheckboxContainerAttributes( array $aField ) {
+        protected function _getCheckboxContainerAttributes( array $aField ) {
             return array(
                 'class'                     => 'admin-page-framework-checkbox-container',
                 'data-select_all_button'    => $aField['select_all_button'] 
@@ -135,6 +136,7 @@ CSSRULES;
                     : null,
             );            
         }
+
         /**
          * Returns the output of an individual checkbox by the given key.
          * 
