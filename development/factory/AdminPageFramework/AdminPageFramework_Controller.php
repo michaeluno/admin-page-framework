@@ -435,8 +435,8 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * @param       mixed       $vDefault       the default value that will be returned if nothing is stored.
      * @return      mixed       If the field ID is not specified
      */
-    static public function getOption( $sOptionKey, $asKey=null , $vDefault=null ) {
-        return AdminPageFramework_WPUtility::getOption( $sOptionKey,$asKey, $vDefault );
+    static public function getOption( $sOptionKey, $asKey=null, $vDefault=null ) {
+        return AdminPageFramework_WPUtility::getOption( $sOptionKey, $asKey, $vDefault );
     }    
     
 }
