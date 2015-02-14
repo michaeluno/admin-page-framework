@@ -254,24 +254,6 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
     /*
      * Shared methods
      */
-    /**
-     * Returns the element value of the given field element.
-     * 
-     * When there are multiple input/select tags in one field such as for the radio and checkbox input type, 
-     * the framework user can specify the key to apply the element value. In this case, this method will be used.
-     * 
-     * @since 3.0.0
-     */
-    protected function getFieldElementByKey( $asElement, $sKey, $asDefault='' ) {
-                    
-        if ( ! is_array( $asElement ) || ! isset( $sKey ) ) { return $asElement; }
-                
-        $aElements = &$asElement; // it is an array
-        return isset( $aElements[ $sKey ] )
-            ? $aElements[ $sKey ]
-            : $asDefault;
-        
-    }    
     
     /**
      * Enqueues scripts for the media uploader.
