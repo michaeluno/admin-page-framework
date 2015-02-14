@@ -106,10 +106,8 @@ CSSRULES;
      */
     protected function getField( $aField ) {
     
-        $aField['units'] = isset( $aField['units'] ) 
-            ? $aField['units']
-            : $this->aDefaultUnits;
-    
+        $aField['units'] = $this->getElement( $aField, 'units', $this->aDefaultUnits );
+        
         // Base attributes
         $_aBaseAttributes       = $aField['attributes'];
         unset( $_aBaseAttributes['unit'], $_aBaseAttributes['size'] ); 
@@ -140,7 +138,7 @@ CSSRULES;
             );                  
             
             return "<label " . $this->generateAttributes( $_aSizeLabelAttributes ) . ">"
-                . $this->getFieldElementByKey( $aField['before_label'], 'size' )
+                . $this->getElement( $aField, array( 'before_label', 'size' ) )
                 . ( $aField['label'] && ! $aField['repeatable']
                     ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" 
                             . $aField['label'] 
@@ -148,7 +146,7 @@ CSSRULES;
                     : "" 
                 )
                 . "<input " . $this->generateAttributes( $_aSizeAttributes ) . " />" // this method is defined in the base class
-                . $this->getFieldElementByKey( $aField['after_input'], 'size' )
+                . $this->getElement( $aField, array( 'after_input', 'size' ) )
             . "</label>";            
             
         }
@@ -176,9 +174,9 @@ CSSRULES;
                     ) 
                 ) 
                 . ">"
-                . $this->getFieldElementByKey( $aField['before_label'], 'unit' )
+                . $this->getElement( $aField, array( 'before_label', 'unit' ) )
                 . $_oUnitInput->get()
-                . $this->getFieldElementByKey( $aField['after_input'], 'unit' )
+                . $this->getElement( $aField, array( 'after_input', 'unit' ) )
                 . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
             . "</label>";
             
@@ -192,15 +190,30 @@ CSSRULES;
                 
                 $_bIsMultiple    = $aField['is_multiple'] 
                     ? true 
-                    : ( $aField['attributes']['unit']['multiple'] ? true : false );                    
+                    : ( $aField['attributes']['unit']['multiple'] 
+                        ? true 
+                        : false 
+                    );
                 return array(
                     'type'      => 'select',
                     'id'        => $aField['input_id'] . '_' . 'unit',
-                    'multiple'  => $_bIsMultiple ? 'multiple' : null,
-                    'name'      => $_bIsMultiple ? "{$aField['_input_name']}[unit][]" : "{$aField['_input_name']}[unit]",
-                    'value'     => isset( $aField['value']['unit'] ) ? $aField['value']['unit'] : '',
+                    'multiple'  => $_bIsMultiple 
+                        ? 'multiple' 
+                        : null,
+                    'name'      => $_bIsMultiple 
+                        ? "{$aField['_input_name']}[unit][]" 
+                        : "{$aField['_input_name']}[unit]",
+                    'value'     => $this->getElement( 
+                        $aField, 
+                        array( 'value', 'unit' ), 
+                        ''
+                    ),
                 )
-                + $this->getFieldElementByKey( $aField['attributes'], 'unit', $this->aDefaultKeys['attributes']['unit'] )
+                + $this->getElement( 
+                    $aField, 
+                    array( 'attributes', 'unit' ),
+                    $this->aDefaultKeys['attributes']['unit'] 
+                )
                 + $aBaseAttributes;        
                 
             }        
@@ -231,13 +244,15 @@ CSSRULES;
                     'type'  => 'number',
                     'id'    => $aField['input_id'] . '_' . 'size',
                     'name'  => $aField['_input_name'] . '[size]',
-                    'value' => isset( $aField['value']['size'] ) 
-                        ? $aField['value']['size'] 
-                        : '',
+                    'value' => $this->getElement(
+                        $aField,        // subject
+                        array( 'value', 'size' ),   // dimensional keys
+                        ''  // default
+                    ),
                 ) 
-                + $this->getFieldElementByKey( 
-                    $aField['attributes'], 
-                    'size', 
+                + $this->getElement( 
+                    $aField, 
+                    array( 'attributes', 'size' ), 
                     $this->aDefaultKeys['attributes']['size'] 
                 )
                 + $aBaseAttributes;        
