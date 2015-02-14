@@ -33,12 +33,16 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
 
         // temporarily disable $_wp_using_ext_object_cache
         global $_wp_using_ext_object_cache;  
-        $_bWpUsingExtObjectCacheTemp = $_wp_using_ext_object_cache; 
-        $_wp_using_ext_object_cache = false;
+        $_bWpUsingExtObjectCacheTemp    = $_wp_using_ext_object_cache; 
+        $_wp_using_ext_object_cache     = false;
 
-        self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) ? self::$_bIsNetworkAdmin : is_network_admin();
+        self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) 
+            ? self::$_bIsNetworkAdmin 
+            : is_network_admin();
 
-        $_vTransient = ( self::$_bIsNetworkAdmin ) ? delete_site_transient( $sTransientKey ) : delete_transient( $sTransientKey );
+        $_vTransient = self::$_bIsNetworkAdmin 
+            ? delete_site_transient( $sTransientKey ) 
+            : delete_transient( $sTransientKey );
 
         // reset prior value of $_wp_using_ext_object_cache
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp; 
@@ -55,12 +59,16 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
 
         // temporarily disable $_wp_using_ext_object_cache
         global $_wp_using_ext_object_cache;  
-        $_bWpUsingExtObjectCacheTemp = $_wp_using_ext_object_cache; 
-        $_wp_using_ext_object_cache = false;
+        $_bWpUsingExtObjectCacheTemp    = $_wp_using_ext_object_cache; 
+        $_wp_using_ext_object_cache     = false;
 
-        self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) ? self::$_bIsNetworkAdmin : is_network_admin();
+        self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) 
+            ? self::$_bIsNetworkAdmin 
+            : is_network_admin();
 
-        $_vTransient = ( self::$_bIsNetworkAdmin ) ? get_site_transient( $sTransientKey ) : get_transient( $sTransientKey );    
+        $_vTransient = self::$_bIsNetworkAdmin 
+            ? get_site_transient( $sTransientKey ) 
+            : get_transient( $sTransientKey );    
 
         // reset prior value of $_wp_using_ext_object_cache
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp; 
@@ -83,12 +91,16 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
 
         // temporarily disable $_wp_using_ext_object_cache
         global $_wp_using_ext_object_cache;  
-        $_bWpUsingExtObjectCacheTemp = $_wp_using_ext_object_cache; 
-        $_wp_using_ext_object_cache = false;
+        $_bWpUsingExtObjectCacheTemp    = $_wp_using_ext_object_cache; 
+        $_wp_using_ext_object_cache     = false;
 
-        self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) ? self::$_bIsNetworkAdmin : is_network_admin();
+        self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) 
+            ? self::$_bIsNetworkAdmin
+            : is_network_admin();
         
-        $_bIsSet = ( self::$_bIsNetworkAdmin ) ? set_site_transient( $sTransientKey, $vValue, $iExpiration ) : set_transient( $sTransientKey, $vValue, $iExpiration );
+        $_bIsSet = self::$_bIsNetworkAdmin 
+            ? set_site_transient( $sTransientKey, $vValue, $iExpiration ) 
+            : set_transient( $sTransientKey, $vValue, $iExpiration );
 
         // reset prior value of $_wp_using_ext_object_cache
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp; 
@@ -100,49 +112,63 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
      * Retrieves the saved option value from the given option key, field ID, and section ID.
      * 
      * @since   3.0.1
-     * @since   3.3.0           Added the <var>$aOptions</var> parameter.
+     * @since   3.3.0           Added the <var>$aAdditionalOptions</var> parameter.
      * @param   string          $sOptionKey   the option key of the options table.
      * @param   string|array    $asKey        the field id or the array that represents the key structure consisting of the section ID and the field ID.
      * @param   mixed           $vDefault     the default value that will be returned if nothing is stored.
-     * @param   array           $aOptions     an additional options array to merge with the options array. 
+     * @param   array           $aAdditionalOptions     an additional options array to merge with the options array. 
      */
-    static public function getOption( $sOptionKey, $asKey=null, $vDefault=null, $aOptions=array() ) {
-        
-        // If only the option key is given, the default value is treated as the entire option data.
-        if ( ! $asKey ) {
-            return get_option( $sOptionKey, isset( $vDefault ) ? $vDefault : array() );
-        }
-        
-        // Now either the section ID or field ID is given. 
-        $_aOptions  = get_option( $sOptionKey, array() );
-        $_aKeys     = self::shiftTillTrue( self::getAsArray( $asKey, true ) );
-
-        return self::getArrayValueByArrayKeys( self::uniteArrays( $_aOptions, $aOptions ), $_aKeys, $vDefault );
-        
+    static public function getOption( $sOptionKey, $asKey=null, $vDefault=null, array $aAdditionalOptions=array() ) {
+        return self::_getOptionByFunctionName( $sOptionKey, $asKey, $vDefault, $aAdditionalOptions );
     }
-    
     /**
      * Retrieves the saved option value from the given option key, field ID, and section ID.
      * 
-     * @since 3.1.0
+     * @since   3.1.0
+     * @since   3.5.3           Added the $aAdditionalOptions parameter.
      * @param   string          $sOptionKey     the option key of the options table.
      * @param   array|string    $asKey          the field id or the array that represents the key structure consisting of the section ID and the field ID.
      * @param   mixed           $vDefault       the default value that will be returned if nothing is stored.
+     * @param   array           $aAdditionalOptions     an additional options array to merge with the options array. 
      * @remark  Used in the network admin area.
+     * @return  mixed
      */
-    static public function getSiteOption( $sOptionKey, $asKey=null, $vDefault=null ) {
-
-        // If only the option key is given, the default value is treated as the entire option data.
-        if ( ! $asKey ) {
-            return get_site_option( $sOptionKey, isset( $vDefault ) ? $vDefault : array() );
-        }
-        
-        // Now either the section ID or field ID is given. 
-        $_aOptions  = get_site_option( $sOptionKey, array() );
-        $_aKeys     = self::shiftTillTrue( self::getAsArray( $asKey, true ) );
-
-        return self::getArrayValueByArrayKeys( $_aOptions, $_aKeys, $vDefault );
-        
-    }    
+    static public function getSiteOption( $sOptionKey, $asKey=null, $vDefault=null, array $aAdditionalOptions=array() ) {
+        return self::_getOptionByFunctionName( $sOptionKey, $asKey, $vDefault, $aAdditionalOptions, 'get_site_option' );        
+    }  
+        /**
+         * Retrieves the saved option value from the given option key, field ID, and section ID with a function name.
+         * 
+         * @since       3.5.3
+         * @return      mixed
+         */
+        static private function _getOptionByFunctionName( $sOptionKey, $asKey=null, $vDefault=null, array $aAdditionalOptions=array(), $sFunctionName='get_option' ) {
+            
+            // Entire options
+            if ( ! isset( $asKey ) ) {
+                return $sFunctionName( 
+                    $sOptionKey,
+                    isset( $vDefault ) ? $vDefault : array()
+                );
+            }
+            
+            // Now either the section ID or field ID is given. 
+            return self::getArrayValueByArrayKeys( 
+                
+                // subject array
+                self::uniteArrays( 
+                    self::getAsArray( $sFunctionName( $sOptionKey, array() ), true ),
+                    $aAdditionalOptions 
+                ), 
+                
+                // dimensional keys
+                self::getAsArray( $asKey, true ), 
+                
+                // default
+                $vDefault
+                
+            );            
+            
+        }    
     
 }
