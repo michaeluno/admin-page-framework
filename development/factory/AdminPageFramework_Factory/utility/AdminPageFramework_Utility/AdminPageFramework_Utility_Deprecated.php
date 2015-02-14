@@ -59,24 +59,7 @@ abstract class AdminPageFramework_Utility_Deprecated {
     static public function isAssociativeArray( array $aArray ) {
         return ( bool ) count( array_filter( array_keys( $aArray ), 'is_string' ) );
     }        
-    
-    /**
-     * Returns the element value by the given key as an array.
-     * 
-     * When the retrieving element value is unknown whether it is set and it is an array, use this method 
-     * to save the line of isset() and is_array().
-     * 
-     * @since       3.4.0
-     * @since       3.5.3           Moved from `AdminPageFramework_Utility_Array`.
-     * @deprecaed   3.5.3
-     */
-    static public function getElementAsArray( $aSubject, $isKey, $vDefault=null ) {
-        return self::getAsArray( 
-            self::getElement( $aSubject, $isKey, $vDefault ),
-            true       // preserve an empty value
-        );
-    }    
-    
+        
     /**
      * Finds the dimension depth of the given array.
      * 

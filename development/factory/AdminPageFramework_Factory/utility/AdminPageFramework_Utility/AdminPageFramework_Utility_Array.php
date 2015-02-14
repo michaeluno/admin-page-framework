@@ -46,7 +46,24 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
             : $_mValue;
                     
     }
-            
+           
+    /**
+     * Returns the element value by the given key as an array.
+     * 
+     * When the retrieving element value is unknown whether it is set and it is an array, use this method 
+     * to save the line of isset() and is_array().
+     * 
+     * @since       3.4.0
+     * @since       3.5.3       The second parameter accepts dimensinal array keys and added the fourth parameter.
+     * @return      array       The cast retrieved element value.
+     */
+    static public function getElementAsArray( $aSubject, $aisKey, $mDefault=null, $asToDefault=array( null ) ) {
+        return self::getAsArray( 
+            self::getElement( $aSubject, $aisKey, $mDefault ),
+            true       // preserve an empty value
+        );
+    }               
+           
     /**
      * Casts array contents into another while keeping the same key structure.
      * 
@@ -332,6 +349,26 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         }
         return $vDefault;
         
+    }    
+    
+    /**
+     * Sets an dimansional array value by dimansional array keys.
+     * @since       3.5.3
+     * @return      void
+     */
+    public static function setMultiDimensionalArray( &$mSubject, array $aKeys, $mValue ) {
+
+        $_sKey = array_shift( $aKeys );
+        if ( $aKeys ) {
+            if( ! isset( $mSubject[ $_sKey ] ) || ! is_array( $mSubject[ $_sKey ] ) ) {
+                $mSubject[ $_sKey ] = array();
+            }
+            self::setMultiDimensionalArray( $mSubject[ $_sKey ], $aKeys, $mValue );
+            return;
+            
+        }
+        $mSubject[ $_sKey ] = $mValue;
+
     }    
     
     /**
