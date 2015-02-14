@@ -297,116 +297,162 @@ CSSRULES;
      * @since       3.3.1       Changed from `_replyToGetField()`.
      */
     protected function getField( $aField ) {
+        
+        // Format
+        $aField['label_no_term_found'] = $this->getElement( 
+            $aField, 
+            'label_no_term_found', 
+            $this->oMsg->get( 'no_term_found' ) 
+        );
+        
+        // Parse
+        $_aTabs         = array();
+        $_aCheckboxes   = array();      
+        foreach( $this->getAsArray( $aField['taxonomy_slugs'] ) as $sKey => $sTaxonomySlug ) {
+            $_aTabs[]        = $this->_getTaxonomyTab( $aField, $sKey, $sTaxonomySlug );    
+            $_aCheckboxes[]  = $this->_getTaxonomyCheckboxes( $aField, $sKey, $sTaxonomySlug );
+        }
 
-        $aTabs          = array();
-        $aCheckboxes    = array();
-        
-        $aField['label_no_term_found'] = isset( $aField['label_no_term_found'] )
-            ? $aField['label_no_term_found']
-            : $this->oMsg->get( 'no_term_found' );
-        
-        $_aCheckboxContainerAttributes = array(
-            'class'                     => 'admin-page-framework-checkbox-container',
-            'data-select_all_button'    => $aField['select_all_button'] 
-                ? ( ! is_string( $aField['select_all_button'] ) ? $this->oMsg->get( 'select_all' ) : $aField['select_all_button'] )
-                : null,
-            'data-select_none_button'   => $aField['select_none_button'] 
-                ? ( ! is_string( $aField['select_none_button'] ) ? $this->oMsg->get( 'select_none' ) : $aField['select_none_button'] )
-                : null,
-        );        
-        foreach( ( array ) $aField['taxonomy_slugs'] as $sKey => $sTaxonomySlug ) {
-            
-            $aInputAttributes = isset( $aField['attributes'][ $sKey ] ) && is_array( $aField['attributes'][ $sKey ] )
-                ? $aField['attributes'][ $sKey ] + $aField['attributes']
-                : $aField['attributes'];
+        // Output
+        return "<div id='tabbox-{$aField['field_id']}' class='tab-box-container categorydiv' style='max-width:{$aField['max_width']};'>"
+                . "<ul class='tab-box-tabs category-tabs'>" 
+                    . implode( PHP_EOL, $_aTabs ) 
+                . "</ul>" 
+                . "<div class='tab-box-contents-container'>"
+                    . "<div class='tab-box-contents' style='height: {$aField['height']};'>"
+                        . implode( PHP_EOL, $_aCheckboxes )
+                    . "</div>"
+                . "</div>" 
+            . "</div>"
+            ;
                 
-            $aTabs[] = 
-                "<li class='tab-box-tab'>"
+    }
+        /**
+         * Returns the HTML output of taxonomy checkboxes.
+         * 
+         * @since       3.5.3
+         * @return      string      the generated HTML output of taxonomy checkboxes.
+         */
+        private function _getTaxonomyCheckboxes( array $aField, $sKey, $sTaxonomySlug ) {
+            
+            return "<div id='tab_{$aField['input_id']}_{$sKey}' class='tab-box-content' style='height: {$aField['height']};'>"
+                    . $this->getElement( $aField, array( 'before_label', $sKey ) )
+                    . "<div " . $this->generateAttributes( $this->_getCheckboxContainerAttributes( $aField ) ) . "></div>"
+                    . "<ul class='list:category taxonomychecklist form-no-clear'>"
+                        . $this->_getTaxonomyChecklist( $aField, $sKey, $sTaxonomySlug )
+                    . "</ul>"     
+                    . "<!--[if IE]><b>.</b><![endif]-->"
+                    . $this->getElement( $aField, array( 'after_label', $sKey ) )
+                . "</div><!-- tab-box-content -->";
+            
+        }    
+            /**
+             * 
+             * @param       array       $aField         Field definition array,
+             * @param       string      $sKey           The array key of the 'taxonomy_slugs' argument array.
+             * @param       string      $sTaxonomySlug  the taxonomy slug (id) such as category and post_tag 
+             */
+            private function _getTaxonomyChecklist( array $aField, $sKey, $sTaxonomySlug ) {
+                return wp_list_categories( 
+                    array(
+                        'walker'                => new AdminPageFramework_WalkerTaxonomyChecklist, // the walker class instance
+                        'name'                  => is_array( $aField['taxonomy_slugs'] ) 
+                            ? "{$aField['_input_name']}[{$sTaxonomySlug}]" 
+                            : $aField['_input_name'],   // name of the input
+                        // checked items ( term IDs ) e.g.  array( 6, 10, 7, 15 ), 
+                        'selected'              => $this->_getSelectedKeyArray( $aField['value'], $sTaxonomySlug ),
+                        'echo'                  => false,  // returns the output
+                        'taxonomy'              => $sTaxonomySlug, 
+                        'input_id'              => $aField['input_id'],
+                        'attributes'            => $this->getElement( 
+                            $aField, 
+                            array( 'attributes', $sKey ), 
+                            array() 
+                        ) + $aField['attributes'],
+                        'show_post_count'       => $aField['show_post_count'],      // 3.2.0+
+                        'show_option_none'      => $aField['label_no_term_found'],  // 3.3.2+ 
+                        'title_li'              => $aField['label_list_title'],     // 3.3.2+
+                    ) 
+                    + $this->getAsArray( 
+                        $this->getElement( 
+                            $aField, 
+                            array( 'queries', $sTaxonomySlug ), 
+                            array() 
+                        ), 
+                        true 
+                    )
+                    + $aField['query']                             
+                );
+            }
+            /**
+             * Returns an attribute array for check box container element.
+             * @since       3.5.3
+             * @return      array       The generated attribute array.
+             */
+            private function _getCheckboxContainerAttributes( array $aField ) {   
+                return array(
+                    'class'                     => 'admin-page-framework-checkbox-container',
+                    'data-select_all_button'    => $aField['select_all_button'] 
+                        ? ( ! is_string( $aField['select_all_button'] ) ? $this->oMsg->get( 'select_all' ) : $aField['select_all_button'] )
+                        : null,
+                    'data-select_none_button'   => $aField['select_none_button'] 
+                        ? ( ! is_string( $aField['select_none_button'] ) ? $this->oMsg->get( 'select_none' ) : $aField['select_none_button'] )
+                        : null,
+                );                    
+            } 
+            /**
+             * Returns an array consisting of keys whose value is true.
+             * 
+             * A helper function for the above getTaxonomyChecklistField() method. 
+             * 
+             * @since   2.0.0
+             * @param   array   $vValue This can be either an one-dimensional array ( for single field ) or a two-dimensional array ( for multiple fields ).
+             * @param   string  $sKey     
+             * @return  array   Returns an numerically indexed array holding the keys that yield true as the value.
+             */ 
+            private function _getSelectedKeyArray( $vValue, $sTaxonomySlug ) {
+
+                $vValue = ( array ) $vValue; // cast array because the initial value (null) may not be an array.
+                
+                if ( ! isset( $vValue[ $sTaxonomySlug ] ) ) { 
+                    return array(); 
+                }
+                if ( ! is_array( $vValue[ $sTaxonomySlug ] ) ) { 
+                    return array(); 
+                }
+                
+                return array_keys( $vValue[ $sTaxonomySlug ], true );
+            
+            }            
+            
+        /**
+         * Returns an HTML tab list item output.
+         * 
+         * @since       3.5.3
+         * @return      string      The generated HTML tab list item output.
+         */
+        private function _getTaxonomyTab( array $aField, $sKey, $sTaxonomySlug ) {
+            return "<li class='tab-box-tab'>"
                     . "<a href='#tab_{$aField['input_id']}_{$sKey}'>"
                         . "<span class='tab-box-tab-text'>" 
                             . $this->_getLabelFromTaxonomySlug( $sTaxonomySlug )
                         . "</span>"
                     ."</a>"
                 ."</li>";
-            $aCheckboxes[] = 
-                "<div id='tab_{$aField['input_id']}_{$sKey}' class='tab-box-content' style='height: {$aField['height']};'>"
-                    . $this->getFieldElementByKey( $aField['before_label'], $sKey )
-                    . "<div " . $this->generateAttributes( $_aCheckboxContainerAttributes ) . "></div>"
-                    . "<ul class='list:category taxonomychecklist form-no-clear'>"
-                        . wp_list_categories( 
-                            array(
-                                'walker'                => new AdminPageFramework_WalkerTaxonomyChecklist, // the walker class instance
-                                'name'                  => is_array( $aField['taxonomy_slugs'] ) ? "{$aField['_input_name']}[{$sTaxonomySlug}]" : $aField['_input_name'],   // name of the input
-                                'selected'              => $this->_getSelectedKeyArray( $aField['value'], $sTaxonomySlug ),         // checked items ( term IDs ) e.g.  array( 6, 10, 7, 15 ), 
-                                'echo'                  => false,                       // returns the output
-                                'taxonomy'              => $sTaxonomySlug,              // the taxonomy slug (id) such as category and post_tag 
-                                'input_id'              => $aField['input_id'],
-                                'attributes'            => $aInputAttributes,
-                                'show_post_count'       => $aField['show_post_count'],      // 3.2.0+
-                                'show_option_none'      => $aField['label_no_term_found'],  // 3.3.2+ 
-                                'title_li'              => $aField['label_list_title'],     // 3.3.2+
-                            ) 
-                            + ( isset( $aField['queries'][ $sTaxonomySlug ] ) ? $aField['queries'][ $sTaxonomySlug ] : array() )
-                            + $aField['query']                             
-                        )     
-                    . "</ul>"     
-                    . "<!--[if IE]><b>.</b><![endif]-->"
-                    . $this->getFieldElementByKey( $aField['after_label'], $sKey )
-                . "</div>";
-        }
+        }    
+            /**
+             * Retrieves the label of the given taxonomy by its slug.
+             * 
+             * A helper function for the above getTaxonomyChecklistField() method.
+             * 
+             * @since 2.1.1
+             */
+            private function _getLabelFromTaxonomySlug( $sTaxonomySlug ) {
+                $_oTaxonomy = get_taxonomy( $sTaxonomySlug );
+                return isset( $_oTaxonomy->label )
+                    ? $_oTaxonomy->label
+                    : null;
+            }       
 
-        $sTabs      = "<ul class='tab-box-tabs category-tabs'>" . implode( PHP_EOL, $aTabs ) . "</ul>";
-        $sContents  = 
-            "<div class='tab-box-contents-container'>"
-                . "<div class='tab-box-contents' style='height: {$aField['height']};'>"
-                    . implode( PHP_EOL, $aCheckboxes )
-                . "</div>"
-            . "</div>";
-            
-        return ''
-            . "<div id='tabbox-{$aField['field_id']}' class='tab-box-container categorydiv' style='max-width:{$aField['max_width']};'>"
-                . $sTabs . PHP_EOL
-                . $sContents . PHP_EOL
-            . "</div>"
-            ;
-                
-    }
-    
-        /**
-         * Returns an array consisting of keys whose value is true.
-         * 
-         * A helper function for the above getTaxonomyChecklistField() method. 
-         * 
-         * @since   2.0.0
-         * @param   array   $vValue This can be either an one-dimensional array ( for single field ) or a two-dimensional array ( for multiple fields ).
-         * @param   string  $sKey     
-         * @return  array   Returns an numerically indexed array holding the keys that yield true as the value.
-         */ 
-        private function _getSelectedKeyArray( $vValue, $sTaxonomySlug ) {
-
-            $vValue = ( array ) $vValue; // cast array because the initial value (null) may not be an array.
-            
-            if ( ! isset( $vValue[ $sTaxonomySlug ] ) ) { return array(); }
-            if ( ! is_array( $vValue[ $sTaxonomySlug ] ) ) { return array(); }
-            
-            return array_keys( $vValue[ $sTaxonomySlug ], true );
         
-        }
-    
-        /**
-         * Retrieves the label of the given taxonomy by its slug.
-         * 
-         * A helper function for the above getTaxonomyChecklistField() method.
-         * 
-         * @since 2.1.1
-         */
-        private function _getLabelFromTaxonomySlug( $sTaxonomySlug ) {
-            
-            $_oTaxonomy = get_taxonomy( $sTaxonomySlug );
-            return isset( $_oTaxonomy->label )
-                ? $_oTaxonomy->label
-                : null;
-            
-        }
-    
 }
