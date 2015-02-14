@@ -59,7 +59,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      */
     static public function getElementAsArray( $aSubject, $aisKey, $mDefault=null, $asToDefault=array( null ) ) {
         return self::getAsArray( 
-            self::getElement( $aSubject, $aisKey, $mDefault ),
+            self::getElement( $aSubject, $aisKey, $mDefault, $asToDefault ),
             true       // preserve an empty value
         );
     }               
