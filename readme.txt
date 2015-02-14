@@ -370,6 +370,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.5.3 =
 - Added the `validate()` and `content()` methods in the admin page factory class.
 - Added the fourth parameter to the `validate()` method of page meta box factory class to receive submit information.
+- Fixed an issue that the `image` field type did not extend `AdminPageFramework_FieldType` but `AdminPageFramework_FieldType_Base`.
 
 = 3.5.2 - 2015/02/02 =
 - Fixed a bug in the widget factory class that form sections could not be set.
