@@ -134,78 +134,98 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
         return "";
     }
 
-    
-    /**
-     * Returns the output of the geometry custom field type.
-     * 
-     */
     /**
      * Returns the output of the field type.
+     * @return      string      The field output.
      */
     protected function getField( $aField ) { 
 
-        $aOutput = array();
-        $sValue = $aField['attributes']['value'];
-        foreach( $aField['label'] as $sKey =>$sLabel ) {
+        $_aOutput   = array();
+        $sValue     = $aField['attributes']['value'];
+        foreach( $this->getAsArray( $aField['label'] ) as $sKey =>$sLabel ) {
 
-            /* Prepare attributes */
+            // Attributes
             $aInputAttributes = array(
-                'type'          => 'radio',
-                'checked'       => $sValue == $sKey ? 'checked' : null,
-                'value'         => $sKey,
-                'id'            => $aField['input_id'] . '_' . $sKey,
-                'data-default'  => $aField['default'],
-            ) 
-            + $this->getFieldElementByKey( $aField['attributes'], $sKey, $aField['attributes'] )
-            + $aField['attributes'];
+                    'type'          => 'radio',
+                    'checked'       => $sValue == $sKey ? 'checked' : null,
+                    'value'         => $sKey,
+                    'id'            => $aField['input_id'] . '_' . $sKey,
+                    'data-default'  => $aField['default'],
+                ) 
+                + $this->getElement( $aField, array( 'attributes', $sKey ), $aField['attributes'] )
+                + $aField['attributes'];
             $aLabelAttributes = array(
                 'for'    => $aInputAttributes['id'],
                 'class'  => $aInputAttributes['disabled'] ? 'disabled' : null,
             );
             
-            /* Insert the output */
-            $aOutput[] = 
-                $this->getFieldElementByKey( $aField['before_label'], $sKey )
+            // Output
+            $_aOutput[] = $this->getElement( $aField, array( 'before_label', $sKey ) )
                 . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
                     . "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
-                        . $this->getFieldElementByKey( $aField['before_input'], $sKey )
+                        . $this->getElement( $aField, array( 'before_input', $sKey ) )
                         . "<span class='admin-page-framework-input-container'>"
                             . "<input " . $this->generateAttributes( $aInputAttributes ) . " />"
                         . "</span>"
                         . "<span class='admin-page-framework-input-label-string'>"
                             . $sLabel
                         . "</span>"    
-                        . $this->getFieldElementByKey( $aField['after_input'], $sKey )
+                        . $this->getElement( $aField, array( 'after_input', $sKey ) )
                     . "</label>"
                 . "</div>"
-                . $this->getFieldElementByKey( $aField['after_label'], $sKey )
+                . $this->getElement( $aField, array( 'after_label', $sKey ) )
                 ;
                 
         }
-        /* Insert the hidden elements. This will be revealed when a radio is selected. */
-        $aOutput[] = "<div class='sample_hidden_elements_container'>";
-        foreach( $aField['reveal'] as $sKey => $sHiddenOutput ) {
-
-            if ( ! isset( $aField['label'][ $sKey ] ) ) continue;    // the hidden array key should correspond to the label array.
-                        
-            $_aHiddenAttributes = array(    /* Prepare attributes */
-                'style'    => 'display:none;',
-                'class'    => 'sample_hidden_element',
-                'id'       => "hidden-" . $aField['input_id'] . '_' . $sKey,    // hidden- + {input id}
-            );
-            $aOutput[] =     /* Insert the output */
-                "<div " . $this->generateAttributes( $_aHiddenAttributes ) . ">"
-                    . $sHiddenOutput
-                . "</div>";
-                
-        }
-        $aOutput[] = "</div>";
-        $aOutput[] = $this->getRevealerScript( $aField['_field_container_id'], $aField['input_id'] . '_' . $sValue );
-        return implode( PHP_EOL, $aOutput );
+        
+        // Hidden contents
+        $_aOutput[] = $this->_getHiddenContents( $aField );
+        
+        // Revealer script
+        $_aOutput[] = $this->getRevealerScript( 
+            $aField['_field_container_id'], 
+            $aField['input_id'] . '_' . $sValue 
+        );
+        
+        // Result
+        return implode( PHP_EOL, $_aOutput );
             
-        
     }    
-        
+        /**
+         * Returns a generated hidden HTML output which appears when a redio button is selected.
+         * @since       3.5.3
+         * @return      string      The generated hidden HTML output.
+         */
+        private function _getHiddenContents( array $aField ) {
+            
+            $_aOutput = array();
+            foreach( $aField['reveal'] as $sKey => $sHiddenOutput ) {
+
+                // the hidden array key should correspond to the label array.
+                if ( ! isset( $aField['label'][ $sKey ] ) ) { 
+                    continue;    
+                }        
+                $_aOutput[] =     /* Insert the output */
+                    "<div " . $this->generateAttributes(
+                        array(    
+                            'style'    => 'display:none;',
+                            'class'    => 'sample_hidden_element',
+                            'id'       => "hidden-" . $aField['input_id'] . '_' . $sKey,    // hidden- + {input id}
+                        )                    
+                    ) . ">"
+                        . $sHiddenOutput
+                    . "</div>";
+                    
+            }
+            return "<div class='sample_hidden_elements_container'>"
+                    . implode( '', $_aOutput )
+                . "</div>";            
+            
+        }
+        /**
+         * 
+         * @return      string
+         */
         private function getRevealerScript( $sFieldContainerID, $sDefaultSelectionID ) {
             return 
                 "<script type='text/javascript'>
