@@ -22,14 +22,17 @@ class AdminPageFramework_Input_radio extends AdminPageFramework_Input_Base {
      * 
      * @since       3.4.0    
      * @param       string      $sLabel         The label text.
-     * @param       array       $aAttributes    The attribute array.  
+     * @param       array       $aAttributes    (optional) The attribute array. If set, it will be merged with the attribute set in the constructor.
      */    
     public function get( /* $sLabel, $aAttributes=array() */ ) {
         
         // Parameters
         $_aParams       = func_get_args() + array( 0 => '', 1 => array() );
         $_sLabel        = $_aParams[ 0 ];
-        $_aAttributes   = $_aParams[ 1 ];
+        $_aAttributes   = $this->uniteArrays(
+            $this->getElementAsArray( $_aParams, 1, array() ),
+            $this->aAttributes 
+        );
         
         // Output
         return 
@@ -43,31 +46,40 @@ class AdminPageFramework_Input_radio extends AdminPageFramework_Input_Base {
         
     }    
     
+        
     /**
-     * Calculates and returns the attributes as an array.
+     * Generates an attribute array from the given key based on the attributes set in the constructor.
      * 
-     * @since       3.4.0
+     * @return      array       The updated attribute array. 
+     * @since       3.5.3
+     * @param       string      $sKey       The array element key of the radio button. 
+     * It is assumed that there is an array that holds multiple radio buttons and each of them has an array key.
      */
-    public function getAttributeArray( /* $sKey */ ) {
+    public function getAttributesByKey( /* $sKey */ ) {
         
         // Parameters
         $_aParams       = func_get_args() + array( 0 => '', );
-        $sKey           = $_aParams[ 0 ];        
+        $_sKey           = $_aParams[ 0 ];        
         
         // Result
-        return $this->getElement( $this->aField['attributes'], $sKey, array() )
+        return $this->getElementAsArray( $this->aAttributes, $_sKey, array() )
             + array(
                 'type'          => 'radio',
-                'checked'       => isset( $this->aField['attributes']['value'] ) && $this->aField['attributes']['value'] == $sKey 
+                'checked'       => isset( $this->aAttributes['value'] ) && $this->aAttributes['value'] == $_sKey 
                     ? 'checked' 
                     : null,
-                'value'         => $sKey,
-                'id'            => $this->aField['input_id'] . '_' . $sKey,
-                'data-default'  => $this->aField['default'],        // refered by the repeater script
-                'data-id'       => $this->aField['input_id'],       // refered by the JavaScript scripts such as the revealer script.
+                'value'         => $_sKey,
+                // 'id'            => $this->aField['input_id'] . '_' . $_sKey,
+                'id'            => $this->getAttribute( 'id' ) . '_' . $_sKey,
+                // 'data-default'  => $this->aField['default'],        // refered by the repeater script
+                // 'data-id'       => $this->aField['input_id'],       // refered by the JavaScript scripts such as the revealer script.
+                'data-id'       => $this->getAttribute( 'id' ),       // refered by the JavaScript scripts such as the revealer script.
             ) 
-            + $this->aField['attributes']; 
-        
+            + $this->aAttributes; 
+            
     }
+            
+    
+   
     
 }

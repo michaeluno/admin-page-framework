@@ -103,38 +103,45 @@ JAVASCRIPTS;
     protected function getField( $aField ) {
         
         $_aOutput   = array();
-        $_oRadio    = new AdminPageFramework_Input_radio( $aField );
-
-        foreach( $aField['label'] as $_sKey => $_sLabel ) {
-
-            /* Prepare attributes */
-            $_aInputAttributes = $_oRadio->getAttributeArray( $_sKey );
-
-            /* Insert the output */
-            $_aOutput[] = 
-                $this->getFieldElementByKey( $aField['before_label'], $_sKey )
-                . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
-                    . "<label " . $this->generateAttributes( 
-                            array(
-                                'for'   => $_aInputAttributes['id'],
-                                'class' => $_aInputAttributes['disabled'] ? 'disabled' : null,                            
-                            )
-                        ) 
-                    . ">"
-                        . $this->getFieldElementByKey( $aField['before_input'], $_sKey )
-                        . $_oRadio->get( $_sLabel, $_aInputAttributes )
-                        . $this->getFieldElementByKey( $aField['after_input'], $_sKey )
-                    . "</label>"
-                . "</div>"
-                . $this->getFieldElementByKey( $aField['after_label'], $_sKey )
-                ;
-                
+        foreach( $this->getAsArray( $aField['label'] ) as $_sKey => $_sLabel ) {            
+            $_aOutput[] = $this->_getEachRadioButtonOutput( $aField, $_sKey, $_sLabel );
         }
-
         $_aOutput[] = $this->_getUpdateCheckedScript( $aField['input_id'] );
         return implode( PHP_EOL, $_aOutput );
             
     }
+        /**
+         * Returns an HTML output of a single radio button.
+         * @since       3.5.3
+         * @return      string      The generated HTML output of the radio button.
+         */
+        private function _getEachRadioButtonOutput( array $aField, $sKey, $sLabel ) {
+            
+            $_oRadio = new AdminPageFramework_Input_radio( $aField );
+            $_oRadio->setAttributesByKey( $sKey );
+            $_oRadio->setAttribute( 'data-default', $aField['default'] ); // refered by the repeater script
+           
+            // Output
+            return $this->getElement( $aField, array( 'before_label', $sKey ) )
+                . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
+                    . "<label " . $this->generateAttributes( 
+                            array(
+                                'for'   => $_oRadio->getAttribute( 'id' ),
+                                'class' => $_oRadio->getAttribute( 'disabled' )
+                                    ? 'disabled' 
+                                    : null, // important to set null not '' as generateAttributes will not drop the element if it is ''
+                            )
+                        ) 
+                    . ">"
+                        . $this->getElement( $aField, array( 'before_input', $sKey ) )
+                        . $_oRadio->get( $sLabel )
+                        . $this->getElement( $aField, array( 'after_input', $sKey ) )
+                    . "</label>"
+                . "</div>"
+                . $this->getElement( $aField, array( 'after_label', $sKey ) )
+                ;
+                
+        }    
         /**
          * Returns the JavaScript script that updates the checked attribute of radio buttons when the user select one.
          * This helps repeatable field script that duplicate the last checked item.

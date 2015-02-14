@@ -22,14 +22,17 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
      * 
      * @since       3.4.0    
      * @param       string      $sLabel         The label text.
-     * @param       array       $aAttributes    The attribute array.  
+     * @param       array       $aAttributes    (optional) The attribute array. If set, it will be merged with the attribute set in the constructor.
      */    
     public function get( /* $sLabel, $aAttributes=array() */ ) {
         
         // Parameters
         $_aParams       = func_get_args() + array( 0 => '', 1 => array() );
-        $_sLabel        = $_aParams[ 0 ];
-        $_aAttributes   = $_aParams[ 1 ];
+        $_sLabel        = $_aParams[ 0 ];       // first parameter
+        $_aAttributes   = $this->uniteArrays(   // second parameter
+            $this->getElementAsArray( $_aParams, 1, array() ),
+            $this->aAttributes
+        );
         
         // Output
         return 
@@ -52,39 +55,41 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
         ;
                         
     }        
-    
+        
     /**
-     * Calculates and returns the attributes as an array.
+     * Generates an attribute array from the given key based on the attributes set in the constructor.
      * 
-     * @since       3.4.0
+     * @return      array       The updated attribute array. 
+     * @since       3.5.3
      */
-    public function getAttributeArray( /* $sKey */ ) {
+    public function getAttributesByKey( /* $sKey */ ) {
         
         // Parameters
         $_aParams       = func_get_args() + array( 0 => '', );
         $_sKey          = $_aParams[ 0 ];        
+        $_bIsMultiple   = '' !== $_sKey;
         
         // Result
         return 
-            // Allows the user set attributes to overridden the system set attributes.
-            $this->getElement( $this->aField['attributes'], $_sKey, array() )
+            // Allows the user set attributes to override the system set attributes.
+            $this->getElement( $this->aAttributes, $_sKey, array() )
             
             // The type needs to be specified since the postytpe field type extends this class. If not set, the 'posttype' will be passed to the type attribute.
             + array(
                 'type'      => 'checkbox', 
-                'id'        => $this->aField['input_id'] . '_' . $_sKey,
-                'checked'   => $this->getCorrespondingArrayValue( $this->aField['attributes']['value'], $_sKey, null ) 
+                'id'        => $this->aAttributes['id'] . '_' . $_sKey,
+                'checked'   => $this->getElement( $this->aAttributes, array( 'value', $_sKey ), null )
                     ? 'checked' 
                     : null,    // to not to set, pass null. An empty value '' will still set the attribute.
                 'value'     => 1,   // this must be always 1 because the key value can be zero. In that case, the value always will be false and unchecked.
-                'name'      => is_array( $this->aField['label'] ) 
-                    ? "{$this->aField['attributes']['name']}[{$_sKey}]" 
-                    : $this->aField['attributes']['name'],
-                'data-id'   => $this->aField['input_id'],       // referenced by the JavaScript scripts such as the revealer script.
+                'name'      => $_bIsMultiple 
+                    ? "{$this->aAttributes['name']}[{$_sKey}]" 
+                    : $this->aAttributes['name'],
+                'data-id'   => $this->aAttributes['id'],       // referenced by the JavaScript scripts such as the revealer script.
             )
-            + $this->aField['attributes']
+            + $this->aAttributes
             ;
-
+            
     }
-    
+        
 }
