@@ -64,8 +64,12 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
                     'open_main'         => "<td " 
                         . $this->generateAttributes( 
                             array(
-                                'colspan'   => $_aFieldFinal['show_title_column'] ? 1 : 2,
-                                'class'     => $_aFieldFinal['show_title_column'] ? null : 'admin-page-framework-field-td-no-title',
+                                'colspan'   => $_aFieldFinal['show_title_column'] 
+                                    ? 1 
+                                    : 2,
+                                'class'     => $_aFieldFinal['show_title_column'] 
+                                    ? null 
+                                    : 'admin-page-framework-field-td-no-title',
                             )
                         )
                         . ">",
@@ -163,16 +167,15 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
          * do not use the array returned from this method but the raw (non-merged) array.
          */
         private function _mergeFieldTypeDefault( array $aField ) {
-
             return $this->uniteArrays( 
                 $aField, 
-                isset( $this->aFieldTypeDefinitions[ $aField['type'] ]['aDefaultKeys'] ) 
-                    ? $this->aFieldTypeDefinitions[ $aField['type'] ]['aDefaultKeys'] 
-                    : array()
+                $this->getElementAsArray(
+                    $this->aFieldTypeDefinitions,
+                    array( $aField['type'], 'aDefaultKeys' ),
+                    array()
+                )
             );
-            
         }
-            
             
         /**
          * Returns the title part of the field output.
