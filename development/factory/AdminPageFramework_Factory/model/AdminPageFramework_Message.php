@@ -152,6 +152,21 @@ class AdminPageFramework_Message {
             
             // AdminPageFramework_FieldType_reset   
             'reset'                                 => null,    // 3.3.0+
+            
+            // AdminPageFramework_FieldType_system 3.5.3+
+            'yes'                                   => null,
+            'no'                                    => null,
+            'enabled'                               => null,
+            'disabled'                              => null,
+            'on'                                    => null,
+            'off'                                   => null,
+            'supported'                             => null,
+            'not_supported'                         => null,
+            'functional'                            => null,
+            'not_functional'                        => null,
+            'too_long'                              => null,
+            'acceptable'                            => null,
+            
         );     
         
     }
@@ -365,6 +380,33 @@ class AdminPageFramework_Message {
                 case 'reset':   // 3.3.0+
                     return __( 'Reset', 'admin-page-framework' );
                     
+                // AdminPageFramework_FieldType_system 3.5.3+
+                case 'yes':
+                    return __( 'Yes', 'admin-page-framework' );
+                case 'no':
+                    return __( 'No', 'admin-page-framework' );
+                case 'on':
+                    return __( 'On', 'admin-page-framework' );
+                case 'off':
+                    return __( 'Off', 'admin-page-framework' );
+                case 'enabled':
+                    return __( 'Enabled', 'admin-page-framework' );
+                case 'disabled':
+                    return __( 'Disabled', 'admin-page-framework' );
+                case 'supported':
+                    return __( 'Supported', 'admin-page-framework' );
+                case 'not_supported':
+                    return __( 'Not Supported', 'admin-page-framework' );
+                case 'functional':
+                    return __( 'Functional', 'admin-page-framework' );
+                case 'not_functional':
+                    return __( 'Not Functional', 'admin-page-framework' );
+                case 'too_long':
+                    return __( 'Too Long', 'admin-page-framework' );
+                case 'acceptable':
+                    return __( 'Acceptable', 'admin-page-framework' );
+                case 'no_log_found':
+                    return __( 'No log found.', 'admin-page-framework' );
             }
     
         }

@@ -325,7 +325,7 @@ CSSRULES;
                         break;
                 }
                 return empty( $_sLog )
-                    ? __( 'No log found.', 'admin-page-framework' )
+                    ? $this->oMsg->get( 'no_log_found' )
                     : $_sLog;            
                 
             }
@@ -364,19 +364,19 @@ CSSRULES;
                         __( 'Version', 'admin-page-framework' )                  => $GLOBALS['wp_version'],
                         __( 'Language', 'admin-page-framework' )                 => $this->getSiteLanguage(),
                         __( 'Memory Limit', 'admin-page-framework' )             => $this->getReadableBytes( $this->getNumberOfReadableSize( WP_MEMORY_LIMIT ) ),
-                        __( 'Multi-site', 'admin-page-framework' )               => $this->_getYesOrNo( is_multisite() ), 
+                        __( 'Multi-site', 'admin-page-framework' )               => $this->getYesOrNo( is_multisite(), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ), 
                         __( 'Permalink Structure', 'admin-page-framework' )      => get_option( 'permalink_structure' ), 
                         __( 'Active Theme', 'admin-page-framework' )             => $this->_getActiveThemeName(),
                         __( 'Registered Post Statuses', 'admin-page-framework' ) => implode( ', ', get_post_stati() ),
-                        'WP_DEBUG'                                               => $this->_getEnabledOrDisabled( $this->isDebugModeEnabled() ),
-                        'WP_DEBUG_LOG'                                           => $this->_getEnabledOrDisabled( $this->isDebugLogEnabled() ),
-                        'WP_DEBUG_DISPLAY'                                       => $this->_getEnabledOrDisabled( $this->isDebugLogEnabled() ),
+                        'WP_DEBUG'                                               => $this->getYesOrNo( $this->isDebugModeEnabled(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
+                        'WP_DEBUG_LOG'                                           => $this->getYesOrNo( $this->isDebugLogEnabled(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
+                        'WP_DEBUG_DISPLAY'                                       => $this->getYesOrNo( $this->isDebugDisplayEnabled(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
                         __( 'Table Prefix', 'admin-page-framework' )             => $wpdb->prefix,
                         __( 'Table Prefix Length', 'admin-page-framework' )      => strlen( $wpdb->prefix ),
-                        __( 'Table Prefix Status', 'admin-page-framework' )      => $this->_getTooLongOrAcceptable( strlen( $wpdb->prefix ) > 16 ),
+                        __( 'Table Prefix Status', 'admin-page-framework' )      => $this->getYesOrNo( strlen( $wpdb->prefix ) > 16, $this->oMsg->get( 'acceptable' ), $this->oMsg->get( 'too_long' ) ),
                         'wp_remote_post()'                                       => $this->_getWPRemotePostStatus(),
                         'wp_remote_get()'                                        => $this->_getWPRemoteGetStatus(),
-                        __( 'WP_CONTENT_DIR Writeable', 'admin-page-framework' ) => $this->_getYesOrNo( is_writable( WP_CONTENT_DIR ) ),
+                        __( 'WP_CONTENT_DIR Writeable', 'admin-page-framework' ) => $this->getYesOrNo( is_writable( WP_CONTENT_DIR ), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ), 
                         __( 'Active Plugins', 'admin-page-framework' )           => PHP_EOL . $this->_getActivePlugins(),
                         __( 'Network Active Plugins', 'admin-page-framework' )   => PHP_EOL . $this->_getNetworkActivePlugins(),
                         __( 'Constants', 'admin-page-framework' )                => $this->getDefinedConstants( 'user' ),
@@ -400,6 +400,7 @@ CSSRULES;
                 /**
                  * Returns a list of active plugins.
                  * 
+                 * @return      string
                  */
                 private function _getActivePlugins() {
                 
@@ -416,6 +417,7 @@ CSSRULES;
                 } 
                 /**
                  * Returns a list of network-activated plugins.
+                 * @return      string
                  */
                 private function _getNetworkActivePlugins() {
                     
@@ -438,6 +440,7 @@ CSSRULES;
                 /**
                  * Checks if the wp_remote_post() function is functioning.
                  * 
+                 * @return      string
                  */
                 private function _getWPRemotePostStatus() {
                     
@@ -454,12 +457,17 @@ CSSRULES;
                         )
                         : $_vResponse;
                     $this->setTransient( 'apf_rp_check', $_vResponse, 60 );
-                    return $this->_getFunctionalOrNot( ! is_wp_error( $_vResponse ) && $_vResponse['response']['code'] >= 200 && $_vResponse['response']['code'] < 300 ) ;
-                    
+                    return $this->getYesOrNo( 
+                        ! is_wp_error( $_vResponse ) && $_vResponse['response']['code'] >= 200 && $_vResponse['response']['code'] < 300,
+                        $this->oMsg->get( 'functional' ), 
+                        $this->oMsg->get( 'not_functional' )
+                    );
+                        
                 }   
                 /**
                  * Checks if the wp_remote_post() function is functioning.
                  * 
+                 * @return      string
                  */
                 private function _getWPRemoteGetStatus() {
                     
@@ -474,7 +482,12 @@ CSSRULES;
                         )
                         : $_vResponse;
                     $this->setTransient( 'apf_rg_check', $_vResponse, 60 );
-                    return $this->_getFunctionalOrNot( ! is_wp_error( $_vResponse ) && $_vResponse['response']['code'] >= 200 && $_vResponse['response']['code'] < 300 ) ;
+                    return $this->getYesOrNo( 
+                        ! is_wp_error( $_vResponse ) && $_vResponse['response']['code'] >= 200 && $_vResponse['response']['code'] < 300,
+                        $this->oMsg->get( 'functional' ), 
+                        $this->oMsg->get( 'not_functional' )
+                    );                    
+                    
                     
                 }                  
             /**
@@ -497,7 +510,7 @@ CSSRULES;
                 $_oErrorReporting   = new AdminPageFramework_ErrorReporting;
                 self::$_aPHPInfo = array(
                     __( 'Version', 'admin-page-framework' )                 => phpversion(),
-                    __( 'Safe Mode', 'admin-page-framework' )               => $this->_getYesOrNo( @ini_get( 'safe_mode' ) ),
+                    __( 'Safe Mode', 'admin-page-framework' )               => $this->getYesOrNo( @ini_get( 'safe_mode' ), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ), 
                     __( 'Memory Limit', 'admin-page-framework' )            => @ini_get( 'memory_limit' ),
                     __( 'Upload Max Size', 'admin-page-framework' )         => @ini_get( 'upload_max_filesize' ),
                     __( 'Post Max Size', 'admin-page-framework' )           => @ini_get( 'post_max_size' ),
@@ -505,16 +518,16 @@ CSSRULES;
                     __( 'Max Execution Time', 'admin-page-framework' )      => @ini_get( 'max_execution_time' ),
                     __( 'Max Input Vars', 'admin-page-framework' )          => @ini_get( 'max_input_vars' ),
                     __( 'Argument Separator', 'admin-page-framework' )      => @ini_get( 'arg_separator.output' ),
-                    __( 'Allow URL File Open', 'admin-page-framework' )     => $this->_getYesOrNo( @ini_get( 'allow_url_fopen' ) ),
-                    __( 'Display Errors', 'admin-page-framework' )          => $this->_getOnOrOff( @ini_get( 'display_errors' ) ),
-                    __( 'Log Errors', 'admin-page-framework' )              => $this->_getOnOrOff( @ini_get( 'log_errors' ) ),
+                    __( 'Allow URL File Open', 'admin-page-framework' )     => $this->getYesOrNo( @ini_get( 'allow_url_fopen' ),    $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ),
+                    __( 'Display Errors', 'admin-page-framework' )          => $this->getYesOrNo( @ini_get( 'display_errors' ),     $this->oMsg->get( 'on' ), $this->oMsg->get( 'off' ) ),
+                    __( 'Log Errors', 'admin-page-framework' )              => $this->getYesOrNo( @ini_get( 'log_errors' ),         $this->oMsg->get( 'on' ), $this->oMsg->get( 'off' ) ),
                     __( 'Error log location', 'admin-page-framework' )      => @ini_get( 'error_log' ),
                     __( 'Error Reporting Level', 'admin-page-framework' )   => $_oErrorReporting->getErrorLevel(),
-                    __( 'FSOCKOPEN', 'admin-page-framework' )               => $this->_getSupportedOrNot( function_exists( 'fsockopen' ) ),
-                    __( 'cURL', 'admin-page-framework' )                    => $this->_getSupportedOrNot( function_exists( 'curl_init' ) ),
-                    __( 'SOAP', 'admin-page-framework' )                    => $this->_getSupportedOrNot( class_exists( 'SoapClient' ) ),
-                    __( 'SUHOSIN', 'admin-page-framework' )                 => $this->_getSupportedOrNot( extension_loaded( 'suhosin' ) ),
-                    'ini_set()'                                             => $this->_getSupportedOrNot( function_exists( 'ini_set' ) ),
+                    __( 'FSOCKOPEN', 'admin-page-framework' )               => $this->getYesOrNo( function_exists( 'fsockopen' ),   $this->oMsg->get( 'supported' ), $this->oMsg->get( 'not_supported' ) ),
+                    __( 'cURL', 'admin-page-framework' )                    => $this->getYesOrNo( function_exists( 'curl_init' ),   $this->oMsg->get( 'supported' ), $this->oMsg->get( 'not_supported' ) ),
+                    __( 'SOAP', 'admin-page-framework' )                    => $this->getYesOrNo( class_exists( 'SoapClient' ),     $this->oMsg->get( 'supported' ), $this->oMsg->get( 'not_supported' ) ),
+                    __( 'SUHOSIN', 'admin-page-framework' )                 => $this->getYesOrNo( extension_loaded( 'suhosin' ),    $this->oMsg->get( 'supported' ), $this->oMsg->get( 'not_supported' ) ),
+                    'ini_set()'                                             => $this->getYesOrNo( function_exists( 'ini_set' ),     $this->oMsg->get( 'supported' ), $this->oMsg->get( 'not_supported' ) ),
                 ) 
                 + $this->getPHPInfo()
                 + array( 
@@ -536,51 +549,17 @@ CSSRULES;
                 return $bGenerateInfo 
                     ? array(
                         __( 'Web Server', 'admin-page-framework' )                  => $_SERVER['SERVER_SOFTWARE'],
-                        'SSL'                                                       => $this->_getYesOrNo( is_ssl() ),
-                        __( 'Session', 'admin-page-framework' )                     => $this->_getEnabledOrDisabled( isset( $_SESSION ) ),
+                        'SSL'                                                       => $this->getYesOrNo( is_ssl(), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ),
+                        __( 'Session', 'admin-page-framework' )                     => $this->getYesOrNo( isset( $_SESSION ), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
                         __( 'Session Name', 'admin-page-framework' )                => esc_html( @ini_get( 'session.name' ) ),
                         __( 'Session Cookie Path', 'admin-page-framework' )         => esc_html( @ini_get( 'session.cookie_path' ) ),
                         __( 'Session Save Path', 'admin-page-framework' )           => esc_html( @ini_get( 'session.save_path' ) ),
-                        __( 'Session Use Cookies', 'admin-page-framework' )         => $this->_getOnOrOff( @ini_get( 'session.use_cookies' ) ),
-                        __( 'Session Use Only Cookies', 'admin-page-framework' )    => $this->_getOnOrOff( @ini_get( 'session.use_only_cookies' ) ),                                    
+                        __( 'Session Use Cookies', 'admin-page-framework' )         => $this->getYesOrNo( @ini_get( 'session.use_cookies' ), $this->oMsg->get( 'on' ), $this->oMsg->get( 'off' ) ),
+                        __( 'Session Use Only Cookies', 'admin-page-framework' )    => $this->getYesOrNo( @ini_get( 'session.use_only_cookies' ), $this->oMsg->get( 'on' ), $this->oMsg->get( 'off' ) ),
                     ) + $_SERVER
                     : '';
                 
             }
-                    
-
-    /**
-     * Methods for labels.
-     */
-    private function _getYesOrNo( $bBoolean ) {
-        return $bBoolean 
-            ? __( 'Yes', 'admin-page-framework' )
-            : __( 'No', 'admin-page-framework' );
-    }
-    private function _getEnabledOrDisabled( $bBoolean ) {
-        return $bBoolean 
-            ? __( 'Enabled', 'admin-page-framework' )
-            : __( 'Disabled', 'admin-page-framework' );
-    }
-    private function _getOnOrOff( $bBoolean ) {
-        return $bBoolean
-            ? __( 'On', 'admin-page-framework' )
-            : __( 'Off', 'admin-page-framework' );
-    }
-    private function _getSupportedOrNot( $bBoolean ) {
-        return $bBoolean
-            ? __( 'Supported', 'admin-page-framework' )
-            : __( 'Not supported', 'admin-page-framework' );                
-    }
-    private function _getFunctionalOrNot( $bBoolean ) {
-        return $bBoolean
-            ? __( 'Functional', 'admin-page-framework' )
-            : __( 'Not functional', 'admin-page-framework' );                                
-    }
-    private function _getTooLongOrAcceptable( $bTooLongOrAccepted ) {
-        return $bTooLongOrAccepted
-            ? __( 'Too Long', 'admin-page-framework' ) 
-            : __( 'Acceptable', 'admin-page-frmework' );
-    }    
+    
  
 }

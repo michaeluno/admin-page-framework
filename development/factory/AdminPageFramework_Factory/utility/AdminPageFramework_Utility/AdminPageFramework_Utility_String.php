@@ -146,5 +146,16 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
     static public function hasPrefix( $sNeedle, $sHaystack ) {
         return $sNeedle === substr( $sHaystack, 0, strlen( $sNeedle ) );
     }
-        
+           
+    /**
+     * Returns yes or no with the custom set labels.
+     * 
+     * Use this to reduce conditional statements.
+     * 
+     * @since       3.5.3
+     * @return      string
+     */
+    static public function getYesOrNo( $bBoolean, $sLabelYes='Yes', $sLabelNo='No' ) {
+        return $bBoolean ? $sLabelYes : $sLabelNo;
+    }        
 }
