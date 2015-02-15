@@ -14,43 +14,32 @@
  * 
  * @since       3.4.6
  * @since       3.5.0       Moved from the demo.
+ * @since       3.5.3       Extends `AdminPageFrameworkLoader_AdminPage_Tab_Base`.
+ * @extends     AdminPageFrameworkLoader_AdminPage_Tab_Base
  */
-class AdminPageFrameworkLoader_AdminPage_Tool_Minifier {
+class AdminPageFrameworkLoader_AdminPage_Tool_Minifier extends AdminPageFrameworkLoader_AdminPage_Tab_Base {
 
-    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
+    /**
+     * Stores a section ID.
+     */
+    public $sSectionID;
     
-        $this->oFactory     = $oFactory;
-        $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug; 
-        $this->sTabSlug     = $sTabSlug;
-        $this->sSectionID   = $this->sTabSlug;
-        
-        $this->_addTab();
-    
-    }
-    
-    private function _addTab() {
-        
-        $this->oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
-            array(
-                'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Minifier', 'admin-page-framework-loader' ),
-            )
-        );  
-        
-        // load + page slug + tab slug
-        add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToAddFormElements' ) );
+    /**
+     * A user constructor.
+     * @since       3.5.3
+     */
+    protected function construct( $oFactory ) {
+        $this->sSectionID = $this->sTabSlug;
         add_action( 'validation_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToValidateSubmittedData' ), 10, 3 );
-        add_action( "export_{$this->sClassName}_{$this->sSectionID}_download", array( $this, 'replyToDownloadMinifiedVersion' ), 10, 4 );
+        add_action( "export_{$oFactory->oProp->sClassName}_{$this->sSectionID}_download", array( $this, 'replyToDownloadMinifiedVersion' ), 10, 4 );
         add_action( 'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToFilterFileName' ), 10, 5 );
-          
+        
     }
     
     /**
      * Triggered when the tab is loaded.
      */
-    public function replyToAddFormElements( $oAdminPage ) {
+    public function replyToLoadTab( $oAdminPage ) {
         
         /*
          * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.

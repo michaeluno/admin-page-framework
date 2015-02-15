@@ -12,37 +12,19 @@
  * @since       3.4.2
  * @since       3.5.0       Moved from the demo example.
  */
-class AdminPageFrameworkLoader_AdminPage_Help_Report {
-
-    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
-    
-        $this->oFactory     = $oFactory;
-        // $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug;
-        $this->sTabSlug     = $sTabSlug;
-        $this->sSectionID   = $this->sTabSlug;
-        $this->_adddTab();
-    
-    }
-    
-    private function _adddTab() {
-        
-        $this->oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
-            array(
-                'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Report', 'admin-page-framework-loader' ),
-            )
-        );  
-        
-        // load + page slug + tab slug
-        add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToAddFormElements' ) );
-        
-    }
+class AdminPageFrameworkLoader_AdminPage_Help_Report extends AdminPageFrameworkLoader_AdminPage_Tab_Base {
+      
+    /**
+     * Stores a form section ID.
+     */
+    public $sSectionID;
+      
     /**
      * Triggered when the tab is loaded.
      */
-    public function replyToAddFormElements( $oAdminPage ) {
+    public function replyToLoadTab( $oAdminPage ) {
+        
+        $this->sSectionID = $this->sTabSlug;
         
         /*
          * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.

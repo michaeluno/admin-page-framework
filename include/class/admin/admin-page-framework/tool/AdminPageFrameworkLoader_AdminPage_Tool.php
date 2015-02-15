@@ -11,39 +11,30 @@
  * Adds the Tool page to the loader plugin.
  * 
  * @since       3.5.0       
+ * @since       3.5.3       Extends `AdminPageFrameworkLoader_AdminPage_Page_Base`.
+ * @extends     AdminPageFrameworkLoader_AdminPage_Page_Base
  */
-class AdminPageFrameworkLoader_AdminPage_Tool {
+class AdminPageFrameworkLoader_AdminPage_Tool extends AdminPageFrameworkLoader_AdminPage_Page_Base {
 
-    public function __construct( $oFactory, $sPageSlug, $sTitle ) {
-    
-        $this->oFactory     = $oFactory;
-        $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug;
-        $this->sPageTitle   = $sTitle;
-    
-        $this->_addPage();
-    
-    }
+
+    /**
+     * A user constructor.
+     * 
+     * @since       3.5.3
+     * @return      void
+     */
+    public function construct( $oFactory ) {
         
-        /**
-         * Adds an admin page.
-         */
-        private function _addPage() {
+        // Tabs
+        new AdminPageFrameworkLoader_AdminPage_Tool_Minifier( 
+            $this->oFactory,        // factory object
+            $this->sPageSlug,       // page slug
+            array( 
+                'tab_slug'  => 'minifier',
+                'title'     => __( 'Minifier', 'admin-page-framework-loader' ),
+            )
+        );          
             
-            $this->oFactory->addSubMenuItems( 
-                array(
-                    'title'         => $this->sPageTitle,
-                    'page_slug'     => $this->sPageSlug,    // page slug
-                )
-            );
-
-            // Tabs
-            new AdminPageFrameworkLoader_AdminPage_Tool_Minifier( 
-                $this->oFactory,        // factory object
-                $this->sPageSlug,       // page slug
-                'minifier'              // tab slug
-            );            
-            
-        }
+    }   
         
 }

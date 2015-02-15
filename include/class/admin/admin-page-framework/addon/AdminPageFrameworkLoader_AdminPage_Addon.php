@@ -11,40 +11,28 @@
  * Adds the Addon page to the loader plugin.
  * 
  * @since       3.5.0       
+ * @since       3.5.3       Extends `AdminPageFrameworkLoader_AdminPage_Page_Base`.
+ * @extends     AdminPageFrameworkLoader_AdminPage_Page_Base
  */
-class AdminPageFrameworkLoader_AdminPage_Addon {
+class AdminPageFrameworkLoader_AdminPage_Addon extends AdminPageFrameworkLoader_AdminPage_Page_Base {
 
-    public function __construct( $oFactory, $sPageSlug, $sTitle ) {
-    
-        $this->oFactory     = $oFactory;
-        $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug;
-        $this->sPageTitle   = $sTitle;
-    
-        $this->_addPage();
-    
-    }
+    /**
+     * A user constructor.
+     * 
+     * @since       3.5.3
+     * @return      void
+     */
+    public function construct( $oFactory ) {
         
-        /**
-         * Adds an admin page.
-         */
-        private function _addPage() {
-            
-            $this->oFactory->addSubMenuItems( 
-                array(
-                    'title'         => $this->sPageTitle,
-                    'page_slug'     => $this->sPageSlug,    // page slug
-                    'order'         => 990, // the Help page is 1000
+        new AdminPageFrameworkLoader_AdminPage_Addon_Top( 
+                $oFactory,        // factory object
+                $this->sPageSlug,       // page slug
+                array(                  // tab definition
+                    'tab_slug'      => 'top',
+                    'title'         => __( 'Add Ons', 'admin-page-framework-loader' ),
                 )
             );
-
-            // Tabs
-            new AdminPageFrameworkLoader_AdminPage_Addon_Top( 
-                $this->oFactory,        // factory object
-                $this->sPageSlug,       // page slug
-                'top'                   // tab slug
-            );            
             
-        }
+    }
         
 }

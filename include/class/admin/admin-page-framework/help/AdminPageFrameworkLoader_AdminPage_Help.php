@@ -11,78 +11,97 @@
  * Adds the Contact page to the loader plugin.
  * 
  * @since       3.5.0       
+ * @since       3.5.3       Extends `AdminPageFrameworkLoader_AdminPage_Page_Base`.
+ * @extends     AdminPageFrameworkLoader_AdminPage_Page_Base
  */
-class AdminPageFrameworkLoader_AdminPage_Help {
+class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_AdminPage_Page_Base {
 
-    public function __construct( $oFactory, $sPageSlug, $sTitle ) {
-    
-        $this->oFactory     = $oFactory;
-        $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug;
-        $this->sPageTitle   = $sTitle;
-    
-        $this->_addPage();
-    
-        add_action( "load_{$this->sPageSlug}", array( $this, 'replyToLoadPage' ) );       
-    
-    }
+    /**
+     * Adds an admin page.
+     */
+    protected function construct( $oFactory ) {
         
-        /**
-         * Adds an admin page.
-         */
-        private function _addPage() {
-            
-            $this->oFactory->addSubMenuItems( 
-                array(
-                    'title'         => $this->sPageTitle,
-                    'page_slug'     => $this->sPageSlug,    // page slug
-                    'order'         => 1000,        // to be the last menu item
-                )
-            );
+        // Tabs
+        new AdminPageFrameworkLoader_AdminPage_Help_Information(
+            $this->oFactory,    // factory object
+            $this->sPageSlug,   // page slug
+            array(  // tab definition
+                'tab_slug'  => 'information',
+                'title'     => __( 'Support', 'admin-page-framework-loader' ),             
+            )            
+        );     
+        new AdminPageFrameworkLoader_AdminPage_Help_Guide(
+            $this->oFactory,    
+            $this->sPageSlug,   
+            array(
+                'tab_slug'  => 'guide',
+                'title'         => __( 'Getting Started', 'admin-page-framework-loader' ),
+                'url'           => add_query_arg( 
+                    array( 
+                        'page'  => AdminPageFrameworkLoader_Registry::$aAdminPages['about'],
+                        'tab'   => 'guide',
+                    ),
+                    admin_url( 'index.php' )   // Dashboard
+                )               
+            )                          
+        );                 
+        new AdminPageFrameworkLoader_AdminPage_Help_Tip(
+            $this->oFactory,    
+            $this->sPageSlug,   
+            array(
+                'tab_slug'  => 'tips',
+                'title'     => __( 'Tips', 'admin-page-framework-loader' ),          
+            )              
+        );               
+        new AdminPageFrameworkLoader_AdminPage_Help_FAQ(
+            $this->oFactory,
+            $this->sPageSlug, 
+            array(
+                'tab_slug'  => 'faq',
+                'title'     => __( 'FAQ', 'admin-page-framework-loader' ),                 
+            )                   
+        );      
+        new AdminPageFrameworkLoader_AdminPage_Help_Example(
+            $this->oFactory,
+            $this->sPageSlug, 
+            array(
+                'tab_slug'  => 'examples',
+                'title'     => __( 'Examples', 'admin-page-framework-loader' ),
+            )                
+        );
+        new AdminPageFrameworkLoader_AdminPage_Help_Report(
+            $this->oFactory,
+            $this->sPageSlug,  
+            array(
+                'tab_slug'  => 'report',
+                'title'     => __( 'Report', 'admin-page-framework-loader' ),                
+            )                 
+        );      
+        new AdminPageFrameworkLoader_AdminPage_Help_About(
+            $this->oFactory,
+            $this->sPageSlug, 
+            array(
+                'tab_slug'  => 'about',
+                'title'     => __( 'About', 'admin-page-framework-loader' ),
+                'url'       => add_query_arg( 
+                    array( 
+                        'page' => AdminPageFrameworkLoader_Registry::$aAdminPages['about']
+                    ),
+                    admin_url( 'index.php' )   // Dashboard
+                )           
+            )
+        );     
+        new AdminPageFrameworkLoader_AdminPage_Help_Debug(
+            $this->oFactory,
+            $this->sPageSlug,             
+            array(
+                'tab_slug'  => 'debug',
+                'title'     => __( 'Debug', 'admin-page-framework-loader' ),
+                'if'        => defined( 'WP_DEBUG' ) && WP_DEBUG,
+            )
+        );  
 
-            // Tabs
-            new AdminPageFrameworkLoader_AdminPage_Help_Information(
-                $this->oFactory,    // factory object
-                $this->sPageSlug,   // page slug
-                'information'       // tab slug 
-            );     
-            new AdminPageFrameworkLoader_AdminPage_Help_Guide(
-                $this->oFactory,    
-                $this->sPageSlug,   
-                'guide'              
-            );                 
-            new AdminPageFrameworkLoader_AdminPage_Help_Tip(
-                $this->oFactory,    
-                $this->sPageSlug,   
-                'tips'              
-            );               
-            new AdminPageFrameworkLoader_AdminPage_Help_FAQ(
-                $this->oFactory,
-                $this->sPageSlug, 
-                'faq'              
-            );      
-            new AdminPageFrameworkLoader_AdminPage_Help_Example(
-                $this->oFactory,
-                $this->sPageSlug, 
-                'examples'              
-            );
-            new AdminPageFrameworkLoader_AdminPage_Help_Report(
-                $this->oFactory,
-                $this->sPageSlug,  
-                'report'          
-            );      
-            new AdminPageFrameworkLoader_AdminPage_Help_About(
-                $this->oFactory,
-                $this->sPageSlug, 
-                'about'            
-            );     
-            new AdminPageFrameworkLoader_AdminPage_Help_Debug(
-                $this->oFactory,
-                $this->sPageSlug,             
-                'debug'
-            );            
-            
-        }
+    }
         
     /**
      * Gets triggered when the page loads.
@@ -106,7 +125,6 @@ class AdminPageFrameworkLoader_AdminPage_Help {
      * Output custom page contents.
      */
     public function replyToDoAfterPage() {
-        
         
         $_aReplacements   = array(
             '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),

@@ -67,43 +67,58 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             // Add pages
             new AdminPageFrameworkLoader_AdminPage_Tool( 
                 $this,
-                AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],    // page slug
-                __( 'Tools', 'admin-page-framework-loader' )
+                array(
+                    'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],
+                    'title'     => __( 'Tools', 'admin-page-framework-loader' ),
+                )
             );
             new AdminPageFrameworkLoader_AdminPage_Addon(
                 $this,
-                AdminPageFrameworkLoader_Registry::$aAdminPages['addon'],    // page slug
-                __( 'Add Ons', 'admin-page-framework-loader' )            
+                array(
+                    'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages['addon'],    // page slug
+                    'title'     => __( 'Add Ons', 'admin-page-framework-loader' ),
+                )                
             );
             new AdminPageFrameworkLoader_AdminPage_Help( 
                 $this,
-                AdminPageFrameworkLoader_Registry::$aAdminPages['help'],    // page slug
-                __( 'Help', 'admin-page-framework-loader' )
+                array(
+                    'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages['help'],
+                    'title'     => __( 'Help', 'admin-page-framework-loader' ),
+                    'order'     => 1000, // to be the last menu item
+                )                
             );
             
         }
               
-        // Page Settings
-        $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
-        $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
-        $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
-        $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
-           
-        // Styles
-        $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css' );
-        $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css' );
-       
-        // Action Links (plugin.php)
-        $this->addLinkToPluginTitle(
-            $this->_getAdminURLTools( $_bAdminPageEnabled ),
-            $this->_getAdminPageSwitchLink( $_bAdminPageEnabled ),
-            $this->_getDemoSwitcherLink( $_bAdminPageEnabled, $_aOptions )
-        );
-        $this->addLinkToPluginDescription(
-            "<a href='https://wordpress.org/support/plugin/admin-page-framework' target='_blank'>" . __( 'Support', 'admin-page-framework-loader' ) . "</a>"
-        );
+        $this->_doPageSettings( $_bAdminPageEnabled, $_aOptions );
         
     }
+        /**
+         * Does page settings.
+         */
+        private function _doPageSettings( $_bAdminPageEnabled, $_aOptions ) {
+                
+            // Page Settings
+            $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
+            $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
+            $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
+            $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
+               
+            // Styles
+            $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css' );
+            $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css' );
+           
+            // Action Links (plugin.php)
+            $this->addLinkToPluginTitle(
+                $this->_getAdminURLTools( $_bAdminPageEnabled ),
+                $this->_getAdminPageSwitchLink( $_bAdminPageEnabled ),
+                $this->_getDemoSwitcherLink( $_bAdminPageEnabled, $_aOptions )
+            );
+            $this->addLinkToPluginDescription(
+                "<a href='https://wordpress.org/support/plugin/admin-page-framework' target='_blank'>" . __( 'Support', 'admin-page-framework-loader' ) . "</a>"
+            );            
+            
+        }
         /**
          * Returns the Tools admin page link.
          */

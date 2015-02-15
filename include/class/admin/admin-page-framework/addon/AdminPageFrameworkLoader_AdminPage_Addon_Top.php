@@ -15,7 +15,7 @@
  * @since       3.5.0       Moved from the demo.
  * @filter      apply       admin_page_framework_loader_filter_admin_add_ons        Receives an array holding add-on information to list.
  */
-class AdminPageFrameworkLoader_AdminPage_Addon_Top {
+class AdminPageFrameworkLoader_AdminPage_Addon_Top extends AdminPageFrameworkLoader_AdminPage_Tab_Base {
     
     /**
      * Stores the RSS url to fetch an add-on list.
@@ -23,46 +23,15 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top {
      */
     private $sRSSURL = 'http://feeds.feedburner.com/MiunosoftTagsAdd-ons';  
     
-    /**
-     * Set up properties.
-     */
-    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
-    
-        $this->oFactory     = $oFactory;
-        $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug; 
-        $this->sTabSlug     = $sTabSlug;
-        $this->sSectionID   = $this->sTabSlug;
-        
-        $this->_addTab();
-        
-        // Enable this to renew caches of the feed.
-        // add_filter( 'wp_feed_cache_transient_lifetime', '__return_zero' );
-        
-    }
-    
-    private function _addTab() {
-        
-        $this->oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
-            array(
-                'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Add Ons', 'admin-page-framework-loader' ),
-            )
-        );  
-        
-        // load + page slug + tab slug
-        add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
-    
-    }
-    
+      
     /**
      * Triggered when the tab is loaded.
      */
     public function replyToLoadTab( $oAdminPage ) {
         
-        add_action( "do_{$this->sPageSlug}_{$this->sTabSlug}", array( $this, 'replyToDoTab' ) );        
-        
+        // Enable this to renew caches of the feed.
+        // add_filter( 'wp_feed_cache_transient_lifetime', '__return_zero' );        
+
         // Styles
         $this->oFactory->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/column.css' );  
         $this->oFactory->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/feed-list.css' );  

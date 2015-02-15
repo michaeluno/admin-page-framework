@@ -14,42 +14,13 @@
  * 
  * @since       3.5.0    
  */
-class AdminPageFrameworkLoader_AdminPage_Help_FAQ {
+class AdminPageFrameworkLoader_AdminPage_Help_FAQ extends AdminPageFrameworkLoader_AdminPage_Tab_Base {
 
-    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
-    
-        $this->oFactory     = $oFactory;
-        $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug; 
-        $this->sTabSlug     = $sTabSlug;
-        $this->sSectionID   = $this->sTabSlug;
-        
-        $this->_addTab();
-    
-    }
-    
-    private function _addTab() {
-        
-        $this->oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
-            array(
-                'tab_slug'      => $this->sTabSlug,
-                'title'         => __( "FAQ", 'admin-page-framework-loader' ),   // '
-            )
-        );  
-        
-        // load + page slug + tab slug
-        add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
-  
-    }
-    
     /**
      * Triggered when the tab is loaded.
      */
     public function replyToLoadTab( $oAdminPage ) {
-        
-        add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
-        
+            
         $_aFAQs = array();
         foreach( $this->getContentsByHeader( $this->getFAQContents(), 4 ) as $_aContent ) {
             $_aFAQs = array_merge( $_aFAQs, $this->getContentsByHeader( $_aContent[ 1 ], 5 ) );
@@ -153,9 +124,5 @@ class AdminPageFrameworkLoader_AdminPage_Help_FAQ {
             return $_aContents;
             
         }
-        
-    
-    public function replyToDoTab() {
-    }
     
 }
