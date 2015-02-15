@@ -34,6 +34,7 @@ $_aClassFiles = array(
 	"AdminPageFrameworkLoader_AdminPage_RootBase"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/_abstract/AdminPageFrameworkLoader_AdminPage_RootBase.php", 
 	"AdminPageFrameworkLoader_AdminPage_Section_Base"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/_abstract/AdminPageFrameworkLoader_AdminPage_Section_Base.php", 
 	"AdminPageFrameworkLoader_AdminPage_Tab_Base"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/_abstract/AdminPageFrameworkLoader_AdminPage_Tab_Base.php", 
+	"AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/_abstract/AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase.php", 
 	"AdminPageFrameworkLoader_Bootstrap"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/boot/AdminPageFrameworkLoader_Bootstrap.php", 
 	"AdminPageFrameworkLoader_Option"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/boot/AdminPageFrameworkLoader_Option.php", 
 	"AdminPageFrameworkLoader_FeedList"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_FeedList.php", 
