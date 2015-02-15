@@ -23,7 +23,7 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
         
         // Tabs
         new AdminPageFrameworkLoader_AdminPage_Help_Information(
-            $this->oFactory,    // factory object
+            $oFactory,    // factory object
             $this->sPageSlug,   // page slug
             array(  // tab definition
                 'tab_slug'  => 'information',
@@ -31,7 +31,7 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
             )            
         );     
         new AdminPageFrameworkLoader_AdminPage_Help_Guide(
-            $this->oFactory,    
+            $oFactory,    
             $this->sPageSlug,   
             array(
                 'tab_slug'  => 'guide',
@@ -46,7 +46,7 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
             )                          
         );                 
         new AdminPageFrameworkLoader_AdminPage_Help_Tip(
-            $this->oFactory,    
+            $oFactory,    
             $this->sPageSlug,   
             array(
                 'tab_slug'  => 'tips',
@@ -54,7 +54,7 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
             )              
         );               
         new AdminPageFrameworkLoader_AdminPage_Help_FAQ(
-            $this->oFactory,
+            $oFactory,
             $this->sPageSlug, 
             array(
                 'tab_slug'  => 'faq',
@@ -62,7 +62,7 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
             )                   
         );      
         new AdminPageFrameworkLoader_AdminPage_Help_Example(
-            $this->oFactory,
+            $oFactory,
             $this->sPageSlug, 
             array(
                 'tab_slug'  => 'examples',
@@ -70,7 +70,7 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
             )                
         );
         new AdminPageFrameworkLoader_AdminPage_Help_Report(
-            $this->oFactory,
+            $oFactory,
             $this->sPageSlug,  
             array(
                 'tab_slug'  => 'report',
@@ -78,7 +78,7 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
             )                 
         );      
         new AdminPageFrameworkLoader_AdminPage_Help_About(
-            $this->oFactory,
+            $oFactory,
             $this->sPageSlug, 
             array(
                 'tab_slug'  => 'about',
@@ -92,7 +92,7 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
             )
         );     
         new AdminPageFrameworkLoader_AdminPage_Help_Debug(
-            $this->oFactory,
+            $oFactory,
             $this->sPageSlug,             
             array(
                 'tab_slug'  => 'debug',

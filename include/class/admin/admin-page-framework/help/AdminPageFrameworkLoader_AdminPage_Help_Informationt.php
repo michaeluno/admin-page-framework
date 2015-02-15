@@ -16,7 +16,7 @@
  */
 class AdminPageFrameworkLoader_AdminPage_Help_Information extends AdminPageFrameworkLoader_AdminPage_Tab_Base {
     
-    public function replyToDoTab( $oFactory ) {
+    public function replyToDoTab( /* $oFactory */ ) {
     
         $_aReplacements   = array(
             '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),

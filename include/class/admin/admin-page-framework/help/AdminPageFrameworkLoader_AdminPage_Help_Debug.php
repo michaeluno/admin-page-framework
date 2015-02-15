@@ -32,10 +32,10 @@ class AdminPageFrameworkLoader_AdminPage_Help_Debug extends AdminPageFrameworkLo
         );
     }
     
-    public function replyToDoTab() {
+    public function replyToDoTab( $oFactory ) {
         
         echo "<h3>" . __( 'Saved Options', 'admin-page-framework-loader' ) . "</h3>";
-        $this->oFactory->oDebug->dump( $this->oFactory->oProp->aOptions );
+        $oFactory->oDebug->dump( $oFactory->oProp->aOptions );
         
     }
     
