@@ -362,15 +362,15 @@ CSSRULES;
                     global $wpdb;
                     return array(
                         __( 'Version', 'admin-page-framework' )                  => $GLOBALS['wp_version'],
-                        __( 'Language', 'admin-page-framework' )                 => $this->_getSiteLanguage(),
+                        __( 'Language', 'admin-page-framework' )                 => $this->getSiteLanguage(),
                         __( 'Memory Limit', 'admin-page-framework' )             => $this->getReadableBytes( $this->getNumberOfReadableSize( WP_MEMORY_LIMIT ) ),
                         __( 'Multi-site', 'admin-page-framework' )               => $this->_getYesOrNo( is_multisite() ), 
                         __( 'Permalink Structure', 'admin-page-framework' )      => get_option( 'permalink_structure' ), 
                         __( 'Active Theme', 'admin-page-framework' )             => $this->_getActiveThemeName(),
                         __( 'Registered Post Statuses', 'admin-page-framework' ) => implode( ', ', get_post_stati() ),
-                        'WP_DEBUG'                                               => $this->_getEnabledOrDisabled( defined( 'WP_DEBUG' ) && WP_DEBUG ),
-                        'WP_DEBUG_LOG'                                           => $this->_getEnabledOrDisabled( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ),
-                        'WP_DEBUG_DISPLAY'                                       => $this->_getEnabledOrDisabled( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ),
+                        'WP_DEBUG'                                               => $this->_getEnabledOrDisabled( $this->isDebugModeEnabled() ),
+                        'WP_DEBUG_LOG'                                           => $this->_getEnabledOrDisabled( $this->isDebugLogEnabled() ),
+                        'WP_DEBUG_DISPLAY'                                       => $this->_getEnabledOrDisabled( $this->isDebugLogEnabled() ),
                         __( 'Table Prefix', 'admin-page-framework' )             => $wpdb->prefix,
                         __( 'Table Prefix Length', 'admin-page-framework' )      => strlen( $wpdb->prefix ),
                         __( 'Table Prefix Status', 'admin-page-framework' )      => $this->_getTooLongOrAcceptable( strlen( $wpdb->prefix ) > 16 ),
@@ -383,20 +383,12 @@ CSSRULES;
                     );                        
                 }
                 /**
-                 * Returns the site language slug.
-                 * @since       3.5.3
-                 * @return      string      the site language slug.
-                 */
-                private function _getSiteLanguage() {
-                    return defined( 'WPLANG' ) && WPLANG ? WPLANG : 'en_US';
-                }                
-                /**
                  * Returns the active theme name.
                  */
                 private function _getActiveThemeName() {
                     
                     // If the WordPress version is less than 3.4,
-                    if ( version_compare( $GLOBALS['wp_version'], '3.4', '<' ) ) {                      
+                    if ( version_compare( $GLOBALS['wp_version'], '3.4', '<' ) ) {
                         $_aThemeData = get_theme_data( get_stylesheet_directory() . '/style.css' );
                         return $_aThemeData['Name'] . ' ' . $_aThemeData['Version'];
                     } 
