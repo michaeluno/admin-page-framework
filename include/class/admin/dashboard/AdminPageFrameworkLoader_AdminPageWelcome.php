@@ -45,29 +45,31 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
          */
         public function _replyToHandleRedirects() {
                 
-            $_oOption = AdminPageFrameworkLoader_Option::getInstance();
-                    
             // When newly installed, the 'welcomed' value is not set.
-            if ( ! $_oOption->get( 'welcomed' ) ) {
-                
-                $_oOption->set( 'welcomed', true );
-                $_oOption->set( 'version_upgraded_from', AdminPageFrameworkLoader_Registry::Version );
-                $_oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::Version );
-                $_oOption->save();
-                $this->_gotToWelcomePage();
-                
+            $_oOption = AdminPageFrameworkLoader_Option::getInstance();
+            if ( ! $_oOption->get( 'welcomed' ) ) {                
+                $this->_setInitialOptions( $_oOption, AdminPageFrameworkLoader_Registry::Version );
+                $this->_gotToWelcomePage(); // will exit
             }
             if ( $_oOption->hasUpgraded() ) {
-
-                $_oOption->set( 'welcomed', true );
-                $_oOption->set( 'version_upgraded_from', $_oOption->get( 'version_saved' ) );
-                $_oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::Version );
-                $_oOption->save();
-                $this->_gotToWelcomePage();
-                
+                $this->_setInitialOptions( $_oOption, $_oOption->get( 'version_saved' ) );
+                $this->_gotToWelcomePage(); // will exit
             }            
             
         }
+            /**
+             * 
+             * @return void
+             */
+            private function _setInitialOptions( $oOption, $sVersionUpgradedFrom ) {
+                
+                $oOption->set( 'welcomed', true );
+                $oOption->set( 'version_upgraded_from', $sVersionUpgradedFrom );
+                $oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::Version );
+                $oOption->save();                
+                
+            }
+            
         private function _gotToWelcomePage() {        
             $_sWelcomePageURL = apply_filters( 
                 'admin_page_framework_loader_filter_admin_welcome_redirect_url',
