@@ -36,13 +36,19 @@ abstract class AdminPageFramework_UserMeta_View extends AdminPageFramework_UserM
      * @remark      Called in the _replyTODetermineToLoad() method.
      * @since       3.5.0
      * @internal
+     * 
+     * @callback    action      show_user_profile
+     * @callback    action      edit_user_profile
+     * @callback    action      user_new_form
      */
     public function _replyToPrintFields( $oUser ) {
-
-        $this->_setOptionArray( $oUser->ID  );
+        
+        $_iUserID = isset( $oUser->ID ) ? $oUser->ID : 0;
+        
+        $this->_setOptionArray( $_iUserID );
         
         // Ouptut the fields
-        echo $this->_getFieldsOutput( $oUser->ID );
+        echo $this->_getFieldsOutput( $_iUserID );
         
     }
         /**

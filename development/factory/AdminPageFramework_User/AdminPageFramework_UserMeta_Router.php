@@ -18,7 +18,6 @@
  */
 abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Factory {
     
-    
     /**
      * Sets up hooks.
      * 
@@ -59,7 +58,7 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
      * @since       3.5.0
      * @internal
      */
-    public function _replyToDetermineToLoad( $oScreen ) {
+    public function _replyToDetermineToLoad( /* $oScreen */ ) {
         
         if ( ! $this->_isInThePage() ) { return; }
 

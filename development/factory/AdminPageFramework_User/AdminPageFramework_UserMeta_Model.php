@@ -76,14 +76,16 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
             }
             
             // Apply the filter to let third party scripts to set own options array.
-            $_aOptions = AdminPageFramework_WPUtility::addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+            $_aOptions = $this->oUtil->addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
                 $this, // the caller object
                 'options_' . $this->oProp->sClassName, // options_{instantiated class name}
                 $_aOptions
             );
 
-            $_aLastInput    = isset( $_GET['field_errors'] ) && $_GET['field_errors'] ? $this->oProp->aLastInput : array();
-            $_aOptions      = $_aLastInput + AdminPageFramework_WPUtility::getAsArray( $_aOptions );
+            $_aLastInput    = isset( $_GET['field_errors'] ) && $_GET['field_errors'] 
+                ? $this->oProp->aLastInput 
+                : array();
+            $_aOptions      = $_aLastInput + $this->oUtil->getAsArray( $_aOptions );
             
             $this->oProp->aOptions = $_aOptions;
 
@@ -130,7 +132,8 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
         $this->_updatePostMeta( 
             $iUserID, 
             $_aInput, 
-            $this->oForm->dropRepeatableElements( $_aSavedMeta ) // Drop repeatable section elements from the saved meta array.
+            // Drop repeatable section elements from the saved meta array.
+            $this->oForm->dropRepeatableElements( $_aSavedMeta )
         );     
         
     }
@@ -167,12 +170,21 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
             // Loop through sections/fields and save the data.
             foreach ( $aInput as $_sSectionOrFieldID => $_vValue ) {
 
-                if ( is_null( $_vValue ) ) { continue; }
+                if ( is_null( $_vValue ) ) { 
+                    continue; 
+                }
 
-                $_vSavedValue = isset( $aSavedMeta[ $_sSectionOrFieldID ] ) ? $aSavedMeta[ $_sSectionOrFieldID ] : null;
-
+                $_vSavedValue = $this->oUtil->getElement(
+                    $aSavedMeta, // subjct
+                    $_sSectionOrFieldID,    // dimensional keys
+                    null   // default value
+                );
+                    
                 // PHP can compare even array contents with the == operator. See http://www.php.net/manual/en/language.operators.array.php
-                if ( $_vValue == $_vSavedValue ) { continue; } // if the input value and the saved meta value are the same, no need to update it.
+                // if the input value and the saved meta value are the same, no need to update it.
+                if ( $_vValue == $_vSavedValue ) { 
+                    continue; 
+                }
 
                 update_user_meta( $iUserID, $_sSectionOrFieldID, $_vValue );
 
@@ -196,24 +208,32 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
                 if ( '_default' == $_sSectionID ) {
                     $_aFields = $_aSubSectionsOrFields;
                     foreach( $_aFields as $_aField ) {
-                        $_aInput[ $_aField['field_id'] ] = isset( $_POST[ $_aField['field_id'] ] ) 
-                            ? $_POST[ $_aField['field_id'] ] 
-                            : null;
+                        $_aInput[ $_aField['field_id'] ] = $this->oUtil->getElement(
+                            $_POST, // subjct
+                            $_aField['field_id'],    // dimensional keys
+                            null   // default value
+                        );                            
                     }
                     continue;
                 }     
 
-                // At this point, the section is set
-                $_aInput[ $_sSectionID ] = isset( $_aInput[ $_sSectionID ] ) ? $_aInput[ $_sSectionID ] : array();
+                // At this point, the section is set                
+                $_aInput[ $_sSectionID ] = $this->oUtil->getElementAsArray(
+                    $_aInput, // subjct
+                    $_sSectionID,    // dimensional keys
+                    array()   // default value
+                );      
                 
                 // If the section does not contain sub sections,
-                if ( ! count( $this->oUtil->getIntegerElements( $_aSubSectionsOrFields ) ) ) {
+                if ( ! count( $this->oUtil->getIntegerKeyElements( $_aSubSectionsOrFields ) ) ) {
                     
                     $_aFields = $_aSubSectionsOrFields;
                     foreach( $_aFields as $_aField ) {
-                        $_aInput[ $_sSectionID ][ $_aField['field_id'] ] = isset( $_POST[ $_sSectionID ][ $_aField['field_id'] ] )
-                            ? $_POST[ $_sSectionID ][ $_aField['field_id'] ]
-                            : null;
+                        $_aInput[ $_sSectionID ][ $_aField['field_id'] ] = $this->oUtil->getElement(
+                            $_POST, // subjct
+                            array( $_sSectionID, $_aField['field_id'] ),    // dimensional keys
+                            null   // default value
+                        );
                     }     
                     continue;
 
@@ -222,11 +242,13 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
                 // Otherwise, it's sub-sections. 
                 // Since the registered fields don't have information how many items the user added, parse the submitted data.
                 foreach( $_POST[ $_sSectionID ] as $_iIndex => $_aFields ) { // will include the main section as well.
-                    $_aInput[ $_sSectionID ][ $_iIndex ] = isset( $_POST[ $_sSectionID ][ $_iIndex ] ) 
-                        ? $_POST[ $_sSectionID ][ $_iIndex ]
-                        : null;
-                }
-                                
+                    $_aInput[ $_sSectionID ][ $_iIndex ] = $this->oUtil->getElement(
+                        $_POST, // subjct
+                        array( $_sSectionID, $_iIndex ),    // dimensional keys
+                        null   // default value
+                    );
+                }          
+                               
             }
     
             return $_aInput;
