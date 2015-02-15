@@ -505,7 +505,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
         private function _getDefautValue( $aField ) {
             
             // Check if sub-fields exist whose keys are numeric
-            $_aSubFields = $this->oUtil->getIntegerElements( $aField );
+            $_aSubFields = $this->oUtil->getIntegerKeyElements( $aField );
 
             // If there are no sub-fields     
             if ( count( $_aSubFields ) == 0 ) {

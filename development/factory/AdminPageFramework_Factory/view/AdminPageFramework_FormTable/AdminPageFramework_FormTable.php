@@ -224,7 +224,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 $_sSectionTabSlug   = $aSections[ $_sSectionID ]['section_tab_slug']; 
                 
                 // For repeatable sections - note that sub-sections are divided field definition arrays by sub-section index, not section definition arrays.
-                $_aSubSections      = $this->getIntegerElements( isset( $aFieldsInSections[ $_sSectionID ] ) ? $aFieldsInSections[ $_sSectionID ] : array() );
+                $_aSubSections      = $this->getIntegerKeyElements( isset( $aFieldsInSections[ $_sSectionID ] ) ? $aFieldsInSections[ $_sSectionID ] : array() );
                 $_iCountSubSections = count( $_aSubSections ); // Check sub-sections.                
                 if ( $_iCountSubSections ) {
 

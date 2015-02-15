@@ -161,7 +161,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             $_aInput[ $_sSectionID ] = isset( $_aInput[ $_sSectionID ] ) ? $_aInput[ $_sSectionID ] : array();
             
             // If the section does not contain sub sections,
-            if ( ! count( $this->oUtil->getIntegerElements( $_aSubSectionsOrFields ) ) ) {
+            if ( ! count( $this->oUtil->getIntegerKeyElements( $_aSubSectionsOrFields ) ) ) {
                 
                 $_aFields = $_aSubSectionsOrFields;
                 foreach( $_aFields as $_aField ) {

@@ -97,4 +97,24 @@ abstract class AdminPageFramework_Utility_Deprecated {
         
     }        
     
+    /**
+     * Shift array elements until it gets an element that yields true and re-index with numeric keys.
+     * 
+     * @since       3.0.1
+     * @since       3.5.3       Moved from `AdminPageFramework_Utility_Array`.
+     * @deprecated  3.5.3       This was used to sanitise dimensinal key arrays but it does not seem to necessary.
+     * @return      array
+     */
+    static public function shiftTillTrue( array $aArray ) {
+        
+        foreach( $aArray as &$vElem ) {
+            
+            if ( $vElem ) { break; }
+            unset( $vElem );
+            
+        }
+        return array_values( $aArray );
+        
+    }    
+    
 }

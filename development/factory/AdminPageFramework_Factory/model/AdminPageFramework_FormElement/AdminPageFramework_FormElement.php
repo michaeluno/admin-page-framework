@@ -419,7 +419,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
             
             // If there are sub-section items.
             $_abSectionRepeatable = $this->aSections[ $_sSectionID ]['repeatable']; // a setting array or boolean or true/false
-            if ( count( $this->getIntegerElements( $_aSubSectionsOrFields ) ) || $_abSectionRepeatable ) { // if sub-section exists or repeatable
+            if ( count( $this->getIntegerKeyElements( $_aSubSectionsOrFields ) ) || $_abSectionRepeatable ) { // if sub-section exists or repeatable
                 
                 foreach( $this->numerizeElements( $_aSubSectionsOrFields ) as $_iSectionIndex => $_aFields ) {
                                             
@@ -670,7 +670,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                 // Insert the fields definition array into a temporary sub section array.
                 $_aSubSection[ $_iIndex ] = isset( $this->aConditionedFields[ $_sSectionID ][ $_iIndex ] ) // already numerized ?
                     ? $this->aConditionedFields[ $_sSectionID ][ $_iIndex ]
-                    : $this->getNonIntegerElements( $this->aConditionedFields[ $_sSectionID ] );
+                    : $this->getNonIntegerKeyElements( $this->aConditionedFields[ $_sSectionID ] );
                 $_aSubSection[ $_iIndex ] = ! empty( $_aSubSection[ $_iIndex ] )     // if empty, merge with the previous element.
                     ? $_aSubSection[ $_iIndex ]
                     : ( isset( $_aSubSection[ $_iPrevIndex ] )

@@ -19,7 +19,7 @@
 abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {
         
     /**
-     * Returns the element value by the given key. 
+     * Returns an array element value by the given key. 
      * 
      * It just saves isset() conditional checks and allows a default value to be set.
      * 
@@ -48,10 +48,10 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }
            
     /**
-     * Returns the element value by the given key as an array.
+     * Returns an array element value by the given key as an array.
      * 
-     * When the retrieving element value is unknown whether it is set and it is an array, use this method 
-     * to save the line of isset() and is_array().
+     * When the retrieving array element value is unknown whether it is set or not and it should be an array, 
+     * this method can save the lines of isset() and is_array().
      * 
      * @since       3.4.0
      * @since       3.5.3       The second parameter accepts dimensinal array keys and added the fourth parameter.
@@ -68,27 +68,28 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * Casts array contents into another while keeping the same key structure.
      * 
      * @since       3.0.0
+     * @since       3.5.3       Added type hints to the parameter.
      * @remark      It won't check key structure deeper than or equal to the second dimension.
-     * @param       array     the array that holds the necessary keys.
-     * @param       array     the array to be modified.
-     * @return      array     the modified array.
+     * @param       array       the array that holds the necessary keys.
+     * @param       array       the array to be modified.
+     * @return      array       the modified array.
      */
-    public static function castArrayContents( $aModel, $aSubject ) {
+    public static function castArrayContents( array $aModel, array $aSubject ) {
         
-        $aMod = array();
-        foreach( $aModel as $sKey => $_v ) {
-            $aMod[ $sKey ] = self::getElement(
+        $_aNew = array();
+        foreach( $aModel as $_sKey => $_v ) {
+            $_aNew[ $_sKey ] = self::getElement(
                 $aSubject,  // subject array
-                $sKey,      // key
+                $_sKey,     // key
                 null        // default
             );                 
         }
-        return $aMod;
+        return $_aNew;
         
     }
     
     /**
-     * Returns the array consisting of keys which don't exist in another.
+     * Returns an array consisting of keys which don't exist in another.
      * 
      * @since       3.0.0
      * @remark      It won't check key structure deeper than or equal to the second dimension.
@@ -96,23 +97,24 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * @param       array     the array to be modified.
      * @return      array     the modified array.
      */
-    public static function invertCastArrayContents( $sModel, $aSubject ) {
+    public static function invertCastArrayContents( array $aModel, array $aSubject ) {
         
-        $_aMod = array();
-        foreach( $sModel as $_sKey => $_v ) {
+        $_aNew = array();
+        foreach( $aModel as $_sKey => $_v ) {
             if ( array_key_exists( $_sKey, $aSubject ) ) { 
                 continue; 
             }
-            $_aMod[ $_sKey ] = $_v;
+            $_aNew[ $_sKey ] = $_v;
         }
-        return $_aMod;
+        return $_aNew;
         
     }
     
     /**
      * Merges multiple multi-dimensional arrays recursively.
      * 
-     * The advantage of using this method over the array unite operator or `array_merge() is that it merges recursively and the null values of the preceding array will be overridden.
+     * The advantage of using this method over the array unite operator or `array_merge() is that it merges recursively 
+     * and the null values of the preceding array will be overridden.
      * 
      * @since       2.1.2
      * @static
@@ -120,7 +122,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * @remark      The parameters are variadic and can add arrays as many as necessary.
      * @return      array     the united array.
      */
-    public static function uniteArrays( /* $aPrecedence, $aDefault1 */ ) {
+    public static function uniteArrays( /* $aPrecedence, $aArray1, $aArray2, ... */ ) {
                 
         $_aArray = array();
         foreach( array_reverse( func_get_args() ) as $_aArg ) {
@@ -157,9 +159,9 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         foreach( $aDefault as $sKey => $v ) {
             
             // If the precedence does not have the key, assign the default's value.
-            if ( ! array_key_exists( $sKey, $aPrecedence ) || is_null( $aPrecedence[ $sKey ] ) )
+            if ( ! array_key_exists( $sKey, $aPrecedence ) || is_null( $aPrecedence[ $sKey ] ) ) {
                 $aPrecedence[ $sKey ] = $v;
-            else {
+            } else {
                 
                 // if the both are arrays, do the recursive process.
                 if ( is_array( $aPrecedence[ $sKey ] ) && is_array( $v ) ) {
@@ -193,26 +195,26 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }    
         
     /**
-     * Removes non-numeric keys from the array 
+     * Removes elements of non-numeric keys from the given array.
      * 
      * @since       3.0.0
-     * @todo        Examine the differences from `array_filter( $aSubject, 'is_int' );`
+     * @since       3.5.3       Changed the name from `getIntegerElements`. Added a type hint in the first parameter.
      * @return      array
      */
-    static public function getIntegerElements( $aParse ) {
+    static public function getIntegerKeyElements( array $aParse ) {
         
-        if ( ! is_array( $aParse ) ) { return array(); }
-        foreach ( $aParse as $isKey => $v ) {
+        foreach ( $aParse as $_isKey => $_v ) {
             
-            if ( ! is_numeric( $isKey ) ) {
-                unset( $aParse[ $isKey ] );
+            if ( ! is_numeric( $_isKey ) ) {
+                unset( $aParse[ $_isKey ] );
                 continue;
             }
             
-            $isKey = $isKey + 0; // this will convert string numeric value to integer or flaot.
+            // Convert string numeric value to integer or flaot.
+            $_isKey = $_isKey + 0; 
             
-            if ( ! is_int( $isKey ) ) {
-                unset( $aParse[ $isKey ] );
+            if ( ! is_int( $_isKey ) ) {
+                unset( $aParse[ $_isKey ] );
             }
                 
         }
@@ -223,13 +225,14 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * Removes integer keys from the array.
      * 
      * @since       3.0.0
+     * @since       3.5.3       Changed the name from `getNonIntegerElements`.
      * @return      array
      */
-    static public function getNonIntegerElements( array $aParse ) {
+    static public function getNonIntegerKeyElements( array $aParse ) {
         
-        foreach ( $aParse as $isKey => $v ) {
-            if ( is_numeric( $isKey ) && is_int( $isKey+ 0 ) ) {
-                unset( $aParse[ $isKey ] );     
+        foreach ( $aParse as $_isKey => $_v ) {
+            if ( is_numeric( $_isKey ) && is_int( $_isKey+ 0 ) ) {
+                unset( $aParse[ $_isKey ] );     
             }
         }
         return $aParse;
@@ -237,44 +240,45 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }
     
     /**
-     * Re-composes the given array by numerizing the keys. 
+     * Re-constructs the given array by numerizing the keys. 
      * 
      * @since       3.0.0
-     * @return      array
+     * @return      array       The passed array structure looks like this.
+     * <code>
+     *   array( 
+     *      0 => array(
+     *          'field_id_1' => array( ... ),
+     *          'field_id_2' => array( ... ),
+     *      ), 
+     *      1 => array(
+     *          'field_id_1' => array( ... ),
+     *          'field_id_2' => array( ... ),
+     *      ),
+     *      'field_id_1' => array( ... ),
+     *      'field_id_2' => array( ... ),
+     *   )
+     * </code>
+     * It will be converted to to
+     * <code>
+     *   array(
+     *      0 => array(
+     *          'field_id_1' => array( ... ),
+     *          'field_id_2' => array( ... ),
+     *      ), 
+     *      1 => array(
+     *          'field_id_1' => array( ... ),
+     *          'field_id_2' => array( ... ),
+     *      ),     
+     *      2 => array(
+     *          'field_id_1' => array( ... ),
+     *          'field_id_2' => array( ... ),
+     *      ),
+     *   )
+     * </code>
      */
     static public function numerizeElements( $aSubject ) {
-        
-        /* The passed array structure looks like this
-         array( 
-            0 => array(
-                'field_id_1' => array( ... ),
-                'field_id_2' => array( ... ),
-            ), 
-            1 => array(
-                'field_id_1' => array( ... ),
-                'field_id_2' => array( ... ),
-            ),
-            'field_id_1' => array( ... ),
-            'field_id_2' => array( ... ),
-         )
-         
-         It will be converted to to
-         array(
-            0 => array(
-                'field_id_1' => array( ... ),
-                'field_id_2' => array( ... ),
-            ), 
-            1 => array(
-                'field_id_1' => array( ... ),
-                'field_id_2' => array( ... ),
-            ),     
-            2 => array(
-                'field_id_1' => array( ... ),
-                'field_id_2' => array( ... ),
-            ),
-         )
-         */
-        $_aNumeric      = self::getIntegerElements( $aSubject );
+
+        $_aNumeric      = self::getIntegerKeyElements( $aSubject );
         $_aAssociative  = self::invertCastArrayContents( $aSubject, $_aNumeric );
         foreach( $_aNumeric as &$_aElem ) {
             $_aElem = self::uniteArrays( $_aElem, $_aAssociative );
@@ -285,26 +289,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         return $_aNumeric;
         
     }
-        
-    /**
-     * Shift array elements until it gets an element that yields true and re-index with numeric keys.
-     * 
-     * @since       3.0.1
-     * @todo        Examine whether simply useing `array_filter( $aArray )` solves the problem that used this method. If it does, deprecate this method.
-     * @return      array
-     */
-    static public function shiftTillTrue( array $aArray ) {
-        
-        foreach( $aArray as &$vElem ) {
             
-            if ( $vElem ) { break; }
-            unset( $vElem );
-            
-        }
-        return array_values( $aArray );
-        
-    }
-    
     /**
      * Retrieves an array element by the given array representing the dimensional key structure.
      * 
@@ -352,7 +337,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }    
     
     /**
-     * Sets an dimansional array value by dimansional array keys.
+     * Sets a dimansional array value by dimansional array keys.
      * @since       3.5.3
      * @return      void
      */
