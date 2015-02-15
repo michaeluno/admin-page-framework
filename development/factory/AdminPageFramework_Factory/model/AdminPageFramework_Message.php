@@ -407,6 +407,9 @@ class AdminPageFramework_Message {
                     return __( 'Acceptable', 'admin-page-framework' );
                 case 'no_log_found':
                     return __( 'No log found.', 'admin-page-framework' );
+                    
+                default:
+                    return $_sLabelKey;
             }
     
         }
