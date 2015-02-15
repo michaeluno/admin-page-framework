@@ -85,9 +85,11 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
     /**
      * Returns the collapsible argument array from the given sections definition array.
      * 
-     * @since   3.4.0
+     * @since       3.4.0
+     * @since       3.5.3       Remvoed the second `$iSectionIndex` parameter as it was not used.
+     * @return      array
      */
-    protected function _getCollapsibleArgument( array $aSections=array(), $iSectionIndex=0 ) {
+    protected function _getCollapsibleArgument( array $aSections=array() ) {
         
         // Only the first found item is needed
         foreach( $aSections as $_aSection ) {
@@ -98,7 +100,10 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
                 return array();
             }
             
-            $_aSection['collapsible']['toggle_all_button'] = $this->_sanitizeToggleAllButtonArgument( $_aSection['collapsible']['toggle_all_button'], $_aSection );
+            $_aSection['collapsible']['toggle_all_button'] = $this->_sanitizeToggleAllButtonArgument( 
+                $_aSection['collapsible']['toggle_all_button'], 
+                $_aSection 
+            );
 
             return $_aSection['collapsible'];
         }

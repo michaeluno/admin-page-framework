@@ -235,11 +235,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             );
             $_sThisSectionID    = $this->_getSectionsSectionID( $aSections );
             $_sSectionsID       = 'sections-' . $_sThisSectionID; // md5( serialize( $aSections ) );
-            $_aCollapsible      = $this->_getCollapsibleArgument( $aSections );
-            $_aCollapsible      = isset( $_aCollapsible['container'] ) && 'sections' === $_aCollapsible['container'] 
-                ? $_aCollapsible 
-                : array();
-        
+            $_aCollapsible      = $this->_getCollapsibleArgumentForSections( $aSections );
             foreach( $aSections as $_sSectionID => $_aSection ) {
                 
                 // Need to be referred outside the loop.
@@ -267,7 +263,19 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             );
             
         }
-        
+            /**
+             * Returns the collapsible argument array from the given sections definition array.
+             * 
+             * @since       3.5.3
+             * @return      array
+             */
+            protected function _getCollapsibleArgumentForSections( array $aSections=array() ) {  
+                $_aCollapsible      = $this->_getCollapsibleArgument( $aSections );
+                return isset( $_aCollapsible['container'] ) && 'sections' === $_aCollapsible['container'] 
+                    ? $_aCollapsible 
+                    : array();            
+            }
+            
             /**
              * Returns an upadted sections table output array.
              * @since       3.5.3

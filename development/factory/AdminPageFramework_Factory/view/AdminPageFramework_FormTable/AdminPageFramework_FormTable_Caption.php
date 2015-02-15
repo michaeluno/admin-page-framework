@@ -27,7 +27,7 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
         if ( ! $aSection['description'] && ! $aSection['title'] ) {
             return "<caption class='admin-page-framework-section-caption' style='display:none;'></caption>";
         }    
-        $_abCollapsible = $this->_getCollapsibleArgument( array( $aSection ), $iSectionIndex );
+        $_abCollapsible = $this->_getCollapsibleArgument( array( $aSection ) );
         $_bShowTitle    = empty( $_abCollapsible ) && ! $aSection['section_tab_slug'];
         return 
             "<caption " . $this->generateAttributes( 
