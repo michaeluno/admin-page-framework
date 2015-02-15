@@ -13,43 +13,21 @@
  * Adds a tab of the set page to the loader plugin.
  * 
  * @since       3.5.0    
+ * @sicne       3.5.3       Extends `AdminPageFrameworkLoader_AdminPage_Tab_Base`.
+ * @extends     AdminPageFrameworkLoader_AdminPage_Tab_Base
  */
-class AdminPageFrameworkLoader_AdminPageWelcome_Credit {
-
-    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
+class AdminPageFrameworkLoader_AdminPageWelcome_Credit extends AdminPageFrameworkLoader_AdminPage_Tab_Base {
     
-        $this->oFactory     = $oFactory;
-        $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug; 
-        $this->sTabSlug     = $sTabSlug;
-        $this->sSectionID   = $this->sTabSlug;
-        
-        $this->_addTab();
-    
-    }
-    
-    private function _addTab() {
-        
-        $this->oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
-            array(
-                'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Credit', 'admin-page-framework-loader' ),
-            )
-        );  
-        
-        // load + page slug + tab slug
-        add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
-  
-    }
+    /**
+     * Stores a seciton ID.
+     */
+    public $sSectionID;
     
     /**
      * Triggered when the tab is loaded.
      */
     public function replyToLoadTab( $oAdminPage ) {
-        
-        add_action( 'do_form_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
-        
+         
         new GitHubCustomFieldType( 'admin_page_framework' ); 
         
         $oAdminPage->addSettingSections(    
@@ -60,7 +38,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Credit {
                 // 'title'         => __( 'GitHub Repository', 'admin-page-framework-loader' ),
                 // 'description'   => __( 'Admin Page Framework uses GitHub.', 'admin-page-framework-loader' ),
             )
-        );           
+        );
         $oAdminPage->addSettingFields(
             $this->sSectionID, // the target section id
             array(
@@ -79,9 +57,12 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Credit {
                 'show_title_column' => false,
             )
         );
+        
+        add_action( 'do_form_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTabBeforeForm' ) );
+        
     }
     
-    public function replyToDoTab() {
+    public function replyToDoTabBeforeForm() {
         
         $_aOutput   = array();	
         $_aOutput[] = "<p class='about-description'>"

@@ -128,22 +128,34 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
             new AdminPageFrameworkLoader_AdminPageWelcome_Welcome( 
                 $this,              // factory object
                 $_sPageSlug,        // page slug
-                'welcome'           // tab slug
+                array(
+                    'tab_slug'      => 'welcome',
+                    'title'         => __( "What's New", 'admin-page-framework-loader' ),   // '
+                )                
             );        
             new AdminPageFrameworkLoader_AdminPageWelcome_Guide(
                 $this,        
-                $_sPageSlug,       
-                'guide'            
+                $_sPageSlug,                       
+                array(
+                    'tab_slug'      => 'guide',
+                    'title'         => __( 'Getting Started', 'admin-page-framework-loader' ),
+                )                
             );         
             new AdminPageFrameworkLoader_AdminPageWelcome_ChangeLog(
                 $this,          
-                $_sPageSlug,    
-                'change_log'    
+                $_sPageSlug,   
+                array(
+                    'tab_slug'      => 'change_log',
+                    'title'         => __( 'Change Log', 'admin-page-framework-loader' ),
+                )
             );
             new AdminPageFrameworkLoader_AdminPageWelcome_Credit(
                 $this,        
                 $_sPageSlug,  
-                'credit'      
+                array(
+                    'tab_slug'      => 'credit',
+                    'title'         => __( 'Credit', 'admin-page-framework-loader' ),
+                )                
             );                 
             
             $this->_setPreferences();

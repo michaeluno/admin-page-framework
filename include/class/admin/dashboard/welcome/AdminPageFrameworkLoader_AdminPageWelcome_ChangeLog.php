@@ -13,93 +13,71 @@
  * Adds a tab of the set page to the loader plugin.
  * 
  * @since       3.5.0    
+ * @sicne       3.5.3       Extends `AdminPageFrameworkLoader_AdminPage_Tab_Base`.
+ * @extends     AdminPageFrameworkLoader_AdminPage_Tab_Base
  */
-class AdminPageFrameworkLoader_AdminPageWelcome_ChangeLog {
+class AdminPageFrameworkLoader_AdminPageWelcome_ChangeLog extends AdminPageFrameworkLoader_AdminPage_Tab_Base {
 
-    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
-    
-        $this->oFactory     = $oFactory;
-        $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug; 
-        $this->sTabSlug     = $sTabSlug;
-        $this->sSectionID   = $this->sTabSlug;
-        
-        $this->_addTab();
-    
-    }
-    
-    private function _addTab() {
-        
-        $this->oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
-            array(
-                'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Change Log', 'admin-page-framework-loader' ),
-            )
-        );  
-        
-        // load + page slug + tab slug
-        add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
-  
-    }
-    
     /**
      * Triggered when the tab is loaded.
+     * @return      void
+     * @since       3.5.0
      */
-    public function replyToLoadTab( $oAdminPage ) {
-        
-        add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
+    public function replyToLoadTab( $oAdminPage ) {        
         add_action( "style_{$this->sPageSlug}_{$this->sTabSlug}", array( $this, 'replyToAddInlineCSS' ) );
-        
-    }
-        
-    public function replyToAddInlineCSS( $sCSSRules ) {
-   
-        return $sCSSRules
-            . ".changelog h4 {
-                /* margin: 0; */
-            }
-            ";
-        
-    }    
+    }     
+        /**
+         * 
+         * @since       3.5.0
+         * @return      void
+         */
+        public function replyToAddInlineCSS( $sCSSRules ) {
+       
+            return $sCSSRules
+                . ".changelog h4 {
+                    /* margin: 0; */
+                }
+                ";
+            
+        }    
         
     /**
      * Do something specific to the tab.
      * 
      * @since       3.5.0
+     * @return      void
      */
     public function replyToDoTab() {
         echo "<div class='changelog'>" 
                 . $this->_getChangeLog( 'Changelog' ) 
             . "</div>";
-        
     }
-    
-    /**
-     * Retrieves contents of a change log section of a readme file.
-     * @since       3.5.0
-     */
-	private function _getChangeLog( $sSection ) {
-        
-        $_aReplacements   = array(
-            '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
-            '%WP_ADMIN_URL%'    => admin_url(),
-        );
-        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt',
-            $_aReplacements
-        );    
-        $_sChangeLog = $_oWPReadmeParser->getSection( $sSection );  
-        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/changelog.md',
-            $_aReplacements
-        );    
-        $_sChangeLog .= $_oWPReadmeParser->getSection( $sSection );  
-           
-        return $_sChangeLog
-            ? $_sChangeLog
-            : '<p>' . __( 'No valid changlog was found.', 'admin-page-framework-loader' ) . '</p>';
-        
-	}    
+        /**
+         * Retrieves contents of a change log section of a readme file.
+         * @since       3.5.0
+         * @return      void
+         */
+        private function _getChangeLog( $sSection ) {
+            
+            $_aReplacements   = array(
+                '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
+                '%WP_ADMIN_URL%'    => admin_url(),
+            );
+            $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+                AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt',
+                $_aReplacements
+            );    
+            $_sChangeLog = $_oWPReadmeParser->getSection( $sSection );  
+            $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+                AdminPageFrameworkLoader_Registry::$sDirPath . '/changelog.md',
+                $_aReplacements
+            );    
+            $_sChangeLog .= $_oWPReadmeParser->getSection( $sSection );  
+               
+            return $_sChangeLog
+                ? $_sChangeLog
+                : '<p>' . __( 'No valid changlog was found.', 'admin-page-framework-loader' ) . '</p>';
+            
+        }    
        
 }
