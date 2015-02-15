@@ -13,30 +13,21 @@
  * Adds a tab of the set page to the loader plugin.
  * 
  * @since       3.5.0    
- * @sicne       3.5.3       Extends `AdminPageFrameworkLoader_AdminPage_Tab_Base`.
- * @extends     AdminPageFrameworkLoader_AdminPage_Tab_Base
+ * @sicne       3.5.3       Extends `AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase`.
+ * @extends     AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase
  */
-class AdminPageFrameworkLoader_AdminPageWelcome_Guide extends AdminPageFrameworkLoader_AdminPage_Tab_Base {
+class AdminPageFrameworkLoader_AdminPageWelcome_Guide extends AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase {
     
+    /**
+     * 
+     * @return      void
+     */
     public function replyToDoTab() {
-            
-        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
-            array(
-                '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
-                '%WP_ADMIN_URL%'    => admin_url(),
-            )
-        );    
-        $_sContent  = $_oWPReadmeParser->getSection( 'Getting Started' );  
-        $_sContent .= $_oWPReadmeParser->getSection( 'Tutorials' );
-        
-        $_oTOC = new AdminPageFramework_TableOfContents(
-            $_sContent,
-            4,
-            "<h3>" . __( 'Contents', 'admin-page-framework-loader' ) . "</h3>"
+        echo $this->_getReadmeContents( 
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt', 
+            "<h3>" . __( 'Contents', 'admin-page-framework-loader' ) . "</h3>", 
+            array( 'Getting Started', 'Tutorials' )
         );
-        echo $_oTOC->get();
-        
     }
-    
+     
 }

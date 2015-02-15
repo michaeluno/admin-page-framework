@@ -51,6 +51,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome_ChangeLog extends AdminPageFrame
         echo "<div class='changelog'>" 
                 . $this->_getChangeLog( 'Changelog' ) 
             . "</div>";
+            
     }
         /**
          * Retrieves contents of a change log section of a readme file.
