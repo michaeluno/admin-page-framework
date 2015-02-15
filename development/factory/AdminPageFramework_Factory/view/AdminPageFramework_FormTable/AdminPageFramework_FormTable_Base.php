@@ -281,4 +281,22 @@ JAVASCRIPTS;
             
     }
  
+ 
+    /**
+     * Returns some framework information for debugging.
+     * 
+     * @since       3.5.3
+     * @return      string      Some information for debugging.
+     */
+    protected function _getDebugInfo( $sFieldsType ) {
+        if ( ! $this->isDebugModeEnabled() ) {
+            return '';
+        }
+        if ( ! in_array( $sFieldsType, array( 'widget', 'post_meta_box', 'page_meta_box', 'user_meta' ) ) ) {
+            return '';
+        }
+        return "<div class='admin-page-framework-info'>" 
+                . 'Debug Info: ' . AdminPageFramework_Registry::Name . ' '. AdminPageFramework_Registry::getVersion() 
+            . "</div>";
+    }
 }
