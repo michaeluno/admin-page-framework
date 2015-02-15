@@ -29,14 +29,19 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
             return;
         }
         
-        add_action( 'admin_init', array( $this, '_replyToHandleRedirects' ) );
+        add_action( 'admin_menu', array( $this, '_replyToHandleRedirects' ) );
         
     }
         /**
          * Handles page redirects.
          * 
-         * This is called with the'admin_init' hook to prevent the plugin from performing the redirect when the plugin is not activated or intervene the activation process.
-         * If this is called in the start() method above, it will redirect the user to the page during the activation process and the user gets a page that is not created because the plugin is not activated.
+         * This is called to prevent the plugin from performing the redirect when the plugin is not activated or intervene the activation process.
+         * If this is called in the start() method above, it will redirect the user to the page during the activation process 
+         * and the user gets a page that is not created because the plugin is not activated.
+         * 
+         * @callback    action      admin_menu
+         * @since       3.5.0
+         * @sicne       3.5.3       Change the hook from `admin_init` as the resetting option results in an error 'You do not have permission to access this page.'
          */
         public function _replyToHandleRedirects() {
                 
