@@ -70,51 +70,51 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * @since       3.0.0
      * @since       3.5.3       Added type hints to the parameter.
      * @remark      It won't check key structure deeper than or equal to the second dimension.
-     * @param       array       the array that holds the necessary keys.
-     * @param       array       the array to be modified.
-     * @return      array       the modified array.
+     * @param       array       $aModel     the array that holds the necessary keys.
+     * @param       array     $aSubject     the array from which the contents to be extracted.
+     * @return      array       the extracted array contents with the keys of the model array.
      */
     public static function castArrayContents( array $aModel, array $aSubject ) {
         
-        $_aNew = array();
-        foreach( $aModel as $_sKey => $_v ) {
-            $_aNew[ $_sKey ] = self::getElement(
+        $_aCast = array();
+        foreach( $aModel as $_isKey => $_v ) {
+            $_aCast[ $_isKey ] = self::getElement(
                 $aSubject,  // subject array
-                $_sKey,     // key
+                $_isKey,    // key
                 null        // default
             );                 
         }
-        return $_aNew;
+        return $_aCast;
         
     }
     
     /**
-     * Returns an array consisting of keys which don't exist in another.
+     * Returns an array consisting of keys which don't exist in the other.
      * 
      * @since       3.0.0
      * @remark      It won't check key structure deeper than or equal to the second dimension.
-     * @param       array     the array that holds the necessary keys.
-     * @param       array     the array to be modified.
-     * @return      array     the modified array.
+     * @param       array     $aModel       the array that holds the necessary keys.
+     * @param       array     $aSubject     the array from which the contents to be extracted.
+     * @return      array     the extracted array contents with the keys that do not exist in the model array.
      */
     public static function invertCastArrayContents( array $aModel, array $aSubject ) {
         
-        $_aNew = array();
-        foreach( $aModel as $_sKey => $_v ) {
-            if ( array_key_exists( $_sKey, $aSubject ) ) { 
+        $_aInvert = array();
+        foreach( $aModel as $_isKey => $_v ) {
+            if ( array_key_exists( $_isKey, $aSubject ) ) { 
                 continue; 
             }
-            $_aNew[ $_sKey ] = $_v;
+            $_aInvert[ $_isKey ] = $_v;
         }
-        return $_aNew;
+        return $_aInvert;
         
     }
     
     /**
      * Merges multiple multi-dimensional arrays recursively.
      * 
-     * The advantage of using this method over the array unite operator or `array_merge() is that it merges recursively 
-     * and the null values of the preceding array will be overridden.
+     * The advantage of using this method over the array unite operator or `array_merge() is 
+     * that it merges recursively and the null values of the preceding array will be overridden.
      * 
      * @since       2.1.2
      * @static
@@ -126,7 +126,10 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
                 
         $_aArray = array();
         foreach( array_reverse( func_get_args() ) as $_aArg ) {
-            $_aArray = self::uniteArraysRecursive( $_aArg, $_aArray );
+            $_aArray = self::uniteArraysRecursive( 
+                self::getAsArray( $_aArg ), 
+                $_aArray 
+            );
         }
         return $_aArray;
         
@@ -243,6 +246,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * Re-constructs the given array by numerizing the keys. 
      * 
      * @since       3.0.0
+     * @since       3.5.3       Added a type hint in the first parameter.
      * @return      array       The passed array structure looks like this.
      * <code>
      *   array( 
@@ -276,7 +280,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      *   )
      * </code>
      */
-    static public function numerizeElements( $aSubject ) {
+    static public function numerizeElements( array $aSubject ) {
 
         $_aNumeric      = self::getIntegerKeyElements( $aSubject );
         $_aAssociative  = self::invertCastArrayContents( $aSubject, $_aNumeric );
