@@ -1,6 +1,17 @@
 <?php
 /**
+ * Admin Page Framework - Loader
+ * 
+ * http://en.michaeluno.jp/admin-page-framework/
+ * Copyright (c) 2015 Michael Uno
+ * 
+ */
+
+/**
  * Handles plugin options.
+ * 
+ * @since       3.5.0
+ * @uses        AdminPageFramework_WPUtility
  */
 class AdminPageFrameworkLoader_Option {
 
@@ -154,8 +165,8 @@ class AdminPageFrameworkLoader_Option {
         }
         
         // the keys are passed as an array
-        $this->_setMultiDimensionalArray( $this->aOptions, $_asKeys, $_mValue );
-        
+        AdminPageFramework_WPUtility::setMultiDimensionalArray( $this->aOptions, $_asKeys, $_mValue );
+
     }
     
     /**
@@ -169,23 +180,7 @@ class AdminPageFrameworkLoader_Option {
 
     }
 
-        private function _setMultiDimensionalArray( &$mSubject, array $aKeys, $mValue ) {
-
-            $_sKey = array_shift( $aKeys );
-            if ( $aKeys ) {
-                if( ! isset( $mSubject[ $_sKey ] ) || ! is_array( $mSubject[ $_sKey ] ) ) {
-                    $mSubject[ $_sKey ] = array();
-                }
-                $this->_setMultiDimensionalArray( $mSubject[ $_sKey ], $aKeys, $mValue );
-                return;
-                
-            }
-            $mSubject[ $_sKey ] = $mValue;
-
-        }
- 
-    
-     /**
+    /**
      * Returns the specified option value.
      * 
      * @since       3.5.0
@@ -211,7 +206,5 @@ class AdminPageFrameworkLoader_Option {
         );
         
     }
-    
 
-    
 }
