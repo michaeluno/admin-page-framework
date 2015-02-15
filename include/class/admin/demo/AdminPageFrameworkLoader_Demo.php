@@ -40,11 +40,26 @@ class AdminPageFrameworkLoader_Demo {
         $this->_includeAdminPages();
         $this->_includeNetworkAdminPages();
         $this->_includeWidgets();
+        $this->_includeUserMeta();
      
         do_action( 'admin_page_framework_loader_action_after_loading_demo' );
         
     }
+        /**
+         * Registers classes to be auto-loaded.
+         */
+        private function _registerClasses() {
 
+            $_aClassFiles = array();
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/include/admin-page-framework-demo-include-class-file-list.php' );            
+            new AdminPageFramework_RegisterClasses( 
+                array(),              // scanning directory paths
+                array(),              // autoloader options
+                $_aClassFiles         // pre-generated class list
+            );            
+            
+        }
+        
         private function _includeBasicExamples() {
                         
             if ( ! is_admin() ) { return; }
@@ -132,6 +147,10 @@ class AdminPageFrameworkLoader_Demo {
 
         }        
         
+        private function _includeUserMeta() {
+            new APF_Demo_MyUserMeta;
+        }
+        
         private function _includeWidgets() {
             
             new APF_Widget( 
@@ -196,20 +215,5 @@ class AdminPageFrameworkLoader_Demo {
                 new APF_TaxonomyField( 'apf_sample_taxonomy' ); // taxonomy slug
             }
  
- 
-        /**
-         * Registers classes to be auto-loaded.
-         */
-        private function _registerClasses() {
-
-            $_aClassFiles = array();
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/include/admin-page-framework-demo-include-class-file-list.php' );            
-            new AdminPageFramework_RegisterClasses( 
-                array(),              // scanning directory paths
-                array(),              // autoloader options
-                $_aClassFiles         // pre-generated class list
-            );            
-            
-        }
  
 }

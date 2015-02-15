@@ -368,6 +368,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.3 =
+- Added a user meta factory class demo example.
 - Added the `validate()` and `content()` methods in the admin page factory class.
 - Added the fourth parameter to the `validate()` method of page meta box factory class to receive submit information.
 - Fixed an issue that the `image` field type did not extend `AdminPageFramework_FieldType` but `AdminPageFramework_FieldType_Base`.

@@ -43,8 +43,10 @@ $_aClassFiles = array(
 	"APF_MetaBox_RepeatableTabbedSections"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/post_type/post_type_meta_box/APF_MetaBox_RepeatableTabbedSections.php", 
 	"APF_MetaBox_TabbedSections"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/post_type/post_type_meta_box/APF_MetaBox_TabbedSections.php", 
 	"APF_TaxonomyField"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/post_type/taxonomy/APF_TaxonomyField.php", 
+	"APF_MyUserMeta"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/user_meta/APF_MyUserMeta.php", 
 	"APF_Widget"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/widget/APF_Widget.php", 
 	"name"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_SavedData.php", 
 	"property"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_SavedData.php", 
 	"name}</code>"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/post_type/taxonomy/APF_TaxonomyField.php", 
+	"APF_Demo_MyUserMeta"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/user_meta/APF_MyUserMeta.php", 
 );
