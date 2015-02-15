@@ -457,11 +457,7 @@ CSSRULES;
                         )
                         : $_vResponse;
                     $this->setTransient( 'apf_rp_check', $_vResponse, 60 );
-                    return $this->getYesOrNo( 
-                        ! is_wp_error( $_vResponse ) && $_vResponse['response']['code'] >= 200 && $_vResponse['response']['code'] < 300,
-                        $this->oMsg->get( 'functional' ), 
-                        $this->oMsg->get( 'not_functional' )
-                    );
+                    return $this->getYesOrNo( $this->_isHttpRequestError( $_vResponse ), $this->oMsg->get( 'not_functional' ), $this->oMsg->get( 'functional' ) );
                         
                 }   
                 /**
@@ -482,14 +478,31 @@ CSSRULES;
                         )
                         : $_vResponse;
                     $this->setTransient( 'apf_rg_check', $_vResponse, 60 );
-                    return $this->getYesOrNo( 
-                        ! is_wp_error( $_vResponse ) && $_vResponse['response']['code'] >= 200 && $_vResponse['response']['code'] < 300,
-                        $this->oMsg->get( 'functional' ), 
-                        $this->oMsg->get( 'not_functional' )
-                    );                    
+                    return $this->getYesOrNo( $this->_isHttpRequestError( $_vResponse ), $this->oMsg->get( 'not_functional' ), $this->oMsg->get( 'functional' ) );
                     
+                }       
+                    /**
+                     * Checks the HTTP request response has an error.
+                     * @since       3.5.3
+                     * @return      bool
+                     */
+                    private function _isHttpRequestError( $mResponse ) {
+                        
+                        // if ( ! is_wp_error( $_vResponse ) && $_vResponse['response']['code'] >= 200 && $_vResponse['response']['code'] < 300 ) {
+                        //  echo 'no error' .
+                        // }
+                        if ( is_wp_error( $mResponse ) ) {
+                            return true;
+                        }
+                        if ( $mResponse['response']['code'] < 200 ) {
+                            return true;
+                        }
+                        if ( $mResponse['response']['code'] >= 300 ) {
+                            return true;
+                        }
+                        return false;
+                    }
                     
-                }                  
             /**
              * Caches the php information.
              * @since       3.4.6
