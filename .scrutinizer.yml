@@ -7,7 +7,7 @@ filter:
         - 'library/*'
         - 'tool/*'
         - 'test/*'
-        - 'development/utility/AdminPageFramework_WPReadmeParser/AdminPageFramework_Parsedown/AdminPageFramework_Parsedown.php'
+        - 'example/*'
         - '*/library/*'
 
 coding_style:
