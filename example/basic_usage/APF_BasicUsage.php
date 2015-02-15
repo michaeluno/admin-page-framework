@@ -1,14 +1,16 @@
 <?php
 /**
- * Admin Page Framework - Demo
+ * Admin Page Framework - Loader
  * 
- * Demonstrates the usage of Admin Page Framework.
+ * Loads Admin Page Framework.
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2015 Michael Uno; Licensed GPLv2
  */
 
+/**
+ * Demonstrates the usage of Admin Page Framework.
+ */
 class APF_BasicUsage extends AdminPageFramework {
     
     /**
@@ -66,14 +68,16 @@ class APF_BasicUsage extends AdminPageFramework {
      * Filter the page contents.
      */
     public function content_apf_second_page( $sContent ) { // content_ + {page slug}
-        
+
         return $sContent 
             . "<h3>" . __( 'content_ + {...} Filter Hooks', 'admin-page-framework-demo' ) . "</h3>"
             . "<p>" 
                 . __( 'This message is inserted with the <code>content_{page slug}</code> filter.', 'admin-page-framework-demo' ) 
             . "</p>"
             . "<h3>" . __( 'Saved Options', 'admin-page-framework-demo' ) . "</h3>"
-            . $this->oDebug->getArray( $this->oProp->aOptions )
+            . $this->oDebug->get( 
+                $this->getValue()
+            )                     
             ;
             
     }
