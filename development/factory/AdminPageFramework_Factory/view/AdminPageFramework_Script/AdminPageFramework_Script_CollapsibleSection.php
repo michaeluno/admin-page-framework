@@ -192,12 +192,12 @@ JAVASCRIPTS;
             
             $_sLabelToggleAll           = $oMsg->get( 'toggle_all' );
             $_sLabelToggleAllSections   = $oMsg->get( 'toggle_all_collapsible_sections' );
-            $_sDashIconSort             = self::getYesOrNo( 
+            $_sDashIconSort             = self::getAOrB( 
                 version_compare( $GLOBALS['wp_version'], '3.8', '<' ),  // evaluate
                 '', // true
                 'dashicons dashicons-sort' // false
             );         
-            $_sText                     = self::getYesOrNo( 
+            $_sText                     = self::getAOrB( 
                 $_sDashIconSort, // evaluate
                 '', // true
                 $_sLabelToggleAll // false

@@ -148,14 +148,15 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
     }
            
     /**
-     * Returns yes or no with the custom set labels.
+     * Returns one or the other.
      * 
-     * Use this to reduce conditional statements.
+     * Saves one conditional statement.
      * 
      * @since       3.5.3
-     * @return      string
+     * @return      mixed
      */
-    static public function getYesOrNo( $bBoolean, $sLabelYes='Yes', $sLabelNo='No' ) {
-        return $bBoolean ? $sLabelYes : $sLabelNo;
+    static public function getAOrB( $mValue, $mTrue=true, $mFalse=false ) {
+        return $mValue ? $mTrue : $mFalse;
     }        
+    
 }
