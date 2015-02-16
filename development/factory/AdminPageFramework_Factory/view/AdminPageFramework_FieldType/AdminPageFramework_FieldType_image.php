@@ -796,7 +796,7 @@ JAVASCRIPTS;
              * @since       3.5.3
              * @return      string      The generated HTML uploader button output.
              */
-            private function _getUploaderButtonHTML( $sInputID, array $aButtonAttributes, $bRpeatable, $bExternalSource ) {
+            protected function _getUploaderButtonHTML( $sInputID, array $aButtonAttributes, $bRpeatable, $bExternalSource ) {
                 
                 $_bIsLabelSet = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];      
                 $_aAttributes = $this->_getFormattedUploadButtonAttributes( 
@@ -822,7 +822,7 @@ JAVASCRIPTS;
                  * @since       3.5.3
                  * @return      array       The formatted upload button attributes array.
                  */
-                private function _getFormattedUploadButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bRpeatable, $bExternalSource ) {
+                protected function _getFormattedUploadButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bRpeatable, $bExternalSource ) {
                         
                     $_aAttributes           = array(
                             'id'        => "select_image_{$sInputID}",
