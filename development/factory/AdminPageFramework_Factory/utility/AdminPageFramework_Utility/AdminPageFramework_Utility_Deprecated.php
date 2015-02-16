@@ -117,4 +117,41 @@ abstract class AdminPageFramework_Utility_Deprecated {
         
     }    
     
+    /**
+     * Generates a string of attributes to be embedded in an HTML tag from an associative array.
+     * 
+     * For example, 
+     * <code>
+     *     array( 'id' => 'my_id', 'name' => 'my_name', 'style' => 'background-color:#fff' )
+     * </code>
+     * becomes
+     * <code>
+     *     id="my_id" name="my_name" style="background-color:#fff"
+     * </code>
+     * 
+     * This is mostly used by methods to output input fields.
+     * 
+     * @since       3.0.0
+     * @since       3.3.0       Made it allow empty value.
+     * @since       3.5.3       Deprecated. Moved from `AdminPageFramework_Utility`.
+     * @return      string
+     * @deprecated      Use generateAttributes() in `AdminPageFramework_WPUtility`.
+     */
+    static public function generateAttributes( array $aAttributes ) {
+        
+        $_sQuoteCharactor   ="'";
+        $_aOutput           = array();
+        foreach( $aAttributes as $sAttribute => $sProperty ) {
+       
+            // Must be resolved as a string.
+            if ( in_array( gettype( $sProperty ), array( 'array', 'object' ) ) ) {
+                continue;
+            }
+            $_aOutput[] = "{$sAttribute}={$_sQuoteCharactor}{$sProperty}{$_sQuoteCharactor}";
+            
+        }
+        return implode( ' ', $_aOutput );
+        
+    }       
+    
 }
