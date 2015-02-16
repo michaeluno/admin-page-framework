@@ -84,7 +84,7 @@ abstract class AdminPageFramework_Utility_Deprecated {
      * 
      * @since       3.0.0
      * @since       3.5.3       Moved from `AdminPageFramework_FieldType_Base`.
-     * @deprecated  3.5.3
+     * @deprecated  3.5.3       Use the `getElement()` method.
      */
     protected function getFieldElementByKey( $asElement, $sKey, $asDefault='' ) {
                     
