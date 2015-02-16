@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -14,7 +14,6 @@
  * @package     AdminPageFramework
  * @subpackage  JavaScript
  * @internal
- * @deprecated  Not implemented yet.
  */
 class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_Base {
     
@@ -23,6 +22,7 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
      * 
      * @since       3.3.1
      * @since       3.5.0       Made the scope `protected` from `public` to be consistent with other classes.
+     * @return      void
      */
     protected function construct() {
         
@@ -38,6 +38,8 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
          * Calls the wp_enqueue_media() function to avoid breaking featured image functionality.
          * 
          * @since       3.3.2.1
+         * @callback    action      admin_footer
+         * @return      void
          */
         public function _replyToEnqueueMedia() {
             wp_enqueue_media();  
@@ -46,14 +48,18 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
     /**
      * Return the script.
      * @since       3.3.1
+     * @param       $oMsg       object      The message object.
+     * @return      string      The inline JavaScript script.
      */
-    static public function getScript() {
+    static public function getScript( /* $oMsg */ ) {
         
         $_aParams   = func_get_args() + array( null );
         $_oMsg      = $_aParams[ 0 ];                
         
         // means the WordPress version is 3.4.x or below
-        if ( ! function_exists( 'wp_enqueue_media' ) ) { return ""; } 
+        if ( ! function_exists( 'wp_enqueue_media' ) ) { 
+            return ""; 
+        } 
 
         // Labels
         $_sReturnToLibrary  = esc_js( $_oMsg->get( 'return_to_library' ) );

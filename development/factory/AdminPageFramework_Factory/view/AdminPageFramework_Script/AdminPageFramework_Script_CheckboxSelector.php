@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -18,14 +18,17 @@
 class AdminPageFramework_Script_CheckboxSelector extends AdminPageFramework_Script_Base {
 
     /**
-     * Returns the JavaScript script.
+     * Returns an inline JavaScript script.
      * 
      * @since       3.3.0
+     * @param       $oMsg       object      The message object.
+     * @return      string      The inline JavaScript script.
      */
-    static public function getScript() {
+    static public function getScript( /* $oMsg */ ) {
         
-        $_aParams   = func_get_args() + array( null );
-        $_oMsg       = $_aParams[ 0 ];                
+        // Uncomment these lines when parameters need to be accessed.
+        // $_aParams   = func_get_args() + array( null );
+        // $_oMsg      = $_aParams[ 0 ];            
             
         /**
          * Checks checkboxes in siblings.

@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -22,6 +22,7 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
      * 
      * @since       3.4.0
      * @since       3.5.0       Made the scope `protected` from `public` to be consistent with other classes.
+     * @return      void
      */
     protected function construct() {
 
@@ -31,28 +32,18 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
     }
 
     /**
-     * Returns the script.
+     * Returns an inline JavaScript script.
      * 
      * @since       3.4.0
+     * @param       $oMsg       object      The message object.
+     * @return      string      The inline JavaScript script.
      */
-    static public function getScript() {
+    static public function getScript( /* $oMsg */ ) {
         
-        $_aParams           = func_get_args() + array( null );
-        $_oMsg              = $_aParams[ 0 ];        
-
-        $_sLabelToggleAll           = $_oMsg->get( 'toggle_all' );
-        $_sLabelToggleAllSections   = $_oMsg->get( 'toggle_all_collapsible_sections' );
-        $_sDashIconSort             = version_compare( $GLOBALS['wp_version'], '3.8', '<' ) 
-            ? '' 
-            : 'dashicons dashicons-sort';
-        $_sToggleAllButton          = "<div class='admin-page-framework-collapsible-toggle-all-button-container'>"
-                . "<span class='admin-page-framework-collapsible-toggle-all-button button " . $_sDashIconSort. "' title='" . esc_attr( $_sLabelToggleAllSections ) . "'>"
-                . ( $_sDashIconSort ? '' : $_sLabelToggleAll )  // text
-                . "</span>"
-            . "</div>";
-        $_sToggleAllButtonHTML  = '"' . $_sToggleAllButton . '"';                
-
-        
+        $_aParams               = func_get_args() + array( null );
+        $_oMsg                  = $_aParams[ 0 ];        
+        $_sToggleAllButtonHTML  = '"' . self::_getToggleAllButtonHTML( $_oMsg ) . '"';                
+           
         return <<<JAVASCRIPTS
 ( function( $ ) {
 
@@ -191,4 +182,34 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
 }( jQuery ));
 JAVASCRIPTS;
     }
+        
+        /**
+         * Returns an HTML collapsible toggle button output.
+         * @since       3.5.3
+         * @return      string      The generated HTML button element output.
+         */
+        static private function _getToggleAllButtonHTML( $oMsg ) {
+            
+            $_sLabelToggleAll           = $oMsg->get( 'toggle_all' );
+            $_sLabelToggleAllSections   = $oMsg->get( 'toggle_all_collapsible_sections' );
+            $_sDashIconSort             = self::getYesOrNo( 
+                version_compare( $GLOBALS['wp_version'], '3.8', '<' ),  // evaluate
+                '', // true
+                'dashicons dashicons-sort' // false
+            );         
+            $_sText                     = self::getYesOrNo( 
+                $_sDashIconSort, // evaluate
+                '', // true
+                $_sLabelToggleAll // false
+            );
+            return "<div class='admin-page-framework-collapsible-toggle-all-button-container'>"
+                    . "<span class='admin-page-framework-collapsible-toggle-all-button button " . $_sDashIconSort . "'"
+                        . " title='" . esc_attr( $_sLabelToggleAllSections ) 
+                    . "'>"
+                        . $_sText
+                    . "</span>"
+                . "</div>";
+        
+        }    
+    
 }

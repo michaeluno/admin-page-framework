@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -12,22 +12,25 @@
  * 
  * @since       3.0.0     
  * @since       3.3.0       Extends `AdminPageFramework_Script_Base`.
- * @package AdminPageFramework
- * @subpackage JavaScript
+ * @package     AdminPageFramework
+ * @subpackage  JavaScript
  * @internal
  */
 class AdminPageFramework_Script_AttributeUpdator extends AdminPageFramework_Script_Base {
     
     /**
-     * Returns the script.
+     * Returns an inline JavaScript script.
      * 
      * @since       3.0.0   
-     * @since       3.3.0   Changed the name from `getjQueryPlugin()`.
-     */
-    static public function getScript() {
+     * @since       3.3.0       Changed the name from `getjQueryPlugin()`.
+     * @param       $oMsg       object      The message object.
+     * @return      string      The inline JavaScript script.
+     */    
+    static public function getScript( /* $oMsg */ ) {
         
-        $_aParams   = func_get_args() + array( null );
-        $_oMsg      = $_aParams[ 0 ];         
+        // Uncomment these lines when parameters need to be accessed.
+        // $_aParams   = func_get_args() + array( null );
+        // $_oMsg      = $_aParams[ 0 ];            
         
         /**
          * Attribute increment/decrement jQuery Plugin
@@ -211,8 +214,7 @@ class AdminPageFramework_Script_AttributeUpdator extends AdminPageFramework_Scri
             
         });
     }
-
-        
+    
 }( jQuery ));
 JAVASCRIPTS;
         
