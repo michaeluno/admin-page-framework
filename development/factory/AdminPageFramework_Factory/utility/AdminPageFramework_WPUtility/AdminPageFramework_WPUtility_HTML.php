@@ -32,24 +32,24 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
      * @since       3.0.0
      * @remark      The single quotes will be used.
      * @remark      For an element with an empty string, only the attribute name will be placed. To prevent the attribute name gets inserted, set null to it.
-     * @return      string
+     * @return      string      the generated attributes string output.
      */
     static public function generateAttributes( array $aAttributes ) {  
         
         // Sanitize the attribute array.
         foreach( $aAttributes as $_sAttribute => &$_vProperty ) {
-            if ( is_array( $_vProperty ) || is_object( $_vProperty ) ) {
+            
+            $_sVariableType = gettype( $_vProperty );
+            if ( in_array( $_sVariableType, array( 'array', 'object', 'NULL' ) ) ) {
                 unset( $aAttributes[ $_sAttribute ] );
-            }
-            if ( is_null( $_vProperty ) ) {
-                unset( $aAttributes[ $_sAttribute ] );
-            }
-            if ( is_string( $_vProperty ) ) {
+                continue;
+            }                
+            if ( 'string' === $_sVariableType ) {
                 $_vProperty = esc_attr( $_vProperty );  
             }
+            
         }     
         
-        // Generate the attributes string output.
         return parent::generateAttributes( $aAttributes );
         
     }    
