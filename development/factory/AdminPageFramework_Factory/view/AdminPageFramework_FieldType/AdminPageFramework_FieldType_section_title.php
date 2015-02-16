@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -16,9 +16,11 @@
  * @subpackage  FieldType
  * @since       3.0.0
  * @since       3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
+ * @since       3.5.3       Changed to extend `AdminPageFramework_FieldType_text` from `AdminPageFramework_FieldType`.
+ * @extends     AdminPageFramework_FieldType_text
  * @internal
  */
-class AdminPageFramework_FieldType_section_title extends AdminPageFramework_FieldType {
+class AdminPageFramework_FieldType_section_title extends AdminPageFramework_FieldType_text {
     
     /**
      * Defines the field type slugs used for this field type.
@@ -82,23 +84,11 @@ CSSRULES;
      * @since       3.3.1     Changed from `_replyToGetField()`.
      */
     protected function getField( $aField ) {
-
-        return 
-            $aField['before_label']
-            . "<div class='admin-page-framework-input-label-container'>"
-                . "<label for='{$aField['input_id']}'>"
-                    . $aField['before_input']
-                    . ( $aField['label'] && ! $aField['repeatable']
-                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
-                        : "" 
-                    )
-                    . "<input " . $this->generateAttributes( array( 'type' => 'text' ) + $aField['attributes'] ) . " />" // this method is defined in the base class
-                    . $aField['after_input']
-                    . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
-                . "</label>"
-            . "</div>"
-            . $aField['after_label'];
         
+        $aField['attributes'] = array( 'type' => 'text' ) + $aField['attributes'];
+        return parent::getField( $aField );
+
     }
+
             
 }
