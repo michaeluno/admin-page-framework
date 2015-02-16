@@ -213,7 +213,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
      * @param       boolean|integer|double|string|array|object|resource|NULL        $mTrue      The value to return when the first parameter value yields false.
      * @return      mixed
      */
-    static public function getAOrB( $mValue, $mTrue=true, $mFalse=false ) {
+    static public function getAOrB( $mValue, $mTrue=null, $mFalse=null ) {
         return $mValue ? $mTrue : $mFalse;
     }    
     
