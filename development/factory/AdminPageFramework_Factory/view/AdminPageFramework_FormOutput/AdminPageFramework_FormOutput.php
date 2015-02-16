@@ -29,27 +29,19 @@ abstract class AdminPageFramework_FormOutput extends AdminPageFramework_WPUtilit
 
         // [3.3.1+] Changed the custom attributes to take its precedence.
         $_aAttributes = $this->uniteArrays( 
-            isset( $aField['attributes'][ $sContext ] ) && is_array( $aField['attributes'][ $sContext ] )
-                ? $aField['attributes'][ $sContext ] 
-                : array(),
+            $this->getElementAsArray( $aField, array( 'attributes', $sContext ) ),
             $aAttributes
         );
-        
+                    
         $_aAttributes['class']   = $this->generateClassAttribute( 
-            isset( $_aAttributes['class'] ) 
-                ? $_aAttributes['class'] 
-                : array(), 
-            isset( $aField['class'][ $sContext ] )
-                ? $aField['class'][ $sContext ]
-                : array()
+            $this->getElement( $_aAttributes, 'class', array() ),
+            $this->getElement( $aField, array( 'class', $sContext ), array() )
         );  
         
         // Set the visibility CSS property for the outermost container element.
         if ( 'fieldrow' === $sContext && $aField['hidden'] ) { 
             $_aAttributes['style'] = $this->generateStyleAttribute( 
-                isset( $_aAttributes['style'] )
-                    ? $_aAttributes['style']
-                    : array(),
+                $this->getElement( $_aAttributes, 'style', array() ),
                 'display:none' 
             );
         }
@@ -57,6 +49,5 @@ abstract class AdminPageFramework_FormOutput extends AdminPageFramework_WPUtilit
         return $this->generateAttributes( $_aAttributes );
         
     }
-    
-    
+
 }
