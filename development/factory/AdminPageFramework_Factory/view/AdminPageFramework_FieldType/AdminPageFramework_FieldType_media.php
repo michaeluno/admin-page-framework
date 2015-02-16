@@ -14,6 +14,7 @@
  * @subpackage  FieldType
  * @since       2.1.5
  * @internal
+ * @extends     AdminPageFramework_FieldType_image
  */
 class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_image {
     
@@ -44,19 +45,12 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
             ),     
         ),    
     );
-    
-    /**
-     * Loads the field type necessary components.
-     */ 
-    public function _replyToFieldLoader() {
-        parent::_replyToFieldLoader();
-    }    
-    
+        
     /**
      * Returns the field type specific JavaScript script.
      */ 
-    public function _replyToGetScripts() {
-        return // $this->_getScript_CustomMediaUploaderObject() . PHP_EOL // defined in the parent class
+    protected function getScripts() {
+        return 
             $this->_getScript_MediaUploader(
                 "admin_page_framework"
             ) . PHP_EOL
@@ -66,7 +60,8 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
         /**
          * Returns the JavaScript script that handles repeatable events. 
          * 
-         * @since 3.0.0
+         * @since       3.0.0
+         * @return      string
          */
         protected function _getScript_RegisterCallbacks() {
 
@@ -384,7 +379,7 @@ JAVASCRIPTS;
     /**
      * Returns the field type specific CSS rules.
      */ 
-    public function _replyToGetStyles() {
+    protected function getStyles() {
         
         return <<<CSSRULES
 /* Media Uploader Button */
@@ -407,19 +402,11 @@ JAVASCRIPTS;
 }            
 CSSRULES;
     }
-    
-    /**
-     * Returns the output of the field type.
-     * 
-     * @since 2.1.5
-     */
-    public function _replyToGetField( $aField ) {
-        return parent::_replyToGetField( $aField );
-    }
-        
+            
         /**
          * Returns the output of the preview box.
-         * @since 3.0.0
+         * @since       3.0.0
+         * @return      string
          */
         protected function _getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) { return ""; }
         
