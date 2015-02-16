@@ -117,7 +117,7 @@ JAVASCRIPTS;
          */
         private function _getEachRadioButtonOutput( array $aField, $sKey, $sLabel ) {
             
-            $_oRadio = new AdminPageFramework_Input_radio( $aField );
+            $_oRadio = new AdminPageFramework_Input_radio( $aField['attributes'] );
             $_oRadio->setAttributesByKey( $sKey );
             $_oRadio->setAttribute( 'data-default', $aField['default'] ); // refered by the repeater script
            
