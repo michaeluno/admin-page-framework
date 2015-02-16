@@ -153,10 +153,13 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * Saves one conditional statement.
      * 
      * @since       3.5.3
+     * @param       boolean|integer|double|string|array|object|resource|NULL        $mValue     The value to evaluate.
+     * @param       boolean|integer|double|string|array|object|resource|NULL        $mTrue      The value to return when the first parameter value yields true.
+     * @param       boolean|integer|double|string|array|object|resource|NULL        $mTrue      The value to return when the first parameter value yields false.
      * @return      mixed
      */
     static public function getAOrB( $mValue, $mTrue=true, $mFalse=false ) {
         return $mValue ? $mTrue : $mFalse;
     }        
-    
+ 
 }
