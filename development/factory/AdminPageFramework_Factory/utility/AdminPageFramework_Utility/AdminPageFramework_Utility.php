@@ -182,4 +182,24 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
         return $mValue ? $mTrue : $mFalse;
     }    
     
+    /**
+     * Checks the given value is numeric and can be resolved as an integer.
+     * 
+     * Saves one conditional statement.
+     * Used to determine sub-sections and sub-fields elements.
+     * 
+     * <code>
+     * var_dump( is_int( '0' ) );  // false 
+     * var_dump( isNumericInteger( '0' ) );    // true
+     * var_dump( is_int( '' + 0 ) );  // true
+     * var_dump( isNumericInteger( '' ) ); // false
+     * </code>
+     * 
+     * @since       3.5.3
+     * @return      boolean
+     */
+    static public function isNumericInteger( $mValue ) {
+        return is_numeric( $mValue ) && is_int( $mValue + 0 );
+    }
+    
 }

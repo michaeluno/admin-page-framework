@@ -150,9 +150,11 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             if ( '_default' == $_sSectionID ) {
                 $_aFields = $_aSubSectionsOrFields;
                 foreach( $_aFields as $_aField ) {
-                    $_aInput[ $_aField['field_id'] ] = isset( $_POST[ $_aField['field_id'] ] ) 
-                        ? $_POST[ $_aField['field_id'] ] 
-                        : null;
+                    $_aInput[ $_aField['field_id'] ] = $this->oUtil->getElement(
+                        $_POST, // subjct
+                        $_aField['field_id'],    // dimensional keys
+                        null   // default value
+                    );                            
                 }
                 continue;
             }     
@@ -165,9 +167,11 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
                 
                 $_aFields = $_aSubSectionsOrFields;
                 foreach( $_aFields as $_aField ) {
-                    $_aInput[ $_sSectionID ][ $_aField['field_id'] ] = isset( $_POST[ $_sSectionID ][ $_aField['field_id'] ] )
-                        ? $_POST[ $_sSectionID ][ $_aField['field_id'] ]
-                        : null;
+                    $_aInput[ $_sSectionID ][ $_aField['field_id'] ] = $this->oUtil->getElement(
+                        $_POST, // subjct
+                        array( $_sSectionID, $_aField['field_id'] ),    // dimensional keys
+                        null   // default value
+                    );
                 }     
                 continue;
 
@@ -176,9 +180,11 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             // Otherwise, it's sub-sections. 
             // Since the registered fields don't have information how many items the user added, parse the submitted data.
             foreach( $_POST[ $_sSectionID ] as $_iIndex => $_aFields ) { // will include the main section as well.
-                $_aInput[ $_sSectionID ][ $_iIndex ] = isset( $_POST[ $_sSectionID ][ $_iIndex ] ) 
-                    ? $_POST[ $_sSectionID ][ $_iIndex ]
-                    : null;
+                $_aInput[ $_sSectionID ][ $_iIndex ] = $this->oUtil->getElement(
+                    $_POST, // subjct
+                    array( $_sSectionID, $_iIndex ),    // dimensional keys
+                    null   // default value
+                );                    
             }
                             
         }
