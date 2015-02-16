@@ -126,42 +126,47 @@ abstract class AdminPageFramework_Factory_Router {
         
         /**
          * Determines whether the class component classes should be instantiated or not.
+         * 
          * @internal
+         * @callback    action      current_screen
+         * @return      void
          */
         public function _replyToLoadComponents( /* $oScreen */ ) {
 
             if ( 'plugins.php' === $this->oProp->sPageNow ) {
-                // the user may have already accessed it
-                $this->oLink = isset( $this->oLink ) 
-                    ? $this->oLink
-                    : $this->_getLinkInstancce( $this->oProp, $this->oMsg );
+                // triggers __get() if not set.
+                $this->oLink = $this->oLink;
             }
     
-            if ( ! $this->_isInThePage() ) { return; }
+            if ( ! $this->_isInThePage() ) { 
+                return; 
+            }
             
             // Do not load widget resources in the head tag because widgets can be loaded in any page unless it is in customize.php.
             if ( in_array( $this->oProp->_sPropertyType, array( 'widget' ) ) && 'customize.php' !== $this->oProp->sPageNow ) {
                 return;
             }
             
-            // the user may have already accessed it
-            $this->oResource        = isset( $this->oResource ) 
-                ? $this->oResource
-                : $this->_getResourceInstance( $this->oProp );
-            $this->oHeadTag         = $this->oResource; // backward compatibility
-            
-            // the user may have already accessed it
-            $this->oLink            = isset( $this->oLink ) 
-                ? $this->oLink
-                : $this->_getLinkInstancce( $this->oProp, $this->oMsg );     
-                
-            // the user may have already accessed it
-            $this->oPageLoadInfo    = isset( $this->oPageLoadInfo ) 
-                ? $this->oPageLoadInfo
-                : $this->_getPageLoadInfoInstance( $this->oProp, $this->oMsg );
+            $this->_setSubClasses();
             
         }
-    
+            /**
+             * Sets sub-classes.
+             * 
+             * This method forces the overload method __get() to be triggered if those sub-class objects
+             * are not set.
+             * 
+             * @since       3.5.3
+             * @internal
+             * @return      void
+             */
+            private function _setSubClasses() {
+                $this->oResource        = $this->oResource;
+                $this->oHeadTag         = $this->oResource; // backward compatibility                
+                $this->oLink            = $this->oLink;
+                $this->oPageLoadInfo    = $this->oPageLoadInfo;
+            }
+
     /**
      * Determines whether the class object is instantiatable in the current page.
      * 
