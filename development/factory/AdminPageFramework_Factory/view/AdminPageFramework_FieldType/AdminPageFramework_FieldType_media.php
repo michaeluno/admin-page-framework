@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -411,52 +411,26 @@ CSSRULES;
         protected function _getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) { return ""; }
         
         /**
-         * A helper function for the above getImageInputTags() method to add a image button script.
+         * Returns a `<script>` tag element with a JavaScript script that enables media select buttons.
          * 
-         * @since   2.1.3
-         * @since   2.1.5   Moved from AdminPageFramework_FormField.
-         * @since   3.2.0   Made it use dashicon for the select button.
+         * @since       2.1.3
+         * @since       2.1.5   Moved from AdminPageFramework_FormField.
+         * @since       3.2.0   Made it use dashicon for the select button.
+         * @return      string
          */     
         protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
-
-            $_bIsLabelSet           = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
-            $_bDashiconSupported    = ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' );            
-            $_sDashIconSelector     = ! $_bDashiconSupported ? '' : 'dashicons dashicons-portfolio';
-            $_aAttributes           = array(
-                    'id'        => "select_media_{$sInputID}",
-                    'href'      => '#',            
-                    'data-uploader_type'            => function_exists( 'wp_enqueue_media' ) ? 1 : 0,
-                    'data-enable_external_source'   => $bExternalSource ? 1 : 0,                    
-                ) 
-                + $aButtonAttributes
-                + array(
-                    'title'     => $_bIsLabelSet ? $aButtonAttributes['data-label'] : $this->oMsg->get( 'select_file' ),
-                );
-            $_aAttributes['class']  = $this->generateClassAttribute( 
-                'select_media button button-small ',
-                trim( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : $_sDashIconSelector
-            );            
-            $_sButton = 
-                "<a " . $this->generateAttributes( $_aAttributes ) . ">"
-                    . ( $_bIsLabelSet
-                        ? $aButtonAttributes['data-label'] 
-                        : ( strrpos( $_aAttributes['class'], 'dashicons' ) 
-                            ? '' 
-                            : $this->oMsg->get( 'select_file' )
-                        )
-                    )                    
-                ."</a>";
+      
             // Do not include the escaping character (backslash) in the heredoc variable declaration 
             // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
             // which causes the PHP syntax error.
-            $_sButtonHTML = '"' . $_sButton . '"';
+            $_sButtonHTML = '"' . $this->_getUploaderButtonHTML( $sInputID, $aButtonAttributes, $bExternalSource ) . '"';
             $_sScript                = <<<JAVASCRIPTS
-                if ( jQuery( 'a#select_media_{$sInputID}' ).length == 0 ) {
-                    jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
-                }
-                jQuery( document ).ready( function(){     
-                    setAPFMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
-                });
+if ( jQuery( 'a#select_media_{$sInputID}' ).length == 0 ) {
+    jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
+}
+jQuery( document ).ready( function(){     
+    setAPFMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
+});
 JAVASCRIPTS;
                     
             return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" 
@@ -464,58 +438,67 @@ JAVASCRIPTS;
                 . "</script>". PHP_EOL;
 
         }
-
-        /**
-         * Removes the set image values and attributes.
-         * 
-         * @since   3.2.0
-         */
-        protected function _getRemoveButtonScript( $sInputID, array $aButtonAttributes ) {
-           
-            if ( ! function_exists( 'wp_enqueue_media' ) ) {
-                return '';
-            }
-           
-            $_bIsLabelSet           = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
-            $_bDashiconSupported    = ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
-            $_sDashIconSelector     = $_bDashiconSupported ? 'dashicons dashicons-dismiss' : '';           
-            $_aAttributes           = array(
-                'id'        => "remove_media_{$sInputID}",
-                'href'      => '#',            
-                'onclick'   => esc_js( "removeInputValuesForMedia( this ); return false;" ),
-                ) 
-                + $aButtonAttributes
-                + array(
-                    'title' => $_bIsLabelSet ? $aButtonAttributes['data-label'] : $this->oMsg->get( 'remove_value' ),
-                );
-            $_aAttributes['class']  = $this->generateClassAttribute( 
-                'remove_value remove_media button button-small', 
-                trim( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : $_sDashIconSelector
-            );
-            $_sButton               = 
-                "<a " . $this->generateAttributes( $_aAttributes ) . ">"
-                    . ( $_bIsLabelSet
-                        ? $_aAttributes['data-label'] 
-                        : ( strrpos( $_aAttributes['class'], 'dashicons' ) 
-                            ? '' 
-                            : 'x'
-                        )
-                    )
-                . "</a>";
-            // Do not include the escaping character (backslash) in the heredoc variable declaration 
-            // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
-            // which causes the PHP syntax error.
-            $_sButtonHTML = '"' . $_sButton . '"';
-            $_sScript = <<<JAVASCRIPTS
-                if ( 0 === jQuery( 'a#remove_media_{$sInputID}' ).length ) {
-                    jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
-                }
-JAVASCRIPTS;
+            /**
+             * Returns an HTML output of an uploader button.
+             * @since       3.5.3
+             * @return      string      The generated HTML uploader button output.
+             */
+            private function _getUploaderButtonHTML( $sInputID, array $aButtonAttributes, $bExternalSource ) {
                     
-            return "<script type='text/javascript' class='admin-page-framework-media-remove-button'>" 
-                    . $_sScript 
-                . "</script>". PHP_EOL;
-           
-        }     
-        
+                $_bIsLabelSet = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
+                $_aAttributes = $this->_getFormattedUploadButtonAttributes( 
+                    $sInputID, 
+                    $aButtonAttributes, 
+                    $_bIsLabelSet, 
+                    $bExternalSource 
+                );
+                return "<a " . $this->generateAttributes( $_aAttributes ) . ">"
+                        . $this->getAOrB( 
+                            $_bIsLabelSet,
+                            $_aAttributes['data-label'],
+                            $this->getAOrB(
+                                strrpos( $_aAttributes['class'], 'dashicons' ),
+                                '',
+                                $this->oMsg->get( 'select_file' )
+                            )
+                        )
+                    ."</a>";
+                    
+            }      
+                /**
+                 * Returns a formatted upload button attribuets array.
+                 * @since       3.5.3
+                 * @return      array       The formatted upload button attributes array.
+                 */
+                private function _getFormattedUploadButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bExternalSource ) {
+                   
+                    $_aAttributes           = array(
+                            'id'        => "select_media_{$sInputID}",
+                            'href'      => '#',            
+                            'data-uploader_type'            => ( string ) function_exists( 'wp_enqueue_media' ),    //  ? 1 : 0,
+                            'data-enable_external_source'   => ( string ) ( bool ) $bExternalSource,    //  ? 1 : 0, 
+                        ) 
+                        + $aButtonAttributes
+                        + array(
+                            'title'     => $_bIsLabelSet 
+                                ? $aButtonAttributes['data-label'] 
+                                : $this->oMsg->get( 'select_file' ),
+                            'data-label' => null,
+                        );
+                    $_aAttributes['class']  = $this->generateClassAttribute( 
+                        'select_media button button-small ',
+                        $this->getAOrB(
+                            trim( $aButtonAttributes['class'] ),
+                            $aButtonAttributes['class'],
+                            $this->getAOrB( 
+                                ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' ),
+                                'dashicons dashicons-portfolio',
+                                ''
+                            )
+                        )
+                    );       
+                    return $_aAttributes;
+                    
+                }            
+     
 }

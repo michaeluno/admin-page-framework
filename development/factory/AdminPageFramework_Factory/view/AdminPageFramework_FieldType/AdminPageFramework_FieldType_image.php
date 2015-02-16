@@ -593,74 +593,143 @@ CSSRULES;
      */
     protected function getField( $aField ) {
         
-        $_aOutput = array();
-        $_iCountAttributes = count( ( array ) $aField['attributes_to_store'] ); // If the saving extra attributes are not specified, the input field will be single only for the URL. 
-        $_sCaptureAttribute = $_iCountAttributes ? 'url' : '';
-        $_sImageURL = $_sCaptureAttribute
-                ? ( isset( $aField['attributes']['value'][ $_sCaptureAttribute ] ) ? $aField['attributes']['value'][ $_sCaptureAttribute ] : "" )
-                : $aField['attributes']['value'];
-        
-        // Set up the attribute arrays 
-        $_aBaseAttributes = $aField['attributes'] + array( 'class' => null );
-        unset( $_aBaseAttributes['input'], $_aBaseAttributes['button'], $_aBaseAttributes['preview'], $_aBaseAttributes['name'], $_aBaseAttributes['value'], $_aBaseAttributes['type'], $_aBaseAttributes['remove_button'] );
-        $_aInputAttributes = array(
-            'name'              => $aField['attributes']['name'] . ( $_iCountAttributes ? "[url]" : "" ),
-            'value'             => $_sImageURL,
-            'type'              => 'text',
-            'data-show_preview' => $aField['show_preview'], // 3.4.2+ Referenced to bind an input update event to the preview updater script.
-        ) + $aField['attributes']['input'] + $_aBaseAttributes;
-        $_aButtonAtributes          = $aField['attributes']['button'] + $_aBaseAttributes;
-        $_aRemoveButtonAtributes    = $aField['attributes']['remove_button'] + $_aBaseAttributes;
-        $_aPreviewAtrributes        = $aField['attributes']['preview'] + $_aBaseAttributes;
-
-        // Construct the field output 
-        $_aOutput[] =
+        // If the saving extra attributes are not specified, the input field will be single only for the URL. 
+        $_iCountAttributes  = count( $this->getElementAsArray( $aField, 'attributes_to_store' ) ); 
+        $_sImageURL         = $this->_getTheSetImageURL( $aField, $_iCountAttributes );
+        $_aBaseAttributes   = $this->_getBaseAttributes( $aField );
+  
+        // Output
+        return
             $aField['before_label']
             . "<div class='admin-page-framework-input-label-container admin-page-framework-input-container {$aField['type']}-field'>" // image-field ( this will be media-field for the media field type )
                 . "<label for='{$aField['input_id']}'>"
                     . $aField['before_input']
-                    . ( $aField['label'] && ! $aField['repeatable']
-                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
-                        : "" 
+                    . $this->getAOrB(
+                        $aField['label'] && ! $aField['repeatable'],
+                        "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>",
+                        ''                        
                     )
-                    . "<input " . $this->generateAttributes( $_aInputAttributes ) . " />" // this method is defined in the base class
+                    . "<input " . $this->generateAttributes( $this->_getImageInputAttributes( $aField, $_iCountAttributes, $_sImageURL, $_aBaseAttributes ) ) . " />" 
                     . $aField['after_input']
                     . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                     . $this->getExtraInputFields( $aField )
                 . "</label>"
             . "</div>"     
             . $aField['after_label']
-            . $this->_getPreviewContainer( $aField, $_sImageURL, $_aPreviewAtrributes )
-            . $this->_getRemoveButtonScript( $aField['input_id'], $_aRemoveButtonAtributes )
-            . $this->_getUploaderButtonScript( $aField['input_id'], $aField['repeatable'], $aField['allow_external_source'], $_aButtonAtributes )
+            . $this->_getPreviewContainer( 
+                $aField, 
+                $_sImageURL, 
+                // Preview container attributes
+                $this->getElementAsArray( $aField, array( 'attributes', 'preview' ) ) 
+                + $_aBaseAttributes 
+            )
+            . $this->_getRemoveButtonScript( 
+                $aField['input_id'], 
+                // Remove button atributes
+                $this->getElementAsArray( $aField, array( 'attributes', 'remove_button' ) ) 
+                + $_aBaseAttributes,
+                $aField['type'] // image 
+            )
+            . $this->_getUploaderButtonScript( 
+                $aField['input_id'], 
+                $aField['repeatable'], 
+                $aField['allow_external_source'], 
+                // Uploader button attributes
+                $this->getElementAsArray( $aField, array( 'attributes', 'button' ) ) 
+                + $_aBaseAttributes
+            )
         ;
         
-        return implode( PHP_EOL, $_aOutput );
-        
     }
+        /**
+         * Returns a base attribute array.
+         * @since       3.5.3
+         * @return      array       The generaed base attribute array.
+         */
+        private function _getBaseAttributes( array $aField ) {
+            
+            $_aBaseAttributes   = $aField['attributes'] + array( 'class' => null );
+            unset( 
+                $_aBaseAttributes['input'], 
+                $_aBaseAttributes['button'], 
+                $_aBaseAttributes['preview'], 
+                $_aBaseAttributes['name'], 
+                $_aBaseAttributes['value'], 
+                $_aBaseAttributes['type'], 
+                $_aBaseAttributes['remove_button'] 
+            );
+            return $_aBaseAttributes;
+            
+        }    
+       /**
+         * Returns the set image url.
+         * 
+         * When the 'attributes_to_store' argument is present, there will be sub elements to the field value.
+         * This method checks that and returns the set (stored) image url.
+         * 
+         * This value will be used for the preview container as well.
+         * 
+         * @since       3.5.3
+         * @return      string      The found image url.
+         */
+        private function _getTheSetImageURL( array $aField, $iCountAttributes ) {
+
+            $_sCaptureAttribute = $this->getAOrB( $iCountAttributes, 'url', '' );
+            return $_sCaptureAttribute
+                ? $this->getElement( $aField, array( 'attributes', 'value', $_sCaptureAttribute ), '' )
+                : $aField['attributes']['value'];
+        
+            
+        }    
+        /**
+         * Returns an image field input attribute for the url input tag.
+         * @since       3.5.3
+         * @return      array
+         */
+        private function _getImageInputAttributes( array $aField, $iCountAttributes, $sImageURL, array $aBaseAttributes ) {
+            
+            return array(
+                'name'              => $aField['attributes']['name'] 
+                    . $this->getAOrB( $iCountAttributes, '[url]', '' ),
+                'value'             => $sImageURL,
+                'type'              => 'text',
+                
+                // 3.4.2+ Referenced to bind an input update event to the preview updater script.
+                'data-show_preview' => $aField['show_preview'],  
+            ) 
+            + $aField['attributes']['input'] 
+            + $aBaseAttributes;
+            
+        }
+        
         /**
          * Returns extra input fields to set capturing attributes.
          * 
          * This adds input fields for saving extra attributes. 
          * It overrides the name attribute of the default text field for URL and saves them as an array.
          * 
-         * @since 3.0.0
+         * @since       3.0.0
+         * @return      string
          */
-        protected function getExtraInputFields( &$aField ) {
+        protected function getExtraInputFields( array $aField ) {
             
             $_aOutputs = array();
-            foreach( ( array ) $aField['attributes_to_store'] as $sAttribute ) {
+            foreach( $this->getElementAsArray( $aField, 'attributes_to_store' ) as $sAttribute ) {
                 $_aOutputs[] = "<input " . $this->generateAttributes( 
                     array(
                         'id'        => "{$aField['input_id']}_{$sAttribute}",
                         'type'      => 'hidden',
                         'name'      => "{$aField['_input_name']}[{$sAttribute}]",
-                        'disabled'  => isset( $aField['attributes']['disabled'] ) && $aField['attributes']['disabled'] 
-                            ? 'disabled' 
-                            : null,
-                        'value'     => isset( $aField['attributes']['value'][ $sAttribute ] ) 
-                            ? $aField['attributes']['value'][ $sAttribute ] 
-                            : '',
+                        'disabled'     => $this->getAOrB(
+                            isset( $aField['attributes']['disabled'] ) && $aField['attributes']['disabled'],
+                            'disabled',
+                            null
+                        ),                            
+                        'value'     => $this->getElement(
+                            $aField,
+                            array( 'attributes', 'value', $sAttribute ),
+                            ''
+                        ),
                     )
                 ) . "/>";
             }
@@ -680,9 +749,10 @@ CSSRULES;
             return 
                 "<div " . $this->generateAttributes( 
                         array(
-                            'id' => "image_preview_container_{$aField['input_id']}",     
-                            'class' => 'image_preview ' . ( isset( $aPreviewAtrributes['class'] ) ? $aPreviewAtrributes['class'] : '' ),
-                            'style' => ( $sImageURL ? '' : "display: none; "  ). ( isset( $aPreviewAtrributes['style'] ) ? $aPreviewAtrributes['style'] : '' ),
+                            'id'    => "image_preview_container_{$aField['input_id']}",     
+                            'class' => 'image_preview ' . $this->getElement( $aPreviewAtrributes, 'class', '' ),
+                            'style' => $this->getAOrB( $sImageURL, '', "display: none; "  ) 
+                                . $this->getElement( $aPreviewAtrributes, 'style', '' ),
                         ) + $aPreviewAtrributes
                     )
                 . ">"
@@ -703,37 +773,10 @@ CSSRULES;
          */
         protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
             
-            $_bIsLabelSet           = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
-            $_bDashiconSupported    = ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' );            
-            $_sDashIconSelector     = ! $_bDashiconSupported ? '' : ( $bRpeatable ? 'dashicons dashicons-images-alt2' : 'dashicons dashicons-format-image' ); 
-            $_aAttributes           = array(
-                    'id'        => "select_image_{$sInputID}",
-                    'href'      => '#',            
-                    'data-uploader_type'            => function_exists( 'wp_enqueue_media' ) ? 1 : 0,
-                    'data-enable_external_source'   => $bExternalSource ? 1 : 0,                    
-                ) 
-                + $aButtonAttributes
-                + array(
-                    'title'     => $_bIsLabelSet ? $aButtonAttributes['data-label'] : $this->oMsg->get( 'select_image' ),
-                );
-            $_aAttributes['class']  = $this->generateClassAttribute( 
-                'select_image button button-small ',
-                trim( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : $_sDashIconSelector
-            );            
-            $_sButton = 
-                "<a " . $this->generateAttributes( $_aAttributes ) . ">"
-                    . ( $_bIsLabelSet
-                        ? $aButtonAttributes['data-label'] 
-                        : ( strrpos( $_aAttributes['class'], 'dashicons' ) 
-                            ? '' 
-                            : $this->oMsg->get( 'select_image' )
-                        )
-                    )                    
-                ."</a>";
             // Do not include the escaping character (backslash) in the heredoc variable declaration 
             // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
             // which causes the PHP syntax error.                
-            $_sButtonHTML = '"' . $_sButton . '"';
+            $_sButtonHTML = '"' . $this->_getUploaderButtonHTML( $sInputID, $aButtonAttributes, $bRpeatable, $bExternalSource ) . '"';
             $_sScript = <<<JAVASCRIPTS
 if ( 0 === jQuery( 'a#select_image_{$sInputID}' ).length ) {
     jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
@@ -748,58 +791,180 @@ JAVASCRIPTS;
                 . "</script>". PHP_EOL;
 
         }
+            /**
+             * Returns an HTML output of an uploader button.
+             * @since       3.5.3
+             * @return      string      The generated HTML uploader button output.
+             */
+            private function _getUploaderButtonHTML( $sInputID, array $aButtonAttributes, $bRpeatable, $bExternalSource ) {
+                
+                $_bIsLabelSet = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];      
+                $_aAttributes = $this->_getFormattedUploadButtonAttributes( 
+                    $sInputID, 
+                    $aButtonAttributes, 
+                    $_bIsLabelSet, 
+                    $bRpeatable, 
+                    $bExternalSource 
+                );
+                return "<a " . $this->generateAttributes( $_aAttributes ) . ">"
+                        . ( $_bIsLabelSet
+                            ? $_aAttributes['data-label'] 
+                            : ( strrpos( $_aAttributes['class'], 'dashicons' )
+                                ? '' 
+                                : $this->oMsg->get( 'select_image' )
+                            )
+                        )                    
+                    ."</a>";
+                    
+            }         
+                /**
+                 * Returns a formatted upload button attribuets array.
+                 * @since       3.5.3
+                 * @return      array       The formatted upload button attributes array.
+                 */
+                private function _getFormattedUploadButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bRpeatable, $bExternalSource ) {
+                        
+                    $_aAttributes           = array(
+                            'id'        => "select_image_{$sInputID}",
+                            'href'      => '#',            
+                            'data-uploader_type'            => ( string ) function_exists( 'wp_enqueue_media' ),
+                            'data-enable_external_source'   => ( string ) ( bool ) $bExternalSource, // ? 1 : 0,                    
+                        ) 
+                        + $aButtonAttributes
+                        + array(
+                            'title'     => $_bIsLabelSet 
+                                ? $aButtonAttributes['data-label']
+                                : $this->oMsg->get( 'select_image' ),
+                            'data-label' => null,
+                        );
+                    $_aAttributes['class']  = $this->generateClassAttribute( 
+                        'select_image button button-small ',
+                        $this->getAOrB(
+                            trim( $aButtonAttributes['class'] ),
+                            $aButtonAttributes['class'],
+                            $this->getAOrB(
+                                $_bIsLabelSet,
+                                '',
+                                $this->getAOrB(
+                                    $bRpeatable,
+                                    $this->_getDashIconSelectorsBySlug( 'images-alt2' ),
+                                    $this->_getDashIconSelectorsBySlug( 'format-image' )
+                                )
+                            )
+                        )
+                    );                       
+                    return $_aAttributes;
+                    
+                }
         
         /**
          * Removes the set image values and attributes.
          * 
-         * @since   3.2.0
+         * @since       3.2.0
+         * @since       3.5.3       Aded the `$sType` parameter.
+         * @return      string
          */
-        protected function _getRemoveButtonScript( $sInputID, array $aButtonAttributes ) {
+        protected function _getRemoveButtonScript( $sInputID, array $aButtonAttributes, $sType='image' ) {
            
             if ( ! function_exists( 'wp_enqueue_media' ) ) {
                 return '';
             }
-
-            $_bIsLabelSet           = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
-            $_bDashiconSupported    = ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
-            $_sDashIconSelector     = $_bDashiconSupported ? 'dashicons dashicons-dismiss' : '';           
-            $_aAttributes           = array(
-                'id'        => "remove_image_{$sInputID}",
-                'href'      => '#',            
-                'onclick'   => esc_js( "removeInputValuesForImage( this ); return false;" ),
-                ) 
-                + $aButtonAttributes
-                + array(
-                    'title' => $_bIsLabelSet ? $aButtonAttributes['data-label'] : $this->oMsg->get( 'remove_value' ),
-                );
-            $_aAttributes['class']  = $this->generateClassAttribute( 
-                'remove_value remove_image button button-small', 
-                trim( $aButtonAttributes['class'] ) ? $aButtonAttributes['class'] : $_sDashIconSelector
-            );
-            $_sButtonHTML               = 
-                "<a " . $this->generateAttributes( $_aAttributes ) . ">"
-                    . ( $_bIsLabelSet
-                        ? $_aAttributes['data-label'] 
-                        : ( strrpos( $_aAttributes['class'], 'dashicons' ) 
-                            ? '' 
-                            : 'x'
-                        )
-                    )
-                . "</a>";     
+    
             // Do not include the escaping character (backslash) in the heredoc variable declaration 
             // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
             // which causes the PHP syntax error.                
-            $_sButtonHTML  = '"' . $_sButtonHTML . '"';
+            $_sButtonHTML  = '"' . $this->_getRemoveButtonHTMLByType( $sInputID, $aButtonAttributes, $sType ) . '"';
             $_sScript = <<<JAVASCRIPTS
-                if ( 0 === jQuery( 'a#remove_image_{$sInputID}' ).length ) {
+                if ( 0 === jQuery( 'a#remove_{$sType}_{$sInputID}' ).length ) {
                     jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
                 }
 JAVASCRIPTS;
                     
-            return "<script type='text/javascript' class='admin-page-framework-image-remove-button'>" 
+            return "<script type='text/javascript' class='admin-page-framework-{$sType}-remove-button'>" 
                     . $_sScript 
                 . "</script>". PHP_EOL;
            
         }
+        
+        /**
+         * Returns an HTML output of a remove button.
+         * @since       3.5.3
+         * @return      string      The generated HTML remove button output.
+         */
+        protected function _getRemoveButtonHTMLByType( $sInputID, array $aButtonAttributes, $sType='image' ) {
+        
+            $_bIsLabelSet   = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
+            $_aAttributes   = $this->_getFormattedRemoveButtonAttributesByType( $sInputID, $aButtonAttributes, $_bIsLabelSet, $sType );
+            return "<a " . $this->generateAttributes( $_aAttributes ) . ">"
+                    . ( $_bIsLabelSet
+                        ? $_aAttributes['data-label'] 
+                        : $this->getAOrB(
+                            strrpos( $_aAttributes['class'], 'dashicons' ),
+                            '',
+                            'x'
+                        )
+                    )
+                . "</a>";             
+        
+        }
+                
+            /**
+             * Returns a formatted remove button attribuets array.
+             * @since       3.5.3
+             * @return      array       The formatted remove button attributes array.
+             */
+            protected function _getFormattedRemoveButtonAttributesByType( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $sType='image' ) {
+
+                $_sOnClickFunctionName  = 'removeInputValuesFor' . ucfirst( $sType );
+                $_aAttributes           = array(
+                        'id'        => "remove_{$sType}_{$sInputID}",
+                        'href'      => '#',            
+                        'onclick'   => esc_js( "{$_sOnClickFunctionName}( this ); return false;" ),
+                    ) 
+                    + $aButtonAttributes
+                    + array(
+                        'title' => $_bIsLabelSet 
+                            ? $aButtonAttributes['data-label'] 
+                            : $this->oMsg->get( 'remove_value' ),
+                    );
+                $_aAttributes['class']  = $this->generateClassAttribute( 
+                    "remove_value remove_{$sType} button button-small", 
+                    $this->getAOrB(
+                        trim( $aButtonAttributes['class'] ),
+                        $aButtonAttributes['class'],
+                        $this->getAOrB(
+                            $_bIsLabelSet,
+                            '',
+                            $this->_getDashIconSelectorsBySlug( 'dismiss' )
+                        )
+                    )
+                );
+                return $_aAttributes;
+                
+            }
+
+        /**
+         * Returns a set of dash-icon selectors by the given dash-icon slug.
+         * 
+         * It checks whether the WordPress version is enough to support dash-icons.
+         * 
+         * @since       3.5.3
+         * @return      string      The generated classs selectors.
+         */
+        private function _getDashIconSelectorsBySlug( $sDashIconSlug ) {
+         
+            static $_bDashIconSupported;
+            
+            $_bDashIconSupported = isset( $_bDashIconSupported )
+                ? $_bDashIconSupported
+                : version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
+            
+            return $this->getAOrB(
+                $_bDashIconSupported,
+                "dashicons dashicons-{$sDashIconSlug}",
+                ''
+            );
+         
+        }            
         
 }
