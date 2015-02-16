@@ -431,15 +431,17 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                                 array(
                                     'class' => $this->oUtil->generateClassAttribute(
                                         'nav-tab',
-                                        $sCurrentPageSlug === $aSubPage['page_slug'] 
-                                            ? 'nav-tab-active' 
-                                            : ''
+                                        $this->oUtil->getAOrB(
+                                            $sCurrentPageSlug === $aSubPage['page_slug'],
+                                            'nav-tab-active',
+                                            ''
+                                        )
                                     ),                                
                                     'href'  => esc_url( 
                                         $this->oUtil->getQueryAdminURL( 
                                             array( 
                                                 'page'  => $aSubPage['page_slug'], 
-                                                'tab'   => false 
+                                                'tab'   => false, 
                                             ), 
                                             $this->oProp->aDisallowedQueryKeys 
                                         ) 
@@ -568,20 +570,24 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                             array(
                                 'class' => $this->oUtil->generateClassAttribute(
                                     'nav-tab',
-                                    $sCurrentTabSlug === $sInPageTabSlug        // check whether the current tab is the active one
-                                        ? "nav-tab-active" 
-                                        : "" 
+                                    $this->oUtil->getAOrB( 
+                                        $sCurrentTabSlug === $sInPageTabSlug, // check whether the current tab is the active one
+                                        "nav-tab-active",
+                                        ''
+                                    )
                                 ),
                                 'href'  => esc_url( 
-                                    isset( $aInPageTab['url'] )
-                                        ? $aInPageTab['url']
-                                        : $this->oUtil->getQueryAdminURL( 
+                                    $this->oUtil->getElement( 
+                                        $aInPageTab, 
+                                        'url',
+                                        $this->oUtil->getQueryAdminURL( 
                                             array( 
                                                 'page'  => $sCurrentPageSlug,
-                                                'tab'   => $sInPageTabSlug 
+                                                'tab'   => $sInPageTabSlug,
                                             ), 
                                             $this->oProp->aDisallowedQueryKeys 
                                         )
+                                    )
                                 ),
                             )    
                         ) . ">"
@@ -634,12 +640,14 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                  */     
                 private function _getParentTabSlug( $sPageSlug, $sTabSlug ) {
                     
-                    $sParentTabSlug = isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['parent_tab_slug'] ) 
-                        ? $this->oProp->aInPageTabs[ $sPageSlug ][ $sTabSlug ]['parent_tab_slug']
-                        : $sTabSlug;
-     
-                    return isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_in_page_tab'] ) && $this->oProp->aInPageTabs[ $sPageSlug ][ $sParentTabSlug ]['show_in_page_tab']
-                        ? $sParentTabSlug
+                    $_sParentTabSlug = $this->oUtil->getElement(
+                        $this->oProp->aInPageTabs,
+                        array( $sPageSlug, $sTabSlug, 'parent_tab_slug' ),
+                        $sTabSlug
+                    );
+                    
+                    return isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $_sParentTabSlug ]['show_in_page_tab'] ) && $this->oProp->aInPageTabs[ $sPageSlug ][ $_sParentTabSlug ]['show_in_page_tab']
+                        ? $_sParentTabSlug
                         : '';
 
                 }
