@@ -115,6 +115,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
          * @since       3.4.0
          * @param       string      $sToggleAll         Comma delimited button positions.
          * @param       array       $aSection           The section definition array.
+         * @return      string
          */
         private function _sanitizeToggleAllButtonArgument( $sToggleAll, array $aSection ) {
             
@@ -132,17 +133,26 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
                 return 0;
             }            
             
-            $_aToggleAll = true === $sToggleAll || 1 ===  $sToggleAll 
-                ? array( 'top-right', 'bottom-right' )
-                : explode( ',', $sToggleAll );
-            
-            if ( $aSection['_is_first_index'] ) {                
-                $_aToggleAll = $this->dropElementByValue( $_aToggleAll, array( 1, true, 0, false, 'bottom-right', 'bottom-left' ) );
-            }
-            if ( $aSection['_is_last_index'] ) {
-                $_aToggleAll = $this->dropElementByValue( $_aToggleAll, array( 1, true, 0, false, 'top-right', 'top-left' ) );                    
-            } 
-            $_aToggleAll = empty( $_aToggleAll ) ? array( 0 ) : $_aToggleAll;
+            $_aToggleAll = $this->getAOrB(
+                true === $sToggleAll || 1 ===  $sToggleAll, // evaluate
+                array( 'top-right', 'bottom-right' ),   // if true
+                explode( ',', $sToggleAll ) // if false
+            );            
+            $_aToggleAll = $this->getAOrB(
+                $aSection['_is_first_index'],
+                $this->dropElementByValue( $_aToggleAll, array( 1, true, 0, false, 'bottom-right', 'bottom-left' ) ),
+                $_aToggleAll
+            );
+            $_aToggleAll = $this->getAOrB(
+                $aSection['_is_last_index'],
+                $this->dropElementByValue( $_aToggleAll, array( 1, true, 0, false, 'top-right', 'top-left' ) ),
+                $_aToggleAll
+            );
+            $_aToggleAll = $this->getAOrB(
+                empty( $_aToggleAll ),
+                array( 0 ),
+                $_aToggleAll
+            );
             return implode( ',', $_aToggleAll );
             
         }
