@@ -32,7 +32,6 @@ class AdminPageFramework_Script_Base extends AdminPageFramework_WPUtility {
      * It will enqueue the scrip in the footer.
      * 
      * @since       3.3.0
-     * @return      void
      */
     public function __construct( $oMsg=null ) {
         
