@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -12,10 +12,10 @@
  * 
  * This class stores various types of values. This is used to encapsulate properties so that it helps to avoid naming conflicts.
  * 
- * @since 2.0.0
- * @package AdminPageFramework
- * @subpackage Property
- * @extends AdminPageFramework_Property_Base
+ * @since       2.0.0
+ * @package     AdminPageFramework
+ * @subpackage  Property
+ * @extends     AdminPageFramework_Property_Base
  * @internal
  */
 class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base {
@@ -422,7 +422,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * @since       3.5.0       Added the `$sCurrentPageSlug` parameter because the page-meta-box class determines the caller factory object by page slug.
      * @since       3.5.3       Changed the name from 'getCurrentTab()' to be more specific.
      * @return      string      The found tab slug. An empty string if not found.
-     * @remark      Do not return `null` when not found as some framework methods check the retuened value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an emtpy string ('').
+     * @remark      Do not return `null` when not found as some framework methods check the returned value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an empty string ('').
      */    
     public function getCurrentTabSlug( $sCurrentPageSlug='' ) {
         
