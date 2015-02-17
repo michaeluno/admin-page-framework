@@ -423,7 +423,7 @@ CSSRULES;
             // Do not include the escaping character (backslash) in the heredoc variable declaration 
             // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
             // which causes the PHP syntax error.
-            $_sButtonHTML = '"' . $this->_getUploaderButtonHTML( $sInputID, $aButtonAttributes, $bExternalSource ) . '"';
+            $_sButtonHTML = '"' . $this->_getUploaderButtonHTML_Media( $sInputID, $aButtonAttributes, $bExternalSource ) . '"';
             $_sScript                = <<<JAVASCRIPTS
 if ( jQuery( 'a#select_media_{$sInputID}' ).length == 0 ) {
     jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
@@ -443,10 +443,10 @@ JAVASCRIPTS;
              * @since       3.5.3
              * @return      string      The generated HTML uploader button output.
              */
-            protected function _getUploaderButtonHTML( $sInputID, array $aButtonAttributes, $bExternalSource ) {
+            private function _getUploaderButtonHTML_Media( $sInputID, array $aButtonAttributes, $bExternalSource ) {
                     
                 $_bIsLabelSet = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
-                $_aAttributes = $this->_getFormattedUploadButtonAttributes( 
+                $_aAttributes = $this->_getFormattedUploadButtonAttributes_Media( 
                     $sInputID, 
                     $aButtonAttributes, 
                     $_bIsLabelSet, 
@@ -470,7 +470,7 @@ JAVASCRIPTS;
                  * @since       3.5.3
                  * @return      array       The formatted upload button attributes array.
                  */
-                protected function _getFormattedUploadButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bExternalSource ) {
+                private function _getFormattedUploadButtonAttributes_Media( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bExternalSource ) {
                    
                     $_aAttributes           = array(
                             'id'        => "select_media_{$sInputID}",
