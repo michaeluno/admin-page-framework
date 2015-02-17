@@ -215,7 +215,7 @@ abstract class AdminPageFramework_Factory_Router {
      */
     protected function _getFormInstance( $oProp ) {
         
-        $_FormsClassName = in_array( $oProp->sFieldsType, array( 'page', 'network_admin_page' ) )
+        $_sFormsClassName = in_array( $oProp->sFieldsType, array( 'page', 'network_admin_page' ) )
             ? 'AdminPageFramework_FormElement_Page'
             : 'AdminPageFramework_FormElement';
         
@@ -227,7 +227,7 @@ abstract class AdminPageFramework_Factory_Router {
             return null;
         }
 
-        return new $_FormsClassName( 
+        return new $_sFormsClassName( 
             $oProp->sFieldsType, 
             $oProp->sCapability, 
             $this 
@@ -243,24 +243,21 @@ abstract class AdminPageFramework_Factory_Router {
      */
     protected function _getResourceInstance( $oProp ) {
         
-        switch ( $oProp->sFieldsType ) {
-            case 'page':
-            case 'network_admin_page':
-                return new AdminPageFramework_Resource_Page( $oProp );
-            case 'post_meta_box':
-                return new AdminPageFramework_Resource_MetaBox( $oProp );
-            case 'page_meta_box':
-                return new AdminPageFramework_Resource_MetaBox_Page( $oProp );     
-            case 'post_type':
-                return new AdminPageFramework_Resource_PostType( $oProp );
-            case 'taxonomy':
-                return new AdminPageFramework_Resource_TaxonomyField( $oProp );
-            case 'widget':  // 3.2.0+
-                return new AdminPageFramework_Resource_Widget( $oProp );
-            case 'user_meta':    // 3.5.0+
-                return new AdminPageFramework_Resource_UserMeta( $oProp );
-        }
-
+        $_aClassNames = array(
+            'page'                  => 'AdminPageFramework_Resource_Page',
+            'network_admin_page'    => 'AdminPageFramework_Resource_Page',
+            'post_meta_box'         => 'AdminPageFramework_Resource_MetaBox',
+            'page_meta_box'         => 'AdminPageFramework_Resource_MetaBox_Page',
+            'post_type'             => 'AdminPageFramework_Resource_PostType',
+            'taxonomy'              => 'AdminPageFramework_Resource_TaxonomyField',
+            'widget'                => 'AdminPageFramework_Resource_Widget',
+            'user_meta'             => 'AdminPageFramework_Resource_UserMeta',
+        );
+        return $this->_getInstanceByMap( 
+            $_aClassNames,  // map array
+            $oProp->sFieldsType, // map key
+            $oProp  // argument
+        );
     }
     
     /**
@@ -270,24 +267,23 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      */
     protected function _getHelpPaneInstance( $oProp ) {
-
-        switch ( $oProp->sFieldsType ) {
-            case 'page':
-            case 'network_admin_page':
-                return new AdminPageFramework_HelpPane_Page( $oProp );
-            case 'post_meta_box':
-                return new AdminPageFramework_HelpPane_MetaBox( $oProp );
-            case 'page_meta_box':
-                return new AdminPageFramework_HelpPane_MetaBox_Page( $oProp );
-            case 'post_type':
-                return null; // no help pane class for the post type factory class.
-            case 'taxonomy':
-                return new AdminPageFramework_HelpPane_TaxonomyField( $oProp );
-            case 'widget':  // 3.2.0+
-                return new AdminPageFramework_HelpPane_Widget( $oProp );                
-            case 'user_meta':    // 3.5.0+
-                return new AdminPageFramework_HelpPane_UserMeta( $oProp );                
-        }     
+        
+        $_aClassNames = array(
+            'page'                  => 'AdminPageFramework_HelpPane_Page',
+            'network_admin_page'    => 'AdminPageFramework_HelpPane_Page',
+            'post_meta_box'         => 'AdminPageFramework_HelpPane_MetaBox',
+            'page_meta_box'         => 'AdminPageFramework_HelpPane_MetaBox_Page',
+            'post_type'             => null,    // no help pane class for the post type factory class.
+            'taxonomy'              => 'AdminPageFramework_HelpPane_TaxonomyField',
+            'widget'                => 'AdminPageFramework_HelpPane_Widget',
+            'user_meta'             => 'AdminPageFramework_HelpPane_UserMeta',
+        );
+        return $this->_getInstanceByMap( 
+            $_aClassNames, // map array
+            $oProp->sFieldsType, // map key
+            $oProp // argument
+        );
+        
     }
     
     /**
@@ -298,23 +294,22 @@ abstract class AdminPageFramework_Factory_Router {
      */
     protected function _getLinkInstancce( $oProp, $oMsg ) {
 
-        switch ( $oProp->sFieldsType ) {
-            case 'page':
-                return new AdminPageFramework_Link_Page( $oProp, $oMsg );
-            case 'network_admin_page':            
-                return new AdminPageFramework_Link_NetworkAdmin( $oProp, $oMsg );
-            case 'post_meta_box':
-                return null;
-            case 'page_meta_box':
-                return null;
-            case 'post_type':
-                return new AdminPageFramework_Link_PostType( $oProp, $oMsg );
-            case 'taxonomy':
-            case 'widget':  // 3.2.0+
-            case 'user_meta':   // 3.5.0+
-            default:
-                return null;
-        }     
+        $_aClassNames = array(
+            'page'                  => 'AdminPageFramework_Link_Page',
+            'network_admin_page'    => 'AdminPageFramework_Link_NetworkAdmin',
+            'post_meta_box'         => null,
+            'page_meta_box'         => null,
+            'post_type'             => 'AdminPageFramework_Link_PostType', 
+            'taxonomy'              => null,
+            'widget'                => null,
+            'user_meta'             => null,
+        );    
+        return $this->_getInstanceByMap( 
+            $_aClassNames, // map array
+            $oProp->sFieldsType, // map key
+            $oProp, // argument
+            $oMsg
+        );
         
     }
     
@@ -325,26 +320,86 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      */
     protected function _getPageLoadInfoInstance( $oProp, $oMsg ) {
-        
-        switch ( $oProp->sFieldsType ) {
-            case 'page':
-                return AdminPageFramework_PageLoadInfo_Page::instantiate( $oProp, $oMsg );
-            case 'network_admin_page':
-                return AdminPageFramework_PageLoadInfo_NetworkAdminPage::instantiate( $oProp, $oMsg );
-            case 'post_meta_box':
-                return null;
-            case 'page_meta_box':
-                return null;
-            case 'post_type':
-                return AdminPageFramework_PageLoadInfo_PostType::instantiate( $oProp, $oMsg );
-            case 'taxonomy':
-            case 'widget':  // 3.2.0+
-            case 'user_meta':   // 3.5.0+
-            default:
-                return null;
-        }     
-        
+
+        $_aClassNames = array(
+            'page'                  => 'AdminPageFramework_PageLoadInfo_Page',
+            'network_admin_page'    => 'AdminPageFramework_PageLoadInfo_NetworkAdminPage',
+            'post_meta_box'         => null,
+            'page_meta_box'         => null,
+            'post_type'             => 'AdminPageFramework_PageLoadInfo_PostType', 
+            'taxonomy'              => null,
+            'widget'                => null,
+            'user_meta'             => null,
+        );    
+        if ( ! isset( $_aClassNames[ $oProp->sFieldsType ] ) ) {
+            return null;
+        }
+        $_sClassName = $_aClassNames[ $oProp->sFieldsType ];
+        return $_sClassName::instantiate( $oProp, $oMsg );
+
     }
+    
+    /**
+     * Returns a class object instance by the given map array and the key, plus one or two arguments.
+     * 
+     * @remark      There is a limitation that only can accept up to 2 parameters at the moment. 
+     * @internal
+     * @since       3.5.3
+     * @return      null|object
+     */
+    private function _getInstanceByMap( /* array $aClassNameMap, $sKey, $mParam1, $mParam2 */ ) {
+        
+        $_aParams       = func_get_args();
+        $_aClassNameMap = array_shift( $_aParams );
+        $_sKey          = array_shift( $_aParams );
+        
+        if ( ! isset( $_aClassNameMap[ $_sKey ] ) ) {
+            return null;
+        }
+        
+        $_iParamCount = count( $_aParams );
+        
+        // passing more than 2 arguments is not supported at the moment.
+        if ( $_iParamCount > 2 ) {
+            return null;
+        }
+        
+        // Insert the class name at the beginning of the parameter array.
+        array_unshift( $_aParams, $_aClassNameMap[ $_sKey ] );    
+        
+        // Instantiate the class and return the instance.
+        return call_user_func_array( 
+            array( $this, "_replyToGetClassInstanceByArgumentOf{$_iParamCount}" ), 
+            $_aParams
+        );
+    
+    }
+        /**#@+
+         * @internal
+         * @return      object
+         */      
+        /**
+         * Instantiate a class with zero parameter.
+         * @since       3.5.3
+         */
+        private function _replyToGetClassInstanceByArgumentOf0( $sClassName ) {
+            return new $sClassName;
+        }    
+        /**
+         * Instantiate a class with one parameter.
+         * @since       3.5.3
+         */        
+        private function _replyToGetClassInstanceByArgumentOf1( $sClassName, $mArg ) {
+            return new $sClassName( $mArg );
+        }
+        /**
+         * Instantiate a class with two parameters.
+         * @since       3.5.3
+         */             
+        private function _replyToGetClassInstanceByArgumentOf2( $sClassName, $mArg1, $mArg2 ) {
+            return new $sClassName( $mArg1, $mArg2 );
+        }      
+        /**#@-*/        
     
     /**
      * Responds to a request of an undefined property.
@@ -369,12 +424,14 @@ abstract class AdminPageFramework_Factory_Router {
         }
         
     }
-        /**
-         * Sets and returns the `oUtil` property.
-         * @since       3.5.3
+        /**#@+
          * @internal
          * @return      object
          * @callback    function    call_user_func
+         */          
+        /**
+         * Sets and returns the `oUtil` property.
+         * @since       3.5.3
          */
         public function _replyTpSetAndGetInstance_oUtil() {
             $this->oUtil = new AdminPageFramework_WPUtility;
@@ -383,9 +440,6 @@ abstract class AdminPageFramework_Factory_Router {
         /**
          * Sets and returns the `oDebug` property.
          * @since       3.5.3
-         * @internal
-         * @return      object
-         * @callback    function    call_user_func
          */        
         public function _replyTpSetAndGetInstance_oDebug() {
             $this->oDebug = new AdminPageFramework_Debug;
@@ -394,9 +448,6 @@ abstract class AdminPageFramework_Factory_Router {
         /**
          * Sets and returns the `oMsg` property.
          * @since       3.5.3
-         * @internal
-         * @return      object
-         * @callback    function    call_user_func
          */              
         public function _replyTpSetAndGetInstance_oMsg() {
             $this->oMsg = AdminPageFramework_Message::getInstance( $this->oProp->sTextDomain );
@@ -405,9 +456,6 @@ abstract class AdminPageFramework_Factory_Router {
         /**
          * Sets and returns the `oForm` property.
          * @since       3.5.3
-         * @internal
-         * @return      object
-         * @callback    function    call_user_func
          */              
         public function _replyTpSetAndGetInstance_oForm() {
             $this->oForm = $this->_getFormInstance( $this->oProp );
@@ -416,9 +464,6 @@ abstract class AdminPageFramework_Factory_Router {
         /**
          * Sets and returns the `oResouce` property.
          * @since       3.5.3
-         * @internal
-         * @return      object
-         * @callback    function    call_user_func
          */            
         public function _replyTpSetAndGetInstance_oResource() {
             $this->oResource = $this->_getResourceInstance( $this->oProp );
@@ -427,9 +472,6 @@ abstract class AdminPageFramework_Factory_Router {
         /**
          * Sets and returns the `oHelpPane` property.
          * @since       3.5.3
-         * @internal
-         * @return      object
-         * @callback    function    call_user_func
          */
         public function _replyTpSetAndGetInstance_oHelpPane() {
             $this->oHelpPane = $this->_getHelpPaneInstance( $this->oProp );
@@ -438,9 +480,6 @@ abstract class AdminPageFramework_Factory_Router {
         /**
          * Sets and returns the `oLink` property.
          * @since       3.5.3
-         * @internal
-         * @return      object
-         * @callback    function    call_user_func
          */
         public function _replyTpSetAndGetInstance_oLink() {
             $this->oLink = $this->_getLinkInstancce( $this->oProp, $this->oMsg );
@@ -449,14 +488,12 @@ abstract class AdminPageFramework_Factory_Router {
         /**
          * Sets and returns the `oPageLoadInfo` property.
          * @since       3.5.3
-         * @internal
-         * @return      object
-         * @callback    function    call_user_func
          */        
         public function _replyTpSetAndGetInstance_oPageLoadInfo() {
             $this->oPageLoadInfo = $this->_getPageLoadInfoInstance( $this->oProp, $this->oMsg );
             return $this->oPageLoadInfo;
         }
+        /**#@-*/
         
     /**
      * Redirects dynamic function calls to the pre-defined internal method.
