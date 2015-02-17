@@ -590,7 +590,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
         
         $_sID = md5( $this->oProp->sClassName );
         $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] = isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] )
-            ? $this->oUtil->uniteArrays( $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ], $aErrors )
+            ? $this->oUtil->uniteArrays( 
+                $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ], 
+                $aErrors 
+            )
             : $aErrors;                   
     
     }   
@@ -674,12 +677,14 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     public function hasSettingNotice( $sType='' ) {
         
         // The framework user set notification messages are stored in this global array element.
-        $_aNotices = isset( $GLOBALS['aAdminPageFramework']['aNotices'] )
-            ? $GLOBALS['aAdminPageFramework']['aNotices']
-            : array();
+        $_aNotices = $this->oUtil->getElementAsArray(
+            $GLOBALS,
+            array( 'aAdminPageFramework', 'aNotices' ),
+            array()
+        );
         
         if ( ! $sType ) {
-            return count( $_aNotices ) ? true : false;
+            return ( bool ) count( $_aNotices );
         }
         
         // Check if there is a message of the type.
