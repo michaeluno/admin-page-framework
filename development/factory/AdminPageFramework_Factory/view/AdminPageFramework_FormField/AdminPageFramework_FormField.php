@@ -192,7 +192,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 
         /* 1. Prepend the field error message. */
         $_sFieldError = $this->_getFieldError( $this->aErrors, $this->aField['section_id'], $this->aField['field_id'] );
-        if ( $_sFieldError ) {
+        if ( '' !== $_sFieldError ) {
             $_aFieldsOutput[] = $_sFieldError;
         }
                     
@@ -469,7 +469,8 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
         /**
          * Returns the set field error message to the section or field.
          * 
-         * @since 3.1.0
+         * @since       3.1.0
+         * @return      string     The error string message. An empty value if not found.
          */
         private function _getFieldError( $aErrors, $sSectionID, $sFieldID ) {
             
@@ -493,7 +494,9 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                 return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}" 
                         . $aErrors[ $sFieldID ]
                     . "</span>";
-            }     
+            }  
+            
+            return '';
             
         }    
             
