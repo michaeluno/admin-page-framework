@@ -135,7 +135,6 @@ class APF_Demo_BuiltinFieldTypes_Verification {
         // validation_ + class name + _ + section id
         add_filter( 'validation_' . $this->sClassName . '_section_verification', array( $this, 'replyToValidateSection' ), 10, 3  );
         
-        
     }
     
     
@@ -173,7 +172,7 @@ class APF_Demo_BuiltinFieldTypes_Verification {
         
             /* 4-1. Set the error array for the input fields. */
             $oAdmin->setFieldErrors( $_aErrors );     
-            $oAdmin->setSettingNotice( __( 'There was something wrong with your input.', 'admin-page-framework-demo' ) );
+            $oAdmin->setSettingNotice( __( 'There was an error in a form field.', 'admin-page-framework-demo' ) );
 
             return $sOldInput;
             
@@ -185,8 +184,10 @@ class APF_Demo_BuiltinFieldTypes_Verification {
     
     /**
      * Validates the 'section_verification' section items.
+     * 
+     * @callback        filter      validation_{instantiated class name}_{section id}
      */
-    public function replyToValidateSection( $aInput, $aOldInput, $oAdmin ) { // validation_{instantiated class name}_{section id}
+    public function replyToValidateSection( $aInput, $aOldInput, $oAdmin ) { 
 
         // Local variables
         $_bIsValid = true;
@@ -200,11 +201,11 @@ class APF_Demo_BuiltinFieldTypes_Verification {
         if ( ! $_bIsValid ) {
         
             $oAdmin->setFieldErrors( $_aErrors );     
-            $oAdmin->setSettingNotice( __( 'There was something wrong with your input.', 'admin-page-framework-demo' ) );        
+            $oAdmin->setSettingNotice( __( 'There was an error setting an option in a form section.', 'admin-page-framework-demo' ) );                     
             return $aOldInput;
             
         }     
-     
+   
         // Otherwise, process the data.
         return $aInput;
         
