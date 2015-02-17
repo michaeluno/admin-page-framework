@@ -346,7 +346,7 @@ abstract class AdminPageFramework_Factory_Router {
             return null;
         }
         $_sClassName = $this->_aPageLoadClassNameMap[ $oProp->sFieldsType ];
-        return $_sClassName::instantiate( $oProp, $oMsg );
+        return call_user_func_array( array( $_sClassName, 'instantiate' ), array( $oProp, $oMsg ) );
 
     }
     
