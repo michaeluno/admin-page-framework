@@ -527,10 +527,14 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
     /**
      * Returns the fields-definition array that the conditions have been applied.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
+     * @since       3.5.3       Removed the parameters.
      */
-    public function applyConditions( $aFields=null, $aSections=null ) {
-        return $this->getConditionedFields( $aFields, $this->getConditionedSections( $aSections ) );
+    public function applyConditions() {
+        return $this->getConditionedFields( 
+            $this->getAsArray( $this->aFields ), 
+            $this->getConditionedSections( $this->getAsArray( $this->aSections ) )
+        );
     }
     
     /**
@@ -542,9 +546,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      */
     public function getConditionedSections( $aSections=null ) {
         
-        $aSections      = is_null( $aSections ) ? $this->aSections : $aSections;
         $_aNewSections  = array();
-
         foreach( $aSections as $_sSectionID => $_aSection ) {
             $_aSection = $this->getConditionedSection( $_aSection );
             if ( $_aSection ) {
@@ -583,11 +585,9 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
      * 
      * @remark      Assumes sections are conditioned already.
      * @since       3.0.0
+     * @since       3.5.3       Added type hints to the parameters and removed default values.
      */
-    public function getConditionedFields( $aFields=null, $aSections=null ) {
-        
-        $aFields    = is_null( $aFields ) ? $this->aFields :  $aFields;
-        $aSections  = is_null( $aSections ) ? $this->aSections : $aSections;
+    public function getConditionedFields( array $aFields, array $aSections ) {
 
         // Drop keys of fields-array which do not exist in the sections-array. 
         // For this reasons, the sections-array should be conditioned first before applying this method.
@@ -607,7 +607,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                     $_aFields           = $_aSubSectionOrField;
                     foreach( $_aFields as $_aField ) {
                         $_aField = $this->getConditionedField( $_aField );
-                        if ( $_aField ) {
+                        if ( ! is_null( $_aField ) ) {
                             $_aNewFields[ $_sSectionID ][ $_sSubSectionIndex ][ $_aField['field_id'] ] = $_aField;
                         }
                     }
@@ -618,7 +618,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                 // Otherwise, insert the formatted field definition array.
                 $_aField = $_aSubSectionOrField;
                 $_aField = $this->getConditionedField( $_aField );
-                if ( $_aField ) {
+                if ( ! is_null( $_aField ) ) {
                     $_aNewFields[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
                 }
                 
@@ -648,46 +648,68 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
     
     
     /**
-     * Adds dynamic elements such as repeatable sections from the given options array.
+     * Updates the `aConditionedFields` property by adding dynamic elements from the given options array.
      * 
-     * This method checks the structure of the given array and adds section elements to the $aConditionedFields property arrays.
+     * Dynamic elements are repeatable sections and sortable/repeatable fields. 
+     * This method checks the structure of the given array 
+     * and adds section elements to the `$aConditionedFields` property arrays.
      * 
-     * @remark This should be called after conditioning the form definition arrays.
-     * @since 3.0.0
+     * @remark      Assumes sections and fields have already conditioned.
+     * @since       3.0.0
+     * @return      void
+     * @todo        Display a warning when sections and fields are not conditioned.
      */
     public function setDynamicElements( $aOptions ) {
         
         $aOptions = $this->castArrayContents( $this->aConditionedSections, $aOptions );
-        
         foreach( $aOptions as $_sSectionID => $_aSubSectionOrFields ) {
             
-            if ( ! is_array( $_aSubSectionOrFields ) ) { 
-                continue; 
+            $_aSubSection = $this->_getSubSectionFromOptions(   
+                $_sSectionID,
+                $this->getAsArray( $_aSubSectionOrFields )  // a sub-section or fields extracted from the saved options array
+            );
+
+            if ( empty( $_aSubSection ) ) {
+                continue;
             }
             
+            // At this point, the associative keys will be gone but the element only consists of numeric keys.
+            $this->aConditionedFields[ $_sSectionID ] = $_aSubSection;
+            
+        }
+
+    }
+        /**
+         * Extracts sub-section from the given options array element.
+         * 
+         * The options array is the one stored in and retrieved from the database.
+         * 
+         * @internal
+         * @since       3.5.3
+         * @param       string      $_sSectionID                    The expected section ID.
+         * @param       array       $_aSubSectionOrFields           sub-sections or fields extracted from the saved options array
+         * @return      array       sub-sections array.
+         */
+        private function _getSubSectionFromOptions( $_sSectionID, array $_aSubSectionOrFields ) {
+            
             $_aSubSection = array();
+            $_iPrevIndex  = null;
             foreach( $_aSubSectionOrFields as $_isIndexOrFieldID => $_aSubSectionOrFieldOptions ) {
             
-                // If it is not a sub-section array, skip
-                
+                // If it is not a sub-section array, skip.
                 if ( ! $this->isNumericInteger( $_isIndexOrFieldID ) ) { 
                     continue; 
                 }
                 
                 $_iIndex = $_isIndexOrFieldID;
                 
-                // Insert the fields definition array into a temporary sub section array.
-                $_aSubSection[ $_iIndex ] = isset( $this->aConditionedFields[ $_sSectionID ][ $_iIndex ] ) // already numerized ?
-                    ? $this->aConditionedFields[ $_sSectionID ][ $_iIndex ]
-                    : $this->getNonIntegerKeyElements( $this->aConditionedFields[ $_sSectionID ] );
-                $_aSubSection[ $_iIndex ] = ! empty( $_aSubSection[ $_iIndex ] )     // if empty, merge with the previous element.
-                    ? $_aSubSection[ $_iIndex ]
-                    : $this->getElementAsArray(
-                        $_aSubSection,
-                        $_iPrevIndex,
-                        array()
-                    );     
-                
+                $_aSubSection[ $_iIndex ] = $this->_getSubSectionItemsFromOptions(
+                    $_aSubSection, 
+                    $_sSectionID, 
+                    $_iIndex, 
+                    $_iPrevIndex 
+                );
+   
                 // Update the internal section index key
                 foreach( $_aSubSection[ $_iIndex ] as &$_aField ) {
                     $_aField['_section_index'] = $_iIndex;
@@ -697,14 +719,35 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
                 $_iPrevIndex = $_iIndex;
                 
             }
-
-            if ( ! empty( $_aSubSection ) ) {
-                // At this point, the associative keys will be gone but the element only consists of numeric keys.
-                $this->aConditionedFields[ $_sSectionID ] = $_aSubSection;
-            }
+            return $_aSubSection;
             
         }
-
-    }
+            /**
+             * Returns items belonging to the given sub-section from the options array.
+             * 
+             * @internal
+             * @since       3.5.3
+             * @param       array           $_aSubSection       the subsection array
+             * @param       string          $_sSectionID        the section id
+             * @param       integer         $_iIndex            the sub-section index
+             * @param       integer|null    $_iPrevIndex
+             * @return      array
+             */
+            private function _getSubSectionItemsFromOptions( array $_aSubSection, $_sSectionID, $_iIndex, $_iPrevIndex ) {
+                
+                $_aFields = isset( $this->aConditionedFields[ $_sSectionID ][ $_iIndex ] )
+                    ? $this->aConditionedFields[ $_sSectionID ][ $_iIndex ]
+                    : $this->getNonIntegerKeyElements( $this->aConditionedFields[ $_sSectionID ] );
+                    
+                // if empty, merge with the previous element.
+                return ! empty( $_aFields )
+                    ? $_aFields
+                    : $this->getElementAsArray(
+                        $_aSubSection,
+                        $_iPrevIndex,
+                        array()
+                    );                     
+                
+            }
         
 }
