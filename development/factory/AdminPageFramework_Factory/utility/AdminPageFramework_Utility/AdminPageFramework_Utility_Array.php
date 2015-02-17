@@ -315,7 +315,6 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      *  var_dump( $v );
      * </code>
      * 
-     * 
      * @since       3.0.1
      * @return      mixed
      */
@@ -323,7 +322,8 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         
         $_sKey = array_shift( $aKeys );
  
-        if ( array_key_exists( $_sKey, $aArray ) ) {
+        // array_key_exists( $_sKey, $aArray ) caused warnings in some occasions
+        if ( isset( $aArray[ $_sKey ] ) ) {
             
             if ( empty( $aKeys ) ) { // no more keys 
                 return $aArray[ $_sKey ];
