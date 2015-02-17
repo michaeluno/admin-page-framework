@@ -619,19 +619,21 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                     if ( ! $aField['repeatable'] ) {
                         return;
                     }
-                    foreach( $this->getAsArray( $mSavedValue ) as $_iIndex => $vValue ) {
+                    $_aSavedValues = ( array ) $mSavedValue;
+                    unset( $_aSavedValues[ 0 ] );
+                    foreach( $_aSavedValues as $_iIndex => $vValue ) {
                         $aSubFields[ $_iIndex - 1 ] = isset( $aSubFields[ $_iIndex - 1 ] ) && is_array( $aSubFields[ $_iIndex - 1 ] ) 
                             ? $aSubFields[ $_iIndex - 1 ] 
                             : array();     
                     }       
                 }
                 /**
-                 * Fillds sub-fields.
+                 * Fills sub-fields.
                  * @since       3.5.3
                  * @internal
                  * @return      void
                  */
-                private function _fillSubFields( array &$aSubFields, array $aFirstField ) {                
+                private function _fillSubFields( array &$aSubFields, array $aFirstField ) {
                             
                     foreach( $aSubFields as &$_aSubField ) {
                         
