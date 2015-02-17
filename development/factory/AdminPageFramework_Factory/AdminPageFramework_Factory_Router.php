@@ -207,6 +207,20 @@ abstract class AdminPageFramework_Factory_Router {
     public function _isInThePage() { return true; }
     
     /**
+     * Stores class names by fields type for form element objects.
+     * @since       3.5.3
+     */    
+    protected $_aFormElementClassNameMap = array(
+        'page'                  => 'AdminPageFramework_FormElement_Page',
+        'network_admin_page'    => 'AdminPageFramework_FormElement_Page',
+        'post_meta_box'         => 'AdminPageFramework_FormElement_Meta',
+        'page_meta_box'         => 'AdminPageFramework_FormElement',
+        'post_type'             => 'AdminPageFramework_FormElement',
+        'taxonomy'              => 'AdminPageFramework_FormElement',
+        'widget'                => 'AdminPageFramework_FormElement',
+        'user_meta'             => 'AdminPageFramework_FormElement_Meta',
+    );        
+    /**
      * Instantiate a form object based on the type.
      * 
      * @since       3.1.0
@@ -214,30 +228,29 @@ abstract class AdminPageFramework_Factory_Router {
      * @return      object|null
      */
     protected function _getFormInstance( $oProp ) {
-        
-        $_sFormsClassName = in_array( $oProp->sFieldsType, array( 'page', 'network_admin_page' ) )
-            ? 'AdminPageFramework_FormElement_Page'
-            : 'AdminPageFramework_FormElement';
-        
-        if ( in_array( 
+
+        if ( 
+            in_array( 
                 $oProp->sFieldsType, 
                 array( 'page', 'network_admin_page', 'post_meta_box', 'post_type' )
             ) 
-            && $oProp->bIsAdminAjax ) {
+            && $oProp->bIsAdminAjax 
+        ) {
             return null;
         }
-
-        return new $_sFormsClassName( 
-            $oProp->sFieldsType, 
-            $oProp->sCapability, 
-            $this 
+        return $this->_getInstanceByMap( 
+            $this->_aFormElementClassNameMap,   // map
+            $oProp->sFieldsType,    // key
+            $oProp->sFieldsType,    // parameter 1
+            $oProp->sCapability,    // parameter 2
+            $this   // parameter 3
         );
-
+        
     }
     
     /**
      * Stores class names by fields type for help pane objects.
-     * @since       3.0.4
+     * @since       3.5.3
      */    
     protected $_aResourceClassNameMap = array(
         'page'                  => 'AdminPageFramework_Resource_Page',
@@ -261,7 +274,7 @@ abstract class AdminPageFramework_Factory_Router {
     
     /**
      * Stores class names by fields type for help pane objects.
-     * @since       3.0.4
+     * @since       3.5.3
      */    
     protected $_aHelpPaneClassNameMap = array(
         'page'                  => 'AdminPageFramework_HelpPane_Page',
@@ -285,7 +298,7 @@ abstract class AdminPageFramework_Factory_Router {
     
     /**
      * Stores class names by fields type for link objects.
-     * @since       3.0.4
+     * @since       3.5.3
      */
     protected $_aLinkClassNameMap = array(
         'page'                  => 'AdminPageFramework_Link_Page',
@@ -309,7 +322,7 @@ abstract class AdminPageFramework_Factory_Router {
     
     /**
      * Stores class names by fields type for page load objects.
-     * @since       3.0.4
+     * @since       3.5.3
      */
     protected $_aPageLoadClassNameMap = array(
         'page'                  => 'AdminPageFramework_PageLoadInfo_Page',
@@ -340,12 +353,12 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * Returns a class object instance by the given map array and the key, plus one or two arguments.
      * 
-     * @remark      There is a limitation that only can accept up to 2 parameters at the moment. 
+     * @remark      There is a limitation that only can accept up to 3 parameters at the moment. 
      * @internal
      * @since       3.5.3
      * @return      null|object
      */
-    private function _getInstanceByMap( /* array $aClassNameMap, $sKey, $mParam1, $mParam2 */ ) {
+    private function _getInstanceByMap( /* array $aClassNameMap, $sKey, $mParam1, $mParam2, $mParam3 */ ) {
         
         $_aParams       = func_get_args();
         $_aClassNameMap = array_shift( $_aParams );
@@ -357,8 +370,8 @@ abstract class AdminPageFramework_Factory_Router {
         
         $_iParamCount = count( $_aParams );
         
-        // passing more than 2 arguments is not supported at the moment.
-        if ( $_iParamCount > 2 ) {
+        // passing more than 3 arguments is not supported at the moment.
+        if ( $_iParamCount > 3 ) {
             return null;
         }
         
@@ -397,6 +410,13 @@ abstract class AdminPageFramework_Factory_Router {
         private function _replyToGetClassInstanceByArgumentOf2( $sClassName, $mArg1, $mArg2 ) {
             return new $sClassName( $mArg1, $mArg2 );
         }      
+        /**
+         * Instantiate a class with two parameters.
+         * @since       3.5.3
+         */             
+        private function _replyToGetClassInstanceByArgumentOf3( $sClassName, $mArg1, $mArg2, $mArg3 ) {
+            return new $sClassName( $mArg1, $mArg2, $mArg3 );
+        }              
         /**#@-*/        
     
     /**

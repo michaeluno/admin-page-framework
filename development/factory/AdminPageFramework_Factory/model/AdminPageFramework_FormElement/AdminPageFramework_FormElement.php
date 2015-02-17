@@ -3,19 +3,19 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
 /**
- * Provides methods to compose form elements
+ * Provides methods that deal with field and section definition arrays.
  * 
  * @package     AdminPageFramework
  * @subpackage  Property
  * @since       3.0.0
  * @internal
  */
-class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Utility {
+class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base {
     
     /**
      * Represents the structure of the form section array.
