@@ -62,7 +62,7 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
      * @since       3.3.0
      * @since       3.3.1       Moved from `AdminPageFramework_Setting_Base`.
      */
-    function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
+    public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
         
         parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
 
