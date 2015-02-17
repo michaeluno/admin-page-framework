@@ -262,11 +262,11 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         
         // Retrieve the pressed submit field data.
         $_sPressedInputName         = $this->_getPressedSubmitButtonData( $_aSubmit, 'name' );
-        $_bIsReset                  = $this->_getPressedSubmitButtonData( $_aSubmit, 'is_reset' );  // if the 'reset' key in the field definition array is set, this value will be set.
+        $_bIsReset                  = ( bool ) $this->_getPressedSubmitButtonData( $_aSubmit, 'is_reset' );  // if the 'reset' key in the field definition array is set, this value will be set.
         $_sKeyToReset               = $this->_getPressedSubmitButtonData( $_aSubmit, 'reset_key' ); // this will be set if the user confirms the reset action.
         $_sSubmitSectionID          = $this->_getPressedSubmitButtonData( $_aSubmit, 'section_id' );
-        $_bConfirmingToSendEmail    = $this->_getPressedSubmitButtonData( $_aSubmit, 'confirming_sending_email' );
-        $_bConfirmedToSendEmail     = $this->_getPressedSubmitButtonData( $_aSubmit, 'confirmed_sending_email' );
+        $_bConfirmingToSendEmail    = ( bool ) $this->_getPressedSubmitButtonData( $_aSubmit, 'confirming_sending_email' );
+        $_bConfirmedToSendEmail     = ( bool ) $this->_getPressedSubmitButtonData( $_aSubmit, 'confirmed_sending_email' );
 
         // Submit Information - [3.5.0+] this will be passed to validation callback methods.
         $_aSubmitInformation        = array(
