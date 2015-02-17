@@ -236,30 +236,43 @@ abstract class AdminPageFramework_Factory_Router {
     }
     
     /**
+     * Stores class names by fields type for help pane objects.
+     * @since       3.0.4
+     */    
+    protected $_aResourceClassNameMap = array(
+        'page'                  => 'AdminPageFramework_Resource_Page',
+        'network_admin_page'    => 'AdminPageFramework_Resource_Page',
+        'post_meta_box'         => 'AdminPageFramework_Resource_MetaBox',
+        'page_meta_box'         => 'AdminPageFramework_Resource_MetaBox_Page',
+        'post_type'             => 'AdminPageFramework_Resource_PostType',
+        'taxonomy'              => 'AdminPageFramework_Resource_TaxonomyField',
+        'widget'                => 'AdminPageFramework_Resource_Widget',
+        'user_meta'             => 'AdminPageFramework_Resource_UserMeta',
+    );        
+    /**
      * Instantiate a resource handler object based on the type.
      * 
      * @since       3.0.4
      * @internal
      */
     protected function _getResourceInstance( $oProp ) {
-        
-        $_aClassNames = array(
-            'page'                  => 'AdminPageFramework_Resource_Page',
-            'network_admin_page'    => 'AdminPageFramework_Resource_Page',
-            'post_meta_box'         => 'AdminPageFramework_Resource_MetaBox',
-            'page_meta_box'         => 'AdminPageFramework_Resource_MetaBox_Page',
-            'post_type'             => 'AdminPageFramework_Resource_PostType',
-            'taxonomy'              => 'AdminPageFramework_Resource_TaxonomyField',
-            'widget'                => 'AdminPageFramework_Resource_Widget',
-            'user_meta'             => 'AdminPageFramework_Resource_UserMeta',
-        );
-        return $this->_getInstanceByMap( 
-            $_aClassNames,  // map array
-            $oProp->sFieldsType, // map key
-            $oProp  // argument
-        );
+        return $this->_getInstanceByMap( $this->_aResourceClassNameMap, $oProp->sFieldsType, $oProp );    
     }
     
+    /**
+     * Stores class names by fields type for help pane objects.
+     * @since       3.0.4
+     */    
+    protected $_aHelpPaneClassNameMap = array(
+        'page'                  => 'AdminPageFramework_HelpPane_Page',
+        'network_admin_page'    => 'AdminPageFramework_HelpPane_Page',
+        'post_meta_box'         => 'AdminPageFramework_HelpPane_MetaBox',
+        'page_meta_box'         => 'AdminPageFramework_HelpPane_MetaBox_Page',
+        'post_type'             => null,    // no help pane class for the post type factory class.
+        'taxonomy'              => 'AdminPageFramework_HelpPane_TaxonomyField',
+        'widget'                => 'AdminPageFramework_HelpPane_Widget',
+        'user_meta'             => 'AdminPageFramework_HelpPane_UserMeta',
+    );    
     /**
      * Instantiates a help pane object based on the type.
      * 
@@ -267,25 +280,23 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      */
     protected function _getHelpPaneInstance( $oProp ) {
-        
-        $_aClassNames = array(
-            'page'                  => 'AdminPageFramework_HelpPane_Page',
-            'network_admin_page'    => 'AdminPageFramework_HelpPane_Page',
-            'post_meta_box'         => 'AdminPageFramework_HelpPane_MetaBox',
-            'page_meta_box'         => 'AdminPageFramework_HelpPane_MetaBox_Page',
-            'post_type'             => null,    // no help pane class for the post type factory class.
-            'taxonomy'              => 'AdminPageFramework_HelpPane_TaxonomyField',
-            'widget'                => 'AdminPageFramework_HelpPane_Widget',
-            'user_meta'             => 'AdminPageFramework_HelpPane_UserMeta',
-        );
-        return $this->_getInstanceByMap( 
-            $_aClassNames, // map array
-            $oProp->sFieldsType, // map key
-            $oProp // argument
-        );
-        
+        return $this->_getInstanceByMap( $this->_aHelpPaneClassNameMap, $oProp->sFieldsType, $oProp );
     }
     
+    /**
+     * Stores class names by fields type for link objects.
+     * @since       3.0.4
+     */
+    protected $_aLinkClassNameMap = array(
+        'page'                  => 'AdminPageFramework_Link_Page',
+        'network_admin_page'    => 'AdminPageFramework_Link_NetworkAdmin',
+        'post_meta_box'         => null,
+        'page_meta_box'         => null,
+        'post_type'             => 'AdminPageFramework_Link_PostType', 
+        'taxonomy'              => null,
+        'widget'                => null,
+        'user_meta'             => null,
+    );    
     /**
      * Instantiates a link object based on the type.
      * 
@@ -293,26 +304,23 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      */
     protected function _getLinkInstancce( $oProp, $oMsg ) {
-
-        $_aClassNames = array(
-            'page'                  => 'AdminPageFramework_Link_Page',
-            'network_admin_page'    => 'AdminPageFramework_Link_NetworkAdmin',
-            'post_meta_box'         => null,
-            'page_meta_box'         => null,
-            'post_type'             => 'AdminPageFramework_Link_PostType', 
-            'taxonomy'              => null,
-            'widget'                => null,
-            'user_meta'             => null,
-        );    
-        return $this->_getInstanceByMap( 
-            $_aClassNames, // map array
-            $oProp->sFieldsType, // map key
-            $oProp, // argument
-            $oMsg
-        );
-        
+        return $this->_getInstanceByMap( $this->_aLinkClassNameMap, $oProp->sFieldsType, $oProp, $oMsg );
     }
     
+    /**
+     * Stores class names by fields type for page load objects.
+     * @since       3.0.4
+     */
+    protected $_aPageLoadClassNameMap = array(
+        'page'                  => 'AdminPageFramework_PageLoadInfo_Page',
+        'network_admin_page'    => 'AdminPageFramework_PageLoadInfo_NetworkAdminPage',
+        'post_meta_box'         => null,
+        'page_meta_box'         => null,
+        'post_type'             => 'AdminPageFramework_PageLoadInfo_PostType', 
+        'taxonomy'              => null,
+        'widget'                => null,
+        'user_meta'             => null,
+    );
     /**
      * Instantiates a page load object based on the type.
      * 
@@ -320,21 +328,11 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      */
     protected function _getPageLoadInfoInstance( $oProp, $oMsg ) {
-
-        $_aClassNames = array(
-            'page'                  => 'AdminPageFramework_PageLoadInfo_Page',
-            'network_admin_page'    => 'AdminPageFramework_PageLoadInfo_NetworkAdminPage',
-            'post_meta_box'         => null,
-            'page_meta_box'         => null,
-            'post_type'             => 'AdminPageFramework_PageLoadInfo_PostType', 
-            'taxonomy'              => null,
-            'widget'                => null,
-            'user_meta'             => null,
-        );    
-        if ( ! isset( $_aClassNames[ $oProp->sFieldsType ] ) ) {
+        
+        if ( ! isset( $this->_aPageLoadClassNameMap[ $oProp->sFieldsType ] ) ) {
             return null;
         }
-        $_sClassName = $_aClassNames[ $oProp->sFieldsType ];
+        $_sClassName = $this->_aPageLoadClassNameMap[ $oProp->sFieldsType ];
         return $_sClassName::instantiate( $oProp, $oMsg );
 
     }
