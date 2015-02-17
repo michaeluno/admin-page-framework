@@ -133,65 +133,6 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             return null;
             
         }
-
-    /**
-     * Extracts the user submitted values from the $_POST array.
-     * 
-     * @since       3.0.0
-     * @internal
-     */
-    protected function _getInputArray( array $aFieldDefinitionArrays, array $aSectionDefinitionArrays ) {
-        
-        // Construct an array consisting of the submitted registered field values.
-        $_aInput = array();
-        foreach( $aFieldDefinitionArrays as $_sSectionID => $_aSubSectionsOrFields ) {
-            
-            // If a section is not set,
-            if ( '_default' == $_sSectionID ) {
-                $_aFields = $_aSubSectionsOrFields;
-                foreach( $_aFields as $_aField ) {
-                    $_aInput[ $_aField['field_id'] ] = $this->oUtil->getElement(
-                        $_POST, // subjct
-                        $_aField['field_id'],    // dimensional keys
-                        null   // default value
-                    );                            
-                }
-                continue;
-            }     
-
-            // At this point, the section is set
-            $_aInput[ $_sSectionID ] = isset( $_aInput[ $_sSectionID ] ) ? $_aInput[ $_sSectionID ] : array();
-            
-            // If the section does not contain sub sections,
-            if ( ! count( $this->oUtil->getIntegerKeyElements( $_aSubSectionsOrFields ) ) ) {
-                
-                $_aFields = $_aSubSectionsOrFields;
-                foreach( $_aFields as $_aField ) {
-                    $_aInput[ $_sSectionID ][ $_aField['field_id'] ] = $this->oUtil->getElement(
-                        $_POST, // subjct
-                        array( $_sSectionID, $_aField['field_id'] ),    // dimensional keys
-                        null   // default value
-                    );
-                }     
-                continue;
-
-            }
-                
-            // Otherwise, it's sub-sections. 
-            // Since the registered fields don't have information how many items the user added, parse the submitted data.
-            foreach( $_POST[ $_sSectionID ] as $_iIndex => $_aFields ) { // will include the main section as well.
-                $_aInput[ $_sSectionID ][ $_iIndex ] = $this->oUtil->getElement(
-                    $_POST, // subjct
-                    array( $_sSectionID, $_iIndex ),    // dimensional keys
-                    null   // default value
-                );                    
-            }
-                            
-        }
-    
-        return $_aInput;
-        
-    }
     
     /**
      * Retrieves the saved meta data as an array.
@@ -293,7 +234,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
         }
         
         // Retrieve the submitted data. 
-        $_aInput        = $this->_getInputArray( $this->oForm->aConditionedFields, $this->oForm->aConditionedSections );
+        $_aInput        = $this->oForm->getUserSubmitDataFromPOST( $this->oForm->aConditionedFields, $this->oForm->aConditionedSections );
         $_aInputRaw     = $_aInput; // store one for the last input array.
         
         // Prepare the saved data. For a new post, the id is set to 0.
@@ -320,10 +261,11 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             add_filter( 'redirect_post_location', array( $this, '_replyToModifyRedirectPostLocation' ) );
         }
                     
-        $this->_updatePostMeta( 
-            $_iPostID, 
-            $_aInput, 
-            $this->oForm->dropRepeatableElements( $_aSavedMeta ) // Drop repeatable section elements from the saved meta array.
+        $this->oForm->updateMetaDataByType( 
+            $_iPostID,  // object id
+            $_aInput,   // user submit form data
+            $this->oForm->dropRepeatableElements( $_aSavedMeta ), // Drop repeatable section elements from the saved meta array.
+            $this->oForm->sFieldsType   // fields type
         );        
         
         return $aPostData;
@@ -345,38 +287,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             remove_filter( 'redirect_post_location', array( $this, __FUNCTION__ ) );
             return add_query_arg( array( 'message' => 'apf_field_error', 'field_errors' => true ), $sLocation );
             
-        }    
-        
-
-        /**
-         * Saves the post with the given data and the post ID.
-         * 
-         * @since       3.0.4
-         * @internal
-         * @return      void
-         */
-        private function _updatePostMeta( $iPostID, array $aInput, array $aSavedMeta ) {
-            
-            if ( ! $iPostID ) {
-                return;
-            }
-            
-            // Loop through sections/fields and save the data.
-            foreach ( $aInput as $_sSectionOrFieldID => $_vValue ) {
-                
-                if ( is_null( $_vValue ) ) { continue; }
-                
-                $_vSavedValue = isset( $aSavedMeta[ $_sSectionOrFieldID ] ) ? $aSavedMeta[ $_sSectionOrFieldID ] : null;
-                
-                // PHP can compare even array contents with the == operator. See http://www.php.net/manual/en/language.operators.array.php
-                if ( $_vValue == $_vSavedValue ) { continue; } // if the input value and the saved meta value are the same, no need to update it.
-            
-                update_post_meta( $iPostID, $_sSectionOrFieldID, $_vValue );
-                
-            }     
-            
-        }
-            
+        }        
             
         /**
          * Checks whether the function call of processing submitted field values is valid or not.

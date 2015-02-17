@@ -147,9 +147,11 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Util
     /**
      * Stores the fields type. 
      * 
-     * @since 3.0.0
+     * @since       3.0.0
+     * @since       3.5.3       Changed the scope to `public` from `protected` as the meta box and user meta classes access this value from outside.
+     * @access      public
      */
-    protected $sFieldsType = '';
+    public $sFieldsType = '';
     
     /**
      * Stores the target page slug which will be applied when no page slug is specified.

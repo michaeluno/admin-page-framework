@@ -104,7 +104,7 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
         }
 
         // Extract the fields data from $_POST
-        $_aInput        = $this->_getInputArray( $this->oForm->aConditionedFields, $this->oForm->aConditionedSections );
+        $_aInput        = $this->oForm->getUserSubmitDataFromPOST( $this->oForm->aConditionedFields, $this->oForm->aConditionedSections );
         $_aInputRaw     = $_aInput; // store one for the last input array.
 
         // Prepare the saved data. For a new post, the id is set to 0.
@@ -128,13 +128,13 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
         if ( $this->hasFieldError() ) {
             $this->_setLastInput( $_aInputRaw );
         }
-                    
-        $this->_updatePostMeta( 
-            $iUserID, 
-            $_aInput, 
-            // Drop repeatable section elements from the saved meta array.
-            $this->oForm->dropRepeatableElements( $_aSavedMeta )
-        );     
+                            
+        $this->oForm->updateMetaDataByType( 
+            $iUserID,  // object id
+            $_aInput,   // user submit form data
+            $this->oForm->dropRepeatableElements( $_aSavedMeta ), // Drop repeatable section elements from the saved meta array.
+            $this->oForm->sFieldsType   // fields type
+        );            
         
     }
     
@@ -154,105 +154,5 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
             return $_aSavedMeta;
             
         }    
-        /**
-         * Saves the post with the given data and the post ID.
-         * 
-         * @since       3.5.4
-         * @internal
-         * @return      void
-         */
-        private function _updatePostMeta( $iUserID, array $aInput, array $aSavedMeta ) {
-            
-            if ( ! $iUserID ) {
-                return;
-            }
-               
-            // Loop through sections/fields and save the data.
-            foreach ( $aInput as $_sSectionOrFieldID => $_vValue ) {
-
-                if ( is_null( $_vValue ) ) { 
-                    continue; 
-                }
-
-                $_vSavedValue = $this->oUtil->getElement(
-                    $aSavedMeta, // subjct
-                    $_sSectionOrFieldID,    // dimensional keys
-                    null   // default value
-                );
-                    
-                // PHP can compare even array contents with the == operator. See http://www.php.net/manual/en/language.operators.array.php
-                // if the input value and the saved meta value are the same, no need to update it.
-                if ( $_vValue == $_vSavedValue ) { 
-                    continue; 
-                }
-
-                update_user_meta( $iUserID, $_sSectionOrFieldID, $_vValue );
-
-            }
-            
-        }
-    
-        /**
-         * Extracts the user submitted values from the $_POST array.
-         * 
-         * @since       3.5.0
-         * @internal
-         */
-        protected function _getInputArray( array $aFieldDefinitionArrays, array $aSectionDefinitionArrays ) {
-
-            // Construct an array consisting of the submitted registered field values.
-            $_aInput = array();
-            foreach( $aFieldDefinitionArrays as $_sSectionID => $_aSubSectionsOrFields ) {
-                
-                // If a section is not set,
-                if ( '_default' == $_sSectionID ) {
-                    $_aFields = $_aSubSectionsOrFields;
-                    foreach( $_aFields as $_aField ) {
-                        $_aInput[ $_aField['field_id'] ] = $this->oUtil->getElement(
-                            $_POST, // subjct
-                            $_aField['field_id'],    // dimensional keys
-                            null   // default value
-                        );                            
-                    }
-                    continue;
-                }     
-
-                // At this point, the section is set                
-                $_aInput[ $_sSectionID ] = $this->oUtil->getElementAsArray(
-                    $_aInput, // subjct
-                    $_sSectionID,    // dimensional keys
-                    array()   // default value
-                );      
-                
-                // If the section does not contain sub sections,
-                if ( ! count( $this->oUtil->getIntegerKeyElements( $_aSubSectionsOrFields ) ) ) {
-                    
-                    $_aFields = $_aSubSectionsOrFields;
-                    foreach( $_aFields as $_aField ) {
-                        $_aInput[ $_sSectionID ][ $_aField['field_id'] ] = $this->oUtil->getElement(
-                            $_POST, // subjct
-                            array( $_sSectionID, $_aField['field_id'] ),    // dimensional keys
-                            null   // default value
-                        );
-                    }     
-                    continue;
-
-                }
-                    
-                // Otherwise, it's sub-sections. 
-                // Since the registered fields don't have information how many items the user added, parse the submitted data.
-                foreach( $_POST[ $_sSectionID ] as $_iIndex => $_aFields ) { // will include the main section as well.
-                    $_aInput[ $_sSectionID ][ $_iIndex ] = $this->oUtil->getElement(
-                        $_POST, // subjct
-                        array( $_sSectionID, $_iIndex ),    // dimensional keys
-                        null   // default value
-                    );
-                }          
-                               
-            }
-    
-            return $_aInput;
-            
-        }       
-
+           
 }
