@@ -37,8 +37,12 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
                     'data-section_tab'  => $aSection['section_tab_slug'],
                 ) 
             ) . ">"
-                . $this->_getCollapsibleSectionTitleBlock( $_abCollapsible, 'section', $aFields, $hfFieldCallback )            
-                . ( $_bShowTitle ? $this->_getCaptionTitle( $aSection, $iSectionIndex, $aFields, $hfFieldCallback ) : '' )
+                . $this->_getCollapsibleSectionTitleBlock( $_abCollapsible, 'section', $aFields, $hfFieldCallback )
+                . $this->getAOrB(
+                    $_bShowTitle,
+                    $this->_getCaptionTitle( $aSection, $iSectionIndex, $aFields, $hfFieldCallback ),
+                    ''
+                )
                 . $this->_getCaptionDescription( $aSection, $hfSectionCallback )
                 . $this->_getSectionError( $aSection )
             . "</caption>";
@@ -49,6 +53,7 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
          * 
          * @since       3.4.0
          * @todo        avoid calling the property but pass it from a parameter.
+         * @return      string
          */
         private function _getSectionError( $aSection ) {
       
@@ -71,9 +76,11 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
             return "<div " . $this->generateAttributes(
                     array(
                         'class' => 'admin-page-framework-section-title',
-                        'style' => $this->_shouldShowCaptionTitle( $aSection, $iSectionIndex )
-                            ? ''
-                            : 'display: none;',
+                        'style' => $this->getAOrB(
+                            $this->_shouldShowCaptionTitle( $aSection, $iSectionIndex ),
+                            '',
+                            'display: none;'
+                        ),
                     )
                 ). ">" 
                     .  $this->_getSectionTitle( $aSection['title'], 'h3', $aFields, $hfFieldCallback )    
@@ -91,11 +98,22 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
             if ( ! is_callable( $hfSectionCallback ) ) {
                 return '';
             }
-            // The class selector 'admin-page-framework-section-description' is referred by the repeatable section buttons
-            return "<div class='admin-page-framework-section-description'>"     
-                . call_user_func_array( $hfSectionCallback, array( $this->_getSectionDescription( $aSection['description'] ), $aSection ) )
-            . "</div>";
             
+            // The class selector 'admin-page-framework-section-description' is referred by the repeatable section buttons
+            // @todo        Use a different selector name other than 'admin-page-framework-section-description' as it is used in the inner <p> tag element as well.
+            return "<div class='admin-page-framework-section-description'>"     
+                . call_user_func_array(
+                    $hfSectionCallback, 
+                    array( 
+                        $this->_getDescriptions( 
+                            $aSection['description'], 
+                            'admin-page-framework-section-description' 
+                        ),
+                        $aSection 
+                    ) 
+                )
+            . "</div>";
+
         }
         /**
          * Returns whether the title in the caption block should be displayed or not.
@@ -120,25 +138,5 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
             return true;                
             
         }
-        /**
-         * Returns the HTML formatted description blocks by the given description definition.
-         * 
-         * @since       3.3.0
-         * @since       3.4.0       Moved from `AdminPageFramework_FormTable`.
-         * @return      string      The description output.
-         */
-        private function _getSectionDescription( $asDescription ) {
-            
-            if ( empty( $asDescription ) ) { return ''; }
-            
-            $_aOutput = array();
-            foreach( $this->getAsArray( $asDescription ) as $_sDescription ) {
-                $_aOutput[] = "<p class='admin-page-framework-section-description'>"
-                        . "<span class='description'>{$_sDescription}</span>"
-                    . "</p>";
-            }
-            return implode( PHP_EOL, $_aOutput );
-            
-        }      
             
 }

@@ -3,12 +3,12 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
 /**
- * Provides methods to output form elements.
+ * Provides shared methods to output form elements.
  * 
  * 
  * @package     AdminPageFramework
@@ -49,5 +49,25 @@ abstract class AdminPageFramework_FormOutput extends AdminPageFramework_WPUtilit
         return $this->generateAttributes( $_aAttributes );
         
     }
-
+    
+    /**
+     * Returns HTML formatted description blocks by the given description definition.
+     * 
+     * @since       3.5.3
+     * @return      string      The description output.
+     */
+    protected function _getDescriptions( $asDescriptions, $sClassAttribute='admin-page-framework-form-element-description' ) {
+        
+        $_aOutput = array();
+        foreach( $this->getAsArray( $asDescriptions ) as $_sDescription ) {
+            $_aOutput[] = "<p class='{$sClassAttribute}'>"
+                    . "<span class='description'>"
+                        . $_sDescription
+                    . "</span>"
+                . "</p>";
+        }
+        return implode( PHP_EOL, $_aOutput );
+        
+    }      
+            
 }

@@ -146,7 +146,9 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
      */
     static public function _getInputID( $aField, $isIndex=0, $hfFilterCallback=null ) {
         
-        $_sSectionIndex  = isset( $aField['_section_index'] ) ? '__' . $aField['_section_index'] : ''; // double underscore
+        $_sSectionIndex  = isset( $aField['_section_index'] ) 
+            ? '__' . $aField['_section_index'] 
+            : ''; // double underscore
         $_isFieldIndex   = '__' . $isIndex; // double underscore
         $_sResult        = isset( $aField['section_id'] ) && '_default' != $aField['section_id']
             ? $aField['section_id'] . $_sSectionIndex . '_' . $aField['field_id'] . $_isFieldIndex
@@ -220,16 +222,13 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 
             $_aOutput = array();
             foreach( $aFields as $_isIndex => $_aField ) {
-
                 $_aOutput[] = $this->_getEachFieldOutput( 
                     $_aField, 
                     $_isIndex, 
                     $aCallbacks,
                     $this->isLastElement( $aFields, $_isIndex )
                 );
-
             }     
-            
             return implode( PHP_EOL, array_filter( $_aOutput ) );
             
         }
@@ -274,9 +273,11 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                  * @return      array   The field type definition array.
                  */
                 private function _getFieldTypeDefinition( $sFieldTypeSlug ) {
-                    return isset( $this->aFieldTypeDefinitions[ $sFieldTypeSlug ] )
-                        ? $this->aFieldTypeDefinitions[ $sFieldTypeSlug ] 
-                        : $this->aFieldTypeDefinitions['default'];
+                    return $this->getElement(
+                        $this->aFieldTypeDefinitions,
+                        $sFieldTypeSlug,
+                        $this->aFieldTypeDefinitions['default']
+                    );
                 }  
                 /**
                  * Returns the formatted field definition array.
@@ -289,10 +290,34 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                     $_bIsSubField                         = is_numeric( $isIndex ) && 0 < $isIndex;
                     $aField['_is_sub_field']              = $_bIsSubField;      // 3.5.3+
                     $aField['_index']                     = $isIndex;
-                    $aField['input_id']                   = $this->_getInputID( $aField, $isIndex, $aCallbacks['hfID'] ); //  ({section id}_){field_id}_{index}
-                    $aField['_input_name']                = $this->_getInputName( $aField, $aField['_is_multiple_fields'] ? $isIndex : '', $aCallbacks['hfName'] );    
-                    $aField['_input_name_flat']           = $this->_getFlatInputName( $aField, $aField['_is_multiple_fields'] ? $isIndex : '', $aCallbacks['hfNameFlat'] ); // used for submit, export, import field types     
-                    $aField['_field_container_id']        = "field-{$aField['input_id']}"; // used in the attribute below plus it is also used in the sample custom field type.
+                    
+                    // 'input_id' - something like ({section id}_){field_id}_{index} e.g. my_section_id_my_field_id_0
+                    $aField['input_id']                   = $this->_getInputID( 
+                        $aField, 
+                        $isIndex, 
+                        $aCallbacks['hfID']
+                   ); 
+                    $aField['_input_name']                = $this->_getInputName(
+                        $aField, 
+                        $this->getAOrB(
+                            $aField['_is_multiple_fields'],
+                            $isIndex,
+                            ''
+                        ),
+                        $aCallbacks['hfName']
+                    );
+                    // '_input_name_flat' - used for submit, export, import field types     
+                    $aField['_input_name_flat']           = $this->_getFlatInputName(
+                        $aField,
+                        $this->getAOrB(
+                            $aField['_is_multiple_fields'],
+                            $isIndex,
+                            ''
+                        ),
+                        $aCallbacks['hfNameFlat']
+                    ); 
+                    // used in the attribute below plus it is also used in the sample custom field type.
+                    $aField['_field_container_id']        = "field-{$aField['input_id']}";
 
                         // @todo for issue #158 https://github.com/michaeluno/admin-page-framework/issues/158               
                         // These models are for generating ids and names dynamically.
@@ -342,9 +367,17 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                         'id'            => $aField['_field_container_id'],
                         'data-type'     => "{$aField['type']}",   // this is referred by the repeatable field JavaScript script.
                         'data-id_model' => $aField['_fields_container_id_model'], // 3.3.1+
-                        'class'         => "admin-page-framework-field admin-page-framework-field-{$aField['type']}" 
-                            . ( $aField['attributes']['disabled'] ? ' disabled' : null )
-                            . ( $aField['_is_sub_field'] ? ' admin-page-framework-subfield' : null ),
+                        'class'         => "admin-page-framework-field admin-page-framework-field-{$aField['type']}"
+                            . $this->getAOrB(
+                                $aField['attributes']['disabled'],
+                                ' disabled',
+                                ''
+                            )
+                            . $this->getAOrB(
+                                $aField['_is_sub_field'],
+                                ' admin-page-framework-subfield',
+                                ''
+                            ) 
                     );
                 }     
                 /**
@@ -354,16 +387,21 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                  * @return      string      the HTML output of delimiter
                  */
                 private function _getDelimiter( array $aField, $bIsLastElement ) {
-                    return ! $aField['delimiter']
-                        ? ''
-                        : "<div " . $this->generateAttributes( 
-                            array(
-                                'class' => 'delimiter',
-                                'id'    => "delimiter-{$aField['input_id']}",
-                                'style' => $bIsLastElement ? "display:none;" : "",
-                            ) ) . ">"
+                    return $aField['delimiter']
+                        ? "<div " . $this->generateAttributes( 
+                                array(
+                                    'class' => 'delimiter',
+                                    'id'    => "delimiter-{$aField['input_id']}",
+                                    'style' => $this->getAOrB(
+                                        $bIsLastElement,
+                                        "display:none;",
+                                        ""
+                                    ),
+                                ) 
+                            ) . ">"
                                 . $aField['delimiter']
-                            . "</div>";
+                            . "</div>"
+                        : '';
                 }                
                 
         /**
@@ -386,8 +424,8 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
             $_aFieldsContainerAttributes = array(
                 'id'            => 'fields-' . $aField['tag_id'],
                 'class'         => 'admin-page-framework-fields'
-                    . ( $aField['repeatable'] ? ' repeatable' : '' )
-                    . ( $aField['sortable'] ? ' sortable' : '' ),
+                    . $this->getAOrB( $aField['repeatable'], ' repeatable', '' )
+                    . $this->getAOrB( $aField['sortable'], ' sortable', '' ),
                 'data-type'     => $aField['type'], // this is referred by the sortable field JavaScript script.
             );
             
@@ -414,7 +452,10 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                 
                 // Add the description
                 if ( isset( $aField['description'] ) )  {
-                    $_aOutput[] = $this->_getDescription( $aField['description'] );
+                    $_aOutput[] = $this->_getDescriptions( 
+                        $aField['description'],
+                        'admin-page-framework-fields-description'
+                    );
                 }
                     
                 // Add the repeater & sortable scripts 
@@ -423,25 +464,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                 return implode( PHP_EOL, $_aOutput );
                 
             }
-                /**
-                 * Returns the HTML formatted description blocks by the given description definition.
-                 * 
-                 * @since   3.3.0
-                 * @return  string      The description output.
-                 */
-                private function _getDescription( $asDescription ) {
-                    
-                    if ( empty( $asDescription ) ) { return ''; }
-                    
-                    $_aOutput = array();
-                    foreach( $this->getAsArray( $asDescription ) as $_sDescription ) {
-                        $_aOutput[] = "<p class='admin-page-framework-fields-description'>"
-                                . "<span class='description'>{$_sDescription}</span>"
-                            . "</p>";
-                    }
-                    return implode( PHP_EOL, $_aOutput );
-                    
-                }
+    
                 /**
                  * Returns the output of JavaScript scripts for the field (and its sub-fields).
                  * 
@@ -475,30 +498,49 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
         private function _getFieldError( $aErrors, $sSectionID, $sFieldID ) {
             
             // If this field has a section and the error element is set
-            if ( 
-                isset( 
-                    $aErrors[ $sSectionID ], 
-                    $aErrors[ $sSectionID ][ $sFieldID ]
-                )
-                && is_array( $aErrors[ $sSectionID ] )
-                && ! is_array( $aErrors[ $sSectionID ][ $sFieldID ] )
-                
-            ) {     
-                return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}" 
+            if ( $this->_hasFieldErrorsOfSection( $aErrors, $sSectionID, $sFieldID ) ) {   
+                return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}"         
                         . $aErrors[ $sSectionID ][ $sFieldID ]
                     . "</span>";
-            } 
+            }             
             
             // if this field does not have a section and the error element is set,
-            if ( isset( $aErrors[ $sFieldID ] ) && ! is_array( $aErrors[ $sFieldID ] ) ) {
-                return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}" 
+            if ( $this->_hasFieldError( $aErrors, $sFieldID ) ) {
+                return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}"                           
                         . $aErrors[ $sFieldID ]
                     . "</span>";
             }  
-            
             return '';
             
         }    
+            /**
+             * Checks whether the given field has a section and an error element is set or not.
+             * 
+             * @internal
+             * @since       3.5.3
+             * @return      boolean
+             */
+            private function _hasFieldErrorsOfSection( $aErrors, $sSectionID, $sFieldID ) {
+                return ( 
+                    isset( 
+                        $aErrors[ $sSectionID ], 
+                        $aErrors[ $sSectionID ][ $sFieldID ]
+                    )
+                    && is_array( $aErrors[ $sSectionID ] )
+                    && ! is_array( $aErrors[ $sSectionID ][ $sFieldID ] )
+                );
+            }
+            /**
+             * Checks whether the given field has a field error.
+             * @internal
+             * @since       3.5.3
+             */
+            private function _hasFieldError( $aErrors, $sFieldID ) {
+                return ( 
+                    isset( $aErrors[ $sFieldID ] ) 
+                    && ! is_array( $aErrors[ $sFieldID ] )
+                );
+            }
             
         /**
          * Returns the array of fields 
@@ -569,7 +611,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                  * This method creates the sub-fields of repeatable fields based on the saved values.
                  * 
                  * @remark      This method updates the passed array to the second parameter.
-                 * @sicne       3.5.3
+                 * @since       3.5.3
                  * @internal
                  * @return      void
                  */
@@ -577,9 +619,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                     if ( ! $aField['repeatable'] ) {
                         return;
                     }
-                    $_aSavedValue = ( array ) $mSavedValue;
-                    unset( $_aSavedValue[ 0 ] );
-                    foreach( $_aSavedValue as $_iIndex => $vValue ) {
+                    foreach( $this->getAsArray( $mSavedValue ) as $_iIndex => $vValue ) {
                         $aSubFields[ $_iIndex - 1 ] = isset( $aSubFields[ $_iIndex - 1 ] ) && is_array( $aSubFields[ $_iIndex - 1 ] ) 
                             ? $aSubFields[ $_iIndex - 1 ] 
                             : array();     
@@ -596,12 +636,11 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                     foreach( $aSubFields as &$_aSubField ) {
                         
                         // Evacuate the label element which should not be merged.
-                        $_aLabel = isset( $_aSubField['label'] ) 
-                            ? $_aSubField['label']
-                            : ( isset( $aFirstField['label'] )
-                                 ? $aFirstField['label'] 
-                                 : null
-                            );
+                        $_aLabel = $this->getElement( 
+                            $_aSubField, 
+                            'label',
+                            $this->getElement( $aFirstField, 'label', null )
+                        );
                         
                         // Do recursive array merge - the 'attributes' array of some field types have more than one dimensions.
                         $_aSubField = $this->uniteArrays( $_aSubField, $aFirstField ); 
@@ -628,9 +667,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
                 }
          
                 foreach( $aFields as $_iIndex => &$_aThisField ) {
-                    $_aThisField['_saved_value'] = isset( $mSavedValue[ $_iIndex ] ) 
-                        ? $mSavedValue[ $_iIndex ] 
-                        : null;
+                    $_aThisField['_saved_value'] = $this->getElement( $mSavedValue, $_iIndex, null );
                     $_aThisField['_is_multiple_fields'] = true;
                 }
         
@@ -681,24 +718,30 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
 
                 // If a section is not set, check the first dimension element.
                 if ( ! isset( $aField['section_id'] ) || '_default' == $aField['section_id'] ) {
-                    return isset( $aOptions[ $aField['field_id'] ] )
-                        ? $aOptions[ $aField['field_id'] ]
-                        : null;     
+                    return $this->getElement( 
+                        $aOptions, 
+                        $aField['field_id'],
+                        null
+                    );
                 }
                     
                 // At this point, the section dimension is set.
                 
                 // If it belongs to a sub section,
                 if ( isset( $aField['_section_index'] ) ) {
-                    return isset( $aOptions[ $aField['section_id'] ][ $aField['_section_index'] ][ $aField['field_id'] ] )
-                        ? $aOptions[ $aField['section_id'] ][ $aField['_section_index'] ][ $aField['field_id'] ]
-                        : null;     
+                    return $this->getElement(
+                        $aOptions,
+                        array( $aField['section_id'], $aField['_section_index'], $aField['field_id'] ),
+                        null
+                    );
                 }
                 
                 // Otherwise, return the second dimension element.
-                return isset( $aOptions[ $aField['section_id'] ][ $aField['field_id'] ] )
-                    ? $aOptions[ $aField['section_id'] ][ $aField['field_id'] ]
-                    : null;
+                return $this->getElement(
+                    $aOptions,
+                    array( $aField['section_id'], $aField['field_id'] ),
+                    null
+                );
                                                 
             }     
 }
