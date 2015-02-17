@@ -22,7 +22,7 @@ abstract class AdminPageFramework_Page_View_MetaBox extends AdminPageFramework_P
     /**
      * Sets up hooks and properties.
      */
-    function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
+    public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
                         
         parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
         

@@ -24,7 +24,7 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
       * 
       * @internal
       */
-    function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
+    public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
         
         parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
         
