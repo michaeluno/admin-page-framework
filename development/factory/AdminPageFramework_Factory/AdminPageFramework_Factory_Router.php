@@ -96,9 +96,27 @@ abstract class AdminPageFramework_Factory_Router {
     protected $oLink;
     
     /**
+     * Stores sub-class names.
+     * 
+     * Used in the __get() method to check whether a method with the name of the property should be called or not.
+     * 
+     * @since       3.5.3
+     */
+    protected $_aSubClassNames = array(
+        'oDebug', 
+        'oUtil',
+        'oMsg',
+        'oForm',
+        'oPageLoadInfo',
+        'oResource',
+        'oHelpPane',
+        'oLink',
+    );
+    
+    /**
      * Sets up built-in objects.
      */
-    function __construct( $oProp ) {
+    public function __construct( $oProp ) {
 
         // Let them overload.
         unset( 
@@ -193,6 +211,7 @@ abstract class AdminPageFramework_Factory_Router {
      * 
      * @since       3.1.0
      * @internal
+     * @return      object|null
      */
     protected function _getFormInstance( $oProp ) {
         
@@ -333,10 +352,11 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * Responds to a request of an undefined property.
      * 
-     * This is meant to instantiate classes only when necessary, rather than instantiating them all at once.
+     * This is used to instantiate classes only when necessary, rather than instantiating them all at once.
+     * 
      * @internal
      */
-    function __get( $sPropertyName ) {
+    public function __get( $sPropertyName ) {
             
         switch( $sPropertyName ) {
             case 'oHeadTag':    // 3.3.0+ for backward compatibility
@@ -344,10 +364,12 @@ abstract class AdminPageFramework_Factory_Router {
                 break;
         }     
 
-        // Set and return the property
-        return call_user_func( 
-            array( $this, "_setAndGetInstance_{$sPropertyName}"  )
-        );
+        // Set and return the sub class object instance.
+        if ( in_array( $sPropertyName, $this->_aSubClassNames ) ) {            
+            return call_user_func( 
+                array( $this, "_replyTpSetAndGetInstance_{$sPropertyName}"  )
+            );
+        }
         
     }
         /**
@@ -355,8 +377,9 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          * @internal
          * @return      object
+         * @callback    function    call_user_func
          */
-        public function _setAndGetInstance_oUtil() {
+        public function _replyTpSetAndGetInstance_oUtil() {
             $this->oUtil = new AdminPageFramework_WPUtility;
             return $this->oUtil;
         }
@@ -365,8 +388,9 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          * @internal
          * @return      object
+         * @callback    function    call_user_func
          */        
-        public function _setAndGetInstance_oDebug() {
+        public function _replyTpSetAndGetInstance_oDebug() {
             $this->oDebug = new AdminPageFramework_Debug;
             return $this->oDebug;
         }
@@ -375,8 +399,9 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          * @internal
          * @return      object
+         * @callback    function    call_user_func
          */              
-        public function _setAndGetInstance_oMsg() {
+        public function _replyTpSetAndGetInstance_oMsg() {
             $this->oMsg = AdminPageFramework_Message::getInstance( $this->oProp->sTextDomain );
             return $this->oMsg;
         }
@@ -385,8 +410,9 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          * @internal
          * @return      object
+         * @callback    function    call_user_func
          */              
-        public function _setAndGetInstance_oForm() {
+        public function _replyTpSetAndGetInstance_oForm() {
             $this->oForm = $this->_getFormInstance( $this->oProp );
             return $this->oForm;
         }
@@ -395,8 +421,9 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          * @internal
          * @return      object
+         * @callback    function    call_user_func
          */            
-        public function _setAndGetInstance_oResource() {
+        public function _replyTpSetAndGetInstance_oResource() {
             $this->oResource = $this->_getResourceInstance( $this->oProp );
             return $this->oResource;
         }
@@ -405,8 +432,9 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          * @internal
          * @return      object
+         * @callback    function    call_user_func
          */
-        public function _setAndGetInstance_oHelpPane() {
+        public function _replyTpSetAndGetInstance_oHelpPane() {
             $this->oHelpPane = $this->_getHelpPaneInstance( $this->oProp );
             return $this->oHelpPane;
         }
@@ -415,8 +443,9 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          * @internal
          * @return      object
+         * @callback    function    call_user_func
          */
-        public function _setAndGetInstance_oLink() {
+        public function _replyTpSetAndGetInstance_oLink() {
             $this->oLink = $this->_getLinkInstancce( $this->oProp, $this->oMsg );
             return $this->oLink;
         }
@@ -425,8 +454,9 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          * @internal
          * @return      object
+         * @callback    function    call_user_func
          */        
-        public function _setAndGetInstance_oPageLoadInfo() {
+        public function _replyTpSetAndGetInstance_oPageLoadInfo() {
             $this->oPageLoadInfo = $this->_getPageLoadInfoInstance( $this->oProp, $this->oMsg );
             return $this->oPageLoadInfo;
         }
