@@ -574,7 +574,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * 
      * @since   3.0.4     
      * @param   array   $aErrors     the field error array. The structure should follow the one contained in the submitted `$_POST` array.
-     */ 
+     */    
     public function setFieldErrors( $aErrors ) {
         
         // The field-errors array will be stored in this global array element.
@@ -589,12 +589,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
         }
         
         $_sID = md5( $this->oProp->sClassName );
-        $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] = $this->oUtil->getElement( 
-            $GLOBALS,  // subject array
-            array( 'aAdminPageFramework', 'aFieldErrors', $_sID ), // key
-            $aErrors      // default
-        );                        
-    
+        $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] = isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] )
+            ? $this->oUtil->uniteArrays( $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ], $aErrors )
+            : $aErrors;                   
     
     }   
     
@@ -627,7 +624,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     * @param        array       $asAttributes   (optional) the tag attribute array applied to the message container HTML element. If a string is given, it is used as the ID attribute value.
     * @param        boolean     $bOverride      (optional) false: do not override when there is a message of the same id. true: override the previous one.
     * @return       void
-    */     
+    */      
     public function setSettingNotice( $sMessage, $sType='error', $asAttributes=array(), $bOverride=true ) {
         
         // The framework user set notification messages will be stored in this global array element.
@@ -677,7 +674,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     public function hasSettingNotice( $sType='' ) {
         
         // The framework user set notification messages are stored in this global array element.
-        $_aNotices = isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ? $GLOBALS['aAdminPageFramework']['aNotices'] : array();
+        $_aNotices = isset( $GLOBALS['aAdminPageFramework']['aNotices'] )
+            ? $GLOBALS['aAdminPageFramework']['aNotices']
+            : array();
+        
         if ( ! $sType ) {
             return count( $_aNotices ) ? true : false;
         }
