@@ -40,7 +40,7 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
      * 
      * @internal
      */
-    function __construct( $oProp ) {
+    public function __construct( $oProp ) {
         
         parent::__construct( $oProp );
         
@@ -48,7 +48,6 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
             return;
         }
         
-        // The contextual help pane.
         add_action( 'admin_head', array( $this, '_replyToRegisterHelpTabs' ), 200 );     
         
     }
@@ -63,16 +62,17 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
      * @remark      the screen object is supported in WordPress 3.3 or above.
      * @since       2.1.0
      * @internal
+     * @callback    action      admin_head
      */  
     public function _replyToRegisterHelpTabs() {
-            
+
         $_sCurrentPageSlug  = $this->oProp->getCurrentPageSlug();
         $_sCurrentTabSlug   = $this->oProp->getCurrentTabSlug( $_sCurrentPageSlug );
         
-        if ( ! $this->oProp->isPageAdded( $_sCurrentTabSlug ) ) { 
+        if ( ! $this->oProp->isPageAdded( $_sCurrentPageSlug ) ) { 
             return; 
         }
-        
+
         foreach( $this->oProp->aHelpTabs as $aHelpTab ) {
             $this->_registerHelpTab( $aHelpTab, $_sCurrentPageSlug, $_sCurrentTabSlug );
         }
@@ -85,14 +85,14 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
          * @return      void
          */
         private function _registerHelpTab( array $aHelpTab, $sCurrentPageSlug, $sCurrentTabSlug ) {
-            
+           
             if ( $sCurrentPageSlug != $aHelpTab['sPageSlug'] ) { 
                 return;
             }
             if ( isset( $aHelpTab['sPageTabSlug'] ) && ! empty( $aHelpTab['sPageTabSlug'] ) && $sCurrentTabSlug != $aHelpTab['sPageTabSlug'] ) {
                 return;
             }
-                
+
             $this->_setHelpTab( 
                 $aHelpTab['sID'], 
                 $aHelpTab['sTitle'], 
