@@ -215,27 +215,24 @@ abstract class AdminPageFramework_Factory_Router {
      */
     protected function _getFormInstance( $oProp ) {
         
-        switch ( $oProp->sFieldsType ) {
-            case 'page':
-            case 'network_admin_page':
-                if ( $oProp->bIsAdminAjax ) {
-                    return null;
-                }
-                return new AdminPageFramework_FormElement_Page( $oProp->sFieldsType, $oProp->sCapability, $this );
-            case 'post_meta_box':
-            case 'page_meta_box':
-            case 'post_type':
-                if ( $oProp->bIsAdminAjax ) {
-                    return null;
-                }     
-                return new AdminPageFramework_FormElement( $oProp->sFieldsType, $oProp->sCapability, $this );
-            case 'taxonomy':
-            case 'widget':      // 3.2.0+
-            case 'user_meta':   // 3.5.0+
-                return new AdminPageFramework_FormElement( $oProp->sFieldsType, $oProp->sCapability, $this );
-            
-        }     
+        $_FormsClassName = in_array( $oProp->sFieldsType, array( 'page', 'network_admin_page' ) )
+            ? 'AdminPageFramework_FormElement_Page'
+            : 'AdminPageFramework_FormElement';
         
+        if ( in_array( 
+                $oProp->sFieldsType, 
+                array( 'page', 'network_admin_page', 'post_meta_box', 'post_type' )
+            ) 
+            && $oProp->bIsAdminAjax ) {
+            return null;
+        }
+
+        return new $_FormsClassName( 
+            $oProp->sFieldsType, 
+            $oProp->sCapability, 
+            $this 
+        );
+
     }
     
     /**
