@@ -341,14 +341,14 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }    
     
     /**
-     * Sets a dimansional array value by dimansional array keys.
+     * Sets a dimensional array value by dimensional array keys.
      * @since       3.5.3
      * @return      void
      */
     public static function setMultiDimensionalArray( &$mSubject, array $aKeys, $mValue ) {
 
         $_sKey = array_shift( $aKeys );
-        if ( $aKeys ) {
+        if ( ! empty( $aKeys ) ) {
             if( ! isset( $mSubject[ $_sKey ] ) || ! is_array( $mSubject[ $_sKey ] ) ) {
                 $mSubject[ $_sKey ] = array();
             }
@@ -367,7 +367,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * @since       3.0.1
      * @since       3.5.3       Added the `$bPreserveEmpty` parameter.
      * @param       mixed       $mValue             The subject value.
-     * @param       boolean     bPreserveEmpty      If fasle is given, `false`, empty sttring ( `''` ), `0` will not create an element.
+     * @param       boolean     bPreserveEmpty      If `false` is given, `false`, empty sttring ( `''` ), `0` will not create an element.
      * @return      array       The cast array.
      */
     static public function getAsArray( $mValue, $bPreserveEmpty=false ) {
