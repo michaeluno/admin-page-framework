@@ -339,36 +339,98 @@ abstract class AdminPageFramework_Factory_Router {
     function __get( $sPropertyName ) {
             
         switch( $sPropertyName ) {
-            case 'oUtil':     
-                $this->oUtil = new AdminPageFramework_WPUtility;
-                return $this->oUtil;
-            case 'oDebug':     
-                $this->oDebug = new AdminPageFramework_Debug;
-                return $this->oDebug;
-            case 'oMsg':     
-                $this->oMsg = AdminPageFramework_Message::getInstance( $this->oProp->sTextDomain );
-                return $this->oMsg;
-            case 'oForm':
-                $this->oForm = $this->_getFormInstance( $this->oProp );
-                return $this->oForm;
-            case 'oResource':   // 3.3.0+
-                $this->oResource = $this->_getResourceInstance( $this->oProp );
-                return $this->oResource;
-                case 'oHeadTag':    // 3.3.0+ for backward compatibility
-                    return $this->oResource;                
-            case 'oHelpPane':
-                $this->oHelpPane = $this->_getHelpPaneInstance( $this->oProp );
-                return $this->oHelpPane;
-            case 'oLink':
-                $this->oLink = $this->_getLinkInstancce( $this->oProp, $this->oMsg );
-                return $this->oLink;
-            case 'oPageLoadInfo':
-                $this->oPageLoadInfo = $this->_getPageLoadInfoInstance( $this->oProp, $this->oMsg );
-                return $this->oPageLoadInfo;
+            case 'oHeadTag':    // 3.3.0+ for backward compatibility
+                $sPropertyName = 'oResource';
+                break;
         }     
+
+        // Set and return the property
+        return call_user_func( 
+            array( $this, "_setAndGetInstance_{$sPropertyName}"  )
+        );
         
     }
-    
+        /**
+         * Sets and returns the `oUtil` property.
+         * @since       3.5.3
+         * @internal
+         * @return      object
+         */
+        public function _setAndGetInstance_oUtil() {
+            $this->oUtil = new AdminPageFramework_WPUtility;
+            return $this->oUtil;
+        }
+        /**
+         * Sets and returns the `oDebug` property.
+         * @since       3.5.3
+         * @internal
+         * @return      object
+         */        
+        public function _setAndGetInstance_oDebug() {
+            $this->oDebug = new AdminPageFramework_Debug;
+            return $this->oDebug;
+        }
+        /**
+         * Sets and returns the `oMsg` property.
+         * @since       3.5.3
+         * @internal
+         * @return      object
+         */              
+        public function _setAndGetInstance_oMsg() {
+            $this->oMsg = AdminPageFramework_Message::getInstance( $this->oProp->sTextDomain );
+            return $this->oMsg;
+        }
+        /**
+         * Sets and returns the `oForm` property.
+         * @since       3.5.3
+         * @internal
+         * @return      object
+         */              
+        public function _setAndGetInstance_oForm() {
+            $this->oForm = $this->_getFormInstance( $this->oProp );
+            return $this->oForm;
+        }
+        /**
+         * Sets and returns the `oResouce` property.
+         * @since       3.5.3
+         * @internal
+         * @return      object
+         */            
+        public function _setAndGetInstance_oResource() {
+            $this->oResource = $this->_getResourceInstance( $this->oProp );
+            return $this->oResource;
+        }
+        /**
+         * Sets and returns the `oHelpPane` property.
+         * @since       3.5.3
+         * @internal
+         * @return      object
+         */
+        public function _setAndGetInstance_oHelpPane() {
+            $this->oHelpPane = $this->_getHelpPaneInstance( $this->oProp );
+            return $this->oHelpPane;
+        }
+        /**
+         * Sets and returns the `oLink` property.
+         * @since       3.5.3
+         * @internal
+         * @return      object
+         */
+        public function _setAndGetInstance_oLink() {
+            $this->oLink = $this->_getLinkInstancce( $this->oProp, $this->oMsg );
+            return $this->oLink;
+        }
+        /**
+         * Sets and returns the `oPageLoadInfo` property.
+         * @since       3.5.3
+         * @internal
+         * @return      object
+         */        
+        public function _setAndGetInstance_oPageLoadInfo() {
+            $this->oPageLoadInfo = $this->_getPageLoadInfoInstance( $this->oProp, $this->oMsg );
+            return $this->oPageLoadInfo;
+        }
+        
     /**
      * Redirects dynamic function calls to the pre-defined internal method.
      * 
