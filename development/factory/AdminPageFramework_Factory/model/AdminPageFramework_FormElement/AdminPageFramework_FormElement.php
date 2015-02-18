@@ -347,7 +347,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
             }
 
             $_aSection = $this->formatSection( $_aSection, $sFieldsType, $sCapability, count( $_aNewSectionArray ) );
-            if ( ! $_aSection ) { 
+            if ( empty( $_aSection ) ) { 
                 continue; 
             }
             
@@ -364,6 +364,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
          * 
          * @since       3.0.0
          * @remark      The scope is protected because the extended page class overrides this method.
+         * @return      array       The formatted section definition array.
          */
         protected function formatSection( array $aSection, $sFieldsType, $sCapability, $iCountOfElements ) {
 
