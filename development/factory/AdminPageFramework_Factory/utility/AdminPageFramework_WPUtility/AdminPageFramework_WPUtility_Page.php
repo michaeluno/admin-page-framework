@@ -8,12 +8,14 @@
  */
 
 /**
- * Provides utility methods to detect types of admin pages which use WordPress functions and classes.
+ * Provides utility methods which use WordPress functions and classes.
+ * 
+ * The methods in this class mainly deal with determining the type of loading page such as a post type, url base name etc.
  *
- * @since 2.0.0
- * @extends AdminPageFramework_Utility
- * @package AdminPageFramework
- * @subpackage Utility
+ * @since       2.0.0
+ * @extends     AdminPageFramework_Utility
+ * @package     AdminPageFramework
+ * @subpackage  Utility
  * @internal
  */
 class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTML {
@@ -21,7 +23,9 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
     /**
      * Attempts to retrieve the current admin post type
      * 
+     * @remark      Caches the result.
      * @since       3.0.0
+     * @return      string|null     The found post type slug.
      */
     static public function getCurrentPostType() {
                  
@@ -31,40 +35,78 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         if ( $_sCurrentPostType ) { 
             return $_sCurrentPostType; 
         }
+        $_sCurrentPostType = self::_getCurrentPostType();
         
-        // Check to see if a post object exists
-        if ( isset( $GLOBALS['post'], $GLOBALS['post']->post_type ) && $GLOBALS['post']->post_type ) {
-            $_sCurrentPostType = $GLOBALS['post']->post_type;
-            return $_sCurrentPostType;
-        }
-         
-        // Check if the current type is set
-        if ( isset( $GLOBALS['typenow'] ) && $GLOBALS['typenow'] ) {
-            $_sCurrentPostType = $GLOBALS['typenow'];
-            return $_sCurrentPostType;
-        }
-         
-        // Check to see if the current screen is set
-        if ( isset( $GLOBALS['current_screen']->post_type ) && $GLOBALS['current_screen']->post_type ) {
-            $_sCurrentPostType = $GLOBALS['current_screen']->post_type;
-            return $_sCurrentPostType;
-        }
-         
-        // Finally make a last ditch effort to check the URL query for type
-        if ( isset( $_REQUEST['post_type'] ) ) {
-            $_sCurrentPostType = sanitize_key( $_REQUEST['post_type'] );
-            return $_sCurrentPostType;
-        }
-        
-        // If the post is set, find the post type from it. If will perform a database query if necessary.
-        if ( isset( $_GET['post'] ) && $_GET['post'] ) {
-            $_sCurrentPostType = get_post_type( $_GET['post'] );
-            return $_sCurrentPostType;
-        }
-        
-        return null;
+        return $_sCurrentPostType;
         
     }
+        /**
+         * Attempts to retrieve the current admin post type
+         * 
+         * @remark      Does not cache the result.
+         * @since       3.5.3
+         * @return      string|null     The found post type or null if not found.
+         */
+        static private function _getCurrentPostType() {
+            
+            // the array element order is important, 
+            // the one listed fist will be tried first.
+            $_aMethodsToTry = array(
+                'getPostTypeByPostObject',
+                'getPostTypeByTypeNow',
+                'getPostTypeByScreenObject',
+                'getPostTypeByREQUEST',
+            );
+            foreach ( $_aMethodsToTry as $_sMethodName ) {
+                $_sPostType = call_user_func( array( __CLASS__, $_sMethodName ) );
+                if ( $_sPostType ) {
+                    return $_sPostType;
+                }
+            }
+            return null;
+          
+        }
+            /**#@+
+             * Attempts to find a current post type.
+             * @internal
+             * @return      null|string
+             * @callback    function        call_user_func
+             * @since       3.5.3
+             */            
+            static public function getPostTypeByPostObject() {
+                if ( 
+                    isset( $GLOBALS['post'], $GLOBALS['post']->post_type ) 
+                    && $GLOBALS['post']->post_type 
+                ) {
+                    return $GLOBALS['post']->post_type;
+                }
+            }
+            static public function getPostTypeByTypeNow() {
+                if ( isset( $GLOBALS['typenow'] ) && $GLOBALS['typenow'] ) {
+                    return $GLOBALS['typenow'];
+                }                
+            }
+            static public function getPostTypeByScreenObject() {
+                if ( 
+                    isset( $GLOBALS['current_screen']->post_type )
+                    && $GLOBALS['current_screen']->post_type 
+                ) {
+                    return $GLOBALS['current_screen']->post_type;
+                }    
+            }         
+            /**
+             * Tries to find the post type from the URL query for type.
+             */
+            static public function getPostTypeByREQUEST() {
+                if ( isset( $_REQUEST['post_type'] ) ) {
+                    return sanitize_key( $_REQUEST['post_type'] );
+                }
+                if ( isset( $_GET['post'] ) && $_GET['post'] ) {
+                    // It will perform a database query.
+                    return get_post_type( $_GET['post'] );
+                }                                
+            }
+            /**#@-*/
 
     /**
      * Checks if the current page is a custom taxonomy of the give post types.
