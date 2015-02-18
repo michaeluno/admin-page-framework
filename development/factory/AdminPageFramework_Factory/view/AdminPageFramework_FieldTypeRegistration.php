@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -16,7 +16,7 @@
  * @since       2.1.6     Changed the name from AdminPageFramework_FieldTypeDefinitions
  * @internal
  */
-class AdminPageFramework_FieldTypeRegistration  {
+class AdminPageFramework_FieldTypeRegistration {
     
     /**
      * Holds the built-in filed type slugs.
@@ -93,52 +93,118 @@ class AdminPageFramework_FieldTypeRegistration  {
     static public function _setFieldResources( array $aField, $oProp, &$oResource ) {
 
         $_sFieldType = $aField['type'];
-
+        
+        // Caches
         self::$_aLoadFlags[ $oProp->_sPropertyType ] = isset( self::$_aLoadFlags[ $oProp->_sPropertyType ] ) && is_array( self::$_aLoadFlags[ $oProp->_sPropertyType ] )
             ? self::$_aLoadFlags[ $oProp->_sPropertyType ]
             : array();
-        if ( isset( self::$_aLoadFlags[ $oProp->_sPropertyType ][ $_sFieldType ] ) && self::$_aLoadFlags[ $oProp->_sPropertyType ][ $_sFieldType ] ) { return; }
+        if ( isset( self::$_aLoadFlags[ $oProp->_sPropertyType ][ $_sFieldType ] ) && self::$_aLoadFlags[ $oProp->_sPropertyType ][ $_sFieldType ] ) { 
+            return; 
+        }
         self::$_aLoadFlags[ $oProp->_sPropertyType ][ $_sFieldType ] = true;
                 
         // If the field type is not defined, return.
-        if ( ! isset( $oProp->aFieldTypeDefinitions[ $_sFieldType ] ) ) { return; }
+        if ( ! isset( $oProp->aFieldTypeDefinitions[ $_sFieldType ] ) ) { 
+            return; 
+        }
+        
+        self::_initializeFieldType( $_sFieldType, $oProp );
+        
+        self::_setInlineResources( $_sFieldType, $oProp );
+        
+        self::_enqueueReoucesByTyoe(
+            $oProp->aFieldTypeDefinitions[ $_sFieldType ]['aEnqueueStyles'],    
+            $oResource, 
+            'style'
+        );
+        self::_enqueueReoucesByTyoe( 
+            $oProp->aFieldTypeDefinitions[ $_sFieldType ]['aEnqueueScripts'],
+            $oResource, 
+            'script'
+        );
 
-        if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfFieldSetTypeSetter'] ) ) {
-            call_user_func_array( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfFieldSetTypeSetter'], array( $oProp->_sPropertyType ) );
-        }
-        
-        if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfFieldLoader'] ) ) {
-            call_user_func_array( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfFieldLoader'], array() );     
-        }
-        
-        if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetScripts'] ) ) {
-            $oProp->sScript .= call_user_func_array( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetScripts'], array() );
-        }
-            
-        if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetStyles'] ) ) {
-            $oProp->sStyle .= call_user_func_array( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetStyles'], array() );
-        }
-            
-        if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetIEStyles'] ) ) {
-            $oProp->sStyleIE .= call_user_func_array( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetIEStyles'], array() );     
-        }
-    
-        foreach( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['aEnqueueStyles'] as $asSource ) { 
-            if ( is_string( $asSource ) ) {
-                $oResource->_forceToEnqueueStyle( $asSource );
-            }
-            else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) ) {
-                $oResource->_forceToEnqueueStyle( $asSource[ 'src' ], $asSource );
-            }
-        }
-        foreach( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['aEnqueueScripts'] as $asSource ) {
-            if ( is_string( $asSource ) ) {
-                $oResource->_forceToEnqueueScript( $asSource );
-            }
-            else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) ) {
-                $oResource->_forceToEnqueueScript( $asSource[ 'src' ], $asSource );     
-            }
-        }     
-            
     }
+        /**
+         * Runs the initializer the given field type.
+         * 
+         * @since       3.5.3
+         * @return      void
+         */
+        static private function _initializeFieldType( $_sFieldType, $oProp ) {
+                
+            if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfFieldSetTypeSetter'] ) ) {
+                call_user_func_array( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfFieldSetTypeSetter'], array( $oProp->_sPropertyType ) );
+            }
+            
+            if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfFieldLoader'] ) ) {
+                call_user_func_array( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfFieldLoader'], array() );     
+            }            
+            
+        }
+        /**
+         * Sets inline resources.
+         * 
+         * @since       3.5.3
+         * @return      void
+         * @internal
+         */
+        static private function _setInlineResources( $_sFieldType, $oProp ) {
+         
+            if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetScripts'] ) ) {
+                $oProp->sScript .= call_user_func_array( 
+                    $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetScripts'], 
+                    array() 
+                );
+            }
+            if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetStyles'] ) ) {
+                $oProp->sStyle .= call_user_func_array( 
+                    $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetStyles'], 
+                    array() 
+                );
+            }
+            if ( is_callable( $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetIEStyles'] ) ) {
+                $oProp->sStyleIE .= call_user_func_array( 
+                    $oProp->aFieldTypeDefinitions[ $_sFieldType ]['hfGetIEStyles'], 
+                    array() 
+                );     
+            }
+         
+        }
+
+        /**
+         * Enqueues a resource by type.
+         * @since       3.5.3
+         * @internal
+         * @return      void
+         * @param       array       $aResources
+         * @param       object      $oResource      A resource object.
+         * @param       strign      $sType          A type. Either 'script' or 'style' is accepted.
+         */
+        static private function _enqueueReoucesByTyoe( array $aResources, $oResource, $sType ) {
+            
+            $_aMethodNames = array(
+                'script' => '_forceToEnqueueScript',
+                'style'  => '_forceToEnqueueStyle',
+            );
+            if ( ! isset( $_aMethodNames[ $sType ] ) ) {
+                return;
+            }
+            
+            foreach( $aResources as $asSource ) {             
+                if ( is_string( $asSource ) ) {
+                    call_user_func_array( 
+                        array( $oResource, $_aMethodNames[ $sType ] ), 
+                        array( $asSource )
+                    );
+                }
+                else if ( is_array( $asSource ) && isset( $asSource[ 'src' ] ) ) {
+                    call_user_func_array( 
+                        array( $oResource, $_aMethodNames[ $sType ] ),
+                        array( $asSource[ 'src' ], $asSource)
+                    );
+                }                
+            }
+            
+        }        
+
 }
