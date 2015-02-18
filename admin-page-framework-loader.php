@@ -16,16 +16,16 @@
  */
 class AdminPageFrameworkLoader_Registry_Base {
 
-	const Version        = '3.5.3b38';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
-	const Name           = 'Admin Page Framework - Loader'; // the name is not 'Admin Page Framework' because warning messages gets confusing.
-    const ShortName      = 'Admin Page Framework';  // used for a menu title etc.
-	const Description    = 'Loads Admin Page Framework which facilitates WordPress plugin and theme development.';
+	const VERSION        = '3.5.3b38';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+	const NAME           = 'Admin Page Framework - Loader'; // the name is not 'Admin Page Framework' because warning messages gets confusing.
+    const SHORTNAME      = 'Admin Page Framework';  // used for a menu title etc.
+	const DESCRIPTION    = 'Loads Admin Page Framework which facilitates WordPress plugin and theme development.';
 	const URI            = 'http://en.michaeluno.jp/';
-	const Author         = 'miunosoft (Michael Uno)';
-	const AuthorURI      = 'http://en.michaeluno.jp/';
-	const Copyright      = 'Copyright (c) 2015, Michael Uno';
-	const License        = 'GPL v2 or later';
-	const Contributors   = '';
+	const AUTHOR         = 'miunosoft (Michael Uno)';
+	const AUTHORURI      = 'http://en.michaeluno.jp/';
+	const COPYRIGHT      = 'Copyright (c) 2015, Michael Uno';
+	const LICENSE        = 'GPL v2 or later';
+    const CONTRIBUTORS   = '';
 	
 }
 /**
@@ -56,14 +56,14 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      * @remark      This is also accessed from uninstall.php so do not remove.
      * @remark      Up to 8 characters as transient name allows 45 characters or less ( 40 for site transients ) so that md5 (32 characters) can be added
      */
-	const TransientPrefix         = 'APFL_';
+	const TRANSIENTPREFIX         = 'APFL_';
     
     /**
      * The hook slug used for the prefix of action and filter hook names.
      * 
      * @remark      The ending underscore is not necessary.
      */
-    const HookSlug                = 'admin_page_framework_loader';
+    const HOOKSLUG                = 'admin_page_framework_loader';
         
     
     /**
@@ -71,8 +71,8 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      * 
      * These will be accessed from the bootstrap script.
      */
-	const TextDomain              = 'admin-page-framework-loader';
-	const TextDomainPath          = '/language';    
+	const TEXTDOMAIN              = 'admin-page-framework-loader';
+	const TEXTDOMAINPATH          = '/language';    
     	    
 	// These properties will be defined in the setUp() method.
 	static public $sFilePath = '';
@@ -196,7 +196,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
                         ."<p>" 
                             . sprintf( 
                                 '<strong>%1$s</strong>: ' . $_aAdminNotice['message'],
-                                self::Name . ' ' . self::Version
+                                self::NAME . ' ' . self::VERSION
                             )
                         . "</p>"
                     . "</div>";
@@ -221,14 +221,14 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
 } 
 
 // Avoid version conflicts.
-if ( ! class_exists( 'AdminPageFramework_Registry' ) || version_compare( AdminPageFramework_Registry::Version, AdminPageFrameworkLoader_Registry::Version, '<' ) ) {
+if ( ! class_exists( 'AdminPageFramework_Registry' ) || version_compare( AdminPageFramework_Registry::VERSION, AdminPageFrameworkLoader_Registry::VERSION, '<' ) ) {
     AdminPageFrameworkLoader_Registry::setAdminNotice(
         sprintf( 
             'The framework has been already loaded and its version is lesser than yours. Your framework will not be loaded to avoid unexpected results. Loaded Version: %1$s. Your Version: %2$s.',
             class_exists( 'AdminPageFramework_Registry' )
-                ? AdminPageFramework_Registry::Version
+                ? AdminPageFramework_Registry::VERSION
                 : 'unknown',
-            AdminPageFrameworkLoader_Registry::Version            
+            AdminPageFrameworkLoader_Registry::VERSION            
         )
     );
 }
@@ -238,7 +238,7 @@ include( AdminPageFrameworkLoader_Registry::$sDirPath . '/include/class/boot/Adm
 if ( class_exists( 'AdminPageFrameworkLoader_Bootstrap' ) ) {   // for backward compatibility
     new AdminPageFrameworkLoader_Bootstrap( 
         AdminPageFrameworkLoader_Registry::$sFilePath,
-        AdminPageFrameworkLoader_Registry::HookSlug    // hook prefix
+        AdminPageFrameworkLoader_Registry::HOOKSLUG    // hook prefix
     );
 }
 

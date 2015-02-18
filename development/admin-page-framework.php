@@ -33,15 +33,15 @@
  */
 abstract class AdminPageFramework_Registry_Base {
     
-    const Version       = '3.5.3b38'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
-    const Name          = 'Admin Page Framework';
-    const Description   = 'Facilitates WordPress plugin and theme development.';
+    const VERSION       = '3.5.3b38'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const NAME          = 'Admin Page Framework';
+    const DESCRIPTION   = 'Facilitates WordPress plugin and theme development.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
-    const Author        = 'Michael Uno';
-    const AuthorURI     = 'http://en.michaeluno.jp/';
-    const Copyright     = 'Copyright (c) 2013-2015, Michael Uno';
-    const License       = 'MIT <http://opensource.org/licenses/MIT>';
-    const Contributors  = '';    
+    const AUTHOR        = 'Michael Uno';
+    const AUTHORURI     = 'http://en.michaeluno.jp/';
+    const COPYRIGHT     = 'Copyright (c) 2013-2015, Michael Uno';
+    const LICENSE       = 'MIT <http://opensource.org/licenses/MIT>';
+    const CONTRIBUTORS  = '';
     
 }
 
@@ -54,8 +54,8 @@ abstract class AdminPageFramework_Registry_Base {
  */
 final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base {
         
-    const TextDomain        = 'admin-page-framework';
-    const TextDomainPath    = '/language';  // not used at the moment
+    const TEXTDOMAIN        = 'admin-page-framework';
+    const TEXTDOMAINPATH    = '/language';  // not used at the moment
     
     /**
      * Indicates whether the framework is loaded from the minified version or not.
@@ -98,9 +98,9 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
         
         if ( ! isset( self::$sAutoLoaderPath ) ) {
             trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is called too early. Perform <code>%2$s</code> earlier.', 'admin-page-framework' ), __METHOD__, 'setUp()' ), E_USER_WARNING );
-            return self::Version;
+            return self::VERSION;
         }
-        return self::Version 
+        return self::VERSION
             . ( self::$bIsMinifiedVersion ? '.min' : '' );        
             
     }

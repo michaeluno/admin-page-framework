@@ -48,7 +48,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
             // When newly installed, the 'welcomed' value is not set.
             $_oOption = AdminPageFrameworkLoader_Option::getInstance();
             if ( ! $_oOption->get( 'welcomed' ) ) {                
-                $this->_setInitialOptions( $_oOption, AdminPageFrameworkLoader_Registry::Version );
+                $this->_setInitialOptions( $_oOption, AdminPageFrameworkLoader_Registry::VERSION );
                 $this->_gotToWelcomePage(); // will exit
             }
             if ( $_oOption->hasUpgraded() ) {
@@ -65,7 +65,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                 
                 $oOption->set( 'welcomed', true );
                 $oOption->set( 'version_upgraded_from', $sVersionUpgradedFrom );
-                $oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::Version );
+                $oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::VERSION );
                 $oOption->save();                
                 
             }
@@ -98,7 +98,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
         // Sub-pages
         $this->addSubMenuItems( 
             array(
-                'title'         => AdminPageFrameworkLoader_Registry::ShortName,
+                'title'         => AdminPageFrameworkLoader_Registry::SHORTNAME,
                 'page_slug'     => AdminPageFrameworkLoader_Registry::$aAdminPages['about'],    // page slug
                 'show_in_menu'  => false,
             )
@@ -217,8 +217,8 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
      */
     public function replyToFilterContentTop( $sContent ) {
 
-        $_sVersion      = '- ' . AdminPageFrameworkLoader_Registry::Version;
-        $_sPluginName   = AdminPageFrameworkLoader_Registry::ShortName . ' ' . $_sVersion;
+        $_sVersion      = '- ' . AdminPageFrameworkLoader_Registry::VERSION;
+        $_sPluginName   = AdminPageFrameworkLoader_Registry::SHORTNAME . ' ' . $_sVersion;
         
         $_aOutput   = array();
         $_aOutput[] = "<h1>" 

@@ -190,7 +190,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
                 date( "Y/m/d H:i:s", $_nNow ) . '.' . $_nMicroseconds,
                 self::_getFormattedElapsedTime( $nElapsed ),
                 $_iPageLoadID,
-                AdminPageFramework_Registry::Version . ( AdminPageFramework_Registry::$bIsMinifiedVersion ? '.min' : '' ),
+                AdminPageFramework_Registry::VERSION . ( AdminPageFramework_Registry::$bIsMinifiedVersion ? '.min' : '' ),
                 $sCallerClass . '::' . $sCallerFunction,
                 current_filter(),
                 self::getCurrentURL(),

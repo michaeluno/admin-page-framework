@@ -103,7 +103,7 @@ class AdminPageFrameworkLoader_Option {
             return false;
         }
         $_sOptionVersion        = $this->_getVersionByDepth( $_sOptionVersion );
-        $_sCurrentVersion       = $this->_getVersionByDepth( AdminPageFrameworkLoader_Registry::Version );
+        $_sCurrentVersion       = $this->_getVersionByDepth( AdminPageFrameworkLoader_Registry::VERSION );
         return version_compare( $_sOptionVersion, $_sCurrentVersion, '<' );
         
     }

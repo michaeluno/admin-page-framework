@@ -59,7 +59,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
         if ( $_bAdminPageEnabled ) {
             
             $this->setRootMenuPage( 
-                AdminPageFrameworkLoader_Registry::ShortName,     // menu slug
+                AdminPageFrameworkLoader_Registry::SHORTNAME,     // menu slug
                 AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/wp-logo_16x16.png',
                 4  // menu position
             ); 
