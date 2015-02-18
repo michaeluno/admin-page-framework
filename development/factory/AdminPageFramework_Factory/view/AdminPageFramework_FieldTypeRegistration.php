@@ -178,7 +178,7 @@ class AdminPageFramework_FieldTypeRegistration {
          * @return      void
          * @param       array       $aResources
          * @param       object      $oResource      A resource object.
-         * @param       strign      $sType          A type. Either 'script' or 'style' is accepted.
+         * @param       string      $sType          A type. Either 'script' or 'style' is accepted.
          */
         static private function _enqueueReoucesByTyoe( array $aResources, $oResource, $sType ) {
             
