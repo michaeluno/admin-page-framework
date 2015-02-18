@@ -70,8 +70,9 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * @since       3.0.0
      * @since       3.5.3       Added type hints to the parameter.
      * @remark      It won't check key structure deeper than or equal to the second dimension.
-     * @param       array       $aModel     the array that holds the necessary keys.
-     * @param       array     $aSubject     the array from which the contents to be extracted.
+     * @remark      IF a key which exists in the passed model array but does not exists in the subject array, a null value will be assigned to the resulting array.
+     * @param       array       $aModel         the array that holds the necessary keys.
+     * @param       array       $aSubject       the array from which the contents to be extracted.
      * @return      array       the extracted array contents with the keys of the model array.
      */
     public static function castArrayContents( array $aModel, array $aSubject ) {
