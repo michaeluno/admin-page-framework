@@ -16,15 +16,150 @@
  * @package     AdminPageFramework
  * @subpackage  Property
  * @internal
+ * 
+ * @remark      When adding a new framework translation item,
+ * Step 1: add a key and the default value to the `$aDefaults` property array.
+ * Step 2: add a dummy function call in the `__doDummy()` method so that parser programs can catch it.
  */
 class AdminPageFramework_Message {
 
     /**
      * Stores the framework's messages.
      * 
-     * @remark     The user may modify this property directly.
+     * @since       2.0.0
+     * @since       3.1.3       No item is defined by default but done on the fly per request. The below array structure is kept for backward compatibility.
+     * @remark      The user may modify this property directly.
      */ 
     public $aMessages = array();
+    
+    /**
+     * Stores default translated items.
+     * 
+     * @remark      These items should be accessed only when its label needs to be displayed.
+     * So the translation method `__()` only gets executed for one file.
+     * 
+     * Consider the difference between the two.
+     * <code>
+     * $_aTranslations = array(
+     *      'foo'  => __( 'Foo', 'admin-page-framework' ),
+     *      'bar'  => __( 'Bar', 'admin-page-framework' ),
+     *       ... more 100 items 
+     * )
+     * return isset( $_aTranslations[ $sKey ] ) ? $_aTranslations[ $sKey ] : '';
+     * </code>
+     * 
+     * <code>
+     * $_aTranslations = array(
+     *      'foo'  => 'Foo',
+     *      'bar'  => 'Bar', 
+     *       ... more 100 items 
+     * )
+     * return isset( $_aTranslations[ $sKey ] ) 
+     *      ? __( $_aTranslations[ $sKey ], $sUserSetTextdomain ) 
+     *      : '';
+     * </code>
+     * @since       3.5.3
+     */
+    public $aDefaults = array(
+
+        // AdminPageFramework
+        'option_updated'                        => 'The options have been updated.',
+        'option_cleared'                        => 'The options have been cleared.', 
+        'export'                                => 'Export', 
+        'export_options'                        => 'Export Options', 
+        'import_options'                        => 'Import', 
+        'import_options'                        => 'Import Options', 
+        'submit'                                => 'Submit', 
+        'import_error'                          => 'An error occurred while uploading the import file.', 
+        'uploaded_file_type_not_supported'      => 'The uploaded file type is not supported: %1$s', 
+        'could_not_load_importing_data'         => 'Could not load the importing data.', 
+        'imported_data'                         => 'The uploaded file has been imported.', 
+        'not_imported_data'                     => 'No data could be imported.', 
+        'upload_image'                          => 'Upload Image', 
+        'use_this_image'                        => 'Use This Image', 
+        'insert_from_url'                       => 'Insert from URL', 
+        'reset_options'                         => 'Are you sure you want to reset the options?', 
+        'confirm_perform_task'                  => 'Please confirm your action.', 
+        'specified_option_been_deleted'         => 'The specified options have been deleted.', 
+        'nonce_verification_failed'             => 'A problem occurred while processing the form data. Please try again.', 
+        'send_email'                            => 'Is it okay to send the email?',     // 3.3.0+
+        'email_sent'                            => 'The email has been sent.',  // 3.3.0+, 3.3.5+ deprecated 
+        'email_scheduled'                       => 'The email has been scheduled.', // 3.3.5+
+        'email_could_not_send'                  => 'There was a problem sending the email',     // 3.3.0+
+        
+        // AdminPageFramework_PostType
+        'title'                                 => 'Title',     
+        'author'                                => 'Author',     
+        'categories'                            => 'Categories', 
+        'tags'                                  => 'Tags', 
+        'comments'                              => 'Comments', 
+        'date'                                  => 'Date', 
+        'show_all'                              => 'Show All', 
+
+        // AdminPageFramework_Link_Base
+        'powered_by'                            => 'Powered by', 
+
+        // AdminPageFramework_Link_Page
+        'settings'                              => 'Settings', 
+
+        // AdminPageFramework_Link_PostType
+        'manage'                                => 'Manage', 
+
+        // AdminPageFramework_FieldType_{...}
+        'select_image'                          => 'Select Image', 
+        'upload_file'                           => 'Upload File', 
+        'use_this_file'                         => 'Use This File', 
+        'select_file'                           => 'Select File', 
+        'remove_value'                          => 'Remove Value',  // 3.2.0+
+        'select_all'                            => 'Select All',    // 3.3.0+
+        'select_none'                           => 'Select None',   // 3.3.0+                       
+        'no_term_found'                         => 'No term found.', // 3.3.2+
+
+        // AdminPageFramework_Script_{...}
+        'select'                                => 'Select', // 3.4.2+             
+        'insert'                                => 'Insert',  // 3.4.2+
+        'use_this'                              => 'Use This', // 3.4.2+
+        'return_to_library'                     => 'Return to Library', // 3.4.2+
+            
+        // AdminPageFramework_PageLoadInfo_Base
+        'queries_in_seconds'                    => '%1$s queries in %2$s seconds.', 
+        'out_of_x_memory_used'                  => '%1$s out of %2$s MB (%3$s) memory used.', 
+        'peak_memory_usage'                     => 'Peak memory usage %1$s MB.', 
+        'initial_memory_usage'                  => 'Initial memory usage  %1$s MB.', 
+        
+        // AdminPageFramework_FormField
+        'allowed_maximum_number_of_fields'      => 'The allowed maximum number of fields is {0}.', 
+        'allowed_minimum_number_of_fields'      => 'The allowed minimum number of fields is {0}.', 
+        'add'                                   => 'Add', 
+        'remove'                                => 'Remove', 
+
+        // AdminPageFramework_FormTable
+        'allowed_maximum_number_of_sections'    => 'The allowed maximum number of sections is {0}', 
+        'allowed_minimum_number_of_sections'    => 'The allowed minimum number of sections is {0}', 
+        'add_section'                           => 'Add Section', 
+        'remove_section'                        => 'Remove Section', 
+        'toggle_all'                            => 'Toggle All', 
+        'toggle_all_collapsible_sections'       => 'Toggle all collapsible sections', 
+            
+        // AdminPageFramework_FieldType_reset 3.3.0+
+        'reset'                                 => 'Reset', 
+            
+        // AdminPageFramework_FieldType_system 3.5.3+
+        'yes'                                   => 'Yes', 
+        'no'                                    => 'No', 
+        'on'                                    => 'On', 
+        'off'                                   => 'Off', 
+        'enabled'                               => 'Enabled', 
+        'disabled'                              => 'Disabled', 
+        'supported'                             => 'Supported', 
+        'not_supported'                         => 'Not Supported', 
+        'functional'                            => 'Functional', 
+        'not_functional'                        => 'Not Functional', 
+        'too_long'                              => 'Too Long', 
+        'acceptable'                            => 'Acceptable', 
+        'no_log_found'                          => 'No log found.',
+        
+    );
     
     /**
      * Stores the text domain.
@@ -64,110 +199,20 @@ class AdminPageFramework_Message {
             return self::getInstance( $sTextDomain );
         }
         
+    /**
+     * Sets up properties.
+     */
     public function __construct( $sTextDomain='admin-page-framework' ) {
         
-        $this->_sTextDomain = $sTextDomain;
+        $this->_sTextDomain = $sTextDomain;  
         
-        // As of v3.1.3, no item is defined by default but done on the fly per request. The below array structure is kept for backward compatibility.
-        $this->aMessages = array(    
-    
-            // AdminPageFramework
-            'option_updated'                        => null,
-            'option_cleared'                        => null,
-            'export'                                => null,
-            'export_options'                        => null,
-            'import_options'                        => null,
-            'import_options'                        => null,
-            'submit'                                => null,
-            'import_error'                          => null,
-            'uploaded_file_type_not_supported'      => null,
-            'could_not_load_importing_data'         => null,
-            'imported_data'                         => null,
-            'not_imported_data'                     => null,
-            'reset_options'                         => null,
-            'confirm_perform_task'                  => null,
-            'specified_option_been_deleted'         => null,
-            'nonce_verification_failed'             => null,
-            'send_email'                            => null,    // 3.3.0+
-            'email_sent'                            => null,    // 3.3.0+, 3.3.5+ deprecated 
-            'email_scheduled'                       => null,    // 3.3.5+
-            'email_could_not_send'                  => null,    // 3.3.0+
-            
-            // AdminPageFramework_PostType
-            'title'                                 => null,
-            'author'                                => null,
-            'categories'                            => null,
-            'tags'                                  => null,
-            'comments'                              => null,
-            'date'                                  => null,
-            'show_all'                              => null,
-
-            // AdminPageFramework_Link_Base
-            'powered_by'                            => null,
-            
-            // AdminPageFramework_Link_Page
-            'settings'                              => null,
-            
-            // AdminPageFramework_Link_PostType
-            'manage'                                => null,
-            
-            // AdminPageFramework_FieldType_{...}
-            'upload_image'                          => null,
-            'use_this_image'                        => null,            
-            'select_image'                          => null,
-            'upload_file'                           => null,
-            'use_this_file'                         => null,
-            'select_file'                           => null,
-            'remove_value'                          => null,    // 3.2.0+
-            'select_all'                            => null,    // 3.3.0+
-            'select_none'                           => null,    // 3.3.0+
-            'no_term_found'                         => null,    // 3.3.2+
-            'insert_from_url'                       => null,    // 3.4.2+
-            
-            // AdminPageFramework_Script_{...}
-            'select'                                => null,    // 3.4.2+
-            'insert'                                => null,    // 3.4.2+                               
-            'use_this'                              => null,    // 3.4.2+                               
-            'return_to_library'                     => null,    // 3.4.2+                               
-            
-            // AdminPageFramework_PageLoadInfo_Base
-            'queries_in_seconds'                    => null,
-            'out_of_x_memory_used'                  => null,
-            'peak_memory_usage'                     => null,
-            'initial_memory_usage'                  => null,
-
-            // AdminPageFramework_FormField
-            'allowed_maximum_number_of_fields'      => null,
-            'allowed_minimum_number_of_fields'      => null,
-            'add'                                   => null,
-            'remove'                                => null,
-            
-            // AdminPageFramework_FormTable
-            'allowed_maximum_number_of_sections'    => null,
-            'allowed_minimum_number_of_sections'    => null,
-            'add_section'                           => null,
-            'remove_section'                        => null,
-            'toggle_all'                            => null,    // 3.4.0+
-            'toggle_all_collapsible_sections'       => null,    // 3.4.0+
-            
-            // AdminPageFramework_FieldType_reset   
-            'reset'                                 => null,    // 3.3.0+
-            
-            // AdminPageFramework_FieldType_system 3.5.3+
-            'yes'                                   => null,
-            'no'                                    => null,
-            'enabled'                               => null,
-            'disabled'                              => null,
-            'on'                                    => null,
-            'off'                                   => null,
-            'supported'                             => null,
-            'not_supported'                         => null,
-            'functional'                            => null,
-            'not_functional'                        => null,
-            'too_long'                              => null,
-            'acceptable'                            => null,
-            
-        );     
+        // Fill the $aMessages property with the keys extracted from the $aDefaults property
+        // with the value of null.  The null is set to let it trigger the __get() method 
+        // so that each translation item gets processed individually.
+        $this->aMessages    = array_fill_keys( 
+            array_keys( $this->aDefaults ),
+            null        
+        );
         
     }
     
@@ -189,11 +234,9 @@ class AdminPageFramework_Message {
      * @since       3.2.0
      */
     public function get( $sKey ) {
-        
         return isset( $this->aMessages[ $sKey ] )
             ? __( $this->aMessages[ $sKey ], $this->_sTextDomain )
-            : __( $this->{$sKey}, $this->_sTextDomain );        
-        
+            : __( $this->{$sKey}, $this->_sTextDomain );         
     }
 
     /**
@@ -225,193 +268,95 @@ class AdminPageFramework_Message {
     /**
      * Responds to a request to an undefined property.
      * 
-     * @since 3.1.3
+     * @since       3.1.3
+     * @return      string
      */
     public function __get( $sPropertyName ) {
-        return $this->_getTranslation( $sPropertyName ); 
+        return isset( $this->aDefaults[ $sPropertyName ] ) ? $this->aDefaults[ $sPropertyName ] : $sPropertyName;
     }
-        /**
-         * Returns the translated text label from the given label key.
-         * 
-         * @since 3.1.3
-         */
-        private function _getTranslation( $_sLabelKey ) {
-            
-            switch ( $_sLabelKey ) {
-                // AdminPageFramework
-                case 'option_updated':
-                    return __( 'The options have been updated.', 'admin-page-framework' );
-                case 'option_cleared':     
-                    return __( 'The options have been cleared.', 'admin-page-framework' );
-                case 'export':     
-                    return __( 'Export', 'admin-page-framework' );
-                case 'export_options':
-                    return __( 'Export Options', 'admin-page-framework' );
-                case 'import_options':
-                    return __( 'Import', 'admin-page-framework' );
-                case 'import_options':
-                    return __( 'Import Options', 'admin-page-framework' );
-                case 'submit':
-                    return __( 'Submit', 'admin-page-framework' );
-                case 'import_error':
-                    return __( 'An error occurred while uploading the import file.', 'admin-page-framework' );
-                case 'uploaded_file_type_not_supported':
-                    return __( 'The uploaded file type is not supported: %1$s', 'admin-page-framework' );
-                case 'could_not_load_importing_data':
-                    return __( 'Could not load the importing data.', 'admin-page-framework' );
-                case 'imported_data':
-                    return __( 'The uploaded file has been imported.', 'admin-page-framework' );
-                case 'not_imported_data':
-                    return __( 'No data could be imported.', 'admin-page-framework' );
-                case 'upload_image':
-                    return __( 'Upload Image', 'admin-page-framework' );
-                case 'use_this_image':
-                    return __( 'Use This Image', 'admin-page-framework' );
-                case 'insert_from_url':
-                    return __( 'Insert from URL', 'admin-page-framework' );
-                case 'reset_options':
-                    return __( 'Are you sure you want to reset the options?', 'admin-page-framework' );
-                case 'confirm_perform_task':
-                    return __( 'Please confirm your action.', 'admin-page-framework' );
-                case 'specified_option_been_deleted':
-                    return __( 'The specified options have been deleted.', 'admin-page-framework' );
-                case 'nonce_verification_failed':
-                    return __( 'A problem occurred while processing the form data. Please try again.', 'admin-page-framework' );
-                case 'send_email':  // 3.3.0+
-                    return __( 'Is it okay to send the email?', 'admin-page-framework' );
-                case 'email_sent':  // 3.3.0+, 3.3.5+ deprecated 
-                    return __( 'The email has been sent.', 'admin-page-framework' );
-                case 'email_scheduled':  // 3.3.5+
-                    return __( 'The email has been scheduled.', 'admin-page-framework' );                    
-                case 'email_could_not_send':  // 3.3.0+
-                    return __( 'There was a problem sending the email', 'admin-page-framework' );
-                
-                // AdminPageFramework_PostType
-                case 'title':
-                    return __( 'Title', 'admin-page-framework' );    
-                case 'author':
-                    return __( 'Author', 'admin-page-framework' );    
-                case 'categories':
-                    return __( 'Categories', 'admin-page-framework' );
-                case 'tags':
-                    return __( 'Tags', 'admin-page-framework' );
-                case 'comments':
-                    return __( 'Comments', 'admin-page-framework' );
-                case 'date':
-                    return __( 'Date', 'admin-page-framework' ); 
-                case 'show_all':
-                    return __( 'Show All', 'admin-page-framework' );
+   
+        
+    /**
+     * A dummy method just lists translation items to be parsed by translation programs such as POEdit.
+     * 
+     * @since       3.5.3
+     */
+    private function __doDummy() {
 
-                // AdminPageFramework_Link_Base
-                case 'powered_by':
-                    return __( 'Powered by', 'admin-page-framework' );
-
-                // AdminPageFramework_Link_Page
-                case 'settings':
-                    return __( 'Settings', 'admin-page-framework' );
-
-                // AdminPageFramework_Link_PostType
-                case 'manage':
-                    return __( 'Manage', 'admin-page-framework' );
-
-                // AdminPageFramework_FieldType_{...}
-                case 'select_image':
-                    return __( 'Select Image', 'admin-page-framework' );
-                case 'upload_file':
-                    return __( 'Upload File', 'admin-page-framework' );
-                case 'use_this_file':
-                    return __( 'Use This File', 'admin-page-framework' );
-                case 'select_file':
-                    return __( 'Select File', 'admin-page-framework' );
-                case 'remove_value':    // 3.2.0+
-                    return __( 'Remove Value', 'admin-page-framework' );
-                case 'select_all':      // 3.3.0+
-                    return __( 'Select All', 'admin-page-framework' );
-                case 'select_none':     // 3.3.0+
-                    return __( 'Select None', 'admin-page-framework' );          
-                case 'no_term_found':   // 3.3.2+
-                    return __( 'No term found.', 'admin-page-framework' );
-
-                // AdminPageFramework_Script_{...}
-                case 'select':          // 3.4.2+
-                    return __( 'Select', 'admin-page-framework' );          
-                case 'insert':          // 3.4.2+
-                    return __( 'Insert', 'admin-page-framework' );                              
-                case 'use_this':        // 3.4.2+
-                    return __( 'Use This', 'admin-page-framework' );                   
-                case 'return_to_library':        // 3.4.2+
-                    return __( 'Return to Library', 'admin-page-framework' );
-                    
-                // AdminPageFramework_PageLoadInfo_Base
-                case 'queries_in_seconds':
-                    return __( '%1$s queries in %2$s seconds.', 'admin-page-framework' );
-                case 'out_of_x_memory_used':
-                    return __( '%1$s out of %2$s MB (%3$s) memory used.', 'admin-page-framework' );
-                case 'peak_memory_usage':
-                    return __( 'Peak memory usage %1$s MB.', 'admin-page-framework' );
-                case 'initial_memory_usage':
-                    return __( 'Initial memory usage  %1$s MB.', 'admin-page-framework' );
-                
-                // AdminPageFramework_FormField
-                case 'allowed_maximum_number_of_fields':
-                    return __( 'The allowed maximum number of fields is {0}.', 'admin-page-framework' );
-                case 'allowed_minimum_number_of_fields':
-                    return __( 'The allowed minimum number of fields is {0}.', 'admin-page-framework' );
-                case 'add':
-                    return __( 'Add', 'admin-page-framework' );
-                case 'remove':
-                    return __( 'Remove', 'admin-page-framework' );
-
-                // AdminPageFramework_FormTable
-                case 'allowed_maximum_number_of_sections':
-                    return __( 'The allowed maximum number of sections is {0}', 'admin-page-framework' );
-                case 'allowed_minimum_number_of_sections':
-                    return __( 'The allowed minimum number of sections is {0}', 'admin-page-framework' );
-                case 'add_section':
-                    return __( 'Add Section', 'admin-page-framework' );
-                case 'remove_section':
-                    return __( 'Remove Section', 'admin-page-framework' );
-                case 'toggle_all':
-                    return __( 'Toggle All', 'admin-page-framework' );
-                case 'toggle_all_collapsible_sections':
-                    return __( 'Toggle all collapsible sections', 'admin-page-framework' );
-                    
-                // AdminPageFramework_FieldType_reset          
-                case 'reset':   // 3.3.0+
-                    return __( 'Reset', 'admin-page-framework' );
-                    
-                // AdminPageFramework_FieldType_system 3.5.3+
-                case 'yes':
-                    return __( 'Yes', 'admin-page-framework' );
-                case 'no':
-                    return __( 'No', 'admin-page-framework' );
-                case 'on':
-                    return __( 'On', 'admin-page-framework' );
-                case 'off':
-                    return __( 'Off', 'admin-page-framework' );
-                case 'enabled':
-                    return __( 'Enabled', 'admin-page-framework' );
-                case 'disabled':
-                    return __( 'Disabled', 'admin-page-framework' );
-                case 'supported':
-                    return __( 'Supported', 'admin-page-framework' );
-                case 'not_supported':
-                    return __( 'Not Supported', 'admin-page-framework' );
-                case 'functional':
-                    return __( 'Functional', 'admin-page-framework' );
-                case 'not_functional':
-                    return __( 'Not Functional', 'admin-page-framework' );
-                case 'too_long':
-                    return __( 'Too Long', 'admin-page-framework' );
-                case 'acceptable':
-                    return __( 'Acceptable', 'admin-page-framework' );
-                case 'no_log_found':
-                    return __( 'No log found.', 'admin-page-framework' );
-                    
-                default:
-                    return $_sLabelKey;
-            }
-    
-        }
+        __( 'The options have been updated.', 'admin-page-framework' ); 
+        __( 'The options have been cleared.', 'admin-page-framework' );
+        __( 'Export', 'admin-page-framework' );
+        __( 'Export Options', 'admin-page-framework' );
+        __( 'Import', 'admin-page-framework' );
+        __( 'Import Options', 'admin-page-framework' );
+        __( 'Submit', 'admin-page-framework' );
+        __( 'An error occurred while uploading the import file.', 'admin-page-framework' );
+        __( 'The uploaded file type is not supported: %1$s', 'admin-page-framework' );
+        __( 'Could not load the importing data.', 'admin-page-framework' );
+        __( 'The uploaded file has been imported.', 'admin-page-framework' );
+        __( 'No data could be imported.', 'admin-page-framework' );
+        __( 'Upload Image', 'admin-page-framework' );
+        __( 'Use This Image', 'admin-page-framework' );
+        __( 'Insert from URL', 'admin-page-framework' );
+        __( 'Are you sure you want to reset the options?', 'admin-page-framework' );
+        __( 'Please confirm your action.', 'admin-page-framework' );
+        __( 'The specified options have been deleted.', 'admin-page-framework' );
+        __( 'A problem occurred while processing the form data. Please try again.', 'admin-page-framework' );
+        __( 'Is it okay to send the email?', 'admin-page-framework' );
+        __( 'The email has been sent.', 'admin-page-framework' );
+        __( 'The email has been scheduled.', 'admin-page-framework' );                    
+        __( 'There was a problem sending the email', 'admin-page-framework' );
+        __( 'Title', 'admin-page-framework' );    
+        __( 'Author', 'admin-page-framework' );    
+        __( 'Categories', 'admin-page-framework' );
+        __( 'Tags', 'admin-page-framework' );
+        __( 'Comments', 'admin-page-framework' );
+        __( 'Date', 'admin-page-framework' ); 
+        __( 'Show All', 'admin-page-framework' );
+        __( 'Powered by', 'admin-page-framework' );
+        __( 'Settings', 'admin-page-framework' );
+        __( 'Manage', 'admin-page-framework' );
+        __( 'Select Image', 'admin-page-framework' );
+        __( 'Upload File', 'admin-page-framework' );
+        __( 'Use This File', 'admin-page-framework' );
+        __( 'Select File', 'admin-page-framework' );
+        __( 'Remove Value', 'admin-page-framework' );
+        __( 'Select All', 'admin-page-framework' );
+        __( 'Select None', 'admin-page-framework' );          
+        __( 'No term found.', 'admin-page-framework' );
+        __( 'Select', 'admin-page-framework' );          
+        __( 'Insert', 'admin-page-framework' );                              
+        __( 'Use This', 'admin-page-framework' );                   
+        __( 'Return to Library', 'admin-page-framework' );
+        __( '%1$s queries in %2$s seconds.', 'admin-page-framework' );
+        __( '%1$s out of %2$s MB (%3$s) memory used.', 'admin-page-framework' );
+        __( 'Peak memory usage %1$s MB.', 'admin-page-framework' );
+        __( 'Initial memory usage  %1$s MB.', 'admin-page-framework' );
+        __( 'The allowed maximum number of fields is {0}.', 'admin-page-framework' );
+        __( 'The allowed minimum number of fields is {0}.', 'admin-page-framework' );
+        __( 'Add', 'admin-page-framework' );
+        __( 'Remove', 'admin-page-framework' );
+        __( 'The allowed maximum number of sections is {0}', 'admin-page-framework' );
+        __( 'The allowed minimum number of sections is {0}', 'admin-page-framework' );
+        __( 'Add Section', 'admin-page-framework' );
+        __( 'Remove Section', 'admin-page-framework' );
+        __( 'Toggle All', 'admin-page-framework' );
+        __( 'Toggle all collapsible sections', 'admin-page-framework' );
+        __( 'Reset', 'admin-page-framework' );
+        __( 'Yes', 'admin-page-framework' );
+        __( 'No', 'admin-page-framework' );
+        __( 'On', 'admin-page-framework' );
+        __( 'Off', 'admin-page-framework' );
+        __( 'Enabled', 'admin-page-framework' );
+        __( 'Disabled', 'admin-page-framework' );
+        __( 'Supported', 'admin-page-framework' );
+        __( 'Not Supported', 'admin-page-framework' );
+        __( 'Functional', 'admin-page-framework' );
+        __( 'Not Functional', 'admin-page-framework' );
+        __( 'Too Long', 'admin-page-framework' );
+        __( 'Acceptable', 'admin-page-framework' );
+        __( 'No log found.', 'admin-page-framework' );        
+        
+    }
     
 }
