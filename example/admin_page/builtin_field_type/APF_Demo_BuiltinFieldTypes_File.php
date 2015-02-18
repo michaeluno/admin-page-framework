@@ -1,14 +1,17 @@
 <?php
 /**
- * Admin Page Framework - Demo
+ * Admin Page Framework - Loader
  * 
  * Demonstrates the usage of Admin Page Framework.
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed GPLv2
+ * Copyright (c) 2013-2015 Michael Uno; Licensed GPLv2
  * 
  */
 
+/**
+ * Creates an in-page tab that demonstrates the usage of 'image', 'media', 'file' field types.
+ */
 class APF_Demo_BuiltinFieldTypes_File {
 
     /**
@@ -98,7 +101,7 @@ class APF_Demo_BuiltinFieldTypes_File {
          */
         $oAdminPage->addSettingFields(     
             'image_select',
-            array( // Image Selector
+            array( 
                 'field_id'      => 'image_select_field',
                 'title'         => __( 'Select an Image', 'admin-page-framework-demo' ),
                 'type'          => 'image',
@@ -107,7 +110,7 @@ class APF_Demo_BuiltinFieldTypes_File {
                 'allow_external_source' => false,
                 'attributes'    => array(
                     'preview' => array(
-                        'style' => 'max-width:400px;' // determines the size of the preview image. // margin-left: auto; margin-right: auto; will make the image in the center.
+                        'style' => 'max-width:300px;' // determines the size of the preview image. // margin-left: auto; margin-right: auto; will make the image in the center.
                     ),
                 ),
                 array(
@@ -145,6 +148,9 @@ class APF_Demo_BuiltinFieldTypes_File {
                     'remove_button' => array(      // 3.2.0+
                         'data-label' => __( 'Remove', 'admin-page-framework-demo' ), // will set the Remove button label instead of the dashicon
                     ),
+                    'preview' => array(
+                        'style' => 'max-width: 300px;'
+                    ),                    
                 ),
             ),     
             array( // Repeatable Image Fields
