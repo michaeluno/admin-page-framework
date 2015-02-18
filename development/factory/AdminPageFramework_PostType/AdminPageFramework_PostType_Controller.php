@@ -173,39 +173,64 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
     */ 
     protected function addTaxonomy( $sTaxonomySlug, array $aArgs, array $aAdditionalObjectTypes=array() ) {
 
-        $sTaxonomySlug = $this->oUtil->sanitizeSlug( $sTaxonomySlug );
-        $this->oProp->aTaxonomies[ $sTaxonomySlug ] = $aArgs;    
-        if ( isset( $aArgs['show_table_filter'] ) && $aArgs['show_table_filter'] ) {
+        $sTaxonomySlug  = $this->oUtil->sanitizeSlug( $sTaxonomySlug );
+        $aArgs          = $aArgs + array(
+            'show_table_filter'     => null,
+            'show_in_sidebar_menus' => null,
+        ) ;
+        $this->oProp->aTaxonomies[ $sTaxonomySlug ] = $aArgs;
+        
+        if ( $aArgs['show_table_filter'] ) {
             $this->oProp->aTaxonomyTableFilters[] = $sTaxonomySlug;
         }
-        if ( isset( $aArgs['show_in_sidebar_menus'] ) && ! $aArgs['show_in_sidebar_menus'] ) {
+        if ( ! $aArgs['show_in_sidebar_menus'] ) {
             $this->oProp->aTaxonomyRemoveSubmenuPages[ "edit-tags.php?taxonomy={$sTaxonomySlug}&amp;post_type={$this->oProp->sPostType}" ] = "edit.php?post_type={$this->oProp->sPostType}";
         }
+
+        $_aExistingObjectTypes = $this->oUtil->getElementAsArray(
+            $this->oProp->aTaxonomyObjectTypes,
+            $sTaxonomySlug,
+            array()
+        );
         
-        $_aExistingObjectTypes = isset( $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] ) && is_array( $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] )
-            ? $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] 
-            : array();
         $aAdditionalObjectTypes = array_merge( $_aExistingObjectTypes, $aAdditionalObjectTypes );
         $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] = array_unique( $aAdditionalObjectTypes );
 
         // Set up hooks. If the 'init' hook is already done, register it now.
-        if ( did_action( 'init' ) ) {
-            $this->_registerTaxonomy( $sTaxonomySlug, $aAdditionalObjectTypes, $aArgs );
-        } else {
-            if ( 1 == count( $this->oProp->aTaxonomies ) ) {
-                add_action( 'init', array( $this, '_replyToRegisterTaxonomies' ) ); // the hook should not be admin_init because taxonomies need to be accessed in regular pages.
-            }
-        }
-        
-        if ( did_action( 'admin_menu' ) ) {
-            $this->_replyToRemoveTexonomySubmenuPages();
-        } else {
-            if ( 1 == count( $this->oProp->aTaxonomyRemoveSubmenuPages ) ) {
-                add_action( 'admin_menu', array( $this, '_replyToRemoveTexonomySubmenuPages' ), 999 ); 
-            }
-        }
-    
+        $this->_addTaxonomy_setUpHooks( 
+            $sTaxonomySlug, 
+            $aArgs,
+            $aAdditionalObjectTypes
+        );
+
     }    
+        /**
+         * Sets up hooks for adding taxonomies.
+         * 
+         * @remark      assumes to be called from the `addTaxonomy()` method.
+         * @since       3.5.3
+         * @return      void
+         * @internal
+         */
+        private function _addTaxonomy_setUpHooks( $sTaxonomySlug, array $aArgs, array $aAdditionalObjectTypes ) {
+                
+            if ( did_action( 'init' ) ) {
+                $this->_registerTaxonomy( $sTaxonomySlug, $aAdditionalObjectTypes, $aArgs );
+            } else {
+                if ( 1 == count( $this->oProp->aTaxonomies ) ) {
+                    add_action( 'init', array( $this, '_replyToRegisterTaxonomies' ) ); // the hook should not be admin_init because taxonomies need to be accessed in regular pages.
+                }
+            }
+            
+            if ( did_action( 'admin_menu' ) ) {
+                $this->_replyToRemoveTexonomySubmenuPages();
+            } else {
+                if ( 1 == count( $this->oProp->aTaxonomyRemoveSubmenuPages ) ) {
+                    add_action( 'admin_menu', array( $this, '_replyToRemoveTexonomySubmenuPages' ), 999 ); 
+                }
+            } 
+            
+        }
 
     /**
     * Sets whether the author drop-down filter is enabled/disabled in the post type post list table.
