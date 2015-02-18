@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -25,7 +25,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
      * @internal
      * @remark      Make sure to call the parent construct first as the factory router need to set up sub-class objects.
      */
-    function __construct( $oProp ) {
+    public function __construct( $oProp ) {
                 
         parent::__construct( $oProp );
         
