@@ -102,7 +102,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
         // Set the option array - the framework will refer to this data when displaying the fields.
         $this->_setOptionArray( 
             $this->_getPostID(),
-            $this->oForm->aConditionedFields 
+            $this->oUtil->getAsArray( $this->oForm->aConditionedFields )
         ); 
         
         // Add the repeatable section elements to the fields definition array.
@@ -155,43 +155,68 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * This array will be referred later in the getFieldOutput() method.
      * 
      * @since       unknown
-     * @since       3.0.0     the scope is changed to protected as the taxonomy field class redefines it.
+     * @since       3.0.0       the scope is changed to protected as the taxonomy field class redefines it.
+     * @sicne       3.5.3       Removed a type check at the beginning of the method and added a type hint to the parameter. 
+     * This change enables an empty value to be parsed and triggers `options_{class name}` filter hook. Before this change if the option is empty, the hook did not get triggered.
      * @internal    
      * @todo        Add the `options_{instantiated class name}` filter.
      */
-    protected function _setOptionArray( $iPostID, $aFields ) {
+    protected function _setOptionArray( $iPostID, array $aFields ) {
         
-        if ( ! is_array( $aFields ) ) { 
-            return; 
-        }        
-        if ( ! is_numeric( $iPostID ) || ! is_int( $iPostID + 0 ) ) { 
+        if ( ! $this->oUtil->isNumericInteger( $iPostID ) ) {
             return; 
         }
         
-        $this->oProp->aOptions = is_array( $this->oProp->aOptions ) ? $this->oProp->aOptions : array();
-        foreach( $aFields as $_sSectionID => $_aFields ) {
-            
-            if ( '_default' == $_sSectionID  ) {
-                foreach( $_aFields as $_aField ) {
-                    $this->oProp->aOptions[ $_aField['field_id'] ] = get_post_meta( $iPostID, $_aField['field_id'], true );    
-                }
-            }
-            $this->oProp->aOptions[ $_sSectionID ] = get_post_meta( $iPostID, $_sSectionID, true );
-            
-        }
-        
+        $this->oProp->aOptions = $this->oUtil->getAsArray( $this->oProp->aOptions );
+        $this->_fillOptionsArrayFromPostMeta( 
+            $this->oProp->aOptions, 
+            $iPostID, 
+            $aFields
+        );
+          
         // Apply the filter to let third party scripts to set own options array.
-        $this->oProp->aOptions = AdminPageFramework_WPUtility::addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+        $this->oProp->aOptions = $this->oUtil->addAndApplyFilter( 
             $this, // the caller object
-            'options_' . $this->oProp->sClassName, // options_{instantiated class name}
+            'options_' . $this->oProp->sClassName, 
             $this->oProp->aOptions
         );
         
-        $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] ? $this->oProp->aLastInput : array();
-        $this->oProp->aOptions = $_aLastInput + AdminPageFramework_WPUtility::getAsArray( $this->oProp->aOptions );
+        $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] 
+            ? $this->oProp->aLastInput 
+            : array();
+        $this->oProp->aOptions = $_aLastInput + $this->oUtil->getAsArray( $this->oProp->aOptions );
 
     }
-    
+        /**
+         * Updates the first parameter of the options array with the post meta data associated with the given post ID.
+         * 
+         * @since       3.5.3
+         * @return      void
+         * @internal
+         */
+        private function _fillOptionsArrayFromPostMeta( array &$aOptions, $iPostID, array $aFields ) {
+      
+            foreach( $aFields as $_sSectionID => $_aFields ) {
+                
+                if ( '_default' == $_sSectionID  ) {
+                    foreach( $_aFields as $_aField ) {
+                        $aOptions[ $_aField['field_id'] ] = get_post_meta( 
+                            $iPostID, 
+                            $_aField['field_id'], 
+                            true 
+                        );    
+                    }
+                }
+                $aOptions[ $_sSectionID ] = get_post_meta( 
+                    $iPostID, 
+                    $_sSectionID, 
+                    true 
+                );
+                
+            }
+      
+        }
+        
     /**
      * Returns the filtered section description output.
      * 
@@ -221,8 +246,12 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
     public function _replyToFilterSavingData( $aPostData, $aUnmodified ) {
 
         // Perform initial checks.
-        if ( 'auto-draft' === $aUnmodified['post_status'] ) { return $aPostData; }
-        if ( ! $this->_validateCall() ) { return $aPostData; }
+        if ( 'auto-draft' === $aUnmodified['post_status'] ) { 
+            return $aPostData; 
+        }
+        if ( ! $this->_validateCall() ) { 
+            return $aPostData; 
+        }
         if ( ! in_array( $aUnmodified['post_type'], $this->oProp->aPostTypes ) ) {
             return $aPostData;
         }  
