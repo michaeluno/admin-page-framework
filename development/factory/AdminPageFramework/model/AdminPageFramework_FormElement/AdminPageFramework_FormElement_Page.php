@@ -58,7 +58,6 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * @since       3.0.0
      */
     public function isPageAdded( $sPageSlug ) {
-
         foreach( $this->aSections as $_sSectionID => $_aSection ) {
             if ( 
                 isset( $_aSection['page_slug'] ) 
@@ -68,7 +67,6 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
             }
         }
         return false;
-        
     }
     
     /**
@@ -76,13 +74,11 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * 
      * @since       3.0.0
      */
-    public function getFieldsByPageSlug( $sPageSlug, $sTabSlug='' ) {
-        
+    public function getFieldsByPageSlug( $sPageSlug, $sTabSlug='' ) { 
         return $this->castArrayContents( 
             $this->getSectionsByPageSlug( $sPageSlug, $sTabSlug ), 
             $this->aFields
         );
-        
     }
     
     /**
@@ -92,20 +88,15 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
     public function getSectionsByPageSlug( $sPageSlug, $sTabSlug='' ) {
         
         $_aSections = array();
-        foreach( $this->aSections as $_sSecitonID => $_aSection ) {
-            
+        foreach( $this->aSections as $_sSecitonID => $_aSection ) {    
             if ( $sTabSlug && $_aSection['tab_slug'] != $sTabSlug ) { 
                 continue; 
-            }
-            
+            }      
             if ( $_aSection['page_slug'] != $sPageSlug ) { 
                 continue; 
             }
-            
-            $_aSections[ $_sSecitonID ] = $_aSection;
-                
-        }
-        
+            $_aSections[ $_sSecitonID ] = $_aSection;     
+        } 
         uasort( $_aSections, array( $this, '_sortByOrder' ) ); 
         return $_aSections;
     }
@@ -187,6 +178,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * Returns the formatted section array.
      * 
      * @since       3.0.0
+     * @return      array       The formatted section definition array.
      */
     protected function formatSection( array $aSection, $sFieldsType, $sCapability, $iCountOfElements ) {
         
@@ -289,22 +281,22 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * The other pages' option data will not be contained in the returning array.
      * This is used to pass the old option array to the validation callback method.
      * 
-     * @since 2.0.0
-     * @since 3.0.0 Moved from the settings class.
-     * @remark Consider the possibility that page meta box's values are included in the $aOptions array. So rather than storing the page-matching elements, drop the unmatched elements
+     * @since       2.0.0
+     * @since       3.0.0     Moved from the settings class.
+     * @remark      Consider the possibility that page meta box's values are included in the `$aOptions` array. 
+     * So rather than storing the page-matching elements, drop the unmatched elements
      * so that the externally injected options will be respected.
-     * @return array     the stored options of the given page slug. If not found, an empty array will be returned.
+     * @return      array     the stored options of the given page slug. If not found, an empty array will be returned.
      */ 
     public function getPageOptions( $aOptions, $sPageSlug ) {
-
         $_aOtherPageOptions = $this->getOtherPageOptions( $aOptions, $sPageSlug );
         return $this->invertCastArrayContents( $aOptions, $_aOtherPageOptions );   
-        
     }
+    
     /**
      * Retrieves the saved options of the given page slug.  
      * 
-     * This is a stricter version of the getPageOptions() method.
+     * This is a stricter version of the `getPageOptions()` method.
      * This method does not respect the injected elements by the page meta box class.
      * 
      * @since       3.0.0
@@ -313,7 +305,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
     public function getPageOnlyOptions( $aOptions, $sPageSlug ) {
 
         $_aStoredOptionsOfThePage = array();
-        foreach( $this->aFields as $_sSectionID => $_aFields ) {
+        foreach( $this->aFields as $_sSectionID => $_aSubSectionsOrFields ) {
             
             // Check the section
             if ( ! $this->_isThisSectionSetToThisPage( $_sSectionID, $sPageSlug ) ) {
@@ -321,7 +313,27 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
             }
 
             // At this point, the element belongs the given page slug as the section is of the given page slug's.
-            foreach( $_aFields as $_sFieldID => $_aField ) {
+            $this->_setPageOnlyOptions( 
+                $_aStoredOptionsOfThePage,  // by reference - gets updated in the method.
+                $aOptions, 
+                $_aSubSectionsOrFields, 
+                $sPageSlug,
+                $_sSectionID
+            );
+ 
+        }
+        return $_aStoredOptionsOfThePage; 
+        
+    }
+        /**
+         * Updates the first parameter array holding page only options.
+         * 
+         * @since       3.5.3
+         * @return      void
+         * @internal
+         */
+        private function _setPageOnlyOptions( array &$_aStoredOptionsOfThePage, array $aOptions, array $_aSubSectionsOrFields, $sPageSlug, $_sSectionID ) {
+            foreach( $_aSubSectionsOrFields as $_sFieldID => $_aField ) {
                 
                 // If it's a sub-section array,
                 if ( $this->isNumericInteger( $_sFieldID ) ) {
@@ -334,7 +346,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
                 // At this point, a section is set.
                 
                 // @todo Examine whether this check can be removed 
-                // as the section that hods this field is already checked above outside the loop.                
+                // as the section that hods this field is already checked above outside this loop.
                 if ( $sPageSlug !== $_aField['page_slug'] ) { 
                     continue; 
                 }        
@@ -351,12 +363,8 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
                     $_aStoredOptionsOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
                 }
                     
-            }
-        
+            }            
         }
-        return $_aStoredOptionsOfThePage; 
-        
-    }
 
     /**
      * Retrieves the stored options excluding the key of the given page slug.
@@ -370,7 +378,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
     public function getOtherPageOptions( $aOptions, $sPageSlug ) {
 
         $_aStoredOptionsNotOfThePage = array();
-        foreach( $this->aFields as $_sSectionID => $_aFields ) {
+        foreach( $this->aFields as $_sSectionID => $_aSubSectionsOrFields ) {
             
             // Check the section
             if ( $this->_isThisSectionSetToThisPage( $_sSectionID, $sPageSlug ) ) {
@@ -378,7 +386,27 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
             }
         
             // At this point, the parsing element does not belong to the given page slug as the section does not ( as it is checked above ).
-            foreach( $_aFields as $_sFieldID => $_aField ) {
+            $this->_setOtherPageOptions( 
+                $_aStoredOptionsNotOfThePage, 
+                $aOptions, 
+                $_aSubSectionsOrFields, 
+                $sPageSlug 
+            );
+        
+        }  
+
+        return $_aStoredOptionsNotOfThePage;
+        
+    }
+        /**
+         * Updates the first parameter array holding the other page options.
+         * 
+         * @since       3.5.3
+         * @return      void
+         * @internal
+         */
+        private function _setOtherPageOptions( array &$_aStoredOptionsNotOfThePage, array $aOptions, array $_aSubSectionsOrFields, $sPageSlug ) {
+            foreach( $_aSubSectionsOrFields as $_sFieldID => $_aField ) {
 
                 // It's a sub-section array. 
                 if ( $this->isNumericInteger( $_sFieldID ) ) {
@@ -403,14 +431,8 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
                     $_aStoredOptionsNotOfThePage[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
                 }
                     
-            }
-        
-        }  
-
-        return $_aStoredOptionsNotOfThePage;
-        
-    }
-    
+            }            
+        }
     /**
      * Returns the options excluding the currently specified tab's sections and their fields.
      * 
@@ -440,6 +462,28 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
             }
             
             // At this point, the passed element belongs to the other tabs since the section of the given tab is skipped.
+            $this->_setOtherTabOptions( 
+                $_aStoredOptionsNotOfTheTab,
+                $aOptions, 
+                $_aSubSectionsOrFields, 
+                $_sSectionID
+            );
+ 
+        }
+                
+        return $_aStoredOptionsNotOfTheTab;
+        
+    }
+        /**
+         * Updates the first parameter array holding the other tab options.
+         * 
+         * @since       3.5.3
+         * @return      void
+         * @internal
+         */
+        private function _setOtherTabOptions( array &$_aStoredOptionsNotOfTheTab, array $aOptions, array $_aSubSectionsOrFields, $_sSectionID ) {
+            
+           // At this point, the passed element belongs to the other tabs since the section of the given tab is skipped.
             foreach ( $_aSubSectionsOrFields as $_isSubSectionIndexOrFieldID => $_aSubSectionOrField  ) {
                 
                 // If it's a sub section
@@ -450,7 +494,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
                         $_aStoredOptionsNotOfTheTab[ $_sSectionID ] = $aOptions[ $_sSectionID ];
                     }
                     continue;
-                    
+                  
                 }
                 
                 // Otherwise,
@@ -468,13 +512,9 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
                     $_aStoredOptionsNotOfTheTab[ $_aField['field_id'] ] = $aOptions[ $_aField['field_id'] ];
                 }
 
-            }
+            }            
+            
         }
-                
-        return $_aStoredOptionsNotOfTheTab;
-        
-    }
-    
     /**
      * Retrieves the stored options of the given tab slug.
      * 
@@ -482,8 +522,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
      * so that the externally injected options will be respected.
      * @since 3.0.0
      */
-    public function getTabOptions( $aOptions, $sPageSlug, $sTabSlug='' ) {
-        
+    public function getTabOptions( $aOptions, $sPageSlug, $sTabSlug='' ) {     
         $_aOtherTabOptions = $this->getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug );
         return $this->invertCastArrayContents( $aOptions, $_aOtherTabOptions );     
     }
@@ -511,6 +550,7 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
                 continue;
             }
             
+            // At this point, the parsing element is of the given page and the tab.
             $this->_setTabOnlyOptions( 
                 $_aStoredOptionsOfTheTab, // by reference, gets updated in the method
                 $aOptions,
@@ -531,7 +571,6 @@ class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement
          */
         private function _setTabOnlyOptions( array &$_aStoredOptionsOfTheTab, array $aOptions, array $_aSubSectionsOrFields, $_sSectionID ) {
             
-            // At this point, the element is of the given page and the tab.     
             foreach( $_aSubSectionsOrFields as $_sFieldID => $_aField ) {
                                 
                 // if it's a sub-section array.
