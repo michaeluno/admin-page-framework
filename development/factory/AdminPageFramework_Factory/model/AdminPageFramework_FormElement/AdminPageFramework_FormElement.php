@@ -22,7 +22,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
      * 
      * @since       2.0.0
      * @remark      Not for the user.
-     * @var         array       Holds array structure of form section.
+     * @var         array       Represents the array structure of form section.
      * @static
      * @internal
      */     
@@ -59,19 +59,19 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
      * @since       3.4.0
      */
     static public $_aStructure_CollapsibleArguments = array(
-        'title'                     => null,    // (string)  the section title will be assigned by default in the section formatting method.
-        'is_collapsed'              => true,    // (boolean) whether it is already collapsed or expanded
-        'toggle_all_button'         => null,    // (boolean|string|array) the position of where to display the toggle-all button that toggles the folding state of all collapsible sections. Accepts the following values. 'top-right', 'top-left', 'bottom-right', 'bottom-left'. If true is passed, the default 'top-right' will be used. To not to display, do not set any or pass `false` or `null`.
-        'collapse_others_on_expand' => true,    // (boolean) whether the other collapsible sections should be folded when the section is unfolded.
+        'title'                     => null,        // (string)  the section title will be assigned by default in the section formatting method.
+        'is_collapsed'              => true,        // (boolean) whether it is already collapsed or expanded
+        'toggle_all_button'         => null,        // (boolean|string|array) the position of where to display the toggle-all button that toggles the folding state of all collapsible sections. Accepts the following values. 'top-right', 'top-left', 'bottom-right', 'bottom-left'. If true is passed, the default 'top-right' will be used. To not to display, do not set any or pass `false` or `null`.
+        'collapse_others_on_expand' => true,        // (boolean) whether the other collapsible sections should be folded when the section is unfolded.
         'container'                 => 'sections'   // (string) the container element that collapsible styling gets applied to. Either 'sections' or 'section' is accepted.
     );
     
     /**
      * Represents the structure of the form field array.
      * 
-     * @since 2.0.0
-     * @remark Not for the user.
-     * @var array Holds array structure of form field.
+     * @since       2.0.0
+     * @remark      Not for the user.
+     * @var         array       Represents the array structure of form field.
      * @static
      * @internal
      */ 
@@ -190,7 +190,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
     /**
      * Adds the given section definition array to the form property.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function addSection( array $aSection ) {
         
@@ -209,14 +209,13 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
     /**
      * Removes a section definition array from the property by the given section ID.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function removeSection( $sSectionID ) {
         
         if ( '_default' === $sSectionID ){ 
             return; 
         }
-        
         unset( 
             $this->aSections[ $sSectionID ],
             $this->aFields[ $sSectionID ]
@@ -234,16 +233,18 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
     public function addField( $asField ) {
         
         if ( ! is_array( $asField ) ) {
-            $this->_sTargetSectionID = is_string( $asField ) 
-                ? $asField 
-                : $this->_sTargetSectionID;
+            $this->_sTargetSectionID = $this->getAOrB(
+                is_string( $asField ),
+                $asField,
+                $this->_sTargetSectionID
+            );
             return $this->_sTargetSectionID;
         }
         $_aField = $asField;
         $this->_sTargetSectionID = $this->getElement(
             $_aField,  // subject array
             'section_id', // key
-            $this->_sTargetSectionID      // default
+            $this->_sTargetSectionID // default
         );                               
             
         $_aField = $this->uniteArrays( 
@@ -253,7 +254,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
             + self::$_aStructure_Field
         );
         
-        // Requrired Keys
+        // Required Keys
         if ( ! isset( $_aField['field_id'], $_aField['type'] ) ) { 
             return null; 
         } 
@@ -304,13 +305,12 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
             // Check sub-sections.
             foreach ( $_aSubSectionsOrFields as $_sIndexOrFieldID => $_aSubSectionOrFields ) {
                 
-                if ( is_numeric( $_sIndexOrFieldID ) && is_int( $_sIndexOrFieldID + 0 ) ) { // means it's a sub-section
-                    
+                // if it's a sub-section
+                if ( $this->isNumericInteger( $_sIndexOrFieldID ) ) {
                     if ( array_key_exists( $sFieldID, $_aSubSectionOrFields ) ) {
                         unset( $this->aFields[ $_sSectionID ][ $_sIndexOrFieldID ] );
                     }
                     continue;
-                    
                 }
                 
             }
@@ -333,9 +333,9 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
     /**
      * Formats the stored sections definition array.
      * 
-     * @since 3.0.0
-     * @since 3.1.1 Added a parameter. Changed to return the formatted sections array.
-     * @return array    the formatted sections array.
+     * @since       3.0.0
+     * @since       3.1.1    Added a parameter. Changed to return the formatted sections array.
+     * @return      array    the formatted sections array.
      */
     public function formatSections( array $aSections, $sFieldsType, $sCapability ) {
 
@@ -376,7 +376,11 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
                 self::$_aStructure_Section
             );
                 
-            $aSection['order'] = is_numeric( $aSection['order'] ) ? $aSection['order'] : $iCountOfElements + 10;
+            $aSection['order'] = $this->getAOrB(
+                is_numeric( $aSection['order'] ),
+                $aSection['order'],
+                $iCountOfElements + 10
+            );
             
             // 3.4.0+
             if ( empty( $aSection['collapsible'] ) ) {
@@ -388,7 +392,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
                 $aSection['collapsible']['toggle_all_button'] = implode( ',', $this->getAsArray( $aSection['collapsible']['toggle_all_button'] ) );
             }
             
-            // 3.5.2+ Accept a string value set to the 'class' elemnet.
+            // 3.5.2+ Accept a string value set to the 'class' element.
             $aSection['class'] = is_array( $aSection['class'] ) 
                 ? $aSection['class']
                 : $this->getAsArray( $aSection['class'] );
@@ -415,15 +419,17 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
 
             $_aNewFields[ $_sSectionID ] = $this->getElementAsArray( $_aNewFields, $_sSectionID, array() );
             
-            // If there are sub-section items.
+            // If there are sub-section items,
             $_abSectionRepeatable = $this->aSections[ $_sSectionID ]['repeatable']; // a setting array or boolean or true/false
-            if ( count( $this->getIntegerKeyElements( $_aSubSectionsOrFields ) ) || $_abSectionRepeatable ) { // if sub-section exists or repeatable
+            
+            // If sub-section exists or repeatable,
+            if ( count( $this->getIntegerKeyElements( $_aSubSectionsOrFields ) ) || $_abSectionRepeatable ) { 
                                  
                 foreach( $this->numerizeElements( $_aSubSectionsOrFields ) as $_iSectionIndex => $_aFields ) {
                                   
                     foreach( $_aFields as $_aField ) {
                         $_iCountElement = count( $this->getElementAsArray( $_aNewFields, array( $_sSectionID, $_iSectionIndex ), array() ) );
-                        $_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, $_iSectionIndex, $_abSectionRepeatable, $this->oCaller );
+                        $_aField        = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, $_iSectionIndex, $_abSectionRepeatable, $this->oCaller );
                         if ( ! empty( $_aField ) ) {
                             $_aNewFields[ $_sSectionID ][ $_iSectionIndex ][ $_aField['field_id'] ] = $_aField;
                         }
@@ -441,7 +447,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
                 
                 // Insert the formatted field definition array. The fields count is needed to set each order value.
                 $_iCountElement = count( $this->getElementAsArray( $_aNewFields, $_sSectionID, array() ) ); 
-                $_aField = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, null, $_abSectionRepeatable, $this->oCaller );
+                $_aField        = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, null, $_abSectionRepeatable, $this->oCaller );
                 if ( ! empty( $_aField ) ) {
                     $_aNewFields[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
                 }
@@ -460,7 +466,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
         /**
          * Sorts fields by section order.
          * 
-         * Assumes the setiodns are formatted already.
+         * Assumes the sections are formatted already.
          * 
          * @since       3.5.3
          * @return      void
@@ -520,7 +526,11 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
                         : $_aField['description'] 
                 )
             ) );
-            $_aField['order']       = is_numeric( $_aField['order'] ) ? $_aField['order'] : $iCountOfElements + 10;
+            $_aField['order']       = $this->getAOrB(
+                is_numeric( $_aField['order'] ),
+                $_aField['order'],
+                $iCountOfElements + 10
+            );
                         
             return $_aField;
             
@@ -542,16 +552,17 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
     /**
      * Returns a sections-array by applying the conditions.
      * 
-     * It will internally sets the $aConditionedSections array property.
-     * 
-     * @since 3.0.0
+     * @remark      Updates the `$aConditionedSections` array property.
+     * @since       3.0.0
+     * @since       3.5.3       Added a type hint and changed the default value to array from null.
+     * @return      array       The conditioned sections array.
      */
-    public function getConditionedSections( $aSections=null ) {
+    public function getConditionedSections( array $aSections=array() ) {
         
         $_aNewSections  = array();
         foreach( $aSections as $_sSectionID => $_aSection ) {
             $_aSection = $this->getConditionedSection( $_aSection );
-            if ( $_aSection ) {
+            if ( ! empty( $_aSection ) ) {
                 $_aNewSections[ $_sSectionID ] = $_aSection;
             }
         }        
@@ -564,16 +575,18 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
          * 
          * This method is meant to be overridden in the extended class to have more customized conditions.
          * 
-         * @since 3.0.0
+         * @since       3.0.0
+         * @since       3.5.3       Changed the return type to only array from array|null.
+         * @return      array       The filtered section array.
          */
         protected function getConditionedSection( array $aSection ) {
             
             // Check capability. If the access level is not sufficient, skip.
             if ( ! current_user_can( $aSection['capability'] ) ) { 
-                return; 
+                return array();
             }
             if ( ! $aSection['if'] ) { 
-                return; 
+                return array(); 
             }
             
             return $aSection;
@@ -593,13 +606,39 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
 
         // Drop keys of fields-array which do not exist in the sections-array. 
         // For this reasons, the sections-array should be conditioned first before applying this method.
-        $aFields    = ( array ) $this->castArrayContents( $aSections, $aFields );
+        $aFields    = $this->castArrayContents( $aSections, $aFields );
 
         $_aNewFields = array();
         foreach( $aFields as $_sSectionID => $_aSubSectionOrFields ) {
             
-            if ( ! is_array( $_aSubSectionOrFields ) ) { continue; }
-            if ( ! array_key_exists( $_sSectionID, $aSections ) ) { continue; }
+            // This type check is important as the parsing field array is content-cast, which can set null value to elements.
+            if ( ! is_array( $_aSubSectionOrFields ) ) { 
+                continue; 
+            }
+            
+            // @deprecated      3.5.3+      This check is redundant a s the parsing fields array is content-cast and the key that resulted from the model array always exists
+            // if ( ! array_key_exists( $_sSectionID, $aSections ) ) { continue; }
+            
+            $this->_setConditionedFields( 
+                $_aNewFields,   // by reference - gets updated in the method.
+                $_aSubSectionOrFields, 
+                $_sSectionID
+            );
+      
+        }
+                
+        $this->aConditionedFields = $_aNewFields;
+        return $_aNewFields;
+        
+    }     
+        /**
+         * Updates the given array of conditioned fields.
+         * 
+         * @since       3.5.3
+         * @internal
+         * @return      void
+         */
+        private function _setConditionedFields( array &$_aNewFields, $_aSubSectionOrFields, $_sSectionID ) {
             
             foreach( $_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
                 
@@ -609,7 +648,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
                     $_aFields           = $_aSubSectionOrField;
                     foreach( $_aFields as $_aField ) {
                         $_aField = $this->getConditionedField( $_aField );
-                        if ( ! is_null( $_aField ) ) {
+                        if ( ! empty( $_aField ) ) {
                             $_aNewFields[ $_sSectionID ][ $_sSubSectionIndex ][ $_aField['field_id'] ] = $_aField;
                         }
                     }
@@ -620,30 +659,31 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
                 // Otherwise, insert the formatted field definition array.
                 $_aField = $_aSubSectionOrField;
                 $_aField = $this->getConditionedField( $_aField );
-                if ( ! is_null( $_aField ) ) {
+                if ( ! empty( $_aField ) ) {
                     $_aNewFields[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
                 }
                 
-            }
+            }            
             
         }
-                
-        $this->aConditionedFields = $_aNewFields;
-        return $_aNewFields;
-        
-    }     
         /**
          * Returns the field definition array by applying conditions. 
          * 
          * This method is intended to be extended to let the extended class customize the conditions.
          * 
-         * @since 3.0.0
+         * @since       3.0.0
+         * @since       3.5.3       Added a type hint to the parameter. Changed the return type to only array from null|array.
+         * @return      array       The filtered field definition array.
          */
-        protected function getConditionedField( $aField ) {
+        protected function getConditionedField( array $aField ) {
             
             // Check capability. If the access level is not sufficient, skip.
-            if ( ! current_user_can( $aField['capability'] ) ) { return null; }
-            if ( ! $aField['if'] ) { return null; }
+            if ( ! current_user_can( $aField['capability'] ) ) { 
+                return array();
+            }
+            if ( ! $aField['if'] ) { 
+                return array(); 
+            }
             return $aField;
             
         }
@@ -668,7 +708,10 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
             
             $_aSubSection = $this->_getSubSectionFromOptions(   
                 $_sSectionID,
-                $this->getAsArray( $_aSubSectionOrFields )  // a sub-section or fields extracted from the saved options array
+                // Content-cast array elements (done with castArrayContents()) can be null so make sure to have it an array
+                $this->getAsArray( 
+                    $_aSubSectionOrFields   // a sub-section or fields extracted from the saved options array
+                )  
             );
 
             if ( empty( $_aSubSection ) ) {
