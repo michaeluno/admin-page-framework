@@ -1,11 +1,11 @@
 <?php 
 /**
-	Admin Page Framework v3.5.3b40 by Michael Uno 
+	Admin Page Framework v3.5.3b41 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.5.3b40';
+    const VERSION = '3.5.3b41';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
@@ -181,20 +181,21 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         if (!$_bHasFieldErrors && isset($_POST['__export']['submit'])) {
             exit($this->_exportOptions($this->oProp->aOptions, $_sPageSlug, $_sTabSlug));
         }
-        if ($_sKeyToReset) {
-            $aInput = $this->_resetOptions($_sKeyToReset, $aInput);
-        }
+        $aInput = $this->_resetOptions($_sKeyToReset, $aInput);
         if (!$_bHasFieldErrors && $_bConfirmingToSendEmail) {
             $this->_setLastInput($aInput);
             $this->oProp->_bDisableSavingOptions = true;
             $aStatus = $aStatus + array('confirmation' => 'email');
             return $this->_confirmSubmitButtonAction($_sPressedInputName, $_sSubmitSectionID, 'email');
         }
-        if (!$this->hasSettingNotice()) {
-            $_bEmpty = empty($aInput);
-            $this->setSettingNotice($_bEmpty ? $this->oMsg->get('option_cleared') : $this->oMsg->get('option_updated'), $_bEmpty ? 'error' : 'updated', $this->oProp->sOptionKey, false);
-        }
+        $this->_setSettingNoticeAfterValidation(empty($aInput));
         return $aInput;
+    }
+    private function _setSettingNoticeAfterValidation($bIsInputEmtpy) {
+        if ($this->hasSettingNotice()) {
+            return;
+        }
+        $this->setSettingNotice($this->oUtil->getAOrB($bIsInputEmtpy, $this->oMsg->get('option_cleared'), $this->oMsg->get('option_updated')), $this->oUtil->getAOrB($bIsInputEmtpy, 'error', 'updated'), $this->oProp->sOptionKey, false);
     }
     public function _replyToRemoveConfirmationQueryKey($sSettingUpdateURL) {
         return remove_query_arg(array('confirmation',), $sSettingUpdateURL);
@@ -209,7 +210,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         $_bIsSet = $this->oUtil->setTransient($_sTransientKey, $_aFormEmailData, 100);
         wp_remote_get(add_query_arg(array('apf_action' => 'email', 'transient' => $_sTransientKey,), admin_url($GLOBALS['pagenow'])), array('timeout' => 0.01, 'sslverify' => false,));
         $_bSent = $_bIsSet;
-        $this->setSettingNotice($this->oMsg->get($_bSent ? 'email_scheduled' : 'email_could_not_send'), $_bSent ? 'updated' : 'error');
+        $this->setSettingNotice($this->oMsg->get($this->oUtil->getAOrB($_bSent, 'email_scheduled', 'email_could_not_send')), $this->oUtil->getAOrB($_bSent, 'updated', 'error'));
     }
     private function _confirmSubmitButtonAction($sPressedInputName, $sSectionID, $sType = 'reset') {
         switch ($sType) {
@@ -237,14 +238,20 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         return $this->oProp->aOptions;
     }
     private function _resetOptions($sKeyToReset, $aInput) {
+        $sKeyToReset = trim($sKeyToReset);
+        if (!$sKeyToReset) {
+            return $aInput;
+        }
         if (!$this->oProp->sOptionKey) {
             return array();
         }
-        if (1 == $sKeyToReset || true === $sKeyToReset) {
+        if (in_array($sKeyToReset, array('1',), true)) {
             delete_option($this->oProp->sOptionKey);
             return array();
         }
-        unset($this->oProp->aOptions[trim($sKeyToReset) ], $aInput[trim($sKeyToReset) ]);
+        $_aDimensionalKeys = explode('|', $sKeyToReset);
+        $this->oUtil->unsetDimensionalArrayElement($this->oProp->aOptions, $_aDimensionalKeys);
+        $this->oUtil->unsetDimensionalArrayElement($aInput, $_aDimensionalKeys);
         update_option($this->oProp->sOptionKey, $this->oProp->aOptions);
         $this->setSettingNotice($this->oMsg->get('specified_option_been_deleted'));
         return $aInput;
@@ -4071,7 +4078,19 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         }
         return $vDefault;
     }
-    public static function setMultiDimensionalArray(&$mSubject, array $aKeys, $mValue) {
+    static public function unsetDimensionalArrayElement(&$mSubject, array $aKeys) {
+        $_sKey = array_shift($aKeys);
+        if (!empty($aKeys)) {
+            if (isset($mSubject[$_sKey]) && is_array($mSubject[$_sKey])) {
+                self::unsetDimensionalArrayElement($mSubject[$_sKey], $aKeys);
+            }
+            return;
+        }
+        if (is_array($mSubject)) {
+            unset($mSubject[$_sKey]);
+        }
+    }
+    static public function setMultiDimensionalArray(&$mSubject, array $aKeys, $mValue) {
         $_sKey = array_shift($aKeys);
         if (!empty($aKeys)) {
             if (!isset($mSubject[$_sKey]) || !is_array($mSubject[$_sKey])) {
