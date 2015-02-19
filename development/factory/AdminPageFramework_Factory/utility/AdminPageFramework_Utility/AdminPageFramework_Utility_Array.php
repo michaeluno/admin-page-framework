@@ -342,11 +342,59 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }    
     
     /**
+     * Unsets an element of a multi-dimensional array by the given keys.
+     * 
+     * <code>
+     * $a = array(
+     *  'a' => array(
+     *      'b' => array(
+     *          'c' => array(
+     *              'd' => array(
+     *                  'e' => 'eee',
+     *              ),
+     *          ),
+     *      ),
+     *  ),
+     *  );
+     *  $aKeys = array( 'a', 'b', 'c' );
+     *  unsetDimensionalArrayElement( $a, $aKeys );
+     *  var_dump( $a );
+     * </code>
+     * Will produce
+     * <code>
+     * array(
+     *  'a' => array(
+     *      'b' => array(
+     *      )
+     *  )
+     * )
+     * </code>
+     * 
+     * @remark      Introduced for reseeting options with dimentional keys.
+     * @since       3.5.3
+     * @return      void
+     */
+    static public function unsetDimensionalArrayElement( &$mSubject, array $aKeys ) {
+        
+            $_sKey = array_shift( $aKeys );
+            if ( ! empty( $aKeys ) ) {
+                if ( isset( $mSubject[ $_sKey ] ) && is_array( $mSubject[ $_sKey ] ) ) {
+                    self::unsetDimensionalArrayElement( $mSubject[ $_sKey ], $aKeys );
+                }
+                return;            
+            }
+            if ( is_array( $mSubject ) ) {
+                unset( $mSubject[ $_sKey ] );
+            }
+        
+    }
+    
+    /**
      * Sets a dimensional array value by dimensional array keys.
      * @since       3.5.3
      * @return      void
      */
-    public static function setMultiDimensionalArray( &$mSubject, array $aKeys, $mValue ) {
+    static public function setMultiDimensionalArray( &$mSubject, array $aKeys, $mValue ) {
 
         $_sKey = array_shift( $aKeys );
         if ( ! empty( $aKeys ) ) {

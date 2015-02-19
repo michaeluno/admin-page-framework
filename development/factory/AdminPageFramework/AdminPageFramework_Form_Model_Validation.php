@@ -281,8 +281,6 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
      * @since       2.0.0
      * @since       3.3.0       Changed the name from _doValidationCall(). The input array is passed by reference and returns the status array.
      * @access      protected
-     * @remark      This method is not intended for the users to use.
-     * @remark      the scope must be protected to be accessed from the extended class. The <em>AdminPageFramework</em> class uses this method in the overloading <em>__call()</em> method.
      * @param       array       $aInput     The submitted form user input data merged with the default option values. The variable contents will be validated and merged with the original saved options.
      * @param       array       $aInputRaw  The submitted form user input data as a row array.
      * @param       array       $aOptions   The stored options (input) data.
@@ -292,7 +290,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
      */ 
     protected function _validateSubmittedData( $aInput, $aInputRaw, $aOptions, &$aStatus ) {
 
-        // 1. Set up local variables.
+        // 1. Local Variables
         
         // no need to retrieve the default tab slug here because it's an embedded value that is already set in the previous page. 
         $_sTabSlug  = $this->oUtil->getElement( $_POST, 'tab_slug', '' );
@@ -317,7 +315,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             'field_id'      => $this->_getPressedSubmitButtonData( $_aSubmit, 'field_id' ),
         );
         
-        // 2. Custom submit actions [part 1]
+        // 2. Pre Submit Actions (before form validation)
         // Check if the sending email is confirmed - this should be done before the redirect because the user may set a redirect and email. In that case, send the email first and redirect to the set page.
         if ( $_bConfirmedToSendEmail ) {
             // @todo Consider passing $aInput rather than $aInputRaw.
@@ -346,7 +344,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             $this->_setRedirectTransients( $_sRedirectURL, $_sPageSlug );
         }
     
-        // 3. Validate the submitted input data 
+        // 3. Form Validation
         $aInput           = $this->_getFilteredOptions( 
             $aInput, 
             $aInputRaw, 
@@ -360,7 +358,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         } 
                
    
-        /* 4. Custom submit actions [part 2] - these should be done after applying the filters. */
+        // 4. Post Submit Actions (after form validation)
         
         // Import - moved to after the validation callbacks (3.4.6+)
         if ( ! $_bHasFieldErrors && isset( $_POST['__import']['submit'], $_FILES['__import'] ) ) {
@@ -372,10 +370,8 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             exit( $this->_exportOptions( $this->oProp->aOptions, $_sPageSlug, $_sTabSlug ) );     
         }
         
-        // Reset
-        if ( $_sKeyToReset ) {
-            $aInput = $this->_resetOptions( $_sKeyToReset, $aInput );
-        }
+        // Reset - if the key to reset is not specified, it does nothing.
+        $aInput = $this->_resetOptions( $_sKeyToReset, $aInput );
                 
         // Email
         if ( ! $_bHasFieldErrors && $_bConfirmingToSendEmail ) {
@@ -385,22 +381,32 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             return $this->_confirmSubmitButtonAction( $_sPressedInputName, $_sSubmitSectionID, 'email' );            
         }        
         
-        // 5. Set the admin notice.
-        if ( ! $this->hasSettingNotice() ) {     
-            $_bEmpty = empty( $aInput );
-            $this->setSettingNotice( 
-                $_bEmpty ? $this->oMsg->get( 'option_cleared' ) : $this->oMsg->get( 'option_updated' ), 
-                $_bEmpty ? 'error' : 'updated', 
-                $this->oProp->sOptionKey, // the id
-                false // do not override
-            );
-        }
-        
-        // 6. Return
+        // 5. Admin Notice & Return
+        $this->_setSettingNoticeAfterValidation( empty( $aInput ) );
         return $aInput;
         
     }
-    
+        /**
+         * Sets a setting notice after form validation.
+         * 
+         * @since       3.5.3
+         * @internal
+         * @return      void
+         */
+        private function _setSettingNoticeAfterValidation( $bIsInputEmtpy ) {
+         
+            if ( $this->hasSettingNotice() ) {     
+                return;
+            }
+            $this->setSettingNotice(  
+                $this->oUtil->getAOrB( $bIsInputEmtpy, $this->oMsg->get( 'option_cleared' ), $this->oMsg->get( 'option_updated' ) ),
+                $this->oUtil->getAOrB( $bIsInputEmtpy, 'error', 'updated' ),
+                $this->oProp->sOptionKey, // the id
+                false // do not override
+            );
+         
+        }
+        
         /**
          * Removes the 'confirmation' key in the query url.
          * 
@@ -415,7 +421,9 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
          * 
          * The email contents should be set with the form fields. 
          * 
-         * @since   3.3.0
+         * @since       3.3.0
+         * @remark      At the moment, it is not possible to tell whether it is sent or not 
+         * because it is performed in the background.
          */
         private function _sendEmailInBackground( $aInput, $sPressedInputNameFlat, $sSubmitSectionID ) {
             
@@ -457,15 +465,11 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 ) 
             );  
             
-            // not possible to tell whether it is sent or not at the moment because it is performed in the background.
+            // @remark      Not possible to tell whether it is sent or not at the moment because it is performed in the background.
             $_bSent      = $_bIsSet;    
             $this->setSettingNotice( 
-                $this->oMsg->get( 
-                    $_bSent 
-                        ? 'email_scheduled' 
-                        : 'email_could_not_send'
-                ),
-                $_bSent ? 'updated' : 'error'
+                $this->oMsg->get( $this->oUtil->getAOrB( $_bSent, 'email_scheduled', 'email_could_not_send' ) ),
+                $this->oUtil->getAOrB( $_bSent, 'updated', 'error' )
             );
         
         }   
@@ -520,12 +524,18 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         }
              
         /**
-         * Performs reset options.
+         * Performs resetting options.
          * 
-         * @since 2.1.2
-         * @remark $aInput has only the page elements that called the validation callback. In other words, it does not hold other pages' option keys.
+         * @since       2.1.2
+         * @remark      `$aInput` has only the page elements that called the validation callback. 
+         * In other words, it does not hold other pages' option keys.
          */
         private function _resetOptions( $sKeyToReset, $aInput ) {
+            
+            $sKeyToReset = trim( $sKeyToReset );
+            if ( ! $sKeyToReset ) {
+                return $aInput;
+            }
             
             // As of 3.1.0, an empty value is accepted for the option key.
             if ( ! $this->oProp->sOptionKey ) {
@@ -533,18 +543,21 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             }
             
             // The key to delete is not specified.
-            if ( 1 == $sKeyToReset || true === $sKeyToReset ) {
+            if ( in_array( $sKeyToReset, array( '1', ), true ) ) {
                 delete_option( $this->oProp->sOptionKey );
                 return array();
             }
             
             // The key to reset is specified.
-            // @todo: make it possible to specify a dimensional key.
-            unset( $this->oProp->aOptions[ trim( $sKeyToReset ) ], $aInput[ trim( $sKeyToReset ) ] );
+            $_aDimensionalKeys = explode( '|', $sKeyToReset );
+            $this->oUtil->unsetDimensionalArrayElement( $this->oProp->aOptions, $_aDimensionalKeys );
+            $this->oUtil->unsetDimensionalArrayElement( $aInput, $_aDimensionalKeys );
+          
             update_option( $this->oProp->sOptionKey, $this->oProp->aOptions );
             $this->setSettingNotice( $this->oMsg->get( 'specified_option_been_deleted' ) );
         
             return $aInput; // the returned array will be saved with the Settings API.
+            
         }
         
         /**

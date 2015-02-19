@@ -254,6 +254,38 @@ class APF_Demo_BuiltinFieldTypes_MISC {
                 ),
                 'description'   => __( 'If you press this button, a confirmation message will appear and then if you press it again, it resets the option.', 'admin-page-framework-demo' ),
             ),
+            array( // Reset Section
+                'field_id'      => 'submit_button_reset_section',
+                'title'         => __( 'Reset Section', 'admin-page-framework-demo' ),
+                'type'          => 'submit',
+                'label'         => __( 'Reset Section', 'admin-page-framework-demo' ),
+                'reset'         => 'color_picker',    // the section ID to reset 
+                'attributes'    => array(
+                    'class' => 'button button-secondary',
+                ),
+                'description'   => array( 
+                    __( 'To reset values of a section, set the section ID to the <code>reset</code> argument.', 'admin-page-framework-demo' ),
+                    __( 'As an example, this reset button rests the Color section above.', 'admin-page-framework-demo' ),
+                 ),
+            ),
+            array( // Reset Field
+                'field_id'      => 'submit_button_reset_field',
+                'title'         => __( 'Reset Field', 'admin-page-framework-demo' ),
+                'type'          => 'submit',
+                'label'         => __( 'Reset Field', 'admin-page-framework-demo' ),
+                'reset'         => array( 
+                    'color_picker',         // section ID   
+                    'color_picker_field'    // field ID to reset
+                ),
+                'attributes'    => array(
+                    'class' => 'button button-secondary',
+                ),
+                'description'   => array( 
+                    __( 'To reset a value of a particular field, set an array with the the section ID in the first element and field ID in the second element to the <code>reset</code> argument.', 'admin-page-framework-demo' ),
+                    __( 'If a field does not have a section, just set the field ID.', 'admin-page-framework-demo' ),
+                    __( 'As an example, this reset button rests the first item of the Color section above.', 'admin-page-framework-demo' ),
+                ),
+            ),            
             array( // with an image
                 'field_id'          => 'image_submit_button',
                 'title'             => __( 'Image Submit Button', 'admin-page-framework-demo' ),
