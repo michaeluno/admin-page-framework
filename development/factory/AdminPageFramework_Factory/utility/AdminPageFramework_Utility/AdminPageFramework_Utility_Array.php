@@ -462,16 +462,22 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     static public function getReadableArrayContents( $sKey, $vValue, $sLabelCharLengths=16, $iOffset=0 ) {
         
         $_aOutput   = array();
-        $_aOutput[] = ( $iOffset ? str_pad( ' ', $iOffset  ) : '' ) 
-            . ( $sKey ? '[' . $sKey . ']' : '' );
+        $_aOutput[] = ( $iOffset 
+                ? str_pad( ' ', $iOffset  ) 
+                : '' 
+            ) 
+            . ( $sKey 
+                ? '[' . $sKey . ']' 
+                : '' 
+            );
         
-        if ( ! is_array( $vValue ) && ! is_object( $vValue ) ) {
+        if ( ! in_array( gettype( $vValue ), array( 'array', 'object' ) ) ) {
             $_aOutput[] = $vValue;
-            return implode( PHP_EOL, $_aOutput );    
+            return implode( PHP_EOL, $_aOutput );                
         }
         
         foreach ( $vValue as $_sTitle => $_asDescription ) {
-            if ( ! is_array( $_asDescription ) && ! is_object( $_asDescription ) ) {
+            if ( ! in_array( gettype( $_asDescription ), array( 'array', 'object' ) ) ) {
                 $_aOutput[] = str_pad( ' ', $iOffset )
                     . $_sTitle 
                     . str_pad( ':', $sLabelCharLengths - self::getStringLength( $_sTitle ) )
