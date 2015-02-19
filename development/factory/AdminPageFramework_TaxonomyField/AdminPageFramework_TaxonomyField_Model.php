@@ -48,21 +48,13 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * </code>
      */
     public function _replyToManageColumns( $aColumns ) {
-
-        if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] ) {
-            $aColumns = $this->oUtil->addAndApplyFilter( 
-                $this, 
-                "columns_{$_GET['taxonomy']}", 
-                $aColumns
-            );
-        }
-        $aColumns = $this->oUtil->addAndApplyFilter( 
-            $this, 
-            "columns_{$this->oProp->sClassName}", 
-            $aColumns 
-        );
-        return $aColumns;
-        
+        return $this->_getFilteredColumnsByFilterPrefix( 
+            $this->oUtil->getAsArray( $aColumns ), 
+            'columns_', 
+            isset( $_GET['taxonomy'] )  // in ajax, $_GET is not even set.
+                ? $_GET['taxonomy']
+                : ''
+        );        
     }
     
     /**
@@ -73,22 +65,35 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
      */
     public function _replyToSetSortableColumns( $aSortableColumns ) {
-
-        if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] ) {
-            $aSortableColumns = $this->oUtil->addAndApplyFilter(
-                $this, 
-                "sortable_columns_{$_GET['taxonomy']}",
-                $aSortableColumns 
-            );
-        }
-        $aSortableColumns = $this->oUtil->addAndApplyFilter( 
-            $this, 
-            "sortable_columns_{$this->oProp->sClassName}",
-            $aSortableColumns 
+        return $this->_getFilteredColumnsByFilterPrefix( 
+            $this->oUtil->getAsArray( $aSortableColumns ), 
+            'sortable_columns_', 
+            isset( $_GET['taxonomy'] )  // in ajax, $_GET is not even set.
+                ? $_GET['taxonomy']
+                : ''
         );
-        return $aSortableColumns;
-        
     }   
+        /**
+         * Filters columns array by the given filter prefix.
+         * @since       3.5.3
+         * @return      array
+         */
+        private function _getFilteredColumnsByFilterPrefix( array $aColumns, $sFilterPrefix, $sTaxonomy ) {
+            
+            if ( $sTaxonomy ) {
+                $aColumns = $this->oUtil->addAndApplyFilter(
+                    $this, 
+                    "{$sFilterPrefix}{$_GET['taxonomy']}",
+                    $aColumns
+                );
+            }
+            return $this->oUtil->addAndApplyFilter( 
+                $this, 
+                "{$sFilterPrefix}{$this->oProp->sClassName}",
+                $aColumns
+            );
+        
+        }
    
     /**
      * Registers form fields and sections.
