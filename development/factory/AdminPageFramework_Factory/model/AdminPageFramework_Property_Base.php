@@ -434,7 +434,9 @@ abstract class AdminPageFramework_Property_Base {
      */
     protected function _getLastInput() {
         
-        $_vValue = $this->oUtil->getTransient( 'apf_tfd' . md5( 'temporary_form_data_' . $this->sClassName . get_current_user_id() ) );
+        $_sKey      = 'apf_tfd' . md5( 'temporary_form_data_' . $this->sClassName . get_current_user_id() );
+        $_vValue    = $this->oUtil->getTransient( $_sKey );
+        $this->oUtil->deleteTransient( $_sKey );
         if ( is_array( $_vValue ) ) {
             return $_vValue;
         }

@@ -3,7 +3,7 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.3
-Tested up to:       4.1.0
+Tested up to:       4.1.1
 Stable tag:         3.5.2
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
@@ -372,6 +372,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added a user meta factory class demo example.
 - Added the `validate()` and `content()` methods in the admin page factory class.
 - Added the fourth parameter to the `validate()` method of page meta box factory class to receive submit information.
+- Fixed a bug that invalid field values were stored when submitting the form multiple times using validation callback methods.
 - Fixed an issue in the loader plugin that after resetting the loader plugin options via the `Debug` tab, a warning 'You do not have sufficient permissions to access this page.' appeared.
 - Fixed an issue in the user meta factory class that a PHP notice, Trying to get property of non-object..., which appeared when creating a new user.
 - Fixed an issue that the `image` field type did not extend `AdminPageFramework_FieldType` but `AdminPageFramework_FieldType_Base`.
