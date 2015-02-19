@@ -19,7 +19,7 @@
  * @subpackage  Form
  * @internal
  */
-class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
+abstract class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
 
     /**
      * Stores the field definition array.
