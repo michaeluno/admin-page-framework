@@ -454,9 +454,11 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             
             // Retrieve the pressed button's associated submit field ID.
             $_aNameKeys = explode( '|', $sPressedInputName );    
-            $_sFieldID  = $sSectionID 
-                ? $_aNameKeys[ 2 ]  // OptionKey|section_id|field_id
-                : $_aNameKeys[ 1 ]; // OptionKey|field_id
+            $_sFieldID  = $this->oUtil->getAOrB(
+                $sSectionID,
+                $_aNameKeys[ 2 ], // OptionKey|section_id|field_id
+                $_aNameKeys[ 1 ]  // OptionKey|field_id
+            );
             
             // Set up the field error array to show a confirmation message just above the field besides the admin notice at the top of the page.
             $_aErrors = array();
@@ -520,9 +522,8 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
          * 
          * This method checks if the associated submit button is pressed with the input fields.
          * 
-         * @since   2.0.0
-         * @return  null|string Returns null if no button is found and the associated link url if found. Otherwise, the URL associated with the button.
-         * @remark  The structure of the $aPostElements array looks like this:
+         * @since       2.0.0
+         * @remark      The structure of the `$aPostElements` array looks like this:
          * <code>[submit_buttons_submit_button_field_0] => Array
          *      (
          *          [input_id] => submit_buttons_submit_button_field_0
@@ -540,26 +541,31 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
          *      )
          * </code>
          * The keys are the input id.
+         * @return      null|string     Returns `null` if no value is found and the associated link url if found. 
+         * Otherwise, the found value.
          */ 
-        private function _getPressedSubmitButtonData( $aPostElements, $sTargetKey='field_id' ) {    
+        private function _getPressedSubmitButtonData( array $aPostElements, $sTargetKey='field_id' ) {    
 
             foreach( $aPostElements as $_sInputID => $_aSubElements ) {
                 
-                // the 'name' key must be set.
+                // The 'name' key must be set.
+                if ( ! isset( $_aSubElements[ 'name' ] ) ) {
+                    continue;
+                }
                 $_aNameKeys = explode( '|', $_aSubElements[ 'name' ] ); 
                 
-                // The count of 4 means it's a single element. Count of 5 means it's one of multiple elements.
-                // The isset() checks if the associated button is actually pressed or not.
-                if ( count( $_aNameKeys ) == 2 && isset( $_POST[ $_aNameKeys[0] ][ $_aNameKeys[1] ] ) ) {
-                    return isset( $_aSubElements[ $sTargetKey ] ) ? $_aSubElements[ $sTargetKey ] :null;
+                // If the element is not found, skip.
+                if ( null === $this->oUtil->getElement( $_POST, $_aNameKeys, null ) ) {
+                    continue;
                 }
-                if ( count( $_aNameKeys ) == 3 && isset( $_POST[ $_aNameKeys[0] ][ $_aNameKeys[1] ][ $_aNameKeys[2] ] ) ) {
-                    return isset( $_aSubElements[ $sTargetKey ] ) ? $_aSubElements[ $sTargetKey ] :null;
-                }
-                if ( count( $_aNameKeys ) == 4 && isset( $_POST[ $_aNameKeys[0] ][ $_aNameKeys[1] ][ $_aNameKeys[2] ][ $_aNameKeys[3] ] ) ) {
-                    return isset( $_aSubElements[ $sTargetKey ] ) ? $_aSubElements[ $sTargetKey ] :null;
-                }
-                    
+                
+                // Return the associated value.
+                return $this->oUtil->getElement(
+                    $_aSubElements,
+                    $sTargetKey,
+                    null
+                );
+                
             }
             return null; // not found
             
