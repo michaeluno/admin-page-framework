@@ -1,11 +1,11 @@
 <?php 
 /**
-	Admin Page Framework v3.5.3b41 by Michael Uno 
+	Admin Page Framework v3.5.3b42 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.5.3b41';
+    const VERSION = '3.5.3b42';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
@@ -143,53 +143,128 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
     protected function _validateSubmittedData($aInput, $aInputRaw, $aOptions, &$aStatus) {
         $_sTabSlug = $this->oUtil->getElement($_POST, 'tab_slug', '');
         $_sPageSlug = $this->oUtil->getElement($_POST, 'page_slug', '');
-        $_aSubmit = $this->oUtil->getElement($_POST, '__submit', array());
+        $_aSubmit = $this->oUtil->getElementAsArray($_POST, '__submit', array());
         $_sPressedInputName = $this->_getPressedSubmitButtonData($_aSubmit, 'name');
-        $_bIsReset = ( bool )$this->_getPressedSubmitButtonData($_aSubmit, 'is_reset');
-        $_sKeyToReset = $this->_getPressedSubmitButtonData($_aSubmit, 'reset_key');
         $_sSubmitSectionID = $this->_getPressedSubmitButtonData($_aSubmit, 'section_id');
-        $_bConfirmingToSendEmail = ( bool )$this->_getPressedSubmitButtonData($_aSubmit, 'confirming_sending_email');
-        $_bConfirmedToSendEmail = ( bool )$this->_getPressedSubmitButtonData($_aSubmit, 'confirmed_sending_email');
         $_aSubmitInformation = array('page_slug' => $_sPageSlug, 'tab_slug' => $_sTabSlug, 'input_id' => $this->_getPressedSubmitButtonData($_aSubmit, 'input_id'), 'section_id' => $_sSubmitSectionID, 'field_id' => $this->_getPressedSubmitButtonData($_aSubmit, 'field_id'),);
-        if ($_bConfirmedToSendEmail) {
-            $this->_sendEmailInBackground($aInputRaw, $_sPressedInputName, $_sSubmitSectionID);
-            $this->oProp->_bDisableSavingOptions = true;
-            $this->oUtil->deleteTransient('apf_tfd' . md5('temporary_form_data_' . $this->oProp->sClassName . get_current_user_id()));
-            add_action("setting_update_url_{$this->oProp->sClassName}", array($this, '_replyToRemoveConfirmationQueryKey'));
-            return $aInputRaw;
+        try {
+            $this->_doContactForm($aInputRaw, $_aSubmit, $_sPressedInputName, $_sSubmitSectionID);
+            $this->_confirmReset($aStatus, $_aSubmit, $_sPressedInputName, $_sSubmitSectionID);
+            $this->_goToLink($_aSubmit);
+            $this->_setRedirect($aStatus, $_aSubmit, $_sPageSlug);
+            $aInput = $this->_getFilteredOptions($aInput, $aInputRaw, $aOptions, $_aSubmitInformation, $aStatus);
+            $this->_doImportOptions($_sPageSlug, $_sTabSlug);
+            $this->_doExportOptions($_sPageSlug, $_sTabSlug);
+            $this->_doResetOptions($_aSubmit, $aInput);
+            $this->_confirmContactForm($aStatus, $_aSubmit, $aInput, $_sPressedInputName, $_sSubmitSectionID);
         }
-        if ($_bIsReset) {
-            $aStatus = $aStatus + array('confirmation' => 'reset');
-            return $this->_confirmSubmitButtonAction($_sPressedInputName, $_sSubmitSectionID, 'reset');
-        }
-        if ($_sLinkURL = $this->_getPressedSubmitButtonData($_aSubmit, 'href')) {
-            exit(wp_redirect($_sLinkURL));
-        }
-        if ($_sRedirectURL = $this->_getPressedSubmitButtonData($_aSubmit, 'redirect_url')) {
-            $aStatus = $aStatus + array('confirmation' => 'redirect');
-            $this->_setRedirectTransients($_sRedirectURL, $_sPageSlug);
-        }
-        $aInput = $this->_getFilteredOptions($aInput, $aInputRaw, $aOptions, $_aSubmitInformation);
-        $_bHasFieldErrors = $this->hasFieldError();
-        if ($_bHasFieldErrors) {
-            $this->_setLastInput($aInputRaw);
-            $aStatus = $aStatus + array('field_errors' => $_bHasFieldErrors);
-        }
-        if (!$_bHasFieldErrors && isset($_POST['__import']['submit'], $_FILES['__import'])) {
-            return $this->_importOptions($this->oProp->aOptions, $_sPageSlug, $_sTabSlug);
-        }
-        if (!$_bHasFieldErrors && isset($_POST['__export']['submit'])) {
-            exit($this->_exportOptions($this->oProp->aOptions, $_sPageSlug, $_sTabSlug));
-        }
-        $aInput = $this->_resetOptions($_sKeyToReset, $aInput);
-        if (!$_bHasFieldErrors && $_bConfirmingToSendEmail) {
-            $this->_setLastInput($aInput);
-            $this->oProp->_bDisableSavingOptions = true;
-            $aStatus = $aStatus + array('confirmation' => 'email');
-            return $this->_confirmSubmitButtonAction($_sPressedInputName, $_sSubmitSectionID, 'email');
+        catch(Exception $_oException) {
+            $_sPropertyName = $_oException->getMessage();
+            if (isset($_oException->$_sPropertyName)) {
+                return $_oException->{$_sPropertyName};
+            }
+            return array();
         }
         $this->_setSettingNoticeAfterValidation(empty($aInput));
         return $aInput;
+    }
+    private function _doContactForm($aInputRaw, array $_aSubmit, $_sPressedInputName, $_sSubmitSectionID) {
+        $_bConfirmedToSendEmail = ( bool )$this->_getPressedSubmitButtonData($_aSubmit, 'confirmed_sending_email');
+        if (!$_bConfirmedToSendEmail) {
+            return;
+        }
+        $this->_sendEmailInBackground($aInputRaw, $_sPressedInputName, $_sSubmitSectionID);
+        $this->oProp->_bDisableSavingOptions = true;
+        $this->oUtil->deleteTransient('apf_tfd' . md5('temporary_form_data_' . $this->oProp->sClassName . get_current_user_id()));
+        add_action("setting_update_url_{$this->oProp->sClassName}", array($this, '_replyToRemoveConfirmationQueryKey'));
+        $_oException = new Exception('aReturn');
+        $_oException->aReturn = $aInputRaw;
+        throw $_oException;
+    }
+    private function _confirmReset(array & $aStatus, array $_aSubmit, $_sPressedInputName, $_sSubmitSectionID) {
+        $_bIsReset = ( bool )$this->_getPressedSubmitButtonData($_aSubmit, 'is_reset');
+        if (!$_bIsReset) {
+            return;
+        }
+        $aStatus = $aStatus + array('confirmation' => 'reset');
+        $_oException = new Exception('aReturn');
+        $_oException->aReturn = $this->_confirmSubmitButtonAction($_sPressedInputName, $_sSubmitSectionID, 'reset');
+        throw $_oException;
+    }
+    private function _goToLink(array $_aSubmit) {
+        $_sLinkURL = $this->_getPressedSubmitButtonData($_aSubmit, 'href');
+        if (!$_sLinkURL) {
+            return;
+        }
+        exit(wp_redirect($_sLinkURL));
+    }
+    private function _setRedirect(array & $aStatus, $_aSubmit, $_sPageSlug) {
+        $_sRedirectURL = $this->_getPressedSubmitButtonData($_aSubmit, 'redirect_url');
+        if (!$_sRedirectURL) {
+            return;
+        }
+        $aStatus = $aStatus + array('confirmation' => 'redirect');
+        $this->_setRedirectTransients($_sRedirectURL, $_sPageSlug);
+    }
+    private function _doImportOptions($_sPageSlug, $_sTabSlug) {
+        if ($this->hasFieldError()) {
+            return;
+        }
+        if (!isset($_POST['__import']['submit'], $_FILES['__import'])) {
+            return;
+        }
+        $_oException = new Exception('aReturn');
+        $_oException->aReturn = $this->_importOptions($this->oProp->aOptions, $_sPageSlug, $_sTabSlug);
+        throw $_oException;
+    }
+    private function _doExportOptions($_sPageSlug, $_sTabSlug) {
+        if ($this->hasFieldError()) {
+            return;
+        }
+        if (!isset($_POST['__export']['submit'])) {
+            return;
+        }
+        exit($this->_exportOptions($this->oProp->aOptions, $_sPageSlug, $_sTabSlug));
+    }
+    private function _doResetOptions(array $_aSubmit, array $aInput) {
+        $_sKeyToReset = $this->_getPressedSubmitButtonData($_aSubmit, 'reset_key');
+        $_sKeyToReset = trim($_sKeyToReset);
+        if (!$_sKeyToReset) {
+            return;
+        }
+        $_oException = new Exception('aReturn');
+        $_oException->aReturn = $this->_resetOptions($_sKeyToReset, $aInput);
+        throw $_oException;
+    }
+    private function _resetOptions($sKeyToReset, array $aInput) {
+        if (!$this->oProp->sOptionKey) {
+            return array();
+        }
+        if (in_array($sKeyToReset, array('1',), true)) {
+            delete_option($this->oProp->sOptionKey);
+            return array();
+        }
+        $_aDimensionalKeys = explode('|', $sKeyToReset);
+        $this->oUtil->unsetDimensionalArrayElement($this->oProp->aOptions, $_aDimensionalKeys);
+        $this->oUtil->unsetDimensionalArrayElement($aInput, $_aDimensionalKeys);
+        update_option($this->oProp->sOptionKey, $this->oProp->aOptions);
+        $this->setSettingNotice($this->oMsg->get('specified_option_been_deleted'));
+        return $aInput;
+    }
+    private function _confirmContactForm(array & $aStatus, array $_aSubmit, array $aInput, $_sPressedInputName, $_sSubmitSectionID) {
+        if ($this->hasFieldError()) {
+            return;
+        }
+        $_bConfirmingToSendEmail = ( bool )$this->_getPressedSubmitButtonData($_aSubmit, 'confirming_sending_email');
+        if (!$_bConfirmingToSendEmail) {
+            return;
+        }
+        $this->_setLastInput($aInput);
+        $this->oProp->_bDisableSavingOptions = true;
+        $aStatus = $aStatus + array('confirmation' => 'email');
+        $_oException = new Exception('aReturn');
+        $_oException->aReturn = $this->_confirmSubmitButtonAction($_sPressedInputName, $_sSubmitSectionID, 'email');
+        throw $_oException;
     }
     private function _setSettingNoticeAfterValidation($bIsInputEmtpy) {
         if ($this->hasSettingNotice()) {
@@ -237,25 +312,6 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         $this->setSettingNotice($this->oMsg->get('confirm_perform_task'), 'error confirmation');
         return $this->oProp->aOptions;
     }
-    private function _resetOptions($sKeyToReset, $aInput) {
-        $sKeyToReset = trim($sKeyToReset);
-        if (!$sKeyToReset) {
-            return $aInput;
-        }
-        if (!$this->oProp->sOptionKey) {
-            return array();
-        }
-        if (in_array($sKeyToReset, array('1',), true)) {
-            delete_option($this->oProp->sOptionKey);
-            return array();
-        }
-        $_aDimensionalKeys = explode('|', $sKeyToReset);
-        $this->oUtil->unsetDimensionalArrayElement($this->oProp->aOptions, $_aDimensionalKeys);
-        $this->oUtil->unsetDimensionalArrayElement($aInput, $_aDimensionalKeys);
-        update_option($this->oProp->sOptionKey, $this->oProp->aOptions);
-        $this->setSettingNotice($this->oMsg->get('specified_option_been_deleted'));
-        return $aInput;
-    }
     private function _setRedirectTransients($sURL, $sPageSlug) {
         if (empty($sURL)) {
             return;
@@ -276,12 +332,23 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         }
         return null;
     }
-    private function _getFilteredOptions($aInput, $aInputRaw, $aStoredData, $aSubmitInformation) {
+    private function _getFilteredOptions($aInput, $aInputRaw, $aStoredData, $aSubmitInformation, array & $aStatus) {
         $_aData = array('sPageSlug' => $aSubmitInformation['page_slug'], 'sTabSlug' => $aSubmitInformation['tab_slug'], 'aInput' => $this->oUtil->getAsArray($aInput), 'aStoredData' => $aStoredData, 'aStoredTabData' => array(), 'aStoredDataWODynamicElements' => $this->oUtil->addAndApplyFilter($this, "validation_saved_options_without_dynamic_elements_{$this->oProp->sClassName}", $this->oForm->dropRepeatableElements($aStoredData), $this), 'aStoredTabDataWODynamicElements' => array(), 'aEmbeddedDataWODynamicElements' => array(), 'aSubmitInformation' => $aSubmitInformation,);
         $_aData = $this->_validateEachField($_aData, $aInputRaw);
         $_aData = $this->_validateTabFields($_aData);
         $_aData = $this->_validatePageFields($_aData);
-        return $this->_getValidatedData("validation_{$this->oProp->sClassName}", call_user_func_array(array($this, 'validate'), array($_aData['aInput'], $_aData['aStoredData'], $this, $_aData['aSubmitInformation'])), $_aData['aStoredData'], $_aData['aSubmitInformation']);
+        $_aInput = $this->_getValidatedData("validation_{$this->oProp->sClassName}", call_user_func_array(array($this, 'validate'), array($_aData['aInput'], $_aData['aStoredData'], $this, $_aData['aSubmitInformation'])), $_aData['aStoredData'], $_aData['aSubmitInformation']);
+        $_aInput = $this->oUtil->getAsArray($_aInput);
+        $_bHasFieldErrors = $this->hasFieldError();
+        if (!$_bHasFieldErrors) {
+            return $_aInput;
+        }
+        $this->_setSettingNoticeAfterValidation(empty($_aInput));
+        $this->_setLastInput($aInputRaw);
+        $aStatus = $aStatus + array('field_errors' => $_bHasFieldErrors);
+        $_oException = new Exception('aReturn');
+        $_oException->aReturn = $_aInput;
+        throw $_oException;
     }
     private function _validateEachField(array $aData, array $aInputToParse) {
         foreach ($aInputToParse as $_sID => $_aSectionOrFields) {
