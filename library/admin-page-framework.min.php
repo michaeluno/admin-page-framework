@@ -1,11 +1,11 @@
 <?php 
 /**
-	Admin Page Framework v3.5.3b42 by Michael Uno 
+	Admin Page Framework v3.5.3b43 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.5.3b42';
+    const VERSION = '3.5.3b43';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
@@ -79,7 +79,97 @@ abstract class AdminPageFramework_Form_Model_Export extends AdminPageFramework_F
         return $this->_getFilteredItemForPortByPrefix('export_format_', $sExportFileFormat, $aArguments);
     }
 }
-abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramework_Form_Model_Export {
+abstract class AdminPageFramework_Form_Model_Validation_Opiton extends AdminPageFramework_Form_Model_Export {
+    protected function _getFilteredOptions($aInput, $aInputRaw, $aStoredData, $aSubmitInformation, array & $aStatus) {
+        $_aData = array('sPageSlug' => $aSubmitInformation['page_slug'], 'sTabSlug' => $aSubmitInformation['tab_slug'], 'aInput' => $this->oUtil->getAsArray($aInput), 'aStoredData' => $aStoredData, 'aStoredTabData' => array(), 'aStoredDataWODynamicElements' => $this->oUtil->addAndApplyFilter($this, "validation_saved_options_without_dynamic_elements_{$this->oProp->sClassName}", $this->oForm->dropRepeatableElements($aStoredData), $this), 'aStoredTabDataWODynamicElements' => array(), 'aEmbeddedDataWODynamicElements' => array(), 'aSubmitInformation' => $aSubmitInformation,);
+        $_aData = $this->_validateEachField($_aData, $aInputRaw);
+        $_aData = $this->_validateTabFields($_aData);
+        $_aData = $this->_validatePageFields($_aData);
+        $_aInput = $this->_getValidatedData("validation_{$this->oProp->sClassName}", call_user_func_array(array($this, 'validate'), array($_aData['aInput'], $_aData['aStoredData'], $this, $_aData['aSubmitInformation'])), $_aData['aStoredData'], $_aData['aSubmitInformation']);
+        $_aInput = $this->oUtil->getAsArray($_aInput);
+        $_bHasFieldErrors = $this->hasFieldError();
+        if (!$_bHasFieldErrors) {
+            return $_aInput;
+        }
+        $this->_setSettingNoticeAfterValidation(empty($_aInput));
+        $this->_setLastInput($aInputRaw);
+        $aStatus = $aStatus + array('field_errors' => $_bHasFieldErrors);
+        $_oException = new Exception('aReturn');
+        $_oException->aReturn = $_aInput;
+        throw $_oException;
+    }
+    private function _validateEachField(array $aData, array $aInputToParse) {
+        foreach ($aInputToParse as $_sID => $_aSectionOrFields) {
+            if ($this->oForm->isSection($_sID)) {
+                if (!$this->_isValidSection($_sID, $aData['sPageSlug'], $aData['sTabSlug'])) {
+                    continue;
+                }
+                foreach ($_aSectionOrFields as $_sFieldID => $_aFields) {
+                    $aData['aInput'][$_sID][$_sFieldID] = $this->_getValidatedData("validation_{$this->oProp->sClassName}_{$_sID}_{$_sFieldID}", $aData['aInput'][$_sID][$_sFieldID], $this->oUtil->getElement($aData, array('aStoredData', $_sID, $_sFieldID), null), $aData['aSubmitInformation']);
+                }
+                $_aSectionInput = is_array($aData['aInput'][$_sID]) ? $aData['aInput'][$_sID] : array();
+                $_aSectionInput = $_aSectionInput + (isset($aData['aStoredDataWODynamicElements'][$_sID]) && is_array($aData['aStoredDataWODynamicElements'][$_sID]) ? $aData['aStoredDataWODynamicElements'][$_sID] : array());
+                $aData['aInput'][$_sID] = $this->_getValidatedData("validation_{$this->oProp->sClassName}_{$_sID}", $_aSectionInput, $this->oUtil->getElement($aData, array('aStoredData', $_sID), null), $aData['aSubmitInformation']);
+                continue;
+            }
+            if (!$this->_isValidSection('_default', $aData['sPageSlug'], $aData['sTabSlug'])) {
+                continue;
+            }
+            $aData['aInput'][$_sID] = $this->_getValidatedData("validation_{$this->oProp->sClassName}_{$_sID}", $aData['aInput'][$_sID], $this->oUtil->getElement($aData, array('aStoredData', $_sID), null), $aData['aSubmitInformation']);
+        }
+        return $aData;
+    }
+    private function _isValidSection($sSectionID, $sPageSlug, $sTabSlug) {
+        if ($sPageSlug && isset($this->oForm->aSections[$sSectionID]['page_slug']) && $sPageSlug !== $this->oForm->aSections[$sSectionID]['page_slug']) {
+            return false;
+        }
+        if ($sTabSlug && isset($this->oForm->aSections[$sSectionID]['tab_slug']) && $sTabSlug !== $this->oForm->aSections[$sSectionID]['tab_slug']) {
+            return false;
+        }
+        return true;
+    }
+    private function _validateTabFields(array $aData) {
+        if (!$aData['sTabSlug'] || !$aData['sPageSlug']) {
+            return $aData;
+        }
+        $aData['aStoredTabData'] = $this->oForm->getTabOptions($aData['aStoredData'], $aData['sPageSlug'], $aData['sTabSlug']);
+        $aData['aStoredTabData'] = $this->oUtil->addAndApplyFilter($this, "validation_saved_options_{$aData['sPageSlug']}_{$aData['sTabSlug']}", $aData['aStoredTabData'], $this);
+        $_aOtherTabOptions = $this->oForm->getOtherTabOptions($aData['aStoredData'], $aData['sPageSlug'], $aData['sTabSlug']);
+        $aData['aStoredTabDataWODynamicElements'] = $this->oForm->getTabOptions($aData['aStoredDataWODynamicElements'], $aData['sPageSlug'], $aData['sTabSlug']);
+        $aData['aStoredTabDataWODynamicElements'] = $this->oUtil->addAndApplyFilter($this, "validation_saved_options_without_dynamic_elements_{$aData['sPageSlug']}_{$aData['sTabSlug']}", $aData['aStoredTabDataWODynamicElements'], $this);
+        $aData['aStoredDataWODynamicElements'] = $aData['aStoredTabDataWODynamicElements'] + $aData['aStoredDataWODynamicElements'];
+        $_aTabOnlyOptionsWODynamicElements = $this->oForm->getTabOnlyOptions($aData['aStoredTabDataWODynamicElements'], $aData['sPageSlug'], $aData['sTabSlug']);
+        $aData['aInput'] = $aData['aInput'] + $_aTabOnlyOptionsWODynamicElements;
+        $aData['aInput'] = $this->_getValidatedData("validation_{$aData['sPageSlug']}_{$aData['sTabSlug']}", $aData['aInput'], $aData['aStoredTabData'], $aData['aSubmitInformation']);
+        $aData['aEmbeddedDataWODynamicElements'] = $this->_getEmbeddedOptions($aData['aInput'], $aData['aStoredTabDataWODynamicElements'], $_aTabOnlyOptionsWODynamicElements);
+        $aData['aInput'] = $aData['aInput'] + $_aOtherTabOptions;
+        return $aData;
+    }
+    private function _validatePageFields(array $aData) {
+        if (!$aData['sPageSlug']) {
+            return $aData['aInput'];
+        }
+        $_aPageOptions = $this->oForm->getPageOptions($aData['aStoredData'], $aData['sPageSlug']);
+        $_aPageOptions = $this->oUtil->addAndApplyFilter($this, "validation_saved_options_{$aData['sPageSlug']}", $_aPageOptions, $this);
+        $_aOtherPageOptions = $this->oUtil->invertCastArrayContents($this->oForm->getOtherPageOptions($aData['aStoredData'], $aData['sPageSlug']), $_aPageOptions);
+        $_aPageOptionsWODynamicElements = $this->oUtil->addAndApplyFilter($this, "validation_saved_options_without_dynamic_elements_{$aData['sPageSlug']}", $this->oForm->getPageOptions($aData['aStoredDataWODynamicElements'], $aData['sPageSlug']), $this);
+        $_aPageOnlyOptionsWODynamicElements = $this->oForm->getPageOnlyOptions($_aPageOptionsWODynamicElements, $aData['sPageSlug']);
+        $aData['aInput'] = $aData['aInput'] + $_aPageOnlyOptionsWODynamicElements;
+        $aData['aInput'] = $this->_getValidatedData("validation_{$aData['sPageSlug']}", $aData['aInput'], $_aPageOptions, $aData['aSubmitInformation']);
+        $_aPageOptions = $aData['sTabSlug'] && !empty($aData['aStoredTabData']) ? $this->oUtil->invertCastArrayContents($_aPageOptions, $aData['aStoredTabData']) : (!$aData['sTabSlug'] ? array() : $_aPageOptions);
+        $_aEmbeddedOptionsWODynamicElements = $aData['aEmbeddedDataWODynamicElements'] + $this->_getEmbeddedOptions($aData['aInput'], $_aPageOptionsWODynamicElements, $_aPageOnlyOptionsWODynamicElements);
+        $aData['aInput'] = $aData['aInput'] + $this->oUtil->uniteArrays($_aPageOptions, $_aOtherPageOptions, $_aEmbeddedOptionsWODynamicElements);
+        return $aData;
+    }
+    private function _getEmbeddedOptions(array $aInput, array $aOptions, array $aPageSpecificOptions) {
+        $_aEmbeddedData = $this->oUtil->invertCastArrayContents($aOptions, $aPageSpecificOptions);
+        return $this->oUtil->invertCastArrayContents($_aEmbeddedData, $aInput);
+    }
+    private function _getValidatedData($sFilterName, $aInput, $aStoredData, $aSubmitInfo = array()) {
+        return $this->oUtil->addAndApplyFilter($this, $sFilterName, $aInput, $aStoredData, $this, $aSubmitInfo);
+    }
+}
+abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramework_Form_Model_Validation_Opiton {
     protected function _handleSubmittedData() {
         if (!$this->_verifyFormSubmit()) {
             return;
@@ -331,94 +421,6 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             return $this->oUtil->getElement($_aSubElements, $sTargetKey, null);
         }
         return null;
-    }
-    private function _getFilteredOptions($aInput, $aInputRaw, $aStoredData, $aSubmitInformation, array & $aStatus) {
-        $_aData = array('sPageSlug' => $aSubmitInformation['page_slug'], 'sTabSlug' => $aSubmitInformation['tab_slug'], 'aInput' => $this->oUtil->getAsArray($aInput), 'aStoredData' => $aStoredData, 'aStoredTabData' => array(), 'aStoredDataWODynamicElements' => $this->oUtil->addAndApplyFilter($this, "validation_saved_options_without_dynamic_elements_{$this->oProp->sClassName}", $this->oForm->dropRepeatableElements($aStoredData), $this), 'aStoredTabDataWODynamicElements' => array(), 'aEmbeddedDataWODynamicElements' => array(), 'aSubmitInformation' => $aSubmitInformation,);
-        $_aData = $this->_validateEachField($_aData, $aInputRaw);
-        $_aData = $this->_validateTabFields($_aData);
-        $_aData = $this->_validatePageFields($_aData);
-        $_aInput = $this->_getValidatedData("validation_{$this->oProp->sClassName}", call_user_func_array(array($this, 'validate'), array($_aData['aInput'], $_aData['aStoredData'], $this, $_aData['aSubmitInformation'])), $_aData['aStoredData'], $_aData['aSubmitInformation']);
-        $_aInput = $this->oUtil->getAsArray($_aInput);
-        $_bHasFieldErrors = $this->hasFieldError();
-        if (!$_bHasFieldErrors) {
-            return $_aInput;
-        }
-        $this->_setSettingNoticeAfterValidation(empty($_aInput));
-        $this->_setLastInput($aInputRaw);
-        $aStatus = $aStatus + array('field_errors' => $_bHasFieldErrors);
-        $_oException = new Exception('aReturn');
-        $_oException->aReturn = $_aInput;
-        throw $_oException;
-    }
-    private function _validateEachField(array $aData, array $aInputToParse) {
-        foreach ($aInputToParse as $_sID => $_aSectionOrFields) {
-            if ($this->oForm->isSection($_sID)) {
-                if (!$this->_isValidSection($_sID, $aData['sPageSlug'], $aData['sTabSlug'])) {
-                    continue;
-                }
-                foreach ($_aSectionOrFields as $_sFieldID => $_aFields) {
-                    $aData['aInput'][$_sID][$_sFieldID] = $this->_getValidatedData("validation_{$this->oProp->sClassName}_{$_sID}_{$_sFieldID}", $aData['aInput'][$_sID][$_sFieldID], $this->oUtil->getElement($aData, array('aStoredData', $_sID, $_sFieldID), null), $aData['aSubmitInformation']);
-                }
-                $_aSectionInput = is_array($aData['aInput'][$_sID]) ? $aData['aInput'][$_sID] : array();
-                $_aSectionInput = $_aSectionInput + (isset($aData['aStoredDataWODynamicElements'][$_sID]) && is_array($aData['aStoredDataWODynamicElements'][$_sID]) ? $aData['aStoredDataWODynamicElements'][$_sID] : array());
-                $aData['aInput'][$_sID] = $this->_getValidatedData("validation_{$this->oProp->sClassName}_{$_sID}", $_aSectionInput, $this->oUtil->getElement($aData, array('aStoredData', $_sID), null), $aData['aSubmitInformation']);
-                continue;
-            }
-            if (!$this->_isValidSection('_default', $aData['sPageSlug'], $aData['sTabSlug'])) {
-                continue;
-            }
-            $aData['aInput'][$_sID] = $this->_getValidatedData("validation_{$this->oProp->sClassName}_{$_sID}", $aData['aInput'][$_sID], $this->oUtil->getElement($aData, array('aStoredData', $_sID), null), $aData['aSubmitInformation']);
-        }
-        return $aData;
-    }
-    private function _isValidSection($sSectionID, $sPageSlug, $sTabSlug) {
-        if ($sPageSlug && isset($this->oForm->aSections[$sSectionID]['page_slug']) && $sPageSlug !== $this->oForm->aSections[$sSectionID]['page_slug']) {
-            return false;
-        }
-        if ($sTabSlug && isset($this->oForm->aSections[$sSectionID]['tab_slug']) && $sTabSlug !== $this->oForm->aSections[$sSectionID]['tab_slug']) {
-            return false;
-        }
-        return true;
-    }
-    private function _validateTabFields(array $aData) {
-        if (!$aData['sTabSlug'] || !$aData['sPageSlug']) {
-            return $aData;
-        }
-        $aData['aStoredTabData'] = $this->oForm->getTabOptions($aData['aStoredData'], $aData['sPageSlug'], $aData['sTabSlug']);
-        $aData['aStoredTabData'] = $this->oUtil->addAndApplyFilter($this, "validation_saved_options_{$aData['sPageSlug']}_{$aData['sTabSlug']}", $aData['aStoredTabData'], $this);
-        $_aOtherTabOptions = $this->oForm->getOtherTabOptions($aData['aStoredData'], $aData['sPageSlug'], $aData['sTabSlug']);
-        $aData['aStoredTabDataWODynamicElements'] = $this->oForm->getTabOptions($aData['aStoredDataWODynamicElements'], $aData['sPageSlug'], $aData['sTabSlug']);
-        $aData['aStoredTabDataWODynamicElements'] = $this->oUtil->addAndApplyFilter($this, "validation_saved_options_without_dynamic_elements_{$aData['sPageSlug']}_{$aData['sTabSlug']}", $aData['aStoredTabDataWODynamicElements'], $this);
-        $aData['aStoredDataWODynamicElements'] = $aData['aStoredTabDataWODynamicElements'] + $aData['aStoredDataWODynamicElements'];
-        $_aTabOnlyOptionsWODynamicElements = $this->oForm->getTabOnlyOptions($aData['aStoredTabDataWODynamicElements'], $aData['sPageSlug'], $aData['sTabSlug']);
-        $aData['aInput'] = $aData['aInput'] + $_aTabOnlyOptionsWODynamicElements;
-        $aData['aInput'] = $this->_getValidatedData("validation_{$aData['sPageSlug']}_{$aData['sTabSlug']}", $aData['aInput'], $aData['aStoredTabData'], $aData['aSubmitInformation']);
-        $aData['aEmbeddedDataWODynamicElements'] = $this->_getEmbeddedOptions($aData['aInput'], $aData['aStoredTabDataWODynamicElements'], $_aTabOnlyOptionsWODynamicElements);
-        $aData['aInput'] = $aData['aInput'] + $_aOtherTabOptions;
-        return $aData;
-    }
-    private function _validatePageFields(array $aData) {
-        if (!$aData['sPageSlug']) {
-            return $aData['aInput'];
-        }
-        $_aPageOptions = $this->oForm->getPageOptions($aData['aStoredData'], $aData['sPageSlug']);
-        $_aPageOptions = $this->oUtil->addAndApplyFilter($this, "validation_saved_options_{$aData['sPageSlug']}", $_aPageOptions, $this);
-        $_aOtherPageOptions = $this->oUtil->invertCastArrayContents($this->oForm->getOtherPageOptions($aData['aStoredData'], $aData['sPageSlug']), $_aPageOptions);
-        $_aPageOptionsWODynamicElements = $this->oUtil->addAndApplyFilter($this, "validation_saved_options_without_dynamic_elements_{$aData['sPageSlug']}", $this->oForm->getPageOptions($aData['aStoredDataWODynamicElements'], $aData['sPageSlug']), $this);
-        $_aPageOnlyOptionsWODynamicElements = $this->oForm->getPageOnlyOptions($_aPageOptionsWODynamicElements, $aData['sPageSlug']);
-        $aData['aInput'] = $aData['aInput'] + $_aPageOnlyOptionsWODynamicElements;
-        $aData['aInput'] = $this->_getValidatedData("validation_{$aData['sPageSlug']}", $aData['aInput'], $_aPageOptions, $aData['aSubmitInformation']);
-        $_aPageOptions = $aData['sTabSlug'] && !empty($aData['aStoredTabData']) ? $this->oUtil->invertCastArrayContents($_aPageOptions, $aData['aStoredTabData']) : (!$aData['sTabSlug'] ? array() : $_aPageOptions);
-        $_aEmbeddedOptionsWODynamicElements = $aData['aEmbeddedDataWODynamicElements'] + $this->_getEmbeddedOptions($aData['aInput'], $_aPageOptionsWODynamicElements, $_aPageOnlyOptionsWODynamicElements);
-        $aData['aInput'] = $aData['aInput'] + $this->oUtil->uniteArrays($_aPageOptions, $_aOtherPageOptions, $_aEmbeddedOptionsWODynamicElements);
-        return $aData;
-    }
-    private function _getEmbeddedOptions(array $aInput, array $aOptions, array $aPageSpecificOptions) {
-        $_aEmbeddedData = $this->oUtil->invertCastArrayContents($aOptions, $aPageSpecificOptions);
-        return $this->oUtil->invertCastArrayContents($_aEmbeddedData, $aInput);
-    }
-    private function _getValidatedData($sFilterName, $aInput, $aStoredData, $aSubmitInfo = array()) {
-        return $this->oUtil->addAndApplyFilter($this, $sFilterName, $aInput, $aStoredData, $this, $aSubmitInfo);
     }
     private function _removePageElements($aOptions, $sPageSlug, $sTabSlug) {
         if (!$sPageSlug && !$sTabSlug) {
@@ -5999,7 +6001,7 @@ abstract class AdminPageFramework_FormOutput extends AdminPageFramework_WPUtilit
         return implode(PHP_EOL, $_aOutput);
     }
 }
-class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
+abstract class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
     public $aField = array();
     public $aFieldTypeDefinitions = array();
     public $aOptions = array();
@@ -6052,248 +6054,6 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
     protected function _getSortableFieldEnablerScript($sFieldsContainerID) {
         $_sScript = "jQuery(document).ready(function(){ jQuery(this).enableAPFSortable('$sFieldsContainerID') });";
         return "<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>" . $_sScript . "</script>";
-    }
-}
-class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
-    private function _isSectionSet(array $aField) {
-        return isset($aField['section_id']) && $aField['section_id'] && '_default' !== $aField['section_id'];
-    }
-    private function _getInputName(array $aField, $sKey = '', $hfFilterCallback = null) {
-        $_sKey = ( string )$sKey;
-        $_sKey = $this->getAOrB('0' !== $_sKey && empty($_sKey), '', "[{$_sKey}]");
-        $_sSectionIndex = isset($aField['section_id'], $aField['_section_index']) ? "[{$aField['_section_index']}]" : "";
-        $_aMethodNamesByFieldsType = array('page' => '_getInputName_page', 'page_meta_box' => '_getInputName_meta_box', 'post_meta_box' => '_getInputName_meta_box', 'taxonomy' => '_getInputName_taxonomy', 'widget' => '_getInputName_widget', 'user_meta' => '_getInputName_user_meta',);
-        $_sMethodName = isset($_aMethodNamesByFieldsType[$aField['_fields_type']]) ? $_aMethodNamesByFieldsType[$aField['_fields_type']] : '_getInputName_page';
-        $_sResultTail = '';
-        $_sNameAttribute = $this->{$_sMethodName}($aField, $_sKey, $_sSectionIndex, $_sResultTail);
-        return is_callable($hfFilterCallback) ? call_user_func_array($hfFilterCallback, array($_sNameAttribute)) . $_sResultTail : $_sNameAttribute . $_sResultTail;
-    }
-    private function _getInputName_page(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
-        $_sResultTail = '';
-        $_sSectionDimension = $this->_isSectionSet($aField) ? "[{$aField['section_id']}]" : '';
-        return "{$aField['option_key']}{$_sSectionDimension}{$_sSectionIndex}[{$aField['field_id']}]{$_sKey}";
-    }
-    private function _getInputName_meta_box(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
-        $_sResultTail = '';
-        return $this->_isSectionSet($aField) ? "{$aField['section_id']}{$_sSectionIndex}[{$aField['field_id']}]{$_sKey}" : "{$aField['field_id']}{$_sKey}";
-    }
-    private function _getInputName_taxonomy(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
-        $_sResultTail = $_sSectionIndex = '';
-        return "{$aField['field_id']}{$_sKey}";
-    }
-    private function _getInputName_widget(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
-        $_sResultTail = $_sKey;
-        return $this->_isSectionSet($aField) ? "{$aField['section_id']}]{$_sSectionIndex}[{$aField['field_id']}" : "{$aField['field_id']}";
-    }
-    private function _getInputName_user_meta(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
-        $_sResultTail = $_sKey;
-        return $this->_isSectionSet($aField) ? "{$aField['section_id']}{$_sSectionIndex}[{$aField['field_id']}]" : "{$aField['field_id']}";
-    }
-    protected function _getFlatInputName(array $aField, $sKey = '', $hfFilterCallback = null) {
-        $_sKey = ( string )$sKey;
-        $_sKey = $this->getAOrB('0' !== $_sKey && empty($_sKey), '', "|{$_sKey}");
-        $_sSectionIndex = isset($aField['section_id'], $aField['_section_index']) ? "|{$aField['_section_index']}" : "";
-        $_aMethodNamesByFieldsType = array('page' => '_getFlatInputName_page', 'page_meta_box' => '_getFlatInputName_meta_box', 'post_meta_box' => '_getFlatInputName_meta_box', 'taxonomy' => '_getFlatInputName_taxonomy', 'widget' => '_getFlatInputName_other', 'user_meta' => '_getFlatInputName_other',);
-        $_sMethodName = isset($_aMethodNamesByFieldsType[$aField['_fields_type']]) ? $_aMethodNamesByFieldsType[$aField['_fields_type']] : '_getInputName_page';
-        $_sResultTail = '';
-        $_sFlatNameAttribute = $this->{$_sMethodName}($aField, $_sKey, $_sSectionIndex, $_sResultTail);
-        return is_callable($hfFilterCallback) ? call_user_func_array($hfFilterCallback, array($_sFlatNameAttribute)) . $_sResultTail : $_sFlatNameAttribute . $_sResultTail;
-    }
-    private function _getFlatInputName_page(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
-        $_sResultTail = '';
-        $_sSectionDimension = $this->_isSectionSet($aField) ? "|{$aField['section_id']}" : '';
-        return "{$aField['option_key']}{$_sSectionDimension}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}";
-    }
-    private function _getFlatInputName_meta_box(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
-        $_sResultTail = '';
-        return $this->_isSectionSet($aField) ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}" : "{$aField['field_id']}{$_sKey}";
-    }
-    private function _getFlatInputName_taxonomy(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
-        $_sSectionIndex = $_sResultTail = '';
-        return "{$aField['field_id']}{$_sKey}";
-    }
-    private function _getFlatInputName_other(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
-        $_sResultTail = $_sKey;
-        return $this->_isSectionSet($aField) ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}" : "{$aField['field_id']}";
-    }
-    static public function _getInputID($aField, $isIndex = 0, $hfFilterCallback = null) {
-        $_sSectionIndex = isset($aField['_section_index']) ? '__' . $aField['_section_index'] : '';
-        $_isFieldIndex = '__' . $isIndex;
-        $_sResult = isset($aField['section_id']) && '_default' != $aField['section_id'] ? $aField['section_id'] . $_sSectionIndex . '_' . $aField['field_id'] . $_isFieldIndex : $aField['field_id'] . $_isFieldIndex;
-        return is_callable($hfFilterCallback) ? call_user_func_array($hfFilterCallback, array($_sResult)) : $_sResult;
-    }
-    static public function _getInputTagBaseID($aField, $hfFilterCallback = null) {
-        $_sSectionIndex = isset($aField['_section_index']) ? '__' . $aField['_section_index'] : '';
-        $_sResult = isset($aField['section_id']) && '_default' != $aField['section_id'] ? $aField['section_id'] . $_sSectionIndex . '_' . $aField['field_id'] : $aField['field_id'];
-        return is_callable($hfFilterCallback) ? call_user_func_array($hfFilterCallback, array($_sResult)) : $_sResult;
-    }
-    public function _getFieldOutput() {
-        $_aFieldsOutput = array();
-        $_sFieldError = $this->_getFieldError($this->aErrors, $this->aField['section_id'], $this->aField['field_id']);
-        if ('' !== $_sFieldError) {
-            $_aFieldsOutput[] = $_sFieldError;
-        }
-        $this->aField['tag_id'] = $this->_getInputTagBaseID($this->aField, $this->aCallbacks['hfTagID']);
-        $_aFields = $this->_constructFieldsArray($this->aField, $this->aOptions);
-        $_aFieldsOutput[] = $this->_getFieldsOutput($_aFields, $this->aCallbacks);
-        return $this->_getFinalOutput($this->aField, $_aFieldsOutput, count($_aFields));
-    }
-    private function _getFieldsOutput(array $aFields, array $aCallbacks = array()) {
-        $_aOutput = array();
-        foreach ($aFields as $_isIndex => $_aField) {
-            $_aOutput[] = $this->_getEachFieldOutput($_aField, $_isIndex, $aCallbacks, $this->isLastElement($aFields, $_isIndex));
-        }
-        return implode(PHP_EOL, array_filter($_aOutput));
-    }
-    private function _getEachFieldOutput(array $aField, $isIndex, array $aCallbacks, $bIsLastElement = false) {
-        $_aFieldTypeDefinition = $this->_getFieldTypeDefinition($aField['type']);
-        if (!is_callable($_aFieldTypeDefinition['hfRenderField'])) {
-            return '';
-        }
-        $aField = $this->_getFormatedFieldDefinitionArray($aField, $isIndex, $aCallbacks, $_aFieldTypeDefinition);
-        $_aFieldAttributes = $this->_getFieldAttributes($aField);
-        return $aField['before_field'] . "<div " . $this->_getFieldContainerAttributes($aField, $_aFieldAttributes, 'field') . ">" . call_user_func_array($_aFieldTypeDefinition['hfRenderField'], array($aField)) . $this->_getDelimiter($aField, $bIsLastElement) . "</div>" . $aField['after_field'];
-    }
-    private function _getFieldTypeDefinition($sFieldTypeSlug) {
-        return $this->getElement($this->aFieldTypeDefinitions, $sFieldTypeSlug, $this->aFieldTypeDefinitions['default']);
-    }
-    private function _getFormatedFieldDefinitionArray(array $aField, $isIndex, array $aCallbacks, $aFieldTypeDefinition) {
-        $_bIsSubField = is_numeric($isIndex) && 0 < $isIndex;
-        $aField['_is_sub_field'] = $_bIsSubField;
-        $aField['_index'] = $isIndex;
-        $aField['input_id'] = $this->_getInputID($aField, $isIndex, $aCallbacks['hfID']);
-        $aField['_input_name'] = $this->_getInputName($aField, $this->getAOrB($aField['_is_multiple_fields'], $isIndex, ''), $aCallbacks['hfName']);
-        $aField['_input_name_flat'] = $this->_getFlatInputName($aField, $this->getAOrB($aField['_is_multiple_fields'], $isIndex, ''), $aCallbacks['hfNameFlat']);
-        $aField['_field_container_id'] = "field-{$aField['input_id']}";
-        $aField['_input_id_model'] = $this->_getInputID($aField, '-fi-', $aCallbacks['hfID']);
-        $aField['_input_name_model'] = $this->_getInputName($aField, $aField['_is_multiple_fields'] ? '-fi-' : '', $aCallbacks['hfName']);
-        $aField['_fields_container_id_model'] = "field-{$aField['_input_id_model']}";
-        $aField['_fields_container_id'] = "fields-{$this->aField['tag_id']}";
-        $aField['_fieldset_container_id'] = "fieldset-{$this->aField['tag_id']}";
-        $aField = $this->uniteArrays($aField, array('attributes' => array('id' => $aField['input_id'], 'name' => $aField['_input_name'], 'value' => $aField['value'], 'type' => $aField['type'], 'disabled' => null, 'data-id_model' => $aField['_input_id_model'], 'data-name_model' => $aField['_input_name_model'],)), ( array )$aFieldTypeDefinition['aDefaultKeys']);
-        $aField['attributes']['class'] = 'widget' === $aField['_fields_type'] && is_callable($aCallbacks['hfClass']) ? call_user_func_array($aCallbacks['hfClass'], array($aField['attributes']['class'])) : $aField['attributes']['class'];
-        $aField['attributes']['class'] = $this->generateClassAttribute($aField['attributes']['class'], $this->dropElementsByType($aField['class']));
-        return $aField;
-    }
-    private function _getFieldAttributes(array $aField) {
-        return array('id' => $aField['_field_container_id'], 'data-type' => "{$aField['type']}", 'data-id_model' => $aField['_fields_container_id_model'], 'class' => "admin-page-framework-field admin-page-framework-field-{$aField['type']}" . $this->getAOrB($aField['attributes']['disabled'], ' disabled', '') . $this->getAOrB($aField['_is_sub_field'], ' admin-page-framework-subfield', ''));
-    }
-    private function _getDelimiter(array $aField, $bIsLastElement) {
-        return $aField['delimiter'] ? "<div " . $this->generateAttributes(array('class' => 'delimiter', 'id' => "delimiter-{$aField['input_id']}", 'style' => $this->getAOrB($bIsLastElement, "display:none;", ""),)) . ">" . $aField['delimiter'] . "</div>" : '';
-    }
-    private function _getFinalOutput(array $aField, array $aFieldsOutput, $iFieldsCount) {
-        $_aFieldsSetAttributes = array('id' => 'fieldset-' . $aField['tag_id'], 'class' => 'admin-page-framework-fieldset', 'data-field_id' => $aField['tag_id'],);
-        $_aFieldsContainerAttributes = array('id' => 'fields-' . $aField['tag_id'], 'class' => 'admin-page-framework-fields' . $this->getAOrB($aField['repeatable'], ' repeatable', '') . $this->getAOrB($aField['sortable'], ' sortable', ''), 'data-type' => $aField['type'],);
-        return $aField['before_fieldset'] . "<fieldset " . $this->_getFieldContainerAttributes($aField, $_aFieldsSetAttributes, 'fieldset') . ">" . "<div " . $this->_getFieldContainerAttributes($aField, $_aFieldsContainerAttributes, 'fields') . ">" . $aField['before_fields'] . implode(PHP_EOL, $aFieldsOutput) . $aField['after_fields'] . "</div>" . $this->_getExtras($aField, $iFieldsCount) . "</fieldset>" . $aField['after_fieldset'];
-    }
-    private function _getExtras($aField, $iFieldsCount) {
-        $_aOutput = array();
-        if (isset($aField['description'])) {
-            $_aOutput[] = $this->_getDescriptions($aField['description'], 'admin-page-framework-fields-description');
-        }
-        $_aOutput[] = $this->_getFieldScripts($aField, $iFieldsCount);
-        return implode(PHP_EOL, $_aOutput);
-    }
-    private function _getFieldScripts($aField, $iFieldsCount) {
-        $_aOutput = array();
-        $_aOutput[] = $aField['repeatable'] ? $this->_getRepeaterFieldEnablerScript('fields-' . $aField['tag_id'], $iFieldsCount, $aField['repeatable']) : '';
-        $_aOutput[] = $aField['sortable'] && ($iFieldsCount > 1 || $aField['repeatable']) ? $this->_getSortableFieldEnablerScript('fields-' . $aField['tag_id']) : '';
-        return implode(PHP_EOL, $_aOutput);
-    }
-    private function _getFieldError($aErrors, $sSectionID, $sFieldID) {
-        if ($this->_hasFieldErrorsOfSection($aErrors, $sSectionID, $sFieldID)) {
-            return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}" . $aErrors[$sSectionID][$sFieldID] . "</span>";
-        }
-        if ($this->_hasFieldError($aErrors, $sFieldID)) {
-            return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}" . $aErrors[$sFieldID] . "</span>";
-        }
-        return '';
-    }
-    private function _hasFieldErrorsOfSection($aErrors, $sSectionID, $sFieldID) {
-        return (isset($aErrors[$sSectionID], $aErrors[$sSectionID][$sFieldID]) && is_array($aErrors[$sSectionID]) && !is_array($aErrors[$sSectionID][$sFieldID]));
-    }
-    private function _hasFieldError($aErrors, $sFieldID) {
-        return (isset($aErrors[$sFieldID]) && !is_array($aErrors[$sFieldID]));
-    }
-    protected function _constructFieldsArray(&$aField, &$aOptions) {
-        $_mSavedValue = $this->_getStoredInputFieldValue($aField, $aOptions);
-        $_aFields = $this->_getFieldsWithSubs($aField, $_mSavedValue);
-        $this->_setSavedFieldsValue($_aFields, $_mSavedValue, $aField);
-        $this->_setFieldsValue($_aFields);
-        return $_aFields;
-    }
-    private function _getFieldsWithSubs(array $aField, $mSavedValue) {
-        $aFirstField = array();
-        $aSubFields = array();
-        $this->_divideMainAndSubFields($aField, $aFirstField, $aSubFields);
-        $this->_fillRepeatableElements($aField, $aSubFields, $mSavedValue);
-        $this->_fillSubFields($aSubFields, $aFirstField);
-        return array_merge(array($aFirstField), $aSubFields);
-    }
-    private function _divideMainAndSubFields(array $aField, array & $aFirstField, array & $aSubFields) {
-        foreach ($aField as $_nsIndex => $_mFieldElement) {
-            if (is_numeric($_nsIndex)) {
-                $aSubFields[] = $_mFieldElement;
-            } else {
-                $aFirstField[$_nsIndex] = $_mFieldElement;
-            }
-        }
-    }
-    private function _fillRepeatableElements(array $aField, array & $aSubFields, $mSavedValue) {
-        if (!$aField['repeatable']) {
-            return;
-        }
-        $_aSavedValues = ( array )$mSavedValue;
-        unset($_aSavedValues[0]);
-        foreach ($_aSavedValues as $_iIndex => $vValue) {
-            $aSubFields[$_iIndex - 1] = isset($aSubFields[$_iIndex - 1]) && is_array($aSubFields[$_iIndex - 1]) ? $aSubFields[$_iIndex - 1] : array();
-        }
-    }
-    private function _fillSubFields(array & $aSubFields, array $aFirstField) {
-        foreach ($aSubFields as & $_aSubField) {
-            $_aLabel = $this->getElement($_aSubField, 'label', $this->getElement($aFirstField, 'label', null));
-            $_aSubField = $this->uniteArrays($_aSubField, $aFirstField);
-            $_aSubField['label'] = $_aLabel;
-        }
-    }
-    private function _setSavedFieldsValue(array & $aFields, $mSavedValue, $aField) {
-        $_bHasSubFields = count($aFields) > 1 || $aField['repeatable'] || $aField['sortable'];
-        if (!$_bHasSubFields) {
-            $aFields[0]['_saved_value'] = $mSavedValue;
-            $aFields[0]['_is_multiple_fields'] = false;
-            return;
-        }
-        foreach ($aFields as $_iIndex => & $_aThisField) {
-            $_aThisField['_saved_value'] = $this->getElement($mSavedValue, $_iIndex, null);
-            $_aThisField['_is_multiple_fields'] = true;
-        }
-    }
-    private function _setFieldsValue(array & $aFields) {
-        foreach ($aFields as & $_aField) {
-            $_aField['_is_value_set_by_user'] = isset($_aField['value']);
-            $_aField['value'] = $this->_getSetFieldValue($_aField);
-        }
-    }
-    private function _getSetFieldValue(array $aField) {
-        if (isset($aField['value'])) {
-            return $aField['value'];
-        }
-        if (isset($aField['_saved_value'])) {
-            return $aField['_saved_value'];
-        }
-        if (isset($aField['default'])) {
-            return $aField['default'];
-        }
-        return null;
-    }
-    private function _getStoredInputFieldValue($aField, $aOptions) {
-        if (!isset($aField['section_id']) || '_default' == $aField['section_id']) {
-            return $this->getElement($aOptions, $aField['field_id'], null);
-        }
-        if (isset($aField['_section_index'])) {
-            return $this->getElement($aOptions, array($aField['section_id'], $aField['_section_index'], $aField['field_id']), null);
-        }
-        return $this->getElement($aOptions, array($aField['section_id'], $aField['field_id']), null);
     }
 }
 abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtility {
@@ -7336,6 +7096,250 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
             return '';
         }
         return "<div class='admin-page-framework-info'>" . 'Debug Info: ' . AdminPageFramework_Registry::NAME . ' ' . AdminPageFramework_Registry::getVersion() . "</div>";
+    }
+}
+abstract class AdminPageFramework_FormField_FieldDefinition extends AdminPageFramework_FormField_Base {
+    protected function _constructFieldsArray(&$aField, &$aOptions) {
+        $_mSavedValue = $this->_getStoredInputFieldValue($aField, $aOptions);
+        $_aFields = $this->_getFieldsWithSubs($aField, $_mSavedValue);
+        $this->_setSavedFieldsValue($_aFields, $_mSavedValue, $aField);
+        $this->_setFieldsValue($_aFields);
+        return $_aFields;
+    }
+    private function _getFieldsWithSubs(array $aField, $mSavedValue) {
+        $aFirstField = array();
+        $aSubFields = array();
+        $this->_divideMainAndSubFields($aField, $aFirstField, $aSubFields);
+        $this->_fillRepeatableElements($aField, $aSubFields, $mSavedValue);
+        $this->_fillSubFields($aSubFields, $aFirstField);
+        return array_merge(array($aFirstField), $aSubFields);
+    }
+    private function _divideMainAndSubFields(array $aField, array & $aFirstField, array & $aSubFields) {
+        foreach ($aField as $_nsIndex => $_mFieldElement) {
+            if (is_numeric($_nsIndex)) {
+                $aSubFields[] = $_mFieldElement;
+            } else {
+                $aFirstField[$_nsIndex] = $_mFieldElement;
+            }
+        }
+    }
+    private function _fillRepeatableElements(array $aField, array & $aSubFields, $mSavedValue) {
+        if (!$aField['repeatable']) {
+            return;
+        }
+        $_aSavedValues = ( array )$mSavedValue;
+        unset($_aSavedValues[0]);
+        foreach ($_aSavedValues as $_iIndex => $vValue) {
+            $aSubFields[$_iIndex - 1] = isset($aSubFields[$_iIndex - 1]) && is_array($aSubFields[$_iIndex - 1]) ? $aSubFields[$_iIndex - 1] : array();
+        }
+    }
+    private function _fillSubFields(array & $aSubFields, array $aFirstField) {
+        foreach ($aSubFields as & $_aSubField) {
+            $_aLabel = $this->getElement($_aSubField, 'label', $this->getElement($aFirstField, 'label', null));
+            $_aSubField = $this->uniteArrays($_aSubField, $aFirstField);
+            $_aSubField['label'] = $_aLabel;
+        }
+    }
+    private function _setSavedFieldsValue(array & $aFields, $mSavedValue, $aField) {
+        $_bHasSubFields = count($aFields) > 1 || $aField['repeatable'] || $aField['sortable'];
+        if (!$_bHasSubFields) {
+            $aFields[0]['_saved_value'] = $mSavedValue;
+            $aFields[0]['_is_multiple_fields'] = false;
+            return;
+        }
+        foreach ($aFields as $_iIndex => & $_aThisField) {
+            $_aThisField['_saved_value'] = $this->getElement($mSavedValue, $_iIndex, null);
+            $_aThisField['_is_multiple_fields'] = true;
+        }
+    }
+    private function _setFieldsValue(array & $aFields) {
+        foreach ($aFields as & $_aField) {
+            $_aField['_is_value_set_by_user'] = isset($_aField['value']);
+            $_aField['value'] = $this->_getSetFieldValue($_aField);
+        }
+    }
+    private function _getSetFieldValue(array $aField) {
+        if (isset($aField['value'])) {
+            return $aField['value'];
+        }
+        if (isset($aField['_saved_value'])) {
+            return $aField['_saved_value'];
+        }
+        if (isset($aField['default'])) {
+            return $aField['default'];
+        }
+        return null;
+    }
+    private function _getStoredInputFieldValue($aField, $aOptions) {
+        if (!isset($aField['section_id']) || '_default' == $aField['section_id']) {
+            return $this->getElement($aOptions, $aField['field_id'], null);
+        }
+        if (isset($aField['_section_index'])) {
+            return $this->getElement($aOptions, array($aField['section_id'], $aField['_section_index'], $aField['field_id']), null);
+        }
+        return $this->getElement($aOptions, array($aField['section_id'], $aField['field_id']), null);
+    }
+}
+class AdminPageFramework_FormField extends AdminPageFramework_FormField_FieldDefinition {
+    private function _isSectionSet(array $aField) {
+        return isset($aField['section_id']) && $aField['section_id'] && '_default' !== $aField['section_id'];
+    }
+    private function _getInputName(array $aField, $sKey = '', $hfFilterCallback = null) {
+        $_sKey = ( string )$sKey;
+        $_sKey = $this->getAOrB('0' !== $_sKey && empty($_sKey), '', "[{$_sKey}]");
+        $_sSectionIndex = isset($aField['section_id'], $aField['_section_index']) ? "[{$aField['_section_index']}]" : "";
+        $_aMethodNamesByFieldsType = array('page' => '_getInputName_page', 'page_meta_box' => '_getInputName_meta_box', 'post_meta_box' => '_getInputName_meta_box', 'taxonomy' => '_getInputName_taxonomy', 'widget' => '_getInputName_widget', 'user_meta' => '_getInputName_user_meta',);
+        $_sMethodName = isset($_aMethodNamesByFieldsType[$aField['_fields_type']]) ? $_aMethodNamesByFieldsType[$aField['_fields_type']] : '_getInputName_page';
+        $_sResultTail = '';
+        $_sNameAttribute = $this->{$_sMethodName}($aField, $_sKey, $_sSectionIndex, $_sResultTail);
+        return is_callable($hfFilterCallback) ? call_user_func_array($hfFilterCallback, array($_sNameAttribute)) . $_sResultTail : $_sNameAttribute . $_sResultTail;
+    }
+    private function _getInputName_page(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = '';
+        $_sSectionDimension = $this->_isSectionSet($aField) ? "[{$aField['section_id']}]" : '';
+        return "{$aField['option_key']}{$_sSectionDimension}{$_sSectionIndex}[{$aField['field_id']}]{$_sKey}";
+    }
+    private function _getInputName_meta_box(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = '';
+        return $this->_isSectionSet($aField) ? "{$aField['section_id']}{$_sSectionIndex}[{$aField['field_id']}]{$_sKey}" : "{$aField['field_id']}{$_sKey}";
+    }
+    private function _getInputName_taxonomy(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = $_sSectionIndex = '';
+        return "{$aField['field_id']}{$_sKey}";
+    }
+    private function _getInputName_widget(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = $_sKey;
+        return $this->_isSectionSet($aField) ? "{$aField['section_id']}]{$_sSectionIndex}[{$aField['field_id']}" : "{$aField['field_id']}";
+    }
+    private function _getInputName_user_meta(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = $_sKey;
+        return $this->_isSectionSet($aField) ? "{$aField['section_id']}{$_sSectionIndex}[{$aField['field_id']}]" : "{$aField['field_id']}";
+    }
+    protected function _getFlatInputName(array $aField, $sKey = '', $hfFilterCallback = null) {
+        $_sKey = ( string )$sKey;
+        $_sKey = $this->getAOrB('0' !== $_sKey && empty($_sKey), '', "|{$_sKey}");
+        $_sSectionIndex = isset($aField['section_id'], $aField['_section_index']) ? "|{$aField['_section_index']}" : "";
+        $_aMethodNamesByFieldsType = array('page' => '_getFlatInputName_page', 'page_meta_box' => '_getFlatInputName_meta_box', 'post_meta_box' => '_getFlatInputName_meta_box', 'taxonomy' => '_getFlatInputName_taxonomy', 'widget' => '_getFlatInputName_other', 'user_meta' => '_getFlatInputName_other',);
+        $_sMethodName = isset($_aMethodNamesByFieldsType[$aField['_fields_type']]) ? $_aMethodNamesByFieldsType[$aField['_fields_type']] : '_getInputName_page';
+        $_sResultTail = '';
+        $_sFlatNameAttribute = $this->{$_sMethodName}($aField, $_sKey, $_sSectionIndex, $_sResultTail);
+        return is_callable($hfFilterCallback) ? call_user_func_array($hfFilterCallback, array($_sFlatNameAttribute)) . $_sResultTail : $_sFlatNameAttribute . $_sResultTail;
+    }
+    private function _getFlatInputName_page(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = '';
+        $_sSectionDimension = $this->_isSectionSet($aField) ? "|{$aField['section_id']}" : '';
+        return "{$aField['option_key']}{$_sSectionDimension}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}";
+    }
+    private function _getFlatInputName_meta_box(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = '';
+        return $this->_isSectionSet($aField) ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}" : "{$aField['field_id']}{$_sKey}";
+    }
+    private function _getFlatInputName_taxonomy(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sSectionIndex = $_sResultTail = '';
+        return "{$aField['field_id']}{$_sKey}";
+    }
+    private function _getFlatInputName_other(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = $_sKey;
+        return $this->_isSectionSet($aField) ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}" : "{$aField['field_id']}";
+    }
+    static public function _getInputID($aField, $isIndex = 0, $hfFilterCallback = null) {
+        $_sSectionIndex = isset($aField['_section_index']) ? '__' . $aField['_section_index'] : '';
+        $_isFieldIndex = '__' . $isIndex;
+        $_sResult = isset($aField['section_id']) && '_default' != $aField['section_id'] ? $aField['section_id'] . $_sSectionIndex . '_' . $aField['field_id'] . $_isFieldIndex : $aField['field_id'] . $_isFieldIndex;
+        return is_callable($hfFilterCallback) ? call_user_func_array($hfFilterCallback, array($_sResult)) : $_sResult;
+    }
+    static public function _getInputTagBaseID($aField, $hfFilterCallback = null) {
+        $_sSectionIndex = isset($aField['_section_index']) ? '__' . $aField['_section_index'] : '';
+        $_sResult = isset($aField['section_id']) && '_default' != $aField['section_id'] ? $aField['section_id'] . $_sSectionIndex . '_' . $aField['field_id'] : $aField['field_id'];
+        return is_callable($hfFilterCallback) ? call_user_func_array($hfFilterCallback, array($_sResult)) : $_sResult;
+    }
+    public function _getFieldOutput() {
+        $_aFieldsOutput = array();
+        $_sFieldError = $this->_getFieldError($this->aErrors, $this->aField['section_id'], $this->aField['field_id']);
+        if ('' !== $_sFieldError) {
+            $_aFieldsOutput[] = $_sFieldError;
+        }
+        $this->aField['tag_id'] = $this->_getInputTagBaseID($this->aField, $this->aCallbacks['hfTagID']);
+        $_aFields = $this->_constructFieldsArray($this->aField, $this->aOptions);
+        $_aFieldsOutput[] = $this->_getFieldsOutput($_aFields, $this->aCallbacks);
+        return $this->_getFinalOutput($this->aField, $_aFieldsOutput, count($_aFields));
+    }
+    private function _getFieldsOutput(array $aFields, array $aCallbacks = array()) {
+        $_aOutput = array();
+        foreach ($aFields as $_isIndex => $_aField) {
+            $_aOutput[] = $this->_getEachFieldOutput($_aField, $_isIndex, $aCallbacks, $this->isLastElement($aFields, $_isIndex));
+        }
+        return implode(PHP_EOL, array_filter($_aOutput));
+    }
+    private function _getEachFieldOutput(array $aField, $isIndex, array $aCallbacks, $bIsLastElement = false) {
+        $_aFieldTypeDefinition = $this->_getFieldTypeDefinition($aField['type']);
+        if (!is_callable($_aFieldTypeDefinition['hfRenderField'])) {
+            return '';
+        }
+        $aField = $this->_getFormatedFieldDefinitionArray($aField, $isIndex, $aCallbacks, $_aFieldTypeDefinition);
+        $_aFieldAttributes = $this->_getFieldAttributes($aField);
+        return $aField['before_field'] . "<div " . $this->_getFieldContainerAttributes($aField, $_aFieldAttributes, 'field') . ">" . call_user_func_array($_aFieldTypeDefinition['hfRenderField'], array($aField)) . $this->_getDelimiter($aField, $bIsLastElement) . "</div>" . $aField['after_field'];
+    }
+    private function _getFieldTypeDefinition($sFieldTypeSlug) {
+        return $this->getElement($this->aFieldTypeDefinitions, $sFieldTypeSlug, $this->aFieldTypeDefinitions['default']);
+    }
+    private function _getFormatedFieldDefinitionArray(array $aField, $isIndex, array $aCallbacks, $aFieldTypeDefinition) {
+        $_bIsSubField = is_numeric($isIndex) && 0 < $isIndex;
+        $aField['_is_sub_field'] = $_bIsSubField;
+        $aField['_index'] = $isIndex;
+        $aField['input_id'] = $this->_getInputID($aField, $isIndex, $aCallbacks['hfID']);
+        $aField['_input_name'] = $this->_getInputName($aField, $this->getAOrB($aField['_is_multiple_fields'], $isIndex, ''), $aCallbacks['hfName']);
+        $aField['_input_name_flat'] = $this->_getFlatInputName($aField, $this->getAOrB($aField['_is_multiple_fields'], $isIndex, ''), $aCallbacks['hfNameFlat']);
+        $aField['_field_container_id'] = "field-{$aField['input_id']}";
+        $aField['_input_id_model'] = $this->_getInputID($aField, '-fi-', $aCallbacks['hfID']);
+        $aField['_input_name_model'] = $this->_getInputName($aField, $aField['_is_multiple_fields'] ? '-fi-' : '', $aCallbacks['hfName']);
+        $aField['_fields_container_id_model'] = "field-{$aField['_input_id_model']}";
+        $aField['_fields_container_id'] = "fields-{$this->aField['tag_id']}";
+        $aField['_fieldset_container_id'] = "fieldset-{$this->aField['tag_id']}";
+        $aField = $this->uniteArrays($aField, array('attributes' => array('id' => $aField['input_id'], 'name' => $aField['_input_name'], 'value' => $aField['value'], 'type' => $aField['type'], 'disabled' => null, 'data-id_model' => $aField['_input_id_model'], 'data-name_model' => $aField['_input_name_model'],)), ( array )$aFieldTypeDefinition['aDefaultKeys']);
+        $aField['attributes']['class'] = 'widget' === $aField['_fields_type'] && is_callable($aCallbacks['hfClass']) ? call_user_func_array($aCallbacks['hfClass'], array($aField['attributes']['class'])) : $aField['attributes']['class'];
+        $aField['attributes']['class'] = $this->generateClassAttribute($aField['attributes']['class'], $this->dropElementsByType($aField['class']));
+        return $aField;
+    }
+    private function _getFieldAttributes(array $aField) {
+        return array('id' => $aField['_field_container_id'], 'data-type' => "{$aField['type']}", 'data-id_model' => $aField['_fields_container_id_model'], 'class' => "admin-page-framework-field admin-page-framework-field-{$aField['type']}" . $this->getAOrB($aField['attributes']['disabled'], ' disabled', '') . $this->getAOrB($aField['_is_sub_field'], ' admin-page-framework-subfield', ''));
+    }
+    private function _getDelimiter(array $aField, $bIsLastElement) {
+        return $aField['delimiter'] ? "<div " . $this->generateAttributes(array('class' => 'delimiter', 'id' => "delimiter-{$aField['input_id']}", 'style' => $this->getAOrB($bIsLastElement, "display:none;", ""),)) . ">" . $aField['delimiter'] . "</div>" : '';
+    }
+    private function _getFinalOutput(array $aField, array $aFieldsOutput, $iFieldsCount) {
+        $_aFieldsSetAttributes = array('id' => 'fieldset-' . $aField['tag_id'], 'class' => 'admin-page-framework-fieldset', 'data-field_id' => $aField['tag_id'],);
+        $_aFieldsContainerAttributes = array('id' => 'fields-' . $aField['tag_id'], 'class' => 'admin-page-framework-fields' . $this->getAOrB($aField['repeatable'], ' repeatable', '') . $this->getAOrB($aField['sortable'], ' sortable', ''), 'data-type' => $aField['type'],);
+        return $aField['before_fieldset'] . "<fieldset " . $this->_getFieldContainerAttributes($aField, $_aFieldsSetAttributes, 'fieldset') . ">" . "<div " . $this->_getFieldContainerAttributes($aField, $_aFieldsContainerAttributes, 'fields') . ">" . $aField['before_fields'] . implode(PHP_EOL, $aFieldsOutput) . $aField['after_fields'] . "</div>" . $this->_getExtras($aField, $iFieldsCount) . "</fieldset>" . $aField['after_fieldset'];
+    }
+    private function _getExtras($aField, $iFieldsCount) {
+        $_aOutput = array();
+        if (isset($aField['description'])) {
+            $_aOutput[] = $this->_getDescriptions($aField['description'], 'admin-page-framework-fields-description');
+        }
+        $_aOutput[] = $this->_getFieldScripts($aField, $iFieldsCount);
+        return implode(PHP_EOL, $_aOutput);
+    }
+    private function _getFieldScripts($aField, $iFieldsCount) {
+        $_aOutput = array();
+        $_aOutput[] = $aField['repeatable'] ? $this->_getRepeaterFieldEnablerScript('fields-' . $aField['tag_id'], $iFieldsCount, $aField['repeatable']) : '';
+        $_aOutput[] = $aField['sortable'] && ($iFieldsCount > 1 || $aField['repeatable']) ? $this->_getSortableFieldEnablerScript('fields-' . $aField['tag_id']) : '';
+        return implode(PHP_EOL, $_aOutput);
+    }
+    private function _getFieldError($aErrors, $sSectionID, $sFieldID) {
+        if ($this->_hasFieldErrorsOfSection($aErrors, $sSectionID, $sFieldID)) {
+            return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}" . $aErrors[$sSectionID][$sFieldID] . "</span>";
+        }
+        if ($this->_hasFieldError($aErrors, $sFieldID)) {
+            return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}" . $aErrors[$sFieldID] . "</span>";
+        }
+        return '';
+    }
+    private function _hasFieldErrorsOfSection($aErrors, $sSectionID, $sFieldID) {
+        return (isset($aErrors[$sSectionID], $aErrors[$sSectionID][$sFieldID]) && is_array($aErrors[$sSectionID]) && !is_array($aErrors[$sSectionID][$sFieldID]));
+    }
+    private function _hasFieldError($aErrors, $sFieldID) {
+        return (isset($aErrors[$sFieldID]) && !is_array($aErrors[$sFieldID]));
     }
 }
 class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
