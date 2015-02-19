@@ -35,22 +35,32 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * @internal
      * @since       3.0.0
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
+     * @param       array       $aColumns
+     * By default something like this is passed.
+     * <code>
+     * Array (
+     *      [cb]            => <input type="checkbox" />
+     *      [name]          => Name
+     *      [description]   => Description
+     *      [slug]          => Slug
+     *      [posts]         => Admin Page Framework
+     * ) 
+     * </code>
      */
     public function _replyToManageColumns( $aColumns ) {
 
-        /* By default something like this is passed.
-            Array (
-                [cb] => <input type="checkbox" />
-                [name] => Name
-                [description] => Description
-                [slug] => Slug
-                [posts] => Admin Page Framework
-            ) 
-         */
         if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] ) {
-            $aColumns = $this->oUtil->addAndApplyFilter( $this, "columns_{$_GET['taxonomy']}", $aColumns );
+            $aColumns = $this->oUtil->addAndApplyFilter( 
+                $this, 
+                "columns_{$_GET['taxonomy']}", 
+                $aColumns
+            );
         }
-        $aColumns = $this->oUtil->addAndApplyFilter( $this, "columns_{$this->oProp->sClassName}", $aColumns );    
+        $aColumns = $this->oUtil->addAndApplyFilter( 
+            $this, 
+            "columns_{$this->oProp->sClassName}", 
+            $aColumns 
+        );
         return $aColumns;
         
     }
@@ -65,9 +75,17 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
     public function _replyToSetSortableColumns( $aSortableColumns ) {
 
         if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] ) {
-            $aSortableColumns = $this->oUtil->addAndApplyFilter( $this, "sortable_columns_{$_GET['taxonomy']}", $aSortableColumns );
+            $aSortableColumns = $this->oUtil->addAndApplyFilter(
+                $this, 
+                "sortable_columns_{$_GET['taxonomy']}",
+                $aSortableColumns 
+            );
         }
-        $aSortableColumns = $this->oUtil->addAndApplyFilter( $this, "sortable_columns_{$this->oProp->sClassName}", $aSortableColumns );
+        $aSortableColumns = $this->oUtil->addAndApplyFilter( 
+            $this, 
+            "sortable_columns_{$this->oProp->sClassName}",
+            $aSortableColumns 
+        );
         return $aSortableColumns;
         
     }   
@@ -108,7 +126,9 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
     protected function _setOptionArray( $iTermID=null, $sOptionKey ) {
                 
         $aOptions               = get_option( $sOptionKey, array() );
-        $this->oProp->aOptions  = isset( $iTermID, $aOptions[ $iTermID ] ) ? $aOptions[ $iTermID ] : array();
+        $this->oProp->aOptions  = isset( $iTermID, $aOptions[ $iTermID ] )
+            ? $aOptions[ $iTermID ] 
+            : array();
 
     }    
     
@@ -121,11 +141,17 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      */
     public function _replyToValidateOptions( $iTermID ) {
         
-        if ( ! isset( $_POST[ $this->oProp->sClassHash ] ) ) { return; }
-        if ( ! wp_verify_nonce( $_POST[ $this->oProp->sClassHash ], $this->oProp->sClassHash ) ) { return; }
+        if ( ! isset( $_POST[ $this->oProp->sClassHash ] ) ) { 
+            return; 
+        }
+        if ( ! wp_verify_nonce( $_POST[ $this->oProp->sClassHash ], $this->oProp->sClassHash ) ) {
+            return; 
+        }
         
         $aTaxonomyFieldOptions  = get_option( $this->oProp->sOptionKey, array() );
-        $aOldOptions            = isset( $aTaxonomyFieldOptions[ $iTermID ] ) ? $aTaxonomyFieldOptions[ $iTermID ] : array();
+        $aOldOptions            = isset( $aTaxonomyFieldOptions[ $iTermID ] ) 
+            ? $aTaxonomyFieldOptions[ $iTermID ] 
+            : array();
         $aSubmittedOptions      = array();
         foreach( $this->oForm->aFields as $_sSectionID => $_aFields ) {
             foreach( $_aFields as $_sFieldID => $_aField ) {
@@ -137,7 +163,13 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
             
         /* Apply validation filters to the submitted option array. */
         // @todo call the validate() method.
-        $aSubmittedOptions                  = $this->oUtil->addAndApplyFilters( $this, 'validation_' . $this->oProp->sClassName, $aSubmittedOptions, $aOldOptions, $this );        
+        $aSubmittedOptions = $this->oUtil->addAndApplyFilters( 
+            $this, 
+            'validation_' . $this->oProp->sClassName, 
+            $aSubmittedOptions, 
+            $aOldOptions, 
+            $this 
+        );
         $aTaxonomyFieldOptions[ $iTermID ]  = $this->oUtil->uniteArrays( $aSubmittedOptions, $aOldOptions );
         update_option( $this->oProp->sOptionKey, $aTaxonomyFieldOptions );
         
