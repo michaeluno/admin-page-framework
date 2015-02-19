@@ -311,7 +311,7 @@ JAVASCRIPTS;
             return '';
         }
         return "<div class='admin-page-framework-info'>" 
-                . 'Debug Info: ' . AdminPageFramework_Registry::Name . ' '. AdminPageFramework_Registry::getVersion() 
+                . 'Debug Info: ' . AdminPageFramework_Registry::NAME . ' '. AdminPageFramework_Registry::getVersion() 
             . "</div>";
     }
 }
