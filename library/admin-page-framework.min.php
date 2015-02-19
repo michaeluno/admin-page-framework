@@ -1,11 +1,11 @@
 <?php 
 /**
-	Admin Page Framework v3.5.3b43 by Michael Uno 
+	Admin Page Framework v3.5.3b44 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.5.3b43';
+    const VERSION = '3.5.3b44';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
@@ -203,7 +203,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         $this->oUtil->addAndDoActions($this, array("submit_{$this->oProp->sClassName}_{$_sPressedInputID}", $_sSubmitSectionID ? "submit_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" : "submit_{$this->oProp->sClassName}_{$_sPressedFieldID}", $_sSubmitSectionID ? "submit_{$this->oProp->sClassName}_{$_sSubmitSectionID}" : null, isset($_POST['tab_slug']) ? "submit_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}" : null, "submit_{$this->oProp->sClassName}_{$_sPageSlug}", "submit_{$this->oProp->sClassName}",), $_aInput, $_aOptions, $this);
     }
     private function _doActions_submit_after($_aInput, $_aOptions, $_sPageSlug, $_sTabSlug, $_sSubmitSectionID, $_sPressedFieldID, $_bUpdated) {
-        $this->oUtil->addAndDoActions($this, array($_sSubmitSectionID ? "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" : "submit_after_{$this->oProp->sClassName}_{$_sPressedFieldID}", $_sSubmitSectionID ? "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}" : null, isset($_POST['tab_slug']) ? "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}" : null, "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}", "submit_after_{$this->oProp->sClassName}",), $_bUpdated ? $_aInput : array(), $_aOptions, $this);
+        $this->oUtil->addAndDoActions($this, array($this->oUtil->getAOrB($_sSubmitSectionID, "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}", "submit_after_{$this->oProp->sClassName}_{$_sPressedFieldID}"), $this->oUtil->getAOrB($_sSubmitSectionID, "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}", null), $this->oUtil->getAOrB(isset($_POST['tab_slug']), "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}", null), "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}", "submit_after_{$this->oProp->sClassName}",), $_bUpdated ? $_aInput : array(), $_aOptions, $this);
     }
     private function _getSettingUpdateURL(array $aStatus, $sPageSlug, $sTabSlug) {
         $aStatus = $this->oUtil->addAndApplyFilters($this, array("options_update_status_{$sPageSlug}_{$sTabSlug}", "options_update_status_{$sPageSlug}", "options_update_status_{$this->oProp->sClassName}",), $aStatus);
@@ -356,12 +356,6 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         $_oException->aReturn = $this->_confirmSubmitButtonAction($_sPressedInputName, $_sSubmitSectionID, 'email');
         throw $_oException;
     }
-    private function _setSettingNoticeAfterValidation($bIsInputEmtpy) {
-        if ($this->hasSettingNotice()) {
-            return;
-        }
-        $this->setSettingNotice($this->oUtil->getAOrB($bIsInputEmtpy, $this->oMsg->get('option_cleared'), $this->oMsg->get('option_updated')), $this->oUtil->getAOrB($bIsInputEmtpy, 'error', 'updated'), $this->oProp->sOptionKey, false);
-    }
     public function _replyToRemoveConfirmationQueryKey($sSettingUpdateURL) {
         return remove_query_arg(array('confirmation',), $sSettingUpdateURL);
     }
@@ -430,6 +424,12 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             return $this->oForm->getOtherTabOptions($aOptions, $sPageSlug, $sTabSlug);
         }
         return $this->oForm->getOtherPageOptions($aOptions, $sPageSlug);
+    }
+    protected function _setSettingNoticeAfterValidation($bIsInputEmtpy) {
+        if ($this->hasSettingNotice()) {
+            return;
+        }
+        $this->setSettingNotice($this->oUtil->getAOrB($bIsInputEmtpy, $this->oMsg->get('option_cleared'), $this->oMsg->get('option_updated')), $this->oUtil->getAOrB($bIsInputEmtpy, 'error', 'updated'), $this->oProp->sOptionKey, false);
     }
 }
 abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Model_Validation {
