@@ -179,15 +179,21 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             $this->oUtil->addAndDoActions(
                 $this,
                 array( 
-                    $_sSubmitSectionID 
-                        ? "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" 
-                        : "submit_after_{$this->oProp->sClassName}_{$_sPressedFieldID}",
-                    $_sSubmitSectionID 
-                        ? "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}" 
-                        : null, 
-                    isset( $_POST['tab_slug'] ) 
-                        ? "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}" 
-                        : null, 
+                    $this->oUtil->getAOrB(
+                        $_sSubmitSectionID,                        
+                        "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}",
+                        "submit_after_{$this->oProp->sClassName}_{$_sPressedFieldID}"
+                    ),
+                    $this->oUtil->getAOrB(
+                        $_sSubmitSectionID,
+                        "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}",
+                        null
+                    ),
+                    $this->oUtil->getAOrB(
+                        isset( $_POST['tab_slug'] ),
+                        "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}",
+                        null
+                    ),
                     "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}",
                     "submit_after_{$this->oProp->sClassName}",
                 ),
