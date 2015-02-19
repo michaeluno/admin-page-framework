@@ -302,10 +302,11 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * But the array is not finalized and it stores all the page's options. So the field values that are not of this class should be removed.
      * 
      * @since       3.4.1    
+     * @since       3.5.3       Added a type hint to the second parameter.
      * @remark      Overrides the parent method defined in the meta box class.
      * @internal    
      */
-    protected function _setOptionArray( $sPageSlug, $aFields ) {
+    protected function _setOptionArray( $sPageSlug, array $aFields ) {
         
         // Remove elements that are not registered in this class. Here `array_key_exists()` is used instead of `isset()` to check the element existence
         // as `isset()` returns false when a null value is set.
