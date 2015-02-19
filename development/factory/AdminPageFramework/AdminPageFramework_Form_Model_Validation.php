@@ -55,7 +55,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         // If only page-meta-boxes are used, it's possible that the option key element does not exist.
         
         // 2-1. Prepare the saved options 
-        $_aDefaultOptions   = $this->oProp->getDefaultOptions( $this->oForm->aFields );     
+        $_aDefaultOptions   = $this->oProp->getDefaultOptions( $this->oForm->aFields );
         $_aOptions          = $this->oUtil->addAndApplyFilter( 
             $this, 
             "validation_saved_options_{$this->oProp->sClassName}", 
@@ -63,12 +63,10 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             $this
         );
         
-        // 2-2. Prepare the user submit input data.
-        $_aInput     = isset( $_POST[ $this->oProp->sOptionKey ] ) 
-            ? stripslashes_deep( $_POST[ $this->oProp->sOptionKey ] )
-            : array();        
-        // copy one for parsing as $aInput will be merged with the default options.
-        $_aInputRaw  = $_aInput;       
+        // 2-2. Prepare the user submit input data. Copy one for parsing as $aInput will be merged with the default options.
+        $_aInput     = $this->oUtil->getElementAsArray( $_POST, $this->oProp->sOptionKey, array() );
+        $_aInput     = stripslashes_deep( $_aInput );  
+        $_aInputRaw  = $_aInput; // for parsing
         
         // Merge the submitted input data with the default options. Now $_aInput is modified.       
         $_sTabSlug   = $this->oUtil->getElement( $_POST, 'tab_slug', '' );
@@ -82,45 +80,21 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             ) 
         );                
 
-        /* 3. Execute the submit_{...} actions. */
-        $_aSubmit           = $this->oUtil->getElement( $_POST, '__submit', array() );
+        // 3. Execute the submit_{...} actions.
+        $_aSubmit           = $this->oUtil->getElementAsArray( $_POST, '__submit', array() );
+        $_sSubmitSectionID  = $this->_getPressedSubmitButtonData( $_aSubmit, 'section_id' );
         $_sPressedFieldID   = $this->_getPressedSubmitButtonData( $_aSubmit, 'field_id' );
         $_sPressedInputID   = $this->_getPressedSubmitButtonData( $_aSubmit, 'input_id' );        
-        $_sSubmitSectionID  = $this->_getPressedSubmitButtonData( $_aSubmit, 'section_id' );
-        if ( has_action( "submit_{$this->oProp->sClassName}_{$_sPressedInputID}" ) ) {
-            trigger_error( 
-                'Admin Page Framework: ' . ' : ' 
-                    . sprintf( 
-                        __( 'The hook <code>%1$s</code>is deprecated. Use <code>%2$s</code> instead.', $this->oProp->sTextDomain ), 
-                        "submit_{instantiated class name}_{pressed input id}", 
-                        "submit_{instantiated class name}_{pressed field id}"
-                    ), 
-                E_USER_WARNING 
-            );
-        }
-        $this->oUtil->addAndDoActions(
-            $this,
-            array( 
-                // @todo deprecate the hook with the input ID
-                "submit_{$this->oProp->sClassName}_{$_sPressedInputID}",  // will be deprecated in near future release
-                $_sSubmitSectionID 
-                    ? "submit_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" 
-                    : "submit_{$this->oProp->sClassName}_{$_sPressedFieldID}",
-                $_sSubmitSectionID 
-                    ? "submit_{$this->oProp->sClassName}_{$_sSubmitSectionID}" 
-                    : null, // if null given, the method will ignore it
-                isset( $_POST['tab_slug'] ) 
-                    ? "submit_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}"
-                    : null, // if null given, the method will ignore it
-                "submit_{$this->oProp->sClassName}_{$_sPageSlug}",
-                "submit_{$this->oProp->sClassName}",
-            ),
-            // 3.3.1+ Added parameters to be passed
-            $_aInput,
-            $_aOptions,
-            $this
-        );     
-
+        $this->_doActions_submit( 
+            $_aInput, 
+            $_aOptions, 
+            $_sPageSlug, 
+            $_sTabSlug, 
+            $_sSubmitSectionID, 
+            $_sPressedFieldID, 
+            $_sPressedInputID 
+        );
+        
         // 4. Validate the data.
         $_aStatus   = array( 'settings-updated' => true );        
         $_aInput    = $this->_validateSubmittedData( 
@@ -137,31 +111,96 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         }
 
         // 6. Trigger the submit_after_{...} action hooks. [3.3.1+]
-        $this->oUtil->addAndDoActions(
-            $this,
-            array( 
-                $_sSubmitSectionID 
-                    ? "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" 
-                    : "submit_after_{$this->oProp->sClassName}_{$_sPressedFieldID}",
-                $_sSubmitSectionID 
-                    ? "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}" 
-                    : null, 
-                isset( $_POST['tab_slug'] ) 
-                    ? "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}" 
-                    : null, 
-                "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}",
-                "submit_after_{$this->oProp->sClassName}",
-            ),
-            // 3.3.1+ Added parameters to be passed
-            $_bUpdated ? $_aInput : array(),
-            $_aOptions,
-            $this
-        );           
+        $this->_doActions_submit_after( 
+            $_aInput, 
+            $_aOptions, 
+            $_sPageSlug, 
+            $_sTabSlug, 
+            $_sSubmitSectionID, 
+            $_sPressedFieldID,
+            $_bUpdated
+        );
        
         // 7. Reload the page with the update notice.
         exit( wp_redirect( $this->_getSettingUpdateURL( $_aStatus, $_sPageSlug, $_sTabSlug ) ) );
         
     }
+        /**
+         * Do the 'submit_...' actions.
+         * @internal
+         * @return      void
+         * @since       3.5.3
+         */
+        private function _doActions_submit( $_aInput, $_aOptions, $_sPageSlug, $_sTabSlug, $_sSubmitSectionID, $_sPressedFieldID, $_sPressedInputID ) {
+         
+            // Warnings for deprecated hooks.
+            if ( has_action( "submit_{$this->oProp->sClassName}_{$_sPressedInputID}" ) ) {
+                trigger_error( 
+                    'Admin Page Framework: ' . ' : ' 
+                        . sprintf( 
+                            __( 'The hook <code>%1$s</code>is deprecated. Use <code>%2$s</code> instead.', $this->oProp->sTextDomain ), 
+                            "submit_{instantiated class name}_{pressed input id}", 
+                            "submit_{instantiated class name}_{pressed field id}"
+                        ), 
+                    E_USER_WARNING 
+                );
+            }
+            $this->oUtil->addAndDoActions(
+                $this,
+                array( 
+                    // @todo deprecate the hook with the input ID
+                    "submit_{$this->oProp->sClassName}_{$_sPressedInputID}",  // will be deprecated in near future release
+                    $_sSubmitSectionID 
+                        ? "submit_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" 
+                        : "submit_{$this->oProp->sClassName}_{$_sPressedFieldID}",
+                    $_sSubmitSectionID 
+                        ? "submit_{$this->oProp->sClassName}_{$_sSubmitSectionID}" 
+                        : null, // if null given, the method will ignore it
+                    isset( $_POST['tab_slug'] ) 
+                        ? "submit_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}"
+                        : null, // if null given, the method will ignore it
+                    "submit_{$this->oProp->sClassName}_{$_sPageSlug}",
+                    "submit_{$this->oProp->sClassName}",
+                ),
+                // 3.3.1+ Added parameters to be passed
+                $_aInput,
+                $_aOptions,
+                $this
+            );     
+            
+        }
+        /**
+         * Do the 'submit_after_...' actions.
+         * @internal
+         * @return      void
+         * @since       3.5.3
+         */
+        private function _doActions_submit_after( $_aInput, $_aOptions, $_sPageSlug, $_sTabSlug, $_sSubmitSectionID, $_sPressedFieldID, $_bUpdated ) {
+            
+            $this->oUtil->addAndDoActions(
+                $this,
+                array( 
+                    $_sSubmitSectionID 
+                        ? "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" 
+                        : "submit_after_{$this->oProp->sClassName}_{$_sPressedFieldID}",
+                    $_sSubmitSectionID 
+                        ? "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}" 
+                        : null, 
+                    isset( $_POST['tab_slug'] ) 
+                        ? "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}" 
+                        : null, 
+                    "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}",
+                    "submit_after_{$this->oProp->sClassName}",
+                ),
+                // 3.3.1+ Added parameters to be passed
+                $_bUpdated 
+                    ? $_aInput 
+                    : array(),
+                $_aOptions,
+                $this
+            );                     
+            
+        }
         /**
          * Returns the url to reload.
          * 
