@@ -1,11 +1,11 @@
 <?php 
 /**
-	Admin Page Framework v3.5.3b38 by Michael Uno 
+	Admin Page Framework v3.5.3b39 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.5.3b38';
+    const VERSION = '3.5.3b39';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
@@ -5964,63 +5964,63 @@ class AdminPageFramework_FormField_Base extends AdminPageFramework_FormOutput {
     }
 }
 class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
-    private function _getInputName($aField = null, $sKey = '', $hfFilterCallback = null) {
-        $sKey = ( string )$sKey;
-        $aField = isset($aField) ? $aField : $this->aField;
-        $_sKey = '0' !== $sKey && empty($sKey) ? '' : "[{$sKey}]";
-        $_sSectionIndex = isset($aField['section_id'], $aField['_section_index']) ? "[{$aField['_section_index']}]" : "";
-        $_sResult = '';
-        $_sResultTail = '';
-        switch ($aField['_fields_type']) {
-            default:
-            case 'page':
-                $sSectionDimension = isset($aField['section_id']) && $aField['section_id'] && '_default' != $aField['section_id'] ? "[{$aField['section_id']}]" : '';
-                $_sResult = "{$aField['option_key']}{$sSectionDimension}{$_sSectionIndex}[{$aField['field_id']}]{$_sKey}";
-            break;
-            case 'page_meta_box':
-            case 'post_meta_box':
-                $_sResult = isset($aField['section_id']) && $aField['section_id'] && '_default' != $aField['section_id'] ? "{$aField['section_id']}{$_sSectionIndex}[{$aField['field_id']}]{$_sKey}" : "{$aField['field_id']}{$_sKey}";
-            break;
-            case 'taxonomy':
-                $_sResult = "{$aField['field_id']}{$_sKey}";
-            break;
-            case 'widget':
-                $_sResult = isset($aField['section_id']) && $aField['section_id'] && '_default' != $aField['section_id'] ? "{$aField['section_id']}]{$_sSectionIndex}[{$aField['field_id']}" : "{$aField['field_id']}";
-                $_sResultTail = $_sKey;
-            break;
-            case 'user_meta':
-                $_sResult = isset($aField['section_id']) && $aField['section_id'] && '_default' != $aField['section_id'] ? "{$aField['section_id']}{$_sSectionIndex}[{$aField['field_id']}]" : "{$aField['field_id']}";
-                $_sResultTail = $_sKey;
-            break;
-        }
-        return is_callable($hfFilterCallback) ? call_user_func_array($hfFilterCallback, array($_sResult)) . $_sResultTail : $_sResult . $_sResultTail;
+    private function _isSectionSet(array $aField) {
+        return isset($aField['section_id']) && $aField['section_id'] && '_default' !== $aField['section_id'];
     }
-    protected function _getFlatInputName($aField, $sKey = '', $hfFilterCallback = null) {
-        $sKey = ( string )$sKey;
-        $_sKey = '0' !== $sKey && empty($sKey) ? '' : "|{$sKey}";
-        $_sSectionIndex = isset($aField['section_id'], $aField['_section_index']) ? "|{$aField['_section_index']}" : "";
-        $_sResult = '';
+    private function _getInputName(array $aField, $sKey = '', $hfFilterCallback = null) {
+        $_sKey = ( string )$sKey;
+        $_sKey = $this->getAOrB('0' !== $_sKey && empty($_sKey), '', "[{$_sKey}]");
+        $_sSectionIndex = isset($aField['section_id'], $aField['_section_index']) ? "[{$aField['_section_index']}]" : "";
+        $_aMethodNamesByFieldsType = array('page' => '_getInputName_page', 'page_meta_box' => '_getInputName_meta_box', 'post_meta_box' => '_getInputName_meta_box', 'taxonomy' => '_getInputName_taxonomy', 'widget' => '_getInputName_widget', 'user_meta' => '_getInputName_user_meta',);
+        $_sMethodName = isset($_aMethodNamesByFieldsType[$aField['_fields_type']]) ? $_aMethodNamesByFieldsType[$aField['_fields_type']] : '_getInputName_page';
         $_sResultTail = '';
-        switch ($aField['_fields_type']) {
-            default:
-            case 'page':
-                $sSectionDimension = isset($aField['section_id']) && $aField['section_id'] && '_default' != $aField['section_id'] ? "|{$aField['section_id']}" : '';
-                $_sResult = "{$aField['option_key']}{$sSectionDimension}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}";
-            break;
-            case 'page_meta_box':
-            case 'post_meta_box':
-                $_sResult = isset($aField['section_id']) && $aField['section_id'] && '_default' != $aField['section_id'] ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}" : "{$aField['field_id']}{$_sKey}";
-            break;
-            case 'taxonomy':
-                $_sResult = "{$aField['field_id']}{$_sKey}";
-            break;
-            case 'widget':
-            case 'user_meta':
-                $_sResult = isset($aField['section_id']) && $aField['section_id'] && '_default' != $aField['section_id'] ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}" : "{$aField['field_id']}";
-                $_sResultTail = $_sKey;
-            break;
-        }
-        return is_callable($hfFilterCallback) ? call_user_func_array($hfFilterCallback, array($_sResult)) . $_sResultTail : $_sResult . $_sResultTail;
+        $_sNameAttribute = $this->{$_sMethodName}($aField, $_sKey, $_sSectionIndex, $_sResultTail);
+        return is_callable($hfFilterCallback) ? call_user_func_array($hfFilterCallback, array($_sNameAttribute)) . $_sResultTail : $_sNameAttribute . $_sResultTail;
+    }
+    private function _getInputName_page(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = '';
+        $_sSectionDimension = $this->_isSectionSet($aField) ? "[{$aField['section_id']}]" : '';
+        return "{$aField['option_key']}{$_sSectionDimension}{$_sSectionIndex}[{$aField['field_id']}]{$_sKey}";
+    }
+    private function _getInputName_meta_box(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = '';
+        return $this->_isSectionSet($aField) ? "{$aField['section_id']}{$_sSectionIndex}[{$aField['field_id']}]{$_sKey}" : "{$aField['field_id']}{$_sKey}";
+    }
+    private function _getInputName_taxonomy(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = $_sSectionIndex = '';
+        return "{$aField['field_id']}{$_sKey}";
+    }
+    private function _getInputName_widget(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = $_sKey;
+        return $this->_isSectionSet($aField) ? "{$aField['section_id']}]{$_sSectionIndex}[{$aField['field_id']}" : "{$aField['field_id']}";
+    }
+    private function _getInputName_user_meta(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = $_sKey;
+        return $this->_isSectionSet($aField) ? "{$aField['section_id']}{$_sSectionIndex}[{$aField['field_id']}]" : "{$aField['field_id']}";
+    }
+    protected function _getFlatInputName(array $aField, $sKey = '', $hfFilterCallback = null) {
+        $_sKey = ( string )$sKey;
+        $_sKey = $this->getAOrB('0' !== $_sKey && empty($_sKey), '', "|{$_sKey}");
+        $_sSectionIndex = isset($aField['section_id'], $aField['_section_index']) ? "|{$aField['_section_index']}" : "";
+        $_aMethodNamesByFieldsType = array('page' => '_getFlatInputName_page', 'page_meta_box' => '_getFlatInputName_meta_box', 'post_meta_box' => '_getFlatInputName_meta_box', 'taxonomy' => '_getFlatInputName_taxonomy', 'widget' => '_getFlatInputName_other', 'user_meta' => '_getFlatInputName_other',);
+        $_sMethodName = isset($_aMethodNamesByFieldsType[$aField['_fields_type']]) ? $_aMethodNamesByFieldsType[$aField['_fields_type']] : '_getInputName_page';
+        $_sResultTail = '';
+        $_sFlatNameAttribute = $this->{$_sMethodName}($aField, $_sKey, $_sSectionIndex, $_sResultTail);
+        return is_callable($hfFilterCallback) ? call_user_func_array($hfFilterCallback, array($_sFlatNameAttribute)) . $_sResultTail : $_sFlatNameAttribute . $_sResultTail;
+    }
+    private function _getFlatInputName_page(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sSectionDimension = $this->_isSectionSet($aField) ? "|{$aField['section_id']}" : '';
+        return "{$aField['option_key']}{$_sSectionDimension}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}";
+    }
+    private function _getFlatInputName_meta_box(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        return $this->_isSectionSet($aField) ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}" : "{$aField['field_id']}{$_sKey}";
+    }
+    private function _getFlatInputName_taxonomy(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        return "{$aField['field_id']}{$_sKey}";
+    }
+    private function _getFlatInputName_other(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = $_sKey;
+        return $this->_isSectionSet($aField) ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}" : "{$aField['field_id']}";
     }
     static public function _getInputID($aField, $isIndex = 0, $hfFilterCallback = null) {
         $_sSectionIndex = isset($aField['_section_index']) ? '__' . $aField['_section_index'] : '';
@@ -7241,7 +7241,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
         if (!in_array($sFieldsType, array('widget', 'post_meta_box', 'page_meta_box', 'user_meta'))) {
             return '';
         }
-        return "<div class='admin-page-framework-info'>" . 'Debug Info: ' . AdminPageFramework_Registry::Name . ' ' . AdminPageFramework_Registry::getVersion() . "</div>";
+        return "<div class='admin-page-framework-info'>" . 'Debug Info: ' . AdminPageFramework_Registry::NAME . ' ' . AdminPageFramework_Registry::getVersion() . "</div>";
     }
 }
 class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
