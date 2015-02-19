@@ -186,12 +186,14 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
          * @todo        Handle these with a callback set via each factory class.
          */        
         private function _getFlatInputName_page( array $aField, $_sKey, $_sSectionIndex, &$_sResultTail ) {
+            $_sResultTail       = ''; // unsed
             $_sSectionDimension = $this->_isSectionSet( $aField )
                 ? "|{$aField['section_id']}"
                 : '';
             return "{$aField['option_key']}{$_sSectionDimension}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}";
         }
         private function _getFlatInputName_meta_box( array $aField, $_sKey, $_sSectionIndex, &$_sResultTail ) {
+            $_sResultTail = ''; // unsed
             return $this->_isSectionSet( $aField )
                 ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}"
                 : "{$aField['field_id']}{$_sKey}";            
@@ -200,6 +202,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
          * @remark      the taxonomy fields type does not support sections.
          */
         private function _getFlatInputName_taxonomy( array $aField, $_sKey, $_sSectionIndex, &$_sResultTail ) {
+            $_sSectionIndex = $_sResultTail = ''; // to be clear theser are unused.
             return "{$aField['field_id']}{$_sKey}";
         }                    
         private function _getFlatInputName_other( array $aField, $_sKey, $_sSectionIndex, &$_sResultTail ) {
