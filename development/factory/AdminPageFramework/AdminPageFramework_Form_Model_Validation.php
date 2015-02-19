@@ -631,28 +631,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             throw $_oException;
             
         }                
-        
-        /**
-         * Sets a setting notice after form validation.
-         * 
-         * @since       3.5.3
-         * @internal
-         * @return      void
-         */
-        private function _setSettingNoticeAfterValidation( $bIsInputEmtpy ) {
-         
-            if ( $this->hasSettingNotice() ) {     
-                return;
-            }
-            $this->setSettingNotice(  
-                $this->oUtil->getAOrB( $bIsInputEmtpy, $this->oMsg->get( 'option_cleared' ), $this->oMsg->get( 'option_updated' ) ),
-                $this->oUtil->getAOrB( $bIsInputEmtpy, 'error', 'updated' ),
-                $this->oProp->sOptionKey, // the id
-                false // do not override
-            );
-         
-        }
-        
+                
         /**
          * Removes the 'confirmation' key in the query url.
          * 
@@ -855,4 +834,25 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             
         }
             
+    /**
+     * Sets a setting notice after form validation.
+     * 
+     * @since       3.5.3
+     * @internal
+     * @return      void
+     * @remark      Accessed from one of the parent classes.
+     */
+    protected function _setSettingNoticeAfterValidation( $bIsInputEmtpy ) {
+     
+        if ( $this->hasSettingNotice() ) {     
+            return;
+        }
+        $this->setSettingNotice(  
+            $this->oUtil->getAOrB( $bIsInputEmtpy, $this->oMsg->get( 'option_cleared' ), $this->oMsg->get( 'option_updated' ) ),
+            $this->oUtil->getAOrB( $bIsInputEmtpy, 'error', 'updated' ),
+            $this->oProp->sOptionKey, // the id
+            false // do not override
+        );
+     
+    }            
 }
