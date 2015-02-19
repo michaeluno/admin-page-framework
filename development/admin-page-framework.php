@@ -154,8 +154,9 @@ final class AdminPageFramework_Bootstrap {
         if ( AdminPageFramework_Registry::$bIsMinifiedVersion ) {
             return;
         }
-            
+
         // Load the classes only for the non-minified version.        
+        $aClassFiles = null;    // this will be updated if the inclusion below is successful. 
         include( AdminPageFramework_Registry::$sAutoLoaderPath );     
         include( AdminPageFramework_Registry::$sDirPath . '/admin-page-framework-include-class-list.php' );
         new AdminPageFramework_RegisterClasses( 

@@ -10,7 +10,7 @@
 /**
  * The base class of script creator.
  * 
- * @version		1.0.4
+ * @version		1.0.5
  */
 abstract class PHP_Class_Files_Script_Generator_Base {
 
@@ -256,23 +256,24 @@ abstract class PHP_Class_Files_Script_Generator_Base {
 		protected function _generateHeaderComment( $sClassName ) {
 			
 			$_oRC           = new ReflectionClass( $sClassName );
-			$_aConstants    = $_oRC->getConstants() + array(
-				'Name'          => '', 'Version'        =>	'',
-				'Description'   => '', 'URI'            =>	'',
-				'Author'        => '', 'AuthorURI'      =>	'',
-				'Copyright'     => '', 'License'        =>	'',
-				'Contributors'  => '',
-			);
+			$_aConstants    = $_oRC->getConstants();
+            $_aConstants    = array_change_key_case( $_aConstants, CASE_UPPER ) + array(
+				'NAME'          => '', 'VERSION'        => '',
+				'DESCRIPTION'   => '', 'URI'            => '',
+				'AUTHOR'        => '', 'AUTHORURI'      => '',
+				'COPYRIGHT'     => '', 'LICENSE'        => '',
+				'CONTRIBUTORS'  => '',
+            );
 			$_aOutputs      = array();
 			$_aOutputs[]    = '/' . '**' . PHP_EOL;
-			$_aOutputs[]    = "\t" . $_aConstants['Name'] . ' '
-				. ( $_aConstants['Version']	? 'v' . $_aConstants['Version'] . ' '  : '' ) 
-				. ( $_aConstants['Author']	? 'by ' . $_aConstants['Author'] . ' ' : ''  )
+			$_aOutputs[]    = "\t" . $_aConstants['NAME'] . ' '
+				. ( $_aConstants['VERSION']	? 'v' . $_aConstants['VERSION'] . ' '  : '' ) 
+				. ( $_aConstants['AUTHOR']	? 'by ' . $_aConstants['AUTHOR'] . ' ' : ''  )
 				. PHP_EOL;
-			$_aOutputs[]    = $_aConstants['Description']	? "\t". $_aConstants['Description'] . PHP_EOL : '';
+			$_aOutputs[]    = $_aConstants['DESCRIPTION']	? "\t". $_aConstants['DESCRIPTION'] . PHP_EOL : '';
 			$_aOutputs[]    = $_aConstants['URI'] 			? "\t". '<' . $_aConstants['URI'] . '>' . PHP_EOL : '';
-			$_aOutputs[]    = "\t" . $_aConstants['Copyright']
-				. ( $_aConstants['License']	? '; Licensed under ' . $_aConstants['License'] : '' );
+			$_aOutputs[]    = "\t" . $_aConstants['COPYRIGHT']
+				. ( $_aConstants['LICENSE']	? '; Licensed under ' . $_aConstants['LICENSE'] : '' );
 			$_aOutputs[]    = ' */' . PHP_EOL;
 			return implode( '', array_filter( $_aOutputs ) );
 		}	

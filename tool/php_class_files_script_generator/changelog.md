@@ -1,5 +1,8 @@
 ## CHange Log
 
+### 1.0.5 - 2015/02/18
+- Made the class constants to be handled in all uppercase.
+
 ### 1.0.4 - 2015/01/01
 - Fixed an issue that non array variable is passed to a foreach.
 
