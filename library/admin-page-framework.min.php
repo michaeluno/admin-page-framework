@@ -1,11 +1,11 @@
 <?php 
 /**
-	Admin Page Framework v3.5.3b44 by Michael Uno 
+	Admin Page Framework v3.5.3b45 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.5.3b44';
+    const VERSION = '3.5.3b45';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
@@ -2773,7 +2773,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         $this->oForm->setDynamicElements($this->oProp->aOptions);
         $this->_registerFields($this->oForm->aConditionedFields);
     }
-    protected function _setOptionArray($sPageSlug, $aFields) {
+    protected function _setOptionArray($sPageSlug, array $aFields) {
         $_aOptions = array();
         foreach ($aFields as $_sSectionID => $_aFields) {
             if ('_default' == $_sSectionID) {
@@ -3514,7 +3514,9 @@ abstract class AdminPageFramework_Property_Base {
         return array();
     }
     protected function _getLastInput() {
-        $_vValue = $this->oUtil->getTransient('apf_tfd' . md5('temporary_form_data_' . $this->sClassName . get_current_user_id()));
+        $_sKey = 'apf_tfd' . md5('temporary_form_data_' . $this->sClassName . get_current_user_id());
+        $_vValue = $this->oUtil->getTransient($_sKey);
+        $this->oUtil->deleteTransient($_sKey);
         if (is_array($_vValue)) {
             return $_vValue;
         }
