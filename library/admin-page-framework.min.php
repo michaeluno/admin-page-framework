@@ -1,11 +1,11 @@
 <?php 
 /**
-	Admin Page Framework v3.5.3b39 by Michael Uno 
+	Admin Page Framework v3.5.3b40 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.5.3b39';
+    const VERSION = '3.5.3b40';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
@@ -86,27 +86,34 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         }
         $_aDefaultOptions = $this->oProp->getDefaultOptions($this->oForm->aFields);
         $_aOptions = $this->oUtil->addAndApplyFilter($this, "validation_saved_options_{$this->oProp->sClassName}", $this->oUtil->uniteArrays($this->oProp->aOptions, $_aDefaultOptions), $this);
-        $_aInput = isset($_POST[$this->oProp->sOptionKey]) ? stripslashes_deep($_POST[$this->oProp->sOptionKey]) : array();
+        $_aInput = $this->oUtil->getElementAsArray($_POST, $this->oProp->sOptionKey, array());
+        $_aInput = stripslashes_deep($_aInput);
         $_aInputRaw = $_aInput;
         $_sTabSlug = $this->oUtil->getElement($_POST, 'tab_slug', '');
         $_sPageSlug = $this->oUtil->getElement($_POST, 'page_slug', '');
         $_aInput = $this->oUtil->uniteArrays($_aInput, $this->oUtil->castArrayContents($_aInput, $this->_removePageElements($_aDefaultOptions, $_sPageSlug, $_sTabSlug)));
-        $_aSubmit = $this->oUtil->getElement($_POST, '__submit', array());
+        $_aSubmit = $this->oUtil->getElementAsArray($_POST, '__submit', array());
+        $_sSubmitSectionID = $this->_getPressedSubmitButtonData($_aSubmit, 'section_id');
         $_sPressedFieldID = $this->_getPressedSubmitButtonData($_aSubmit, 'field_id');
         $_sPressedInputID = $this->_getPressedSubmitButtonData($_aSubmit, 'input_id');
-        $_sSubmitSectionID = $this->_getPressedSubmitButtonData($_aSubmit, 'section_id');
-        if (has_action("submit_{$this->oProp->sClassName}_{$_sPressedInputID}")) {
-            trigger_error('Admin Page Framework: ' . ' : ' . sprintf(__('The hook <code>%1$s</code>is deprecated. Use <code>%2$s</code> instead.', $this->oProp->sTextDomain), "submit_{instantiated class name}_{pressed input id}", "submit_{instantiated class name}_{pressed field id}"), E_USER_WARNING);
-        }
-        $this->oUtil->addAndDoActions($this, array("submit_{$this->oProp->sClassName}_{$_sPressedInputID}", $_sSubmitSectionID ? "submit_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" : "submit_{$this->oProp->sClassName}_{$_sPressedFieldID}", $_sSubmitSectionID ? "submit_{$this->oProp->sClassName}_{$_sSubmitSectionID}" : null, isset($_POST['tab_slug']) ? "submit_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}" : null, "submit_{$this->oProp->sClassName}_{$_sPageSlug}", "submit_{$this->oProp->sClassName}",), $_aInput, $_aOptions, $this);
+        $this->_doActions_submit($_aInput, $_aOptions, $_sPageSlug, $_sTabSlug, $_sSubmitSectionID, $_sPressedFieldID, $_sPressedInputID);
         $_aStatus = array('settings-updated' => true);
         $_aInput = $this->_validateSubmittedData($_aInput, $_aInputRaw, $_aOptions, $_aStatus);
         $_bUpdated = false;
         if (!$this->oProp->_bDisableSavingOptions) {
             $_bUpdated = $this->oProp->updateOption($_aInput);
         }
-        $this->oUtil->addAndDoActions($this, array($_sSubmitSectionID ? "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" : "submit_after_{$this->oProp->sClassName}_{$_sPressedFieldID}", $_sSubmitSectionID ? "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}" : null, isset($_POST['tab_slug']) ? "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}" : null, "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}", "submit_after_{$this->oProp->sClassName}",), $_bUpdated ? $_aInput : array(), $_aOptions, $this);
+        $this->_doActions_submit_after($_aInput, $_aOptions, $_sPageSlug, $_sTabSlug, $_sSubmitSectionID, $_sPressedFieldID, $_bUpdated);
         exit(wp_redirect($this->_getSettingUpdateURL($_aStatus, $_sPageSlug, $_sTabSlug)));
+    }
+    private function _doActions_submit($_aInput, $_aOptions, $_sPageSlug, $_sTabSlug, $_sSubmitSectionID, $_sPressedFieldID, $_sPressedInputID) {
+        if (has_action("submit_{$this->oProp->sClassName}_{$_sPressedInputID}")) {
+            trigger_error('Admin Page Framework: ' . ' : ' . sprintf(__('The hook <code>%1$s</code>is deprecated. Use <code>%2$s</code> instead.', $this->oProp->sTextDomain), "submit_{instantiated class name}_{pressed input id}", "submit_{instantiated class name}_{pressed field id}"), E_USER_WARNING);
+        }
+        $this->oUtil->addAndDoActions($this, array("submit_{$this->oProp->sClassName}_{$_sPressedInputID}", $_sSubmitSectionID ? "submit_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" : "submit_{$this->oProp->sClassName}_{$_sPressedFieldID}", $_sSubmitSectionID ? "submit_{$this->oProp->sClassName}_{$_sSubmitSectionID}" : null, isset($_POST['tab_slug']) ? "submit_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}" : null, "submit_{$this->oProp->sClassName}_{$_sPageSlug}", "submit_{$this->oProp->sClassName}",), $_aInput, $_aOptions, $this);
+    }
+    private function _doActions_submit_after($_aInput, $_aOptions, $_sPageSlug, $_sTabSlug, $_sSubmitSectionID, $_sPressedFieldID, $_bUpdated) {
+        $this->oUtil->addAndDoActions($this, array($_sSubmitSectionID ? "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" : "submit_after_{$this->oProp->sClassName}_{$_sPressedFieldID}", $_sSubmitSectionID ? "submit_after_{$this->oProp->sClassName}_{$_sSubmitSectionID}" : null, isset($_POST['tab_slug']) ? "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}" : null, "submit_after_{$this->oProp->sClassName}_{$_sPageSlug}", "submit_after_{$this->oProp->sClassName}",), $_bUpdated ? $_aInput : array(), $_aOptions, $this);
     }
     private function _getSettingUpdateURL(array $aStatus, $sPageSlug, $sTabSlug) {
         $aStatus = $this->oUtil->addAndApplyFilters($this, array("options_update_status_{$sPageSlug}_{$sTabSlug}", "options_update_status_{$sPageSlug}", "options_update_status_{$this->oProp->sClassName}",), $aStatus);
@@ -217,7 +224,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             break;
         }
         $_aNameKeys = explode('|', $sPressedInputName);
-        $_sFieldID = $sSectionID ? $_aNameKeys[2] : $_aNameKeys[1];
+        $_sFieldID = $this->oUtil->getAOrB($sSectionID, $_aNameKeys[2], $_aNameKeys[1]);
         $_aErrors = array();
         if ($sSectionID) {
             $_aErrors[$sSectionID][$_sFieldID] = $_sFieldErrorMessage;
@@ -249,18 +256,16 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         $_sTransient = 'apf_rurl' . md5(trim("redirect_{$this->oProp->sClassName}_{$sPageSlug}"));
         return $this->oUtil->setTransient($_sTransient, $sURL, 60 * 2);
     }
-    private function _getPressedSubmitButtonData($aPostElements, $sTargetKey = 'field_id') {
+    private function _getPressedSubmitButtonData(array $aPostElements, $sTargetKey = 'field_id') {
         foreach ($aPostElements as $_sInputID => $_aSubElements) {
+            if (!isset($_aSubElements['name'])) {
+                continue;
+            }
             $_aNameKeys = explode('|', $_aSubElements['name']);
-            if (count($_aNameKeys) == 2 && isset($_POST[$_aNameKeys[0]][$_aNameKeys[1]])) {
-                return isset($_aSubElements[$sTargetKey]) ? $_aSubElements[$sTargetKey] : null;
+            if (null === $this->oUtil->getElement($_POST, $_aNameKeys, null)) {
+                continue;
             }
-            if (count($_aNameKeys) == 3 && isset($_POST[$_aNameKeys[0]][$_aNameKeys[1]][$_aNameKeys[2]])) {
-                return isset($_aSubElements[$sTargetKey]) ? $_aSubElements[$sTargetKey] : null;
-            }
-            if (count($_aNameKeys) == 4 && isset($_POST[$_aNameKeys[0]][$_aNameKeys[1]][$_aNameKeys[2]][$_aNameKeys[3]])) {
-                return isset($_aSubElements[$sTargetKey]) ? $_aSubElements[$sTargetKey] : null;
-            }
+            return $this->oUtil->getElement($_aSubElements, $sTargetKey, null);
         }
         return null;
     }
@@ -6009,13 +6014,16 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_Base {
         return is_callable($hfFilterCallback) ? call_user_func_array($hfFilterCallback, array($_sFlatNameAttribute)) . $_sResultTail : $_sFlatNameAttribute . $_sResultTail;
     }
     private function _getFlatInputName_page(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = '';
         $_sSectionDimension = $this->_isSectionSet($aField) ? "|{$aField['section_id']}" : '';
         return "{$aField['option_key']}{$_sSectionDimension}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}";
     }
     private function _getFlatInputName_meta_box(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sResultTail = '';
         return $this->_isSectionSet($aField) ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}" : "{$aField['field_id']}{$_sKey}";
     }
     private function _getFlatInputName_taxonomy(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
+        $_sSectionIndex = $_sResultTail = '';
         return "{$aField['field_id']}{$_sKey}";
     }
     private function _getFlatInputName_other(array $aField, $_sKey, $_sSectionIndex, &$_sResultTail) {
