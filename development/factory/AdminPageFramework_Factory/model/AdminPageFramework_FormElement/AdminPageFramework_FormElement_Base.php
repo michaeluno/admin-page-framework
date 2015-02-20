@@ -116,9 +116,10 @@ abstract class AdminPageFramework_FormElement_Base extends AdminPageFramework_WP
          * @todo        Examine whether the method name should have an underscore prefixed.
          */
         private function isRepeatableSection( $sSectionID ) {
-            
-            return isset( $this->aSections[ $sSectionID ]['repeatable'] ) && $this->aSections[ $sSectionID ]['repeatable'];
-            
+            return (
+                isset( $this->aSections[ $sSectionID ]['repeatable'] ) 
+                && $this->aSections[ $sSectionID ]['repeatable']
+            );
         }
         
         /**
@@ -129,40 +130,52 @@ abstract class AdminPageFramework_FormElement_Base extends AdminPageFramework_WP
          * @todo        Examine whether the method name should have an underscore prefixed.
          * @todo        Examine whether it should check with conditioned field array. 
          */     
-        private function isRepeatableField( $sFieldID, $sSectionID ) {
-            
-            return ( isset( $this->aFields[ $sSectionID ][ $sFieldID ]['repeatable'] ) && $this->aFields[ $sSectionID ][ $sFieldID ]['repeatable'] );
-            
+        private function isRepeatableField( $sFieldID, $sSectionID ) {            
+            return ( 
+                isset( $this->aFields[ $sSectionID ][ $sFieldID ]['repeatable'] )
+                && $this->aFields[ $sSectionID ][ $sFieldID ]['repeatable']
+            );
         }
         
     /**
      * Determines whether the given ID is of a registered form section.
      * 
      * Consider the possibility that the given ID may be used both for a section and a field.
+     * 
      * 1. Check if the given ID is not a section.
      * 2. Parse stored fields and check their ID. If one matches, return false.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public function isSection( $sID ) {
         
-        // Integer IDs are not accepted.
-        if ( is_numeric( $sID ) && is_int( $sID + 0 ) ) { return false; }
+        // Integer IDs are not accepted as they are reserved for sub-sections.
+        if ( $this->isNumericInteger( $sID ) ) {
+            return false;
+        }
         
         // If the section ID is not registered, return false.
-        if ( ! array_key_exists( $sID, $this->aSections ) ) { return false; }
+        if ( ! array_key_exists( $sID, $this->aSections ) ) { 
+            return false; 
+        }
         
         // the fields array's first dimension is also filled with the keys of section ids.
-        if ( ! array_key_exists( $sID, $this->aFields ) ) { return false; }    
+        if ( ! array_key_exists( $sID, $this->aFields ) ) { 
+            return false; 
+        }
         
         // Since numeric IDs are denied at the beginning of the method, the elements will not be sub-sections.
         $_bIsSeciton = false;
         foreach( $this->aFields as $_sSectionID => $_aFields ) {    
         
-            if ( $_sSectionID == $sID ) { $_bIsSeciton = true; }
+            if ( $_sSectionID == $sID ) { 
+                $_bIsSeciton = true; 
+            }
             
             // a field using the ID is found, and it precedes a section match.     
-            if ( array_key_exists( $sID, $_aFields ) ) { return false; }    
+            if ( array_key_exists( $sID, $_aFields ) ) { 
+                return false; 
+            }
             
         }
         
@@ -222,10 +235,8 @@ abstract class AdminPageFramework_FormElement_Base extends AdminPageFramework_WP
             
         foreach ( $aFields as $_sSectionID => $_aFields ) {
 
-            if ( $_sSectionID != '_default' ) {
-                
-                $_aFieldsModel[ $_sSectionID ] = $_aFields;    
-                // $_aFieldsModel[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;    
+            if ( $_sSectionID != '_default' ) {                
+                $_aFieldsModel[ $_sSectionID ] = $_aFields;
                 continue;
             }
             
@@ -270,10 +281,14 @@ abstract class AdminPageFramework_FormElement_Base extends AdminPageFramework_WP
             foreach( $_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
                 
                 // If it is a sub-section array.
-                if ( is_numeric( $_sIndexOrFieldID ) && is_int( $_sIndexOrFieldID + 0 ) ) {
+                if ( $this->isNumericInteger( $_sIndexOrFieldID ) ) {
                     $_sSubSectionIndex  = $_sIndexOrFieldID;
                     $_aFields           = $_aSubSectionOrField;
-                    $_sSectionSubString = '_default' == $_sSectionID ? '' : "_{$_sSectionID}";
+                    $_sSectionSubString = $this->getAOrB(
+                        '_default' == $_sSectionID,
+                        '',
+                        "_{$_sSectionID}"
+                    );                        
                     foreach( $_aFields as $_aField ) {
                         $this->aConditionedFields[ $_sSectionID ][ $_sSubSectionIndex ][ $_aField['field_id'] ] = $this->addAndApplyFilter(
                             $oCaller,
@@ -288,7 +303,11 @@ abstract class AdminPageFramework_FormElement_Base extends AdminPageFramework_WP
                 
                 // Otherwise, insert the formatted field definition array.
                 $_aField            = $_aSubSectionOrField;
-                $_sSectionSubString = '_default' == $_sSectionID ? '' : "_{$_sSectionID}";
+                $_sSectionSubString = $this->getAOrB(
+                    '_default' == $_sSectionID,
+                    '',
+                    "_{$_sSectionID}"
+                );
                 $this->aConditionedFields[ $_sSectionID ][ $_aField['field_id'] ] = $this->addAndApplyFilter(
                     $oCaller,
                     "field_definition_{$sClassName}{$_sSectionSubString}_{$_aField['field_id']}",
