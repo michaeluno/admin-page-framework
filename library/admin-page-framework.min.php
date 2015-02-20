@@ -1,11 +1,11 @@
 <?php 
 /**
-	Admin Page Framework v3.5.3b45 by Michael Uno 
+	Admin Page Framework v3.5.3b46 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.5.3b45';
+    const VERSION = '3.5.3b46';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
@@ -168,6 +168,12 @@ abstract class AdminPageFramework_Form_Model_Validation_Opiton extends AdminPage
     private function _getValidatedData($sFilterName, $aInput, $aStoredData, $aSubmitInfo = array()) {
         return $this->oUtil->addAndApplyFilter($this, $sFilterName, $aInput, $aStoredData, $this, $aSubmitInfo);
     }
+    protected function _setSettingNoticeAfterValidation($bIsInputEmtpy) {
+        if ($this->hasSettingNotice()) {
+            return;
+        }
+        $this->setSettingNotice($this->oUtil->getAOrB($bIsInputEmtpy, $this->oMsg->get('option_cleared'), $this->oMsg->get('option_updated')), $this->oUtil->getAOrB($bIsInputEmtpy, 'error', 'updated'), $this->oProp->sOptionKey, false);
+    }
 }
 abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramework_Form_Model_Validation_Opiton {
     protected function _handleSubmittedData() {
@@ -271,6 +277,18 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         $_oException->aReturn = $aInputRaw;
         throw $_oException;
     }
+    private function _sendEmailInBackground($aInput, $sPressedInputNameFlat, $sSubmitSectionID) {
+        $_sTranskentKey = 'apf_em_' . md5($sPressedInputNameFlat . get_current_user_id());
+        $_aEmailOptions = $this->oUtil->getTransient($_sTranskentKey);
+        $this->oUtil->deleteTransient($_sTranskentKey);
+        $_aEmailOptions = $this->oUtil->getAsArray($_aEmailOptions) + array('to' => '', 'subject' => '', 'message' => '', 'headers' => '', 'attachments' => '', 'is_html' => false, 'from' => '', 'name' => '',);
+        $_sTransientKey = 'apf_emd_' . md5($sPressedInputNameFlat . get_current_user_id());
+        $_aFormEmailData = array('email_options' => $_aEmailOptions, 'input' => $aInput, 'section_id' => $sSubmitSectionID,);
+        $_bIsSet = $this->oUtil->setTransient($_sTransientKey, $_aFormEmailData, 100);
+        wp_remote_get(add_query_arg(array('apf_action' => 'email', 'transient' => $_sTransientKey,), admin_url($GLOBALS['pagenow'])), array('timeout' => 0.01, 'sslverify' => false,));
+        $_bSent = $_bIsSet;
+        $this->setSettingNotice($this->oMsg->get($this->oUtil->getAOrB($_bSent, 'email_scheduled', 'email_could_not_send')), $this->oUtil->getAOrB($_bSent, 'updated', 'error'));
+    }
     private function _confirmReset(array & $aStatus, array $_aSubmit, $_sPressedInputName, $_sSubmitSectionID) {
         $_bIsReset = ( bool )$this->_getPressedSubmitButtonData($_aSubmit, 'is_reset');
         if (!$_bIsReset) {
@@ -359,18 +377,6 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
     public function _replyToRemoveConfirmationQueryKey($sSettingUpdateURL) {
         return remove_query_arg(array('confirmation',), $sSettingUpdateURL);
     }
-    private function _sendEmailInBackground($aInput, $sPressedInputNameFlat, $sSubmitSectionID) {
-        $_sTranskentKey = 'apf_em_' . md5($sPressedInputNameFlat . get_current_user_id());
-        $_aEmailOptions = $this->oUtil->getTransient($_sTranskentKey);
-        $this->oUtil->deleteTransient($_sTranskentKey);
-        $_aEmailOptions = $this->oUtil->getAsArray($_aEmailOptions) + array('to' => '', 'subject' => '', 'message' => '', 'headers' => '', 'attachments' => '', 'is_html' => false, 'from' => '', 'name' => '',);
-        $_sTransientKey = 'apf_emd_' . md5($sPressedInputNameFlat . get_current_user_id());
-        $_aFormEmailData = array('email_options' => $_aEmailOptions, 'input' => $aInput, 'section_id' => $sSubmitSectionID,);
-        $_bIsSet = $this->oUtil->setTransient($_sTransientKey, $_aFormEmailData, 100);
-        wp_remote_get(add_query_arg(array('apf_action' => 'email', 'transient' => $_sTransientKey,), admin_url($GLOBALS['pagenow'])), array('timeout' => 0.01, 'sslverify' => false,));
-        $_bSent = $_bIsSet;
-        $this->setSettingNotice($this->oMsg->get($this->oUtil->getAOrB($_bSent, 'email_scheduled', 'email_could_not_send')), $this->oUtil->getAOrB($_bSent, 'updated', 'error'));
-    }
     private function _confirmSubmitButtonAction($sPressedInputName, $sSectionID, $sType = 'reset') {
         switch ($sType) {
             default:
@@ -424,12 +430,6 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             return $this->oForm->getOtherTabOptions($aOptions, $sPageSlug, $sTabSlug);
         }
         return $this->oForm->getOtherPageOptions($aOptions, $sPageSlug);
-    }
-    protected function _setSettingNoticeAfterValidation($bIsInputEmtpy) {
-        if ($this->hasSettingNotice()) {
-            return;
-        }
-        $this->setSettingNotice($this->oUtil->getAOrB($bIsInputEmtpy, $this->oMsg->get('option_cleared'), $this->oMsg->get('option_updated')), $this->oUtil->getAOrB($bIsInputEmtpy, 'error', 'updated'), $this->oProp->sOptionKey, false);
     }
 }
 abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Model_Validation {
@@ -1513,7 +1513,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         foreach ($aFields as $_sSecitonID => $_aFields) {
             $_bIsSubSectionLoaded = false;
             foreach ($_aFields as $_iSubSectionIndexOrFieldID => $_aSubSectionOrField) {
-                if (is_numeric($_iSubSectionIndexOrFieldID) && is_int($_iSubSectionIndexOrFieldID + 0)) {
+                if ($this->oUtil->isNumericInteger($_iSubSectionIndexOrFieldID)) {
                     if ($_bIsSubSectionLoaded) {
                         continue;
                     }
@@ -1551,7 +1551,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         if ($bDelete) {
             add_action('shutdown', array($this, '_replyToDeleteFieldErrors'));
         }
-        return isset($_aFieldErrors[$_sID]) ? $_aFieldErrors[$_sID] : array();
+        return $this->oUtil->getElementAsArray($_aFieldErrors, $_sID, array());
     }
     protected function _isValidationErrors() {
         if (isset($GLOBALS['aAdminPageFramework']['aFieldErrors']) && $GLOBALS['aAdminPageFramework']['aFieldErrors']) {
@@ -2128,18 +2128,16 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
         return $aInput;
     }
     public function _replyToManageColumns($aColumns) {
-        if (isset($_GET['taxonomy']) && $_GET['taxonomy']) {
-            $aColumns = $this->oUtil->addAndApplyFilter($this, "columns_{$_GET['taxonomy']}", $aColumns);
-        }
-        $aColumns = $this->oUtil->addAndApplyFilter($this, "columns_{$this->oProp->sClassName}", $aColumns);
-        return $aColumns;
+        return $this->_getFilteredColumnsByFilterPrefix($this->oUtil->getAsArray($aColumns), 'columns_', isset($_GET['taxonomy']) ? $_GET['taxonomy'] : '');
     }
     public function _replyToSetSortableColumns($aSortableColumns) {
-        if (isset($_GET['taxonomy']) && $_GET['taxonomy']) {
-            $aSortableColumns = $this->oUtil->addAndApplyFilter($this, "sortable_columns_{$_GET['taxonomy']}", $aSortableColumns);
+        return $this->_getFilteredColumnsByFilterPrefix($this->oUtil->getAsArray($aSortableColumns), 'sortable_columns_', isset($_GET['taxonomy']) ? $_GET['taxonomy'] : '');
+    }
+    private function _getFilteredColumnsByFilterPrefix(array $aColumns, $sFilterPrefix, $sTaxonomy) {
+        if ($sTaxonomy) {
+            $aColumns = $this->oUtil->addAndApplyFilter($this, "{$sFilterPrefix}{$_GET['taxonomy']}", $aColumns);
         }
-        $aSortableColumns = $this->oUtil->addAndApplyFilter($this, "sortable_columns_{$this->oProp->sClassName}", $aSortableColumns);
-        return $aSortableColumns;
+        return $this->oUtil->addAndApplyFilter($this, "{$sFilterPrefix}{$this->oProp->sClassName}", $aColumns);
     }
     public function _replyToRegisterFormElements($oScreen) {
         $this->_loadFieldTypeDefinitions();
@@ -2152,25 +2150,31 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
         $this->oProp->aOptions = isset($iTermID, $aOptions[$iTermID]) ? $aOptions[$iTermID] : array();
     }
     public function _replyToValidateOptions($iTermID) {
-        if (!isset($_POST[$this->oProp->sClassHash])) {
-            return;
-        }
-        if (!wp_verify_nonce($_POST[$this->oProp->sClassHash], $this->oProp->sClassHash)) {
+        if (!$this->_verifyFormSubmit()) {
             return;
         }
         $aTaxonomyFieldOptions = get_option($this->oProp->sOptionKey, array());
-        $aOldOptions = isset($aTaxonomyFieldOptions[$iTermID]) ? $aTaxonomyFieldOptions[$iTermID] : array();
-        $aSubmittedOptions = array();
+        $_aOldOptions = $this->oUtil->getElementAsArray($aTaxonomyFieldOptions, $iTermID, array());
+        $_aSubmittedOptions = array();
         foreach ($this->oForm->aFields as $_sSectionID => $_aFields) {
             foreach ($_aFields as $_sFieldID => $_aField) {
                 if (isset($_POST[$_sFieldID])) {
-                    $aSubmittedOptions[$_sFieldID] = $_POST[$_sFieldID];
+                    $_aSubmittedOptions[$_sFieldID] = $_POST[$_sFieldID];
                 }
             }
         }
-        $aSubmittedOptions = $this->oUtil->addAndApplyFilters($this, 'validation_' . $this->oProp->sClassName, $aSubmittedOptions, $aOldOptions, $this);
-        $aTaxonomyFieldOptions[$iTermID] = $this->oUtil->uniteArrays($aSubmittedOptions, $aOldOptions);
+        $_aSubmittedOptions = $this->oUtil->addAndApplyFilters($this, 'validation_' . $this->oProp->sClassName, $_aSubmittedOptions, $_aOldOptions, $this);
+        $aTaxonomyFieldOptions[$iTermID] = $this->oUtil->uniteArrays($_aSubmittedOptions, $_aOldOptions);
         update_option($this->oProp->sOptionKey, $aTaxonomyFieldOptions);
+    }
+    private function _verifyFormSubmit() {
+        if (!isset($_POST[$this->oProp->sClassHash])) {
+            return false;
+        }
+        if (!wp_verify_nonce($_POST[$this->oProp->sClassHash], $this->oProp->sClassHash)) {
+            return false;
+        }
+        return true;
     }
 }
 abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Factory {
@@ -3464,11 +3468,11 @@ abstract class AdminPageFramework_Property_Base {
     public function __construct($oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType) {
         $this->oUtil = new AdminPageFramework_WPUtility;
         $this->oCaller = $oCaller;
-        $this->sCallerPath = $sCallerPath ? $sCallerPath : null;
+        $this->sCallerPath = $this->oUtil->getAOrB($sCallerPath, $sCallerPath, null);
         $this->sClassName = $sClassName;
         $this->sClassHash = md5($sClassName);
-        $this->sCapability = empty($sCapability) ? 'manage_options' : $sCapability;
-        $this->sTextDomain = empty($sTextDomain) ? 'admin-page-framework' : $sTextDomain;
+        $this->sCapability = $this->oUtil->getAOrB(empty($sCapability), 'manage_options', $sCapability);
+        $this->sTextDomain = $this->oUtil->getAOrB(empty($sTextDomain), 'admin-page-framework', $sTextDomain);
         $this->sFieldsType = $sFieldsType;
         $GLOBALS['aAdminPageFramework'] = isset($GLOBALS['aAdminPageFramework']) && is_array($GLOBALS['aAdminPageFramework']) ? $GLOBALS['aAdminPageFramework'] : array('aFieldFlags' => array());
         $this->sPageNow = $this->oUtil->getPageNow();
@@ -3668,7 +3672,7 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
     public $aHelpTabText = array();
     public $aHelpTabTextSide = array();
     public $sFieldsType = 'post_meta_box';
-    function __construct($oCaller, $sClassName, $sCapability = 'edit_posts', $sTextDomain = 'admin-page-framework', $sFieldsType = 'post_meta_box') {
+    public function __construct($oCaller, $sClassName, $sCapability = 'edit_posts', $sTextDomain = 'admin-page-framework', $sFieldsType = 'post_meta_box') {
         parent::__construct($oCaller, null, $sClassName, $sCapability, $sTextDomain, $sFieldsType);
     }
     protected function _getOptions() {
@@ -4194,12 +4198,12 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     static public function getReadableArrayContents($sKey, $vValue, $sLabelCharLengths = 16, $iOffset = 0) {
         $_aOutput = array();
         $_aOutput[] = ($iOffset ? str_pad(' ', $iOffset) : '') . ($sKey ? '[' . $sKey . ']' : '');
-        if (!is_array($vValue) && !is_object($vValue)) {
+        if (!in_array(gettype($vValue), array('array', 'object'))) {
             $_aOutput[] = $vValue;
             return implode(PHP_EOL, $_aOutput);
         }
         foreach ($vValue as $_sTitle => $_asDescription) {
-            if (!is_array($_asDescription) && !is_object($_asDescription)) {
+            if (!in_array(gettype($_asDescription), array('array', 'object'))) {
                 $_aOutput[] = str_pad(' ', $iOffset) . $_sTitle . str_pad(':', $sLabelCharLengths - self::getStringLength($_sTitle)) . $_asDescription;
                 continue;
             }
