@@ -56,7 +56,6 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
                 : ''
         );        
     }
-    
     /**
      * Sets the taxonomy term listing table column elements.
      * 
@@ -145,39 +144,56 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * @internal
      */
     public function _replyToValidateOptions( $iTermID ) {
-        
-        if ( ! isset( $_POST[ $this->oProp->sClassHash ] ) ) { 
-            return; 
-        }
-        if ( ! wp_verify_nonce( $_POST[ $this->oProp->sClassHash ], $this->oProp->sClassHash ) ) {
-            return; 
-        }
+                
+        if ( ! $this->_verifyFormSubmit() ) {
+            return;
+        }              
         
         $aTaxonomyFieldOptions  = get_option( $this->oProp->sOptionKey, array() );
-        $aOldOptions            = isset( $aTaxonomyFieldOptions[ $iTermID ] ) 
-            ? $aTaxonomyFieldOptions[ $iTermID ] 
-            : array();
-        $aSubmittedOptions      = array();
+        $_aOldOptions           = $this->oUtil->getElementAsArray(
+            $aTaxonomyFieldOptions,
+            $iTermID,
+            array()
+        );
+        $_aSubmittedOptions     = array();
         foreach( $this->oForm->aFields as $_sSectionID => $_aFields ) {
             foreach( $_aFields as $_sFieldID => $_aField ) {
                 if ( isset( $_POST[ $_sFieldID ] ) ) {
-                    $aSubmittedOptions[ $_sFieldID ] = $_POST[ $_sFieldID ];
+                    $_aSubmittedOptions[ $_sFieldID ] = $_POST[ $_sFieldID ];
                 }
             }
         }
             
         /* Apply validation filters to the submitted option array. */
         // @todo call the validate() method.
-        $aSubmittedOptions = $this->oUtil->addAndApplyFilters( 
+        $_aSubmittedOptions = $this->oUtil->addAndApplyFilters( 
             $this, 
             'validation_' . $this->oProp->sClassName, 
-            $aSubmittedOptions, 
-            $aOldOptions, 
+            $_aSubmittedOptions, 
+            $_aOldOptions, 
             $this 
         );
-        $aTaxonomyFieldOptions[ $iTermID ]  = $this->oUtil->uniteArrays( $aSubmittedOptions, $aOldOptions );
+        $aTaxonomyFieldOptions[ $iTermID ]  = $this->oUtil->uniteArrays( $_aSubmittedOptions, $_aOldOptions );
         update_option( $this->oProp->sOptionKey, $aTaxonomyFieldOptions );
         
-    }           
+    }        
+        /**
+         * Verifies the form submit.
+         * 
+         * @since       3.3.3
+         * @internal
+         * @return      boolean     True if it is verified; otherwise, false.
+         */        
+        private function _verifyFormSubmit() {
+
+            if ( ! isset( $_POST[ $this->oProp->sClassHash ] ) ) { 
+                return false;
+            }
+            if ( ! wp_verify_nonce( $_POST[ $this->oProp->sClassHash ], $this->oProp->sClassHash ) ) {
+                return false;
+            }        
+            return true;
+            
+        }    
     
 }
