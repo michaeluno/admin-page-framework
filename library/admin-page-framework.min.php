@@ -1,11 +1,11 @@
 <?php 
 /**
-	Admin Page Framework v3.5.3b47 by Michael Uno 
+	Admin Page Framework v3.5.3b48 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.5.3b47';
+    const VERSION = '3.5.3b48';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
@@ -4503,7 +4503,7 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
     }
     static public function generateHTMLTag($sTagName, array $aAttributes, $sValue = null) {
         $_sTag = tag_escape($sTagName);
-        return !isset($sValue) ? "<" . $_sTag . " " . self::generateAttributes($aAttributes) . " />" : "<" . $_sTag . " " . self::generateAttributes($aAttributes) . ">" . $sValue . "</{$_sTag}>";
+        return null === $sValue ? "<" . $_sTag . " " . self::generateAttributes($aAttributes) . " />" : "<" . $_sTag . " " . self::generateAttributes($aAttributes) . ">" . $sValue . "</{$_sTag}>";
     }
 }
 class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTML {
@@ -4988,18 +4988,18 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_WPUtility {
 }
 abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility {
     protected function _setFooterInfoLeft($aScriptInfo, &$sFooterInfoLeft) {
-        $sDescription = empty($aScriptInfo['sDescription']) ? "" : "&#13;{$aScriptInfo['sDescription']}";
-        $sVersion = empty($aScriptInfo['sVersion']) ? "" : "&nbsp;{$aScriptInfo['sVersion']}";
-        $sPluginInfo = empty($aScriptInfo['sURI']) ? $aScriptInfo['sName'] : "<a href='{$aScriptInfo['sURI']}' target='_blank' title='{$aScriptInfo['sName']}{$sVersion}{$sDescription}'>{$aScriptInfo['sName']}</a>";
-        $sAuthorInfo = empty($aScriptInfo['sAuthorURI']) ? $aScriptInfo['sAuthor'] : "<a href='{$aScriptInfo['sAuthorURI']}' target='_blank'>{$aScriptInfo['sAuthor']}</a>";
-        $sAuthorInfo = empty($aScriptInfo['sAuthor']) ? $sAuthorInfo : ' by ' . $sAuthorInfo;
-        $sFooterInfoLeft = $sPluginInfo . $sAuthorInfo;
+        $_sDescription = $this->getAOrB(empty($aScriptInfo['sDescription']), '', "&#13;{$aScriptInfo['sDescription']}");
+        $_sVersion = $this->getAOrB(empty($aScriptInfo['sVersion']), '', "&nbsp;{$aScriptInfo['sVersion']}");
+        $_sPluginInfo = $this->getAOrB(empty($aScriptInfo['sURI']), $aScriptInfo['sName'], $this->generateHTMLTag('a', array('href' => $aScriptInfo['sURI'], 'target' => '_blank', 'title' => $aScriptInfo['sName'] . $_sVersion . $_sDescription), $aScriptInfo['sName']));
+        $_sAuthorInfo = $this->getAOrB(empty($aScriptInfo['sAuthorURI']), '', $this->generateHTMLTag('a', array('href' => $aScriptInfo['sAuthorURI'], 'target' => '_blank', 'title' => $aScriptInfo['sAuthor'],), $aScriptInfo['sAuthor']));
+        $_sAuthorInfo = $this->getAOrB(empty($aScriptInfo['sAuthor']), $_sAuthorInfo, ' by ' . $_sAuthorInfo);
+        $sFooterInfoLeft = $_sPluginInfo . $_sAuthorInfo;
     }
     protected function _setFooterInfoRight($aScriptInfo, &$sFooterInfoRight) {
-        $sDescription = empty($aScriptInfo['sDescription']) ? "" : "&#13;{$aScriptInfo['sDescription']}";
-        $sVersion = empty($aScriptInfo['sVersion']) ? "" : "&nbsp;{$aScriptInfo['sVersion']}";
-        $sLibraryInfo = empty($aScriptInfo['sURI']) ? $aScriptInfo['sName'] : "<a href='{$aScriptInfo['sURI']}' target='_blank' title='{$aScriptInfo['sName']}{$sVersion}{$sDescription}'>{$aScriptInfo['sName']}</a>";
-        $sFooterInfoRight = $this->oMsg->get('powered_by') . '&nbsp;' . $sLibraryInfo . ", <a href='http://wordpress.org' target='_blank' title='WordPress {$GLOBALS['wp_version']}'>WordPress</a>";
+        $_sDescription = $this->getAOrB(empty($aScriptInfo['sDescription']), '', "&#13;{$aScriptInfo['sDescription']}");
+        $_sVersion = $this->getAOrB(empty($aScriptInfo['sVersion']), '', "&nbsp;{$aScriptInfo['sVersion']}");
+        $_sLibraryInfo = $this->getAOrB(empty($aScriptInfo['sURI']), $aScriptInfo['sName'], $this->generateHTMLTag('a', array('href' => $aScriptInfo['sURI'], 'target' => '_blank', 'title' => $aScriptInfo['sName'] . $_sVersion . $_sDescription,), $aScriptInfo['sName']));
+        $sFooterInfoRight = $this->oMsg->get('powered_by') . '&nbsp;' . $_sLibraryInfo . ",&nbsp;" . $this->generateHTMLTag('a', array('href' => 'http://wordpress.org', 'target' => '_blank', 'title' => 'WordPress' . $GLOBALS['wp_version']), 'WordPress');
     }
 }
 class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
@@ -5156,13 +5156,13 @@ abstract class AdminPageFramework_FormElement_Base extends AdminPageFramework_WP
         return isset($this->aFields[$sSectionID][$sFieldID]['capability']) ? current_user_can($this->aFields[$sSectionID][$sFieldID]['capability']) : true;
     }
     private function isRepeatableSection($sSectionID) {
-        return isset($this->aSections[$sSectionID]['repeatable']) && $this->aSections[$sSectionID]['repeatable'];
+        return (isset($this->aSections[$sSectionID]['repeatable']) && $this->aSections[$sSectionID]['repeatable']);
     }
     private function isRepeatableField($sFieldID, $sSectionID) {
         return (isset($this->aFields[$sSectionID][$sFieldID]['repeatable']) && $this->aFields[$sSectionID][$sFieldID]['repeatable']);
     }
     public function isSection($sID) {
-        if (is_numeric($sID) && is_int($sID + 0)) {
+        if ($this->isNumericInteger($sID)) {
             return false;
         }
         if (!array_key_exists($sID, $this->aSections)) {
@@ -5202,17 +5202,17 @@ abstract class AdminPageFramework_FormElement_Base extends AdminPageFramework_WP
     public function applyFiltersToFields($oCaller, $sClassName) {
         foreach ($this->aConditionedFields as $_sSectionID => $_aSubSectionOrFields) {
             foreach ($_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField) {
-                if (is_numeric($_sIndexOrFieldID) && is_int($_sIndexOrFieldID + 0)) {
+                if ($this->isNumericInteger($_sIndexOrFieldID)) {
                     $_sSubSectionIndex = $_sIndexOrFieldID;
                     $_aFields = $_aSubSectionOrField;
-                    $_sSectionSubString = '_default' == $_sSectionID ? '' : "_{$_sSectionID}";
+                    $_sSectionSubString = $this->getAOrB('_default' == $_sSectionID, '', "_{$_sSectionID}");
                     foreach ($_aFields as $_aField) {
                         $this->aConditionedFields[$_sSectionID][$_sSubSectionIndex][$_aField['field_id']] = $this->addAndApplyFilter($oCaller, "field_definition_{$sClassName}{$_sSectionSubString}_{$_aField['field_id']}", $_aField, $_sSubSectionIndex);
                     }
                     continue;
                 }
                 $_aField = $_aSubSectionOrField;
-                $_sSectionSubString = '_default' == $_sSectionID ? '' : "_{$_sSectionID}";
+                $_sSectionSubString = $this->getAOrB('_default' == $_sSectionID, '', "_{$_sSectionID}");
                 $this->aConditionedFields[$_sSectionID][$_aField['field_id']] = $this->addAndApplyFilter($oCaller, "field_definition_{$sClassName}{$_sSectionSubString}_{$_aField['field_id']}", $_aField);
             }
         }
@@ -7814,7 +7814,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             if (!isset($aFields[$_sSectionID])) {
                 continue;
             }
-            $_sSectionTaqbSlug = $_aSection['section_tab_slug'] ? $_aSection['section_tab_slug'] : '_default_' . (++$_iIndex);
+            $_sSectionTaqbSlug = $this->getAOrB($_aSection['section_tab_slug'], $_aSection['section_tab_slug'], '_default_' . (++$_iIndex));
             $_aSectionsBySectionTab[$_sSectionTaqbSlug][$_sSectionID] = $_aSection;
             $_aFieldsBySectionTab[$_sSectionTaqbSlug][$_sSectionID] = $aFields[$_sSectionID];
         }
@@ -7881,7 +7881,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
         return $sSectionTabSlug ? "<ul class='admin-page-framework-section-tabs nav-tab-wrapper'>" . implode(PHP_EOL, $aSectionTabList) . "</ul>" : '';
     }
     private function _getSectionsTablesContainerAttributes($sSectionID, $sSectionsID, $sSectionTabSlug, array $aCollapsible) {
-        return array('id' => $sSectionsID, 'class' => $this->generateClassAttribute('admin-page-framework-sections', !$sSectionTabSlug || '_default' === $sSectionTabSlug ? null : 'admin-page-framework-section-tabs-contents', empty($aCollapsible) ? null : 'admin-page-framework-collapsible-sections-content admin-page-framework-collapsible-content accordion-section-content'), 'data-seciton_id' => $sSectionID,);
+        return array('id' => $sSectionsID, 'class' => $this->generateClassAttribute('admin-page-framework-sections', $this->getAOrB(!$sSectionTabSlug || '_default' === $sSectionTabSlug, null, 'admin-page-framework-section-tabs-contents'), $this->getAOrB(empty($aCollapsible), null, 'admin-page-framework-collapsible-sections-content admin-page-framework-collapsible-content accordion-section-content')), 'data-seciton_id' => $sSectionID,);
     }
     private function _getTabList($sSectionID, $iIndex, array $aSection, array $aFields, $hfFieldCallback) {
         if (!$aSection['section_tab_slug']) {
@@ -7900,10 +7900,10 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
         $_bCollapsible = $aSection['collapsible'] && 'section' === $aSection['collapsible']['container'];
         $_sSectionTagID = 'section-' . $sSectionID . '__' . $iSectionIndex;
         $_aOutput = array();
-        $_aOutput[] = "<table " . $this->generateAttributes(array('id' => 'section_table-' . $_sSectionTagID, 'class' => $this->generateClassAttribute('form-table', 'admin-page-framework-section-table'),)) . ">" . $this->_getCaption($aSection, $hfSectionCallback, $iSectionIndex, $aFields, $hfFieldCallback) . "<tbody " . $this->generateAttributes(array('class' => $_bCollapsible ? 'admin-page-framework-collapsible-section-content admin-page-framework-collapsible-content accordion-section-content' : null,)) . ">" . $this->getFieldRows($aFields, $hfFieldCallback) . "</tbody>" . "</table>";
-        $_aSectionAttributes = $this->uniteArrays($this->dropElementsByType($aSection['attributes']), array('id' => $_sSectionTagID, 'class' => $this->generateClassAttribute('admin-page-framework-section', $aSection['section_tab_slug'] ? 'admin-page-framework-tab-content' : null, $_bCollapsible ? 'is_subsection_collapsible' : null), 'data-id_model' => 'section-' . $sSectionID . '__' . '-si-',));
+        $_aOutput[] = "<table " . $this->generateAttributes(array('id' => 'section_table-' . $_sSectionTagID, 'class' => $this->generateClassAttribute('form-table', 'admin-page-framework-section-table'),)) . ">" . $this->_getCaption($aSection, $hfSectionCallback, $iSectionIndex, $aFields, $hfFieldCallback) . "<tbody " . $this->generateAttributes(array('class' => $this->getAOrB($_bCollapsible, 'admin-page-framework-collapsible-section-content admin-page-framework-collapsible-content accordion-section-content', null),)) . ">" . $this->getFieldRows($aFields, $hfFieldCallback) . "</tbody>" . "</table>";
+        $_aSectionAttributes = $this->uniteArrays($this->dropElementsByType($aSection['attributes']), array('id' => $_sSectionTagID, 'class' => $this->generateClassAttribute('admin-page-framework-section', $this->getAOrB($aSection['section_tab_slug'], 'admin-page-framework-tab-content', null), $this->getAOrB($_bCollapsible, 'is_subsection_collapsible', null)), 'data-id_model' => 'section-' . $sSectionID . '__' . '-si-',));
         $_aSectionAttributes['class'] = $this->generateClassAttribute($_aSectionAttributes['class'], $this->dropElementsByType($aSection['class']));
-        $_aSectionAttributes['style'] = $this->generateStyleAttribute($_aSectionAttributes['style'], $aSection['hidden'] ? 'display:none' : null);
+        $_aSectionAttributes['style'] = $this->generateStyleAttribute($_aSectionAttributes['style'], $this->getAOrB($aSection['hidden'], 'display:none', null));
         return "<div " . $this->generateAttributes($_aSectionAttributes) . ">" . implode(PHP_EOL, $_aOutput) . "</div>";
     }
 }
