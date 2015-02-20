@@ -422,17 +422,11 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                         'id'    => $sSectionsID, 
                         'class' => $this->generateClassAttribute( 
                             'admin-page-framework-sections',
-                            // ! $sSectionTabSlug || '_default' === $sSectionTabSlug 
-                                // ? null 
-                                // : 'admin-page-framework-section-tabs-contents',
                             $this->getAOrB(
                                 ! $sSectionTabSlug || '_default' === $sSectionTabSlug,
                                 null,
                                 'admin-page-framework-section-tabs-contents'
                             ),
-                            // empty( $aCollapsible )
-                                // ? null
-                                // : 'admin-page-framework-collapsible-sections-content admin-page-framework-collapsible-content accordion-section-content'
                             $this->getAOrB(
                                 empty( $aCollapsible ),
                                 null,
