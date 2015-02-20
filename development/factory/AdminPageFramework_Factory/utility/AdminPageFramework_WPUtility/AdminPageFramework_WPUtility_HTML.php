@@ -69,8 +69,8 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
      * @return      string
      */
     static public function generateHTMLTag( $sTagName, array $aAttributes, $sValue=null ) {
-        $_sTag              = tag_escape( $sTagName );
-        return ! isset( $sValue )
+        $_sTag = tag_escape( $sTagName );
+        return null === $sValue
             ? "<" . $_sTag . " " . self::generateAttributes( $aAttributes ) . " />"
             : "<" . $_sTag . " " . self::generateAttributes( $aAttributes ) . ">"
                     . $sValue
