@@ -14,7 +14,7 @@
  * including applying filters and merging options by tab, page, class etc.
  * 
  * @abstract
- * @since           3.5.31       
+ * @since           3.5.3  
  * @extends         AdminPageFramework_Setting_ExPort
  * @package         AdminPageFramework
  * @subpackage      AdminPage
@@ -346,5 +346,27 @@ abstract class AdminPageFramework_Form_Model_Validation_Opiton extends AdminPage
                     $aSubmitInfo    // 4th argument 3.5.0+
                 );                    
             }  
+            
+    /**
+     * Sets a setting notice after form validation.
+     * 
+     * @since       3.5.3
+     * @internal
+     * @return      void
+     * @remark      Accessed from some of the parent/child classes.
+     */
+    protected function _setSettingNoticeAfterValidation( $bIsInputEmtpy ) {
+     
+        if ( $this->hasSettingNotice() ) {     
+            return;
+        }
+        $this->setSettingNotice(  
+            $this->oUtil->getAOrB( $bIsInputEmtpy, $this->oMsg->get( 'option_cleared' ), $this->oMsg->get( 'option_updated' ) ),
+            $this->oUtil->getAOrB( $bIsInputEmtpy, 'error', 'updated' ),
+            $this->oProp->sOptionKey, // the id
+            false // do not override
+        );
+     
+    }                
   
 }

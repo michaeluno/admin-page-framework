@@ -100,7 +100,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             $_aInput,       // submitted user input
             $_aInputRaw,    // without default values being merged.
             $_aOptions,     // stored options data 
-            $_aStatus       // passed by referenc - gets updated in the method.
+            $_aStatus       // passed by reference - gets updated in the method.
         ); 
         
         // 5. Save the data.
@@ -389,7 +389,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         }           
 
         // Admin Notice & Return
-        $this->_setSettingNoticeAfterValidation( empty( $aInput ) );
+        $this->_setSettingNoticeAfterValidation( empty( $aInput ) );    // method defined in AdminPageFramework_Form_Model_Validation_Opiton
         return $aInput;
         
     }    
@@ -430,6 +430,65 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             throw $_oException;
         
         }
+            /**
+             * Sends an email set via the form.
+             * 
+             * The email contents should be set with the form fields. 
+             * 
+             * @since       3.3.0
+             * @remark      At the moment, it is not possible to tell whether it is sent or not 
+             * because it is performed in the background. 
+             * @todo        Maybe handle this with Ajax at later some point.
+             */
+            private function _sendEmailInBackground( $aInput, $sPressedInputNameFlat, $sSubmitSectionID ) {
+                
+                $_sTranskentKey = 'apf_em_' . md5( $sPressedInputNameFlat . get_current_user_id() );
+                $_aEmailOptions = $this->oUtil->getTransient( $_sTranskentKey );
+                $this->oUtil->deleteTransient( $_sTranskentKey );
+
+                $_aEmailOptions = $this->oUtil->getAsArray( $_aEmailOptions ) + array(
+                    'to'            => '',
+                    'subject'       => '',
+                    'message'       => '',
+                    'headers'       => '',
+                    'attachments'   => '',
+                    'is_html'       => false,
+                    'from'          => '',
+                    'name'          => '',
+                );
+
+                $_sTransientKey  = 'apf_emd_' . md5( $sPressedInputNameFlat . get_current_user_id() );
+                $_aFormEmailData = array(
+                    'email_options' => $_aEmailOptions,
+                    'input'         => $aInput,
+                    'section_id'    => $sSubmitSectionID,
+                );
+                $_bIsSet = $this->oUtil->setTransient( $_sTransientKey,  $_aFormEmailData, 100 );
+                
+                // Send the email in the background.
+                wp_remote_get( 
+                    add_query_arg( 
+                        array( 
+                            'apf_action' => 'email',
+                            'transient'  => $_sTransientKey,
+                        ), 
+                        admin_url( $GLOBALS['pagenow'] ) 
+                    ),
+                    array( 
+                        'timeout'     => 0.01, 
+                        'sslverify'   => false, 
+                    ) 
+                );  
+                
+                // @remark      Not possible to tell whether it is sent or not at the moment because it is performed in the background.
+                $_bSent      = $_bIsSet;    
+                $this->setSettingNotice( 
+                    $this->oMsg->get( $this->oUtil->getAOrB( $_bSent, 'email_scheduled', 'email_could_not_send' ) ),
+                    $this->oUtil->getAOrB( $_bSent, 'updated', 'error' )
+                );
+            
+            }        
+        
         /**
          * Resets the entire / part of the stored options.
          * 
@@ -646,65 +705,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         public function _replyToRemoveConfirmationQueryKey( $sSettingUpdateURL ) {
             return remove_query_arg( array( 'confirmation', ), $sSettingUpdateURL );
         }
-    
-        /**
-         * Sends an email set via the form.
-         * 
-         * The email contents should be set with the form fields. 
-         * 
-         * @since       3.3.0
-         * @remark      At the moment, it is not possible to tell whether it is sent or not 
-         * because it is performed in the background.
-         */
-        private function _sendEmailInBackground( $aInput, $sPressedInputNameFlat, $sSubmitSectionID ) {
-            
-            $_sTranskentKey = 'apf_em_' . md5( $sPressedInputNameFlat . get_current_user_id() );
-            $_aEmailOptions = $this->oUtil->getTransient( $_sTranskentKey );
-            $this->oUtil->deleteTransient( $_sTranskentKey );
-
-            $_aEmailOptions = $this->oUtil->getAsArray( $_aEmailOptions ) + array(
-                'to'            => '',
-                'subject'       => '',
-                'message'       => '',
-                'headers'       => '',
-                'attachments'   => '',
-                'is_html'       => false,
-                'from'          => '',
-                'name'          => '',
-            );
-
-            $_sTransientKey  = 'apf_emd_' . md5( $sPressedInputNameFlat . get_current_user_id() );
-            $_aFormEmailData = array(
-                'email_options' => $_aEmailOptions,
-                'input'         => $aInput,
-                'section_id'    => $sSubmitSectionID,
-            );
-            $_bIsSet = $this->oUtil->setTransient( $_sTransientKey,  $_aFormEmailData, 100 );
-            
-            // Send the email in the background.
-            wp_remote_get( 
-                add_query_arg( 
-                    array( 
-                        'apf_action' => 'email',
-                        'transient'  => $_sTransientKey,
-                    ), 
-                    admin_url( $GLOBALS['pagenow'] ) 
-                ),
-                array( 
-                    'timeout'     => 0.01, 
-                    'sslverify'   => false, 
-                ) 
-            );  
-            
-            // @remark      Not possible to tell whether it is sent or not at the moment because it is performed in the background.
-            $_bSent      = $_bIsSet;    
-            $this->setSettingNotice( 
-                $this->oMsg->get( $this->oUtil->getAOrB( $_bSent, 'email_scheduled', 'email_could_not_send' ) ),
-                $this->oUtil->getAOrB( $_bSent, 'updated', 'error' )
-            );
-        
-        }   
-            
+                
         /**
          * Confirms the given submit button action and sets a confirmation message as a field error message and admin notice.
          * 
@@ -828,7 +829,9 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
          */
         private function _removePageElements( $aOptions, $sPageSlug, $sTabSlug ) {
             
-            if ( ! $sPageSlug && ! $sTabSlug ) { return $aOptions; }
+            if ( ! $sPageSlug && ! $sTabSlug ) {
+                return $aOptions;
+            }
             
             // If the tab is given
             if ( $sTabSlug && $sPageSlug ) {
@@ -839,26 +842,5 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             return $this->oForm->getOtherPageOptions( $aOptions, $sPageSlug );
             
         }
-            
-    /**
-     * Sets a setting notice after form validation.
-     * 
-     * @since       3.5.3
-     * @internal
-     * @return      void
-     * @remark      Accessed from one of the parent classes.
-     */
-    protected function _setSettingNoticeAfterValidation( $bIsInputEmtpy ) {
-     
-        if ( $this->hasSettingNotice() ) {     
-            return;
-        }
-        $this->setSettingNotice(  
-            $this->oUtil->getAOrB( $bIsInputEmtpy, $this->oMsg->get( 'option_cleared' ), $this->oMsg->get( 'option_updated' ) ),
-            $this->oUtil->getAOrB( $bIsInputEmtpy, 'error', 'updated' ),
-            $this->oProp->sOptionKey, // the id
-            false // do not override
-        );
-     
-    }            
+                    
 }
