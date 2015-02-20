@@ -115,18 +115,21 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
     }
     
     /**
-     * Generates a string of class selectors for the class attribute value from multiple arguments.
-     * 
-     * Duplicated items will be merged.
+     * Generates a string of class selectors from multiple arguments.
      * 
      * For example, 
-     * <code>$sClasses = generateClassAttribute( array( 'button, button-primary' ), 'remove_button button' );</code>
+     * <code>
+     * $sClasses = generateClassAttribute( array( 'button, button-primary' ), 'remove_button button' );
+     * </code>
      * Will generates
-     * <code>button button-primary remove_button</code>
+     * <code>
+     *  button button-primary remove_button
+     * </code>
      * 
-     * @since   3.2.0
-     * @todo    Fix an issue that occurs when a multidimentinal array is passed, which causes a warning:  Notice: Array to string conversion.
-     * @return  string
+     * @remark      Duplicated items will be merged.
+     * @since       3.2.0
+     * @todo        Fix an issue that when a multidimentinal array is passed, which causes a warning:  Notice: Array to string conversion.
+     * @return      string
      */
     static public function generateClassAttribute( /* $asClassSelectors1, $asClassSelectors12 */ ) {
         
