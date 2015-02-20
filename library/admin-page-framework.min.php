@@ -1,11 +1,11 @@
 <?php 
 /**
-	Admin Page Framework v3.5.3b48 by Michael Uno 
+	Admin Page Framework v3.5.3b49 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.5.3b48';
+    const VERSION = '3.5.3b49';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
@@ -1106,7 +1106,7 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
     protected function _formatSubMenuPageArray(array $aSubMenuPage) {
         $aSubMenuPage = $aSubMenuPage + array('show_page_title' => $this->oProp->bShowPageTitle, 'show_page_heading_tabs' => $this->oProp->bShowPageHeadingTabs, 'show_in_page_tabs' => $this->oProp->bShowInPageTabs, 'in_page_tab_tag' => $this->oProp->sInPageTabTag, 'page_heading_tab_tag' => $this->oProp->sPageHeadingTabTag,) + self::$_aStructure_SubMenuPageForUser;
         $aSubMenuPage['screen_icon_id'] = trim($aSubMenuPage['screen_icon_id']);
-        return array('href_icon_32x32' => $this->oUtil->resolveSRC($aSubMenuPage['screen_icon'], true), 'screen_icon_id' => in_array($aSubMenuPage['screen_icon'], self::$_aScreenIconIDs) ? $aSubMenuPage['screen_icon'] : 'generic', 'capability' => $this->oUtil->getElement($aSubMenuPage, 'capability', $this->oProp->sCapability), 'order' => is_numeric($aSubMenuPage['order']) ? $aSubMenuPage['order'] : count($this->oProp->aPages) + 10,) + $aSubMenuPage;
+        return array('href_icon_32x32' => $this->oUtil->resolveSRC($aSubMenuPage['screen_icon'], true), 'screen_icon_id' => $this->oUtil->getAOrB(in_array($aSubMenuPage['screen_icon'], self::$_aScreenIconIDs), $aSubMenuPage['screen_icon'], 'generic'), 'capability' => $this->oUtil->getElement($aSubMenuPage, 'capability', $this->oProp->sCapability), 'order' => $this->oUtil->getAOrB(is_numeric($aSubMenuPage['order']), $aSubMenuPage['order'], count($this->oProp->aPages) + 10),) + $aSubMenuPage;
     }
     private function _registerSubMenuItem(array $aArgs) {
         if (!current_user_can($aArgs['capability'])) {
@@ -1131,7 +1131,7 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
         if (!isset($this->oProp->aPageHooks[$_sPageHook])) {
             add_action('current_screen', array($this, "load_pre_" . $sPageSlug), 20);
         }
-        $this->oProp->aPageHooks[$sPageSlug] = is_network_admin() ? $_sPageHook . '-network' : $_sPageHook;
+        $this->oProp->aPageHooks[$sPageSlug] = $this->oUtil->getAOrB(is_network_admin(), $_sPageHook . '-network', $_sPageHook);
         if ($bShowInMenu) {
             return $_sPageHook;
         }
@@ -1143,16 +1143,24 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
             if (!isset($_aSubMenu[3])) {
                 continue;
             }
-            if ($_aSubMenu[0] == $sMenuTitle && $_aSubMenu[3] == $sPageTitle && $_aSubMenu[2] == $sPageSlug) {
-                if (is_network_admin()) {
-                    unset($GLOBALS['submenu'][$sMenuSlug][$_iIndex]);
-                } else if (!isset($_GET['page']) || isset($_GET['page']) && $sPageSlug != $_GET['page']) {
-                    unset($GLOBALS['submenu'][$sMenuSlug][$_iIndex]);
-                }
-                $this->oProp->aHiddenPages[$sPageSlug] = $sMenuTitle;
-                add_filter('admin_title', array($this, '_replyToFixPageTitleForHiddenPages'), 10, 2);
-                break;
+            $_aA = array($_aSubMenu[0], $_aSubMenu[3], $_aSubMenu[2],);
+            $_aB = array($sMenuTitle, $sPageTitle, $sPageSlug,);
+            if ($_aA !== $_aB) {
+                continue;
             }
+            $this->_removePageSubMenuItemByIndex($sPageSlug, $sMenuSlug, $_iIndex);
+            $this->oProp->aHiddenPages[$sPageSlug] = $sMenuTitle;
+            add_filter('admin_title', array($this, '_replyToFixPageTitleForHiddenPages'), 10, 2);
+            break;
+        }
+    }
+    private function _removePageSubMenuItemByIndex($sPageSlug, $sMenuSlug, $_iIndex) {
+        if (is_network_admin()) {
+            unset($GLOBALS['submenu'][$sMenuSlug][$_iIndex]);
+            return;
+        }
+        if (!isset($_GET['page']) || isset($_GET['page']) && $sPageSlug != $_GET['page']) {
+            unset($GLOBALS['submenu'][$sMenuSlug][$_iIndex]);
         }
     }
     private function _addLinkSubmenuItem($sMenuSlug, $sTitle, $sCapability, $sHref, $bShowInMenu) {
