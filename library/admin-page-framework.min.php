@@ -1,11 +1,11 @@
 <?php 
 /**
-	Admin Page Framework v3.5.3b46 by Michael Uno 
+	Admin Page Framework v3.5.3b47 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.5.3b46';
+    const VERSION = '3.5.3b47';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
@@ -851,22 +851,34 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
         echo "<input type='hidden' name='page_slug' value='{$sPageSlug}' />" . PHP_EOL . "<input type='hidden' name='tab_slug' value='{$sTabSlug}' />" . PHP_EOL . "<input type='hidden' name='_is_admin_page_framework' value='{$_sNonce}' />" . PHP_EOL . "</form><!-- End Form -->" . PHP_EOL;
     }
     private function _getScreenIcon($sPageSlug) {
-        if (isset($this->oProp->aPages[$sPageSlug]['href_icon_32x32'])) {
-            return "<div " . $this->oUtil->generateAttributes(array('class' => 'icon32', 'style' => $this->oUtil->generateInlineCSS(array('background-image' => "url('" . esc_url($this->oProp->aPages[$sPageSlug]['href_icon_32x32']) . "')")))) . ">" . "<br />" . "</div>";
+        try {
+            $this->_throwScreenIconByURLOrPath($sPageSlug);
+            $this->_throwScreenIconByID($sPageSlug);
         }
-        if (isset($this->oProp->aPages[$sPageSlug]['screen_icon_id'])) {
-            return "<div " . $this->oUtil->generateAttributes(array('class' => 'icon32', 'id' => "icon-" . $this->oProp->aPages[$sPageSlug]['screen_icon_id'],)) . ">" . "<br />" . "</div>";
+        catch(Exception $_oException) {
+            return $_oException->getMessage();
         }
+        return $this->_getDefaultScreenIcon();
+    }
+    private function _throwScreenIconByURLOrPath($sPageSlug) {
+        if (!isset($this->oProp->aPages[$sPageSlug]['href_icon_32x32'])) {
+            return;
+        }
+        $_aAttributes = array('style' => $this->oUtil->generateInlineCSS(array('background-image' => "url('" . esc_url($this->oProp->aPages[$sPageSlug]['href_icon_32x32']) . "')")));
+        throw new Exception($this->_getScreenIconByAttributes($_aAttributes));
+    }
+    private function _throwScreenIconByID($sPageSlug) {
+        if (!isset($this->oProp->aPages[$sPageSlug]['screen_icon_id'])) {
+            return;
+        }
+        $_aAttributes = array('id' => "icon-" . $this->oProp->aPages[$sPageSlug]['screen_icon_id'],);
+        throw new Exception($this->_getScreenIconByAttributes($_aAttributes));
+    }
+    private function _getDefaultScreenIcon() {
         $_oScreen = get_current_screen();
         $_sIconIDAttribute = $this->_getScreenIDAttribute($_oScreen);
-        $_sClass = 'icon32';
-        if (empty($_sIconIDAttribute) && $_oScreen->post_type) {
-            $_sClass.= ' ' . sanitize_html_class('icon32-posts-' . $_oScreen->post_type);
-        }
-        if (empty($_sIconIDAttribute) || $_sIconIDAttribute == $this->oProp->sClassName) {
-            $_sIconIDAttribute = 'generic';
-        }
-        return "<div " . $this->oUtil->generateAttributes(array('class' => $_sClass, 'id' => "icon-" . $_sIconIDAttribute,)) . ">" . "<br />" . "</div>";
+        $_aAttributes = array('class' => $this->oUtil->generateClassAttribute($this->oUtil->getAOrB(empty($_sIconIDAttribute) && $_oScreen->post_type, sanitize_html_class('icon32-posts-' . $_oScreen->post_type), ''), $this->oUtil->getAOrB(empty($_sIconIDAttribute) || $_sIconIDAttribute == $this->oProp->sClassName, 'generic', '')), 'id' => "icon-" . $_sIconIDAttribute,);
+        return $this->_getScreenIconByAttributes($_aAttributes);
     }
     private function _getScreenIDAttribute($oScreen) {
         if (!empty($oScreen->parent_base)) {
@@ -876,6 +888,10 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
             return 'edit-pages';
         }
         return esc_attr($oScreen->base);
+    }
+    private function _getScreenIconByAttributes(array $aAttributes) {
+        $aAttributes['class'] = $this->oUtil->generateClassAttribute('icon32', $this->oUtil->getElement($aAttributes, 'class'));
+        return "<div " . $this->oUtil->generateAttributes($aAttributes) . ">" . "<br />" . "</div>";
     }
     private function _getPageHeadingTabs($sCurrentPageSlug, $sTag = 'h2') {
         $_aPage = $this->oProp->aPages[$sCurrentPageSlug];
