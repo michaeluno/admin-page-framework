@@ -170,10 +170,14 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                     continue;
                 }            
                 
-                $_sSectionTaqbSlug = $_aSection['section_tab_slug'] 
-                    ? $_aSection['section_tab_slug']
-                    : '_default_' . ( ++$_iIndex );                
-                                        
+                // $_sSectionTaqbSlug = $_aSection['section_tab_slug'] 
+                    // ? $_aSection['section_tab_slug']
+                    // : '_default_' . ( ++$_iIndex );                
+                $_sSectionTaqbSlug = $this->getAOrB(
+                    $_aSection['section_tab_slug'],
+                    $_aSection['section_tab_slug'],
+                    '_default_' . ( ++$_iIndex )
+                );
                 $_aSectionsBySectionTab[ $_sSectionTaqbSlug ][ $_sSectionID ] = $_aSection;
                 $_aFieldsBySectionTab[ $_sSectionTaqbSlug ][ $_sSectionID ]   = $aFields[ $_sSectionID ];
                     
@@ -418,12 +422,22 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                         'id'    => $sSectionsID, 
                         'class' => $this->generateClassAttribute( 
                             'admin-page-framework-sections',
-                            ! $sSectionTabSlug || '_default' === $sSectionTabSlug 
-                                ? null 
-                                : 'admin-page-framework-section-tabs-contents',
-                            empty( $aCollapsible )
-                                ? null
-                                : 'admin-page-framework-collapsible-sections-content admin-page-framework-collapsible-content accordion-section-content'
+                            // ! $sSectionTabSlug || '_default' === $sSectionTabSlug 
+                                // ? null 
+                                // : 'admin-page-framework-section-tabs-contents',
+                            $this->getAOrB(
+                                ! $sSectionTabSlug || '_default' === $sSectionTabSlug,
+                                null,
+                                'admin-page-framework-section-tabs-contents'
+                            ),
+                            // empty( $aCollapsible )
+                                // ? null
+                                // : 'admin-page-framework-collapsible-sections-content admin-page-framework-collapsible-content accordion-section-content'
+                            $this->getAOrB(
+                                empty( $aCollapsible ),
+                                null,
+                                'admin-page-framework-collapsible-sections-content admin-page-framework-collapsible-content accordion-section-content'
+                            )
                         ),
                         // 3.4.3+ to help find the sections container for custom scripts that groups sections.
                         'data-seciton_id'   => $sSectionID,   
@@ -494,10 +508,12 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 . "<tbody " 
                     . $this->generateAttributes( 
                         array(
-                            'class' => $_bCollapsible
-                                ? 'admin-page-framework-collapsible-section-content admin-page-framework-collapsible-content accordion-section-content'
-                                : null,
-                        ) 
+                            'class' => $this->getAOrB(
+                                $_bCollapsible,
+                                'admin-page-framework-collapsible-section-content admin-page-framework-collapsible-content accordion-section-content',
+                                null
+                            ),
+                        )
                     )
                 . ">"
                     . $this->getFieldRows( $aFields, $hfFieldCallback )
@@ -510,19 +526,33 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 'id'            => $_sSectionTagID, // section-{section id}__{index}
                 'class'         => $this->generateClassAttribute( 
                     'admin-page-framework-section',
-                    $aSection['section_tab_slug'] 
-                        ? 'admin-page-framework-tab-content' 
-                        : null,
-                    $_bCollapsible
-                        ? 'is_subsection_collapsible' // when this is present, the section repeater script does not repeat tabs.
-                        : null
+                    $this->getAOrB(
+                        $aSection['section_tab_slug'],
+                        'admin-page-framework-tab-content',
+                        null
+                    ),
+                    $this->getAOrB(
+                        $_bCollapsible,
+                        'is_subsection_collapsible', // when this is present, the section repeater script does not repeat tabs.
+                        null
+                    )
                 ),
                 // [3.3.1+] The repeatable script refers to this model value to generate new IDs.
                 'data-id_model' => 'section-' . $sSectionID . '__' . '-si-',
             )     
         );
-        $_aSectionAttributes['class']   = $this->generateClassAttribute( $_aSectionAttributes['class'], $this->dropElementsByType( $aSection['class'] ) );  // 3.3.1+
-        $_aSectionAttributes['style']   = $this->generateStyleAttribute( $_aSectionAttributes['style'], $aSection['hidden'] ? 'display:none' : null );  // 3.3.1+        
+        $_aSectionAttributes['class']   = $this->generateClassAttribute( 
+            $_aSectionAttributes['class'], 
+            $this->dropElementsByType( $aSection['class'] )
+        );  // 3.3.1+
+        $_aSectionAttributes['style']   = $this->generateStyleAttribute( 
+            $_aSectionAttributes['style'], 
+            $this->getAOrB(
+                $aSection['hidden'],
+                'display:none',
+                null
+            )
+        );  // 3.3.1+        
 
         return "<div "
                 . $this->generateAttributes( $_aSectionAttributes )
