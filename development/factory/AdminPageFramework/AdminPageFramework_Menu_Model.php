@@ -123,7 +123,9 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
         // Set the default page, the first element.
         foreach ( $this->oProp->aPages as $aPage ) {
             
-            if ( ! isset( $aPage['page_slug'] ) ) { continue; }
+            if ( ! isset( $aPage['page_slug'] ) ) { 
+                continue; 
+            }
             $this->oProp->sDefaultPageSlug = $aPage['page_slug'];
             break;
             
@@ -241,13 +243,17 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
         $aSubMenuPage['screen_icon_id'] = trim( $aSubMenuPage['screen_icon_id'] );
         return array( 
                 'href_icon_32x32'   => $this->oUtil->resolveSRC( $aSubMenuPage['screen_icon'], true ),
-                'screen_icon_id'    => in_array( $aSubMenuPage['screen_icon'], self::$_aScreenIconIDs ) 
-                    ? $aSubMenuPage['screen_icon'] 
-                    : 'generic', // $_aScreenIconIDs is defined in the page class.
+                'screen_icon_id'    => $this->oUtil->getAOrB(
+                    in_array( $aSubMenuPage['screen_icon'], self::$_aScreenIconIDs ),
+                    $aSubMenuPage['screen_icon'],
+                    'generic'   // $_aScreenIconIDs is defined in the page class.
+                ), 
                 'capability'        => $this->oUtil->getElement( $aSubMenuPage, 'capability', $this->oProp->sCapability ),
-                'order'             => is_numeric( $aSubMenuPage['order'] ) 
-                    ? $aSubMenuPage['order'] 
-                    : count( $this->oProp->aPages ) + 10,
+                'order'             => $this->oUtil->getAOrB(
+                    is_numeric( $aSubMenuPage['order'] ),
+                    $aSubMenuPage['order'],
+                    count( $this->oProp->aPages ) + 10
+                ),
             )
             + $aSubMenuPage;
         
@@ -327,12 +333,13 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
                 if ( ! isset( $this->oProp->aPageHooks[ $_sPageHook ] ) ) {
                     // 3.4.1+ Give a lower priority as the page meta box class also hooks the current_screen to register form elements.
                     // When the validation callback is triggered, their form registration should be done already. So this hook should be loaded later than them.
-                    add_action( 'current_screen' , array( $this, "load_pre_" . $sPageSlug ), 20 );    
+                    add_action( 'current_screen' , array( $this, "load_pre_" . $sPageSlug ), 20 );
                 }
-                $this->oProp->aPageHooks[ $sPageSlug ] = is_network_admin() 
-                    ? $_sPageHook . '-network' 
-                    : $_sPageHook;
-
+                $this->oProp->aPageHooks[ $sPageSlug ] = $this->oUtil->getAOrB(
+                    is_network_admin(),
+                    $_sPageHook . '-network',
+                    $_sPageHook
+                );
                 if ( $bShowInMenu ) {
                     return $_sPageHook;
                 }
@@ -347,35 +354,75 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
                  * 
                  * @since       3.3.0
                  * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
+                 * @return      void
                  */
                 private function _removePageSubmenuItem( $sMenuSlug, $sMenuTitle, $sPageTitle, $sPageSlug ){
-
+                    
                     foreach( ( array ) $GLOBALS['submenu'][ $sMenuSlug ] as $_iIndex => $_aSubMenu ) {
                       
-                        if ( ! isset( $_aSubMenu[ 3 ] ) ) { continue; }
+                        if ( ! isset( $_aSubMenu[ 3 ] ) ) { 
+                            continue; 
+                        }
                                                
                         // the array structure is defined in plugin.php - $submenu[$parent_slug][] = array ( $menu_title, $capability, $menu_slug, $page_title ) 
-                        if ( $_aSubMenu[0] == $sMenuTitle && $_aSubMenu[3] == $sPageTitle && $_aSubMenu[2] == $sPageSlug ) {
+                        $_aA = array(
+                            $_aSubMenu[ 0 ],
+                            $_aSubMenu[ 3 ],
+                            $_aSubMenu[ 2 ],
+                        );
+                        $_aB = array(
+                            $sMenuTitle,
+                            $sPageTitle,
+                            $sPageSlug,
+                        );
+                        if ( $_aA !== $_aB ) { 
+                            continue;
+                        }
 
-                            // Remove from the menu. If the current page is being accessed, do not remove it from the menu.
-                            // If it is in the network admin area, do not remove the menu; otherwise, it gets not accessible. 
-                            if ( is_network_admin() ) {
-                                unset( $GLOBALS['submenu'][ $sMenuSlug ][ $_iIndex ] );
-                            } else if ( ! isset( $_GET['page'] ) || isset( $_GET['page'] ) && $sPageSlug != $_GET['page'] ) {
-                                unset( $GLOBALS['submenu'][ $sMenuSlug ][ $_iIndex ] );
-                            }
+                        $this->_removePageSubMenuItemByIndex( 
+                            $sPageSlug, 
+                            $sMenuSlug, 
+                            $_iIndex 
+                        );
 
-                            // The page title in the browser window title bar will miss the page title as this is left as it is.
-                            $this->oProp->aHiddenPages[ $sPageSlug ] = $sMenuTitle;
-                            add_filter( 'admin_title', array( $this, '_replyToFixPageTitleForHiddenPages' ), 10, 2 );
-
-                            break;
-                            
-                        }                                                                                                
+                        // The page title in the browser window title bar will miss the page title as this is left as it is.
+                        $this->oProp->aHiddenPages[ $sPageSlug ] = $sMenuTitle;
+                        add_filter( 
+                            'admin_title', 
+                            array( $this, '_replyToFixPageTitleForHiddenPages' ), 
+                            10, 
+                            2 
+                        );
+                        break;                                                                                           
                         
                     }                    
                     
                 }
+                    /**
+                     * Remove the specified item from the menu. 
+                     * 
+                     * If the current page is being accessed, do not remove it from the menu.
+                     * 
+                     * @since       3.5.3
+                     * @return      void
+                     * @internal
+                     */
+                    private function _removePageSubMenuItemByIndex( $sPageSlug, $sMenuSlug, $_iIndex ) {
+                        
+                        // If it is in the network admin area, do not remove the menu; otherwise, it gets not accessible. 
+                        if ( is_network_admin() ) {
+                            unset( $GLOBALS['submenu'][ $sMenuSlug ][ $_iIndex ] );
+                            return;
+                        } 
+                        
+                        if ( 
+                            ! isset( $_GET['page'] ) 
+                            || isset( $_GET['page'] ) && $sPageSlug != $_GET['page'] 
+                        ) {
+                            unset( $GLOBALS['submenu'][ $sMenuSlug ][ $_iIndex ] );
+                        }                        
+                        
+                    }
             /**
              * Adds a link sub-menu item.
              * 
