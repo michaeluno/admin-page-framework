@@ -56,7 +56,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
 
             $_oRequirementCheck = new AdminPageFramework_Requirement(
                 AdminPageFrameworkLoader_Registry::$aRequirements,
-                AdminPageFrameworkLoader_Registry::Name
+                AdminPageFrameworkLoader_Registry::NAME
             );
             
             if ( $_oRequirementCheck->check() ) {            
