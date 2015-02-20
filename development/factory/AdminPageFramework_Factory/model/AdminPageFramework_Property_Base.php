@@ -285,11 +285,23 @@ abstract class AdminPageFramework_Property_Base {
         
         $this->oUtil            = new AdminPageFramework_WPUtility; // 3.5.3+
         $this->oCaller          = $oCaller;
-        $this->sCallerPath      = $sCallerPath ? $sCallerPath : null;
+        $this->sCallerPath      = $this->oUtil->getAOrB(
+            $sCallerPath,
+            $sCallerPath,
+            null
+        );
         $this->sClassName       = $sClassName;     
         $this->sClassHash       = md5( $sClassName );    
-        $this->sCapability      = empty( $sCapability ) ? 'manage_options' : $sCapability ;
-        $this->sTextDomain      = empty( $sTextDomain ) ? 'admin-page-framework' : $sTextDomain;
+        $this->sCapability      = $this->oUtil->getAOrB(
+            empty( $sCapability ),
+            'manage_options',
+            $sCapability
+        );
+        $this->sTextDomain      = $this->oUtil->getAOrB(
+            empty( $sTextDomain ),
+            'admin-page-framework',
+            $sTextDomain
+        );
         $this->sFieldsType      = $sFieldsType;
         $GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
             ? $GLOBALS['aAdminPageFramework']
@@ -350,7 +362,9 @@ abstract class AdminPageFramework_Property_Base {
      * @since 3.0.0
      */
     static public function _getLibraryData() {
-        return isset( self::$_aLibraryData ) ? self::$_aLibraryData : self::_setLibraryData();     
+        return isset( self::$_aLibraryData ) 
+            ? self::$_aLibraryData 
+            : self::_setLibraryData();     
     }
     
     /*
@@ -454,7 +468,9 @@ abstract class AdminPageFramework_Property_Base {
     public function __get( $sName ) {
         
         if ( 'aScriptInfo' === $sName ) {
-            $this->sCallerPath = $this->sCallerPath ? $this->sCallerPath : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );
+            $this->sCallerPath = $this->sCallerPath 
+                ? $this->sCallerPath 
+                : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );
             $this->aScriptInfo = $this->getCallerInfo( $this->sCallerPath );
             return $this->aScriptInfo;    
         }
