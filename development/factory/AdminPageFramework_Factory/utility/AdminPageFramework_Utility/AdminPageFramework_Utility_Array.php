@@ -223,7 +223,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
                 
         }
         return $aParse;
-    } 
+    }
     
     /**
      * Removes integer keys from the array.
@@ -376,16 +376,16 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      */
     static public function unsetDimensionalArrayElement( &$mSubject, array $aKeys ) {
         
-            $_sKey = array_shift( $aKeys );
-            if ( ! empty( $aKeys ) ) {
-                if ( isset( $mSubject[ $_sKey ] ) && is_array( $mSubject[ $_sKey ] ) ) {
-                    self::unsetDimensionalArrayElement( $mSubject[ $_sKey ], $aKeys );
-                }
-                return;            
+        $_sKey = array_shift( $aKeys );
+        if ( ! empty( $aKeys ) ) {
+            if ( isset( $mSubject[ $_sKey ] ) && is_array( $mSubject[ $_sKey ] ) ) {
+                self::unsetDimensionalArrayElement( $mSubject[ $_sKey ], $aKeys );
             }
-            if ( is_array( $mSubject ) ) {
-                unset( $mSubject[ $_sKey ] );
-            }
+            return;            
+        }
+        if ( is_array( $mSubject ) ) {
+            unset( $mSubject[ $_sKey ] );
+        }
         
     }
     
