@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -12,10 +12,10 @@
  * 
  * This class stores various types of values. This is used to encapsulate properties so that it helps to avoid naming conflicts.
  * 
- * @since 2.1.0
- * @package AdminPageFramework
- * @subpackage Property
- * @extends AdminPageFramework_Property_Base
+ * @since       2.1.0
+ * @package     AdminPageFramework
+ * @subpackage  Property
+ * @extends     AdminPageFramework_Property_Base
  * @internal
  */
 class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Base {
@@ -148,7 +148,7 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
      */
     public  $sFieldsType = 'post_meta_box';
     
-    function __construct( $oCaller, $sClassName, $sCapability='edit_posts', $sTextDomain='admin-page-framework', $sFieldsType='post_meta_box' ) {
+    public function __construct( $oCaller, $sClassName, $sCapability='edit_posts', $sTextDomain='admin-page-framework', $sFieldsType='post_meta_box' ) {
         
         parent::__construct( $oCaller, null, $sClassName, $sCapability, $sTextDomain, $sFieldsType ); // meta boxes don't need the caller script path.
             
