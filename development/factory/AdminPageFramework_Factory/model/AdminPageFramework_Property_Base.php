@@ -346,9 +346,9 @@ abstract class AdminPageFramework_Property_Base {
             'sVersion'      => AdminPageFramework_Registry::getVersion(),
             'sDescription'  => AdminPageFramework_Registry::DESCRIPTION,
             'sAuthor'       => AdminPageFramework_Registry::AUTHOR,
-            'sAuthorURI'    => AdminPageFramework_Registry::AUTHORURI,
-            'sTextDomain'   => AdminPageFramework_Registry::TEXTDOMAIN,
-            'sDomainPath'   => AdminPageFramework_Registry::TEXTDOMAINPATH,
+            'sAuthorURI'    => AdminPageFramework_Registry::AUTHOR_URI,
+            'sTextDomain'   => AdminPageFramework_Registry::TEXT_DOMAIN,
+            'sDomainPath'   => AdminPageFramework_Registry::TEXT_DOMAIN_PATH,
             'sNetwork'      => '',
             '_sitewide'     => '',
         );

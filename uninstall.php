@@ -40,7 +40,7 @@ if ( class_exists( 'AdminPageFrameworkLoader_Registry' ) ) :
     
     // Delete transients
     $_aPrefixes = array(
-        AdminPageFrameworkLoader_Registry::TRANSIENTPREFIX, // the plugin transients
+        AdminPageFrameworkLoader_Registry::TRANSIENT_PREFIX, // the plugin transients
         'apf_',      // the admin page framework transients
     );
     foreach( $_aPrefixes as $_sPrefix ) {

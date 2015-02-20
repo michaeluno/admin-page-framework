@@ -103,15 +103,15 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
         if ( ! $this->bIsAdmin ) { return; }
         
         load_plugin_textdomain( 
-            AdminPageFrameworkLoader_Registry::TEXTDOMAIN, 
+            AdminPageFrameworkLoader_Registry::TEXT_DOMAIN, 
             false, 
-            dirname( plugin_basename( $this->sFilePath ) ) . '/' . AdminPageFrameworkLoader_Registry::TEXTDOMAINPATH
+            dirname( plugin_basename( $this->sFilePath ) ) . '/' . AdminPageFrameworkLoader_Registry::TEXT_DOMAIN_PATH
         );
             
         load_plugin_textdomain( 
             'admin-page-framework', 
             false, 
-            dirname( plugin_basename( $this->sFilePath ) ) . '/' . AdminPageFrameworkLoader_Registry::TEXTDOMAINPATH
+            dirname( plugin_basename( $this->sFilePath ) ) . '/' . AdminPageFrameworkLoader_Registry::TEXT_DOMAIN_PATH
         );        
         
     }        

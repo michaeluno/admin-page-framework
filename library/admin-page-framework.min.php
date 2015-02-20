@@ -1,23 +1,23 @@
 <?php 
 /**
-	Admin Page Framework v3.5.3b49 by Michael Uno 
+	Admin Page Framework v3.5.3b50 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.5.3b49';
+    const VERSION = '3.5.3b50';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
     const AUTHOR = 'Michael Uno';
-    const AUTHORURI = 'http://en.michaeluno.jp/';
+    const AUTHOR_URI = 'http://en.michaeluno.jp/';
     const COPYRIGHT = 'Copyright (c) 2013-2015, Michael Uno';
     const LICENSE = 'MIT <http://opensource.org/licenses/MIT>';
     const CONTRIBUTORS = '';
 }
 final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base {
-    const TEXTDOMAIN = 'admin-page-framework';
-    const TEXTDOMAINPATH = '/language';
+    const TEXT_DOMAIN = 'admin-page-framework';
+    const TEXT_DOMAIN_PATH = '/language';
     static public $bIsMinifiedVersion = true;
     static public $sAutoLoaderPath;
     static public $sFilePath = '';
@@ -3507,7 +3507,7 @@ abstract class AdminPageFramework_Property_Base {
         return $this->oCaller;
     }
     static public function _setLibraryData() {
-        self::$_aLibraryData = array('sName' => AdminPageFramework_Registry::NAME, 'sURI' => AdminPageFramework_Registry::URI, 'sScriptName' => AdminPageFramework_Registry::NAME, 'sLibraryName' => AdminPageFramework_Registry::NAME, 'sLibraryURI' => AdminPageFramework_Registry::URI, 'sPluginName' => '', 'sPluginURI' => '', 'sThemeName' => '', 'sThemeURI' => '', 'sVersion' => AdminPageFramework_Registry::getVersion(), 'sDescription' => AdminPageFramework_Registry::DESCRIPTION, 'sAuthor' => AdminPageFramework_Registry::AUTHOR, 'sAuthorURI' => AdminPageFramework_Registry::AUTHORURI, 'sTextDomain' => AdminPageFramework_Registry::TEXTDOMAIN, 'sDomainPath' => AdminPageFramework_Registry::TEXTDOMAINPATH, 'sNetwork' => '', '_sitewide' => '',);
+        self::$_aLibraryData = array('sName' => AdminPageFramework_Registry::NAME, 'sURI' => AdminPageFramework_Registry::URI, 'sScriptName' => AdminPageFramework_Registry::NAME, 'sLibraryName' => AdminPageFramework_Registry::NAME, 'sLibraryURI' => AdminPageFramework_Registry::URI, 'sPluginName' => '', 'sPluginURI' => '', 'sThemeName' => '', 'sThemeURI' => '', 'sVersion' => AdminPageFramework_Registry::getVersion(), 'sDescription' => AdminPageFramework_Registry::DESCRIPTION, 'sAuthor' => AdminPageFramework_Registry::AUTHOR, 'sAuthorURI' => AdminPageFramework_Registry::AUTHOR_URI, 'sTextDomain' => AdminPageFramework_Registry::TEXT_DOMAIN, 'sDomainPath' => AdminPageFramework_Registry::TEXT_DOMAIN_PATH, 'sNetwork' => '', '_sitewide' => '',);
         return self::$_aLibraryData;
     }
     static public function _getLibraryData() {

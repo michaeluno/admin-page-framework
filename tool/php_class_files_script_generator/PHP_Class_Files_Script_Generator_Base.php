@@ -260,7 +260,7 @@ abstract class PHP_Class_Files_Script_Generator_Base {
             $_aConstants    = array_change_key_case( $_aConstants, CASE_UPPER ) + array(
 				'NAME'          => '', 'VERSION'        => '',
 				'DESCRIPTION'   => '', 'URI'            => '',
-				'AUTHOR'        => '', 'AUTHORURI'      => '',
+				'AUTHOR'        => '', 'AUTHOR_URI'      => '',
 				'COPYRIGHT'     => '', 'LICENSE'        => '',
 				'CONTRIBUTORS'  => '',
             );

@@ -47,7 +47,7 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top extends AdminPageFrameworkLoa
     public function replyToDoTab() {
         
         $_oFeedList  = new AdminPageFrameworkLoader_FeedList( $this->sRSSURL );
-        $_aFeedItems = apply_filters( AdminPageFrameworkLoader_Registry::HOOKSLUG . '_filter_admin_add_ons', $this->_getDemo() + $_oFeedList->get() );
+        $_aFeedItems = apply_filters( AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_admin_add_ons', $this->_getDemo() + $_oFeedList->get() );
         if ( empty( $_aFeedItems ) ) {
             echo "<p>" . __( 'No add-on could be found.', 'admin-page-framework-loader' ) . "</p>";
             return;
