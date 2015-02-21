@@ -1,11 +1,11 @@
 <?php 
 /**
-	Admin Page Framework v3.5.3b50 by Michael Uno 
+	Admin Page Framework v3.5.3 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.5.3b50';
+    const VERSION = '3.5.3';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';

@@ -367,7 +367,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.5.3 =
+= 3.5.3 - 2015/02/21 =
 - Added the ability to reset individual field values with the `reset` argument of the `submit` field type.
 - Added a user meta factory class demo example.
 - Added the `validate()` and `content()` methods in the admin page factory class.
