@@ -1,21 +1,21 @@
 <?php
 /**
- * Admin Page Framework - Demo
- * 
- * Demonstrates the usage of Admin Page Framework.
+ * Admin Page Framework - Loader
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2015 Michael Uno; Licensed GPLv2
  */
 
 /**
- * Adds the Contact page to the demo plugin.
+ * Adds the Contact tab to a demo admin page.
  * 
  * @since   3.4.2
  */
 class APF_Demo_Contact_Tab_Report {
 
+    /**
+     * Sets up hooks and properties.
+     */
     public function __construct( $oFactory, $sPageSlug='', $sTabSlug='' ) {
     
         $this->oFactory     = $oFactory;
@@ -214,7 +214,7 @@ class APF_Demo_Contact_Tab_Report {
         if ( ! $_bIsValid ) {
         
             $oFactory->setFieldErrors( $_aErrors );     
-            $oFactory->setSettingNotice( __( 'Please help us to help you.', 'fetch-tweets' ) );        
+            $oFactory->setSettingNotice( __( 'Please help us to help you.', 'admin-page-framework-loader' ) );
             return $aOldInput;
             
         }     
