@@ -10,7 +10,7 @@
  */
 
 /**
- * Adds the Contact page to the demo plugin.
+ * Adds the 'Minifier' tab to the 'Tools' page of the loader plugin.
  * 
  * @since       3.4.6
  * @since       3.5.0       Moved from the demo.
