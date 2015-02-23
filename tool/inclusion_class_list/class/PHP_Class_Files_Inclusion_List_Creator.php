@@ -16,7 +16,7 @@ if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
  * This is meant to be used for the callback function for the spl_autoload_register() function.
  *  
  * @remark		The parsed class file must have a name of the class defined in the file.
- * @version		1.0.1
+ * @version		1.0.2
  */
 class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Generator_Base {
 	
@@ -97,7 +97,6 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 			echo sprintf( 'Found %1$s file(s)', count( $_aFiles ) ) . $_sCarriageReturn;
 			foreach ( $_aFiles as $_aFile ) {
 				echo $_aFile['path'] . $_sCarriageReturn;
-				// echo implode( ', ', $_aFile['defined_classes'] ) . $_sCarriageReturn;
 			}
 			
 		}			
@@ -128,17 +127,22 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 			}
 		}
 		
-		$aFiles = $this->_extractDefinedClasses( $aFiles );
+		$aFiles = $this->_extractDefinedClasses( $aFiles, $aExcludingClassNames );
 		
 		return $aFiles;
 	
 	}
-		private function _extractDefinedClasses( array $aFiles ) {
+		private function _extractDefinedClasses( array $aFiles, array $aExcludingClassNames ) {
 			
 			$_aAdditionalClasses = array();
 			foreach( $aFiles as $_sClassName => $_aFile ) {
 				foreach( $_aFile['defined_classes'] as $_sAdditionalClass ) {
-					if ( isset( $aFiles[ $_sAdditionalClass ] ) ) { continue; }
+					if ( isset( $aFiles[ $_sAdditionalClass ] ) ) { 
+                        continue; 
+                    }
+                    if ( in_array( $_sAdditionalClass, $aExcludingClassNames ) ) {
+                        continue;
+                    }                    
 					$_aAdditionalClasses[ $_sAdditionalClass ] = $_aFile;
 				}
 			}

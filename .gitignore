@@ -1,5 +1,7 @@
 # Externals
-/tool/minifier/class/library/PHP_Beautifier
+/tool/minifier/class/library/
+/tool/beautifier/class/library/
+*/PHP_Beautifier
 
 # backup files.
 *.old

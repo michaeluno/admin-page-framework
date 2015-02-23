@@ -29,11 +29,11 @@
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.5.3
+ * @version             3.5.4b01
  */
 abstract class AdminPageFramework_Registry_Base {
     
-    const VERSION       = '3.5.3'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION       = '3.5.4b01'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME          = 'Admin Page Framework';
     const DESCRIPTION   = 'Facilitates WordPress plugin and theme development.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
@@ -60,10 +60,18 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
     /**
      * Indicates whether the framework is loaded from the minified version or not.
      * 
-     * @remark The value will be reassign by the bootstrap script.
+     * @remark      The value will be reassigned by the bootstrap script.
+     * @remark      The minified version will be deprecated in the near future.
      */
     static public $bIsMinifiedVersion = true;
-    
+        
+    /**
+     * Indicates whether the framework is the development version or not.
+     * 
+     * @since       3.5.4
+     */
+    static public $bIsDevelopmentVersion = true;
+        
     /**
      * Stores the autoloader class file path.
      */
@@ -80,11 +88,12 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
      */
     static public function setUp( $sFilePath=null ) {
                         
-        self::$sFilePath            = $sFilePath ? $sFilePath : __FILE__;
-        self::$sDirPath             = dirname( self::$sFilePath );
-        self::$sFileURI             = plugins_url( '', self::$sFilePath );
-        self::$sAutoLoaderPath      = self::$sDirPath . '/factory/AdminPageFramework_Factory/utility/AdminPageFramework_RegisterClasses.php';
-        self::$bIsMinifiedVersion   = class_exists( 'AdminPageFramework_MinifiedVersionHeader' );
+        self::$sFilePath                = $sFilePath ? $sFilePath : __FILE__;
+        self::$sDirPath                 = dirname( self::$sFilePath );
+        self::$sFileURI                 = plugins_url( '', self::$sFilePath );
+        self::$sAutoLoaderPath          = self::$sDirPath . '/factory/AdminPageFramework_Factory/utility/AdminPageFramework_RegisterClasses.php';
+        self::$bIsMinifiedVersion       = class_exists( 'AdminPageFramework_MinifiedVersionHeader' );
+        self::$bIsDevelopmentVersion    = ! class_exists( 'AdminPageFramework_BeautifiedVersionHeader' );
         
     }    
     
@@ -100,9 +109,19 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
             trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is called too early. Perform <code>%2$s</code> earlier.', 'admin-page-framework' ), __METHOD__, 'setUp()' ), E_USER_WARNING );
             return self::VERSION;
         }
+        $_aMinifiedVesionSuffix = array(
+            0 => '',
+            1 => '.min',
+        );
+        $_aDevelopmentVersionSuffix = array(
+            0 => '',
+            1 => '.dev',
+        );
         return self::VERSION
-            . ( self::$bIsMinifiedVersion ? '.min' : '' );        
-            
+            . $_aMinifiedVesionSuffix[ ( int ) self::$bIsMinifiedVersion ]
+            . $_aDevelopmentVersionSuffix[ ( int ) self::$bIsDevelopmentVersion ]
+        ;
+
     }
     
     /**
@@ -137,14 +156,8 @@ final class AdminPageFramework_Bootstrap {
         
     public function __construct( $sLibraryPath ) {
         
-        // Prevent it from being loaded multiple times.
-        if ( isset( self::$sAutoLoaderPath ) ) {
+        if ( ! $this->_isLoadable() ) {
             return;
-        }
-        
-        // The minifier script will include this file ( but it does not include WordPress ) to use the reflection class to extract the docblock
-        if ( ! defined( 'ABSPATH' ) ) {
-            return; 
         }
         
         // Sets up registry properties.
@@ -156,25 +169,47 @@ final class AdminPageFramework_Bootstrap {
         }
 
         // Load the classes only for the non-minified version.        
-        $aClassFiles = null;    // this will be updated if the inclusion below is successful. 
+        $aClassFiles = array();    // this will be updated if the inclusion below is successful. 
         include( AdminPageFramework_Registry::$sAutoLoaderPath );     
         include( AdminPageFramework_Registry::$sDirPath . '/admin-page-framework-include-class-list.php' );
         new AdminPageFramework_RegisterClasses( 
-            // scanning directory
-            isset( $aClassFiles ) 
+            // the scanning directory
+            ! empty( $aClassFiles ) 
                 ? '' 
-                : AdminPageFramework_Registry::$sDirPath,     
+                : AdminPageFramework_Registry::$sDirPath,
             // search options
             array(  
-                'exclude_class_names'   => 'AdminPageFramework_MinifiedVersionHeader',
+                'exclude_class_names'   => array( 
+                    'AdminPageFramework_MinifiedVersionHeader',
+                    'AdminPageFramework_BeautifiedVersionHeader',
+                ),
             ), 
-            // default class list array
-            isset( $aClassFiles ) 
-                ? $aClassFiles 
-                : array() 
+            // a class list array
+            $aClassFiles
         );
     
-    }
+    }   
+        /**
+         * Checks whether the framework can be loaded or not.
+         * 
+         * @since       3.5.4
+         * @return      boolean     
+         */
+        private function _isLoadable() {
+             
+            // Prevent it from being loaded multiple times.
+            if ( isset( self::$sAutoLoaderPath ) ) {
+                return false;
+            }
+            
+            // The minifier script will include this file ( but it does not include WordPress ) to use the reflection class to extract the docblock
+            if ( ! defined( 'ABSPATH' ) ) {
+                return false;
+            }
+            
+            return true;
+         
+        }
     
 }
 new AdminPageFramework_Bootstrap( __FILE__ );

@@ -79,7 +79,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
      * @since 2.1.1
      */    
     protected function _setFooterInfoRight( $aScriptInfo, &$sFooterInfoRight ) {
-    
+// var_dump( $aScriptInfo );
         $_sDescription = $this->getAOrB(
             empty( $aScriptInfo['sDescription'] ),
             '',

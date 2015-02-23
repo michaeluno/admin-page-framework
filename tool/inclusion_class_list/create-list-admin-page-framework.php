@@ -37,7 +37,15 @@ new PHP_Class_Files_Inclusion_Script_Creator(
 		'exclude_classes'	=>	array( 
             'AdminPageFramework_MinifiedVersionHeader', 
             'AdminPageFramework_InclusionClassFilesHeader', 
-            'admin-page-framework' 
+            'AdminPageFramework_BeautifiedVersionHeader',
+            'admin-page-framework',
+                
+            // fix some irregularly generated class names for the time being
+            "name}_{pressed",
+            "selector",
+            "selector.",  
+            'Files',
+            
         ),
 		// 'output_var_name'	=>	'$aAdminPageFramework_Inclusion_Class_Files',
 		'base_dir_var'  	=>	'AdminPageFramework_Registry::$sDirPath',

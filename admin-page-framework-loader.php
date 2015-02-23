@@ -5,7 +5,7 @@
     Description:    Loads Admin Page Framework which facilitates WordPress plugin and theme development.
     Author:         Michael Uno
     Author URI:     http://michaeluno.jp
-    Version:        3.5.3
+    Version:        3.5.4b01
     Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
 */ 
 
@@ -16,7 +16,7 @@
  */
 class AdminPageFrameworkLoader_Registry_Base {
 
-	const VERSION        = '3.5.3';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+	const VERSION        = '3.5.4b01';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
 	const NAME           = 'Admin Page Framework - Loader'; // the name is not 'Admin Page Framework' because warning messages gets confusing.
     const SHORTNAME      = 'Admin Page Framework';  // used for a menu title etc.
 	const DESCRIPTION    = 'Loads Admin Page Framework which facilitates WordPress plugin and theme development.';
@@ -150,7 +150,10 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
 	/**
 	 * Returns the URL with the given relative path to the plugin path.
 	 * 
-	 * Example:  AdminPageFrameworkLoader_Registry::getPluginURL( 'asset/css/meta_box.css' );
+	 * <h3>Example</h3>
+     * <code>
+     * AdminPageFrameworkLoader_Registry::getPluginURL( 'asset/css/meta_box.css' );
+     * </code>
      * @since       3.5.0
 	 */
 	public static function getPluginURL( $sRelativePath='' ) {
@@ -161,6 +164,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      * Returns the information of this class.
      * 
      * @since       3.5.0
+     * @return      array
      */
     static public function getInfo() {
         $_oReflection = new ReflectionClass( __CLASS__ );
@@ -177,6 +181,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
     /**
      * Sets an admin notice.
      * @since       3.5.0
+     * @return      void
      */ 
     static public function setAdminNotice( $sMessage, $sClassAttribute='error' ) {
         if ( ! is_admin() ) { return; }
@@ -216,7 +221,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
     include( 
         defined( 'WP_DEBUG' ) && WP_DEBUG
             ? dirname( __FILE__ ) . '/development/admin-page-framework.php' // use the development version when you need to do debugging.
-            : dirname( __FILE__ ) . '/library/admin-page-framework.min.php' // use the minified version in your plugins or themes.
+            : dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php'
     );
 } 
 
