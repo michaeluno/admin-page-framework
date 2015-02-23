@@ -2,64 +2,31 @@
 /**
  * Admin Page Framework Loader
  * 
- * Demonstrates the usage of Admin Page Framework.
- * 
  * http://en.michaeluno.jp/admin-page-framework/
  * Copyright (c) 2013-2015 Michael Uno; Licensed GPLv2
- * 
  */
 
 /**
- * Adds the 'Minifier' tab to the 'Tools' page of the loader plugin.
+ * Adds the 'Generator' section to the 'Generator' tab.
  * 
- * @since       3.4.6
- * @since       3.5.0       Moved from the demo.
- * @since       3.5.3       Extends `AdminPageFrameworkLoader_AdminPage_Tab_Base`.
- * @extends     AdminPageFrameworkLoader_AdminPage_Tab_Base
+ * @since       3.5.4           Moved some methods from `AdminPageFrameworkLoader_AdminPage_Tool_Minifier`.
  */
-class AdminPageFrameworkLoader_AdminPage_Tool_Minifier extends AdminPageFrameworkLoader_AdminPage_Tab_Base {
-
-    /**
-     * Stores a section ID.
-     */
-    public $sSectionID;
+class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPageFrameworkLoader_AdminPage_Section_Base {
     
     /**
      * A user constructor.
-     * @since       3.5.3
      */
     protected function construct( $oFactory ) {
-        $this->sSectionID = $this->sTabSlug;
-        add_action( 'validation_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToValidateSubmittedData' ), 10, 3 );
+        
         add_action( "export_{$oFactory->oProp->sClassName}_{$this->sSectionID}_download", array( $this, 'replyToDownloadMinifiedVersion' ), 10, 4 );
-        add_action( 'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToFilterFileName' ), 10, 5 );
+        add_action( 'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToFilterFileName' ), 10, 5 );        
         
     }
-    
-    /**
-     * Triggered when the tab is loaded.
-     */
-    public function replyToLoadTab( $oAdminPage ) {
-        
-        /*
-         * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.
-         * A section groups fields and fields belong to a section. So a section needs to be created prior to fields.
-         * Use the addSettingSections() method to create sections and use the addSettingFields() method to create fields.
-         */
-        // Section
-        $oAdminPage->addSettingSections(    
-            $this->sPageSlug, // the target page slug                
-            array(
-                'section_id'    => $this->sSectionID,       // avoid hyphen(dash), dots, and white spaces
-                'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Download Minified Version', 'admin-page-framework-loader' ),
-                'description'   => __( 'When you click the Download link below, the minified version of the framework will be generated.', 'admin-page-framework-loader' ),
-            )            
-        );        
 
-     
-        $oAdminPage->addSettingFields(
-            $this->sSectionID, // the target section id
+    public function addFields( $oFactory, $sSectionID ) {
+        
+        $oFactory->addSettingFields(
+            $sSectionID, // the target section id
             array( 
                 'field_id'          => 'class_prefix',
                 'title'             => __( 'Class Prefix', 'admin-page-framework-loader' ),
@@ -96,16 +63,17 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier extends AdminPageFramewor
                 'format'            => 'text',  // 'json', 'text', 'array'      
                 'description'       => __( 'Download the minified version.', 'admin-page-framework-loader' ),
             ) 
-        );        
+        );          
         
     }
-        
+
     /**
      * Validates the submitted form data.
      * 
-     * @since       3.4.6
+     * @since       3.4.6       
+     * @since       3.5.4       Moved from `AdminPageFrameworkLoader_AdminPage_Tool_Minifier`.
      */
-    public function replyToValidateSubmittedData( $aInput, $aOldInput, $oAdminPage ) {
+    public function validate( $aInput, $aOldInput, $oAdminPage ) {
     
         $_bVerified = true;
         $_aErrors = array();
@@ -139,7 +107,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier extends AdminPageFramewor
                 
         return $aInput;     
         
-    }
+    }    
     
     /**
      * Lets the user download the minified version of Admin Page Framework.
@@ -155,7 +123,6 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier extends AdminPageFramewor
         return $aSavedData;
         
     }
-        
         /**
          * Modifies the class names of the minified script.
          * 
@@ -179,21 +146,22 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier extends AdminPageFramewor
      * Filters the file name.
      * 
      * @remark      The callback method for the "export_name_{page slug}_{tab slug}" filter.
+     * Inside `$_POST`
+     * <code>
+     * [APF_Demo_Tool] => Array (
+     *   [minifier] => Array (
+     *       [class_prefix] => 
+     *       [minified_script_name] => admin-page-framework.min.php
+     *   )
+     * )      
+     * </code>
      */
     public function replyToFilterFileName( $sFileName, $sFieldID, $sInputID, $vExportingData, $oAdminPage ) { 
 
-        /* Inside $_POST
-         * [APF_Demo_Tool] => Array (
-         *   [minifier] => Array (
-         *       [class_prefix] => 
-         *       [minified_script_name] => admin-page-framework.min.php
-         *   )
-         * ) 
-         */
         return isset( $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ] ) && $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ]
             ? $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ]
             : $sFileName;      
 
-    }    
+    }       
     
 }
