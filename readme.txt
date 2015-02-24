@@ -368,6 +368,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.4 =
+- Added the framework component generator in the loader plugin.
 - Added the `export_header_{...}` filters that lets the user set custom HTTP header outputs for the `export` field type.
 - Changed the version name of the development verison to have `.dev` notation in the version name.
 - Changed it not to use the minified version.

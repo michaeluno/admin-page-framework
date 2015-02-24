@@ -26,17 +26,17 @@ class AdminPageFrameworkLoader_AdminPage_Tool extends AdminPageFrameworkLoader_A
     public function construct( $oFactory ) {
         
         // Tabs
-        // new AdminPageFrameworkLoader_AdminPage_Tool_Generator( 
-            // $this->oFactory,        // factory object
-            // $this->sPageSlug,       // page slug
-            // array( 
-                // 'tab_slug'  => 'generator',
-                // 'title'     => __( 'Generator', 'admin-page-framework-loader' ),
-            // )
-        // );        
+        new AdminPageFrameworkLoader_AdminPage_Tool_Generator( 
+            $this->oFactory,
+            $this->sPageSlug,
+            array( 
+                'tab_slug'  => 'generator',
+                'title'     => __( 'Generator', 'admin-page-framework-loader' ),
+            )
+        );        
         new AdminPageFrameworkLoader_AdminPage_Tool_Minifier( 
-            $this->oFactory,        // factory object
-            $this->sPageSlug,       // page slug
+            $this->oFactory,
+            $this->sPageSlug,
             array( 
                 'tab_slug'  => 'minifier',
                 'title'     => __( 'Minifier', 'admin-page-framework-loader' ),

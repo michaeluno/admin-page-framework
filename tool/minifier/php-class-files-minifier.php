@@ -8,7 +8,7 @@
 $sTargetBaseDir		= dirname( dirname( dirname( __FILE__ ) ) );
 $sTargetDir			= $sTargetBaseDir . '/development';
 $sResultFilePath	= $sTargetBaseDir . '/library/admin-page-framework.min.php';
-$sLicenseFileName	= 'MIT-LICENSE.txt';
+$sLicenseFileName	= 'LICENSE.txt';
 $sLicenseFilePath	= $sTargetDir . '/' . $sLicenseFileName;
 $sHeaderClassName	= 'AdminPageFramework_MinifiedVersionHeader';
 $sHeaderClassPath	= $sTargetDir . '/factory/AdminPageFramework_Factory/model/AdminPageFramework_MinifiedVersionHeader.php';

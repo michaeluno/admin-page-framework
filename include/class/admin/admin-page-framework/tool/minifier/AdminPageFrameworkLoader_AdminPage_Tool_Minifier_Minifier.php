@@ -19,7 +19,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
     protected function construct( $oFactory ) {
         
         add_action( "export_{$oFactory->oProp->sClassName}_{$this->sSectionID}_download", array( $this, 'replyToDownloadMinifiedVersion' ), 10, 4 );
-        add_action( 'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToFilterFileName' ), 10, 5 );        
+        add_action( 'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToFilterFileName' ), 10, 5 );
         
     }
 
