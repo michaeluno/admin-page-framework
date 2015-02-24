@@ -3,16 +3,16 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
 /**
  * Provides utility methods dealing with strings which do not use WordPress functions.
  *
- * @since 2.0.0
- * @package AdminPageFramework
- * @subpackage Utility
+ * @since       2.0.0
+ * @package     AdminPageFramework
+ * @subpackage  Utility
  * @internal
  */
 abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Utility_Deprecated {
@@ -146,5 +146,23 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
     static public function hasPrefix( $sNeedle, $sHaystack ) {
         return $sNeedle === substr( $sHaystack, 0, strlen( $sNeedle ) );
     }       
+ 
+    /**
+     * Checks if the given string has a certain suffix.
+     * 
+     * Used to check file base name etc.
+     * 
+     * @since   3.5.4
+     * @reurn   boolean
+     */
+    static public function hasSuffix( $sNeedle, $sHaystack ) {
+        
+        $_iLength = strlen( $sNeedle );
+        if ( 0 === $_iLength ) {
+            return true;
+        }
+        return substr( $sHaystack, - $_iLength ) === $sNeedle;
+        
+    }
  
 }
