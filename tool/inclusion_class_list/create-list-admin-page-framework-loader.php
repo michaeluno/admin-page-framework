@@ -33,7 +33,13 @@ new PHP_Class_Files_Inclusion_Script_Creator(
 		// 'header_class_name'	=>	'AdminPageFramework_InclusionClassFilesHeader',
 		'output_buffer'		=>	true,
 		'header_type'		=>	'CONSTANTS',	
-		// 'exclude_classes'	=>	array( 'AdminPageFramework_MinifiedVersionHeader', 'AdminPageFramework_InclusionClassFilesHeader', 'admin-page-framework' ),
+		'exclude_classes'	=>	array( 
+            // fix some irregularly generated class names for the time being
+            "name}_{pressed",
+            "selector",
+            "selector.",  
+            'Files',
+        ),        
 		// 'output_var_name'	=>	'$aAdminPageFramework_Inclusion_Class_Files',
 		'output_var_name'	=>	'$_aClassFiles',
 		'base_dir_var'  	=>	'AdminPageFrameworkLoader_Registry::$sDirPath',
