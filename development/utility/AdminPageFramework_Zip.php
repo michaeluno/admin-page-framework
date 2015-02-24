@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -150,7 +150,7 @@ class AdminPageFramework_Zip {
                             $_sIterationItem . '/'
                         ), 
                         $aCallbacks['directory_name']
-                );                    
+                    );                    
                 } else if ( true === is_file( $_sIterationItem ) ) {
                     $this->_addFromString( 
                         $oZip, 
