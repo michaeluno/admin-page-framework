@@ -134,6 +134,7 @@ class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hoo
      * This function respects the file name passed to the parameter.
      * 
      * @since       3.4.2
+     * @return      string      The set file path.
      */
     static public function setTempPath( $sFilePath='' ) {
         
@@ -145,7 +146,7 @@ class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hoo
         }
 
         $sFilePath = $_sDir . wp_unique_filename( $_sDir, $sFilePath );
-        touch($sFilePath);
+        touch( $sFilePath );
         return $sFilePath;
         
     }    
