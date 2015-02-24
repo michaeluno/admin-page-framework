@@ -138,7 +138,10 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
                     $sKey,
                     $_sKey
                 );
-                header( "{$_sKey} : {$_asValue}" );
+
+                // Make sure there is no space before the colon. If there is, it won't work in FireFox.
+                header( "{$_sKey}: {$_asValue}" );
+                
             }            
             
         }
