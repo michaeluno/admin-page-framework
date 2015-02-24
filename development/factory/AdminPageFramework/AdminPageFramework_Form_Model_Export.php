@@ -66,11 +66,12 @@ abstract class AdminPageFramework_Form_Model_Export extends AdminPageFramework_F
          * @return      array
          */
         private function _getExportHeaderArray( array $aArguments, $sFileName, $mData ) {
-// @todo        Addd the expor_header_{...}  filter to the documentation.
-            $_aHeader = array(
+
+            $_aHeader = array(  
                 'Content-Description' => 'File Transfer',
-                'Content-Disposition' => "attachment; filename={$sFileName}",
-            );            
+                'Content-Disposition' => "attachment; filename=\"{$sFileName}\";",
+            ); 
+            
             return $this->oUtil->addAndApplyFilters(
                 $this,
                 $this->_getPortFilterHookNames( 'export_header_', $aArguments ),
