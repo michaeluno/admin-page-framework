@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -91,19 +91,58 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
      *  name="__export[submit][export_sinble]" 
      *  value="Export Options">
      * </code>
-     * @since 2.0.0
+     * @since       2.0.0
+     * @since       3.5.4       Added the `$aHeader` parameter. Deprecated the `$sFileName` parameter as it is included in the $aHeader definition.
      */ 
-    public function doExport( $vData, $sFileName=null, $sFormatType=null ) {
+    public function doExport( $vData, $sFormatType=null, array $aHeader=array() ) {
 
-        $sFileName      = isset( $sFileName ) ? $sFileName : $this->sFileName;
-        $sFormatType    = isset( $sFormatType ) ? $sFormatType : $this->sFormatType;
-                            
-        header( 'Content-Description: File Transfer' );
-        header( 'Content-Disposition: attachment; filename=' . $sFileName );
-        $this->_printDataByType( $vData, $sFormatType );
+        $sFormatType    = isset( $sFormatType ) 
+            ? $sFormatType 
+            : $this->sFormatType;
+
+        $this->_outputHTTPHeader( $aHeader );
+        $this->_outputDataByType( $vData, $sFormatType );
         exit;
         
     }
+        /**
+         * Sends a HTTP header to a client by an array defining header items.
+         * 
+         * <h3>Example</h3>
+         * <code>
+         *  $_aHeader = array(
+         *      'Content-Description' => 'File Transfer',
+         *      'Content-Disposition' => "attachment; filename={$sFileName}",
+         *  );        
+         * $this->_outputHTTPHeader( $_aHeader );
+         * </code>
+         * 
+         * @internal    
+         * @remark      If a parsing item is an array,
+         * @since       3.5.4
+         * @return      void
+         */
+        private function _outputHTTPHeader( array $aHeader, $sKey='' ) {
+            
+            foreach( $aHeader as $_sKey => $_asValue ) {
+                
+                // Nested items. Set the key to overrider array keys.
+                if ( is_array( $_asValue ) ) {
+                    $this->_outputHTTPHeader( $_asValue, $_sKey );
+                    continue;
+                }
+                
+                // If the key is explictly set via the parameter, use it.
+                $_sKey = $this->getAOrB( 
+                    $sKey,
+                    $sKey,
+                    $_sKey
+                );
+                header( "{$_sKey} : {$_asValue}" );
+            }            
+            
+        }
+        
         /**
          * Outputs the given data by type.
          * 
@@ -111,7 +150,7 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
          * @return      void
          * @internal
          */
-        private function _printDataByType( $vData, $sFormatType ) {
+        private function _outputDataByType( $vData, $sFormatType ) {
 
             switch ( strtolower( $sFormatType ) ) {
                 case 'text': // for plain text.

@@ -110,6 +110,11 @@
  *     <li>**export_format_{page slug}_{tab slug}** – receives the exporting file format sent from the tab page.</li>
  *     <li>**export_format_{page slug}** – receives the exporting file format submitted from the page.</li>
  *     <li>**export_format_{instantiated class name}** – receives the exporting file format submitted from the plugin.</li> 
+ *     <li>**export_header_{instantiated class name}_{field id}** – [3.5.4+] receives an array defining the HTTP header.</li>
+ *     <li>**export_header_{instantiated class name}_{section id}_{field id}** – [3.5.4+] receives an array defining the HTTP header.</li>
+ *     <li>**export_header_{page slug}_{tab slug}** – [3.5.4+] receives an array defining the HTTP header.</li>
+ *     <li>**export_header_{page slug}** – [3.5.4+] receives an array defining the HTTP header.</li>
+ *     <li>**export_header_{instantiated class name}** – [3.5.4+] receives an array defining the HTTP header.</li>  
  *     <li>**import_{instantiated class name}_{input id}** – [2.1.5+] **Deprecated**[3.3.1+] receives the importing array submitted from the specific import button.</li>
  *     <li>**import_{instantiated class name}_{field id}** – [2.1.5+] receives the importing array submitted from the specific import field that does not have a section.</li>
  *     <li>**import_{instantiated class name}_{section id}_{field id}** – [3.0.0+] receives the importing array submitted from the specific import field that has a section.</li>

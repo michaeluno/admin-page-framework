@@ -10,6 +10,14 @@
 /**
  * Deals with exporting options.
  * 
+ * This is meant to be used to export options stored by the framework. 
+ * So the data size to export is not expected so large. The exporting date 
+ * will be filtered with callbacks and the HTTP header and the data output are sent.
+ * 
+ * The data are filtered to let the user customize contents. On the other hand, it makes it difficult to deal with large data 
+ * as the allocated memory capacity can reach the limit. Maybe at later some point, introduce a `download` field type 
+ * that can handle large data, which does not filter the exporting date.
+ * 
  * @abstract
  * @since           3.5.3       
  * @extends         AdminPageFramework_Form_Model_Import
@@ -29,7 +37,10 @@ abstract class AdminPageFramework_Form_Model_Export extends AdminPageFramework_F
      */
     protected function _exportOptions( $mData, $sPageSlug, $sTabSlug ) {
 
-        $_oExport           = new AdminPageFramework_ExportOptions( $_POST['__export'], $this->oProp->sClassName );        
+        $_oExport           = new AdminPageFramework_ExportOptions( 
+            $_POST['__export'], 
+            $this->oProp->sClassName 
+        );
         $_aArguments        = array(
             'class_name'        => $this->oProp->sClassName,
             'page_slug'         => $sPageSlug,
@@ -38,15 +49,40 @@ abstract class AdminPageFramework_Form_Model_Export extends AdminPageFramework_F
             'pressed_field_id'  => $_oExport->getSiblingValue( 'field_id' ),
             'pressed_input_id'  => $_oExport->getSiblingValue( 'input_id' ),        
         );    
-        $_mData = $this->_getFilteredExportingData( $_aArguments, $_oExport->getTransientIfSet( $mData ) );
+        $_mData     = $this->_getFilteredExportingData( $_aArguments, $_oExport->getTransientIfSet( $mData ) );
+        $_sFileName = $this->_getExportFileName( $_aArguments, $_oExport->getFileName(), $_mData );
         $_oExport->doExport( 
             $_mData,
-            $this->_getExportFileName( $_aArguments, $_oExport->getFileName(), $_mData ), 
-            $this->_getExportFormatType( $_aArguments, $_oExport->getFormat() )
+            $this->_getExportFormatType( $_aArguments, $_oExport->getFormat() ),
+            $this->_getExportHeaderArray( $_aArguments, $_sFileName, $mData )
         );
         exit;
         
     }      
+        /**
+         * Retrieves the header array pass to `header()` funciton.
+         * 
+         * @since       3.5.4
+         * @return      array
+         */
+        private function _getExportHeaderArray( array $aArguments, $sFileName, $mData ) {
+// @todo        Addd the expor_header_{...}  filter to the documentation.
+            $_aHeader = array(
+                'Content-Description' => 'File Transfer',
+                'Content-Disposition' => "attachment; filename={$sFileName}",
+            );            
+            return $this->oUtil->addAndApplyFilters(
+                $this,
+                $this->_getPortFilterHookNames( 'export_header_', $aArguments ),
+                $_aHeader, 
+                $aArguments['pressed_field_id'],
+                $aArguments['pressed_input_id'],
+                $mData,
+                $sFileName,
+                $this
+            );                
+            
+        }
         /**
          * Returns the filtered export data.
          * @since       3.5.3

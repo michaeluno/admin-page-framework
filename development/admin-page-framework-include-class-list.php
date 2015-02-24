@@ -177,6 +177,7 @@ $aClassFiles = array(
 	"AdminPageFramework_PluginBootstrap"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_PluginBootstrap.php", 
 	"AdminPageFramework_Requirement"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Requirement.php", 
 	"AdminPageFramework_TableOfContents"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_TableOfContents.php", 
+	"AdminPageFramework_Zip"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Zip.php", 
 	"AdminPageFramework_WPReadmeParser"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_WPReadmeParser/AdminPageFramework_WPReadmeParser.php", 
 	"AdminPageFramework_Parsedown"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_WPReadmeParser/library/AdminPageFramework_Parsedown/AdminPageFramework_Parsedown.php", 
 	"AdminPageFramework_Form_Model_Import"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework/AdminPageFramework_Form_Model_Imort.php", 
