@@ -30,7 +30,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         add_action( 
             // export_{instantiated clas name}_{section id}_{field id}
             "export_{$oFactory->oProp->sClassName}_{$this->sSectionID}_download",
-            array( $this, 'replyToDownloadMinifiedVersion' ), 
+            array( $this, 'replyToDownloadFramework' ), 
             10,
             4
         );
@@ -199,12 +199,13 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
      * @since           3.5.4
      * @callback        filter      export_{instantiated clas name}_{section id}_{field id}
      */
-    public function replyToDownloadMinifiedVersion( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
+    public function replyToDownloadFramework( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
         
         $_sFrameworkDirPath = AdminPageFrameworkLoader_Registry::$sDirPath . '/library/admin-page-framework';
         if ( file_exists( $_sFrameworkDirPath ) ) {
             $_sTempFile = $oAdminPage->oUtil->setTempPath( 'admin-page-framework.zip' );
             $_sData     = $this->_getDownloadFrameworkZipFile( $_sFrameworkDirPath, $_sTempFile );
+            header( "Content-Length: " . strlen( $_sData ) ); 
             unlink( $_sTempFile );
             return $_sData;
         }
@@ -248,8 +249,6 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 
                 // Check if it belongs to selcted components.
                 if ( false === $this->_isAllowedArchivePath( $sPathInArchive ) ) {
-// AdminPageFramework_Debug::log( 'disalled' );
-// AdminPageFramework_Debug::log( $sPathInArchive );
                     return '';
                 }                
                 return $this->_modifyClassName( $sPathInArchive );
@@ -398,7 +397,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
              * @since       3.5.4
              */
             public function _replyToModifyFileContents( $sFileContents, $sPathInArchive ) {
-AdminPageFramework_Debug::log( $sPathInArchive );
+
                 // Check the file extension.
                 if ( ! in_array( pathinfo( $sPathInArchive, PATHINFO_EXTENSION ), array( 'php' ) ) ) {
                     return $sFileContents;
@@ -485,6 +484,7 @@ AdminPageFramework_Debug::log( $sPathInArchive );
      */
     public function replyToModifyExportHTTPHeader( $aHeader, $sFieldID, $sInputID, $mData, $sFileName, $oFactory ) {
             
+        $_sFileName = 'admin-page-framework.zip';
         return array(
             'Pragma'                    => 'public',
             'Expires'                   => 0,
@@ -493,9 +493,12 @@ AdminPageFramework_Debug::log( $sPathInArchive );
                 'public',
             ),
             'Content-Description'       => 'File Transfer',
-            'Content-type'              => 'application/zip',        // application/octet-stream
+            // 'Content-type'              => 'application/zip',        // application/octet-stream
+            'Content-type'              => 'application/octet-stream',        // application/octet-stream
+            
             'Content-Transfer-Encoding' => 'binary',
-            'Content-Disposition'       => 'attachment; filename="' . $sFileName .'"',
+            'Content-Disposition'       => 'attachment; filename="' . $_sFileName .'";',
+            // 'Content-Length'            => strlen( $mData ),
         ) + $aHeader;
         
     }
