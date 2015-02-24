@@ -45,7 +45,7 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
                 continue;
             }
             $_sKey = $this->getAOrB($sKey, $sKey, $_sKey);
-            header("{$_sKey} : {$_asValue}");
+            header("{$_sKey}: {$_asValue}");
         }
     }
     private function _outputDataByType($vData, $sFormatType) {

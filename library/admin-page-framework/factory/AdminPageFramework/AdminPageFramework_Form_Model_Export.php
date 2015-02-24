@@ -15,7 +15,7 @@ abstract class AdminPageFramework_Form_Model_Export extends AdminPageFramework_F
         exit;
     }
     private function _getExportHeaderArray(array $aArguments, $sFileName, $mData) {
-        $_aHeader = array('Content-Description' => 'File Transfer', 'Content-Disposition' => "attachment; filename={$sFileName}",);
+        $_aHeader = array('Content-Description' => 'File Transfer', 'Content-Disposition' => "attachment; filename=\"{$sFileName}\";",);
         return $this->oUtil->addAndApplyFilters($this, $this->_getPortFilterHookNames('export_header_', $aArguments), $_aHeader, $aArguments['pressed_field_id'], $aArguments['pressed_input_id'], $mData, $sFileName, $this);
     }
     private function _getFilteredExportingData(array $aArguments, $mData) {
