@@ -76,7 +76,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     // 'required' => 'required',
                     'placeholder'   => __( 'Type your text domain.', 'admin-page-framework-loader' ),
                 ),
-            ),    
+            ),              
             array( 
                 'field_id'          => 'components',
                 'title'             => __( 'Components', 'admin-page-framework-loader' ),
@@ -115,11 +115,6 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                         'disabled' => 'disabled',
                     ),
                 ),
-                /* 'attributes'        => array(
-                    'size'          => 40,
-                    // 'required' => 'required',
-                    'placeholder'   => __( 'Type your text domain.', 'admin-page-framework-loader' ),
-                ), */
             ),                
             array( 
                 'field_id'          => 'download',
@@ -127,15 +122,24 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 'type'              => 'export',
                 'label_min_width'   => 0,
                 'value'             => __( 'Download', 'adimn-page-framework-demo' ),
-                'file_name'         => 'admin-page-framework.min.php',  // the default file name. This will be modified by the filter.
+                'file_name'         => 'admin-page-framework.zip',  // the default file name. This will be modified by the filter.
                 'format'            => 'text',  // 'json', 'text', 'array'      
-                'description'       => __( 'Download the minified version.', 'admin-page-framework-loader' ),
+                'description'       => $oFactory->oUtil->getAOrB(
+                    class_exists( 'ZipArchive' ),
+                    __( 'Download the framework files as a zip file.', 'admin-page-framework-loader' ),
+                    __( 'The zip extention needs to be enabled to use thi feature.', 'admin-page-framework-loader' )
+                ),
+                'attributes'        => array(
+                    'disabled'  => $oFactory->oUtil->getAOrB(
+                        class_exists( 'ZipArchive' ),
+                        null,
+                        'disabled'
+                    ),
+                ),
             ) 
         );          
         
     }
-
-    
     
     /**
      * Validates the submitted form data.
@@ -146,16 +150,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
     
         $_bVerified = true;
         $_aErrors   = array();
-                
-        // the class prefix must not contain white spaces and some other characters not supported in PHP class names.
-        $aInput[ $this->sSectionID ][ 'class_prefix' ] = trim(
-            $oAdminPage->oUtil->getElement(
-                $aInput,
-                array( $this->sSectionID, 'class_prefix' ),
-                ''
-            )
-        );
-                
+        
+        $aInput = $this->_sanitizeFieldValues( $aInput, $oAdminPage );
+        
         preg_match( 
             '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/',     // pattern - allowed characters for variables.
             $aInput[ $this->sSectionID ][ 'class_prefix' ],     // subject
@@ -168,16 +165,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
             $_bVerified = false;
                     
         }
-        
-        // Sanitize the set test domain string.
-        $aInput[ $this->sSectionID ][ 'text_domain' ] = trim(
-            $oAdminPage->oUtil->getElement(
-                $aInput,
-                array( $this->sSectionID, 'text_domain' ),
-                ''
-            )
-        );        
-
+                
         // An invalid value is found.
         if ( ! $_bVerified ) {
 
@@ -192,6 +180,40 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         return $aInput;     
         
     }
+        /**
+         * Sanitizes user-submitedded form field values.
+         * @since       3.5.4
+         * @return      array       The modified input array.
+         */
+        private function _sanitizeFieldValues( array $aInput, $oAdminPage ) {
+
+            // the class prefix must not contain white spaces and some other characters not supported in PHP class names.
+            $aInput[ $this->sSectionID ][ 'class_prefix' ] = trim(
+                $oAdminPage->oUtil->getElement(
+                    $aInput,
+                    array( $this->sSectionID, 'class_prefix' ),
+                    ''
+                )
+            );
+            
+            $aInput[ $this->sSectionID ][ 'text_domain' ] = trim(
+                $oAdminPage->oUtil->getElement(
+                    $aInput,
+                    array( $this->sSectionID, 'text_domain' ),
+                    ''
+                )
+            );
+            $aInput[ $this->sSectionID ][ 'file_name' ] = trim(
+                $oAdminPage->oUtil->getElement(
+                    $aInput,
+                    array( $this->sSectionID, 'file_name' ),
+                    ''
+                )
+            );     
+            
+            return $aInput;
+        
+        }    
     
     /**
      * Lets the user download their own version of Admin Page Framework.
@@ -484,7 +506,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
      */
     public function replyToModifyExportHTTPHeader( $aHeader, $sFieldID, $sInputID, $mData, $sFileName, $oFactory ) {
             
-        $_sFileName = 'admin-page-framework.zip';
+        $sFileName = $this->_getDownloadFileName();
         return array(
             'Pragma'                    => 'public',
             'Expires'                   => 0,
@@ -497,7 +519,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
             'Content-type'              => 'application/octet-stream',        // application/octet-stream
             
             'Content-Transfer-Encoding' => 'binary',
-            'Content-Disposition'       => 'attachment; filename="' . $_sFileName .'";',
+            'Content-Disposition'       => 'attachment; filename="' . $sFileName .'";',
             // 'Content-Length'            => strlen( $mData ),
         ) + $aHeader;
         
@@ -510,7 +532,31 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
      * @return      string
      */
     public function replyToFilterFileName( $sFileName, $sFieldID, $sInputID, $vExportingData, $oAdminPage ) { 
-        return 'admin-page-framework.zip';
+        return $this->_getDownloadFileName();
     }        
+        /**
+         * Returns the user-set file name.
+         * 
+         * @since       3.5.4
+         * @return      string
+         */
+        private function _getDownloadFileName() {
+                
+            $_sFileNameWOExtension = $this->oFactory->oUtil->getElement(
+                $_POST,
+                array( 
+                    $this->oFactory->oProp->sOptionKey, 
+                    $this->sSectionID, 
+                    'text_domain' // field id
+                )
+            );    
+            $_sFileNameWOExtension = trim( $_sFileNameWOExtension );
+            return $this->oFactory->oUtil->getAOrB(
+                $_sFileNameWOExtension,
+                $_sFileNameWOExtension . '-admin-page-framework.zip',
+                'admin-page-framework.zip'
+            );            
+            
+        }
     
 }
