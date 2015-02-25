@@ -4,3 +4,5 @@
 .gitattributes export-ignore  
 .gitignore export-ignore
 .scrutinizer.yml export-ignore
+documentation_guideline.md export-ignore
+coding_standard.md export-ignore
