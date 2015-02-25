@@ -12,7 +12,22 @@
  * @since       3.5.3
  */
 abstract class AdminPageFrameworkLoader_AdminPage_Tab_Base extends AdminPageFrameworkLoader_AdminPage_RootBase {
+    
+    /**
+     * Stores the caller object.
+     */
+    public $oFactory;
 
+    /**
+     * Stores the associated page slug.
+     */
+    public $sPageSlug;
+    
+    /**
+     * Stores the associated tab slug.
+     */
+    public $sTabSlug;
+    
     /**
      * Stores callback method names.
      */
