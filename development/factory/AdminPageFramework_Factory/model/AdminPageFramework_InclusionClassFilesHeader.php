@@ -3,18 +3,19 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
-// If accessed from a browser, exit.
-if ( php_sapi_name() !== 'cli' ) {
-    exit;
-}
- 
-// For the script creator.
-if ( file_exists( dirname( dirname( __FILE__ ) ) . '/admin-page-framework.php' ) ) {
-    include_once( dirname( dirname( __FILE__ ) ) . '/admin-page-framework.php' );
+// If accessed from a console, Do not exit as the framework bootstra will check the class existence to determien the development version.
+if ( php_sapi_name() === 'cli' ) {
+     
+    // For the minifier script.
+    $_sFrameworkFilePath = dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/admin-page-framework.php';
+    if ( file_exists( $_sFrameworkFilePath ) ) {
+        include_once( $_sFrameworkFilePath );
+    }
+    
 }
 
 /**

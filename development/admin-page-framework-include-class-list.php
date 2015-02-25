@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.5.4b03 by Michael Uno 
+	Admin Page Framework v3.5.4b04 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -43,6 +43,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Link_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/controller/AdminPageFramework_Link_Base.php", 
 	"AdminPageFramework_Resource_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/controller/AdminPageFramework_Resource_Base.php", 
 	"AdminPageFramework_CSS"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_CSS.php", 
+	"AdminPageFramework_InclusionClassFilesHeader"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_InclusionClassFilesHeader.php", 
 	"AdminPageFramework_Message"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_Message.php", 
 	"AdminPageFramework_Property_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_Property_Base.php", 
 	"AdminPageFramework_FormElement"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_FormElement/AdminPageFramework_FormElement.php", 
@@ -181,4 +182,5 @@ $aClassFiles = array(
 	"AdminPageFramework_WPReadmeParser"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_WPReadmeParser/AdminPageFramework_WPReadmeParser.php", 
 	"AdminPageFramework_Parsedown"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_WPReadmeParser/library/AdminPageFramework_Parsedown/AdminPageFramework_Parsedown.php", 
 	"AdminPageFramework_Form_Model_Import"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework/AdminPageFramework_Form_Model_Imort.php", 
+	"Files';"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_InclusionClassFilesHeader.php", 
 );

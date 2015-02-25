@@ -31,12 +31,12 @@ new PHP_Class_Files_Inclusion_Script_Creator(
 	$sResultFilePath, 
 	array(
 		'header_class_name'	=>	'AdminPageFramework_InclusionClassFilesHeader',
-        'header_class_path'	=>	$sTargetBaseDir . '/development/document/AdminPageFramework_InclusionClassFilesHeader.php',
+        // 'header_class_path'	=>	$sTargetBaseDir . '/development/document/AdminPageFramework_InclusionClassFilesHeader.php',
 		'output_buffer'		=>	false,
 		'header_type'		=>	'CONSTANTS',	
 		'exclude_classes'	=>	array( 
             'AdminPageFramework_MinifiedVersionHeader', 
-            'AdminPageFramework_InclusionClassFilesHeader', 
+            // 'AdminPageFramework_InclusionClassFilesHeader',  <-- this will be listed but not in the beautified version, used to detect whether it is a development version or not.
             'AdminPageFramework_BeautifiedVersionHeader',
             'admin-page-framework',
                 

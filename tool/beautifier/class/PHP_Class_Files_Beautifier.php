@@ -33,6 +33,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             'allowed_extensions' => array( 'php' ),    // e.g. array( 'php', 'inc' )
             'exclude_dir_paths'  => array(),
             'exclude_dir_names'  => array(),
+            'exclude_file_names' => array(),
             'is_recursive'       => true,
         ),        
         
@@ -112,7 +113,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $aOptions
         );           
             
-        $_bSuccess = $this->xcopy( 
+        $_bSuccess = $this->xcopy(
             $sSourceDirPath, 
             $sDestinationDirPath, 
             0755,
@@ -433,27 +434,20 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      */
     public function xcopy( $source, $dest, $permissions = 0755, array $aOptions=array() ) {
         // Check for symlinks
-        if (is_link($source)) {
-            return symlink(readlink($source), $dest);
+        if ( is_link( $source ) ) {
+            return symlink( readlink( $source ), $dest );
         }
 
         // Simple copy for a file
-        if (is_file($source)) {
-            if ( file_exists( $source ) ) {
-                return copy($source, $dest);
-            }
-            return false;
+        if ( is_file( $source ) ) {
+            return $this->_copyFile( $source, $dest, $aOptions );
         }
 
         // Make destination directory
         if ( ! is_dir( $dest ) ) {
-
             if ( ! $this->isInExcludeList( $dest, $aOptions ) ) {
                 mkdir( $dest, $permissions );
-            }
-        
-        
-            
+            } 
         }
         
         // Loop through the folder
@@ -478,7 +472,22 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         return true;
         
     }    
-    
+        private function _copyFile( $sSource, $sDestination, array $aOptions=array() ) {
+            if ( ! file_exists( $sSource ) ) {
+                return false;
+            }
+            // check it is in a class exclude list
+            if ( $this->_isInClassExclusionList( $sSource, $aOptions ) ) {
+                return false;
+            }
+            return copy( $sSource, $sDestination );
+        }    
+            private function _isInClassExclusionList( $sSource, $aOptions ) {
+                return in_array( 
+                    basename( $sSource ), 
+                    $aOptions['exclude_file_names']
+                );
+            }
         private function isInExcludeList( $sDirPath, array $aOptions=array() ) {
                         
             $_aExcludeDirPaths = isset( $aOptions['exclude_dir_paths'] )
