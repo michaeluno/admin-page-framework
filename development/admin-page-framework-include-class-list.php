@@ -182,5 +182,4 @@ $aClassFiles = array(
 	"AdminPageFramework_WPReadmeParser"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_WPReadmeParser/AdminPageFramework_WPReadmeParser.php", 
 	"AdminPageFramework_Parsedown"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_WPReadmeParser/library/AdminPageFramework_Parsedown/AdminPageFramework_Parsedown.php", 
 	"AdminPageFramework_Form_Model_Import"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework/AdminPageFramework_Form_Model_Imort.php", 
-	"Files';"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_InclusionClassFilesHeader.php", 
 );

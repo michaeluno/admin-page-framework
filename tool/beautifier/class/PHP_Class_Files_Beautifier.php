@@ -108,10 +108,10 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         $aOptions  = $this->_formatOptions( $aOptions );
 
         $this->deleteDir( $sDestinationDirPath );
-        $this->_outputBuffer(
+        $this->output(
             'Deleting: ' . $sDestinationDirPath,
             $aOptions
-        );           
+        );  
             
         $_bSuccess = $this->xcopy(
             $sSourceDirPath, 
@@ -120,13 +120,13 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $aOptions['search']
         );
         if ( ! $_bSuccess ) {
-            $this->_outputBuffer(
+            $this->output(
                 'Failed to copy the directory: ' . $sSourceDirPath,
                 $aOptions
             );           
             return;            
         }
-        $this->_outputBuffer(
+        $this->output(
             'Searching files under the directory: ' . $sSourceDirPath,
             $aOptions
         );
@@ -136,16 +136,16 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $sDestinationDirPath, 
             $aOptions['search']
         );
-        $this->_outputBuffer(
+        $this->output(
             sprintf( 'Found %1$s file(s)', count( $_aFiles ) ),
             $aOptions
         );
  
         // Generate the output script header comment.
         $aOptions['header_comment'] = trim( $this->_getHeaderComment( $_aFiles, $aOptions ) );
-        $this->_outputBuffer(
+        $this->output(
             $this->sHeaderComment,
-            $aOptions['output_buffer']
+            $aOptions
         );
      
         // Apply the beautifier 
@@ -158,12 +158,12 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
          * @since       1.0.0
          * @return      void
          */
-        private function _outputBuffer( $sText, $aOptions ) {
-            if ( ! $aOptions['output_buffer'] ) {
-                return;
-            }
-            echo $sText . $aOptions['carriage_return'];
-        }
+        // protected function output( $sText, array $aOptions ) {
+            // if ( ! $aOptions['output_buffer'] ) {
+                // return;
+            // }
+            // echo $sText . $aOptions['carriage_return'];
+        // }
         /**
          * Formats the given options array
          * @since       1.0.0
@@ -187,7 +187,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
     public function beautify( array $aFiles, array $aOptions ) {
          
         if ( ! function_exists( 'token_get_all' ) ) {
-            $this->_outputBuffer(
+            $this->output(
                 'Warning: The Tokenizer PHP extension needs to be installed to beautify PHP code.',
                 $aOptions
             );
@@ -197,7 +197,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         // Find Beautifier.php in ./library/PHP_Beautifier/ directory.
         $_sBeautifierPath = $this->_getBeautifierPath( $aOptions );
         if ( ! file_exists( $_sBeautifierPath ) ) {
-            $this->_outputBuffer(
+            $this->output(
                 'Warning: The PHP_Beautifier needs to be placed in ./library/PHP_Beautifier directory.',
                 $aOptions
             );
@@ -206,7 +206,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         
         // Perform beautification.
         include_once( $_sBeautifierPath );        
-        $this->_outputBuffer(
+        $this->output(
             'Beautifying PHP code.',
             $aOptions
         );

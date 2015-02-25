@@ -93,12 +93,7 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 		unset( $_aFiles[ pathinfo( $sOutputFilePath, PATHINFO_FILENAME ) ] );	// it's possible that the minified file also gets loaded but we don't want it.
 
 		if ( $aOptions['output_buffer'] ) {
-			
 			echo sprintf( 'Found %1$s file(s)', count( $_aFiles ) ) . $_sCarriageReturn;
-			foreach ( $_aFiles as $_aFile ) {
-				echo $_aFile['path'] . $_sCarriageReturn;
-			}
-			
 		}			
 	
 		/* Generate the output script header comment */
