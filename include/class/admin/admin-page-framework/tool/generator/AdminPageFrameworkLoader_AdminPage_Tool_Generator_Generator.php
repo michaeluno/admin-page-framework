@@ -153,28 +153,22 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         
         $aInput = $this->_sanitizeFieldValues( $aInput, $oAdminPage );
         
+        // the class prefix must not contain white spaces and some other characters not supported in PHP class names.
         preg_match( 
-            '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/',     // pattern - allowed characters for variables.
+            '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/',     // pattern - allowed characters for variables in PHP.
             $aInput[ $this->sSectionID ][ 'class_prefix' ],     // subject
             $_aMatches 
         );
         if ( $aInput[ $this->sSectionID ][ 'class_prefix' ] && empty( $_aMatches ) ) {
-      
-            // $variable[ 'sectioni_id' ]['field_id']
             $_aErrors[ $this->sSectionID ]['class_prefix'] = __( 'The prefix must consist of alphanumeric with underscores.', 'admin-page-framework-loader' );
             $_bVerified = false;
-                    
         }
                 
-        // An invalid value is found.
+        // An invalid value is found. Set a field error array and an admin notice and return the old values.
         if ( ! $_bVerified ) {
-
-            /* 4-1. Set the error array for the input fields. */
             $oAdminPage->setFieldErrors( $_aErrors );     
             $oAdminPage->setSettingNotice( __( 'There was something wrong with your input.', 'admin-page-framework-loader' ) );
-
             return $aOldInput;
-            
         }
                 
         return $aInput;     
@@ -187,7 +181,6 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
          */
         private function _sanitizeFieldValues( array $aInput, $oAdminPage ) {
 
-            // the class prefix must not contain white spaces and some other characters not supported in PHP class names.
             $aInput[ $this->sSectionID ][ 'class_prefix' ] = trim(
                 $oAdminPage->oUtil->getElement(
                     $aInput,
@@ -195,7 +188,6 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     ''
                 )
             );
-            
             $aInput[ $this->sSectionID ][ 'text_domain' ] = trim(
                 $oAdminPage->oUtil->getElement(
                     $aInput,
@@ -203,14 +195,6 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     ''
                 )
             );
-            $aInput[ $this->sSectionID ][ 'file_name' ] = trim(
-                $oAdminPage->oUtil->getElement(
-                    $aInput,
-                    array( $this->sSectionID, 'file_name' ),
-                    ''
-                )
-            );     
-            
             return $aInput;
         
         }    
@@ -245,8 +229,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 $sDestinationPath, 
                 false,  // wrap contents in a directory
                 array(  // callbacks
-                    'file_name'         => array( $this, '_replyToModifyFileNameInArchive' ),
-                    'directory_name'    => array( $this, '_replyToModifyDirectoryNameInArchive' ),
+                    'file_name'         => array( $this, '_replyToModifyPathInArchive' ),
+                    'directory_name'    => array( $this, '_replyToModifyPathInArchive' ),
                     'file_contents'     => array( $this, '_replyToModifyFileContents' ),
                 ) 
             );
@@ -267,7 +251,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
              * @since       3.5.4
              * @return      string
              */
-            public function _replyToModifyFileNameInArchive( $sPathInArchive ) {
+            public function _replyToModifyPathInArchive( $sPathInArchive ) {
                 
                 // Check if it belongs to selcted components.
                 if ( false === $this->_isAllowedArchivePath( $sPathInArchive ) ) {
@@ -276,21 +260,6 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 return $this->_modifyClassName( $sPathInArchive );
                                 
             }
-            /**
-             * Modifies the path in the archive which includes the directory name.
-             * @since       3.5.4
-             * @return      string
-             * @param       string      $sFileName      The internal path of the archive including the parsing directory name.
-             */
-            public function _replyToModifyDirectoryNameInArchive( $sPathInArchive ) {
-                
-                if ( false === $this->_isAllowedArchivePath( $sPathInArchive ) ) {
-                    return '';
-                }
-                return $this->_modifyClassName( $sPathInArchive );
-                
-            }
-
                 /**
                  * Checks wiether the passed archive path is allowed.
                  * 
