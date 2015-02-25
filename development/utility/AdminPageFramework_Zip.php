@@ -67,7 +67,8 @@ class AdminPageFramework_Zip {
     /**
      * Performs zip file compression.
      * 
-     * @return boolean      True on sucess; false otherwise.
+     * @since       3.5.4
+     * @return      boolean      True on sucess; false otherwise.
      */
     public function compress() {
 
@@ -97,10 +98,14 @@ class AdminPageFramework_Zip {
             'file'      => '_compressFile',
         );
         $_sMethodName   = $_aMethods[ $this->_getSourceType( $this->sSource ) ];
-        return $this->{$_sMethodName}( 
-            $_oZip, 
-            $this->sSource,
-            $this->aCallbacks
+        return call_user_func_array(
+            array( $this, $_sMethodName ),
+            array(
+                $_oZip,
+                $this->sSource,
+                $this->aCallbacks,
+                $this->bIncludeDir
+            )
         );
         
     }
@@ -108,14 +113,14 @@ class AdminPageFramework_Zip {
          * 
          * @return      boolean     True on success, false otherwise.
          */
-        private function _compressDirectory( ZipArchive $oZip, $sSource, array $aCallbacks=array() ) {
+        private function _compressDirectory( ZipArchive $oZip, $sSource, array $aCallbacks=array(), $bIncludeDir=false ) {
            
             $_oFilesIterator = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator( $sSource ), 
                 RecursiveIteratorIterator::SELF_FIRST
             );
 
-            if ( $this->bIncludeDir ) {                
+            if ( $bIncludeDir ) {                
                 $this->_addEmptyDir( 
                     $oZip, 
                     $this->_getMainDirectoryName( $sSource ), 
@@ -125,6 +130,24 @@ class AdminPageFramework_Zip {
             }
 
             foreach ( $_oFilesIterator as $_sIterationItem ) {
+                $this->_addArchiveItem( 
+                    $oZip, 
+                    $sSource,
+                    $_sIterationItem, 
+                    $aCallbacks 
+                );
+            }
+            
+            return $oZip->close();
+            
+        }   
+            /**
+             * Adds an item (directory or file) to the archive.
+             * 
+             * @since       3.5.4
+             * @return      void
+             */
+            private function _addArchiveItem( ZipArchive $oZip, $sSource, $_sIterationItem, array $aCallbacks ) {
                 
                 $_sIterationItem = str_replace( '\\', '/', $_sIterationItem );
 
@@ -135,7 +158,7 @@ class AdminPageFramework_Zip {
                         array( '.', '..' ) 
                    )
                 ) {
-                    continue;
+                    return;
                 }
 
                 $_sIterationItem = realpath( $_sIterationItem );
@@ -161,40 +184,41 @@ class AdminPageFramework_Zip {
                         ),
                         file_get_contents( $_sIterationItem ),
                         $aCallbacks
-                    );                    
-                }
+                    );
+                }                
+                
             }
             
-            return $oZip->close();
-            
-        }   
-                /**
-                 * 
-                 * @remark      Assumes the path is sanitized.
-                 * @return      string      The main directory base name.
-                 */
-                private function _getMainDirectoryName( $sSource ) {
-                    $_aPathParts = explode( "/", $sSource );
-                    return $_aPathParts[ count( $_aPathParts ) - 1 ];
+            /**
+             * 
+             * @since       3.5.4
+             * @remark      Assumes the path is sanitized.
+             * @return      string      The main directory base name.
+             */
+            private function _getMainDirectoryName( $sSource ) {
+                $_aPathParts = explode( "/", $sSource );
+                return $_aPathParts[ count( $_aPathParts ) - 1 ];
+            }
+            /**
+             * Returns a source dir path for wrapping contents into a root directory.
+             * 
+             * @since       3.5.4
+             * @return      string
+             */
+            private function _getSubSourceDirPath( $sSource ) {
+                
+                $_aPathParts = explode( "/", $sSource );
+                $sSource     = '';
+                for ( $i=0; $i < count( $_aPathParts ) - 1; $i++ ) {
+                    $sSource .= '/' . $_aPathParts[ $i ];
                 }
-                /**
-                 * Returns a source dir path for wrapping contents into a root directory.
-                 * 
-                 * @return      string
-                 */
-                private function _getSubSourceDirPath( $sSource ) {
-                    
-                    $_aPathParts = explode( "/", $sSource );
-                    $sSource     = '';
-                    for ( $i=0; $i < count( $_aPathParts ) - 1; $i++ ) {
-                        $sSource .= '/' . $_aPathParts[ $i ];
-                    }
-                    return substr( $sSource, 1 );
-                    
-                }
-        
+                return substr( $sSource, 1 );
+                
+            }
+    
         /**
          * Compresses a file.
+         * @since       3.5.4
          * @return      boolean     True on success, false othersize.
          */
         private function _compressFile( ZipArchive $oZip, $sSource, $aCallbacks=null ) {
@@ -224,6 +248,7 @@ class AdminPageFramework_Zip {
     }
     /**
      * Checks if the action of compressing files is feasible.
+     * @since       3.5.4
      * @return      boolean
      */
     private function isFeasible( $sSource ) {
@@ -237,6 +262,7 @@ class AdminPageFramework_Zip {
     }    
     /**
      * Returns false.
+     * @since       3.5.4
      * @return      boolean     Always false
      */
     private function _returnFalse() {
@@ -245,6 +271,8 @@ class AdminPageFramework_Zip {
     
     /**
      * Add an empty directory to an archive.
+     * 
+     * @since       3.5.4
      * @remark      If the path is empty, it will not process.
      * @return      void
      */
@@ -258,6 +286,7 @@ class AdminPageFramework_Zip {
     /**
      * Adds a file to an archive by appling a callback to the read file contents.
      * 
+     * @since       3.5.4
      * @remark      If the path is empty, it will not process.
      * @return      void
      */
@@ -284,6 +313,7 @@ class AdminPageFramework_Zip {
     
     /**
      * Retrieves a filtered archive path.
+     * @since       3.5.4
      * @return      string
      */
     private function _getFilteredArchivePath( $sArchivePath, $oCallable ) {
