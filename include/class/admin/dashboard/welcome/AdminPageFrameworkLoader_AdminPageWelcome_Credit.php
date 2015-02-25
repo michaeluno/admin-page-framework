@@ -50,7 +50,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Credit extends AdminPageFramewor
                 'repository'    => 'admin-page-framework',
                 'size'          => 'mega',
                 'attributes'    => array(
-                    'data-text' => ' ' . AdminPageFrameworkLoader_Registry::NAME . ' ' . AdminPageFrameworkLoader_Registry::VERSION . ' ',
+                    'data-text' => ' ' . AdminPageFramework_Registry::NAME . ' ' . AdminPageFramework_Registry::getVersion() . ' ',
                     // 'data-icon' => 'octicon-mark-github',
                 ),
                 'description'   => __( 'Star the repository and get Involved!', 'admin-page-framework-demo' ),
