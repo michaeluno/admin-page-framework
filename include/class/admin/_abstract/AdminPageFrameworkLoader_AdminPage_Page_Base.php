@@ -14,6 +14,16 @@
 abstract class AdminPageFrameworkLoader_AdminPage_Page_Base extends AdminPageFrameworkLoader_AdminPage_RootBase {
 
     /**
+     * Stores the factory object.
+     */
+    public $oFactory;
+
+    /**
+     * Stores the associated page slug with the adding section.
+     */
+    public $sPageSlug;    
+
+    /**
      * Sets up hooks and properties.
      */
     public function __construct( $oFactory, array $aPageArguments ) {
