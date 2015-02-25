@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.5.4b02 by Michael Uno 
+	Admin Page Framework v3.5.4b03 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
