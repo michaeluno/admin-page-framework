@@ -73,7 +73,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
      * @since       3.4.6       
      * @since       3.5.4       Moved from `AdminPageFrameworkLoader_AdminPage_Tool_Minifier`.
      */
-    public function validate( $aInput, $aOldInput, $oAdminPage ) {
+    public function validate( $aInput, $aOldInput, $oAdminPage, $aSubmitInfo ) {
     
         $_bVerified = true;
         $_aErrors = array();
