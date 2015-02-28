@@ -151,7 +151,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         $_bVerified = true;
         $_aErrors   = array();
         
-        $aInput = $this->_sanitizeFieldValues( $aInput, $oAdminPage );
+        $aInput     = $this->_sanitizeFieldValues( $aInput, $oAdminPage );
         
         // the class prefix must not contain white spaces and some other characters not supported in PHP class names.
         preg_match( 
@@ -203,31 +203,34 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
      * Lets the user download their own version of Admin Page Framework.
      * 
      * @since           3.5.4
-     * @callback        filter      export_{instantiated clas name}_{section id}_{field id}
+     * @callback        filter      export_{instantiated clasS name}_{section id}_{field id}
      */
     public function replyToDownloadFramework( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
         
         $_sFrameworkDirPath = AdminPageFrameworkLoader_Registry::$sDirPath . '/library/admin-page-framework';
-        if ( file_exists( $_sFrameworkDirPath ) ) {
-            $_sTempFile = $oAdminPage->oUtil->setTempPath( 'admin-page-framework.zip' );
-            $_sData     = $this->_getDownloadFrameworkZipFile( $_sFrameworkDirPath, $_sTempFile );
-            header( "Content-Length: " . strlen( $_sData ) ); 
-            unlink( $_sTempFile );
-            return $_sData;
+        if ( ! file_exists( $_sFrameworkDirPath ) ) {
+            return $aSavedData;
         }
-        return $aSavedData;
+        
+        $_sTempFile = $oAdminPage->oUtil->setTempPath( 'admin-page-framework.zip' );
+        $_sData     = $this->_getDownloadFrameworkZipFile( $_sFrameworkDirPath, $_sTempFile );
+        header( "Content-Length: " . strlen( $_sData ) ); 
+        unlink( $_sTempFile );
+        return $_sData;
         
     }
         /**
+         * Generates the framework zip data.
          * 
          * @since       3.5.4
+         * @return      string      The binary zip data.
          */
         private function _getDownloadFrameworkZipFile( $sFrameworkDirPath, $sDestinationPath ) {
             
             $_oZip = new AdminPageFramework_Zip( 
                 $sFrameworkDirPath, 
                 $sDestinationPath, 
-                false,  // wrap contents in a directory
+                false,  // wrap contents in a sub-directory
                 array(  // callbacks
                     'file_name'         => array( $this, '_replyToModifyPathInArchive' ),
                     'directory_name'    => array( $this, '_replyToModifyPathInArchive' ),
@@ -236,7 +239,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
             );
             $_bSucceed = $_oZip->compress();
             if ( ! $_bSucceed ) {
-                return;
+                return '';
             }
             return file_get_contents( $sDestinationPath );
             
@@ -253,23 +256,27 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
              */
             public function _replyToModifyPathInArchive( $sPathInArchive ) {
                 
-                // Check if it belongs to selcted components.
+                // Check if it belongs to selected components.
                 if ( false === $this->_isAllowedArchivePath( $sPathInArchive ) ) {
-                    return '';
+                    return '';  // empty value will drop the entry
                 }                
-                return $this->_modifyClassName( $sPathInArchive );
+                return $sPathInArchive;
+                
+                // @deprecated  adding a prefix will make the path length longer 
+                // and causes a problem in Windows systems which has a 256 path character length limit.
+                // return $this->_modifyClassName( $sPathInArchive );
                                 
             }
                 /**
-                 * Checks wiether the passed archive path is allowed.
+                 * Checks whether the passed archive path is allowed.
                  * 
                  * @since       3.5.4
-                 * @remark      string      $sPath      The path to check. It can be a directory or a file.
+                 * @remark      string      $sPath              The path to check. It can be a directory or a file.
                  * @param       string      $sPathInArchive     The parsing directory path set to the archive. 
-                 * The pased path for the archive has a trailing slash. It start with a directory name.
+                 * The passed path for the archive has a trailing slash. It starts with a directory name.
                  * e.g.
-                 * `utility/AAA_AdminPageFramework_WPReadmeParser/`
-                 * `factory/AAA_AdminPageFramework_Widget/model/`
+                 * `utility/AdminPageFramework_WPReadmeParser/`
+                 * `factory/AdminPageFramework_Widget/model/`
                  * @return      boolean
                  */
                 private function _isAllowedArchivePath( $sPath ) {
@@ -385,7 +392,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     
             /**
              * Modifies the file contents of the archive.
+             * 
              * @since       3.5.4
+             * @return      string      The modified file contents.
              */
             public function _replyToModifyFileContents( $sFileContents, $sPathInArchive ) {
 
@@ -395,15 +404,62 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 }
                 
                 // At this point, it is a php file.
-                $sFileContents = $this->_modifyClassName( $sFileContents );
-                
-                // If it is the message class, modifiy the text domain
-                if ( ! $this->oFactory->oUtil->hasSuffix( 'AdminPageFramework_Message.php', $sPathInArchive ) ) {
-                    return $sFileContents;
-                }                
-                return $this->_modifyTextDomain( $sFileContents );
-                
+                return $this->_modifyClassNameByPath( 
+                    $sFileContents, 
+                    $sPathInArchive 
+                );
+                                
             }
+                /**
+                 * Modifies the given file contents.
+                 * 
+                 * @since       3.5.4
+                 * @return      string
+                 */
+                private function _modifyClassNameByPath( $sFileContents, $sPathInArchive ) {
+                    
+                    // The inclusion class list file needs to be handled differently.
+                    if ( $this->oFactory->oUtil->hasSuffix( 'admin-page-framework-include-class-list.php', $sPathInArchive ) ) {
+                        return $this->_modifyClassNameOfInclusionList( $sFileContents );
+                    }
+                    
+                    $sFileContents = $this->_modifyClassName( $sFileContents );
+                    
+                    // If it is the message class, modify the text domain.
+                    if ( ! $this->oFactory->oUtil->hasSuffix( 'AdminPageFramework_Message.php', $sPathInArchive ) ) {
+                        return $sFileContents;
+                    }                
+                    return $this->_modifyTextDomain( $sFileContents );                    
+                    
+                }
+                    /**
+                     * Modifies the class inclusion list.
+                     * @since       3.5.4
+                     * @return      string
+                     */
+                    private function _modifyClassNameOfInclusionList( $sFileContents ) {
+                        // Replace the array key names.
+                        $sFileContents = preg_replace_callback(
+                            '/(["\'])(.+)\1(?=\s?+=>)/',  // pattern '
+                            array( $this, '_replyToModifyPathName' ),   // callable
+                            $sFileContents // subject
+                        );     
+                        // Replace the registry class names.
+                        return preg_replace_callback(
+                            '/(=>\s?+)(.+)(?=::)/',  // pattern '
+                            array( $this, '_replyToModifyPathName' ),   // callable
+                            $sFileContents // subject
+                        );     
+                    }
+                        /**
+                         * Modifies the regex-matched string.
+                         * @callback    function        preg_replace_callback()
+                         * @since       3.5.4
+                         */
+                        public function _replyToModifyPathName( $aMatches ) {
+                            return $this->_modifyClassName( $aMatches[ 0 ] );
+                        }                  
+                    
                 /**
                  * Modifies the given class name.
                  * 
@@ -484,9 +540,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 'public',
             ),
             'Content-Description'       => 'File Transfer',
-            // 'Content-type'              => 'application/zip',        // application/octet-stream
-            'Content-type'              => 'application/octet-stream',        // application/octet-stream
-            
+            'Content-type'              => 'application/octet-stream',   // 'application/zip' may work as well
             'Content-Transfer-Encoding' => 'binary',
             'Content-Disposition'       => 'attachment; filename="' . $sFileName .'";',
             // 'Content-Length'            => strlen( $mData ),
@@ -505,6 +559,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
     }        
         /**
          * Returns the user-set file name.
+         * 
+         * The user set text domain will be added as a prefix to `admin-page-framework.zip`.
          * 
          * @since       3.5.4
          * @return      string
