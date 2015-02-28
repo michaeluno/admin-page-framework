@@ -29,11 +29,11 @@
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.5.4b04
+ * @version             3.5.4b05
  */
 abstract class AdminPageFramework_Registry_Base {
     
-    const VERSION       = '3.5.4b04'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION       = '3.5.4b05'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME          = 'Admin Page Framework';
     const DESCRIPTION   = 'Facilitates WordPress plugin and theme development.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
@@ -83,6 +83,12 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
      */
     static public $sIncludeClassListPath;
     
+    /**
+     * Stores paths of class files.
+     * @since       3.5.4
+     */
+    static public $aClassFiles = array();
+    
     // These properties will be defined in the setUp() method.
     static public $sFilePath    = '';
     static public $sDirPath     = '';
@@ -92,16 +98,29 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
      * Sets up static properties.
      * @return      void
      */
-    static public function setUp( $sFilePath=null ) {
-                        
-        self::$sFilePath                = $sFilePath ? $sFilePath : __FILE__;
+    static public function setUp( $sFilePath=__FILE__ ) {
+        
+        self::$sFilePath                = $sFilePath;
         self::$sDirPath                 = dirname( self::$sFilePath );
         self::$sFileURI                 = plugins_url( '', self::$sFilePath );
-        self::$sAutoLoaderPath          = self::$sDirPath . '/factory/AdminPageFramework_Factory/utility/AdminPageFramework_RegisterClasses.php';
         self::$sIncludeClassListPath    = self::$sDirPath . '/admin-page-framework-include-class-list.php';
+        self::$aClassFiles              = self::_getClassFilePathList( self::$sIncludeClassListPath );
+        self::$sAutoLoaderPath          = isset( self::$aClassFiles[ 'AdminPageFramework_RegisterClasses' ] )
+            ? self::$aClassFiles[ 'AdminPageFramework_RegisterClasses' ]
+            : '';
         self::$bIsMinifiedVersion       = class_exists( 'AdminPageFramework_MinifiedVersionHeader' );
         
     }    
+        /**
+         * Returns the class file path list.
+         * @since       3.5.4
+         * @return      array
+         */
+        static private function _getClassFilePathList( $sInclusionClassListPath ) {
+            $aClassFiles = array();    // this will be updated if the inclusion below is successful. 
+            include( $sInclusionClassListPath );
+            return $aClassFiles;
+        }
     
     /**
      * Returns the framework version.
@@ -160,7 +179,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
  */
 final class AdminPageFramework_Bootstrap {
         
-    public function __construct( $sLibraryPath ) {
+    public function __construct( $sLibraryPath=__FILE__ ) {
         
         if ( ! $this->_isLoadable() ) {
             return;
@@ -175,14 +194,14 @@ final class AdminPageFramework_Bootstrap {
         }
 
         // Load the classes only for the non-minified version.        
-        $aClassFiles = array();    // this will be updated if the inclusion below is successful. 
+        // $aClassFiles = array();    // this will be updated if the inclusion below is successful. 
         include( AdminPageFramework_Registry::$sAutoLoaderPath );
-        include( AdminPageFramework_Registry::$sIncludeClassListPath );
+        // include( AdminPageFramework_Registry::$sIncludeClassListPath );
         new AdminPageFramework_RegisterClasses( 
             // the scanning directory
-            ! empty( $aClassFiles ) 
-                ? '' 
-                : AdminPageFramework_Registry::$sDirPath,
+            empty( AdminPageFramework_Registry::$aClassFiles ) 
+                ? AdminPageFramework_Registry::$sDirPath
+                : '',
             // search options
             array(  
                 'exclude_class_names'   => array( 
@@ -191,10 +210,10 @@ final class AdminPageFramework_Bootstrap {
                 ),
             ), 
             // a class list array
-            $aClassFiles
+            AdminPageFramework_Registry::$aClassFiles
         );
         
-        // Update a property - this must be done after registring classes.
+        // Update a property - this must be done after registering classes.
         AdminPageFramework_Registry::$bIsDevelopmentVersion    = class_exists( 'AdminPageFramework_InclusionClassFilesHeader' );
     
     }   
