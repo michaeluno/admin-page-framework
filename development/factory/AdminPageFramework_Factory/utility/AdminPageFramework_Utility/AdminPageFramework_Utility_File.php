@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -26,35 +26,45 @@ abstract class AdminPageFramework_Utility_File extends AdminPageFramework_Utilit
      * @since       3.4.6
      * @param       array|string        $asPath         The file path to parse. If array of paths is given, only the first item is used. Allowing multiple paths to be passed is for the ini setting value of PHP error log paths that can be an array.
      * @param       integer             $iLines         The number of lines to read.
+     * @return      string
      */
     static public function getFileTailContents( $asPath=array(), $iLines=1 ) {
         
-        $_aPath  = is_array( $asPath ) ? $asPath : array( $asPath );
-        $_aPath  = array_values( $_aPath );
-        $_sPath  = array_shift( $_aPath );
-        return file_exists( $_sPath ) 
-            ? trim( 
-                implode( 
-                    "", 
-                    array_slice( 
-                        file( $_sPath ), 
-                        - $iLines 
-                    ) 
+        $_sPath  = self::_getFirstItem( $asPath );
+        if ( ! is_readable( $_sPath ) ) {
+            return '';
+        }
+        return trim( 
+            implode( 
+                '', 
+                array_slice( 
+                    file( $_sPath ), 
+                    - $iLines 
                 ) 
-            )
-            : '';
+            ) 
+        );
         
     }                 
-    
+        /**
+         * Returns a first item of an array. 
+         * @since       3.5.4
+         * @return      string
+         */
+        static private function _getFirstItem( $asItems ) {
+            $_aItems  = is_array( $asItems ) ? $asItems : array( $asItems );
+            $_aItems  = array_values( $_aItems );
+            return ( string ) array_shift( $_aItems );
+        }
     /**
      * Sanitizes the given file name.
      * 
      * @since       3.4.6
+     * @return      string
      */
     static public function sanitizeFileName( $sFileName, $sReplacement='_' ) {
         
-        // Remove anything which isn't a word, whitespace, number
-        // or any of the following caracters -_~,;:[]().        
+        // Remove anything which isn't a word, white space, number
+        // or any of the following characters -_~,;:[]().        
         $sFileName = preg_replace( "([^\w\s\d\-_~,;:\[\]\(\).])", $sReplacement, $sFileName );
         
         // Remove any runs of periods.

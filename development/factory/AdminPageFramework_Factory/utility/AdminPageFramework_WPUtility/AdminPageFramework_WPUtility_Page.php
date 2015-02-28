@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -31,7 +31,8 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
                  
         static $_sCurrentPostType;
         
-        // Since the current page will be the same throughout the execution of the script, if once it's found, there is no need to find it again.
+        // Since the current page will be the same throughout the execution of the script, 
+        // once it's found, there is no need to find it again.
         if ( $_sCurrentPostType ) { 
             return $_sCurrentPostType; 
         }
