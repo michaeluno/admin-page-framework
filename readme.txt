@@ -370,6 +370,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.5.4 =
 - Added the framework component generator in the loader plugin.
 - Added the `export_header_{...}` filters that lets the user set custom HTTP header outputs for the `export` field type.
+- Fixed a bug in the `system` field type that PHP warnings occurred when the permission to read error logs is not sufficient.
 - Changed the version name of the development verison to have `.dev` notation in the version name.
 - Changed it not to use the minified version.
 
