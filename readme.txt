@@ -367,7 +367,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.5.4 =
+= 3.5.4 - 2015/03/02 =
 - Added the framework component generator in the loader plugin which can be accessed via `Dashboard` -> `Admin Page Framework` -> `Tools` -> `Generator`.
 - Added the `export_header_{...}` filters that lets the user set custom HTTP header outputs for the `export` field type.
 - Fixed a bug in the `system` field type that PHP warnings occurred when the permission to read error logs is not sufficient.
