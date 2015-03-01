@@ -10,6 +10,7 @@
  * Adds the 'Generator' section to the 'Generator' tab.
  * 
  * @since       3.5.4           Moved some methods from `AdminPageFrameworkLoader_AdminPage_Tool_Minifier`.
+ * @deprecated  3.5.4           As the component generator was introduced.
  */
 class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPageFrameworkLoader_AdminPage_Section_Base {
     

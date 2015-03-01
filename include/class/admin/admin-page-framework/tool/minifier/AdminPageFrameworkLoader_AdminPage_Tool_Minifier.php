@@ -16,6 +16,7 @@
  * @since       3.5.0       Moved from the demo.
  * @since       3.5.3       Extends `AdminPageFrameworkLoader_AdminPage_Tab_Base`.
  * @extends     AdminPageFrameworkLoader_AdminPage_Tab_Base
+ * @deprecated  3.5.4       As the component generator was introduced.
  */
 class AdminPageFrameworkLoader_AdminPage_Tool_Minifier extends AdminPageFrameworkLoader_AdminPage_Tab_Base {
     
