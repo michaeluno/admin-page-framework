@@ -76,8 +76,9 @@ There are mainly two ways to include the framework.
     - The latest development version can be found [here](https://github.com/michaeluno/admin-page-framework/branches). 
     - The latest stable version can be downloaded [here](http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip).
 
-- Copy and include the minified version in your distribution package. The file is located in the `library` directory.
+- Use the generated framework files which can be downloaded via `Dashboard` -> `Admin Page Framework` -> `Tools` -> `Generator`. 
 
+For more details, see the **Getting Started** (`Dashboard` -> `Admin Page Framework` -> `Help` -> `Getting Started`) of the admin pages of the loader plugin.
 
 ## Example ##
 
@@ -94,7 +95,7 @@ There are mainly two ways to include the framework.
 /* Plugin Name: Admin Page Framework - Getting Started */ 
 
 if ( ! class_exists( 'AdminPageFramework' ) ) {
-    include( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+    include( dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php' );
 }
     
 class APF extends AdminPageFramework {
@@ -135,7 +136,7 @@ new APF;
 /* Plugin Name: Admin Page Framework - My First Form */ 
 
 if ( ! class_exists( 'AdminPageFramework' ) ) {
-    include( dirname( __FILE__ ) . '/library/admin-page-framework.min.php' );
+    include( dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php' );
 }
     
 class APF_MyFirstFrom extends AdminPageFramework {
