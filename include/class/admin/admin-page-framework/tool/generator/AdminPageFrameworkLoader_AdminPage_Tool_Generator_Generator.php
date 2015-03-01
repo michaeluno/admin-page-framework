@@ -85,28 +85,11 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     __( 'Select the components you would like to include in your framework files.', 'admin-page-framework-loader' ),
                     __( 'If you are not sure what to select, check them all.', 'admin-page-framework-loader' ),
                 ),
-                'label'             => array(
-                    'admin_pages'           => __( 'Admin Pages', 'admin-page-framework-loader' ),
-                    'network_admin_pages'   => __( 'Nwtwork Admin Pages', 'admin-page-framework-loader' ),
-                    'post_types'            => __( 'Custom Post Types', 'admin-page-framework-loader' ),
-                    'taxonomies'            => __( 'Taxonomy Fields', 'admin-page-framework-loader' ),
-                    'meta_boxes'            => __( 'Post Meta Boxes', 'admin-page-framework-loader' ),
-                    'page_meta_boxes'       => __( 'Page Meta Boxes', 'admin-page-framework-loader' ),
-                    'widgets'               => __( 'Widgets', 'admin-page-framework-loader' ),
-                    'user_meta'             => __( 'User Meta', 'admin-page-framework-loader' ),
-                    'utilities'             => __( 'Utilities', 'admin-page-framework-loader' ),
-                ),
-                'default'             => array(
-                    'admin_pages'           => true,
-                    'network_admin_pages'   => true,
-                    'post_types'            => true,
-                    'taxonomies'            => true,
-                    'meta_boxes'            => true,
-                    'page_meta_boxes'       => true,
-                    'widgets'               => true,
-                    'user_meta'             => true,
-                    'utilities'             => true,
-                ),      
+                'label'               => $this->_getComponentLabels(),
+                'default'             => array_fill_keys( 
+                    array_keys( $this->_getComponentLabels() ), 
+                    true // all true
+                ),    
                 'select_all_button'     => true,    
                 'select_none_button'    => true,
                 'label_min_width'       => '100%',                
@@ -140,6 +123,24 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         );          
         
     }
+        /**
+         * Returns component labels as an array.
+         * @since       3.5.4
+         * @return      array
+         */
+        private function _getComponentLabels() {
+            return array(
+                'admin_pages'           => __( 'Admin Pages', 'admin-page-framework-loader' ),
+                'network_admin_pages'   => __( 'Nwtwork Admin Pages', 'admin-page-framework-loader' ),
+                'post_types'            => __( 'Custom Post Types', 'admin-page-framework-loader' ),
+                'taxonomies'            => __( 'Taxonomy Fields', 'admin-page-framework-loader' ),
+                'meta_boxes'            => __( 'Post Meta Boxes', 'admin-page-framework-loader' ),
+                'page_meta_boxes'       => __( 'Page Meta Boxes', 'admin-page-framework-loader' ),
+                'widgets'               => __( 'Widgets', 'admin-page-framework-loader' ),
+                'user_meta'             => __( 'User Meta', 'admin-page-framework-loader' ),
+                'utilities'             => __( 'Utilities', 'admin-page-framework-loader' ),
+            );            
+        }
     
     /**
      * Validates the submitted form data.
@@ -419,6 +420,11 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                         return $this->_modifyClassNameOfInclusionList( $sFileContents );
                     }
                     
+                    // Insert a included component note in the header comment.
+                    if ( $this->oFactory->oUtil->hasSuffix( 'admin-page-framework.php', $sPathInArchive ) ) {
+                        $sFileContents = $this->_modifyFileDockblock( $sFileContents );
+                    }
+                    
                     $sFileContents = $this->_modifyClassName( $sFileContents );
                     
                     // If it is the message class, modify the text domain.
@@ -428,6 +434,29 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     return $this->_modifyTextDomain( $sFileContents );                    
                     
                 }
+                    /**
+                     * Inserts additional information such as an included component list and a date to the file doc-block (the header comment part).
+                     * @since       3.5.4
+                     * @return      string
+                     */
+                    private function _modifyFileDockblock( $sFileContents ) {
+                        
+                        $_aCheckedComponents = $this->oFactory->oUtil->getArrayElementsByKeys( 
+                            $this->_getComponentLabels(), 
+                            $this->_getCheckedComponents()
+                        );
+                        $_aInsert = array(
+                            'Included Components: ' . implode( ', ', $_aCheckedComponents ),
+                            'Generated on ' . date( 'Y-m-d' ),  // today's date
+                        );
+                        return preg_replace(
+                            '#\*/#', // needle - matches '*/'
+                            implode( PHP_EOL . ' ', $_aInsert ) . ' \0', // replacement \0 is a back-reference to '*/'
+                            $sFileContents, // subject
+                            1 // replace only the first occurrence
+                        );      
+                        
+                    }
                     /**
                      * Modifies the class inclusion list.
                      * @since       3.5.4
@@ -551,31 +580,32 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
     public function replyToFilterFileName( $sFileName, $sFieldID, $sInputID, $vExportingData, $oAdminPage ) { 
         return $this->_getDownloadFileName();
     }        
-        /**
-         * Returns the user-set file name.
-         * 
-         * The user set text domain will be added as a prefix to `admin-page-framework.zip`.
-         * 
-         * @since       3.5.4
-         * @return      string
-         */
-        private function _getDownloadFileName() {
-                
-            $_sFileNameWOExtension = $this->oFactory->oUtil->getElement(
-                $_POST,
-                array( 
-                    $this->oFactory->oProp->sOptionKey, 
-                    $this->sSectionID, 
-                    'text_domain' // field id
-                )
-            );    
-            $_sFileNameWOExtension = trim( $_sFileNameWOExtension );
-            return $this->oFactory->oUtil->getAOrB(
-                $_sFileNameWOExtension,
-                $_sFileNameWOExtension . '-admin-page-framework.zip',
-                'admin-page-framework.zip'
-            );            
+    
+    /**
+     * Returns the user-set file name.
+     * 
+     * The user set text domain will be added as a prefix to `admin-page-framework.zip`.
+     * 
+     * @since       3.5.4
+     * @return      string
+     */
+    private function _getDownloadFileName() {
             
-        }
+        $_sFileNameWOExtension = $this->oFactory->oUtil->getElement(
+            $_POST,
+            array( 
+                $this->oFactory->oProp->sOptionKey, 
+                $this->sSectionID, 
+                'text_domain' // field id
+            )
+        );    
+        $_sFileNameWOExtension = trim( $_sFileNameWOExtension );
+        return $this->oFactory->oUtil->getAOrB(
+            $_sFileNameWOExtension,
+            $_sFileNameWOExtension . '-admin-page-framework.zip',
+            'admin-page-framework.zip'
+        );            
+        
+    }
     
 }
