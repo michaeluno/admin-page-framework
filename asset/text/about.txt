@@ -39,40 +39,25 @@ Now you can add custom fields in the user profile page so that each user can sto
     
 </div>
 
-
-== Introduction ==
-<h2>Experience the power of OOP based development!</h2>
-
-![Objects](%PLUGIN_DIR_URL%/asset/image/about/objects.png "Objects")
-
-> One of the time-consuming part of developing WordPress plugins and themes is creating setting pages.
-> As you more and more write plugins and themes, you'll soon realize major part of code can be reused.
-> Admin Page Framework aims to provide reusable code that eliminates the necessity of writing repeated code over and over again.
-> 
-> With object oriented programming (class based), you can reuse sets of code by extending base classes and create your own version of them. 
-> Admin Page Framework consists of several abstract factory classes that you extend.
-> You just add your code on top of it. It naturally becomes extensible, highly customizable, and more organized.
->
-> Moreover, Admin Page Framework inserts filter and action hooks as you build your pages and forms.
-> Your program will be automatically extensible by allowing third party developers to add more features.
-
 == Getting Started ==
 
 ![My First Page](%PLUGIN_DIR_URL%/asset/image/getting_started/my_first_page.png "My First Page")
 
-<h3>Write your First Plugin</h3>
+<h3>Write Your First Plugin</h3>
 Let's create a very simple plugin to understand the whole workflow of using Admin Page Framework.
 
-<h3>Step 1 - Get the File</h3>
+<h3>Step 1 - Get the Files</h3>
 
-![Minifier](%PLUGIN_DIR_URL%/asset/image/getting_started/my_first_plugin.png "Minifier")
+![Component Generator](%PLUGIN_DIR_URL%/asset/image/getting_started/my_first_plugin.png "Component Generator")
 
-First, you need to have your own copy of the framework file. 
+First, you need to have your own copy of the framework files. 
 
-1. Go to **Dashboard** -> **Admin Page Framework** -> **Tools** -> **[Minifier](%WP_ADMIN_URL%/admin.php?page=apfl_tools)**.
+1. Go to **Dashboard** -> **Admin Page Framework** -> **Tools** -> **[Generator](%WP_ADMIN_URL%/admin.php?page=apfl_tools)**.
 2. **(Important!)** Enter your unique prefix. If your plugin is named, let's say "My First Plugin" then you may set the prefix "`MyFirstPlugin_`".
-3. Also set the file name there, `my-first-admin-page-framework.min.php` as an example.
+3. Also set the text domain of your project, `my-first-plugin` as an example. This will be used when creating translation files.
 4. Download the file by pressing **Download**.
+5. If download is successful, you'll get a zip file named `{your text domain-}admin-page-framework.zip`. Extract the contents to your preferred location at your convenience. 
+Make sure `admin-page-framework.php`, `admin-page-framework-include-class-list.php` and some other sub-directories are present in the extracted directory.
 
 <h3>Step 2 - Include the Framework</h3>
 
@@ -82,12 +67,14 @@ Now it is time to code. In your code editor, insert your plugin header comment t
 /* Plugin Name: My Plugin */
 `
 
-Include the file you just downloaded. Assuming your class prefix set in the above step is `MyFirstPlugin_`, then your factory class name to extend will be `MyFirstPlugin_AdminPageFramework`. If you have not set the prefix, it will be just `AdminPageFramework`.
+Next, you need to tell PHP to include the framework you just downloaded. The file name to include is `admin-page-framework.php`, the bootstrap script of the framework.
 
-So check if that class name has been already loaded. And if not, load it. To load a PHP file, you need to call the `include()` PHP function.
+Assuming your class prefix set in the above step is `MyFirstPlugin_`, then your factory class name to extend will be `MyFirstPlugin_AdminPageFramework`. If you have not set the prefix, it will be just `AdminPageFramework`.
+
+So check if that class name has been already loaded. And if not, load it. To load a PHP file, you can use the `include()` PHP function and pass the framework path to it (set your own path there).
 
 `
-include( dirname( __FILE__ ) . '/library/my-first-admin-page-framework.min.php' );
+include( dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php' );
 if ( ! class_exists( 'MyFirstPlugin_AdminPageFramework' ) ) {
     return;
 }
@@ -128,7 +115,7 @@ public function setUp() {
 <h3>Step 5 - Define the Methods for Hooks</h3>
 Now you can insert your own output of the page with some of the pre-defined callback methods.
 
-One of it is `do_{page slug}` method. You define a method named like so and it will be automatically gets called.
+One of them is `do_{page slug}` method. You define a method named like so and it will be automatically gets called.
 
 `
 public function do_my_first_page() {
@@ -140,7 +127,7 @@ public function do_my_first_page() {
 `
 
 <h3>Step 6 - Instantiate the Class</h3>
-You need to instantiate the class you defined. When it is instantiated, it will run the internal constructor method and it will take care of everything needed to create admin pages for you.
+You need to instantiate the class you defined. When it is instantiated, it will run the internal constructor and takes care of everything needed to create admin pages for you.
 
 `
 new MyFirstPlugin;
@@ -157,7 +144,7 @@ And your code is now ready to run as a plugin. Compress it in a zip file and upl
 /* Plugin Name: My First Plugin */ 
 
 // Set your own path here
-include( dirname( __FILE__ ) . '/library/my-first-admin-page-framework.min.php' );
+include( dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php' );
 if ( ! class_exists( 'MyFirstPlugin_AdminPageFramework' ) ) {
     return;
 }
