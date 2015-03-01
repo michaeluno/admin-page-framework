@@ -28,7 +28,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
             5 
         );
         add_action( 
-            // export_{instantiated clas name}_{section id}_{field id}
+            // export_{instantiated clasa name}_{section id}_{field id}
             "export_{$oFactory->oProp->sClassName}_{$this->sSectionID}_download",
             array( $this, 'replyToDownloadFramework' ), 
             10,
@@ -175,7 +175,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         
     }
         /**
-         * Sanitizes user-submitedded form field values.
+         * Sanitizes user-submitted form field values.
          * @since       3.5.4
          * @return      array       The modified input array.
          */
@@ -261,11 +261,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     return '';  // empty value will drop the entry
                 }                
                 return $sPathInArchive;
-                
-                // @deprecated  adding a prefix will make the path length longer 
-                // and causes a problem in Windows systems which has a 256 path character length limit.
-                // return $this->_modifyClassName( $sPathInArchive );
-                                
+                           
             }
                 /**
                  * Checks whether the passed archive path is allowed.
@@ -468,27 +464,14 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                  */
                 private function _modifyClassName( $sSubject ) {
                     
-                    static $_sPrefix;
-                    $_sPrefix = isset( $_sPrefix )
-                        ? $_sPrefix
-                        : $this->oFactory->oUtil->getElement(
-                            $_POST,
-                            array( 
-                                $this->oFactory->oProp->sOptionKey, 
-                                $this->sSectionID, 
-                                'class_prefix' 
-                            ),
-                            ''
-                        );
-                    $_sPrefix = trim( $_sPrefix );
-                    if ( ! strlen( $_sPrefix ) ) {
-                        return $sSubject;
-                    }
-                    return str_replace( 
-                        'AdminPageFramework', // search 
-                        $_sPrefix . 'AdminPageFramework', // replace
-                        $sSubject // subject
-                    );                       
+                    $_sPrefix = $this->_getFormSubmitValueByFieldIDAsString( 'class_prefix' );
+                    return strlen( $_sPrefix )
+                        ? str_replace( 
+                            'AdminPageFramework', // search 
+                            $_sPrefix . 'AdminPageFramework', // replace
+                            $sSubject // subject
+                        )
+                        : $sSubject;
                     
                 }
                 /**
@@ -498,29 +481,40 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                  * @return      string
                  */                
                 private function _modifyTextDomain( $sFileContents ) {
-
-                    static $_sTextDomain;
-                    $_sTextDomain = isset( $_sTextDomain )
-                        ? $_sTextDomain
-                        : $this->oFactory->oUtil->getElement(
-                            $_POST,
-                            array( 
-                                $this->oFactory->oProp->sOptionKey, 
-                                $this->sSectionID, 
-                                'text_domain' 
-                            ),
-                            ''
-                        );
-                    $_sTextDomain = trim( $_sTextDomain );
-                    if ( ! strlen( $_sTextDomain ) ) {
-                        return $sFileContents;
-                    }
-                    return str_replace( 
-                        'admin-page-framework', // search 
-                        $_sTextDomain, // replace
-                        $sFileContents // subject
-                    );                      
+                    
+                    $_sTextDomain = $this->_getFormSubmitValueByFieldIDAsString( 'text_domain' );
+                    return strlen( $_sTextDomain )
+                        ? str_replace( 
+                            'admin-page-framework', // search 
+                            $_sTextDomain, // replace
+                            $sFileContents // subject
+                        )
+                        : $sFileContents;
+                        
                 }
+                    /**
+                     * Retrieves the value from the $_POST array by the given field ID.
+                     * 
+                     * @since       3.5.4
+                     * @return      string
+                     */
+                    private function _getFormSubmitValueByFieldIDAsString( $sFieldID ) {
+                         
+                        static $_aCaches=array();
+                        $_aCaches[ $sFieldID ] = isset( $_aCaches[ $sFieldID ] )
+                            ? $_aCaches[ $sFieldID ]
+                            : $this->oFactory->oUtil->getElement(
+                                $_POST,
+                                array( 
+                                    $this->oFactory->oProp->sOptionKey, 
+                                    $this->sSectionID, 
+                                    $sFieldID
+                                ),
+                                ''
+                            );                  
+                        return trim( ( string ) $_aCaches[ $sFieldID ] );
+                        
+                    }
         
     /**
      * Modifies the HTTP header of the export field.
@@ -549,7 +543,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
     }
 
     /**
-     * Filters the exportign file name.
+     * Filters the exporting file name.
      * 
      * @callback    filter    "export_name_{page slug}_{tab slug}" filter.
      * @return      string
