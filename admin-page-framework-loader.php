@@ -225,8 +225,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
     include( 
         defined( 'WP_DEBUG' ) && WP_DEBUG
             ? dirname( __FILE__ ) . '/development/admin-page-framework.php' // use the development version when you need to do debugging.
-            // : dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php'
-            : dirname( __FILE__ ) . '/library/admin-page-framework.min.php'
+            : dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php'
     );
 } 
 
