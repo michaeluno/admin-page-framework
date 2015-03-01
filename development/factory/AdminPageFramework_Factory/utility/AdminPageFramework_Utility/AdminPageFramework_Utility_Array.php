@@ -54,7 +54,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * this method can save the lines of isset() and is_array().
      * 
      * @since       3.4.0
-     * @since       3.5.3       The second parameter accepts dimensinal array keys and added the fourth parameter.
+     * @since       3.5.3       The second parameter accepts dimensional array keys and added the fourth parameter.
      * @return      array       The cast retrieved element value.
      */
     static public function getElementAsArray( $aSubject, $aisKey, $mDefault=null, $asToDefault=array( null ) ) {
@@ -214,7 +214,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
                 continue;
             }
             
-            // Convert string numeric value to integer or flaot.
+            // Convert string numeric value to integer or float.
             $_isKey = $_isKey + 0; 
             
             if ( ! is_int( $_isKey ) ) {
@@ -590,7 +590,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }
     
     /**
-     * Removes given keys fro the array.
+     * Removes given keys from the array.
      * 
      * This is used to drop unnecessary keys for a multidimensional array as multidimensinal arrays can cause PHP warnings used with `array_diff()`.
      * 
@@ -604,6 +604,31 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         }
         return $aArray;
         
+    }
+    
+    /**
+     * Extracts array elements by giving keys.
+     * 
+     * <h4>Example</h4>
+     * <code>
+     * $array = array( 'a' => 1, 'b' => 3, 'c' => 5 );
+     * $array = getArrayElementsByKeys( $array, array( 'a', 'c', ) ),
+     * </code>
+     * The $array contains
+     * <code>
+     * array(
+     *  'a' => 1,
+     *  'c' => 5,
+     * )
+     * </code>
+     * @since       3.5.4
+     * @return      array
+     */
+    static public function getArrayElementsByKeys( array $aSubject, array $aKeys ) {
+        return array_intersect_key(
+            $aSubject,
+            array_flip( $aKeys )
+        );
     }
     
 }
