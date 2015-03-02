@@ -79,10 +79,6 @@ Go to **Dashboard** -> **Admin Page Framework** -> **About** -> **Getting Starte
 <h4>Demo</h4>
 Activate the demo pages to see the possible features of the framework. To activate it, go to **Dashboard** -> **Admin Page Framework** -> **Add Ons** -> **Demo**.
 
-<h4>Necessary Files</h4>
-- **`admin-page-framework.min.php`** is in the *library* folder. Or you can get it from **Dashboard** -> **Admin Page Framework** -> **Tool** -> **Minifier**.
-- Alternatively you may use **`admin-page-framework.php`** located in the *development* folder. In that case, all the class files in the sub-folders need to be copied.
-
 <h4>Documentation</h4>
 - [Online Documentation](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html)
 - [Tutorials](http://admin-page-framework.michaeluno.jp/tutorials/)
@@ -120,10 +116,10 @@ This is a PHP class-based WordPress library that helps to create option pages an
 WordPress plugin/theme developers who want to speed up creating setting forms, widgets, contact form etc. and don't want to require their users to install extra dependencies. 
 
 <h5><strong>Do my plugin/theme users have to install Admin Page Framework?</strong></h5>
-No. Include the minified version of the framework in your distribution package.
+No. Include the generated framework files in your distribution package. You can generate your own framework files via `Dashboard` -> `Admin Page Framework` -> `Tools` -> `Generator`.
 
-<h5><strong>Where can I get the minified version of the framework?</strong></h5>
-It is in the `library` directory of the plugin. Or go to **Dashboard** -> **Admin Page Framework** -> **Tool** -> **Minifier** and press **Download**.
+<h5><strong>Where can I get the framework files to include?</strong></h5>
+Go to `Dashboard` -> `Admin Page Framework` -> `Tools` -> `Generator` and download the files.
 
 <h5><strong>Does my commercial product incorporating your framework library have to be released under GPL2v+?</strong></h5>
 No. The loader plugin is released under GPLv2 or later but the library itself is released under MIT. Make sure to include only the library file.
@@ -297,7 +293,8 @@ array(
 <h4>Change Preview Image Size of the 'image' Field Type</h4>
 To specify a custom size to the preview element of the `image` field type, set an attribute array like the below, where 300px is the max width.
 
-`array(
+`
+array(
     'field_id'      => 'my_image_field_id',
     'title'         => __( 'Image', 'admin-page-framework-demo' ),
     'type'          => 'image',
@@ -306,12 +303,14 @@ To specify a custom size to the preview element of the `image` field type, set a
             'style' => 'max-width: 200px;',
         ),
     ),
-),`
+),
+`
 
 <h4>Display items of 'radio' field type one per line</h4>
 To display radio button items one per line, set the `label_min_width` to `100%`.
 
-`array(
+`
+array(
     'field_id'          => 'my_radio_field_id',
     'title'             => __( 'Radio Button', 'admin-page-framework-demo' ),
     'type'              => 'radio',
@@ -321,31 +320,37 @@ To display radio button items one per line, set the `label_min_width` to `100%`.
         'b' => __( 'This is b.', 'admin-page-framework-demo' ),
         'c' => __( 'This is a.', 'admin-page-framework-demo' )c
     ),
-),`
+),
+`
 
 <h4>Set default field value</h4>
 To set the initial value of a field, use the `default` argument in the field definition array.
 
-`array(
+`
+array(
     'field_id'  => 'my_text_field_id',
     'title'     => __( 'My Text Input Field', 'admin-page-framework-demo' ),
     'type'      => 'text',
     'default'   => 'This text will be displayed for the first time that the field is displayed and will be overridden when a user set an own value.',
-),`
+),
+`
 
 <h4>Always display a particular value in a field</h4>
 The `value` argument in the definition array can suppress the saved value. This is useful when you want to set a value from a different data source or create a wizard form that stores the data in a custom location.
 
-`array(
+`
+array(
     'field_id'  => 'my_text_field_id',
     'title'     => __( 'My Text Input Field', 'admin-page-framework-demo' ),
     'type'      => 'text',
     'value'     => 'This will be always set.',
-),`
+),
+`
 
 If it is a repeatable field, set the value in the sub-fields.
 
-`array(
+`
+array(
     'field_id'      => 'my_text_field_id',
     'title'         => __( 'My Text Input Field', 'admin-page-framework-demo' ),
     'type'          => 'text',
@@ -357,7 +362,8 @@ If it is a repeatable field, set the value in the sub-fields.
     array(
         'value' => 'the third value',
     ),    
-),`
+),
+`
 
 Alternately, if it is in a framework's generic pages (not post meta box fields) you may use the `options_{instantiated class name}` filter to suppress the options so that setting the value argument is not necessary.
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f, 
