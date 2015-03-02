@@ -6,7 +6,7 @@
     Author:         Michael Uno
     Author URI:     http://michaeluno.jp
     Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
-    Version:        3.5.4
+    Version:        3.5.5b01
 */ 
 
 /**
@@ -16,7 +16,7 @@
  */
 class AdminPageFrameworkLoader_Registry_Base {
 
-	const VERSION        = '3.5.4';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+	const VERSION        = '3.5.5b01';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
 	const NAME           = 'Admin Page Framework - Loader'; // the name is not 'Admin Page Framework' because warning messages gets confusing.
     const SHORTNAME      = 'Admin Page Framework';  // used for a menu title etc.
 	const DESCRIPTION    = 'Loads Admin Page Framework which facilitates WordPress plugin and theme development.';
@@ -216,25 +216,31 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
 // Registry set-up.
 AdminPageFrameworkLoader_Registry::setUp( __FILE__ );
 
-// Initial checks. - Do no load if accessed directly, not exiting because the 'uninstall.php' or inclusion list generator will load this file.
+// Initial checks. - Do no load if accessed directly, not exiting because the 'uninstall.php' and inclusion list generator will load this file.
 if ( ! defined( 'ABSPATH' ) ) { return; }
 if ( defined( 'DOING_UNINSTALL' ) ) { return; }
 
 // Include the library file 
 if ( ! class_exists( 'AdminPageFramework' ) ) {    
+    // The development version is available in the repository cloned via GitHub.
+    $_sDevelopmentVersionPath = dirname( __FILE__ ) . '/development/admin-page-framework.php';
+    $_bDebugMode              = defined( 'WP_DEBUG' ) && WP_DEBUG;
     include( 
-        defined( 'WP_DEBUG' ) && WP_DEBUG
-            ? dirname( __FILE__ ) . '/development/admin-page-framework.php' // use the development version when you need to do debugging.
+        $_bDebugMode && file_exists( $_sDevelopmentVersionPath )
+            ? $_sDevelopmentVersionPath
             : dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php'
     );
 } 
-
-// Avoid version conflicts.
-if ( ! class_exists( 'AdminPageFramework_Registry' ) || version_compare( AdminPageFramework_Registry::VERSION, AdminPageFrameworkLoader_Registry::VERSION, '<' ) ) {
+ 
+if ( 
+    ! class_exists( 'AdminPageFramework_Registry' ) 
+    || ! defined( 'AdminPageFramework_Registry::VERSION' ) // backward compatibility
+    || version_compare( AdminPageFramework_Registry::VERSION, AdminPageFrameworkLoader_Registry::VERSION, '<' )
+) {
     AdminPageFrameworkLoader_Registry::setAdminNotice(
         sprintf( 
             'The framework has been already loaded and its version is lesser than yours. Your framework will not be loaded to avoid unexpected results. Loaded Version: %1$s. Your Version: %2$s.',
-            class_exists( 'AdminPageFramework_Registry' )
+            class_exists( 'AdminPageFramework_Registry' ) && defined( 'AdminPageFramework_Registry::VERSION' )
                 ? AdminPageFramework_Registry::VERSION
                 : 'unknown',
             AdminPageFrameworkLoader_Registry::VERSION            

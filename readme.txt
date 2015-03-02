@@ -373,6 +373,10 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.5.5 =
+- Fixed an issue that the loader plugin could not get activated when a plugin that includes the framework of a lesser version that that not have a certain class constant.
+- Changed not to include the development version in the plugin distribution package.
+
 = 3.5.4 - 2015/03/02 =
 - Added the framework component generator in the loader plugin which can be accessed via `Dashboard` -> `Admin Page Framework` -> `Tools` -> `Generator`.
 - Added the `export_header_{...}` filters that lets the user set custom HTTP header outputs for the `export` field type.

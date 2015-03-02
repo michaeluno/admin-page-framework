@@ -1,5 +1,6 @@
 /test export-ignore  
 /tool export-ignore
+/development export-ignore
 *.vbs export-ignore
 .gitattributes export-ignore  
 .gitignore export-ignore
