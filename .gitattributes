@@ -7,3 +7,4 @@
 .scrutinizer.yml export-ignore
 documentation_guideline.md export-ignore
 coding_standard.md export-ignore
+changelog.md export-ignore
