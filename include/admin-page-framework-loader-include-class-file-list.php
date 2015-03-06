@@ -33,7 +33,7 @@ $_aClassFiles = array(
 	"AdminPageFrameworkLoader_Demo_Taxonomy"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/demo/AdminPageFrameworkLoader_Demo_Taxonomy.php", 
 	"AdminPageFrameworkLoader_Demo_UserMeta"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/demo/AdminPageFrameworkLoader_Demo_UserMeta.php", 
 	"AdminPageFrameworkLoader_Demo_Widget"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/demo/AdminPageFrameworkLoader_Demo_Widget.php", 
-	"AdminPageFrameworkLoader_NwtworkAdmin"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/network-admin/AdminPageFrameworkLoader_NwtworkAdmin.php", 
+	"AdminPageFrameworkLoader_NetworkAdmin"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/network-admin/AdminPageFrameworkLoader_NetworkAdmin.php", 
 	"AdminPageFrameworkLoader_AdminPage_Page_Base"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/_abstract/AdminPageFrameworkLoader_AdminPage_Page_Base.php", 
 	"AdminPageFrameworkLoader_AdminPage_RootBase"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/_abstract/AdminPageFrameworkLoader_AdminPage_RootBase.php", 
 	"AdminPageFrameworkLoader_AdminPage_Section_Base"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/_abstract/AdminPageFrameworkLoader_AdminPage_Section_Base.php", 
@@ -43,5 +43,5 @@ $_aClassFiles = array(
 	"AdminPageFrameworkLoader_Option"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/boot/AdminPageFrameworkLoader_Option.php", 
 	"AdminPageFrameworkLoader_FeedList"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_FeedList.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_Information"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Informationt.php", 
-	"AdminPageFrameworkLoader_NetworkAdmin"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/network-admin/AdminPageFrameworkLoader_NwtworkAdmin.php", 
+	"AdminPageFrameworkLoader_NetworkAdmin"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/network-admin/AdminPageFrameworkLoader_NetworkAdmin.php", 
 );
