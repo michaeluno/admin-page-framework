@@ -131,7 +131,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         private function _getComponentLabels() {
             return array(
                 'admin_pages'           => __( 'Admin Pages', 'admin-page-framework-loader' ),
-                'network_admin_pages'   => __( 'Nwtwork Admin Pages', 'admin-page-framework-loader' ),
+                'network_admin_pages'   => __( 'Network Admin Pages', 'admin-page-framework-loader' ),
                 'post_types'            => __( 'Custom Post Types', 'admin-page-framework-loader' ),
                 'taxonomies'            => __( 'Taxonomy Fields', 'admin-page-framework-loader' ),
                 'meta_boxes'            => __( 'Post Meta Boxes', 'admin-page-framework-loader' ),
