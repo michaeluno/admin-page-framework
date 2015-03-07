@@ -15,7 +15,7 @@
  * @package         AdminPageFramework
  * @subpackage      PageMetaBox
  * @internal
- * @todo            Examine the proper class to extend.
+ * @extends         AdminPageFramework_MetaBox_View
  */
 abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework_MetaBox_View {
     
@@ -25,7 +25,7 @@ abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework
      * @since       3.0.4
      * @internal
      */
-    function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     
+    public function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     
                         
         parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );
                 
@@ -39,7 +39,7 @@ abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework
      * @since       3.1.3    
      * @internal
      */
-    protected  function _isInstantiatable() {
+    protected function _isInstantiatable() {
         
         // Disable the functionality in admin-ajax.php
         if ( isset( $GLOBALS['pagenow'] ) && 'admin-ajax.php' === $GLOBALS['pagenow'] ) {
@@ -74,4 +74,5 @@ abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework
         return in_array( $_GET['page'], $this->oProp->aPageSlugs );
         
     }     
+    
 }
