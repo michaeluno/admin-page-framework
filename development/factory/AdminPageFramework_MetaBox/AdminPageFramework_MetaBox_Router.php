@@ -34,9 +34,11 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
      * @param       string          $sTextDomain            (optional) The text domain applied to the displayed text messages. Default: `admin-page-framework`.
      * @return      void
      */ 
-    function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
+    public function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
         
-        if ( empty( $asPostTypeOrScreenID ) ) { return; }
+        if ( empty( $asPostTypeOrScreenID ) ) { 
+            return; 
+        }
                 
         // Properties
         $_sClassName = get_class( $this );
@@ -97,6 +99,7 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
      * @since       3.0.3
      * @since       3.1.5      Changed the hook to 'current_screen' from 'wp_loaded'.
      * @internal    
+     * @callback    action      current_screen
      */
     public function _replyToDetermineToLoad( $oScreen ) {
  
@@ -115,7 +118,7 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         
         // The screen object should be established to detect the loaded page. 
         // @since   3.1.5   No longer called as a callback.
-        // @sicne   3.3.0   Changed the name from `_replyToRegisterFormElements()`.
+        // @since   3.3.0   Changed the name from `_replyToRegisterFormElements()`.
         $this->_registerFormElements( $oScreen ); 
 
         add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
