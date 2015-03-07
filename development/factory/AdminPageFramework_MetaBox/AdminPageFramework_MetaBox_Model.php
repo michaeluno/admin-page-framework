@@ -60,9 +60,9 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * 
      * @since       2.0.0
      * @internal
-     * @remark      uses `add_meta_box()`.
-     * @remark      A callback for the `add_meta_boxes` hook.
+     * @uses        add_meta_box()
      * @return      void
+     * @callback    action      add_meta_boxes
      */ 
     public function _replyToAddMetaBox() {
 
@@ -83,14 +83,17 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
     /**
      * Registers form fields and sections.
      * 
+     * @internal
      * @since       3.0.0
      * @since       3.3.0       Changed the name from `_replyToRegisterFormElements()`. Changed the scope to `protected`.
-     * @internal
+     * @return      void
      */
     protected function _registerFormElements( $oScreen ) {
                 
         // Schedule to add head tag elements and help pane contents. 
-        if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) { return; }
+        if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) { 
+            return; 
+        }
     
         $this->_loadFieldTypeDefinitions();  // defined in the factory class.
     
@@ -139,6 +142,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * 
      * @since       3.0.0
      * @internal
+     * @uses        get_post_meta()
      * @deprecated
      */
     protected function _getSavedMetaArray( $iPostID, $aInputStructure ) {
@@ -154,12 +158,11 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * 
      * This array will be referred later in the getFieldOutput() method.
      * 
+     * @internal    
      * @since       unknown
      * @since       3.0.0       the scope is changed to protected as the taxonomy field class redefines it.
-     * @sicne       3.5.3       Removed a type check at the beginning of the method and added a type hint to the parameter. 
+     * @since       3.5.3       Removed a type check at the beginning of the method and added a type hint to the parameter. 
      * This change enables an empty value to be parsed and triggers `options_{class name}` filter hook. Before this change if the option is empty, the hook did not get triggered.
-     * @internal    
-     * @todo        Add the `options_{instantiated class name}` filter.
      */
     protected function _setOptionArray( $iPostID, array $aFields ) {
         
@@ -192,6 +195,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          * 
          * @since       3.5.3
          * @return      void
+         * @uses        get_post_meta()
          * @internal
          */
         private function _fillOptionsArrayFromPostMeta( array &$aOptions, $iPostID, array $aFields ) {
@@ -234,12 +238,14 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
     }
             
     /**
-     * The submitted data for a new post gets passed. 
+     * The submitted data for a new post being passed. 
      * 
-     * The filter is either 'wp_insert_attachment_data' or 'wp_insert_post_data' and is triggered when a post has not been created so no post id is assigned.
+     * Triggered when a post has not been created so no post id is assigned.
      * 
-     * @since       3.3.0
 	 * @internal
+     * @since       3.3.0
+     * @callback    filter      wp_insert_attachment_data
+     * @callback    filter      wp_insert_post_data
 	 * @param       array       $aPostData      An array of slashed post data.
      * @param       array       $aUnmodified    An array of sanitized, but otherwise unmodified post data.
      */
@@ -308,6 +314,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          * And the query url gets modified to disable the WordPress default admin notice, "Post published.".
          * 
          * @internal
+         * @callback    filter      redirect_post_location
          * @since       3.3.0
          * @return      string      The modified url to be redirected after publishing the post.
          */
