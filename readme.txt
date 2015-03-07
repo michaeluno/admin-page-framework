@@ -374,8 +374,10 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.5 =
+- Added the `footer_right_{...}` and `footer_left_{...}` filter hooks.
 - Fixed an issue that the loader plugin could not get activated when a plugin that includes the framework of a lesser version that that not have a certain class constant.
 - Changed not to include the development version in the plugin distribution package.
+- Changed the `setFooterInfoLeft()` and `setFooterInfoRight()` methods to be deprecated which had not been functional since v3.1.3.
 
 = 3.5.4 - 2015/03/02 =
 - Added the framework component generator in the loader plugin which can be accessed via `Dashboard` -> `Admin Page Framework` -> `Tools` -> `Generator`.

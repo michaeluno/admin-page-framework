@@ -259,6 +259,29 @@ abstract class AdminPageFramework_Property_Base {
     public $bIsAdminAjax;
         
     /**
+     * Stores the label of the settings link embedded to the plugin listing table cell of the plugin title.
+     * 
+     * @since       3.1.0
+     * @since       3.5.5       Moved from `AdminPageFramework_Property_Page` as the post type class also access it.
+     * @remark      The default value should be `null` as the user may explicitly set an empty value.
+     * The `null` value will be replaced with the system default text 'Settings' while an empty string '' will remove the link.
+     */     
+    public $sLabelPluginSettingsLink = null;
+    
+    /**
+     * Stores the information to insert into the page footer.
+     * 
+     * The initially assigned text strings, `__SCRIPT_CREDIT__` and `__FRAMEWORK_CREDIT__` are reserved for the default values which will be replaced when the footer is being rendered.
+     * 
+     * @since       2.0.0
+     * @since       3.5.5       Moved from `AdminpageFramework_Property_Page` as this is used by the post type link class and admin page link class.
+     */             
+    public $aFooterInfo = array(
+        'sLeft'     => '__SCRIPT_CREDIT__',
+        'sRight'    => '__FRAMEWORK_CREDIT__',
+    );    
+    
+    /**
      * Stores callable for the form field outputs such as the id and name attribute values.
      * 
      * @internal

@@ -40,7 +40,7 @@ class APF_Demo_BuiltinFieldTypes_Text {
         $this->sPageSlug    = $sPageSlug ? $sPageSlug : $this->sPageSlug;
         $this->sTabSlug     = $sTabSlug ? $sTabSlug : $this->sTabSlug;
               
-        // load_ + page slug
+        // load_{page slug}
         add_action( 'load_' . $this->sPageSlug, array( $this, 'replyToAddTab' ) );
         
     }
@@ -64,9 +64,19 @@ class APF_Demo_BuiltinFieldTypes_Text {
             )
         );  
         
-        // load + page slug + tab slug
+        // load_{page slug}_{tab slug}
         add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToAddFormElements' ) );
         
+        // footer_left_{page slug}_{tab slug}
+        // footer_right_{page slug}_{tab slug}
+        add_filter( 
+            'footer_left_' . $this->sPageSlug . '_' . $this->sTabSlug,
+            array( $this, 'replyToModifyLeftFooterText' )
+        );
+        add_filter( 
+            'footer_right_' . $this->sPageSlug . '_' . $this->sTabSlug,
+            array( $this, 'replyToModifyRightFooterText' )
+        );        
     }
     
     /**
@@ -310,4 +320,28 @@ class APF_Demo_BuiltinFieldTypes_Text {
         
     }
     
+    /**
+     * Modifies the left footer text.
+     * @return      string
+     */
+    public function replyToModifyLeftFooterText( $sHTML ) {
+        return "<span>" . sprintf(
+                    __( 'Inserted with the <code>%1$s</code> filter.', 'admin-page-framework-loader' ),
+                    'footer_left_{page slug}_{tab slug}'
+                ) 
+            . "</span><br />" 
+            . $sHTML;              
+    }
+    /**
+     * Modifies the right footer text.
+     * @return      string
+     */
+    public function replyToModifyRightFooterText( $sHTML ) {
+        return "<span>" . sprintf(
+                    __( 'Inserted with the <code>%1$s</code> filter.', 'admin-page-framework-loader' ),
+                    'footer_right_{page slug}_{tab slug}'
+                ) 
+            . "</span><br />" 
+            . $sHTML;              
+    }    
 }

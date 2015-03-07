@@ -3,8 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  */
 
 /**
@@ -39,6 +38,8 @@
  *     <li>**cell_{taxonomy slug}** – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: the term ID.</li>
  *     <li>**cell_{instantiated class name}** – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the column slug. The third parameter: the term ID.</li>
  *     <li>**cell_{instantiated class name}_{column slug}** – receives the cell output of the term listing table. The first parameter: the output string. The second parameter: the term ID.</li>
+ *     <li>**footer_right_{instantiated class name}** – [3.5.5+] receives an HTML output for the right footer.</li> 
+ *     <li>**footer_left_{instantiated class name}** – [3.5.5+] receives an HTML output for the left footer.</li> 
  * </ul> 
  *
  * @since       3.3.0
