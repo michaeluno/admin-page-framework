@@ -34,12 +34,12 @@ class AdminPageFramework_Zip {
     public $sDestination;
     
     /**
-     * Indicates whether the contensts should be put inside a root directory.
+     * Indicates whether the contents should be put inside a root directory.
      */
     public $bIncludeDir = false;
     
     /**
-     * Stores a callable that gets appleid to parsing file string contents.
+     * Stores a callable that gets applied to parsing file string contents.
      */
     public $aCallbacks = array(
         'file_name'         => null,
@@ -68,7 +68,7 @@ class AdminPageFramework_Zip {
      * Performs zip file compression.
      * 
      * @since       3.5.4
-     * @return      boolean      True on sucess; false otherwise.
+     * @return      boolean      True on success; false otherwise.
      */
     public function compress() {
 
@@ -219,7 +219,7 @@ class AdminPageFramework_Zip {
         /**
          * Compresses a file.
          * @since       3.5.4
-         * @return      boolean     True on success, false othersize.
+         * @return      boolean     True on success, false otherwise.
          */
         private function _compressFile( ZipArchive $oZip, $sSource, $aCallbacks=null ) {
             $this->_addFromString( 
