@@ -194,9 +194,7 @@ final class AdminPageFramework_Bootstrap {
         }
 
         // Load the classes only for the non-minified version.        
-        // $aClassFiles = array();    // this will be updated if the inclusion below is successful. 
         include( AdminPageFramework_Registry::$sAutoLoaderPath );
-        // include( AdminPageFramework_Registry::$sIncludeClassListPath );
         new AdminPageFramework_RegisterClasses( 
             // the scanning directory
             empty( AdminPageFramework_Registry::$aClassFiles ) 
