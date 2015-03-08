@@ -23,7 +23,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
      * 
      * @internal
      */
-    function __construct( $oProp ) {
+    public function __construct( $oProp ) {
         
         parent::__construct( $oProp );
 

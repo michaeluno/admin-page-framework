@@ -271,43 +271,5 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
     protected function setArguments( array $aArguments=array() ) {
         $this->oProp->aPostTypeArgs = $aArguments;
     }
-    
-    /**
-     * Sets the given HTML text into the footer on the left hand side.
-     * 
-     * <h4>Example</h4>
-     * <code>$this->setFooterInfoLeft( '<br />Custom Text on the left hand side.' );
-     * </code>
-     * 
-     * @since       2.0.0
-     * @param       string      $sHTML      The HTML code to insert.
-     * @param       boolean     $bAppend    If true, the text will be appended; otherwise, it will replace the default text.
-     * @return      void
-     */    
-    protected function setFooterInfoLeft( $sHTML, $bAppend=true ) {
-        if ( isset( $this->oLink ) ) // check if the object is set to ensure it won't trigger a warning message in non-admin pages.
-            $this->oLink->aFooterInfo['sLeft'] = $bAppend 
-                ? $this->oLink->aFooterInfo['sLeft'] . $sHTML
-                : $sHTML;
-    }
-    
-    /**
-     * Sets the given HTML text into the footer on the right hand side.
-     * 
-     * <h4>Example</h4>
-     * <code>$this->setFooterInfoRight( '<br />Custom Text on the right hand side.' );
-     * </code>
-     * 
-     * @since       2.0.0
-     * @param       string      $sHTML      The HTML code to insert.
-     * @param       boolean     $bAppend    If true, the text will be appended; otherwise, it will replace the default text.
-     * @return      void
-     */     
-    protected function setFooterInfoRight( $sHTML, $bAppend=true ) {
-        if ( isset( $this->oLink ) ) // check if the object is set to ensure it won't trigger a warning message in non-admin pages.    
-            $this->oLink->aFooterInfo['sRight'] = $bAppend 
-                ? $this->oLink->aFooterInfo['sRight'] . $sHTML
-                : $sHTML;
-    }
-    
+
 }

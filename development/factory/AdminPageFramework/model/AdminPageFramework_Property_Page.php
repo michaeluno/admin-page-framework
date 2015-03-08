@@ -132,16 +132,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * @since 2.0.0
      */             
     public $aPluginTitleLinks = array();     
-    
-    /**
-     * Stores the information to insert into the page footer.
-     * @since 2.0.0
-     */             
-    public $aFooterInfo = array(
-        'sLeft' => '',
-        'sRight' => '',
-    );
-        
+            
     // Settings API
     // public $aOptions; // Stores the framework's options. Do not even declare the property here because the __get() magic method needs to be triggered when it accessed for the first time.
 
@@ -238,15 +229,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * @since 3.1.0
      * @internal
      */
-    public $_bBuiltMenu = false;
-        
-    /**    
-     * Stores the label of the settings link embedded to the plugin listing table cell of the plugin title.
-     * 
-     * @since 3.1.0
-     * @remark The default value should be null as it checks whether it is null or not when assigning the defalut translated text.
-     */
-    public $sLabelPluginSettingsLink = null;  
+    public $_bBuiltMenu = false; 
      
     /**
      * Indicates whether the form data should be automatically saved in the options table.

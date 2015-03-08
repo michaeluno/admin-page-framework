@@ -98,14 +98,30 @@ class APF_PostType extends AdminPageFramework_PostType {
                 
             $this->setAutoSave( false );
             $this->setAuthorTableFilter( true );     
-            $this->setFooterInfoLeft( '<br />Custom Text on the left hand side.' );
-            $this->setFooterInfoRight( '<br />Custom text on the right hand side' );     
             add_filter( 'request', array( $this, 'replyToSortCustomColumn' ) );
             
         }    
         
     }
     
+    /**
+     * Inserts a custom string into the left footer.
+     * 
+     * @callback        filter      footer_left_{class name}
+     */
+    public function footer_left_APF_PostType( $sHTML ) {
+        return __( 'Custom left footer text.', 'admin-page-framework-loader' ) . '<br />'
+            . $sHTML;
+    }
+    /**
+     * Inserts a custom string into the left footer.
+     * 
+     * @callback        filter      footer_left_{class name}
+     */
+    public function footer_right_APF_PostType( $sHTML ) {
+        return __( 'Custom right footer text.', 'admin-page-framework-loader' ) . '<br />'
+            . $sHTML;
+    }    
     /*
      * Built-in callback methods
      */

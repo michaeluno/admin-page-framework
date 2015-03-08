@@ -300,48 +300,6 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
             $this->oForm->sCapability = $sCapability;
         }  
     }
-
-    /**
-     * Sets the given HTML text into the footer on the left hand side.
-     * 
-     * <h4>Example</h4>
-     * <code>$this->setFooterInfoLeft( '<br />Custom Text on the left hand side.' );
-     * </code>
-     * 
-     * @since       2.0.0
-     * @since       3.0.0       Changed the scope to public from protected.
-     * @since       3.3.1       Moved from `AdminPageFramework`.
-     * @param       string      The HTML code to insert.
-     * @param       boolean     If true, the text will be appended; otherwise, it will replace the default text.
-     * @access      public
-     * @return      void
-     */    
-    public function setFooterInfoLeft( $sHTML, $bAppend=true ) {
-        $this->oProp->aFooterInfo['sLeft'] = $bAppend 
-            ? $this->oProp->aFooterInfo['sLeft'] . PHP_EOL . $sHTML
-            : $sHTML;
-    }
-    
-    /**
-     * Sets the given HTML text into the footer on the right hand side.
-     * 
-     * <h4>Example</h4>
-     * <code>$this->setFooterInfoRight( '<br />Custom Text on the right hand side.' );
-     * </code>
-     * 
-     * @access      public
-     * @since       2.0.0
-     * @since       3.0.0       Changed the scope to public from protected.
-     * @since       3.3.1       Moved from `AdminPageFramework`.
-     * @param       string      The HTML code to insert.
-     * @param       boolean     If true, the text will be appended; otherwise, it will replace the default text.
-     * @return      void
-     */    
-    public function setFooterInfoRight( $sHTML, $bAppend=true ) {
-        $this->oProp->aFooterInfo['sRight'] = $bAppend 
-            ? $this->oProp->aFooterInfo['sRight'] . PHP_EOL . $sHTML
-            : $sHTML;
-    }
             
     /**
      * Sets an admin notice.

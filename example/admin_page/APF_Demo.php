@@ -11,10 +11,12 @@
 
 class APF_Demo extends AdminPageFramework {
 
-    /*
-     * ( Required ) In the setUp() method, you will define admin pages.
+    /**
+     * Sets up pages.
+     * 
+     * ( Required ) In this `setUp()` method, you will define admin pages.
      */
-    public function setUp() { // this method automatically gets triggered with the wp_loaded hook. 
+    public function setUp() { 
 
         /* ( optional ) this can be set via the constructor. For available values, see https://codex.wordpress.org/Roles_and_Capabilities */
         $this->setCapability( 'read' );
@@ -105,8 +107,10 @@ class APF_Demo extends AdminPageFramework {
     
     /**
      * The pre-defined callback method triggered when one of the added pages loads
+     * 
+     * @callback        action      load_{instantiated class name}
      */
-    public function load_APF_Demo( $oAdminPage ) { // load_{instantiated class name}
+    public function load_APF_Demo( $oAdminPage ) { 
     
         /* ( optional ) Determine the page style */
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
@@ -116,8 +120,10 @@ class APF_Demo extends AdminPageFramework {
           
     /*
      * Built-in Field Types Page
+     * 
+     * @callback        action      do_{page slug}
      * */
-    public function do_apf_builtin_field_types() { // do_{page slug}
+    public function do_apf_builtin_field_types() { 
     
         if ( isset( $_GET['tab'] ) && 'system' === $_GET['tab'] ) {
             return;
@@ -126,4 +132,58 @@ class APF_Demo extends AdminPageFramework {
         
     }
         
+    /**
+     * Modifies the left footer text.
+     * 
+     * @callback        filter      footer_left_{class name}
+     */
+    public function footer_left_APF_DEMO( $sHTML ) {
+        return "<span>" . sprintf(
+                    __( 'Custom text inserted with the <code>%1$s</code> filter.', 'admin-page-framework-loader' ),
+                    'footer_left_{class name}'
+                ) 
+            . "</span><br />" 
+            . $sHTML;
+    }
+    /**
+     * Modifies the left footer text.
+     * 
+     * @callback        filter      footer_left_{class name}
+     */
+    public function footer_right_APF_DEMO( $sHTML ) {
+        return "<span>" . sprintf(
+                    __( 'Inserted with the <code>%1$s</code> filter.', 'admin-page-framework-loader' ),
+                    'footer_right_{class name}'
+                ) 
+            . "</span><br />" 
+            . $sHTML;
+    }    
+    
+    /**
+     * Modifies the left footer text.
+     * 
+     * @callback        filter      footer_left_{class name}
+     */
+    public function footer_left_apf_builtin_field_types( $sHTML ) {
+        return "<span>" . sprintf(
+                    __( 'inserted with the <code>%1$s</code> filter.', 'admin-page-framework-loader' ),
+                    'footer_left_{page slug}'
+                ) 
+            . "</span><br />" 
+            . $sHTML;
+    }
+    /**
+     * Modifies the right footer text.
+     * 
+     * @callback        filter      footer_right_{class name}
+     */
+    public function footer_right_apf_builtin_field_types( $sHTML ) {
+        return "<span>" . sprintf(
+                    __( 'Inserted with the <code>%1$s</code> filter.', 'admin-page-framework-loader' ),
+                    'footer_right_{page slug}'
+                ) 
+            . "</span><br />" 
+            . $sHTML;
+    }
+    
 }

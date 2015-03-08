@@ -29,7 +29,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * 
      * @since       3.0.4
      */
-    function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     
+    public function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     
                 
         /* The property object needs to be done first */
         $this->oProp             = new AdminPageFramework_Property_MetaBox_Page( $this, get_class( $this ), $sCapability, $sTextDomain, self::$_sFieldsType );     
@@ -60,8 +60,9 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
     /**
      * Sets up validation hooks.
      * 
-     * @since       3.3.0
      * @internal
+     * @since       3.3.0
+     * @return      void
      */
     protected function _setUpValidationHooks( $oScreen ) {
 
@@ -124,10 +125,9 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * 
      * @internal
      * @since       3.0.0
-     * @remark      uses `add_meta_box()`.
      * @remark      Before this method is called, the pages and in-page tabs need to be registered already.
-     * @remark      A callback for the `add_meta_boxes` hook.
      * @return      void
+     * @callback    action      add_meta_boxes
      */ 
     public function _replyToAddMetaBox( $sPageHook='' ) {
 
@@ -137,12 +137,16 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
                 $this->_addMetaBox( $asPage );
                 continue;
             }
-            if ( ! is_array( $asPage ) ) { continue; }
+            if ( ! is_array( $asPage ) ) { 
+                continue; 
+            }
             
             $_sPageSlug = $sKey;
             foreach( $asPage as $_sTabSlug ) {
                 
-                if ( ! $this->oProp->isCurrentTab( $_sTabSlug ) ) { continue; }
+                if ( ! $this->oProp->isCurrentTab( $_sTabSlug ) ) { 
+                    continue; 
+                }
                 
                 $this->_addMetaBox( $_sPageSlug );
                 
@@ -156,9 +160,9 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
          * 
          * @since       3.0.0
          * @internal
+         * @uses        add_meta_box()
          */
         private function _addMetaBox( $sPageSlug ) {
-
             add_meta_box( 
                 $this->oProp->sMetaBoxID,                       // id
                 $this->oProp->sTitle,                           // title
@@ -167,8 +171,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
                 $this->oProp->sContext,                         // context
                 $this->oProp->sPriority,                        // priority
                 null                                            // argument (deprecated)
-            );     
-            
+            );
         }
 
     /**
@@ -245,7 +248,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         );       
                         
     }
-    
+
     /**
      * Modifies the options update status array.
      * 
@@ -276,7 +279,9 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
     public function _registerFormElements( $oScreen ) {
                 
         // Schedule to add head tag elements and help pane contents.     
-        if ( ! $this->_isInThePage() ) { return; }
+        if ( ! $this->_isInThePage() ) { 
+            return; 
+        }
         
         $this->_loadFieldTypeDefinitions();
         
@@ -293,8 +298,8 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
                         
         $this->_registerFields( $this->oForm->aConditionedFields );
 
-    }     
-    
+    }
+
     /**
      * Sets the aOptions property array in the property object. 
      * 
@@ -332,7 +337,9 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
             $_aOptions
         );
         
-        $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] ? $this->oProp->aLastInput : array();
+        $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] 
+            ? $this->oProp->aLastInput 
+            : array();
         $this->oProp->aOptions = $_aLastInput + $this->oUtil->getAsArray( $this->oProp->aOptions );
 
     }

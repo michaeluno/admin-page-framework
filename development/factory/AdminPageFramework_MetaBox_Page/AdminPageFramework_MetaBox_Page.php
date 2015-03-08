@@ -52,24 +52,28 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_MetaBo
      * @param       string          $sTitle         The meta box title.
      * @param       array|string    $asPageSlugs    the page slug(s) that the meta box belongs to. If the element is an array, it will be considered as a tab array.
      * <code>
-        $asPageSlugs = array(     
-            'settings' => array(     // if the key is not numeric and the value is an array, it will be considered as a tab array.
-                'help',         // enabled in the tab whose slug is 'help' which belongs to the page whose slug is 'settings'
-                'about',        // enabled in the tab whose slug is 'about' which belongs to the page whose slug is 'settings'
-                'general',      // enabled in the tab whose slug is 'general' which belongs to the page whose slug is 'settings'
-            ),
-            'manage', // if the numeric key with a string value is given, the condition applies to the page slug of this string value.
-        );
+     *  $asPageSlugs = array(     
+     *      'settings' => array(     // if the key is not numeric and the value is an array, it will be considered as a tab array.
+     *          'help',         // enabled in the tab whose slug is 'help' which belongs to the page whose slug is 'settings'
+     *          'about',        // enabled in the tab whose slug is 'about' which belongs to the page whose slug is 'settings'
+     *          'general',      // enabled in the tab whose slug is 'general' which belongs to the page whose slug is 'settings'
+     *      ),
+     *      'manage', // if the numeric key with a string value is given, the condition applies to the page slug of this string value.
+     *  );
      * </code>
      * @param       string          $sContext       The context, either `normal`, `advanced`, or `side`.
      * @param       string          $sPriority      The priority, either `high`, `core`, `default` or `low`.
      * @param       string          $sCapability    The capability. See <a href="https://codex.wordpress.org/Roles_and_Capabilities" target="_blank">Roles and Capabilities</a>.
      */
-    function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     
+    function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
         
-        if ( empty( $asPageSlugs ) ) { return; }
+        if ( empty( $asPageSlugs ) ) { 
+            return; 
+        }
         
-        if ( ! $this->_isInstantiatable() ) { return; }
+        if ( ! $this->_isInstantiatable() ) { 
+            return; 
+        }
                 
         parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );
                     

@@ -570,4 +570,18 @@ abstract class AdminPageFramework_Factory_Router {
         
     }
  
+    /**
+     * Deprecated methods.
+     */
+    /**
+     * @remark          This was not functional since 3.1.3
+     * @deprecated      3.5.5
+     */
+    public function setFooterInfoRight() {}
+    /**
+     * @remark          This was not functional since 3.1.3
+     * @deprecated      3.5.5
+     */    
+    public function setFooterInfoLeft() {}
+ 
 }
