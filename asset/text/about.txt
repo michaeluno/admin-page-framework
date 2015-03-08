@@ -5,6 +5,13 @@ Now you can add custom fields in the user profile page so that each user can sto
 
 ![User Meta Fields](%PLUGIN_DIR_URL%/asset/image/new_feature/user_meta_fields.jpg "User Mata Fields")
 
+<h3>Component Generator</h3>
+Generate your own version of the framework files by selecting necessary components. This helps reduce the size of the overall framework files you include by excluding certain components.
+
+Also, compared to the minified version which loads all the classes at once, the generated framework uses the auto-loader, which is lighter and improve the load time performance.
+
+![Component Generator](%PLUGIN_DIR_URL%/asset/image/getting_started/my_first_plugin.png "Component Generator")
+
 <div class='apfl_columns_row'>
 
     <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
