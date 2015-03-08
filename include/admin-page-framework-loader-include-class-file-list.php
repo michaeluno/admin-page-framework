@@ -43,5 +43,4 @@ $_aClassFiles = array(
 	"AdminPageFrameworkLoader_Option"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/boot/AdminPageFrameworkLoader_Option.php", 
 	"AdminPageFrameworkLoader_FeedList"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_FeedList.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_Information"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Informationt.php", 
-	"AdminPageFrameworkLoader_NetworkAdmin"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/network-admin/AdminPageFrameworkLoader_NetworkAdmin.php", 
 );
