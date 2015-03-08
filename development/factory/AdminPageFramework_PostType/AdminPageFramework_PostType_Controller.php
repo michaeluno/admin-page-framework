@@ -31,11 +31,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
         
         // 3.4.2+ Changed the hook to init from wp_loaded.
         // 3.5.1+ Moved to after the constructor.
-        if ( did_action( 'init' ) ) {  
-            $this->setup_pre(); 
-        } {
-            add_action( 'init', array( $this, 'setup_pre' ) );     
-        }
+        $this->oUtil->registerAction( 'init', array( $this, 'setup_pre' ) );
         
     }
 
