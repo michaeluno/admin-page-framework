@@ -203,13 +203,13 @@ This means if you choose a very simple page slug such as <code>about</code> for 
 
 To avoid this, make sure to use a unique page slug. One way to do that is to add a prefix like <code>apf_about</code>. 
 
-<h4>Change Framework PHP Class Names</h4>
+<h4>Use the files generated with the component generator</h4>
+
 There is one thing you need to be careful when you include the framework: the framework version conflicts. Imagine you publish a plugin using the framework v3.4.6 and your plugin user installs a plugin using the framework v3.0.0 which is below your framework version. If the other plugin loads earlier than yours, your plugin may not work properly and vice versa.
 
-There is a way to avoid such a conflict: change the PHP class names of the framework you include. All the class names have the prefix <code>AdminPageFramework</code> so just change it to something like <code>MyPlugin_AdminPageFramework</code>. 
+There is a way to avoid such a conflict: change the PHP class names of the framework you include. All the class names have the prefix <code>AdminPageFramework</code> so just change it to something like <code>MyPlugin_AdminPageFramework</code>.
 
-- Option A. Open the minified version in your code editor and replace all the strings of `AdminPageFramework` to something like `MyPugin_AdminPageFramewok` where `MyPlugin_` is your desired string. Most text editors supports the *Replace All* command so just use that.
-- Option B. Activate the demo plugin and go to **Dashboard** -> **Admin Page Framework** -> **Tool** -> **Minifier**. Set the prefix in the option field and download the file.
+Go to **Dashboard** -> **Admin Page Framework** -> **Tools** -> **Generator**. Set the prefix in the option field and download the files.
 
 If you do not modify the framework class names, you are supposed to extend the `AdminPageFramework` factory class.
 
@@ -226,6 +226,8 @@ class MyAdminPage extends MyPlugin_AdminPageFramework {
     ...
 }
 `
+
+For more detailed instruction, go to **Dashboard** -> **Admin Page Framework** -> **About** -> **Getting Started**.
 
 By the time WordPress's minimum required PHP version becomes 5.3 or higher, we can use name spaces then this problem will be solved.
 
@@ -373,7 +375,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.5.5 =
+= 3.5.5 - 2015/03/08 =
 - Added the `footer_right_{...}` and `footer_left_{...}` filter hooks.
 - Fixed an issue that the loader plugin could not get activated when a plugin that includes the framework of a lesser version that that not have a certain class constant.
 - Changed not to include the development version in the plugin distribution package.
