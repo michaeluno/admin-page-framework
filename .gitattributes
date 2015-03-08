@@ -10,4 +10,4 @@ coding_standard.md export-ignore
 changelog.md export-ignore
 
 # Files containing sensitive information
-*/settings.cfg
+*/settings.cfg export-ignore
