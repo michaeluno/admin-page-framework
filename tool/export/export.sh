@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-if [ ! -f settings.cfg ]; then
+if [ ! -f export.cfg ]; then
     echo The setting file could not be loaded.
     exit 1
 fi
 
-source settings.cfg
+source export.cfg
 
 WORKING_DIRECTORY_PATH=$(pwd)
 OUTPUT_DIRECTORY_PATH=${OUTPUT_DIRECTORY_PATH%/} #remove trailing slash
