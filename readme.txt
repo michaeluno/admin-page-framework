@@ -375,6 +375,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.5.6 =
+- Fixed a bug that form section values of page meta box could not be displayed. 
+
 = 3.5.5 - 2015/03/08 =
 - Added the `footer_right_{...}` and `footer_left_{...}` filter hooks.
 - Fixed an issue that the loader plugin could not get activated when a plugin that includes the framework of a lesser version that that not have a certain class constant.

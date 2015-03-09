@@ -21,9 +21,9 @@ abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBo
      * Echoes the meta box contents.
      * 
      * @since       2.0.0
-     * @remark      A callback for the `add_meta_box()` method.
      * @param       object      $oPost      The object of the post associated with the meta box.
      * @param       array       $vArgs      The array of arguments.
+     * @callback    function    add_meta_box()
      * @return      void
      * @internal    
      */ 
@@ -39,6 +39,8 @@ abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBo
             $this->_getFieldErrors(), 
             $this->oMsg
         );
+// AdminPageFramework_Debug::log( $this->oForm->aConditionedSections );
+// AdminPageFramework_Debug::log( $this->oForm->aConditionedFields );
         $_aOutput[]     = $_oFieldsTable->getFormTables(
             $this->oForm->aConditionedSections, 
             $this->oForm->aConditionedFields, 

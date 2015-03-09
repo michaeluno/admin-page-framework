@@ -170,7 +170,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             return; 
         }
         
-        $this->oProp->aOptions = $this->oUtil->getAsArray( $this->oProp->aOptions );
+        $this->oProp->aOptions = $this->oUtil->getAsArray( $this->oProp->aOptions );        
         $this->_fillOptionsArrayFromPostMeta( 
             $this->oProp->aOptions, 
             $iPostID, 

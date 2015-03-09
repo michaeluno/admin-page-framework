@@ -7,7 +7,7 @@
  */
 
 /**
- * Provides model methods for creating meta boxes in pages added by the framework.
+ * Provides methods which mainly deal with the stored data for creating meta boxes in admin pages added by the framework.
  * 
  * @abstract
  * @since           3.0.4
@@ -31,7 +31,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      */
     public function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     
                 
-        /* The property object needs to be done first */
+        // The property object needs to be done first before the parent constructor.
         $this->oProp             = new AdminPageFramework_Property_MetaBox_Page( $this, get_class( $this ), $sCapability, $sTextDomain, self::$_sFieldsType );     
         $this->oProp->aPageSlugs = is_string( $asPageSlugs ) ? array( $asPageSlugs ) : $asPageSlugs; // must be set before the isInThePage() method is used.
         
@@ -101,14 +101,15 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      */
     protected function getFieldOutput( $aField ) {
         
-        //. Since meta box fields don't have the `option_key` key which is required to compose the name attribute in the regular pages. 
-        $_sOptionKey            = $this->_getOptionKey();
-        $aField['option_key']   = $_sOptionKey ? $_sOptionKey : null;
-        $aField['page_slug']    = $this->oProp->getCurrentPageSlug(); // set an empty string to make it yield true for isset() so that saved options will be checked.
+        // Since meta box fields don't have the `option_key` key which is required to construct the name attribute in the regular pages. 
+        $aField['option_key']   = $this->_getOptionKey();
+        
+        // set an empty string to make it yield true for isset() so that saved options will be checked.
+        $aField['page_slug']    = $this->oProp->getCurrentPageSlug(); 
+        
         return parent::getFieldOutput( $aField );
         
     }
-
         /**
          * Returns the currently loading page's option key if the page has the admin page object.
          * @since       3.0.0
@@ -134,20 +135,18 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         foreach( $this->oProp->aPageSlugs as $sKey => $asPage ) {
 
             if ( is_string( $asPage ) )  {
+                
                 $this->_addMetaBox( $asPage );
                 continue;
-            }
-            if ( ! is_array( $asPage ) ) { 
-                continue; 
+                
             }
             
             $_sPageSlug = $sKey;
-            foreach( $asPage as $_sTabSlug ) {
+            foreach( $this->oUtil->getAsArray( $asPage ) as $_sTabSlug ) {
                 
                 if ( ! $this->oProp->isCurrentTab( $_sTabSlug ) ) { 
                     continue; 
                 }
-                
                 $this->_addMetaBox( $_sPageSlug );
                 
             }
@@ -191,6 +190,8 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * Filters the array of the options without dynamic elements.
      * 
      * @since       3.4.1       Deprecated `_replyToFilterPageOptions()`.
+     * @callback    filter      validation_saved_options_without_dynamic_elements_{$_sPageSlug}
+     * @callback    filter      validation_saved_options_without_dynamic_elements_{page slug}_{tab slug}
      * @internal
      */
     public function _replyToFilterPageOptionsWODynamicElements( $aOptionsWODynamicElements, $oFactory ) {
@@ -254,8 +255,11 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * 
      * This is to insert the 'field_errors' key into the options update status array when there is a field error.
      * 
-     * @since       3.4.1
      * @internal
+     * @since       3.4.1
+     * @callback    filter      options_update_status_{page slug}
+     * @callback    filter      options_update_status_{page slug}_{tab slug}
+     * @return      array
      */
     public function _replyToModifyOptionsUpdateStatus( $aStatus ) {
         
@@ -272,9 +276,10 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
     /**
      * Registers form fields and sections.
      * 
+     * @internal
      * @since       3.0.0
      * @since       3.3.0       Changed the name from `_replyToRegisterFormElements()`. Changed the scope to `protected`.
-     * @internal
+     * @return      void
      */
     public function _registerFormElements( $oScreen ) {
                 
@@ -303,45 +308,60 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
     /**
      * Sets the aOptions property array in the property object. 
      * 
-     * The `$this->oProp->aOptions` property should be already set in the `_replyToSetUpProperties()` method of the `AdminPageFramework_Property_Metabox_Page`.
-     * But the array is not finalized and it stores all the page's options. So the field values that are not of this class should be removed.
+     * But the `$this->oProp->aOptions` array is not finalized and it stores all the page's options. So the field values that are not of this class should be removed.
      * 
      * @since       3.4.1    
      * @since       3.5.3       Added a type hint to the second parameter.
+     * @remark      Assumes the `$this->oProp->aOptions` property is already set. It should be done in the `_replyToSetUpProperties()` method of the `AdminPageFramework_Property_Metabox_Page`.
      * @remark      Overrides the parent method defined in the meta box class.
      * @internal    
      */
     protected function _setOptionArray( $sPageSlug, array $aFields ) {
         
-        // Remove elements that are not registered in this class. Here `array_key_exists()` is used instead of `isset()` to check the element existence
-        // as `isset()` returns false when a null value is set.
-        // @todo Examine why there are values of null assigned as the field value (confirmed in 3.4.0.) It could be that because dynamic elements were removed.
-        $_aOptions = array();
-        foreach( $aFields as $_sSectionID => $_aFields ) {
-            if ( '_default' == $_sSectionID  ) {
-                foreach( $_aFields as $_aField ) {
-                    if ( array_key_exists( $_aField['field_id'], $this->oProp->aOptions ) ) {
-                        $_aOptions[ $_aField['field_id'] ] = $this->oProp->aOptions[ $_aField['field_id'] ];
-                    }
-                }
-            }
-            if ( array_key_exists( $_sSectionID, $this->oProp->aOptions ) ) {
-                $_aOptions = $this->oProp->aOptions[ $_sSectionID ];
-            }
-        }        
-
+        // Extract the meta box field options from the page options.
+        $_aOptions = $this->_getPageMetaBoxOptionsFromPageOptions( 
+            $this->oProp->aOptions, 
+            $aFields 
+        );
+        
         // Apply the filters to let third party scripts to set own options array.
-        $this->oProp->aOptions = $this->oUtil->addAndApplyFilter(
+        $_aOptions = $this->oUtil->addAndApplyFilter(
             $this, // the caller object
             'options_' . $this->oProp->sClassName,
             $_aOptions
-        );
-        
+        );   
         $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] 
             ? $this->oProp->aLastInput 
             : array();
-        $this->oProp->aOptions = $_aLastInput + $this->oUtil->getAsArray( $this->oProp->aOptions );
-
+        
+        // Update the options array.
+        $this->oProp->aOptions = $_aLastInput + $this->oUtil->getAsArray( $_aOptions );
+        
     }
+        /**
+         * Extracts meta box form fields options array from the given options array of an admin page.
+         * 
+         * @since       3.5.6
+         * @return      array       The extracted options array.
+         * @internal
+         */
+        private function _getPageMetaBoxOptionsFromPageOptions( array $aPageOptions, array $aFields ) {    
+     
+            $_aOptions = array();
+            foreach( $aFields as $_sSectionID => $_aFields ) {
+                if ( '_default' === $_sSectionID  ) {
+                    foreach( $_aFields as $_aField ) {
+                        if ( array_key_exists( $_aField['field_id'], $aPageOptions ) ) {
+                            $_aOptions[ $_aField['field_id'] ] = $aPageOptions[ $_aField['field_id'] ];
+                        }
+                    }
+                }
+                if ( array_key_exists( $_sSectionID, $aPageOptions ) ) {
+                    $_aOptions[ $_sSectionID ] = $aPageOptions[ $_sSectionID ];
+                }
+            }       
+            return $_aOptions;
+        
+        }
             
 }

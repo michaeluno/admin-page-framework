@@ -43,7 +43,13 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         // Properties
         $_sClassName = get_class( $this );
         parent::__construct( 
-            isset( $this->oProp )? $this->oProp : new AdminPageFramework_Property_MetaBox( $this, $_sClassName, $sCapability )
+            isset( $this->oProp ) 
+                ? $this->oProp 
+                : new AdminPageFramework_Property_MetaBox( 
+                    $this, 
+                    $_sClassName, 
+                    $sCapability 
+                )
         );
         
         $this->oProp->sMetaBoxID    = $sMetaBoxID ? $this->oUtil->sanitizeSlug( $sMetaBoxID ) : strtolower( $_sClassName );
@@ -52,7 +58,7 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         $this->oProp->sPriority     = $sPriority;   // 'high', 'core', 'default' or 'low'    
 
         if ( $this->oProp->bIsAdmin ) {
-            add_action( 'current_screen', array( $this, '_replyToDetermineToLoad' ) );    
+            add_action( 'current_screen', array( $this, '_replyToDetermineToLoad' ) );
         }    
 
     }
