@@ -58,7 +58,14 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
         // http://.../wp-admin/edit.php?post_type=[...]
         array_unshift(    
             $aLinks,
-            "<a href='" . esc_url( "edit.php?post_type={$this->oProp->sPostType}" ) . "'>" 
+            // "<a href='" . esc_url( "edit.php?post_type={$this->oProp->sPostType}" ) . "'>" 
+            '<a ' . $this->generateAttributes(
+                array(
+                    'href'      => esc_url( "edit.php?post_type={$this->oProp->sPostType}" ),
+                    // 3.5.7+ Added for acceptance testing
+                    'class'     => 'apf-plugin-title-action-link apf-admin-page',
+                )
+            ) . '>'             
                 . $_sLinkLabel 
             . "</a>"
         ); 

@@ -236,7 +236,14 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
         // Insert the link
         array_unshift(    
             $aLinks,
-            '<a href="' . esc_url( $_sLinkURL ) . '">' 
+            // '<a href="' . esc_url( $_sLinkURL ) . '">' 
+            '<a ' . $this->generateAttributes(
+                array(
+                    'href'      => esc_url( $_sLinkURL ),
+                    // 3.5.7+ Added for acceptance testing
+                    'class'     => 'apf-plugin-title-action-link apf-post-type',
+                )
+            ) . '>' 
                 . $this->oProp->sLabelPluginSettingsLink 
             . '</a>'
         ); 
