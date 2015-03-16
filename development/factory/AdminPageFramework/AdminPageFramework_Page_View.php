@@ -653,6 +653,8 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                                         )
                                     )
                                 ),
+                                // 3.5.7+ Added for acceptance tests 
+                                'data-slug' => $sInPageTabSlug,
                             )    
                         ) . ">"
                             . $sTitle
