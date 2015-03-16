@@ -144,7 +144,11 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
                     ' by ' . $_sAuthorInfo
                 );
                 
-                return $_sPluginInfo . $_sAuthorInfo;
+                // Enclosing the output in a span tag as the outer element is a '<p>' tag. So this cannot be div.
+                // 3.5.7+ Added the class attribute for acceptance testing
+                return "<span class='apf-script-info'>"  
+                        . $_sPluginInfo . $_sAuthorInfo
+                    . "</span>";
           
             }
             /**
@@ -181,7 +185,8 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
                 );
                 
                 // Update the variable
-                return $this->oMsg->get( 'powered_by' ) . '&nbsp;' 
+                return "<span class='apf-credit'>" // 3.5.7+ added 'apf-credit' class attribute for acceptance testing
+                    . $this->oMsg->get( 'powered_by' ) . '&nbsp;' 
                     . $_sLibraryInfo
                     . ",&nbsp;"
                     . $this->generateHTMLTag( 
@@ -192,7 +197,8 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
                             'title'     => 'WordPress' . $GLOBALS['wp_version']
                         ), 
                         'WordPress'
-                    );
+                    )
+                    . "</span>";
                     
             }        
         
