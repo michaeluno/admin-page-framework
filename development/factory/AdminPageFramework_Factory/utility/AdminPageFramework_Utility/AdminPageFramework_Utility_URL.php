@@ -19,6 +19,24 @@
 abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility_Path {
 
     /**
+     * Retrieves the query value from the given URL with a key.
+     * 
+     * @since       2.0.0
+     * @since       3.5.7       Moved from `AdminPageFramework_Utility`.
+     * @return      string|null
+     */ 
+    static public function getQueryValueInURLByKey( $sURL, $sQueryKey ) {
+        
+        $aURL = parse_url( $sURL ) + array( 'query' => '' );
+        parse_str( $aURL['query'], $aQuery );     
+        return self::getElement(
+            $aQuery, // subject array
+            $sQueryKey, // key
+            null // default
+        );                    
+    }
+
+    /**
      * Retrieves the currently loaded page url.
      * 
      * @since 3.0.1

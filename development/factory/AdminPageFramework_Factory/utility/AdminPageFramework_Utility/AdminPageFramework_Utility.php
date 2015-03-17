@@ -32,24 +32,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
             ? $sLength . $sUnit
             : $sLength;
     }
-        
-    /**
-     * Retrieves the query value from the given URL with a key.
-     * 
-     * @since       2.0.0
-     * @return      string|null
-     */ 
-    static public function getQueryValueInURLByKey( $sURL, $sQueryKey ) {
-        
-        $aURL = parse_url( $sURL ) + array( 'query' => '' );
-        parse_str( $aURL['query'], $aQuery );     
-        return self::getElement(
-            $aQuery,  // subject array
-            $sQueryKey, // key
-            null      // default
-        );                    
-    }
-    
+            
     /**
      * Generates inline CSS rules from the given array.
      * 
