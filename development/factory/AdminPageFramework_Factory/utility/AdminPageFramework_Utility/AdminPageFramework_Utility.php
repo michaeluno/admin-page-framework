@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -39,7 +39,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
      * For example,
      * <code>
      * array(
-     *      'width' => '32px',
+     *      'width'  => '32px',
      *      'height' => '32px',
      * )
      * </code>
@@ -111,7 +111,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
      * 
      * @remark      Duplicated items will be merged.
      * @since       3.2.0
-     * @todo        Fix an issue that when a multidimentinal array is passed, which causes a warning:  Notice: Array to string conversion.
+     * @todo        Fix an issue that when a multidimensional array is passed, it causes a warning:  Notice: Array to string conversion.
      * @return      string
      */
     static public function generateClassAttribute( /* $asClassSelectors1, $asClassSelectors12 */ ) {
@@ -169,15 +169,15 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
     }    
     
     /**
-     * Checks the given value is numeric and can be resolved as an integer.
+     * Checks whether the given value is numeric and can be resolved as an integer.
      * 
      * Saves one conditional statement.
      * Used to determine sub-sections and sub-fields elements.
      * 
      * <code>
-     * var_dump( is_int( '0' ) );  // false 
-     * var_dump( isNumericInteger( '0' ) );    // true
-     * var_dump( is_int( '' + 0 ) );  // true
+     * var_dump( is_int( '0' ) ); // false 
+     * var_dump( isNumericInteger( '0' ) ); // true
+     * var_dump( is_int( '' + 0 ) ); // true
      * var_dump( isNumericInteger( '' ) ); // false
      * </code>
      * 
