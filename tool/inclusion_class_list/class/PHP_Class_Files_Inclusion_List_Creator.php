@@ -64,18 +64,18 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 	 * 
 	 * When false is passed to the 'use_docblock' argument, the constants of the header class must include 'Version', 'Name', 'Description', 'URI', 'Author', 'CopyRight', 'License'. 
 	 * <h3>Example</h3>
-	 * <code>class TaskScheduler_Registry_Base {
-	 * 		const Version		= '1.0.0b08';
-	 * 		const Name			= 'Task Scheduler';
-	 * 		const Description	= 'Provides an enhanced task management system for WordPress.';
-	 * 		const URI			= 'http://en.michaeluno.jp/';
-	 * 		const Author		= 'miunosoft (Michael Uno)';
-	 * 		const AuthorURI		= 'http://en.michaeluno.jp/';
-	 * 		const CopyRight		= 'Copyright (c) 2014, <Michael Uno>';
-	 * 		const License		= 'GPL v2 or later';
-	 * 		const Contributors	= '';
-	 * }</code>
-	 */
+     * <code>class TaskScheduler_Registry_Base {
+     *         const VERSION        = '1.0.0b08';
+     *         const NAME           = 'Task Scheduler';
+     *         const DESCRIPTION    = 'Provides an enhanced task management system for WordPress.';
+     *         const URI            = 'http://en.michaeluno.jp/';
+     *         const AUTHOR         = 'miunosoft (Michael Uno)';
+     *         const AUTHOR_URI     = 'http://en.michaeluno.jp/';
+     *         const COPYRIGHT      = 'Copyright (c) 2014, <Michael Uno>';
+     *         const LICENSE        = 'GPL v2 or later';
+     *         const CONTRIBUTORS   = '';
+     * }</code>
+     */
 	public function __construct( $sBaseDirPath, $asScanDirPaths, $sOutputFilePath, array $aOptions=array() ) {
 
 		$aOptions			= $aOptions + self::$_aStructure_Options;
