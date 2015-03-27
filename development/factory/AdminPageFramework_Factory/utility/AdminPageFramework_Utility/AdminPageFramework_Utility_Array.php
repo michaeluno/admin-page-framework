@@ -370,7 +370,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * )
      * </code>
      * 
-     * @remark      Introduced for reseeting options with dimentional keys.
+     * @remark      Introduced for resetting options with dimensional keys.
      * @since       3.5.3
      * @return      void
      */
