@@ -308,14 +308,7 @@ class APF_Demo_BuiltinFieldTypes_Text {
                     ),     
                 ),    
             ),
-            array( // Repeatable TinyMCE Text Editor [3.1.6+]
-                'field_id'      => 'repeatable_rich_textarea',
-                'title'         => __( 'Repeatable', 'admin-page-framework-demo' ),
-                'type'          => 'textarea',
-                'rich'          => true,
-                'repeatable'    => true,
-                'description'   => __( 'As of v3.1.6, repeatable TinyMCE editor fields are supported.', 'admin-page-framework-demo' ),
-            )
+            array()
         );             
         
     }
