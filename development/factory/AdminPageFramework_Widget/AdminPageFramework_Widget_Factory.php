@@ -50,15 +50,14 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
 
         echo $aArguments['before_widget'];
         
-		$_sTitle = apply_filters( 'widget_title', isset( $aFormData['title'] ) ? $aFormData['title'] : '', $aFormData, $this->id_base );
-        if ( $_sTitle ) {
-			echo $aArguments['before_title'] . $_sTitle . $aArguments['after_title'];
-		}
+        echo $this->_getTitle( $aArguments, $aFormData );
 
-        // Do action.
-        $this->oCaller->oUtil->addAndDoActions( $this->oCaller, 'do_' . $this->oCaller->oProp->sClassName, $this->oCaller );
-        
-        // Filter the contents.
+        $this->oCaller->oUtil->addAndDoActions( 
+            $this->oCaller, 
+            'do_' . $this->oCaller->oProp->sClassName, 
+            $this->oCaller
+        );
+
         echo $this->oCaller->oUtil->addAndApplyFilters(
             $this->oCaller, 
             "content_{$this->oCaller->oProp->sClassName}", 
@@ -70,6 +69,36 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
 		echo $aArguments['after_widget'];
 		
 	}
+        /**
+         * Returns the widget title.
+         * 
+         * @since       3.5.7
+         * @return      string      The widget title
+         */
+        private function _getTitle( array $aArguments, array $aFormData ) {
+            
+            if ( ! $this->oCaller->oProp->bShowWidgetTitle ) {
+                return '';
+            }
+            
+            $_sTitle = apply_filters(
+                'widget_title',
+                $this->oCaller->oUtil->getElement(
+                    $aFormData,
+                    'title',
+                    ''
+                ),
+                $aFormData,
+                $this->id_base 
+            );
+            if ( ! $_sTitle ) {
+                return '';
+            }
+           return $aArguments['before_title'] 
+                . $_sTitle 
+            . $aArguments['after_title'];           
+            
+        }
     
     /**
      * Validates the submitted form data.

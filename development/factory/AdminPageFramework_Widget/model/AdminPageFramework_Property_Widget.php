@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -71,8 +71,18 @@ class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Bas
      *  'description'   => __( '...', '...' ),
      * )
      * 
-     * @since   3.2.0
+     * @since       3.2.0
      */
     public $aWidgetArguments = array();    
+        
+    /**
+     * Determines whether the widget title should be displayed in the front end.
+     * 
+     * By default when the 'title' field ID exists and has a value, the framework displays the title. 
+     * This property value can disable this behaviour by setting it to false.
+     * 
+     * @since       3.5.7
+     */
+    public $bShowWidgetTitle = true;
         
 }
