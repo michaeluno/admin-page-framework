@@ -31,6 +31,7 @@ $_aClassFiles = array(
 	"APF_MetaBox_For_Pages_Advanced"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Advanced.php", 
 	"APF_MetaBox_For_Pages_Normal"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Normal.php", 
 	"APF_MetaBox_For_Pages_Side"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Side.php", 
+	"APF_MetaBox_For_Pages_WithFormSection"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_WithFormSection.php", 
 	"AceCustomFieldType"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/library/ace-custom-field-type/AceCustomFieldType.php", 
 	"SampleCustomFieldType"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/library/sample-custom-field-type/SampleCustomFieldType.php", 
 	"APF_NetworkAdmin"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/network_admin/APF_NetworkAdmin.php", 

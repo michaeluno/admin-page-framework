@@ -49,7 +49,14 @@ class AdminPageFrameworkLoader_Demo_BasicExample {
             array( 'apf_first_page', 'apf_second_page' ),   // page slugs - setting multiple slugs is possible
             'side',                                         // context
             'default'                                       // priority
-        );             
+        );            
+        new APF_MetaBox_For_Pages_WithFormSection(
+            null,
+            __( 'Meta box with a Form Section', 'admin-page-framework-demo' ), // title        
+            array( 'apf_first_page', 'apf_second_page' ),   
+            'side',
+            'low'
+        );
         
     }
 
