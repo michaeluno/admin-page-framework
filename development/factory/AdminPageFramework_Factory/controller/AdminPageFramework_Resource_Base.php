@@ -99,7 +99,7 @@ abstract class AdminPageFramework_Resource_Base {
         $this->oProp = $oProp;
         $this->oUtil = new AdminPageFramework_WPUtility;
         
-        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+        if ( $this->oUtil->isDoingAjax() ) {
             return;
         }        
         
@@ -227,43 +227,68 @@ abstract class AdminPageFramework_Resource_Base {
      */
     protected function _printCommonStyles( $sIDPrefix, $sClassName ) {
                 
-        if ( self::$_bCommonStyleLoaded ) { return; }
+        if ( self::$_bCommonStyleLoaded ) { 
+            return; 
+        }
         self::$_bCommonStyleLoaded = true;
         
-        $_oCaller    = $this->oProp->_getCallerObject();     
-        $_sStyle     = $this->oUtil->addAndApplyFilters( 
-            $_oCaller, 
-            array(
-                "style_common_admin_page_framework",            // 3.2.1+
-                "style_common_{$this->oProp->sClassName}",
-            ), 
-            AdminPageFramework_CSS::getDefaultCSS() 
-        );
-        $_sStyle     = $this->oUtil->minifyCSS( $_sStyle );
-        if ( $_sStyle ) {
-            echo "<style type='text/css' id='" . esc_attr( $sIDPrefix ) . "'>"
-                    . $_sStyle
-                . "</style>";
-        }
-
-        $_sStyleIE   = $this->oUtil->addAndApplyFilters( 
-            $_oCaller, 
-            array(
-                "style_ie_common_admin_page_framework",         // 3.2.1+
-                "style_ie_common_{$this->oProp->sClassName}", 
-            ),
-            AdminPageFramework_CSS::getDefaultCSSIE() 
-        );
-       
-        $_sStyleIE   = $this->oUtil->minifyCSS( $_sStyleIE );
-
-        if ( $_sStyleIE ) {
-            echo "<!--[if IE]><style type='text/css' id='" . esc_attr( $sIDPrefix . "-ie" ) . "'>"
-                    . $_sStyleIE
-                . "</style><![endif]-->";
-        }
+        $_oCaller = $this->oProp->_getCallerObject();     
+        echo $this->_getStyleTag( $_oCaller, $sIDPrefix );
+        echo $this->_getIEStyleTag( $_oCaller, $sIDPrefix );
             
-    }    
+    }   
+        /**
+         * @internal
+         * @since       3.5.7
+         * @return      string
+         */
+        private function _getStyleTag( $oCaller, $sIDPrefix ) {
+            
+            $_sStyle     = $this->oUtil->addAndApplyFilters( 
+                $oCaller, 
+                array(
+                    "style_common_admin_page_framework",            // 3.2.1+
+                    "style_common_{$this->oProp->sClassName}",
+                ), 
+                AdminPageFramework_CSS::getDefaultCSS() 
+            );
+            $_sStyle     = $this->oUtil->isDebugMode()
+                ? trim( $_sStyle )
+                : $this->oUtil->minifyCSS( $_sStyle );
+            if ( $_sStyle ) {
+                echo "<style type='text/css' id='" . esc_attr( $sIDPrefix ) . "'>"
+                        . $_sStyle
+                    . "</style>";
+            }
+         
+            
+        }    
+        /**
+         * @internal
+         * @since       3.5.7
+         * @return      string
+         */        
+        private function _getIEStyleTag( $oCaller, $sIDPrefix ) {
+                
+            $_sStyleIE   = $this->oUtil->addAndApplyFilters( 
+                $oCaller, 
+                array(
+                    "style_ie_common_admin_page_framework",         // 3.2.1+
+                    "style_ie_common_{$this->oProp->sClassName}", 
+                ),
+                AdminPageFramework_CSS::getDefaultCSSIE() 
+            );
+            
+            $_sStyleIE   = $this->oUtil->isDebugMode()
+                ? trim( $_sStyleIE )
+                : $this->oUtil->minifyCSS( $_sStyleIE );
+            return $_sStyleIE
+                ? "<!--[if IE]><style type='text/css' id='" . esc_attr( $sIDPrefix . "-ie" ) . "'>"
+                        . $_sStyleIE
+                    . "</style><![endif]-->"
+                : '';
+    
+        }
     
     /**
      * Flags whether the common styles are loaded or not.
@@ -313,38 +338,10 @@ abstract class AdminPageFramework_Resource_Base {
      * @return      void
      */
     protected function _printClassSpecificStyles( $sIDPrefix ) {
-        
-        static $_iCallCount     = 1;    
-        static $_iCallCountIE   = 1;    
-                        
+           
         $_oCaller   = $this->oProp->_getCallerObject();     
-
-        // Print out the filtered styles.
-        $sStyle     = $this->oUtil->addAndApplyFilters( 
-            $_oCaller, 
-            "style_{$this->oProp->sClassName}", 
-            $this->oProp->sStyle 
-        );
-        $sStyle     = $this->oUtil->minifyCSS( $sStyle );
-        if ( $sStyle ) {
-            echo "<style type='text/css' id='" . esc_attr( "{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}" ) . "'>"
-                    . $sStyle
-                . "</style>";
-            $_iCallCount++;
-        }
-            
-        $sStyleIE = $this->oUtil->addAndApplyFilters( 
-            $_oCaller,
-            "style_ie_{$this->oProp->sClassName}",
-            $this->oProp->sStyleIE 
-        );
-        $sStyleIE = $this->oUtil->minifyCSS( $sStyleIE );
-        if ( $sStyleIE ) {
-            echo  "<!--[if IE]><style type='text/css' id='" . esc_attr( "{$sIDPrefix}-ie-{$this->oProp->sClassName}_{$_iCallCountIE}" ) . "'>" 
-                    . $sStyleIE
-                . "</style><![endif]-->";
-            $_iCallCountIE++;
-        }
+        echo $this->_getClassSpecificStyleTag( $_oCaller, $sIDPrefix );
+        echo $this->_getClassSpecificIEStyleTag( $_oCaller, $sIDPrefix );
         
         // As of 3.2.0, this method also gets called in the footer to ensure there is not any left styles.
         // This happens when a head tag item is added after the head tag is already rendered such as for widget forms.
@@ -352,7 +349,59 @@ abstract class AdminPageFramework_Resource_Base {
         $this->oProp->sStyleIE  = '';
     
     }
-
+        /**
+         * 
+         * @internal
+         * @since       3.5.7
+         * @return      string
+         */
+        private function _getClassSpecificStyleTag( $_oCaller, $sIDPrefix ) {
+            
+            static $_iCallCount = 1;    
+            $_sStyle = $this->oUtil->addAndApplyFilters( 
+                $_oCaller, 
+                "style_{$this->oProp->sClassName}", 
+                $this->oProp->sStyle 
+            );
+            $_sStyle = $this->oUtil->isDebugMode()
+                ? trim( $_sStyle )
+                : $this->oUtil->minifyCSS( $_sStyle );
+            if ( $_sStyle ) {
+                return "<style type='text/css' id='" . esc_attr( "{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}" ) . "'>"
+                        . $_sStyle
+                    . "</style>";
+                $_iCallCount++;
+            }         
+            return '';
+            
+        }
+        /**
+         * 
+         * @internal
+         * @since       3.5.7
+         * @return      string
+         */        
+        private function _getClassSpecificIEStyleTag( $_oCaller, $sIDPrefix ) {
+            
+            static $_iCallCountIE = 1;  
+            $_sStyleIE = $this->oUtil->addAndApplyFilters( 
+                $_oCaller,
+                "style_ie_{$this->oProp->sClassName}",
+                $this->oProp->sStyleIE 
+            );
+            $_sStyleIE = $this->oUtil->isDebugMode()
+                ? trim( $_sStyleIE )
+                : $this->oUtil->minifyCSS( $_sStyleIE );
+            if ( $_sStyleIE ) {
+                return "<!--[if IE]><style type='text/css' id='" . esc_attr( "{$sIDPrefix}-ie-{$this->oProp->sClassName}_{$_iCallCountIE}" ) . "'>" 
+                        . $_sStyleIE
+                    . "</style><![endif]-->";
+                $_iCallCountIE++;
+            }            
+            return '';
+            
+        }
+        
     /**
      * Prints the inline scripts of this class stored in this class property.
      * 
@@ -458,7 +507,7 @@ abstract class AdminPageFramework_Resource_Base {
     }
     
     /**
-     * Takes care of added enqueuing scripts by checkign the currently loading page.
+     * Takes care of added enqueuing scripts by checking the currently loading page.
      * 
      * @remark      A callback for the admin_enqueue_scripts hook.
      * @since       2.1.2

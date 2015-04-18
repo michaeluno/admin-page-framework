@@ -19,6 +19,24 @@
 class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
     
     /**
+     * Checks whether the site is in the debug mode or not.
+     * @since       3.5.7
+     * @return      boolean     
+     */
+    static public function isDebugMode() {
+        return defined( 'WP_DEBUG' ) && WP_DEBUG;
+    }
+    
+    /**
+     * Checks whether the page is loaded as an Ajax request.
+     * @since       3.5.7
+     * @return      boolean
+     */
+    static public function isDoingAjax() {
+        return defined( 'DOING_AJAX' ) && DOING_AJAX;
+    }
+    
+    /**
      * Indicates whether the flushing rewrite rules has been performed or not.
      * @since       3.1.5
      */
