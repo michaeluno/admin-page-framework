@@ -18,6 +18,56 @@
  */
 abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
     
+    /**
+     * Generates a name attribute value for a form input element.
+     * @internal    
+     * @since       3.5.7
+     * @return      string      the input name attribute
+     */    
+    public function _replyToGetInputNameAttribute( /* $sNameAttribute, $aField, $sKey */ ) {
+        
+        $_aParams      = func_get_args() + array( null, null, null );
+        $aField        = $_aParams[ 1 ];
+        $sKey          = ( string ) $_aParams[ 2 ];
+        $sKey          = $this->oUtil->getAOrB(
+            '0' !== $sKey && empty( $sKey ),
+            '',
+            "[{$sKey}]"
+        );   
+        $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) 
+            ? "[{$aField['_section_index']}]" 
+            : ""; 
+        $_sSectionDimension = $this->isSectionSet( $aField )
+            ? "[{$aField['section_id']}]"
+            : '';
+        return "{$aField['option_key']}{$_sSectionDimension}{$_sSectionIndex}[{$aField['field_id']}]{$sKey}";
+        
+    }
+    /**
+     * Generates a flat input name whose dimensional element keys are delimited by the pipe (|) character.
+     * @internal    
+     * @since       3.5.7
+     * @return      string      the flat input name attribute
+     */    
+    public function _replyToGetFlatInputName( /* $sFlatNameAttribute, $aField, $sKey, */ ) {
+        $_aParams           = func_get_args() + array( null, null, null );
+        $sFlatNameAttribute = $_aParams[ 0 ];
+        $aField             = $_aParams[ 1 ];
+        $sKey               = ( string ) $_aParams[ 2 ];
+        $_sKey         = $this->oUtil->getAOrB(
+            '0' !== $sKey && empty( $sKey ),
+            '',
+            "[{$sKey}]"
+        );
+        $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] )
+            ? "[{$aField['_section_index']}]" 
+            : ""; 
+
+        $_sSectionDimension = $this->isSectionSet( $aField )
+            ? "|{$aField['section_id']}"
+            : '';
+        return "{$aField['option_key']}{$_sSectionDimension}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}";
+    }
     
     /**
      * Returns the output of the filtered section description.
@@ -51,12 +101,14 @@ abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Mode
         $_sFieldID          = $aField['field_id'];
         
         // If the specified field does not exist, do nothing.
-        if ( $aField['page_slug'] != $_sCurrentPageSlug ) { return ''; }
+        if ( $aField['page_slug'] != $_sCurrentPageSlug ) { 
+            return ''; 
+        }
 
         // Retrieve the field error array.
         $this->aFieldErrors = isset( $this->aFieldErrors ) 
             ? $this->aFieldErrors 
-            : $this->_getFieldErrors( $_sCurrentPageSlug ); 
+            : $this->_getFieldErrors( $_sCurrentPageSlug );
 
         // Render the form field.         
         $sFieldType = isset( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] ) && is_callable( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ]['hfRenderField'] )
@@ -66,10 +118,11 @@ abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Mode
         $_aTemp     = $this->getSavedOptions();    // assigning a variable for the strict standard
         $_oField    = new AdminPageFramework_FormField( 
             $aField, 
-            $_aTemp,    // passed by reference. @todo: check if it is necessary to pass it as a reference.
+            $_aTemp,    // passed by reference. @todo: examine why it needs to be passed by reference.
             $this->aFieldErrors, 
             $this->oProp->aFieldTypeDefinitions, 
-            $this->oMsg 
+            $this->oMsg,
+            $this->oProp->aFieldCallbacks // field output element callables.
         );
         $_sFieldOutput = $_oField->_getFieldOutput(); // field output
         unset( $_oField ); // release the object for PHP 5.2.x or below.
@@ -77,13 +130,14 @@ abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Mode
         return $this->oUtil->addAndApplyFilters(
             $this,
             array( 
-                isset( $aField['section_id'] ) && $aField['section_id'] != '_default' 
+                isset( $aField['section_id'] ) && '_default' !== $aField['section_id']
                     ? 'field_' . $this->oProp->sClassName . '_' . $aField['section_id'] . '_' . $_sFieldID
                     : 'field_' . $this->oProp->sClassName . '_' . $_sFieldID,
             ),
             $_sFieldOutput,
             $aField // the field array
         );     
-        
+
     }   
+
 }

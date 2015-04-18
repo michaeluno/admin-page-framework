@@ -27,15 +27,122 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         
         parent::__construct( $oProp );
 
-        if ( $this->_isInThePage() && ! $this->oProp->bIsAdminAjax ) {    
-            if ( is_network_admin() ) {
-                add_action( 'network_admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
-            } else {
-                add_action( 'admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
-            }     
+        if ( ! $this->_isInThePage() ) {
+            return;
         }
+        if ( $this->oProp->bIsAdminAjax ) {
+            return;
+        }
+    
+        // Admin Notices
+        if ( is_network_admin() ) {
+            add_action( 'network_admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
+        } else {
+            add_action( 'admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
+        }     
+        
+        // [3.5.7+] Form field element output callbacks. 
+        $this->oProp->aFieldCallbacks = $this->_getFormFieldElementCallbacks();
         
     }     
+
+        /**
+         * Returns an array holding callables for field type element outputs.
+         * @internal
+         * @since       3.5.7
+         * @remark      These callbacks are defined in the `AdminPageFramework_Factory_View` class. Some factory classes will override these values.
+         * @return      array
+         */
+        private function _getFormFieldElementCallbacks() {
+            return array(
+                'hfID'          => array( $this, '_replyToGetInputID' ), // the input id attribute
+                'hfTagID'       => array( $this, '_replyToGetInputTagIDAttribute' ), // the fields & fieldset & field row container id attribute
+                'hfName'        => array( $this, '_replyToGetInputNameAttribute' ), // the input name attribute
+                'hfNameFlat'    => array( $this, '_replyToGetFlatInputName' ), // the flat input name attribute
+                'hfClass'       => array( $this, '_replyToGetInputClassAttribute' ), // the class attribute
+            ) + $this->oProp->aFieldCallbacks;
+        }    
+            
+        /**
+         * @internal    
+         * @since       3.5.7
+         * @return      string      the input id attribute
+         */    
+        public function _replyToGetInputID() {
+            $_aParams           = func_get_args() + array( null, null, null, null );
+            $sInputIDAttribute  = $_aParams[ 0 ];
+            // $aField             = $_aParams[ 1 ];
+            // $sKey               = $_aParams[ 2 ];
+            // $sSectionIndex      = $_aParams[ 3 ];
+            return $sInputIDAttribute;        
+        }
+        /**
+         * @internal    
+         * @since       3.5.7
+         * @return      string      the fields & fieldset & field row container id attribute
+         */    
+        public function _replyToGetInputTagIDAttribute() {
+            $_aParams           = func_get_args() + array( null, null, null, null );
+            $sTagIDAttribute    = $_aParams[ 0 ];
+            // $aField             = $_aParams[ 1 ];
+            // $sKey               = $_aParams[ 2 ];
+            // $sSectionIndex      = $_aParams[ 3 ];
+            return $sTagIDAttribute;    
+        }
+
+        /**
+         * Generates a name attribute value for a form input element.
+         * @internal    
+         * @since       3.5.7
+         * @return      string      the input name attribute
+         */    
+        public function _replyToGetInputNameAttribute( /* $sNameAttribute, $aField, $sKey */ ) {
+            $_aParams           = func_get_args() + array( null, null, null );
+            $sNameAttribute     = $_aParams[ 0 ];
+            return $sNameAttribute;    
+        }
+        
+        /**
+         * Generates a flat input name whose dimensional element keys are delimited by the pipe (|) character.
+         * @internal    
+         * @since       3.5.7
+         * @return      string      the flat input name attribute
+         */    
+        public function _replyToGetFlatInputName( /* $sFlatNameAttribute, $aField, $sKey */ ) {
+            $_aParams   = func_get_args() + array( null, null, null, null );
+            $sFlatName  = $_aParams[ 0 ];
+            return $sFlatName; 
+        }
+
+        /**
+         * 
+         * @internal    
+         * @since       3.5.7
+         * @return      string      the input class attribute.
+         */
+        public function _replyToGetInputClassAttribute() {
+            $_aParams           = func_get_args() + array( null, null, null, null );
+            $sClassAttribute    = $_aParams[ 0 ];
+            // $aField             = $_aParams[ 1 ];
+            // $sKey               = $_aParams[ 2 ];
+            // $sSectionIndex      = $_aParams[ 3 ];
+            return $sClassAttribute;    
+        }
+        
+    /**
+     * Checks whether a section is set.
+     * @internal
+     * @since       3.5.7       Moved from `AdminPageFramework_FormField`.
+     * @param       array       $aField     a field definition array.
+     * @return      boolean
+     */
+    public function isSectionSet( array $aField ) {
+        $aField = $aField + array(
+            'section_id'  => null,
+        );
+        return $aField[ 'section_id' ] && '_default' !== $aField[ 'section_id' ];
+    }
+    
     
     /**
      * Stores a flag value indicating whether the setting notice method is called or not.
@@ -138,7 +245,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
             $this->oProp->aFieldTypeDefinitions,    // the field type definition array.
             $this->oMsg,                            // the system message object
             $this->oProp->aFieldCallbacks           // field output element callables.
-        ); 
+        );
 
         $_sOutput = $this->oUtil->addAndApplyFilters(
             $this,

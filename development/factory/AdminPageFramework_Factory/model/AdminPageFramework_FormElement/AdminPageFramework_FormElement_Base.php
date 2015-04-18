@@ -327,6 +327,5 @@ abstract class AdminPageFramework_FormElement_Base extends AdminPageFramework_WP
         $this->aConditionedFields = $this->formatFields( $this->aConditionedFields, $this->sFieldsType, $this->sCapability );
         
     }
-    
-    
+           
 }

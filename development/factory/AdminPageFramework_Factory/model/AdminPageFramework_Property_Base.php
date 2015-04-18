@@ -282,7 +282,7 @@ abstract class AdminPageFramework_Property_Base {
     );    
     
     /**
-     * Stores callable for the form field outputs such as the id and name attribute values.
+     * Stores callables for the form field outputs such as the id and name attribute values.
      * 
      * @internal
      * @since       3.2.0
@@ -332,7 +332,7 @@ abstract class AdminPageFramework_Property_Base {
         $this->sPageNow         = $this->oUtil->getPageNow();
         $this->bIsAdmin         = is_admin();
         $this->bIsAdminAjax     = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
-        
+                
     }
         
     /**
@@ -454,7 +454,7 @@ abstract class AdminPageFramework_Property_Base {
      * 
      * This method should be extended in the extended class.
      * 
-     * @remark      This method is triggerd from the __get() overload magic method to set the $aOptions property.
+     * @remark      This method is triggered from the __get() overload magic method to set the $aOptions property.
      * @since       3.1.0
      * @internal
      */

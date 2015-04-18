@@ -16,7 +16,7 @@
  * @subpackage      UserMeta
  */
 abstract class AdminPageFramework_UserMeta_View extends AdminPageFramework_UserMeta_Model {
-    
+        
     /**
      * The content filter method,
      * 

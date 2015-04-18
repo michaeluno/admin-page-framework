@@ -18,6 +18,44 @@
  */
 abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_TaxonomyField_Model {
     
+    /**
+     * Generates a name attribute value for a form input element.
+     * @internal    
+     * @since       3.5.7
+     * @remark      The taxonomy form fields do not have sections.
+     * @return      string      the input name attribute
+     */    
+    public function _replyToGetInputNameAttribute( /* $sNameAttribute, $aField, $sKey */ ) {
+        
+        $_aParams   = func_get_args() + array( null, null, null );
+        $_aField    = $_aParams[ 1 ];
+        $_sKey      = ( string ) $_aParams[ 2 ]; // a 0 value may have been interpreted as false.
+        $_sKey      = $this->oUtil->getAOrB(
+            '0' !== $_sKey && empty( $_sKey ),
+            '',
+            "[{$_sKey}]"
+        );        
+        return $_aField['field_id'] . $_sKey; 
+        
+    }
+    /**
+     * Generates a flat input name whose dimensional element keys are delimited by the pipe (|) character.
+     * @internal    
+     * @since       3.5.7
+     * @return      string      the flat input name attribute
+     */    
+    public function _replyToGetFlatInputName( /* $sFlatNameAttribute, $aField, $sKey, $sSectionIndex */ ) {
+        $_aParams   = func_get_args() + array( null, null, null );
+        $_aField    = $_aParams[ 1 ];
+        $_sKey      = ( string ) $_aParams[ 2 ];
+        $_sKey      = $this->oUtil->getAOrB(
+            '0' !== $_sKey && empty( $_sKey ),
+            '',
+            "|{$_sKey}"
+        );
+        return "{$_aField['field_id']}{$_sKey}";
+    }
+
    /**
      * Adds input fields
      * 
@@ -27,11 +65,13 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
      */    
     public function _replyToPrintFieldsWOTableRows( $oTerm ) {
         echo $this->_getFieldsOutput( 
-            isset( $oTerm->term_id ) ? $oTerm->term_id : null, 
+            isset( $oTerm->term_id ) 
+                ? $oTerm->term_id 
+                : null, 
             false 
         );
     }
-        
+
     /**
      * Adds input fields with table rows.
      * 
@@ -42,7 +82,9 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
      */
     public function _replyToPrintFieldsWithTableRows( $oTerm ) {
         echo $this->_getFieldsOutput( 
-            isset( $oTerm->term_id ) ? $oTerm->term_id : null, 
+            isset( $oTerm->term_id )
+                ? $oTerm->term_id 
+                : null, 
             true 
         );
     }    

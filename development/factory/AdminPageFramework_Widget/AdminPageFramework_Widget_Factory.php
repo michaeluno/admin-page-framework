@@ -115,9 +115,10 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
         $this->oCaller->oProp->aFieldCallbacks = array( 
             'hfID'          => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
             'hfTagID'       => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
-            'hfName'        => array( $this, 'get_field_name' ),  // defined in the WP_Widget class.  
+            'hfName'        => array( $this, '_replyToGetInputName' ),  // defined in the WP_Widget class.  
+            // 'hfName'        => array( $this, 'get_field_name' ),  // defined in the WP_Widget class.  
             // 'hfClass'       => array( $this, '_replyToAddClassSelector' ),
-            // 'hfNameFlat'    => array( $this, '' ),
+            'hfNameFlat'    => array( $this, '_replyToGetFlatInputName' ),
         );              
       
         // Render the form. 
@@ -136,16 +137,71 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
        
 	}
     
+        /**
+         * 
+         * @remark      This one is tricky as the core widget factory method enclose this value in []. So when the framework field has a section, it must NOT end with ].
+         * @since       3.5.7       Moved from `AdminPageFramework_FormField`.
+         * @return      string
+         */
+        public function _replyToGetInputName( /* $sNameAttribute, array $aField, $sKey */ ) {
+            
+            $_aParams      = func_get_args() + array( null, null, null );
+            $aField        = $_aParams[ 1 ];
+            $sKey          = ( string ) $_aParams[ 2 ]; // a 0 value may have been interpreted as false.
+            $_sKey         = $this->oCaller->oUtil->getAOrB(
+                '0' !== $sKey && empty( $sKey ),
+                '',
+                "[{$sKey}]"
+            );
+            $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) 
+                ? "[{$aField['_section_index']}]" 
+                : "";             
+            $_sID           = $this->oCaller->isSectionSet( $aField )
+                ? "{$aField['section_id']}]{$_sSectionIndex}[{$aField['field_id']}"
+                : "{$aField['field_id']}";
+            return $this->get_field_name( $_sID ) . $_sKey;
+        
+        }    
+        /**
+         * Returns the flat input name.
+         * 
+         * A flat input name is a 'name' attribute value whose dimensional elements are delimited by the pile character.
+         * 
+         * Instead of [] enclosing array elements, it uses the pipe(|) to represent the multi dimensional array key.
+         * This is used to create a reference to the submit field name to determine which button is pressed.
+         * 
+         * @since       3.5.7       Moved from `AdminPageFramework_FormField`.
+         * @return      string
+         */
+        protected function _replyToGetFlatInputName( /* $sFlatInputName, array $aField, $sKey */ ) {
+            $_aParams       = func_get_args() + array( null, null, null );            
+            $aField         = $_aParams[ 1 ];
+            $sKey           = ( string ) $_aParams[ 2 ];
+            $_sKey          = $this->oCaller->oUtil->getAOrB(
+                '0' !== $sKey && empty( $sKey ),
+                '',
+                "|{$_sKey}"
+            );
+            $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] )
+                ? "|{$aField['_section_index']}" 
+                : '';                        
+            $sFlatInputName = $this->oCaller->isSectionSet( $aField )
+                ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}"
+                : "{$aField['field_id']}";
+            return $sFlatInputName . $_sKey;                
+        }
+    
     /**
      * Modifies the class Selector.
      * 
      * @since   3.2.0
+     * @remark  currently not used
      */
-    public function _replyToAddClassSelector( $sClassSelectors ) {
+    // public function _replyToAddClassSelector( $sClassSelectors ) {
         
-        $sClassSelectors .= ' widefat';
-        return trim( $sClassSelectors );
+        // $sClassSelectors .= ' widefat';
+        // return trim( $sClassSelectors );
         
-    }
+    // }
     
 }
