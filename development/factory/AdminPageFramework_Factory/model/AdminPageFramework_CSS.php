@@ -541,11 +541,11 @@ CSSRULES;
     font-weight: 700;
 }
 
-/* Metabox Section Heading Info */
+/* Post Metabox Section Heading Info */
 #poststuff .metabox-holder .admin-page-framework-section-title h3 {
     border: none;
     font-weight: bold;
-    font-size: 1.3em;
+    font-size: 1.2em;
     margin: 1em 0;
     padding: 0;
     font-family: 'Open Sans', sans-serif;     
@@ -559,7 +559,15 @@ CSSRULES;
     -webkit-box-shadow: none;
     box-shadow: none;
     background: none;
-}         
+}      
+/* Side meta boxes */
+@media screen and (min-width: 783px) {    
+    /* Fix that the text input fields stick out the meta-box container */
+    #poststuff #post-body.columns-2 #side-sortables .postbox .admin-page-framework-section .form-table input[type=text]{
+        width: 98%;
+    }
+}
+   
 CSSRULES;
         }
         /**
