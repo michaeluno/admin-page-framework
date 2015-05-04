@@ -135,10 +135,12 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top extends AdminPageFrameworkLoa
                 // Increment the position
                 $aColumnInfo['iCurrColPos']++;
                 
-                $_sLinkURLWOQuery   = preg_replace( '/\?.*/', '', $aItem['link'] );
-                $_sTarget           = false === strpos( $_sLinkURLWOQuery , $sSiteURLWOQuery )
-                    ? '_blank'
-                    : '';
+                // Making the target '_blank' causes the Feedburner redirect to fail so set no target.
+                // $_sLinkURLWOQuery   = preg_replace( '/\?.*/', '', $aItem['link'] );                
+                // $_sTarget           = false === strpos( $_sLinkURLWOQuery , $sSiteURLWOQuery )
+                    // ? '_blank'
+                    // : '';
+                $_sTarget = '';
                 
                 // Enclose the item buffer into the item container
                 $_sItem = '<div class="' . $aColumnOption['sClassAttrCol'] 
@@ -153,7 +155,7 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top extends AdminPageFrameworkLoa
                                 . $aItem['description'] 
                             . "</div>"
                             . "<div class='get-now apfl_feed_item_link_button'>"
-                                . "<a href='{$aItem['link']}' target='{$_sTarget}' rel='nofollow' class='button button-secondary'>" 
+                                . "<a href='" . esc_url( $aItem[ 'link' ] ) . "' target='{$_sTarget}' rel='nofollow' class='button button-secondary'>" 
                                     . $aItem['label']
                                 . "</a>"
                             . "</div>"
