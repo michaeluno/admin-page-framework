@@ -30,7 +30,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
      * @param       object      $oTerm        
      * @param       integer     $iDepth
      * @param       array       $aArgs          The argument passed from the field output.
-     * <h4>Structure</h4>
+     * <h4>Arguments</h4>
      *  - show_option_all       (string)    Text to display for showing all categories. default: ``
      *  - show_option_none      (string)    Text to display for showing no categories. e.g. `__( 'No categories' )`
      *  - orderby               (string)    Accepts 'name' or 'ID'. What column to use for ordering the terms. e.g. `name`. default: `ID`
@@ -46,7 +46,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
      *  - include               (string)    Comma separated term ID(s) to include in the list.
      *  - child_of              (integer)   Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0.
      * 
-     *  <h4>Not Checked Yet</h4>
+     *  <h4>Known Existing Arguments</h4>
      *  - feed                 => '', 
      *  - feed_type             => '',
      *  - feed_image            => '', 
@@ -54,7 +54,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
      *  - current_category      => 0,
      *  - class                 => categories,
      * 
-     * <h4>Unverified Items</h4>
+     * <h4>Unknown Arguments</h4>
      *  - taxonomy              => 'category', // 'post_tag' or any other registered taxonomy slug will work. side note: the framework option will be used
      *  - has_children          => 1,
      *  - option_none_value     (mixed)     Value to use when no taxonomy term is selected.     
@@ -66,32 +66,38 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
     function start_el( &$sOutput, $oTerm, $iDepth=0, $aArgs=array(), $iCurrentObjectID=0 ) {
        
         $aArgs = $aArgs + array(
-            'name'              => null,
-            'disabled'          => null,
-            'selected'          => array(),
-            'input_id'          => null,
-            'attributes'        => array(),
-            'taxonomy'          => null,
+            '_name_prefix'      => null,
+            '_input_id_prefix'  => null,
+            '_attributes'       => array(),
+            '_selected_items'   => array(),
+            'taxonomy'          => null,    // parsed by the core function to perform the database query.
+            'disabled'          => null,    // not sure what this was for
         );
         
         // Local variables
         $_iID            = $oTerm->term_id;
-        $_sTaxonomySlug  = empty( $aArgs['taxonomy'] ) ? 'category' : $aArgs['taxonomy'];
-        $_sID            = "{$aArgs['input_id']}_{$_sTaxonomySlug}_{$_iID}";
+        $_sTaxonomySlug  = empty( $aArgs[ 'taxonomy_slug' ] ) 
+            ? 'category' 
+            : $aArgs[ 'taxonomy_slug' ];
+        $_sID            = "{$aArgs['_input_id_prefix']}_{$_sTaxonomySlug}_{$_iID}";
 
         // Post count
-        $_sPostCount     = $aArgs['show_post_count'] ? " <span class='font-lighter'>(" . $oTerm->count . ")</span>" : '';
+        $_sPostCount     = $aArgs['show_post_count'] 
+            ? " <span class='font-lighter'>(" . $oTerm->count . ")</span>" 
+            : '';
         
         // Attributes
         $_aInputAttributes = isset( $_aInputAttributes[ $_iID ] ) 
-            ? $_aInputAttributes[ $_iID ] + $aArgs['attributes']
-            : $aArgs['attributes'];
+            ? $_aInputAttributes[ $_iID ] + $aArgs['_attributes']
+            : $aArgs['_attributes'];
         $_aInputAttributes = array(
             'id'        => $_sID,
             'value'     => 1, // must be 1 beacause the index of zero exists so the index value cannot be assigined here.
             'type'      => 'checkbox',
-            'name'      => "{$aArgs['name']}[{$_iID}]",
-            'checked'   => in_array( $_iID, ( array ) $aArgs['selected'] ) ? 'checked' : null,
+            'name'      => "{$aArgs['_name_prefix']}[{$_iID}]",
+            'checked'   => in_array( $_iID, ( array ) $aArgs[ '_selected_items' ] )
+                ? 'checked' 
+                : null,
         ) + $_aInputAttributes;
         $_aInputAttributes['class'] .= ' apf_checkbox';
         
@@ -105,7 +111,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
         $sOutput .= "\n"
             . "<li " . AdminPageFramework_WPUtility::generateAttributes( $_aLiTagAttributes ) . ">" 
                 . "<label for='{$_sID}' class='taxonomy-checklist-label'>"
-                    . "<input value='0' type='hidden' name='{$aArgs['name']}[{$_iID}]' class='apf_checkbox' />"
+                    . "<input value='0' type='hidden' name='" . $_aInputAttributes[ 'name' ] . "' class='apf_checkbox' />"
                     . "<input " . AdminPageFramework_WPUtility::generateAttributes( $_aInputAttributes ) . " />"
                     . esc_html( apply_filters( 'the_category', $oTerm->name ) ) 
                     . $_sPostCount

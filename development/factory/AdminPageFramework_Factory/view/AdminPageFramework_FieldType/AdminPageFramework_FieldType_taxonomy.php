@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -356,19 +356,21 @@ CSSRULES;
                 return wp_list_categories( 
                     array(
                         'walker'                => new AdminPageFramework_WalkerTaxonomyChecklist, // the walker class instance
-                        'name'                  => is_array( $aField['taxonomy_slugs'] ) 
-                            ? "{$aField['_input_name']}[{$sTaxonomySlug}]" 
-                            : $aField['_input_name'],   // name of the input
-                        // checked items ( term IDs ) e.g.  array( 6, 10, 7, 15 ), 
-                        'selected'              => $this->_getSelectedKeyArray( $aField['value'], $sTaxonomySlug ),
-                        'echo'                  => false,  // returns the output
                         'taxonomy'              => $sTaxonomySlug, 
-                        'input_id'              => $aField['input_id'],
-                        'attributes'            => $this->getElement( 
+                        '_name_prefix'          => is_array( $aField['taxonomy_slugs'] ) 
+                            ? "{$aField['_input_name']}[{$sTaxonomySlug}]" 
+                            : $aField['_input_name'],   // name prefix of the input
+                        '_input_id_prefix'      => $aField['input_id'],
+                        '_attributes'           => $this->getElement( 
                             $aField, 
                             array( 'attributes', $sKey ), 
                             array() 
-                        ) + $aField['attributes'],
+                        ) + $aField['attributes'],                 
+                        
+                        // checked items ( term IDs ) e.g.  array( 6, 10, 7, 15 ), 
+                        '_selected_items'       => $this->_getSelectedKeyArray( $aField['value'], $sTaxonomySlug ),
+                        
+                        'echo'                  => false,  // returns the output
                         'show_post_count'       => $aField['show_post_count'],      // 3.2.0+
                         'show_option_none'      => $aField['label_no_term_found'],  // 3.3.2+ 
                         'title_li'              => $aField['label_list_title'],     // 3.3.2+

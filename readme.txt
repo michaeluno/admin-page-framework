@@ -376,6 +376,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.7 =
+- Fixed a compatibility issue with WordPress 4.2 or above that the `taxonomy` field type become not able to list taxonomy terms.
 - Tweaked styling of page meta-box form elements.
 
 = 3.5.6 - 2015/03/15 =
