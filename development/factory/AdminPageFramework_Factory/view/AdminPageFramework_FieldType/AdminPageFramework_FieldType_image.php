@@ -518,19 +518,18 @@ JAVASCRIPTS;
 /* Image Field Preview Container */
 .admin-page-framework-field .image_preview {
     border: none; 
-    clear:both; 
+    clear: both; 
     margin-top: 0.4em;
     margin-bottom: 0.8em;
-    display: block; 
+    display: block;     
     max-width: 100%;
     height: auto;   
     width: inherit;                
 }     
-
 .admin-page-framework-field .image_preview img {     
+    display: block;  
     height: auto; 
     max-width: 100%;
-    display: block;         
 }
 .widget .admin-page-framework-field .image_preview {
     max-width: 100%;
@@ -720,7 +719,7 @@ CSSRULES;
                         'id'        => "{$aField['input_id']}_{$sAttribute}",
                         'type'      => 'hidden',
                         'name'      => "{$aField['_input_name']}[{$sAttribute}]",
-                        'disabled'     => $this->getAOrB(
+                        'disabled'  => $this->getAOrB(
                             isset( $aField['attributes']['disabled'] ) && $aField['attributes']['disabled'],
                             'disabled',
                             null

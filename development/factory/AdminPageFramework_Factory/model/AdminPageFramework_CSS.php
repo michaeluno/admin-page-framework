@@ -217,7 +217,7 @@ td.admin-page-framework-field-td-no-title {
 .admin-page-framework-fields {
     display: table; /* the block property does not give the element the solid height */
     width: 100%;
-    table-layout: fixed;    /* in Firefox fixes the issue that preview images causes the container element to expand */
+    table-layout: fixed;    /* in Firefox, fix the issue that preview images cause the container element to expand */
 }
 
 /* Number Input */
@@ -530,7 +530,8 @@ CSSRULES;
 
 /* Sortable fields do not look well if the width is fully expanded  */
 .postbox .sortable .admin-page-framework-field {
-    width: auto;
+    /* In Firefox, in side meta boxes, the width needs to be smaller for image previews. */
+    width: 84%;
 }
             
 /* Field Titles */             
@@ -596,11 +597,11 @@ CSSRULES;
     width: 100%;
 }
 .widget .sortable .admin-page-framework-field {
-    /* Sortable fields have paddings so the width need to be adjusted to fit to 100% */
+    /* Sortable fields have paddings so the width needs to be adjusted to fit to 100% */
     padding: 4% 4.4% 3.2% 4.4%;
     width: 91.2%;
 }
-/* Gives a slight margin between the input field and buttons */
+/* Give a slight margin between the input field and buttons */
 .widget .admin-page-framework-field input {
     margin-bottom: 0.1em;
     margin-top: 0.1em;
