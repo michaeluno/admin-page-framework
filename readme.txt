@@ -376,7 +376,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.7.1 - 2015/05/11 =
-- Fixed a bug with referencing the pressed submit button name attribute, introduced in 3.5.7.
+- Fixed a bug with referencing pressed submit button name attributes, introduced in 3.5.7.
 
 = 3.5.7 - 2015/05/05 =
 - Fixed a compatibility issue with WordPress 4.2 or above that the `taxonomy` field type become not able to list taxonomy terms.
