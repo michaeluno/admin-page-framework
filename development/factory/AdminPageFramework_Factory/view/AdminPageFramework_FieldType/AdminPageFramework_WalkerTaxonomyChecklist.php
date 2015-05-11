@@ -98,7 +98,10 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
             'checked'   => in_array( $_iID, ( array ) $aArgs[ '_selected_items' ] )
                 ? 'checked' 
                 : null,
-        ) + $_aInputAttributes;
+        ) + $_aInputAttributes
+          + array(
+            'class'     => null,
+        );
         $_aInputAttributes['class'] .= ' apf_checkbox';
         
         $_aLiTagAttributes = array(

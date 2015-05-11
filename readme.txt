@@ -375,6 +375,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.5.7.2 =
+- Fixed a bug with the `taxonomy` field type that could not list terms when the `arguments` argument misses the `class` argument.
+
 = 3.5.7.1 - 2015/05/11 =
 - Fixed a bug with referencing pressed submit button name attributes, introduced in 3.5.7.
 
