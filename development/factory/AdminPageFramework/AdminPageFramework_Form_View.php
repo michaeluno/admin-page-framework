@@ -47,18 +47,19 @@ abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Mode
      * Generates a flat input name whose dimensional element keys are delimited by the pipe (|) character.
      * @internal    
      * @since       3.5.7
+     * @since       3.5.7.1     Fixed a bug that the tailing key element was not delimited properly.
      * @return      string      the flat input name attribute
      */    
     public function _replyToGetFlatInputName( /* $sFlatNameAttribute, $aField, $sKey, */ ) {
         $_aParams           = func_get_args() + array( null, null, null );
         $sFlatNameAttribute = $_aParams[ 0 ];
         $aField             = $_aParams[ 1 ];
-        $sKey               = ( string ) $_aParams[ 2 ];
-        $_sKey         = $this->oUtil->getAOrB(
-            '0' !== $sKey && empty( $sKey ),
+        $_sKey              = ( string ) $_aParams[ 2 ];
+        $_sKey              = $this->oUtil->getAOrB(
+            '0' !== $_sKey && empty( $_sKey ),
             '',
-            "[{$sKey}]"
-        );
+            "|{$_sKey}"
+        );        
         $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] )
             ? "[{$aField['_section_index']}]" 
             : ""; 
