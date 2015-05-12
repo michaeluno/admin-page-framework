@@ -30,7 +30,8 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      */
     protected $aDefaultKeys = array(
         'taxonomy_slugs'        => 'category',      // (array|string) This is for the taxonomy field type.
-        'height'                => '250px',         // 
+        'height'                => '250px',         // the tab box height
+        'width'                 => null,            // 3.5.7.2+ the tab box width
         'max_width'             => '100%',          // for the taxonomy checklist field type, since 2.1.1.     
         'show_post_count'       => true,            // (boolean) 3.2.0+ whether or not the post count associated with the term should be displayed or not.
         'attributes'            => array(),    
@@ -335,7 +336,17 @@ CSSRULES;
          */
         private function _getTaxonomyCheckboxes( array $aField, $sKey, $sTaxonomySlug ) {
             
-            return "<div id='tab_{$aField['input_id']}_{$sKey}' class='tab-box-content' style='height: {$aField['height']};'>"
+            $_aTabBoxContainerArguments = array(
+                'id'    => "tab_{$aField['input_id']}_{$sKey}",
+                'class' => 'tab-box-content',
+                'style' => $this->generateInlineCSS(
+                    array(
+                        'height' => $this->sanitizeLength( $aField[ 'height' ] ),
+                        'width'  => $this->sanitizeLength( $aField[ 'width' ] ),
+                    )
+                ),
+            );
+            return "<div " . $this->generateAttributes( $_aTabBoxContainerArguments ) . ">"
                     . $this->getElement( $aField, array( 'before_label', $sKey ) )
                     . "<div " . $this->generateAttributes( $this->_getCheckboxContainerAttributes( $aField ) ) . "></div>"
                     . "<ul class='list:category taxonomychecklist form-no-clear'>"
