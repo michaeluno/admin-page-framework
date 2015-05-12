@@ -76,9 +76,9 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
         
         // Local variables
         $_iID            = $oTerm->term_id;
-        $_sTaxonomySlug  = empty( $aArgs[ 'taxonomy_slug' ] ) 
+        $_sTaxonomySlug  = empty( $aArgs[ 'taxonomy' ] ) 
             ? 'category' 
-            : $aArgs[ 'taxonomy_slug' ];
+            : $aArgs[ 'taxonomy' ];
         $_sID            = "{$aArgs['_input_id_prefix']}_{$_sTaxonomySlug}_{$_iID}";
 
         // Post count
@@ -92,7 +92,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
             : $aArgs['_attributes'];
         $_aInputAttributes = array(
             'id'        => $_sID,
-            'value'     => 1, // must be 1 beacause the index of zero exists so the index value cannot be assigined here.
+            'value'     => 1, // must be 1 because the index of zero exists so the index value cannot be assigned here.
             'type'      => 'checkbox',
             'name'      => "{$aArgs['_name_prefix']}[{$_iID}]",
             'checked'   => in_array( $_iID, ( array ) $aArgs[ '_selected_items' ] )
