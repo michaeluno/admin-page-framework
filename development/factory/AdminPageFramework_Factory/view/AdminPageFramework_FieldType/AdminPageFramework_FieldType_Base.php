@@ -121,10 +121,37 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
      * When the user defines a field type, they may use this instead of the real constructor 
      * so that they don't have to care about the internal parameters.
      * 
-     * @since 3.1.3
+     * @since       3.1.3
      */
     protected function construct() {}
     
+    /**
+     * Checks whether TinyMCE is supported.
+     * @since       3.5.8
+     * @return      boolean
+     */
+    protected function isTinyMCESupported() {
+        return version_compare( $GLOBALS['wp_version'], '3.3', '>=' )
+            && function_exists( 'wp_editor' )
+        ;
+    }
+    
+    /**
+     * Returns the sub-element of a given element by the element key.
+     * 
+     * @remark      Used by the `text` and `textarea` field types.
+     * @since       3.5.8
+     * @return
+     */
+    protected function getElementByLabel( $asElement, $sKey, $bIsLabelArray ) {
+        return $bIsLabelArray
+            ? $this->getElement( 
+                $asElement,         // subject
+                array( $sKey ),     // keys
+                $asElement          // default
+            )
+            : $asElement;
+    }    
     
     /**
      * Returns another field output by the given field definition array.

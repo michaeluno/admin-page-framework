@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.3
 Tested up to:       4.2.2
-Stable tag:         3.5.7
+Stable tag:         3.5.7.1
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -375,7 +375,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.5.7.2 =
+= 3.5.8 - 2015/05/13 =
+- Added the ability for the `text` and `textarea` field types to create sub-input elements by passing an array to the `label` argument.
+- Added the `width` argument for the `taxonomy` field type.
 - Fixed a bug with the `taxonomy` field type that could not list terms when the `arguments` argument misses the `class` argument.
 
 = 3.5.7.1 - 2015/05/11 =

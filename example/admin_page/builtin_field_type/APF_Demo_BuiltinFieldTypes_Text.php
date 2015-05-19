@@ -151,7 +151,7 @@ class APF_Demo_BuiltinFieldTypes_Text {
                 'title'             => __( 'Number', 'admin-page-framework-demo' ),
                 'type'              => 'number',
             ),         
-            array( // Multiple text fields
+            array( // sub fields
                 'field_id'          => 'text_multiple',
                 'title'             => __( 'Multiple', 'admin-page-framework-demo' ),
                 'help'              => __( 'Multiple text fields can be set by passing an array to the <code>label</code> argument.', 'admin-page-framework-demo' ),
@@ -179,6 +179,22 @@ class APF_Demo_BuiltinFieldTypes_Text {
                 ),     
                 'description'       => __( 'These are multiple text fields. To include multiple input fields associated with one field ID, use the numeric keys in the field definition array.', 'admin-page-framework-demo' ),
             ),     
+            array( // Multiple text fields by labels
+                'field_id'          => 'text_multiple_with_label',
+                'title'             => __( 'Multiple with Labels', 'admin-page-framework-demo' ),
+                'type'              => 'text',
+                'default'           => array(
+                    'first'  => 'First Item',
+                    'second' => 'Second Item',
+                    'third'  => 'Third Item',
+                ),
+                'label'             => array(
+                    'first'  => __( 'First', 'admin-page-framework-demo' ),
+                    'second' => __( 'Second', 'admin-page-framework-demo' ),
+                    'third'  => __( 'Third', 'admin-page-framework-demo' ),
+                ),
+                'description'       => __( 'These uses the <code>label</code> argument to crate multiple elements.', 'admin-page-framework-demo' ),
+            ),               
             array( // Repeatable text fields
                 'field_id'          => 'text_repeatable',
                 'title'             => __( 'Repeatable', 'admin-page-framework-demo' ),
@@ -236,6 +252,21 @@ class APF_Demo_BuiltinFieldTypes_Text {
                     'cols' => 60,
                 ),
             ),
+            array( // Multiple Text Area
+                'field_id'      => 'textarea_multiple_with_labels',
+                'title'         => __( 'Multiple', 'admin-page-framework-demo' ),
+                'type'          => 'textarea',
+                'default'       => array(
+                    'a' => __( 'This is an apple.', 'admin-page-framework-demo' ),
+                    'b' => __( 'This is a banana.', 'admin-page-framework-demo' ),
+                    'c' => __( 'This is a cherry.', 'admin-page-framework-demo' ),
+                ),
+                'label'         => array(
+                    'a' => __( 'Apple', 'admin-page-framework-demo' ),
+                    'b' => __( 'Banana', 'admin-page-framework-demo' ),
+                    'c' => __( 'Cherry', 'admin-page-framework-demo' ),
+                ),
+            ),            
             array( // Repeatable Text Areas
                 'field_id'      => 'textarea_repeatable',
                 'title'         => __( 'Repeatable', 'admin-page-framework-demo' ),

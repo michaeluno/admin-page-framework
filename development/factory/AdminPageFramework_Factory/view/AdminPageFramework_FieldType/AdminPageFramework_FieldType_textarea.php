@@ -479,22 +479,75 @@ CSSRULES;
      */
     protected function getField( $aField ) {
 
-        return 
-            "<div class='admin-page-framework-input-label-container'>"
-                . "<label for='{$aField['input_id']}'>"
-                    . $aField['before_input']
-                    . ( $aField['label'] && ! $aField['repeatable']
-                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
-                        : "" 
-                    )
-                    . $this->_getEditor( $aField )
-                    . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.                                                       
-                    . $aField['after_input']
-                . "</label>"
-            . "</div>"
-        ;
+        $_aOutput = array();
+        foreach( ( array ) $aField[ 'label' ] as $_sKey => $_sLabel ) {
+            $_aOutput[] = $this->_getFieldOutputByLabel( 
+                $_sKey, 
+                $_sLabel, 
+                $aField
+            );
+        }
+        
+        // the repeatable field buttons will be replaced with this element.
+        $_aOutput[] = "<div class='repeatable-field-buttons'></div>";
+        return implode( '', $_aOutput );
+
+        // return 
+            // "<div class='admin-page-framework-input-label-container'>"
+                // . "<label for='{$aField['input_id']}'>"
+                    // . $aField['before_input']
+                    // . ( $aField['label'] && ! $aField['repeatable']
+                        // ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
+                        // : "" 
+                    // )
+                    // . $this->_getEditor( $aField )
+                    // . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.                                                       
+                    // . $aField['after_input']
+                // . "</label>"
+            // . "</div>"
+        // ;
         
     }
+        /**
+         * 
+         * @since       3.5.8
+         */
+        private function _getFieldOutputByLabel( $sKey, $sLabel, $aField ) {
+
+            $_bIsArray          = is_array( $aField[ 'label' ] );
+            $_sClassSelector    = $_bIsArray
+                ? 'admin-page-framework-field-textarea-multiple-labels'
+                : '';
+            $_sLabel                = $this->getElementByLabel( $aField[ 'label' ], $sKey, $_bIsArray );
+            $aField[ 'value' ]      = $this->getElementByLabel( $aField[ 'value' ], $sKey, $_bIsArray );
+            $aField[ 'rich' ]       = $this->getElementByLabel( $aField[ 'rich' ], $sKey, $_bIsArray );
+            $aField[ 'attributes' ] = $_bIsArray
+                ? array(
+                        'name'  => $aField[ 'attributes' ][ 'name' ] . "[{$sKey}]",
+                        'id'    => $aField[ 'attributes' ][ 'id' ] . "_{$sKey}",
+                        'value' => $aField[ 'value' ],
+                    ) 
+                    + $aField[ 'attributes' ]
+                : $aField[ 'attributes' ];
+            $_aOutput           = array(
+                $this->getElementByLabel( $aField['before_label'], $sKey, $_bIsArray ),
+                "<div class='admin-page-framework-input-label-container {$_sClassSelector}'>",
+                    "<label for='" . $aField[ 'attributes' ][ 'id' ] . "'>",
+                        $this->getElementByLabel( $aField['before_input'], $sKey, $_bIsArray ),
+                        $_sLabel 
+                            ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" 
+                                    . $_sLabel
+                                . "</span>"
+                            : '',
+                        $this->_getEditor( $aField ),
+                        $this->getElementByLabel( $aField['after_input'], $sKey, $_bIsArray ),
+                    "</label>",
+                "</div>",
+                $this->getElementByLabel( $aField['after_label'], $sKey, $_bIsArray ),
+            );
+            return implode( '', $_aOutput );
+  
+        }       
     
         /**
          * Returns the output of the editor.
@@ -506,7 +559,7 @@ CSSRULES;
             unset( $aField['attributes']['value'] );
             
             // For no TinyMCE
-            if ( empty( $aField['rich'] ) || ! version_compare( $GLOBALS['wp_version'], '3.3', '>=' ) || ! function_exists( 'wp_editor' ) ) {
+            if ( empty( $aField['rich'] ) || ! $this->isTinyMCESupported() ) {
                 return "<textarea " . $this->generateAttributes( $aField['attributes'] ) . " >" // this method is defined in the base class
                             . esc_textarea( $aField['value'] )
                         . "</textarea>";
