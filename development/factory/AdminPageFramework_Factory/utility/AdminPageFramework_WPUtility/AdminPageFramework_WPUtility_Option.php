@@ -148,7 +148,9 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
             if ( ! isset( $asKey ) ) {
                 return $sFunctionName( 
                     $sOptionKey,
-                    isset( $vDefault ) ? $vDefault : array()
+                    isset( $vDefault ) 
+                        ? $vDefault 
+                        : array()
                 );
             }
             
@@ -157,12 +159,18 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
                 
                 // subject array
                 self::uniteArrays( 
-                    self::getAsArray( $sFunctionName( $sOptionKey, array() ), true ),
+                    self::getAsArray( 
+                        $sFunctionName( $sOptionKey, array() ), // options data
+                        true        // preserve empty
+                    ),
                     $aAdditionalOptions 
                 ), 
                 
                 // dimensional keys
-                self::getAsArray( $asKey, true ), 
+                self::getAsArray( 
+                    $asKey, 
+                    true        // preserve empty. e.g. '0' -> array( 0 )
+                ), 
                 
                 // default
                 $vDefault

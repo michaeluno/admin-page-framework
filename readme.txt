@@ -376,6 +376,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.8 - 2015/05/22 =
+- Added the ability for the `getValue()` method to set a default value with the second parameter when the first parameter is an array.
 - Added the ability for the `text` and `textarea` field types to create sub-input elements by passing an array to the `label` argument.
 - Added the `width` argument for the `taxonomy` field type.
 - Fixed a bug that the `name` attribute value was not set in post meta box fieds in `post-new.php`.

@@ -290,15 +290,20 @@ abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_For
      * @since       3.5.3       When a parameter is not set, it returns the entire options.
      * @param       The key that points the dimensional array key of the options array.
      */
-    public function getValue( /* $sDimensionalKey1, $sDimensionalKey2 ... */ ) {
+    public function getValue( /* $sDimensionalKey1, $sDimensionalKey2 ... or $aDimensionalKeys, $mDefault */ ) {
         
-        $_aDimensionalKeys   = func_get_args();        
+        $_aDimensionalKeys   = func_get_args() + array( null, null );
+        $_mDefault           = null;
+        if ( is_array( $_aDimensionalKeys[ 0 ] ) ) {
+            $_mDefault         = $_aDimensionalKeys[ 1 ];
+            $_aDimensionalKeys = $_aDimensionalKeys[ 0 ];
+        }
         return AdminPageFramework_WPUtility::getOption( 
             $this->oProp->sOptionKey, 
             empty( $_aDimensionalKeys ) 
                 ? null                  // will return the entire options array
                 : $_aDimensionalKeys,   // dimensional keys
-            null, // default
+            $_mDefault, // default
             $this->getSavedOptions() + $this->oProp->getDefaultOptions( $this->oForm->aFields ) // additional array to merge with the options
         );
         

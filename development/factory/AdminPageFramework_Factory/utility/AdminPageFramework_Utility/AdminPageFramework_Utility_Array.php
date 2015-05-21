@@ -416,7 +416,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * @since       3.0.1
      * @since       3.5.3       Added the `$bPreserveEmpty` parameter.
      * @param       mixed       $mValue             The subject value.
-     * @param       boolean     bPreserveEmpty      If `false` is given, `false`, empty sttring ( `''` ), `0` will not create an element.
+     * @param       boolean     bPreserveEmpty      If `false` is given, a value that yields `false` such as `false`, an empty sttring `''`, or `0` will not create an element such as `array( false )`. It will be just `array()`.
      * @return      array       The cast array.
      */
     static public function getAsArray( $mValue, $bPreserveEmpty=false ) {
