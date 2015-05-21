@@ -103,16 +103,16 @@ class APF_Demo_BuiltinFieldTypes_MISC {
         $oAdminPage->addSettingFields(
             'color_picker', // the target section ID.
             array( // Color Picker
-                'field_id' => 'color_picker_field',
-                'title' => __( 'Color Picker', 'admin-page-framework-demo' ),
-                'type' => 'color',
+                'field_id'      => 'color_picker_field',
+                'title'         => __( 'Color Picker', 'admin-page-framework-demo' ),
+                'type'          => 'color',
             ),     
             array( // Multiple Color Pickers
-                'field_id' => 'multiple_color_picker_field',
-                'title' => __( 'Multiple', 'admin-page-framework-demo' ),
-                'type' => 'color',
-                'label' => __( 'First', 'admin-page-framework-demo' ),
-                'delimiter' => '<br />',
+                'field_id'      => 'multiple_color_picker_field',
+                'title'         => __( 'Multiple', 'admin-page-framework-demo' ),
+                'type'          => 'color',
+                'label'         => __( 'First', 'admin-page-framework-demo' ),
+                'delimiter'     => '<br />',
                 array(
                     'label' => __( 'Second', 'admin-page-framework-demo' ),
                 ),
@@ -121,19 +121,18 @@ class APF_Demo_BuiltinFieldTypes_MISC {
                 ),     
             ),     
             array( // Repeatable Color Pickers
-                'field_id' => 'color_picker_repeatable_field',
-                'title' => __( 'Repeatable', 'admin-page-framework-demo' ),
-                'type' => 'color',
-                'repeatable' =>    true,
+                'field_id'      => 'color_picker_repeatable_field',
+                'title'         => __( 'Repeatable', 'admin-page-framework-demo' ),
+                'type'          => 'color',
+                'repeatable'    => true,
             ),
             array( // Repeatable Color Pickers
-                'field_id'  => 'color_picker_sortable',
-                'title'     => __( 'Sortable', 'admin-page-framework-demo' ),
-                'type'      => 'color',
-                'sortable'  => true,
+                'field_id'      => 'color_picker_sortable',
+                'title'         => __( 'Sortable', 'admin-page-framework-demo' ),
+                'type'          => 'color',
+                'sortable'      => true,
                 array(),    // the second item
                 array(),    // the third item
-                
             )            
         );
         $oAdminPage->addSettingFields(
@@ -150,22 +149,30 @@ class APF_Demo_BuiltinFieldTypes_MISC {
                 'field_id'      => 'hidden_repeatable',
                 'title'         => __( 'Repeatable', 'admin-page-framework-demo' ),
                 'type'          => 'hidden',
-                'value'         => 'HIIDENVALUE',
+                'value'         => 'HIIDDENVALUE',
                 'label'         => __( 'Repeat Me', 'admin-page-framework-demo' ),
-                'repeatable'    =>    true,
+                'repeatable'    => true,
             ),     
             array( // Multiple Hidden Fields
                 'field_id'      => 'hidden_miltiple',
                 'title'         => __( 'Multiple', 'admin-page-framework-demo' ),
                 'type'          => 'hidden',
-                'label'         => __( 'First Item', 'admin-page-framework-demo' ),
+                'label'         => $this->_getLabelByValue(
+                    $oAdminPage->getValue( array( 'hidden_field', 'hidden_miltiple', 0 ), 'a' )
+                ), // __( 'First Item', 'admin-page-framework-demo' ),
                 'default'       => 'a',
                 array(
-                    'label'     => __( 'Second Item', 'admin-page-framework-demo' ),
+                    // 'label'     => __( 'Second Item', 'admin-page-framework-demo' ),
+                    'label'     => $this->_getLabelByValue(
+                        $oAdminPage->getValue( array( 'hidden_field', 'hidden_miltiple', 1 ), 'b' )
+                    ),
                     'default'   => 'b',
                 ),
                 array(
-                    'label'     => __( 'Third Item', 'admin-page-framework-demo' ),
+                    // 'label'     => __( 'Third Item', 'admin-page-framework-demo' ),
+                    'label'     => $this->_getLabelByValue(
+                        $oAdminPage->getValue( array( 'hidden_field', 'hidden_miltiple', 2 ), 'c' )
+                    ),                    
                     'default'   => 'c',
                 ),
                 'sortable'      => true,
@@ -303,5 +310,21 @@ class APF_Demo_BuiltinFieldTypes_MISC {
         );    
 
     }
+        /**
+         * 
+         * @return      string
+         */
+        private function _getLabelByValue( $sValue ) {
+            switch( $sValue ) {
+                case 'a':
+                    return 'Apple';
+                case 'b':    
+                    return 'Banana';
+                case 'c':    
+                    return 'Cherry';
+                default:
+                    return $sValue;
+            }
+        }
     
 }
