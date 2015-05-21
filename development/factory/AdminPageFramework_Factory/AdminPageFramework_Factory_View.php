@@ -27,6 +27,11 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         
         parent::__construct( $oProp );
 
+        // 3.5.7+ Form field element output callbacks. 
+        // 3.5.8+ Move to above the `isInThePage()` check 
+        // since meta boxes cannot detect the current post type if it loaded too early.
+        $this->oProp->aFieldCallbacks = $this->_getFormFieldElementCallbacks();        
+        
         if ( ! $this->_isInThePage() ) {
             return;
         }
@@ -41,9 +46,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
             add_action( 'admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
         }     
         
-        // [3.5.7+] Form field element output callbacks. 
-        $this->oProp->aFieldCallbacks = $this->_getFormFieldElementCallbacks();
-        
+            
     }     
 
         /**
@@ -68,26 +71,18 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          * @since       3.5.7
          * @return      string      the input id attribute
          */    
-        public function _replyToGetInputID() {
-            $_aParams           = func_get_args() + array( null, null, null, null );
-            $sInputIDAttribute  = $_aParams[ 0 ];
-            // $aField             = $_aParams[ 1 ];
-            // $sKey               = $_aParams[ 2 ];
-            // $sSectionIndex      = $_aParams[ 3 ];
-            return $sInputIDAttribute;        
+        public function _replyToGetInputID( /* $sInputIDAttribute, $aField, $sKey, $iSectionIndex */ ) {
+            $_aParams = func_get_args() + array( null, null, null, null );
+            return $_aParams[ 0 ];
         }
         /**
          * @internal    
          * @since       3.5.7
          * @return      string      the fields & fieldset & field row container id attribute
          */    
-        public function _replyToGetInputTagIDAttribute() {
-            $_aParams           = func_get_args() + array( null, null, null, null );
-            $sTagIDAttribute    = $_aParams[ 0 ];
-            // $aField             = $_aParams[ 1 ];
-            // $sKey               = $_aParams[ 2 ];
-            // $sSectionIndex      = $_aParams[ 3 ];
-            return $sTagIDAttribute;    
+        public function _replyToGetInputTagIDAttribute( /* $sTagIDAttribute, $aFiel, $sKey, $iSectionIndex */ ) {
+            $_aParams = func_get_args() + array( null, null, null, null );
+            return $_aParams[ 0 ];
         }
 
         /**
@@ -97,9 +92,8 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          * @return      string      the input name attribute
          */    
         public function _replyToGetInputNameAttribute( /* $sNameAttribute, $aField, $sKey */ ) {
-            $_aParams           = func_get_args() + array( null, null, null );
-            $sNameAttribute     = $_aParams[ 0 ];
-            return $sNameAttribute;    
+            $_aParams = func_get_args() + array( null, null, null );
+            return $_aParams[ 0 ];
         }
         
         /**
@@ -109,9 +103,8 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          * @return      string      the flat input name attribute
          */    
         public function _replyToGetFlatInputName( /* $sFlatNameAttribute, $aField, $sKey */ ) {
-            $_aParams   = func_get_args() + array( null, null, null, null );
-            $sFlatName  = $_aParams[ 0 ];
-            return $sFlatName; 
+            $_aParams   = func_get_args() + array( null, null, null );
+            return $_aParams[ 0 ];
         }
 
         /**
@@ -120,15 +113,11 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          * @since       3.5.7
          * @return      string      the input class attribute.
          */
-        public function _replyToGetInputClassAttribute() {
-            $_aParams           = func_get_args() + array( null, null, null, null );
-            $sClassAttribute    = $_aParams[ 0 ];
-            // $aField             = $_aParams[ 1 ];
-            // $sKey               = $_aParams[ 2 ];
-            // $sSectionIndex      = $_aParams[ 3 ];
-            return $sClassAttribute;    
+        public function _replyToGetInputClassAttribute( /* $sClsssAttribute, $aField, $sKey, $iSectionIndex */ ) {
+            $_aParams = func_get_args() + array( null, null, null, null );
+            return $_aParams[ 0 ];
         }
-        
+            
     /**
      * Checks whether a section is set.
      * @internal
@@ -246,7 +235,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
             $this->oMsg,                            // the system message object
             $this->oProp->aFieldCallbacks           // field output element callables.
         );
-
+AdminPageFramework_Debug::log( $this->oProp->aFieldCallbacks[ 'hfName' ] );
         $_sOutput = $this->oUtil->addAndApplyFilters(
             $this,
             array( 'field_' . $this->oProp->sClassName . '_' . $aField['field_id'] ), // field_ + {extended class name} + _ {field id}

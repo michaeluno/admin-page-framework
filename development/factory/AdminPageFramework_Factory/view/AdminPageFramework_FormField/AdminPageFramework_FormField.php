@@ -60,7 +60,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_FieldDef
         );
 
         return ! is_callable( $hfFilterCallback )
-            ? ''
+            ? $_sNameAttribute
             : call_user_func_array( 
                 $hfFilterCallback, 
                 array( 
@@ -104,7 +104,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_FieldDef
         );
 
         return ! is_callable( $hfFilterCallback )
-            ? ''
+            ? $_sFlatName
             : call_user_func_array( 
                 $hfFilterCallback, 
                 array( 
