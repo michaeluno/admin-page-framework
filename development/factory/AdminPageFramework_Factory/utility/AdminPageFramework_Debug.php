@@ -273,8 +273,10 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
                     : get_object_vars( $_vValue );  // convert it to array.
             }
             if ( is_array( $_vValue ) ) {
+                $_iDepth = $iDepth;
                 if ( $iDepth > 0 ) {
                     $aSubject[ $_sKey ] = self::getSliceByDepth( $_vValue, --$iDepth );
+                    $iDepth = $_iDepth;
                     continue;
                 } 
                 unset( $aSubject[ $_sKey ] );
