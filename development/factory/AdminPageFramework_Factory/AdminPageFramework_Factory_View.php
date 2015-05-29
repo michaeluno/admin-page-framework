@@ -235,7 +235,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
             $this->oMsg,                            // the system message object
             $this->oProp->aFieldCallbacks           // field output element callables.
         );
-AdminPageFramework_Debug::log( $this->oProp->aFieldCallbacks[ 'hfName' ] );
+
         $_sOutput = $this->oUtil->addAndApplyFilters(
             $this,
             array( 'field_' . $this->oProp->sClassName . '_' . $aField['field_id'] ), // field_ + {extended class name} + _ {field id}
