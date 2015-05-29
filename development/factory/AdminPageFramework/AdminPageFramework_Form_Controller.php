@@ -292,7 +292,8 @@ abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_For
      */
     public function getValue( /* $sDimensionalKey1, $sDimensionalKey2 ... or $aDimensionalKeys, $mDefault */ ) {
         
-        $_aDimensionalKeys   = func_get_args() + array( null, null );
+        $_aParams            = func_get_args();
+        $_aDimensionalKeys   = $_aParams + array( null, null );
         $_mDefault           = null;
         if ( is_array( $_aDimensionalKeys[ 0 ] ) ) {
             $_mDefault         = $_aDimensionalKeys[ 1 ];
@@ -300,7 +301,7 @@ abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_For
         }
         return AdminPageFramework_WPUtility::getOption( 
             $this->oProp->sOptionKey, 
-            empty( $_aDimensionalKeys ) 
+            empty( $_aParams ) 
                 ? null                  // will return the entire options array
                 : $_aDimensionalKeys,   // dimensional keys
             $_mDefault, // default

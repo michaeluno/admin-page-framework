@@ -143,7 +143,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
          * @return      mixed
          */
         static private function _getOptionByFunctionName( $sOptionKey, $asKey=null, $vDefault=null, array $aAdditionalOptions=array(), $sFunctionName='get_option' ) {
-            
+
             // Entire options
             if ( ! isset( $asKey ) ) {
                 return $sFunctionName( 
