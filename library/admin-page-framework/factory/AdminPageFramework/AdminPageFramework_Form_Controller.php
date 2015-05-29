@@ -50,13 +50,14 @@ abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_For
         }
     }
     public function getValue() {
-        $_aDimensionalKeys = func_get_args() + array(null, null);
+        $_aParams = func_get_args();
+        $_aDimensionalKeys = $_aParams + array(null, null);
         $_mDefault = null;
         if (is_array($_aDimensionalKeys[0])) {
             $_mDefault = $_aDimensionalKeys[1];
             $_aDimensionalKeys = $_aDimensionalKeys[0];
         }
-        return AdminPageFramework_WPUtility::getOption($this->oProp->sOptionKey, empty($_aDimensionalKeys) ? null : $_aDimensionalKeys, $_mDefault, $this->getSavedOptions() + $this->oProp->getDefaultOptions($this->oForm->aFields));
+        return AdminPageFramework_WPUtility::getOption($this->oProp->sOptionKey, empty($_aParams) ? null : $_aDimensionalKeys, $_mDefault, $this->getSavedOptions() + $this->oProp->getDefaultOptions($this->oForm->aFields));
     }
     public function getFieldValue($sFieldID, $sSectionID = '') {
         trigger_error('Admin Page Framework: ' . ' : ' . sprintf(__('The method is deprecated: %1$s. Use %2$s instead.', $this->oProp->sTextDomain), __METHOD__, 'getValue()'), E_USER_WARNING);
