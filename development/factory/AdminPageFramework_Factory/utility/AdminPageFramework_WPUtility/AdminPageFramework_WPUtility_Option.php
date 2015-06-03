@@ -197,12 +197,18 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
 
             // Entire options
             if ( ! isset( $asKey ) ) {
-                return $sFunctionName( 
+                $_aOptions = $sFunctionName( 
                     $sOptionKey,
                     isset( $vDefault ) 
                         ? $vDefault 
                         : array()
-                );
+                );;
+                return empty( $aAdditionalOptions ) 
+                    ? $_aOptions
+                    : self::uniteArrays(
+                        $_aOptions,
+                        $aAdditionalOptions
+                    );
             }
             
             // Now either the section ID or field ID is given. 
