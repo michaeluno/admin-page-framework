@@ -601,10 +601,12 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         );    
         $_sFileNameWOExtension = trim( $_sFileNameWOExtension );
         return $this->oFactory->oUtil->getAOrB(
-            $_sFileNameWOExtension,
-            $_sFileNameWOExtension . '-admin-page-framework.zip',
-            'admin-page-framework.zip'
-        );            
+                $_sFileNameWOExtension,
+                $_sFileNameWOExtension . '-admin-page-framework',
+                'admin-page-framework'
+            )
+            . '.' . AdminPageFramework_Registry::VERSION
+            . '.zip';
         
     }
     
