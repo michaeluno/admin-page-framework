@@ -65,18 +65,18 @@ abstract class AdminPageFramework_Form_Model_Validation_Opiton extends AdminPage
         $_aInput = $this->_getValidatedData(
             "validation_{$this->oProp->sClassName}", 
             call_user_func_array( 
-                array( $this, 'validate' ),     // triggers __call()
+                array( $this, 'validate' ), // triggers __call()
                 array( $_aData['aInput'], $_aData['aStoredData'], $this, $_aData['aSubmitInformation'] )
             ),    // 3.5.3+
             $_aData['aStoredData'],
-            $_aData['aSubmitInformation']   // 3.5.0+
+            $_aData['aSubmitInformation'] // 3.5.0+
         );
         // Make sure it is an array as the value is modified through filters.
         $_aInput = $this->oUtil->getAsArray( $_aInput );
 
         $_bHasFieldErrors = $this->hasFieldError();
         
-        // If everything fine, reutrn the filtered input data. 
+        // If everything fine, return the filtered input data. 
         if ( ! $_bHasFieldErrors ) {
             return $_aInput;
         }
