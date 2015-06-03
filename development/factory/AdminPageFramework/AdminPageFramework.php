@@ -38,7 +38,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
      * [3.5.9+] If an integer is given, a transient will be used. If an array of option key arguments is given, the argument values will be set to the framework properties.
      * - type - either `options_table` or `transient`.
      * - key - the option key or the transient key
-     * - transient_duration  - when the option type is transient, this value will be used for the time span to store the value in the database.
+     * - duration  - when the option type is transient, this value will be used for the time span to store the value in the database.
      * `
      * array(
      *      'type' => 'options_table',
@@ -49,7 +49,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
      * array(
      *      'type' => 'transient',
      *      'key' => $sTransientKeyDefinedSomewhereInYourProgram,
-     *      'transient_duration' => 60*60*24*2  // two days
+     *      'duration' => 60*60*24*2  // two days
      * )
      * `
      * @param       string                  $sCallerPath    (optional) used to retrieve the plugin/theme details to auto-insert the information into the page footer.

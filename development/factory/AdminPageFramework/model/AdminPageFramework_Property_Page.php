@@ -327,14 +327,14 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
                     $aisOptionKey,
                     $sClassName
                 ),
-                'transient_duration' => is_integer( $aisOptionKey )
+                'duration' => is_integer( $aisOptionKey )
                     ? $aisOptionKey
                     : 0
             );
             
             $this->sOptionKey               = $_aArguments[ 'key' ];
             $this->sOptionType              = $_aArguments[ 'type' ];
-            $this->iOptionTransientDuration = $_aArguments[ 'transient_duration' ];
+            $this->iOptionTransientDuration = $_aArguments[ 'duration' ];
             $this->_bDisableSavingOptions   = '' === $aisOptionKey;
         
         }    
