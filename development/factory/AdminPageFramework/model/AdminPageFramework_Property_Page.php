@@ -133,8 +133,14 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      */             
     public $aPluginTitleLinks = array();     
             
-    // Settings API
-    // public $aOptions; // Stores the framework's options. Do not even declare the property here because the __get() magic method needs to be triggered when it accessed for the first time.
+    /**
+     * Stores the framework's options. 
+     * 
+     * Do not even declare the property here 
+     * because the __get() magic method needs to be triggered 
+     * when it accessed for the first time.
+     */
+    // public $aOptions; 
 
     /**
      * The instantiated class name will be assigned in the constructor if the first parameter is not set.
@@ -252,6 +258,20 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * @since       3.5.0
      */ 
     public $sWrapperClassAttribute = 'wrap';
+    
+    /**
+     * Stores the type of the form data.
+     * 
+     * @remark      Currently only accepts 'options_table' or 'transient'
+     * @since       3.5.9
+     */ 
+    public $sOptionType = 'options_table';
+     
+    /**
+     * Stores the cache lifetime of the transient used for the form options when the user passes an integer to the option key parameter.
+     * @since       3.5.9
+     */
+    public $iOptionTransientDuration  = 0;
      
     /**
      * Constructs the instance of AdminPageFramework_Property_Page class object.
@@ -259,16 +279,25 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * @remark      Used by the setInPageTabsVisibility() method.
      * @since       2.0.0
      * @since       2.1.5   The $oCaller parameter was added.
-     * @return      void
      */ 
-    public function __construct( $oCaller, $sCallerPath, $sClassName, $sOptionKey, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
+    public function __construct( $oCaller, $sCallerPath, $sClassName, $aisOptionKey, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
         
-        parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $this->sFieldsType );
+        parent::__construct( 
+            $oCaller, 
+            $sCallerPath, 
+            $sClassName, 
+            $sCapability, 
+            $sTextDomain, 
+            $this->sFieldsType 
+        );
         
-        $this->sTargetFormPage          = $_SERVER['REQUEST_URI'];
-        $this->sOptionKey               = $sOptionKey ? $sOptionKey : $sClassName;
-        $this->_bDisableSavingOptions   = '' === $sOptionKey ? true : false;
-
+        $this->sTargetFormPage = $_SERVER[ 'REQUEST_URI' ];
+        
+        $this->_setOptionsProperties( 
+            $aisOptionKey, 
+            $sClassName 
+        );
+                
         /* Store the page class objects in the global storage. These will be referred by the meta box class to determine if the passed page slug's screen ID (hook suffix). */
         $GLOBALS['aAdminPageFramework']['aPageClasses'] = isset( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) && is_array( $GLOBALS['aAdminPageFramework']['aPageClasses'] )
             ? $GLOBALS['aAdminPageFramework']['aPageClasses']
@@ -280,7 +309,69 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
         add_filter( "option_page_capability_{$this->sOptionKey}", array( $this, '_replyToGetCapability' ) );
         
     }
-    
+        /**
+         * Sets up the properties of options.
+         * @since       3.5.9
+         * @return      void
+         */
+        private function _setOptionsProperties( $aisOptionKey, $sClassName ) {            
+                        
+            $_aArguments = is_array( $aisOptionKey ) 
+                ? $aisOptionKey
+                : array();
+            $_aArguments = $_aArguments + array(
+                'type' => $this->_getOptionType( 
+                    $aisOptionKey 
+                ),
+                'key' => $this->_getOptionKey( 
+                    $aisOptionKey,
+                    $sClassName
+                ),
+                'transient_duration' => is_integer( $aisOptionKey )
+                    ? $aisOptionKey
+                    : 0
+            );
+            
+            $this->sOptionKey               = $_aArguments[ 'key' ];
+            $this->sOptionType              = $_aArguments[ 'type' ];
+            $this->iOptionTransientDuration = $_aArguments[ 'transient_duration' ];
+            $this->_bDisableSavingOptions   = '' === $aisOptionKey;
+        
+        }    
+            /**
+             * Returns a key used for the options table.
+             * @since       3.5.9
+             * @return      string
+             */
+            private function _getOptionKey( $aisOptionKey, $sClassName ) {
+                
+                $_sType = gettype( $aisOptionKey );
+                if ( in_array( $_sType, array( 'NULL', 'string' ) ) ) {
+                    return $aisOptionKey
+                        ? $aisOptionKey
+                        : $sClassName;
+                }
+                // The user want to save options in a transient.
+                if ( in_array( $_sType, array( 'integer' ) ) ) {
+                    return 'apf_' . $sClassName . '_' . get_current_user_id();
+                }
+                
+                // Unknown type - maybe the user is trying to do something advanced.
+                return $aisOptionKey;
+                
+            }
+            /**
+             * Returns a form data type from the given option key.
+             * 
+             * @since       3.5.9
+             * @return      string      Currently only 'transient' or 'options_table' is supported.
+             */
+            private function _getOptionType( $aisOptionKey ) {
+                return is_integer( $aisOptionKey )
+                    ? 'transient'
+                    : 'options_table';
+            }
+            
         /**
          * Checks whether the currently loading page is in one of the pages to which the framework can add pages.
          * 
@@ -306,20 +397,48 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      */
     protected function _getOptions() {
     
-        $_aOptions = $this->oUtil->addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
+        $_aOptions = $this->oUtil->addAndApplyFilter( 
             $this->oCaller, // 3.4.1+ changed from $GLOBALS['aAdminPageFramework']['aPageClasses'][ $this->sClassName ], // the caller object
             'options_' . $this->sClassName, // options_{instantiated class name}
-            $this->sOptionKey ? get_option( $this->sOptionKey, array() ) : array()
+            $this->_getOptionsByType( $this->sOptionType ) // filtering item
         );
+
 // @todo examine whether it is appropriate to merge with $_aLastInput or it should be done in the getSavedOptions() factory method.
 // It seems it is better to merge the last input array here because this method is only called once when the aOptions property is first accessed
 // while getSavedOptions() method is called every time a field is processed for outputs.
 // However, in getSavedOptions, also the last input array is merged when the 'confirmation' query key is set,
 // that should be done here.
-        $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] ? $this->_getLastInput() : array();
+        $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] 
+            ? $this->_getLastInput() 
+            : array();
         $_aOptions   = $_aLastInput + $this->oUtil->getAsArray( $_aOptions );
         return $_aOptions;
     }
+        /**
+         * Returns options data by a given type.
+         * @return      array       The retrieved options array.
+         */ 
+        private function _getOptionsByType( $sOptionType ) {
+            switch ( $sOptionType ) {
+                default:
+                case 'options_table':
+                    return $this->sOptionKey 
+                        ? $this->oUtil->getAsArray( 
+                            get_option( 
+                                $this->sOptionKey, // option key
+                                array() // default
+                            ) 
+                        )
+                        : array();                       
+                case 'transient':
+                    return $this->oUtil->getAsArray(
+                        $this->oUtil->getTransient( 
+                            $this->sOptionKey,  // transient key
+                            array() // default
+                        )
+                    );
+            }
+        }
         
     /*
      * Magic methods
@@ -351,17 +470,38 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
     public function updateOption( $aOptions=null ) {
 
         if ( $this->_bDisableSavingOptions ) {
-            return;
+            return false;
         }
-    
-        return update_option( 
-            $this->sOptionKey, 
+        return $this->_updateOptionsByType( 
             null !== $aOptions
                 ? $aOptions 
-                : $this->aOptions 
+                : $this->aOptions,
+            $this->sOptionType
         );
-        
+                
     }
+        /**
+         * 
+         * @since       3.5.9
+         * @return      boolean     True if saved; otherwise, false.
+         */
+        private function _updateOptionsByType( $aOptions, $sOptionType ) {
+            switch ( $sOptionType ) {
+                default:
+                case 'options_table':
+                    return update_option( 
+                        $this->sOptionKey, 
+                        $aOptions
+                    );
+                case 'transient':
+                    return $this->oUtil->setTransient( 
+                        $this->sOptionKey,  // transient key
+                        $aOptions,
+                        $this->iOptionTransientDuration
+                    );
+            }            
+            
+        }
     
     
     /**

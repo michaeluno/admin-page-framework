@@ -34,19 +34,36 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
      * @since       2.0.0
      * @see         http://codex.wordpress.org/Roles_and_Capabilities
      * @see         http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains
-     * @param       string      $sOptionKey         (optional) specifies the option key name to store in the options table. If this is not set, the instantiated class name will be used.
-     * @param       string      $sCallerPath        (optional) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
-     * @param       string      $sCapability        (optional) sets the overall access level to the admin pages created by the framework. The used capabilities are listed <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. The capability can be set per page, tab, setting section, setting field. Default: `manage_options`
-     * @param       string      $sTextDomain        (optional) the <a href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains" target="_blank">text domain</a> used for the framework's system messages. Default: admin-page-framework.
+     * @param       array|integer|string    $aisOptionKey    (optional) specifies the option key name to store in the options table. If this is not set, the instantiated class name will be used as default. 
+     * [3.5.9+] If an integer is given, a transient will be used. If an array of option key arguments is given, the argument values will be set to the framework properties.
+     * - type - either `options_table` or `transient`.
+     * - key - the option key or the transient key
+     * - transient_duration  - when the option type is transient, this value will be used for the time span to store the value in the database.
+     * `
+     * array(
+     *      'type' => 'options_table',
+     *      'key'  => 'my_admin_options',
+     * )
+     * `
+     * `
+     * array(
+     *      'type' => 'transient',
+     *      'key' => $sTransientKeyDefinedSomewhereInYourProgram,
+     *      'transient_duration' => 60*60*24*2  // two days
+     * )
+     * `
+     * @param       string                  $sCallerPath    (optional) used to retrieve the plugin/theme details to auto-insert the information into the page footer.
+     * @param       string                  $sCapability    (optional) sets the overall access level to the admin pages created by the framework. The used capabilities are listed <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. The capability can be set per page, tab, setting section, setting field. Default: `manage_options`
+     * @param       string                  $sTextDomain    (optional) the <a href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains" target="_blank">text domain</a> used for the framework's system messages. Default: admin-page-framework.
      */
-    public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ){
+    public function __construct( $isOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ){
                         
         if ( ! $this->_isInstantiatable() ) {
             return;
         }
                         
         parent::__construct( 
-            $sOptionKey, 
+            $isOptionKey, 
             $sCallerPath 
                 ? trim( $sCallerPath )
                 : $sCallerPath = ( is_admin() && ( isset( $GLOBALS['pagenow'] ) && in_array( $GLOBALS['pagenow'], array( 'plugins.php', ) ) || isset( $_GET['page'] ) ) 
@@ -57,7 +74,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
             $sTextDomain 
         );
         
-        $this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName, $this );    
+        $this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName, $this );
 
     }    
         
