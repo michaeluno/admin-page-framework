@@ -30,7 +30,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
      * @since 3.1.3
      */
     static public function deleteTransient( $sTransientKey ) {
-
+    
         // temporarily disable $_wp_using_ext_object_cache
         global $_wp_using_ext_object_cache;  
         $_bWpUsingExtObjectCacheTemp    = $_wp_using_ext_object_cache; 
@@ -40,6 +40,14 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
             ? self::$_bIsNetworkAdmin 
             : is_network_admin();
 
+        $sTransientKey = self::_getCompatibleTransientKey(  
+            $sTransientKey,
+            // @todo it is said as of WordPess 4.3, it will be 255 since the database table column type becomes VARCHAR(255).
+            self::$_bIsNetworkAdmin 
+                ? 40
+                : 45
+        );
+            
         $_vTransient = self::$_bIsNetworkAdmin 
             ? delete_site_transient( $sTransientKey ) 
             : delete_transient( $sTransientKey );
@@ -66,6 +74,14 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
             ? self::$_bIsNetworkAdmin 
             : is_network_admin();
 
+        $sTransientKey = self::_getCompatibleTransientKey(  
+            $sTransientKey,
+            // @todo it is said as of WordPess 4.3, it will be 255 since the database table column type becomes VARCHAR(255).
+            self::$_bIsNetworkAdmin 
+                ? 40
+                : 45
+        ); 
+        
         $_vTransient = self::$_bIsNetworkAdmin 
             ? get_site_transient( $sTransientKey ) 
             : get_transient( $sTransientKey );    
@@ -97,6 +113,14 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) 
             ? self::$_bIsNetworkAdmin
             : is_network_admin();
+
+        $sTransientKey = self::_getCompatibleTransientKey(  
+            $sTransientKey,
+            // @todo it is said as of WordPess 4.3, it will be 255 since the database table column type becomes VARCHAR(255).
+            self::$_bIsNetworkAdmin 
+                ? 40
+                : 45
+        );  
         
         $_bIsSet = self::$_bIsNetworkAdmin 
             ? set_site_transient( $sTransientKey, $vValue, $iExpiration ) 
@@ -107,6 +131,33 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
 
         return $_bIsSet;     
     }
+        /**
+         * Returns a compatible transient key when it is too long.
+         * 
+         * @since       3.5.9
+         * @see         https://codex.wordpress.org/Function_Reference/set_transient
+         * @param       string      $sSubject                       The subject string to format.
+         * @param       integer     $iAllowedCharacterLength        The allowed character length for the transient key: 40 for network and 45 for regular sites.
+         * The method will replace last ending 33 characters if the given string in the first parameter exceeds the limit. So this number must be greater than 33.
+         * @return      string
+         */
+        static public function _getCompatibleTransientKey( $sSubject, $iAllowedCharacterLength=45 ) {
+            
+            // Check if the given string eceees the length limit.
+            if ( strlen( $sSubject ) <= $iAllowedCharacterLength ) {
+                return $sSubject;
+            }
+            
+            // Otherwise, a too long option key is given. 
+            $_iPrefixLengthToKeep = $iAllowedCharacterLength - 33; //  _ + {md5 32 characters}
+            $_sPrefixToKeep       = substr( 
+                $sSubject, 
+                0, // start position
+                $_iPrefixLengthToKeep - 1 // how many characters to extract
+            );
+            return $_sPrefixToKeep . '_' . md5( $sSubject );
+         
+        }    
     
     /**
      * Retrieves the saved option value from the given option key, field ID, and section ID.
