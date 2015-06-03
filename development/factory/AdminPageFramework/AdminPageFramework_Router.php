@@ -32,7 +32,14 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         // Objects
         $this->oProp = isset( $this->oProp ) 
             ? $this->oProp // for the AdminPageFramework_NetworkAdmin class
-            : new AdminPageFramework_Property_Page( $this, $sCallerPath, get_class( $this ), $sOptionKey, $sCapability, $sTextDomain );
+            : new AdminPageFramework_Property_Page( 
+                $this, 
+                $sCallerPath, 
+                get_class( $this ), 
+                $sOptionKey, 
+                $sCapability, 
+                $sTextDomain 
+            );
 
         parent::__construct( $this->oProp );
 
