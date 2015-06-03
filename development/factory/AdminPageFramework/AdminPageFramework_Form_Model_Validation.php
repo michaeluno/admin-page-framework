@@ -121,7 +121,15 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         );
        
         // 7. Reload the page with the update notice.
-        exit( wp_redirect( $this->_getSettingUpdateURL( $_aStatus, $_sPageSlug, $_sTabSlug ) ) );
+        exit( 
+            wp_redirect( 
+                $this->_getSettingUpdateURL( 
+                    $_aStatus, 
+                    $_sPageSlug, 
+                    $_sTabSlug 
+                ) 
+            ) 
+        );
         
     }
         /**
