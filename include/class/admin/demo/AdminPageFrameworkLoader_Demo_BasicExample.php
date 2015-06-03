@@ -23,7 +23,7 @@ class AdminPageFrameworkLoader_Demo_BasicExample {
         }
         
         new APF_BasicUsage(
-            null,                       // the option key - when null is passed the class name in this case 'APF_BasicUsage' will be used
+            null,                       // the option key - when null is passed the class name in this case 'APF_BasicUsage' will be used           
             APFDEMO_FILE,               // the caller script path.
             'manage_options',           // the default capability
             'admin-page-framework-demo' // the text domain    
