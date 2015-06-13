@@ -684,6 +684,11 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                  */
                 private function _doResetActions( $sKeyToReset, $aInput, $aSubmitInformation ) {
                     
+                    // '1' is reserved by the framework for resetting all options.
+                    $sKeyToReset = '1' === $sKeyToReset
+                        ? ''
+                        : $sKeyToReset;
+                        
                     $_sPageSlug  = $aSubmitInformation[ 'page_slug' ];
                     $_sTabSlug   = $aSubmitInformation[ 'tab_slug' ];
                     $_sFieldID   = $aSubmitInformation[ 'field_id' ];
@@ -697,7 +702,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                             $_sSectionID 
                                 ? "reset_{$this->oProp->sClassName}_{$_sSectionID}" 
                                 : null, // if null given, the method will ignore it
-                            isset( $_POST['tab_slug'] ) 
+                            $_sTabSlug
                                 ? "reset_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}"
                                 : null, // if null given, the method will ignore it
                             "reset_{$this->oProp->sClassName}_{$_sPageSlug}",
