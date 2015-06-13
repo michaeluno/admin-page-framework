@@ -375,6 +375,14 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.5.9 =
+- Added the `reset_...` action hooks.
+- Added the ability to disable setting notices by passing an empty string to the ` setSettingNotice()` method.
+- Added the ability for the admin page factory class to save form options only for a set time of period by passing an integer for the option key to the constructor.
+- Added the ability for transient utility methods to accept long transient key names.
+- Fixed a bug in the `getOption()` utility method that the fourth parameter did not take effect when `null` is given to the second parameter.
+- Changed the zip file name of generated framework files to have a version suffix.
+
 = 3.5.8 - 2015/05/29 =
 - Added the ability for the `getValue()` method to set a default value with the second parameter when the first parameter is an array.
 - Added the ability for the `text` and `textarea` field types to create sub-input elements by passing an array to the `label` argument.

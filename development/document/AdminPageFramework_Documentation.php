@@ -45,6 +45,10 @@
  *     <li>**submit_after_{instantiated class name}_{submit section id}_{submit field id}** – [3.3.1+] triggered after the form is submitted and the options are saved with the submit button of the specified section and field.</li>
  *     <li>**submit_after_{instantiated class name}_{submit section id}** – [3.3.1+] triggered after the form is submitted and the options are saved with the submit button of the specified section.</li>
  *     <li>**submit_after_{instantiated class name}** – [3.3.1+] triggered after the form is submitted and after the options are saved.</li>
+ *     <li>**reset_{instantiated class name}_{submit field id}** – [3.5.9+] triggered when resetting option with the `reset` argument of the `submit` field type of the specified field id which does not have a section.</li>
+ *     <li>**reset_{instantiated class name}_{submit section id}_{submit field id}** – [3.5.9+] triggered when resetting option with the `reset` argument of the `submit` field type of the submit button of the specified section and field.</li>
+ *     <li>**reset_{instantiated class name}_{submit section id}** – [3.5.9+] triggered when resetting option with the `reset` argument of the `submit` field type of the specified section.</li>
+ *     <li>**reset_{instantiated class name}** – [3.5.9+] triggered when resetting option with the `reset` argument of the `submit` field type..</li>
  * </ul>
  * <h3>Methods and Filter Hooks</h3>
  * <ul>

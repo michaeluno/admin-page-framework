@@ -371,7 +371,8 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             // Reset - if the key to reset is not specified, it does nothing.
             $this->_doResetOptions(
                 $_aSubmit,
-                $aInput
+                $aInput,
+                $_aSubmitInformation
             );
 
             // Email confirmation
@@ -616,11 +617,12 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
          * Handles resetting options.
          * 
          * @since       3.5.3
+         * @since       3.5.9       Added the third parameter.
          * @return      void
          * @internal
          */
-        private function _doResetOptions( array $_aSubmit, array $aInput ) {
-            
+        private function _doResetOptions( array $_aSubmit, array $aInput, array $aSubmitInformation ) {
+                
             // this will be set if the user confirms the reset action.
             $_sKeyToReset = $this->_getPressedSubmitButtonData( 
                 $_aSubmit, 
@@ -631,9 +633,10 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 return;
             }            
             $_oException = new Exception( 'aReturn' );
-            $_oException->aReturn = $this->_resetOptions( 
+            $_oException->aReturn = $this->_resetOptions(
                 $_sKeyToReset, 
-                $aInput 
+                $aInput,
+                $aSubmitInformation
             );
             throw $_oException;               
             
@@ -646,14 +649,17 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
              * In other words, it does not hold other pages' option keys.
              * @return      array       The modified input array.
              */
-            private function _resetOptions( $sKeyToReset, array $aInput ) {
+            private function _resetOptions( $sKeyToReset, array $aInput, array $aSubmitInformation ) {
 
+                // 3.5.9+     
+                $this->_doResetActions( $sKeyToReset, $aInput, $aSubmitInformation );
+                
                 // As of 3.1.0, an empty value is accepted for the option key.
                 if ( ! $this->oProp->sOptionKey ) {
                     return array();
                 }
                 
-                // The key to delete is not specified.
+                // The key to delete is not specified, 1 is sent from the form input.
                 if ( in_array( $sKeyToReset, array( '1', ), true ) ) {
                     delete_option( $this->oProp->sOptionKey );
                     return array();
@@ -667,12 +673,47 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 update_option( $this->oProp->sOptionKey, $this->oProp->aOptions );
                 $this->setSettingNotice( $this->oMsg->get( 'specified_option_been_deleted' ) );
             
-                return $aInput; // the returned array will be saved with the Settings API.
+                // the returned array will be saved.
+                return $aInput; 
              
             }
+                /**
+                 * Triggers reset actions.
+                 * @since       3.5.9
+                 * @internal
+                 */
+                private function _doResetActions( $sKeyToReset, $aInput, $aSubmitInformation ) {
+                    
+                    $_sPageSlug  = $aSubmitInformation[ 'page_slug' ];
+                    $_sTabSlug   = $aSubmitInformation[ 'tab_slug' ];
+                    $_sFieldID   = $aSubmitInformation[ 'field_id' ];
+                    $_sSectionID = $aSubmitInformation[ 'section_id' ];
+                    $this->oUtil->addAndDoActions(
+                        $this,
+                        array( 
+                            $_sSectionID 
+                                ? "reset_{$this->oProp->sClassName}_{$_sSectionID}_{$_sFieldID}" 
+                                : "reset_{$this->oProp->sClassName}_{$_sFieldID}",
+                            $_sSectionID 
+                                ? "reset_{$this->oProp->sClassName}_{$_sSectionID}" 
+                                : null, // if null given, the method will ignore it
+                            isset( $_POST['tab_slug'] ) 
+                                ? "reset_{$this->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}"
+                                : null, // if null given, the method will ignore it
+                            "reset_{$this->oProp->sClassName}_{$_sPageSlug}",
+                            "reset_{$this->oProp->sClassName}",
+                        ),
+                        $sKeyToReset,
+                        $aInput,
+                        $this,
+                        $aSubmitInformation
+                    );                      
+                    
+                }            
+            
             
         /**
-         * Confirms contact form submittion.
+         * Confirms contact form submission.
          * @internal
          * @since       3.5.3
          * @return      void
