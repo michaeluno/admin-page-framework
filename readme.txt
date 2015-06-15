@@ -380,6 +380,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the ability to disable setting notices by passing an empty string to the ` setSettingNotice()` method.
 - Added the ability for the admin page factory class to save form options only for a set time of period by passing an integer for the option key to the constructor.
 - Added the ability for transient utility methods to accept long transient key names.
+- Fixed an issue that post meta-box form fields were not able to set default values when there were existing meta data.
 - Fixed a bug in the `getOption()` utility method that the fourth parameter did not take effect when `null` is given to the second parameter.
 - Changed the zip file name of generated framework files to have a version suffix.
 
