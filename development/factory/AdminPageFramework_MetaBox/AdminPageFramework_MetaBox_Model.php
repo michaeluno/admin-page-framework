@@ -194,23 +194,33 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          * Updates the first parameter of the options array with the post meta data associated with the given post ID.
          * 
          * @since       3.5.3
+         * @since       3.5.9       Changed it to skip assigning a value when a meta key as a field (section) id does not exist.
          * @return      void
          * @uses        get_post_meta()
          * @internal
          */
         private function _fillOptionsArrayFromPostMeta( array &$aOptions, $iPostID, array $aFields ) {
-      
+            
+            $_aMetaKeys = $this->oUtil->getAsArray( 
+                get_post_custom_keys( $iPostID )  // returns array or null
+            );
             foreach( $aFields as $_sSectionID => $_aFields ) {
                 
                 if ( '_default' == $_sSectionID  ) {
                     foreach( $_aFields as $_aField ) {
+                        if ( ! in_array( $_aField[ 'field_id' ], $_aMetaKeys ) ) {
+                            continue;
+                        }
                         $aOptions[ $_aField['field_id'] ] = get_post_meta( 
                             $iPostID, 
-                            $_aField['field_id'], 
+                            $_aField[ 'field_id' ], 
                             true 
                         );    
                     }
                 }
+                if ( ! in_array( $_sSectionID, $_aMetaKeys ) ) {
+                    continue;
+                }                
                 $aOptions[ $_sSectionID ] = get_post_meta( 
                     $iPostID, 
                     $_sSectionID, 
