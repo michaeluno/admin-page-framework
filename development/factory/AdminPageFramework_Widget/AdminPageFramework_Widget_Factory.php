@@ -108,7 +108,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
              * @return      boolean
              * @remark      The user may add a field with the id of `show_title` to allow their users to set the title visibility.
              */
-            private function _isTitleVisibie( $aFormData ) {
+            private function _isTitleVisible( $aFormData ) {
 
                 if ( ! $this->oCaller->oProp->bShowWidgetTitle ) {
                     return false;
