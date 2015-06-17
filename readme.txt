@@ -376,6 +376,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.9 =
+- Added the framework reserved field id, `show_title`, for widgets that toggles the visibility of the widget title in the front-end output.
 - Added the `reset_...` action hooks.
 - Added the ability to disable setting notices by passing an empty string to the ` setSettingNotice()` method.
 - Added the ability for the admin page factory class to save form options only for a set time of period by passing an integer for the option key to the constructor.

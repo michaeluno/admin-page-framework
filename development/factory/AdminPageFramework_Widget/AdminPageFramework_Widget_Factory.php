@@ -73,11 +73,14 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * Returns the widget title.
          * 
          * @since       3.5.7
+         * @remark      The user needs to add a field with the id, `title` to display a title.
+         * @remark      In order to disable the title, add a field with the id  `show_title` and if the value yields `false`, 
+         * the title will not be displayed.
          * @return      string      The widget title
          */
         private function _getTitle( array $aArguments, array $aFormData ) {
-            
-            if ( ! $this->oCaller->oProp->bShowWidgetTitle ) {
+                
+            if ( ! $this->_isTitleVisible() ) {
                 return '';
             }
             
@@ -99,7 +102,24 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             . $aArguments['after_title'];           
             
         }
-    
+            /**
+             * Checks if the title can be rendered.
+             * @since       3.5.9
+             * @return      boolean
+             * @remark      The user may add a field with the id of `show_title` to allow their users to set the title visibility.
+             */
+            private function _isTitleVisibie( $aFormData ) {
+
+                if ( ! $this->oCaller->oProp->bShowWidgetTitle ) {
+                    return false;
+                }
+                return $this->oCaller->oUtil->getElement(
+                    $aFormData,
+                    'show_title',
+                    true
+                );           
+            }    
+            
     /**
      * Validates the submitted form data.
      * 
