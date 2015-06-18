@@ -44,29 +44,34 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
      * Displays the widget contents in the front end.
      * 
      * @since       3.2.0
+     * @since       3.5.9       Changed the timing of the hooks (do_{...} and content_{...} ) to allow the user to decide 
+     * whether the title should be visible or not depending on the content.
      * @return      void
      */
 	public function widget( $aArguments, $aFormData ) {
-
-        echo $aArguments['before_widget'];
+           
+        echo $aArguments[ 'before_widget' ];
         
-        echo $this->_getTitle( $aArguments, $aFormData );
-
         $this->oCaller->oUtil->addAndDoActions( 
             $this->oCaller, 
             'do_' . $this->oCaller->oProp->sClassName, 
             $this->oCaller
         );
-
-        echo $this->oCaller->oUtil->addAndApplyFilters(
+       
+        $_sContent = $this->oCaller->oUtil->addAndApplyFilters(
             $this->oCaller, 
             "content_{$this->oCaller->oProp->sClassName}", 
             $this->oCaller->content( '', $aArguments, $aFormData ),
             $aArguments,
             $aFormData
         );    
- 
-		echo $aArguments['after_widget'];
+        
+        // 3.5.9+ Moved this after the content_{...} filter hook so that the user can decide whether the title shoudl be visible or not.
+        echo $this->_getTitle( $aArguments, $aFormData );
+
+        echo $_sContent;
+        
+		echo $aArguments[ 'after_widget' ];
 		
 	}
         /**
@@ -80,7 +85,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          */
         private function _getTitle( array $aArguments, array $aFormData ) {
                 
-            if ( ! $this->_isTitleVisible() ) {
+            if ( ! $this->oCaller->oProp->bShowWidgetTitle ) {
                 return '';
             }
             
@@ -102,23 +107,6 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             . $aArguments['after_title'];           
             
         }
-            /**
-             * Checks if the title can be rendered.
-             * @since       3.5.9
-             * @return      boolean
-             * @remark      The user may add a field with the id of `show_title` to allow their users to set the title visibility.
-             */
-            private function _isTitleVisible( $aFormData ) {
-
-                if ( ! $this->oCaller->oProp->bShowWidgetTitle ) {
-                    return false;
-                }
-                return $this->oCaller->oUtil->getElement(
-                    $aFormData,
-                    'show_title',
-                    true
-                );           
-            }    
             
     /**
      * Validates the submitted form data.

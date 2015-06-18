@@ -376,13 +376,13 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.9 =
-- Added the framework reserved field id, `show_title`, for widgets that toggles the visibility of the widget title in the front-end output.
 - Added the `reset_...` action hooks.
 - Added the ability to disable setting notices by passing an empty string to the ` setSettingNotice()` method.
 - Added the ability for the admin page factory class to save form options only for a set time of period by passing an integer for the option key to the constructor.
 - Added the ability for transient utility methods to accept long transient key names.
 - Fixed an issue that post meta-box form fields were not able to set default values when there were existing meta data.
 - Fixed a bug in the `getOption()` utility method that the fourth parameter did not take effect when `null` is given to the second parameter.
+- Changed the timing of rendering the widget title to after the `do_{...}` and `content_{...}` hooks.
 - Changed the zip file name of generated framework files to have a version suffix.
 
 = 3.5.8 - 2015/05/29 =
