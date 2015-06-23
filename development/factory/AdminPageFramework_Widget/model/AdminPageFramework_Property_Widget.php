@@ -85,4 +85,11 @@ class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Bas
      */
     public $bShowWidgetTitle = true;
         
+    /**
+     * Stores the widget object.
+     * 
+     * @since       3.5.9
+     */ 
+    public $oWidget;
+     
 }

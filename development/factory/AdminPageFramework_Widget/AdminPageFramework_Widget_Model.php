@@ -85,6 +85,9 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
                 : array() 
         );
         
+        // [3.5.9+] Store the widget object in the property.
+        $this->oProp->oWidget = $wp_widget_factory->widgets[ $this->oProp->sClassName ];
+        
     }
 
     /**
