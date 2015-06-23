@@ -376,6 +376,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.9 =
+- Added the ability for the `size` field type to create sub-fields by passing an array of labels.
 - Added the `reset_...` action hooks.
 - Added the ability to disable setting notices by passing an empty string to the ` setSettingNotice()` method.
 - Added the ability for the admin page factory class to save form options only for a set time of period by passing an integer for the option key to the constructor.

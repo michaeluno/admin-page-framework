@@ -509,6 +509,26 @@ class APF_Demo_BuiltinFieldTypes_Selector {
                     'default'   => array( 'size' => 30, 'unit' => 'mb' ),
                 ),     
             ),
+            array( // Multiple Size Fields
+                'field_id'      => 'sizes_field_multiple_labels',
+                'title'         => __( 'Sub-fields by Label', 'admin-page-framework-demo' ),
+                'type'          => 'size',
+                'label'         => array(
+                    'weight'        => __( 'Weight', 'admin-page-framework-demo' ),
+                    'length'        => __( 'Length', 'admin-page-framework-demo' ),
+                    'size'          => __( 'File Size', 'admin-page-framework-demo' ),
+                ),
+                'units'         => array(
+                    'weight'        => array( 'mg'=>'mg', 'g'=>'g', 'kg'=>'kg' ),
+                    'length'        => array( 'cm'=>'cm', 'mm'=>'mm', 'm'=>'m' ),
+                    'size'          => array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb' => 'gb', 'tb' => 'tb' ),
+                ),
+                'default'       => array(
+                    'weight'         => array( 'size' => 15, 'unit' => 'g' ),
+                    'length'        => array( 'size' => 100, 'unit' => 'mm' ),               
+                    'size'          => array( 'size' => 30, 'unit' => 'mb' ),
+                ),                
+            ),            
             array( // Repeatable Size Fields
                 'field_id'      => 'size_repeatable_fields',
                 'title'         => __( 'Repeatable', 'admin-page-framework-demo' ),

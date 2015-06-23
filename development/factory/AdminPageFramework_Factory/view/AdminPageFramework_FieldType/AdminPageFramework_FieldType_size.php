@@ -29,8 +29,8 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'is_multiple'           => false,    
-        'units'                 => null, // do not define units here since this will be merged with the user defined field array.
+        'is_multiple'           => false, // indicates whether the select tag alloes multiple selections.
+        'units'                 => null,  // do not define units here since this will be merged with the user defined field array.
         'attributes'            => array(
             'size'      => array(
                 'size'          => 10,
@@ -103,161 +103,250 @@ CSSRULES;
      * @since       2.1.5       Moved from AdminPageFramework_FormField. Changed the name from getSizeField().
      * @since       3.0.0       Reconstructed entirely which involves dropping unnecessary parameters and renaming keys in the field definition array.
      * @since       3.3.1       Changed from `_replyToGetField()`.
+     * @since       3.5.9       Supports multiple labels.
+     * @return      string
      */
     protected function getField( $aField ) {
-    
-        $aField['units'] = $this->getElement( $aField, 'units', $this->aDefaultUnits );
+                
+        // Set the default units.
+        $aField[ 'units' ] = $this->getElement( 
+            $aField, 
+            'units', 
+            $this->aDefaultUnits 
+        );
         
-        // Base attributes
-        $_aBaseAttributes       = $aField['attributes'];
-        unset( $_aBaseAttributes['unit'], $_aBaseAttributes['size'] ); 
-              
-        /* 3. Return the output */
-        return
-            $aField['before_label']
-            . "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
-                . $this->_getNumberInputPart( $aField, $_aBaseAttributes )  // The size (number) part
-                . $this->_getUnitSelectInput( $aField, $_aBaseAttributes )  // The unit (select) part
-            . "</div>"
-            . $aField['after_label'];             
+        $_aOutput = array();
+        foreach( ( array ) $aField[ 'label' ] as $_isKey => $_sLabel ) {
+            $_aOutput[] = $this->_getFieldOutputByLabel( 
+                $_isKey, 
+                $_sLabel,
+                $aField
+            );
+        }
+        return implode( '', $_aOutput );
+                  
         
     }
         /**
-         * Returns the HTML output of the number input part.
-         * 
-         * @since       3.5.3
-         * @return      string      The number input output.
+         * @since       3.5.9
+         * @return      string
          */
-        private function _getNumberInputPart( array $aField, array $aBaseAttributes ) {
+        protected function _getFieldOutputByLabel( $isKey, $sLabel, array $aField ) {
             
-            // Size and Size Label
-            $_aSizeAttributes       = $this->_getSizeAttributes( $aField, $aBaseAttributes );
-            $_aSizeLabelAttributes  = array(
-                'for'   => $_aSizeAttributes['id'],
-                'class' => $_aSizeAttributes['disabled'] ? 'disabled' : null,
-            );                  
-            
-            return "<label " . $this->generateAttributes( $_aSizeLabelAttributes ) . ">"
-                . $this->getElement( $aField, array( 'before_label', 'size' ) )
-                . ( $aField['label'] && ! $aField['repeatable']
-                    ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" 
-                            . $aField['label'] 
-                        . "</span>"
-                    : "" 
-                )
-                . "<input " . $this->generateAttributes( $_aSizeAttributes ) . " />" // this method is defined in the base class
-                . $this->getElement( $aField, array( 'after_input', 'size' ) )
-            . "</label>";            
-            
-        }
-        
-        /**
-         * Returns the HTML output of the unit select input part.
-         * 
-         * @since       3.5.3
-         * @return      string      The unit select input output.
-         */
-        private function _getUnitSelectInput( array $aField, array $aBaseAttributes ) {
-            
-            // Unit
-            $_aUnitAttributes = $this->_getUnitAttributes( $aField, $aBaseAttributes );
-        
-            // Create a select input object
-            $_oUnitInput = $this->_getUnitInputObject( $aField, $_aUnitAttributes );
-            
-            return "<label " . $this->generateAttributes( 
-                    array(
-                        'for'       => $_aUnitAttributes['id'],
-                        'class'     => $_aUnitAttributes['disabled'] 
-                            ? 'disabled' 
-                            : null, 
+            $_bMultiLabels      = is_array( $aField[ 'label' ] );
+            $_sLabel            = $this->getElementByLabel( $aField[ 'label' ], $isKey, $_bMultiLabels );
+            $aField[ 'value' ]  = $this->getElementByLabel( $aField[ 'value' ], $isKey, $_bMultiLabels );
+           
+            $_aBaseAttributes   = $_bMultiLabels
+                ? array(
+                        'name'  => $aField[ 'attributes' ][ 'name' ] . "[{$isKey}]",
+                        'id'    => $aField[ 'attributes' ][ 'id' ] . "_{$isKey}",
+                        'value' => $aField[ 'value' ],
                     ) 
-                ) 
-                . ">"
-                . $this->getElement( $aField, array( 'before_label', 'unit' ) )
-                . $_oUnitInput->get()
-                . $this->getElement( $aField, array( 'after_input', 'unit' ) )
-                . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
-            . "</label>";
+                    + $aField[ 'attributes' ]
+                : $aField[ 'attributes' ];
+            unset( 
+                $_aBaseAttributes['unit'], 
+                $_aBaseAttributes['size'] 
+            );            
             
-        }    
-            /**
-             * Returns an unit attribute array.
-             * @since       3.5.3    
-             * @return      array       an unit attribute array
-             */
-            private function _getUnitAttributes( array $aField, array $aBaseAttributes ) {
+            $_aOutput = array(
+                $this->getElementByLabel( $aField['before_label'], $isKey, $_bMultiLabels ),
+                    "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>",
+                        $this->_getNumberInputPart( $aField, $_aBaseAttributes, $isKey, $_bMultiLabels ),  // The size (number) part
+                        $this->_getUnitSelectInput( $aField, $_aBaseAttributes, $isKey, $_bMultiLabels ),  // The unit (select) part
+                    "</div>",
+                $this->getElementByLabel( $aField['after_label'], $isKey, $_bMultiLabels )
+            );
+            return implode( '', $_aOutput );                
                 
-                $_bIsMultiple    = $aField['is_multiple'] 
-                    ? true 
-                    : ( $aField['attributes']['unit']['multiple'] 
-                        ? true 
-                        : false 
-                    );
-                return array(
-                    'type'      => 'select',
-                    'id'        => $aField['input_id'] . '_' . 'unit',
-                    'multiple'  => $_bIsMultiple 
-                        ? 'multiple' 
-                        : null,
-                    'name'      => $_bIsMultiple 
-                        ? "{$aField['_input_name']}[unit][]" 
-                        : "{$aField['_input_name']}[unit]",
-                    'value'     => $this->getElement( 
-                        $aField, 
-                        array( 'value', 'unit' ), 
-                        ''
-                    ),
-                )
-                + $this->getElement( 
-                    $aField, 
-                    array( 'attributes', 'unit' ),
-                    $this->aDefaultKeys['attributes']['unit'] 
-                )
-                + $aBaseAttributes;        
-                
-            }        
+        }
             /**
-             * Returns a select input object for the unit select input part.
+             * Returns the HTML output of the number input part.
+             * 
              * @since       3.5.3
-             * @return      object      a select input object.
+             * @return      string      The number input output.
              */
-            private function _getUnitInputObject( array $aField, array $aUnitAttributes ) {
-
-                $_aUnitField = array( 
-                    'label' => $aField['units'],
-                ) + $aField;
-                $_aUnitField['attributes']['select'] =  $aUnitAttributes;
-                return new AdminPageFramework_Input_select( $_aUnitField );
-            
-            }             
-        
-    
-        /**
-         * Returns an size attribute array.
-         * @since       3.5.3    
-         * @return      array       an size attribute array
-         */
-        private function _getSizeAttributes( array $aField, array $aBaseAttributes ) {
-            
-            return array(
-                    'type'  => 'number',
-                    'id'    => $aField['input_id'] . '_' . 'size',
-                    'name'  => $aField['_input_name'] . '[size]',
-                    'value' => $this->getElement(
-                        $aField,        // subject
-                        array( 'value', 'size' ),   // dimensional keys
-                        ''  // default
-                    ),
-                ) 
-                + $this->getElement( 
-                    $aField, 
-                    array( 'attributes', 'size' ), 
-                    $this->aDefaultKeys['attributes']['size'] 
-                )
-                + $aBaseAttributes;        
+            private function _getNumberInputPart( array $aField, array $aBaseAttributes, $isKey, $bMultiLabels ) {
                 
-        }    
+                // Size and Size Label
+                $_aSizeAttributes       = $this->_getSizeAttributes( 
+                    $aField, 
+                    $aBaseAttributes,
+                    $bMultiLabels
+                        ? $isKey
+                        : ''
+                );
+                $_aSizeLabelAttributes  = array(
+                    'for'   => $_aSizeAttributes[ 'id' ],
+                    'class' => $_aSizeAttributes[ 'disabled' ] 
+                        ? 'disabled' 
+                        : null,
+                );                  
+                
+                $_sLabel                = $this->getElementByLabel( 
+                    $aField[ 'label' ], 
+                    $isKey, 
+                    $bMultiLabels 
+                );
+                return "<label " . $this->generateAttributes( $_aSizeLabelAttributes ) . ">"
+                    . $this->getElement( 
+                        $aField, 
+                        $bMultiLabels
+                            ? array( 'before_label', $isKey, 'size' ) 
+                            : array( 'before_label', 'size' ) 
+                    )
+                    . ( $aField['label'] && ! $aField[ 'repeatable' ]
+                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>" 
+                                . $_sLabel 
+                            . "</span>"
+                        : "" 
+                    )
+                    . "<input " . $this->generateAttributes( $_aSizeAttributes ) . " />" 
+                    . $this->getElement( 
+                        $aField, 
+                        $bMultiLabels
+                            ? array( 'after_input', $isKey, 'size' ) 
+                            : array( 'after_input', 'size' )
+                    )
+                . "</label>";            
+                
+            }
+            
+            /**
+             * Returns the HTML output of the unit select input part.
+             * 
+             * @since       3.5.3
+             * @return      string      The unit select input output.
+             */
+            private function _getUnitSelectInput( array $aField, array $aBaseAttributes, $isKey, $bMultiLabels ) {
+                
+                // Unit
+                $_aUnitAttributes = $this->_getUnitAttributes( 
+                    $aField, 
+                    $aBaseAttributes,
+                    $bMultiLabels
+                        ? $isKey
+                        : ''                    
+                );
+            
+                // Create a select input object
+                $_oUnitInput = $this->_getUnitInputObject( $aField, $_aUnitAttributes, $isKey, $bMultiLabels );
+                
+                return "<label " . $this->generateAttributes( 
+                        array(
+                            'for'       => $_aUnitAttributes[ 'id' ],
+                            'class'     => $_aUnitAttributes[ 'disabled' ] 
+                                ? 'disabled' 
+                                : null, 
+                        ) 
+                    ) 
+                    . ">"
+                    . $this->getElement( 
+                        $aField, 
+                        $bMultiLabels
+                            ? array( 'before_label', $isKey, 'unit' ) 
+                            : array( 'before_label', 'unit' )                                            
+                    )
+                    . $_oUnitInput->get()
+                    . $this->getElement( 
+                        $aField, 
+                        $bMultiLabels
+                            ? array( 'after_input', $isKey, 'unit' ) 
+                            : array( 'after_input', 'unit' )                    
+                    )
+                    . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
+                . "</label>";
+                
+            }    
+                /**
+                 * Returns an unit attribute array.
+                 * @since       3.5.3    
+                 * @return      array       an unit attribute array
+                 */
+                private function _getUnitAttributes( array $aField, array $aBaseAttributes, $isLabelKey='' ) {
+                    
+                    $_bIsMultiple    = $aField[ 'is_multiple' ] 
+                        ? true 
+                        : $this->getElement( 
+                            $aField,
+                            '' === $isLabelKey
+                                ? array( 'attributes', 'unit', 'multiple' )
+                                : array( 'attributes', $isLabelKey, 'unit', 'multiple' ),
+                            false // default
+                        );
+              
+                    $_aSelectAttributes = array(
+                        'type'      => 'select',
+                        'id'        => $aField[ 'input_id' ] . ( '' === $isLabelKey ? '' : '_' . $isLabelKey ) . '_' . 'unit',
+                        'multiple'  => $_bIsMultiple 
+                            ? 'multiple' 
+                            : null,
+                        'name'      => $_bIsMultiple 
+                            ? "{$aField['_input_name']}" . ( '' === $isLabelKey ? '' : '[' . $isLabelKey . ']' ) . "[unit][]" 
+                            : "{$aField['_input_name']}" . ( '' === $isLabelKey ? '' : '[' . $isLabelKey . ']' ) . "[unit]",
+                        'value'     => $this->getElement( 
+                            $aField, 
+                            array( 'value', 'unit' ),
+                            ''
+                        ),
+                    )
+                    + $this->getElement( 
+                        $aField, 
+                        '' === $isLabelKey
+                            ? array( 'attributes', 'unit' )
+                            : array( 'attributes', $isLabelKey, 'unit' ),
+                        $this->aDefaultKeys['attributes']['unit'] 
+                    )
+                    + $aBaseAttributes;        
+                    return $_aSelectAttributes;
+                    
+                }        
+                /**
+                 * Returns a select input object for the unit select input part.
+                 * @since       3.5.3
+                 * @return      object      a select input object.
+                 */
+                private function _getUnitInputObject( array $aField, array $aUnitAttributes, $isKey, $bMultiLabels ) {
+
+                    $_aUnitField = array( 
+                        'label' => $bMultiLabels
+                            ? $this->getElement( $aField, array( 'units', $isKey ) )
+                            : $aField[ 'units' ],
+                    ) + $aField;
+                    $_aUnitField['attributes']['select'] =  $aUnitAttributes;
+                    return new AdminPageFramework_Input_select( $_aUnitField );
+                
+                }             
+            
+        
+            /**
+             * Returns an size attribute array.
+             * @since       3.5.3    
+             * @return      array       an size attribute array
+             */
+            private function _getSizeAttributes( array $aField, array $aBaseAttributes, $sLabelKey='' ) {
+
+                return array(
+                        'type'  => 'number',
+                        'id'    => $aField['input_id'] . '_' . ( '' !== $sLabelKey ? $sLabelKey . '_' : '' ) . 'size',
+                        'name'  => $aField[ '_input_name' ] . ( '' !== $sLabelKey ? "[{$sLabelKey}]" : '' ) . '[size]',
+                        'value' => $this->getElement(
+                            $aField,        // subject
+                            array( 'value', 'size' ),   // dimensional keys
+                            ''  // default
+                        ),
+                    ) 
+                    + $this->getElementAsArray(
+                        $aField, 
+                        '' === $sLabelKey
+                            ? array( 'attributes', 'size' )
+                            : array( 'attributes', $sLabelKey, 'size' ),
+                        $this->aDefaultKeys[ 'attributes' ][ 'size' ]
+                    )
+                    + $aBaseAttributes;        
+                    
+            }    
    
         
 }
