@@ -311,7 +311,11 @@ CSSRULES;
 
                     $_aUnitField = array( 
                         'label' => $bMultiLabels
-                            ? $this->getElement( $aField, array( 'units', $isKey ) )
+                            ? $this->getElement( 
+                                $aField, 
+                                array( 'units', $isKey ),
+                                $aField[ 'units' ]  // default - if the above keys are not set
+                            )
                             : $aField[ 'units' ],
                     ) + $aField;
                     $_aUnitField['attributes']['select'] =  $aUnitAttributes;
