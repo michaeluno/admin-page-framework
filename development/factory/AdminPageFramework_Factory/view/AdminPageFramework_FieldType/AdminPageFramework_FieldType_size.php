@@ -221,7 +221,7 @@ CSSRULES;
              */
             private function _getUnitSelectInput( array $aField, array $aBaseAttributes, $isKey, $bMultiLabels ) {
                 
-                // Unit
+                // Unit (select input)
                 $_aUnitAttributes = $this->_getUnitAttributes( 
                     $aField, 
                     $aBaseAttributes,
@@ -230,8 +230,19 @@ CSSRULES;
                         : ''                    
                 );
             
-                // Create a select input object
-                $_oUnitInput = $this->_getUnitInputObject( $aField, $_aUnitAttributes, $isKey, $bMultiLabels );
+                $_oUnitInput = new AdminPageFramework_Input_select(
+                    $_aUnitAttributes + array( 
+                        // the class will use the 'select' key of the attribute array to construct the select input.
+                        'select' => $_aUnitAttributes  
+                    )
+                );
+                $_aLabels = $bMultiLabels
+                    ? $this->getElement( 
+                        $aField, 
+                        array( 'units', $isKey ),
+                        $aField[ 'units' ]  // default - if the above keys are not set
+                    )
+                    : $aField[ 'units' ];
                 
                 return "<label " . $this->generateAttributes( 
                         array(
@@ -248,7 +259,7 @@ CSSRULES;
                             ? array( 'before_label', $isKey, 'unit' ) 
                             : array( 'before_label', 'unit' )                                            
                     )
-                    . $_oUnitInput->get()
+                    . $_oUnitInput->get( $_aLabels )
                     . $this->getElement( 
                         $aField, 
                         $bMultiLabels
@@ -298,31 +309,11 @@ CSSRULES;
                             : array( 'attributes', $isLabelKey, 'unit' ),
                         $this->aDefaultKeys['attributes']['unit'] 
                     )
-                    + $aBaseAttributes;        
+                    + $aBaseAttributes;       
                     return $_aSelectAttributes;
                     
                 }        
-                /**
-                 * Returns a select input object for the unit select input part.
-                 * @since       3.5.3
-                 * @return      object      a select input object.
-                 */
-                private function _getUnitInputObject( array $aField, array $aUnitAttributes, $isKey, $bMultiLabels ) {
-
-                    $_aUnitField = array( 
-                        'label' => $bMultiLabels
-                            ? $this->getElement( 
-                                $aField, 
-                                array( 'units', $isKey ),
-                                $aField[ 'units' ]  // default - if the above keys are not set
-                            )
-                            : $aField[ 'units' ],
-                    ) + $aField;
-                    $_aUnitField['attributes']['select'] =  $aUnitAttributes;
-                    return new AdminPageFramework_Input_select( $_aUnitField );
-                
-                }             
-            
+ 
         
             /**
              * Returns an size attribute array.
