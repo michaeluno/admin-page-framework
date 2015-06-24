@@ -375,7 +375,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.5.9 =
+= 3.5.9 - 2015/06/25 =
 - Added the ability for the `size` field type to create sub-fields by passing an array of labels.
 - Added the `reset_...` action hooks.
 - Added the ability to disable setting notices by passing an empty string to the ` setSettingNotice()` method.
