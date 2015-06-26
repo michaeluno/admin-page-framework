@@ -3,7 +3,7 @@
  * Admin Page Framework
  * 
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2014 Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
  * 
  */
 
@@ -28,9 +28,9 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
      */
     protected $aDefaultKeys = array(
         'attributes' => array(
-            'size' => 10,
+            'size'      => 10,
             'maxlength' => 400,
-            'value' => 'transparent',
+            'value'     => 'transparent',
         ),    
     );
 
@@ -110,27 +110,34 @@ CSSRULES;
         $_aJSArray      = json_encode( $this->aFieldTypeSlugs );
         $_sDoubleQuote  = '\"';
         return <<<JAVASCRIPTS
-registerAPFColorPickerField = function( osTragetInput ) {
+registerAPFColorPickerField = function( osTragetInput, aOptions ) {
     
-    var osTargetInput   = typeof osTragetInput === 'string' ? '#' + osTragetInput : osTragetInput;
-    var sInputID        = typeof osTragetInput === 'string' ? osTragetInput : osTragetInput.attr( 'id' );
-    
+    var osTargetInput   = 'string' === typeof osTragetInput 
+        ? '#' + osTragetInput 
+        : osTragetInput;
+    var sInputID        = 'string' === typeof osTragetInput 
+        ? osTragetInput 
+        : osTragetInput.attr( 'id' );
+
+    // Only for the iris color picker.
+    var _aDefaults = {
+        defaultColor: false, // you can declare a default color here, or in the data-default-color attribute on the input     
+        change: function(event, ui){}, // a callback to fire whenever the color changes to a valid color. reference : http://automattic.github.io/Iris/     
+        clear: function() {}, // a callback to fire when the input is emptied or an invalid color
+        hide: true, // hide the color picker controls on load
+        palettes: true // show a group of common colors beneath the square or, supply an array of colors to customize further                
+    };
+    var _aColorPickerOptions = jQuery.extend( {}, _aDefaults, aOptions );
+        
     'use strict';
-    /* This if statement checks if the color picker element exists within jQuery UI
+    /* This if-statement checks if the color picker element exists within jQuery UI
      If it does exist, then we initialize the WordPress color picker on our text input field */
     if( 'object' === typeof jQuery.wp && 'function' === typeof jQuery.wp.wpColorPicker ){
-        var aColorPickerOptions = {
-            defaultColor: false, // you can declare a default color here, or in the data-default-color attribute on the input     
-            change: function(event, ui){}, // a callback to fire whenever the color changes to a valid color. reference : http://automattic.github.io/Iris/     
-            clear: function() {}, // a callback to fire when the input is emptied or an invalid color
-            hide: true, // hide the color picker controls on load
-            palettes: true // show a group of common colors beneath the square or, supply an array of colors to customize further
-        };     
-        jQuery( osTargetInput ).wpColorPicker( aColorPickerOptions );
+        jQuery( osTargetInput ).wpColorPicker( _aColorPickerOptions );
     }
     else {
         /* We use farbtastic if the WordPress color picker widget doesn't exist */
-        jQuery( '#color_' + sInputID ).farbtastic( osTargetInput );                   
+        jQuery( '#color_' + sInputID ).farbtastic( osTargetInput );
     }
 }
 
@@ -148,7 +155,9 @@ jQuery( document ).ready( function(){
             
             /* If the input tag is not found, do nothing  */
             var nodeNewColorInput = node.find( 'input.input_color' );
-            if ( nodeNewColorInput.length <= 0 ) { return; }
+            if ( nodeNewColorInput.length <= 0 ) { 
+                return; 
+            }
             
             var nodeIris = node.find( '.wp-picker-container' ).first();
             // WP 3.5+
@@ -158,23 +167,27 @@ jQuery( document ).ready( function(){
             }
             var sInputID = nodeNewColorInput.attr( 'id' );
 
-            /* Reset the value of the color picker */
-            var sInputValue = nodeNewColorInput.val() ? nodeNewColorInput.val() : 'transparent'; // For WP 3.4.x or below
-            var sInputStyle = sInputValue != 'transparent' && nodeNewColorInput.attr( 'style' ) ? nodeNewColorInput.attr( 'style' ) : '';
+            // Reset the value of the color picker
+            var sInputValue = nodeNewColorInput.val() 
+                ? nodeNewColorInput.val() 
+                : nodeNewColorInput.attr( 'data-default' );
+            var sInputStyle = sInputValue !== 'transparent' && nodeNewColorInput.attr( 'style' )
+                ? nodeNewColorInput.attr( 'style' ) 
+                : '';
             nodeNewColorInput.val( sInputValue ); // set the default value    
             nodeNewColorInput.attr( 'style', sInputStyle ); // remove the background color set to the input field ( for WP 3.4.x or below )  
 
-            /* Replace the old color picker elements with the new one */
+            // Replace the old color picker elements with the new one.
             // WP 3.5+
             if ( nodeIris.length > 0 ) { 
                 jQuery( nodeIris ).replaceWith( nodeNewColorInput );
             } 
             // WP 3.4.x -     
             else { 
-                node.find( '.colorpicker' ).replaceWith( '<div class=\"colorpicker\" id=\"color_' + sInputID + '\"></div>' );    
+                node.find( '.colorpicker' ).replaceWith( '<div class=\"colorpicker\" id=\"color_' + sInputID + '\"></div>' );
             }
 
-            /* Bind the color picker script */     
+            // Bind the color picker script
             registerAPFColorPickerField( nodeNewColorInput );     
             
         }
@@ -193,33 +206,53 @@ JAVASCRIPTS;
      */
     protected function getField( $aField ) {
 
-        $aField['attributes'] = array(
-            'color' => $aField['value'],    
-            'type' => 'text', // it must be text
-            'class' => trim( 'input_color ' . $aField['attributes']['class'] ),
-        ) + $aField['attributes'];
-
+        // If the value is not set, apply the default value, 'transparent'.
+        $aField['value'] = is_null( $aField['value'] ) 
+            ? 'transparent' 
+            : $aField['value'];    
+            
+        $aField[ 'attributes' ] = $this->_getInputAttributes( $aField );
+        
         return 
             $aField['before_label']
             . "<div class='admin-page-framework-input-label-container'>"
                 . "<label for='{$aField['input_id']}'>"
-                    . $aField['before_input']
+                    . $aField[ 'before_input' ]
                     . ( $aField['label'] && ! $aField['repeatable']
                         ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
                         : "" 
                     )
-                    . "<input " . $this->generateAttributes( $aField['attributes'] ) . " />" // this method is defined in the base class
-                    . $aField['after_input']
+                    . "<input " . $this->generateAttributes( $aField[ 'attributes' ] ) . " />" 
+                    . $aField[ 'after_input' ]
                     . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                 . "</label>"
                 . "<div class='colorpicker' id='color_{$aField['input_id']}'></div>" // this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x ) // rel='{$aField['input_id']}'
-                . $this->_getColorPickerEnablerScript( "{$aField['input_id']}" )     
+                . $this->_getColorPickerEnablerScript( "{$aField['input_id']}" )
             . "</div>"
             . $aField['after_label'];
         
     }
         /**
+         * 
+         * @return      array
+         * @since       3.5.10
+         */
+        private function _getInputAttributes( array $aField ) {
+                               
+            return array(
+                'color'        => $aField['value'],    
+                'value'        => $aField['value'],
+                'data-default' => isset( $aField[ 'default' ] )
+                    ? $aField[ 'default' ]
+                    : 'transparent', // used by the repeatable script
+                'type'         => 'text', // it must be text
+                'class'        => trim( 'input_color ' . $aField['attributes']['class'] ),
+            ) + $aField[ 'attributes' ];
+            
+        }    
+        /**
          * A helper function for the above getColorField() method to add a script to enable the color picker.
+         * @return      string
          */
         private function _getColorPickerEnablerScript( $sInputID ) {
             $_sScript = <<<JAVASCRIPTS

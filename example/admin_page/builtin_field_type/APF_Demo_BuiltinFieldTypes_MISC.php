@@ -125,6 +125,7 @@ class APF_Demo_BuiltinFieldTypes_MISC {
                 'title'         => __( 'Repeatable', 'admin-page-framework-demo' ),
                 'type'          => 'color',
                 'repeatable'    => true,
+                'default'       => '', // set an empty so that repeated element has this default value.
             ),
             array( // Repeatable Color Pickers
                 'field_id'      => 'color_picker_sortable',

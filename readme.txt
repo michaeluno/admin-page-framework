@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.3
 Tested up to:       4.2.2
-Stable tag:         3.5.7.1
+Stable tag:         3.5.9
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -374,6 +374,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+
+= 3.5.10 =
+- Changed the behavior of the `color` field type to have the default value getting reflected in repeated field.
 
 = 3.5.9 - 2015/06/25 =
 - Added the ability for the `size` field type to create sub-fields by passing an array of labels.
