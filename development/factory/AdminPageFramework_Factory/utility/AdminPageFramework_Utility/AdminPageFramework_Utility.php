@@ -128,7 +128,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
                     : explode( ' ', $_asClasses )
             );
         }
-        $_aClasses  = array_unique( $_aClasses );
+        $_aClasses  = array_unique( array_filter( $_aClasses ) );
         return trim( implode( ' ', $_aClasses ) );
         
     }
