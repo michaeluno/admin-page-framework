@@ -376,6 +376,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.5.10 =
+- Added the `attributes` and `disabled` arguments to page and in-page tab definition array which gets applied to navigation tab element.
 - Changed the behavior of the `color` field type to have the default value getting reflected in repeated field.
 
 = 3.5.9 - 2015/06/25 =

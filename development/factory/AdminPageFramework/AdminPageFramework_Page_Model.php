@@ -51,8 +51,10 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
         'title'             => null,
         'order'             => null,
         'show_in_page_tab'  => true,
-        'parent_tab_slug'   => null,    // this needs to be set if the above show_in_page_tab is false so that the framework can mark the parent tab to be active when the hidden page is accessed.
-        'url'               => null,    // 3.5.0+ This allows the user set custom link.
+        'parent_tab_slug'   => null,   // this needs to be set if the above show_in_page_tab is false so that the framework can mark the parent tab to be active when the hidden page is accessed.
+        'url'               => null,   // 3.5.0+ This allows the user set custom link.
+        'disabled'          => null,   // 3.5.10+ (boolean) If true, the link will be unlinked.
+        'attributes'        => null,   // 3.5.10+ (array) Applies to the navigation tab bar element.
     );
     
     /**
@@ -70,11 +72,15 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
      */         
     protected function _finalizeInPageTabs() {
 
-        if ( ! $this->oProp->isPageAdded() ) { return; }
+        if ( ! $this->oProp->isPageAdded() ) { 
+            return; 
+        }
 
         foreach( $this->oProp->aPages as $sPageSlug => $aPage ) {
             
-            if ( ! isset( $this->oProp->aInPageTabs[ $sPageSlug ] ) ) { continue; }
+            if ( ! isset( $this->oProp->aInPageTabs[ $sPageSlug ] ) ) { 
+                continue; 
+            }
             
             // Apply filters to modify the in-page tab array.
             $this->oProp->aInPageTabs[ $sPageSlug ] = $this->oUtil->addAndApplyFilter(

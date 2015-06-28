@@ -224,7 +224,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
             
         }
         /**
-         * Retrieves the form closing tag.
+         * Prints out the form closing tag.
          * 
          * @since       2.0.0
          * @since       3.1.0       Prints out the output.
@@ -259,12 +259,11 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
         private function _getScreenIcon( $sPageSlug ) {
 
             try {
-                
                 $this->_throwScreenIconByURLOrPath( $sPageSlug );
-                $this->_throwScreenIconByID( $sPageSlug );
-                
+                $this->_throwScreenIconByID( $sPageSlug );             
             } 
-            // If user sets screen icon this block will be triggered 
+            
+            // If the user sets a screen icon, this code block will be triggered 
             // and the exception message contains the custom screen icon output.
             catch ( Exception $_oException ) {
                 
@@ -428,53 +427,55 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
              * @return      string      the HTML page heading tab tag.
              */
             private function _getPageHeadingTabTag( $sTag, array $aPage ) {
-
-                return tag_escape( $aPage[ 'page_heading_tab_tag' ]
-                    ? $aPage[ 'page_heading_tab_tag' ]
-                    : $sTag
+                return tag_escape( 
+                    $aPage[ 'page_heading_tab_tag' ]
+                        ? $aPage[ 'page_heading_tab_tag' ]
+                        : $sTag
                 );
-            
             }    
+            
             /**
              * Returns the HTML page heading tab navigation bar output.
-             * @since       3.5.3
+             * 
              * @internal
+             * @since       3.5.3
              * @return      string      the HTML page heading tab navigation bar output.
              */
             private function _getPageHeadingtabNavigationBar( array $aPages, $sTag, $sCurrentPageSlug ) {
-                                
-                $_aOutput = array();
-                foreach( $aPages as $aSubPage ) {   
-                    $_aOutput[] = $this->_getPageHeadingtabNavigationBarItem( 
-                        $aSubPage, 
-                        $sCurrentPageSlug 
-                    );                    
-                }     
-                $_aOutput = array_filter( $_aOutput );
-                return empty( $_aOutput )
-                    ? ''
-                    : "<div class='admin-page-framework-page-heading-tab'>"
-                        ."<{$sTag} class='nav-tab-wrapper'>" 
-                            .  implode( '', $_aOutput ) 
-                        . "</{$sTag}>"
-                    . "</div>";                
                 
-            }       
+                $_oTabBar = new AdminPageFramework_TabNavigationBar(
+                    $aPages,     // tab items
+                    $sCurrentPageSlug, // active tab slug
+                    $sTag,       // container tag
+                    array(       // container attributes
+                        // 'class' => '...',
+                    ),
+                    array(       // callbacks
+                        'format'    => array( $this, '_replyToFormatNavigationTabItem_PageHeadingTab' ),
+                    )
+                );            
+                $_sTabBar = $_oTabBar->get();
+                return $_sTabBar
+                    ? "<div class='admin-page-framework-page-heading-tab'>"
+                            . $_sTabBar
+                        . "</div>"
+                    : '';                
+            }
                 /**
-                 * Returns the HTML output of an individual page-heading-navigation bar item.
-                 * @since       3.5.3
-                 * @internal
-                 * @return      string      The HTML output of page heading navigation bar item.
-                 */
-                private function _getPageHeadingtabNavigationBarItem( array $aSubPage, $sCurrentPageSlug ) {
-                    
+                 * Formats navigation tab array of page-heading tabs.
+                 * 
+                 * @callback        function        AdminPageFramework_TabNavigationBar::_getFormattedTab
+                 * @return          array
+                 * @since           3.5.10
+                 */            
+                public function _replyToFormatNavigationTabItem_PageHeadingTab( $aSubPage, $aStructure, $aPages, $aArguments=array() ) {                    
                     switch( $aSubPage['type'] ) {
                         case 'link':
-                            return $this->_getPageHeadingtabNavigationBarLinkItem( $aSubPage );
+                            return $this->_getFormattedPageHeadingtabNavigationBarLinkItem( $aSubPage, $aStructure );
                         default:
-                            return $this->_getPageHeadingtabNavigationBarPageItem( $aSubPage, $sCurrentPageSlug );
-                    }
-                     
+                            return $this->_getFormattedPageHeadingtabNavigationBarPageItem( $aSubPage, $aStructure );
+                    }                    
+                    return $aSubPage + $aStructure;
                 }
                     /**
                      * Returns the HTML output of a navigation bar item of a sub-page.
@@ -482,65 +483,60 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                      * @internal
                      * @return      string      the HTML output of a navigation bar item of a sub-page.
                      */
-                    private function _getPageHeadingtabNavigationBarPageItem( array $aSubPage, $sCurrentPageSlug ) {
+                    private function _getFormattedPageHeadingtabNavigationBarPageItem( array $aSubPage, $aStructure ) {
                         
-                        if ( ! isset( $aSubPage['page_slug'] ) ) {
-                            return '';
+                        if ( ! isset( $aSubPage[ 'page_slug' ] ) ) {
+                            return array();
                         }
-                        if ( ! $aSubPage['show_page_heading_tab'] ) {
-                            return '';
+                        if ( ! $aSubPage[ 'show_page_heading_tab' ] ) {
+                            return array();
                         }
-                                                    
-                        return "<a " . $this->oUtil->generateAttributes(
-                                array(
-                                    'class' => $this->oUtil->generateClassAttribute(
-                                        'nav-tab',
-                                        $this->oUtil->getAOrB(
-                                            $sCurrentPageSlug === $aSubPage['page_slug'],
-                                            'nav-tab-active',
-                                            ''
-                                        )
-                                    ),                                
-                                    'href'  => esc_url( 
-                                        $this->oUtil->getQueryAdminURL( 
-                                            array( 
-                                                'page'  => $aSubPage['page_slug'], 
-                                                'tab'   => false, 
-                                            ), 
-                                            $this->oProp->aDisallowedQueryKeys 
-                                        ) 
-                                    ),
-                                )    
-                            ) . ">"
-                                . $aSubPage['title']
-                            . "</a>";                 
+                        return array(
+                            'slug'  => $aSubPage[ 'page_slug' ],
+                            'title' => $aSubPage[ 'title' ],
+                            'href'  => esc_url( 
+                                $this->oUtil->getQueryAdminURL( 
+                                    array( 
+                                        'page'  => $aSubPage[ 'page_slug' ], 
+                                        'tab'   => false, 
+                                    ), 
+                                    $this->oProp->aDisallowedQueryKeys 
+                                ) 
+                            ),
+                        ) 
+                        + $aSubPage
+                        + array( 'class' => null )
+                        + $aStructure;
                         
                     }
                     /**
-                     * Returns the HTML output of a navigation bar item of a link.
-                     * @since       3.5.3
+                     * Returns a formatted tab array for a navigation bar item of a link for page heading tabs.
+                     * @since       3.5.10
+                     * @since       
                      * @internal
-                     * @return      string      the HTML output of a navigation bar item of a link.
+                     * @return      array      the HTML output of a navigation bar item of a link.
                      */                    
-                    private function _getPageHeadingtabNavigationBarLinkItem( array $aSubPage ) {
+                    private function _getFormattedPageHeadingtabNavigationBarLinkItem( array $aSubPage, $aStructure ) {
                         
-                        if ( ! isset( $aSubPage['href'] ) ) {
-                            return '';
+                        if ( ! isset( $aSubPage[ 'href' ] ) ) {
+                            return array();
                         }
-                        if ( ! $aSubPage['show_page_heading_tab'] ) {
-                            return '';
+                        if ( ! $aSubPage[ 'show_page_heading_tab' ] ) {
+                            return array();
                         }                        
-                        return "<a " . $this->oUtil->generateAttributes(
-                                array(
-                                    'class' => 'nav-tab link',
-                                    'href'  => esc_url( $aSubPage['href'] ),
-                                )    
-                            ) . ">" 
-                                . $aSubPage['title']
-                            . "</a>";
+                        $aSubPage = array(
+                            'slug'  => $aSubPage[ 'href' ],
+                            'title' => $aSubPage[ 'title' ],
+                            'href'  => esc_url( $aSubPage[ 'href' ] ),
+                        ) 
+                            + $aSubPage
+                            + array( 'class' => null )
+                            + $aStructure;
                             
-                    }
-                    
+                        $aSubPage[ 'class' ] = trim( $aSubPage[ 'class' ] . ' link' );
+                        return $aSubPage;
+                    }                
+      
         /**
          * Retrieves the output of in-page tab navigation tabs bar as HTML.
          * 
@@ -564,102 +560,99 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
              
             // If the in-page tabs' visibility is set to false, returns the title.
             if ( ! $_aPage[ 'show_in_page_tabs' ] ) {
-                return isset( $_aInPageTabs[ $_sCurrentTabSlug ]['title'] ) 
+                return isset( $_aInPageTabs[ $_sCurrentTabSlug ][ 'title' ] ) 
                     ? "<{$_sTag}>" 
-                            . $_aInPageTabs[ $_sCurrentTabSlug ]['title'] 
+                            . $_aInPageTabs[ $_sCurrentTabSlug ][ 'title' ]
                         . "</{$_sTag}>" 
                     : "";
             }         
             
-            // Get the output.
-            return $this->_getInPageTabNavigationBar( 
-                $_aInPageTabs, 
-                $_sTag, 
-                $sCurrentPageSlug, 
-                $_sCurrentTabSlug
+            return $this->_getInPageTabNavigationBar(
+                $_aInPageTabs,
+                $_sCurrentTabSlug,
+                $sCurrentPageSlug,
+                $_sTag
             );
                         
         }
-
             /**
              * Generates in-page tab navigation bar HTML output.
              * 
              * @since       3.5.3
              * @internal
              * @return      string      the in-page tab navigation bar output.
-             */        
-            private function _getInPageTabNavigationBar( $aInPageTabs, $sTag, $sCurrentPageSlug, $sCurrentTabSlug ) {
+             */
+            private function _getInPageTabNavigationBar( array $aTabs, $sActiveTab, $sCurrentPageSlug, $sTag ) {
                 
-                $_aOutput = array();
-                foreach( $aInPageTabs as $_sTabSlug => $_aInPageTab ) {
-                    
-                    // The parent tab means the root tab when there is a hidden tab that belongs to it. Also check if the specified parent tab exists.
-                    $_sInPageTabSlug = isset( $_aInPageTab['parent_tab_slug'], $aInPageTabs[ $_aInPageTab['parent_tab_slug'] ] ) 
-                        ? $_aInPageTab['parent_tab_slug'] 
-                        : $_aInPageTab['tab_slug'];                    
-                    
-                    $_aOutput[ $_sInPageTabSlug ] = $this->_getInPageTabNavigationBarItem(
-                        $aInPageTabs[ $_sInPageTabSlug ]['title'],
-                        $_aInPageTab,
-                        $_sInPageTabSlug,
-                        $sCurrentPageSlug,
-                        $sCurrentTabSlug
-                    );
+                $_oTabBar = new AdminPageFramework_TabNavigationBar(
+                    $aTabs,      // tabs
+                    $sActiveTab, // active tab slug
+                    $sTag,       // container tag
+                    array(       // container attributes
+                        'class' => 'in-page-tab',
+                    ),
+                    array(       // callbacks
+                        'format'    => array( $this, '_replyToFormatNavigationTabItem_InPageTab' ),
+                        
+                        // Custom arguments to pass to the callback functions
+                        'arguments' => array(
+                            'page_slug' => $sCurrentPageSlug,
+                        ),                        
+                    )
+                );            
+                $_sTabBar = $_oTabBar->get();
+                return $_sTabBar
+                    ? "<div class='admin-page-framework-in-page-tab'>"
+                            . $_sTabBar
+                        . "</div>"
+                    : '';
                 
-                }     
-                $_aOutput = array_filter( $_aOutput );
-                return empty( $_aOutput )
-                    ? ""
-                    : "<div class='admin-page-framework-in-page-tab'>"
-                            . "<{$sTag} class='nav-tab-wrapper in-page-tab'>"
-                                . implode( '', $_aOutput )
-                            . "</{$sTag}>"
-                        . "</div>";
-            
-            }        
+            }
                 /**
-                 * Returns each item of in-page tab navigation bar.
-                 * @since       3.5.3
-                 * @internal
-                 * @return      string      The generated in-page tab navigation item.
-                 */        
-                private function _getInPageTabNavigationBarItem( $sTitle, array $aInPageTab, $sInPageTabSlug, $sCurrentPageSlug, $sCurrentTabSlug ) {
+                 * Formats navigation tab array of in-page tabs.
+                 * @callback        function        AdminPageFramework_TabNavigationBar::_getFormattedTab
+                 * @return          array
+                 * @since           3.5.10
+                 */
+                public function _replyToFormatNavigationTabItem_InPageTab( array $aTab, array $aStructure, array $aTabs, array $aArguments=array() ) {
                     
-                    // If it's hidden and its parent tab is not set, skip
-                    if ( ! $aInPageTab['show_in_page_tab'] && ! isset( $aInPageTab['parent_tab_slug'] ) ) {
-                        return '';
-                    }
-                                                                
-                    return "<a " . $this->oUtil->generateAttributes(
-                            array(
-                                'class' => $this->oUtil->generateClassAttribute(
-                                    'nav-tab',
-                                    $this->oUtil->getAOrB( 
-                                        $sCurrentTabSlug === $sInPageTabSlug, // check whether the current tab is the active one
-                                        "nav-tab-active",
-                                        ''
-                                    )
-                                ),
-                                'href'  => esc_url( 
-                                    $this->oUtil->getElement( 
-                                        $aInPageTab, 
-                                        'url',
-                                        $this->oUtil->getQueryAdminURL( 
-                                            array( 
-                                                'page'  => $sCurrentPageSlug,
-                                                'tab'   => $sInPageTabSlug,
-                                            ), 
-                                            $this->oProp->aDisallowedQueryKeys 
-                                        )
-                                    )
-                                ),
-                                // 3.5.7+ Added for acceptance tests 
-                                'data-tab-slug' => $sInPageTabSlug,
-                            )    
-                        ) . ">"
-                            . $sTitle
-                        . "</a>";
+                    $_sSlug = isset( $aTab[ 'parent_tab_slug' ], $aTabs[ $aTab[ 'parent_tab_slug' ] ] )
+                        ? $aTab[ 'parent_tab_slug' ] 
+                        : $aTab[ 'tab_slug' ];
 
+                    // If it's hidden and its parent tab is not set, skip
+                    if ( ! $aTab[ 'show_in_page_tab' ] && ! isset( $aTab[ 'parent_tab_slug' ] ) ) {
+                        return array();
+                    }                        
+                        
+                    $aTab = array(
+                        'slug'  => $_sSlug,
+                        'title' => $aTabs[ $_sSlug ][ 'title' ],
+                        'href'  => $aTab[ 'disabled' ]
+                            ? null
+                            : esc_url( 
+                                $this->oUtil->getElement( 
+                                    $aTab, 
+                                    'url',  // if the 'url' argument is set, use it. Otherwise, use the below gnerated url.
+                                    $this->oUtil->getQueryAdminURL( 
+                                        array( 
+                                            'page'  => $aArguments[ 'page_slug' ],
+                                            'tab'   => $_sSlug,
+                                        ), 
+                                        $this->oProp->aDisallowedQueryKeys 
+                                    )
+                                )
+                            ),
+                    ) + $aTab
+                      + array( 
+                            'attributes' => array(
+                                // 3.5.7+ Added for acceptance tests 
+                                'data-tab-slug' => $_sSlug,                            
+                            ),
+                        )
+                      + $aStructure;                    
+                    return $aTab;
+                    
                 }
 
             /**
@@ -711,7 +704,6 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                         array( $sPageSlug, $sTabSlug, 'parent_tab_slug' ),
                         $sTabSlug
                     );
-                    
                     return isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $_sParentTabSlug ]['show_in_page_tab'] ) && $this->oProp->aInPageTabs[ $sPageSlug ][ $_sParentTabSlug ]['show_in_page_tab']
                         ? $_sParentTabSlug
                         : '';

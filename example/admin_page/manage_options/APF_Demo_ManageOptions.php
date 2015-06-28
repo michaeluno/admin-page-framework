@@ -102,6 +102,19 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
             'reset_confirm'                
         );
 
+        // Disabled tab example
+        $oAdminPage->addInPageTabs(    
+            $this->sPageSlug, // target page slug
+            array(
+                'tab_slug'      => 'disabled',
+                'title'         => __( 'Disabled', 'admin-page-framework-loader' ),
+                'disabled'      => true,
+                'attributes'    => array(
+                    'title'     => __( ' the disabled argument is true, this tab will be disabled and has no link.', 'admin-page-framework-loader' ),
+                ),
+            )        
+        );          
+        
     }
 
 }

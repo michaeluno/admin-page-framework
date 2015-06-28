@@ -68,6 +68,13 @@ class AdminPageFramework_CSS {
     font-family: 'Open Sans', sans-serif;
 } 
 
+/* Tab Navigation Bar */
+.nav-tab.tab-disabled,
+.nav-tab.tab-disabled:hover {
+    font-weight: normal;
+    color: #AAAAAA;
+}
+
 /* In-page tabs */ 
 .admin-page-framework-in-page-tab .nav-tab.nav-tab-active {
     border-bottom-width: 2px;

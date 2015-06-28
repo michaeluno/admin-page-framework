@@ -93,6 +93,8 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
         'show_in_page_tabs'         => null,
         'in_page_tab_tag'           => null,
         'page_heading_tab_tag'      => null,
+        'disabled'                  => null, // 3.5.10+ (boolean) If false, in the page heading navigation tab, the link will be disabled.
+        'attributes'                => null, // 3.5.10+ (array) Applied to navigation tab element.
     );    
     
     /**

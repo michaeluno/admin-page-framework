@@ -31,6 +31,14 @@ class APF_BasicUsage extends AdminPageFramework {
             array(
                 'title' => __( 'Second Page', 'admin-page-framework-demo' ),
                 'page_slug' => 'apf_second_page',
+            ),
+            array(
+                'title'         => __( 'Disabled', 'admin-page-framework-demo' ),
+                'page_slug'     => 'apf_disabled',
+                'disabled'      => true,
+                'attributes'    => array(
+                    'title'     => __( 'When the disabled argument is true, this tab will be disabled and has no link.', 'admin-page-framework-loader' ),
+                ),            
             )
         );
         
