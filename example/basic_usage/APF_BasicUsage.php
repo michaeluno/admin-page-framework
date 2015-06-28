@@ -38,7 +38,8 @@ class APF_BasicUsage extends AdminPageFramework {
                 'disabled'      => true,
                 'attributes'    => array(
                     'title'     => __( 'When the disabled argument is true, this tab will be disabled and has no link.', 'admin-page-framework-loader' ),
-                ),            
+                ),
+                'show_in_menu'  => false,
             )
         );
         
