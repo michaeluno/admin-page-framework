@@ -45,11 +45,13 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
      * @since       3.1.3       Moved from the post type class.
      */
     public function _replyToAddSettingsLinkInPluginListingPage( $aLinks ) {
-        
-        $_sLinkLabel = isset( $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link'] )
-            ? $this->oProp->aPostTypeArgs['labels']['plugin_listing_table_title_cell_link']
-            : $this->oMsg->get( 'manage' );
-
+          
+        $_sLinkLabel = $this->getElement(
+            $this->oProp->aPostTypeArgs, // subject array
+            array( 'labels', 'plugin_listing_table_title_cell_link' ), // dimensional keys
+            $this->oMsg->get( 'manage' ) // default
+        );
+            
         // If the user explicitly sets an empty string to the label key, do not insert a link.
         if ( ! $_sLinkLabel ) {
             return $aLinks;
