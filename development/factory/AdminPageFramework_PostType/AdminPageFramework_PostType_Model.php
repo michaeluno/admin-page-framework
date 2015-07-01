@@ -64,12 +64,20 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * 
      * This method should be overridden by the user in their extended class.
      * 
+     * @internal
      * @since       2.0.0
      * @remark      A callback for the `manage_edit-{post type}_sortable_columns` hook.
-     * @internal
+     * @filter      add|apply       sortable_columns_{post type slug}
+     * @return      array
      */ 
     public function _replyToSetSortableColumns( $aColumns ) {
-        return $this->oUtil->addAndApplyFilter( $this, "sortable_columns_{$this->oProp->sPostType}", $aColumns );
+        return $this->oUtil->getAsArray(
+            $this->oUtil->addAndApplyFilter( 
+                $this, 
+                "sortable_columns_{$this->oProp->sPostType}", 
+                $aColumns 
+            )
+        );
     }
     
     
@@ -78,13 +86,20 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * 
      * This method should be overridden by the user in their extended class.
      * 
+     * @internal
      * @since       2.0.0
      * @remark      A callback for the <em>manage_{post type}_post)_columns</em> hook.
-     * @return      void
-     * @internal
+     * @filter      add|apply       columns_{post type slug}
+     * @return      array
      */ 
     public function _replyToSetColumnHeader( $aHeaderColumns ) {
-        return $this->oUtil->addAndApplyFilter( $this, "columns_{$this->oProp->sPostType}", $aHeaderColumns );
+        return $this->oUtil->getAsArray(
+            $this->oUtil->addAndApplyFilter( 
+                $this, 
+                "columns_{$this->oProp->sPostType}", 
+                $aHeaderColumns 
+            )
+        );
     }    
     
     /**
@@ -93,11 +108,16 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * @internal
      * @since       3.0.x
      * @since       3.5.0       Renamed from `_replyToSetColumnCell`.
+     * @return      
      */
-    public function _replyToPrintColumnCell( $sColumnTitle, $iPostID ) { 
+    public function _replyToPrintColumnCell( $sColumnKey, $iPostID ) { 
                 
-        // cell_{post type}_{custom column key}
-        echo $this->oUtil->addAndApplyFilter( $this, "cell_{$this->oProp->sPostType}_{$sColumnTitle}", $sCell='', $iPostID );
+        echo $this->oUtil->addAndApplyFilter( 
+            $this, 
+            "cell_{$this->oProp->sPostType}_{$sColumnKey}", 
+            '',  // cell
+            $iPostID 
+        );
                   
     }    
     
@@ -108,8 +128,12 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      */
     public function _replyToDisableAutoSave() {
         
-        if ( $this->oProp->bEnableAutoSave ) { return; }
-        if ( $this->oProp->sPostType != get_post_type() ) { return; }
+        if ( $this->oProp->bEnableAutoSave ) { 
+            return; 
+        }
+        if ( $this->oProp->sPostType != get_post_type() ) { 
+            return; 
+        }
         wp_dequeue_script( 'autosave' );
             
     }
@@ -120,7 +144,10 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * @internal
      */
     public function _replyToRegisterPostType() {
-        register_post_type( $this->oProp->sPostType, $this->oProp->aPostTypeArgs );
+        register_post_type( 
+            $this->oProp->sPostType, 
+            $this->oProp->aPostTypeArgs
+        );
     }
 
     /**

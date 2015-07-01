@@ -26,7 +26,8 @@ class APF_PostType extends AdminPageFramework_PostType {
     public function setUp() {    
 
         $this->setArguments(
-            array( // argument - for the array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
+            // argument - for the array structure, see http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
+            array( 
                 'labels' => array(
                     'name'               => 'Demo',
                     'all_items'          => __( 'Sample Posts', 'admin-page-framework-demo' ),
@@ -42,8 +43,9 @@ class APF_PostType extends AdminPageFramework_PostType {
                     'not_found'          => __( 'No APF Post found', 'admin-page-framework-demo' ),
                     'not_found_in_trash' => __( 'No APF Post found in Trash', 'admin-page-framework-demo' ),
                     'parent'             => __( 'Parent APF Post', 'admin-page-framework-demo' ),
-                    // 'plugin_listing_table_title_cell_link' => __( 'APF Posts', 'admin-page-framework-demo' ), // framework specific key. [3.0.6+]
-                    'plugin_listing_table_title_cell_link' => '', // framework specific key. [3.0.6+]
+                    
+                    // (framework specific)
+                    'plugin_listing_table_title_cell_link' => __( 'APF Posts', 'admin-page-framework-demo' ), // framework specific key. [3.0.6+]
                 ),
                 'public'            => true,
                 'menu_position'     => 110,
@@ -52,10 +54,20 @@ class APF_PostType extends AdminPageFramework_PostType {
                 'has_archive'       => true,
                 'show_admin_column' => true, // [3.5+ core] this is for custom taxonomies to automatically add the column in the listing table.
                 'menu_icon'         => $this->oProp->bIsAdmin 
-                    ? ( version_compare( $GLOBALS['wp_version'], '3.8', '>=' ) ? 'dashicons-wordpress' : plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ) )
+                    ? ( 
+                        version_compare( $GLOBALS['wp_version'], '3.8', '>=' ) 
+                            ? 'dashicons-wordpress' 
+                            : plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ) 
+                    )
                     : null, // do not call the function in the front-end.
-                // ( framework specific key ) this sets the screen icon for the post type for WordPress v3.7.1 or below.
-                'screen_icon' => dirname( APFDEMO_FILE  ) . '/asset/image/wp-logo_32x32.png', // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
+                    
+                // (framework specific) this sets the screen icon for the post type for WordPress v3.7.1 or below.
+                // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
+                'screen_icon' => dirname( APFDEMO_FILE  ) . '/asset/image/wp-logo_32x32.png', 
+                
+                // [3.5.10+] (framework specific) default: true
+                'show_submenu_add_new'  => true, 
+                
             )    
         );
         

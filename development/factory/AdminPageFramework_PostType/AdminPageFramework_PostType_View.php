@@ -39,12 +39,102 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             // Style
             add_action( 'admin_head', array( $this, '_replyToPrintStyle' ) );
             
+            // Menu 
+            // 3.5.10+
+            add_action( 'admin_menu', array( $this, '_replyToRemoveAddNewSidebarMenu' ) );
+         
         }     
         
         // Front-end
         add_action( 'the_content', array( $this, '_replyToFilterPostTypeContent' ) );
         
     }
+
+        /**
+         * Removes the sidebar item of "Add New" if the 'show_menu_add_new' argument is set.
+         * 
+         * @internal
+         * @since       3.5.10
+         * @return      void
+         */
+        public function _replyToRemoveAddNewSidebarMenu() {
+            
+            if ( 
+                $this->oUtil->getElement(
+                    $this->oProp->aPostTypeArgs, // subject array
+                    'show_submenu_add_new', // dimensional keys
+                    true // default
+                )
+            ) {
+                return;
+            }
+            
+            // Remove the Add New menu
+            $_bsShowInMenu = $this->_getShowInMenuValue( $this->oProp->aPostTypeArgs );
+            $this->_removeAddNewSidebarSubMenu(
+                is_string( $_bsShowInMenu )
+                    ? $_bsShowInMenu
+                    : 'edit.php?post_type=' . $this->oProp->sPostType,
+                $this->oProp->sPostType
+            );
+            
+        }    
+            /**
+             * Retrieves the 'show_in_menu' post type argument value.
+             * 
+             * This argument is determined by the combinations of the values of the 'show_ui' and 'public' arguments.
+             * 
+             * @internal
+             * @since       3.5.10
+             * @see         http://codex.wordpress.org/Function_Reference/register_post_type#show_in_menu
+             * @return      boolean|string
+             */
+            private function _getShowInMenuValue( $aPostTypeArguments ) {
+                return $this->oUtil->getElement(
+                    $aPostTypeArguments, // subject array
+                    'show_in_menu', // dimensional keys
+                    $this->oUtil->getElement(
+                        $this->oProp->aPostTypeArgs, // subject array
+                        'show_ui', // dimensional keys
+                        $this->oUtil->getElement(
+                            $this->oProp->aPostTypeArgs, // subject array
+                            'public', // dimensional keys
+                            false // default
+                        )
+                    )
+                );                        
+            
+            }
+            /**
+             * Removes the sidebar menu item of "Add New .." of the post type.
+             * 
+             * @internal
+             * @since       3.5.10
+             * @return      void
+             */
+            private function _removeAddNewSidebarSubMenu( $sMenuKey, $sPostTypeSlug ) {
+
+                // Remove the default post type menu item.
+                if ( ! isset( $GLOBALS['submenu'][ $sMenuKey ] ) ) {
+                    // logged-in users of an insufficient access level don't have the menu to be registered.
+                    return; 
+                } 
+                
+                foreach ( $GLOBALS['submenu'][ $sMenuKey ] as $_iIndex => $_aSubMenu ) {
+                                
+                    if ( ! isset( $_aSubMenu[ 2 ] ) ) { 
+                        continue; 
+                    }
+                    
+                    // Remove the default Add New entry.
+                    if ( 'post-new.php?post_type=' . $sPostTypeSlug === $_aSubMenu[ 2 ] ) {
+                        unset( $GLOBALS['submenu'][ $sMenuKey ][ $_iIndex ] );
+                        continue;
+                    }
+                    
+                }
+                
+            }
         
     /**
      * Adds a drop-down list to filter posts by author, placed above the post type listing table.
@@ -53,7 +143,9 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      */ 
     public function _replyToAddAuthorTableFilter() {
         
-        if ( ! $this->oProp->bEnableAuthorTableFileter ) { return; }
+        if ( ! $this->oProp->bEnableAuthorTableFileter ) { 
+            return; 
+        }
         
         if ( 
             ! ( isset( $_GET['post_type'] ) && post_type_exists( $_GET['post_type'] ) 
@@ -62,13 +154,17 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             return;
         }
         
-        wp_dropdown_users( array(
-            'show_option_all' => 'Show all Authors',
-            'show_option_none' => false,
-            'name' => 'author',
-            'selected' => ! empty( $_GET['author'] ) ? $_GET['author'] : 0,
-            'include_selected' => false
-        ));
+        wp_dropdown_users( 
+            array(
+                'show_option_all'   => $this->oMsg->get( 'show_all_authors' ),
+                'show_option_none'  => false,
+                'name'              => 'author',
+                'selected'          => ! empty( $_GET[ 'author' ] ) 
+                    ? $_GET[ 'author' ] 
+                    : 0,
+                'include_selected'  => false,
+            )
+        );
             
     }
     
@@ -79,36 +175,44 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      */ 
     public function _replyToAddTaxonomyTableFilter() {
         
-        if ( $GLOBALS['typenow'] != $this->oProp->sPostType ) { return; }
+        if ( $GLOBALS[ 'typenow' ] != $this->oProp->sPostType ) { 
+            return; 
+        }
         
         // If there is no post added to the post type, do nothing.
-        $oPostCount = wp_count_posts( $this->oProp->sPostType );
-        if ( $oPostCount->publish + $oPostCount->future + $oPostCount->draft + $oPostCount->pending + $oPostCount->private + $oPostCount->trash == 0 ) {
+        $_oPostCount = wp_count_posts( $this->oProp->sPostType );
+        if ( 0 == $_oPostCount->publish + $_oPostCount->future + $_oPostCount->draft + $_oPostCount->pending + $_oPostCount->private + $_oPostCount->trash ) {
             return;
         }
         
-        foreach ( get_object_taxonomies( $GLOBALS['typenow'] ) as $sTaxonomySulg ) {
+        foreach ( get_object_taxonomies( $GLOBALS['typenow'] ) as $_sTaxonomySulg ) {
             
-            if ( ! in_array( $sTaxonomySulg, $this->oProp->aTaxonomyTableFilters ) ) continue;
+            if ( ! in_array( $_sTaxonomySulg, $this->oProp->aTaxonomyTableFilters ) ) {
+                continue;
+            }
             
-            $oTaxonomy = get_taxonomy( $sTaxonomySulg );
+            $_oTaxonomy = get_taxonomy( $_sTaxonomySulg );
  
             // If there is no added term, skip.
-            if ( wp_count_terms( $oTaxonomy->name ) == 0 ) continue;             
+            if ( 0 == wp_count_terms( $_oTaxonomy->name ) ) {
+                continue;             
+            }
 
-            // This function will echo the drop down list based on the passed array argument.
-            wp_dropdown_categories( array(
-                'show_option_all' => $this->oMsg->get( 'show_all' ) . ' ' . $oTaxonomy->label,
-                'taxonomy'       => $sTaxonomySulg,
-                'name'           => $oTaxonomy->name,
-                'orderby'       => 'name',
-                'selected'       => intval( isset( $_GET[ $sTaxonomySulg ] ) ),
-                'hierarchical'       => $oTaxonomy->hierarchical,
-                'show_count'       => true,
-                'hide_empty'       => false,
-                'hide_if_empty' => false,
-                'echo' => true, // this make the function print the output
-            ) );
+            // Echo the drop down list based on the passed array argument.
+            wp_dropdown_categories( 
+                array(
+                    'show_option_all'   => $this->oMsg->get( 'show_all' ) . ' ' . $_oTaxonomy->label,
+                    'taxonomy'          => $_sTaxonomySulg,
+                    'name'              => $_oTaxonomy->name,
+                    'orderby'           => 'name',
+                    'selected'          => intval( isset( $_GET[ $_sTaxonomySulg ] ) ),
+                    'hierarchical'      => $_oTaxonomy->hierarchical,
+                    'show_count'        => true,
+                    'hide_empty'        => false,
+                    'hide_if_empty'     => false,
+                    'echo'              => true, // print the output
+                ) 
+            );
             
         }
     }
@@ -119,16 +223,24 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      */
     public function _replyToGetTableFilterQueryForTaxonomies( $oQuery=null ) {
         
-        if ( 'edit.php' != $this->oProp->sPageNow ) { return $oQuery; }
+        if ( 'edit.php' != $this->oProp->sPageNow ) { 
+            return $oQuery; 
+        }
         
-        if ( ! isset( $GLOBALS['typenow'] ) ) { return $oQuery; }
+        if ( ! isset( $GLOBALS['typenow'] ) ) { 
+            return $oQuery; 
+        }
 
         foreach ( get_object_taxonomies( $GLOBALS['typenow'] ) as $sTaxonomySlug ) {
             
-            if ( ! in_array( $sTaxonomySlug, $this->oProp->aTaxonomyTableFilters ) ) { continue; }
+            if ( ! in_array( $sTaxonomySlug, $this->oProp->aTaxonomyTableFilters ) ) { 
+                continue; 
+            }
             
             $sVar = &$oQuery->query_vars[ $sTaxonomySlug ];
-            if ( ! isset( $sVar ) ) { continue; }
+            if ( ! isset( $sVar ) ) { 
+                continue; 
+            }
             
             $oTerm = get_term_by( 'id', $sVar, $sTaxonomySlug );
             if ( is_object( $oTerm ) ) {
@@ -145,6 +257,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
     /**
      * Prints the script.
      * @internal
+     * @return      void
      */
     public function _replyToPrintStyle() {
         
@@ -177,8 +290,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
         private function _getStylesForPostTypeScreenIcon( $sSRC ) {
             
             $sNone = 'none';
-            
-            $sSRC = $this->oUtil->resolveSRC( $sSRC );
+            $sSRC  = $this->oUtil->resolveSRC( $sSRC );
             return <<<CSSRULES
 #post-body-content {
     margin-bottom: 10px;
