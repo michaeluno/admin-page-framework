@@ -38,12 +38,14 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             
             // Style
             add_action( 'admin_head', array( $this, '_replyToPrintStyle' ) );
-            
+                     
+        }     
+        
+        if ( $this->oProp->bIsAdmin ) {
             // Menu 
             // 3.5.10+
             add_action( 'admin_menu', array( $this, '_replyToRemoveAddNewSidebarMenu' ) );
-         
-        }     
+        }
         
         // Front-end
         add_action( 'the_content', array( $this, '_replyToFilterPostTypeContent' ) );
