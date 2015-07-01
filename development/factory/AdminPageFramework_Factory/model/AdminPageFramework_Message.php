@@ -95,6 +95,7 @@ class AdminPageFramework_Message {
         'comments'                              => 'Comments', 
         'date'                                  => 'Date', 
         'show_all'                              => 'Show All', 
+        'show_all_authors'                      => 'Show all Authors', // 3.5.10+
 
         // AdminPageFramework_Link_Base
         'powered_by'                            => 'Powered by', 
@@ -313,6 +314,7 @@ class AdminPageFramework_Message {
         __( 'Comments', 'admin-page-framework' );
         __( 'Date', 'admin-page-framework' ); 
         __( 'Show All', 'admin-page-framework' );
+        __( 'Show All Authors', 'admin-page-framework' );
         __( 'Powered by', 'admin-page-framework' );
         __( 'Settings', 'admin-page-framework' );
         __( 'Manage', 'admin-page-framework' );
