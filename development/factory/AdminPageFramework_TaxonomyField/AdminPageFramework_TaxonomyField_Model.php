@@ -26,7 +26,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * @since       3.5.3       Moved from `AdminPageFramework_Factory_Model`.
      * @remark      Do not even declare this method to avoid PHP strict standard warnings.
      */
-    // public function validate( $aInput, $aOldInput, $oFactory, $aSubmitInfo ) {
+    // public function validate( $aInput, $aOldInput, $oFactory ) {
         // return $aInput;
     // }      
    
@@ -171,7 +171,10 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
         $_aSubmittedOptions = $this->oUtil->addAndApplyFilters( 
             $this, 
             'validation_' . $this->oProp->sClassName, 
-            $this->validate( $_aSubmittedOptions ), 
+            call_user_func_array( 
+                array( $this, 'validate' ), // triggers __call()
+                array( $_aSubmittedOptions, $_aOldOptions, $this )
+            ), // 3.5.10+
             $_aOldOptions, 
             $this 
         );
