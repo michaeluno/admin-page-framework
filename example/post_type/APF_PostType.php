@@ -45,7 +45,7 @@ class APF_PostType extends AdminPageFramework_PostType {
                     'parent'             => __( 'Parent APF Post', 'admin-page-framework-demo' ),
                     
                     // (framework specific)
-                    'plugin_listing_table_title_cell_link' => __( 'APF Posts', 'admin-page-framework-demo' ), // framework specific key. [3.0.6+]
+                    // 'plugin_listing_table_title_cell_link' => __( 'APF Posts', 'admin-page-framework-demo' ), // framework specific key. [3.0.6+]
                 ),
                 'public'            => true,
                 'menu_position'     => 110,
