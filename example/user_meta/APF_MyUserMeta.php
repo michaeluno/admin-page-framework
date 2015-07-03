@@ -41,7 +41,7 @@ class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
                     'b' => 'B',
                     'c' => 'C',
                 ),
-                'default'       => 'a',
+                'default'       => 'b',
             )          
         );      
         

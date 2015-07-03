@@ -63,14 +63,21 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
             }
                         
             // Parse the registered fields
-            $_aOptions = array();
+            $_aMetaKeys = array_keys( get_user_meta( $iUserID ) );
+            $_aOptions  = array();
             foreach( $this->oForm->aConditionedFields as $_sSectionID => $_aFields ) {
                 
                 if ( '_default' == $_sSectionID  ) {
                     foreach( $_aFields as $_aField ) {
-                        $_aOptions[ $_aField['field_id'] ] = get_user_meta( $iUserID, $_aField['field_id'], true );
+                        if ( ! in_array( $_aField[ 'field_id' ], $_aMetaKeys ) ) {
+                            continue;
+                        }                        
+                        $_aOptions[ $_aField[ 'field_id' ] ] = get_user_meta( $iUserID, $_aField[ 'field_id' ], true );
                     }
                 }
+                if ( ! in_array( $_sSectionID, $_aMetaKeys ) ) {
+                    continue;
+                }                                
                 $_aOptions[ $_sSectionID ] = get_user_meta( $iUserID, $_sSectionID, true );
                 
             }
@@ -131,7 +138,7 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
                             
         $this->oForm->updateMetaDataByType( 
             $iUserID,  // object id
-            $_aInput,   // user submit form data
+            $_aInput,  // user submit form data
             $this->oForm->dropRepeatableElements( $_aSavedMeta ), // Drop repeatable section elements from the saved meta array.
             $this->oForm->sFieldsType   // fields type
         );            

@@ -379,6 +379,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the `show_submenu_add_new` post type argument which enables to remove "Add New" sub-menu item from the sidebar menu.
 - Added the `attributes` and `disabled` arguments to page and in-page tab definition array which gets applied to navigation tab element.
 - Changed the behavior of the `color` field type to have the default value getting reflected in repeated field.
+- Fixed an issue that default values could not be set for user meta fields.
 - Fixed an issue that magic quotes were not sanitized in taxonomy field inputs.
 
 = 3.5.9 - 2015/06/25 =
