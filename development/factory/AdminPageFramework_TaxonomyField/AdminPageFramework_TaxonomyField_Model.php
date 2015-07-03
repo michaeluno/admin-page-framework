@@ -24,10 +24,11 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * 
      * @since       3.4.1
      * @since       3.5.3       Moved from `AdminPageFramework_Factory_Model`.
+     * @remark      Do not even declare this method to avoid PHP strict standard warnings.
      */
-    public function validate( $aInput, $aOldInput, $oFactory ) {
-        return $aInput;
-    }      
+    // public function validate( $aInput, $aOldInput, $oFactory, $aSubmitInfo ) {
+        // return $aInput;
+    // }      
    
     /**
      * Modifies the columns of the taxonomy term listing table in the edit-tags.php page.
@@ -163,18 +164,25 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
                 }
             }
         }
+        // [3.5.10+] Fix magic quotes 
+        $_aSubmittedOptions     = stripslashes_deep( $_aSubmittedOptions );  
             
-        /* Apply validation filters to the submitted option array. */
-        // @todo call the validate() method.
+        // Apply validation filters to the submitted option array. 
         $_aSubmittedOptions = $this->oUtil->addAndApplyFilters( 
             $this, 
             'validation_' . $this->oProp->sClassName, 
-            $_aSubmittedOptions, 
+            $this->validate( $_aSubmittedOptions ), 
             $_aOldOptions, 
             $this 
         );
-        $aTaxonomyFieldOptions[ $iTermID ]  = $this->oUtil->uniteArrays( $_aSubmittedOptions, $_aOldOptions );
-        update_option( $this->oProp->sOptionKey, $aTaxonomyFieldOptions );
+        $aTaxonomyFieldOptions[ $iTermID ]  = $this->oUtil->uniteArrays( 
+            $_aSubmittedOptions, 
+            $_aOldOptions 
+        );
+        update_option( 
+            $this->oProp->sOptionKey, 
+            $aTaxonomyFieldOptions 
+        );
         
     }        
         /**
