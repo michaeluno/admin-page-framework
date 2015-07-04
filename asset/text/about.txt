@@ -28,7 +28,7 @@ Also, compared to the minified version which loads all the classes at once, the 
         <div class='apfl_cell'>    
             <h3>Plugin Bootstrap Utility</h3>
 
-            <p>The newly introduced an abstract utility class lets you set up loading components including requirement checks upon plugin activation.</p>
+            <p>The newly introduced abstract utility class lets you set up loading components including requirement checks upon plugin activation.</p>
 
             <p>You just extend it and define certain methods and instantiate it. That's it.</p>
         </div>
