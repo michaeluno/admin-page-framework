@@ -81,6 +81,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
      * @since       3.3.1       Made it indicate the data length.
      * @param       mixed       $mValue         The value to log.  
      * @param       string      $sFilePath      The log file path.
+     * @return      void
      **/
     static public function log( $mValue, $sFilePath=null ) {
                 
