@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.3
 Tested up to:       4.2.2
-Stable tag:         3.5.9
+Stable tag:         3.5.10
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -173,6 +173,26 @@ $this->setRootMenuPageBySlug( 'MyAdminPageClassA' );
 
 <h5><strong>Can I create pages in the network admin area?</strong></h5>
 Yes, See the demo.
+
+<h5><strong>Some of my users claim they cannot save options. What would be a possible cause?</strong></h5>
+
+- `max_input_vars` of PHP settings. If this value is small and the there are lots of form input elements, the user may not be able to save the options.
+
+To increase the value, edit `php.ini` and add the following line where `10000` is the increased number.
+
+`
+max_input_vars = 10000
+`
+
+- `max_allowed_packet` of MySQL settings. Try increasing this value in the `my.ini` or `my.cnf` file.
+
+The `500M` in the following line is where the increased value should be set.
+
+`
+max_allowed_packet=500M
+`
+
+Please keep in mind that these are just a few of many possibilities. If you encounter a situation that prevented the user from saving options, please report.
 
 <h5><strong>I cannot find what I'd like to do in tutorials and documentation. Where else should I look for more information?</strong></h5>
 
