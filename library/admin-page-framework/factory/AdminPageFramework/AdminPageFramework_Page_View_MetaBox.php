@@ -26,7 +26,8 @@ abstract class AdminPageFramework_Page_View_MetaBox extends AdminPageFramework_P
         echo "</div>";
     }
     protected function _getNumberOfColumns() {
-        return 1 == get_current_screen()->get_columns() ? '1' : '2';
+        $_iColumns = get_current_screen()->get_columns();
+        return $_iColumns ? $_iColumns : 1;
     }
     private function _isMetaBoxAdded($sPageSlug = '') {
         if (!isset($GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses']) || !is_array($GLOBALS['aAdminPageFramework']['aMetaBoxForPagesClasses'])) {
