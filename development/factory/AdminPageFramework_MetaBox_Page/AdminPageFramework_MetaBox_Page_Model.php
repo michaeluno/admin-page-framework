@@ -32,13 +32,23 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
     public function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     
                 
         // The property object needs to be done first before the parent constructor.
-        $this->oProp             = new AdminPageFramework_Property_MetaBox_Page( $this, get_class( $this ), $sCapability, $sTextDomain, self::$_sFieldsType );     
-        $this->oProp->aPageSlugs = is_string( $asPageSlugs ) ? array( $asPageSlugs ) : $asPageSlugs; // must be set before the isInThePage() method is used.
+        $this->oProp             = new AdminPageFramework_Property_MetaBox_Page( 
+            $this, 
+            get_class( $this ), 
+            $sCapability, 
+            $sTextDomain, 
+            self::$_sFieldsType 
+        );
+        
+        // This property item must be set before the isInThePage() method is used.
+        $this->oProp->aPageSlugs = is_string( $asPageSlugs ) 
+            ? array( $asPageSlugs ) 
+            : $asPageSlugs; 
         
         parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );
-            
+
     }
-        
+    
     /**
      * A validation callback method.
      * 
@@ -102,10 +112,10 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
     protected function getFieldOutput( $aField ) {
         
         // Since meta box fields don't have the `option_key` key which is required to construct the name attribute in the regular pages. 
-        $aField['option_key']   = $this->_getOptionKey();
+        $aField[ 'option_key' ] = $this->_getOptionKey();
         
         // set an empty string to make it yield true for isset() so that saved options will be checked.
-        $aField['page_slug']    = $this->oProp->getCurrentPageSlug(); 
+        $aField[ 'page_slug' ]  = $this->oProp->getCurrentPageSlug();
         
         return parent::getFieldOutput( $aField );
         
@@ -152,7 +162,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
             }
             
         }
-                
+        
     }    
         /**
          * Adds meta box with the given page slug.

@@ -394,6 +394,10 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+ 
+= 3.5.11 =
+- Added the column layout screen options for page meta boxes.
+- Fixed a bug that screen options were not saved in generic pages added by the framework.
 
 = 3.5.10 - 2015/07/05 =
 - Added the `show_submenu_add_new` post type argument which enables to remove "Add New" sub-menu item from the sidebar menu.
