@@ -217,8 +217,13 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                             'action'    => wp_unslash( remove_query_arg( 'settings-updated', $this->oProp->sTargetFormPage ) ),
                         )    
                     ) 
-                . " >";
-                
+                . " >" . PHP_EOL;
+            
+            // [3.5.11+] Insert a mark that indicates the framework form has started.
+            // This will be checked in the validation method with the `is_admin_page_framework` input value which gets inserted at the end of the form
+            // in order to determine all the fields are sent for the PHP max_input_vars limitation set in the server configuration.
+            echo "<input type='hidden' name='admin_page_framework_start' value='1' />" . PHP_EOL;
+            
             // Embed the '_wp_http_referer' hidden field that is checked in the submit data processing method.
             settings_fields( $this->oProp->sOptionKey );
             

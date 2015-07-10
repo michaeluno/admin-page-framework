@@ -259,23 +259,45 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
          */
         private function _verifyFormSubmit() {
             
+            //
             if ( 
                 ! isset( 
-                    // The framework specific keys
-                    $_POST['_is_admin_page_framework'], // holds the form nonce
-                    $_POST['page_slug'], 
-                    $_POST['tab_slug'], 
-                    $_POST['_wp_http_referer']
+                    $_POST[ 'admin_page_framework_start' ], // indicates the framework form is started
+                    $_POST[ '_wp_http_referer' ]
                 ) 
             ) {     
                 return false;
             }
-            $_sRequestURI   = remove_query_arg( array( 'settings-updated', 'confirmation', 'field_errors' ), wp_unslash( $_SERVER['REQUEST_URI'] ) );
-            $_sReffererURI  = remove_query_arg( array( 'settings-updated', 'confirmation', 'field_errors' ), $_POST['_wp_http_referer'] );
+            
+            // Referrer
+            $_sRequestURI   = remove_query_arg( array( 'settings-updated', 'confirmation', 'field_errors' ), wp_unslash( $_SERVER[ 'REQUEST_URI' ] ) );
+            $_sReffererURI  = remove_query_arg( array( 'settings-updated', 'confirmation', 'field_errors' ), $_POST[ '_wp_http_referer' ] );
             if ( $_sRequestURI != $_sReffererURI ) { // see the function definition of wp_referer_field() in functions.php.
                 return false;
             }
             
+            // Check if all the form fields are sent. 
+            if (
+                ! isset(
+                    // these keys are supposed to be embedded at the end of the form.
+                    // if the server truncates the form input values for `max_input_vars`, these will be lost in PHP 5.3.9 or above.
+                    $_POST[ '_is_admin_page_framework' ], // holds the form nonce
+                    $_POST[ 'page_slug' ], 
+                    $_POST[ 'tab_slug' ]
+                )
+            ) {
+                $this->setAdminNotice( 
+                    sprintf( 
+                        $this->oMsg->get( 'check_max_input_vars' ),
+                        function_exists( 'ini_get' ) 
+                            ? ini_get( 'max_input_vars' )
+                            : 'unknown',
+                        count( $_POST, COUNT_RECURSIVE )
+                    )                    
+                );
+                return false;
+            }
+                        
             $_sNonceTransientKey = 'form_' . md5( $this->oProp->sClassName . get_current_user_id() );
             if ( $_POST['_is_admin_page_framework'] !== $this->oUtil->getTransient( $_sNonceTransientKey ) ) {
                 $this->setAdminNotice( $this->oMsg->get( 'nonce_verification_failed' ) );
