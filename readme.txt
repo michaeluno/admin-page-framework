@@ -395,7 +395,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
  
-= 3.5.11 =
+= 3.5.11 - 2015/07/14 =
 - Added a warning to be displayed for forms in generic admin pages when the user form inputs exceeds the PHP `max_input_vars` value.
 - Added the column layout screen options for page meta boxes.
 - Fixed a bug that screen options were not saved in generic pages added by the framework.
