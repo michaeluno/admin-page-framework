@@ -197,11 +197,15 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
     
     /**
      * The content filter callback method.
+     * 
+     * @callback        filter      content_{instantiated class name}
      */
-    public function content_APF_MetaBox_BuiltinFieldTypes( $sContent ) { // content_{instantiated class name}
-        
-        $_sInsert = "<p>" . sprintf( __( 'This text is inserted with the <code>%1$s</code> hook.', 'admin-page-framework-demo' ), __FUNCTION__ ) . "</p>";
-        return $sContent . $_sInsert;
+    public function content_APF_MetaBox_BuiltinFieldTypes( $sContent ) { 
+       
+        return $sContent 
+            . "<p>" 
+                . sprintf( __( 'This text is inserted with the <code>%1$s</code> hook.', 'admin-page-framework-demo' ), __FUNCTION__ ) 
+            . "</p>";
         
     }
     
