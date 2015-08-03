@@ -136,8 +136,10 @@ class APF_PostType extends AdminPageFramework_PostType {
     }    
     /*
      * Built-in callback methods
+     * 
+     * @callback        filter      columns_{post type slug}
      */
-    public function columns_apf_posts( $aHeaderColumns ) { // columns_{post type slug}
+    public function columns_apf_posts( $aHeaderColumns ) { 
         
         return array_merge( 
             $aHeaderColumns,
@@ -154,12 +156,22 @@ class APF_PostType extends AdminPageFramework_PostType {
         );
         
     }
-    public function sortable_columns_apf_posts( $aSortableHeaderColumns ) { // sortable_columns_{post type slug}
+    
+    /**
+     * 
+     * @callback        filter      sortable_columns_{post type slug}
+     */
+    public function sortable_columns_apf_posts( $aSortableHeaderColumns ) { 
         return $aSortableHeaderColumns + array(
             'samplecolumn' => 'samplecolumn',
         );
     }    
-    public function cell_apf_posts_samplecolumn( $sCell, $iPostID ) { // cell_{post type}_{column key}
+    
+    /**
+     * 
+     * @callback        filter      cell_{post type}_{column key}
+     */
+    public function cell_apf_posts_samplecolumn( $sCell, $iPostID ) {
         
         return sprintf( __( 'Post ID: %1$s', 'admin-page-framework-demo' ), $iPostID ) . "<br />"
             . __( 'Text', 'admin-page-framework-demo' ) . ': ' . get_post_meta( $iPostID, 'metabox_text_field', true );
@@ -174,6 +186,7 @@ class APF_PostType extends AdminPageFramework_PostType {
      * Modifies the way how the sample column is sorted. This makes it sorted by post ID.
      * 
      * @see http://codex.wordpress.org/Class_Reference/WP_Query#Order_.26_Orderby_Parameters
+     * @callback        filter      request
      */
     public function replyToSortCustomColumn( $aVars ){
 
@@ -202,8 +215,9 @@ class APF_PostType extends AdminPageFramework_PostType {
         // or if you know the field id of the value you want, you can do $value = get_post_meta( $post->ID, $field_id, true );
         $_iPostID   = $GLOBALS['post']->ID;
         $_aPostData = array();
-        foreach( ( array ) get_post_custom_keys( $_iPostID ) as $sKey ) {    // This way, array will be unserialized; easier to view.
-            $_aPostData[ $sKey ] = get_post_meta( $_iPostID, $sKey, true );
+
+        foreach( ( array ) get_post_custom_keys( $_iPostID ) as $_sKey ) {    // This way, array will be unserialized; easier to view.
+            $_aPostData[ $_sKey ] = get_post_meta( $_iPostID, $_sKey, true );
         }    
         
         // Or you may do this but the nested elements will be a serialized array.
@@ -214,10 +228,10 @@ class APF_PostType extends AdminPageFramework_PostType {
         // to the first parameter of the constructor of the AdminPageFramework class.     
         $_aSavedOptions = get_option( 'APF_Demo' );
             
-        return "<h3>" . __( 'Saved Meta Field Values', 'admin-page-framework-demo' ) . "</h3>" 
-            . $this->oDebug->getArray( $_aPostData )
-            . "<h3>" . __( 'Saved Setting Options', 'admin-page-framework-demo' ) . "</h3>" 
-            . $this->oDebug->getArray( $_aSavedOptions )
+        return "<h3>" . __( 'Saved Meta Field Values of the Post', 'admin-page-framework-demo' ) . "</h3>" 
+            . $this->oDebug->get( $_aPostData )
+            . "<h3>" . __( 'Saved Setting Options of The Loader Plugin', 'admin-page-framework-demo' ) . "</h3>" 
+            . $this->oDebug->get( $_aSavedOptions )
             ;
 
     }    
