@@ -39,19 +39,44 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
      */ 
     protected function getScripts() {
         new AdminPageFramework_Script_CheckboxSelector;
+        $_sClassSelectorSelectAll  = $this->_getSelectButtonClassSelectors( 
+            $this->aFieldTypeSlugs, 
+            'select_all_button' // data attribute
+        );
+        $_sClassSelectorSelectNone = $this->_getSelectButtonClassSelectors( 
+            $this->aFieldTypeSlugs, 
+            'select_none_button' // data attribute
+        );
         return <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
     // Add the buttons.
-    jQuery( '.admin-page-framework-checkbox-container[data-select_all_button]' ).each( function(){
+    jQuery( '{$_sClassSelectorSelectAll}' ).each( function(){
         jQuery( this ).before( '<div class=\"select_all_button_container\" onclick=\"jQuery( this ).selectALLAPFCheckboxes(); return false;\"><a class=\"select_all_button button button-small\">' + jQuery( this ).data( 'select_all_button' ) + '</a></div>' );
     });            
-    jQuery( '.admin-page-framework-checkbox-container[data-select_none_button]' ).each( function(){
+    jQuery( '{$_sClassSelectorSelectNone}' ).each( function(){
         jQuery( this ).before( '<div class=\"select_none_button_container\" onclick=\"jQuery( this ).deselectAllAPFCheckboxes(); return false;\"><a class=\"select_all_button button button-small\">' + jQuery( this ).data( 'select_none_button' ) + '</a></div>' );
     });
 });
 JAVASCRIPTS;
 
     }    
+        /**
+         * 
+         * @since       3.5.12
+         * @return      string
+         */
+        private function _getSelectButtonClassSelectors( array $aFieldTypeSlugs, $sDataAttribute='select_all_button' ) {
+            
+            $_aClassSelectors = array();
+            foreach ( $aFieldTypeSlugs as $_sSlug ) {
+                if ( ! is_scalar( $_sSlug ) ) {
+                    continue;
+                }
+                $_aClassSelectors[] = '.admin-page-framework-checkbox-container-' . $_sSlug . "[data-{$sDataAttribute}]";
+            }
+            return implode( ',', $_aClassSelectors );
+            
+        }
 
     /**
      * Returns the field type specific CSS rules.
@@ -127,7 +152,7 @@ CSSRULES;
          */
         protected function _getCheckboxContainerAttributes( array $aField ) {
             return array(
-                'class'                     => 'admin-page-framework-checkbox-container',
+                'class'                     => 'admin-page-framework-checkbox-container-' . $aField[ 'type' ],
                 'data-select_all_button'    => $aField['select_all_button'] 
                     ? ( ! is_string( $aField['select_all_button'] ) ? $this->oMsg->get( 'select_all' ) : $aField['select_all_button'] )
                     : null,

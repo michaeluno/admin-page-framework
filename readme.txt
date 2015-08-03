@@ -396,6 +396,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.5.12 =
+- Fixed a bug that the `Select All` and `Select None` buttons were doubled when a `checkbox` and `posttype` field types were in the same form and not displayed with the `taxonomy` field type when there are no `checkbox` or `posttype` fields in the same page.
 - Tweaked the class selectors of admin notification elements to have dismiss buttons available in WordPress 4.2 or above.
  
 = 3.5.11 - 2015/07/14 =

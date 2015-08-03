@@ -85,9 +85,12 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
      */ 
     protected function getScripts() {
-        
+
         $_aJSArray = json_encode( $this->aFieldTypeSlugs );
-        return <<<JAVASCRIPTS
+        
+        return parent::getScripts() . 
+        // return 
+<<<JAVASCRIPTS
 /* For tabs */
 var enableAPFTabbedBox = function( nodeTabBoxContainer ) {
     jQuery( nodeTabBoxContainer ).each( function() {
