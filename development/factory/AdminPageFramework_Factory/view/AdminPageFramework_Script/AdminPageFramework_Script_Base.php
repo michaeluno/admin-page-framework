@@ -40,7 +40,6 @@ class AdminPageFramework_Script_Base extends AdminPageFramework_WPUtility {
             return;
         }
         self::$_aEnqueued[ $_sClassName ] = $_sClassName;
-        
         $this->oMsg = $oMsg;
         
         add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToPrintScript' ) );

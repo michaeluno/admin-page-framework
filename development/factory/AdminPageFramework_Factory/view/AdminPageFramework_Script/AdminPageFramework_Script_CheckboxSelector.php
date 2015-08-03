@@ -29,7 +29,6 @@ class AdminPageFramework_Script_CheckboxSelector extends AdminPageFramework_Scri
         // Uncomment these lines when parameters need to be accessed.
         // $_aParams   = func_get_args() + array( null );
         // $_oMsg      = $_aParams[ 0 ];            
-            
         /**
          * Checks checkboxes in siblings.
          */
