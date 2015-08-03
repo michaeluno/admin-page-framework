@@ -34,11 +34,19 @@ class AdminPageFramework_AdminNotice {
      * @since       3.5.0
      */
     public function __construct( $sNotice, array $aAttributes=array( 'class' => 'error' ) ) {
-        $this->sNotice          = $sNotice;
-        $this->aAttributes      = $aAttributes + array(
+        $this->sNotice              = $sNotice;
+        $this->aAttributes          = $aAttributes + array(
             'class' => 'error',
-        );
-        $this->aAttributes['class'] .= ' admin-page-framework-settings-notice-message';
+        );        
+        $this->aAttributes[ 'class' ] = $this->oUtil->generateClassAttribute(
+            $this->oUtil->getElement(
+                $this->aAttributes,
+                array( 'class' ),
+                ''
+            ),
+            'admin-page-framework-settings-notice-message',
+            'notice is-dismissible' // 3.5.12+
+        );        
         if ( did_action( 'admin_notices' ) ) {
             $this->_replyToDisplayAdminNotice();
         } else {
@@ -50,13 +58,11 @@ class AdminPageFramework_AdminNotice {
          * @since       3.5.0
          */
         public function _replyToDisplayAdminNotice() {
-
             echo "<div " . $this->_getAttributes( $this->aAttributes ) . ">"
                     . "<p>"
                         . $this->sNotice 
                     . "</p>"
                 . "</div>";
-                
         }
         
         /**

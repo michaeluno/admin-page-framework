@@ -6,7 +6,7 @@
     Author:         Michael Uno
     Author URI:     http://michaeluno.jp
     Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
-    Version:        3.5.11
+    Version:        3.5.12b01
 */ 
 
 /**
@@ -16,13 +16,13 @@
  */
 class AdminPageFrameworkLoader_Registry_Base {
 
-	const VERSION        = '3.5.11';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+	const VERSION        = '3.5.12b01';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
 	const NAME           = 'Admin Page Framework - Loader'; // the name is not 'Admin Page Framework' because warning messages gets confusing.
     const SHORTNAME      = 'Admin Page Framework';  // used for a menu title etc.
 	const DESCRIPTION    = 'Loads Admin Page Framework which facilitates WordPress plugin and theme development.';
 	const URI            = 'http://en.michaeluno.jp/';
 	const AUTHOR         = 'miunosoft (Michael Uno)';
-	const AUTHOR_URI      = 'http://en.michaeluno.jp/';
+	const AUTHOR_URI     = 'http://en.michaeluno.jp/';
 	const COPYRIGHT      = 'Copyright (c) 2015, Michael Uno';
 	const LICENSE        = 'GPL v2 or later';
     const CONTRIBUTORS   = '';
@@ -71,7 +71,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      * These will be accessed from the bootstrap script.
      */
 	const TEXT_DOMAIN              = 'admin-page-framework-loader';
-	const TEXT_DOMAIN_PATH          = '/language';    
+	const TEXT_DOMAIN_PATH         = '/language';    
     	    
 	// These properties will be defined in the setUp() method.
 	static public $sFilePath = '';
@@ -201,7 +201,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
          */
         static public function _replyToSetAdminNotice() {
             foreach( self::$_aAdminNotices as $_aAdminNotice ) {                
-                echo "<div class='" . esc_attr( $_aAdminNotice['class_attribute'] ) . "'>"
+                echo "<div class='" . esc_attr( $_aAdminNotice['class_attribute'] ) . " notice is-dismissible'>"
                         ."<p>" 
                             . sprintf( 
                                 '<strong>%1$s</strong>: ' . $_aAdminNotice['message'],

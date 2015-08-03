@@ -21,7 +21,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
         if ( ! $this->oProp->bIsAdmin ) {
             return;
         }
-        
+      
         // Allows the user to switch the menu visibility.
         if ( isset( $_GET['enable_apfl_admin_pages'] ) ) {
             

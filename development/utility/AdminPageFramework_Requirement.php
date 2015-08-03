@@ -256,7 +256,7 @@ class AdminPageFramework_Requirement {
             if ( empty( $_aWarnings ) ) {
                 return;
             }
-            echo "<div class='error'>"
+            echo "<div class='error notice is-dismissible'>"
                     . "<p>" 
                         . $this->_getWarnings()
                     . "</p>"

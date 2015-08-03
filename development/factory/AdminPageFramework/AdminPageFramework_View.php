@@ -26,12 +26,29 @@ abstract class AdminPageFramework_View extends AdminPageFramework_Model {
      * @internal
      */
     public function _replyToPrintAdminNotices() {
-        if ( ! $this->_isInThePage() ) { return; }
-        foreach( $this->oProp->aAdminNotices as $aAdminNotice ) {
-            echo "<div class='{$aAdminNotice['sClassSelector']}' id='{$aAdminNotice['sID']}'>"
-                    . "<p>" . $aAdminNotice['sMessage'] . "</p>"
-                . "</div>";
+        
+        if ( ! $this->_isInThePage() ) { 
+            return; 
         }
+        
+        foreach( $this->oProp->aAdminNotices as $_aAdminNotice ) {
+            
+            $_sClassSelectors = $this->oUtil->generateClassAttribute(
+                $this->oUtil->getElement(
+                    $_aAdminNotice,
+                    array( 'sClassSelector' ),
+                    ''
+                ),
+                'notice is-dismissible' // 3.5.12+
+            );            
+            echo "<div class='{$_sClassSelectors}' id='{$_aAdminNotice[ 'sID' ]}'>"
+                    . "<p>" 
+                        . $_aAdminNotice[ 'sMessage' ] 
+                    . "</p>"
+                . "</div>";
+                
+        }
+        
     }    
     
     /**

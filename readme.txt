@@ -3,8 +3,8 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.3
-Tested up to:       4.2.2
-Stable tag:         3.5.10
+Tested up to:       4.2.3
+Stable tag:         3.5.11
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -394,6 +394,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+ 
+= 3.5.12 =
+- Tweaked the class selectors of admin notification elements to have dismiss buttons available in WordPress 4.2 or above.
  
 = 3.5.11 - 2015/07/14 =
 - Added a warning to be displayed for forms in generic admin pages when the user form inputs exceeds the PHP `max_input_vars` value.

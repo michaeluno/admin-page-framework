@@ -203,10 +203,10 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
              */
             private function _getSettingNotice( array $aNotice ) {
                 
-                if ( ! isset( $aNotice['aAttributes'], $aNotice['sMessage'] ) ) {
+                if ( ! isset( $aNotice[ 'aAttributes' ], $aNotice[ 'sMessage' ] ) ) {
                     return '';
                 }
-                if ( ! $aNotice['sMessage'] ) {
+                if ( ! $aNotice[ 'sMessage' ] ) {
                     return '';
                 }
                 $aNotice[ 'aAttributes' ][ 'class' ] = $this->oUtil->generateClassAttribute(
@@ -215,7 +215,8 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
                         array( 'aAttributes', 'class' ),
                         ''
                     ),
-                    'admin-page-framework-settings-notice-container'
+                    'admin-page-framework-settings-notice-container',
+                    'notice is-dismissible' // 3.5.12+
                 );
                 return "<div " . $this->oUtil->generateAttributes( $aNotice['aAttributes'] ). ">"
                         . "<p class='admin-page-framework-settings-notice-message'>" 
@@ -224,6 +225,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
                     . "</div>";  
                     
             }    
+
     
     /**
      * Returns the field output from the given field definition array.
