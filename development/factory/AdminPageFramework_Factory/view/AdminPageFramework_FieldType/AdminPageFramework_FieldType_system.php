@@ -361,27 +361,63 @@ CSSRULES;
                 private function _getSiteInfo() {
                     global $wpdb;
                     return array(
-                        __( 'Version', 'admin-page-framework' )                  => $GLOBALS['wp_version'],
-                        __( 'Language', 'admin-page-framework' )                 => $this->getSiteLanguage(),
-                        __( 'Memory Limit', 'admin-page-framework' )             => $this->getReadableBytes( $this->getNumberOfReadableSize( WP_MEMORY_LIMIT ) ),
-                        __( 'Multi-site', 'admin-page-framework' )               => $this->getAOrB( is_multisite(), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ), 
-                        __( 'Permalink Structure', 'admin-page-framework' )      => get_option( 'permalink_structure' ), 
-                        __( 'Active Theme', 'admin-page-framework' )             => $this->_getActiveThemeName(),
-                        __( 'Registered Post Statuses', 'admin-page-framework' ) => implode( ', ', get_post_stati() ),
-                        'WP_DEBUG'                                               => $this->getAOrB( $this->isDebugModeEnabled(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
-                        'WP_DEBUG_LOG'                                           => $this->getAOrB( $this->isDebugLogEnabled(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
-                        'WP_DEBUG_DISPLAY'                                       => $this->getAOrB( $this->isDebugDisplayEnabled(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
-                        __( 'Table Prefix', 'admin-page-framework' )             => $wpdb->prefix,
-                        __( 'Table Prefix Length', 'admin-page-framework' )      => strlen( $wpdb->prefix ),
-                        __( 'Table Prefix Status', 'admin-page-framework' )      => $this->getAOrB( strlen( $wpdb->prefix ) > 16, $this->oMsg->get( 'acceptable' ), $this->oMsg->get( 'too_long' ) ),
-                        'wp_remote_post()'                                       => $this->_getWPRemotePostStatus(),
-                        'wp_remote_get()'                                        => $this->_getWPRemoteGetStatus(),
-                        __( 'WP_CONTENT_DIR Writeable', 'admin-page-framework' ) => $this->getAOrB( is_writable( WP_CONTENT_DIR ), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ), 
-                        __( 'Active Plugins', 'admin-page-framework' )           => PHP_EOL . $this->_getActivePlugins(),
-                        __( 'Network Active Plugins', 'admin-page-framework' )   => PHP_EOL . $this->_getNetworkActivePlugins(),
-                        __( 'Constants', 'admin-page-framework' )                => $this->getDefinedConstants( 'user' ),
+                        __( 'Version', 'admin-page-framework' )                     => $GLOBALS[ 'wp_version' ],
+                        __( 'Language', 'admin-page-framework' )                    => $this->getSiteLanguage(),
+                        __( 'Memory Limit', 'admin-page-framework' )                => $this->getReadableBytes( $this->getNumberOfReadableSize( WP_MEMORY_LIMIT ) ),
+                        __( 'Multi-site', 'admin-page-framework' )                  => $this->getAOrB( is_multisite(), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ), 
+                        __( 'Permalink Structure', 'admin-page-framework' )         => get_option( 'permalink_structure' ), 
+                        __( 'Active Theme', 'admin-page-framework' )                => $this->_getActiveThemeName(),
+                        __( 'Registered Post Statuses', 'admin-page-framework' )    => implode( ', ', get_post_stati() ),
+                        'WP_DEBUG'                                                  => $this->getAOrB( $this->isDebugModeEnabled(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
+                        'WP_DEBUG_LOG'                                              => $this->getAOrB( $this->isDebugLogEnabled(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
+                        'WP_DEBUG_DISPLAY'                                          => $this->getAOrB( $this->isDebugDisplayEnabled(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
+                        __( 'Table Prefix', 'admin-page-framework' )                => $wpdb->prefix,
+                        __( 'Table Prefix Length', 'admin-page-framework' )         => strlen( $wpdb->prefix ),
+                        __( 'Table Prefix Status', 'admin-page-framework' )         => $this->getAOrB( strlen( $wpdb->prefix ) > 16, $this->oMsg->get( 'too_long' ), $this->oMsg->get( 'acceptable' ) ),
+                        'wp_remote_post()'                                          => $this->_getWPRemotePostStatus(),
+                        'wp_remote_get()'                                           => $this->_getWPRemoteGetStatus(),
+                        __( 'Multibite String Extension', 'admin-page-framework' )  => $this->getAOrB( function_exists( 'mb_detect_encoding' ), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
+                        __( 'WP_CONTENT_DIR Writeable', 'admin-page-framework' )    => $this->getAOrB( is_writable( WP_CONTENT_DIR ), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ), 
+                        __( 'Active Plugins', 'admin-page-framework' )              => PHP_EOL . $this->_getActivePlugins(),
+                        __( 'Network Active Plugins', 'admin-page-framework' )      => PHP_EOL . $this->_getNetworkActivePlugins(),
+                        __( 'Constants', 'admin-page-framework' )                   => $this->_getDefinedConstants( 'user' ),
                     );                        
                 }
+                    /**
+                     * 
+                     * @since       3.5.12
+                     * @return      stirng|array
+                     */
+                    private function _getDefinedConstants( $asCategories=null, $asRemovingCategories=null ) {
+                        $_asConstants = $this->getDefinedConstants( $asCategories, $asRemovingCategories );
+                        if ( ! is_array( $_asConstants ) ) {
+                            return $_asConstants;
+                        }
+                        if ( isset( $_asConstants[ 'user' ] ) ) {
+                            $_asConstants[ 'user' ] = array(
+                                'AUTH_KEY'              => '__masked__',
+                                'SECURE_AUTH_KEY'       => '__masked__',
+                                'LOGGED_IN_KEY'         => '__masked__',
+                                'NONCE_KEY'             => '__masked__',
+                                'AUTH_SALT'             => '__masked__',
+                                'SECURE_AUTH_SALT'      => '__masked__',
+                                'LOGGED_IN_SALT'        => '__masked__',
+                                'NONCE_SALT'            => '__masked__',
+                                'COOKIEHASH'            => '__masked__',
+                                'USER_COOKIE'           => '__masked__',
+                                'PASS_COOKIE'           => '__masked__',
+                                'AUTH_COOKIE'           => '__masked__',
+                                'SECURE_AUTH_COOKIE'    => '__masked__',
+                                'LOGGED_IN_COOKIE'      => '__masked__',
+                                'TEST_COOKIE'           => '__masked__',      
+                                'DB_USER'               => '__masked__',      
+                                'DB_PASSWORD'           => '__masked__',      
+                                'DB_HOST'               => '__masked__',      
+                            ) + $_asConstants[ 'user' ];
+                        }
+                        return $_asConstants;
+                    }
+                
                 /**
                  * Returns the active theme name.
                  */
@@ -544,7 +580,7 @@ CSSRULES;
                 ) 
                 + $this->getPHPInfo()
                 + array( 
-                    __( 'Constants', 'admin-page-framework' )               => $this->getDefinedConstants( null, 'user' )
+                    __( 'Constants', 'admin-page-framework' )               => $this->_getDefinedConstants( null, 'user' )
                 )
                 ;
                 
