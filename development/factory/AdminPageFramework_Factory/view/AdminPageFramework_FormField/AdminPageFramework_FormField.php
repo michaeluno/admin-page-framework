@@ -251,7 +251,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_FieldDef
                 }     
 
                 // Set some internal keys 
-                $aField = $this->_getFormatedFieldDefinitionArray( $aField, $isIndex, $aCallbacks, $_aFieldTypeDefinition );
+                $aField = $this->_getFormattedFieldDefinitionArray( $aField, $isIndex, $aCallbacks, $_aFieldTypeDefinition );
                 
                 // Callback the registered function to output the field 
                 $_aFieldAttributes = $this->_getFieldAttributes( $aField );
@@ -288,7 +288,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_FieldDef
                  * @since       3.5.3
                  * @return      array       The formatted field definition array.
                  */
-                private function _getFormatedFieldDefinitionArray( array $aField, $isIndex, array $aCallbacks, $aFieldTypeDefinition ) {
+                private function _getFormattedFieldDefinitionArray( array $aField, $isIndex, array $aCallbacks, $aFieldTypeDefinition ) {
 
                     $_bIsSubField                         = is_numeric( $isIndex ) && 0 < $isIndex;
                     $aField['_is_sub_field']              = $_bIsSubField;      // 3.5.3+
@@ -369,8 +369,8 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_FieldDef
                 /**
                  * Returns the field container attribute array.
                  * 
-                 * @remark      _getFormatedFieldDefinitionArray() should be performed prior to callign this method.
-                 * @param       array       $aField     The field definition array. This should have been formatted already witjh the `_getFormatedFieldDefinitionArray()` method.
+                 * @remark      _getFormattedFieldDefinitionArray() should be performed prior to callign this method.
+                 * @param       array       $aField     The field definition array. This should have been formatted already witjh the `_getFormattedFieldDefinitionArray()` method.
                  * @return      array       The generated field container attribute array.
                  * @internal   
                  * @since       3.5.3
