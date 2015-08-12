@@ -94,7 +94,14 @@ class APF_Demo_BuiltinFieldTypes_MISC {
                 'tab_slug'          => $this->sTabSlug,
                 'title'             => __( 'Submit Buttons', 'admin-page-framework-demo' ),
                 'description'       => __( 'These are custom submit buttons.', 'admin-page-framework-demo' ),
-            )          
+            ),
+            array(
+                'section_id'        => 'unsaving_items',
+                'tab_slug'          => $this->sTabSlug,
+                'save'              => false,
+                'title'             => __( 'Unsaving Items', 'admin-page-framework-demo' ),
+                'description'       => __( 'These form inputs will not be saved.', 'admin-page-framework-demo' ),
+            )               
         );        
     
         /*
@@ -189,6 +196,7 @@ class APF_Demo_BuiltinFieldTypes_MISC {
                 'after_field'       => "<p>This is a custom output inserted with the <code>after_field</code> argument.</p>",
             )
         );
+        
         $oAdminPage->addSettingFields(
             'submit_buttons', // the target section ID.
             array( // Default Submit Button
@@ -308,7 +316,22 @@ class APF_Demo_BuiltinFieldTypes_MISC {
                     . ' ' . __( 'This button will take you to the donation page for the developer of this framework. If you like to donate, please do so to help the development!', 'admin-page-framework-demo' ),
             ),    
             array()
-        );    
+        );   
+
+        $oAdminPage->addSettingFields(
+            'unsaving_items',
+            array(
+                'field_id'          => 'unsaving',
+                'title'             => __( 'Unsave', 'admin-page-framework-demo' ),
+                'type'              => 'text',
+                // 'save'              => false,
+                'description'       => __( 'By passing <code>false</code> to the <code>save</code> argument, the form will not save the field value.', 'admin-page-framework-demo' ),
+                'attributes'        => array(
+                    'readonly'  => 'readonly',
+                ),
+                'value'             => date_i18n( 'j F Y g:i:s', time() ),
+            )
+        );        
 
     }
         /**

@@ -281,10 +281,9 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             }
             
             /**
-             * Returns an upadted sections table output array.
+             * Returns an updated sections table output array.
              * @since       3.5.3
-             * @todo        finish this method
-             * @return      array       The upadted sections table output array.
+             * @return      array       The updated sections table output array.
              */
             private function _getSectionsTable( $_aOutputs, $_sSectionID, $_sSectionsID, array $_aSection, array $aFieldsInSections, $hfSectionCallback, $hfFieldCallback  ) {
              
@@ -297,7 +296,11 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                     )
                 );
                 
-                $_iCountSubSections = count( $_aSubSections ); // Check sub-sections.
+                // If the 'save' argument is false, insert a flag that disables saving the section inputs.
+                $_aOutputs[ 'section_contents' ][] = $this->_getUnsetFlagSectionInputTag( $_aSection );
+                
+                // Check sub-sections.
+                $_iCountSubSections = count( $_aSubSections ); 
                 if ( $_iCountSubSections ) {
 
                     // Add the repeatable sections enabler script.
@@ -342,6 +345,27 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 return $_aOutputs;
               
             }
+                /**
+                 * Embeds an internal hidden input for the 'save' argument.
+                 * @since       3.6.0
+                 * @return      string
+                 */
+                private function _getUnsetFlagSectionInputTag( array $aSection ) {
+                    
+                    if ( false !== $aSection[ 'save' ] ) {                
+                        return '';
+                    }
+                    return $this->generateHTMLTag( 
+                        'input',
+                        array(
+                            'type'  => 'hidden',
+                            'value' => $aSection[ 'section_id' ],
+                            'name'  => "__unset[{$aSection[ 'section_id' ]}]",
+                            'value' => "__dummy_option_key|" . $aSection[ 'section_id' ],
+                        )
+                    );            
+                    
+                }                
                 /**
                  * Returns an section table output array by adding a section output with a tab list.
                  * @since       3.5.3

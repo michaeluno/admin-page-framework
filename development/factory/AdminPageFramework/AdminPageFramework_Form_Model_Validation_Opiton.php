@@ -74,9 +74,10 @@ abstract class AdminPageFramework_Form_Model_Validation_Opiton extends AdminPage
         // Make sure it is an array as the value is modified through filters.
         $_aInput = $this->oUtil->getAsArray( $_aInput );
 
-        $_bHasFieldErrors = $this->hasFieldError();
+        $_aInput = $this->_getInputByUnset( $_aInput );
         
         // If everything fine, return the filtered input data. 
+        $_bHasFieldErrors = $this->hasFieldError();
         if ( ! $_bHasFieldErrors ) {
             return $_aInput;
         }
@@ -92,6 +93,29 @@ abstract class AdminPageFramework_Form_Model_Validation_Opiton extends AdminPage
         throw $_oException;
 
     }    
+        /**
+         * Removes elements whose 'save' argument is false.
+         * @return      array
+         * @since       3.6.0
+         */
+        private function _getInputByUnset( array $aInput ) {
+            
+            if ( ! isset( $_POST[ '__unset' ] ) ) {
+                return $aInput;
+            }
+            
+            foreach( $_POST[ '__unset' ] as $_sFlatInputName ) {
+                $_aDimensionalKeys = explode( '|', $_sFlatInputName );
+                // The first element is the option key; the section or field dimensional keys follow.
+                unset( $_aDimensionalKeys[ 0 ] );
+                $this->oUtil->unsetDimensionalArrayElement( 
+                    $aInput, 
+                    $_aDimensionalKeys
+                );
+            }
+            return $aInput;
+            
+        }        
         
         /**
          * Validates each field or section.

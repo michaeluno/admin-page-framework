@@ -225,17 +225,19 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_FieldDef
 
             $_aOutput = array();
             foreach( $aFields as $_isIndex => $_aField ) {
+                
                 $_aOutput[] = $this->_getEachFieldOutput( 
                     $_aField, 
                     $_isIndex, 
                     $aCallbacks,
                     $this->isLastElement( $aFields, $_isIndex )
                 );
+                
             }     
             return implode( PHP_EOL, array_filter( $_aOutput ) );
             
         }
-        
+   
             /**
              * Returns the HTML output of the given field.
              * @internal
@@ -256,17 +258,39 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_FieldDef
                 // Callback the registered function to output the field 
                 $_aFieldAttributes = $this->_getFieldAttributes( $aField );
                             
-                return $aField['before_field']
+                return $aField[ 'before_field' ]
                     . "<div " . $this->_getFieldContainerAttributes( $aField, $_aFieldAttributes, 'field' ) . ">"
                         . call_user_func_array(
                             $_aFieldTypeDefinition['hfRenderField'],
                             array( $aField )
                         )
+                        . $this->_getUnsetFlagFieldInputTag( $aField )
                         . $this->_getDelimiter( $aField, $bIsLastElement )
                     . "</div>"
-                    . $aField['after_field'];                
-                
+                    . $aField[ 'after_field' ]
+                    ;
             }
+                /**
+                 * Embeds an internal hidden input for the 'save' argument.
+                 * @since       3.6.0
+                 * @return      string
+                 */
+                private function _getUnsetFlagFieldInputTag( array $aField ) {
+                    
+                    if ( false !== $aField[ 'save' ] ) {                
+                        return '';
+                    }
+                    return $this->generateHTMLTag( 
+                        'input',
+                        array(
+                            'type'  => 'hidden',
+                            'value' => $aField[ 'input_id' ],
+                            'name'  => "__unset[{$aField[ 'input_id' ]}]",
+                            'value' => $aField[ '_input_name_flat' ],
+                        )
+                    );            
+                    
+                }                 
                 /**
                  * Returns the registered field type definition array of the given field type slug.
                  * 
@@ -425,7 +449,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_FieldDef
          */
         private function _getFinalOutput( array $aField, array $aFieldsOutput, $iFieldsCount ) {
                             
-            // Construct attribute arrays.
+            //// Construct attribute arrays.
             
             // the 'fieldset' container attributes
             $_aFieldsSetAttributes = array(
@@ -441,7 +465,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_FieldDef
                     . $this->getAOrB( $aField['repeatable'], ' repeatable', '' )
                     . $this->getAOrB( $aField['sortable'], ' sortable', '' ),
                 'data-type'     => $aField['type'], // this is referred by the sortable field JavaScript script.
-            );
+            );           
             
             return $aField['before_fieldset']
                 . "<fieldset " . $this->_getFieldContainerAttributes( $aField, $_aFieldsSetAttributes, 'fieldset' ) . ">"
@@ -455,6 +479,7 @@ class AdminPageFramework_FormField extends AdminPageFramework_FormField_FieldDef
                 . $aField['after_fieldset'];
                         
         }
+            
             /**
              * Returns the output of the extra elements for the fields such as description and JavaScri
              * 

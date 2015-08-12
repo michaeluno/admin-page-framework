@@ -52,6 +52,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
         'collapsible'       => false,    // 3.4.0+ (boolean|array) For the array structure see the $_aStructure_CollapsibleArguments property.
         '_is_first_index'   => false,    // 3.4.0+ (boolean) indicates whether it is the first item of the sub-sections (for repeatable sections).
         '_is_last_index'    => false,    // 3.4.0+ (boolean) indicates whether it is the last item of the sub-sections (for repeatable sections).
+        'save'              => true,     // 3.6.0+
     );    
     
     /**
@@ -113,6 +114,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
         ), 
         '_caller_object'    => null,    // 3.4.0+ - stores the object of the caller class. The object is referenced when creating nested fields.
         '_nested_depth'     => 0,       // 3.4.0+ - stores the level of the nesting depth. This is mostly used for debugging by checking if the field is a nested field or not.
+        'save'              => true,    // 3.6.0+
     );    
     
     /**
