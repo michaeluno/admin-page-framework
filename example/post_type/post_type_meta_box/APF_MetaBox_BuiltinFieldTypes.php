@@ -37,7 +37,12 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                 'section_id'        => 'misc',
                 'title'             => __( 'MISC', 'admin-page-framework-demo' ),
                 'description'       => __( 'These are grouped in the <code>misc</code> section.', 'admin-page-framework-demo' ),
-            )    
+            ),
+            array(
+                'section_id'        => 'unsaved',
+                'title'             => __( 'Unsaved Fields', 'admin-page-framework-demo' ),            
+                // 'save'              => false,
+            )
         );
         
         /*
@@ -177,9 +182,34 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                 'type'              => 'taxonomy',
                 'title'             => __( 'Taxonomy Checklist', 'admin-page-framework-demo' ),
                 'taxonomy_slugs'    => get_taxonomies( '', 'names' ),
-            ),     
-            array()
+            )     
         );     
+        
+        $this->addSettingFields(
+            'unsaved', // section id
+            array(
+                'field_id'          => 'unsaved',
+                'title'             => __( 'Unsaved', 'admin-page-framework-demo' ),
+                'type'              => 'text',
+                'save'              => false,
+                'description'       => __( 'By passing <code>false</code> to the <code>save</code> argument, the form will not save the field value.', 'admin-page-framework-demo' ),
+                'attributes'        => array(
+                    'readonly'  => 'readonly',
+                ),
+                'value'             => date_i18n( 'j F Y g:i:s', time() ),
+            ),
+            array(
+                'field_id'          => 'saved',
+                'title'             => __( 'Saved', 'admin-page-framework-demo' ),
+                'type'              => 'text',
+                'save'              => true,
+                'description'       => __( 'On contrast to the above field, this field value gets saved.', 'admin-page-framework-demo' ),
+                'attributes'        => array(
+                    'readonly'  => 'readonly',
+                ),
+                'default'           => date_i18n( 'j F Y g:i:s', time() + 60*60*24 ),
+            )
+        );
   
     }
     

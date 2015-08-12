@@ -115,6 +115,9 @@ class AdminPageFramework_FormElement_Meta extends AdminPageFramework_FormElement
         }
         $_sFunctionName = $this->getElement( $_aFunctionNameMapByFieldsType, $sFieldsType );
         
+        // 3.6.0+ Unset field elements that the 'save' argument is false.
+        $aInput = $this->_getInputByUnset( $aInput );
+        
         // Loop through sections/fields and save the data.
         foreach ( $aInput as $_sSectionOrFieldID => $_vValue ) {
 
@@ -129,6 +132,39 @@ class AdminPageFramework_FormElement_Meta extends AdminPageFramework_FormElement
         }
         
     }        
+        /**
+         * Removes elements whose 'save' argument is false.
+         * @return      array
+         * @since       3.6.0
+         */
+        private function _getInputByUnset( array $aInput ) {
+            
+            if ( ! isset( $_POST[ '__unset' ] ) ) {
+                return $aInput;
+            }
+            
+            foreach( $_POST[ '__unset' ] as $_sFlatInputName ) {
+                
+                $_aDimensionalKeys = explode( '|', $_sFlatInputName );
+                if ( ! isset( $_aDimensionalKeys[ 0 ] ) ) {
+                    continue;
+                }
+                
+                // The first element is the option key; the section or field dimensional keys follow.
+                if ( '__dummy_option_key' === $_aDimensionalKeys[ 0 ] ) {
+                     array_shift( $_aDimensionalKeys );
+                }
+                
+                $this->unsetDimensionalArrayElement( 
+                    $aInput, 
+                    $_aDimensionalKeys
+                );
+                
+            }
+            return $aInput;
+            
+        }    
+    
         /**
          * Saves an individual meta datum with the given section or field ID with the given function name.
          * 

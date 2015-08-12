@@ -92,15 +92,15 @@ class APF_Demo_BuiltinFieldTypes_MISC {
             array(
                 'section_id'        => 'submit_buttons',
                 'tab_slug'          => $this->sTabSlug,
+                'save'              => false,
                 'title'             => __( 'Submit Buttons', 'admin-page-framework-demo' ),
                 'description'       => __( 'These are custom submit buttons.', 'admin-page-framework-demo' ),
             ),
             array(
                 'section_id'        => 'unsaving_items',
                 'tab_slug'          => $this->sTabSlug,
-                'save'              => false,
                 'title'             => __( 'Unsaving Items', 'admin-page-framework-demo' ),
-                'description'       => __( 'These form inputs will not be saved.', 'admin-page-framework-demo' ),
+                'description'       => __( 'These form inputs will not be saved while they will be passed to the validation callback methods.', 'admin-page-framework-demo' ),
             )               
         );        
     
@@ -321,15 +321,26 @@ class APF_Demo_BuiltinFieldTypes_MISC {
         $oAdminPage->addSettingFields(
             'unsaving_items',
             array(
-                'field_id'          => 'unsaving',
-                'title'             => __( 'Unsave', 'admin-page-framework-demo' ),
+                'field_id'          => 'unsaved',
+                'title'             => __( 'Unsaved', 'admin-page-framework-demo' ),
                 'type'              => 'text',
-                // 'save'              => false,
+                'save'              => false,
                 'description'       => __( 'By passing <code>false</code> to the <code>save</code> argument, the form will not save the field value.', 'admin-page-framework-demo' ),
                 'attributes'        => array(
                     'readonly'  => 'readonly',
                 ),
                 'value'             => date_i18n( 'j F Y g:i:s', time() ),
+            ),
+            array(
+                'field_id'          => 'saved',
+                'title'             => __( 'Saved', 'admin-page-framework-demo' ),
+                'type'              => 'text',
+                'save'              => true,
+                'description'       => __( 'On contrast to the above field, this field value gets saved.', 'admin-page-framework-demo' ),
+                'attributes'        => array(
+                    'readonly'  => 'readonly',
+                ),
+                'default'           => date_i18n( 'j F Y g:i:s', time() + 60*60*24 ),
             )
         );        
 
