@@ -87,16 +87,19 @@ class APF_Demo_BuiltinFieldTypes_Mixed {
                 'title' => __( 'Text and Hidden', 'admin-page-framework-demo' ),
                 'type' => 'text',
                 'default' => 'abc',
-                array(
-                    'type' => 'hidden',
-                    'value' => 'xyz',
-                ),
                 'attributes' => array(
                     'field' => array(
                         'style' => 'display: inline; clear:none;' // since the rich editor does not accept the cols attribute, set the width by inline-style.
                     ),
                 ),     
-                'description' => __( 'A hidden field is embedded. This is useful when you need to embed extra information to be sent with the visible elements.', 'admin-page-framework-demo' ),
+                array(
+                    'type'          => 'textarea',
+                    'default'       => __( 'A hidden field is embedded. This is useful when you need to embed extra information to be sent with the visible elements.', 'admin-page-framework-demo' ),
+                ),                
+                array(
+                    'type' => 'hidden',
+                    'value' => 'xyz',
+                ),                
             ),     
             array()
         );            
