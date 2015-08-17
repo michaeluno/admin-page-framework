@@ -37,7 +37,7 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
                     'data-section_tab'  => $aSection['section_tab_slug'],
                 ) 
             ) . ">"
-                . $this->_getCollapsibleSectionTitleBlock( $_abCollapsible, 'section', $aFields, $hfFieldCallback )
+                . $this->_getCollapsibleSectionTitleBlock( $_abCollapsible, 'section', $aFields, $hfFieldCallback, $iSectionIndex )
                 . $this->getAOrB(
                     $_bShowTitle,
                     $this->_getCaptionTitle( $aSection, $iSectionIndex, $aFields, $hfFieldCallback ),
@@ -83,7 +83,7 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
                         ),
                     )
                 ). ">" 
-                    .  $this->_getSectionTitle( $aSection['title'], 'h3', $aFields, $hfFieldCallback )    
+                    .  $this->_getSectionTitle( $aSection['title'], 'h3', $aFields, $hfFieldCallback, $iSectionIndex )    
                 . "</div>";                
         }
         /**

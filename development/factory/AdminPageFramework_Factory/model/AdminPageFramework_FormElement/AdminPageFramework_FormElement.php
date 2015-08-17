@@ -18,106 +18,6 @@
 class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base {
     
     /**
-     * Represents the structure of the form section array.
-     * 
-     * @since       2.0.0
-     * @remark      Not for the user.
-     * @var         array       Represents the array structure of form section.
-     * @static
-     * @internal
-     */     
-    static public $_aStructure_Section = array(    
-        'section_id'        => '_default', // 3.0.0+
-        '_fields_type'      => null, // 3.0.0+ - same as the one of the field definition array. Used to insert debug info at the bottom of sections.        
-        'page_slug'         => null,
-        'tab_slug'          => null,
-        'section_tab_slug'  => null, // 3.0.0+
-        'title'             => null,
-        'description'       => null,
-        'capability'        => null,
-        'if'                => true,    
-        'order'             => null, // do not set the default number here because incremented numbers will be added when registering the sections.
-        'help'              => null,
-        'help_aside'        => null,
-        'repeatable'        => null, // 3.0.0+
-        'attributes'        => array(   // 3.3.1+
-            'class'         => null,    // set null to avoid undefined index warnings.
-            'style'         => null,    // set null to avoid undefined index warnings.
-            'tab'           => array(),
-        ),
-        'class'             => array(    // 3.3.1+
-            'tab'           => array(),
-        ),
-        'hidden'            => false,    // 3.3.1+
-        'collapsible'       => false,    // 3.4.0+ (boolean|array) For the array structure see the $_aStructure_CollapsibleArguments property.
-        '_is_first_index'   => false,    // 3.4.0+ (boolean) indicates whether it is the first item of the sub-sections (for repeatable sections).
-        '_is_last_index'    => false,    // 3.4.0+ (boolean) indicates whether it is the last item of the sub-sections (for repeatable sections).
-        'save'              => true,     // 3.6.0+
-    );    
-    
-    /**
-     * Represents the structure of the 'collapsible' argument.
-     * @since       3.4.0
-     */
-    static public $_aStructure_CollapsibleArguments = array(
-        'title'                     => null,        // (string)  the section title will be assigned by default in the section formatting method.
-        'is_collapsed'              => true,        // (boolean) whether it is already collapsed or expanded
-        'toggle_all_button'         => null,        // (boolean|string|array) the position of where to display the toggle-all button that toggles the folding state of all collapsible sections. Accepts the following values. 'top-right', 'top-left', 'bottom-right', 'bottom-left'. If true is passed, the default 'top-right' will be used. To not to display, do not set any or pass `false` or `null`.
-        'collapse_others_on_expand' => true,        // (boolean) whether the other collapsible sections should be folded when the section is unfolded.
-        'container'                 => 'sections'   // (string) the container element that collapsible styling gets applied to. Either 'sections' or 'section' is accepted.
-    );
-    
-    /**
-     * Represents the structure of the form field array.
-     * 
-     * @since       2.0.0
-     * @remark      Not for the user.
-     * @var         array       Represents the array structure of form field.
-     * @static
-     * @internal
-     */ 
-    static public $_aStructure_Field = array(
-        'field_id'          => null,    // (required)
-        'type'              => null,    // (required)
-        'section_id'        => null,    // (optional)
-        'section_title'     => null,    // This will be assigned automatically in the formatting method.
-        'page_slug'         => null,    // This will be assigned automatically in the formatting method.
-        'tab_slug'          => null,    // This will be assigned automatically in the formatting method.
-        'option_key'        => null,    // This will be assigned automatically in the formatting method.
-        'class_name'        => null,    // Stores the instantiated class name. Used by the export field type. Also a third party custom field type uses it.
-        'capability'        => null,        
-        'title'             => null,    
-        'tip'               => null,    
-        'description'       => null,    
-        'error_message'     => null,    // error message for the field
-        'before_label'      => null,    
-        'after_label'       => null,    
-        'if'                => true,    
-        'order'             => null,    // do not set the default number here for this key.     
-        'default'           => null,
-        'value'             => null,
-        'help'              => null,    // 2.1.0+
-        'help_aside'        => null,    // 2.1.0+
-        'repeatable'        => null,    // 2.1.3+
-        'sortable'          => null,    // 2.1.3+
-        'show_title_column' => true,    // 3.0.0+
-        'hidden'            => null,    // 3.0.0+
-        '_fields_type'      => null,    // 3.0.0+ - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
-        '_section_index'    => null,    // 3.0.0+ - internally set to indicate the section index for repeatable sections.
-    // @todo    Examine why an array is not set but null here for the attributes argument.
-        'attributes'        => null,    // 3.0.0+ - the array represents the attributes of input tag
-        'class'             => array(   // 3.3.1+
-            'fieldrow'  =>  array(),
-            'fieldset'  =>  array(),
-            'fields'    =>  array(),
-            'field'     =>  array(),
-        ), 
-        '_caller_object'    => null,    // 3.4.0+ - stores the object of the caller class. The object is referenced when creating nested fields.
-        '_nested_depth'     => 0,       // 3.4.0+ - stores the level of the nesting depth. This is mostly used for debugging by checking if the field is a nested field or not.
-        'save'              => true,    // 3.6.0+
-    );    
-    
-    /**
      * Stores field definition arrays.
      * @since 3.0.0
      */
@@ -196,13 +96,15 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
      */
     public function addSection( array $aSection ) {
         
-        $aSection               = $aSection + self::$_aStructure_Section;
-        $aSection['section_id'] = $this->sanitizeSlug( $aSection['section_id'] );
+        // @deprecated      3.6.0       The definition array will be formatted later anyway.
+        // $aSection               = $aSection + self::$_aStructure_Section;
         
-        $this->aSections[ $aSection['section_id'] ] = $aSection;    
-        $this->aFields[ $aSection['section_id'] ]   = $this->getElement(
+        $aSection[ 'section_id' ] = $this->sanitizeSlug( $aSection[ 'section_id' ] );
+        
+        $this->aSections[ $aSection[ 'section_id' ] ] = $aSection;    
+        $this->aFields[ $aSection[ 'section_id' ] ]   = $this->getElement(
             $this->aFields,  // subject array
-            $aSection['section_id'], // key
+            $aSection[ 'section_id' ], // key
             array()      // default
         );                                
         
@@ -253,7 +155,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
             array( '_fields_type' => $this->sFieldsType )
             + $_aField, 
             array( 'section_id' => $this->_sTargetSectionID )
-            + self::$_aStructure_Field
+            // + self::$_aStructure_Field // @deprecated 3.6.0 as the field will be formatted later anyway.
         );
         
         // Required Keys
@@ -370,37 +272,13 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
          */
         protected function formatSection( array $aSection, $sFieldsType, $sCapability, $iCountOfElements ) {
 
-            $aSection = $this->uniteArrays(
-                $aSection,
-                array( 
-                    '_fields_type'  => $sFieldsType,
-                    'capability'    => $sCapability,
-                ),
-                self::$_aStructure_Section
+            $_aSectionFormatter = new AdminPageFramework_Format_Section(
+                $aSection, 
+                $sFieldsType, 
+                $sCapability, 
+                $iCountOfElements
             );
-                
-            $aSection['order'] = $this->getAOrB(
-                is_numeric( $aSection['order'] ),
-                $aSection['order'],
-                $iCountOfElements + 10
-            );
-            
-            // 3.4.0+
-            if ( empty( $aSection['collapsible'] ) ) {
-                $aSection['collapsible'] = $aSection['collapsible'];
-            } else {
-                $aSection['collapsible'] = $this->getAsArray( $aSection['collapsible'] ) + array(
-                    'title' => $aSection['title'],
-                ) +  self::$_aStructure_CollapsibleArguments;
-                $aSection['collapsible']['toggle_all_button'] = implode( ',', $this->getAsArray( $aSection['collapsible']['toggle_all_button'] ) );
-            }
-            
-            // 3.5.2+ Accept a string value set to the 'class' element.
-            $aSection['class'] = is_array( $aSection['class'] ) 
-                ? $aSection['class']
-                : $this->getAsArray( $aSection['class'] );
-            
-            return $aSection;
+            return $_aSectionFormatter->get();
             
         }
         
@@ -432,7 +310,15 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
                                   
                     foreach( $_aFields as $_aField ) {
                         $_iCountElement = count( $this->getElementAsArray( $_aNewFields, array( $_sSectionID, $_iSectionIndex ), array() ) );
-                        $_aField        = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, $_iSectionIndex, $_abSectionRepeatable, $this->oCaller );
+                        $_aField        = $this->formatField( 
+                            $_aField, 
+                            $sFieldsType, 
+                            $sCapability, 
+                            $_iCountElement, 
+                            $_iSectionIndex, 
+                            $_abSectionRepeatable, 
+                            $this->oCaller 
+                        );
                         if ( ! empty( $_aField ) ) {
                             $_aNewFields[ $_sSectionID ][ $_iSectionIndex ][ $_aField['field_id'] ] = $_aField;
                         }
@@ -450,7 +336,15 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
                 
                 // Insert the formatted field definition array. The fields count is needed to set each order value.
                 $_iCountElement = count( $this->getElementAsArray( $_aNewFields, $_sSectionID, array() ) ); 
-                $_aField        = $this->formatField( $_aField, $sFieldsType, $sCapability, $_iCountElement, null, $_abSectionRepeatable, $this->oCaller );
+                $_aField        = $this->formatField(
+                    $_aField, 
+                    $sFieldsType, 
+                    $sCapability, 
+                    $_iCountElement, 
+                    null, 
+                    $_abSectionRepeatable,
+                    $this->oCaller
+                );
                 if ( ! empty( $_aField ) ) {
                     $_aNewFields[ $_sSectionID ][ $_aField['field_id'] ] = $_aField;
                 }
@@ -462,6 +356,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
         
         // Sort by the order of the sections.
         $this->_sortFieldsBySectionsOrder( $_aNewFields, $this->aSections );
+
         return $_aNewFields;
         
     }
@@ -504,39 +399,17 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
                 return; 
             }
             
-            $_aField = $this->uniteArrays(
-                array( 
-                    '_fields_type'          => $sFieldsType,
-                    '_caller_object'        => $oCallerObject,  // 3.4.1+ Stores the caller object. 
-                )
-                + $aField,
-                array( 
-                    'capability'            => $sCapability,
-                    'section_id'            => '_default',
-                    '_section_index'        => $iSectionIndex,
-                    '_section_repeatable'   => $bIsSectionRepeatable,
-                )
-                + self::$_aStructure_Field
+            $_oFieldsetFormatter = new AdminPageFramework_Format_Fieldset(
+                $aField, 
+                $sFieldsType, 
+                $sCapability, 
+                $iCountOfElements, 
+                $iSectionIndex, 
+                $bIsSectionRepeatable, 
+                $oCallerObject
             );
-            $_aField['field_id']    = $this->sanitizeSlug( $_aField['field_id'] );
-            $_aField['section_id']  = $this->sanitizeSlug( $_aField['section_id'] );     
-            $_aField['tip']         = esc_attr( strip_tags(
-                $this->getElement(
-                    $_aField,  // subject array
-                    'tip', // key
-                    is_array( $_aField['description'] )     // default
-                        ? implode( '&#10;', $_aField['description'] ) 
-                        : $_aField['description'] 
-                )
-            ) );
-            $_aField['order']       = $this->getAOrB(
-                is_numeric( $_aField['order'] ),
-                $_aField['order'],
-                $iCountOfElements + 10
-            );
+            return $_oFieldsetFormatter->get();
                         
-            return $_aField;
-            
         }
         
     /**
@@ -618,10 +491,7 @@ class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base
             if ( ! is_array( $_aSubSectionOrFields ) ) { 
                 continue; 
             }
-            
-            // @deprecated      3.5.3+      This check is redundant a s the parsing fields array is content-cast and the key that resulted from the model array always exists
-            // if ( ! array_key_exists( $_sSectionID, $aSections ) ) { continue; }
-            
+                        
             $this->_setConditionedFields( 
                 $_aNewFields,   // by reference - gets updated in the method.
                 $_aSubSectionOrFields, 

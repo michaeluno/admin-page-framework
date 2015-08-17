@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.5.10b by Michael Uno 
+	Admin Page Framework v3.6.0b02 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -46,6 +46,15 @@ $aClassFiles = array(
 	"AdminPageFramework_InclusionClassFilesHeader"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_InclusionClassFilesHeader.php", 
 	"AdminPageFramework_Message"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_Message.php", 
 	"AdminPageFramework_Property_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_Property_Base.php", 
+	"AdminPageFramework_Format_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_Format/AdminPageFramework_Format_Base.php", 
+	"AdminPageFramework_Format_CollapsibleSection"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_Format/AdminPageFramework_Format_CollapsibleSection.php", 
+	"AdminPageFramework_Format_EachField"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_Format/AdminPageFramework_Format_EachField.php", 
+	"AdminPageFramework_Format_Fields"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_Format/AdminPageFramework_Format_Fields.php", 
+	"AdminPageFramework_Format_Fieldset"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_Format/AdminPageFramework_Format_Fieldset.php", 
+	"AdminPageFramework_Format_FieldsetOutput"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_Format/AdminPageFramework_Format_FieldsetOutput.php", 
+	"AdminPageFramework_Format_FormField_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_Format/AdminPageFramework_Format_FormField_Base.php", 
+	"AdminPageFramework_Format_Section"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_Format/AdminPageFramework_Format_Section.php", 
+	"AdminPageFramework_Format_SubSection"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_Format/AdminPageFramework_Format_SubSection.php", 
 	"AdminPageFramework_FormElement"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_FormElement/AdminPageFramework_FormElement.php", 
 	"AdminPageFramework_FormElement_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_FormElement/AdminPageFramework_FormElement_Base.php", 
 	"AdminPageFramework_FormElement_Meta"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/model/AdminPageFramework_FormElement/AdminPageFramework_FormElement_Meta.php", 
@@ -98,7 +107,6 @@ $aClassFiles = array(
 	"AdminPageFramework_WalkerTaxonomyChecklist"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_FieldType/AdminPageFramework_WalkerTaxonomyChecklist.php", 
 	"AdminPageFramework_FormField"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_FormField/AdminPageFramework_FormField.php", 
 	"AdminPageFramework_FormField_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_FormField/AdminPageFramework_FormField_Base.php", 
-	"AdminPageFramework_FormField_FieldDefinition"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_FormField/AdminPageFramework_FormField_FieldDefinition.php", 
 	"AdminPageFramework_FormOutput"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_FormOutput/AdminPageFramework_FormOutput.php", 
 	"AdminPageFramework_FormTable"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_FormTable/AdminPageFramework_FormTable.php", 
 	"AdminPageFramework_FormTable_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_FormTable/AdminPageFramework_FormTable_Base.php", 

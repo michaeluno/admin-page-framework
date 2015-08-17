@@ -111,8 +111,8 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
             /* Get the field outputs */
             $_oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg );
             $_aOutput[] = $bRenderTableRow 
-                ? $_oFieldsTable->getFieldRows( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) )
-                : $_oFieldsTable->getFields( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) );
+                ? $_oFieldsTable->getFieldsetRows( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) )
+                : $_oFieldsTable->getFieldsets( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) );
                     
             /* Filter the output */
             // @todo call the content() method.

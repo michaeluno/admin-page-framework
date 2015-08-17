@@ -8,32 +8,68 @@
  */
 
 /**
- * Provides methods to construct field definition arrays.
+ * Provides methods to format form sub-fields definition arrays.
  * 
- * @since       3.5.3
- * @extends     AdminPageFramework_FormField_Base
+ * The user defines a field with a field definition array. Sub-fields will be created from the field definition array.
+ * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Format
+ * @since       3.6.0
  * @internal
  */
-abstract class AdminPageFramework_FormField_FieldDefinition extends AdminPageFramework_FormField_Base {
-
+class AdminPageFramework_Format_Fields extends AdminPageFramework_Format_FormField_Base {
+    
     /**
-     * Returns the array of fields 
-     * 
-     * @since       3.0.0
-     * @since       3.5.3       Moved from `AdminPageFramework_FormField`.
+     * Represents the structure of the sub-field definition array.
      */
-    protected function _constructFieldsArray( &$aField, &$aOptions ) {
+    static public $aStructure = array(
+    );
+    
+    /**
+     * 
+     */
+    public $aField      = array();
+    
+    public $aOptions    = array();
+    
+    /**
+     * Sets up properties.
+     */
+    public function __construct( /* array $aField, array $aOptions */ ) {
+
+        $_aParameters = func_get_args() + array( 
+            $this->aField, 
+            $this->aOptions,
+        );
+        $this->aField           = $_aParameters[ 0 ];
+        $this->aOptions         = $_aParameters[ 1 ];
+        
+    }
+    
+    /**
+     * 
+     * @return      array       A sub-fields definition array.
+     */
+    public function get() {
 
         // Get the set value(s)
-        $_mSavedValue    = $this->_getStoredInputFieldValue( $aField, $aOptions );
-        
+        $_mSavedValue    = $this->_getStoredInputFieldValue( 
+            $this->aField, 
+            $this->aOptions 
+        );
+
         // Construct fields array.
-        $_aFields = $this->_getFieldsWithSubs( $aField, $_mSavedValue );
+        $_aFields = $this->_getFieldsWithSubs( 
+            $this->aField, 
+            $_mSavedValue 
+        );
              
         // Set the saved values
-        $this->_setSavedFieldsValue( $_aFields, $_mSavedValue, $aField );
+        $this->_setSavedFieldsValue( 
+            $_aFields, 
+            $_mSavedValue, 
+            $this->aField 
+        );
 
         // Determine the value
         $this->_setFieldsValue( $_aFields ); // by reference
@@ -41,10 +77,12 @@ abstract class AdminPageFramework_FormField_FieldDefinition extends AdminPageFra
         return $_aFields;
         
     }
+
         /**
          * Returns fields array which includes sub-fields.
          * 
          * @since       3.5.3
+         * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
          */
         private function _getFieldsWithSubs( array $aField, $mSavedValue ) {
 
@@ -70,6 +108,7 @@ abstract class AdminPageFramework_FormField_FieldDefinition extends AdminPageFra
              * 
              * @remark      The method will update the arrays passed to the second and the third parameter.
              * @since       3.5.3
+             * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
              * @internal
              * @return      void
              */
@@ -89,6 +128,7 @@ abstract class AdminPageFramework_FormField_FieldDefinition extends AdminPageFra
              * 
              * @remark      This method updates the passed array to the second parameter.
              * @since       3.5.3
+             * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
              * @internal
              * @return      void
              */
@@ -107,6 +147,7 @@ abstract class AdminPageFramework_FormField_FieldDefinition extends AdminPageFra
             /**
              * Fills sub-fields.
              * @since       3.5.3
+             * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
              * @internal
              * @return      void
              */
@@ -134,6 +175,7 @@ abstract class AdminPageFramework_FormField_FieldDefinition extends AdminPageFra
          * Sets saved field values to the given field arrays.
          * 
          * @since       3.5.3
+         * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
          */
         private function _setSavedFieldsValue( array &$aFields, $mSavedValue, $aField ) {
          
@@ -156,6 +198,7 @@ abstract class AdminPageFramework_FormField_FieldDefinition extends AdminPageFra
          * Sets the value to the given fields array.
          * 
          * @since       3.5.3
+         * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
          */
         private function _setFieldsValue( array &$aFields ) {
             foreach( $aFields as &$_aField ) {
@@ -167,6 +210,7 @@ abstract class AdminPageFramework_FormField_FieldDefinition extends AdminPageFra
          * Returns the set field value.
          * 
          * @since       3.5.3
+         * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
          */
         private function _getSetFieldValue( array $aField ) {
             
@@ -192,11 +236,12 @@ abstract class AdminPageFramework_FormField_FieldDefinition extends AdminPageFra
          * @since       3.0.0       Removed the check of the 'value' and 'default' keys. Made it use the '_fields_type' internal key.
          * @since       3.1.0       Changed the name to _getStoredInputFieldValue from _getInputFieldValue
          * @since       3.4.1       Removed the switch block as it was redundant.
+         * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
          */
         private function _getStoredInputFieldValue( $aField, $aOptions ) {    
 
             // If a section is not set, check the first dimension element.
-            if ( ! isset( $aField['section_id'] ) || '_default' == $aField['section_id'] ) {
+            if ( ! isset( $aField['section_id'] ) || '_default' === $aField['section_id'] ) {
                 return $this->getElement( 
                     $aOptions, 
                     $aField['field_id'],
@@ -222,7 +267,6 @@ abstract class AdminPageFramework_FormField_FieldDefinition extends AdminPageFra
                 null
             );
                                             
-        }     
-
-        
+        }         
+    
 }

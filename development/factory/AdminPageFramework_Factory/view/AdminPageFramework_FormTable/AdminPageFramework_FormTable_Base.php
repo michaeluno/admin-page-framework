@@ -23,13 +23,15 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
      * Sets up properties and hooks.
      * 
      * @since 3.0.0
-     * @since 3.0.4 The $aFieldErrors parameter was added.
+     * @since 3.0.4     The $aFieldErrors parameter was added.
      */
     public function __construct( $aFieldTypeDefinitions, array $aFieldErrors, $oMsg=null ) {
         
         $this->aFieldTypeDefinitions    = $aFieldTypeDefinitions; // used to merge the field definition array with the default field type definition. 
         $this->aFieldErrors             = $aFieldErrors;
-        $this->oMsg                     = $oMsg ? $oMsg: AdminPageFramework_Message::getInstance();
+        $this->oMsg                     = $oMsg 
+            ? $oMsg
+            : AdminPageFramework_Message::getInstance();
         
         $this->_loadScripts();
         
@@ -59,10 +61,11 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
      * 
      * @since       3.0.0
      * @since       3.4.0   Moved from `AdminPageFramework_FormTable`.
+     * @since       3.6.0   Added the `$iSectionIndex` parameter.
      */
-    protected function _getSectionTitle( $sTitle, $sTag, $aFields, $hfFieldCallback ) {
+    protected function _getSectionTitle( $sTitle, $sTag, $aFields, $hfFieldCallback, $iSectionIndex=null ) {
         
-        $_aSectionTitleField = $this->_getSectionTitleField( $aFields );
+        $_aSectionTitleField = $this->_getSectionTitleField( $aFields, $iSectionIndex );
         return $_aSectionTitleField
             ? call_user_func_array( $hfFieldCallback, array( $_aSectionTitleField ) )
             : "<{$sTag}>" . $sTitle . "</{$sTag}>";
@@ -73,11 +76,20 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
          * 
          * @since       3.0.0
          * @since       3.4.0       Moved from `AdminPageFramework_FormTable`.
+         * @since       3.6.0       Added the `$iSectionIndex` parameter.
          */
-        private function _getSectionTitleField( array $aFields ) {   
-            foreach( $aFields as $_aField ) {
-                if ( 'section_title' === $_aField['type'] ) {
-                    return $_aField; // will return the first found one.
+        private function _getSectionTitleField( array $aFieldsets, $iSectionIndex ) {   
+            foreach( $aFieldsets as $_aFieldset ) {
+                // Return the first found one.
+                if ( 'section_title' === $_aFieldset[ 'type' ] ) {
+                    
+                    $_oFieldsetOutputFormatter = new AdminPageFramework_Format_FieldsetOutput( 
+                        $_aFieldset, 
+                        $iSectionIndex,
+                        $this->aFieldTypeDefinitions
+                    );                    
+                    return $_oFieldsetOutputFormatter->get(); 
+                    
                 }
             }
         }
@@ -163,10 +175,14 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
      * @param       array|boolean   $aCollapsible       The collapsible argument.
      * @param       string          $sContainer          The position context. Accepts either 'sections' or 'section'. If the set position in the argument array does not match this value, the method will return an empty string.
      */
-    protected function _getCollapsibleSectionTitleBlock( array $aCollapsible, $sContainer='sections', array $aFields=array(), $hfFieldCallback=null ) {
+    protected function _getCollapsibleSectionTitleBlock( array $aCollapsible, $sContainer='sections', array $aFields=array(), $hfFieldCallback=null, $iSectionIndex=null ) {
 
-        if ( empty( $aCollapsible ) ) { return ''; }
-        if ( $sContainer !== $aCollapsible['container'] ) { return ''; }
+        if ( empty( $aCollapsible ) ) { 
+            return ''; 
+        }
+        if ( $sContainer !== $aCollapsible['container'] ) { 
+            return ''; 
+        }
         
         return $this->_getCollapsibleSectionsEnablerScript()
             . "<div " . $this->generateAttributes(
@@ -183,7 +199,7 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
                 ) 
                 + $this->getDataAttributeArray( $aCollapsible )
             ) . ">"  
-                    . $this->_getSectionTitle( $aCollapsible['title'], 'h3', $aFields, $hfFieldCallback )
+                    . $this->_getSectionTitle( $aCollapsible['title'], 'h3', $aFields, $hfFieldCallback, $iSectionIndex )
                 . "</div>";
         
     }    

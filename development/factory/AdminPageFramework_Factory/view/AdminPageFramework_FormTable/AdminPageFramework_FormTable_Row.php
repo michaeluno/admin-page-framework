@@ -20,14 +20,29 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
     /**
      * Returns the output of a set of fields generated from the given field definition arrays enclosed in a table row tag for each.
      * 
-     * @since 3.0.0    
+     * @since       3.0.0
+     * @since       3.6.0       Added the `$iSectionIndex` parameter. Changed the name from `getFIeldRows`.
+     * @return      string
      */
-    public function getFieldRows( array $aFields, $hfCallback ) {
+    public function getFieldsetRows( array $aFieldsets, $hfCallback, $iSectionIndex=null ) {
         
-        if ( ! is_callable( $hfCallback ) ) { return ''; }
+        if ( ! is_callable( $hfCallback ) ) { 
+            return ''; 
+        }
+        
         $_aOutput = array();
-        foreach( $aFields as $_aField ) {
-            $_aOutput[] = $this->_getFieldRow( $_aField, $hfCallback );
+        foreach( $aFieldsets as $_aFieldset ) {
+            
+            $_oFieldsetOutputFormatter = new AdminPageFramework_Format_FieldsetOutput( 
+                $_aFieldset, 
+                $iSectionIndex,
+                $this->aFieldTypeDefinitions
+            );
+            $_aOutput[] = $this->_getFieldRow( 
+                $_oFieldsetOutputFormatter->get(), 
+                $hfCallback 
+            );
+            
         } 
         return implode( PHP_EOL, $_aOutput );
         
@@ -35,23 +50,26 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
         /**
          * Returns the field output enclosed in a table row.
          * 
-         * @since 3.0.0
+         * @since       3.0.0
+         * @return      string
          */
-        private function _getFieldRow( array $aField, $hfCallback ) {
+        private function _getFieldRow( array $aFieldset, $hfCallback ) {
             
-            if ( 'section_title' === $aField['type'] ) { return ''; }
+            if ( 'section_title' === $aFieldset[ 'type' ] ) { 
+                return ''; 
+            }
             
-            $_aFieldFinal             = $this->_mergeFieldTypeDefault( $aField );
             return $this->_getFieldByContainer( 
-                $aField, 
-                $_aFieldFinal,
+                $aFieldset, 
                 $hfCallback,
                 array(
                     'open_container'    => "<tr " 
                         . $this->_getFieldContainerAttributes( 
-                                $_aFieldFinal,
+                                $aFieldset,
                                 array( 
-                                    'id'        => 'fieldrow-' . AdminPageFramework_FormField::_getInputTagBaseID( $_aFieldFinal ),
+                                    'id'        => 'fieldrow-' . AdminPageFramework_FormField::_getInputTagBaseID( 
+                                        $aFieldset  
+                                    ),
                                     'valign'    => 'top',
                                     'class'     => 'admin-page-framework-fieldrow',
                                 ),
@@ -64,10 +82,10 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
                     'open_main'         => "<td " 
                         . $this->generateAttributes( 
                             array(
-                                'colspan'   => $_aFieldFinal['show_title_column'] 
+                                'colspan'   => $aFieldset[ 'show_title_column' ] 
                                     ? 1 
                                     : 2,
-                                'class'     => $_aFieldFinal['show_title_column'] 
+                                'class'     => $aFieldset[ 'show_title_column' ] 
                                     ? null 
                                     : 'admin-page-framework-field-td-no-title',
                             )
@@ -82,15 +100,28 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
     /**
      * Returns a set of fields output from the given field definition array.
      * 
-     * @remark This is similar to getFieldRows() but without the enclosing table row tag. Used for taxonomy fields.
-     * @since 3.0.0
+     * @remark      This is similar to getFieldsetRows() but without the enclosing table row tag. 
+     * @remark      Used for taxonomy fields.
+     * @since       3.0.0
+     * @return      string
      */
-    public function getFields( array $aFields, $hfCallback ) {
+    public function getFieldsets( array $aFieldsets, $hfCallback ) {
         
-        if ( ! is_callable( $hfCallback ) ) { return ''; }
+        if ( ! is_callable( $hfCallback ) ) { 
+            return ''; 
+        }
+        
         $_aOutput = array();
-        foreach( $aFields as $_aField ) {
-            $_aOutput[] = $this->_getField( $_aField, $hfCallback );
+        foreach( $aFieldsets as $_aFieldset ) {
+            $_oFieldsetOutputFormatter = new AdminPageFramework_Format_FieldsetOutput( 
+                $_aFieldset, 
+                null, // section index
+                $this->aFieldTypeDefinitions
+            );            
+            $_aOutput[] = $this->_getFieldset( 
+                $_oFieldsetOutputFormatter->get(),
+                $hfCallback 
+            );
         }
         return implode( PHP_EOL, $_aOutput );
         
@@ -102,18 +133,22 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
          * @internal
          * @since       3.0.0
          */
-        private function _getField( array $aField, $hfCallback )  {
+        private function _getFieldset( array $aFieldset, $hfCallback )  {
             
-            if ( 'section_title' === $aField['type'] ) { return ''; }
+            if ( 'section_title' === $aFieldset[ 'type' ] ) { 
+                return ''; 
+            }
             
-            $_aFieldFinal    = $this->_mergeFieldTypeDefault( $aField );
             return $this->_getFieldByContainer( 
-                $aField, 
-                $_aFieldFinal,
+                $aFieldset, 
                 $hfCallback,
                 array(
                     'open_main'     => "<div " 
-                            . $this->_getFieldContainerAttributes( $_aFieldFinal, array(), 'fieldrow' ) 
+                            . $this->_getFieldContainerAttributes( 
+                                $aFieldset,  // $_aFieldsetFinal, 
+                                array(), 
+                                'fieldrow'
+                            ) 
                         . ">",
                     'close_main'    => "</div>",
                 )
@@ -125,11 +160,10 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
          * Returns the field output with the given opening and closing HTML tags.
          * 
          * @since       3.4.0
-         * @todo        Examine whether it is necessary to pass the raw field definition array to the callback because the %aFieldFinal can be used instead of $aField and reduce the parameter. 
-         * @param       array       $aField         The passed intact field definition array. The field rendering class needs non-finalized field array to construct the field array. 
-         * @param       array       $aFieldFinal    The field array merged with the default values of the field type. 
+         * @since       3.6.0       Removed the `$aFieldFinal` parameter. Changed the first parameter name from `$aField`.
+         * @param       array       $aFieldset         The passed intact field definition array. The field rendering class needs non-finalized field array to construct the field array. 
          */
-        private function _getFieldByContainer( array $aField, array $aFieldFinal, $hfCallback, array $aOpenCloseTags ) {
+        private function _getFieldByContainer( array $aFieldset, $hfCallback, array $aOpenCloseTags ) {
             
             $aOpenCloseTags = $aOpenCloseTags + array(
                 'open_container'    => '',
@@ -139,43 +173,23 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
                 'open_main'         => '',
                 'close_main'        => '',
             );
+            
             $_aOutput   = array();
-            if ( $aField['show_title_column'] ) {
-                $_aOutput[] = $aOpenCloseTags['open_title']
-                    . $this->_getFieldTitle( $aFieldFinal )
-                    . $aOpenCloseTags['close_title'];
+            if ( $aFieldset[ 'show_title_column' ] ) {
+                $_aOutput[] = $aOpenCloseTags[ 'open_title' ]
+                        . $this->_getFieldTitle( $aFieldset )
+                    . $aOpenCloseTags[ 'close_title' ];
             }
-            $_aOutput[] = $aOpenCloseTags['open_main']
-                . call_user_func_array( $hfCallback, array( $aField ) )
-                . $aOpenCloseTags['close_main'];
-            return $aOpenCloseTags['open_container']
-                . implode( PHP_EOL, $_aOutput )
-                . $aOpenCloseTags['close_container'];
+            $_aOutput[] = $aOpenCloseTags[ 'open_main' ]
+                    . call_user_func_array( $hfCallback, array( $aFieldset ) )
+                . $aOpenCloseTags[ 'close_main' ];
+                
+            return $aOpenCloseTags[ 'open_container' ]
+                    . implode( PHP_EOL, $_aOutput )
+                . $aOpenCloseTags[ 'close_container' ];
             
         }
             
-        /**
-         * Merge the given field definition array with the field type default key array that holds default values.
-         * 
-         * This is important for the getFieldRow() method to know if the field should have specific styling or the hidden key is set or not,
-         * which affects the way of rendering the row that contains the field output (by the field output callback).
-         * 
-         * @internal
-         * @since       3.0.0
-         * @since       3.4.0       Changed the name from `_mergeDefault()`.
-         * @remark      The returning merged field definition array does not respect sub-fields so when passing the field definition to the callback,
-         * do not use the array returned from this method but the raw (non-merged) array.
-         */
-        private function _mergeFieldTypeDefault( array $aField ) {
-            return $this->uniteArrays( 
-                $aField, 
-                $this->getElementAsArray(
-                    $this->aFieldTypeDefinitions,
-                    array( $aField['type'], 'aDefaultKeys' ),
-                    array()
-                )
-            );
-        }
             
         /**
          * Returns the title part of the field output.
@@ -185,7 +199,8 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
          */
         private function _getFieldTitle( array $aField ) {
             
-            return "<label for='" . AdminPageFramework_FormField::_getInputID( $aField ). "'>"
+            $_oSubFieldFormatter = new AdminPageFramework_Format_EachField;
+            return "<label for='" . $_oSubFieldFormatter->getInputID( $aField ) . "'>"
                 . "<a id='{$aField['field_id']}'></a>"
                     . "<span title='" 
                             . esc_attr( strip_tags( 
@@ -208,5 +223,30 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
                 . "</label>";
             
         }
-                     
+ 
+        /**
+         * Merge the given field definition array with the field type default key array that holds default values.
+         * 
+         * This is important for the getFieldRow() method to know if the field should have specific styling or the hidden key is set or not,
+         * which affects the way of rendering the row that contains the field output (by the field output callback).
+         * 
+         * @internal
+         * @since       3.0.0
+         * @since       3.4.0       Changed the name from `_mergeDefault()`.
+         * @since       3.6.0       Changed the name from `mergeFIeldTYpeDefault`.
+         * @remark      The returning merged field definition array does not respect sub-fields so when passing the field definition to the callback,
+         * do not use the array returned from this method but the raw (non-merged) array.
+         * @deprecated  3.6.0
+         */
+        private function _getMergedFieldTypeDefault( array $aFieldset, array $aFieldTypeDefinitions ) {
+            return $this->uniteArrays( 
+                $aFieldset, 
+                $this->getElementAsArray(
+                    $aFieldTypeDefinitions,
+                    array( $aFieldset[ 'type' ], 'aDefaultKeys' ),
+                    array()
+                )
+            );
+        }        
+ 
 }

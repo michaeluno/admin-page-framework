@@ -81,6 +81,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
         
         // Update the array structure by tab slug (passed by reference).
         $this->_divideElementsBySectionTabs( $aSections, $aFieldsInSections );
+     
         $_aOutput     = array();
         foreach( $aSections as $_sSectionTabSlug => $_aSectionsBySectionTab ) {        
             $_aOutput[] = $this->_getFormTable(
@@ -169,10 +170,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 if ( ! isset( $aFields[ $_sSectionID ] ) ) {
                     continue;
                 }            
-                
-                // $_sSectionTaqbSlug = $_aSection['section_tab_slug'] 
-                    // ? $_aSection['section_tab_slug']
-                    // : '_default_' . ( ++$_iIndex );                
+                             
                 $_sSectionTaqbSlug = $this->getAOrB(
                     $_aSection['section_tab_slug'],
                     $_aSection['section_tab_slug'],
@@ -191,23 +189,25 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
         /**
          * Returns the fields type of the given sections.
          * 
-         * @since   3.3.3
+         * @since       3.3.3
+         * @return      string
+         * @remark      The first iteration item of the given array will be returned,
          */
         private function _getSectionsFieldsType( array $aSections=array() ) {
-            // Only the first iteration item is needed
             foreach( $aSections as $_aSection ) {
-                return $_aSection['_fields_type'];
+                return $_aSection[ '_fields_type' ];
             }
         }
         /**
          * Returns the section ID of the first found item of the given sections.
          * 
-         * @since   3.4.3
+         * @since       3.4.3
+         * @remark      The first iteration item of the given array will be returned.
+         * @returm      string
          */
         private function _getSectionsSectionID( array $aSections=array() ) {
-            // Only the first iteration item is needed
             foreach( $aSections as $_aSection ) {
-                return $_aSection['section_id'];
+                return $_aSection[ 'section_id' ];
             }
         }
         
@@ -227,7 +227,6 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
          */
         private function _getSectionsTables( $aSections, $aFieldsInSections, $hfSectionCallback, $hfFieldCallback ) {
 
-            // if empty, return a blank string.
             if ( empty( $aSections ) ) { 
                 return ''; 
             } 
@@ -286,7 +285,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
              * @return      array       The updated sections table output array.
              */
             private function _getSectionsTable( $_aOutputs, $_sSectionID, $_sSectionsID, array $_aSection, array $aFieldsInSections, $hfSectionCallback, $hfFieldCallback  ) {
-             
+
                 // For repeatable sections - note that sub-sections are divided field definition arrays by sub-section index, not section definition arrays.
                 $_aSubSections      = $this->getIntegerKeyElements( 
                     $this->getElementAsArray(
@@ -295,7 +294,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                         array() // default
                     )
                 );
-                
+
                 // If the 'save' argument is false, insert a flag that disables saving the section inputs.
                 $_aOutputs[ 'section_contents' ][] = $this->_getUnsetFlagSectionInputTag( $_aSection );
                 
@@ -310,12 +309,14 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                             $_iCountSubSections, 
                             $_aSection['repeatable'] 
                         );
+                        $_aOutputs[ 'section_contents' ][] = $this->_getDynamicElementFlagFieldInputTag( $_sSectionID );
+                        
                     }
                     
                     // Get the section tables.
                     $_aSubSections = $this->numerizeElements( $_aSubSections ); // will include the main section as well.
                     foreach( $_aSubSections as $_iIndex => $_aFields ) { 
-                        
+
                         $_aSection[ '_is_first_index' ] = $this->isFirstElement( $_aSubSections, $_iIndex );
                         $_aSection[ '_is_last_index' ]  = $this->isLastElement( $_aSubSections, $_iIndex );
                         $_aOutputs = $this->_getSectionTableWithTabList(
@@ -336,7 +337,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 $_aOutputs = $this->_getSectionTableWithTabList(
                     $_aOutputs,
                     $_sSectionID, 
-                    0, 
+                    null, 
                     $_aSection, 
                     $this->getElementAsArray( $aFieldsInSections, $_sSectionID, array() ), 
                     $hfSectionCallback,
@@ -345,6 +346,23 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 return $_aOutputs;
               
             }
+                /**
+                 * Embeds an internal hidden input for the 'sortable' and 'repeatable' arguments.
+                 * @since       3.6.0
+                 * @return      string
+                 */
+                private function _getDynamicElementFlagFieldInputTag( $sSectionID ) {
+
+                    return $this->generateHTMLTag( 
+                        'input',
+                        array(
+                            'type'  => 'hidden',
+                            'name'  => "__dynamic_elements[" . $sSectionID . "]",
+                            'value' => $sSectionID,
+                        )
+                    );
+                }     
+                
                 /**
                  * Embeds an internal hidden input for the 'save' argument.
                  * @since       3.6.0
@@ -359,7 +377,6 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                         'input',
                         array(
                             'type'  => 'hidden',
-                            'value' => $aSection[ 'section_id' ],
                             'name'  => "__unset[{$aSection[ 'section_id' ]}]",
                             'value' => "__dummy_option_key|" . $aSection[ 'section_id' ],
                         )
@@ -371,12 +388,12 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                  * @since       3.5.3
                  * @return      The updated section table output array.
                  */
-                private function _getSectionTableWithTabList( array $_aOutputs, $_sSectionID, $_iIndex, array $_aSection, $_aFields, $hfSectionCallback, $hfFieldCallback ) {
-                 
+                private function _getSectionTableWithTabList( array $_aOutputs, $_sSectionID, $iSectionIndex, array $_aSection, $_aFields, $hfSectionCallback, $hfFieldCallback ) {
+
                     // Tab list
                     $_aOutputs[ 'section_tab_list' ][] = $this->_getTabList( 
                         $_sSectionID, 
-                        $_iIndex, 
+                        $iSectionIndex, 
                         $_aSection, 
                         $_aFields, 
                         $hfFieldCallback 
@@ -385,7 +402,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                     // Section container
                     $_aOutputs[ 'section_contents' ][] = $this->_getSectionTable( 
                         $_sSectionID, 
-                        $_iIndex, 
+                        $iSectionIndex,  // section index
                         $_aSection, 
                         $_aFields, 
                         $hfSectionCallback, 
@@ -467,12 +484,12 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
              * 
              * @since       3.4.0
              */
-            private function _getTabList( $sSectionID, $iIndex, array $aSection, array $aFields, $hfFieldCallback ) {
+            private function _getTabList( $sSectionID, $iSectionIndex, array $aSection, array $aFields, $hfFieldCallback ) {
                 
                 if ( ! $aSection['section_tab_slug'] ) {
                     return '';
                 }
-                $_sSectionTagID     = 'section-' . $sSectionID . '__' . $iIndex;
+                $_sSectionTagID     = 'section-' . $sSectionID . '__' . $iSectionIndex;
                 $_aTabAttributes    = $aSection['attributes']['tab']
                     + array(
                         'class' => 'admin-page-framework-section-tab nav-tab',
@@ -483,7 +500,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 $_aTabAttributes['style'] = $this->generateStyleAttribute( $_aTabAttributes['style'], $aSection['hidden'] ? 'display:none' : null );  // 3.3.1+
                 return "<li " . $this->generateAttributes( $_aTabAttributes ) . ">"
                     . "<a href='#{$_sSectionTagID}'>"
-                        . $this->_getSectionTitle( $aSection['title'], 'h4', $aFields, $hfFieldCallback )
+                        . $this->_getSectionTitle( $aSection['title'], 'h4', $aFields, $hfFieldCallback, $iSectionIndex )
                     ."</a>"
                 . "</li>";
                 
@@ -507,7 +524,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
         if ( count( $aFields ) <= 0 ) { 
             return ''; 
         }
-        
+
         $_bCollapsible  = $aSection['collapsible'] && 'section' === $aSection['collapsible']['container'];
         $_sSectionTagID = 'section-' . $sSectionID . '__' . $iSectionIndex;
         $_aOutput       = array();
@@ -534,7 +551,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                         )
                     )
                 . ">"
-                    . $this->getFieldRows( $aFields, $hfFieldCallback )
+                    . $this->getFieldsetRows( $aFields, $hfFieldCallback, $iSectionIndex )
                 . "</tbody>"
             . "</table>";
             
