@@ -19,7 +19,7 @@
 class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL {
     
     /**
-     * Enhances the parent method generateAttributes() by escaping the attribute values.
+     * Generates HTML attributes to be inserted into an HTML tag by escaping the attribute values.
      * 
      * For example, 
      * <code>
@@ -29,29 +29,43 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
      * <code>
      *      id='my_id' name='my_name' class='my_class'
      * </code>
-     * @since       3.0.0
      * @remark      The single quotes will be used.
      * @remark      For an element with an empty string, only the attribute name will be placed. To prevent the attribute name gets inserted, set `null` to it.
      * @return      string      the generated attributes string output.
+     * @since       3.6.0
      */
-    static public function generateAttributes( array $aAttributes ) {
-        
+    static public function getAttributes( array $aAttributes ) {
+     
         $_sQuoteCharactor   = "'";
         $_aOutput           = array();
-        foreach( $aAttributes as $_sAttribute => $_vProperty ) {
-            
-            if ( in_array( gettype( $_vProperty ), array( 'array', 'object', 'NULL' ) ) ) {
-                continue;
-            }                
-                
-            $_aOutput[] = "{$_sAttribute}={$_sQuoteCharactor}"
-                    . esc_attr( $_vProperty )
-                . "{$_sQuoteCharactor}";
-            
+        foreach( $aAttributes as $_sAttribute => $_mProperty ) {
+            if ( is_scalar( $_mProperty ) ) {
+                $_aOutput[] = "{$_sAttribute}={$_sQuoteCharactor}" . esc_attr( $_mProperty ) . "{$_sQuoteCharactor}";
+            }            
         }     
         return implode( ' ', $_aOutput );
-                
+     
     }    
+        /**
+         * Enhances the parent method generateAttributes() by escaping the attribute values.
+         * 
+         * For example, 
+         * <code>
+         *      array( 'id' => 'my_id', 'name' => 'my_name', 'class' => 'my_class' ) 
+         * </code>
+         * will become
+         * <code>
+         *      id='my_id' name='my_name' class='my_class'
+         * </code>
+         * @since       3.0.0
+         * @remark      The single quotes will be used.
+         * @remark      For an element with an empty string, only the attribute name will be placed. To prevent the attribute name gets inserted, set `null` to it.
+         * @return      string      the generated attributes string output.
+         * @deprecated  3.6.0       Use the `getAttributes()` method instead.
+         */
+        static public function generateAttributes( array $aAttributes ) {
+            return self::getAttributes( $aAttributes );                
+        }    
     
     /**
      * Generates a string of data attributes from the given associative array.

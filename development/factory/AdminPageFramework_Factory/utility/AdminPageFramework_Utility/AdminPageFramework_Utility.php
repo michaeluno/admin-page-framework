@@ -17,7 +17,22 @@
  * @internal
  */
 abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_SystemInformation {
+       
+    /**
+     * Generates brief object information.
+     * 
+     * @remark      Meant to be used for the `__toString()` method.
+     * @since       3.6.0
+     * @return      string
+     */   
+    public function getObjectInfo( $oInstance ) {
         
+        $_iCount     = count( get_object_vars( $oInstance ) );
+        $_sClassName = get_class( $oInstance );
+        return '(object) ' . $_sClassName . ': ' . $_iCount . ' properties.';
+        
+    }
+       
     /**
      * Returns the width for HTML attributes.
      * 
@@ -48,16 +63,23 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
      * 'width: 32px; height: 32px;'
      * </code>
      * 
-     * @since       3.2.0
+     * @since       3.6.0
      * @return      string
      */
-    static public function generateInlineCSS( array $aCSSRules ) {
+    static public function getInlineCSS( array $aCSSRules ) {
         $_aOutput = array();
         foreach( $aCSSRules as $_sProperty => $_sValue ) {
             $_aOutput[] = $_sProperty . ': ' . $_sValue;
         }
         return implode( '; ', $_aOutput );
-    }
+    }    
+        /**
+         * @since           3.2.0
+         * @deprecated      3.6.0       Use `getInlineCSS()` instead.
+         */
+        static public function generateInlineCSS( array $aCSSRules ) {
+            return self::getInlineCSS( $aCSSRules );
+        }
     
     /**
      * Generates a string of inline styles for the style attribute value from multiple arguments.
@@ -65,13 +87,17 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
      * Duplicated items will be merged.
      * 
      * For example,
-     * <code>generateStyleAttribute( array( 'margin-top' => '10px', 'display: inline-block' ), 'float:right; display: none;' )</code>
+     * `
+     * getStyleAttribute( array( 'margin-top' => '10px', 'display: inline-block' ), 'float:right; display: none;' )
+     * `
      * will generate
-     * <code>margin-top: 10px; display: inline-block; float:right;</code>
-     * @since       3.3.1
+     * `
+     * margin-top: 10px; display: inline-block; float:right;
+     * `
+     * @since       3.6.0
      * @return      string
      */
-    static public function generateStyleAttribute( $asInlineCSSes ) {
+    static public function getStyleAttribute( $asInlineCSSes ) {
         
         $_aCSSRules = array();
         foreach( array_reverse( func_get_args() ) as $_asCSSRules ) {
@@ -93,9 +119,16 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
             }
             
         }
-        return self::generateInlineCSS( array_unique( $_aCSSRules ) );
+        return self::getInlineCSS( array_unique( $_aCSSRules ) );
         
     }
+        /**
+         * @since           3.3.1
+         * @deprecated      3.6.0       Use `getStyleAttribute()` instead.
+         */
+        static public function generateStyleAttribute( $asInlineCSSes ) {
+            self::getStyleAttribute( $asInlineCSSes );
+        }
     
     /**
      * Generates a string of class selectors from multiple arguments.
@@ -110,11 +143,11 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
      * </code>
      * 
      * @remark      Duplicated items will be merged.
-     * @since       3.2.0
+     * @since       3.6.0
      * @todo        Fix an issue that when a multidimensional array is passed, it causes a warning:  Notice: Array to string conversion.
      * @return      string
      */
-    static public function generateClassAttribute( /* $asClassSelectors1, $asClassSelectors12 */ ) {
+    static public function getClassAttribute( /* $asClassSelectors1, $asClassSelectors12, ... */ ) {
         
         $_aClasses  = array();
         foreach( func_get_args() as $_asClasses ) {
@@ -129,9 +162,25 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
             );
         }
         $_aClasses  = array_unique( array_filter( $_aClasses ) );
+        
+        // @todo examine if it is okay to remove the trim() function below.
         return trim( implode( ' ', $_aClasses ) );
         
-    }
+    }    
+        /**
+         * Generates a string of class selectors from multiple arguments.
+         * 
+         * @since       3.2.0
+         * @return      string
+         * @deprecated  3.6.0
+         */
+        static public function generateClassAttribute( /* $asClassSelectors1, $asClassSelectors12 ... */ ) {
+            $_aParams = func_get_args();
+            return call_user_func_array(
+                array( __CLASS__ , 'getClassAttribute' ), 
+                $_aParams
+            );        
+        }
     
     /**
      * Returns an array for generating a data attribute from the given associative array.
