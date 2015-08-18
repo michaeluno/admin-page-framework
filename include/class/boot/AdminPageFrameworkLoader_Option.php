@@ -193,9 +193,9 @@ class AdminPageFrameworkLoader_Option {
             return null;
         }
         if ( is_array( $_aKeys[ 0 ] ) ) {
-            $_aKeys =  $_aKeys[ 0 ];
-            $_mDefault = isset( $_aKeys[ 1 ] )
-                ? $_aKeys[ 0 ]
+            $_aKeys     =  $_aKeys[ 0 ];
+            $_mDefault  = isset( $_aKeys[ 1 ] )
+                ? $_aKeys[ 1 ]
                 : null;
         }
         // Now either the section ID or field ID is given. 
