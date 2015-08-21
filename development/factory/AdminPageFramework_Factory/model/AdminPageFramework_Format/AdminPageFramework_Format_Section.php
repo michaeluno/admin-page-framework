@@ -21,7 +21,7 @@ class AdminPageFramework_Format_Section extends AdminPageFramework_Format_Base {
      * Represents the structure of the form section array.
      * 
      * @since       2.0.0
-     * @since       3.6.0       Moved from `AdminPageFramework_FormElement`.
+     * @since       3.6.0       Moved from `AdminPageFramework_FormDefinition`.
      * @var         array       Represents the array structure of form section.
      * @static
      * @internal

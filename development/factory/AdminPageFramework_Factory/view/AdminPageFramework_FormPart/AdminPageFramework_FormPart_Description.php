@@ -15,7 +15,7 @@
  * @since       3.6.0
  * @internal
  */
-class AdminPageFramework_FormTable_Part_Description extends AdminPageFramework_FormTable_Part_Base {            
+class AdminPageFramework_FormPart_Description extends AdminPageFramework_FormPart_Base {            
 
     public $aDescriptions   = array();
     

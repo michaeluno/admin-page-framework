@@ -13,9 +13,10 @@
  * @package     AdminPageFramework
  * @subpackage  Property
  * @since       3.0.0
+ * @since       3.6.0       Changed the name from `AdminPageFramework_FormElement_Page`.
  * @internal
  */
-class AdminPageFramework_FormElement_Page extends AdminPageFramework_FormElement {
+class AdminPageFramework_FormDefinition_Page extends AdminPageFramework_FormDefinition {
     
     /**
      * Stores the default the page slug.

@@ -15,7 +15,7 @@
  * @since       3.6.0
  * @internal
  */
-class AdminPageFramework_FormTable_Part_DebugInfo extends AdminPageFramework_FormTable_Part_Base {            
+class AdminPageFramework_FormPart_DebugInfo extends AdminPageFramework_FormPart_Base {            
 
     public $sFieldsType   = '';
     

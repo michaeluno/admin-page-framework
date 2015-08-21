@@ -22,7 +22,7 @@ abstract class AdminPageFramework_Format_FormField_Base extends AdminPageFramewo
      * @return      boolean
      * @internal
      * @since       3.5.3
-     * @since       3.6.0       Moved from `AdminPageFramework_FormElement`.
+     * @since       3.6.0       Moved from `AdminPageFramework_FormDefinition`.
      * @param       array       $aField     a field definition array.
      */
     protected function _isSectionSet( array $aField ) {

@@ -135,7 +135,7 @@ class AdminPageFramework_Message {
         'add'                                   => 'Add', 
         'remove'                                => 'Remove', 
 
-        // AdminPageFramework_FormTable
+        // AdminPageFramework_FormPart_Table
         'allowed_maximum_number_of_sections'    => 'The allowed maximum number of sections is {0}', 
         'allowed_minimum_number_of_sections'    => 'The allowed minimum number of sections is {0}', 
         'add_section'                           => 'Add Section', 

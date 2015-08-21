@@ -170,7 +170,7 @@ class AdminPageFramework_Format_FieldsetOutput extends AdminPageFramework_Format
          * @internal
          * @since       3.0.0
          * @since       3.4.0       Changed the name from `_mergeDefault()`.
-         * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Row`. Changed the name from `mergeFIeldTYpeDefault`.
+         * @since       3.6.0       Moved from `AdminPageFramework_FormPart_Table_Row`. Changed the name from `mergeFIeldTYpeDefault`.
          * @remark      The returning merged field definition array does not respect sub-fields so when passing the field definition to the callback,
          * do not use the array returned from this method but the raw (non-merged) array.
          */

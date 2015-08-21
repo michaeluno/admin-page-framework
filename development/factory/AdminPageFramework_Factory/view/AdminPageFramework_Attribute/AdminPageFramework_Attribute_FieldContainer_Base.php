@@ -61,7 +61,7 @@ abstract class AdminPageFramework_Attribute_FieldContainer_Base extends AdminPag
         /**
          * Formats attributes array.
          * @since       3.0.0
-         * @since       3.3.1       Changed the name from `_getAttributes()`. Added the <var>$sContext</var> parameter. Moved from `AdminPageFramework_FormTable_Base`.
+         * @since       3.3.1       Changed the name from `_getAttributes()`. Added the <var>$sContext</var> parameter. Moved from `AdminPageFramework_FormPart_Table_Base`.
          * @since       3.6.0       Moved from `AdminPageFramework_FormOutput`.
          * @return      array       The formatted attributes array.
          */

@@ -62,7 +62,7 @@ abstract class AdminPageFramework_UserMeta_View extends AdminPageFramework_UserM
             $_aOutput = array();
             
             // Get the field outputs
-            $_oFieldsTable = new AdminPageFramework_FormTable( $this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg );
+            $_oFieldsTable = new AdminPageFramework_FormPart_Table( $this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg );
             $_aOutput[]    = $_oFieldsTable->getFormTables( 
                 $this->oForm->aConditionedSections, 
                 $this->oForm->aConditionedFields, 

@@ -211,14 +211,14 @@ abstract class AdminPageFramework_Factory_Router {
      * @since       3.5.3
      */    
     protected $_aFormElementClassNameMap = array(
-        'page'                  => 'AdminPageFramework_FormElement_Page',
-        'network_admin_page'    => 'AdminPageFramework_FormElement_Page',
-        'post_meta_box'         => 'AdminPageFramework_FormElement_Meta',
-        'page_meta_box'         => 'AdminPageFramework_FormElement',
-        'post_type'             => 'AdminPageFramework_FormElement',
-        'taxonomy'              => 'AdminPageFramework_FormElement',
-        'widget'                => 'AdminPageFramework_FormElement',
-        'user_meta'             => 'AdminPageFramework_FormElement_Meta',
+        'page'                  => 'AdminPageFramework_FormDefinition_Page',
+        'network_admin_page'    => 'AdminPageFramework_FormDefinition_Page',
+        'post_meta_box'         => 'AdminPageFramework_FormDefinition_Meta',
+        'page_meta_box'         => 'AdminPageFramework_FormDefinition',
+        'post_type'             => 'AdminPageFramework_FormDefinition',
+        'taxonomy'              => 'AdminPageFramework_FormDefinition',
+        'widget'                => 'AdminPageFramework_FormDefinition',
+        'user_meta'             => 'AdminPageFramework_FormDefinition_Meta',
     );        
     /**
      * Instantiate a form object based on the type.

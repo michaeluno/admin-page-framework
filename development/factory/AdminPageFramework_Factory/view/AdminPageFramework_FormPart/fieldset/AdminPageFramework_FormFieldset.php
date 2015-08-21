@@ -230,7 +230,7 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
                 $_aOutput = array();
                 
                 // Descriptions
-                $_oFieldDescription = new AdminPageFramework_FormTable_Part_Description(
+                $_oFieldDescription = new AdminPageFramework_FormPart_Description(
                     $aField[ 'description' ],
                     'admin-page-framework-fields-description'   // class selector
                 );

@@ -34,7 +34,7 @@ abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBo
         $_aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
                                  
         // Get the fields output.
-        $_oFieldsTable  = new AdminPageFramework_FormTable( 
+        $_oFieldsTable  = new AdminPageFramework_FormPart_Table( 
             $this->oProp->aFieldTypeDefinitions, 
             $this->_getFieldErrors(), 
             $this->oMsg

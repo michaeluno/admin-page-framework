@@ -61,7 +61,7 @@ class AdminPageFramework_Generate_Field_Base extends AdminPageFramework_Generate
      * 
      * @internal
      * @since       3.5.3
-     * @since       3.6.0       Moved from `AdminPageFramework_FormElement`.
+     * @since       3.6.0       Moved from `AdminPageFramework_FormDefinition`.
      * @param       array       $aFieldset     a field definition array.
      * @return      boolean
      */

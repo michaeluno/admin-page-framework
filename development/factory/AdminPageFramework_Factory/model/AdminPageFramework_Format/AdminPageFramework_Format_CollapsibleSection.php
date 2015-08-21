@@ -20,7 +20,7 @@ class AdminPageFramework_Format_CollapsibleSection extends AdminPageFramework_Fo
     /**
      * Represents the structure of the 'collapsible' argument.
      * @since       3.4.0
-     * @since       3.6.0       Moved from `AdminPageFramework_FormElement`.
+     * @since       3.6.0       Moved from `AdminPageFramework_FormDefinition`.
      */
     static public $aStructure = array(
         'title'                     => null,        // (string)  the section title will be assigned by default in the section formatting method.
@@ -104,7 +104,7 @@ class AdminPageFramework_Format_CollapsibleSection extends AdminPageFramework_Fo
             /**
              * Sanitizes the toggle all button argument.
              * @since       3.4.0
-             * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Base`. Changed the name from `_sanitizeToggleAllButtonArgument`.
+             * @since       3.6.0       Moved from `AdminPageFramework_FormPart_Table_Base`. Changed the name from `_sanitizeToggleAllButtonArgument`.
              * @param       string      $sToggleAll         Comma delimited button positions.
              * @param       array       $aSection           The section definition array.
              * @return      string

@@ -167,7 +167,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * because this class gets called multiple times to render the form including added widgets and the initial widget that gets listed on the lsft hand side of the page.
          * @since       3.5.2
          */
-        $this->oCaller->oForm = new AdminPageFramework_FormElement( 
+        $this->oCaller->oForm = new AdminPageFramework_FormDefinition( 
             $this->oCaller->oProp->sFieldsType, 
             $this->oCaller->oProp->sCapability, 
             $this->oCaller

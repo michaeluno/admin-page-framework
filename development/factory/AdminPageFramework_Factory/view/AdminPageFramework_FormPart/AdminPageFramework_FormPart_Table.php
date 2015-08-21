@@ -13,9 +13,10 @@
  * @package     AdminPageFramework
  * @subpackage  Form
  * @since       3.0.0
+ * @since       3.6.0       Changed the name from `AdminPageFramework_FormTable`.
  * @internal
  */
-class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption {
+class AdminPageFramework_FormPart_Table extends AdminPageFramework_FormPart_Table_Base {
         
     /**
      * Returns a set of HTML table outputs consisting of form sections and fields.
@@ -93,7 +94,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             );   
         }
         
-        $_oDebugInfo = new AdminPageFramework_FormTable_Part_DebugInfo( $_sFieldsType );
+        $_oDebugInfo = new AdminPageFramework_FormPart_DebugInfo( $_sFieldsType );
         
         return implode( PHP_EOL, $_aOutput ) 
             . $this->_getSectionTabsEnablerScript()
@@ -101,6 +102,18 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
 
             
     }
+        /**
+         * Returns the fields type of the given sections.
+         * 
+         * @since       3.3.3
+         * @return      string
+         * @remark      The first iteration item of the given array will be returned,
+         */
+        private function _getSectionsFieldsType( array $aSections=array() ) {
+            foreach( $aSections as $_aSection ) {
+                return $_aSection[ '_fields_type' ];
+            }
+        }    
         /**
          * Returns a generated HTML form table output.
          * @since       3.5.3
@@ -188,31 +201,6 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             $aFields    = $_aFieldsBySectionTab;
 
         }      
-    
-        /**
-         * Returns the fields type of the given sections.
-         * 
-         * @since       3.3.3
-         * @return      string
-         * @remark      The first iteration item of the given array will be returned,
-         */
-        private function _getSectionsFieldsType( array $aSections=array() ) {
-            foreach( $aSections as $_aSection ) {
-                return $_aSection[ '_fields_type' ];
-            }
-        }
-        /**
-         * Returns the section ID of the first found item of the given sections.
-         * 
-         * @since       3.4.3
-         * @remark      The first iteration item of the given array will be returned.
-         * @returm      string
-         */
-        private function _getSectionsSectionID( array $aSections=array() ) {
-            foreach( $aSections as $_aSection ) {
-                return $_aSection[ 'section_id' ];
-            }
-        }
         
         /**
          * Returns an output string of sections tables.
@@ -240,7 +228,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 'section_contents'  => array(),
             );
             $_sThisSectionID    = $this->_getSectionsSectionID( $aSections );
-            $_sSectionsID       = 'sections-' . $_sThisSectionID; // md5( serialize( $aSections ) );
+            $_sSectionsID       = 'sections-' . $_sThisSectionID;
             $_aCollapsible      = $this->_getCollapsibleArgumentForSections( $aSections );
             foreach( $aSections as $_sSectionID => $_aSection ) {
                 
@@ -270,6 +258,18 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             
         }
             /**
+             * Returns the section ID of the first found item of the given sections.
+             * 
+             * @since       3.4.3
+             * @remark      The first iteration item of the given array will be returned.
+             * @returm      string
+             */
+            private function _getSectionsSectionID( array $aSections=array() ) {
+                foreach( $aSections as $_aSection ) {
+                    return $_aSection[ 'section_id' ];
+                }
+            }        
+            /**
              * Returns the collapsible argument array from the given sections definition array.
              * 
              * @since       3.5.3
@@ -281,7 +281,35 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                     ? $_aCollapsible 
                     : array();            
             }
-            
+                /**
+                 * Returns the collapsible argument array from the given sections definition array.
+                 * 
+                 * @since       3.4.0
+                 * @since       3.5.3       Removed the second `$iSectionIndex` parameter as it was not used.
+                 * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Base`. Changed the scope to private.
+                 * @return      array
+                 */
+                private function _getCollapsibleArgument( array $aSections=array() ) {
+                    
+                    // Only the first found item is needed
+                    foreach( $aSections as $_aSection ) {
+
+                        if ( empty( $_aSection[ 'collapsible' ] ) ) {
+                            return array();
+                        }
+                        
+                        $_oArgumentFormater = new AdminPageFramework_Format_CollapsibleSection(
+                            $_aSection[ 'collapsible' ],
+                            $_aSection[ 'title' ],
+                            $_aSection            
+                        );
+                        return $_oArgumentFormater->get();
+                        
+                    }
+                    return array();
+                    
+                }     
+          
             /**
              * Returns an updated sections table output array.
              * @since       3.5.3
@@ -425,9 +453,22 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
              */
             private function _getFormattedSectionsTablesOutput( array $aOutputs, $sSectionID, $sSectionsID, array $aCollapsible, $sSectionTabSlug ) {
                 
-                return empty( $aOutputs['section_contents'] )
+                $_oCollapsibleSectionTitle = new AdminPageFramework_FormPart_CollapsibleSectionTitle(
+                    isset( $aCollapsible[ 'title' ] ) 
+                        ? $aCollapsible[ 'title' ]
+                        : '',
+                    'h3',
+                    array(),  // fields
+                    null,  // field callback
+                    null,  // section index
+                    $this->aFieldTypeDefinitions,                
+                    $aCollapsible, 
+                    'sections',
+                    $this->oMsg
+                );
+                return empty( $aOutputs[ 'section_contents' ] )
                     ? ''
-                    : $this->_getCollapsibleSectionTitleBlock( $aCollapsible, 'sections' )
+                    : $_oCollapsibleSectionTitle->get()
                         . "<div " . $this->generateAttributes( 
                             $this->_getSectionsTablesContainerAttributes(
                                 $sSectionID,
@@ -501,9 +542,19 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                     );
                 $_aTabAttributes['class'] = $this->generateClassAttribute( $_aTabAttributes['class'], $aSection['class']['tab'] );  // 3.3.1+
                 $_aTabAttributes['style'] = $this->generateStyleAttribute( $_aTabAttributes['style'], $aSection['hidden'] ? 'display:none' : null );  // 3.3.1+
+                
+                $_oSectionTitle = new AdminPageFramework_FormPart_SectionTitle(
+                    $aSection[ 'title' ],
+                    'h4', 
+                    $aFields, 
+                    $hfFieldCallback, 
+                    $iSectionIndex, 
+                    $this->aFieldTypeDefinitions
+                );                        
+                
                 return "<li " . $this->generateAttributes( $_aTabAttributes ) . ">"
                     . "<a href='#{$_sSectionTagID}'>"
-                        . $this->_getSectionTitle( $aSection['title'], 'h4', $aFields, $hfFieldCallback, $iSectionIndex )
+                        . $_oSectionTitle->get()
                     ."</a>"
                 . "</li>";
                 
@@ -521,6 +572,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
      * @param       array       $sFields             The array holding field definition arrays.
      * @param       callable    $hfSectionCallback   The callback for the section header output.
      * @param       callable    $hfFieldCallback     The callback for the field output.
+     * @return      string
      */
     private function _getSectionTable( $sSectionID, $iSectionIndex, $aSection, $aFields, $hfSectionCallback, $hfFieldCallback ) {
 
@@ -530,6 +582,18 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
 
         $_bCollapsible  = $aSection['collapsible'] && 'section' === $aSection['collapsible']['container'];
         $_sSectionTagID = 'section-' . $sSectionID . '__' . $iSectionIndex;
+        
+        $_oTableCaption = new AdminPageFramework_FormPart_TableCaption(
+            $aSection, 
+            $hfSectionCallback,
+            $iSectionIndex,
+            $aFields, 
+            $hfFieldCallback,
+            $this->aFieldErrors,
+            $this->aFieldTypeDefinitions,
+            $this->oMsg
+        );
+        
         $_aOutput       = array();
         $_aOutput[]     = "<table "
             . $this->generateAttributes(  
@@ -542,7 +606,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                     )
                 )
             . ">"
-                . $this->_getCaption( $aSection, $hfSectionCallback, $iSectionIndex, $aFields, $hfFieldCallback )
+                . $_oTableCaption->get()
                 . "<tbody " 
                     . $this->getAttributes( 
                         array(
@@ -599,5 +663,71 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             . "</div>";
         
     }
+    
+    /**
+     * Returns the output of a set of fields generated from the given field definition arrays enclosed in a table row tag for each.
+     * 
+     * @since       3.0.0
+     * @since       3.6.0       Added the `$iSectionIndex` parameter. Changed the name from `getFIeldRows`.
+     * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Row`.
+     * @return      string
+     */
+    public function getFieldsetRows( array $aFieldsets, $hfCallback, $iSectionIndex=null ) {
+        
+        if ( ! is_callable( $hfCallback ) ) { 
+            return ''; 
+        }
+        
+        $_aOutput = array();
+        foreach( $aFieldsets as $_aFieldset ) {
+            
+            $_oFieldsetOutputFormatter = new AdminPageFramework_Format_FieldsetOutput( 
+                $_aFieldset, 
+                $iSectionIndex,
+                $this->aFieldTypeDefinitions
+            );
+            $_oFieldsetRow = new AdminPageFramework_FormPart_TableRow(
+                $_oFieldsetOutputFormatter->get(), 
+                $hfCallback             
+            );
+            $_aOutput[] = $_oFieldsetRow->get();
+
+        } 
+        return implode( PHP_EOL, $_aOutput );
+        
+    }
+      
+    /**
+     * Returns a set of fields output from the given field definition array.
+     * 
+     * @remark      This is similar to getFieldsetRows() but without the enclosing table row tag. 
+     * @remark      Used for taxonomy fields.
+     * @since       3.0.0
+     * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Row`.
+     * @return      string
+     */
+    public function getFieldsets( array $aFieldsets, $hfCallback ) {
+        
+        if ( ! is_callable( $hfCallback ) ) { 
+            return ''; 
+        }
+        
+        $_aOutput = array();
+        foreach( $aFieldsets as $_aFieldset ) {
+            $_oFieldsetOutputFormatter = new AdminPageFramework_Format_FieldsetOutput( 
+                $_aFieldset, 
+                null, // section index
+                $this->aFieldTypeDefinitions
+            );            
+            $_oFieldsetRow = new AdminPageFramework_FormPart_FieldsetRow(
+                $_oFieldsetOutputFormatter->get(),
+                $hfCallback             
+            );
+            $_aOutput[]    = $_oFieldsetRow->get();
+
+        }
+        return implode( PHP_EOL, $_aOutput );
+        
+    }    
        
 }

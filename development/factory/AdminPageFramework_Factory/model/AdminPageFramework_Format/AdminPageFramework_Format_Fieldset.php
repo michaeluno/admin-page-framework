@@ -21,7 +21,7 @@ class AdminPageFramework_Format_Fieldset extends AdminPageFramework_Format_FormF
      * Represents the structure of the form field array.
      * 
      * @since       2.0.0
-     * @since       3.6.0       Moved from `AdminPageFramework_FormElement`.
+     * @since       3.6.0       Moved from `AdminPageFramework_FormDefinition`.
      * @var         array       Represents the array structure of form field.
      * @static
      * @internal

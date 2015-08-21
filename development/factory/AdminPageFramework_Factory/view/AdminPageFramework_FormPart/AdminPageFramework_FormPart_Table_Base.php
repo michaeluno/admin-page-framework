@@ -15,15 +15,16 @@
  * @package     AdminPageFramework
  * @subpackage  Form
  * @since       3.0.0
+ * @since       3.6.0       Changed the name from `AdminPageFramework_FormTable_Base`.
  * @internal
  */
-class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
+class AdminPageFramework_FormPart_Table_Base extends AdminPageFramework_WPUtility {
     
     /**
      * Sets up properties and hooks.
      * 
      * @since 3.0.0
-     * @since 3.0.4     The $aFieldErrors parameter was added.
+     * @since 3.0.4     The `$aFieldErrors` parameter was added.
      */
     public function __construct( $aFieldTypeDefinitions, array $aFieldErrors, $oMsg=null ) {
         
@@ -50,115 +51,15 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
          */ 
         private function _loadScripts() {
             
-            if ( self::$_bIsLoadedTabPlugin ) { return; }
+            if ( self::$_bIsLoadedTabPlugin ) { 
+                return; 
+            }
             self::$_bIsLoadedTabPlugin = true;
             new AdminPageFramework_Script_Tab;
             
         }
-       
-    /**
-     * Returns the section title output.
-     * 
-     * @since       3.0.0
-     * @since       3.4.0   Moved from `AdminPageFramework_FormTable`.
-     * @since       3.6.0   Added the `$iSectionIndex` parameter.
-     */
-    protected function _getSectionTitle( $sTitle, $sTag, $aFields, $hfFieldCallback, $iSectionIndex=null ) {
-        
-        $_aSectionTitleField = $this->_getSectionTitleField( $aFields, $iSectionIndex );
-        return $_aSectionTitleField
-            ? call_user_func_array( $hfFieldCallback, array( $_aSectionTitleField ) )
-            : "<{$sTag}>" . $sTitle . "</{$sTag}>";
-        
-    }    
-        /**
-         * Returns the first found `section_title` field.
-         * 
-         * @since       3.0.0
-         * @since       3.4.0       Moved from `AdminPageFramework_FormTable`.
-         * @since       3.6.0       Added the `$iSectionIndex` parameter.
-         */
-        private function _getSectionTitleField( array $aFieldsets, $iSectionIndex ) {   
-            foreach( $aFieldsets as $_aFieldset ) {
-                // Return the first found one.
-                if ( 'section_title' === $_aFieldset[ 'type' ] ) {
-                    
-                    $_oFieldsetOutputFormatter = new AdminPageFramework_Format_FieldsetOutput( 
-                        $_aFieldset, 
-                        $iSectionIndex,
-                        $this->aFieldTypeDefinitions
-                    );                    
-                    return $_oFieldsetOutputFormatter->get(); 
-                    
-                }
-            }
-        }
-    
-    /**
-     * Returns the collapsible argument array from the given sections definition array.
-     * 
-     * @since       3.4.0
-     * @since       3.5.3       Removed the second `$iSectionIndex` parameter as it was not used.
-     * @return      array
-     */
-    protected function _getCollapsibleArgument( array $aSections=array() ) {
-        
-        // Only the first found item is needed
-        foreach( $aSections as $_aSection ) {
-
-            if ( empty( $_aSection[ 'collapsible' ] ) ) {
-                return array();
-            }
-            
-            $_oArgumentFormater = new AdminPageFramework_Format_CollapsibleSection(
-                $_aSection[ 'collapsible' ],
-                $_aSection[ 'title' ],
-                $_aSection            
-            );
-            return $_oArgumentFormater->get();
-            // return $_aSection['collapsible'];
-        }
-        return array();
-        
-    }       
-    
-    /**
-     * Returns the output of a title block of the given collapsible section.
-     * 
-     * @since       3.4.0
-     * @param       array|boolean   $aCollapsible       The collapsible argument.
-     * @param       string          $sContainer          The position context. Accepts either 'sections' or 'section'. If the set position in the argument array does not match this value, the method will return an empty string.
-     */
-    protected function _getCollapsibleSectionTitleBlock( array $aCollapsible, $sContainer='sections', array $aFields=array(), $hfFieldCallback=null, $iSectionIndex=null ) {
-
-        if ( empty( $aCollapsible ) ) { 
-            return ''; 
-        }
-        if ( $sContainer !== $aCollapsible['container'] ) { 
-            return ''; 
-        }
-        
-        return $this->_getCollapsibleSectionsEnablerScript()
-            . "<div " . $this->generateAttributes(
-                array(
-                    'class' => $this->generateClassAttribute( 
-                        'admin-page-framework-section-title',
-                        'accordion-section-title',
-                        'admin-page-framework-collapsible-title',
-                        'sections' === $aCollapsible['container']
-                            ? 'admin-page-framework-collapsible-sections-title'
-                            : 'admin-page-framework-collapsible-section-title',
-                        $aCollapsible['is_collapsed'] ? 'collapsed' : ''
-                    ),
-                ) 
-                + $this->getDataAttributeArray( $aCollapsible )
-            ) . ">"  
-                    . $this->_getSectionTitle( $aCollapsible['title'], 'h3', $aFields, $hfFieldCallback, $iSectionIndex )
-                . "</div>";
-        
-    }    
-    
-       
+             
+           
     /**
      * Indicates whether the tab enabler script is loaded or not.
      */
@@ -184,27 +85,6 @@ JAVASCRIPTS;
         . "</script>";
         
     } 
- 
-    /**
-     * Indicates whether the collapsible script is loaded or not.
-     * 
-     * @since   3.4.0
-     */
-    static private $_bLoadedCollapsibleSectionsEnablerScript = false;
-    
-    /**
-     * Returns the enabler script of collapsible sections.
-     * @since   3.4.0
-     */
-    protected function _getCollapsibleSectionsEnablerScript() {
-        
-        if ( self::$_bLoadedCollapsibleSectionsEnablerScript ) {
-            return;
-        }
-        self::$_bLoadedCollapsibleSectionsEnablerScript = true;
-        new AdminPageFramework_Script_CollapsibleSection( $this->oMsg );     
-   
-    }
         
     /**
      * Stores the set container IDs to prevent multiple calls.
@@ -217,7 +97,7 @@ JAVASCRIPTS;
     /**
      * Returns the enabler script of repeatable sections.
      * @since       3.0.0
-     * @since       3.4.0       Moved from `AdminPageFramework_FormTable`.
+     * @since       3.4.0       Moved from `AdminPageFramework_FormPart_Table`.
      */
     protected function _getRepeatableSectionsEnablerScript( $sContainerTagID, $iSectionCount, $aSettings ) {
         

@@ -178,7 +178,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                         ? $this->aFieldErrors 
                         : $this->_getFieldErrors( $sPageSlug ); 
                         
-                    $_oFieldsTable = new AdminPageFramework_FormTable(
+                    $_oFieldsTable = new AdminPageFramework_FormPart_Table(
                         $this->oProp->aFieldTypeDefinitions, 
                         $this->aFieldErrors, 
                         $this->oMsg

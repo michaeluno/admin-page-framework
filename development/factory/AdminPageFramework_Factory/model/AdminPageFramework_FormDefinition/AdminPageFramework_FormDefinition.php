@@ -13,9 +13,10 @@
  * @package     AdminPageFramework
  * @subpackage  Property
  * @since       3.0.0
+ * @since       3.6.0       Changed the name from `AdminPageFramework_FormElement`.
  * @internal
  */
-class AdminPageFramework_FormElement extends AdminPageFramework_FormElement_Base {
+class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinition_Base {
     
     /**
      * Stores field definition arrays.

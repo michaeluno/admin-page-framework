@@ -15,5 +15,5 @@
  * @since       3.6.0
  * @internal
  */
-abstract class AdminPageFramework_FormTable_Part_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_FormPart_Base extends AdminPageFramework_WPUtility {
 }

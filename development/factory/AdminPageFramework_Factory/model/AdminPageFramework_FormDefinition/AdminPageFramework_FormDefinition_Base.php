@@ -13,10 +13,11 @@
  * @package     AdminPageFramework
  * @subpackage  Property
  * @since       3.0.0
+ * @since       3.6.0       Changed the name from `AdminPageFramework_FormElement_Base`.
  * @internal
  * @todo        Some internal methods still do not have an underscore prefixed and do not have the @internal tag.
  */
-abstract class AdminPageFramework_FormElement_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_FormDefinition_Base extends AdminPageFramework_WPUtility {
             
     /**
      * Drops repeatable section and field elements from the given array.

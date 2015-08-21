@@ -15,9 +15,10 @@
  * @package     AdminPageFramework
  * @subpackage  Property
  * @since       3.5.3
+ * @since       3.6.0       Changed the name from `AdminPageFramework_FormElement_Meta`.
  * @internal
  */
-class AdminPageFramework_FormElement_Meta extends AdminPageFramework_FormElement {
+class AdminPageFramework_FormDefinition_Meta extends AdminPageFramework_FormDefinition {
 
     /**
      * Extracts the user submitted values from the $_POST array.

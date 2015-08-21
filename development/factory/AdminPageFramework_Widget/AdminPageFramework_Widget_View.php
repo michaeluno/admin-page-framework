@@ -52,7 +52,7 @@ abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_
     public function _printWidgetForm() {
              
         // Get the fields output.
-        $_oFieldsTable  = new AdminPageFramework_FormTable( 
+        $_oFieldsTable  = new AdminPageFramework_FormPart_Table( 
             $this->oProp->aFieldTypeDefinitions, 
             $this->_getFieldErrors(),                           // defined in the factory model class.
             $this->oMsg 
