@@ -14,12 +14,13 @@
  * 
  * @since       3.0.0       Separated the methods that defines field types to different classes.
  * @since       3.3.1       Extends `AdminPageFramework_FormOutput`.
- * @extends     AdminPageFramework_FormOutput
+ * @since       3.6.0       Extends `AdminPageFramework_WPUtility`.
+ * @extends     AdminPageFramework_WPUtility
  * @package     AdminPageFramework
  * @subpackage  Form
  * @internal
  */
-abstract class AdminPageFramework_FormFieldset_Base extends AdminPageFramework_FormOutput {
+abstract class AdminPageFramework_FormFieldset_Base extends AdminPageFramework_WPUtility {
 
     /**
      * Stores the field definition array.
@@ -89,14 +90,16 @@ abstract class AdminPageFramework_FormFieldset_Base extends AdminPageFramework_F
         /* 1-2. Set the other properties */
         $this->aFieldTypeDefinitions    = $aFieldTypeDefinitions;
         $this->aOptions                 = $aOptions;
-        $this->aErrors                  = $aErrors ? $aErrors : array();
+        $this->aErrors                  = $this->getAsArray( $aErrors );
         $this->oMsg                     = $oMsg;
         $this->aCallbacks               = $aCallbacks + array(
-            'hfID'          => null,    // the input id attribute
-            'hfTagID'       => null,    // the fieldset/field row container id attribute
-            'hfName'        => null,    // the input name attribute
-            'hfNameFlat'    => null,    // the flat input name attribute                
-            'hfClass'       => null,    // the class attribute
+            'hfID'              => null,    // the input id attribute
+            'hfTagID'           => null,    // the fieldset/field row container id attribute
+            'hfName'            => null,    // the input name attribute
+            'hfNameFlat'        => null,    // the flat input name attribute                
+            'hfInputName'       => null,
+            'hfInputNameFlat'   => null,
+            'hfClass'           => null,    // the class attribute
         );        
         
         /* 2. Load necessary JavaScript scripts */

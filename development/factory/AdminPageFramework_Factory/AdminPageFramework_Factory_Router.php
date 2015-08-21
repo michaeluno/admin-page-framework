@@ -555,19 +555,16 @@ abstract class AdminPageFramework_Factory_Router {
     }     
     
     /**
-     * Called when the object is called as a string.
+     * Prevents the output from getting too long when the object is dumped.
      *
      * Field definition arrays contain the factory object reference and when the debug log method tries to dump it, the output gets too long.
      * So shorten it here.
      * 
+     * @remark      Called when the object is called as a string.
      * @since       3.4.4
      */   
     public function __toString() {
-        
-        $_iCount     = count( get_object_vars( $this ) );
-        $_sClassName = get_class( $this );
-        return '(object) ' . $_sClassName . ': ' . $_iCount . ' properties.';
-        
+        return $this->oUtil->getObjectInfo( $this );        
     }
  
     /**

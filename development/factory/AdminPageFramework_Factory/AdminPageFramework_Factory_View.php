@@ -58,11 +58,13 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          */
         private function _getFormFieldElementCallbacks() {
             return array(
-                'hfID'          => array( $this, '_replyToGetInputID' ), // the input id attribute
-                'hfTagID'       => array( $this, '_replyToGetInputTagIDAttribute' ), // the fields & fieldset & field row container id attribute
-                'hfName'        => array( $this, '_replyToGetInputNameAttribute' ), // the input name attribute
-                'hfNameFlat'    => array( $this, '_replyToGetFlatInputName' ), // the flat input name attribute
-                'hfClass'       => array( $this, '_replyToGetInputClassAttribute' ), // the class attribute
+                'hfID'              => array( $this, '_replyToGetInputID' ), // the input id attribute
+                'hfTagID'           => array( $this, '_replyToGetInputTagIDAttribute' ), // the fields & fieldset & field row container id attribute
+                'hfName'            => array( $this, '_replyToGetFieldNameAttribute' ), // the input name attribute
+                'hfNameFlat'        => array( $this, '_replyToGetFlatFieldName' ), // the flat input name attribute
+                'hfInputName'       => array( $this, '_replyToGetInputNameAttribute' ),    // 3.6.0+   the field input name attribute
+                'hfInputNameFlat'   => array( $this, '_replyToGetFlatInputName' ),    // 3.6.0+   the flat field input name                 
+                'hfClass'           => array( $this, '_replyToGetInputClassAttribute' ), // the class attribute
             ) + $this->oProp->aFieldCallbacks;
         }    
             
@@ -84,7 +86,27 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
             $_aParams = func_get_args() + array( null, null, null, null );
             return $_aParams[ 0 ];
         }
-
+        
+        /**
+         * @internal
+         * @since       3.6.0
+         * @return      string
+         */
+        public function _replyToGetFieldNameAttribute( /* $sFieldName, $aFieldset */ )  {
+            $_aParams = func_get_args() + array( null, null, );
+            return $_aParams[ 0 ];                        
+        }
+        /**
+         * 
+         * @internal
+         * @since       3.6.0
+         * @return      string
+         */        
+        public function _replyToGetFlatFieldName( /* $sFieldName, $aFieldset */ ) {
+            $_aParams = func_get_args() + array( null, null, );
+            return $_aParams[ 0 ];            
+        }
+        
         /**
          * Generates a name attribute value for a form input element.
          * @internal    
@@ -236,7 +258,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
      */
     public function _replyToGetFieldOutput( $aField ) {
 
-        $_oField = new AdminPageFramework_FormField( 
+        $_oField = new AdminPageFramework_FormFieldset( 
             $aField,                                // the field definition array
             // @todo change it to $this->getSavedOptions()
             $this->oProp->aOptions,                 // the stored form data
@@ -249,7 +271,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         $_sOutput = $this->oUtil->addAndApplyFilters(
             $this,
             array( 'field_' . $this->oProp->sClassName . '_' . $aField['field_id'] ), // field_ + {extended class name} + _ {field id}
-            $_oField->_getFieldOutput(), // field output
+            $_oField->get(), // field output
             $aField // the field array
         );     
 

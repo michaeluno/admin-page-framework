@@ -117,7 +117,7 @@ abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Mode
             : 'default'; // the predefined reserved field type is applied if the parsing field type is not defined(not found).
 
         $_aTemp     = $this->getSavedOptions();    // assigning a variable for the strict standard
-        $_oField    = new AdminPageFramework_FormField( 
+        $_oFieldset = new AdminPageFramework_FormFieldset( 
             $aField, 
             $_aTemp,    // passed by reference. @todo: examine why it needs to be passed by reference.
             $this->aFieldErrors, 
@@ -125,8 +125,8 @@ abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Mode
             $this->oMsg,
             $this->oProp->aFieldCallbacks // field output element callables.
         );
-        $_sFieldOutput = $_oField->_getFieldOutput(); // field output
-        unset( $_oField ); // release the object for PHP 5.2.x or below.
+        $_sFieldOutput = $_oFieldset->get(); // field output
+        unset( $_oFieldset ); // release the object for PHP 5.2.x or below.
 
         return $this->oUtil->addAndApplyFilters(
             $this,

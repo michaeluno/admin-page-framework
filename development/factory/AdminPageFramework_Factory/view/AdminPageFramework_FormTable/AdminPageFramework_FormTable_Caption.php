@@ -101,14 +101,16 @@ abstract class AdminPageFramework_FormTable_Caption extends AdminPageFramework_F
             
             // The class selector 'admin-page-framework-section-description' is referred by the repeatable section buttons
             // @todo        Use a different selector name other than 'admin-page-framework-section-description' as it is used in the inner <p> tag element as well.
+            // Descriptions
+            $_oSectionDescription = new AdminPageFramework_FormTable_Part_Description(
+                $aSection['description'],
+                'admin-page-framework-section-description'    // class selector
+            );            
             return "<div class='admin-page-framework-section-description'>"     
                 . call_user_func_array(
                     $hfSectionCallback, 
                     array( 
-                        $this->_getDescriptions( 
-                            $aSection['description'], 
-                            'admin-page-framework-section-description' 
-                        ),
+                        $_oSectionDescription->get(),
                         $aSection 
                     ) 
                 )

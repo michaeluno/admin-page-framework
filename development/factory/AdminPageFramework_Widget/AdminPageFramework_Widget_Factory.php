@@ -152,10 +152,11 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
         $this->oCaller->oProp->aFieldCallbacks = array( 
             'hfID'          => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
             'hfTagID'       => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
-            'hfName'        => array( $this, '_replyToGetInputName' ),  // defined in the WP_Widget class.  
+            'hfName'        => array( $this, '_replyToGetFieldName' ),  // defined in the WP_Widget class.  
+            'hfInputName'   => array( $this, '_replyToGetFieldInputName' ),
             // 'hfName'        => array( $this, 'get_field_name' ),  // defined in the WP_Widget class.  
             // 'hfClass'       => array( $this, '_replyToAddClassSelector' ),
-            'hfNameFlat'    => array( $this, '_replyToGetFlatInputName' ),
+            // 'hfNameFlat'    => array( $this, '_replyToGetFlatFieldName' ), // @deprecated 3.6.0+ the same as the framework factory method.
         );              
       
         // Render the form. 
@@ -178,27 +179,48 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * 
          * @remark      This one is tricky as the core widget factory method enclose this value in []. So when the framework field has a section, it must NOT end with ].
          * @since       3.5.7       Moved from `AdminPageFramework_FormField`.
+         * @since       3.6.0       Changed the name from `_replyToGetInputName`.
          * @return      string
          */
-        public function _replyToGetInputName( /* $sNameAttribute, array $aField, $sKey */ ) {
+        public function _replyToGetFieldName( /* $sNameAttribute, array $aField */ ) {
             
             $_aParams      = func_get_args() + array( null, null, null );
             $aField        = $_aParams[ 1 ];
-            $sKey          = ( string ) $_aParams[ 2 ]; // a 0 value may have been interpreted as false.
-            $_sKey         = $this->oCaller->oUtil->getAOrB(
-                '0' !== $sKey && empty( $sKey ),
-                '',
-                "[{$sKey}]"
-            );
+            
             $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) 
                 ? "[{$aField['_section_index']}]" 
                 : "";             
             $_sID           = $this->oCaller->isSectionSet( $aField )
-                ? "{$aField['section_id']}]{$_sSectionIndex}[{$aField['field_id']}"
+                ? $aField['section_id'] . "]" . $_sSectionIndex . "[" . $aField[ 'field_id' ]
                 : "{$aField['field_id']}";
-            return $this->get_field_name( $_sID ) . $_sKey;
+            return $this->get_field_name( $_sID );
         
         }    
+        
+        /**
+         * 
+         * @since       3.6.0
+         * @return      string
+         */
+        public function _replyToGetFieldInputName( /* $sNameAttribute, array $aField, $sIndex */ ) {
+            
+            $_aParams      = func_get_args() + array( null, null, null );
+            $aField        = $_aParams[ 1 ];
+            $sIndex        = $_aParams[ 2 ];
+            
+            $_sIndex       = isset( $sIndex ) 
+                ? "[" . $sIndex . "]"
+                : '';
+            $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) 
+                ? "[{$aField['_section_index']}]" 
+                : "";             
+            $_sID           = $this->oCaller->isSectionSet( $aField )
+                ? $aField['section_id'] . "]" . $_sSectionIndex . "[" . $aField[ 'field_id' ]
+                : $aField[ 'field_id' ];
+            return $this->get_field_name( $_sID ) . $_sIndex;
+            
+        }
+        
         /**
          * Returns the flat input name.
          * 
@@ -208,31 +230,30 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * This is used to create a reference to the submit field name to determine which button is pressed.
          * 
          * @since       3.5.7       Moved from `AdminPageFramework_FormField`.
+         * @since       3.6.0       Changed the name from `_replyToGetFlatInputName()`.
          * @return      string
+         * @deprecated
          */
-        protected function _replyToGetFlatInputName( /* $sFlatInputName, array $aField, $sKey */ ) {
-            $_aParams       = func_get_args() + array( null, null, null );            
-            $aField         = $_aParams[ 1 ];
-            $sKey           = ( string ) $_aParams[ 2 ];
-            $_sKey          = $this->oCaller->oUtil->getAOrB(
-                '0' !== $sKey && empty( $sKey ),
-                '',
-                "|{$_sKey}"
-            );
-            $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] )
-                ? "|{$aField['_section_index']}" 
-                : '';                        
-            $sFlatInputName = $this->oCaller->isSectionSet( $aField )
-                ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}"
-                : "{$aField['field_id']}";
-            return $sFlatInputName . $_sKey;                
-        }
+        // protected function _replyToGetFlatFieldName( /* $sFlatInputName, array $aField */ ) {
+            // $_aParams       = func_get_args() + array( null, null );            
+            // $aField         = $_aParams[ 1 ];
+
+            
+            // $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] )
+                // ? "|{$aField['_section_index']}" 
+                // : '';                        
+            // $sFlatInputName = $this->oCaller->isSectionSet( $aField )
+                // ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}"
+                // : "{$aField['field_id']}";
+            // return $sFlatInputName;
+        // }
     
     /**
      * Modifies the class Selector.
      * 
      * @since   3.2.0
      * @remark  currently not used
+     * @deprecated
      */
     // public function _replyToAddClassSelector( $sClassSelectors ) {
         

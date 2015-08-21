@@ -92,10 +92,13 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
                 $hfFieldCallback                 
             );   
         }
+        
+        $_oDebugInfo = new AdminPageFramework_FormTable_Part_DebugInfo( $_sFieldsType );
+        
         return implode( PHP_EOL, $_aOutput ) 
             . $this->_getSectionTabsEnablerScript()
-            . $this->_getDebugInfo( $_sFieldsType )
-            ;
+            . $_oDebugInfo->get();
+
             
     }
         /**
@@ -541,7 +544,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             . ">"
                 . $this->_getCaption( $aSection, $hfSectionCallback, $iSectionIndex, $aFields, $hfFieldCallback )
                 . "<tbody " 
-                    . $this->generateAttributes( 
+                    . $this->getAttributes( 
                         array(
                             'class' => $this->getAOrB(
                                 $_bCollapsible,
@@ -559,7 +562,7 @@ class AdminPageFramework_FormTable extends AdminPageFramework_FormTable_Caption 
             $this->dropElementsByType( $aSection['attributes'] ),   // remove elements of an array.
             array( 
                 'id'            => $_sSectionTagID, // section-{section id}__{index}
-                'class'         => $this->generateClassAttribute( 
+                'class'         => $this->getClassAttribute( 
                     'admin-page-framework-section',
                     $this->getAOrB(
                         $aSection['section_tab_slug'],

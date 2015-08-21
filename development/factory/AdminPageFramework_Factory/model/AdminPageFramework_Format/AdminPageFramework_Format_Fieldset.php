@@ -70,12 +70,11 @@ class AdminPageFramework_Format_Fieldset extends AdminPageFramework_Format_FormF
         
         // Internal Keys
         '_fields_type'              => null,    // 3.0.0+ - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
-// '_section_index'            => null,    // 3.0.0+ - internally set to indicate the section index for repeatable sections.        
-        '_caller_object'            => null,    // 3.4.0+ - stores the object of the caller class. The object is referenced when creating nested fields.
-        '_nested_depth'             => 0,       // 3.4.0+ - stores the level of the nesting depth. This is mostly used for debugging by checking if the field is a nested field or not.
+        '_caller_object'            => null,    // 3.4.0+ - (object) stores the object of the caller class. The object is referenced when creating nested fields.
+        '_nested_depth'             => 0,       // 3.4.0+ - (integer) stores the level of the nesting depth. This is mostly used for debugging by checking if the field is a nested field or not.
                 
-        '_parent_field_name_flat'   => '',      // 3.6.0+ - for nested fields.
-// '_field_name_flat'          => '',      // 3.6.0+
+// @todo deprecate this and use the '_parent_field_object' to generate field input names and ids.
+'_parent_field_name_flat'   => '',      // 3.6.0+ - for nested fields. 
     );        
     
     /**
@@ -149,7 +148,7 @@ class AdminPageFramework_Format_Fieldset extends AdminPageFramework_Format_FormF
         $_aField = $this->uniteArrays(
             array( 
                 '_fields_type'          => $this->sFieldsType,
-                '_caller_object'        => $this->oCallerObject,  // 3.4.1+ Stores the caller object. 
+                '_caller_object'        => $this->oCallerObject,  // 3.4.1+ Stores the caller framework factory object. 
             )
             + $this->aField,
             array( 

@@ -59,23 +59,20 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
                 return ''; 
             }
             
+            $_oFieldrowAttribute   = new AdminPageFramework_Attribute_Fieldrow( 
+                $aFieldset,
+                array( 
+                    'id'        => 'fieldrow-' . $aFieldset[ 'tag_id' ],
+                    'valign'    => 'top',
+                    'class'     => 'admin-page-framework-fieldrow',
+                )                
+            );
+            
             return $this->_getFieldByContainer( 
                 $aFieldset, 
                 $hfCallback,
                 array(
-                    'open_container'    => "<tr " 
-                        . $this->_getFieldContainerAttributes( 
-                                $aFieldset,
-                                array( 
-                                    'id'        => 'fieldrow-' . AdminPageFramework_FormField::_getInputTagBaseID( 
-                                        $aFieldset  
-                                    ),
-                                    'valign'    => 'top',
-                                    'class'     => 'admin-page-framework-fieldrow',
-                                ),
-                                'fieldrow'
-                            )
-                        . ">",
+                    'open_container'    => "<tr " . $_oFieldrowAttribute->get() . ">",
                     'close_container'   => "</tr>",
                     'open_title'        => "<th>",
                     'close_title'       => "</th>",
@@ -139,17 +136,13 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
                 return ''; 
             }
             
+            $_oFieldrowAttribute = new AdminPageFramework_Attribute_Fieldrow( $aFieldset );
+            
             return $this->_getFieldByContainer( 
                 $aFieldset, 
                 $hfCallback,
                 array(
-                    'open_main'     => "<div " 
-                            . $this->_getFieldContainerAttributes( 
-                                $aFieldset,  // $_aFieldsetFinal, 
-                                array(), 
-                                'fieldrow'
-                            ) 
-                        . ">",
+                    'open_main'     => "<div " . $_oFieldrowAttribute->get() . ">",
                     'close_main'    => "</div>",
                 )
             );    
@@ -199,9 +192,12 @@ class AdminPageFramework_FormTable_Row extends AdminPageFramework_FormTable_Base
          */
         private function _getFieldTitle( array $aField ) {
             
-            $_oSubFieldFormatter = new AdminPageFramework_Format_EachField;
-            return "<label for='" . $_oSubFieldFormatter->getInputID( $aField ) . "'>"
-                . "<a id='{$aField['field_id']}'></a>"
+            $_oInputTagIDGenerator = new AdminPageFramework_Generate_FieldInputID( 
+                $aField,
+                0   // the first item
+            );
+            return "<label for='" . $_oInputTagIDGenerator->get() . "'>"
+                    . "<a id='{$aField['field_id']}'></a>"  // to allow the browser to link to the element.
                     . "<span title='" 
                             . esc_attr( strip_tags( 
                                 isset( $aField['tip'] ) 

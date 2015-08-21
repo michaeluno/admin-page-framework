@@ -48,47 +48,53 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
     }    
         /**
          * Enhances the parent method generateAttributes() by escaping the attribute values.
-         * 
-         * For example, 
-         * <code>
-         *      array( 'id' => 'my_id', 'name' => 'my_name', 'class' => 'my_class' ) 
-         * </code>
-         * will become
-         * <code>
-         *      id='my_id' name='my_name' class='my_class'
-         * </code>
          * @since       3.0.0
-         * @remark      The single quotes will be used.
-         * @remark      For an element with an empty string, only the attribute name will be placed. To prevent the attribute name gets inserted, set `null` to it.
-         * @return      string      the generated attributes string output.
          * @deprecated  3.6.0       Use the `getAttributes()` method instead.
          */
         static public function generateAttributes( array $aAttributes ) {
             return self::getAttributes( $aAttributes );                
         }    
-    
     /**
      * Generates a string of data attributes from the given associative array.
      * 
      * @since       3.0.0
      * @return      string
      */
-    static public function generateDataAttributes( array $aArray ) {
+    static public function getDataAttributes( array $aArray ) {
         return self::generateAttributes( self::getDataAttributeArray( $aArray ) );
-    }
+    }    
+        /**
+         * Generates a string of data attributes from the given associative array.
+         * 
+         * @since       3.0.0
+         * @return      string
+         * @deprecated  3.6.0       Use `getDataAttributes()` instead.
+         */
+        static public function generateDataAttributes( array $aArray ) {
+            return self::getDataAttributes( $aArray );
+        }
 
     /**
      * Generates an HTML tag.
-     * @since       3.5.3
+     * @since       3.6.0
      * @return      string
      */
-    static public function generateHTMLTag( $sTagName, array $aAttributes, $sValue=null ) {
+    static public function getHTMLTag( $sTagName, array $aAttributes, $sValue=null ) {
         $_sTag = tag_escape( $sTagName );
         return null === $sValue
-            ? "<" . $_sTag . " " . self::generateAttributes( $aAttributes ) . " />"
-            : "<" . $_sTag . " " . self::generateAttributes( $aAttributes ) . ">"
+            ? "<" . $_sTag . " " . self::getAttributes( $aAttributes ) . " />"
+            : "<" . $_sTag . " " . self::getAttributes( $aAttributes ) . ">"
                     . $sValue
-                . "</{$_sTag}>";
-    }
+                . "</{$_sTag}>";        
+    }    
+        /**
+         * Generates an HTML tag.
+         * @since       3.5.3
+         * @return      string
+         * @deprecated  3.6.0       Use `getHTMLTag()` instead.
+         */
+        static public function generateHTMLTag( $sTagName, array $aAttributes, $sValue=null ) {
+            return self::getHTMLTag( $sTagName, $aAttributes, $sValue );
+        }
     
 }

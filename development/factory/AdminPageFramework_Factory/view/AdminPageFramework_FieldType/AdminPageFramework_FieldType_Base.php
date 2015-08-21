@@ -158,25 +158,26 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
      * 
      * This is used to create nested fields or dynamically create a different type of field.
      * @since       3.4.0
-     * @return      string      The field output.
+     * @return      string      The fieldset output.
      */
-    protected function geFieldOutput( array $aField ) {
+    protected function geFieldOutput( array $aFieldset ) {
         
-        if ( ! is_object( $aField['_caller_object'] ) ) {
+        if ( ! is_object( $aFieldset[ '_caller_object' ] ) ) {
             return '';
         }
-        $aField['_nested_depth']++;
-        $_oCaller   = $aField['_caller_object'];
+        $aFieldset[ '_nested_depth' ]++;
+        $aFieldset[ '_parent_field_object' ] = $aFieldset[ '_field_object' ]; // 3.6.0+
+        $_oCaller   = $aFieldset[ '_caller_object' ];
         $_aOptions  = $_oCaller->getSavedOptions();
-        $_oField    = new AdminPageFramework_FormField( 
-            $aField,                                    // the field definition array
+        $_oFieldset = new AdminPageFramework_FormFieldset( 
+            $aFieldset,                                 // the field definition array
             $_aOptions,                                 // the stored form data
             $_oCaller->getFieldErrors(),                // the field error array.
             $_oCaller->oProp->aFieldTypeDefinitions,    // the field type definition array.
             $_oCaller->oMsg,                            // the system message object
             $_oCaller->oProp->aFieldCallbacks           // field output element callables.
         );           
-        return $_oField->_getFieldOutput();
+        return $_oFieldset->get();
         
     }
     
@@ -296,7 +297,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
         wp_enqueue_script( 'thickbox' );
         wp_enqueue_style( 'thickbox' );
     
-        if ( function_exists( 'wp_enqueue_media' ) ) {     // means the WordPress version is 3.5 or above
+        if ( function_exists( 'wp_enqueue_media' ) ) {     
+            // If the WordPress version is 3.5 or above,
             new AdminPageFramework_Script_MediaUploader( $this->oMsg );
         } else {
             wp_enqueue_script( 'media-upload' );    
@@ -310,18 +312,27 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
 
         /**
          * Replaces the label text of a button used in the media uploader.
-         * @since       2.0.0
-         * @remark      A callback for the `gettext` hook.
+         * 
          * @internal
+         * @since       2.0.0
+         * @callback    filter      gettext
          */ 
         public function _replyToReplaceThickBoxText( $sTranslated, $sText ) {
 
             // Replace the button label in the media thick box.
-            if ( ! in_array( $this->getPageNow(), array( 'media-upload.php', 'async-upload.php' ) ) ) { return $sTranslated; }
-            if ( $sText != 'Insert into Post' ) { return $sTranslated; }
-            if ( $this->getQueryValueInURLByKey( wp_get_referer(), 'referrer' ) != 'admin_page_framework' ) { return $sTranslated; }
+            if ( ! in_array( $this->getPageNow(), array( 'media-upload.php', 'async-upload.php' ) ) ) { 
+                return $sTranslated; 
+            }
+            if ( $sText !== 'Insert into Post' ) { 
+                return $sTranslated; 
+            }
+            if ( $this->getQueryValueInURLByKey( wp_get_referer(), 'referrer' ) !== 'admin_page_framework' ) { 
+                return $sTranslated; 
+            }
             
-            if ( isset( $_GET['button_label'] ) ) { return $_GET['button_label']; }
+            if ( isset( $_GET['button_label'] ) ) { 
+                return $_GET['button_label']; 
+            }
 
             return $this->oProp->sThickBoxButtonUseThis 
                 ? $this->oProp->sThickBoxButtonUseThis 
@@ -331,14 +342,17 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
         /**
          * Removes the From URL tab from the media uploader.
          * 
+         * @internal
          * since        2.1.3
          * since        2.1.5       Moved from AdminPageFramework_Setting. Changed the name from removeMediaLibraryTab() to _replyToRemovingMediaLibraryTab().
-         * @remark      A callback for the <em>media_upload_tabs</em> hook.    
-         * @internal
+         * @callback    filter      media_upload_tabs
+         * @return      array
          */
         public function _replyToRemovingMediaLibraryTab( $aTabs ) {
             
-            if ( ! isset( $_REQUEST['enable_external_source'] ) ) { return $aTabs; }
+            if ( ! isset( $_REQUEST['enable_external_source'] ) ) { 
+                return $aTabs; 
+            }
             
             if ( ! $_REQUEST['enable_external_source'] ) {
                 unset( $aTabs['type_url'] ); // removes the 'From URL' tab in the thick box.

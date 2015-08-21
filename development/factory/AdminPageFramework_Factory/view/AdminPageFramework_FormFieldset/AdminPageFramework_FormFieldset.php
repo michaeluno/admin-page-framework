@@ -20,37 +20,7 @@
  * @internal
  */
 class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Base {
-      
-    /**
-     * Returns the field input base ID used for field container elements.
-     * 
-     * The returning value does not represent the exact ID of the field input tag. 
-     * This is because each input tag has an index for sub-fields.
-     * 
-     * @remark  This is called from the fields table class to insert the row id.
-     * @since   2.0.0
-     * @since   3.2.0       Added the $hfFilterCallback parameter.
-     * @since   3.3.2       Changed the name from `_getInputTagID()`.
-     */
-    static public function _getInputTagBaseID( $aField, $hfFilterCallback=null )  {
-
-        $_sSectionIndex = isset( $aField['_section_index'] )
-            ? '__' . $aField['_section_index'] 
-            : '';
-        $_sInputTagID   = isset( $aField['section_id'] ) && '_default' !== $aField['section_id']
-            ? $aField['section_id'] . $_sSectionIndex . '_' . $aField['field_id']
-            : $aField['field_id'];
-        return ! is_callable( $hfFilterCallback )
-            ? $_sInputTagID
-            : call_user_func_array( 
-                $hfFilterCallback, 
-                array( 
-                    $_sInputTagID 
-                )
-            );
-            
-    }     
-    
+          
     /**
      * Returns the fieldset HTML output.
      * 
@@ -70,27 +40,21 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
         if ( '' !== $_sFieldError ) {
             $_aOutput[] = $_sFieldError;
         }
-                    
-        // 2. Set the tag ID used for the field container HTML tags. 
-        $this->aField[ 'tag_id' ] = $this->_getInputTagBaseID( 
-            $this->aField, 
-            $this->aCallbacks[ 'hfTagID' ]
-        );
-            
-        // 3. Construct fields array for sub-fields.
+                        
+        // 2. Construct fields array for sub-fields.
         $_oFieldsFormatter = new AdminPageFramework_Format_Fields(
             $this->aField, 
             $this->aOptions
         );
         $_aFields = $_oFieldsFormatter->get();
         
-        // 4. Get the field and its sub-fields output.
+        // 3. Get the field and its sub-fields output.
         $_aOutput[] = $this->_getFieldsOutput( 
             $_aFields, 
             $this->aCallbacks 
         );
 
-        // 5. Return the entire output.
+        // 4. Return the entire output.
         return $this->_getFinalOutput( 
             $this->aField, 
             $_aOutput, 
@@ -155,10 +119,8 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
                 $aField = $_oSubFieldFormatter->get();
                 
                 // Callback the registered function to output the field 
-                // $_aFieldAttributes = $this->_getFieldAttributes( $aField ); // @deprecated 3.6.0
                 $_oFieldAttribute = new AdminPageFramework_Attribute_Field( $aField );
                 return $aField[ 'before_field' ]
-                    // . "<div " . $this->_getFieldContainerAttributes( $aField, $_aFieldAttributes, 'field' ) . ">" // @deprecated 3.6.0
                     . "<div " . $_oFieldAttribute->get() . ">"
                         . call_user_func_array(
                             $_aFieldTypeDefinition[ 'hfRenderField' ],
@@ -208,33 +170,6 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
                 }  
 
                 /**
-                 * Returns the field container attribute array.
-                 * 
-                 * @remark      Formatting each sub-field should be performed prior to callign this method.
-                 * @param       array       $aField     The (sub-)field definition array. This should have been formatted already.
-                 * @return      array       The generated field container attribute array.
-                 * @internal   
-                 * @since       3.5.3
-                 */
-                private function _getFieldAttributes( array $aField ) {            
-                    return array(
-                        'id'            => $aField['_field_container_id'],
-                        'data-type'     => "{$aField['type']}",   // this is referred by the repeatable field JavaScript script.
-                        'data-id_model' => $aField['_fields_container_id_model'], // 3.3.1+
-                        'class'         => "admin-page-framework-field admin-page-framework-field-{$aField['type']}"
-                            . $this->getAOrB(
-                                $aField['attributes']['disabled'],
-                                ' disabled',
-                                ''
-                            )
-                            . $this->getAOrB(
-                                $aField['_is_sub_field'],
-                                ' admin-page-framework-subfield',
-                                ''
-                            ) 
-                    );
-                }     
-                /**
                  * Returns the HTML output of delimiter
                  * @internal
                  * @since       3.5.3
@@ -266,41 +201,22 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
          */
         private function _getFinalOutput( array $aFieldset, array $aFieldsOutput, $iFieldsCount ) {
                             
-            //// Construct attribute arrays.
-            
-            // the 'fieldset' container attributes
-            // $_aFieldsSetAttributes = array(
-                // 'id'            => 'fieldset-' . $aFieldset['tag_id'],
-                // 'class'         => 'admin-page-framework-fieldset',
-                // 'data-field_id' => $aFieldset['tag_id'], // <-- don't remember what this was for...
-            // );
-            $_oFieldsetAttributes = new AdminPageFramework_Attribute_Fieldset( $aFieldset );
-            
-            
-            // the 'fields' container attributes
-            // $_aFieldsContainerAttributes = array(
-                // 'id'            => 'fields-' . $aFieldset['tag_id'],
-                // 'class'         => 'admin-page-framework-fields'
-                    // . $this->getAOrB( $aFieldset['repeatable'], ' repeatable', '' )
-                    // . $this->getAOrB( $aFieldset['sortable'], ' sortable', '' ),
-                // 'data-type'     => $aFieldset['type'], // this is referred by the sortable field JavaScript script.
-            // );  
-            $_FieldrowAttributes = new AdminPageFramework_Attribute_Fields( $aFieldset );
-            
-            
-            
-            return $aFieldset['before_fieldset']
-                // . "<fieldset " . $this->_getFieldContainerAttributes( $aFieldset, $_aFieldsSetAttributes, 'fieldset' ) . ">"
+            $_oFieldsetAttributes   = new AdminPageFramework_Attribute_Fieldset( $aFieldset );
+            $_oFieldsAttributes     = new AdminPageFramework_Attribute_Fields( 
+                $aFieldset, 
+                array(),    // attribute array
+                $iFieldsCount 
+            );
+            return $aFieldset[ 'before_fieldset' ]
                 . "<fieldset " . $_oFieldsetAttributes->get() . ">"
-                    // . "<div " . $this->_getFieldContainerAttributes( $aFieldset, $_aFieldsContainerAttributes, 'fields' ) . ">"
-                    . "<div " . $_FieldrowAttributes->get() . ">"
-                        . $aFieldset['before_fields']
+                    . "<div " . $_oFieldsAttributes->get() . ">"
+                        . $aFieldset[ 'before_fields' ]
                             . implode( PHP_EOL, $aFieldsOutput )
-                        . $aFieldset['after_fields']
+                        . $aFieldset[ 'after_fields' ]
                     . "</div>"
                     . $this->_getExtras( $aFieldset, $iFieldsCount )
                 . "</fieldset>"
-                . $aFieldset['after_fieldset'];
+                . $aFieldset[ 'after_fieldset' ];
                         
         }
             
@@ -313,30 +229,31 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
                 
                 $_aOutput = array();
                 
-                // Add the description
-                if ( isset( $aField['description'] ) )  {
-                    $_aOutput[] = $this->_getDescriptions( 
-                        $aField['description'],
-                        'admin-page-framework-fields-description'
-                    );
-                }
+                // Descriptions
+                $_oFieldDescription = new AdminPageFramework_FormTable_Part_Description(
+                    $aField[ 'description' ],
+                    'admin-page-framework-fields-description'   // class selector
+                );
+                $_aOutput[] = $_oFieldDescription->get();
                     
-                // Insert dimensional keys of repeatable and sortable fields.
-                $_aOutput[] = $this->_getDynamicElementFlagFieldInputTag( $aField );
+                // Dimensional keys of repeatable and sortable fields
+                // @deprecated 
+                // $_aOutput[] = $this->_getDynamicElementFlagFieldInputTag( $aField );
                     
-                // Add the repeatable and sortable scripts 
+                // Repeatable and sortable scripts 
                 $_aOutput[] = $this->_getFieldScripts( $aField, $iFieldsCount );
                 
-                return implode( PHP_EOL, $_aOutput );
+                return implode( PHP_EOL, array_filter( $_aOutput ) );
                 
             }
                 /**
                  * Embeds an internal hidden input for the 'sortable' and 'repeatable' arguments.
                  * @since       3.6.0
                  * @return      string
+                 * @deprecated
                  */
                 private function _getDynamicElementFlagFieldInputTag( array $aField ) {
-
+// @todo Insert this with JavaScript.
                     if ( ! $aField[ 'sortable' ] && ! $aField[ 'repeatable' ] ) {
                         return '';
                     }
@@ -360,7 +277,7 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
                  */
                 private function _getFieldScripts( $aField, $iFieldsCount ) {
                     
-                    $_aOutput = array();
+                    $_aOutput   = array();
                     
                     // Add the repeater script 
                     $_aOutput[] = $aField['repeatable']

@@ -29,8 +29,19 @@ class AdminPageFramework_Format_FieldsetOutput extends AdminPageFramework_Format
      * @internal
      */ 
     static public $aStructure = array(       
-        '_section_index'    => null,    // 3.0.0+ - internally set to indicate the section index for repeatable sections.        
-        '_field_name_flat'  => '',      // 3.6.0+
+        '_section_index'        => null,    // 3.0.0+ - internally set to indicate the section index for repeatable sections.        
+        
+        'tag_id'                => null,
+        '_tag_id_model'         => '',      // 3.6.0+   
+        
+        '_field_name'           => '',      // 3.6.0+   
+        '_field_name_model'     => '',      // 3.6.0+           
+        
+        '_field_name_flat'      => '',      // 3.6.0+
+        '_field_name_flat_model'     => '',      // 3.6.0+   
+                
+        '_parent_field_object'  => null,    // 3.6.0+   Assigned when a field creates a nested field.
+        
     );        
     
     /**
@@ -71,29 +82,52 @@ class AdminPageFramework_Format_FieldsetOutput extends AdminPageFramework_Format
         
         $_aFieldset = $this->aFieldset + self::$aStructure;
         
+        // The section index must be set before generating a field tag id as it uses a section index.
         $_aFieldset[ '_section_index' ]   = $this->iSectionIndex;
 
-        // Flat section and field names, used for sorting dynamic elements.
-        $_aFieldset[ '_field_name_flat' ] = $this->_getFlatFieldName( $_aFieldset );                     
-
+        $_oFieldTagIDGenerator = new AdminPageFramework_Generate_FieldTagID( 
+            $_aFieldset,
+            $_aFieldset[ '_caller_object' ]->oProp->aFieldCallbacks[ 'hfTagID' ]
+        );
+        $_aFieldset[ 'tag_id' ]        = $_oFieldTagIDGenerator->get();
+        $_aFieldset[ '_tag_id_model' ] = $_oFieldTagIDGenerator->getModel();
         
+        $_oFieldNameGenerator = new AdminPageFramework_Generate_FieldName( 
+            $_aFieldset,
+            $_aFieldset[ '_caller_object' ]->oProp->aFieldCallbacks[ 'hfName' ]        
+        );
+        $_aFieldset[ '_field_name' ]        = $_oFieldNameGenerator->get();
+        $_aFieldset[ '_field_name_model' ]  = $_oFieldNameGenerator->getModel();
+        
+        
+        // Flat section and field names, used for sorting dynamic elements.
+        $_oFieldFlatNameGenerator = new AdminPageFramework_Generate_FlatFieldName(
+            $_aFieldset
+        );
+        $_aFieldset[ '_field_name_flat' ]       = $_oFieldFlatNameGenerator->get();
+        $_aFieldset[ '_field_name_flat_model' ] = $_oFieldFlatNameGenerator->getModel();
+ 
         return $this->_getMergedFieldTypeDefault(
             $_aFieldset,
             $this->aFieldTypeDefinitions
         );
         
-        // return $_aFieldset;
-        
     }
-           
            
         /**
          * Generates a dimensional field keys delimited by the pipe character, used by marking dynamic fields such as repeatable and sortable fields.
          *          
          * @since       3.6.0
          * @return      string
+         * @deprecated
          */
-        public function _getFlatFieldName( array $aFieldset ) {    
+/*         public function _getFlatFieldName( array $aFieldset ) {    
+            
+            // If the parent field exists, append the field id.
+            if ( is_object( $aFieldset[ '_parent_field_object' ] ) ) {
+                $_oParentField = $aFieldset[ '_parent_field_object' ];
+                return $_oParentField->get( '_field_name_flat' ) . '|' . $aFieldset[ 'field_id' ];
+            }
             
             $_aDimensionalKeys = array();
             
@@ -104,16 +138,28 @@ class AdminPageFramework_Format_FieldsetOutput extends AdminPageFramework_Format
             
             // Sub-section index
             if ( isset( $aFieldset[ 'section_id' ], $aFieldset[ '_section_index' ] ) ) {
-                $_aDimensionalKeys[] = $aFieldset['_section_index'];
+                $_aDimensionalKeys[] = $aFieldset[ '_section_index' ];
             }
             
             // Field dimension
             $_aDimensionalKeys[] = $aFieldset[ 'field_id' ];
-            
+
             // Output
-            return implode( '|', $_aDimensionalKeys );
+            $_sNameAttribute = implode( '|', $_aDimensionalKeys );
+            
+            // Get the callable
+            $_hfCallback = $aFieldset[ '_caller_object' ]->oProp->aFieldCallbacks[ 'hfName' ];
+            return is_callable( $_hfCallback )
+                ? call_user_func_array( 
+                    $_hfCallback, 
+                    array( 
+                        $_sNameAttribute, 
+                        $aFieldset
+                    ) 
+                )
+                : $_sNameAttribute;
                             
-        }          
+        }           */
                
         /**
          * Merge the given field definition array with the field type default key array that holds default values.

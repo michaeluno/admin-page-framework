@@ -17,7 +17,7 @@
  * @since       3.0.0
  * @internal
  */
-class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
+class AdminPageFramework_FormTable_Base extends AdminPageFramework_WPUtility {
     
     /**
      * Sets up properties and hooks.
@@ -98,76 +98,30 @@ class AdminPageFramework_FormTable_Base extends AdminPageFramework_FormOutput {
      * Returns the collapsible argument array from the given sections definition array.
      * 
      * @since       3.4.0
-     * @since       3.5.3       Remvoed the second `$iSectionIndex` parameter as it was not used.
+     * @since       3.5.3       Removed the second `$iSectionIndex` parameter as it was not used.
      * @return      array
      */
     protected function _getCollapsibleArgument( array $aSections=array() ) {
         
         // Only the first found item is needed
         foreach( $aSections as $_aSection ) {
-            if ( ! isset( $_aSection['collapsible'] ) ) { 
-                continue; 
-            }
-            if ( empty( $_aSection['collapsible'] ) ) {
+
+            if ( empty( $_aSection[ 'collapsible' ] ) ) {
                 return array();
             }
             
-            $_aSection['collapsible']['toggle_all_button'] = $this->_sanitizeToggleAllButtonArgument( 
-                $_aSection['collapsible']['toggle_all_button'], 
-                $_aSection 
+            $_oArgumentFormater = new AdminPageFramework_Format_CollapsibleSection(
+                $_aSection[ 'collapsible' ],
+                $_aSection[ 'title' ],
+                $_aSection            
             );
-
-            return $_aSection['collapsible'];
+            return $_oArgumentFormater->get();
+            // return $_aSection['collapsible'];
         }
         return array();
         
     }       
-        /**
-         * Sanitizes the toggle all button argument.
-         * @since       3.4.0
-         * @param       string      $sToggleAll         Comma delimited button positions.
-         * @param       array       $aSection           The section definition array.
-         * @return      string
-         */
-        private function _sanitizeToggleAllButtonArgument( $sToggleAll, array $aSection ) {
-            
-            if ( ! $aSection['repeatable'] ) {            
-                return $sToggleAll;
-            }
-            
-            // If the both first index and last index is true, it means there is only one section. Treat it as a single non-repeatable section.
-            if ( $aSection['_is_first_index'] && $aSection['_is_last_index'] ) {
-                return $sToggleAll;
-            }
-            
-            // Disable the toggle all button for middle sub-sections in repeatable sections.
-            if ( ! $aSection['_is_first_index'] && ! $aSection['_is_last_index'] ) {
-                return 0;
-            }            
-            
-            $_aToggleAll = $this->getAOrB(
-                true === $sToggleAll || 1 ===  $sToggleAll, // evaluate
-                array( 'top-right', 'bottom-right' ),   // if true
-                explode( ',', $sToggleAll ) // if false
-            );            
-            $_aToggleAll = $this->getAOrB(
-                $aSection['_is_first_index'],
-                $this->dropElementByValue( $_aToggleAll, array( 1, true, 0, false, 'bottom-right', 'bottom-left' ) ),
-                $_aToggleAll
-            );
-            $_aToggleAll = $this->getAOrB(
-                $aSection['_is_last_index'],
-                $this->dropElementByValue( $_aToggleAll, array( 1, true, 0, false, 'top-right', 'top-left' ) ),
-                $_aToggleAll
-            );
-            $_aToggleAll = $this->getAOrB(
-                empty( $_aToggleAll ),
-                array( 0 ),
-                $_aToggleAll
-            );
-            return implode( ',', $_aToggleAll );
-            
-        }
+    
     /**
      * Returns the output of a title block of the given collapsible section.
      * 
@@ -311,23 +265,5 @@ JAVASCRIPTS;
         return "<script type='text/javascript' class='admin-page-framework-seciton-repeatable-script'>" . $_sScript . "</script>";
             
     }
- 
- 
-    /**
-     * Returns some framework information for debugging.
-     * 
-     * @since       3.5.3
-     * @return      string      Some information for debugging.
-     */
-    protected function _getDebugInfo( $sFieldsType ) {
-        if ( ! $this->isDebugModeEnabled() ) {
-            return '';
-        }
-        if ( ! in_array( $sFieldsType, array( 'widget', 'post_meta_box', 'page_meta_box', 'user_meta' ) ) ) {
-            return '';
-        }
-        return "<div class='admin-page-framework-info'>" 
-                . 'Debug Info: ' . AdminPageFramework_Registry::NAME . ' '. AdminPageFramework_Registry::getVersion() 
-            . "</div>";
-    }
+
 }
