@@ -31,7 +31,7 @@ abstract class AdminPageFramework_Utility_File extends AdminPageFramework_Utilit
     static public function getFileTailContents( $asPath=array(), $iLines=1 ) {
         
         $_sPath  = self::_getFirstItem( $asPath );
-        if ( ! is_readable( $_sPath ) ) {
+        if ( ! @is_readable( $_sPath ) ) {
             return '';
         }
         return trim( 
