@@ -396,6 +396,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.6.0 =
+- Added the ability to sort sections with the `sortable` argument of a section definition array.
 - Added the `save` argument for the field definition.
 - Changed the mechanism of the repeating and sorting fields.
  

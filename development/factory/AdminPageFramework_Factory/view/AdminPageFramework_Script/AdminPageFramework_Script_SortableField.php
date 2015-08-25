@@ -47,7 +47,7 @@ class AdminPageFramework_Script_SortableField extends AdminPageFramework_Script_
 (function($) {
     $.fn.enableAdminPageFrameworkSortableFields = function( sFieldsContainerID ) {
 
-        var _oTarget    = typeof sFieldsContainerID === 'string' 
+        var _oTarget    = 'string' === typeof sFieldsContainerID
             ? $( '#' + sFieldsContainerID + '.sortable' )
             : this;
         

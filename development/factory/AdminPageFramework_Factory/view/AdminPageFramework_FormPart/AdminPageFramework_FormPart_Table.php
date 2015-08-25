@@ -357,7 +357,14 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_FormPart_Tabl
                             $_aSection[ 'repeatable' ] 
                         );
                         $_aOutputs[ 'section_contents' ][] = $this->_getDynamicElementFlagFieldInputTag( $_aSection );
-                        
+                    }
+                    // Add the sortable sections enabler script. 3.6.0+
+                    if ( $_aSection[ 'sortable' ] ) {
+                        $_aOutputs[ 'section_contents' ][] = $this->_getSortableSectionsEnablerScript( 
+                            $_sSectionsID, 
+                            $_aSection[ 'sortable' ]
+                        );
+                        $_aOutputs[ 'section_contents' ][] = $this->_getDynamicElementFlagFieldInputTag( $_aSection );
                     }
                     
                     // Get the section tables.

@@ -72,6 +72,11 @@ class AdminPageFramework_Attribute_SectionsTablesContainer extends AdminPageFram
                         . 'admin-page-framework-collapsible-content' . ' ' 
                         . 'accordion-section-content'
 
+                ), 
+                $this->getAOrB(
+                    empty( $this->aSectionset[ 'sortable' ] ),
+                    null,
+                    'sortable-section'
                 )
             ),
             // 3.4.3+ to help find the sections container for custom scripts that groups sections.

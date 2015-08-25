@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.6.0b03 by Michael Uno 
+	Admin Page Framework v3.6.0b04 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -143,10 +143,9 @@ $aClassFiles = array(
 	"AdminPageFramework_Script_OptionStorage"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_Script/AdminPageFramework_Script_OptionStorage.php", 
 	"AdminPageFramework_Script_RegisterCallback"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_Script/AdminPageFramework_Script_RegisterCallback.php", 
 	"AdminPageFramework_Script_RepeatableField"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_Script/AdminPageFramework_Script_RepeatableField.php", 
-	"AdminPageFramework_Script_RepeatableField_Legacy"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_Script/AdminPageFramework_Script_RepeatableField_Legacy.php", 
 	"AdminPageFramework_Script_RepeatableSection"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_Script/AdminPageFramework_Script_RepeatableSection.php", 
-	"AdminPageFramework_Script_RepeatableSection_Legacy"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_Script/AdminPageFramework_Script_RepeatableSection_Legacy.php", 
 	"AdminPageFramework_Script_SortableField"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_Script/AdminPageFramework_Script_SortableField.php", 
+	"AdminPageFramework_Script_SortableSection"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_Script/AdminPageFramework_Script_SortableSection.php", 
 	"AdminPageFramework_Script_Tab"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_Script/AdminPageFramework_Script_Tab.php", 
 	"AdminPageFramework_Script_Utility"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_Script/AdminPageFramework_Script_Utility.php", 
 	"AdminPageFramework_Script_Widget"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_Script/AdminPageFramework_Script_Widget.php", 

@@ -82,12 +82,16 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'section_id'        => 'repeatable_sections',
                 'tab_slug'          => $this->sTabSlug,
                 'title'             => __( 'Repeatable Sections', 'admin-page-framework-demo' ),
-                'description'       => __( 'As of v3, it is possible to repeat sections.', 'admin-page-framework-demo' ),
+                'description'       => array( 
+                    __( 'As of v3, it is possible to repeat sections.', 'admin-page-framework-demo' ) . ' '
+                    . __( 'As of v3.6, it is possible to sort sections.', 'admin-page-framework-demo' ),
+                ),
                 // 'repeatable'        => true,     // this makes the section repeatable
                 'repeatable'    => array(   
                     'max' => 5,
                     // 'min' => 2,
                 ),  
+                // 'sortable'          => true,
             ),
             array(
                 'section_id'        => 'tabbed_sections_a',
@@ -107,12 +111,13 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'tab_slug'          => $this->sTabSlug,
                 'section_tab_slug'  => 'repeatable_tabbes_sections',
                 'title'             => __( 'Repeatable', 'admin-page-framework-demo' ),
-                'description'       => __( 'It is possible to tab repeatable sections.', 'admin-page-framework-demo' ),
-                'repeatable'        => true, // this makes the section repeatable
+                'description'       => __( 'It is possible to repeat and sort tabbed sections.', 'admin-page-framework-demo' ),
+                'repeatable'        => true,
+                'sortable'          => true,
             ),
             array()
         );        
- 
+
         // Collapsible sections examples
         $oAdminPage->addSettingSections(    
             $this->sPageSlug, // the target page slug  
@@ -157,7 +162,8 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                     'toggle_all_button' => array( 'top-left', 'bottom-left' ),
                     'container'         => 'section',
                 ),
-                'repeatable'        => true, // this makes the section repeatable
+                'repeatable'        => true, 
+                'sortable'          => true, 
             )
         );
      

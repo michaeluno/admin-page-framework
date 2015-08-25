@@ -72,7 +72,9 @@ class AdminPageFramework_FormPart_Table_Base extends AdminPageFramework_WPUtilit
      */
     protected function _getSectionTabsEnablerScript() {
         
-        if ( self::$_bLoadedTabEnablerScript ) { return ''; }
+        if ( self::$_bLoadedTabEnablerScript ) { 
+            return ''; 
+        }
         self::$_bLoadedTabEnablerScript = true;
         $_sScript = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
@@ -85,6 +87,38 @@ JAVASCRIPTS;
         . "</script>";
         
     } 
+
+    /**
+     * Stores the set container IDs to prevent multiple calls.
+     * @since       3.6.0
+     */
+    static private $_aSetContainerIDsForSortableSections = array();
+    /**
+     * Returns the enabler script of sortable sections.
+     * @since       3.6.0
+     */
+    protected function _getSortableSectionsEnablerScript( $sContainerTagID, $aSettings ) {
+        
+        if ( empty( $aSettings ) ) { 
+            return ''; 
+        }
+        if ( in_array( $sContainerTagID, self::$_aSetContainerIDsForSortableSections ) ) { 
+            return ''; 
+        }
+        self::$_aSetContainerIDsForSortableSections[ $sContainerTagID ] = $sContainerTagID;        
+        new AdminPageFramework_Script_SortableSection( $this->oMsg ); 
+        
+        $aSettings              = $this->getAsArray( $aSettings );        
+
+       
+        $_sScript       = <<<JAVASCRIPTS
+jQuery( document ).ready( function() {    
+    jQuery( '#{$sContainerTagID}' ).enableAdminPageFrameworkSortableSections( '{$sContainerTagID}' ); 
+});            
+JAVASCRIPTS;
+        return "<script type='text/javascript' class='admin-page-framework-section-sortable-script'>" . $_sScript . "</script>";
+        
+    }
         
     /**
      * Stores the set container IDs to prevent multiple calls.
@@ -101,8 +135,12 @@ JAVASCRIPTS;
      */
     protected function _getRepeatableSectionsEnablerScript( $sContainerTagID, $iSectionCount, $aSettings ) {
         
-        if ( empty( $aSettings ) ) { return ''; }
-        if ( in_array( $sContainerTagID, self::$_aSetContainerIDsForRepeatableSections ) ) { return ''; }
+        if ( empty( $aSettings ) ) { 
+            return ''; 
+        }
+        if ( in_array( $sContainerTagID, self::$_aSetContainerIDsForRepeatableSections ) ) { 
+            return ''; 
+        }
         self::$_aSetContainerIDsForRepeatableSections[ $sContainerTagID ] = $sContainerTagID;
         
         new AdminPageFramework_Script_RepeatableSection( $this->oMsg );
@@ -110,7 +148,7 @@ JAVASCRIPTS;
         $_sAdd                  = $this->oMsg->get( 'add_section' );
         $_sRemove               = $this->oMsg->get( 'remove_section' );
         $_sVisibility           = $iSectionCount <= 1 ? " style='display:none;'" : "";
-        $_sSettingsAttributes   = $this->generateDataAttributes( $aSettings );
+        $_sSettingsAttributes   = $this->getDataAttributes( $aSettings );
         $_sButtons              = 
             "<div class='admin-page-framework-repeatable-section-buttons' {$_sSettingsAttributes} >"
                 . "<a class='repeatable-section-remove-button button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
@@ -142,7 +180,7 @@ jQuery( document ).ready( function() {
     jQuery( '#{$sContainerTagID}' ).updateAdminPageFrameworkRepeatableSections( $_aJSArray ); 
 });            
 JAVASCRIPTS;
-        return "<script type='text/javascript' class='admin-page-framework-seciton-repeatable-script'>" . $_sScript . "</script>";
+        return "<script type='text/javascript' class='admin-page-framework-section-repeatable-script'>" . $_sScript . "</script>";
             
     }
 

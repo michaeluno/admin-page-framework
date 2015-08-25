@@ -132,6 +132,8 @@ CSSRULES;
 }            
 .admin-page-framework-sectionset {
     margin-bottom: 1em; 
+    display:inline-block;
+    width:100%;
 }            
 CSSRULES;
             
@@ -172,7 +174,6 @@ td.admin-page-framework-field-td-no-title {
     border-width: 1px;
     border-color: #dfdfdf;
     background-color: #fdfdfd;     
-    
 }
 .admin-page-framework-section-tab {
     background-color: transparent;
@@ -320,7 +321,8 @@ td.admin-page-framework-field-td-no-title {
     }
 }
 
-/* Sortable Fields */
+/* Sortable Section and Fields */
+.admin-page-framework-sections.sortable-section > .admin-page-framework-section,
 .sortable .admin-page-framework-field {
     clear: both;
     float: left;
@@ -351,7 +353,40 @@ td.admin-page-framework-field-td-no-title {
 }     
 .admin-page-framework-fields.sortable {
     margin-bottom: 1.2em; /* each sortable field does not have a margin bottom so this rule gives a margin between the fields and the description */
-}           
+}         
+
+/* Sortable Sections */
+
+.admin-page-framework-sections.sortable-section {
+/*     display: inline-block;
+    padding-bottom: 1em */; 
+}
+
+/* Sortable Collapsible Sections */
+.admin-page-framework-sections.sortable-section > .admin-page-framework-section.is_subsection_collapsible {
+    display: block; 
+    float: none;
+    border: 0px;
+    padding :0;
+    background: transparent;
+}
+/* Sortable Tabbed Sections */
+.admin-page-framework-sections.sortable-section > .admin-page-framework-tab-content {
+    display: block; 
+    float: none;
+    border: 0px;    
+
+    padding: 0.5em 2em 1.5em 2em;
+    margin: 0;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #dfdfdf;
+    background-color: #fdfdfd;      
+}
+
+.admin-page-framework-sections.sortable-section > .admin-page-framework-section {
+    margin-bottom: 1em;
+}
 
 /* Media Upload Buttons */
 .admin-page-framework-field .button.button-small {

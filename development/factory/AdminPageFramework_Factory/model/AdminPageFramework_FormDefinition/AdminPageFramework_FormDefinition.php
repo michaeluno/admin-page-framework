@@ -660,6 +660,10 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
              */
             private function _getSubSectionItemsFromOptions( array $_aSubSection, $_sSectionID, $_iIndex, $_iPrevIndex ) {
                 
+                if ( ! isset( $this->aConditionedFields[ $_sSectionID ] ) ) {
+                    return array();
+                }
+                
                 $_aFields = isset( $this->aConditionedFields[ $_sSectionID ][ $_iIndex ] )
                     ? $this->aConditionedFields[ $_sSectionID ][ $_iIndex ]
                     : $this->getNonIntegerKeyElements( $this->aConditionedFields[ $_sSectionID ] );
