@@ -102,12 +102,16 @@ class APF_Demo_ManageOptions_ResetConfirm {
     
     /**
      * 
-     * @remark  // validation_{instantiated class name}
+     * @callback        filter      validation_{instantiated class name}
      */
     public function replyToValidateFormData( $aInput, $aOldOptions, $oFactory ) { 
            
-        /* If the delete options button is pressed, return an empty array that will delete the entire options stored in the database. */
-        if ( isset( $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ]['submit_delete_options_confirmation'] ) ) { 
+        // If the delete options button is pressed, return an empty array that will delete the entire options stored in the database. 
+        if ( isset( $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'submit_delete_options_confirmation' ] ) ) { 
+            
+            // Delete the basic usage example framework options as well.
+            delete_option( 'APF_BasicUsage' );
+        
             return array();
         }
         return $aInput;

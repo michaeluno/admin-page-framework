@@ -109,7 +109,8 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'title'             => __( 'Repeatable', 'admin-page-framework-demo' ),
                 'description'       => __( 'It is possible to tab repeatable sections.', 'admin-page-framework-demo' ),
                 'repeatable'        => true, // this makes the section repeatable
-            )              
+            ),
+            array()
         );        
  
         // Collapsible sections examples
@@ -205,102 +206,104 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 ),
             ),     
             array()
-        );     
+        );   
+     
         $oAdminPage->addSettingFields(    
             'tabbed_sections_a', // the target section ID
             array(
-                'field_id' => 'text_field_in_tabbed_section',
-                'title' => __( 'Text', 'admin-page-framework-demo' ),
-                'type' => 'text',
-                'default' => 'xyz',
+                'field_id'      => 'text_field_in_tabbed_section',
+                'title'         => __( 'Text', 'admin-page-framework-demo' ),
+                'type'          => 'text',
+                'default'       => 'xyz',
             ),
             array(
-                'field_id' => 'repeatable_field_in_tabbed_sections',
-                'title' => __( 'Repeatable', 'admin-page-framework-demo' ),
-                'type' => 'text',
-                'repeatable' =>    true,
+                'field_id'      => 'repeatable_field_in_tabbed_sections',
+                'title'         => __( 'Repeatable', 'admin-page-framework-demo' ),
+                'type'          => 'text',
+                'repeatable'    => true,
             ),     
             'tabbed_sections_b', // the target section ID
             array(
-                'field_id' => 'size_in_tabbed_sections',
-                'title' => __( 'Size', 'admin-page-framework-demo' ),
-                'type' => 'size',
+                'field_id'      => 'size_in_tabbed_sections',
+                'title'         => __( 'Size', 'admin-page-framework-demo' ),
+                'type'          => 'size',
             ),
             array(
-                'field_id' => 'select_in_tabbed_sections',
-                'title' => __( 'Select', 'admin-page-framework-demo' ),
-                'type' => 'select',
-                'default' => 'b',
-                'label' => array(
+                'field_id'      => 'select_in_tabbed_sections',
+                'title'         => __( 'Select', 'admin-page-framework-demo' ),
+                'type'          => 'select',
+                'default'       => 'b',
+                'label'         => array(
                     'a' => 'A',
                     'b' => 'B',
                     'c' => 'C',     
                 ),
             ),     
             array()
-        );     
+        );  
+
         $oAdminPage->addSettingFields(
             'repeatable_tabbed_sections', // the target section ID
              array(
-                'field_id' => 'tab_title',
-                'type' => 'section_title',
-                'label' => __( 'Name', 'admin-page-framework-demo' ),
-                'attributes' => array(
+                'field_id'      => 'tab_title',
+                'type'          => 'section_title',
+                'label'         => __( 'Name', 'admin-page-framework-demo' ),
+                'attributes'    => array(
                     'size' => 10,
                     // 'type' => 'number', // change the input type 
                 ),
             ),
             array(
-                'field_id' => 'text_field_in_tabbed_section_in_repeatable_sections',
-                'title' => __( 'Text', 'admin-page-framework-demo' ),
-                'type' => 'text',
-                'default' => 'xyz',
+                'field_id'      => 'text_field_in_tabbed_section_in_repeatable_sections',
+                'title'         => __( 'Text', 'admin-page-framework-demo' ),
+                'type'          => 'text',
+                'default'       => 'xyz',
             ),
             array(
-                'field_id' => 'repeatable_field_in_tabbed_sections_in_repetable_sections',
-                'title' => __( 'Repeatable', 'admin-page-framework-demo' ),
-                'type' => 'text',
-                'repeatable' => true,
+                'field_id'      => 'repeatable_field_in_tabbed_sections_in_repetable_sections',
+                'title'         => __( 'Repeatable', 'admin-page-framework-demo' ),
+                'type'          => 'text',
+                'repeatable'    => true,
             ),     
             array(
-                'field_id' => 'size_in_tabbed_sections_in_repeatable_sections',
-                'title' => __( 'Size', 'admin-page-framework-demo' ),
-                'type' => 'size',
+                'field_id'      => 'size_in_tabbed_sections_in_repeatable_sections',
+                'title'         => __( 'Size', 'admin-page-framework-demo' ),
+                'type'          => 'size',
             ),
             array(
-                'field_id' => 'select_in_tabbed_sections_in_repeatable_sections',
-                'title' => __( 'Select', 'admin-page-framework-demo' ),
-                'type' => 'select',
-                'default' => 'b',
-                'label' => array(
+                'field_id'      => 'select_in_tabbed_sections_in_repeatable_sections',
+                'title'         => __( 'Select', 'admin-page-framework-demo' ),
+                'type'          => 'select',
+                'default'       => 'b',
+                'label'         => array(
                     'a' => 'A',
                     'b' => 'B',
                     'c' => 'C',     
                 ),
             ),     
             array(
-                'field_id' => 'color_in_tabbed_sections_in_repeatable_sections',
-                'title' => __( 'Color', 'admin-page-framework-demo' ),
-                'type' => 'color',
-                'repeatable' =>    true,
-                'sortable' =>    true,
+                'field_id'      => 'color_in_tabbed_sections_in_repeatable_sections',
+                'title'         => __( 'Color', 'admin-page-framework-demo' ),
+                'type'          => 'color',
+                'repeatable'    => true,
+                'sortable'      => true,
             ), 
             array(
-                'field_id' => 'image_in_tabbed_sections_in_repeatable_sections',
-                'title' => __( 'Image', 'admin-page-framework-demo' ),
-                'type' => 'image',
-                'repeatable' =>    true,
-                'sortable' =>    true,
-                'attributes' => array(
+                'field_id'      => 'image_in_tabbed_sections_in_repeatable_sections',
+                'title'         => __( 'Image', 'admin-page-framework-demo' ),
+                'type'          => 'image',
+                'repeatable'    => true,
+                'sortable'      => true,
+                'attributes'    => array(
                     'style' => 'max-width:300px;',
                 ),
             ),     
             array(
-                'field_id' => 'media_in_tabbed_sections_in_repeatable_sections',
-                'title' => __( 'Media', 'admin-page-framework-demo' ),
-                'type' => 'media',
-                'repeatable' =>    true,
-                'sortable' =>    true,
+                'field_id'      => 'media_in_tabbed_sections_in_repeatable_sections',
+                'title'         => __( 'Media', 'admin-page-framework-demo' ),
+                'type'          => 'media',
+                'repeatable'    => true,
+                'sortable'      => true,
             ),                 
             array()
         );      
@@ -342,9 +345,9 @@ class APF_Demo_BuiltinFieldTypes_Sections {
         $oAdminPage->addSettingFields(    
             'collapsible_repeatable_section', // the target section ID
             array(
-                'field_id'  => 'section_title_in_collapsible_repeatable_section',
-                'type'      => 'section_title',
-                'label'     => __( 'Section Name', 'admin-page-framework-demo' ),
+                'field_id'      => 'section_title_in_collapsible_repeatable_section',
+                'type'          => 'section_title',
+                'label'         => __( 'Section Name', 'admin-page-framework-demo' ),
             ),            
             array(
                 'field_id'      => 'text_field_in_collapsible_repeatable_section',
