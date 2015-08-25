@@ -397,6 +397,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
  
 = 3.6.0 =
 - Added the `save` argument for the field definition.
+- Changed the mechanism of the repeating and sorting fields.
  
 = 3.5.12 -2015/08/09 =
 - Fixed a bug that the `Select All` and `Select None` buttons were doubled when a `checkbox` and `posttype` field types were in the same form and not displayed with the `taxonomy` field type when there are no `checkbox` or `posttype` fields in the same page.

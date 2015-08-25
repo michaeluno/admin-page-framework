@@ -8,14 +8,15 @@
  */
 
 /**
- * Provides base methods that deal with generating values.
+ * Provides methods that deal with sorting array.
  * 
  * @package     AdminPageFramework
  * @subpackage  Format
  * @since       3.6.0
  * @internal
  */
-abstract class AdminPageFramework_Generate_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Sort_Base extends AdminPageFramework_WPUtility {
+    
     
     /**
      * Sets up properties.
@@ -26,10 +27,10 @@ abstract class AdminPageFramework_Generate_Base extends AdminPageFramework_WPUti
     
     /**
      * 
-     * @return      string       The generated string value.
+     * @return      array       The formatted definition array.
      */
     public function get() {
-        return '';
+        return array();
     }
            
 }

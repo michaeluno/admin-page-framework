@@ -24,47 +24,57 @@ class AdminPageFramework_Attribute_Fields extends AdminPageFramework_Attribute_F
      * 
      * @since       3.6.0
      */
-    public $sContext    = 'fields'; 
+    public $sContext     = 'fields'; 
 
     public $iFieldsCount = 0;
     
     /**
      * Sets up properties.
      */
-    public function __construct( /* $aFieldset, $aAttributes, $iFieldsCount */ ) {
+    public function __construct( /* $aArguments, $aAttributes, $iFieldsCount */ ) {
         
         $_aParameters = func_get_args() + array( 
-            $this->aFieldset, 
+            $this->aArguments, 
             $this->aAttributes,
             $this->iFieldsCount,
         );
-        $this->aFieldset    = $_aParameters[ 0 ];        
+        $this->aArguments    = $_aParameters[ 0 ];        
         $this->aAttributes  = $_aParameters[ 1 ];
         $this->iFieldsCount = $_aParameters[ 2 ];
         
     }
     
     /**
+     * Returns an attribute array.
      * @since       3.6.0
      * @return      array
      */
     protected function _getAttributes() {
         return array(
-            'id'            => $this->sContext . '-' . $this->aFieldset[ 'tag_id' ],
+            'id'            => $this->sContext . '-' . $this->aArguments[ 'tag_id' ],
             'class'         => 'admin-page-framework-' . $this->sContext
-                . $this->getAOrB( $this->aFieldset[ 'repeatable' ], ' repeatable dynamic-fields', '' ) // 3.6.0+ Added the 'dynamic-fields' class selector.
-                . $this->getAOrB( $this->aFieldset[ 'sortable' ], ' sortable dynamic-fields', '' ),
+                . $this->getAOrB( $this->aArguments[ 'repeatable' ], ' repeatable dynamic-fields', '' ) // 3.6.0+ Added the 'dynamic-fields' class selector.
+                . $this->getAOrB( $this->aArguments[ 'sortable' ], ' sortable dynamic-fields', '' ),
 
             // referred by the sortable field JavaScript script.
-            'data-type'     => $this->aFieldset[ 'type' ], 
+            'data-type'     => $this->aArguments[ 'type' ], 
 
             // 3.6.0+ Stores the total number of dynamic fields, used to generate the input id and name of repeated fields which contain an incremented index number.
-            'data-field_count'    => $this->iFieldsCount,
+            'data-largest_index'            => max(     
+                ( int ) $this->iFieldsCount - 1,  // zero-base index
+                0 
+            ), // convert negative numbers to zero.
             
             // 3.6.0+ Stores the field name model
-            'data-field_name_model' => $this->aFieldset[ '_field_name_model' ],
-            'data-field_name_flat'  => $this->aFieldset[ '_field_name_flat' ],
-            'data-tag_id_model'     => $this->aFieldset[ '_tag_id_model' ],
+            'data-field_name_model'         => $this->aArguments[ '_field_name_model' ],
+            'data-field_name_flat'          => $this->aArguments[ '_field_name_flat' ],
+            'data-field_name_flat_model'    => $this->aArguments[ '_field_name_flat_model' ],
+            'data-field_tag_id_model'       => $this->aArguments[ '_tag_id_model' ],
+            
+            // 3.6.0+ Referred by repeatable scripts.
+            'data-field_address'            => $this->aArguments[ '_field_address' ],
+            'data-field_address_model'      => $this->aArguments[ '_field_address_model' ],
+            
         );                    
     }
            

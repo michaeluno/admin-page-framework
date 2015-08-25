@@ -32,6 +32,9 @@ class AdminPageFramework_Format_EachField extends AdminPageFramework_Format_Form
         '_field_container_id'           => '',
         '_input_id_model'               => '',
         '_input_name_model'             => '',
+        
+        '_input_name_flat'              => '',
+        
         // '_fields_container_id_model'    => '',
         '_fields_container_id'          => '',
         '_fieldset_container_id'        => '',
@@ -184,38 +187,6 @@ class AdminPageFramework_Format_EachField extends AdminPageFramework_Format_Form
         
     }
 
-    
-  
-    /**
-     * Generates an id attribute model for dynamic fields such as repeatable and sortable fields.
-     * 
-     * The repeatable script will check this id to generate incremented id.
-     * `
-     * data-id_model="^(mysection__1_myfield__)(\d+)(.*)"
-     * `
-     * @since       3.6.0
-     * @return      string
-     */
-    // protected function _getInputIDModel( $aField, $hfFilterCallback=null ) {
-
-        // $_sSectionIndex   = $this->getAOrB(
-            // isset( $aField[ '_section_index' ] ),
-            // '__' . $aField[ '_section_index' ],
-            // ''
-        // );
-        // $_sInputAttribute = isset( $aField[ 'section_id' ] ) && '_default' !== $aField['section_id']
-            // ? "^({$aField[ 'section_id' ]}{$_sSectionIndex}_{$aField[ 'field_id' ]}__)(\d+)(.*)"
-            // : "^({$aField[ 'field_id' ]}__)(\d+)(.*)";
-        // return is_callable( $hfFilterCallback )
-            // ? call_user_func_array( 
-                // $hfFilterCallback, 
-                // array( 
-                    // $_sInputAttribute
-                // )
-            // )
-            // : $_sInputAttribute;
-            
-    // }
 
     /**
      * Generates an name attribute model for dynamic fields such as repeatable and sortable fields.

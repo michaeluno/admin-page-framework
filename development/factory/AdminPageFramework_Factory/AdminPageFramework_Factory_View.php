@@ -30,7 +30,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         // 3.5.7+ Form field element output callbacks. 
         // 3.5.8+ Move to above the `isInThePage()` check 
         // since meta boxes cannot detect the current post type if it loaded too early.
-        $this->oProp->aFieldCallbacks = $this->_getFormFieldElementCallbacks();        
+        $this->oProp->aFieldCallbacks = $this->_getFormElementCallbacks();        
         
         if ( ! $this->_isInThePage() ) {
             return;
@@ -53,10 +53,11 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          * Returns an array holding callables for field type element outputs.
          * @internal
          * @since       3.5.7
+         * @since       3.6.0       Changed the name from '_getFormFieldElementCallbacks()'.
          * @remark      These callbacks are defined in the `AdminPageFramework_Factory_View` class. Some factory classes will override these values.
          * @return      array
          */
-        private function _getFormFieldElementCallbacks() {
+        private function _getFormElementCallbacks() {
             return array(
                 'hfID'              => array( $this, '_replyToGetInputID' ), // the input id attribute
                 'hfTagID'           => array( $this, '_replyToGetInputTagIDAttribute' ), // the fields & fieldset & field row container id attribute
@@ -65,9 +66,21 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
                 'hfInputName'       => array( $this, '_replyToGetInputNameAttribute' ),    // 3.6.0+   the field input name attribute
                 'hfInputNameFlat'   => array( $this, '_replyToGetFlatInputName' ),    // 3.6.0+   the flat field input name                 
                 'hfClass'           => array( $this, '_replyToGetInputClassAttribute' ), // the class attribute
+                'hfSectionName'     => array( $this, '_replyToGetSectionName' ), // 3.6.0+
             ) + $this->oProp->aFieldCallbacks;
-        }    
-            
+        }            
+        
+        /**
+         * Returns the name attribute value of form sections.
+         * @internal    
+         * @since       3.6.0
+         * @return      string      the input id attribute
+         */    
+        public function _replyToGetSectionName( /* $sSectionName, $aSectionset */ ) {
+            $_aParams = func_get_args() + array( null, null, );
+            return $_aParams[ 0 ];
+        }
+        
         /**
          * @internal    
          * @since       3.5.7

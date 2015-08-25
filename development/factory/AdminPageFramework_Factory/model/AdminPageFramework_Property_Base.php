@@ -221,7 +221,7 @@ abstract class AdminPageFramework_Property_Base {
      * 
      * Can be either 'page', 'network_admin_page', 'post_meta_box', 'page_meta_box', 'post_type', 'taxonomy'
      * 
-     * @since 3.0.4
+     * @since       3.0.4
      * @internal
      */
     public $sFieldsType;     
@@ -294,7 +294,7 @@ abstract class AdminPageFramework_Property_Base {
         'hfNameFlat'        => null,    // the flat field name attribute
         'hfInputName'       => null,    // 3.6.0+   the field input name attribute
         'hfInputNameFlat'   => null,    // 3.6.0+   the flat field input name 
-        'hfClass'           => null,    // the class attribute
+        'hfClass'           => null,    // the class attribute        
     );
     
     /**

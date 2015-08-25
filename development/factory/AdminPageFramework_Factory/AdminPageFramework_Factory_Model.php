@@ -307,4 +307,26 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         );
     }
     
+    
+    /**
+     * Sorts dynamic elements.
+     * @since       3.6.0
+     * @return      array
+     */
+    protected function _getSortedInputs( array $aInput ) {
+        
+        $_sFieldAddressKey = '__dynamic_elements_' . $this->oProp->sFieldsType;
+        
+        if ( ! isset( $_POST[ $_sFieldAddressKey ] ) ) {
+            return $aInput;
+        }
+        
+        $_oInputSorter = new AdminPageFramework_Sort_Input( 
+            $aInput, 
+            $_POST[ $_sFieldAddressKey ] 
+        );
+        return $_oInputSorter->get();
+        
+    }         
+    
 }

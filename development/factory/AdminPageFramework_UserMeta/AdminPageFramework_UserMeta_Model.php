@@ -112,6 +112,7 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
 
         // Extract the fields data from $_POST
         $_aInput        = $this->oForm->getUserSubmitDataFromPOST( $this->oForm->aConditionedFields, $this->oForm->aConditionedSections );
+        $_aInput        = $this->_getSortedInputs( $_aInput );  // 3.6.0+
         $_aInputRaw     = $_aInput; // store one for the last input array.
 
         // Prepare the saved data. For a new post, the id is set to 0.

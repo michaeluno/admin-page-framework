@@ -25,16 +25,16 @@ class AdminPageFramework_Attribute_Fieldset extends AdminPageFramework_Attribute
      * @since       3.6.0
      */
     public $sContext    = 'fieldset';
-  
 
     /**
+     * Returns an attribute array.
      * @return      array
      */
     protected function _getAttributes() {
         return array(
-            'id'            => $this->sContext . '-' . $this->aFieldset['tag_id'],
+            'id'            => $this->sContext . '-' . $this->aArguments[ 'tag_id' ],
             'class'         => 'admin-page-framework-' . $this->sContext,
-            'data-field_id' => $this->aFieldset[ 'tag_id' ], // <-- not sure what this was for...
+            'data-field_id' => $this->aArguments[ 'tag_id' ], // <-- not sure what this was for...
         );                    
     }
            

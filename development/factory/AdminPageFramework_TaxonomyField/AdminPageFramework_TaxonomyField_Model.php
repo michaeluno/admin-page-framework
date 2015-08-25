@@ -166,7 +166,8 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
         }
         // [3.5.10+] Fix magic quotes 
         $_aSubmittedOptions     = stripslashes_deep( $_aSubmittedOptions );  
-            
+        $_aSubmittedOptions     = $this->_getSortedInputs( $_aSubmittedOptions ); 
+         
         // Apply validation filters to the submitted option array. 
         $_aSubmittedOptions = $this->oUtil->addAndApplyFilters( 
             $this, 

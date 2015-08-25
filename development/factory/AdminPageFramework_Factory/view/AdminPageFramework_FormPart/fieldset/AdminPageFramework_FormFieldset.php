@@ -143,7 +143,7 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
                     if ( false !== $aField[ 'save' ] ) {                
                         return '';
                     }
-                    return $this->generateHTMLTag( 
+                    return $this->getHTMLTag( 
                         'input',
                         array(
                             'type'  => 'hidden',
@@ -237,8 +237,7 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
                 $_aOutput[] = $_oFieldDescription->get();
                     
                 // Dimensional keys of repeatable and sortable fields
-                // @deprecated 
-                // $_aOutput[] = $this->_getDynamicElementFlagFieldInputTag( $aField );
+                $_aOutput[] = $this->_getDynamicElementFlagFieldInputTag( $aField );
                     
                 // Repeatable and sortable scripts 
                 $_aOutput[] = $this->_getFieldScripts( $aField, $iFieldsCount );
@@ -250,20 +249,21 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
                  * Embeds an internal hidden input for the 'sortable' and 'repeatable' arguments.
                  * @since       3.6.0
                  * @return      string
-                 * @deprecated
                  */
-                private function _getDynamicElementFlagFieldInputTag( array $aField ) {
-// @todo Insert this with JavaScript.
-                    if ( ! $aField[ 'sortable' ] && ! $aField[ 'repeatable' ] ) {
+                private function _getDynamicElementFlagFieldInputTag( array $aFieldset ) {
+                    
+                    if ( ! $aFieldset[ 'sortable' ] && ! $aFieldset[ 'repeatable' ] ) {
                         return '';
                     }
 
-                    return $this->generateHTMLTag( 
+                    return $this->getHTMLTag( 
                         'input',
                         array(
-                            'type'  => 'hidden',
-                            'name'  => "__dynamic_elements[" . $aField[ '_field_name_flat' ] . "]",
-                            'value' => $aField[ '_field_name_flat' ],
+                            'type'                      => 'hidden',
+                            'name'                      => '__dynamic_elements_' . $aFieldset[ '_fields_type' ] . '[' . $aFieldset[ '_field_address' ] . ']',
+                            'class'                     => 'dynamic-element-names',
+                            'value'                     => $aFieldset[ '_field_address' ],
+                            'data-field_address_model'  => $aFieldset[ '_field_address_model' ],
                         )
                     );
                     

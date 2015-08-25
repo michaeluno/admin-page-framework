@@ -23,14 +23,14 @@ class AdminPageFramework_Generate_FieldInputName extends AdminPageFramework_Gene
     /**
      * Sets up properties.
      */
-    public function __construct( /* $aFieldset, $isIndex, $hfCallback */ ) {
+    public function __construct( /* $aArguments, $isIndex, $hfCallback */ ) {
         
         $_aParameters = func_get_args() + array( 
-            $this->aFieldset, 
+            $this->aArguments, 
             $this->sIndex,
             $this->hfCallback,
         );
-        $this->aFieldset   = $_aParameters[ 0 ];        
+        $this->aArguments  = $_aParameters[ 0 ];        
         $this->sIndex      = ( string ) $_aParameters[ 1 ]; // a 0 value may have been interpreted as false.
         $this->hfCallback  = $_aParameters[ 2 ];
         
@@ -51,7 +51,7 @@ class AdminPageFramework_Generate_FieldInputName extends AdminPageFramework_Gene
         $_sIndex = $this->getAOrB(
             '0' !== $this->sIndex && empty( $this->sIndex ),
             '',
-            "[{$this->sIndex}]"
+            "[" . $this->sIndex . "]"
         );        
         return $this->_getFiltered( $this->_getFieldName() . $_sIndex );
         
@@ -67,7 +67,7 @@ class AdminPageFramework_Generate_FieldInputName extends AdminPageFramework_Gene
                     $this->hfCallback, 
                     array( 
                         $sSubject,
-                        $this->aFieldset,
+                        $this->aArguments,
                         $this->sIndex
                     )
                 )

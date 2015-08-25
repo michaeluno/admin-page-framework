@@ -121,13 +121,12 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             "validation_{$this->oCaller->oProp->sClassName}", 
             call_user_func_array( 
                 array( $this->oCaller, 'validate' ),    // triggers __call()
-                array( $aSubmittedFormData, $aSavedFormData, $this->oCaller )
+                array( $aSubmittedFormData, $aSavedFormData, $this->oCaller ) // parameters
             ), // 3.5.3+                        
             $aSavedFormData,
             $this->oCaller
         );
-
-        
+ 
 	}
     
     /**
@@ -154,10 +153,9 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             'hfTagID'       => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
             'hfName'        => array( $this, '_replyToGetFieldName' ),  // defined in the WP_Widget class.  
             'hfInputName'   => array( $this, '_replyToGetFieldInputName' ),
-            // 'hfName'        => array( $this, 'get_field_name' ),  // defined in the WP_Widget class.  
             // 'hfClass'       => array( $this, '_replyToAddClassSelector' ),
             // 'hfNameFlat'    => array( $this, '_replyToGetFlatFieldName' ), // @deprecated 3.6.0+ the same as the framework factory method.
-        );              
+        ) + $this->oCaller->oProp->aFieldCallbacks;
       
         // Render the form. 
         $this->oCaller->_printWidgetForm();
@@ -192,7 +190,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
                 : "";             
             $_sID           = $this->oCaller->isSectionSet( $aField )
                 ? $aField['section_id'] . "]" . $_sSectionIndex . "[" . $aField[ 'field_id' ]
-                : "{$aField['field_id']}";
+                : $aField['field_id'];
             return $this->get_field_name( $_sID );
         
         }    
@@ -208,9 +206,11 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             $aField        = $_aParams[ 1 ];
             $sIndex        = $_aParams[ 2 ];
             
-            $_sIndex       = isset( $sIndex ) 
-                ? "[" . $sIndex . "]"
-                : '';
+            $_sIndex = $this->oCaller->oUtil->getAOrB(
+                '0' !== $sIndex && empty( $sIndex ),
+                '',
+                "[" . $sIndex . "]"
+            );                        
             $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) 
                 ? "[{$aField['_section_index']}]" 
                 : "";             

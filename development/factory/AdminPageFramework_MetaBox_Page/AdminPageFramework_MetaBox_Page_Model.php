@@ -214,17 +214,19 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * This method is triggered with the `validation_{page slug}` or `validation_{page slug}_{tab slug}` method of the main Admin Page Framework factory class.
      * 
      * @internal
-     * @sicne       3.0.0
+     * @callback    filter      validation_{page slug}, validation_{page slug}_{tab slug}
+     * @sicne       3.0.0       
      * @param       array       $aNewPageOptions        The array holing the field values of the page sent from the framework page class (the main class).
      * @param       array       $aOldPageOptions        The array holing the saved options of the page. Note that this will be empty if non of generic page fields are created.
      * @param       object      $oAdminPage             The admin page factory class object.
      * @param       array       $aSubmitInfo            An array containing submit information such as a pressed submit field ID.
      */
     public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions, $oAdminPage, $aSubmitInfo ) {
-
+        
         // The field values of this class will not be included in the parameter array. So get them.
         $_aFieldsModel          = $this->oForm->getFieldsModel();
         $_aNewMetaBoxInput      = $this->oUtil->castArrayContents( $_aFieldsModel, $_POST );
+        $_aNewMetaBoxInput      = $this->_getSortedInputs( $_aNewMetaBoxInput ); // 3.6.0 - sorts dynamic eleemnts.
         $_aOldMetaBoxInput      = $this->oUtil->castArrayContents( $_aFieldsModel, $aOldPageOptions );
         
         // 3.4.3+ deprecated

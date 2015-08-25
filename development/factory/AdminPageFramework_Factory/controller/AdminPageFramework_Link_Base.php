@@ -114,7 +114,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
                 $_sPluginInfo = $this->getAOrB(
                     empty( $aScriptInfo['sURI'] ),
                     $aScriptInfo['sName'],
-                    $this->generateHTMLTag( 
+                    $this->getHTMLTag( 
                         'a', 
                         array(
                             'href'      => $aScriptInfo['sURI'],
@@ -128,7 +128,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
                 $_sAuthorInfo = $this->getAOrB(
                     empty( $aScriptInfo['sAuthorURI'] ),
                     '',
-                    $this->generateHTMLTag( 
+                    $this->getHTMLTag( 
                         'a', 
                         array(
                             'href'      => $aScriptInfo['sAuthorURI'],
@@ -173,7 +173,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
                 $_sLibraryInfo = $this->getAOrB(
                     empty( $aScriptInfo['sURI'] ),
                     $aScriptInfo['sName'],
-                    $this->generateHTMLTag( 
+                    $this->getHTMLTag( 
                         'a', 
                         array(
                             'href'      => $aScriptInfo['sURI'],
@@ -189,7 +189,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
                     . $this->oMsg->get( 'powered_by' ) . '&nbsp;' 
                     . $_sLibraryInfo
                     . ",&nbsp;"
-                    . $this->generateHTMLTag( 
+                    . $this->getHTMLTag( 
                         'a', 
                         array(
                             'href'      => 'https://wordpress.org',

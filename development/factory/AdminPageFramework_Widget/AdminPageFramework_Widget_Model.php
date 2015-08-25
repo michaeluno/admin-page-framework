@@ -37,8 +37,27 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
             add_action( 'widgets_init', array( $this, '_replyToRegisterWidget' ), 20 ); 
         }
         
+        if ( $this->oProp->bIsAdmin ) {
+            add_filter( 
+                'validation_' . $this->oProp->sClassName,
+                array( $this, '_replyToSortInputs' ),
+                1,  // set a high priority 
+                3   // number of parameters
+            );            
+        }
+        
     }
-    
+        /**
+         * Sorts dynamic elements.
+         * @internal
+         * @since       3.6.0
+         * @return      array
+         * @callback    filter      validation_{factory class name}
+         */
+        public function _replyToSortInputs( $aSubmittedFormData, $aStoredFormData, $oFactory ) {            
+            return $this->_getSortedInputs( $aSubmittedFormData ); 
+        }
+        
     /**
      * The predefined validation method. 
      * 
@@ -68,7 +87,8 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
      * Registers the widget.
      * 
      * @internal
-     * @since       3.2.0
+     * @since           3.2.0
+     * @callback        filter      set_up_{class name}, widgets_init
      */
     public function _replyToRegisterWidget() {
         
@@ -80,9 +100,7 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
         $wp_widget_factory->widgets[ $this->oProp->sClassName ] = new AdminPageFramework_Widget_Factory( 
             $this, 
             $this->oProp->sWidgetTitle, 
-            is_array( $this->oProp->aWidgetArguments ) 
-                ? $this->oProp->aWidgetArguments 
-                : array() 
+            $this->oUtil->getAsArray( $this->oProp->aWidgetArguments )
         );
         
         // [3.5.9+] Store the widget object in the property.

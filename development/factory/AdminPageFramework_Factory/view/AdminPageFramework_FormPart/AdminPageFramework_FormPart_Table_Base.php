@@ -113,8 +113,8 @@ JAVASCRIPTS;
         $_sSettingsAttributes   = $this->generateDataAttributes( $aSettings );
         $_sButtons              = 
             "<div class='admin-page-framework-repeatable-section-buttons' {$_sSettingsAttributes} >"
-                . "<a class='repeatable-section-remove button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
-                . "<a class='repeatable-section-add button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
+                . "<a class='repeatable-section-remove-button button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
+                . "<a class='repeatable-section-add-button button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
             . "</div>";
         $_sButtonsHTML  = '"' . $_sButtons . '"';
         $_aJSArray      = json_encode( $aSettings );
@@ -139,7 +139,7 @@ jQuery( document ).ready( function() {
         
     } );
     // Update the fields     
-    jQuery( '#{$sContainerTagID}' ).updateAPFRepeatableSections( $_aJSArray ); 
+    jQuery( '#{$sContainerTagID}' ).updateAdminPageFrameworkRepeatableSections( $_aJSArray ); 
 });            
 JAVASCRIPTS;
         return "<script type='text/javascript' class='admin-page-framework-seciton-repeatable-script'>" . $_sScript . "</script>";

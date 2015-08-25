@@ -196,7 +196,7 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_WPUtility {
                 if ( $aTab[ 'disabled' ] ) {
                     unset( $_aATagAttributes[ 'href' ] );
                 }
-                return $this->generateHTMLTag( 
+                return $this->getHTMLTag( 
                     'a', 
                     $_aATagAttributes, 
                     $aTab[ 'title' ]

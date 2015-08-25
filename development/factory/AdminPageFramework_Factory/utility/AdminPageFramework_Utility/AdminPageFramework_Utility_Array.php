@@ -17,7 +17,17 @@
  * @internal
  */
 abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {
-        
+    
+    /**
+     * Returns a first iterated array element.
+     * @since       3.6.0
+     */
+    static public function getFirstEelement( array $aArray ) {
+        foreach( $aArray as $_mElement ) {
+            return $_mElement;
+        }
+    }
+    
     /**
      * Returns an array element value by the given key. 
      * 

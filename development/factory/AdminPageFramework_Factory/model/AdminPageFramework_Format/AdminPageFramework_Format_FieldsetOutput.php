@@ -29,18 +29,21 @@ class AdminPageFramework_Format_FieldsetOutput extends AdminPageFramework_Format
      * @internal
      */ 
     static public $aStructure = array(       
-        '_section_index'        => null,    // 3.0.0+ - internally set to indicate the section index for repeatable sections.        
+        '_section_index'            => null,    // 3.0.0+ - internally set to indicate the section index for repeatable sections.        
         
-        'tag_id'                => null,
-        '_tag_id_model'         => '',      // 3.6.0+   
+        'tag_id'                    => null,
+        '_tag_id_model'             => '',      // 3.6.0+   
         
-        '_field_name'           => '',      // 3.6.0+   
-        '_field_name_model'     => '',      // 3.6.0+           
+        '_field_name'               => '',      // 3.6.0+   
+        '_field_name_model'         => '',      // 3.6.0+           
         
-        '_field_name_flat'      => '',      // 3.6.0+
-        '_field_name_flat_model'     => '',      // 3.6.0+   
+        '_field_name_flat'          => '',      // 3.6.0+
+        '_field_name_flat_model'    => '',      // 3.6.0+   
                 
-        '_parent_field_object'  => null,    // 3.6.0+   Assigned when a field creates a nested field.
+        '_field_address'            => '',      // 3.6.0+
+        '_field_address_model'      => '',      // 3.6.0+
+                
+        '_parent_field_object'      => null,    // 3.6.0+   Assigned when a field creates a nested field.
         
     );        
     
@@ -98,15 +101,19 @@ class AdminPageFramework_Format_FieldsetOutput extends AdminPageFramework_Format
         );
         $_aFieldset[ '_field_name' ]        = $_oFieldNameGenerator->get();
         $_aFieldset[ '_field_name_model' ]  = $_oFieldNameGenerator->getModel();
-        
-        
+
         // Flat section and field names, used for sorting dynamic elements.
         $_oFieldFlatNameGenerator = new AdminPageFramework_Generate_FlatFieldName(
-            $_aFieldset
+            $_aFieldset,
+            $_aFieldset[ '_caller_object' ]->oProp->aFieldCallbacks[ 'hfNameFlat' ]
         );
         $_aFieldset[ '_field_name_flat' ]       = $_oFieldFlatNameGenerator->get();
         $_aFieldset[ '_field_name_flat_model' ] = $_oFieldFlatNameGenerator->getModel();
- 
+        
+        $_oFieldAddressGenerator = new AdminPageFramework_Generate_FieldAddress( $_aFieldset );
+        $_aFieldset[ '_field_address' ]         = $_oFieldAddressGenerator->get();
+        $_aFieldset[ '_field_address_model' ]   = $_oFieldAddressGenerator->getModel();
+        
         return $this->_getMergedFieldTypeDefault(
             $_aFieldset,
             $this->aFieldTypeDefinitions

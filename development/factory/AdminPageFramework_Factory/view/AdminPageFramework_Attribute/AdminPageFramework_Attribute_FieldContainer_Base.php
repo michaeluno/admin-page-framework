@@ -15,79 +15,30 @@
  * @since       3.6.0
  * @internal
  */
-abstract class AdminPageFramework_Attribute_FieldContainer_Base extends AdminPageFramework_WPUtility {
-    
+abstract class AdminPageFramework_Attribute_FieldContainer_Base extends AdminPageFramework_Attribute_Base {
+              
     /**
-     * Indicates the context of the attribute.
-     * 
-     * e.g. fieldset, fieldrow etc.
-     * 
-     * @since       3.6.0
+     * Formats attributes array.
+     * @since       3.0.0
+     * @since       3.3.1       Changed the name from `_getAttributes()`. Added the <var>$sContext</var> parameter. Moved from `AdminPageFramework_FormPart_Table_Base`.
+     * @since       3.6.0       Moved from `AdminPageFramework_FormOutput`.
+     * @return      array       The formatted attributes array.
      */
-    public $sContext    = '';
+    protected function _getFormattedAttributes() {
         
-    /**
-     * 
-     * @since       3.6.0
-     */
-    public $aFieldset = array();
-    
-    public $aAttributes = array();
-    
-    /**
-     * Sets up properties.
-     */
-    public function __construct( /* $aFieldset, $aAttributes */ ) {
-        
-        $_aParameters = func_get_args() + array( 
-            $this->aFieldset, 
-            $this->aAttributes,
+        // 3.3.1+ Changed the custom attributes to take its precedence.
+        $_aAttributes = $this->uniteArrays( 
+            $this->getElementAsArray( $this->aArguments, array( 'attributes', $this->sContext ) ),
+            $this->aAttributes + $this->_getAttributes()
         );
-        $this->aFieldset    = $_aParameters[ 0 ];        
-        $this->aAttributes  = $_aParameters[ 1 ];
-        
-    }
-    
-    /**
-     * Returns the formatted attribute array.
-     * @since       3.6.0
-     * @return      string
-     */
-    public function get() {
-        return $this->getAttributes(
-            $this->_getFormattedAttributes()
+                    
+        $_aAttributes[ 'class' ]   = $this->getClassAttribute( 
+            $this->getElement( $_aAttributes, 'class', array() ),
+            $this->getElement( $this->aArguments, array( 'class', $this->sContext ), array() )
         );
-    }
-        /**
-         * Formats attributes array.
-         * @since       3.0.0
-         * @since       3.3.1       Changed the name from `_getAttributes()`. Added the <var>$sContext</var> parameter. Moved from `AdminPageFramework_FormPart_Table_Base`.
-         * @since       3.6.0       Moved from `AdminPageFramework_FormOutput`.
-         * @return      array       The formatted attributes array.
-         */
-        protected function _getFormattedAttributes() {
-            
-            // 3.3.1+ Changed the custom attributes to take its precedence.
-            $_aAttributes = $this->uniteArrays( 
-                $this->getElementAsArray( $this->aFieldset, array( 'attributes', $this->sContext ) ),
-                $this->aAttributes + $this->_getAttributes()
-            );
-                        
-            $_aAttributes[ 'class' ]   = $this->getClassAttribute( 
-                $this->getElement( $_aAttributes, 'class', array() ),
-                $this->getElement( $this->aFieldset, array( 'class', $this->sContext ), array() )
-            );
-            
-            return $_aAttributes;
-            
-        }
-        /**
-         * @since       3.6.0
-         * @return      array
-         */
-        protected function _getAttributes() {
-            return array();
-        }
-    
+        
+        return $_aAttributes;
+        
+    }    
            
 }

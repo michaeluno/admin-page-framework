@@ -135,7 +135,7 @@ abstract class AdminPageFramework_FormFieldset_Base extends AdminPageFramework_W
             new AdminPageFramework_Script_OptionStorage;
             new AdminPageFramework_Script_AttributeUpdator;
             new AdminPageFramework_Script_RepeatableField( $this->oMsg );
-            new AdminPageFramework_Script_Sortable;
+            new AdminPageFramework_Script_SortableField;
             new AdminPageFramework_Script_RegisterCallback;
                         
         }
@@ -156,10 +156,10 @@ abstract class AdminPageFramework_FormFieldset_Base extends AdminPageFramework_W
         $_sDashiconMinus        = $_bDashiconSupported ? 'dashicons dashicons-minus' : '';
         $_sButtons              = 
             "<div class='admin-page-framework-repeatable-field-buttons' {$_sSettingsAttributes} >"
-                . "<a class='repeatable-field-remove button-secondary repeatable-field-button button button-small {$_sDashiconMinus}' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>"
+                . "<a class='repeatable-field-remove-button button-secondary repeatable-field-button button button-small {$_sDashiconMinus}' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>"
                   . ( $_bDashiconSupported ? '' : '-' )
                 . "</a>"
-                . "<a class='repeatable-field-add button-secondary repeatable-field-button button button-small {$_sDashiconPlus}' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>" 
+                . "<a class='repeatable-field-add-button button-secondary repeatable-field-button button button-small {$_sDashiconPlus}' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>" 
                     . ( $_bDashiconSupported ? '' : '+' )
                 . "</a>"                
             . "</div>";
@@ -179,7 +179,7 @@ jQuery( document ).ready( function() {
             jQuery( '#{$sFieldsContainerID} .admin-page-framework-field' ).prepend( $_sButtonsHTML ); 
         }
     }     
-    jQuery( '#{$sFieldsContainerID}' ).updateAPFRepeatableFields( $_aJSArray ); // Update the fields     
+    jQuery( '#{$sFieldsContainerID}' ).updateAdminPageFrameworkRepeatableFields( $_aJSArray ); // Update the fields     
 });
 JAVASCRIPTS;
         return "<script type='text/javascript'>" . $_sScript . "</script>";
@@ -195,7 +195,7 @@ JAVASCRIPTS;
     
         $_sScript = <<<JAVASCRIPTS
     jQuery( document ).ready( function() {
-        jQuery( this ).enableAPFSortable( '$sFieldsContainerID' );
+        jQuery( this ).enableAdminPageFrameworkSortableFields( '$sFieldsContainerID' );
     });
 JAVASCRIPTS;
         return "<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>"

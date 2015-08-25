@@ -65,6 +65,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
         // 2-2. Prepare the user submit input data. Copy one for parsing as $aInput will be merged with the default options.
         $_aInput     = $this->oUtil->getElementAsArray( $_POST, $this->oProp->sOptionKey, array() );
         $_aInput     = stripslashes_deep( $_aInput );  
+        $_aInput     = $this->_getSortedInputs( $_aInput ); // 3.6.0+
         $_aInputRaw  = $_aInput; // for parsing
         
         // Merge the submitted input data with the default options. Now $_aInput is modified.       
@@ -131,7 +132,8 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             ) 
         );
         
-    }
+    }  
+        
         /**
          * Do the 'submit_...' actions.
          * @internal

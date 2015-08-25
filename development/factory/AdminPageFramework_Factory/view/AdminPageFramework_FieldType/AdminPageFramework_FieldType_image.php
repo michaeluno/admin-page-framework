@@ -399,7 +399,7 @@ setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
                     var _oFieldContainer    = 'undefined' === typeof _oNewField 
                         ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) 
                         : _oNewField;
-                    _oNewField              = jQuery( this ).addAPFRepeatableField( _oFieldContainer.attr( 'id' ) );
+                    _oNewField              = jQuery( this ).addAdminPageFrameworkRepeatableField( _oFieldContainer.attr( 'id' ) );
                     var sInputIDOfNewField  = _oNewField.find( 'input' ).attr( 'id' );
                     setImagePreviewElementWithDelay( sInputIDOfNewField, _oAttributes );
                     

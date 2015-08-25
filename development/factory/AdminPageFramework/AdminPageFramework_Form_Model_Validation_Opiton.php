@@ -60,9 +60,6 @@ abstract class AdminPageFramework_Form_Model_Validation_Opiton extends AdminPage
         $_aData = $this->_validateEachField( $_aData, $aInputRaw );
         $_aData = $this->_validateTabFields( $_aData );
         $_aData = $this->_validatePageFields( $_aData );
-
-        // 3.6.0+
-        $this->_sortDynamicElements( $_aData[ 'aInput' ] );
         
         // For the class             
         $_aInput = $this->_getValidatedData(
@@ -96,39 +93,6 @@ abstract class AdminPageFramework_Form_Model_Validation_Opiton extends AdminPage
         throw $_oException;
 
     }    
-        /**
-         * Sorts dynamic form input elements such as sortable and repeatable sections and fields.
-         * @return      void
-         * @since       3.6.0
-         */
-        private function _sortDynamicElements( array &$aInput ) {
-// @todo Fix the set field name as currently it contains input name of sub-fields.
-return;            
-            if ( ! isset( $_POST[ '__dynamic_elements' ] ) ) {
-                return;
-            }
-            
-            foreach( $_POST[ '__dynamic_elements' ] as $_sFlatInputName ) {
-                
-                $_aDimensionalKeys = explode( '|', $_sFlatInputName );
-                
-                // The first element is the option key; the section or field dimensional keys follow.
-                unset( $_aDimensionalKeys[ 0 ] );
-                
-                $_aDynamicElement = $this->oUtil->getElement( 
-                    $aInput, 
-                    $_aDimensionalKeys
-                );
-                
-                $this->oUtil->setMultiDimensionalArray( 
-                    $aInput, 
-                    $_aDimensionalKeys, 
-                    array_values( $_aDynamicElement ) // re-indexed array
-                ); 
-                
-            }
-            
-        }
         
         /**
          * Removes elements whose 'save' argument is false.

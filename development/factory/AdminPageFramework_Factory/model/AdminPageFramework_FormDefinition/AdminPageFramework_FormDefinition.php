@@ -94,12 +94,11 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
      * Adds the given section definition array to the form property.
      * 
      * @since       3.0.0
+     * @return      void
      */
     public function addSection( array $aSection ) {
         
-        // @deprecated      3.6.0       The definition array will be formatted later anyway.
-        // $aSection               = $aSection + self::$_aStructure_Section;
-        
+        $aSection                 = $aSection + AdminPageFramework_Format_Sectionset::$aStructure;
         $aSection[ 'section_id' ] = $this->sanitizeSlug( $aSection[ 'section_id' ] );
         
         $this->aSections[ $aSection[ 'section_id' ] ] = $aSection;    
@@ -251,7 +250,13 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
                 continue; 
             }
 
-            $_aSection = $this->formatSection( $_aSection, $sFieldsType, $sCapability, count( $_aNewSectionArray ) );
+            $_aSection = $this->formatSection( 
+                $_aSection, 
+                $sFieldsType, 
+                $sCapability, 
+                count( $_aNewSectionArray ), // this new array gets updated in this loops so the count will be updated.
+                $this->oCaller
+            );
             if ( empty( $_aSection ) ) { 
                 continue; 
             }
@@ -271,13 +276,14 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
          * @remark      The scope is protected because the extended page class overrides this method.
          * @return      array       The formatted section definition array.
          */
-        protected function formatSection( array $aSection, $sFieldsType, $sCapability, $iCountOfElements ) {
+        protected function formatSection( array $aSection, $sFieldsType, $sCapability, $iCountOfElements, $oCaller ) {
 
-            $_aSectionFormatter = new AdminPageFramework_Format_Section(
+            $_aSectionFormatter = new AdminPageFramework_Format_Sectionset(
                 $aSection, 
                 $sFieldsType, 
                 $sCapability, 
-                $iCountOfElements
+                $iCountOfElements,
+                $oCaller
             );
             return $_aSectionFormatter->get();
             

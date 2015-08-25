@@ -40,18 +40,18 @@ class AdminPageFramework_Attribute_Field extends AdminPageFramework_Attribute_Fi
     protected function _getAttributes() {
 
         return array(
-            'id'            => $this->aFieldset[ '_field_container_id' ],
-            'data-type'     => $this->aFieldset[ 'type' ],   // referred by the repeatable field JavaScript script.
+            'id'            => $this->aArguments[ '_field_container_id' ],
+            'data-type'     => $this->aArguments[ 'type' ],   // referred by the repeatable field JavaScript script.
             // @deprecated 3.6.0 
-            // 'data-id_model' => $this->aFieldset[ '_fields_container_id_model' ], // 3.3.1+
-            'class'         => "admin-page-framework-field admin-page-framework-field-" . $this->aFieldset[ 'type' ]
+            // 'data-id_model' => $this->aArguments[ '_fields_container_id_model' ], // 3.3.1+
+            'class'         => "admin-page-framework-field admin-page-framework-field-" . $this->aArguments[ 'type' ]
                 . $this->getAOrB(
-                    $this->aFieldset[ 'attributes' ][ 'disabled' ],
+                    $this->aArguments[ 'attributes' ][ 'disabled' ],
                     ' disabled',
                     ''
                 )
                 . $this->getAOrB(
-                    $this->aFieldset[ '_is_sub_field' ],
+                    $this->aArguments[ '_is_sub_field' ],
                     ' admin-page-framework-subfield',
                     ''
                 ) 

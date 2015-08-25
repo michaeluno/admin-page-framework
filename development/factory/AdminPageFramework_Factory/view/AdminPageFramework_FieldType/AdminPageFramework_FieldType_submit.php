@@ -175,7 +175,7 @@ CSSRULES;
     protected function _getExtraInputFields( &$aField ) {
         
         $_aOutput   = array();
-        $_aOutput[] = $this->generateHTMLTag( 
+        $_aOutput[] = $this->getHTMLTag( 
             'input',
             array(
                 'type'  => 'hidden',
@@ -183,7 +183,7 @@ CSSRULES;
                 'value' => $aField['input_id'],
             )
         );
-        $_aOutput[] = $this->generateHTMLTag( 
+        $_aOutput[] = $this->getHTMLTag( 
             'input',
             array(
                 'type'  => 'hidden',
@@ -191,7 +191,7 @@ CSSRULES;
                 'value' => $aField['field_id'],
             ) 
         );            
-        $_aOutput[] = $this->generateHTMLTag( 
+        $_aOutput[] = $this->getHTMLTag( 
             'input',
             array(
                 'type'  => 'hidden',
@@ -215,7 +215,7 @@ CSSRULES;
          * @return      string      the HTML input tag output for the section id argument.
          */    
         private function _getHiddenInput_SectionID( array $aField ) {
-            return $this->generateHTMLTag( 
+            return $this->getHTMLTag( 
                 'input',
                 array(
                     'type'  => 'hidden',
@@ -235,7 +235,7 @@ CSSRULES;
          */        
         private function _getHiddenInputByKey( array $aField, $sKey ) {
             return isset( $aField[ $sKey ] )
-                ? $this->generateHTMLTag( 
+                ? $this->getHTMLTag( 
                     'input',
                     array(
                         'type'  => 'hidden',
@@ -257,7 +257,7 @@ CSSRULES;
                 return '';
             }
             return ! $this->_checkConfirmationDisplayed( $aField['_input_name_flat'], 'reset' )
-                ? $this->generateHTMLTag( 
+                ? $this->getHTMLTag( 
                     'input',
                     array(
                         'type'  => 'hidden',
@@ -265,7 +265,7 @@ CSSRULES;
                         'value' => '1',
                     ) 
                 )
-                : $this->generateHTMLTag( 
+                : $this->getHTMLTag( 
                     'input',
                     array(
                         'type'  => 'hidden',
@@ -293,7 +293,7 @@ CSSRULES;
                 $aField['email'] 
             );
             return ! $this->_checkConfirmationDisplayed( $aField['_input_name_flat'], 'email' )
-                ? $this->generateHTMLTag( 
+                ? $this->getHTMLTag( 
                     'input',
                     array(
                         'type'  => 'hidden',
@@ -301,7 +301,7 @@ CSSRULES;
                         'value' => '1',
                     ) 
                 )
-                : $this->generateHTMLTag( 
+                : $this->getHTMLTag( 
                     'input',
                     array(
                         'type'  => 'hidden',

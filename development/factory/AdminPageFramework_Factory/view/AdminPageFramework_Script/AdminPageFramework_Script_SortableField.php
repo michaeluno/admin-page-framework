@@ -12,11 +12,12 @@
  * 
  * @since           3.0.0     
  * @since           3.3.0       Extends `AdminPageFramework_Script_Base`.
+ * @since           3.6.0       Changed the name from `AdminPageFramework_Script_Sortable`.
  * @package         AdminPageFramework
  * @subpackage      JavaScript
  * @internal
  */
-class AdminPageFramework_Script_Sortable extends AdminPageFramework_Script_Base {
+class AdminPageFramework_Script_SortableField extends AdminPageFramework_Script_Base {
     
     /**
      * A user constructor.
@@ -44,7 +45,7 @@ class AdminPageFramework_Script_Sortable extends AdminPageFramework_Script_Base 
 
         return <<<JAVASCRIPTS
 (function($) {
-    $.fn.enableAPFSortable = function( sFieldsContainerID ) {
+    $.fn.enableAdminPageFrameworkSortableFields = function( sFieldsContainerID ) {
 
         var _oTarget    = typeof sFieldsContainerID === 'string' 
             ? $( '#' + sFieldsContainerID + '.sortable' )
@@ -68,7 +69,8 @@ class AdminPageFramework_Script_Sortable extends AdminPageFramework_Script_Base 
         _oSortable.bind( 'sortupdate', function() {
 
             // Reverse is needed for radio buttons since they loose the selections when updating the IDs
-            var _oFields = $( this ).children( 'div' ).reverse();
+            // @deprecated  3.6.0
+            /* var _oFields = $( this ).children( 'div' ).reverse();
             _oFields.each( function( iIterationIndex ) { 
 
                 var _iIndex = _oFields.length - iIterationIndex - 1;
@@ -77,9 +79,9 @@ class AdminPageFramework_Script_Sortable extends AdminPageFramework_Script_Base 
                 $( this ).find( 'label' ).setIndexIDAttribute( 'for', _iIndex );
                 $( this ).find( 'input,textarea,select' ).setIndexIDAttribute( 'id', _iIndex );
                 $( this ).find( 'input:not(.apf_checkbox),textarea,select' ).setIndexNameAttribute( 'name', _iIndex );
-                $( this ).find( 'input.apf_checkbox' ).setIndexNameAttribute( 'name', _iIndex, -2 ); // for checkboxes, set the second found digit from the end                                       
+                $( this ).find( 'input.apf_checkbox' ).setIndexNameAttribute( 'name', _iIndex, -2 ); // for checkboxes, set the second found digit from the end
                 
-                /* Radio buttons loose their selections when IDs and names are updated, so reassign them */
+                // Radio buttons loose their selections when IDs and names are updated, so reassign them 
                 $( this ).find( 'input[type=radio]' ).each( function() {    
                     var sAttr = $( this ).prop( 'checked' );
                     if ( 'undefined' !== typeof sAttr && false !== sAttr ) {
@@ -87,12 +89,13 @@ class AdminPageFramework_Script_Sortable extends AdminPageFramework_Script_Base 
                     } 
                 });
                     
-            });
+            }); */
             
             /* It seems radio buttons need to be taken cared of again. Otherwise, the checked items will be gone. */
-            $( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );    
+            // @deprecated  3.6.0
+            // $( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );    
             
-            /* Callback the registered functions */
+            // Callback the registered functions.
             $( this ).callBackSortedFields( 
                 $( this ).data( 'type' ),
                 $( this ).attr( 'id' ),

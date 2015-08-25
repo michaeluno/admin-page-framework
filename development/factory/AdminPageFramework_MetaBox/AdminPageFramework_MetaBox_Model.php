@@ -262,27 +262,17 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
     public function _replyToFilterSavingData( $aPostData, $aUnmodified ) {
 
         // Perform initial checks.
-        if ( 'auto-draft' === $aUnmodified['post_status'] ) { 
+        if ( ! $this->_validateCall( $aUnmodified ) ) { 
             return $aPostData; 
         }
-        if ( ! $this->_validateCall() ) { 
-            return $aPostData; 
-        }
-        if ( ! in_array( $aUnmodified['post_type'], $this->oProp->aPostTypes ) ) {
-            return $aPostData;
-        }  
-        
-        // Determine the post ID.
-        $_iPostID = $aUnmodified['ID'];
-        if ( ! current_user_can( $this->oProp->sCapability, $_iPostID ) ) {
-            return $aPostData;
-        }
-        
+                
         // Retrieve the submitted data. 
         $_aInput        = $this->oForm->getUserSubmitDataFromPOST( $this->oForm->aConditionedFields, $this->oForm->aConditionedSections );
+        $_aInput        = $this->_getSortedInputs( $_aInput );  // 3.6.0+
         $_aInputRaw     = $_aInput; // store one for the last input array.
         
         // Prepare the saved data. For a new post, the id is set to 0.
+        $_iPostID       = $aUnmodified[ 'ID' ];  
         $_aSavedMeta    = $_iPostID 
             ? $this->oUtil->getSavedMetaArray( $_iPostID, array_keys( $_aInput ) )
             : array();
@@ -339,9 +329,15 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          * Checks whether the function call of processing submitted field values is valid or not.
          * 
          * @since       3.3.0
+         * @since       3.6.0       Added the `$aUnmodified` parameter.
          * @internal
+         * @return      boolean
          */
-        private function _validateCall() {
+        private function _validateCall( array $aUnmodified ) {
+            
+            if ( 'auto-draft' === $aUnmodified[ 'post_status' ] ) { 
+                return false; 
+            }            
             
             // Bail if we're doing an auto save
             if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { 
@@ -349,11 +345,18 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             }
      
             // If our nonce isn't there, or we can't verify it, bail
-            if ( ! isset( $_POST[ $this->oProp->sMetaBoxID ] ) || ! wp_verify_nonce( $_POST[ $this->oProp->sMetaBoxID ], $this->oProp->sMetaBoxID ) ) { 
+            if ( ! isset( $_POST[ $this->oProp->sMetaBoxID ] ) ) {
+                return false;
+            }
+            if ( ! wp_verify_nonce( $_POST[ $this->oProp->sMetaBoxID ], $this->oProp->sMetaBoxID ) ) {
                 return false;
             }
             
-            return true;
+            if ( ! in_array( $aUnmodified[ 'post_type' ], $this->oProp->aPostTypes ) ) {
+                return false;
+            }              
+            
+            return current_user_can( $this->oProp->sCapability, $aUnmodified[ 'ID' ] );
             
         }            
     

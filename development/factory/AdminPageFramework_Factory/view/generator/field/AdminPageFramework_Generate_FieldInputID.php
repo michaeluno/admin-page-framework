@@ -22,19 +22,18 @@ class AdminPageFramework_Generate_FieldInputID extends AdminPageFramework_Genera
     /**
      * Sets up properties.
      */
-    public function __construct( /* $aFieldset, $isIndex, $hfCallback */ ) {
+    public function __construct( /* $aArguments, $isIndex, $hfCallback */ ) {
         
         $_aParameters = func_get_args() + array( 
-            $this->aFieldset, 
+            $this->aArguments, 
             $this->isIndex,
             $this->hfCallback,
         );
-        $this->aFieldset   = $_aParameters[ 0 ];        
+        $this->aArguments  = $_aParameters[ 0 ];        
         $this->isIndex     = $_aParameters[ 1 ];
         $this->hfCallback  = $_aParameters[ 2 ];
         
     }    
-    
     
     /**
      * Returns the input id attribute value.
@@ -50,14 +49,7 @@ class AdminPageFramework_Generate_FieldInputID extends AdminPageFramework_Genera
      * @return      string       The generated string value.
      */
     public function get() {
-
         return $this->_getFiltered( $this->_getBaseFieldTagID() . '__' . $this->isIndex );
-        // return str_replace(
-            // '-fi-',
-            // $this->isIndex,
-            // parent::getModel()
-        // );
-    
     }
            
 }

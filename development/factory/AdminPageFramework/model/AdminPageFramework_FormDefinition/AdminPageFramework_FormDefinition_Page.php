@@ -181,7 +181,7 @@ class AdminPageFramework_FormDefinition_Page extends AdminPageFramework_FormDefi
      * @since       3.0.0
      * @return      array       The formatted section definition array.
      */
-    protected function formatSection( array $aSection, $sFieldsType, $sCapability, $iCountOfElements ) {
+    protected function formatSection( array $aSection, $sFieldsType, $sCapability, $iCountOfElements, $oCaller ) {
         
         $aSection = $aSection
         + array( 
@@ -189,7 +189,7 @@ class AdminPageFramework_FormDefinition_Page extends AdminPageFramework_FormDefi
             'capability'    => $sCapability,
             'page_slug'     => $this->sDefaultPageSlug,
         );
-        return parent::formatSection( $aSection, $sFieldsType, $sCapability, $iCountOfElements );
+        return parent::formatSection( $aSection, $sFieldsType, $sCapability, $iCountOfElements, $oCaller );
                 
     }
 

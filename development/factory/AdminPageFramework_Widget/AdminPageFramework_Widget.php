@@ -40,7 +40,9 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
     */
     public function __construct( $sWidgetTitle, $aWidgetArguments=array(), $sCapability='edit_theme_options', $sTextDomain='admin-page-framework' ) {
         
-        if ( empty( $sWidgetTitle ) ) { return; }
+        if ( empty( $sWidgetTitle ) ) { 
+            return; 
+        }
      
         // Properties
         $this->oProp = new AdminPageFramework_Property_Widget( 
@@ -56,7 +58,7 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
         $this->oProp->aWidgetArguments  = $aWidgetArguments;
                 
         parent::__construct( $this->oProp );
-                
+
         $this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}", $this );
                            
     }

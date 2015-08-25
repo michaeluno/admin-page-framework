@@ -8,7 +8,7 @@
  */
 
 /**
- * Provides methods to format form field definition arrays.
+ * Provides methods to format form fieldset definition arrays.
  * 
  * @package     AdminPageFramework
  * @subpackage  Format
@@ -78,9 +78,9 @@ class AdminPageFramework_Format_Fieldset extends AdminPageFramework_Format_FormF
     );        
     
     /**
-     * Stores the passed unformatted field definition array.
+     * Stores the passed unformatted fieldset definition array.
      */
-    public $aField = array();
+    public $aFieldset = array();
     
     /**
      * Stores the fields type.
@@ -117,10 +117,10 @@ class AdminPageFramework_Format_Fieldset extends AdminPageFramework_Format_FormF
     /**
      * Sets up properties.
      */
-    public function __construct( /* $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject */ ) {
+    public function __construct( /* $aFieldset, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject */ ) {
         
         $_aParameters = func_get_args() + array( 
-            $this->aField, 
+            $this->aFieldset, 
             $this->sFieldsType, 
             $this->sCapability, 
             $this->iCountOfElements, 
@@ -128,7 +128,7 @@ class AdminPageFramework_Format_Fieldset extends AdminPageFramework_Format_FormF
             $this->bIsSectionRepeatable, 
             $this->oCallerObject
         );
-        $this->aField               = $_aParameters[ 0 ];
+        $this->aFieldset            = $_aParameters[ 0 ];
         $this->sFieldsType          = $_aParameters[ 1 ];
         $this->sCapability          = $_aParameters[ 2 ];
         $this->iCountOfElements     = $_aParameters[ 3 ];
@@ -145,12 +145,13 @@ class AdminPageFramework_Format_Fieldset extends AdminPageFramework_Format_FormF
      */
     public function get() {
         
-        $_aField = $this->uniteArrays(
+        // Fill missing argument keys - this method overrides 'null' values.
+        $_aFieldset = $this->uniteArrays(
             array( 
                 '_fields_type'          => $this->sFieldsType,
                 '_caller_object'        => $this->oCallerObject,  // 3.4.1+ Stores the caller framework factory object. 
             )
-            + $this->aField,
+            + $this->aFieldset,
             array( 
                 'capability'            => $this->sCapability,
                 'section_id'            => '_default',             
@@ -158,28 +159,28 @@ class AdminPageFramework_Format_Fieldset extends AdminPageFramework_Format_FormF
             )
             + self::$aStructure
         );
-        $_aField[ 'field_id' ]    = $this->sanitizeSlug( $_aField[ 'field_id' ] );
-        $_aField[ 'section_id' ]  = $this->sanitizeSlug( $_aField[ 'section_id' ] );     
-        $_aField[ 'tip' ]         = esc_attr( strip_tags(
+        
+        $_aFieldset[ 'field_id' ]    = $this->sanitizeSlug( $_aFieldset[ 'field_id' ] );
+        $_aFieldset[ 'section_id' ]  = $this->sanitizeSlug( $_aFieldset[ 'section_id' ] );     
+        $_aFieldset[ 'tip' ]         = esc_attr( strip_tags(
             $this->getElement(
-                $_aField,  // subject array
+                $_aFieldset,  // subject array
                 'tip', // key
-                is_array( $_aField[ 'description' ] )     // default
-                    ? implode( '&#10;', $_aField[ 'description' ] ) 
-                    : $_aField[ 'description' ] 
+                is_array( $_aFieldset[ 'description' ] )     // default
+                    ? implode( '&#10;', $_aFieldset[ 'description' ] ) 
+                    : $_aFieldset[ 'description' ] 
             )
         ) );
-        $_aField['order']       = $this->getAOrB(
-            is_numeric( $_aField[ 'order' ] ),
-            $_aField[ 'order' ],
+        $_aFieldset[ 'order' ]       = $this->getAOrB(
+            is_numeric( $_aFieldset[ 'order' ] ),
+            $_aFieldset[ 'order' ],
             $this->iCountOfElements + 10
         );            
-
-        return $_aField;        
         
-    }
-           
-           
-            
+        $_aFieldset[ 'class' ] = $this->getAsArray( $_aFieldset[ 'class' ] );
+        
+        return $_aFieldset;        
+        
+    }     
                
 }

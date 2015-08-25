@@ -40,7 +40,7 @@ class AdminPageFramework_Generate_FieldTagID extends AdminPageFramework_Generate
      * @return      string
      */
     public function getModel() {
-        return $this->get() . '__-fi-';
+        return $this->get() . '__' . $this->sIndexMark;
     }
         /**
          * @since       3.6.0
@@ -50,13 +50,13 @@ class AdminPageFramework_Generate_FieldTagID extends AdminPageFramework_Generate
             
 // @todo if a parent field object exists, use the parent object value and append the dimension of this field level.
 
-            $_sSectionIndex = isset( $this->aFieldset[ '_section_index' ] )
-                ? '__' . $this->aFieldset[ '_section_index' ] 
+            $_sSectionIndex = isset( $this->aArguments[ '_section_index' ] )
+                ? '__' . $this->aArguments[ '_section_index' ] 
                 : '';
                 
             return $this->_isSectionSet()
-                ? $this->aFieldset[ 'section_id' ] . $_sSectionIndex . '_' . $this->aFieldset[ 'field_id' ]
-                : $this->aFieldset[ 'field_id' ];            
+                ? $this->aArguments[ 'section_id' ] . $_sSectionIndex . '_' . $this->aArguments[ 'field_id' ]
+                : $this->aArguments[ 'field_id' ];            
             
         }
     
