@@ -91,7 +91,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                     'max' => 5,
                     // 'min' => 2,
                 ),  
-                // 'sortable'          => true,
+                'sortable'          => true,
             ),
             array(
                 'section_id'        => 'tabbed_sections_a',

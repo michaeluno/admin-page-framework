@@ -26,6 +26,7 @@ class APF_MetaBox_RepeatableTabbedSections extends AdminPageFramework_MetaBox {
                 'title'             => __( 'Repeatable', 'admin-page-framework-demo' ),
                 'description'       => __( 'It is possible to tab repeatable sections.', 'admin-page-framework-demo' ),
                 'repeatable'        => true, // this makes the section repeatable
+                'sortable'          => true,
             )
         );
         

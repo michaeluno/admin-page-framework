@@ -28,6 +28,7 @@ class APF_MetaBox_RepeatableCollapsibleSections extends AdminPageFramework_MetaB
                     'container'            => 'section',   // either 'sections' or 'section'. For repeatable collapsible sections, use 'section'.
                 ),
                 'repeatable'        => true,
+                'sortable'          => true,
             )
         );
         
