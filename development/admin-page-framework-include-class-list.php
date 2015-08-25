@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.6.0b04 by Michael Uno 
+	Admin Page Framework v3.6.0b05 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -128,7 +128,6 @@ $aClassFiles = array(
 	"AdminPageFramework_FormPart_Table"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_FormPart/AdminPageFramework_FormPart_Table.php", 
 	"AdminPageFramework_FormPart_TableCaption"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_FormPart/AdminPageFramework_FormPart_TableCaption.php", 
 	"AdminPageFramework_FormPart_TableRow"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_FormPart/AdminPageFramework_FormPart_TableRow.php", 
-	"AdminPageFramework_FormPart_Table_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_FormPart/AdminPageFramework_FormPart_Table_Base.php", 
 	"AdminPageFramework_FormFieldset"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_FormPart/fieldset/AdminPageFramework_FormFieldset.php", 
 	"AdminPageFramework_FormFieldset_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_FormPart/fieldset/AdminPageFramework_FormFieldset_Base.php", 
 	"AdminPageFramework_Input_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/AdminPageFramework_Factory/view/AdminPageFramework_Input/AdminPageFramework_Input_Base.php", 

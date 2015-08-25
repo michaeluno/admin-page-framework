@@ -16,7 +16,24 @@
  * @since       3.6.0       Changed the name from `AdminPageFramework_FormTable`.
  * @internal
  */
-class AdminPageFramework_FormPart_Table extends AdminPageFramework_FormPart_Table_Base {
+class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
+
+    /**
+     * Sets up properties and hooks.
+     * 
+     * @since 3.0.0
+     * @since 3.0.4     The `$aFieldErrors` parameter was added.
+     */
+    public function __construct( $aFieldTypeDefinitions, array $aFieldErrors, $oMsg=null ) {
+        
+        $this->aFieldTypeDefinitions    = $aFieldTypeDefinitions; // used to merge the field definition array with the default field type definition. 
+        $this->aFieldErrors             = $aFieldErrors;
+        $this->oMsg                     = $oMsg 
+            ? $oMsg
+            : AdminPageFramework_Message::getInstance();
+        
+    
+    }
         
     /**
      * Returns a set of HTML table outputs consisting of form sections and fields.
@@ -97,7 +114,8 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_FormPart_Tabl
         $_oDebugInfo = new AdminPageFramework_FormPart_DebugInfo( $_sFieldsType );
         
         return implode( PHP_EOL, $_aOutput ) 
-            . $this->_getSectionTabsEnablerScript()
+            // . $this->_getSectionTabsEnablerScript()
+            . AdminPageFramework_Script_Tab::getEnabler()
             . $_oDebugInfo->get();
 
             
@@ -230,7 +248,6 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_FormPart_Tabl
             );
             
             $_aFirstSectionset  = $this->getFirstEelement( $aSections );
-            // $_sThisSectionID    = $this->_getSectionsSectionID( $aSections );
             $_sThisSectionID    = $_aFirstSectionset[ 'section_id' ];
             $_sSectionsID       = 'sections-' . $_sThisSectionID;
             
@@ -263,19 +280,7 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_FormPart_Tabl
             );
             
         }
-            /**
-             * Returns the section ID of the first found item of the given sections.
-             * 
-             * @since       3.4.3
-             * @remark      The first iteration item of the given array will be returned.
-             * @returm      string
-             * @deprecated  3.6.0
-             */
-            // private function _getSectionsSectionID( array $aSections=array() ) {
-                // foreach( $aSections as $_aSection ) {
-                    // return $_aSection[ 'section_id' ];
-                // }
-            // }        
+     
             /**
              * Returns the collapsible argument array from the given sections definition array.
              * 
@@ -295,35 +300,6 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_FormPart_Tabl
                     ? $_aCollapsible 
                     : array();            
             }
-                /**
-                 * Returns the collapsible argument array from the given sections definition array.
-                 * 
-                 * @since       3.4.0
-                 * @since       3.5.3       Removed the second `$iSectionIndex` parameter as it was not used.
-                 * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Base`. Changed the scope to private.
-                 * @return      array
-                 * @deprecated  3.6.0
-                 */
-                /* private function _getCollapsibleArgument( array $aSections=array() ) {
-                    
-                    // Only the first found item is needed
-                    foreach( $aSections as $_aSection ) {
-
-                        if ( empty( $_aSection[ 'collapsible' ] ) ) {
-                            return array();
-                        }
-                        
-                        $_oArgumentFormater = new AdminPageFramework_Format_CollapsibleSection(
-                            $_aSection[ 'collapsible' ],
-                            $_aSection[ 'title' ],
-                            $_aSection            
-                        );
-                        return $_oArgumentFormater->get();
-                        
-                    }
-                    return array();
-                    
-                }      */
           
             /**
              * Returns an updated sections table output array.
@@ -350,19 +326,21 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_FormPart_Tabl
                 if ( $_aOutputs[ 'count_subsections' ] ) {
 
                     // Add the repeatable sections enabler script.
-                    if ( $_aSection[ 'repeatable' ] ) {
-                        $_aOutputs[ 'section_contents' ][] = $this->_getRepeatableSectionsEnablerScript( 
+                    if ( ! empty( $_aSection[ 'repeatable' ] ) ) {
+                        $_aOutputs[ 'section_contents' ][] = AdminPageFramework_Script_RepeatableSection::getEnabler( 
                             $_sSectionsID, 
                             $_aOutputs[ 'count_subsections' ], 
-                            $_aSection[ 'repeatable' ] 
+                            $_aSection[ 'repeatable' ],
+                            $this->oMsg
                         );
                         $_aOutputs[ 'section_contents' ][] = $this->_getDynamicElementFlagFieldInputTag( $_aSection );
                     }
                     // Add the sortable sections enabler script. 3.6.0+
-                    if ( $_aSection[ 'sortable' ] ) {
-                        $_aOutputs[ 'section_contents' ][] = $this->_getSortableSectionsEnablerScript( 
+                    if ( ! empty( $_aSection[ 'sortable' ] ) ) {
+                        $_aOutputs[ 'section_contents' ][] = AdminPageFramework_Script_SortableSection::getEnabler( 
                             $_sSectionsID, 
-                            $_aSection[ 'sortable' ]
+                            $_aSection[ 'sortable' ],
+                            $this->oMsg
                         );
                         $_aOutputs[ 'section_contents' ][] = $this->_getDynamicElementFlagFieldInputTag( $_aSection );
                     }

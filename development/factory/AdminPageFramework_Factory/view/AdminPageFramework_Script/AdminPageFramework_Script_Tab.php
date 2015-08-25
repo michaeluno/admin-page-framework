@@ -86,4 +86,37 @@ JAVASCRIPTS;
         
     }
 
+    /**
+     * Indicates whether the tab enabler script is loaded or not.
+     */
+    static private $_bLoadedTabEnablerScript = false;
+    
+    /**
+     * Returns the JavaScript script that enables section tabs.
+     * 
+     * @since       3.0.0
+     * @since       3.6.0       Moved from `AdminPageFramework_FormPart_Table_Base`.
+     * @return      string
+     */
+    static public function getEnabler() {
+        
+        if ( self::$_bLoadedTabEnablerScript ) { 
+            return ''; 
+        }
+        self::$_bLoadedTabEnablerScript = true;
+        
+        new self;
+        
+        $_sScript = <<<JAVASCRIPTS
+jQuery( document ).ready( function() {
+// the parent element of the ul tag; The ul element holds li tags of titles.
+jQuery( '.admin-page-framework-section-tabs-contents' ).createTabs(); 
+});            
+JAVASCRIPTS;
+        return "<script type='text/javascript' class='admin-page-framework-section-tabs-script'>"
+            . $_sScript
+        . "</script>";
+        
+    }     
+    
 }

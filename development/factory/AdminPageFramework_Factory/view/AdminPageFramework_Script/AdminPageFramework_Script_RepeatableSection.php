@@ -429,4 +429,77 @@ var _iSectionIndex = _iIterationIndex;
 }( jQuery ));
 JAVASCRIPTS;
     }
+    
+    
+        
+    
+    
+        /**
+     * Stores the set container IDs to prevent multiple calls.
+     * 
+     * Collapsible and tabbed sections can call this method multiple times with the same container ID.
+     * 
+     * @since       3.4.0
+     */
+    static private $_aSetContainerIDsForRepeatableSections = array();
+    /**
+     * Returns the enabler script of repeatable sections.
+     * @since       3.0.0
+     * @since       3.4.0       Moved from `AdminPageFramework_FormPart_Table`.
+     * @since       3.6.0       Moved from `AdminPageFramework_FormPart_Table_Base`.
+     * @return      string
+     */
+    static public function getEnabler( $sContainerTagID, $iSectionCount, $aSettings, $oMsg ) {
+        
+        if ( empty( $aSettings ) ) { 
+            return ''; 
+        }
+        if ( in_array( $sContainerTagID, self::$_aSetContainerIDsForRepeatableSections ) ) { 
+            return ''; 
+        }
+        self::$_aSetContainerIDsForRepeatableSections[ $sContainerTagID ] = $sContainerTagID;
+        
+        new self( $oMsg );
+        $aSettings              = self::getAsArray( $aSettings ) + array( 'min' => 0, 'max' => 0 ); 
+        $_sAdd                  = $oMsg->get( 'add_section' );
+        $_sRemove               = $oMsg->get( 'remove_section' );
+        $_sVisibility           = $iSectionCount <= 1 
+            ? " style='display:none;'" 
+            : "";
+        $_sSettingsAttributes   = self::getDataAttributes( $aSettings );
+        $_sButtons              = 
+            "<div class='admin-page-framework-repeatable-section-buttons' {$_sSettingsAttributes} >"
+                . "<a class='repeatable-section-remove-button button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
+                . "<a class='repeatable-section-add-button button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
+            . "</div>";
+        $_sButtonsHTML  = '"' . $_sButtons . '"';
+        $_aJSArray      = json_encode( $aSettings );
+        $_sScript       = <<<JAVASCRIPTS
+jQuery( document ).ready( function() {
+    // Adds the buttons
+    jQuery( '#{$sContainerTagID} .admin-page-framework-section-caption' ).each( function(){
+        
+        jQuery( this ).show();
+        
+        var _oButtons = jQuery( $_sButtonsHTML );
+        if ( jQuery( this ).children( '.admin-page-framework-collapsible-section-title' ).children( 'fieldset' ).length > 0 ) {
+            _oButtons.addClass( 'section_title_field_sibling' );
+        }
+        var _oCollapsibleSectionTitle = jQuery( this ).find( '.admin-page-framework-collapsible-section-title' );
+        if ( _oCollapsibleSectionTitle.length ) {
+            _oButtons.find( '.repeatable-section-button' ).removeClass( 'button-large' );
+            _oCollapsibleSectionTitle.prepend( _oButtons );
+        } else {
+            jQuery( this ).prepend( _oButtons );
+        }
+        
+    } );
+    // Update the fields     
+    jQuery( '#{$sContainerTagID}' ).updateAdminPageFrameworkRepeatableSections( $_aJSArray ); 
+});            
+JAVASCRIPTS;
+        return "<script type='text/javascript' class='admin-page-framework-section-repeatable-script'>" . $_sScript . "</script>";
+            
+    }
+    
 }

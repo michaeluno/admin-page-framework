@@ -39,8 +39,7 @@ class AdminPageFramework_Script_SortableSection extends AdminPageFramework_Scrip
         var _oTarget    = 'string' === typeof sSectionsContainerID 
             ? $( '#' + sSectionsContainerID + '.sortable-section' )
             : this;
-console.log( 'sortable: ' + sSectionsContainerID );
-console.log( 'has class: ' + _oTarget.hasClass( 'admin-page-framework-section-tabs-contents' ) );
+
         // For tabbed sections, enable the sort to the tabs.
         var _bIsTabbed  = _oTarget.hasClass( 'admin-page-framework-section-tabs-contents' );
         
@@ -51,21 +50,16 @@ console.log( 'has class: ' + _oTarget.hasClass( 'admin-page-framework-section-ta
         _oTarget.unbind( 'sortupdate' );
         _oTarget.unbind( 'sortstop' );
         
-console.log( 'target: ' + _oTarget.attr( 'id' ) );
         if ( _bIsTabbed ) {
             
             var _oSortable  = _oTarget.sortable(
                 { items: '> li:not( .disabled )', }
-            );
-            // @todo change the order of section contents.
-            _oSortable.bind( 'sortstop', function() {
-                                                    
-            } );            
+            );      
             
         } else {
                 
             var _oSortable  = _oTarget.sortable(
-                { items: '> div:not( .disabled )', } // the options for the sortable plugin
+                { items: '> div:not( .disabled, .admin-page-framework-collapsible-toggle-all-button-container )', } // the options for the sortable plugin
             );
             _oSortable.bind( 'sortstop', function() {
                                     
@@ -74,33 +68,44 @@ console.log( 'target: ' + _oTarget.attr( 'id' ) );
                 
             } );            
             
-        }
-
-
-/*         _oSortable.bind( 'sortstop', function() {
-         
-            // Callback the registered functions 
-            $( this ).callBackStoppedSortingFields( 
-                $( this ).data( 'type' ),
-                $( this ).attr( 'id' ),
-                0  // call type 0: fields, 1: sections
-            );  
-            
-        });
-        _oSortable.bind( 'sortupdate', function() {
-
-            // Callback the registered functions.
-            $( this ).callBackSortedFields( 
-                $( this ).data( 'type' ),
-                $( this ).attr( 'id' ),
-                0  // call type 0: fields, 1: sections
-            );
-            
-        });   */               
+        }            
     
     };
 }( jQuery ));
 JAVASCRIPTS;
 
     }
+    
+    /**
+     * Stores the set container IDs to prevent multiple calls.
+     * @since       3.6.0
+     */
+    static private $_aSetContainerIDsForSortableSections = array();
+    /**
+     * Returns the enabler script of sortable sections.
+     * @since       3.6.0
+     * @return      string
+     */
+    static public function getEnabler( $sContainerTagID, $aSettings, $oMsg ) {
+        
+        if ( empty( $aSettings ) ) { 
+            return ''; 
+        }
+        if ( in_array( $sContainerTagID, self::$_aSetContainerIDsForSortableSections ) ) { 
+            return ''; 
+        }
+        self::$_aSetContainerIDsForSortableSections[ $sContainerTagID ] = $sContainerTagID;        
+        
+        new self( $oMsg ); 
+        
+        // $aSettings              = $this->getAsArray( $aSettings );        
+        $_sScript       = <<<JAVASCRIPTS
+jQuery( document ).ready( function() {    
+    jQuery( '#{$sContainerTagID}' ).enableAdminPageFrameworkSortableSections( '{$sContainerTagID}' ); 
+});            
+JAVASCRIPTS;
+        return "<script type='text/javascript' class='admin-page-framework-section-sortable-script'>" . $_sScript . "</script>";
+        
+    }    
+    
 }
