@@ -135,26 +135,7 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
 
         // It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. 
         nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );    
-        
-        // Iterate each section and increment the names and ids of the next following siblings.
-        // @deprecated 3.6.0
-/*         nodeSectionContainer.nextAll().each( function( iSectionIndex ) {
-            
-            incrementAttributes( this );
-            
-            // Iterate each field one by one.
-            $( this ).find( '.admin-page-framework-field' ).each( function( iFieldIndex ) {    
-            
-                // Rebind the click event to the repeatable field buttons - important to update AFTER inserting the clone to the document node since the update method need to count fields.
-                $( this ).updateAdminPageFrameworkRepeatableFields();
-                                            
-                // Call the registered callback functions.
-                $( this ).callBackAddRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1, iSectionIndex, iFieldIndex );
-                
-            });     
-            
-        }); */
-        
+         
         // 3.6.0+ Increment the id and name attributes of the newly cloned section.
         _incrementAttributes( nodeNewSection, _iSectionIndex, nodeSectionsContainer );
         
@@ -162,10 +143,18 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         $( nodeNewSection ).find( '.admin-page-framework-field' ).each( function( iFieldIndex ) {    
         
             // Rebind the click event to the repeatable field buttons - important to update AFTER inserting the clone to the document node since the update method need to count fields.
+            // @todo examine whether this is needed any longer.
             $( this ).updateAdminPageFrameworkRepeatableFields();
                                         
-            // Call the registered callback functions.
-            $( this ).callBackAddRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1, _iSectionIndex, iFieldIndex );
+            // Callback the registered callback functions.
+            $( this ).trigger( 
+                'admin_page_framework_repeated_field', 
+                $( this ).data( 'type' ), // field type slug
+                $( this ).attr( 'id' ), // element tag id
+                1, // call type, 0: repeatable fields, 1: repeatable sections, 3: parent fields
+                _iSectionIndex, 
+                iFieldIndex 
+            );            
             
         });     
         
@@ -191,16 +180,9 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
             // Add the cloned new field tab.
             nodeNewTab.insertAfter( nodeTab );    
             _incrementAttributes( nodeNewTab, _iSectionIndex, nodeSectionsContainer );
-            
-            /* Increment the names and ids of the next following siblings. */
-            // @deprecated 3.6.0
-            // nodeTab.nextAll().each( function() {
-                // _incrementAttributes( this, _iSectionIndex, nodeSectionsContainer );
-                // $( this ).find( 'a.anchor' ).incrementIDAttribute( 'href' );
-            // });    
-            
-            
+                        
             nodeTabsContainer.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
+            
         }     
         
         // Increment the largest index attribute.
@@ -293,25 +275,7 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
             );            
             
         }
-        var __incrementAttributes = function( oElement, iOccurrence ) {
-            
-            // var iOccurrence = 'undefined' !== typeof iOccurrence ? iOccurrence : 1;
-            // $( oElement ).incrementIDAttribute( 'id', iOccurrence ); // passing 1 in the second parameter means to apply the change to the first occurrence.
-            // $( oElement ).find( 'tr.admin-page-framework-fieldrow' ).incrementIDAttribute( 'id', iOccurrence );            
-            // $( oElement ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'id', iOccurrence );
-            // $( oElement ).find( '.admin-page-framework-fields' ).incrementIDAttribute( 'id', iOccurrence );
-            // $( oElement ).find( '.admin-page-framework-field' ).incrementIDAttribute( 'id', iOccurrence );
-            // $( oElement ).find( 'table.form-table' ).incrementIDAttribute( 'id', iOccurrence );
-            // $( oElement ).find( 'input,textarea,select' ).incrementIDAttribute( 'id', iOccurrence );
-            
-            // $( oElement ).find( '.admin-page-framework-fieldset' ).incrementIDAttribute( 'data-field_id', iOccurrence ); // I don't remember what this data attribute was for...
-            
-            // $( oElement ).find( '.repeatable-field-add-button' ).incrementIDAttribute( 'data-id', iOccurrence ); // holds the fields container ID referred by the repeater field script.
-            
-            // $( oElement ).find( 'label' ).incrementIDAttribute( 'for', iOccurrence );    
-            // $( oElement ).find( 'input,textarea,select' ).incrementNameAttribute( 'name', iOccurrence );     
-            
-        }     
+        
     /**
      * Removes a repeatable section.
      * @remark  Triggered when the user presses the repeatable `-` section button.
@@ -357,29 +321,21 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         // Decrement the names and ids of the next following siblings. 
         _oNextAllSections.each( function( _iIterationIndex ) {
 
-            // @deprecated      3.6.0
-            // decrementAttributes( this );
-
 // @todo set the section index            
 var _iSectionIndex = _iIterationIndex;
             
             // Call the registered callback functions.
-            $( this ).find( '.admin-page-framework-field' ).each( function( iFieldIndex ) {    
-                $( this ).callBackRemoveRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1, _iSectionIndex, iFieldIndex );
-            });     
+            // @deprecated  3.6.0
+            // $( this ).find( '.admin-page-framework-field' ).each( function( iFieldIndex ) {    
+                // $( this ).callBackRemoveRepeatableField( $( this ).data( 'type' ), $( this ).attr( 'id' ), 1, _iSectionIndex, iFieldIndex );
+            // });     
         });
         
         // For tabbed sections - remove the title tab list.
         if ( nodeTabsContainer.length > 0 && nodeTabs.length > 1 && ! _bIsSubsectionCollapsible ) {
             var nodeSelectionTab = nodeTabsContainer.find( '#section_tab-' + sSectionConteinrID );
             
-            // @deprecated  3.6.0
-            // nodeSelectionTab.nextAll().each( function() {
-                // $( this ).find( 'a.anchor' ).decrementIDAttribute( 'href' );
-                // decrementAttributes( this );
-            // });    
-            
-            if (  nodeSelectionTab.prev().length ) {                
+            if ( nodeSelectionTab.prev().length ) {                
                 nodeSelectionTab.prev().addClass( 'active' );
             } else {
                 nodeSelectionTab.next().addClass( 'active' );
@@ -404,27 +360,7 @@ var _iSectionIndex = _iIterationIndex;
         }
             
     };
-        // Local function literal
-        /**
-         * 
-         * @deprecated      3.6.0
-         */
-/*         var decrementAttributes = function( oElement, iOccurrence ) {
-            
-            var iOccurrence = 'undefined' !== typeof iOccurrence ? iOccurrence : 1;
-            $( oElement ).decrementIDAttribute( 'id' );     
-            $( oElement ).find( 'tr.admin-page-framework-fieldrow' ).decrementIDAttribute( 'id', iOccurrence );
-            $( oElement ).find( '.admin-page-framework-fieldset' ).decrementIDAttribute( 'id', iOccurrence );
-            $( oElement ).find( '.admin-page-framework-fieldset' ).decrementIDAttribute( 'data-field_id', iOccurrence ); // I don't remember what this data attribute was for...
-            $( oElement ).find( '.admin-page-framework-fields' ).decrementIDAttribute( 'id', iOccurrence );
-            $( oElement ).find( '.admin-page-framework-field' ).decrementIDAttribute( 'id', iOccurrence );
-            $( oElement ).find( 'table.form-table' ).decrementIDAttribute( 'id', iOccurrence );
-            $( oElement ).find( '.repeatable-field-add-button' ).decrementIDAttribute( 'data-id', iOccurrence ); // holds the fields container ID referred by the repeater field script.
-            $( oElement ).find( 'label' ).decrementIDAttribute( 'for', iOccurrence );
-            $( oElement ).find( 'input,textarea,select' ).decrementIDAttribute( 'id', iOccurrence );
-            $( oElement ).find( 'input,textarea,select' ).decrementNameAttribute( 'name', iOccurrence );     
-            
-        }     */
+       
     
 }( jQuery ));
 JAVASCRIPTS;

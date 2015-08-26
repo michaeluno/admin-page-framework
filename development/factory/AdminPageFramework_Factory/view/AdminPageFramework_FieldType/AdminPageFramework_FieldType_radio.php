@@ -60,37 +60,10 @@ CSSRULES;
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
+     * @since       3.6.0       Removed the script as the repeatable field mechanism has changed.
      */ 
     protected function getScripts() {
-
-        $_aJSArray = json_encode( $this->aFieldTypeSlugs );
-        return <<<JAVASCRIPTS
-jQuery( document ).ready( function(){
-    jQuery().registerAPFCallback( {     
-        added_repeatable_field: function( nodeField, sFieldType, sFieldTagID, sCallType ) {
-
-            /* If it is not the field type, do nothing. */
-            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { return; }
-                                        
-            /* the checked state of radio buttons somehow lose their values when repeated so re-check them again */    
-            nodeField.closest( '.admin-page-framework-fields' )
-                .find( 'input[type=radio][checked=checked]' )
-                .attr( 'checked', 'checked' );
-                
-            /* Rebind the checked attribute updater */
-            // @todo: for nested fields, only apply to the direct child container elements.
-            nodeField.find( 'input[type=radio]' ).change( function() {
-                jQuery( this ).closest( '.admin-page-framework-field' )
-                    .find( 'input[type=radio]' )
-                    .attr( 'checked', false );
-                jQuery( this ).attr( 'checked', 'checked' );
-            });
-
-        }
-    });
-});
-JAVASCRIPTS;
-
+        return '';
     }     
     
     /**

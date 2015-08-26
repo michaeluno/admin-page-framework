@@ -133,40 +133,63 @@ jQuery( document ).ready( function() {
          * @param string    the field container tag ID
          * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
          */     
-        added_repeatable_field: function( oClonedField, sFieldType, sFieldTagID, iCallType ) {
+        added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType ) {
 
-            /* If it is not the color field type, do nothing. */
-            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { return; }
-
-            oClonedField.nextAll().andSelf().each( function() {     
-                jQuery( this ).find( 'div' ).incrementIDAttribute( 'id' );
-                jQuery( this ).find( 'li.tab-box-tab a' ).incrementIDAttribute( 'href' );
-                jQuery( this ).find( 'li.category-list' ).incrementIDAttribute( 'id' );
-                enableAPFTabbedBox( jQuery( this ).find( '.tab-box-container' ) );
-            });     
+            // If it is not the field type, do nothing.
+            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { 
+                return; 
+            }
             
-        },
-        /**
-         * The repeatable field callback for the remove event.
-         * 
-         * @param object    the field container element next to the removed field container.
-         * @param string    the field type slug
-         * @param string    the field container tag ID
-         * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
-         */     
-        removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, iCallType ) {
+            // Repeatable Sections
+            if ( 1 === iCallType ) {
+                var _oSectionsContainer     = jQuery( oCloned ).closest( '.admin-page-framework-sections' );
+                var _iSectionIndex          = _oSectionsContainer.attr( 'data-largest_index' );
+                var _sSectionIDModel        = _oSectionsContainer.attr( 'data-section_id_model' );
+                jQuery( oCloned ).find( 'div, li.category-list' ).incrementAttribute(
+                    'id', // attribute name
+                    _iSectionIndex, // increment from
+                    _sSectionIDModel // digit model
+                );
+                jQuery( oCloned ).find( 'label' ).incrementAttribute(
+                    'for', // attribute name
+                    _iSectionIndex, // increment from
+                    _sSectionIDModel // digit model
+                );            
+                jQuery( oCloned ).find( 'li.tab-box-tab a' ).incrementAttribute(
+                    'href', // attribute name
+                    _iSectionIndex, // increment from
+                    _sSectionIDModel // digit model
+                );                
+            } 
+            // Repeatable fields 
+            else {
+                var _oFieldsContainer       = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
+                var _iFieldIndex            = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
+                var _sFieldTagIDModel       = _oFieldsContainer.attr( 'data-field_tag_id_model' );
 
-            /* If it is not the color field type, do nothing. */
-            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { return; }
-
-            oNextFieldConainer.nextAll().andSelf().each( function() {
-                jQuery( this ).find( 'div' ).decrementIDAttribute( 'id' );
-                jQuery( this ).find( 'li.tab-box-tab a' ).decrementIDAttribute( 'href' );
-                jQuery( this ).find( 'li.category-list' ).decrementIDAttribute( 'id' );
-            });    
-                                    
+                jQuery( oCloned ).find( 'div, li.category-list' ).incrementAttribute(
+                    'id', // attribute name
+                    _iFieldIndex, // increment from
+                    _sFieldTagIDModel // digit model
+                );
+                jQuery( oCloned ).find( 'label' ).incrementAttribute(
+                    'for', // attribute name
+                    _iFieldIndex, // increment from
+                    _sFieldTagIDModel // digit model
+                );            
+                jQuery( oCloned ).find( 'li.tab-box-tab a' ).incrementAttribute(
+                    'href', // attribute name
+                    _iFieldIndex, // increment from
+                    _sFieldTagIDModel // digit model
+                );
+            }
+            enableAPFTabbedBox( jQuery( oCloned ).find( '.tab-box-container' ) );            
+            
         }
-    });
+    
+    },
+    {$_aJSArray}
+    );
 });     
 JAVASCRIPTS;
 

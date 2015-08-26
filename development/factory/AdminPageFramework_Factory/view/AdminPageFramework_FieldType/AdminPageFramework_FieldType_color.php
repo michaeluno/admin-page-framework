@@ -149,9 +149,9 @@ jQuery( document ).ready( function(){
         added_repeatable_field: function( node, sFieldType, sFieldTagID, sCallType ) {
 
             /* If it is not the color field type, do nothing. */
-            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { 
-                return; 
-            }
+            // if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { 
+                // return; 
+            // }
             
             /* If the input tag is not found, do nothing  */
             var nodeNewColorInput = node.find( 'input.input_color' );
@@ -187,11 +187,13 @@ jQuery( document ).ready( function(){
                 node.find( '.colorpicker' ).replaceWith( '<div class=\"colorpicker\" id=\"color_' + sInputID + '\"></div>' );
             }
 
-            // Bind the color picker script
+            // Bind the color picker event.
             registerAPFColorPickerField( nodeNewColorInput );     
             
         }
-    });
+    },
+    {$_aJSArray}
+    );
 });
 JAVASCRIPTS;
 

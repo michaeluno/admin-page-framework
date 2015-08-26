@@ -85,7 +85,7 @@ CSSRULES;
      */
     protected function getField( $aField ) {
         
-        $aField['attributes'] = array( 'type' => 'text' ) + $aField['attributes'];
+        $aField[ 'attributes' ] = array( 'type' => 'text' ) + $aField[ 'attributes' ];
         return parent::getField( $aField );
 
     }

@@ -58,8 +58,7 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
                 }, aSettings );
         }
         var _aOptions = $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ];
-// console.log( sFieldsContainerID );
-// console.log( _aOptions );
+
         /* Set the option values in the data attributes so that when a section is repeated and creates a brand new field container, it can refer to the options */
         $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-max', _aOptions[ 'max' ] );
         $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-min', _aOptions[ 'min' ] );
@@ -96,6 +95,7 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
      * Adds a repeatable field.
      */
     $.fn.addAdminPageFrameworkRepeatableField = function( sFieldContainerID ) {
+        
         if ( 'undefined' === typeof sFieldContainerID ) {
             var sFieldContainerID = $( this ).closest( '.admin-page-framework-field' ).attr( 'id' );    
         }
@@ -105,8 +105,8 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
         var nodeFieldsContainer = nodeFieldContainer.closest( '.admin-page-framework-fields' );
         var sFieldsContainerID  = nodeFieldsContainer.attr( 'id' );
 
-        /* If the set maximum number of fields already exists, do not add */
-         if ( ! $.fn.aAPFRepeatableFieldsOptions.hasOwnProperty( sFieldsContainerID ) ) {     
+        // If the set maximum number of fields already exists, do not add.
+        if ( ! $.fn.aAPFRepeatableFieldsOptions.hasOwnProperty( sFieldsContainerID ) ) {     
             var nodeButtonContainer = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' );
             $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ] = {    
                 max: nodeButtonContainer.attr( 'data-max' ), // These are the defaults.
@@ -115,7 +115,7 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
                 fadeout: nodeButtonContainer.attr( 'data-fadeout' ),
             };
         }  
-// console.log( 'fields id: ' + sFieldsContainerID );        
+       
         var _iFadein  = $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadein' ];
         var _iFadeout = $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadeout' ];
 
@@ -134,10 +134,12 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
             return;     
         }
         
+        // Empty values.
         nodeNewField.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' ); // empty the value     
+        nodeNewField.find( 'input[type=checkbox]' ).prop( 'checked', false ); // uncheck checkboxes.
         nodeNewField.find( '.repeatable-error' ).remove(); // remove error messages.
         
-        /* Add the cloned new field element */
+        // Add the cloned new field element.
         if ( _iFadein ) {
             nodeNewField
                 .hide()
@@ -148,7 +150,6 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
             nodeNewField.insertAfter( nodeFieldContainer );    
         }
 
-        
         /* Increment the names and ids of the next following siblings. */
         // @deprecated 3.6.0
         // nodeFieldContainer.nextAll().each( function() {
@@ -164,9 +165,7 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
         var _iFieldCount            = Number( nodeFieldsContainer.attr( 'data-largest_index' ) );
         var _iIncrementedFieldCount = _iFieldCount + 1;
         nodeFieldsContainer.attr( 'data-largest_index', _iIncrementedFieldCount );
-// console.log( 'incremented: ' + _iIncrementedFieldCount );
-// console.log( 'called: ' + sFieldsContainerID );
-// console.log( 'count: ' + _iFieldCount );        
+     
         var _sFieldTagIDModel    = nodeFieldsContainer.attr( 'data-field_tag_id_model' );
         var _sFieldNameModel     = nodeFieldsContainer.attr( 'data-field_name_model' );
         var _sFieldFlatNameModel = nodeFieldsContainer.attr( 'data-field_name_flat_model' );
@@ -202,36 +201,55 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
             [ 'name', 'value' ], // attribute names - this elements contains id values in the 'name' attribute.
             _iFieldCount,
             _sFieldAddressModel // digit model - this is
-        );
-        // nodeNewField.find( 'input[type=hidden].dynamic-element-names' ).incrementAttribute(
-            // 'value', // attribute name - this elements contains id values in the 'name' attribute.
-            // _iFieldCount,
-            // _sFieldAddressModel // digit model - this is
-        // );        
-        
-
-// @todo examine whether the new method works for checkboxes.
-// nodeNewField.find( 'input.apf_checkbox' ).incrementNameAttribute( 'name', -2 ); // for checkboxes, increment the second found digit from the end
-        
+        );  
+               
         /* Rebind the click event to the + and - buttons - important to update AFTER inserting the clone to the document node since the update method needs to count the fields. 
          * Also do this after updating the attributes since the script needs to check the last added id for repeatable field options such as 'min'.
          * */
         nodeNewField.updateAdminPageFrameworkRepeatableFields();
         
-        /* It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. */
+        // It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone.
         nodeFieldContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );
         
-        /* Call the registered callback functions */
-        nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ), 0, 0, 0 );
+        // Call back the registered functions.
+        // nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ), 0, 0, 0 );
+        nodeNewField.trigger( 
+            'admin_page_framework_repeated_field', 
+            nodeNewField.data( 'type' ), // field type slug
+            nodeNewField.attr( 'id' ),   // element tag id
+            0, // call type 
+            0, // section index - @todo find the section index
+            0  // field index - @todo find the field index
+        );
         
-        /* If more than one fields are created, show the Remove button */
-        var nodeRemoveButtons =  nodeFieldsContainer.find( '.repeatable-field-remove-button' );
+        // For nested fields,
+        $( nodeNewField ).find( '.admin-page-framework-field' ).each( function( iIterationIndex ) {    
+        
+            // Rebind the click event to the repeatable field buttons - important to update AFTER inserting the clone to the document node 
+            // since the update method need to count fields.
+            // @todo examine if this is needed any longer.
+            $( this ).updateAdminPageFrameworkRepeatableFields();
+                                        
+            // Call back the registered functions.
+            $( this ).trigger( 
+                'admin_page_framework_repeated_field', 
+                $( this ).data( 'type' ), 
+                nodeNewField.attr( 'id' ), // pass the parent field id
+                2,  // call type, 0 : repeatable sections, 1: repeatable fields, 2: nested repeatable fields.
+                0,  // @todo find the section index
+                iIterationIndex  // @todo find the nested field index
+            );            
+            
+        });    
+        
+        // If more than one fields are created, show the Remove button.
+        var nodeRemoveButtons = nodeFieldsContainer.find( '.repeatable-field-remove-button' );
         if ( nodeRemoveButtons.length > 1 ) { 
             nodeRemoveButtons.css( 'visibility', 'visible' ); 
         }
                             
-        /* Return the newly created element */
-        return nodeNewField; // media uploader needs this 
+        // Return the newly created element. The media uploader needs this 
+        return nodeNewField; 
         
     };
         

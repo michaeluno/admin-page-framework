@@ -58,43 +58,18 @@ class AdminPageFramework_Script_SortableField extends AdminPageFramework_Script_
         );
         _oSortable.bind( 'sortstop', function() {
          
-            /* Callback the registered functions */
+            // Callback the registered functions.
             $( this ).callBackStoppedSortingFields( 
                 $( this ).data( 'type' ),
                 $( this ).attr( 'id' ),
                 0  // call type 0: fields, 1: sections
             );  
+console.log( 'sort stopped, type: ' + $( this ).data( 'type' ) );
+console.log( $( this ).attr( 'id' ) );
             
         });
         _oSortable.bind( 'sortupdate', function() {
 
-            // Reverse is needed for radio buttons since they loose the selections when updating the IDs
-            // @deprecated  3.6.0
-            /* var _oFields = $( this ).children( 'div' ).reverse();
-            _oFields.each( function( iIterationIndex ) { 
-
-                var _iIndex = _oFields.length - iIterationIndex - 1;
-
-                $( this ).setIndexIDAttribute( 'id', _iIndex );
-                $( this ).find( 'label' ).setIndexIDAttribute( 'for', _iIndex );
-                $( this ).find( 'input,textarea,select' ).setIndexIDAttribute( 'id', _iIndex );
-                $( this ).find( 'input:not(.apf_checkbox),textarea,select' ).setIndexNameAttribute( 'name', _iIndex );
-                $( this ).find( 'input.apf_checkbox' ).setIndexNameAttribute( 'name', _iIndex, -2 ); // for checkboxes, set the second found digit from the end
-                
-                // Radio buttons loose their selections when IDs and names are updated, so reassign them 
-                $( this ).find( 'input[type=radio]' ).each( function() {    
-                    var sAttr = $( this ).prop( 'checked' );
-                    if ( 'undefined' !== typeof sAttr && false !== sAttr ) {
-                        $( this ).attr( 'checked', 'checked' );
-                    } 
-                });
-                    
-            }); */
-            
-            /* It seems radio buttons need to be taken cared of again. Otherwise, the checked items will be gone. */
-            // @deprecated  3.6.0
-            // $( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );    
-            
             // Callback the registered functions.
             $( this ).callBackSortedFields( 
                 $( this ).data( 'type' ),

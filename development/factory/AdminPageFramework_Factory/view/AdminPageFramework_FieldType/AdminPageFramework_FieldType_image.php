@@ -66,7 +66,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
         /**
          * Returns the JavaScript script that handles repeatable events. 
          * 
-         * @since 3.0.0
+         * @since       3.0.0
+         * @return      string
          */
         protected function _getScript_RegisterCallbacks() {
 
@@ -76,7 +77,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
             return <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
 
-    jQuery().registerAPFCallback( {     
+    jQuery().registerAPFCallback( {   
         /**
          * The repeatable field callback for the add event.
          * 
@@ -85,114 +86,67 @@ jQuery( document ).ready( function(){
          * @param string    sFieldTagID     the field container tag ID
          * @param integer   iCallerType     the caller type. 1 : repeatable sections. 0 : repeatable fields.
          */
-        added_repeatable_field: function( node, sFieldType, sFieldTagID, iCallType ) {
+        added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType ) {
             
-            /* If it is not the image field type, do nothing. */
-            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { return; }
-                                
-            /* If the uploader buttons are not found, do nothing */
-            if ( node.find( '.select_image' ).length <= 0 ) { return; }
-            
-            /* Remove the value of the cloned preview element - check the value for repeatable sections */
-            var sValue = node.find( 'input' ).first().val();
-            if ( 1 !== iCallType || ! sValue ) { // if it's not for repeatable sections
-                node.find( '.image_preview' ).hide(); // for the image field type, hide the preview element
-                node.find( '.image_preview img' ).attr( 'src', '' ); // for the image field type, empty the src property for the image uploader field
+            // If it is not the type, do nothing.
+            // if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { 
+                // return; 
+            // }
+            if ( oCloned.find( '.select_image' ).length <= 0 ) { 
+                return; 
             }
             
-            /* Increment the ids of the next all (including this one) uploader buttons and the preview elements ( the input values are already dealt by the framework repeater script ) */
-            var nodeFieldContainer = node.closest( '.admin-page-framework-field' );
-            var iOccurrence = 1 === iCallType ? 1 : 0;
-            nodeFieldContainer.nextAll().andSelf().each( function( iIndex ) {
+            // Remove the value of the cloned preview element - check the value for repeatable sections.
+            var sValue = oCloned.find( 'input' ).first().val();
+            if ( 1 !== iCallType || ! sValue ) { // if it's not for repeatable sections
+                oCloned.find( '.image_preview' ).hide(); // for the image field type, hide the preview element
+                oCloned.find( '.image_preview img' ).attr( 'src', '' ); // for the image field type, empty the src property for the image uploader field
+            }
+            
+            var _oFieldContainer    = oCloned.closest( '.admin-page-framework-field' );
+            var _oSelectButton      = _oFieldContainer.find( '.select_image' );
+            
+            // Update attributes.
+            // Repeatable sections event - update attributes with the section id model.
+            if ( 1 === iCallType ) {               
+                var _oSectionsContainer     = jQuery( oCloned ).closest( '.admin-page-framework-sections' );
+                var _iSectionIndex          = _oSectionsContainer.attr( 'data-largest_index' );
+                var _sSectionIDModel        = _oSectionsContainer.attr( 'data-section_id_model' );
+                // var _sSectionNameModel      = _oSectionsContainer.attr( 'data-section_name_model' );
+                // var _sSectionFlatNameModel  = _oSectionsContainer.attr( 'data-flat_section_name_model' );                
+                jQuery( oCloned ).find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
+                    'id', // attribute name
+                    _iSectionIndex, // increment from
+                    _sSectionIDModel // digit model
+                );                  
+            } 
+            // For repeatable fields.
+            else {                
+                var _oFieldsContainer   = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
+                var _iFieldIndex        = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
+                var _sFieldTagIDModel   = _oFieldsContainer.attr( 'data-field_tag_id_model' );
+                jQuery( oCloned ).find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
+                    'id', // attribute name
+                    _iFieldIndex, // increment from
+                    _sFieldTagIDModel // digit model
+                );
+            }
+            
+            // Bind the event.
+            var _oImageInput = _oFieldContainer.find( '.image-field input' );
+            if ( _oImageInput.length <= 0 ) {
+                return true;
+            }                
+            setAPFImageUploader( 
+                _oImageInput.attr( 'id' ), 
+                true, 
+                _oSelectButton.attr( 'data-enable_external_source' )
+            );    
 
-                var nodeButton = jQuery( this ).find( '.select_image' );     
-                
-                // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
-                if ( ! ( 1 === iCallType && 0 !== iIndex ) ) {
-                        
-                    nodeButton.incrementIDAttribute( 'id', iOccurrence );
-                    jQuery( this ).find( '.image_preview' ).incrementIDAttribute( 'id', iOccurrence );
-                    jQuery( this ).find( '.image_preview img' ).incrementIDAttribute( 'id', iOccurrence );
-                    
-                }
-                
-                /* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
-                 * otherwise, the script sets the preview image in the wrong place. */     
-                var nodeImageInput = jQuery( this ).find( '.image-field input' );
-                if ( nodeImageInput.length <= 0 ) return true;
-                
-                var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
-                setAPFImageUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );    
-
-            });
-        },
-        /**
-         * The repeatable field callback for the remove event.
-         * 
-         * @param object    oNextFieldContainer     the field container element next to the removed field container.
-         * @param string    sFieldType              the field type slug
-         * @param string    sFieldTagID             the field container tag ID
-         * @param integer   iCallType               the caller type. 1 : repeatable sections. 0 : repeatable fields.
-         */     
-        removed_repeatable_field: function( oNextFieldContainer, sFieldType, sFieldTagID, iCallType ) {
-            
-            /* If it is not the color field type, do nothing. */
-            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { return; }
-                                
-            /* If the uploader buttons are not found, do nothing */
-            if ( oNextFieldContainer.find( '.select_image' ).length <= 0 ) { return; }
-            
-            /* Decrement the ids of the next all (including this one) uploader buttons and the preview elements. ( the input values are already dealt by the framework repeater script ) */
-            var iOccurrence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
-            oNextFieldContainer.nextAll().andSelf().each( function( iIndex ) {
-                
-                var nodeButton = jQuery( this ).find( '.select_image' );     
-                
-                // If it's for repeatable sections, updating the attributes is only necessary for the first iteration.
-                if ( ! ( 1 === iCallType && 0 !== iIndex ) ) {     
-                    nodeButton.decrementIDAttribute( 'id', iOccurrence );
-                    jQuery( this ).find( '.image_preview' ).decrementIDAttribute( 'id', iOccurrence );
-                    jQuery( this ).find( '.image_preview img' ).decrementIDAttribute( 'id', iOccurrence );
-                }
-                
-                /* Rebind the uploader script to each button. The previously assigned ones also need to be renewed; 
-                 * otherwise, the script sets the preview image in the wrong place. */     
-                var nodeImageInput = jQuery( this ).find( '.image-field input' );
-                if ( nodeImageInput.length <= 0 ) { return true; }
-                
-                var fExternalSource = jQuery( nodeButton ).attr( 'data-enable_external_source' );
-                setAPFImageUploader( nodeImageInput.attr( 'id' ), true, fExternalSource );    
-            
-            });
-            
-        },
-        sorted_fields : function( node, sFieldType, sFieldsTagID, iCallType ) { // on contrary to repeatable callbacks, the _fields_ container node and its ID will be passed.
-
-            /* 1. Return if it is not the type. */
-            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { return; } /* If it is not the color field type, do nothing. */     
-            if ( node.find( '.select_image' ).length <= 0 ) { return; } /* If the uploader buttons are not found, do nothing */
-            
-            /* 2. Update the Select File button */
-            var iCount = 0;
-            var iOccurrence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
-            node.children( '.admin-page-framework-field' ).each( function() {
-                
-                var nodeButton = jQuery( this ).find( '.select_image' );
-                
-                /* 2-1. Set the current iteration index to the button ID, and the image preview elements */
-                nodeButton.setIndexIDAttribute( 'id', iCount, iOccurrence );    
-                jQuery( this ).find( '.image_preview' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
-                jQuery( this ).find( '.image_preview img' ).setIndexIDAttribute( 'id', iCount, iOccurrence );
-                
-                /* 2-2. Rebind the uploader script to the button */
-                var nodeImageInput = jQuery( this ).find( '.image-field input' );
-                if ( nodeImageInput.length <= 0 ) { return true; }
-                setAPFImageUploader( nodeImageInput.attr( 'id' ), true, jQuery( nodeButton ).attr( 'data-enable_external_source' ) );
-
-                iCount++;
-            });
         }
-    });
+    },
+    $_aJSArray
+    );
 });
 JAVASCRIPTS;
             

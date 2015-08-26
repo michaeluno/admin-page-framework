@@ -61,7 +61,7 @@ jQuery( document ).ready( function(){
     /**
      * Determines whether the callback is handleable or not.
      */
-    var isHandleable = function( oField, sFieldType ) {
+    var isEditorReady = function( oField, sFieldType ) {
      
         if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) {
             return false
@@ -75,7 +75,13 @@ jQuery( document ).ready( function(){
         return true;
         
     };
-    
+        /**
+         * @deprecated
+         */
+        var isHandleable = function() {
+            return isEditorReady( oField, sFieldType );
+        }
+        
     /**
      * Removes the editor by the given textarea ID.
      */
@@ -175,154 +181,100 @@ jQuery( document ).ready( function(){
          * 
          * When a repeat event occurs and a field is copied, this method will be triggered.
          * 
-         * @param   object  oCopied         the copied node object.
+         * @param   object  oCloned         the copied node object.
          * @param   string  sFieldType      the field type slug
          * @param   string  sFieldTagID     the field container tag ID
          * @param   integer iCallType       the caller type. 1 : repeatable sections. 0 : repeatable fields.\
          * @param   integer iSectionIndex   the section index. For repeatable fields, it will be always 0
          * @param   integer iFieldIndex     the field index. For repeatable fields, it will be always 0.
          */
-        added_repeatable_field: function( oCopied, sFieldType, sFieldTagID, iCallType, iSectionIndex, iFieldIndex ) {
-                                   
-            if ( ! isHandleable( oCopied, sFieldType ) ) {
+        added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType, iSectionIndex, iFieldIndex ) {
+                                    
+            // Return if not the type and there is no editor element.
+            if ( ! isEditorReady( oCloned, sFieldType ) ) {
                 return;
             }
-          
-            /* If the textarea tag is not found, do nothing  */
-            var oTextAreas = oCopied.find( 'textarea.wp-editor-area' );
-            if ( oTextAreas.length <= 0 ) {
+            if ( oCloned.find( 'textarea.wp-editor-area' ).length <= 0 ) {
                 return;
             }                    
             
             // Find the tinyMCE wrapper element
-            var oWrap       = oCopied.find( '.wp-editor-wrap' );
-            if ( oWrap.length <= 0 ) {
+            var _oWrap     = oCloned.find( '.wp-editor-wrap' );
+            if ( _oWrap.length <= 0 ) {
                 return;
             }                      
                                   
-            // Retrieve the TinyMCE and Quick Tags settings
-            var oSettings = jQuery().getAPFInputOptions( oWrap.attr( 'data-id' ) );   // the enabler script stores the original element id.
+            // TinyMCE and Quick Tags Settings - the enabler script stores the original element id.
+            var _oSettings = jQuery().getAPFInputOptions( _oWrap.attr( 'data-id' ) );  
 
-            // Update the TinyMCE editor and Quick Tags bar and increment the ids of the next all (including this copied element) sub-fields.
-            var iOccurrence          = 1 === iCallType ? 1 : 0;                        
-            var oFieldsNextAll = oCopied.closest( '.admin-page-framework-field' ).nextAll();
-            oFieldsNextAll.andSelf().each( function( iIndex ) {
-
-                var oWrap               = jQuery( this ).find( '.wp-editor-wrap' );
-                if ( oWrap.length <= 0 ) {
-                    return true;
-                }        
+            // Elements
+            var _oField              = oCloned.closest( '.admin-page-framework-field' );
+            var _oTextArea           = _oField.find( 'textarea.wp-editor-area' )
+                .first()
+                .clone() // Cloning is needed here as repeatable sections does not work with the original element for unknown reasons.
+                .show()
+                .removeAttr( 'aria-hidden' );
+            var _oEditorContainer    = _oField.find( '.wp-editor-container' ).first().clone().empty();
+            var _oToolBar            = _oField.find( '.wp-editor-tools' ).first().clone();
+                        
+            // Clean values
+            _oTextArea.val( '' );    // only delete the value of the directly copied one
+            _oTextArea.empty();      // the above use of val( '' ) does not erase the value completely.
+            
+            // Replace the tinyMCE wrapper with the plain textarea tag element.
+            _oWrap.empty()
+                .prepend( _oEditorContainer.prepend( _oTextArea.show() ) )
+                .prepend( _oToolBar );   
                 
-                // Cloning is needed here as repeatable sections does not work with the original element for unknown reasons.
-                var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first().clone().show().removeAttr( 'aria-hidden' );
-
-                if ( shouldEmpty( iCallType, iIndex, oFieldsNextAll.length, iSectionIndex ) ) {
-                    oTextArea.val( '' );    // only delete the value of the directly copied one
-                    oTextArea.empty();      // the above use of val( '' ) does not erase the value completely.
-                } 
-                var oEditorContainer    = jQuery( this ).find( '.wp-editor-container' ).first().clone().empty();
-                var oToolBar            = jQuery( this ).find( '.wp-editor-tools' ).first().clone();
-                       
-                // Replace the tinyMCE wrapper with the plain textarea tag element.
-                oWrap.empty()
-                    .prepend( oEditorContainer.prepend( oTextArea.show() ) )
-                    .prepend( oToolBar );   
+            // Update the editor. For repeatable sections, remove the previously assigned editor.                        
+            updateEditor( 
+                _oTextArea.attr( 'id' ), 
+                _oSettings[ 'TinyMCE' ], 
+                _oSettings[ 'QuickTags' ] 
+            );
+  
+            // Update the TinyMCE editor and the Quick Tags bar and their attributes.
+            switch( iCallType ) {
+                
+                // Repeatable sections (calling a belonging field)
+                case 1: 
+                    // It works without doing anything here.
+                    break;
                     
-                // Update the editor. For repeatable sections, remove the previously assigned editor.                        
-                updateEditor( oTextArea.attr( 'id' ), oSettings['TinyMCE'], oSettings['QuickTags'] );
-                                      
-                // The ID attributes of sub-elements are not updated yet
-                oToolBar.find( 'a,div' ).incrementIDAttribute( 'id', iOccurrence );
-                jQuery( this ).find( '.wp-editor-wrap a' ).incrementIDAttribute( 'data-editor', iOccurrence );
-                jQuery( this ).find( '.wp-editor-wrap,.wp-editor-tools,.wp-editor-container' ).incrementIDAttribute( 'id', iOccurrence );
-
-                // Switch the tab to the visual editor. This will trigger the switch action on the both of the tabs as clicking on only the Visual tab did not work.
-                if ( 0 === iCallType ) {
-                    jQuery( this ).find( 'a.wp-switch-editor' ).trigger( 'click' );
-                }
+                // Repeatable fields
+                default:
+                case 0:
+                    
+                    // Update the attributes of sub-elements.
+                    var _oFieldsContainer   = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
+                    var _iFieldIndex        = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
+                    var _sFieldTagIDModel   = _oFieldsContainer.attr( 'data-field_tag_id_model' );
+                    _oToolBar.find( 'a,div' ).incrementAttribute(
+                        'id', // attribute name
+                        _iFieldIndex, // increment from
+                        _sFieldTagIDModel // digit model
+                    );
+                    _oField.find( '.wp-editor-wrap a' ).incrementAttribute(
+                        'data-editor',
+                        _iFieldIndex, // increment from
+                        _sFieldTagIDModel // digit model                        
+                    );
+                    _oField.find( '.wp-editor-wrap,.wp-editor-tools,.wp-editor-container' ).incrementAttribute(
+                        'id',
+                        _iFieldIndex, // increment from
+                        _sFieldTagIDModel // digit model                                                
+                    );
+                    break;
                 
-                // If this is called for a repeatable section, handle only the first iteration as the rest will be also called one by one.
-                if ( 1 === iCallType ) {
-                    return false;   // break
-                }                            
+                // Parent repeatable fields (calling a nested field)
+                case 2:
+                
+                    break;
 
-            });    
-
+            }  
+            
         },
         
-        /**
-         * The repeatable field callback for the remove event.
-         * 
-         * @param   object      oNextFieldContainer     the field container element next to the removed field container.
-         * @param   string      sFieldType              the field type slug.
-         * @param   string      sFieldTagID             the removed field container tag ID.
-         * @param   integer     iCallType               the caller type. 1 : repeatable sections. 0 : repeatable fields.
-         * @param   integer     iSectionIndex           the section index. For repeatable fields, it will be always 0.
-         * @param   integer     iFieldIndex             the field index. For repeatable fields, it will be always 0.
-         */     
-        removed_repeatable_field: function( oNextFieldContainer, sFieldType, sFieldTagID, iCallType, iSectionIndex, iFieldIndex ) {
-
-            if ( ! isHandleable( oNextFieldContainer, sFieldType ) ) {
-                return;
-            }  
-
-            // Find the tinyMCE wrapper element
-            var oWrap       = oNextFieldContainer.find( '.wp-editor-wrap' );
-            if ( oWrap.length <= 0 ) {
-
-                // Remove the old one from the internal tinyMCE setting object.
-                removeEditor( sFieldTagID.substring( 6 ) );              
-                return;
-                
-            }
-            
-            // Retrieve the TinyMCE and Quick Tags settings. The enabler script stores the original element id.
-            var oSettings = jQuery().getAPFInputOptions( oWrap.attr( 'data-id' ) );  
-
-            // Increment the ids of the next all (including this copied element) sub-fields.
-            var iOccurrence = 1 === iCallType ? 1 : 0;                        
-            oNextFieldContainer.closest( '.admin-page-framework-field' ).nextAll().andSelf().each( function( iIndex ) {
-
-                var oWrap               = jQuery( this ).find( '.wp-editor-wrap' );
-                if ( oWrap.length <= 0 ) {                       
-                    return true;    // continue
-                }        
-                
-                var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first().show().removeAttr( 'aria-hidden' );
-                var oEditorContainer    = jQuery( this ).find( '.wp-editor-container' ).first().clone().empty();
-                var oToolBar            = jQuery( this ).find( '.wp-editor-tools' ).first().clone();
-                var oTextAreaPrevious   = oTextArea.clone().incrementIDAttribute( 'id', iOccurrence );
-                
-                // Replace the tinyMCE wrapper with the plain textarea tag element.
-                oWrap.empty()
-                    .prepend( oEditorContainer.prepend( oTextArea.show() ) )
-                    .prepend( oToolBar );   
-
-                // Remove the editor which is assigned to the newly decremented ID if exists and the old assigned editor.
-                if ( 0 === iIndex ) {
-                    removeEditor( oTextAreaPrevious.attr( 'id' ) );
-                }
-
-                updateEditor( oTextArea.attr( 'id' ), oSettings['TinyMCE'], oSettings['QuickTags'] );
-                                          
-                // The ID attributes of sub-elements are not updated yet
-                oToolBar.find( 'a,div' ).decrementIDAttribute( 'id', iOccurrence );
-                jQuery( this ).find( '.wp-editor-wrap a' ).decrementIDAttribute( 'data-editor', iOccurrence );
-                jQuery( this ).find( '.wp-editor-wrap,.wp-editor-tools,.wp-editor-container' ).decrementIDAttribute( 'id', iOccurrence );
-
-                // Switch the tab to the visual editor. This will trigger the switch action on the both of the tabs as clicking on only the Visual tab did not work.
-                if ( 0 === iCallType ) {
-                    jQuery( this ).find( 'a.wp-switch-editor' ).trigger( 'click' );
-                }
-                
-                // If this is called for a repeatable section, handle only the first iteration as the rest will be also called one by one.
-                if ( 1 === iCallType ) {
-                    return false;   // break
-                }
-
-            });                            
-            
-        },
         /**
          * The sortable field callback for the sort update event.
          * 
@@ -335,15 +287,14 @@ jQuery( document ).ready( function(){
          */
         stopped_sorting_fields : function( oSortedFields, sFieldType, sFieldsTagID, iCallType ) { 
 
-            if ( ! isHandleable( oSortedFields, sFieldType ) ) {
+            if ( ! isEditorReady( oSortedFields, sFieldType ) ) {
                 return;
             }                     
             
             // Update the editor.
-            var iOccurrence = 1 === iCallType ? 1 : 0; // the occurrence value indicates which part of digit to change 
             oSortedFields.children( '.admin-page-framework-field' ).each( function( iIndex ) {
                                             
-                /* If the textarea tag is not found, do nothing  */
+                // If the textarea tag is not found, do nothing.
                 var oTextAreas = jQuery( this ).find( 'textarea.wp-editor-area' );
                 if ( oTextAreas.length <= 0 ) {
                     return true;
@@ -365,15 +316,9 @@ jQuery( document ).ready( function(){
                 // Replace the tinyMCE wrapper with the plain textarea tag element.
                 oWrap.empty()
                     .prepend( oEditorContainer.prepend( oTextArea.show() ) )
-                    .prepend( oToolBar );   
-
+                    .prepend( oToolBar );
                 
                 updateEditor( oTextArea.attr( 'id' ), oSettings['TinyMCE'], oSettings['QuickTags'] );
-
-                // The ID attributes of sub-elements are not updated yet
-                oToolBar.find( 'a,div' ).setIndexIDAttribute( 'id', iIndex, iOccurrence );
-                jQuery( this ).find( '.wp-editor-wrap a' ).setIndexIDAttribute( 'data-editor', iIndex, iOccurrence );
-                jQuery( this ).find( '.wp-editor-wrap,.wp-editor-tools,.wp-editor-container' ).setIndexIDAttribute( 'id', iIndex, iOccurrence );
 
                 // Switch the tab to the visual editor. This will trigger the switch action on the both of the tabs as clicking on only the Visual tab did not work.
                 jQuery( this ).find( 'a.wp-switch-editor' ).trigger( 'click' );
@@ -409,7 +354,7 @@ jQuery( document ).ready( function(){
                 }                                   
 
                 // Retrieve the TinyMCE and Quick Tags settings from the initial widget form element. The initial widget is the one from which the user drags.
-                var oTextArea  = jQuery( this ).find( 'textarea.wp-editor-area' ).first(); // .show().removeAttr( 'aria-hidden' );
+                var oTextArea             = jQuery( this ).find( 'textarea.wp-editor-area' ).first(); // .show().removeAttr( 'aria-hidden' );
                 var _sID                  = oTextArea.attr( 'id' );
                 var _sInitialTextareaID   = _sID.replace( /(widget-.+-)([0-9]+)(-)/i, '$1__i__$3' );
                 _sWidgetInitialTextareaID = 'undefined' === typeof  tinyMCEPreInit.mceInit[ _sInitialTextareaID ]
@@ -435,8 +380,10 @@ jQuery( document ).ready( function(){
                 );                            
             });                                          
         
-        }   // end of 'saved_widget'
-    });	        
+        } // end of 'saved_widget'
+    },
+    {$_aJSArray}
+    );	        
 });
 JAVASCRIPTS;
 
@@ -491,21 +438,6 @@ CSSRULES;
         // the repeatable field buttons will be replaced with this element.
         $_aOutput[] = "<div class='repeatable-field-buttons'></div>";
         return implode( '', $_aOutput );
-
-        // return 
-            // "<div class='admin-page-framework-input-label-container'>"
-                // . "<label for='{$aField['input_id']}'>"
-                    // . $aField['before_input']
-                    // . ( $aField['label'] && ! $aField['repeatable']
-                        // ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
-                        // : "" 
-                    // )
-                    // . $this->_getEditor( $aField )
-                    // . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.                                                       
-                    // . $aField['after_input']
-                // . "</label>"
-            // . "</div>"
-        // ;
         
     }
         /**
