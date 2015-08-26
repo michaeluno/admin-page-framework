@@ -356,10 +356,8 @@ td.admin-page-framework-field-td-no-title {
 }         
 
 /* Sortable Sections */
-
-.admin-page-framework-sections.sortable-section {
-/*     display: inline-block;
-    padding-bottom: 1em */; 
+.admin-page-framework-sections.sortable-section > .admin-page-framework-section {
+    padding: 1em 2em 1em 2em;
 }
 
 /* Sortable Collapsible Sections */
@@ -367,7 +365,7 @@ td.admin-page-framework-field-td-no-title {
     display: block; 
     float: none;
     border: 0px;
-    padding :0;
+    padding: 0;
     background: transparent;
 }
 /* Sortable Tabbed Sections */
