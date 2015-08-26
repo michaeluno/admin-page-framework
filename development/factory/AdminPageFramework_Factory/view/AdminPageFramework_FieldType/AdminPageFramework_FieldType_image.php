@@ -77,7 +77,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
             return <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
 
-    jQuery().registerAPFCallback( {   
+    jQuery().registerAdminPageFrameworkCallbacks( {   
         /**
          * The repeatable field callback for the add event.
          * 
@@ -89,9 +89,6 @@ jQuery( document ).ready( function(){
         added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType ) {
             
             // If it is not the type, do nothing.
-            // if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { 
-                // return; 
-            // }
             if ( oCloned.find( '.select_image' ).length <= 0 ) { 
                 return; 
             }

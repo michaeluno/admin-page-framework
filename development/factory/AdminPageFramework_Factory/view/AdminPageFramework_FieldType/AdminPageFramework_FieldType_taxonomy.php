@@ -124,7 +124,7 @@ jQuery( document ).ready( function() {
     enableAPFTabbedBox( jQuery( '.tab-box-container' ) );
 
     /* The repeatable event */
-    jQuery().registerAPFCallback( {     
+    jQuery().registerAdminPageFrameworkCallbacks( {     
         /**
          * The repeatable field callback for the add event.
          * 
@@ -134,11 +134,6 @@ jQuery( document ).ready( function() {
          * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
          */     
         added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType ) {
-
-            // If it is not the field type, do nothing.
-            if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) { 
-                return; 
-            }
             
             // Repeatable Sections
             if ( 1 === iCallType ) {

@@ -175,7 +175,7 @@ jQuery( document ).ready( function(){
         
     };
     
-    jQuery().registerAPFCallback( {				
+    jQuery().registerAdminPageFrameworkCallbacks( {				
         /**
          * The repeatable field callback.
          * 

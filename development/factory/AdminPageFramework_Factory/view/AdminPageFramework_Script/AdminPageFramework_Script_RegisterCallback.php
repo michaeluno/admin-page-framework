@@ -131,8 +131,11 @@ class AdminPageFramework_Script_RegisterCallback extends AdminPageFramework_Scri
     
     /**
      * Registers callbacks. This will be called in each field type definition class.
+     * 
+     * @since       unknown
+     * @since       3.6.0       Changed the name from `registerAPFCallback()`.
      */
-    $.fn.registerAPFCallback = function( oCallbacks, aFieldTypeSlugs ) {
+    $.fn.registerAdminPageFrameworkCallbacks = function( oCallbacks, aFieldTypeSlugs ) {
         
         // This is the easiest way to have default options.
         var oCallbacks = $.extend(
@@ -168,7 +171,12 @@ class AdminPageFramework_Script_RegisterCallback extends AdminPageFramework_Scri
         );
 
     };
-    
+    /**
+     * An alias of the `registerAdminPageFrameworkCalbacks()` method.
+     * @remark      Kept for backward compatibility. There are some custom field types which calls the old method name. 
+     */
+    $.fn.registerAPFCallback = $.fn.registerAdminPageFrameworkCallbacks( oCallbacks, aFieldTypeSlugs );
+        
 }( jQuery ));
 JAVASCRIPTS;
         

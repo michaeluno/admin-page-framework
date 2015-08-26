@@ -61,18 +61,15 @@ class AdminPageFramework_Script_AttributeUpdator extends AdminPageFramework_Scri
         // Construct a regex needle pattern.
         var _oRegex = new RegExp( '^(.+?)(' + sDigitKey + ')(.*?)$', 'g' );           
         sModel = sModel.replace( _oRegex, '($1)(\\\d+)($3.*?)' ); 
-// console.log( 'string: ' + sString );
-// console.log( 'model: ' + sModel );
-// console.log( 'passed increment from: ' + iIncrementFrom );
+
         var _oRegex = new RegExp( sModel );
         sString = sString.replace( _oRegex, function ( sFullMatch, sMatch0, sMatch1, sMatch2 ) {
             iIncrementFrom = 'undefined' === typeof iIncrementFrom 
                 ? sMatch1
                 : iIncrementFrom;
-// console.log( 'increment from: ' + iIncrementFrom );
+
             return sMatch0 + ( Number( iIncrementFrom ) + 1 ) + sMatch2;
         } );  
-// console.log( 'result: ' + sString );
         return sString;
     };
 

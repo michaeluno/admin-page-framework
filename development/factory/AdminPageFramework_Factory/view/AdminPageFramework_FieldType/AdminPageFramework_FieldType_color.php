@@ -145,7 +145,7 @@ registerAPFColorPickerField = function( osTragetInput, aOptions ) {
     renew the color piker element (while it does on the input tag value), the renewal task must be dealt here separately. */
 jQuery( document ).ready( function(){
     
-    jQuery().registerAPFCallback( {     
+    jQuery().registerAdminPageFrameworkCallbacks( {     
         added_repeatable_field: function( node, sFieldType, sFieldTagID, sCallType ) {
 
             /* If it is not the color field type, do nothing. */

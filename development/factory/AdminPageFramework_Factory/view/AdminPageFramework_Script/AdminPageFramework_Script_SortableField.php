@@ -56,27 +56,21 @@ class AdminPageFramework_Script_SortableField extends AdminPageFramework_Script_
         var _oSortable  = _oTarget.sortable(
             { items: '> div:not( .disabled )', } // the options for the sortable plugin
         );
+        
+        // Callback the registered functions.
         _oSortable.bind( 'sortstop', function() {
-         
-            // Callback the registered functions.
             $( this ).callBackStoppedSortingFields( 
                 $( this ).data( 'type' ),
                 $( this ).attr( 'id' ),
                 0  // call type 0: fields, 1: sections
             );  
-console.log( 'sort stopped, type: ' + $( this ).data( 'type' ) );
-console.log( $( this ).attr( 'id' ) );
-            
         });
         _oSortable.bind( 'sortupdate', function() {
-
-            // Callback the registered functions.
             $( this ).callBackSortedFields( 
                 $( this ).data( 'type' ),
                 $( this ).attr( 'id' ),
                 0  // call type 0: fields, 1: sections
             );
-            
         });                 
     
     };

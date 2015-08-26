@@ -71,7 +71,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
             return <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
             
-    jQuery().registerAPFCallback( {    
+    jQuery().registerAdminPageFrameworkCallbacks( {    
         /**
          * The repeatable field callback for the add event.
          * 
@@ -83,9 +83,6 @@ jQuery( document ).ready( function(){
         added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType ) {
             
             // Return if it is not the type.
-            // if ( jQuery.inArray( sFieldType, $_aJSArray ) <= -1 ) {
-                // return; 
-            // }
             if ( oCloned.find( '.select_media' ).length <= 0 ) {
                 return;
             }
