@@ -101,8 +101,11 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         var nodeTabsContainer       = $( '#' + sSectionContainerID ).closest( '.admin-page-framework-sections' ).find( '.admin-page-framework-section-tabs' );
         var _iSectionIndex          = nodeSectionsContainer.attr( 'data-largest_index' );
         
+        var _iFadein                = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadein' ];
+        var _iFadeout               = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadeout' ];
+        
         // If the set maximum number of sections already exists, do not add.
-        var _sMaxNumberOfSections   = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ]['max'];
+        var _sMaxNumberOfSections   = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ][ 'max' ];
         if ( _sMaxNumberOfSections != 0 && nodeSectionsContainer.find( '.admin-page-framework-section' ).length >= _sMaxNumberOfSections ) {
             var _nodeLastRepeaterButtons = nodeSectionContainer.find( '.admin-page-framework-repeatable-section-buttons' ).last();
             var _sMessage                = $( this ).formatPrintText( '{$sCannotAddMore}', _sMaxNumberOfSections );
@@ -112,7 +115,7 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
             } else {
                 _nodeLastRepeaterButtons.before( _nodeMessage );
             }
-            _nodeMessage.delay( 2000 ).fadeOut( 1000 );
+            _nodeMessage.delay( 2000 ).fadeOut( _iFadeout );
             return;     
         }
         
@@ -131,7 +134,12 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         }
                         
         // Add the cloned new field element.
-        nodeNewSection.insertAfter( nodeSectionContainer );    
+        // nodeNewSection.insertAfter( nodeSectionContainer );    
+        nodeNewSection
+            .hide()
+            .insertAfter( nodeSectionContainer )
+            .delay( 100 )
+            .fadeIn( _iFadein );        
 
         // It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. 
         nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );    
@@ -178,7 +186,13 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
             nodeNewTab.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' ); // empty the value
         
             // Add the cloned new field tab.
-            nodeNewTab.insertAfter( nodeTab );    
+            // nodeNewTab.insertAfter( nodeTab );    
+            nodeNewTab
+                .hide()
+                .insertAfter( nodeTab )
+                .delay( 10 )
+                .fadeIn( _iFadein );
+                
             _incrementAttributes( nodeNewTab, _iSectionIndex, nodeSectionsContainer );
                         
             nodeTabsContainer.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
@@ -291,6 +305,9 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         var nodeTabs                = nodeTabsContainer.find( '.admin-page-framework-section-tab' );
         var _iSectionIndex          = nodeSectionsContainer.attr( 'data-largest_index' );
         
+        var _iFadein                = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadein' ];
+        var _iFadeout               = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadeout' ];
+        
         // If the set minimum number of sections already exists, do not remove.
         var _sMinNumberOfSections = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ]['min'];
         if ( _sMinNumberOfSections != 0 && nodeSectionsContainer.find( '.admin-page-framework-section' ).length <= _sMinNumberOfSections ) {
@@ -302,7 +319,7 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
             } else {                
                 _nodeLastRepeaterButtons.before( _nodeMessage );
             }
-            _nodeMessage.delay( 2000 ).fadeOut( 1000 );
+            _nodeMessage.delay( 2000 ).fadeOut( _iFadeout );
             return;     
         }     
         
@@ -316,7 +333,25 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         var _bIsSubsectionCollapsible   = nodeSectionContainer.hasClass( 'is_subsection_collapsible' );
         
         // Remove the section 
-        nodeSectionContainer.remove();
+        // nodeSectionContainer.remove(); // @deprecated    3.6.0
+        nodeSectionContainer.fadeOut( _iFadeout, function() { 
+        
+            $( this ).remove(); 
+            
+            // Count the remaining Remove buttons and if it is one, disable the visibility of it.
+            var _nodeRemoveButtons = nodeSectionsContainer.find( '.repeatable-section-remove-button' );
+            if ( 1 === _nodeRemoveButtons.length ) {
+                _nodeRemoveButtons.css( 'display', 'none' );
+                
+                // Also, if this is not for tabbed sections, do show the title.
+                var _sSectionTabSlug = nodeSectionsContainer.find( '.admin-page-framework-section-caption' ).first().attr( 'data-section_tab' );
+                if ( ! _sSectionTabSlug || '_default' === _sSectionTabSlug ) {
+                    nodeSectionsContainer.find( '.admin-page-framework-section-title' ).first().show();
+                }                
+            }            
+            
+        } );        
+        
         
         // Decrement the names and ids of the next following siblings. 
         _oNextAllSections.each( function( _iIterationIndex ) {
@@ -341,23 +376,14 @@ var _iSectionIndex = _iIterationIndex;
                 nodeSelectionTab.next().addClass( 'active' );
             }
                 
-            nodeSelectionTab.remove();
+            // nodeSelectionTab.delay( 1000 ).fadeOut( 1000 ).remove();
+            nodeSelectionTab.fadeOut( _iFadeout, function() {
+                $( this ).delay( 100 ).remove();
+            } );
             nodeTabsContainer.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
             
         }     
-        
-        // Count the remaining Remove buttons and if it is one, disable the visibility of it.
-        var _nodeRemoveButtons = nodeSectionsContainer.find( '.repeatable-section-remove-button' );
-        if ( 1 === _nodeRemoveButtons.length ) {
-            _nodeRemoveButtons.css( 'display', 'none' );
-            
-            // Also, if this is not for tabbed sections, do show the title.
-            var _sSectionTabSlug = nodeSectionsContainer.find( '.admin-page-framework-section-caption' ).first().attr( 'data-section_tab' );
-            if ( ! _sSectionTabSlug || '_default' === _sSectionTabSlug ) {
-                nodeSectionsContainer.find( '.admin-page-framework-section-title' ).first().show();
-            }
-            
-        }
+       
             
     };
        
