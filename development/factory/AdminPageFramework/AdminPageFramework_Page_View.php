@@ -648,14 +648,17 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                                     )
                                 )
                             ),
-                    ) + $aTab
-                      + array( 
-                            'attributes' => array(
+                    ) + $this->oUtil->uniteArrays(
+                        $aTab,
+                        array(
+                            'attributes'    => array(
                                 // 3.5.7+ Added for acceptance tests 
-                                'data-tab-slug' => $_sSlug,                            
+                                'data-tab-slug' => $_sSlug,                                                        
                             ),
-                        )
-                      + $aStructure;                    
+                        ),
+                        $aStructure
+                    );
+                      
                     return $aTab;
                     
                 }
