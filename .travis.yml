@@ -25,7 +25,7 @@ install:
     - bash test/install.sh -c test/settings.travis.cfg 
 
 before_script:
-    - php -S 127.0.0.1 &
+    - php -S 127.0.0.1:4000 &
     - sleep 3
   
 script:
