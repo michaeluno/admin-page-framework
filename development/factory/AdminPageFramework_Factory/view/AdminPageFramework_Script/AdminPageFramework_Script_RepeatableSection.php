@@ -140,13 +140,13 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
             .insertAfter( nodeSectionContainer )
             .delay( 100 )
             .fadeIn( _iFadein );        
-
-        // It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. 
-        nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );    
          
         // 3.6.0+ Increment the id and name attributes of the newly cloned section.
         _incrementAttributes( nodeNewSection, _iSectionIndex, nodeSectionsContainer );
-        
+
+        // It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. 
+        nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );    
+
         // Iterate each field one by one.
         $( nodeNewSection ).find( '.admin-page-framework-field' ).each( function( iFieldIndex ) {    
         
@@ -159,7 +159,7 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
                 'admin_page_framework_repeated_field', 
                 $( this ).data( 'type' ), // field type slug
                 $( this ).attr( 'id' ), // element tag id
-                1, // call type, 0: repeatable fields, 1: repeatable sections, 3: parent fields
+                1, // call type, 0: repeatable fields, 1: repeatable sections, (not implemented yet - 2: parent fields, 3: parent sections)
                 _iSectionIndex, 
                 iFieldIndex 
             );            
@@ -207,7 +207,7 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         if ( _nodeRemoveButtons.length > 1 ) {
             _nodeRemoveButtons.show();     
         }
-                            
+     
         // Return the newly created element.
         return nodeNewSection;    
         

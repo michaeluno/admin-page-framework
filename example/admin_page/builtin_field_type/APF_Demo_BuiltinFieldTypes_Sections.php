@@ -277,6 +277,17 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'type'          => 'size',
             ),
             array(
+                'field_id'      => 'radio_in_tabbed_sections_in_repeatable_sections',
+                'title'         => __( 'Radio', 'admin-page-framework-demo' ),
+                'type'          => 'radio',
+                'label'         => array(
+                    'one'   => __( 'One', 'admin-page-framework-demo' ),
+                    'two'   => __( 'Two', 'admin-page-framework-demo' ),
+                    'three' => __( 'Three', 'admin-page-framework-demo' ),
+                ),
+                'default'       => 'two',
+            ),            
+            array(
                 'field_id'      => 'select_in_tabbed_sections_in_repeatable_sections',
                 'title'         => __( 'Select', 'admin-page-framework-demo' ),
                 'type'          => 'select',
