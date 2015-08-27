@@ -12,7 +12,7 @@ In order to run the tests, configure the setting file (`settings.cfg`) and run t
 ## Steps
 
 1. **Important** Rename `settings-sample.cfg` in `test/` to `settings.cfg`. Edit the file and set up necessary paths, database user name password, and host, plugin slug, test site location etc.
-2. cd to `test/` and run `install.sh` by typing the following command in the console program.
+2. cd to `test/` and run `install.sh` by typing the following command in a console program.
 
     ```
     bash install.sh
@@ -29,3 +29,7 @@ In order to run the tests, configure the setting file (`settings.cfg`) and run t
     ```
     bash uninstall.sh
     ```
+
+### Notes
+
+To run `.sh` files on Windows, you need a Bash emulater. Here is [one](https://git-for-windows.github.io/).

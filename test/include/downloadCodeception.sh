@@ -2,7 +2,12 @@
 downloadCodeception() {
     
     # The Latest Version
-    download "http://codeception.com/codecept.phar" "$1"        
+    # download "http://codeception.com/codecept.phar" "$1"        
+    
+    # v2.1 - does not work...
+    
+    # v2.0.11
+    download "http://codeception.com/releases/2.0.11/codecept.phar" "$1"
     
     # v1.8.7 - causes an error " Path for logs is not writable. Please, set appropriate access mode for log"
     # download "http://codeception.com/releases/1.8.7/codecept.phar" "$1"        
