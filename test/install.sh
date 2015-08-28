@@ -287,6 +287,8 @@ installCodeception() {
     cp -r "$PROJECT_DIR/test/tests/unit/_bootstrap.php" "$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests/unit/_bootstrap.php"
                     
     # Create an acceptance setting file.
+    # - To avoid the error, [GuzzleHttp\Exception\ConnectException] cURL error 28:, on CI, 
+    # use CURLOPT_TIMEOUT @see https://github.com/Codeception/Codeception/issues/1918#issuecomment-113557254
     FILE="$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests/acceptance.suite.yml"
     cat <<EOM >$FILE
 class_name: AcceptanceTester
@@ -294,7 +296,9 @@ modules:
     enabled: [PhpBrowser, AcceptanceHelper, Db]
     config:
         PhpBrowser:
-            url: '$WP_URL'          
+            url: '$WP_URL'     
+        curl: 
+            CURLOPT_TIMEOUT: 180            
 coverage:
     # acceptance tests fail if this value is true
     enabled: false            
