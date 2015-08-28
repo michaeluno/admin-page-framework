@@ -287,9 +287,13 @@ installCodeception() {
     cp -r "$PROJECT_DIR/test/tests/unit/_bootstrap.php" "$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests/unit/_bootstrap.php"
                     
     # Create an acceptance setting file.
-    # - To avoid the error, [GuzzleHttp\Exception\ConnectException] cURL error 28:, on CI, 
-    # use CURLOPT_TIMEOUT @see https://github.com/Codeception/Codeception/issues/1918#issuecomment-113557254, http://stackoverflow.com/questions/22757141/how-to-change-codeception-phpbrowser-mink-timeout
-    # and force HTTP1.0 @see comment on http://stackoverflow.com/questions/30899382/how-to-override-default-curl-timeout-for-codeception-using-browserstack
+        # - To avoid the error, [GuzzleHttp\Exception\ConnectException] cURL error 28:, on CI, 
+        # use CURLOPT_TIMEOUT @see https://github.com/Codeception/Codeception/issues/1918#issuecomment-113557254, http://stackoverflow.com/questions/22757141/how-to-change-codeception-phpbrowser-mink-timeout
+        # and force HTTP1.0 @see comment on http://stackoverflow.com/questions/30899382/how-to-override-default-curl-timeout-for-codeception-using-browserstack
+            # curl: 
+                # CURLOPT_TIMEOUT: 3000 
+                # CURLOPT_TIMEOUT_MS: 3000
+                # CURLOPT_HTTP_VERSION: CURL_HTTP_VERSION_1_0    
     FILE="$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests/acceptance.suite.yml"
     cat <<EOM >$FILE
 class_name: AcceptanceTester
@@ -298,10 +302,6 @@ modules:
     config:
         PhpBrowser:
             url: '$WP_URL'     
-        # curl: 
-            # CURLOPT_TIMEOUT: 3000 
-            # CURLOPT_TIMEOUT_MS: 3000
-            # CURLOPT_HTTP_VERSION: CURL_HTTP_VERSION_1_0
 coverage:
     # acceptance tests fail if this value is true
     enabled: false            
