@@ -273,7 +273,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                  * The passed path for the archive has a trailing slash. It starts with a directory name.
                  * e.g.
                  * `utility/AdminPageFramework_WPReadmeParser/`
-                 * `factory/AdminPageFramework_Widget/model/`
+                 * `factory/widget/model/`
                  * @return      boolean
                  */
                 private function _isAllowedArchivePath( $sPath ) {
@@ -295,30 +295,30 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                  */
                 private $_aComponentPaths = array(
                     'admin_pages'           => array(
-                        'factory/AdminPageFramework/',
+                        'factory/admin_page/',
                     ),
                     'network_admin_pages'   => array(
-                        'factory/AdminPageFramework/',
-                        'factory/AdminPageFramework_NetworkAdmin/',
+                        'factory/admin_page/',
+                        'factory/network_admin_page/',
                     ),
                     'post_types'            => array(
-                        'factory/AdminPageFramework_PostType/', 
+                        'factory/post_type/', 
                     ),
                     'taxonomies'            => array(
-                        'factory/AdminPageFramework_TaxonomyField/',
+                        'factory/taxonomy_field/',
                     ),
                     'meta_boxes'            => array(
-                        'factory/AdminPageFramework_MetaBox/',
+                        'factory/meta_box/',
                     ),
                     'page_meta_boxes'       => array(
-                        'factory/AdminPageFramework_MetaBox/',
-                        'factory/AdminPageFramework_MetaBox_Page/',
+                        'factory/meta_box/',
+                        'factory/page_meta_box/',
                     ),
                     'widgets'               => array(
-                        'factory/AdminPageFramework_Widget/',
+                        'factory/widget/',
                     ),
                     'user_meta'             => array(
-                        'factory/AdminPageFramework_UserMeta/',
+                        'factory/user_meta/',
                     ),
                     'utilities'             => array(
                         'utility/',

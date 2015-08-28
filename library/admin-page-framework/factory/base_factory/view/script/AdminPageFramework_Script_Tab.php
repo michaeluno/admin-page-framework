@@ -1,0 +1,72 @@
+<?php
+class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
+    static public function getScript() {
+        return <<<JAVASCRIPTS
+( function( $ ) {
+    
+    $.fn.createTabs = function( asOptions ) {
+        
+        var _bIsRefresh = ( typeof asOptions === 'string' && asOptions === 'refresh' );
+        if ( typeof asOptions === 'object' )
+            var aOptions = $.extend( {
+            }, asOptions );
+        
+        this.children( 'ul' ).each( function () {
+            
+            var bSetActive = false;
+            $( this ).children( 'li' ).each( function( i ) {     
+                
+                var sTabContentID = $( this ).children( 'a' ).attr( 'href' );
+                if ( ! _bIsRefresh && ! bSetActive && $( this ).is( ':visible' ) ) {
+                    $( this ).addClass( 'active' );
+                    bSetActive = true;
+                }
+                
+                if ( $( this ).hasClass( 'active' ) ) {
+                    $( sTabContentID ).show();
+                } else {                            
+                    $( sTabContentID ).css( 'display', 'none' );
+                }
+                
+                $( this ).addClass( 'nav-tab' );
+                $( this ).children( 'a' ).addClass( 'anchor' );
+                
+                $( this ).unbind( 'click' ); // for refreshing 
+                $( this ).click( function( e ){
+                         
+                    e.preventDefault(); // Prevents jumping to the anchor which moves the scroll bar.
+                    
+                    // Remove the active tab and set the clicked tab to be active.
+                    $( this ).siblings( 'li.active' ).removeClass( 'active' );
+                    $( this ).addClass( 'active' );
+                    
+                    // Find the element id and select the content element with it.
+                    var sTabContentID = $( this ).find( 'a' ).attr( 'href' );
+                    var _oActiveContent = $( this ).parent().parent().find( sTabContentID ).css( 'display', 'block' ); 
+                    _oActiveContent.siblings( ':not( ul )' ).css( 'display', 'none' );
+                    
+                });
+            });
+        });
+                        
+    };
+}( jQuery ));
+JAVASCRIPTS;
+        
+    }
+    static private $_bLoadedTabEnablerScript = false;
+    static public function getEnabler() {
+        if (self::$_bLoadedTabEnablerScript) {
+            return '';
+        }
+        self::$_bLoadedTabEnablerScript = true;
+        new self;
+        $_sScript = <<<JAVASCRIPTS
+jQuery( document ).ready( function() {
+// the parent element of the ul tag; The ul element holds li tags of titles.
+jQuery( '.admin-page-framework-section-tabs-contents' ).createTabs(); 
+});            
+JAVASCRIPTS;
+        return "<script type='text/javascript' class='admin-page-framework-section-tabs-script'>" . $_sScript . "</script>";
+    }
+}
