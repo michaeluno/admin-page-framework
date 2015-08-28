@@ -298,10 +298,10 @@ modules:
     config:
         PhpBrowser:
             url: '$WP_URL'     
-        curl: 
-            CURLOPT_TIMEOUT: 3000 
-            CURLOPT_TIMEOUT_MS: 3000
-            CURLOPT_HTTP_VERSION: CURL_HTTP_VERSION_1_0
+        # curl: 
+            # CURLOPT_TIMEOUT: 3000 
+            # CURLOPT_TIMEOUT_MS: 3000
+            # CURLOPT_HTTP_VERSION: CURL_HTTP_VERSION_1_0
 coverage:
     # acceptance tests fail if this value is true
     enabled: false            

@@ -7,7 +7,10 @@ downloadCodeception() {
     # v2.1 - does not work...
     
     # v2.0.11
-    download "http://codeception.com/releases/2.0.11/codecept.phar" "$1"
+    # download "http://codeception.com/releases/2.0.11/codecept.phar" "$1"
+    
+    # v2.0.7 - needs 30000 cURL timeout @see https://github.com/Codeception/Codeception/issues/1984#issuecomment-113561925
+    download "http://codeception.com/releases/2.0.7/codecept.phar" "$1"
     
     # v1.8.7 - causes an error " Path for logs is not writable. Please, set appropriate access mode for log"
     # download "http://codeception.com/releases/1.8.7/codecept.phar" "$1"        
