@@ -108,6 +108,7 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top extends AdminPageFrameworkLoa
         }
             /**
              * Returns an HTML output from the given feed item array.
+             * @return      string
              */
             private function _getFeedListItem( array $aItem, array &$aColumnInfo, array $aColumnOption, $sSiteURLWOQuery='' ) {
                 
@@ -128,7 +129,7 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top extends AdminPageFrameworkLoa
                 ); 
                 
                 // Increment the position
-                $aColumnInfo['iCurrColPos']++;
+                $aColumnInfo[ 'iCurrColPos' ]++;
                 
                 // Making the target '_blank' causes the Feedburner redirect to fail so set no target.
                 // $_sLinkURLWOQuery   = preg_replace( '/\?.*/', '', $aItem['link'] );                
