@@ -77,10 +77,11 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Registers the given fields.
      * 
-     * @remark      $oHelpPane and $oHeadTab need to be set in the extended class.
+     * @remark      `$oHelpPane` and `$oHeadTab` need to be set in the extended class.
      * @remark      This method should be called after the `_loadFieldTypeDefinitions()` emthod.
      * @since       3.0.0
      * @internal
+     * @return      void
      */
     protected function _registerFields( array $aFields ) {
 
@@ -116,6 +117,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
          * @since       3.0.4
          * @since       3.5.0       Changed the scope to protected as the admin page factory class overrides it.
          * @internal
+         * @return      void
          */
         protected function _registerField( array $aField ) {
             
@@ -204,14 +206,14 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * 
      * @since       3.0.3
      * @internal
-     * @return      mixed If the error is not set, returns false; otherwise, the stored error array.
+     * @return      mixed           If the error is not set, returns false; otherwise, the stored error array.
      * @todo        Examine which class uses this method. It looks like this can be deprecated as there is the `hasFieldError()` method.
      */
     protected function _isValidationErrors() {
 
         if ( 
-            isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) 
-            && $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) 
+            isset( $GLOBALS['aAdminPageFramework'][ 'aFieldErrors' ] ) 
+            && $GLOBALS['aAdminPageFramework'][ 'aFieldErrors' ] ) 
         {
             return true;
         }
@@ -242,7 +244,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      */ 
     public function _replyToSaveFieldErrors() {
         
-        if ( ! isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ) { 
+        if ( ! isset( $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ] ) ) { 
             return; 
         }
 
@@ -311,7 +313,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Sorts dynamic elements.
      * @since       3.6.0
-     * @return      array
+     * @return      array       The sorted input array.
      */
     protected function _getSortedInputs( array $aInput ) {
         

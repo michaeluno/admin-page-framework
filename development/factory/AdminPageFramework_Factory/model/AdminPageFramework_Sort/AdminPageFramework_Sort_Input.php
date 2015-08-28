@@ -30,7 +30,7 @@ class AdminPageFramework_Sort_Input extends AdminPageFramework_Sort_Base {
             $this->aSortDimensionalKeys, 
         );
         $this->aInput               = $_aParameters[ 0 ];
-        $this->aSortDimensionalKeys = $_aParameters[ 1 ];
+        $this->aSortDimensionalKeys = array_unique( $_aParameters[ 1 ] );
         
     }
     
