@@ -62,10 +62,10 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top extends AdminPageFrameworkLoa
          * 
          * @since       3.5.0
          * @since       3.5.1       Removed the part that fetches a RSS feed.
+         * @return      string
          */
         private function _getList( array $aFeedItems ) {
 
-            // Local variables
             $_aOutput       = array();
             $_aColumnInfo   = array (    // this will be modified as the items get rendered
                 'bRowTagOpened'      => false,
@@ -84,28 +84,23 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top extends AdminPageFrameworkLoa
                 
             $_sSiteURLWOQuery   = preg_replace( '/\?.*/', '', get_bloginfo( 'url' ) );
             foreach( $aFeedItems as $_aItem ) {
-
-                if ( ! is_array( $_aItem ) ) {
-                    continue;
-                }            
                 $_aOutput[] = $this->_getFeedListItem( 
-                    $_aItem, 
+                    ( array ) $_aItem, 
                     $_aColumnInfo, 
                     $_aColumnOption, 
                     $_sSiteURLWOQuery 
                 );
-            
             }
             
             // If the section (row) tag is not closed, close it.
-            if ( $_aColumnInfo['bRowTagOpened'] && ! $_aColumnInfo['bRowTagClosed'] ) { 
-                $_aOutput[] .= '</div>';    
+            if ( $_aColumnInfo[ 'bRowTagOpened' ] && ! $_aColumnInfo[ 'bRowTagClosed' ] ) { 
+                $_aOutput[] = '</div>';    
             }
-            $_aColumnInfo['bRowTagClosed'] = true;
+            $_aColumnInfo[ 'bRowTagClosed' ] = true;
             
             // Enclose the output in the group tag
             return '<div class="apfl_addon_list_container">' 
-                    . '<div class="' . $_aColumnOption['sClassAttr'] . ' ' . $_aColumnOption['sClassAttrGroup'] . '">'
+                    . '<div class="' . $_aColumnOption[ 'sClassAttr' ] . ' ' . $_aColumnOption[ 'sClassAttrGroup' ] . '">'
                         . implode( '', $_aOutput )
                     . '</div>'
                 . '</div>';
@@ -117,7 +112,7 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top extends AdminPageFrameworkLoa
             private function _getFeedListItem( array $aItem, array &$aColumnInfo, array $aColumnOption, $sSiteURLWOQuery='' ) {
                 
                 // Initial checks
-                if ( ! isset( $aItem['title'] ) ) { 
+                if ( ! isset( $aItem[ 'title' ] ) ) { 
                     return ''; 
                 }
                 
