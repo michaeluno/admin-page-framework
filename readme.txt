@@ -35,7 +35,7 @@ easily create:
 - **Section Tabs** - form sections can be displayed in a tabbed box.
 - **Collapsible Sections** - form sections can be collapsed and expanded.
 - **Repeatable Sections and Fields** - dynamically add/remove form sections and fields.
-- **Sortable Fields** - drag and drop fields to change the order.
+- **Sortable Sections and Fields** - drag and drop form sections and fields to change the order.
 - **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading text files.
 - **Reset Button** - lets the user to initialize the saved options.
 - **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting form data can be verified. Furthermore, by setting the error array, you can display the error message to the user.
@@ -398,6 +398,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.6.0 =
 - Added the ability to sort sections with the `sortable` argument of a section definition array.
 - Added the `save` argument for the field definition.
+- Changed the directory structure of included files to shorten the overall file paths.
 - Changed the mechanism of the repeating and sorting fields.
  
 = 3.5.12 -2015/08/09 =
