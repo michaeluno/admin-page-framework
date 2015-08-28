@@ -4,13 +4,17 @@ downloadCodeception() {
     # The Latest Version
     # download "http://codeception.com/codecept.phar" "$1"        
     
-    # v2.1 - does not work...
+    # v2.1 - $I->click() does not work...
     
-    # v2.0.11
+    # v2.0.12 - Unable to set cURL timeouts in PHPBrowser. 
+    download "http://codeception.com/releases/2.0.12/codecept.phar" "$1"
+    
+    # v2.0.11 - Unable to set cURL timeouts in PHPBrowser.
     # download "http://codeception.com/releases/2.0.11/codecept.phar" "$1"
     
     # v2.0.7 - needs 30000 cURL timeout @see https://github.com/Codeception/Codeception/issues/1984#issuecomment-113561925
-    download "http://codeception.com/releases/2.0.7/codecept.phar" "$1"
+    # but this version does not load accurate urls in PHPBrowser.
+    # download "http://codeception.com/releases/2.0.7/codecept.phar" "$1"
     
     # v1.8.7 - causes an error " Path for logs is not writable. Please, set appropriate access mode for log"
     # download "http://codeception.com/releases/1.8.7/codecept.phar" "$1"        
