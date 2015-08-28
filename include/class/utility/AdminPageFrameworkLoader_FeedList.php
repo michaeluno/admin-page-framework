@@ -43,18 +43,18 @@ class AdminPageFrameworkLoader_FeedList {
     
     /**
      * 
+     * @return      array
      */
     public function get( $iItems=0 ) {
         
         $_aOutput   = array();
-        $asURLs     = empty( $asURLs ) ? $this->_aURLs : $asURLs;
-        $_aURLs     = is_array( $asURLs ) ? $asURLs : ( array ) $asURLs ;
+        $_aURLs     = $this->_aURLs;
         
         if ( empty( $_aURLs ) ) {
             return $_aOutput;
         }
                                  
-        $_oFeed = fetch_feed( $_aURLs );
+        $_oFeed     = fetch_feed( $_aURLs );
         foreach ( $_oFeed->get_items() as $_oItem ) {
             $_aOutput[ $_oItem->get_title() ] = array( 
                 'content'        => $_oItem->get_content(),
@@ -66,7 +66,7 @@ class AdminPageFrameworkLoader_FeedList {
             );
         }
 
-        if ( $iItems  ) {
+        if ( $iItems ) {
             array_splice( $_aOutput, $iItems );
         }
             
