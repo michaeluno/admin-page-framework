@@ -298,7 +298,7 @@ modules:
         PhpBrowser:
             url: '$WP_URL'     
         curl: 
-            CURLOPT_TIMEOUT: 180            
+            CURLOPT_TIMEOUT: 600            
 coverage:
     # acceptance tests fail if this value is true
     enabled: false            
