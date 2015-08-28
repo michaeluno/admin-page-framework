@@ -29,8 +29,10 @@ class AdminPageFrameworkLoader_FeedList {
     
     /**
      * Sets up properties.
+     * 
+     * @param       array|string        $asURLs     A url of string or urls of array.
      */
-    public function __construct( $asURLs=array() ) {
+    public function __construct( $asURLs ) {
         
         $this->_aURLs = is_array( $asURLs ) 
             ? $asURLs 
