@@ -27,8 +27,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
         if (!is_array($aSection)) {
             return;
         }
-        $this->_sTargetSectionTabSlug = isset($aSection['section_tab_slug']) ? $this->oUtil->sanitizeSlug($aSection['section_tab_slug']) : $this->_sTargetSectionTabSlug;
-        $aSection['section_tab_slug'] = $this->_sTargetSectionTabSlug ? $this->_sTargetSectionTabSlug : null;
+        $this->_sTargetSectionTabSlug = $this->oUtil->getElement($aSection, 'section_tab_slug', $this->_sTargetSectionTabSlug);
+        $aSection['section_tab_slug'] = $this->oUtil->getAOrB($this->_sTargetSectionTabSlug, $this->_sTargetSectionTabSlug, null);
         $this->oForm->addSection($aSection);
     }
     public function addSettingFields() {
@@ -59,7 +59,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
         }
         $_sID = md5(trim($sMessage));
         if ($bOverride || !isset($GLOBALS['aAdminPageFramework']['aNotices'][$_sID])) {
-            $_aAttributes = is_array($asAttributes) ? $asAttributes : array();
+            $_aAttributes = $this->oUtil->getAsArray($asAttributes);
             if (is_string($asAttributes) && !empty($asAttributes)) {
                 $_aAttributes['id'] = $asAttributes;
             }

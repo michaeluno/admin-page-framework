@@ -168,8 +168,8 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
             _sFieldNameModel // digit model
         );
         
-        // Update the hidden input elements that contain dynamic field names for nested elements.
-        nodeNewField.find( 'input[type=hidden].dynamic-element-names' ).incrementAttributes(
+        // Update the hidden input elements that contain field names for nested elements.
+        nodeNewField.find( 'input[type=hidden].element-address' ).incrementAttributes(
             [ 'name', 'value' ], // attribute names - this elements contains id values in the 'name' attribute.
             _iFieldCount,
             _sFieldAddressModel // digit model - this is

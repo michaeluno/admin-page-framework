@@ -90,13 +90,13 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
         return $_aOutputs;
     }
     private function _getDynamicElementFlagFieldInputTag(array $aSection) {
-        return $this->getHTMLTag('input', array('type' => 'hidden', 'name' => '__dynamic_elements_' . $aSection['_fields_type'] . '[' . $aSection['section_id'] . ']', 'class' => 'dynamic-element-names', 'value' => $aSection['section_id'],));
+        return $this->getHTMLTag('input', array('type' => 'hidden', 'name' => '__dynamic_elements_' . $aSection['_fields_type'] . '[' . $aSection['section_id'] . ']', 'class' => 'dynamic-element-names element-address', 'value' => $aSection['section_id'],));
     }
     private function _getUnsetFlagSectionInputTag(array $aSection) {
         if (false !== $aSection['save']) {
             return '';
         }
-        return $this->getHTMLTag('input', array('type' => 'hidden', 'name' => "__unset[{$aSection['section_id']}]", 'value' => "__dummy_option_key|" . $aSection['section_id'],));
+        return $this->getHTMLTag('input', array('type' => 'hidden', 'name' => '__unset_' . $aSection['_fields_type'] . '[' . $aSection['section_id'] . ']', 'value' => "__dummy_option_key|" . $aSection['section_id'], 'class' => 'unset-element-names element-address',));
     }
     private function _getSectionTableWithTabList(array $_aOutputs, array $_aSection, $_aFields, $hfSectionCallback, $hfFieldCallback) {
         $_aOutputs['section_tab_list'][] = $this->_getTabList($_aSection, $_aFields, $hfFieldCallback);

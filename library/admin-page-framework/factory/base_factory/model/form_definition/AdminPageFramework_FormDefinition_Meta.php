@@ -39,10 +39,12 @@ class AdminPageFramework_FormDefinition_Meta extends AdminPageFramework_FormDefi
         }
     }
     private function _getInputByUnset(array $aInput) {
-        if (!isset($_POST['__unset'])) {
+        $_sUnsetKey = '__unset_' . $this->sFieldsType;
+        if (!isset($_POST[$_sUnsetKey])) {
             return $aInput;
         }
-        foreach ($_POST['__unset'] as $_sFlatInputName) {
+        $_aUnsetElements = array_unique($_POST[$_sUnsetKey]);
+        foreach ($_aUnsetElements as $_sFlatInputName) {
             $_aDimensionalKeys = explode('|', $_sFlatInputName);
             if (!isset($_aDimensionalKeys[0])) {
                 continue;

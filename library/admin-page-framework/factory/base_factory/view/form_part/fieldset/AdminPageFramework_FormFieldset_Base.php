@@ -7,15 +7,19 @@ abstract class AdminPageFramework_FormFieldset_Base extends AdminPageFramework_W
     public $oMsg;
     public $aCallbacks = array();
     public function __construct(&$aField, $aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg, array $aCallbacks = array()) {
-        $aFieldTypeDefinition = isset($aFieldTypeDefinitions[$aField['type']]) ? $aFieldTypeDefinitions[$aField['type']] : $aFieldTypeDefinitions['default'];
-        $aFieldTypeDefinition['aDefaultKeys']['attributes'] = array('fieldrow' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldrow'], 'fieldset' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldset'], 'fields' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fields'], 'field' => $aFieldTypeDefinition['aDefaultKeys']['attributes']['field'],);
-        $this->aField = $this->uniteArrays($aField, $aFieldTypeDefinition['aDefaultKeys']);
+        $this->aField = $this->uniteArrays($aField, $this->_getFieldTypeDefaultArguments($aField['type'], $aFieldTypeDefinitions));
         $this->aFieldTypeDefinitions = $aFieldTypeDefinitions;
         $this->aOptions = $aOptions;
         $this->aErrors = $this->getAsArray($aErrors);
         $this->oMsg = $oMsg;
         $this->aCallbacks = $aCallbacks + array('hfID' => null, 'hfTagID' => null, 'hfName' => null, 'hfNameFlat' => null, 'hfInputName' => null, 'hfInputNameFlat' => null, 'hfClass' => null,);
         $this->_loadScripts($this->aField['_fields_type']);
+    }
+    private function _getFieldTypeDefaultArguments($sFieldType, $aFieldTypeDefinitions) {
+        $_aFieldTypeDefinition = $this->getElement($aFieldTypeDefinitions, $sFieldType, $aFieldTypeDefinitions['default']);
+        $_aDefaultKeys = $this->getAsArray($_aFieldTypeDefinition['aDefaultKeys']);
+        $_aDefaultKeys['attributes'] = array('fieldrow' => $_aDefaultKeys['attributes']['fieldrow'], 'fieldset' => $_aDefaultKeys['attributes']['fieldset'], 'fields' => $_aDefaultKeys['attributes']['fields'], 'field' => $_aDefaultKeys['attributes']['field'],);
+        return $_aDefaultKeys;
     }
     static private $_bIsLoadedSScripts = false;
     static private $_bIsLoadedSScripts_Widget = false;

@@ -35,7 +35,7 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
         if (false !== $aField['save']) {
             return '';
         }
-        return $this->getHTMLTag('input', array('type' => 'hidden', 'name' => "__unset[{$aField['input_id']}]", 'value' => $aField['_input_name_flat'],));
+        return $this->getHTMLTag('input', array('type' => 'hidden', 'name' => '__unset_' . $aField['_fields_type'] . '[' . $aField['_input_name_flat'] . ']', 'value' => $aField['_input_name_flat'], 'class' => 'unset-element-names element-address',));
     }
     private function _getFieldTypeDefinition($sFieldTypeSlug) {
         return $this->getElement($this->aFieldTypeDefinitions, $sFieldTypeSlug, $this->aFieldTypeDefinitions['default']);
@@ -60,7 +60,7 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
         if (!$aFieldset['sortable'] && !$aFieldset['repeatable']) {
             return '';
         }
-        return $this->getHTMLTag('input', array('type' => 'hidden', 'name' => '__dynamic_elements_' . $aFieldset['_fields_type'] . '[' . $aFieldset['_field_address'] . ']', 'class' => 'dynamic-element-names', 'value' => $aFieldset['_field_address'], 'data-field_address_model' => $aFieldset['_field_address_model'],));
+        return $this->getHTMLTag('input', array('type' => 'hidden', 'name' => '__dynamic_elements_' . $aFieldset['_fields_type'] . '[' . $aFieldset['_field_address'] . ']', 'class' => 'dynamic-element-names element-address', 'value' => $aFieldset['_field_address'], 'data-field_address_model' => $aFieldset['_field_address_model'],));
     }
     private function _getFieldScripts($aField, $iFieldsCount) {
         $_aOutput = array();
