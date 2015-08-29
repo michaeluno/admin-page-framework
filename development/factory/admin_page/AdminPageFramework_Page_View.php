@@ -601,7 +601,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                         
                         // Custom arguments to pass to the callback functions
                         'arguments' => array(
-                            'page_slug' => $sCurrentPageSlug,
+                            'page_slug'         => $sCurrentPageSlug,
                         ),                        
                     )
                 );            
@@ -625,11 +625,11 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                         ? $aTab[ 'parent_tab_slug' ] 
                         : $aTab[ 'tab_slug' ];
 
-                    // If it's hidden and its parent tab is not set, skip
-                    if ( ! $aTab[ 'show_in_page_tab' ] && ! isset( $aTab[ 'parent_tab_slug' ] ) ) {
+                    // If it's hidden, skip
+                    if ( ! $aTab[ 'show_in_page_tab' ] ) {
                         return array();
-                    }                        
-                        
+                    }
+                             
                     $aTab = array(
                         'slug'  => $_sSlug,
                         'title' => $aTabs[ $_sSlug ][ 'title' ],
@@ -653,7 +653,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                         array(
                             'attributes'    => array(
                                 // 3.5.7+ Added for acceptance tests 
-                                'data-tab-slug' => $_sSlug,                                                        
+                                'data-tab-slug' => $_sSlug,     
                             ),
                         ),
                         $aStructure
@@ -712,7 +712,8 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                         array( $sPageSlug, $sTabSlug, 'parent_tab_slug' ),
                         $sTabSlug
                     );
-                    return isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $_sParentTabSlug ]['show_in_page_tab'] ) && $this->oProp->aInPageTabs[ $sPageSlug ][ $_sParentTabSlug ]['show_in_page_tab']
+                    return isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $_sParentTabSlug ][ 'show_in_page_tab' ] )
+                            && $this->oProp->aInPageTabs[ $sPageSlug ][ $_sParentTabSlug ][ 'show_in_page_tab' ]
                         ? $_sParentTabSlug
                         : '';
 
