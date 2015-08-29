@@ -70,24 +70,11 @@ abstract class AdminPageFramework_FormFieldset_Base extends AdminPageFramework_W
      */
     public function __construct( &$aField, $aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg, array $aCallbacks=array() ) {
 
-        /* 1. Set up the properties that will be accessed later in the methods. */
-        $aFieldTypeDefinition = isset( $aFieldTypeDefinitions[ $aField['type'] ] ) 
-            ? $aFieldTypeDefinitions[ $aField['type'] ] 
-            : $aFieldTypeDefinitions['default'];
-        
-        /* 
-         * 1-1. Set up the 'attributes' array - the 'attributes' element is dealt separately as it contains some overlapping elements with the regular elements such as 'value'.
-         * There are required keys in the attributes array: 'fieldrow', 'fieldset', 'fields', and 'field'; these should not be removed here.
-         */
-        $aFieldTypeDefinition['aDefaultKeys']['attributes'] = array(    
-            'fieldrow'  => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldrow'],
-            'fieldset'  => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fieldset'],
-            'fields'    => $aFieldTypeDefinition['aDefaultKeys']['attributes']['fields'],
-            'field'     => $aFieldTypeDefinition['aDefaultKeys']['attributes']['field'],
-        );    
-        $this->aField = $this->uniteArrays( $aField, $aFieldTypeDefinition['aDefaultKeys'] );
-        
-        /* 1-2. Set the other properties */
+        // Set up the properties that will be accessed later in the methods.
+        $this->aField                   = $this->uniteArrays( 
+            $aField, 
+            $this->_getFieldTypeDefaultArguments( $aField[ 'type' ], $aFieldTypeDefinitions )
+        );
         $this->aFieldTypeDefinitions    = $aFieldTypeDefinitions;
         $this->aOptions                 = $aOptions;
         $this->aErrors                  = $this->getAsArray( $aErrors );
@@ -102,10 +89,41 @@ abstract class AdminPageFramework_FormFieldset_Base extends AdminPageFramework_W
             'hfClass'           => null,    // the class attribute
         );        
         
-        /* 2. Load necessary JavaScript scripts */
-        $this->_loadScripts( $this->aField['_fields_type'] );
+        // 2. Load necessary JavaScript scripts.
+        $this->_loadScripts( $this->aField[ '_fields_type' ] );
         
     }    
+        /**
+         * 
+         * @since       3.6.0
+         * @return      array
+         */
+        private function _getFieldTypeDefaultArguments( $sFieldType, $aFieldTypeDefinitions ) {
+                
+            // Extract the field type arguments from the field type definitions array.
+            $_aFieldTypeDefinition = $this->getElement(
+                $aFieldTypeDefinitions,
+                $sFieldType,
+                $aFieldTypeDefinitions[ 'default' ]
+            );
+            
+            $_aDefaultKeys = $this->getAsArray( $_aFieldTypeDefinition[ 'aDefaultKeys' ] );
+            
+            /* 
+             * Attributes - the 'attributes' element is dealt separately as it contains some overlapping elements with the regular elements such as 'value'.
+             * There are required keys in the attributes array: 'fieldrow', 'fieldset', 'fields', and 'field'; these should not be removed here.
+             */
+            $_aDefaultKeys[ 'attributes' ] = array(    
+                'fieldrow'  => $_aDefaultKeys[ 'attributes' ][ 'fieldrow' ],
+                'fieldset'  => $_aDefaultKeys[ 'attributes' ][ 'fieldset' ],
+                'fields'    => $_aDefaultKeys[ 'attributes' ][ 'fields' ],
+                'field'     => $_aDefaultKeys[ 'attributes' ][ 'field' ],
+            );                
+            
+            return $_aDefaultKeys;
+            
+        }    
+    
         /**
          * Flags whether scripts are loaded or not.
          * 
@@ -128,7 +146,9 @@ abstract class AdminPageFramework_FormFieldset_Base extends AdminPageFramework_W
                 self::$_bIsLoadedSScripts_Widget = true;
             }
             
-            if ( self::$_bIsLoadedSScripts ) { return; }
+            if ( self::$_bIsLoadedSScripts ) { 
+                return; 
+            }
             self::$_bIsLoadedSScripts = true;
             
             new AdminPageFramework_Script_Utility;
