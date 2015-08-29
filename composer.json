@@ -3,7 +3,7 @@
     "type": "library",
     "description": "A PHP class based framework which facilitates WordPress plugin and theme development.",
     "keywords": ["WordPress", "framework", "admin page", "form", "settings", "options", "plugin"],
-    "homepage": "https://admin-page-framework.michaeluno.jp",
+    "homepage": "http://admin-page-framework.michaeluno.jp/",
     "license": "GPL-2.0+",
     "require": {
         "php": ">=5.2.4"
