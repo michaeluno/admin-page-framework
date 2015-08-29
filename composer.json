@@ -1,0 +1,12 @@
+{
+    "name": "michaeluno/admin-page-framework",
+    "type": "library",
+    "description": "A PHP class based framework which facilitates WordPress plugin and theme development.",
+    "keywords": ["WordPress", "framework", "admin page", "form", "settings", "options", "plugin"],
+    "homepage": "http://admin-page-framework.michaeluno.jp/",
+    "license": "GPL-2.0+",
+    "require": {
+        "php": ">=5.2.4"
+    },
+    "minimum-stability": "dev"
+}
