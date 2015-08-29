@@ -62,17 +62,17 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
         );
      
     }
-    /** 
-     * Retrieves the input field HTML output.
-     * 
-     * @since       2.0.0
-     * @since       2.1.6       Moved the repeater script outside the fieldset tag.
-     * @return      string
-     * @deprecated  3.6.0       Use the `get()` method.
-     */ 
-    public function _getFieldOutput() {
-        return $this->get();
-    }
+        /** 
+         * Retrieves the input field HTML output.
+         * 
+         * @since       2.0.0
+         * @since       2.1.6       Moved the repeater script outside the fieldset tag.
+         * @return      string
+         * @deprecated  3.6.0       Use the `get()` method.
+         */ 
+        public function _getFieldOutput() {
+            return $this->get();
+        }
     
         /**
          * Returns the output of the given fieldset (main field and its sub-fields) array.
@@ -147,8 +147,9 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
                         'input',
                         array(
                             'type'  => 'hidden',
-                            'name'  => "__unset[{$aField[ 'input_id' ]}]",
+                            'name'  => '__unset_' . $aField[ '_fields_type' ] . '[' . $aField[ '_input_name_flat' ] . ']',
                             'value' => $aField[ '_input_name_flat' ],
+                            'class' => 'unset-element-names element-address',
                         )
                     );
                     
@@ -261,7 +262,7 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
                         array(
                             'type'                      => 'hidden',
                             'name'                      => '__dynamic_elements_' . $aFieldset[ '_fields_type' ] . '[' . $aFieldset[ '_field_address' ] . ']',
-                            'class'                     => 'dynamic-element-names',
+                            'class'                     => 'dynamic-element-names element-address',
                             'value'                     => $aFieldset[ '_field_address' ],
                             'data-field_address_model'  => $aFieldset[ '_field_address_model' ],
                         )

@@ -101,15 +101,18 @@ abstract class AdminPageFramework_Form_Model_Validation_Opiton extends AdminPage
          */
         private function _getInputByUnset( array $aInput ) {
             
-            if ( ! isset( $_POST[ '__unset' ] ) ) {
+            $_sUnsetKey = '__unset_' . $this->oProp->sFieldsType;
+            if ( ! isset( $_POST[ $_sUnsetKey ] ) ) {
                 return $aInput;
             }
             
-            foreach( $_POST[ '__unset' ] as $_sFlatInputName ) {
+            $_aUnsetElements = array_unique( $_POST[ $_sUnsetKey ] );
+            foreach( $_aUnsetElements as $_sFlatInputName ) {
                 $_aDimensionalKeys = explode( '|', $_sFlatInputName );
                 
                 // The first element is the option key; the section or field dimensional keys follow.
                 unset( $_aDimensionalKeys[ 0 ] );
+                
                 $this->oUtil->unsetDimensionalArrayElement( 
                     $aInput, 
                     $_aDimensionalKeys

@@ -163,7 +163,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
      * @remark      The target section tab slug will be reset once the method returns.
      * @param       array     the section definition array.
-     * <strong>Section Array</strong>
+     * <strong>Section Definition Array</strong>
      * <ul>
      *      <li>**section_id** - (string) the section ID. Avoid using non-alphabetic characters except underscore and numbers.</li>
      *      <li>**title** - (optional, string) the title of the section.</li>
@@ -205,6 +205,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *  );
      * </code></pre>
      *      </li>
+     *      <li>**sortable** - (optional, boolean) [3.6.0+] whether the section is sortable or not. In order for this option to be effective, the `repeatable` argument must be enabled.</li>
      * </ul>
      * @param       array       (optional) another section array.
      * @param       array       (optional)  add more section array to the next parameters as many as necessary.
@@ -235,10 +236,20 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      */
     public function addSettingSection( $aSection ) {
         
-        if ( ! is_array( $aSection ) ) { return; }
+        if ( ! is_array( $aSection ) ) { 
+            return; 
+        }
         
-        $this->_sTargetSectionTabSlug = isset( $aSection['section_tab_slug'] ) ? $this->oUtil->sanitizeSlug( $aSection['section_tab_slug'] ) : $this->_sTargetSectionTabSlug;    
-        $aSection['section_tab_slug'] = $this->_sTargetSectionTabSlug ?  $this->_sTargetSectionTabSlug : null;
+        $this->_sTargetSectionTabSlug = $this->oUtil->getElement(
+            $aSection,
+            'section_tab_slug',
+            $this->_sTargetSectionTabSlug
+        );
+        $aSection[ 'section_tab_slug' ] = $this->oUtil->getAOrB(
+            $this->_sTargetSectionTabSlug,
+            $this->_sTargetSectionTabSlug,
+            null
+        );
                 
         $this->oForm->addSection( $aSection );
             
@@ -316,6 +327,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *       </li>
     *       <li>**show_title_column** - [3.0.0+] (optional, boolean) If true, the field title column will be omitted from the output.</li>
     *       <li>**hidden** - [3.0.0+] (optional, boolean) If true, the entire field row output will be invisible with the inline style attribute of `style="display:none"`.</li>
+    *       <li>**save** - [3.6.0+] (optional, boolean) If `false`, the field value will not be saved. Default: `true`</li>
     * </ul>
     * 
     * <h4>Field Type Specific Arguments</h4>
@@ -649,9 +661,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
         // If the override options is true, or if the message is set,
         if ( $bOverride || ! isset( $GLOBALS['aAdminPageFramework']['aNotices'][ $_sID ] )  ) {     
             
-            $_aAttributes = is_array( $asAttributes ) ? $asAttributes : array();
+            $_aAttributes = $this->oUtil->getAsArray( $asAttributes );
             if ( is_string( $asAttributes ) && ! empty( $asAttributes ) ) {
-                $_aAttributes['id'] = $asAttributes;
+                $_aAttributes[ 'id' ] = $asAttributes;
             }
             $GLOBALS['aAdminPageFramework']['aNotices'][ $_sID ] = array(
                 'sMessage'      => $sMessage,

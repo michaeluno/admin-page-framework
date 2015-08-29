@@ -268,7 +268,7 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
                 iSectionsCount,
                 _sSectionIDModel
             );
-            $( oElement ).find( 'input:not(.dynamic-element-names),textarea,select' ).incrementAttribute( 
+            $( oElement ).find( 'input:not(.element-address),textarea,select' ).incrementAttribute( 
                 'name',
                 iSectionsCount,
                 _sSectionNameModel
@@ -282,7 +282,7 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
             );            
              
             // Update the hidden input elements that contain dynamic field names for nested elements.
-            $( oElement ).find( 'input[type=hidden].dynamic-element-names' ).incrementAttributes(
+            $( oElement ).find( 'input[type=hidden].element-address' ).incrementAttributes(
                 [ 'name', 'value', 'data-field_address_model' ], // attribute names - this elements contains id values in the 'name' attribute.
                 iSectionsCount,
                 _sSectionFlatNameModel // digit model - this is
