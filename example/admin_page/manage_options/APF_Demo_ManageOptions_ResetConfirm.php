@@ -58,7 +58,7 @@ class APF_Demo_ManageOptions_ResetConfirm {
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Confirmation', 'admin-page-framework-demo' ),
-                'description' => "<div class='settings-error error'>"
+                'description' => "<div class='settings-error error notice is-dismissible'>"
                         . "<p>"
                             . "<strong>"
                                 . "Are you sure you want to delete all the options?"
