@@ -120,7 +120,9 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
             
             $aInPageTab = $aInPageTab + self::$_aStructure_InPageTabElements;
             
-            $aInPageTab['order'] = is_null( $aInPageTab['order'] ) ? 10 : $aInPageTab['order'];
+            $aInPageTab['order'] = is_null( $aInPageTab['order'] ) 
+                ? 10 
+                : $aInPageTab['order'];
             
             return $aInPageTab;
             
