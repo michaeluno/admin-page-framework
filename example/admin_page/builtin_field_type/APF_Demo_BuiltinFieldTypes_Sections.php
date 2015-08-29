@@ -193,7 +193,7 @@ class APF_Demo_BuiltinFieldTypes_Sections {
                 'field_id'      => 'repeatable_field_in_repeatable_sections',
                 'title'         => __( 'Repeatable', 'admin-page-framework-demo' ),
                 'type'          => 'text',
-                'repeatable'    =>    true,
+                'repeatable'    => true,
             ),     
             array(
                 'field_id'      => 'color_in_repeatable_sections',
