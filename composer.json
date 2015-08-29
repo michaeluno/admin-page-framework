@@ -7,6 +7,5 @@
     "license": "GPL-2.0+",
     "require": {
         "php": ">=5.2.4"
-    },
-    "minimum-stability": "dev"
+    }
 }
