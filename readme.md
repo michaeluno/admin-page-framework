@@ -207,6 +207,32 @@ See more code examples in `Dashboard` -> `AdminPageFramework` -> `Help` -> `Exam
 12. [Create a Custom Post Type and Custom Taxonomy](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/12-create-a-custom-post-type-and-custom-taxonomy/)
 13. [Add a Meta Box to a Custom Post Type](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/13-add-a-meta-box-for-a-custom-post-type/)
 
+## Getting Framework Core Files ##
+In order to modify the framework files, you need to clone the repository files. 
+
+Simply clone the repository from the following address.
+
+ssh: `git@github.com:michaeluno/admin-page-framework.git`
+(https: `https://github.com/michaeluno/admin-page-framework.git`)
+
+With Composer, create a `composer.json` file with the following contents and perform `php composer.phar install`.
+
+`
+{
+    "require": {
+        "michaeluno/admin-page-framework": "dev-master"
+    }
+}
+`
+
+## Modifying Framework Core Files ##
+The core files are in the `development` directory. 
+
+1. Make sure the constant `WP_DEBUG` is set to `true` on your development site. If this is `false`, the loader plugin will load the complied files in the `library` directory.
+2. Modify core files and make sure your changes take effect. 
+3. If you add class files, make sure to run `run.sh` in `tool\inclusion_class_list` to generate inclusion file lists.
+4. After all the modifications are done, run `php-class-files-beautifier.sh` in `tool\beautifier` to compile the files.
+
 ## Bugs ##
 If you find an issue, let us know [here](https://github.com/michaeluno/admin-page-framework/issues)!
 
