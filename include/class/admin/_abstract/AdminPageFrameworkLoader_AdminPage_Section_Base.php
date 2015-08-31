@@ -58,7 +58,13 @@ abstract class AdminPageFrameworkLoader_AdminPage_Section_Base extends AdminPage
     
     private function _addSection( $oFactory, $sPageSlug, array $aSectionDefinition ) {
         
-        add_action( 'validation_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'validate' ), 10, 4 );
+        add_action( 
+            // 'validation_' . $this->sPageSlug . '_' . $this->sTabSlug, 
+            'validation_' . $oFactory->oProp->sClassName . '_' . $this->sSectionID,
+            array( $this, 'validate' ), 
+            10, 
+            4 
+        );
         
         $oFactory->addSettingSections(
             $sPageSlug,    // target page slug
@@ -84,6 +90,20 @@ abstract class AdminPageFrameworkLoader_AdminPage_Section_Base extends AdminPage
     /**
      * Called upon form validation.
      */
-    public function validate( $aSubmit, $aOldInput, $oFactory, $aSubmitInfo ) {}
+    public function validate( $aInput, $aOldInput, $oFactory, $aSubmitInfo ) {
+
+        $_bVerified = true;
+        $_aErrors   = array();
+                 
+        // An invalid value is found. Set a field error array and an admin notice and return the old values.
+        if ( ! $_bVerified ) {
+            $oFactory->setFieldErrors( $_aErrors );     
+            $oFactory->setSettingNotice( __( 'There was something wrong with your input.', 'admin-page-framework-loader' ) );
+            return $aOldInput;
+        }
+                
+        return $aInput;     
+        
+    }
  
 }

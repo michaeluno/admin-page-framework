@@ -157,11 +157,11 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         // the class prefix must not contain white spaces and some other characters not supported in PHP class names.
         preg_match( 
             '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/',     // pattern - allowed characters for variables in PHP.
-            $aInput[ $this->sSectionID ][ 'class_prefix' ],     // subject
+            $aInput[ 'class_prefix' ],     // subject
             $_aMatches 
         );
-        if ( $aInput[ $this->sSectionID ][ 'class_prefix' ] && empty( $_aMatches ) ) {
-            $_aErrors[ $this->sSectionID ]['class_prefix'] = __( 'The prefix must consist of alphanumeric with underscores.', 'admin-page-framework-loader' );
+        if ( $aInput[ 'class_prefix' ] && empty( $_aMatches ) ) {
+            $_aErrors['class_prefix'] = __( 'The prefix must consist of alphanumeric with underscores.', 'admin-page-framework-loader' );
             $_bVerified = false;
         }
                 
@@ -182,17 +182,17 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
          */
         private function _sanitizeFieldValues( array $aInput, $oAdminPage ) {
 
-            $aInput[ $this->sSectionID ][ 'class_prefix' ] = trim(
+            $aInput[ 'class_prefix' ] = trim(
                 $oAdminPage->oUtil->getElement(
                     $aInput,
-                    array( $this->sSectionID, 'class_prefix' ),
+                    'class_prefix',
                     ''
                 )
             );
-            $aInput[ $this->sSectionID ][ 'text_domain' ] = trim(
+            $aInput[ 'text_domain' ] = trim(
                 $oAdminPage->oUtil->getElement(
                     $aInput,
-                    array( $this->sSectionID, 'text_domain' ),
+                    'text_domain',
                     ''
                 )
             );

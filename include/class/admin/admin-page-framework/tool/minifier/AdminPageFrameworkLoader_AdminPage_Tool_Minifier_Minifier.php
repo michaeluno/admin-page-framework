@@ -19,8 +19,16 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
      */
     protected function construct( $oFactory ) {
         
-        add_action( "export_{$oFactory->oProp->sClassName}_{$this->sSectionID}_download", array( $this, 'replyToDownloadMinifiedVersion' ), 10, 4 );
-        add_action( 'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToFilterFileName' ), 10, 5 );
+        add_action( 
+            "export_{$oFactory->oProp->sClassName}_{$this->sSectionID}_download", 
+            array( $this, 'replyToDownloadMinifiedVersion' ), 
+            10, 
+            4 
+        );
+        add_action( 
+            'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug, 
+            array( $this, 'replyToFilterFileName' ), 10, 5 
+        );
         
     }
 
@@ -77,20 +85,23 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
     public function validate( $aInput, $aOldInput, $oAdminPage, $aSubmitInfo ) {
     
         $_bVerified = true;
-        $_aErrors = array();
+        $_aErrors   = array();
         
         // Sanitize the file name.
-        $aInput[ $this->sSectionID ][ 'minified_script_name' ] = $oAdminPage->oUtil->sanitizeFileName( $aInput[ $this->sSectionID ][ 'minified_script_name' ], '-' );
+        $aInput[ 'minified_script_name' ] = $oAdminPage->oUtil->sanitizeFileName( 
+            $aInput[ 'minified_script_name' ], 
+            '-' 
+        );
         
         // the class prefix must not contain white spaces and some other characters not supported in PHP class names.
-        $aInput[ $this->sSectionID ][ 'class_prefix' ] = isset( $aInput[ $this->sSectionID ][ 'class_prefix' ] )
-            ? trim( $aInput[ $this->sSectionID ][ 'class_prefix' ] )
+        $aInput[ 'class_prefix' ] = isset( $aInput[ 'class_prefix' ] )
+            ? trim( $aInput[ 'class_prefix' ] )
             : '';
-        preg_match( '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $aInput[ $this->sSectionID ][ 'class_prefix' ], $_aMatches );
-        if ( $aInput[ $this->sSectionID ][ 'class_prefix' ] && empty( $_aMatches ) ) {
+        preg_match( '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $aInput[ 'class_prefix' ], $_aMatches );
+        if ( $aInput[ 'class_prefix' ] && empty( $_aMatches ) ) {
       
             // $variable[ 'sectioni_id' ]['field_id']
-            $_aErrors[ $this->sSectionID ]['class_prefix'] = __( 'The prefix must consist of alphanumeric with underscores.', 'admin-page-framework-loader' );
+            $_aErrors['class_prefix'] = __( 'The prefix must consist of alphanumeric with underscores.', 'admin-page-framework-loader' );
             $_bVerified = false;
                     
         }
@@ -159,9 +170,12 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
      */
     public function replyToFilterFileName( $sFileName, $sFieldID, $sInputID, $vExportingData, $oAdminPage ) { 
 
-        return isset( $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ] ) && $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ]
-            ? $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ]
-            : $sFileName;      
+        return isset( 
+                $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ] 
+            ) 
+            && $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ]
+                ? $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ]
+                : $sFileName;      
 
     }       
     

@@ -34,6 +34,8 @@ abstract class AdminPageFrameworkLoader_AdminPage_Tab_Base extends AdminPageFram
     protected $aMethods = array(
         'replyToLoadTab',
         'replyToDoTab',
+        'replyToDoAfterTab',
+        'validate',
     );
 
     /**
@@ -43,7 +45,9 @@ abstract class AdminPageFrameworkLoader_AdminPage_Tab_Base extends AdminPageFram
         
         $this->oFactory     = $oFactory;
         $this->sPageSlug    = $sPageSlug;
-        $this->sTabSlug     = isset( $aTabDefinition['tab_slug'] ) ? $aTabDefinition['tab_slug'] : '';
+        $this->sTabSlug     = isset( $aTabDefinition['tab_slug'] ) 
+            ? $aTabDefinition['tab_slug'] 
+            : '';
         
         if ( ! $this->sTabSlug ) {
             return;
@@ -75,6 +79,16 @@ abstract class AdminPageFrameworkLoader_AdminPage_Tab_Base extends AdminPageFram
                 "do_{$this->sPageSlug}_{$this->sTabSlug}", 
                 array( $this, 'replyToDoTab' ) 
             );
+            add_action( 
+                "do_after_{$this->sPageSlug}_{$this->sTabSlug}", 
+                array( $this, 'replyToDoAfterTab' ) 
+            );      
+            add_filter(
+                "validation_{$this->sPageSlug}_{$this->sTabSlug}",
+                array( $this, 'validate' ),
+                10,
+                4
+            );                    
         }
         
     }
@@ -86,5 +100,11 @@ abstract class AdminPageFrameworkLoader_AdminPage_Tab_Base extends AdminPageFram
      */
     // public function replyToLoadTab( $oFactory ) {}
     // public function replyToDoTab( $oFactory ) {}
+    // public function replyToDoAfterTab( $oFactory ) {}
+        
+        
+    public function validate( $aInput, $aOldInput, $oFactory, $aSubmitInfo ) {
+        return $aInput;
+    }        
         
 }

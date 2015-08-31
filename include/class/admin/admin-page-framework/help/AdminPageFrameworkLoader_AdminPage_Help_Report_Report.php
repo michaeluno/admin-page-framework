@@ -161,28 +161,27 @@ class AdminPageFrameworkLoader_AdminPage_Help_Report_Report extends AdminPageFra
      * 
      * @since       3.5.4
      */
-    public function validate( $aInput, $aOldInput, $oFactory ) {
+    public function validate( $aInput, $aOldInput, $oFactory, $aSubmit ) {
     
        // Local variables
         $_bIsValid = true;
         $_aErrors  = array();
       
-        if ( ! $aInput[ $this->sSectionID ]['allow_sending_system_information'] ) {
+        if ( ! $aInput[ 'allow_sending_system_information' ] ) {
             $_bIsValid = false;
-            $_aErrors[ $this->sSectionID ]['allow_sending_system_information'] = __( 'We need necessary information to help you.', 'admin-page-framework-loader' );
+            $_aErrors[ 'allow_sending_system_information' ] = __( 'We need necessary information to help you.', 'admin-page-framework-loader' );
         }
         
         if ( ! $_bIsValid ) {
         
             $oFactory->setFieldErrors( $_aErrors );     
-            $oFactory->setSettingNotice( __( 'Please help us to help you.', 'admin-page-framework-loader' ) );        
+            $oFactory->setSettingNotice( __( 'Please help us to help you.', 'admin-page-framework-loader' ) );
             return $aOldInput;
             
         }     
      
         // Otherwise, process the data.
         return $aInput;        
-
         
     }    
   

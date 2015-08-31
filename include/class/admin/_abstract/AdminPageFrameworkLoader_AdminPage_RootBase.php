@@ -21,8 +21,10 @@ abstract class AdminPageFrameworkLoader_AdminPage_RootBase {
     protected $aMethods = array(
         'replyToLoadPage',
         'replyToDoPage',
+        'replyToDoAfterPage',
         'replyToLoadTab',
         'replyToDoTab',
+        'validate',        
     );
 
     /**
