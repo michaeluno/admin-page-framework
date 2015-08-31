@@ -244,7 +244,7 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
 
         $aSubMenuPage['screen_icon_id'] = trim( $aSubMenuPage['screen_icon_id'] );
         return array( 
-                'href_icon_32x32'   => $this->oUtil->resolveSRC( $aSubMenuPage['screen_icon'], true ),
+                'href_icon_32x32'   => $this->oUtil->getResolvedSRC( $aSubMenuPage['screen_icon'], true ),
                 'screen_icon_id'    => $this->oUtil->getAOrB(
                     in_array( $aSubMenuPage['screen_icon'], self::$_aScreenIconIDs ),
                     $aSubMenuPage['screen_icon'],

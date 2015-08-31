@@ -74,7 +74,7 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
             'sPageSlug'     => $_sSlug 
                 ? $_sSlug 
                 : $this->oProp->sClassName,
-            'sIcon16x16'    => $this->oUtil->resolveSRC( $sIcon16x16 ),
+            'sIcon16x16'    => $this->oUtil->getResolvedSRC( $sIcon16x16 ),
             'iPosition'     => $iMenuPosition,
             'fCreateRoot'   => empty( $_sSlug ),
         );    

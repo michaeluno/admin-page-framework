@@ -62,7 +62,7 @@ class AdminPageFramework_Resource_TaxonomyField extends AdminPageFramework_Resou
         
         $sSRC = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }        
-        $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+        $sSRC       = $this->oUtil->getResolvedSRC( $sSRC );
         
         // Setting the key based on the url prevents duplicate items
         $_sSRCHash  = md5( $sSRC ); 
@@ -124,7 +124,7 @@ class AdminPageFramework_Resource_TaxonomyField extends AdminPageFramework_Resou
         
         $sSRC       = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }
-        $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+        $sSRC       = $this->oUtil->getResolvedSRC( $sSRC );
         
         // Setting the key based on the url prevents duplicate items        
         $_sSRCHash  = md5( $sSRC ); 

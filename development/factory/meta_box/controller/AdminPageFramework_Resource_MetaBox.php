@@ -62,7 +62,7 @@ class AdminPageFramework_Resource_MetaBox extends AdminPageFramework_Resource_Ba
         
         $sSRC = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }
-        $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+        $sSRC       = $this->oUtil->getResolvedSRC( $sSRC );
 
         // Setting the key based on the url prevents duplicate items
         $_sSRCHash  = md5( $sSRC ); 
@@ -125,7 +125,7 @@ class AdminPageFramework_Resource_MetaBox extends AdminPageFramework_Resource_Ba
         
         $sSRC       = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }
-        $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+        $sSRC       = $this->oUtil->getResolvedSRC( $sSRC );
         
         // Setting the key based on the url prevents duplicate items
         $_sSRCHash  = md5( $sSRC ); 

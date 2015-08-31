@@ -54,7 +54,10 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
             ? network_admin_url( AdminPageFramework_WPUtility_Page::getPageNow() )
             : admin_url( AdminPageFramework_WPUtility_Page::getPageNow() );
         
-        $sSubjectURL = $sSubjectURL ? $sSubjectURL : add_query_arg( $_GET, $_sAdminURL );
+        $sSubjectURL = $sSubjectURL 
+            ? $sSubjectURL 
+            : add_query_arg( $_GET, $_sAdminURL );
+            
         return self::getQueryURL( $aAddingQueries, $aRemovingQueryKeys, $sSubjectURL );
         
     }
@@ -107,11 +110,15 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
      * 
      * @since       2.1.5
      * @since       2.1.6       Moved from the AdminPageFramework_Resource_Base class. Added the $bReturnNullIfNotExist parameter.
-     */
-    static public function resolveSRC( $sSRC, $bReturnNullIfNotExist=false ) {    
+     * @since       3.6.0       Changed the name from `resolveSRC()`.
+     * @return      string
+     */    
+    static public function getResolvedSRC( $sSRC, $bReturnNullIfNotExist=false ) {    
 
         if ( ! $sSRC ) {
-            return $bReturnNullIfNotExist ? null : $sSRC;
+            return $bReturnNullIfNotExist 
+                ? null 
+                : $sSRC;
         }
             
         // It is a url
@@ -132,5 +139,11 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
         return $sSRC;
         
     }    
+        /**
+         * @deprecated      3.6.0       Use `getResolvedSRC()` instead.
+         */
+        static public function resolveSRC( $sSRC, $bReturnNullIfNotExist=false ) {
+            return getResolvedSRC( $sSRC, $bReturnNullIfNotExist );
+        }    
     
 }

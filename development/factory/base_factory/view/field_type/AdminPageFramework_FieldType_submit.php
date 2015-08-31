@@ -101,7 +101,7 @@ CSSRULES;
                 : $this->oMsg->get( 'submit' );
             
             if ( isset( $aField['attributes']['src'] ) ) {
-                $aField['attributes']['src'] = $this->resolveSRC( $aField['attributes']['src'] );
+                $aField['attributes']['src'] = $this->getResolvedSRC( $aField['attributes']['src'] );
             }            
             return $aField;
             

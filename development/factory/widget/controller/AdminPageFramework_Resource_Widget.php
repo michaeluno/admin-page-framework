@@ -52,11 +52,13 @@ class AdminPageFramework_Resource_Widget extends AdminPageFramework_Resource_Bas
         
         $sSRC = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }
-        $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+        $sSRC       = $this->oUtil->getResolvedSRC( $sSRC );
         
         // Setting the key based on the url prevents duplicate items
         $_sSRCHash  = md5( $sSRC ); 
-        if ( isset( $this->oProp->aEnqueuingStyles[ $_sSRCHash ] ) ) { return ''; } 
+        if ( isset( $this->oProp->aEnqueuingStyles[ $_sSRCHash ] ) ) { 
+            return ''; 
+        } 
         
         $this->oProp->aEnqueuingStyles[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
@@ -104,7 +106,7 @@ class AdminPageFramework_Resource_Widget extends AdminPageFramework_Resource_Bas
         
         $sSRC       = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }
-        $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+        $sSRC       = $this->oUtil->getResolvedSRC( $sSRC );
         
         // Setting the key based on the url prevents duplicate items
         $_sSRCHash  = md5( $sSRC ); 

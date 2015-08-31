@@ -695,7 +695,7 @@ CSSRULES;
 
             if ( ! $aField['show_preview'] ) { return ''; }
             
-            $sImageURL = $this->resolveSRC( $sImageURL, true );
+            $sImageURL = $this->getResolvedSRC( $sImageURL, true );
             return 
                 "<div " . $this->generateAttributes( 
                         array(

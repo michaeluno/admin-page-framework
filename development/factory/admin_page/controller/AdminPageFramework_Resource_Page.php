@@ -230,7 +230,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
             
             $sSRC       = trim( $sSRC );
             if ( empty( $sSRC ) ) { return ''; }
-            $sSRC       = $this->oUtil->resolveSRC( $sSRC );
+            $sSRC       = $this->oUtil->getResolvedSRC( $sSRC );
 
             // Get the property name for the type
             $_sContainerPropertyName     = $this->_getContainerPropertyNameByType( $sType );
