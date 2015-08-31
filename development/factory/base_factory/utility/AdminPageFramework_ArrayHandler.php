@@ -24,15 +24,22 @@ class AdminPageFramework_ArrayHandler extends AdminPageFramework_WPUtility {
     public $aData            = array();
     
     /**
+     * Stores the defaulte values.
+     */
+    public $aDefault         = array();
+    
+    /**
      * Sets up properties.
      * @since       3.6.0
      */
-    public function __construct( /* array $aData */ ) {
+    public function __construct( /* array $aData, array $aDefault */ ) {
         
         $_aParameters = func_get_args() + array( 
-            $this->aData, 
+            $this->aData,
+            $this->aDefault,
         );
-        $this->aData = $_aParameters[ 0 ];
+        $this->aData    = $_aParameters[ 0 ];
+        $this->aDefault = $_aParameters[ 1 ];
         
     }
     
@@ -45,23 +52,43 @@ class AdminPageFramework_ArrayHandler extends AdminPageFramework_WPUtility {
         
         $_mDefault  = null;
         $_aKeys     = func_get_args() + array( null );
+        
+        // If no key is specified, return the whole array.
         if ( ! isset( $_aKeys[ 0 ] ) ) {
-            return $this->aData;
+            return $this->uniteArrays(
+                $this->aData,
+                $this->aDefault
+            );
         }
+        
+        // If the first parameter is a dimensional array, the second parameter is the default value.
         if ( is_array( $_aKeys[ 0 ] ) ) {
-            $_aKeys     =  $_aKeys[ 0 ];
-            $_mDefault  = isset( $_aKeys[ 1 ] )
-                ? $_aKeys[ 1 ]
-                : null;
+            $_aKeys     = $_aKeys[ 0 ];
+            $_mDefault  = $this->getElement( $_aKeys, 1 );
         }
+        
         // Now either the section ID or field ID is given. 
         return $this->getArrayValueByArrayKeys( 
-            $this->aData, 
-            $_aKeys,
-            $_mDefault
+            $this->aData,   // subject array
+            $_aKeys,        // dimensional keys
+            $this->getDefaultValue( // default value
+                $_mDefault, 
+                $_aKeys 
+            )
         );
         
     }
+        /**
+         * @since       3.6.0
+         */
+        private function _getDefaultValue( $_mDefault, $_aKeys ) {
+            return isset( $_mDefault )
+                ? $_mDefault
+                : $this->getArrayValueByArrayKeys( 
+                    $this->aDefault,
+                    $_aKeys
+                );
+        }
     
     /**
      * Sets an value by specified dimensional keys.
