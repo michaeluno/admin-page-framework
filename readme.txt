@@ -398,6 +398,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.6.0 =
 - Added the ability to sort sections with the `sortable` argument of a section definition array.
 - Added the `save` argument for the field definition.
+- Fixed an issue that the `file` fields could not trigger the section validation callback when there are no other field types in the section.
 - Fixed a bug that an in-page tab that the `parent_tab_slug` is set and `show_in_page_tab` is `false` was displayed, introduced in 3.5.10.
 - Fixed the `setPageHeadingTabTag()` method did not property set the tag.
 - Changed the directory structure of included files to shorten the overall file paths.

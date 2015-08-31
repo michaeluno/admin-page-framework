@@ -65,7 +65,30 @@ class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_tex
      * @since       3.3.1     Changed from `_replyToGetField()`.
      */
     protected function getField( $aField ) {
-        return parent::getField( $aField );
+            
+        return parent::getField( $aField )
+        
+            // hidden inputs that triggers a validation callback as the framework will not trigger a section validation callback 
+            // when the submit input array does not contains the element. So this will insert a dummy element to the input array.
+            // The unset flag will help remove the dummy element after the validation callbacks are processed.
+            . $this->getHTMLTag( 
+                'input',
+                array(
+                    'type'  => 'hidden',
+                    'value' => '',
+                    'name'  => $aField[ 'attributes' ][ 'name' ] . '[_dummy_value]',
+                )
+            )            
+            . $this->getHTMLTag( 
+                'input',
+                array(
+                    'type'  => 'hidden',
+                    'name'  => '__unset_' . $aField[ '_fields_type' ] . '[' . $aField[ '_input_name_flat' ] . '|_dummy_value' . ']',
+                    'value' => $aField[ '_input_name_flat' ] . '|_dummy_value',
+                    'class' => 'unset-element-names element-address',
+                )
+            );
+            
     }    
 
 }
