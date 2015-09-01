@@ -55,29 +55,29 @@ class APF_Demo_ManageOptions_Import {
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Import Data', 'admin-page-framework-demo' ),
+                'title'         => __( 'Import Data', 'admin-page-framework-loader' ),
             )
         );     
         $oAdminPage->addSettingFields(     
             $this->sSectionID,
             array(
                 'field_id'      => 'import_format_type',     
-                'title'         => __( 'Import Format Type', 'admin-page-framework-demo' ),
+                'title'         => __( 'Import Format Type', 'admin-page-framework-loader' ),
                 'type'          => 'radio',
-                'description'   => __( 'The text format type will not set the option values properly. However, you can see that the text contents are directly saved in the database.', 'admin-page-framework-demo' ),
+                'description'   => __( 'The text format type will not set the option values properly. However, you can see that the text contents are directly saved in the database.', 'admin-page-framework-loader' ),
                 'label'         => array( 
-                    'json'  => __( 'JSON', 'admin-page-framework-demo' ),
-                    'array' => __( 'Serialized Array', 'admin-page-framework-demo' ),
-                    'text'  => __( 'Text', 'admin-page-framework-demo' ),
+                    'json'  => __( 'JSON', 'admin-page-framework-loader' ),
+                    'array' => __( 'Serialized Array', 'admin-page-framework-loader' ),
+                    'text'  => __( 'Text', 'admin-page-framework-loader' ),
                 ),
                 'default'       => 'json',
             ),
             array( // Single Import Button
                 'field_id'      => 'import_single',
-                'title'         => __( 'Single Import Field', 'admin-page-framework-demo' ),
+                'title'         => __( 'Single Import Field', 'admin-page-framework-loader' ),
                 'type'          => 'import',
-                'description'   => __( 'Upload the saved option data.', 'admin-page-framework-demo' ),
-                'label'         => __( 'Import Options', 'admin-page-framework-demo' ),
+                'description'   => __( 'Upload the saved option data.', 'admin-page-framework-loader' ),
+                'label'         => __( 'Import Options', 'admin-page-framework-loader' ),
             )
         );             
         
@@ -110,13 +110,13 @@ class APF_Demo_ManageOptions_Import {
 
         if ( 'text' === $sImportFormat ) {
             $this->oFactory->setSettingNotice( 
-                __( 'The text import type is not supported.', 'admin-page-framework-demo' )
+                __( 'The text import type is not supported.', 'admin-page-framework-loader' )
             );
             return $aOldOptions;
         }
         
         $this->oFactory->setSettingNotice( 
-            __( 'Importing options were validated.', 'admin-page-framework-demo' ), 
+            __( 'Importing options were validated.', 'admin-page-framework-loader' ), 
             'updated' 
         );
         return $vData;

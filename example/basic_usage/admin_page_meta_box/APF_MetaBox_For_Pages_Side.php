@@ -23,12 +23,12 @@ class APF_MetaBox_For_Pages_Side extends AdminPageFramework_MetaBox_Page {
             array (
                 'field_id' => 'color_field',
                 'type' => 'color',
-                'title' => __( 'Color', 'admin-page-framework-demo' ),
+                'title' => __( 'Color', 'admin-page-framework-loader' ),
             ),
             array (
                 'field_id' => 'size_field',
                 'type' => 'size',
-                'title' => __( 'Size', 'admin-page-framework-demo' ),
+                'title' => __( 'Size', 'admin-page-framework-loader' ),
                 'default' => array( 'size' => 5, 'unit' => '%' ),
             ),
             array(
@@ -49,7 +49,7 @@ class APF_MetaBox_For_Pages_Side extends AdminPageFramework_MetaBox_Page {
     
     public function do_APF_MetaBox_For_Pages_Side() { // do_{instantiated class name}
         ?>
-            <p><?php _e( 'This is a side meta box. This is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-demo' ) ?></p>
+            <p><?php _e( 'This is a side meta box. This is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-loader' ) ?></p>
         <?php
         
     }

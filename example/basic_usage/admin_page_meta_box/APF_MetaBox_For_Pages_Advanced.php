@@ -23,26 +23,26 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_MetaBox_Page {
             array(
                 'field_id'      => 'checkbox_field',
                 'type'          => 'checkbox',
-                'title'         => __( 'Checkbox Input', 'admin-page-framework-demo' ),
-                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
-                'label'         => __( 'This is a check box.', 'admin-page-framework-demo' ),
+                'title'         => __( 'Checkbox Input', 'admin-page-framework-loader' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
+                'label'         => __( 'This is a check box.', 'admin-page-framework-loader' ),
             ),
             array(
                 'field_id'      => 'select_filed',
                 'type'          => 'select',
-                'title'         => __( 'Select Box', 'admin-page-framework-demo' ),
-                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'title'         => __( 'Select Box', 'admin-page-framework-loader' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
                 'label'         => array( 
-                    'one'   => __( 'One', 'admin-page-framework-demo' ),
-                    'two'   => __( 'Two', 'admin-page-framework-demo' ),
-                    'three' => __( 'Three', 'admin-page-framework-demo' ),
+                    'one'   => __( 'One', 'admin-page-framework-loader' ),
+                    'two'   => __( 'Two', 'admin-page-framework-loader' ),
+                    'three' => __( 'Three', 'admin-page-framework-loader' ),
                 ),
                 'default'       => 'one', // 0 means the first item
             ),     
             array(
                 'field_id'      => 'multiple_select_filed',
                 'type'          => 'select',
-                'title'         => __( 'Multiple Select Options', 'admin-page-framework-demo' ),
+                'title'         => __( 'Multiple Select Options', 'admin-page-framework-loader' ),
                 'label'         => array( 
                     'a'     => 'Apple',
                     'b'     => 'Banana',
@@ -60,24 +60,24 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_MetaBox_Page {
             array (
                 'field_id'      => 'radio_field',
                 'type'          => 'radio',
-                'title'         => __( 'Radio Group', 'admin-page-framework-demo' ),
-                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'title'         => __( 'Radio Group', 'admin-page-framework-loader' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
                 'label'         => array( 
-                    'one'   => __( 'Option One', 'admin-page-framework-demo' ),
-                    'two'   => __( 'Option Two', 'admin-page-framework-demo' ),
-                    'three' => __( 'Option Three', 'admin-page-framework-demo' ),
+                    'one'   => __( 'Option One', 'admin-page-framework-loader' ),
+                    'two'   => __( 'Option Two', 'admin-page-framework-loader' ),
+                    'three' => __( 'Option Three', 'admin-page-framework-loader' ),
                 ),
                 'default'       => 'one',
             ),
             array (
                 'field_id'      => 'checkbox_group_field',
                 'type'          => 'checkbox',
-                'title'         => __( 'Checkbox Group', 'admin-page-framework-demo' ),
-                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'title'         => __( 'Checkbox Group', 'admin-page-framework-loader' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
                 'label'         => array( 
-                    'one'   => __( 'Option One', 'admin-page-framework-demo' ),
-                    'two'   => __( 'Option Two', 'admin-page-framework-demo' ),
-                    'three' => __( 'Option Three', 'admin-page-framework-demo' ),
+                    'one'   => __( 'Option One', 'admin-page-framework-loader' ),
+                    'two'   => __( 'Option Two', 'admin-page-framework-loader' ),
+                    'three' => __( 'Option Three', 'admin-page-framework-loader' ),
                 ),
                 'default' => array(
                     'one'   => true,
@@ -88,8 +88,8 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_MetaBox_Page {
             array (
                 'field_id'      => 'image_field',
                 'type'          => 'image',
-                'title'         => __( 'Image', 'admin-page-framework-demo' ),
-                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'title'         => __( 'Image', 'admin-page-framework-loader' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
                 'attributes'    => array(
                     'style' => 'max-width:300px;',
                 ),                
@@ -100,7 +100,7 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_MetaBox_Page {
     
     public function do_APF_MetaBox_For_Pages_Advanced() { // do_{instantiated class name}
         ?>
-            <p><?php _e( 'This meta box is placed with the <code>advanced</code> context and this text is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-demo' ) ?></p>
+            <p><?php _e( 'This meta box is placed with the <code>advanced</code> context and this text is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-loader' ) ?></p>
         <?php
         
     }

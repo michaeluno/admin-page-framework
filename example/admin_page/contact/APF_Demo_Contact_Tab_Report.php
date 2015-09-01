@@ -33,7 +33,7 @@ class APF_Demo_Contact_Tab_Report {
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Report', 'admin-page-framework-demo' ),
+                'title'         => __( 'Report', 'admin-page-framework-loader' ),
             )
         );  
         
@@ -57,8 +57,8 @@ class APF_Demo_Contact_Tab_Report {
             array(
                 'section_id'    => $this->sSectionID,       // avoid hyphen(dash), dots, and white spaces
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Report Issues', 'admin-page-framework-demo' ),
-                'description'   => __( 'If you find a bug, you can report it from here.', 'admin-page-framework-demo' ),
+                'title'         => __( 'Report Issues', 'admin-page-framework-loader' ),
+                'description'   => __( 'If you find a bug, you can report it from here.', 'admin-page-framework-loader' ),
             )            
         );        
 
@@ -68,7 +68,7 @@ class APF_Demo_Contact_Tab_Report {
             'report',
             array( 
                 'field_id'          => 'name',
-                'title'             => __( 'Your Name', 'admin-page-framework-demo' ),
+                'title'             => __( 'Your Name', 'admin-page-framework-loader' ),
                 'type'              => 'text',
                 'default'           => $_oCurrentUser->user_firstname || $_oCurrentUser->user_firstname 
                     ? $_oCurrentUser->user_lastname . ' ' .  $_oCurrentUser->user_lastname 
@@ -80,35 +80,35 @@ class APF_Demo_Contact_Tab_Report {
             ),    
             array( 
                 'field_id'          => 'from',
-                'title'             => __( 'Your Email Address', 'admin-page-framework-demo' ),
+                'title'             => __( 'Your Email Address', 'admin-page-framework-loader' ),
                 'type'              => 'text',
                 'default'           => $_oCurrentUser->user_email,
                 'attributes'        => array(
                     'required'      => 'required',
-                    'placeholder'   =>  __( 'Type your email that the developer replies backt to.', 'admin-page-framework-demo' )
+                    'placeholder'   =>  __( 'Type your email that the developer replies backt to.', 'admin-page-framework-loader' )
                 ),
             ),                
             array( 
                 'field_id'          => 'expected_result',
-                'title'             => __( 'Expected Behavior', 'admin-page-framework-demo' ),
+                'title'             => __( 'Expected Behavior', 'admin-page-framework-loader' ),
                 'type'              => 'textarea',
-                'description'       => __( 'Tell how the framework should work.', 'admin-page-framework-demo' ),
+                'description'       => __( 'Tell how the framework should work.', 'admin-page-framework-loader' ),
                 'attributes'        => array(
                     'required'  => 'required',
                 ),
             ),  
             array( 
                 'field_id'          => 'actual_result',
-                'title'             => __( 'Actual Behavior', 'admin-page-framework-demo' ),
+                'title'             => __( 'Actual Behavior', 'admin-page-framework-loader' ),
                 'type'              => 'textarea',
-                'description'      => __( 'Describe the behavior of the framework.', 'admin-page-framework-demo' ),
+                'description'      => __( 'Describe the behavior of the framework.', 'admin-page-framework-loader' ),
                 'attributes'        => array(
                     'required'  => 'required',
                 ),                
             ),    
             array(
                 'field_id'          => 'attachments',
-                'title'             => __( 'Screenshots', 'admin-page-framework-demo' ),
+                'title'             => __( 'Screenshots', 'admin-page-framework-loader' ),
                 'type'              => 'image',
                 'repeatable'        => true,
                 'attributes'        => array(
@@ -121,9 +121,9 @@ class APF_Demo_Contact_Tab_Report {
             array(
                 'field_id'      => 'system_information',
                 'type'          => 'system',     
-                'title'         => __( 'System Information', 'admin-page-framework-demo' ),
+                'title'         => __( 'System Information', 'admin-page-framework-loader' ),
                 'data'          => array(
-                    __( 'Custom Data', 'admin-page-framework-demo' )    => __( 'This is custom data inserted with the data argument.', 'admin-page-framework-demo' ),
+                    __( 'Custom Data', 'admin-page-framework-loader' )    => __( 'This is custom data inserted with the data argument.', 'admin-page-framework-loader' ),
                     __( 'Current Time', 'admin-page-framework' )        => '', // Removes the Current Time Section.
                 ),
                 'attributes'    => array(
@@ -133,7 +133,7 @@ class APF_Demo_Contact_Tab_Report {
             array(
                 'field_id'      => 'saved_options',
                 'type'          => 'system',     
-                'title'         => __( 'Saved Options', 'admin-page-framework-demo' ),
+                'title'         => __( 'Saved Options', 'admin-page-framework-loader' ),
                 'data'          => array(
                     // Removes the default data by passing an empty value below.
                     'WordPress'             => '',
@@ -153,10 +153,10 @@ class APF_Demo_Contact_Tab_Report {
             ),     
             array(
                 'field_id'          => 'allow_sending_system_information',
-                'title'             => __( 'Confirmation', 'admin-page-framework-demo' ) 
-                    . ' (' . __( 'required', 'admin-page-framework-demo' ) . ')',
+                'title'             => __( 'Confirmation', 'admin-page-framework-loader' ) 
+                    . ' (' . __( 'required', 'admin-page-framework-loader' ) . ')',
                 'type'              => 'checkbox',
-                'label'             => __( 'I understand that the system information including a PHP version and WordPress version etc. will be sent along with the messages to help developer trouble-shoot the problem.', 'admin-page-framework-demo' ),
+                'label'             => __( 'I understand that the system information including a PHP version and WordPress version etc. will be sent along with the messages to help developer trouble-shoot the problem.', 'admin-page-framework-loader' ),
                 'attributes'        => array(
                     'required'  => 'required',
                 ),  

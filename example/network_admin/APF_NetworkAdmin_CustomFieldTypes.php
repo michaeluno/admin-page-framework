@@ -29,7 +29,7 @@ class APF_NetworkAdmin_CustomFieldTypes extends AdminPageFramework_NetworkAdmin 
         /* ( required ) Add sub-menu items (pages or links) */
         $this->addSubMenuItems(    
             array(
-                'title' => __( 'Custom Field Types', 'admin-page-framework-demo' ),
+                'title' => __( 'Custom Field Types', 'admin-page-framework-loader' ),
                 'page_slug' => 'apf_custom_field_types',
                 'screen_icon' => 'options-general',
             )

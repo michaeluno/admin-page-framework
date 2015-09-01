@@ -23,24 +23,24 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
             array(
                 'field_id'      => 'text_field',
                 'type'          => 'text',
-                'title'         => __( 'Text Input', 'admin-page-framework-demo' ),
-                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
+                'title'         => __( 'Text Input', 'admin-page-framework-loader' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
                 'help'          => 'This is help text.',
                 'help_aside'    => 'This is additional help text which goes to the side bar of the help pane.',
             ),
             array(
                 'field_id'      => 'text_field_repeatable',
                 'type'          => 'text',
-                'title'         => __( 'Text Repeatable', 'admin-page-framework-demo' ),
+                'title'         => __( 'Text Repeatable', 'admin-page-framework-loader' ),
                 'repeatable'    => true
             ),     
             array(
                 'field_id'      => 'textarea_field',
                 'type'          => 'textarea',
-                'title'         => __( 'Text Area', 'admin-page-framework-demo' ),
-                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
-                'help'          => __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-demo' ),
-                'default'       => __( 'This is a default text value.', 'admin-page-framework-demo' ),
+                'title'         => __( 'Text Area', 'admin-page-framework-loader' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
+                'help'          => __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-loader' ),
+                'default'       => __( 'This is a default text value.', 'admin-page-framework-loader' ),
                 'attributes'    => array(
                     'cols' => 40,     
                 ),
@@ -48,7 +48,7 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
             array(
                 'field_id'      => 'image_upload',
                 'type'          => 'image',
-                'title'         => __( 'Image Upload', 'admin-page-framework-demo' ),
+                'title'         => __( 'Image Upload', 'admin-page-framework-loader' ),
             )
         );     
     
@@ -74,8 +74,8 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
         unset( $aColumn['description'] );
         return array( 
                 'cb' => $aColumn['cb'],
-                'thumbnail' => __( 'Thumbnail', 'admin-page-framework-demo' ),
-                'custom' => __( 'Custom Column', 'admin-page-framework-demo' ),
+                'thumbnail' => __( 'Thumbnail', 'admin-page-framework-loader' ),
+                'custom' => __( 'Custom Column', 'admin-page-framework-loader' ),
             ) 
             + $aColumn;
         
@@ -107,7 +107,7 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
      */
     public function do_APF_TaxonomyField() { // do_{instantiated class name}
         ?>
-            <p><?php _e( 'This text is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-demo' ) ?></p>
+            <p><?php _e( 'This text is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-loader' ) ?></p>
         <?php     
     }
 

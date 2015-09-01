@@ -22,7 +22,7 @@ class APF_MetaBox_RepeatableCollapsibleSections extends AdminPageFramework_MetaB
         $this->addSettingSections(
             array(
                 'section_id'        => 'repeatable_collapsible_section',
-                'title'             => __( 'Repeatable Collapsible Section', 'admin-page-framework-demo' ),
+                'title'             => __( 'Repeatable Collapsible Section', 'admin-page-framework-loader' ),
                 'collapsible'       => array(
                     'toggle_all_button'    => array( 'top-right', 'bottom-right' ),
                     'container'            => 'section',   // either 'sections' or 'section'. For repeatable collapsible sections, use 'section'.
@@ -39,12 +39,12 @@ class APF_MetaBox_RepeatableCollapsibleSections extends AdminPageFramework_MetaB
             'repeatable_collapsible_section',
             array(
                 'field_id'      => 'section_title_field_of_repeatable_collapsible_sections',
-                'label'         => __( 'Section Name', 'admin-page-framework-demo' ),
+                'label'         => __( 'Section Name', 'admin-page-framework-loader' ),
                 'type'          => 'section_title',
             ),
             array(
                 'field_id'      => 'color_field_of_repeatable_collapsible_sections',
-                'title'         => __( 'Repeatable & Sortable', 'admin-page-framework-demo' ),
+                'title'         => __( 'Repeatable & Sortable', 'admin-page-framework-loader' ),
                 'type'          => 'color',
                 'repeatable'    => true,
                 'sortable'      => true,
@@ -59,7 +59,7 @@ class APF_MetaBox_RepeatableCollapsibleSections extends AdminPageFramework_MetaB
     public function do_APF_MetaBox_RepeatableCollapsibleSections() {
         
         echo "<p>" 
-                . __( 'This section is repeatable and collapsible.', 'admin-page-framework-demo' ) 
+                . __( 'This section is repeatable and collapsible.', 'admin-page-framework-loader' ) 
             . "</p>";
         
     }

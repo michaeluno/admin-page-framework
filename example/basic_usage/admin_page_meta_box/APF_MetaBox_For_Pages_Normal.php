@@ -20,8 +20,8 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
          * ( optional ) Adds a contextual help pane at the top right of the page that the meta box resides.
          */
         $this->addHelpText( 
-            __( 'This text will appear in the contextual help pane.', 'admin-page-framework-demo' ), 
-            __( 'This description goes to the sidebar of the help pane.', 'admin-page-framework-demo' )
+            __( 'This text will appear in the contextual help pane.', 'admin-page-framework-loader' ), 
+            __( 'This description goes to the sidebar of the help pane.', 'admin-page-framework-loader' )
         );    
     
         /*
@@ -31,24 +31,24 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
             array(
                 'field_id'      => 'metabox_text_field',
                 'type'          => 'text',
-                'title'         => __( 'Text Input', 'admin-page-framework-demo' ),
-                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
-                'help'          => __( 'This is help text.', 'admin-page-framework-demo' ),
-                'help_aside'    => __( 'This is additional help text which goes to the side bar of the help pane.', 'admin-page-framework-demo' ),
+                'title'         => __( 'Text Input', 'admin-page-framework-loader' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
+                'help'          => __( 'This is help text.', 'admin-page-framework-loader' ),
+                'help_aside'    => __( 'This is additional help text which goes to the side bar of the help pane.', 'admin-page-framework-loader' ),
             ),
             array(
                 'field_id'      => 'metabox_text_field_repeatable',
                 'type'          => 'text',
-                'title'         => __( 'Text Repeatable', 'admin-page-framework-demo' ),
+                'title'         => __( 'Text Repeatable', 'admin-page-framework-loader' ),
                 'repeatable'    => true,
             ),     
             array(
                 'field_id'      => 'metabox_textarea_field',
                 'type'          => 'textarea',
-                'title'         => __( 'Text Area', 'admin-page-framework-demo' ),
-                'description'   => __( 'The description for the field.', 'admin-page-framework-demo' ),
-                'help'          => __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-demo' ),
-                'default'       => __( 'This is a default text value.', 'admin-page-framework-demo' ),
+                'title'         => __( 'Text Area', 'admin-page-framework-loader' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
+                'help'          => __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-loader' ),
+                'default'       => __( 'This is a default text value.', 'admin-page-framework-loader' ),
                 'attributes'    => array(
                     'cols' => 40,     
                 ),
@@ -74,7 +74,7 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
      */
     public function do_APF_MetaBox_For_Pages_Normal() { // do_{instantiated class name}
         ?>
-            <p><?php _e( 'This meta box is placed with the <code>normal</code>context and this text is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-demo' ) ?></p>
+            <p><?php _e( 'This meta box is placed with the <code>normal</code>context and this text is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-loader' ) ?></p>
         <?php
         
     }
@@ -86,7 +86,7 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
      */
     public function content( $sContent ) {
         
-        $_sInsert = "<p>" . sprintf( __( 'This text is inserted with the <code>%1$s</code> method.', 'admin-page-framework-demo' ), __FUNCTION__ ) . "</p>";
+        $_sInsert = "<p>" . sprintf( __( 'This text is inserted with the <code>%1$s</code> method.', 'admin-page-framework-loader' ), __FUNCTION__ ) . "</p>";
         return $_sInsert . $sContent;        
         
     }
@@ -96,7 +96,7 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
      */
     public function content_APF_MetaBox_For_Pages_Normal( $sContent ) { // content_{instantiated class name}
         
-        $_sInsert = "<p>" . sprintf( __( 'This text is inserted with the <code>%1$s</code> hook.', 'admin-page-framework-demo' ), __FUNCTION__ ) . "</p>";
+        $_sInsert = "<p>" . sprintf( __( 'This text is inserted with the <code>%1$s</code> hook.', 'admin-page-framework-loader' ), __FUNCTION__ ) . "</p>";
         return $sContent . $_sInsert;
         
     }    
@@ -119,7 +119,7 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
         // Validate the submitted data.
         if ( strlen( trim( $aInput['metabox_text_field'] ) ) < 3 ) {
             
-            $_aErrors['metabox_text_field'] = __( 'The entered text is too short! Type more than 2 characters.', 'admin-page-framework-demo' ) . ': ' . $aInput['metabox_text_field'];
+            $_aErrors['metabox_text_field'] = __( 'The entered text is too short! Type more than 2 characters.', 'admin-page-framework-loader' ) . ': ' . $aInput['metabox_text_field'];
             $_bIsValid = false;     
             
         }
@@ -127,7 +127,7 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_MetaBox_Page {
         if ( ! $_bIsValid ) {
             
             $this->setFieldErrors( $_aErrors );
-            $this->setSettingNotice( __( 'There was an error in your input in meta box form fields', 'admin-page-framework-demo' ) );    
+            $this->setSettingNotice( __( 'There was an error in your input in meta box form fields', 'admin-page-framework-loader' ) );    
             return $aOldInput;
             
         }

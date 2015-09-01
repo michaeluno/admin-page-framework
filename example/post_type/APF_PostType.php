@@ -30,22 +30,22 @@ class APF_PostType extends AdminPageFramework_PostType {
             array( 
                 'labels' => array(
                     'name'               => 'Demo',
-                    'all_items'          => __( 'Sample Posts', 'admin-page-framework-demo' ),
+                    'all_items'          => __( 'Sample Posts', 'admin-page-framework-loader' ),
                     'singular_name'      => 'Demo',
-                    'add_new'            => __( 'Add New', 'admin-page-framework-demo' ),
-                    'add_new_item'       => __( 'Add New APF Post', 'admin-page-framework-demo' ),
-                    'edit'               => __( 'Edit', 'admin-page-framework-demo' ),
-                    'edit_item'          => __( 'Edit APF Post', 'admin-page-framework-demo' ),
-                    'new_item'           => __( 'New APF Post', 'admin-page-framework-demo' ),
-                    'view'               => __( 'View', 'admin-page-framework-demo' ),
-                    'view_item'          => __( 'View APF Post', 'admin-page-framework-demo' ),
-                    'search_items'       => __( 'Search APF Post', 'admin-page-framework-demo' ),
-                    'not_found'          => __( 'No APF Post found', 'admin-page-framework-demo' ),
-                    'not_found_in_trash' => __( 'No APF Post found in Trash', 'admin-page-framework-demo' ),
-                    'parent'             => __( 'Parent APF Post', 'admin-page-framework-demo' ),
+                    'add_new'            => __( 'Add New', 'admin-page-framework-loader' ),
+                    'add_new_item'       => __( 'Add New APF Post', 'admin-page-framework-loader' ),
+                    'edit'               => __( 'Edit', 'admin-page-framework-loader' ),
+                    'edit_item'          => __( 'Edit APF Post', 'admin-page-framework-loader' ),
+                    'new_item'           => __( 'New APF Post', 'admin-page-framework-loader' ),
+                    'view'               => __( 'View', 'admin-page-framework-loader' ),
+                    'view_item'          => __( 'View APF Post', 'admin-page-framework-loader' ),
+                    'search_items'       => __( 'Search APF Post', 'admin-page-framework-loader' ),
+                    'not_found'          => __( 'No APF Post found', 'admin-page-framework-loader' ),
+                    'not_found_in_trash' => __( 'No APF Post found in Trash', 'admin-page-framework-loader' ),
+                    'parent'             => __( 'Parent APF Post', 'admin-page-framework-loader' ),
                     
                     // (framework specific)
-                    // 'plugin_listing_table_title_cell_link' => __( 'APF Posts', 'admin-page-framework-demo' ), // framework specific key. [3.0.6+]
+                    // 'plugin_listing_table_title_cell_link' => __( 'APF Posts', 'admin-page-framework-loader' ), // framework specific key. [3.0.6+]
                 ),
                 'public'            => true,
                 'menu_position'     => 110,
@@ -173,8 +173,8 @@ class APF_PostType extends AdminPageFramework_PostType {
      */
     public function cell_apf_posts_samplecolumn( $sCell, $iPostID ) {
         
-        return sprintf( __( 'Post ID: %1$s', 'admin-page-framework-demo' ), $iPostID ) . "<br />"
-            . __( 'Text', 'admin-page-framework-demo' ) . ': ' . get_post_meta( $iPostID, 'metabox_text_field', true );
+        return sprintf( __( 'Post ID: %1$s', 'admin-page-framework-loader' ), $iPostID ) . "<br />"
+            . __( 'Text', 'admin-page-framework-loader' ) . ': ' . get_post_meta( $iPostID, 'metabox_text_field', true );
         
     }
     
@@ -228,9 +228,9 @@ class APF_PostType extends AdminPageFramework_PostType {
         // to the first parameter of the constructor of the AdminPageFramework class.     
         $_aSavedOptions = get_option( 'APF_Demo' );
             
-        return "<h3>" . __( 'Saved Meta Field Values of the Post', 'admin-page-framework-demo' ) . "</h3>" 
+        return "<h3>" . __( 'Saved Meta Field Values of the Post', 'admin-page-framework-loader' ) . "</h3>" 
             . $this->oDebug->get( $_aPostData )
-            . "<h3>" . __( 'Saved Setting Options of The Loader Plugin', 'admin-page-framework-demo' ) . "</h3>" 
+            . "<h3>" . __( 'Saved Setting Options of The Loader Plugin', 'admin-page-framework-loader' ) . "</h3>" 
             . $this->oDebug->get( $_aSavedOptions )
             ;
 

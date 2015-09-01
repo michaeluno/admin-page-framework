@@ -30,7 +30,7 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
         /* (required) Add sub-menu items (pages or links) */
         $this->addSubMenuItems(    
             array(
-                'title' => __( 'Built-in Field Types', 'admin-page-framework-demo' ),
+                'title' => __( 'Built-in Field Types', 'admin-page-framework-loader' ),
                 'page_slug' => 'apf_builtin_field_types',
                 'screen_icon' => 'options-general', // one of the screen type from the below can be used.
                 /* Screen Types (for WordPress v3.7.x or below) :
@@ -99,17 +99,17 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
      */
     public function do_apf_sample_page() {  // do_ + page slug
         
-        echo "<p>" . __( 'This is a sample page that has a link to a hidden page created by the framework.', 'admin-page-framework-demo' ) . "</p>";
+        echo "<p>" . __( 'This is a sample page that has a link to a hidden page created by the framework.', 'admin-page-framework-loader' ) . "</p>";
         $sLinkToHiddenPage = $this->oUtil->getQueryAdminURL( array( 'page' => 'apf_hidden_page' ) );
-        echo "<a href='{$sLinkToHiddenPage}'>" . __( 'Go to Hidden Page', 'admin-page-framework-demo' ). "</a>";
+        echo "<a href='{$sLinkToHiddenPage}'>" . __( 'Go to Hidden Page', 'admin-page-framework-loader' ). "</a>";
     
     }
     public function do_apf_hidden_page() {  // do_ + page slug
         
-        echo "<p>" . __( 'This is a hidden page.', 'admin-page-framework-demo' ) . "</p>";
-        echo "<p>" . __( 'It is useful when you have a setting page that requires a proceeding page.', 'admin-page-framework-demo' ) . "</p>";
+        echo "<p>" . __( 'This is a hidden page.', 'admin-page-framework-loader' ) . "</p>";
+        echo "<p>" . __( 'It is useful when you have a setting page that requires a proceeding page.', 'admin-page-framework-loader' ) . "</p>";
         $sLinkToGoBack = $this->oUtil->getQueryAdminURL( array( 'page' => 'apf_sample_page' ) );
-        echo "<a href='{$sLinkToGoBack}'>" . __( 'Go Back', 'admin-page-framework-demo' ). "</a>";
+        echo "<a href='{$sLinkToGoBack}'>" . __( 'Go Back', 'admin-page-framework-loader' ). "</a>";
         
     }
     

@@ -59,8 +59,8 @@ class APF_Demo_CustomFieldType_Sample {
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Sample Custom Field Type', 'admin-page-framework-demo' ),
-                'description'   => __( 'This is just an example of creating a custom field type with Admin Page Framework.', 'admin-page-framework-demo' ),     
+                'title'         => __( 'Sample Custom Field Type', 'admin-page-framework-loader' ),
+                'description'   => __( 'This is just an example of creating a custom field type with Admin Page Framework.', 'admin-page-framework-loader' ),     
             )            
         );        
                     
@@ -70,34 +70,34 @@ class APF_Demo_CustomFieldType_Sample {
             array(
                 'field_id'      => 'sample_field',
                 'type'          => 'sample',
-                'title'         => __( 'Sample', 'admin-page-framework-demo' ),
-                'description'   => __( 'This sample custom field demonstrates how to display a certain element after selecting a radio button.', 'admin-page-framework-demo' ),
+                'title'         => __( 'Sample', 'admin-page-framework-loader' ),
+                'description'   => __( 'This sample custom field demonstrates how to display a certain element after selecting a radio button.', 'admin-page-framework-loader' ),
                 // 'default' => 'red',
                 'label'         => array(
-                    'red'   => __( 'Red', 'admin-page-framework-demo' ),
-                    'blue'  => __( 'Blue', 'admin-page-framework-demo' ),
-                    'green' => __( 'Green', 'admin-page-framework-demo' ),
+                    'red'   => __( 'Red', 'admin-page-framework-loader' ),
+                    'blue'  => __( 'Blue', 'admin-page-framework-loader' ),
+                    'green' => __( 'Green', 'admin-page-framework-loader' ),
                 ),
                 'reveal'        => array( // the field type specific key. This is defined in the
-                    'red'   => '<p style="color:red;">' . __( 'You selected red!', 'admin-page-framework-demo' ) . '</p>',
-                    'blue'  => '<p style="color:blue;">' . __( 'You selected blue!', 'admin-page-framework-demo' ) . '</p>',
-                    'green' => '<p style="color:green;">' . __( 'You selected green!', 'admin-page-framework-demo' ) . '</p>',
+                    'red'   => '<p style="color:red;">' . __( 'You selected red!', 'admin-page-framework-loader' ) . '</p>',
+                    'blue'  => '<p style="color:blue;">' . __( 'You selected blue!', 'admin-page-framework-loader' ) . '</p>',
+                    'green' => '<p style="color:green;">' . __( 'You selected green!', 'admin-page-framework-loader' ) . '</p>',
                 ),
             ),
             array(
                 'field_id'  => 'sample_field_repeatable',
                 'type'      => 'sample',
-                'title'     => __( 'Sample', 'admin-page-framework-demo' ),
+                'title'     => __( 'Sample', 'admin-page-framework-loader' ),
                 // 'default' => 'red',
                 'label' => array(
-                    'red'   => __( 'Red', 'admin-page-framework-demo' ),
-                    'blue'  => __( 'Blue', 'admin-page-framework-demo' ),
-                    'green' => __( 'Green', 'admin-page-framework-demo' ),
+                    'red'   => __( 'Red', 'admin-page-framework-loader' ),
+                    'blue'  => __( 'Blue', 'admin-page-framework-loader' ),
+                    'green' => __( 'Green', 'admin-page-framework-loader' ),
                 ),
                 'reveal' => array( // the field type specific key. This is defined in the
-                    'red'   => '<p style="color:red;">' . __( 'You selected red!', 'admin-page-framework-demo' ) . '</p>',
-                    'blue'  => '<p style="color:blue;">' . __( 'You selected blue!', 'admin-page-framework-demo' ) . '</p>',
-                    'green' => '<p style="color:green;">' . __( 'You selected green!', 'admin-page-framework-demo' ) . '</p>',
+                    'red'   => '<p style="color:red;">' . __( 'You selected red!', 'admin-page-framework-loader' ) . '</p>',
+                    'blue'  => '<p style="color:blue;">' . __( 'You selected blue!', 'admin-page-framework-loader' ) . '</p>',
+                    'green' => '<p style="color:green;">' . __( 'You selected green!', 'admin-page-framework-loader' ) . '</p>',
                 ),
                 'repeatable' => true,
             )    

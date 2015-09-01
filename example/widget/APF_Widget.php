@@ -32,7 +32,7 @@ class APF_Widget extends AdminPageFramework_Widget {
 
         $this->setArguments( 
             array(
-                'description'   =>  __( 'This is a sample widget with built-in field types created by Admin Page Framework.', 'admin-page-framework-demo' ),
+                'description'   =>  __( 'This is a sample widget with built-in field types created by Admin Page Framework.', 'admin-page-framework-loader' ),
             ) 
         );
     
@@ -49,63 +49,63 @@ class APF_Widget extends AdminPageFramework_Widget {
             array(
                 'field_id'      => 'title',
                 'type'          => 'text',
-                'title'         => __( 'Title', 'admin-page-framework-demo' ),
+                'title'         => __( 'Title', 'admin-page-framework-loader' ),
                 'default'       => 'Hi there!',
             ),
             array(
                 'field_id'      => 'repeatable_text',
                 'type'          => 'text',
-                'title'         => __( 'Text Repeatable', 'admin-page-framework-demo' ),
+                'title'         => __( 'Text Repeatable', 'admin-page-framework-loader' ),
                 'repeatable'    => true,
                 'sortable'      => true,
             ),
             array(
                 'field_id'      => 'textarea',
                 'type'          => 'textarea',
-                'title'         => __( 'Text Area', 'admin-page-framework-demo' ),
+                'title'         => __( 'Text Area', 'admin-page-framework-loader' ),
                 // 'rich'          => true,
             ),
             array(
                 'field_id'      => 'checkbox',
                 'type'          => 'checkbox',
-                'title'         => __( 'Check Box', 'admin-page-framework-demo' ),
-                'label'         => __( 'This is a check box in a widget form.', 'admin-page-framework-demo' ),
+                'title'         => __( 'Check Box', 'admin-page-framework-loader' ),
+                'label'         => __( 'This is a check box in a widget form.', 'admin-page-framework-loader' ),
             ),     
             array(
                 'field_id'      => 'radio',
                 'type'          => 'radio',
-                'title'         => __( 'Radio Buttons', 'admin-page-framework-demo' ),
+                'title'         => __( 'Radio Buttons', 'admin-page-framework-loader' ),
                 'label'         => array(
-                    'one'   =>  __( 'One', 'admin-page-framework-demo' ),
-                    'two'   =>  __( 'Two', 'admin-page-framework-demo' ),
-                    'three' =>  __( 'Three', 'admin-page-framework-demo' ),
+                    'one'   =>  __( 'One', 'admin-page-framework-loader' ),
+                    'two'   =>  __( 'Two', 'admin-page-framework-loader' ),
+                    'three' =>  __( 'Three', 'admin-page-framework-loader' ),
                 ),
                 'default'       => 'two',
             ),      
             array(
                 'field_id'      => 'select',
                 'type'          => 'select',
-                'title'         => __( 'Dropdown', 'admin-page-framework-demo' ),
+                'title'         => __( 'Dropdown', 'admin-page-framework-loader' ),
                 'label'         => array(
-                    'i'     =>  __( 'I', 'admin-page-framework-demo' ),
-                    'ii'    =>  __( 'II', 'admin-page-framework-demo' ),
-                    'iii'   =>  __( 'III', 'admin-page-framework-demo' ),
+                    'i'     =>  __( 'I', 'admin-page-framework-loader' ),
+                    'ii'    =>  __( 'II', 'admin-page-framework-loader' ),
+                    'iii'   =>  __( 'III', 'admin-page-framework-loader' ),
                 ),
             ),                
             array(
                 'field_id'      => 'image',
                 'type'          => 'image',
-                'title'         => __( 'Image', 'admin-page-framework-demo' ),
+                'title'         => __( 'Image', 'admin-page-framework-loader' ),
             ),
             array(
                 'field_id'      => 'media',
                 'type'          => 'media',
-                'title'         => __( 'Media', 'admin-page-framework-demo' ),
+                'title'         => __( 'Media', 'admin-page-framework-loader' ),
             ),            
             array(
                 'field_id'      => 'color',
                 'type'          => 'color',
-                'title'         => __( 'Color', 'admin-page-framework-demo' ),
+                'title'         => __( 'Color', 'admin-page-framework-loader' ),
             ),
             array()
         );        
@@ -135,7 +135,7 @@ class APF_Widget extends AdminPageFramework_Widget {
     public function content( $sContent, $aArguments, $aFormData ) {
         
         return $sContent
-            . '<p>' . __( 'Hello world! This is a widget created by Admin Page Framework.', 'admin-page-framework-demo' ) . '</p>'
+            . '<p>' . __( 'Hello world! This is a widget created by Admin Page Framework.', 'admin-page-framework-loader' ) . '</p>'
             . AdminPageFramework_Debug::get( $aArguments )
             . AdminPageFramework_Debug::get( $aFormData );
     

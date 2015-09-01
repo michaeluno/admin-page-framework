@@ -59,10 +59,10 @@ class APF_Demo_CustomFieldType_ACE {
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'ACE Code Editors', 'admin-page-framework-demo' ),
+                'title'         => __( 'ACE Code Editors', 'admin-page-framework-loader' ),
                 'description'   => array( 
                     sprintf( 
-                        __( 'This field type uses the external script located at %1$s.', 'admin-page-framework-demo' ),
+                        __( 'This field type uses the external script located at %1$s.', 'admin-page-framework-loader' ),
                         ( is_ssl() ? 'https:' : 'http:' ) . '//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js'
                     ),
                     sprintf( 
@@ -79,7 +79,7 @@ class APF_Demo_CustomFieldType_ACE {
             array(
                 'field_id'      => 'ace_css',
                 'type'          => 'ace',     
-                'title'         => __( 'CSS', 'admin-page-framework-demo' ),
+                'title'         => __( 'CSS', 'admin-page-framework-loader' ),
                 'default'       => '.abc { color: #fff; }',
                 'attributes'    =>  array(
                     'cols'        => 60,
@@ -96,7 +96,7 @@ class APF_Demo_CustomFieldType_ACE {
             array(
                 'field_id'      => 'ace_php',
                 'type'          => 'ace',     
-                'title'         => __( 'PHP', 'admin-page-framework-demo' ),
+                'title'         => __( 'PHP', 'admin-page-framework-loader' ),
                 'default'       => 'echo "hello world!";',
                 'attributes'    =>  array(
                     'cols'        => 60,

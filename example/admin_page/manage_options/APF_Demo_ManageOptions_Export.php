@@ -56,7 +56,7 @@ class APF_Demo_ManageOptions_Export {
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Export Data', 'admin-page-frameowork-demo' ),
-                'description'   => __( 'After exporting the options, change and save new options and then import the file to see if the options get restored.', 'admin-page-framework-demo' ),
+                'description'   => __( 'After exporting the options, change and save new options and then import the file to see if the options get restored.', 'admin-page-framework-loader' ),
             ) 
         );   
 
@@ -64,26 +64,26 @@ class APF_Demo_ManageOptions_Export {
             $this->sSectionID,  // target section id
             array(
                 'field_id'      => 'export_format_type',     
-                'title'         => __( 'Export Format Type', 'admin-page-framework-demo' ),
+                'title'         => __( 'Export Format Type', 'admin-page-framework-loader' ),
                 'type'          => 'radio',
-                'description'   => __( 'Choose the file format. Array means the PHP serialized array.', 'admin-page-framework-demo' ),
+                'description'   => __( 'Choose the file format. Array means the PHP serialized array.', 'admin-page-framework-loader' ),
                 'label'         => array( 
-                    'json'  => __( 'JSON', 'admin-page-framework-demo' ),
-                    'array' => __( 'Serialized Array', 'admin-page-framework-demo' ),
-                    'text'  => __( 'Text', 'admin-page-framework-demo' ),
+                    'json'  => __( 'JSON', 'admin-page-framework-loader' ),
+                    'array' => __( 'Serialized Array', 'admin-page-framework-loader' ),
+                    'text'  => __( 'Text', 'admin-page-framework-loader' ),
                 ),
                 'default'       => 'json',
             ),     
             array( // Single Export Button
                 'field_id'      => 'export_single',
                 'type'          => 'export',
-                'description'   => __( 'Download the saved option data.', 'admin-page-framework-demo' ),
+                'description'   => __( 'Download the saved option data.', 'admin-page-framework-loader' ),
             ),
             array( // Multiple Export Buttons
                 'field_id'      => 'export_multiple',
-                'title'         => __( 'Multiple Export Buttons', 'admin-page-framework-demo' ),
+                'title'         => __( 'Multiple Export Buttons', 'admin-page-framework-loader' ),
                 'type'          => 'export',
-                'label'         => __( 'Pain Text', 'admin-page-framework-demo' ),
+                'label'         => __( 'Pain Text', 'admin-page-framework-loader' ),
                 'file_name'     => 'plain_text.txt',
                 'format'        => 'text',
                 'attributes'    => array(
@@ -92,26 +92,26 @@ class APF_Demo_ManageOptions_Export {
                     ),
                 ),
                 array(
-                    'label'     => __( 'JSON', 'admin-page-framework-demo' ),
+                    'label'     => __( 'JSON', 'admin-page-framework-loader' ),
                     'file_name' => 'json.json', 
                     'format'    => 'json',
                 ),
                 array(
-                    'label'     => __( 'Serialized Array', 'admin-page-framework-demo' ),
+                    'label'     => __( 'Serialized Array', 'admin-page-framework-loader' ),
                     'file_name' => 'serialized_array.txt', 
                     'format'    => 'array',
                 ),
-                'description' => __( 'To set a file name, use the <code>file_name</code> argument in the field definition array.', 'admin-page-framework-demo' )
-                    . ' ' . __( 'To set the data format, use the <code>format</code> argument in the field definition array.', 'admin-page-framework-demo' ),    
+                'description' => __( 'To set a file name, use the <code>file_name</code> argument in the field definition array.', 'admin-page-framework-loader' )
+                    . ' ' . __( 'To set the data format, use the <code>format</code> argument in the field definition array.', 'admin-page-framework-loader' ),    
             ),    
             array( // Custom Data to Export
                 'field_id'      => 'export_custom_data',
-                'title'         => __( 'Custom Exporting Data', 'admin-page-framework-demo' ),
+                'title'         => __( 'Custom Exporting Data', 'admin-page-framework-loader' ),
                 'type'          => 'export',
-                'data'          => __( 'Hello World! This is custom export data.', 'admin-page-framework-demo' ),
+                'data'          => __( 'Hello World! This is custom export data.', 'admin-page-framework-loader' ),
                 'file_name'     => 'hello_world.txt',
-                'label'         => __( 'Export Custom Data', 'admin-page-framework-demo' ),
-                'description'   => __( 'It is possible to set custom data to be downloaded. For that, use the <code>data</code> argument in the field definition array.', 'admin-page-framework-demo' ),    
+                'label'         => __( 'Export Custom Data', 'admin-page-framework-loader' ),
+                'description'   => __( 'It is possible to set custom data to be downloaded. For that, use the <code>data</code> argument in the field definition array.', 'admin-page-framework-loader' ),    
             )
         );   
         

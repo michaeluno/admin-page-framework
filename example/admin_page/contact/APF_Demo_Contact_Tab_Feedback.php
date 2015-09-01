@@ -33,7 +33,7 @@ class APF_Demo_Contact_Tab_Feedback {
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Feedback', 'admin-page-framework-demo' ),
+                'title'         => __( 'Feedback', 'admin-page-framework-loader' ),
             )
         );  
         
@@ -58,8 +58,8 @@ class APF_Demo_Contact_Tab_Feedback {
             array(
                 'section_id'    => $this->sSectionID,       // avoid hyphen(dash), dots, and white spaces
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Feedback', 'admin-page-framework-demo' ),
-                'description'   => __( 'Tell the developer how you are using the framework.', 'admin-page-framework-demo' ), 
+                'title'         => __( 'Feedback', 'admin-page-framework-loader' ),
+                'description'   => __( 'Tell the developer how you are using the framework.', 'admin-page-framework-loader' ), 
             )            
         );        
 
@@ -69,7 +69,7 @@ class APF_Demo_Contact_Tab_Feedback {
             $this->sSectionID, // the target section id
             array( 
                 'field_id'          => 'name',
-                'title'             => __( 'Your Name', 'admin-page-framework-demo' ),
+                'title'             => __( 'Your Name', 'admin-page-framework-loader' ),
                 'type'              => 'text',
                 'default'           => $_oCurrentUser->user_firstname || $_oCurrentUser->user_firstname 
                     ? $_oCurrentUser->user_lastname . ' ' .  $_oCurrentUser->user_lastname 
@@ -81,51 +81,51 @@ class APF_Demo_Contact_Tab_Feedback {
             ),    
             array( 
                 'field_id'          => 'from',
-                'title'             => __( 'Your Email Address', 'admin-page-framework-demo' ),
+                'title'             => __( 'Your Email Address', 'admin-page-framework-loader' ),
                 'type'              => 'text',
                 'default'           => $_oCurrentUser->user_email,
                 'attributes'        => array(
                     'required'      => 'required',
-                    'placeholder'   =>  __( 'Type your email here.', 'admin-page-framework-demo' ),
+                    'placeholder'   =>  __( 'Type your email here.', 'admin-page-framework-loader' ),
                 ),
             ),     
             array( 
                 'field_id'          => 'use_for_commercial_products',
-                'title'             => __( 'I use the framework for', 'admin-page-framework-demo' ),
+                'title'             => __( 'I use the framework for', 'admin-page-framework-loader' ),
                 'type'              => 'radio',
                 'default'           => 1,
                 'label'             => array(
-                    1       => __( 'Commercial Products', 'admin-page-framework-demo' ),
-                    0       => __( 'Non-commercial Products', 'admin-page-framework-demo' ),
+                    1       => __( 'Commercial Products', 'admin-page-framework-loader' ),
+                    0       => __( 'Non-commercial Products', 'admin-page-framework-loader' ),
                 ),
             ),              
             array( 
                 'field_id'          => 'use_for',
-                'title'             => __( 'I use the framework for', 'admin-page-framework-demo' ),
+                'title'             => __( 'I use the framework for', 'admin-page-framework-loader' ),
                 'type'              => 'radio',
                 'default'           => 'others',
                 'label'             => array(
-                    'plugins'   => __( 'Plugins', 'admin-page-framework-demo' ),
-                    'themes'    => __( 'Themes', 'admin-page-framework-demo' ),
-                    'others'    => __( 'Others', 'admin-page-framework-demo' ),
+                    'plugins'   => __( 'Plugins', 'admin-page-framework-loader' ),
+                    'themes'    => __( 'Themes', 'admin-page-framework-loader' ),
+                    'others'    => __( 'Others', 'admin-page-framework-loader' ),
                 ),
             ),                    
             array( 
                 'field_id'          => 'subject',
-                'title'             => __( 'Subject', 'admin-page-framework-demo' ),
+                'title'             => __( 'Subject', 'admin-page-framework-loader' ),
                 'type'              => 'text',
                 'attributes'        => array(
                     'size' => 40,
-                    'placeholder'   =>  __( 'Type the title here.', 'admin-page-framework-demo' ),
+                    'placeholder'   =>  __( 'Type the title here.', 'admin-page-framework-loader' ),
                 ),
             ),    
             array( 
                 'field_id'          => 'body',
-                'title'             => __( 'Message', 'admin-page-framework-demo' ),
+                'title'             => __( 'Message', 'admin-page-framework-loader' ),
                 'type'              => 'textarea',
                 'rich'              => true,
                 'attributes'        => array(
-                    'placeholder'   =>  __( 'Type the message here.', 'admin-page-framework-demo' ),
+                    'placeholder'   =>  __( 'Type the message here.', 'admin-page-framework-loader' ),
                 ),
             ),            
             array( 

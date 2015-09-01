@@ -55,9 +55,9 @@ class APF_Demo_ManageOptions_Message {
     public function replyToDoTab() {
         
         ?>
-        <h3><?php _e( 'Framework Messages', 'admin-page-framework-demo' ); ?></h3>
-        <p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$aMessages</code> array in the <code>oMsg</code> object.', 'admin-page-framework-demo' ); // ' syntax fixer ?>
-            <?php _e( 'The keys and the default values are listed below.', 'admin-page-framework-demo' ); ?>
+        <h3><?php _e( 'Framework Messages', 'admin-page-framework-loader' ); ?></h3>
+        <p><?php _e( 'You can change the framework\'s defined internal messages by directly modifying the <code>$aMessages</code> array in the <code>oMsg</code> object.', 'admin-page-framework-loader' ); // ' syntax fixer ?>
+            <?php _e( 'The keys and the default values are listed below.', 'admin-page-framework-loader' ); ?>
         </p>
         <?php
             $_aMessages = array();

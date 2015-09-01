@@ -25,13 +25,13 @@ class AdminPageFrameworkLoader_Demo_NetworkAdminPage {
             null,                       // passing the option key used by the main pages.
             APFDEMO_FILE,               // the caller script path.
             'manage_options',           // the default capability
-            'admin-page-framework-demo' // the text domain        
+            'admin-page-framework-loader' // the text domain        
         ); 
         new APF_NetworkAdmin_ManageOptions( 
             'APF_NetworkAdmin', 
             APFDEMO_FILE,               // the caller script path.
             'manage_options',           // the default capability
-            'admin-page-framework-demo' // the text domain                    
+            'admin-page-framework-loader' // the text domain                    
         );    
     
     }

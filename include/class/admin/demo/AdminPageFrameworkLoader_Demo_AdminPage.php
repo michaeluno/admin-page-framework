@@ -32,7 +32,7 @@ class AdminPageFrameworkLoader_Demo_AdminPage {
             null,                       // the option key - when null is passed the class name in this case 'APF_Demo' will be used
             APFDEMO_FILE,               // the caller script path.
             'manage_options',           // the default capability
-            'admin-page-framework-demo' // the text domain
+            'admin-page-framework-loader' // the text domain
         );
                     
         // Add the Manage Options page.
@@ -40,7 +40,7 @@ class AdminPageFrameworkLoader_Demo_AdminPage {
             'APF_Demo',                 // passing the option key used by the main pages.
             APFDEMO_FILE,               // the caller script path.
             'manage_options',           // the default capability
-            'admin-page-framework-demo' // the text domain        
+            'admin-page-framework-loader' // the text domain        
         );
         
         // Add a hidden page. This class does not extend the framework factory class.
@@ -51,7 +51,7 @@ class AdminPageFrameworkLoader_Demo_AdminPage {
             '',                         // passing an empty string will disable the form data to be saved.
             APFDEMO_FILE,               // the caller script path.
             'read',                     // the default capability
-            'admin-page-framework-demo' // the text domain        
+            'admin-page-framework-loader' // the text domain        
         );        
          
     }

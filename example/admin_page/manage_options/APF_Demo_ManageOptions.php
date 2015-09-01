@@ -32,7 +32,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
         /* ( required ) Add sub-menu items (pages or links) */
         $this->addSubMenuItems(    
             array(
-                'title'         => __( 'Manage Options', 'admin-page-framework-demo' ),
+                'title'         => __( 'Manage Options', 'admin-page-framework-loader' ),
                 'page_slug'     => $this->sPageSlug,
                 'screen_icon'   => 'link-manager',    
             )

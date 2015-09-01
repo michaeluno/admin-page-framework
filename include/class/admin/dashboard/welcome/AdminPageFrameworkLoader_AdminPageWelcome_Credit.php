@@ -53,7 +53,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Credit extends AdminPageFramewor
                     'data-text' => ' ' . AdminPageFramework_Registry::NAME . ' ' . AdminPageFramework_Registry::getVersion() . ' ',
                     // 'data-icon' => 'octicon-mark-github',
                 ),
-                'description'   => __( 'Star the repository and get Involved!', 'admin-page-framework-demo' ),
+                'description'   => __( 'Star the repository and get Involved!', 'admin-page-framework-loader' ),
                 'show_title_column' => false,
             )
         );

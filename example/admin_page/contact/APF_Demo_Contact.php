@@ -32,7 +32,7 @@ class APF_Demo_Contact extends AdminPageFramework {
         /* ( required ) Add sub-menu items (pages or links) */
         $this->addSubMenuItems(     
             array(
-                'title'        => __( 'Contact', 'admin-page-framework-demo' ),
+                'title'        => __( 'Contact', 'admin-page-framework-loader' ),
                 'page_slug'    => 'apf_contact',
                 'screen_icon'  => 'page',
             )

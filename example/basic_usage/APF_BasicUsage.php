@@ -27,15 +27,15 @@ class APF_BasicUsage extends AdminPageFramework {
         
         $this->addSubMenuItems(
             array(
-                'title'         => __( 'First Page', 'admin-page-framework-demo' ),
+                'title'         => __( 'First Page', 'admin-page-framework-loader' ),
                 'page_slug'     => 'apf_first_page',
             ),
             array(
-                'title'         => __( 'Second Page', 'admin-page-framework-demo' ),
+                'title'         => __( 'Second Page', 'admin-page-framework-loader' ),
                 'page_slug'     => 'apf_second_page',
             ),
             array(
-                'title'         => __( 'Disabled', 'admin-page-framework-demo' ),
+                'title'         => __( 'Disabled', 'admin-page-framework-loader' ),
                 'page_slug'     => 'apf_disabled',
                 'disabled'      => true,
                 'attributes'    => array(
@@ -71,8 +71,8 @@ class APF_BasicUsage extends AdminPageFramework {
      */
     public function do_apf_first_page() { 
         ?>
-            <h3><?php _e( 'do_ + {...} Action Hooks', 'admin-page-framework-demo' ); ?></h3>
-            <p><?php _e( 'Hi there! This text message is inserted by the <code>do_{page slug}</code> action hook and the callback method.', 'admin-page-framework-demo' ); ?></p>
+            <h3><?php _e( 'do_ + {...} Action Hooks', 'admin-page-framework-loader' ); ?></h3>
+            <p><?php _e( 'Hi there! This text message is inserted by the <code>do_{page slug}</code> action hook and the callback method.', 'admin-page-framework-loader' ); ?></p>
         <?php
 
     }
@@ -85,11 +85,11 @@ class APF_BasicUsage extends AdminPageFramework {
     public function content_apf_second_page( $sContent ) { 
 
         return $sContent 
-            . "<h3>" . __( 'content_ + {...} Filter Hooks', 'admin-page-framework-demo' ) . "</h3>"
+            . "<h3>" . __( 'content_ + {...} Filter Hooks', 'admin-page-framework-loader' ) . "</h3>"
             . "<p>" 
-                . __( 'This message is inserted with the <code>content_{page slug}</code> filter.', 'admin-page-framework-demo' ) 
+                . __( 'This message is inserted with the <code>content_{page slug}</code> filter.', 'admin-page-framework-loader' ) 
             . "</p>"
-            . "<h3>" . __( 'Saved Options', 'admin-page-framework-demo' ) . "</h3>"
+            . "<h3>" . __( 'Saved Options', 'admin-page-framework-loader' ) . "</h3>"
             . $this->oDebug->get( 
                 $this->getValue()
             )                     

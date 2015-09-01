@@ -19,8 +19,8 @@ class APF_MetaBox_For_Pages_WithFormSection extends AdminPageFramework_MetaBox_P
         $this->addSettingSections(
             array(
                'section_id'     => 'meta_box_with_a_form_section',
-               'title'          => __( 'Section of a Page Meta-box', 'admin-page-framework-demo' ),
-               'description'    => __( 'This meta box form has a section.', 'admin-page-framework-demo' ),
+               'title'          => __( 'Section of a Page Meta-box', 'admin-page-framework-loader' ),
+               'description'    => __( 'This meta box form has a section.', 'admin-page-framework-loader' ),
             )      
         );
         
@@ -32,7 +32,7 @@ class APF_MetaBox_For_Pages_WithFormSection extends AdminPageFramework_MetaBox_P
             array (
                 'field_id'   => 'image',
                 'type'       => 'image',
-                'title'      => __( 'Images', 'admin-page-framework-demo' ),
+                'title'      => __( 'Images', 'admin-page-framework-loader' ),
                 'repeatable' => true,
                 'sortable'   => true,
             ),

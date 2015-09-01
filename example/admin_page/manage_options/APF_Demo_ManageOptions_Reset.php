@@ -55,7 +55,7 @@ class APF_Demo_ManageOptions_Reset {
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Reset Button', 'admin-page-framework-demo' ),
+                'title'         => __( 'Reset Button', 'admin-page-framework-loader' ),
                 'order'         => 10,
             )
         );        

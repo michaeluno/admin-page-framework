@@ -64,7 +64,7 @@ class APF_Demo_CustomFieldType_GitHub {
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'GitHub Buttons', 'admin-page-framework-demo' ),
+                'title'         => __( 'GitHub Buttons', 'admin-page-framework-loader' ),
                 'description'   => sprintf( __( 'These buttons use GitHub API and perform asynchronomus external access to %1$s.', 'admin-paeg-framework-demo' ), 'https://api.github.com' ),
             )
         );        
@@ -76,8 +76,8 @@ class APF_Demo_CustomFieldType_GitHub {
             array(
                 'field_id'      => 'github_follow',
                 'type'          => 'github',     
-                'title'         => __( 'Follow', 'admin-page-framework-demo' ),
-                'label'         => __( 'Small & Count', 'admin-page-framework-demo' ),
+                'title'         => __( 'Follow', 'admin-page-framework-loader' ),
+                'label'         => __( 'Small & Count', 'admin-page-framework-loader' ),
                 
                 // field type specific settings
                 'user_name'     => 'michaeluno',    // the GitHub account ID
@@ -85,24 +85,24 @@ class APF_Demo_CustomFieldType_GitHub {
                 'repository'    => 'admin-page-framework',
                 array(
                     'size'          => 'mega',   //   currently only 'mega' can be supported. Otherwise, a small icon will be used.
-                    'label'         => __( 'Mega & Count', 'admin-page-framework-demo' ),    
+                    'label'         => __( 'Mega & Count', 'admin-page-framework-loader' ),    
                 ),
                 array(
                     'size'          => '',      // pass something not 'mega' to use a small icon.
-                    'label'         => __( 'Small', 'admin-page-framework-demo' ),                    
+                    'label'         => __( 'Small', 'admin-page-framework-loader' ),                    
                     'count'         => false,   // whether or not the count should be displayed
                 ),
                 array(
                     'size'          => 'mega',   
-                    'label'         => __( 'Mega', 'admin-page-framework-demo' ),                    
+                    'label'         => __( 'Mega', 'admin-page-framework-loader' ),                    
                     'count'         => false,
                 ),                                                                    
             ),          
             array(
                 'field_id'      => 'github_star',
                 'type'          => 'github',     
-                'title'         => __( 'Star', 'admin-page-framework-demo' ),
-                'label'         => __( 'Small & Count', 'admin-page-framework-demo' ),
+                'title'         => __( 'Star', 'admin-page-framework-loader' ),
+                'label'         => __( 'Small & Count', 'admin-page-framework-loader' ),
                 
                 // field type specific settings
                 'user_name'     => 'michaeluno',    // the GitHub account ID
@@ -110,24 +110,24 @@ class APF_Demo_CustomFieldType_GitHub {
                 'repository'    => 'admin-page-framework',
                 array(
                     'size'          => 'mega',   //   currently only 'mega' can be supported. Otherwise, a small icon will be used.
-                    'label'         => __( 'Mega & Count', 'admin-page-framework-demo' ),    
+                    'label'         => __( 'Mega & Count', 'admin-page-framework-loader' ),    
                 ),
                 array(
                     'size'          => '',      //   pass something not 'mega' to use a small icon.
-                    'label'         => __( 'Small', 'admin-page-framework-demo' ),                    
+                    'label'         => __( 'Small', 'admin-page-framework-loader' ),                    
                     'count'         => false,
                 ),
                 array(
                     'size'          => 'mega',   
-                    'label'         => __( 'Mega', 'admin-page-framework-demo' ),                    
+                    'label'         => __( 'Mega', 'admin-page-framework-loader' ),                    
                     'count'         => false,
                 )                                          
             ),
             array(
                 'field_id'      => 'github_watch',
                 'type'          => 'github',     
-                'title'         => __( 'Watch', 'admin-page-framework-demo' ),
-                'label'         => __( 'Small & Count', 'admin-page-framework-demo' ),
+                'title'         => __( 'Watch', 'admin-page-framework-loader' ),
+                'label'         => __( 'Small & Count', 'admin-page-framework-loader' ),
                 
                 // field type specific settings
                 'user_name'     => 'michaeluno',    // the GitHub account ID
@@ -135,24 +135,24 @@ class APF_Demo_CustomFieldType_GitHub {
                 'repository'    => 'admin-page-framework',
                 array(
                     'size'          => 'mega',   //   currently only 'mega' can be supported. Otherwise, a small icon will be used.
-                    'label'         => __( 'Mega & Count', 'admin-page-framework-demo' ),    
+                    'label'         => __( 'Mega & Count', 'admin-page-framework-loader' ),    
                 ),
                 array(
                     'size'          => '',      //   pass something not 'mega' to use a small icon.
-                    'label'         => __( 'Small', 'admin-page-framework-demo' ),                    
+                    'label'         => __( 'Small', 'admin-page-framework-loader' ),                    
                     'count'         => false,
                 ),
                 array(
                     'size'          => 'mega',   
-                    'label'         => __( 'Mega', 'admin-page-framework-demo' ),                    
+                    'label'         => __( 'Mega', 'admin-page-framework-loader' ),                    
                     'count'         => false,
                 )                                          
             ), 
             array(
                 'field_id'      => 'github_fork',
                 'type'          => 'github',     
-                'title'         => __( 'Fork', 'admin-page-framework-demo' ),
-                'label'         => __( 'Small & Count', 'admin-page-framework-demo' ),
+                'title'         => __( 'Fork', 'admin-page-framework-loader' ),
+                'label'         => __( 'Small & Count', 'admin-page-framework-loader' ),
                 
                 // field type specific settings
                 'user_name'     => 'michaeluno',    // the GitHub account ID
@@ -160,24 +160,24 @@ class APF_Demo_CustomFieldType_GitHub {
                 'repository'    => 'admin-page-framework',
                 array(
                     'size'          => 'mega',   //   currently only 'mega' can be supported. Otherwise, a small icon will be used.
-                    'label'         => __( 'Mega & Count', 'admin-page-framework-demo' ),    
+                    'label'         => __( 'Mega & Count', 'admin-page-framework-loader' ),    
                 ),
                 array(
                     'size'          => '',      //   pass something not 'mega' to use a small icon.
-                    'label'         => __( 'Small', 'admin-page-framework-demo' ),                    
+                    'label'         => __( 'Small', 'admin-page-framework-loader' ),                    
                     'count'         => false,
                 ),
                 array(
                     'size'          => 'mega',   
-                    'label'         => __( 'Mega', 'admin-page-framework-demo' ),                    
+                    'label'         => __( 'Mega', 'admin-page-framework-loader' ),                    
                     'count'         => false,
                 )                                          
             ),      
             array(
                 'field_id'      => 'github_issue',
                 'type'          => 'github',     
-                'title'         => __( 'Issue', 'admin-page-framework-demo' ),
-                'label'         => __( 'Small & Count', 'admin-page-framework-demo' ),
+                'title'         => __( 'Issue', 'admin-page-framework-loader' ),
+                'label'         => __( 'Small & Count', 'admin-page-framework-loader' ),
                 
                 // field type specific settings
                 'user_name'     => 'michaeluno',    // the GitHub account ID
@@ -185,24 +185,24 @@ class APF_Demo_CustomFieldType_GitHub {
                 'repository'    => 'admin-page-framework',
                 array(
                     'size'          => 'mega',   //   currently only 'mega' can be supported. Otherwise, a small icon will be used.
-                    'label'         => __( 'Mega & Count', 'admin-page-framework-demo' ),    
+                    'label'         => __( 'Mega & Count', 'admin-page-framework-loader' ),    
                 ),
                 array(
                     'size'          => '',      //   pass something not 'mega' to use a small icon.
-                    'label'         => __( 'Small', 'admin-page-framework-demo' ),                    
+                    'label'         => __( 'Small', 'admin-page-framework-loader' ),                    
                     'count'         => false,
                 ),
                 array(
                     'size'          => 'mega',   
-                    'label'         => __( 'Mega', 'admin-page-framework-demo' ),                    
+                    'label'         => __( 'Mega', 'admin-page-framework-loader' ),                    
                     'count'         => false,
                 )                                          
             ),             
             array(            
                 'field_id'      => 'github_follow_custom_label',
                 'type'          => 'github',     
-                'title'         => __( 'Custom Label', 'admin-page-framework-demo' ),
-                'value'         => __( 'Follow Me', 'admin-page-framework-demo' ),  // <-- the custom label 
+                'title'         => __( 'Custom Label', 'admin-page-framework-loader' ),
+                'value'         => __( 'Follow Me', 'admin-page-framework-loader' ),  // <-- the custom label 
                 
                 // field type specific settings
                 'user_name'     => 'michaeluno',    // the GitHub account ID
@@ -214,19 +214,19 @@ class APF_Demo_CustomFieldType_GitHub {
             array(            
                 'field_id'      => 'github_custom_link_a',
                 'type'          => 'github',     
-                'title'         => __( 'Download', 'admin-page-framework-demo' ),
+                'title'         => __( 'Download', 'admin-page-framework-loader' ),
                 'size'          => 'mega',   
                 'count'         => false,
                 'attributes'    =>  array(
                     'href'      =>  'https://github.com/michaeluno/admin-page-framework/archive/master.zip',   // the target link url.
                     'data-icon' => 'octicon-cloud-download',    // override the icon. Pass the octicon icon class name.
                 ),
-                'value'         => __( 'Download', 'admin-page-framework-demo' ),
+                'value'         => __( 'Download', 'admin-page-framework-loader' ),
             ),
             array(            
                 'field_id'      => 'github_custom_link_b',
                 'type'          => 'github',     
-                'title'         => __( 'Gist', 'admin-page-framework-demo' ),
+                'title'         => __( 'Gist', 'admin-page-framework-loader' ),
                 'size'          => 'mega',   
                 'count'         => false,
                 'attributes'    =>  array(

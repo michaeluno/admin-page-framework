@@ -34,7 +34,7 @@ class APF_Demo_ManageOptions_ResetConfirm {
             $this->sPageSlug, // target page slug
             array( // TIPS: you can hide an in-page tab by setting the 'show_in_page_tab' key
                 'tab_slug'          => $this->sTabSlug,
-                'title'             => __( 'Reset Confirmation', 'admin-page-framework-demo' ),
+                'title'             => __( 'Reset Confirmation', 'admin-page-framework-loader' ),
                 'show_in_page_tab'  => false,
                 'parent_tab_slug'   => 'reset',
             )            
@@ -57,7 +57,7 @@ class APF_Demo_ManageOptions_ResetConfirm {
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Confirmation', 'admin-page-framework-demo' ),
+                'title'         => __( 'Confirmation', 'admin-page-framework-loader' ),
                 'description' => "<div class='settings-error error notice is-dismissible'>"
                         . "<p>"
                             . "<strong>"

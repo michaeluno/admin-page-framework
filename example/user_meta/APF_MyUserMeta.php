@@ -21,7 +21,7 @@ class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
             array(    
                 'field_id'      => 'text_field',
                 'type'          => 'text',
-                'title'         => __( 'Text', 'admin-page-framework-demo' ),
+                'title'         => __( 'Text', 'admin-page-framework-loader' ),
                 'repeatable'    => true,
                 'sortable'      => true,
                 'description'   => 'Type something here.',   
@@ -29,13 +29,13 @@ class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
             array(    
                 'field_id'      => 'text_area',
                 'type'          => 'textarea',
-                'title'         => __( 'Text Area', 'admin-page-framework-demo' ),
+                'title'         => __( 'Text Area', 'admin-page-framework-loader' ),
                 'default'       => 'Hi there!',   
             ),        
             array(    
                 'field_id'      => 'radio_buttons',
                 'type'          => 'radio',
-                'title'         => __( 'Radio', 'admin-page-framework-demo' ),
+                'title'         => __( 'Radio', 'admin-page-framework-loader' ),
                 'label'         => array(
                     'a' => 'A',
                     'b' => 'B',

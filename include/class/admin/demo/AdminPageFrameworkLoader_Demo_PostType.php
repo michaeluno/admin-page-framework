@@ -22,7 +22,7 @@ class AdminPageFrameworkLoader_Demo_PostType {
             AdminPageFrameworkLoader_Registry::$aPostTypes['demo'],                // the post type slug
             array(),                    // the argument array. Here an empty array is passed because it is defined inside the class.
             APFDEMO_FILE,               // the caller script path.
-            'admin-page-framework-demo' // the text domain.
+            'admin-page-framework-loader' // the text domain.
         );   
            
         new AdminPageFrameworkLoader_Demo_MetaBox;

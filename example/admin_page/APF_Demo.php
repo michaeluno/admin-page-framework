@@ -9,6 +9,13 @@
  * 
  */
 
+
+/**
+ * Creates a root menu page.
+ * 
+ * @package     AdminPageFramework
+ * @subpackage  Example
+ */
 class APF_Demo extends AdminPageFramework {
 
     /**
@@ -40,7 +47,7 @@ class APF_Demo extends AdminPageFramework {
                 
             */
             array(
-                'title'         => __( 'Built-in Field Types', 'admin-page-framework-demo' ),
+                'title'         => __( 'Built-in Field Types', 'admin-page-framework-loader' ),
                 'page_slug'     => 'apf_builtin_field_types',
                 'screen_icon'   => 'options-general', // one of the screen type from the below can be used.
                 /* Screen Types (for WordPress v3.7.x or below) :
@@ -81,28 +88,34 @@ class APF_Demo extends AdminPageFramework {
        
         // Disable the action link in the plugin listing table.
         $this->setPluginSettingsLinkLabel( '' );    
-        // $this->setPluginSettingsLinkLabel( __( 'Built-in Field Types', 'admin-page-framework-demo' ) );
+        // $this->setPluginSettingsLinkLabel( __( 'Built-in Field Types', 'admin-page-framework-loader' ) );
         
         // Add pages       
         new APF_Demo_CustomFieldType(
             $this,
             'custom_field_type',
-            __( 'Custom Field Type', 'admin-page-framework-demo' )
+            __( 'Custom Field Type', 'admin-page-framework-loader' )
         );
         
-        // Include files that define in-page tabs and form elements.
-        $_sClassName = get_class( $this );
-        new APF_Demo_BuiltinFieldTypes_Text;
-        new APF_Demo_BuiltinFieldTypes_Selector;
-        new APF_Demo_BuiltinFieldTypes_File( $_sClassName );
-        new APF_Demo_BuiltinFieldTypes_Checklist;
-        new APF_Demo_BuiltinFieldTypes_MISC;
-        new APF_Demo_BuiltinFieldTypes_Verification( $_sClassName );
-        new APF_Demo_BuiltinFieldTypes_Mixed;
-        new APF_Demo_BuiltinFieldTypes_Sections;
-        new APF_Demo_BuiltinFieldTypes_Callbacks;
-        new APF_Demo_BuiltinFieldTypes_System;
-        
+        // Define in-page tabs - here tabs are defined in the below classes.
+        $_aTabClasses = array(
+            'APF_Demo_BuiltinFieldTypes_Text',
+            'APF_Demo_BuiltinFieldTypes_Selector',
+            'APF_Demo_BuiltinFieldTypes_File',
+            'APF_Demo_BuiltinFieldTypes_Checklist',
+            'APF_Demo_BuiltinFieldTypes_MISC',
+            'APF_Demo_BuiltinFieldTypes_Verification',
+            'APF_Demo_BuiltinFieldTypes_Mixed',
+            'APF_Demo_BuiltinFieldTypes_Section',
+            'APF_Demo_BuiltinFieldTypes_Callback',
+            'APF_Demo_BuiltinFieldTypes_System',        
+        );
+        foreach ( $_aTabClasses as $_sTabClassName ) {
+            if ( class_exists( $_sTabClassName ) ) {
+                new $_sTabClassName;
+            }
+        }
+
     }
     
     /**

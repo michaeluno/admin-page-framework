@@ -10,7 +10,9 @@
 /**
  * Adds the Custom Field Type page to the loader plugin.
  * 
- * @since       3.5.0       
+ * @since       3.5.0  
+ * @package     AdminPageFramework
+ * @subpackage  Example 
  */
 class APF_Demo_CustomFieldType {
 
@@ -22,9 +24,7 @@ class APF_Demo_CustomFieldType {
         $this->sPageTitle   = $sTitle;
     
         $this->_addPage();
-    
-        add_action( "load_{$this->sPageSlug}", array( $this, 'replyToLoadPage' ) );       
-    
+
     }
         
         /**
@@ -68,14 +68,6 @@ class APF_Demo_CustomFieldType {
             );  
                     
         }
-        
-    /**
-     * Gets triggered when the page loads.
-     * 
-     * @remark      A callback of the "load_{page slug}" action hook.
-     */
-    public function replyToLoadPage( $oFactory ) {        
-    } 
   
         
 }

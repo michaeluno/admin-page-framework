@@ -19,7 +19,7 @@ class AdminPageFrameworkLoader_Demo_Widget {
     public function __construct() {     
     
         new APF_Widget( 
-            __( 'Admin Page Framework', 'admin-page-framework-demo' ) // the widget title
+            __( 'Admin Page Framework', 'admin-page-framework-loader' ) // the widget title
         );
     
     }
