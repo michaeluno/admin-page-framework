@@ -14,7 +14,7 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
         return self::getAttributes($aAttributes);
     }
     static public function getDataAttributes(array $aArray) {
-        return self::generateAttributes(self::getDataAttributeArray($aArray));
+        return self::getAttributes(self::getDataAttributeArray($aArray));
     }
     static public function generateDataAttributes(array $aArray) {
         return self::getDataAttributes($aArray);

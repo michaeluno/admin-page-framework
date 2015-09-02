@@ -10,7 +10,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
         $_aParams = func_get_args() + array(0 => null, 1 => array());
         $_aLabels = $_aParams[0];
         $_aAttributes = $this->uniteArrays($this->getElementAsArray($_aParams, 1, array()), $this->aAttributes);
-        return "<{$this->aOptions['input_container_tag']} " . $this->generateAttributes($this->aOptions['input_container_attributes']) . ">" . "<select " . $this->generateAttributes($this->_getSelectAttributes($_aAttributes)) . " >" . $this->_getDropDownList($this->getAttribute('id'), $this->getAsArray(isset($_aLabels) ? $_aLabels : $this->aField['label'], true), $_aAttributes) . "</select>" . "</{$this->aOptions['input_container_tag']}>";
+        return "<{$this->aOptions['input_container_tag']} " . $this->getAttributes($this->aOptions['input_container_attributes']) . ">" . "<select " . $this->getAttributes($this->_getSelectAttributes($_aAttributes)) . " >" . $this->_getDropDownList($this->getAttribute('id'), $this->getAsArray(isset($_aLabels) ? $_aLabels : $this->aField['label'], true), $_aAttributes) . "</select>" . "</{$this->aOptions['input_container_tag']}>";
     }
     private function _getSelectAttributes(array $aBaseAttributes) {
         $_bIsMultiple = $this->getElement($aBaseAttributes, 'multiple') ? true : (( bool )$this->getElement($aBaseAttributes, array('select', 'multiple')));
@@ -30,13 +30,13 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
     private function _getOptGroup(array $aBaseAttributes, $sInputID, $sKey, $asLabel) {
         $_aOptGroupAttributes = isset($aBaseAttributes['optgroup'][$sKey]) && is_array($aBaseAttributes['optgroup'][$sKey]) ? $aBaseAttributes['optgroup'][$sKey] + $aBaseAttributes['optgroup'] : $aBaseAttributes['optgroup'];
         $_aOptGroupAttributes = array('label' => $sKey,) + $_aOptGroupAttributes;
-        return "<optgroup " . $this->generateAttributes($_aOptGroupAttributes) . ">" . $this->_getDropDownList($sInputID, $asLabel, $aBaseAttributes) . "</optgroup>";
+        return "<optgroup " . $this->getAttributes($_aOptGroupAttributes) . ">" . $this->_getDropDownList($sInputID, $asLabel, $aBaseAttributes) . "</optgroup>";
     }
     private function _getOptionTagAttributes(array $aBaseAttributes, $sInputID, $sKey, $aValues) {
         $aValues = $this->getElementAsArray($aBaseAttributes, array('option', $sKey, 'value'), $aValues);
         return array('id' => $sInputID . '_' . $sKey, 'value' => $sKey, 'selected' => in_array(( string )$sKey, $aValues) ? 'selected' : null,) + (isset($aBaseAttributes['option'][$sKey]) && is_array($aBaseAttributes['option'][$sKey]) ? $aBaseAttributes['option'][$sKey] + $aBaseAttributes['option'] : $aBaseAttributes['option']);
     }
     private function _getOptionTag($sLabel, array $aOptionTagAttributes = array()) {
-        return "<option " . $this->generateAttributes($aOptionTagAttributes) . " >" . $sLabel . "</option>";
+        return "<option " . $this->getAttributes($aOptionTagAttributes) . " >" . $sLabel . "</option>";
     }
 }

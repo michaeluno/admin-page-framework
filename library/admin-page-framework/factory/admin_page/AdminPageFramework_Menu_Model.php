@@ -47,7 +47,7 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
     protected function _formatSubMenuPageArray(array $aSubMenuPage) {
         $aSubMenuPage = $aSubMenuPage + array('show_page_title' => $this->oProp->bShowPageTitle, 'show_page_heading_tabs' => $this->oProp->bShowPageHeadingTabs, 'show_in_page_tabs' => $this->oProp->bShowInPageTabs, 'in_page_tab_tag' => $this->oProp->sInPageTabTag, 'page_heading_tab_tag' => $this->oProp->sPageHeadingTabTag,) + self::$_aStructure_SubMenuPageForUser;
         $aSubMenuPage['screen_icon_id'] = trim($aSubMenuPage['screen_icon_id']);
-        return array('href_icon_32x32' => $this->oUtil->resolveSRC($aSubMenuPage['screen_icon'], true), 'screen_icon_id' => $this->oUtil->getAOrB(in_array($aSubMenuPage['screen_icon'], self::$_aScreenIconIDs), $aSubMenuPage['screen_icon'], 'generic'), 'capability' => $this->oUtil->getElement($aSubMenuPage, 'capability', $this->oProp->sCapability), 'order' => $this->oUtil->getAOrB(is_numeric($aSubMenuPage['order']), $aSubMenuPage['order'], count($this->oProp->aPages) + 10),) + $aSubMenuPage;
+        return array('href_icon_32x32' => $this->oUtil->getResolvedSRC($aSubMenuPage['screen_icon'], true), 'screen_icon_id' => $this->oUtil->getAOrB(in_array($aSubMenuPage['screen_icon'], self::$_aScreenIconIDs), $aSubMenuPage['screen_icon'], 'generic'), 'capability' => $this->oUtil->getElement($aSubMenuPage, 'capability', $this->oProp->sCapability), 'order' => $this->oUtil->getAOrB(is_numeric($aSubMenuPage['order']), $aSubMenuPage['order'], count($this->oProp->aPages) + 10),) + $aSubMenuPage;
     }
     private function _registerSubMenuItem(array $aArgs) {
         if (!current_user_can($aArgs['capability'])) {

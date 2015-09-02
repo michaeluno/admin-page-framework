@@ -16,12 +16,12 @@ CSSRULES;
         $_aInputAttributes = $this->_getInputAttributes($aField);
         $_aLabelAttributes = $this->_getLabelAttributes($aField, $_aInputAttributes);
         $_aLabelContainerAttributes = $this->_getLabelContainerAttributes($aField);
-        return $aField['before_label'] . "<div " . $this->generateAttributes($_aLabelContainerAttributes) . ">" . $this->_getExtraFieldsBeforeLabel($aField) . "<label " . $this->generateAttributes($_aLabelAttributes) . ">" . $aField['before_input'] . $this->_getExtraInputFields($aField) . "<input " . $this->generateAttributes($_aInputAttributes) . " />" . $aField['after_input'] . "</label>" . "</div>" . $aField['after_label'];
+        return $aField['before_label'] . "<div " . $this->getAttributes($_aLabelContainerAttributes) . ">" . $this->_getExtraFieldsBeforeLabel($aField) . "<label " . $this->getAttributes($_aLabelAttributes) . ">" . $aField['before_input'] . $this->_getExtraInputFields($aField) . "<input " . $this->getAttributes($_aInputAttributes) . " />" . $aField['after_input'] . "</label>" . "</div>" . $aField['after_label'];
     }
     private function _getFormatedFieldArray(array $aField) {
         $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->get('submit');
         if (isset($aField['attributes']['src'])) {
-            $aField['attributes']['src'] = $this->resolveSRC($aField['attributes']['src']);
+            $aField['attributes']['src'] = $this->getResolvedSRC($aField['attributes']['src']);
         }
         return $aField;
     }

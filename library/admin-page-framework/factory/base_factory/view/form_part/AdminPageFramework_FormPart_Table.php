@@ -25,7 +25,7 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
             return '';
         }
         $_sSectionSet = $this->_getSectionsTables($aSectionsBySectionTab, $aFieldsInSections[$sSectionTabSlug], $hfSectionCallback, $hfFieldCallback);
-        return $_sSectionSet ? "<div " . $this->generateAttributes(array('class' => 'admin-page-framework-sectionset', 'id' => "sectionset-{$sSectionTabSlug}_" . md5(serialize($aSectionsBySectionTab)),)) . ">" . $_sSectionSet . "</div>" : '';
+        return $_sSectionSet ? "<div " . $this->getAttributes(array('class' => 'admin-page-framework-sectionset', 'id' => "sectionset-{$sSectionTabSlug}_" . md5(serialize($aSectionsBySectionTab)),)) . ">" . $_sSectionSet . "</div>" : '';
     }
     private function _divideElementsBySectionTabs(array & $aSections, array & $aFields) {
         $_aSectionsBySectionTab = array();
@@ -121,10 +121,10 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
         $iSectionIndex = $aSection['_index'];
         $_sSectionTagID = 'section-' . $aSection['section_id'] . '__' . $iSectionIndex;
         $_aTabAttributes = $aSection['attributes']['tab'] + array('class' => 'admin-page-framework-section-tab nav-tab', 'id' => "section_tab-{$_sSectionTagID}", 'style' => null);
-        $_aTabAttributes['class'] = $this->generateClassAttribute($_aTabAttributes['class'], $aSection['class']['tab']);
-        $_aTabAttributes['style'] = $this->generateStyleAttribute($_aTabAttributes['style'], $aSection['hidden'] ? 'display:none' : null);
+        $_aTabAttributes['class'] = $this->getClassAttribute($_aTabAttributes['class'], $aSection['class']['tab']);
+        $_aTabAttributes['style'] = $this->getStyleAttribute($_aTabAttributes['style'], $aSection['hidden'] ? 'display:none' : null);
         $_oSectionTitle = new AdminPageFramework_FormPart_SectionTitle($aSection['title'], 'h4', $aFields, $hfFieldCallback, $iSectionIndex, $this->aFieldTypeDefinitions);
-        return "<li " . $this->generateAttributes($_aTabAttributes) . ">" . "<a href='#{$_sSectionTagID}'>" . $_oSectionTitle->get() . "</a>" . "</li>";
+        return "<li " . $this->getAttributes($_aTabAttributes) . ">" . "<a href='#{$_sSectionTagID}'>" . $_oSectionTitle->get() . "</a>" . "</li>";
     }
     private function _getSectionTable($aSection, $aFields, $hfSectionCallback, $hfFieldCallback) {
         if (count($aFields) <= 0) {

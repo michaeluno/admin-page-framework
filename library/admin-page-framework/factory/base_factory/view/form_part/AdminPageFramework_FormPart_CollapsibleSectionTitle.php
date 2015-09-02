@@ -32,7 +32,7 @@ class AdminPageFramework_FormPart_CollapsibleSectionTitle extends AdminPageFrame
             return '';
         }
         $_sSectionTitle = $this->_getSectionTitle($this->sTitle, $this->sTag, $this->aFields, $this->hfFieldCallback, $this->iSectionIndex);
-        return $this->_getCollapsibleSectionsEnablerScript() . "<div " . $this->generateAttributes(array('class' => $this->generateClassAttribute('admin-page-framework-section-title', 'accordion-section-title', 'admin-page-framework-collapsible-title', 'sections' === $aCollapsible['container'] ? 'admin-page-framework-collapsible-sections-title' : 'admin-page-framework-collapsible-section-title', $aCollapsible['is_collapsed'] ? 'collapsed' : ''),) + $this->getDataAttributeArray($aCollapsible)) . ">" . $_sSectionTitle . "</div>";
+        return $this->_getCollapsibleSectionsEnablerScript() . "<div " . $this->getAttributes(array('class' => $this->getClassAttribute('admin-page-framework-section-title', 'accordion-section-title', 'admin-page-framework-collapsible-title', 'sections' === $aCollapsible['container'] ? 'admin-page-framework-collapsible-sections-title' : 'admin-page-framework-collapsible-section-title', $aCollapsible['is_collapsed'] ? 'collapsed' : ''),) + $this->getDataAttributeArray($aCollapsible)) . ">" . $_sSectionTitle . "</div>";
     }
     static private $_bLoadedCollapsibleSectionsEnablerScript = false;
     protected function _getCollapsibleSectionsEnablerScript() {

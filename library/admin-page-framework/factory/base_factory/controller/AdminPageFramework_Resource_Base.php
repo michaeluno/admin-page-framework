@@ -50,7 +50,7 @@ abstract class AdminPageFramework_Resource_Base {
             if (empty($_aAttributes)) {
                 return $sSanitizedURL;
             }
-            $_sAttributes = $this->oUtil->generateAttributes($_aAttributes);
+            $_sAttributes = $this->oUtil->getAttributes($_aAttributes);
             $_sModifiedURL = $sSanitizedURL . "' " . rtrim($_sAttributes, "'\"");
             return $_sModifiedURL;
         }

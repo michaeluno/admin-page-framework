@@ -43,12 +43,12 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_WPUtility {
             $_aOutput[] = $_sTab;
         }
         $_aContainerAttributes = $this->aAttributes + array('class' => null);
-        $_aContainerAttributes['class'] = $this->generateClassAttribute('nav-tab-wrapper', $_aContainerAttributes['class']);
-        return empty($_aOutput) ? '' : "<{$this->sTabTag} " . $this->generateAttributes($_aContainerAttributes) . ">" . implode('', $_aOutput) . "</{$this->sTabTag}>";
+        $_aContainerAttributes['class'] = $this->getClassAttribute('nav-tab-wrapper', $_aContainerAttributes['class']);
+        return empty($_aOutput) ? '' : "<{$this->sTabTag} " . $this->getAttributes($_aContainerAttributes) . ">" . implode('', $_aOutput) . "</{$this->sTabTag}>";
     }
     private function _getTab(array $aTab) {
         $_aATagAttributes = isset($aTab['attributes']) ? $aTab['attributes'] : array();
-        $_sClassAttribute = $this->generateClassAttribute('nav-tab', $this->getElement($aTab, 'class', ''), $this->getElement($_aATagAttributes, 'class', ''), $this->getAOrB(in_array($aTab['slug'], $this->aActiveSlugs), "nav-tab-active", ''), $this->getAOrB($aTab['disabled'], 'tab-disabled', ''));
+        $_sClassAttribute = $this->getClassAttribute('nav-tab', $this->getElement($aTab, 'class', ''), $this->getElement($_aATagAttributes, 'class', ''), $this->getAOrB(in_array($aTab['slug'], $this->aActiveSlugs), "nav-tab-active", ''), $this->getAOrB($aTab['disabled'], 'tab-disabled', ''));
         $_aATagAttributes = array('class' => $_sClassAttribute,) + $_aATagAttributes + array('href' => $aTab['href'], 'title' => $aTab['title'],);
         if ($aTab['disabled']) {
             unset($_aATagAttributes['href']);

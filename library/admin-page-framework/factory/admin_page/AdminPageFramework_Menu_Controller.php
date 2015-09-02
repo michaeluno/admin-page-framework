@@ -10,7 +10,7 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
     public function setRootMenuPage($sRootMenuLabel, $sIcon16x16 = null, $iMenuPosition = null) {
         $sRootMenuLabel = trim($sRootMenuLabel);
         $_sSlug = $this->_isBuiltInMenuItem($sRootMenuLabel);
-        $this->oProp->aRootMenu = array('sTitle' => $sRootMenuLabel, 'sPageSlug' => $_sSlug ? $_sSlug : $this->oProp->sClassName, 'sIcon16x16' => $this->oUtil->resolveSRC($sIcon16x16), 'iPosition' => $iMenuPosition, 'fCreateRoot' => empty($_sSlug),);
+        $this->oProp->aRootMenu = array('sTitle' => $sRootMenuLabel, 'sPageSlug' => $_sSlug ? $_sSlug : $this->oProp->sClassName, 'sIcon16x16' => $this->oUtil->getResolvedSRC($sIcon16x16), 'iPosition' => $iMenuPosition, 'fCreateRoot' => empty($_sSlug),);
     }
     private function _isBuiltInMenuItem($sMenuLabel) {
         $_sMenuLabelLower = strtolower($sMenuLabel);

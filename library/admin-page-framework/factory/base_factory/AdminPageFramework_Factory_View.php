@@ -92,8 +92,8 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         if (!$aNotice['sMessage']) {
             return '';
         }
-        $aNotice['aAttributes']['class'] = $this->oUtil->generateClassAttribute($this->oUtil->getElement($aNotice, array('aAttributes', 'class'), ''), 'admin-page-framework-settings-notice-container', 'notice is-dismissible');
-        return "<div " . $this->oUtil->generateAttributes($aNotice['aAttributes']) . ">" . "<p class='admin-page-framework-settings-notice-message'>" . $aNotice['sMessage'] . "</p>" . "</div>";
+        $aNotice['aAttributes']['class'] = $this->oUtil->getClassAttribute($this->oUtil->getElement($aNotice, array('aAttributes', 'class'), ''), 'admin-page-framework-settings-notice-container', 'notice is-dismissible');
+        return "<div " . $this->oUtil->getAttributes($aNotice['aAttributes']) . ">" . "<p class='admin-page-framework-settings-notice-message'>" . $aNotice['sMessage'] . "</p>" . "</div>";
     }
     public function _replyToGetFieldOutput($aField) {
         $_oField = new AdminPageFramework_FormFieldset($aField, $this->oProp->aOptions, $this->_getFieldErrors(), $this->oProp->aFieldTypeDefinitions, $this->oMsg, $this->oProp->aFieldCallbacks);

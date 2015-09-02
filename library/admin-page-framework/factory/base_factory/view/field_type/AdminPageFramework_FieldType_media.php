@@ -310,11 +310,11 @@ JAVASCRIPTS;
     private function _getUploaderButtonHTML_Media($sInputID, array $aButtonAttributes, $bExternalSource) {
         $_bIsLabelSet = isset($aButtonAttributes['data-label']) && $aButtonAttributes['data-label'];
         $_aAttributes = $this->_getFormattedUploadButtonAttributes_Media($sInputID, $aButtonAttributes, $_bIsLabelSet, $bExternalSource);
-        return "<a " . $this->generateAttributes($_aAttributes) . ">" . $this->getAOrB($_bIsLabelSet, $_aAttributes['data-label'], $this->getAOrB(strrpos($_aAttributes['class'], 'dashicons'), '', $this->oMsg->get('select_file'))) . "</a>";
+        return "<a " . $this->getAttributes($_aAttributes) . ">" . $this->getAOrB($_bIsLabelSet, $_aAttributes['data-label'], $this->getAOrB(strrpos($_aAttributes['class'], 'dashicons'), '', $this->oMsg->get('select_file'))) . "</a>";
     }
     private function _getFormattedUploadButtonAttributes_Media($sInputID, array $aButtonAttributes, $_bIsLabelSet, $bExternalSource) {
         $_aAttributes = array('id' => "select_media_{$sInputID}", 'href' => '#', 'data-uploader_type' => ( string )function_exists('wp_enqueue_media'), 'data-enable_external_source' => ( string )( bool )$bExternalSource,) + $aButtonAttributes + array('title' => $_bIsLabelSet ? $aButtonAttributes['data-label'] : $this->oMsg->get('select_file'), 'data-label' => null,);
-        $_aAttributes['class'] = $this->generateClassAttribute('select_media button button-small ', $this->getAOrB(trim($aButtonAttributes['class']), $aButtonAttributes['class'], $this->getAOrB(!$_bIsLabelSet && version_compare($GLOBALS['wp_version'], '3.8', '>='), 'dashicons dashicons-portfolio', '')));
+        $_aAttributes['class'] = $this->getClassAttribute('select_media button button-small ', $this->getAOrB(trim($aButtonAttributes['class']), $aButtonAttributes['class'], $this->getAOrB(!$_bIsLabelSet && version_compare($GLOBALS['wp_version'], '3.8', '>='), 'dashicons dashicons-portfolio', '')));
         return $_aAttributes;
     }
 }

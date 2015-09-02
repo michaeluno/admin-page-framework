@@ -35,7 +35,7 @@ CSSRULES;
         $_oRadio = new AdminPageFramework_Input_radio($aField['attributes']);
         $_oRadio->setAttributesByKey($sKey);
         $_oRadio->setAttribute('data-default', $aField['default']);
-        return $this->getElement($aField, array('before_label', $sKey)) . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->sanitizeLength($aField['label_min_width']) . ";'>" . "<label " . $this->generateAttributes(array('for' => $_oRadio->getAttribute('id'), 'class' => $_oRadio->getAttribute('disabled') ? 'disabled' : null,)) . ">" . $this->getElement($aField, array('before_input', $sKey)) . $_oRadio->get($sLabel) . $this->getElement($aField, array('after_input', $sKey)) . "</label>" . "</div>" . $this->getElement($aField, array('after_label', $sKey));
+        return $this->getElement($aField, array('before_label', $sKey)) . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->sanitizeLength($aField['label_min_width']) . ";'>" . "<label " . $this->getAttributes(array('for' => $_oRadio->getAttribute('id'), 'class' => $_oRadio->getAttribute('disabled') ? 'disabled' : null,)) . ">" . $this->getElement($aField, array('before_input', $sKey)) . $_oRadio->get($sLabel) . $this->getElement($aField, array('after_input', $sKey)) . "</label>" . "</div>" . $this->getElement($aField, array('after_label', $sKey));
     }
     private function _getUpdateCheckedScript($sInputID) {
         $_sScript = <<<JAVASCRIPTS

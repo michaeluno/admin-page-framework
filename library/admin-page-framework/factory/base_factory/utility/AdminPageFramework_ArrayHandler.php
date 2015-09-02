@@ -1,21 +1,26 @@
 <?php
 class AdminPageFramework_ArrayHandler extends AdminPageFramework_WPUtility {
     public $aData = array();
+    public $aDefault = array();
     public function __construct() {
-        $_aParameters = func_get_args() + array($this->aData,);
+        $_aParameters = func_get_args() + array($this->aData, $this->aDefault,);
         $this->aData = $_aParameters[0];
+        $this->aDefault = $_aParameters[1];
     }
     public function get() {
         $_mDefault = null;
         $_aKeys = func_get_args() + array(null);
         if (!isset($_aKeys[0])) {
-            return $this->aData;
+            return $this->uniteArrays($this->aData, $this->aDefault);
         }
         if (is_array($_aKeys[0])) {
             $_aKeys = $_aKeys[0];
-            $_mDefault = isset($_aKeys[1]) ? $_aKeys[1] : null;
+            $_mDefault = $this->getElement($_aKeys, 1);
         }
-        return $this->getArrayValueByArrayKeys($this->aData, $_aKeys, $_mDefault);
+        return $this->getArrayValueByArrayKeys($this->aData, $_aKeys, $this->getDefaultValue($_mDefault, $_aKeys));
+    }
+    private function _getDefaultValue($_mDefault, $_aKeys) {
+        return isset($_mDefault) ? $_mDefault : $this->getArrayValueByArrayKeys($this->aDefault, $_aKeys);
     }
     public function set() {
         $_aParameters = func_get_args();

@@ -15,7 +15,7 @@ class AdminPageFramework_FormPart_TableRow extends AdminPageFramework_FormPart_B
             return '';
         }
         $_oFieldrowAttribute = new AdminPageFramework_Attribute_Fieldrow($aFieldset, array('id' => 'fieldrow-' . $aFieldset['tag_id'], 'valign' => 'top', 'class' => 'admin-page-framework-fieldrow',));
-        return $this->_getFieldByContainer($aFieldset, $hfCallback, array('open_container' => "<tr " . $_oFieldrowAttribute->get() . ">", 'close_container' => "</tr>", 'open_title' => "<th>", 'close_title' => "</th>", 'open_main' => "<td " . $this->generateAttributes(array('colspan' => $aFieldset['show_title_column'] ? 1 : 2, 'class' => $aFieldset['show_title_column'] ? null : 'admin-page-framework-field-td-no-title',)) . ">", 'close_main' => "</td>",));
+        return $this->_getFieldByContainer($aFieldset, $hfCallback, array('open_container' => "<tr " . $_oFieldrowAttribute->get() . ">", 'close_container' => "</tr>", 'open_title' => "<th>", 'close_title' => "</th>", 'open_main' => "<td " . $this->getAttributes(array('colspan' => $aFieldset['show_title_column'] ? 1 : 2, 'class' => $aFieldset['show_title_column'] ? null : 'admin-page-framework-field-td-no-title',)) . ">", 'close_main' => "</td>",));
     }
     protected function _getFieldByContainer(array $aFieldset, $hfCallback, array $aOpenCloseTags) {
         $aOpenCloseTags = $aOpenCloseTags + array('open_container' => '', 'close_container' => '', 'open_title' => '', 'close_title' => '', 'open_main' => '', 'close_main' => '',);

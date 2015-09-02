@@ -12,7 +12,7 @@ class AdminPageFramework_Resource_MetaBox extends AdminPageFramework_Resource_Ba
         if (empty($sSRC)) {
             return '';
         }
-        $sSRC = $this->oUtil->resolveSRC($sSRC);
+        $sSRC = $this->oUtil->getResolvedSRC($sSRC);
         $_sSRCHash = md5($sSRC);
         if (isset($this->oProp->aEnqueuingStyles[$_sSRCHash])) {
             return '';
@@ -33,7 +33,7 @@ class AdminPageFramework_Resource_MetaBox extends AdminPageFramework_Resource_Ba
         if (empty($sSRC)) {
             return '';
         }
-        $sSRC = $this->oUtil->resolveSRC($sSRC);
+        $sSRC = $this->oUtil->getResolvedSRC($sSRC);
         $_sSRCHash = md5($sSRC);
         if (isset($this->oProp->aEnqueuingScripts[$_sSRCHash])) {
             return '';

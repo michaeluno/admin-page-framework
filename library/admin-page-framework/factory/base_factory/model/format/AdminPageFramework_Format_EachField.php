@@ -27,7 +27,7 @@ class AdminPageFramework_Format_EachField extends AdminPageFramework_Format_Form
         $_aField['_fieldset_container_id'] = "fieldset-{$this->aField['tag_id']}";
         $_aField = $this->uniteArrays($_aField, array('attributes' => array('id' => $_aField['input_id'], 'name' => $_aField['_input_name'], 'value' => $_aField['value'], 'type' => $_aField['type'], 'disabled' => null, 'data-id_model' => $_aField['_input_id_model'], 'data-name_model' => $_aField['_input_name_model'],)), ( array )$this->aFieldTypeDefinition['aDefaultKeys']);
         $_aField['attributes']['class'] = 'widget' === $_aField['_fields_type'] && is_callable($this->aCallbacks['hfClass']) ? call_user_func_array($this->aCallbacks['hfClass'], array($_aField['attributes']['class'])) : $_aField['attributes']['class'];
-        $_aField['attributes']['class'] = $this->generateClassAttribute($_aField['attributes']['class'], $this->dropElementsByType($_aField['class']));
+        $_aField['attributes']['class'] = $this->getClassAttribute($_aField['attributes']['class'], $this->dropElementsByType($_aField['class']));
         $_aField['_field_object'] = new AdminPageFramework_ArrayHandler($_aField);
         return $_aField;
     }

@@ -37,7 +37,7 @@ abstract class AdminPageFramework_Utility_Deprecated {
         }
         return array_values($aArray);
     }
-    static public function generateAttributes(array $aAttributes) {
+    static public function getAttributes(array $aAttributes) {
         $_sQuoteCharactor = "'";
         $_aOutput = array();
         foreach ($aAttributes as $sAttribute => $sProperty) {

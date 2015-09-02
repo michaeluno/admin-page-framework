@@ -3,7 +3,7 @@ class AdminPageFramework_AdminNotice {
     public function __construct($sNotice, array $aAttributes = array('class' => 'error')) {
         $this->sNotice = $sNotice;
         $this->aAttributes = $aAttributes + array('class' => 'error',);
-        $this->aAttributes['class'] = $this->oUtil->generateClassAttribute($this->oUtil->getElement($this->aAttributes, array('class'), ''), 'admin-page-framework-settings-notice-message', 'notice is-dismissible');
+        $this->aAttributes['class'] = $this->oUtil->getClassAttribute($this->oUtil->getElement($this->aAttributes, array('class'), ''), 'admin-page-framework-settings-notice-message', 'notice is-dismissible');
         if (did_action('admin_notices')) {
             $this->_replyToDisplayAdminNotice();
         } else {

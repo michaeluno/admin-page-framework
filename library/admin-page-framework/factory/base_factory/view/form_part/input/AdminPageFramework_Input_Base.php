@@ -20,7 +20,7 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtilit
     }
     public function addClass() {
         foreach (func_get_args() as $_asSelectors) {
-            $this->aAttributes['class'] = $this->generateClassAttribute($this->aAttributes['class'], $_asSelectors);
+            $this->aAttributes['class'] = $this->getClassAttribute($this->aAttributes['class'], $_asSelectors);
         }
         return $this->aAttributes['class'];
     }

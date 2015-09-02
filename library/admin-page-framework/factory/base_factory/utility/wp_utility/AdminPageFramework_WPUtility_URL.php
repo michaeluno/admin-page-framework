@@ -28,7 +28,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
         unset($oWPStyles);
         return esc_url($sHref);
     }
-    static public function resolveSRC($sSRC, $bReturnNullIfNotExist = false) {
+    static public function getResolvedSRC($sSRC, $bReturnNullIfNotExist = false) {
         if (!$sSRC) {
             return $bReturnNullIfNotExist ? null : $sSRC;
         }
@@ -42,5 +42,8 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
             return null;
         }
         return $sSRC;
+    }
+    static public function resolveSRC($sSRC, $bReturnNullIfNotExist = false) {
+        return self::getResolvedSRC($sSRC, $bReturnNullIfNotExist);
     }
 }

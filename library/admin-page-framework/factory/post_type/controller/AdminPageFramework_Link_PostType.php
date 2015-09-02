@@ -11,7 +11,7 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
         if (!$_sLinkLabel) {
             return $aLinks;
         }
-        array_unshift($aLinks, '<a ' . $this->generateAttributes(array('href' => esc_url("edit.php?post_type={$this->oProp->sPostType}"), 'class' => 'apf-plugin-title-action-link apf-admin-page',)) . '>' . $_sLinkLabel . "</a>");
+        array_unshift($aLinks, '<a ' . $this->getAttributes(array('href' => esc_url("edit.php?post_type={$this->oProp->sPostType}"), 'class' => 'apf-plugin-title-action-link apf-admin-page',)) . '>' . $_sLinkLabel . "</a>");
         return $aLinks;
     }
     public function _replyToSetFooterInfo() {

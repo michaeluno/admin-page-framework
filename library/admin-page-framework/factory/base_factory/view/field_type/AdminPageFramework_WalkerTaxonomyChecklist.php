@@ -10,6 +10,6 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
         $_aInputAttributes = array('id' => $_sID, 'value' => 1, 'type' => 'checkbox', 'name' => "{$aArgs['_name_prefix']}[{$_iID}]", 'checked' => in_array($_iID, ( array )$aArgs['_selected_items']) ? 'checked' : null,) + $_aInputAttributes + array('class' => null,);
         $_aInputAttributes['class'].= ' apf_checkbox';
         $_aLiTagAttributes = array('id' => "list-{$_sID}", 'class' => 'category-list', 'title' => $oTerm->description,);
-        $sOutput.= "\n" . "<li " . AdminPageFramework_WPUtility::generateAttributes($_aLiTagAttributes) . ">" . "<label for='{$_sID}' class='taxonomy-checklist-label'>" . "<input value='0' type='hidden' name='" . $_aInputAttributes['name'] . "' class='apf_checkbox' />" . "<input " . AdminPageFramework_WPUtility::generateAttributes($_aInputAttributes) . " />" . esc_html(apply_filters('the_category', $oTerm->name)) . $_sPostCount . "</label>";
+        $sOutput.= "\n" . "<li " . AdminPageFramework_WPUtility::getAttributes($_aLiTagAttributes) . ">" . "<label for='{$_sID}' class='taxonomy-checklist-label'>" . "<input value='0' type='hidden' name='" . $_aInputAttributes['name'] . "' class='apf_checkbox' />" . "<input " . AdminPageFramework_WPUtility::getAttributes($_aInputAttributes) . " />" . esc_html(apply_filters('the_category', $oTerm->name)) . $_sPostCount . "</label>";
     }
 }

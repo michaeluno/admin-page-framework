@@ -41,7 +41,7 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
         return $this->getElement($this->aFieldTypeDefinitions, $sFieldTypeSlug, $this->aFieldTypeDefinitions['default']);
     }
     private function _getDelimiter(array $aField, $bIsLastElement) {
-        return $aField['delimiter'] ? "<div " . $this->generateAttributes(array('class' => 'delimiter', 'id' => "delimiter-{$aField['input_id']}", 'style' => $this->getAOrB($bIsLastElement, "display:none;", ""),)) . ">" . $aField['delimiter'] . "</div>" : '';
+        return $aField['delimiter'] ? "<div " . $this->getAttributes(array('class' => 'delimiter', 'id' => "delimiter-{$aField['input_id']}", 'style' => $this->getAOrB($bIsLastElement, "display:none;", ""),)) . ">" . $aField['delimiter'] . "</div>" : '';
     }
     private function _getFinalOutput(array $aFieldset, array $aFieldsOutput, $iFieldsCount) {
         $_oFieldsetAttributes = new AdminPageFramework_Attribute_Fieldset($aFieldset);

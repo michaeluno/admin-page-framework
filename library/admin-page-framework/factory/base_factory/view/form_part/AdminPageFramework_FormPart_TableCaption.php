@@ -30,7 +30,7 @@ class AdminPageFramework_FormPart_TableCaption extends AdminPageFramework_FormPa
         $_abCollapsible = $_oArgumentFormater->get();
         $_oCollapsibleSectionTitle = new AdminPageFramework_FormPart_CollapsibleSectionTitle(isset($_abCollapsible['title']) ? $_abCollapsible['title'] : $aSection['title'], 'h3', $aFields, $hfFieldCallback, $iSectionIndex, $aFieldTypeDefinitions, $_abCollapsible, 'section', $oMsg);
         $_bShowTitle = empty($_abCollapsible) && !$aSection['section_tab_slug'];
-        return "<caption " . $this->generateAttributes(array('class' => 'admin-page-framework-section-caption', 'data-section_tab' => $aSection['section_tab_slug'],)) . ">" . $_oCollapsibleSectionTitle->get() . $this->getAOrB($_bShowTitle, $this->_getCaptionTitle($aSection, $iSectionIndex, $aFields, $hfFieldCallback, $aFieldTypeDefinitions), '') . $this->_getCaptionDescription($aSection, $hfSectionCallback) . $this->_getSectionError($aSection, $aFieldErrors) . "</caption>";
+        return "<caption " . $this->getAttributes(array('class' => 'admin-page-framework-section-caption', 'data-section_tab' => $aSection['section_tab_slug'],)) . ">" . $_oCollapsibleSectionTitle->get() . $this->getAOrB($_bShowTitle, $this->_getCaptionTitle($aSection, $iSectionIndex, $aFields, $hfFieldCallback, $aFieldTypeDefinitions), '') . $this->_getCaptionDescription($aSection, $hfSectionCallback) . $this->_getSectionError($aSection, $aFieldErrors) . "</caption>";
     }
     private function _getSectionError($aSection, $aFieldErrors) {
         $_sSectionID = $aSection['section_id'];
@@ -39,7 +39,7 @@ class AdminPageFramework_FormPart_TableCaption extends AdminPageFramework_FormPa
     }
     private function _getCaptionTitle($aSection, $iSectionIndex, $aFields, $hfFieldCallback, $aFieldTypeDefinitions) {
         $_oSectionTitle = new AdminPageFramework_FormPart_SectionTitle($aSection['title'], 'h3', $aFields, $hfFieldCallback, $iSectionIndex, $aFieldTypeDefinitions);
-        return "<div " . $this->generateAttributes(array('class' => 'admin-page-framework-section-title', 'style' => $this->getAOrB($this->_shouldShowCaptionTitle($aSection, $iSectionIndex), '', 'display: none;'),)) . ">" . $_oSectionTitle->get() . "</div>";
+        return "<div " . $this->getAttributes(array('class' => 'admin-page-framework-section-title', 'style' => $this->getAOrB($this->_shouldShowCaptionTitle($aSection, $iSectionIndex), '', 'display: none;'),)) . ">" . $_oSectionTitle->get() . "</div>";
     }
     private function _getCaptionDescription($aSection, $hfSectionCallback) {
         if ($aSection['collapsible']) {

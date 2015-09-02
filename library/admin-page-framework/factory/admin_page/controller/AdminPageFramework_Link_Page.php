@@ -70,7 +70,7 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
             return $aLinks;
         }
         $_sLinkURL = preg_match('/^.+\.php/', $this->oProp->aRootMenu['sPageSlug']) ? add_query_arg(array('page' => $this->oProp->sDefaultPageSlug), admin_url($this->oProp->aRootMenu['sPageSlug'])) : "admin.php?page={$this->oProp->sDefaultPageSlug}";
-        array_unshift($aLinks, '<a ' . $this->generateAttributes(array('href' => esc_url($_sLinkURL), 'class' => 'apf-plugin-title-action-link apf-post-type',)) . '>' . $this->oProp->sLabelPluginSettingsLink . '</a>');
+        array_unshift($aLinks, '<a ' . $this->getAttributes(array('href' => esc_url($_sLinkURL), 'class' => 'apf-plugin-title-action-link apf-post-type',)) . '>' . $this->oProp->sLabelPluginSettingsLink . '</a>');
         return $aLinks;
     }
     public function _replyToAddLinkToPluginDescription($aLinks, $sFile) {

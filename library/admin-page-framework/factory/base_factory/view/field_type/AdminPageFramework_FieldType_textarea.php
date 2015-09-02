@@ -382,7 +382,7 @@ CSSRULES;
     private function _getEditor($aField) {
         unset($aField['attributes']['value']);
         if (empty($aField['rich']) || !$this->isTinyMCESupported()) {
-            return "<textarea " . $this->generateAttributes($aField['attributes']) . " >" . esc_textarea($aField['value']) . "</textarea>";
+            return "<textarea " . $this->getAttributes($aField['attributes']) . " >" . esc_textarea($aField['value']) . "</textarea>";
         }
         ob_start();
         wp_editor($aField['value'], $aField['attributes']['id'], $this->uniteArrays(( array )$aField['rich'], array('wpautop' => true, 'media_buttons' => true, 'textarea_name' => $aField['attributes']['name'], 'textarea_rows' => $aField['attributes']['rows'], 'tabindex' => '', 'tabfocus_elements' => ':prev,:next', 'editor_css' => '', 'editor_class' => $aField['attributes']['class'], 'teeny' => false, 'dfw' => false, 'tinymce' => true, 'quicktags' => true)));

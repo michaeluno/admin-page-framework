@@ -67,7 +67,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
         if (!$fEnableForm) {
             return;
         }
-        echo "<form " . $this->oUtil->generateAttributes(array('method' => 'post', 'enctype' => $this->oProp->sFormEncType, 'id' => 'admin-page-framework-form', 'action' => wp_unslash(remove_query_arg('settings-updated', $this->oProp->sTargetFormPage)),)) . " >" . PHP_EOL;
+        echo "<form " . $this->oUtil->getAttributes(array('method' => 'post', 'enctype' => $this->oProp->sFormEncType, 'id' => 'admin-page-framework-form', 'action' => wp_unslash(remove_query_arg('settings-updated', $this->oProp->sTargetFormPage)),)) . " >" . PHP_EOL;
         echo "<input type='hidden' name='admin_page_framework_start' value='1' />" . PHP_EOL;
         settings_fields($this->oProp->sOptionKey);
     }
@@ -107,7 +107,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
     private function _getDefaultScreenIcon() {
         $_oScreen = get_current_screen();
         $_sIconIDAttribute = $this->_getScreenIDAttribute($_oScreen);
-        $_aAttributes = array('class' => $this->oUtil->generateClassAttribute($this->oUtil->getAOrB(empty($_sIconIDAttribute) && $_oScreen->post_type, sanitize_html_class('icon32-posts-' . $_oScreen->post_type), ''), $this->oUtil->getAOrB(empty($_sIconIDAttribute) || $_sIconIDAttribute == $this->oProp->sClassName, 'generic', '')), 'id' => "icon-" . $_sIconIDAttribute,);
+        $_aAttributes = array('class' => $this->oUtil->getClassAttribute($this->oUtil->getAOrB(empty($_sIconIDAttribute) && $_oScreen->post_type, sanitize_html_class('icon32-posts-' . $_oScreen->post_type), ''), $this->oUtil->getAOrB(empty($_sIconIDAttribute) || $_sIconIDAttribute == $this->oProp->sClassName, 'generic', '')), 'id' => "icon-" . $_sIconIDAttribute,);
         return $this->_getScreenIconByAttributes($_aAttributes);
     }
     private function _getScreenIDAttribute($oScreen) {
@@ -120,8 +120,8 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
         return esc_attr($oScreen->base);
     }
     private function _getScreenIconByAttributes(array $aAttributes) {
-        $aAttributes['class'] = $this->oUtil->generateClassAttribute('icon32', $this->oUtil->getElement($aAttributes, 'class'));
-        return "<div " . $this->oUtil->generateAttributes($aAttributes) . ">" . "<br />" . "</div>";
+        $aAttributes['class'] = $this->oUtil->getClassAttribute('icon32', $this->oUtil->getElement($aAttributes, 'class'));
+        return "<div " . $this->oUtil->getAttributes($aAttributes) . ">" . "<br />" . "</div>";
     }
     private function _getPageHeadingTabs($sCurrentPageSlug, $sTag = 'h2') {
         $_aPage = $this->oProp->aPages[$sCurrentPageSlug];
