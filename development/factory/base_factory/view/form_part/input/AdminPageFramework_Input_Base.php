@@ -101,7 +101,7 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtilit
      * 
      * @since       3.5.3
      * @return      string|array|null        The specified attribute value or the entire attribute array if not specified. 
-     * If not set, null will be returned as the `generateAttributes()` method will not list an attribute with the null value.
+     * If not set, null will be returned as the `getAttributes()` method will not list an attribute with the null value.
      * @param       string      $sName      The attribute name.
      * @param       string      $sDefault   The defaqult value if the value is not set.
      */
@@ -123,7 +123,7 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtilit
      */
     public function addClass( /* $asSelectors1, $asSelectors2 */ ) {
         foreach( func_get_args() as $_asSelectors ) {            
-            $this->aAttributes['class'] = $this->generateClassAttribute( 
+            $this->aAttributes['class'] = $this->getClassAttribute( 
                 $this->aAttributes['class'],
                 $_asSelectors
             );

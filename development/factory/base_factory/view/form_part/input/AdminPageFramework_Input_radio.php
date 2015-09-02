@@ -36,10 +36,10 @@ class AdminPageFramework_Input_radio extends AdminPageFramework_Input_Base {
         
         // Output
         return 
-            "<{$this->aOptions['input_container_tag']} " . $this->generateAttributes( $this->aOptions['input_container_attributes'] ) . ">"
-                . "<input " . $this->generateAttributes( $_aAttributes ) . " />" 
+            "<{$this->aOptions['input_container_tag']} " . $this->getAttributes( $this->aOptions['input_container_attributes'] ) . ">"
+                . "<input " . $this->getAttributes( $_aAttributes ) . " />" 
             . "</{$this->aOptions['input_container_tag']}>"
-            . "<{$this->aOptions['label_container_tag']} " . $this->generateAttributes( $this->aOptions['label_container_attributes'] ) . ">"
+            . "<{$this->aOptions['label_container_tag']} " . $this->getAttributes( $this->aOptions['label_container_attributes'] ) . ">"
                 . $_sLabel
             . "</{$this->aOptions['label_container_tag']}>"
             ;

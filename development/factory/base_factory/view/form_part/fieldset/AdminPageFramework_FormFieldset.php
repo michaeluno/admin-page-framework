@@ -178,7 +178,7 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
                  */
                 private function _getDelimiter( array $aField, $bIsLastElement ) {
                     return $aField['delimiter']
-                        ? "<div " . $this->generateAttributes( 
+                        ? "<div " . $this->getAttributes( 
                                 array(
                                     'class' => 'delimiter',
                                     'id'    => "delimiter-{$aField['input_id']}",

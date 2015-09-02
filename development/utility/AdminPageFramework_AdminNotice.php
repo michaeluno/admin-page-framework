@@ -38,7 +38,7 @@ class AdminPageFramework_AdminNotice {
         $this->aAttributes          = $aAttributes + array(
             'class' => 'error',
         );        
-        $this->aAttributes[ 'class' ] = $this->oUtil->generateClassAttribute(
+        $this->aAttributes[ 'class' ] = $this->oUtil->getClassAttribute(
             $this->oUtil->getElement(
                 $this->aAttributes,
                 array( 'class' ),

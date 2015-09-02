@@ -77,12 +77,12 @@ CSSRULES;
 
         return 
             $aField['before_label']
-            . "<div " . $this->generateAttributes( $_aLabelContainerAttributes ) . ">"
+            . "<div " . $this->getAttributes( $_aLabelContainerAttributes ) . ">"
                 . $this->_getExtraFieldsBeforeLabel( $aField ) // this is for the import field type that cannot place file input tag inside the label tag.
-                . "<label " . $this->generateAttributes( $_aLabelAttributes ) . ">"
+                . "<label " . $this->getAttributes( $_aLabelAttributes ) . ">"
                     . $aField['before_input']
                     . $this->_getExtraInputFields( $aField )
-                    . "<input " . $this->generateAttributes( $_aInputAttributes ) . " />" // this method is defined in the base class
+                    . "<input " . $this->getAttributes( $_aInputAttributes ) . " />" // this method is defined in the base class
                     . $aField['after_input']
                 . "</label>"
             . "</div>"

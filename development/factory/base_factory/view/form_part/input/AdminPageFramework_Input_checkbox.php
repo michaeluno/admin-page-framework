@@ -36,9 +36,9 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
         
         // Output
         return 
-           "<{$this->aOptions['input_container_tag']} " . $this->generateAttributes( $this->aOptions['input_container_attributes'] ) . ">"
+           "<{$this->aOptions['input_container_tag']} " . $this->getAttributes( $this->aOptions['input_container_attributes'] ) . ">"
                 // the unchecked value must be set prior to the checkbox input field.
-                . "<input " . $this->generateAttributes( 
+                . "<input " . $this->getAttributes( 
                     array(
                         'type'      => 'hidden',
                         'class'     => $_aAttributes['class'],
@@ -47,9 +47,9 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
                     ) 
                 ) 
                 . " />"
-                . "<input " . $this->generateAttributes( $_aAttributes ) . " />" 
+                . "<input " . $this->getAttributes( $_aAttributes ) . " />" 
             . "</{$this->aOptions['input_container_tag']}>"
-            . "<{$this->aOptions['label_container_tag']} " . $this->generateAttributes( $this->aOptions['label_container_attributes'] ) . ">"
+            . "<{$this->aOptions['label_container_tag']} " . $this->getAttributes( $this->aOptions['label_container_attributes'] ) . ">"
                 . $_sLabel
             . "</{$this->aOptions['label_container_tag']}>"
         ;

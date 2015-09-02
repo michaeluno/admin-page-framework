@@ -78,7 +78,7 @@ class AdminPageFramework_FormPart_TableRow extends AdminPageFramework_FormPart_B
                     'open_title'        => "<th>",
                     'close_title'       => "</th>",
                     'open_main'         => "<td " 
-                        . $this->generateAttributes( 
+                        . $this->getAttributes( 
                             array(
                                 'colspan'   => $aFieldset[ 'show_title_column' ] 
                                     ? 1 

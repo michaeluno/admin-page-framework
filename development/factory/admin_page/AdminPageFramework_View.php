@@ -33,7 +33,7 @@ abstract class AdminPageFramework_View extends AdminPageFramework_Model {
         
         foreach( $this->oProp->aAdminNotices as $_aAdminNotice ) {
             
-            $_sClassSelectors = $this->oUtil->generateClassAttribute(
+            $_sClassSelectors = $this->oUtil->getClassAttribute(
                 $this->oUtil->getElement(
                     $_aAdminNotice,
                     array( 'sClassSelector' ),

@@ -97,7 +97,7 @@ CSSRULES;
             // Output
             return $this->getElement( $aField, array( 'before_label', $sKey ) )
                 . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
-                    . "<label " . $this->generateAttributes( 
+                    . "<label " . $this->getAttributes( 
                             array(
                                 'for'   => $_oRadio->getAttribute( 'id' ),
                                 'class' => $_oRadio->getAttribute( 'disabled' )

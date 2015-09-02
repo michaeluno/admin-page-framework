@@ -417,7 +417,7 @@ JAVASCRIPTS;
                     $_bIsLabelSet, 
                     $bExternalSource 
                 );
-                return "<a " . $this->generateAttributes( $_aAttributes ) . ">"
+                return "<a " . $this->getAttributes( $_aAttributes ) . ">"
                         . $this->getAOrB( 
                             $_bIsLabelSet,
                             $_aAttributes['data-label'],
@@ -450,7 +450,7 @@ JAVASCRIPTS;
                                 : $this->oMsg->get( 'select_file' ),
                             'data-label' => null,
                         );
-                    $_aAttributes['class']  = $this->generateClassAttribute( 
+                    $_aAttributes['class']  = $this->getClassAttribute( 
                         'select_media button button-small ',
                         $this->getAOrB(
                             trim( $aButtonAttributes['class'] ),

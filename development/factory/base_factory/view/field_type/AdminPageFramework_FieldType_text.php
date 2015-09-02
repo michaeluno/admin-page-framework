@@ -112,7 +112,7 @@ CSSRULES;
                                     . $_sLabel
                                 . "</span>"
                             : '',
-                        "<input " . $this->generateAttributes( $_aInputAttributes ) . " />",
+                        "<input " . $this->getAttributes( $_aInputAttributes ) . " />",
                         $this->getElementByLabel( $aField['after_input'], $sKey, $_bIsArray ),
                     "</label>",
                 "</div>",

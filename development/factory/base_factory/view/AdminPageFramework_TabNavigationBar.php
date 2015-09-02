@@ -137,14 +137,14 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_WPUtility {
             }
 
             $_aContainerAttributes = $this->aAttributes + array( 'class' => null );
-            $_aContainerAttributes[ 'class' ] = $this->generateClassAttribute(
+            $_aContainerAttributes[ 'class' ] = $this->getClassAttribute(
                 'nav-tab-wrapper',
                 $_aContainerAttributes[ 'class' ]    
             );            
 
             return empty( $_aOutput )
                 ? ''
-                : "<{$this->sTabTag} " . $this->generateAttributes( $_aContainerAttributes ) . ">"
+                : "<{$this->sTabTag} " . $this->getAttributes( $_aContainerAttributes ) . ">"
                     . implode( '', $_aOutput )                    
                 . "</{$this->sTabTag}>";
             
@@ -162,7 +162,7 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_WPUtility {
                 $_aATagAttributes = isset( $aTab[ 'attributes' ] )
                     ? $aTab[ 'attributes' ]
                     : array();
-                $_sClassAttribute = $this->generateClassAttribute(
+                $_sClassAttribute = $this->getClassAttribute(
                     'nav-tab',
                     $this->getElement(
                         $aTab, // subject array

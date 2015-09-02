@@ -47,7 +47,7 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
      
     }    
         /**
-         * Enhances the parent method generateAttributes() by escaping the attribute values.
+         * Enhances the parent method getAttributes() by escaping the attribute values.
          * @since       3.0.0
          * @deprecated  3.6.0       Use the `getAttributes()` method instead.
          */
@@ -61,7 +61,7 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
      * @return      string
      */
     static public function getDataAttributes( array $aArray ) {
-        return self::generateAttributes( self::getDataAttributeArray( $aArray ) );
+        return self::getAttributes( self::getDataAttributeArray( $aArray ) );
     }    
         /**
          * Generates a string of data attributes from the given associative array.

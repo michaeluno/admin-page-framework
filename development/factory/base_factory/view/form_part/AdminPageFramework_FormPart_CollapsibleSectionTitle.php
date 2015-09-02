@@ -95,9 +95,9 @@ class AdminPageFramework_FormPart_CollapsibleSectionTitle extends AdminPageFrame
             );
             
             return $this->_getCollapsibleSectionsEnablerScript()
-                . "<div " . $this->generateAttributes(
+                . "<div " . $this->getAttributes(
                     array(
-                        'class' => $this->generateClassAttribute( 
+                        'class' => $this->getClassAttribute( 
                             'admin-page-framework-section-title',
                             'accordion-section-title',
                             'admin-page-framework-collapsible-title',

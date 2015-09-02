@@ -137,7 +137,7 @@ CSSRULES;
                 $_sLabel
             );
         }        
-        return "<div " . $this->generateAttributes( $this->_getCheckboxContainerAttributes( $aField ) ) . ">"
+        return "<div " . $this->getAttributes( $this->_getCheckboxContainerAttributes( $aField ) ) . ">"
                 . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                 . implode( PHP_EOL, $_aOutput )
             . "</div>";
@@ -175,7 +175,7 @@ CSSRULES;
             $_oCheckbox->addClass( $this->_sCheckboxClassSelector );                        
             return $this->getElement( $aField, array( 'before_label', $sKey ) )
                 . "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
-                    . "<label " . $this->generateAttributes( 
+                    . "<label " . $this->getAttributes( 
                         array(
                             'for'   => $_oCheckbox->getAttribute( 'id' ),
                             'class' => $_oCheckbox->getAttribute( 'disabled' )

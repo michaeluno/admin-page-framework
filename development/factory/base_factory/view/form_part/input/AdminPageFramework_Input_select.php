@@ -69,8 +69,8 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
         );    
 
         return  
-            "<{$this->aOptions['input_container_tag']} " . $this->generateAttributes( $this->aOptions['input_container_attributes'] ) . ">"
-                . "<select " . $this->generateAttributes( $this->_getSelectAttributes( $_aAttributes ) ) . " >"
+            "<{$this->aOptions['input_container_tag']} " . $this->getAttributes( $this->aOptions['input_container_attributes'] ) . ">"
+                . "<select " . $this->getAttributes( $this->_getSelectAttributes( $_aAttributes ) ) . " >"
                     . $this->_getDropDownList( 
                         $this->getAttribute( 'id' ),
                         $this->getAsArray(
@@ -170,7 +170,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
                 $_aOptGroupAttributes = array(
                     'label' => $sKey,
                 ) + $_aOptGroupAttributes;
-                return "<optgroup " . $this->generateAttributes( $_aOptGroupAttributes ) . ">"
+                return "<optgroup " . $this->getAttributes( $_aOptGroupAttributes ) . ">"
                         . $this->_getDropDownList( $sInputID, $asLabel, $aBaseAttributes )
                     . "</optgroup>";
              
@@ -205,7 +205,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
              * @return      string      The generated option tag HTML output.
              */
             private function _getOptionTag( $sLabel, array $aOptionTagAttributes=array() ) {
-                return "<option " . $this->generateAttributes( $aOptionTagAttributes ) . " >"    
+                return "<option " . $this->getAttributes( $aOptionTagAttributes ) . " >"    
                         . $sLabel
                     . "</option>";
             }

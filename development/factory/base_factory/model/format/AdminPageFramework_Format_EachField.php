@@ -176,7 +176,7 @@ class AdminPageFramework_Format_EachField extends AdminPageFramework_Format_Form
         $_aField[ 'attributes' ][ 'class' ] = 'widget' === $_aField[ '_fields_type' ] && is_callable( $this->aCallbacks[ 'hfClass' ] )
             ? call_user_func_array( $this->aCallbacks[ 'hfClass' ], array( $_aField[ 'attributes' ][ 'class' ] ) )
             : $_aField[ 'attributes' ][ 'class' ];
-        $_aField[ 'attributes' ][ 'class' ] = $this->generateClassAttribute(
+        $_aField[ 'attributes' ][ 'class' ] = $this->getClassAttribute(
             $_aField[ 'attributes' ][ 'class' ],  
             $this->dropElementsByType( $_aField[ 'class' ] )
         );

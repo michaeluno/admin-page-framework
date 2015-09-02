@@ -135,9 +135,9 @@ abstract class AdminPageFramework_Utility_Deprecated {
      * @since       3.3.0       Made it allow empty value.
      * @since       3.5.3       Deprecated. Moved from `AdminPageFramework_Utility`.
      * @return      string
-     * @deprecated      Use generateAttributes() in `AdminPageFramework_WPUtility`.
+     * @deprecated      Use getAttributes() in `AdminPageFramework_WPUtility`.
      */
-    static public function generateAttributes( array $aAttributes ) {
+    static public function getAttributes( array $aAttributes ) {
         
         $_sQuoteCharactor   ="'";
         $_aOutput           = array();

@@ -106,7 +106,7 @@ CSSRULES;
      * @since 3.0.0
      */    
     protected function _getExtraFieldsBeforeLabel( &$aField ) {
-        return "<input " . $this->generateAttributes( 
+        return "<input " . $this->getAttributes( 
                 array(
                     'id' => "{$aField['input_id']}_file",
                     'type' => 'file',
@@ -123,37 +123,37 @@ CSSRULES;
 
         $aHiddenAttributes = array( 'type' => 'hidden', );     
         return    
-            "<input " . $this->generateAttributes( 
+            "<input " . $this->getAttributes( 
                 array(
                     'name' => "__import[{$aField['input_id']}][input_id]",
                     'value' => $aField['input_id'],
                 ) + $aHiddenAttributes
             ) . "/>"
-            . "<input " . $this->generateAttributes( 
+            . "<input " . $this->getAttributes( 
                 array(
                     'name' => "__import[{$aField['input_id']}][field_id]",
                     'value' => $aField['field_id'],
                 ) + $aHiddenAttributes
             ) . "/>"
-            . "<input " . $this->generateAttributes( 
+            . "<input " . $this->getAttributes( 
                 array(
                     'name' => "__import[{$aField['input_id']}][section_id]",
                     'value' => isset( $aField['section_id'] ) && $aField['section_id'] != '_default' ? $aField['section_id'] : '',
                 ) + $aHiddenAttributes
             ) . "/>"     
-            . "<input " . $this->generateAttributes( 
+            . "<input " . $this->getAttributes( 
                 array(
                     'name' => "__import[{$aField['input_id']}][is_merge]",
                     'value' => $aField['is_merge'],
                 ) + $aHiddenAttributes
             ) . "/>"    
-            . "<input " . $this->generateAttributes( 
+            . "<input " . $this->getAttributes( 
                 array(
                     'name' => "__import[{$aField['input_id']}][option_key]",
                     'value' => $aField['option_key'],
                 ) + $aHiddenAttributes
             ) . "/>"
-            . "<input " . $this->generateAttributes( 
+            . "<input " . $this->getAttributes( 
                 array(
                     'name' => "__import[{$aField['input_id']}][format]",
                     'value' => $aField['format'],

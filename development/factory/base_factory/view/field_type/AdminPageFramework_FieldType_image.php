@@ -559,7 +559,7 @@ CSSRULES;
                         "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>",
                         ''                        
                     )
-                    . "<input " . $this->generateAttributes( $this->_getImageInputAttributes( $aField, $_iCountAttributes, $_sImageURL, $_aBaseAttributes ) ) . " />" 
+                    . "<input " . $this->getAttributes( $this->_getImageInputAttributes( $aField, $_iCountAttributes, $_sImageURL, $_aBaseAttributes ) ) . " />" 
                     . $aField['after_input']
                     . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                     . $this->getExtraInputFields( $aField )
@@ -665,7 +665,7 @@ CSSRULES;
             
             $_aOutputs = array();
             foreach( $this->getElementAsArray( $aField, 'attributes_to_store' ) as $sAttribute ) {
-                $_aOutputs[] = "<input " . $this->generateAttributes( 
+                $_aOutputs[] = "<input " . $this->getAttributes( 
                     array(
                         'id'        => "{$aField['input_id']}_{$sAttribute}",
                         'type'      => 'hidden',
@@ -697,7 +697,7 @@ CSSRULES;
             
             $sImageURL = $this->getResolvedSRC( $sImageURL, true );
             return 
-                "<div " . $this->generateAttributes( 
+                "<div " . $this->getAttributes( 
                         array(
                             'id'    => "image_preview_container_{$aField['input_id']}",     
                             'class' => 'image_preview ' . $this->getElement( $aPreviewAtrributes, 'class', '' ),
@@ -756,7 +756,7 @@ JAVASCRIPTS;
                     $bRpeatable, 
                     $bExternalSource 
                 );
-                return "<a " . $this->generateAttributes( $_aAttributes ) . ">"
+                return "<a " . $this->getAttributes( $_aAttributes ) . ">"
                         . ( $_bIsLabelSet
                             ? $_aAttributes['data-label'] 
                             : ( strrpos( $_aAttributes['class'], 'dashicons' )
@@ -787,7 +787,7 @@ JAVASCRIPTS;
                                 : $this->oMsg->get( 'select_image' ),
                             'data-label' => null,
                         );
-                    $_aAttributes['class']  = $this->generateClassAttribute( 
+                    $_aAttributes['class']  = $this->getClassAttribute( 
                         'select_image button button-small ',
                         $this->getAOrB(
                             trim( $aButtonAttributes['class'] ),
@@ -845,7 +845,7 @@ JAVASCRIPTS;
         
             $_bIsLabelSet   = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
             $_aAttributes   = $this->_getFormattedRemoveButtonAttributesByType( $sInputID, $aButtonAttributes, $_bIsLabelSet, $sType );
-            return "<a " . $this->generateAttributes( $_aAttributes ) . ">"
+            return "<a " . $this->getAttributes( $_aAttributes ) . ">"
                     . ( $_bIsLabelSet
                         ? $_aAttributes['data-label'] 
                         : $this->getAOrB(
@@ -877,7 +877,7 @@ JAVASCRIPTS;
                             ? $aButtonAttributes['data-label'] 
                             : $this->oMsg->get( 'remove_value' ),
                     );
-                $_aAttributes['class']  = $this->generateClassAttribute( 
+                $_aAttributes['class']  = $this->getClassAttribute( 
                     "remove_value remove_{$sType} button button-small", 
                     $this->getAOrB(
                         trim( $aButtonAttributes['class'] ),

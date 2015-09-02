@@ -173,7 +173,7 @@ CSSRULES;
                         ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
                         : "" 
                     )
-                    . "<textarea " . $this->generateAttributes( $_aInputAttributes ) . " >"    
+                    . "<textarea " . $this->getAttributes( $_aInputAttributes ) . " >"    
                         . esc_textarea( $this->_getSystemInfomation( $aField['value'], $aField['data'], $aField['print_type'] ) )
                     . "</textarea>"
                     . $aField['after_input']

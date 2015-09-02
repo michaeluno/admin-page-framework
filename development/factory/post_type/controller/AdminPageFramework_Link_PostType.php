@@ -61,7 +61,7 @@ class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
         array_unshift(    
             $aLinks,
             // "<a href='" . esc_url( "edit.php?post_type={$this->oProp->sPostType}" ) . "'>" 
-            '<a ' . $this->generateAttributes(
+            '<a ' . $this->getAttributes(
                 array(
                     'href'      => esc_url( "edit.php?post_type={$this->oProp->sPostType}" ),
                     // 3.5.7+ Added for acceptance testing

@@ -367,9 +367,9 @@ CSSRULES;
                     )
                 ),
             );
-            return "<div " . $this->generateAttributes( $_aTabBoxContainerArguments ) . ">"
+            return "<div " . $this->getAttributes( $_aTabBoxContainerArguments ) . ">"
                     . $this->getElement( $aField, array( 'before_label', $sKey ) )
-                    . "<div " . $this->generateAttributes( $this->_getCheckboxContainerAttributes( $aField ) ) . "></div>"
+                    . "<div " . $this->getAttributes( $this->_getCheckboxContainerAttributes( $aField ) ) . "></div>"
                     . "<ul class='list:category taxonomychecklist form-no-clear'>"
                         . $this->_getTaxonomyChecklist( $aField, $sKey, $sTaxonomySlug )
                     . "</ul>"     

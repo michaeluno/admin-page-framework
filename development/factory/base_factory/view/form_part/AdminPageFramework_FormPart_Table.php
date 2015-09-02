@@ -151,7 +151,7 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
             );
             
             return $_sSectionSet
-                ? "<div " . $this->generateAttributes(
+                ? "<div " . $this->getAttributes(
                         array(
                             'class' => 'admin-page-framework-sectionset',
                             'id'    => "sectionset-{$sSectionTabSlug}_" . md5( serialize( $aSectionsBySectionTab ) ),
@@ -529,8 +529,8 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
                         'id'    => "section_tab-{$_sSectionTagID}",
                         'style' => null
                     );
-                $_aTabAttributes['class'] = $this->generateClassAttribute( $_aTabAttributes['class'], $aSection['class']['tab'] );  // 3.3.1+
-                $_aTabAttributes['style'] = $this->generateStyleAttribute( $_aTabAttributes['style'], $aSection['hidden'] ? 'display:none' : null );  // 3.3.1+
+                $_aTabAttributes['class'] = $this->getClassAttribute( $_aTabAttributes['class'], $aSection['class']['tab'] );  // 3.3.1+
+                $_aTabAttributes['style'] = $this->getStyleAttribute( $_aTabAttributes['style'], $aSection['hidden'] ? 'display:none' : null );  // 3.3.1+
                 
                 $_oSectionTitle = new AdminPageFramework_FormPart_SectionTitle(
                     $aSection[ 'title' ],
@@ -541,7 +541,7 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
                     $this->aFieldTypeDefinitions
                 );                        
                 
-                return "<li " . $this->generateAttributes( $_aTabAttributes ) . ">"
+                return "<li " . $this->getAttributes( $_aTabAttributes ) . ">"
                     . "<a href='#{$_sSectionTagID}'>"
                         . $_oSectionTitle->get()
                     ."</a>"

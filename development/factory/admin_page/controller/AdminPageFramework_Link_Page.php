@@ -237,7 +237,7 @@ class AdminPageFramework_Link_Page extends AdminPageFramework_Link_Base {
         array_unshift(    
             $aLinks,
             // '<a href="' . esc_url( $_sLinkURL ) . '">' 
-            '<a ' . $this->generateAttributes(
+            '<a ' . $this->getAttributes(
                 array(
                     'href'      => esc_url( $_sLinkURL ),
                     // 3.5.7+ Added for acceptance testing

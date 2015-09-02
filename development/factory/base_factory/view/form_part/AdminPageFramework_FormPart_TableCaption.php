@@ -107,7 +107,7 @@ class AdminPageFramework_FormPart_TableCaption extends AdminPageFramework_FormPa
             
             $_bShowTitle    = empty( $_abCollapsible ) && ! $aSection[ 'section_tab_slug' ];
             return 
-                "<caption " . $this->generateAttributes( 
+                "<caption " . $this->getAttributes( 
                     array(
                         'class'             => 'admin-page-framework-section-caption',
                         // data-section_tab is referred by the repeater script to hide/show the title and the description
@@ -167,7 +167,7 @@ class AdminPageFramework_FormPart_TableCaption extends AdminPageFramework_FormPa
                     $iSectionIndex, 
                     $aFieldTypeDefinitions
                 );
-                return "<div " . $this->generateAttributes(
+                return "<div " . $this->getAttributes(
                         array(
                             'class' => 'admin-page-framework-section-title',
                             'style' => $this->getAOrB(

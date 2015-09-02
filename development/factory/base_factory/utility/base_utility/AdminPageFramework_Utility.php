@@ -135,7 +135,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
      * 
      * For example, 
      * <code>
-     * $sClasses = generateClassAttribute( array( 'button, button-primary' ), 'remove_button button' );
+     * $sClasses = getClassAttribute( array( 'button, button-primary' ), 'remove_button button' );
      * </code>
      * Will generates
      * <code>

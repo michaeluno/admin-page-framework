@@ -189,7 +189,7 @@ CSSRULES;
                     $isKey, 
                     $bMultiLabels 
                 );
-                return "<label " . $this->generateAttributes( $_aSizeLabelAttributes ) . ">"
+                return "<label " . $this->getAttributes( $_aSizeLabelAttributes ) . ">"
                     . $this->getElement( 
                         $aField, 
                         $bMultiLabels
@@ -202,7 +202,7 @@ CSSRULES;
                             . "</span>"
                         : "" 
                     )
-                    . "<input " . $this->generateAttributes( $_aSizeAttributes ) . " />" 
+                    . "<input " . $this->getAttributes( $_aSizeAttributes ) . " />" 
                     . $this->getElement( 
                         $aField, 
                         $bMultiLabels
@@ -244,7 +244,7 @@ CSSRULES;
                     )
                     : $aField[ 'units' ];
                 
-                return "<label " . $this->generateAttributes( 
+                return "<label " . $this->getAttributes( 
                         array(
                             'for'       => $_aUnitAttributes[ 'id' ],
                             'class'     => $_aUnitAttributes[ 'disabled' ] 

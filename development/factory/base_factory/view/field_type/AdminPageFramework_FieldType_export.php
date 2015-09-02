@@ -93,37 +93,37 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 
         $_aAttributes = array( 'type' => 'hidden' );
         return
-            "<input " . $this->generateAttributes( 
+            "<input " . $this->getAttributes( 
                 array(
                     'name' => "__export[{$aField['input_id']}][input_id]",
                     'value' => $aField['input_id'],
                 ) + $_aAttributes
             ) . "/>"
-            . "<input " . $this->generateAttributes( 
+            . "<input " . $this->getAttributes( 
                 array(
                     'name' => "__export[{$aField['input_id']}][field_id]",
                     'value' => $aField['field_id'],
                 ) + $_aAttributes
             ) . "/>"
-            . "<input " . $this->generateAttributes( 
+            . "<input " . $this->getAttributes( 
                 array(
                     'name' => "__export[{$aField['input_id']}][section_id]",
                     'value' => isset( $aField['section_id'] ) && $aField['section_id'] != '_default' ? $aField['section_id'] : '',
                 ) + $_aAttributes
             ) . "/>"
-            . "<input " . $this->generateAttributes( 
+            . "<input " . $this->getAttributes( 
                 array(
                     'name' => "__export[{$aField['input_id']}][file_name]",
                     'value' => $aField['file_name'],
                 ) + $_aAttributes
             ) . "/>"
-            . "<input " . $this->generateAttributes( 
+            . "<input " . $this->getAttributes( 
                 array(
                     'name' => "__export[{$aField['input_id']}][format]",
                     'value' => $aField['format'],
                 ) + $_aAttributes
             ) . "/>"
-            . "<input " . $this->generateAttributes( 
+            . "<input " . $this->getAttributes( 
                 array(
                     'name' => "__export[{$aField['input_id']}][transient]",
                     'value' => isset( $aField['data'] ),

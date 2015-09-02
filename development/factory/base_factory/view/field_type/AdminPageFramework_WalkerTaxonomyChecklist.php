@@ -112,10 +112,10 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
         
         // Output - the variable is by reference so the modification takes effect
         $sOutput .= "\n"
-            . "<li " . AdminPageFramework_WPUtility::generateAttributes( $_aLiTagAttributes ) . ">" 
+            . "<li " . AdminPageFramework_WPUtility::getAttributes( $_aLiTagAttributes ) . ">" 
                 . "<label for='{$_sID}' class='taxonomy-checklist-label'>"
                     . "<input value='0' type='hidden' name='" . $_aInputAttributes[ 'name' ] . "' class='apf_checkbox' />"
-                    . "<input " . AdminPageFramework_WPUtility::generateAttributes( $_aInputAttributes ) . " />"
+                    . "<input " . AdminPageFramework_WPUtility::getAttributes( $_aInputAttributes ) . " />"
                     . esc_html( apply_filters( 'the_category', $oTerm->name ) ) 
                     . $_sPostCount
                 . "</label>";    

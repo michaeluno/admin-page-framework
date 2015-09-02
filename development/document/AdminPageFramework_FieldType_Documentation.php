@@ -120,7 +120,7 @@
  *                                              . "<span class='admin-page-framework-input-label-string' style='min-width:" . $aField['label_min_width'] . "px;'>" 
  *                                                  . $_sLabel
  *                                              . "</span>" . PHP_EOL                    
- *                                              . "<input " . $this->generateAttributes( $_aAttributes ) . " />"
+ *                                              . "<input " . $this->getAttributes( $_aAttributes ) . " />"
  *                                          . "</label>"
  *                                      . "</div>";                
  *                              }

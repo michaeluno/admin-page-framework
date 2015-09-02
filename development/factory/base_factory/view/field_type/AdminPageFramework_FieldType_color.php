@@ -224,7 +224,7 @@ JAVASCRIPTS;
                         ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
                         : "" 
                     )
-                    . "<input " . $this->generateAttributes( $aField[ 'attributes' ] ) . " />" 
+                    . "<input " . $this->getAttributes( $aField[ 'attributes' ] ) . " />" 
                     . $aField[ 'after_input' ]
                     . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                 . "</label>"

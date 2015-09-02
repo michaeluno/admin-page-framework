@@ -492,7 +492,7 @@ CSSRULES;
             
             // For no TinyMCE
             if ( empty( $aField['rich'] ) || ! $this->isTinyMCESupported() ) {
-                return "<textarea " . $this->generateAttributes( $aField['attributes'] ) . " >" // this method is defined in the base class
+                return "<textarea " . $this->getAttributes( $aField['attributes'] ) . " >" // this method is defined in the base class
                             . esc_textarea( $aField['value'] )
                         . "</textarea>";
             }

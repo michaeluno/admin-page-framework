@@ -244,7 +244,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
                 if ( ! $aNotice[ 'sMessage' ] ) {
                     return '';
                 }
-                $aNotice[ 'aAttributes' ][ 'class' ] = $this->oUtil->generateClassAttribute(
+                $aNotice[ 'aAttributes' ][ 'class' ] = $this->oUtil->getClassAttribute(
                     $this->oUtil->getElement(
                         $aNotice,
                         array( 'aAttributes', 'class' ),
@@ -253,7 +253,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
                     'admin-page-framework-settings-notice-container',
                     'notice is-dismissible' // 3.5.12+
                 );
-                return "<div " . $this->oUtil->generateAttributes( $aNotice['aAttributes'] ). ">"
+                return "<div " . $this->oUtil->getAttributes( $aNotice['aAttributes'] ). ">"
                         . "<p class='admin-page-framework-settings-notice-message'>" 
                             . $aNotice['sMessage'] 
                         . "</p>"

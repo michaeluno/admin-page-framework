@@ -209,7 +209,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
             }
     
             echo "<form " 
-                    . $this->oUtil->generateAttributes(
+                    . $this->oUtil->getAttributes(
                         array(
                             'method'    => 'post',
                             'enctype'   => $this->oProp->sFormEncType,
@@ -338,7 +338,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                 $_oScreen           = get_current_screen();
                 $_sIconIDAttribute  = $this->_getScreenIDAttribute( $_oScreen );
                 $_aAttributes       = array(
-                    'class'    => $this->oUtil->generateClassAttribute(
+                    'class'    => $this->oUtil->getClassAttribute(
                         $this->oUtil->getAOrB(
                             empty( $_sIconIDAttribute ) && $_oScreen->post_type,
                             sanitize_html_class( 'icon32-posts-' . $_oScreen->post_type ),
@@ -382,11 +382,11 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                  */
                 private function _getScreenIconByAttributes( array $aAttributes ) {
                     
-                    $aAttributes['class'] = $this->oUtil->generateClassAttribute( 
+                    $aAttributes['class'] = $this->oUtil->getClassAttribute( 
                         'icon32',   // required for a screen icon container element.
                         $this->oUtil->getElement( $aAttributes, 'class' )
                     );
-                    return "<div " . $this->oUtil->generateAttributes( $aAttributes ) . ">"
+                    return "<div " . $this->oUtil->getAttributes( $aAttributes ) . ">"
                         . "<br />"
                     . "</div>";
                     
