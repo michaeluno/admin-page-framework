@@ -143,7 +143,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
          * @deprecated      3.6.0       Use `getResolvedSRC()` instead.
          */
         static public function resolveSRC( $sSRC, $bReturnNullIfNotExist=false ) {
-            return getResolvedSRC( $sSRC, $bReturnNullIfNotExist );
+            return self::getResolvedSRC( $sSRC, $bReturnNullIfNotExist );
         }    
     
 }
