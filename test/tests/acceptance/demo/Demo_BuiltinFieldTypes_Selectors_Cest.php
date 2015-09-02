@@ -31,18 +31,18 @@ class Demo_BuiltinFieldTypes_Selectors_Cest extends \Demo_AdminPage_Base {
         $this->_checkCommonElements( $I );
         
         // Check some field values.
-        // <option id="selectors_select_multiple_options__0_3" value="3" selected="selected">April</option>        
+        // <option id="select_select_multiple_options__0_3" value="3" selected="selected">April</option> 
         $I->seeElement(
             'option', 
             [ 
-                'id' => 'selectors_select_multiple_options__0_3',
+                'id' => 'select_select_multiple_options__0_3',
                 'selected' => 'selected'
             ]
         );
         $I->seeElement(
             'option', 
             [ 
-                'id' => 'selectors_select_multiple_options__0_4',
+                'id' => 'select_select_multiple_options__0_4',
                 'selected' => 'selected'
             ]
         );
