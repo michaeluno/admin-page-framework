@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.6.0b09 by Michael Uno 
+	Admin Page Framework v3.6.0b10 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -42,7 +42,6 @@ $aClassFiles = array(
 	"AdminPageFramework_HelpPane_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/controller/AdminPageFramework_HelpPane_Base.php", 
 	"AdminPageFramework_Link_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/controller/AdminPageFramework_Link_Base.php", 
 	"AdminPageFramework_Resource_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/controller/AdminPageFramework_Resource_Base.php", 
-	"AdminPageFramework_CSS"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/model/AdminPageFramework_CSS.php", 
 	"AdminPageFramework_InclusionClassFilesHeader"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/model/AdminPageFramework_InclusionClassFilesHeader.php", 
 	"AdminPageFramework_Message"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/model/AdminPageFramework_Message.php", 
 	"AdminPageFramework_Property_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/model/AdminPageFramework_Property_Base.php", 
@@ -83,6 +82,7 @@ $aClassFiles = array(
 	"AdminPageFramework_WPUtility_SiteInformation"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/utility/wp_utility/AdminPageFramework_WPUtility_SiteInformation.php", 
 	"AdminPageFramework_WPUtility_SystemInformation"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/utility/wp_utility/AdminPageFramework_WPUtility_SystemInformation.php", 
 	"AdminPageFramework_WPUtility_URL"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/utility/wp_utility/AdminPageFramework_WPUtility_URL.php", 
+	"AdminPageFramework_CSS"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/view/AdminPageFramework_CSS.php", 
 	"AdminPageFramework_FieldTypeRegistration"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/view/AdminPageFramework_FieldTypeRegistration.php", 
 	"AdminPageFramework_PageLoadInfo_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/view/AdminPageFramework_PageLoadInfo_Base.php", 
 	"AdminPageFramework_TabNavigationBar"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/base_factory/view/AdminPageFramework_TabNavigationBar.php", 
