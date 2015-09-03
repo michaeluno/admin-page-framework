@@ -34,28 +34,6 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
         'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
         'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',
     );    
-
-    /**
-     * Represents the array structure of an in-page tab array.
-     * 
-     * @since       2.0.0
-     * @since       3.3.1       Moved from `AdminPageFramework_Page`.
-     * @var         array
-     * @static
-     * @access      private
-     * @internal
-     */     
-    static protected $_aStructure_InPageTabElements = array(
-        'page_slug'         => null,
-        'tab_slug'          => null,
-        'title'             => null,
-        'order'             => null,
-        'show_in_page_tab'  => true,
-        'parent_tab_slug'   => null,   // this needs to be set if the above show_in_page_tab is false so that the framework can mark the parent tab to be active when the hidden page is accessed.
-        'url'               => null,   // 3.5.0+ This allows the user set custom link.
-        'disabled'          => null,   // 3.5.10+ (boolean) If true, the link will be unlinked.
-        'attributes'        => null,   // 3.5.10+ (array) Applies to the navigation tab bar element.
-    );
     
     /**
      * Finalizes the in-page tab property array.
@@ -76,57 +54,47 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
             return; 
         }
 
-        foreach( $this->oProp->aPages as $sPageSlug => $aPage ) {
+        foreach( $this->oProp->aPages as $_sPageSlug => $_aPage ) {
             
-            if ( ! isset( $this->oProp->aInPageTabs[ $sPageSlug ] ) ) { 
+            if ( ! isset( $this->oProp->aInPageTabs[ $_sPageSlug ] ) ) { 
                 continue; 
             }
             
-            // Apply filters to modify the in-page tab array.
-            $this->oProp->aInPageTabs[ $sPageSlug ] = $this->oUtil->addAndApplyFilter(
-                $this,  // caller object
-                "tabs_{$this->oProp->sClassName}_{$sPageSlug}", // filter name
-                $this->oProp->aInPageTabs[ $sPageSlug ]     // filtering value
-            );    
-            
-            // Added items may be missing necessary keys so format them
-            foreach( $this->oProp->aInPageTabs[ $sPageSlug ] as &$aInPageTab ) {
-                $aInPageTab = $this->_formatInPageTab( $aInPageTab );
-            }
-                        
-            // Sort the in-page tab array.
-            uasort( $this->oProp->aInPageTabs[ $sPageSlug ], array( $this, '_sortByOrder' ) );
-            
+            // Format
+            $_oFormatter = new AdminPageFramework_Format_InPageTabs(
+                $this->oProp->aInPageTabs[ $_sPageSlug ], // subject array
+                $_sPageSlug,
+                $this   // the factory class
+            );
+            $this->oProp->aInPageTabs[ $_sPageSlug ] = $_oFormatter->get();
+         
             // Set the default tab for the page.
-            // Read the value as reference; otherwise, a strange bug occurs. It may be due to the variable name, $aInPageTab, is also used as reference in the above foreach.
-            foreach( $this->oProp->aInPageTabs[ $sPageSlug ] as $sTabSlug => &$aInPageTab ) {     
-            
-                if ( ! isset( $aInPageTab['tab_slug'] ) ) { continue; }
-                
-                // Regardless of whether it's a hidden tab, it is stored as the default in-page tab.
-                $this->oProp->aDefaultInPageTabs[ $sPageSlug ] = $aInPageTab['tab_slug'];
-                    
-                break; // The first iteration item is the default one.
-            }
+            $this->oProp->aDefaultInPageTabs[ $_sPageSlug ] = $this->_getDefaultInPageTab( 
+                $_sPageSlug,
+                $this->oProp->aInPageTabs[ $_sPageSlug ]
+            );
+         
         }
 
     }     
         /**
-         * Formats the in-page tab definition array.
+         * Returns the default in-page tab slug of the given page slug.
          * 
-         * @since       3.5.0
+         * @internal
+         * @remark      The first found item is the default one.
+         * @return      string
+         * @since       3.6.0
          */
-        private function _formatInPageTab( array $aInPageTab ) {
-            
-            $aInPageTab = $aInPageTab + self::$_aStructure_InPageTabElements;
-            
-            $aInPageTab['order'] = is_null( $aInPageTab['order'] ) 
-                ? 10 
-                : $aInPageTab['order'];
-            
-            return $aInPageTab;
-            
-        }
+        private function _getDefaultInPageTab( $sPageSlug, $aInPageTabs ) {
+            foreach( $aInPageTabs as $_aInPageTab ) {                 
+                if ( ! isset( $_aInPageTab[ 'tab_slug' ] ) ) { 
+                    continue; 
+                }                
+                // Regardless of whether it's a hidden tab, it is stored as the default in-page tab.
+                return $_aInPageTab[ 'tab_slug' ];
+            }
+        }    
+
         /**
          * An alias of _finalizeInPageTabs().
          * @deprecated  3.3.0

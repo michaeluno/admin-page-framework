@@ -251,23 +251,6 @@ abstract class AdminPageFramework_FormDefinition_Base extends AdminPageFramework
         
     }
     
-        /**
-         * Calculates the subtraction of two values with the array key of `order`.
-         * 
-         * This is used to sort arrays.
-         * 
-         * @since       3.0.0     
-         * @remark      a callback method for `uasort()`.
-         * @callback    function        uasort
-         * @return      integer
-         * @internal
-         */ 
-        public function _sortByOrder( $a, $b ) {
-            return isset( $a['order'], $b['order'] )
-                ? $a['order'] - $b['order']
-                : 1;
-        }     
-    
     /**
      * Applies filters to each conditioned field definition array.
      * 

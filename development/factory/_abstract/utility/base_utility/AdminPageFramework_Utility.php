@@ -19,13 +19,33 @@
 abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_SystemInformation {
        
     /**
+     * Calculates the subtraction of two values with the array key of `order`.
+     * 
+     * This is used to sort arrays.
+     * 
+     * @since       2.0.0
+     * @since       3.0.0       Moved from the property class.
+     * @since       3.3.1       Moved from `AdminPageFramework_Base`.
+     * @since       3.6.0       Moved from `AdminPageFramework_Router`.
+     * @remark      a callback method for `uasort()`.
+     * @return      integer
+     * @internal
+     */        
+    static public function sortArrayByKey( $a, $b, $sKey='order' ) {
+        return isset( $a[ $sKey ], $b[ $sKey ] )
+            ? $a[ $sKey ] - $b[ $sKey ]
+            : 1;
+    }       
+       
+       
+    /**
      * Generates brief object information.
      * 
      * @remark      Meant to be used for the `__toString()` method.
      * @since       3.6.0
      * @return      string
      */   
-    public function getObjectInfo( $oInstance ) {
+    static public function getObjectInfo( $oInstance ) {
         
         $_iCount     = count( get_object_vars( $oInstance ) );
         $_sClassName = get_class( $oInstance );

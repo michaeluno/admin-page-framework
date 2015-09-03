@@ -225,24 +225,6 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                 
             }        
     /* Shared methods */
-    /**
-     * Calculates the subtraction of two values with the array key of `order`.
-     * 
-     * This is used to sort arrays.
-     * 
-     * @since       2.0.0
-     * @since       3.0.0       Moved from the property class.
-     * @since       3.3.1       Moved from `AdminPageFramework_Base`.
-     * @remark      a callback method for `uasort()`.
-     * @return      integer
-     * @internal
-     */ 
-    public function _sortByOrder( $a, $b ) {
-        return isset( $a['order'], $b['order'] )
-            ? $a['order'] - $b['order']
-            : 1;
-    }    
-
     
     /**
      * Checks whether the class should be instantiated.

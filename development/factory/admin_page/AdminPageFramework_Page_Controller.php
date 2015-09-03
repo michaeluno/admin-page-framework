@@ -102,7 +102,7 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
         // Pre-format - avoid undefined index warnings.
         $aInPageTab         = $this->oUtil->uniteArrays( 
             $asInPageTab, 
-            self::$_aStructure_InPageTabElements, 
+            AdminPageFramework_Format_InPageTab::$aStructure, 
             array( 
                 'page_slug' => $__sTargetPageSlug 
             ) 

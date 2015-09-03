@@ -120,7 +120,7 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
         );
         
         // Sort the page array.
-        uasort( $this->oProp->aPages, array( $this, '_sortByOrder' ) ); 
+        uasort( $this->oProp->aPages, array( $this->oUtil, 'sortArrayByKey' ) ); 
         
         // Set the default page, the first element.
         foreach ( $this->oProp->aPages as $aPage ) {

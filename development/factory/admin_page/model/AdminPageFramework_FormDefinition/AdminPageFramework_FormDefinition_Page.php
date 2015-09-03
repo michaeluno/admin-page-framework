@@ -98,7 +98,7 @@ class AdminPageFramework_FormDefinition_Page extends AdminPageFramework_FormDefi
             }
             $_aSections[ $_sSecitonID ] = $_aSection;     
         } 
-        uasort( $_aSections, array( $this, '_sortByOrder' ) ); 
+        uasort( $_aSections, array( $this, 'sortArrayByKey' ) ); 
         return $_aSections;
     }
     

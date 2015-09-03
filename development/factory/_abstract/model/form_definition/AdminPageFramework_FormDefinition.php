@@ -264,7 +264,7 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
             $_aNewSectionArray[ $_sSectionID ] = $_aSection;
             
         }
-        uasort( $_aNewSectionArray, array( $this, '_sortByOrder' ) ); 
+        uasort( $_aNewSectionArray, array( $this, 'sortArrayByKey' ) ); 
         return $_aNewSectionArray;
         
     }
@@ -330,7 +330,7 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
                             $_aNewFields[ $_sSectionID ][ $_iSectionIndex ][ $_aField['field_id'] ] = $_aField;
                         }
                     }
-                    uasort( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ], array( $this, '_sortByOrder' ) );                 
+                    uasort( $_aNewFields[ $_sSectionID ][ $_iSectionIndex ], array( $this, 'sortArrayByKey' ) );
                     
                 }
                 continue;
@@ -357,7 +357,7 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
                 }
                 
             }
-            uasort( $_aNewFields[ $_sSectionID ], array( $this, '_sortByOrder' ) ); 
+            uasort( $_aNewFields[ $_sSectionID ], array( $this, 'sortArrayByKey' ) ); 
 
         }
         
