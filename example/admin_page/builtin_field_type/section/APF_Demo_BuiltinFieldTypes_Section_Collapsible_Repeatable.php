@@ -68,6 +68,7 @@ class APF_Demo_BuiltinFieldTypes_Section_Collapsible_Repeatable {
                 'type'          => 'text',
                 'repeatable'    => true,
                 'sortable'      => true,
+                'description'   => __( 'This field is repeatable and sortable.', 'admin-page-framework-loader' ),
             )
         );              
       

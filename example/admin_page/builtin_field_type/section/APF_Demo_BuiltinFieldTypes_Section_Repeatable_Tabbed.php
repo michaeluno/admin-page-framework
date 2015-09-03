@@ -125,6 +125,7 @@ class APF_Demo_BuiltinFieldTypes_Section_Repeatable_Tabbed {
                 'type'          => 'media',
                 'repeatable'    => true,
                 'sortable'      => true,
+                'description'   => __( 'This field is repeatable and sortable.', 'admin-page-framework-loader' ),
             )
         );              
       
