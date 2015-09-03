@@ -153,8 +153,8 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
     * @return       void
     */     
     public function addSubMenuItems( $aSubMenuItem1, $aSubMenuItem2=null, $_and_more=null ) {
-        foreach ( func_get_args() as $aSubMenuItem ) {
-            $this->addSubMenuItem( $aSubMenuItem );     
+        foreach ( func_get_args() as $_aSubMenuItem ) {
+            $this->addSubMenuItem( $_aSubMenuItem );     
         }
     }
     
@@ -204,7 +204,7 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
     * @return       void
     */    
     public function addSubMenuItem( array $aSubMenuItem ) {
-        if ( isset( $aSubMenuItem['href'] ) ) {
+        if ( isset( $aSubMenuItem[ 'href' ] ) ) {
             $this->addSubMenuLink( $aSubMenuItem );
         } else {
             $this->addSubMenuPage( $aSubMenuItem );
@@ -216,7 +216,7 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
     * 
     * @since        2.0.0
     * @since        3.0.0       Changed the scope to public from protected.
-    * @since        3.5.0       Changed the scope to public as it was stil protected.
+    * @since        3.5.0       Changed the scope to public as it was still protected.
     * @param        string      the menu title.
     * @param        string      the URL linked to the menu.
     * @param        string      (optional) the <a href="http://codex.wordpress.org/Roles_and_Capabilities" target="_blank">access level</a>.
@@ -238,8 +238,13 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
             return; 
         }
 
-        $this->oProp->aPages[ $aSubMenuLink['href'] ] = $this->_formatSubmenuLinkArray( $aSubMenuLink );
-            
+        $_oFormatter   = new AdminPageFramework_Format_SubMenuLink( 
+            $aSubMenuLink, 
+            $this 
+        );
+        $_aSubMenuLink = $_oFormatter->get();
+        $this->oProp->aPages[ $_aSubMenuLink[ 'href' ] ] = $_aSubMenuLink;
+        
     }    
     
     /**
@@ -255,8 +260,8 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
      * @remark      The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
      */ 
     public function addSubMenuPages() {
-        foreach ( func_get_args() as $aSubMenuPage ) {
-            $this->addSubMenuPage( $aSubMenuPage );
+        foreach ( func_get_args() as $_aSubMenuPage ) {
+            $this->addSubMenuPage( $_aSubMenuPage );
         }
     }
     
@@ -302,12 +307,16 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
      */ 
     public function addSubMenuPage( array $aSubMenuPage ) {
 
-        if ( ! isset( $aSubMenuPage['page_slug'] ) ) { 
+        if ( ! isset( $aSubMenuPage[ 'page_slug' ] ) ) { 
             return; 
         }
             
-        $aSubMenuPage['page_slug'] = $this->oUtil->sanitizeSlug( $aSubMenuPage['page_slug'] );
-        $this->oProp->aPages[ $aSubMenuPage['page_slug'] ] = $this->_formatSubMenuPageArray( $aSubMenuPage );
+        $_oFormatter   = new AdminPageFramework_Format_SubMenuPage( 
+            $aSubMenuPage,
+            $this 
+        );
+        $_aSubMenuPage = $_oFormatter->get();
+        $this->oProp->aPages[ $_aSubMenuPage[ 'page_slug' ] ] = $_aSubMenuPage;
         
     }
     

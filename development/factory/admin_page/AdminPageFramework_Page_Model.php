@@ -18,23 +18,7 @@
  * @internal
  */
 abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Controller {
-    
-    /**
-     * Stores the ID selector names for screen icons. `generic` is not available in WordPress v3.4.x.
-     * 
-     * @since       2.0.0
-     * @since       3.3.1       Moved from `AdminPageFramework_Page`.
-     * @var         array
-     * @static
-     * @access      protected
-     * @internal
-     */     
-    static protected $_aScreenIconIDs = array(
-        'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
-        'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
-        'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',
-    );    
-    
+       
     /**
      * Finalizes the in-page tab property array.
      * 

@@ -23,18 +23,28 @@ abstract class AdminPageFramework_Format_Base extends AdminPageFramework_WPUtili
     static public $aStructure = array();
     
     /**
+     * The subject array to be formatted.
+     */
+    public $aSubject = array();
+    
+    /**
      * Sets up properties.
      */
-    // public function __construct() {
+    public function __construct( /* $aSubject=array() */ ) {
         
-    // }
+        $_aParameters = func_get_args() + array( 
+            $this->aSubject, 
+        );
+        $this->aSubject  = $_aParameters[ 0 ];        
+        
+    }
     
     /**
      * 
      * @return      array       The formatted definition array.
      */
     public function get() {
-        return array();
+        return $this->aSubject;
     }
            
 }
