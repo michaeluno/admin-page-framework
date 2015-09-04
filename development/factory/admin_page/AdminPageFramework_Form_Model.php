@@ -251,17 +251,6 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
         
         /* 3. Define field types. This class adds filters for the field type definitions so that framework's built-in field types will be added. */
         $this->_loadFieldTypeDefinitions();
-        /* 3.5.0+ deprecated the following lines as the above _loadFieldTypeDefinitions() method handles it.
-        $this->oProp->aFieldTypeDefinitions = AdminPageFramework_FieldTypeRegistration::register( $this->oProp->aFieldTypeDefinitions, $this->oProp->sClassName, $this->oMsg );
-        $this->oProp->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilters( 
-            $this,
-            array(
-                'field_types_admin_page_framework',         // 3.5.0+
-                "field_types_{$this->oProp->sClassName}",
-            ),
-            $this->oProp->aFieldTypeDefinitions
-        );     
-        */
 
         /* 4. Set up the contextual help pane for sections. */ 
         foreach( $this->oForm->aConditionedSections as $_aSection ) {

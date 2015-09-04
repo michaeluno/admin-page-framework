@@ -78,6 +78,7 @@ class APF_Demo_BuiltinFieldTypes_MISC {
             'APF_Demo_BuiltinFieldTypes_MISC_Raw',
             'APF_Demo_BuiltinFieldTypes_MISC_Submit',
             'APF_Demo_BuiltinFieldTypes_MISC_Unsave',
+            'APF_Demo_BuiltinFieldTypes_MISC_Capability',
         );
         foreach ( $_aClasses as $_sClassName ) {
             if ( ! class_exists( $_sClassName ) ) {

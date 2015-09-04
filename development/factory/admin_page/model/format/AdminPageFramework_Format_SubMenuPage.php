@@ -116,6 +116,7 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
                     'show_in_page_tabs'         => $this->oFactory->oProp->bShowInPageTabs,      // boolean
                     'in_page_tab_tag'           => $this->oFactory->oProp->sInPageTabTag,        // string
                     'page_heading_tab_tag'      => $this->oFactory->oProp->sPageHeadingTabTag,   // string
+                    'capability'                => $this->oFactory->oProp->sCapability,  // 3.6.0+
                 )       
                 + self::$aStructure;
 

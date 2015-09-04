@@ -61,6 +61,8 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
      *     <li>**show_in_page_tab** - (optional, boolean) default: `true`. If this is set to `false`, the tab title will not be displayed in the tab navigation menu; however, it is still accessible from the direct URL.</li>
      *     <li>**parent_tab_slug** - (optional, string) this needs to be set if the above `show_in_page_tab` argument is `false` so that the parent tab will be emphasized as active when the hidden page is accessed.</li>
      *     <li>**url** - [3.5.0+] (optional, string) If this is set, the link url of the navigation tab will be this url. Use this to create link only tab.</li>
+     *     <li>**capability** - [3.6.0+] (optional, string) The capability level.</li>
+     *     <li>**if** - [3.6.0+] (optional, boolean) Whether the tab should be displayed or not.</li>
      * </ul>
      * @param       array       $aTab2      Another in-page tab array.
      * @param       array       $_and_more  (optional) Add in-page tab arrays as many as necessary to the next parameters.
@@ -99,13 +101,11 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
             return;
         }         
 
-        // Pre-format - avoid undefined index warnings.
-        $aInPageTab         = $this->oUtil->uniteArrays( 
-            $asInPageTab, 
-            AdminPageFramework_Format_InPageTab::$aStructure, 
-            array( 
-                'page_slug' => $__sTargetPageSlug 
-            ) 
+        // Pre-format
+        $aInPageTab = $asInPageTab + array( 
+            'page_slug' => $__sTargetPageSlug,
+            'tab_slug'  => null,
+            'order'     => null,
         );
         
         // Set the target page slug for next calls
@@ -124,7 +124,7 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
         );
         $_iCountElement      = count( $_aElements );
 
-        // Format
+        // Pre-format
         $aInPageTab         = array( 
             'page_slug' => $this->oUtil->sanitizeSlug( $aInPageTab[ 'page_slug' ] ),
             'tab_slug'  => $this->oUtil->sanitizeSlug( $aInPageTab[ 'tab_slug' ] ),
@@ -136,7 +136,7 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
         ) + $aInPageTab;
 
         // Set
-        $this->oProp->aInPageTabs[ $aInPageTab['page_slug'] ][ $aInPageTab['tab_slug'] ] = $aInPageTab;
+        $this->oProp->aInPageTabs[ $aInPageTab[ 'page_slug' ] ][ $aInPageTab[ 'tab_slug' ] ] = $aInPageTab;
     
     }     
     
@@ -154,24 +154,12 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
      * @return      void
      */ 
     public function setPageTitleVisibility( $bShow=true, $sPageSlug='' ) {
-        
-        // $sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-        // if ( $sPageSlug ) {
-            // $this->oProp->aPages[ $sPageSlug ]['show_page_title'] = $bShow;
-            // return;
-        // }
-        // $this->oProp->bShowPageTitle = $bShow;
-        // foreach( $this->oProp->aPages as &$aPage ) {
-            // $aPage['show_page_title'] = $bShow;
-        // }
-        
         $this->_setPageProperty( 
             'bShowPageTitle', 
             'show_page_title', 
             $bShow, 
             $sPageSlug 
         );           
-        
     }    
     
     /**
@@ -190,24 +178,12 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
      * @remark      If the second parameter is omitted, it sets the default value.
      */ 
     public function setPageHeadingTabsVisibility( $bShow=true, $sPageSlug='' ) {
-        
-        // $sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-        // if ( $sPageSlug ) {
-            // $this->oProp->aPages[ $sPageSlug ]['show_page_heading_tabs'] = $bShow;
-            // return;     
-        // }     
-        // $this->oProp->bShowPageHeadingTabs = $bShow;
-        // foreach( $this->oProp->aPages as &$aPage ) {
-            // $aPage['show_page_heading_tabs'] = $bShow;
-        // }
-        
         $this->_setPageProperty( 
             'bShowPageHeadingTabs', 
             'show_page_heading_tabs', 
             $bShow, 
             $sPageSlug 
         );              
-        
     }
     
     /**
@@ -223,24 +199,12 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
      * @remark      If the second parameter is omitted, it sets the default value.
      */
     public function setInPageTabsVisibility( $bShow=true, $sPageSlug='' ) {
-        
-        // $sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-        // if ( $sPageSlug ) {
-            // $this->oProp->aPages[ $sPageSlug ]['show_in_page_tabs'] = $bShow;
-            // return;
-        // }
-        // $this->oProp->bShowInPageTabs = $bShow;
-        // foreach( $this->oProp->aPages as &$aPage ) {
-            // $aPage['show_in_page_tabs'] = $bShow;
-        // }
-        
         $this->_setPageProperty( 
             'bShowInPageTabs', 
             'show_in_page_tabs', 
             $bShow, 
             $sPageSlug 
-        );                
-        
+        );
     }
     
     /**
@@ -257,25 +221,13 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
      * @param       string      $sPageSlug      The page slug that applies the setting.    
      * @remark      If the second parameter is omitted, it sets the default value.
      */     
-    public function setInPageTabTag( $sTag='h3', $sPageSlug='' ) {
-        
-        // $sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-        // if ( $sPageSlug ) {
-            // $this->oProp->aPages[ $sPageSlug ]['in_page_tab_tag'] = $sTag;
-            // return;
-        // }
-        // $this->oProp->sInPageTabTag = $sTag;
-        // foreach( $this->oProp->aPages as &$aPage ) {
-            // $aPage['in_page_tab_tag'] = $sTag;
-        // }
-// return;        
+    public function setInPageTabTag( $sTag='h3', $sPageSlug='' ) {      
         $this->_setPageProperty( 
             'sInPageTabTag', 
             'in_page_tab_tag', 
             $sTag, 
             $sPageSlug 
         );        
-        
     }
     
     /**
@@ -293,24 +245,12 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
      * @remark      If the second parameter is omitted, it sets the default value.
      */
     public function setPageHeadingTabTag( $sTag='h2', $sPageSlug='' ) {
-        
-        // $sPageSlug = $this->oUtil->sanitizeSlug( $sPageSlug );
-        // if ( $sPageSlug ) {
-            // $this->oProp->aPages[ $sPageSlug ]['page_heading_tab_tag'] = $sTag;
-            // return;
-        // }
-        // $this->oProp->sPageHeadingTabTag = $sTag;
-        // foreach( $this->oProp->aPages as &$aPage ) {
-            // $aPage[ $sPageSlug ]['page_heading_tab_tag'] = $sTag;
-        // }
-     
         $this->_setPageProperty( 
             'sPageHeadingTabTag',   // property name
             'page_heading_tab_tag', // property key
             $sTag, // value
             $sPageSlug  // page slug
         );
-        
     }
         
         /**

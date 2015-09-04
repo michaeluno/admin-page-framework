@@ -72,6 +72,12 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
     public $sCapability = 'manage_option';
     
     /**
+     * Stores the caller factory object.
+     * @since       3.4.0
+     */
+    public $oCaller;
+    
+    /**
      * Stores the default capability.
      * 
      * @since       3.0.0
@@ -98,7 +104,11 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
      */
     public function addSection( array $aSection ) {
         
-        $aSection                 = $aSection + AdminPageFramework_Format_Sectionset::$aStructure;
+        // $aSection                 = $aSection + AdminPageFramework_Format_Sectionset::$aStructure;
+        // Pre-format
+        $aSection                 = $aSection + array(
+            'section_id'    => null,
+        );
         $aSection[ 'section_id' ] = $this->sanitizeSlug( $aSection[ 'section_id' ] );
         
         $this->aSections[ $aSection[ 'section_id' ] ] = $aSection;    
@@ -151,6 +161,7 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
             $this->_sTargetSectionID // default
         );                               
             
+        // Pre-format
         $_aField = $this->uniteArrays( 
             array( '_fields_type' => $this->sFieldsType )
             + $_aField, 
@@ -304,6 +315,13 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
             if ( ! isset( $this->aSections[ $_sSectionID ] ) ) { 
                 continue; 
             }
+            
+            // 3.6.0+ Get the section's capability
+            $sCapability = $this->getElement( 
+                $this->aSections[ $_sSectionID ], 
+                'capability',
+                $sCapability
+            );
 
             $_aNewFields[ $_sSectionID ] = $this->getElementAsArray( $_aNewFields, $_sSectionID, array() );
             
@@ -402,7 +420,7 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
          */
         protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {
             
-            if ( ! isset( $aField['field_id'], $aField['type'] ) ) { 
+            if ( ! isset( $aField[ 'field_id' ], $aField[ 'type' ] ) ) { 
                 return; 
             }
             

@@ -85,5 +85,31 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
          * @since       3.3.1       Moved from `AdminPageFramework_Page`.
          */
         public function _replyToFinalizeInPageTabs() { $this->_finalizeInPageTabs(); }
+    
+    /**
+     * @remark      Accessed from the form definition class to determine the section and field capability.
+     * @return      string      The capability value.
+     * @since       3.6.0
+     * @internal
+     */
+    public function _getPageCapability( $sPageSlug ) {
+        return $this->oUtil->getElement(
+            $this->oProp->aPages,
+            array( $sPageSlug, 'capability' )
+        );
+    }
+    /**
+     * 
+     * @remark      Accessed from the form definition class to determine the section and field capability.
+     * @return      string      The capability value.
+     * @since       3.6.0
+     * @internal
+     */
+    public function _getInPageTabCapability( $sTabSlug, $sPageSlug ) {
+        return $this->oUtil->getElement(
+            $this->oProp->aInPageTabs,
+            array( $sPageSlug, $sTabSlug, 'capability' )
+        );            
+    }        
         
 }

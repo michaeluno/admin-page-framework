@@ -614,53 +614,20 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                 
             }
                 /**
-                 * Formats navigation tab array of in-page tabs.
+                 * Formats navigation tab definition array of in-page tabs.
                  * @callback        function        AdminPageFramework_TabNavigationBar::_getFormattedTab
                  * @return          array
                  * @since           3.5.10
                  */
                 public function _replyToFormatNavigationTabItem_InPageTab( array $aTab, array $aStructure, array $aTabs, array $aArguments=array() ) {
-                    
-                    $_sSlug = isset( $aTab[ 'parent_tab_slug' ], $aTabs[ $aTab[ 'parent_tab_slug' ] ] )
-                        ? $aTab[ 'parent_tab_slug' ] 
-                        : $aTab[ 'tab_slug' ];
-
-                    // If it's hidden, skip
-                    if ( ! $aTab[ 'show_in_page_tab' ] ) {
-                        return array();
-                    }
-                             
-                    $aTab = array(
-                        'slug'  => $_sSlug,
-                        'title' => $aTabs[ $_sSlug ][ 'title' ],
-                        'href'  => $aTab[ 'disabled' ]
-                            ? null
-                            : esc_url( 
-                                $this->oUtil->getElement( 
-                                    $aTab, 
-                                    'url',  // if the 'url' argument is set, use it. Otherwise, use the below gnerated url.
-                                    $this->oUtil->getQueryAdminURL( 
-                                        array( 
-                                            'page'  => $aArguments[ 'page_slug' ],
-                                            'tab'   => $_sSlug,
-                                        ), 
-                                        $this->oProp->aDisallowedQueryKeys 
-                                    )
-                                )
-                            ),
-                    ) + $this->oUtil->uniteArrays(
+                    $_oFormatter = new AdminPageFramework_Format_NavigationTab_InPageTab(
                         $aTab,
-                        array(
-                            'attributes'    => array(
-                                // 3.5.7+ Added for acceptance tests 
-                                'data-tab-slug' => $_sSlug,     
-                            ),
-                        ),
-                        $aStructure
+                        $aStructure,
+                        $aTabs,
+                        $aArguments,
+                        $this
                     );
-                      
-                    return $aTab;
-                    
+                    return $_oFormatter->get();
                 }
 
             /**

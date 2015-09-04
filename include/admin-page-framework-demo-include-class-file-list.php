@@ -11,6 +11,7 @@ $_aClassFiles = array(
 	"APF_Demo_BuiltinFieldTypes_File_Media"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/builtin_field_type/file/APF_Demo_BuiltinFieldTypes_File_Media.php", 
 	"APF_Demo_BuiltinFieldTypes_File_Upload"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/builtin_field_type/file/APF_Demo_BuiltinFieldTypes_File_Upload.php", 
 	"APF_Demo_BuiltinFieldTypes_MISC"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/builtin_field_type/misc/APF_Demo_BuiltinFieldTypes_MISC.php", 
+	"APF_Demo_BuiltinFieldTypes_MISC_Capability"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/builtin_field_type/misc/APF_Demo_BuiltinFieldTypes_MISC_Capability.php", 
 	"APF_Demo_BuiltinFieldTypes_MISC_Color"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/builtin_field_type/misc/APF_Demo_BuiltinFieldTypes_MISC_Color.php", 
 	"APF_Demo_BuiltinFieldTypes_MISC_Hidden"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/builtin_field_type/misc/APF_Demo_BuiltinFieldTypes_MISC_Hidden.php", 
 	"APF_Demo_BuiltinFieldTypes_MISC_Raw"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/builtin_field_type/misc/APF_Demo_BuiltinFieldTypes_MISC_Raw.php", 

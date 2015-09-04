@@ -63,7 +63,11 @@ class AdminPageFramework_Format_InPageTabs extends AdminPageFramework_Format_Bas
             if ( ! is_array( $_aInPageTab ) ) {
                 continue;
             }
-            $_oFormatter = new AdminPageFramework_Format_InPageTab( $_aInPageTab );
+            $_oFormatter = new AdminPageFramework_Format_InPageTab( 
+                $_aInPageTab,
+                $this->sPageSlug,
+                $this->oFactory
+            );
             $_aInPageTabs[ $_sTabSlug ] = $_oFormatter->get();
         }
 

@@ -109,9 +109,11 @@ class AdminPageFramework_Format_Sectionset extends AdminPageFramework_Format_Bas
         $_aSection = $this->uniteArrays(
             array( 
                 '_fields_type'  => $this->sFieldsType,
-                'capability'    => $this->sCapability,
             ) 
-            + $this->aSection,
+            + $this->aSection
+            + array(
+                'capability'    => $this->sCapability,
+            ),
             self::$aStructure
         );
            

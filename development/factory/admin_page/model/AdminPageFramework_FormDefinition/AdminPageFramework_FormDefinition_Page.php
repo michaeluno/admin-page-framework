@@ -184,15 +184,37 @@ class AdminPageFramework_FormDefinition_Page extends AdminPageFramework_FormDefi
     protected function formatSection( array $aSection, $sFieldsType, $sCapability, $iCountOfElements, $oCaller ) {
         
         $aSection = $aSection
-        + array( 
-            '_fields_type'  => $sFieldsType,
-            'capability'    => $sCapability,
-            'page_slug'     => $this->sDefaultPageSlug,
+            + array( 
+                '_fields_type'  => $sFieldsType,
+                'page_slug'     => $this->sDefaultPageSlug,
+                'tab_slug'      => null,
+            );
+        
+        // 3.6.0+ Inherit the capability value from the page.
+        $aSection[ 'capability' ] = $this->_getInheritedCapability( 
+            $sCapability, 
+            $aSection[ 'page_slug' ], 
+            $aSection[ 'tab_slug' ] 
         );
+            
         return parent::formatSection( $aSection, $sFieldsType, $sCapability, $iCountOfElements, $oCaller );
                 
     }
+        /**
+         * Returns the inherited capability value from the page and in-page tab.
+         * @since       3.6.0
+         * @return      string
+         */
+        private function _getInheritedCapability( $sCapability, $sPageSlug, $sTabSlug ) {
 
+            // Note that the passed capability value to the method is same as the one set to the factory class constructor.
+            $_sTabCapability  = $this->oCaller->_getInPageTabCapability( $sTabSlug, $sPageSlug );
+            $_sPageCapability = $this->oCaller->_getPageCapability( $sPageSlug );
+            $_aCapabilities   = array_filter( array( $_sTabCapability, $_sPageCapability ) )
+                + array( $sCapability );
+            return $_aCapabilities[ 0 ];
+            
+        }
     /**
      * Returns the formatted field array.
      * 
@@ -203,6 +225,8 @@ class AdminPageFramework_FormDefinition_Page extends AdminPageFramework_FormDefi
      * @return      array|void      An array of formatted field definition array. If required keys are not set, nothing will be returned. 
      */
     protected function formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {
+        
+        // 3.6.0+ Inherit the capability value from the tab.
         
         $_aField = parent::formatField( $aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject );
         
