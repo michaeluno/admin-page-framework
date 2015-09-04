@@ -80,7 +80,7 @@ Go to **Dashboard** -> **Admin Page Framework** -> **About** -> **Getting Starte
 Activate the demo pages to see the possible features of the framework. To activate it, go to **Dashboard** -> **Admin Page Framework** -> **Add Ons** -> **Demo**.
 
 <h4>Documentation</h4>
-- [Online Documentation](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html)
+- [Online Documentation](http://admin-page-framework.michaeluno.jp/en/v3/package-AdminPageFramework.AdminPage.html)
 - [Tutorials](http://admin-page-framework.michaeluno.jp/tutorials/)
 
 == Screenshots ==
