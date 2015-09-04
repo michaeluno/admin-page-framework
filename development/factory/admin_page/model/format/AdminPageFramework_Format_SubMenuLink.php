@@ -87,7 +87,7 @@ class AdminPageFramework_Format_SubMenuLink extends AdminPageFramework_Format_Su
             }
             
             return array(  
-                    'capability'    => $this->oUtil->getElement( 
+                    'capability'    => $this->getElement( 
                         $aSubMenuLink, 
                         'capability', 
                         $this->oFactory->oProp->sCapability
