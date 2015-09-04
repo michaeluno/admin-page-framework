@@ -48,8 +48,9 @@ class APF_Demo_BuiltinFieldTypes_System {
         $oFactory->addInPageTabs(    
             $this->sPageSlug, // target page slug
             array(
-                'tab_slug'  => $this->sTabSlug,
-                'title'     => __( 'System', 'admin-page-framework-loader' ),    
+                'tab_slug'      => $this->sTabSlug,
+                'title'         => __( 'System', 'admin-page-framework-loader' ),    
+                'capability'    => 'manage_options',
             )      
         );  
         
