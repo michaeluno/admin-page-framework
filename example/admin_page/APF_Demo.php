@@ -32,7 +32,7 @@ class APF_Demo extends AdminPageFramework {
         $this->setRootMenuPageBySlug( 'edit.php?post_type=' . AdminPageFrameworkLoader_Registry::$aPostTypes['demo'] );    
         
         /* ( required ) Add sub-menu items (pages or links) */
-        $this->addSubMenuItems(    
+        $this->addSubMenuItems(
             /*     Example
               for sub-menu pages, e.g.
                   'title' => 'Your Page Title',
@@ -116,6 +116,14 @@ class APF_Demo extends AdminPageFramework {
             }
         }
 
+        // Add an external link.
+        $this->addSubMenuItem(
+            array(
+                'href'  => 'http://admin-page-framework.michaeluno.jp/en/v3/package-AdminPageFramework.AdminPage.html',
+                'title' => __( 'Documentation', 'admin-page-framework-loader' ),
+            )
+        );
+        
     }
     
     /**
