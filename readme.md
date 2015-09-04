@@ -210,20 +210,26 @@ See more code examples in `Dashboard` -> `AdminPageFramework` -> `Help` -> `Exam
 ## Getting Framework Core Files ##
 In order to modify the framework files, you need to clone the repository files. 
 
-Simply clone the repository from the following address.
+Simply clone the repository from either of the following addresses.
 
-ssh: `git@github.com:michaeluno/admin-page-framework.git`
-(https: `https://github.com/michaeluno/admin-page-framework.git`)
+ssh: 
+```
+git@github.com:michaeluno/admin-page-framework.git
+```
+https: 
+```
+https://github.com/michaeluno/admin-page-framework.git
+```
 
 With Composer, create a `composer.json` file with the following contents and perform `php composer.phar install`.
 
-`
+```
 {
     "require": {
         "michaeluno/admin-page-framework": "dev-master"
     }
 }
-`
+```
 
 ## Modifying Framework Core Files ##
 The core files are in the `development` directory. 
