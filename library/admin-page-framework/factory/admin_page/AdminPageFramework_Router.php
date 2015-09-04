@@ -70,9 +70,6 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         }
         return true;
     }
-    public function _sortByOrder($a, $b) {
-        return isset($a['order'], $b['order']) ? $a['order'] - $b['order'] : 1;
-    }
     protected function _isInstantiatable() {
         if (isset($GLOBALS['pagenow']) && 'admin-ajax.php' === $GLOBALS['pagenow']) {
             return false;

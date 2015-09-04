@@ -21,8 +21,8 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
         $this->oProp->aRootMenu['fCreateRoot'] = false;
     }
     public function addSubMenuItems($aSubMenuItem1, $aSubMenuItem2 = null, $_and_more = null) {
-        foreach (func_get_args() as $aSubMenuItem) {
-            $this->addSubMenuItem($aSubMenuItem);
+        foreach (func_get_args() as $_aSubMenuItem) {
+            $this->addSubMenuItem($_aSubMenuItem);
         }
     }
     public function addSubMenuItem(array $aSubMenuItem) {
@@ -39,18 +39,21 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
         if (!filter_var($aSubMenuLink['href'], FILTER_VALIDATE_URL)) {
             return;
         }
-        $this->oProp->aPages[$aSubMenuLink['href']] = $this->_formatSubmenuLinkArray($aSubMenuLink);
+        $_oFormatter = new AdminPageFramework_Format_SubMenuLink($aSubMenuLink, $this);
+        $_aSubMenuLink = $_oFormatter->get();
+        $this->oProp->aPages[$_aSubMenuLink['href']] = $_aSubMenuLink;
     }
     public function addSubMenuPages() {
-        foreach (func_get_args() as $aSubMenuPage) {
-            $this->addSubMenuPage($aSubMenuPage);
+        foreach (func_get_args() as $_aSubMenuPage) {
+            $this->addSubMenuPage($_aSubMenuPage);
         }
     }
     public function addSubMenuPage(array $aSubMenuPage) {
         if (!isset($aSubMenuPage['page_slug'])) {
             return;
         }
-        $aSubMenuPage['page_slug'] = $this->oUtil->sanitizeSlug($aSubMenuPage['page_slug']);
-        $this->oProp->aPages[$aSubMenuPage['page_slug']] = $this->_formatSubMenuPageArray($aSubMenuPage);
+        $_oFormatter = new AdminPageFramework_Format_SubMenuPage($aSubMenuPage, $this);
+        $_aSubMenuPage = $_oFormatter->get();
+        $this->oProp->aPages[$_aSubMenuPage['page_slug']] = $_aSubMenuPage;
     }
 }

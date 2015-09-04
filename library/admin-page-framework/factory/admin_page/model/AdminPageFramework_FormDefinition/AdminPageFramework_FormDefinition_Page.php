@@ -27,7 +27,7 @@ class AdminPageFramework_FormDefinition_Page extends AdminPageFramework_FormDefi
             }
             $_aSections[$_sSecitonID] = $_aSection;
         }
-        uasort($_aSections, array($this, '_sortByOrder'));
+        uasort($_aSections, array($this, 'sortArrayByKey'));
         return $_aSections;
     }
     public function getPageSlugBySectionID($sSectionID) {
@@ -49,8 +49,15 @@ class AdminPageFramework_FormDefinition_Page extends AdminPageFramework_FormDefi
         $this->sCurrentTabSlug = $sCurrentTabSlug;
     }
     protected function formatSection(array $aSection, $sFieldsType, $sCapability, $iCountOfElements, $oCaller) {
-        $aSection = $aSection + array('_fields_type' => $sFieldsType, 'capability' => $sCapability, 'page_slug' => $this->sDefaultPageSlug,);
+        $aSection = $aSection + array('_fields_type' => $sFieldsType, 'page_slug' => $this->sDefaultPageSlug, 'tab_slug' => null,);
+        $aSection['capability'] = $this->_getInheritedCapability($sCapability, $aSection['page_slug'], $aSection['tab_slug']);
         return parent::formatSection($aSection, $sFieldsType, $sCapability, $iCountOfElements, $oCaller);
+    }
+    private function _getInheritedCapability($sCapability, $sPageSlug, $sTabSlug) {
+        $_sTabCapability = $this->oCaller->_getInPageTabCapability($sTabSlug, $sPageSlug);
+        $_sPageCapability = $this->oCaller->_getPageCapability($sPageSlug);
+        $_aCapabilities = array_filter(array($_sTabCapability, $_sPageCapability)) + array($sCapability);
+        return $_aCapabilities[0];
     }
     protected function formatField($aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject) {
         $_aField = parent::formatField($aField, $sFieldsType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject);

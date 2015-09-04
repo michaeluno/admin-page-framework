@@ -10,26 +10,32 @@ class AdminPageFramework_Script_SortableSection extends AdminPageFramework_Scrip
             : this;
 
         // For tabbed sections, enable the sort to the tabs.
-        var _bIsTabbed  = _oTarget.hasClass( 'admin-page-framework-section-tabs-contents' );
-        
-        var _oTarget    = _bIsTabbed
+        var _bIsTabbed      = _oTarget.hasClass( 'admin-page-framework-section-tabs-contents' );
+        var _bCollapsible   = 0 < _oTarget.children( '.admin-page-framework-section.is_subsection_collapsible' ).length;
+
+        var _oTarget        = _bIsTabbed
             ? _oTarget.find( 'ul.admin-page-framework-section-tabs' )
             : _oTarget;
 
         _oTarget.unbind( 'sortupdate' );
         _oTarget.unbind( 'sortstop' );
         
-        if ( _bIsTabbed ) {
-            
-            var _oSortable  = _oTarget.sortable(
-                { items: '> li:not( .disabled )', }
-            );      
-            
-        } else {
+        var _aSortableOptions = { 
+                items: _bIsTabbed
+                    ? '> li:not( .disabled )'
+                    : '> div:not( .disabled, .admin-page-framework-collapsible-toggle-all-button-container )', 
+                handle: _bCollapsible
+                    ? '.admin-page-framework-section-caption'
+                    : false,
                 
-            var _oSortable  = _oTarget.sortable(
-                { items: '> div:not( .disabled, .admin-page-framework-collapsible-toggle-all-button-container )', } // the options for the sortable plugin
-            );
+                // @todo Figure out how to allow the user to highlight text in sortable elements.
+                // cancel: '.admin-page-framework-section-description, .admin-page-framework-section-title'
+                
+            }
+        var _oSortable  = _oTarget.sortable( _aSortableOptions );               
+        
+        if ( ! _bIsTabbed ) {
+            
             _oSortable.bind( 'sortstop', function() {
                                     
                 jQuery( this ).find( 'caption > .admin-page-framework-section-title:not(.admin-page-framework-collapsible-sections-title,.admin-page-framework-collapsible-section-title)' ).first().show();

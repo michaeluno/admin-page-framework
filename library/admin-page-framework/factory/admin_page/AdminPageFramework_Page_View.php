@@ -190,12 +190,8 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
         return $_sTabBar ? "<div class='admin-page-framework-in-page-tab'>" . $_sTabBar . "</div>" : '';
     }
     public function _replyToFormatNavigationTabItem_InPageTab(array $aTab, array $aStructure, array $aTabs, array $aArguments = array()) {
-        $_sSlug = isset($aTab['parent_tab_slug'], $aTabs[$aTab['parent_tab_slug']]) ? $aTab['parent_tab_slug'] : $aTab['tab_slug'];
-        if (!$aTab['show_in_page_tab']) {
-            return array();
-        }
-        $aTab = array('slug' => $_sSlug, 'title' => $aTabs[$_sSlug]['title'], 'href' => $aTab['disabled'] ? null : esc_url($this->oUtil->getElement($aTab, 'url', $this->oUtil->getQueryAdminURL(array('page' => $aArguments['page_slug'], 'tab' => $_sSlug,), $this->oProp->aDisallowedQueryKeys))),) + $this->oUtil->uniteArrays($aTab, array('attributes' => array('data-tab-slug' => $_sSlug,),), $aStructure);
-        return $aTab;
+        $_oFormatter = new AdminPageFramework_Format_NavigationTab_InPageTab($aTab, $aStructure, $aTabs, $aArguments, $this);
+        return $_oFormatter->get();
     }
     private function _getInPageTabTag($sTag, array $aPage) {
         return tag_escape($aPage['in_page_tab_tag'] ? $aPage['in_page_tab_tag'] : $sTag);

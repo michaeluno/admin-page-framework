@@ -83,9 +83,6 @@ abstract class AdminPageFramework_FormDefinition_Base extends AdminPageFramework
         }
         return $_aFieldsModel;
     }
-    public function _sortByOrder($a, $b) {
-        return isset($a['order'], $b['order']) ? $a['order'] - $b['order'] : 1;
-    }
     public function applyFiltersToFields($oCaller, $sClassName) {
         foreach ($this->aConditionedFields as $_sSectionID => $_aSubSectionOrFields) {
             foreach ($_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField) {

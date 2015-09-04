@@ -1,23 +1,16 @@
 <?php
 abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Controller {
     protected $_aBuiltInRootMenuSlugs = array('dashboard' => 'index.php', 'posts' => 'edit.php', 'media' => 'upload.php', 'links' => 'link-manager.php', 'pages' => 'edit.php?post_type=page', 'comments' => 'edit-comments.php', 'appearance' => 'themes.php', 'plugins' => 'plugins.php', 'users' => 'users.php', 'tools' => 'tools.php', 'settings' => 'options-general.php', 'network admin' => "network_admin_menu",);
-    protected static $_aStructure_SubMenuLinkForUser = array('type' => 'link', 'title' => null, 'href' => null, 'capability' => null, 'order' => null, 'show_page_heading_tab' => true, 'show_in_menu' => true,);
-    protected static $_aStructure_SubMenuPageForUser = array('type' => 'page', 'title' => null, 'page_title' => null, 'menu_title' => null, 'page_slug' => null, 'screen_icon' => null, 'capability' => null, 'order' => null, 'show_page_heading_tab' => true, 'show_in_menu' => true, 'href_icon_32x32' => null, 'screen_icon_id' => null, 'show_page_title' => null, 'show_page_heading_tabs' => null, 'show_in_page_tabs' => null, 'in_page_tab_tag' => null, 'page_heading_tab_tag' => null, 'disabled' => null, 'attributes' => null,);
     public function _replyToBuildMenu() {
         if ($this->oProp->aRootMenu['fCreateRoot']) {
             $this->_registerRootMenuPage();
         }
         $this->oProp->aPages = $this->oUtil->addAndApplyFilter($this, "pages_{$this->oProp->sClassName}", $this->oProp->aPages);
-        uasort($this->oProp->aPages, array($this, '_sortByOrder'));
-        foreach ($this->oProp->aPages as $aPage) {
-            if (!isset($aPage['page_slug'])) {
-                continue;
-            }
-            $this->oProp->sDefaultPageSlug = $aPage['page_slug'];
-            break;
-        }
+        uasort($this->oProp->aPages, array($this->oUtil, 'sortArrayByKey'));
+        $this->_setDefaultPage();
         foreach ($this->oProp->aPages as & $aSubMenuItem) {
-            $aSubMenuItem = $this->_formatSubMenuItemArray($aSubMenuItem);
+            $_oFormatter = new AdminPageFramework_Format_SubMenuItem($aSubMenuItem, $this);
+            $aSubMenuItem = $_oFormatter->get();
             $aSubMenuItem['_page_hook'] = $this->_registerSubMenuItem($aSubMenuItem);
         }
         if ($this->oProp->aRootMenu['fCreateRoot']) {
@@ -25,29 +18,17 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
         }
         $this->oProp->_bBuiltMenu = true;
     }
+    private function _setDefaultPage() {
+        foreach ($this->oProp->aPages as $_aPage) {
+            if (!isset($_aPage['page_slug'])) {
+                continue;
+            }
+            $this->oProp->sDefaultPageSlug = $_aPage['page_slug'];
+            return;
+        }
+    }
     private function _registerRootMenuPage() {
         $this->oProp->aRootMenu['_page_hook'] = add_menu_page($this->oProp->sClassName, $this->oProp->aRootMenu['sTitle'], $this->oProp->sCapability, $this->oProp->aRootMenu['sPageSlug'], '', $this->oProp->aRootMenu['sIcon16x16'], $this->oUtil->getElement($this->oProp->aRootMenu, 'iPosition', null));
-    }
-    private function _formatSubMenuItemArray($aSubMenuItem) {
-        $aSubMenuItem = $this->oUtil->getAsArray($aSubMenuItem);
-        if (isset($aSubMenuItem['page_slug'])) {
-            return $this->_formatSubMenuPageArray($aSubMenuItem);
-        }
-        if (isset($aSubMenuItem['href'])) {
-            return $this->_formatSubmenuLinkArray($aSubMenuItem);
-        }
-        return array();
-    }
-    protected function _formatSubmenuLinkArray(array $aSubMenuLink) {
-        if (!filter_var($aSubMenuLink['href'], FILTER_VALIDATE_URL)) {
-            return array();
-        }
-        return array('capability' => $this->oUtil->getElement($aSubMenuLink, 'capability', $this->oProp->sCapability), 'order' => isset($aSubMenuLink['order']) && is_numeric($aSubMenuLink['order']) ? $aSubMenuLink['order'] : count($this->oProp->aPages) + 10,) + $aSubMenuLink + self::$_aStructure_SubMenuLinkForUser;
-    }
-    protected function _formatSubMenuPageArray(array $aSubMenuPage) {
-        $aSubMenuPage = $aSubMenuPage + array('show_page_title' => $this->oProp->bShowPageTitle, 'show_page_heading_tabs' => $this->oProp->bShowPageHeadingTabs, 'show_in_page_tabs' => $this->oProp->bShowInPageTabs, 'in_page_tab_tag' => $this->oProp->sInPageTabTag, 'page_heading_tab_tag' => $this->oProp->sPageHeadingTabTag,) + self::$_aStructure_SubMenuPageForUser;
-        $aSubMenuPage['screen_icon_id'] = trim($aSubMenuPage['screen_icon_id']);
-        return array('href_icon_32x32' => $this->oUtil->getResolvedSRC($aSubMenuPage['screen_icon'], true), 'screen_icon_id' => $this->oUtil->getAOrB(in_array($aSubMenuPage['screen_icon'], self::$_aScreenIconIDs), $aSubMenuPage['screen_icon'], 'generic'), 'capability' => $this->oUtil->getElement($aSubMenuPage, 'capability', $this->oProp->sCapability), 'order' => $this->oUtil->getAOrB(is_numeric($aSubMenuPage['order']), $aSubMenuPage['order'], count($this->oProp->aPages) + 10),) + $aSubMenuPage;
     }
     private function _registerSubMenuItem(array $aArgs) {
         if (!current_user_can($aArgs['capability'])) {

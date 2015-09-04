@@ -15,7 +15,7 @@ class AdminPageFramework_Format_Sectionset extends AdminPageFramework_Format_Bas
         $this->oCaller = $_aParameters[4];
     }
     public function get() {
-        $_aSection = $this->uniteArrays(array('_fields_type' => $this->sFieldsType, 'capability' => $this->sCapability,) + $this->aSection, self::$aStructure);
+        $_aSection = $this->uniteArrays(array('_fields_type' => $this->sFieldsType,) + $this->aSection + array('capability' => $this->sCapability,), self::$aStructure);
         $_aSection['order'] = $this->getAOrB(is_numeric($_aSection['order']), $_aSection['order'], $this->iCountOfElements + 10);
         $_oCollapsibleArgumentFormatter = new AdminPageFramework_Format_CollapsibleSection($_aSection['collapsible'], $_aSection['title']);
         $_aSection['collapsible'] = $_oCollapsibleArgumentFormatter->get();

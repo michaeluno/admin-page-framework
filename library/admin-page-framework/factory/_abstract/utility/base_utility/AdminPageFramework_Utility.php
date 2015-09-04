@@ -1,6 +1,9 @@
 <?php
 abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_SystemInformation {
-    public function getObjectInfo($oInstance) {
+    static public function sortArrayByKey($a, $b, $sKey = 'order') {
+        return isset($a[$sKey], $b[$sKey]) ? $a[$sKey] - $b[$sKey] : 1;
+    }
+    static public function getObjectInfo($oInstance) {
         $_iCount = count(get_object_vars($oInstance));
         $_sClassName = get_class($oInstance);
         return '(object) ' . $_sClassName . ': ' . $_iCount . ' properties.';

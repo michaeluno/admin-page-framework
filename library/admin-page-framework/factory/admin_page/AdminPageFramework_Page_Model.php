@@ -1,35 +1,33 @@
 <?php
 abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Controller {
-    static protected $_aScreenIconIDs = array('edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',);
-    static protected $_aStructure_InPageTabElements = array('page_slug' => null, 'tab_slug' => null, 'title' => null, 'order' => null, 'show_in_page_tab' => true, 'parent_tab_slug' => null, 'url' => null, 'disabled' => null, 'attributes' => null,);
     protected function _finalizeInPageTabs() {
         if (!$this->oProp->isPageAdded()) {
             return;
         }
-        foreach ($this->oProp->aPages as $sPageSlug => $aPage) {
-            if (!isset($this->oProp->aInPageTabs[$sPageSlug])) {
+        foreach ($this->oProp->aPages as $_sPageSlug => $_aPage) {
+            if (!isset($this->oProp->aInPageTabs[$_sPageSlug])) {
                 continue;
             }
-            $this->oProp->aInPageTabs[$sPageSlug] = $this->oUtil->addAndApplyFilter($this, "tabs_{$this->oProp->sClassName}_{$sPageSlug}", $this->oProp->aInPageTabs[$sPageSlug]);
-            foreach ($this->oProp->aInPageTabs[$sPageSlug] as & $aInPageTab) {
-                $aInPageTab = $this->_formatInPageTab($aInPageTab);
-            }
-            uasort($this->oProp->aInPageTabs[$sPageSlug], array($this, '_sortByOrder'));
-            foreach ($this->oProp->aInPageTabs[$sPageSlug] as $sTabSlug => & $aInPageTab) {
-                if (!isset($aInPageTab['tab_slug'])) {
-                    continue;
-                }
-                $this->oProp->aDefaultInPageTabs[$sPageSlug] = $aInPageTab['tab_slug'];
-                break;
-            }
+            $_oFormatter = new AdminPageFramework_Format_InPageTabs($this->oProp->aInPageTabs[$_sPageSlug], $_sPageSlug, $this);
+            $this->oProp->aInPageTabs[$_sPageSlug] = $_oFormatter->get();
+            $this->oProp->aDefaultInPageTabs[$_sPageSlug] = $this->_getDefaultInPageTab($_sPageSlug, $this->oProp->aInPageTabs[$_sPageSlug]);
         }
     }
-    private function _formatInPageTab(array $aInPageTab) {
-        $aInPageTab = $aInPageTab + self::$_aStructure_InPageTabElements;
-        $aInPageTab['order'] = is_null($aInPageTab['order']) ? 10 : $aInPageTab['order'];
-        return $aInPageTab;
+    private function _getDefaultInPageTab($sPageSlug, $aInPageTabs) {
+        foreach ($aInPageTabs as $_aInPageTab) {
+            if (!isset($_aInPageTab['tab_slug'])) {
+                continue;
+            }
+            return $_aInPageTab['tab_slug'];
+        }
     }
     public function _replyToFinalizeInPageTabs() {
         $this->_finalizeInPageTabs();
+    }
+    public function _getPageCapability($sPageSlug) {
+        return $this->oUtil->getElement($this->oProp->aPages, array($sPageSlug, 'capability'));
+    }
+    public function _getInPageTabCapability($sTabSlug, $sPageSlug) {
+        return $this->oUtil->getElement($this->oProp->aInPageTabs, array($sPageSlug, $sTabSlug, 'capability'));
     }
 }

@@ -11,7 +11,7 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
             $__sTargetPageSlug = is_string($asInPageTab) ? $asInPageTab : $__sTargetPageSlug;
             return;
         }
-        $aInPageTab = $this->oUtil->uniteArrays($asInPageTab, self::$_aStructure_InPageTabElements, array('page_slug' => $__sTargetPageSlug));
+        $aInPageTab = $asInPageTab + array('page_slug' => $__sTargetPageSlug, 'tab_slug' => null, 'order' => null,);
         $__sTargetPageSlug = $aInPageTab['page_slug'];
         if (!isset($aInPageTab['page_slug'], $aInPageTab['tab_slug'])) {
             return;

@@ -7,13 +7,14 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
     public $sFieldsType = '';
     protected $_sTargetSectionID = '_default';
     public $sCapability = 'manage_option';
+    public $oCaller;
     public function __construct($sFieldsType, $sCapability, $oCaller = null) {
         $this->sFieldsType = $sFieldsType;
         $this->sCapability = $sCapability;
         $this->oCaller = $oCaller;
     }
     public function addSection(array $aSection) {
-        $aSection = $aSection + AdminPageFramework_Format_Sectionset::$aStructure;
+        $aSection = $aSection + array('section_id' => null,);
         $aSection['section_id'] = $this->sanitizeSlug($aSection['section_id']);
         $this->aSections[$aSection['section_id']] = $aSection;
         $this->aFields[$aSection['section_id']] = $this->getElement($this->aFields, $aSection['section_id'], array());
@@ -71,7 +72,7 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
             }
             $_aNewSectionArray[$_sSectionID] = $_aSection;
         }
-        uasort($_aNewSectionArray, array($this, '_sortByOrder'));
+        uasort($_aNewSectionArray, array($this, 'sortArrayByKey'));
         return $_aNewSectionArray;
     }
     protected function formatSection(array $aSection, $sFieldsType, $sCapability, $iCountOfElements, $oCaller) {
@@ -84,6 +85,7 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
             if (!isset($this->aSections[$_sSectionID])) {
                 continue;
             }
+            $sCapability = $this->getElement($this->aSections[$_sSectionID], 'capability', $sCapability);
             $_aNewFields[$_sSectionID] = $this->getElementAsArray($_aNewFields, $_sSectionID, array());
             $_abSectionRepeatable = $this->aSections[$_sSectionID]['repeatable'];
             if (count($this->getIntegerKeyElements($_aSubSectionsOrFields)) || $_abSectionRepeatable) {
@@ -95,7 +97,7 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
                             $_aNewFields[$_sSectionID][$_iSectionIndex][$_aField['field_id']] = $_aField;
                         }
                     }
-                    uasort($_aNewFields[$_sSectionID][$_iSectionIndex], array($this, '_sortByOrder'));
+                    uasort($_aNewFields[$_sSectionID][$_iSectionIndex], array($this, 'sortArrayByKey'));
                 }
                 continue;
             }
@@ -107,7 +109,7 @@ class AdminPageFramework_FormDefinition extends AdminPageFramework_FormDefinitio
                     $_aNewFields[$_sSectionID][$_aField['field_id']] = $_aField;
                 }
             }
-            uasort($_aNewFields[$_sSectionID], array($this, '_sortByOrder'));
+            uasort($_aNewFields[$_sSectionID], array($this, 'sortArrayByKey'));
         }
         $this->_sortFieldsBySectionsOrder($_aNewFields, $this->aSections);
         return $_aNewFields;

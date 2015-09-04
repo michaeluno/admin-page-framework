@@ -15,9 +15,12 @@ class AdminPageFramework_Script_SortableField extends AdminPageFramework_Script_
         _oTarget.unbind( 'sortupdate' );
         _oTarget.unbind( 'sortstop' );
         var _oSortable  = _oTarget.sortable(
-            { items: '> div:not( .disabled )', } // the options for the sortable plugin
+            // the options for the sortable plugin
+            { 
+                items: '> div:not( .disabled )',
+            } 
         );
-        
+
         // Callback the registered functions.
         _oSortable.bind( 'sortstop', function() {
             $( this ).callBackStoppedSortingFields( 
