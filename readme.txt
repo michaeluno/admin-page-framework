@@ -399,6 +399,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the ability to sort sections with the `sortable` argument of a section definition array.
 - Added the `save` argument for the section and field definition.
 - Added the `if` argument to the in-page tab definition.
+- Fixed an issue of a conflict that forms of post type meta boxes were not displayed when the global `$post` object is modified by third party scripts.
 - Fixed an issue that the `file` fields could not trigger the section validation callback when there are no other field types in the section.
 - Fixed a bug that an in-page tab that the `parent_tab_slug` is set and `show_in_page_tab` is `false` was displayed, introduced in 3.5.10.
 - Fixed the `setPageHeadingTabTag()` method did not property set the tag.

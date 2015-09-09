@@ -53,10 +53,10 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
             // the array element order is important, 
             // the one listed fist will be tried first.
             $_aMethodsToTry = array(
-                'getPostTypeByPostObject',
                 'getPostTypeByTypeNow',
                 'getPostTypeByScreenObject',
                 'getPostTypeByREQUEST',
+                'getPostTypeByPostObject',  // 3.6.0+ Moved to the last as it is not reliable.
             );
             foreach ( $_aMethodsToTry as $_sMethodName ) {
                 $_sPostType = call_user_func( array( __CLASS__, $_sMethodName ) );
@@ -74,14 +74,6 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
              * @callback    function        call_user_func
              * @since       3.5.3
              */            
-            static public function getPostTypeByPostObject() {
-                if ( 
-                    isset( $GLOBALS['post'], $GLOBALS['post']->post_type ) 
-                    && $GLOBALS['post']->post_type 
-                ) {
-                    return $GLOBALS['post']->post_type;
-                }
-            }
             static public function getPostTypeByTypeNow() {
                 if ( isset( $GLOBALS['typenow'] ) && $GLOBALS['typenow'] ) {
                     return $GLOBALS['typenow'];
@@ -107,6 +99,17 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
                     return get_post_type( $_GET['post'] );
                 }                                
             }
+            /**
+             * @remark      Checking with the global post object is not reliable because it gets modified when the `WP_Query::the_post()` method is performed.
+             */
+            static public function getPostTypeByPostObject() {
+                if ( 
+                    isset( $GLOBALS['post'], $GLOBALS['post']->post_type ) 
+                    && $GLOBALS['post']->post_type 
+                ) {
+                    return $GLOBALS['post']->post_type;
+                }
+            }            
             /**#@-*/
 
     /**

@@ -90,7 +90,6 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      */
     protected function _registerFormElements( $oScreen ) {
                 
-        // Schedule to add head tag elements and help pane contents. 
         if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) { 
             return; 
         }
