@@ -9,7 +9,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         return $_sCurrentPostType;
     }
     static private function _getCurrentPostType() {
-        $_aMethodsToTry = array('getPostTypeByPostObject', 'getPostTypeByTypeNow', 'getPostTypeByScreenObject', 'getPostTypeByREQUEST',);
+        $_aMethodsToTry = array('getPostTypeByTypeNow', 'getPostTypeByScreenObject', 'getPostTypeByREQUEST', 'getPostTypeByPostObject',);
         foreach ($_aMethodsToTry as $_sMethodName) {
             $_sPostType = call_user_func(array(__CLASS__, $_sMethodName));
             if ($_sPostType) {
@@ -17,11 +17,6 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
             }
         }
         return null;
-    }
-    static public function getPostTypeByPostObject() {
-        if (isset($GLOBALS['post'], $GLOBALS['post']->post_type) && $GLOBALS['post']->post_type) {
-            return $GLOBALS['post']->post_type;
-        }
     }
     static public function getPostTypeByTypeNow() {
         if (isset($GLOBALS['typenow']) && $GLOBALS['typenow']) {
@@ -39,6 +34,11 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         }
         if (isset($_GET['post']) && $_GET['post']) {
             return get_post_type($_GET['post']);
+        }
+    }
+    static public function getPostTypeByPostObject() {
+        if (isset($GLOBALS['post'], $GLOBALS['post']->post_type) && $GLOBALS['post']->post_type) {
+            return $GLOBALS['post']->post_type;
         }
     }
     static public function isCustomTaxonomyPage($asPostTypes = array()) {
