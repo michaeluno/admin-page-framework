@@ -204,7 +204,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
      * Lets the user download their own version of Admin Page Framework.
      * 
      * @since           3.5.4
-     * @callback        filter      export_{instantiated clasS name}_{section id}_{field id}
+     * @callback        filter      export_{instantiated class name}_{section id}_{field id}
      */
     public function replyToDownloadFramework( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
         
