@@ -113,26 +113,26 @@ class AdminPageFramework_Zip {
          * 
          * @return      boolean     True on success, false otherwise.
          */
-        private function _compressDirectory( ZipArchive $oZip, $sSource, array $aCallbacks=array(), $bIncludeDir=false ) {
+        private function _compressDirectory( ZipArchive $oZip, $sSourceDirPath, array $aCallbacks=array(), $bIncludeDir=false ) {
            
             $_oFilesIterator = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator( $sSource ), 
+                new RecursiveDirectoryIterator( $sSourceDirPath ), 
                 RecursiveIteratorIterator::SELF_FIRST
             );
 
             if ( $bIncludeDir ) {                
                 $this->_addEmptyDir( 
                     $oZip, 
-                    $this->_getMainDirectoryName( $sSource ), 
+                    $this->_getMainDirectoryName( $sSourceDirPath ), 
                     $aCallbacks['directory_name']
                 );
-                $sSource = $this->_getSubSourceDirPath( $sSource );
+                $sSourceDirPath = $this->_getSubSourceDirPath( $sSourceDirPath );
             }
 
             foreach ( $_oFilesIterator as $_sIterationItem ) {
                 $this->_addArchiveItem( 
                     $oZip, 
-                    $sSource,
+                    $sSourceDirPath,
                     $_sIterationItem, 
                     $aCallbacks 
                 );
@@ -221,11 +221,11 @@ class AdminPageFramework_Zip {
          * @since       3.5.4
          * @return      boolean     True on success, false otherwise.
          */
-        private function _compressFile( ZipArchive $oZip, $sSource, $aCallbacks=null ) {
+        private function _compressFile( ZipArchive $oZip, $sSourceFilePath, $aCallbacks=null ) {
             $this->_addFromString( 
                 $oZip, 
-                basename( $sSource ), 
-                file_get_contents( $sSource ),
+                basename( $sSourceFilePath ), 
+                file_get_contents( $sSourceFilePath ),
                 $aCallbacks
             );
             return $oZip->close();            
