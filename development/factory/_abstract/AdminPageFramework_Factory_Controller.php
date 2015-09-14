@@ -162,8 +162,33 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @access      public
      * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
      * @remark      The target section tab slug will be reset once the method returns.
-     * @param       array     the section definition array.
-     * <strong>Section Definition Array</strong>
+     * @param       array     a section definition array.
+     * @param       array     (optional) another section array.
+     * @param       array     (optional)  add more section array to the next parameters as many as necessary.
+     * @return      void
+     */    
+    public function addSettingSections( /* $aSection1, $aSection2=null, $_and_more=null */ ) {
+        
+        foreach( func_get_args() as $asSection ) { 
+            $this->addSettingSection( $asSection ); 
+        }
+        
+        // Reset the stored target tab slug and the target section tab slug.
+        $this->_sTargetSectionTabSlug = null;
+        
+    }
+    
+    /**
+     * A singular form of the `adSettingSections()` method which takes only a single parameter.
+     * 
+     * This is useful when adding section arrays in loops.
+     * 
+     * @since       3.0.0               Changed the scope to public from protected.
+     * @access      public
+     * @remark      The actual registration will be performed in the `_replyToRegisterSettings()` method with the `admin_menu` hook.
+     * @remark      The `$oForm` property should be created in each extended class.
+     * @param       array|string        $aSection       the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be omitted.
+     * <h4>Section Definition Array</h4>
      * <ul>
      *      <li>**section_id** - (string) the section ID. Avoid using non-alphabetic characters except underscore and numbers.</li>
      *      <li>**title** - (optional, string) the title of the section.</li>
@@ -192,7 +217,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *              <li>**collapse_others_on_expand** - (optional, boolean) whether the other collapsible sections should be folded when the section is unfolded. If the below `container` argument is set to `section`, this argument value does not take effect.</li>
      *              <li>**container** - (optional, string) the container element that collapsible styling gets applied to. Either 'sections' or 'section' is accepted. Use 'section' for repeatable sections.</li>
      *          </ul>
-     * <pre><code>$this->addSettingSections(
+     * `
+     * $this->addSettingSections(
      *      array(
      *          'section_id'        => 'collapsible_repeatable_section',
      *          'title'             => __( 'Collapsible Repeatable Section', 'admin-page-framework-demo' ),
@@ -203,35 +229,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *          'repeatable'        => true,
      *      )
      *  );
-     * </code></pre>
+     * `
      *      </li>
      *      <li>**sortable** - (optional, boolean) [3.6.0+] whether the section is sortable or not. In order for this option to be effective, the `repeatable` argument must be enabled.</li>
      * </ul>
-     * @param       array       (optional) another section array.
-     * @param       array       (optional)  add more section array to the next parameters as many as necessary.
-     * @return      void
-     */    
-    public function addSettingSections( /* $aSection1, $aSection2=null, $_and_more=null */ ) {
-        
-        foreach( func_get_args() as $asSection ) { 
-            $this->addSettingSection( $asSection ); 
-        }
-        
-        // Reset the stored target tab slug and the target section tab slug.
-        $this->_sTargetSectionTabSlug = null;
-        
-    }
-    
-    /**
-     * A singular form of the `adSettingSections()` method which takes only a single parameter.
-     * 
-     * This is useful when adding section arrays in loops.
-     * 
-     * @since       3.0.0               Changed the scope to public from protected.
-     * @access      public
-     * @remark      The actual registration will be performed in the `_replyToRegisterSettings()` method with the `admin_menu` hook.
-     * @remark      The `$oForm` property should be created in each extended class.
-     * @param       array|string        the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be omitted.
      * @return      void
      */
     public function addSettingSection( $aSection ) {
@@ -264,6 +265,40 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     * @since        3.5.3       Removed the parameter declarations as they are caught with the func_get_args().
     * @remark       Accepts variadic parameters; the number of accepted parameters are not limited to three.
     * @param        array       the field definition array.
+    * @param        array       (optional) another field array.
+    * @param        array       (optional) add more field arrays to the next parameters as many as necessary.
+    * @return       void
+    */ 
+    public function addSettingFields( /* $aField1, $aField2=null, $_and_more=null */ ) {
+        foreach( func_get_args() as $aField ) { 
+            $this->addSettingField( $aField ); 
+        }
+    }    
+        
+    /**
+     * Adds the given field array items into the field array property.
+     * 
+     * Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
+     * 
+     * <h4>Examples</h4>
+     * <code>
+     *         $this->addSettingField(
+     *             array(
+     *                 'field_id'    => 'metabox_text_field',
+     *                 'type'        => 'text',
+     *                 'title'       => __( 'Text Input', 'admin-page-framework-demo' ),
+     *                 'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
+     *                 'help'        => 'This is help text.',
+     *                 'help_aside'  => 'This is additional help text which goes to the side bar of the help pane.',
+     *             )
+     *         );    
+     * </code>
+     * 
+     * @since        2.1.2
+     * @since        3.0.0   The scope changed to public to indicate the users will use.
+     * @return       void
+     * @remark       The $oForm property should be created in each extended class.
+     * @param        array|string       $asField        A field definition array or a string of the target section id.
     * <h4>Built-in Field Types</h4>
     * <ul>
     *       <li>**text** - a normal field to enter text input.</li>
@@ -505,39 +540,6 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *           </ul>
     *       </li>
     * </ul>    
-    * @param        array (optional) another field array.
-    * @param        array (optional) add more field arrays to the next parameters as many as necessary.
-    * @return       void
-    */ 
-    public function addSettingFields( /* $aField1, $aField2=null, $_and_more=null */ ) {
-        foreach( func_get_args() as $aField ) { 
-            $this->addSettingField( $aField ); 
-        }
-    }    
-        
-    /**
-     * Adds the given field array items into the field array property.
-     * 
-     * Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
-     * 
-     * <h4>Examples</h4>
-     * <code>
-     *         $this->addSettingField(
-     *             array(
-     *                 'field_id'    => 'metabox_text_field',
-     *                 'type'        => 'text',
-     *                 'title'       => __( 'Text Input', 'admin-page-framework-demo' ),
-     *                 'description' => __( 'The description for the field.', 'admin-page-framework-demo' ),
-     *                 'help'        => 'This is help text.',
-     *                 'help_aside'  => 'This is additional help text which goes to the side bar of the help pane.',
-     *             )
-     *         );    
-     * </code>
-     * 
-     * @since        2.1.2
-     * @since        3.0.0   The scope changed to public to indicate the users will use.
-     * @return       void
-     * @remark       The $oForm property should be created in each extended class.
      */     
     public function addSettingField( $asField ) {
         if ( method_exists( $this->oForm, 'addField' ) ) {
