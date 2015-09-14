@@ -30,7 +30,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator extends AdminPageFramewo
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Download Framework', 'admin-page-framework-loader' ),
                 'description'   => array(
-                    __( 'Generate your own version of the framework to avoid libray conflicts.', 'admin-page-framework-loader' ),
+                    __( 'Generate your own version of the framework to avoid library conflicts.', 'admin-page-framework-loader' ),
                 ),
             )
         );
