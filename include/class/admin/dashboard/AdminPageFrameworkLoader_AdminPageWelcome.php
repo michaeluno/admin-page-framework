@@ -71,9 +71,9 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
             }
             
         private function _gotToWelcomePage() {        
-            $_sWelcomePageURL = apply_filters( 
-                'admin_page_framework_loader_filter_admin_welcome_redirect_url',
-                    add_query_arg( 
+            $_sWelcomePageURL = apply_filters(
+                AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_admin_welcome_redirect_url',
+                add_query_arg( 
                     array( 'page' => AdminPageFrameworkLoader_Registry::$aAdminPages['about'] ),
                     admin_url( 'index.php' )   // Dashboard
                 )                
