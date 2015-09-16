@@ -198,10 +198,11 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
     }
     private function _getCurrentTabSlug($sCurrentPageSlug) {
         $_sCurrentTabSlug = $this->oUtil->getElement($_GET, 'tab', $this->oProp->getDefaultInPageTab($sCurrentPageSlug));
-        return $this->_getParentTabSlug($sCurrentPageSlug, $_sCurrentTabSlug);
+        $_sTabSlug = $this->_getParentTabSlug($sCurrentPageSlug, $_sCurrentTabSlug);
+        return $_sTabSlug;
     }
     private function _getParentTabSlug($sPageSlug, $sTabSlug) {
         $_sParentTabSlug = $this->oUtil->getElement($this->oProp->aInPageTabs, array($sPageSlug, $sTabSlug, 'parent_tab_slug'), $sTabSlug);
-        return isset($this->oProp->aInPageTabs[$sPageSlug][$_sParentTabSlug]['show_in_page_tab']) && $this->oProp->aInPageTabs[$sPageSlug][$_sParentTabSlug]['show_in_page_tab'] ? $_sParentTabSlug : '';
+        return isset($this->oProp->aInPageTabs[$sPageSlug][$_sParentTabSlug]['show_in_page_tab']) && $this->oProp->aInPageTabs[$sPageSlug][$_sParentTabSlug]['show_in_page_tab'] ? $_sParentTabSlug : $sTabSlug;
     }
 }

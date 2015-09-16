@@ -227,12 +227,12 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
                 $_sTransientKey = 'apf_ec_' . md5($sPressedInputName . get_current_user_id());
             break;
         }
-        $_aNameKeys = explode('|', $sPressedInputName);
+        $_aNameKeys = explode('|', $sPressedInputName) + array('', '', '');
         $_sFieldID = $this->oUtil->getAOrB($sSectionID, $_aNameKeys[2], $_aNameKeys[1]);
         $_aErrors = array();
-        if ($sSectionID) {
+        if ($sSectionID && $_sFieldID) {
             $_aErrors[$sSectionID][$_sFieldID] = $_sFieldErrorMessage;
-        } else {
+        } else if ($_sFieldID) {
             $_aErrors[$_sFieldID] = $_sFieldErrorMessage;
         }
         $this->setFieldErrors($_aErrors);

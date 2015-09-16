@@ -2,13 +2,17 @@
 class AdminPageFramework_Zip {
     public $sSource;
     public $sDestination;
-    public $bIncludeDir = false;
     public $aCallbacks = array('file_name' => null, 'file_contents' => null, 'directory_name' => null,);
-    public function __construct($sSource, $sDestination, $bIncludeDir = false, array $aCallbacks = array()) {
+    public $aOptions = array('include_directory' => false, 'additional_source_directories' => array(),);
+    public function __construct($sSource, $sDestination, $abOptions = false, array $aCallbacks = array()) {
         $this->sSource = $sSource;
         $this->sDestination = $sDestination;
-        $this->bIncludeDir = $bIncludeDir;
+        $this->aOptions = $this->_getFormattedOptions($abOptions);
         $this->aCallbacks = $aCallbacks + $this->aCallbacks;
+    }
+    private function _getFormattedOptions($abOptions) {
+        $_aOptions = is_array($abOptions) ? $abOptions : array('include_directory' => $abOptions,);
+        return $_aOptions + $this->aOptions;
     }
     public function compress() {
         if (!$this->isFeasible($this->sSource)) {
@@ -21,49 +25,68 @@ class AdminPageFramework_Zip {
         if (!$_oZip->open($this->sDestination, ZIPARCHIVE::CREATE)) {
             return false;
         }
-        $this->sSource = str_replace('\\', '/', realpath($this->sSource));
-        $_aMethods = array('unknown' => '_returnFalse', 'directory' => '_compressDirectory', 'file' => '_compressFile',);
+        $this->sSource = $this->_getSanitizedSourcePath($this->sSource);
+        $_aMethods = array('unknown' => '_replyToReturnFalse', 'directory' => '_replyToCompressDirectory', 'file' => '_replyToCompressFile',);
         $_sMethodName = $_aMethods[$this->_getSourceType($this->sSource) ];
-        return call_user_func_array(array($this, $_sMethodName), array($_oZip, $this->sSource, $this->aCallbacks, $this->bIncludeDir));
+        return call_user_func_array(array($this, $_sMethodName), array($_oZip, $this->sSource, $this->aCallbacks, $this->aOptions['include_directory'], $this->aOptions['additional_source_directories'],));
     }
-    private function _compressDirectory(ZipArchive $oZip, $sSource, array $aCallbacks = array(), $bIncludeDir = false) {
-        $_oFilesIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($sSource), RecursiveIteratorIterator::SELF_FIRST);
+    private function _getSanitizedSourcePath($sPath) {
+        return str_replace('\\', '/', realpath($sPath));
+    }
+    public function _replyToCompressDirectory(ZipArchive $oZip, $sSourceDirPath, array $aCallbacks = array(), $bIncludeDir = false, array $aAdditionalSourceDirs = array()) {
+        $_sArchiveRootDirName = '';
         if ($bIncludeDir) {
-            $this->_addEmptyDir($oZip, $this->_getMainDirectoryName($sSource), $aCallbacks['directory_name']);
-            $sSource = $this->_getSubSourceDirPath($sSource);
+            $_sArchiveRootDirName = $this->_getMainDirectoryName($sSourceDirPath);
+            $this->_addEmptyDir($oZip, $_sArchiveRootDirName, $aCallbacks['directory_name']);
         }
-        foreach ($_oFilesIterator as $_sIterationItem) {
-            $this->_addArchiveItem($oZip, $sSource, $_sIterationItem, $aCallbacks);
-        }
+        array_unshift($aAdditionalSourceDirs, $sSourceDirPath);
+        $_aSourceDirPaths = array_unique($aAdditionalSourceDirs);
+        $this->_addArchiveItems($oZip, $_aSourceDirPaths, $aCallbacks, $_sArchiveRootDirName);
         return $oZip->close();
     }
-    private function _addArchiveItem(ZipArchive $oZip, $sSource, $_sIterationItem, array $aCallbacks) {
+    private function _addArchiveItems($oZip, $aSourceDirPaths, $aCallbacks, $sRootDirName = '') {
+        $sRootDirName = $sRootDirName ? rtrim($sRootDirName, '/') . '/' : '';
+        foreach ($aSourceDirPaths as $_isIndexOrRelativeDirPath => $_sSourceDirPath) {
+            $_sSourceDirPath = $this->_getSanitizedSourcePath($_sSourceDirPath);
+            $_sInsideDirPrefix = is_integer($_isIndexOrRelativeDirPath) ? '' : $_isIndexOrRelativeDirPath;
+            if ($_sInsideDirPrefix) {
+                $this->_addRelativeDir($oZip, $_sInsideDirPrefix, $aCallbacks['directory_name']);
+            }
+            $_oFilesIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($_sSourceDirPath), RecursiveIteratorIterator::SELF_FIRST);
+            foreach ($_oFilesIterator as $_sIterationItem) {
+                $this->_addArchiveItem($oZip, $_sSourceDirPath, $_sIterationItem, $aCallbacks, $sRootDirName . $_sInsideDirPrefix);
+            }
+        }
+    }
+    private function _addRelativeDir($oZip, $sRelativeDirPath, $oCallable) {
+        $sRelativeDirPath = str_replace('\\', '/', $sRelativeDirPath);
+        $_aPathPartsParse = array_filter(explode('/', $sRelativeDirPath));
+        $_aDirPath = array();
+        foreach ($_aPathPartsParse as $_sDirName) {
+            $_aDirPath[] = $_sDirName;
+            $this->_addEmptyDir($oZip, implode('/', $_aDirPath), $oCallable);
+        }
+    }
+    private function _addArchiveItem(ZipArchive $oZip, $sSource, $_sIterationItem, array $aCallbacks, $sInsidePathPrefix = '') {
         $_sIterationItem = str_replace('\\', '/', $_sIterationItem);
+        $sInsidePathPrefix = rtrim($sInsidePathPrefix, '/') . '/';
         if (in_array(substr($_sIterationItem, strrpos($_sIterationItem, '/') + 1), array('.', '..'))) {
             return;
         }
         $_sIterationItem = realpath($_sIterationItem);
         $_sIterationItem = str_replace('\\', '/', $_sIterationItem);
         if (true === is_dir($_sIterationItem)) {
-            $this->_addEmptyDir($oZip, str_replace($sSource . '/', '', $_sIterationItem . '/'), $aCallbacks['directory_name']);
+            $this->_addEmptyDir($oZip, $sInsidePathPrefix . str_replace($sSource . '/', '', $_sIterationItem . '/'), $aCallbacks['directory_name']);
         } else if (true === is_file($_sIterationItem)) {
-            $this->_addFromString($oZip, str_replace($sSource . '/', '', $_sIterationItem), file_get_contents($_sIterationItem), $aCallbacks);
+            $this->_addFromString($oZip, $sInsidePathPrefix . str_replace($sSource . '/', '', $_sIterationItem), file_get_contents($_sIterationItem), $aCallbacks);
         }
     }
     private function _getMainDirectoryName($sSource) {
         $_aPathParts = explode("/", $sSource);
         return $_aPathParts[count($_aPathParts) - 1];
     }
-    private function _getSubSourceDirPath($sSource) {
-        $_aPathParts = explode("/", $sSource);
-        $sSource = '';
-        for ($i = 0;$i < count($_aPathParts) - 1;$i++) {
-            $sSource.= '/' . $_aPathParts[$i];
-        }
-        return substr($sSource, 1);
-    }
-    private function _compressFile(ZipArchive $oZip, $sSource, $aCallbacks = null) {
-        $this->_addFromString($oZip, basename($sSource), file_get_contents($sSource), $aCallbacks);
+    public function _replyToCompressFile(ZipArchive $oZip, $sSourceFilePath, $aCallbacks = null) {
+        $this->_addFromString($oZip, basename($sSourceFilePath), file_get_contents($sSourceFilePath), $aCallbacks);
         return $oZip->close();
     }
     private function _getSourceType($sSource) {
@@ -79,12 +102,9 @@ class AdminPageFramework_Zip {
         if (!extension_loaded('zip')) {
             return false;
         }
-        if (!file_exists($sSource)) {
-            return false;
-        }
-        return true;
+        return file_exists($sSource);
     }
-    private function _returnFalse() {
+    public function _replyToReturnFalse() {
         return false;
     }
     private function _addEmptyDir(ZipArchive $oZip, $sInsidePath, $oCallable) {

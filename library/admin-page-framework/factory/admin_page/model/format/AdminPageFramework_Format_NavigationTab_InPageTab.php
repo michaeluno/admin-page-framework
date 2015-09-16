@@ -14,7 +14,7 @@ class AdminPageFramework_Format_NavigationTab_InPageTab extends AdminPageFramewo
         $this->oFactory = $_aParameters[4];
     }
     public function get() {
-        $_aTab = $this->aTab + array('capability' => 'manage_options', 'show_in_page_tab' => true,);
+        $_aTab = $this->uniteArrays($this->aTab, array('capability' => 'manage_options', 'show_in_page_tab' => true,));
         if (!$this->_isEnabled($_aTab)) {
             return array();
         }
