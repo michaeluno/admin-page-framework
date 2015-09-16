@@ -103,7 +103,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
             $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
             $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
-               
+       
             // Styles
             $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css' );
             $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css' );
