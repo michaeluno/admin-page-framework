@@ -214,7 +214,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         }
         
         $_sTempFile = $oAdminPage->oUtil->setTempPath( 'admin-page-framework.zip' );
-        $_sData     = $this->_getDownloadFrameworkZipFile( $_sFrameworkDirPath, $_sTempFile );
+        $_sData     = $this->_getDownloadFrameworkZipFile( 
+            $_sFrameworkDirPath, 
+            $_sTempFile
+        );
         header( "Content-Length: " . strlen( $_sData ) ); 
         unlink( $_sTempFile );
         return $_sData;
@@ -231,7 +234,13 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
             $_oZip = new AdminPageFramework_Zip( 
                 $sFrameworkDirPath, 
                 $sDestinationPath, 
-                false,  // wrap contents in a sub-directory
+                array(
+                    'include_directory'             => false,   // wrap contents in a sub-directory
+                    'additional_source_directories' => apply_filters(
+                        AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_additional_source_directories',
+                        array() // directory paths 
+                    ),
+                ),                
                 array(  // callbacks
                     'file_name'         => array( $this, '_replyToModifyPathInArchive' ),
                     'directory_name'    => array( $this, '_replyToModifyPathInArchive' ),
@@ -251,7 +260,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
              * Return an empty string to drop the item.
              * 
              * @remark      Gets called earlier than the callback for the file contents.
-             * @param       string      $sFileName      The internal path of the archive including the parsing file name.
+             * @param       string      $sPathInArchive      The internal path of the archive including the parsing file name.
              * @since       3.5.4
              * @return      string
              */
@@ -278,7 +287,11 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                  */
                 private function _isAllowedArchivePath( $sPath ) {
                     
-                    foreach( $this->_getDisallowedArchiveDirectoryPaths() as $_sDisallowedPath ) {
+                    $_aDisallowedArchiveDirectoryPaths = apply_filters(
+                        AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_disallowed_archive_directory_paths', // 3.6.0+
+                        $this->_getDisallowedArchiveDirectoryPaths()
+                    );
+                    foreach( $_aDisallowedArchiveDirectoryPaths as $_sDisallowedPath ) {
                         if ( $this->oFactory->oUtil->hasPrefix( $_sDisallowedPath, $sPath ) ) {
                             return false;
                         }
