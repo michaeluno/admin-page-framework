@@ -43,7 +43,7 @@ class AdminPageFramework_Format_NavigationTab_InPageTab extends AdminPageFramewo
             $this->oFactory,
         );
         $this->aTab         = $_aParameters[ 0 ];
-        self::$aStructure    = $_aParameters[ 1 ];
+        self::$aStructure   = $_aParameters[ 1 ];
         $this->aTabs        = $_aParameters[ 2 ];
         $this->aArguments   = $_aParameters[ 3 ];
         $this->oFactory     = $_aParameters[ 4 ];
@@ -56,9 +56,12 @@ class AdminPageFramework_Format_NavigationTab_InPageTab extends AdminPageFramewo
      */
     public function get() {
 
-        $_aTab = $this->aTab + array(
-            'capability'        => 'manage_options',
-            'show_in_page_tab'  => true,
+        $_aTab = $this->uniteArrays(
+            $this->aTab,
+            array(
+                'capability'        => 'manage_options',
+                'show_in_page_tab'  => true,
+            )
         );
         
         if ( ! $this->_isEnabled( $_aTab ) ) {
@@ -66,7 +69,7 @@ class AdminPageFramework_Format_NavigationTab_InPageTab extends AdminPageFramewo
         }
                 
         $_sSlug = $this->_getSlug( $_aTab );
-                 
+
         $_aTab = array(
             'slug'  => $_sSlug,
             'title' => $this->aTabs[ $_sSlug ][ 'title' ],
