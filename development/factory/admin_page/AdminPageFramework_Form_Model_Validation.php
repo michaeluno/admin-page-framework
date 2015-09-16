@@ -806,7 +806,7 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             }
             
             // Retrieve the pressed button's associated submit field ID.
-            $_aNameKeys = explode( '|', $sPressedInputName );    
+            $_aNameKeys = explode( '|', $sPressedInputName ) + array( '', '', '' );
             $_sFieldID  = $this->oUtil->getAOrB(
                 $sSectionID,
                 $_aNameKeys[ 2 ], // OptionKey|section_id|field_id
@@ -815,9 +815,9 @@ abstract class AdminPageFramework_Form_Model_Validation extends AdminPageFramewo
             
             // Set up the field error array to show a confirmation message just above the field besides the admin notice at the top of the page.
             $_aErrors = array();
-            if ( $sSectionID ) {
+            if ( $sSectionID && $_sFieldID ) {
                 $_aErrors[ $sSectionID ][ $_sFieldID ] = $_sFieldErrorMessage;
-            } else {
+            } else if ( $_sFieldID ) {
                 $_aErrors[ $_sFieldID ] = $_sFieldErrorMessage;
             }
             $this->setFieldErrors( $_aErrors );
