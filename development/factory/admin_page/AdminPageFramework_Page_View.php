@@ -555,7 +555,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
             
             // If in-page tabs are not set, return an empty string.
             $_aInPageTabs = $this->oUtil->getElement( $this->oProp->aInPageTabs, $sCurrentPageSlug, array() );
-            if ( empty( $_aInPageTabs ) ) { 
+            if ( empty( $_aInPageTabs ) ) {
                 return ''; 
             }
             
@@ -588,7 +588,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
              * @return      string      the in-page tab navigation bar output.
              */
             private function _getInPageTabNavigationBar( array $aTabs, $sActiveTab, $sCurrentPageSlug, $sTag ) {
-                
+
                 $_oTabBar = new AdminPageFramework_TabNavigationBar(
                     $aTabs,      // tabs
                     $sActiveTab, // active tab slug
@@ -657,10 +657,11 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                     'tab', 
                     $this->oProp->getDefaultInPageTab( $sCurrentPageSlug )
                 );
-                return $this->_getParentTabSlug( 
+                $_sTabSlug = $this->_getParentTabSlug( 
                     $sCurrentPageSlug, 
                     $_sCurrentTabSlug 
-                );  
+                );                
+                return $_sTabSlug;
                 
             }
                 /**
@@ -682,7 +683,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View
                     return isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $_sParentTabSlug ][ 'show_in_page_tab' ] )
                             && $this->oProp->aInPageTabs[ $sPageSlug ][ $_sParentTabSlug ][ 'show_in_page_tab' ]
                         ? $_sParentTabSlug
-                        : '';
+                        : $sTabSlug;
 
                 }
                 
