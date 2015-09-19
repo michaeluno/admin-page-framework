@@ -56,7 +56,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 'field_id'          => 'class_prefix',
                 'title'             => __( 'Class Prefix', 'admin-page-framework-loader' ),
                 'type'              => 'text',
-                'description'       => __( 'Set alphanumeric characters for the class names', 'admin-page-framework-loader' )
+                'description'       => __( 'Set alphanumeric characters for the class names.', 'admin-page-framework-loader' )
                     . ' ' .  __( 'For example, if you set here <code>MyPluginName_</code>, you will need to extend the class named <code>MyClassName_AdminPageFramework</code> instead of <code>AdminPageFramework</code>.', 'admin-page-framework-loader' )
                     . ' e.g.<code>MyPluginName_</code>',
                 'attributes'        => array(
@@ -71,6 +71,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 'type'              => 'text',
                 'description'       => __( 'The default text domain of your project.', 'admin-page-framework-loader' )
                     . ' e.g.<code>my-plugin</code>',
+                // 'default'           => 'admin-page-framework',
                 'attributes'        => array(
                     'size'          => 40,
                     // 'required' => 'required',
@@ -151,7 +152,6 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
     
         $_bVerified = true;
         $_aErrors   = array();
-        
         $aInput     = $this->_sanitizeFieldValues( $aInput, $oAdminPage );
         
         // the class prefix must not contain white spaces and some other characters not supported in PHP class names.
@@ -161,7 +161,12 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
             $_aMatches 
         );
         if ( $aInput[ 'class_prefix' ] && empty( $_aMatches ) ) {
-            $_aErrors['class_prefix'] = __( 'The prefix must consist of alphanumeric with underscores.', 'admin-page-framework-loader' );
+            $_aErrors[ 'class_prefix' ] = __( 'The prefix must consist of alphanumeric with underscores.', 'admin-page-framework-loader' );
+            $_bVerified = false;
+        }
+                        
+        if ( ! $aInput[ 'text_domain' ] ) {
+            $_aErrors[ 'text_domain' ] = __( 'The text domain cannot be empty.', 'admin-page-framework-loader' );
             $_bVerified = false;
         }
                 
@@ -287,12 +292,12 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                  */
                 private function _isAllowedArchivePath( $sPath ) {
                     
-                    $_aDisallowedArchiveDirectoryPaths = apply_filters(
-                        AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_disallowed_archive_directory_paths', // 3.6.0+
-                        $this->_getDisallowedArchiveDirectoryPaths()
-                    );
-                    foreach( $_aDisallowedArchiveDirectoryPaths as $_sDisallowedPath ) {
-                        if ( $this->oFactory->oUtil->hasPrefix( $_sDisallowedPath, $sPath ) ) {
+                    foreach( $this->_getDisallowedArchiveDirectoryPaths() as $_sDisallowedPath ) {
+                        $_bHasPrefix = $this->oFactory->oUtil->hasPrefix( 
+                            ltrim( $_sDisallowedPath, '/' ), // needle
+                            ltrim( $sPath, '/' ) // haystack
+                        );
+                        if ( $_bHasPrefix ) {
                             return false;
                         }
                     }
@@ -352,7 +357,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     
                     // User selected items
                     $_aSelectedComponents = $this->_getCheckedComponents();
-                    
+
                     // List paths.
                     $_aAllComponentsPaths       = array();
                     $_aSelectedComponentsPaths  = array();
@@ -373,6 +378,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                         }
                         
                     }
+
                     return array_diff(
                         array_unique( $_aAllComponentsPaths ),
                         array_unique( $_aSelectedComponentsPaths )
