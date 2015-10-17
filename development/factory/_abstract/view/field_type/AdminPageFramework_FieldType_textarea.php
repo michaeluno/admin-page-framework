@@ -184,7 +184,7 @@ jQuery( document ).ready( function(){
          * @param   object  oCloned         the copied node object.
          * @param   string  sFieldType      the field type slug
          * @param   string  sFieldTagID     the field container tag ID
-         * @param   integer iCallType       the caller type. 1 : repeatable sections. 0 : repeatable fields.\
+         * @param   integer iCallType       the caller type. 1 : repeatable sections. 0 : repeatable fields.
          * @param   integer iSectionIndex   the section index. For repeatable fields, it will be always 0
          * @param   integer iFieldIndex     the field index. For repeatable fields, it will be always 0.
          */
