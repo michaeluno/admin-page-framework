@@ -414,8 +414,22 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
              */
             public function _replyToModifyFileContents( $sFileContents, $sPathInArchive ) {
 
+                $sFileContents = apply_filters(
+                    AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_file_contents',
+                    $sFileContents, 
+                    $sPathInArchive,
+                    $this->oFactory->oUtil->getElement(
+                        $_POST,
+                        array( 
+                            $this->oFactory->oProp->sOptionKey, 
+                        ),
+                        array()
+                    ),
+                    $this->oFactory
+                );
+            
                 // Check the file extension.
-                if ( ! in_array( pathinfo( $sPathInArchive, PATHINFO_EXTENSION ), array( 'php' ) ) ) {
+                if ( ! in_array( pathinfo( $sPathInArchive, PATHINFO_EXTENSION ), array( 'php', 'css', 'js' ) ) ) {
                     return $sFileContents;
                 }
                 
@@ -447,9 +461,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     $sFileContents = $this->_modifyClassName( $sFileContents );
                     
                     // If it is the message class, modify the text domain.
-                    if ( ! $this->oFactory->oUtil->hasSuffix( 'AdminPageFramework_Message.php', $sPathInArchive ) ) {
-                        return $sFileContents;
-                    }                
+                    // @deprecated  3.6.0+
+                    // if ( ! $this->oFactory->oUtil->hasSuffix( 'AdminPageFramework_Message.php', $sPathInArchive ) ) {
+                        // return $sFileContents;
+                    // }                
                     return $this->_modifyTextDomain( $sFileContents );                    
                     
                 }
