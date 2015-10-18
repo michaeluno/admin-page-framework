@@ -94,7 +94,7 @@ class APF_Demo extends AdminPageFramework {
         new APF_Demo_CustomFieldType(
             $this,
             'custom_field_type',
-            __( 'Custom Field Type', 'admin-page-framework-loader' )
+            __( 'Custom Field Types', 'admin-page-framework-loader' )
         );
         
         // Define in-page tabs - here tabs are defined in the below classes.
