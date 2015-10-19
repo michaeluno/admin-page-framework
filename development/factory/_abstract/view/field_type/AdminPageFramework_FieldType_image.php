@@ -86,7 +86,7 @@ jQuery( document ).ready( function(){
          * @param string    sFieldTagID     the field container tag ID
          * @param integer   iCallerType     the caller type. 1 : repeatable sections. 0 : repeatable fields.
          */
-        added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType ) {
+        added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType, iSectionIndex, iFieldIndex ) {
             
             // If it is not the type, do nothing.
             if ( oCloned.find( '.select_image' ).length <= 0 ) { 
@@ -99,47 +99,61 @@ jQuery( document ).ready( function(){
                 oCloned.find( '.image_preview' ).hide(); // for the image field type, hide the preview element
                 oCloned.find( '.image_preview img' ).attr( 'src', '' ); // for the image field type, empty the src property for the image uploader field
             }
-            
-            var _oFieldContainer    = oCloned.closest( '.admin-page-framework-field' );
-            var _oSelectButton      = _oFieldContainer.find( '.select_image' );
-            
+                                    
             // Update attributes.
-            // Repeatable sections event - update attributes with the section id model.
-            if ( 1 === iCallType ) {               
-                var _oSectionsContainer     = jQuery( oCloned ).closest( '.admin-page-framework-sections' );
-                var _iSectionIndex          = _oSectionsContainer.attr( 'data-largest_index' );
-                var _sSectionIDModel        = _oSectionsContainer.attr( 'data-section_id_model' );
-                // var _sSectionNameModel      = _oSectionsContainer.attr( 'data-section_name_model' );
-                // var _sSectionFlatNameModel  = _oSectionsContainer.attr( 'data-flat_section_name_model' );                
-                jQuery( oCloned ).find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
-                    'id', // attribute name
-                    _iSectionIndex, // increment from
-                    _sSectionIDModel // digit model
-                );                  
-            } 
-            // For repeatable fields.
-            else {                
-                var _oFieldsContainer   = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
-                var _iFieldIndex        = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
-                var _sFieldTagIDModel   = _oFieldsContainer.attr( 'data-field_tag_id_model' );
-                jQuery( oCloned ).find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
-                    'id', // attribute name
-                    _iFieldIndex, // increment from
-                    _sFieldTagIDModel // digit model
-                );
+            switch( iCallType ) {
+                
+                // Repeatable sections (calling a belonging field)
+                case 1: 
+
+                    var _oSectionsContainer     = jQuery( oCloned ).closest( '.admin-page-framework-sections' );
+                    var _iSectionIndex          = _oSectionsContainer.attr( 'data-largest_index' );
+                    var _sSectionIDModel        = _oSectionsContainer.attr( 'data-section_id_model' );
+                    // var _sSectionNameModel      = _oSectionsContainer.attr( 'data-section_name_model' );
+                    // var _sSectionFlatNameModel  = _oSectionsContainer.attr( 'data-flat_section_name_model' );                
+                    jQuery( oCloned ).find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
+                        'id', // attribute name
+                        _iSectionIndex, // increment from
+                        _sSectionIDModel // digit model
+                    );                  
+                    break;
+                    
+                // Repeatable fields
+                default:
+                case 0:
+                
+                    var _oFieldsContainer   = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
+                    var _iFieldIndex        = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
+                    var _sFieldTagIDModel   = _oFieldsContainer.attr( 'data-field_tag_id_model' );
+                    jQuery( oCloned ).find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
+                        'id', // attribute name
+                        _iFieldIndex, // increment from
+                        _sFieldTagIDModel // digit model
+                    );                    
+
+                    break;
+                
+                // Parent repeatable fields (calling a nested field)
+                case 2:
+                
+                    break;
+
             }
             
             // Bind the event.
-            var _oImageInput = _oFieldContainer.find( '.image-field input' );
+            var _oFieldContainer = oCloned.closest( '.admin-page-framework-field' );
+            var _oSelectButton   = _oFieldContainer.find( '.select_image' );            
+            var _oImageInput     = _oFieldContainer.find( '.image-field input' );
             if ( _oImageInput.length <= 0 ) {
                 return true;
-            }                
+            }           
+
             setAPFImageUploader( 
                 _oImageInput.attr( 'id' ), 
                 true, 
                 _oSelectButton.attr( 'data-enable_external_source' )
-            );    
-
+            );               
+            
         }
     },
     $_aJSArray

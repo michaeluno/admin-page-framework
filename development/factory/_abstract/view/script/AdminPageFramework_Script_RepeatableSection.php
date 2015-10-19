@@ -157,11 +157,13 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
             // Callback the registered callback functions.
             $( this ).trigger( 
                 'admin_page_framework_repeated_field', 
-                $( this ).data( 'type' ), // field type slug
-                $( this ).attr( 'id' ), // element tag id
-                1, // call type, 0: repeatable fields, 1: repeatable sections, (not implemented yet - 2: parent fields, 3: parent sections)
-                _iSectionIndex, 
-                iFieldIndex 
+                [
+                    $( this ).data( 'type' ), // field type slug
+                    $( this ).attr( 'id' ), // element tag id
+                    1, // call type, 0: repeatable fields, 1: repeatable sections, (not implemented yet - 2: parent fields, 3: parent sections)
+                    _iSectionIndex, 
+                    iFieldIndex 
+                ]
             );            
             
         });     

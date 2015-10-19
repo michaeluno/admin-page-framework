@@ -215,11 +215,13 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
         // nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ), 0, 0, 0 );
         nodeNewField.trigger( 
             'admin_page_framework_repeated_field', 
-            nodeNewField.data( 'type' ), // field type slug
-            nodeNewField.attr( 'id' ),   // element tag id
-            0, // call type 
-            0, // section index - @todo find the section index
-            0  // field index - @todo find the field index
+            [ 
+                nodeNewField.data( 'type' ), // field type slug
+                nodeNewField.attr( 'id' ),   // element tag id
+                0, // call type 
+                0, // section index - @todo find the section index
+                0  // field index - @todo find the field index
+            ]
         );
         
         // For nested fields,
@@ -233,11 +235,13 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
             // Call back the registered functions.
             $( this ).trigger( 
                 'admin_page_framework_repeated_field', 
-                $( this ).data( 'type' ), 
-                nodeNewField.attr( 'id' ), // pass the parent field id
-                2,  // call type, 0 : repeatable sections, 1: repeatable fields, 2: nested repeatable fields.
-                0,  // @todo find the section index
-                iIterationIndex  // @todo find the nested field index
+                [ 
+                    $( this ).data( 'type' ), 
+                    nodeNewField.attr( 'id' ), // pass the parent field id
+                    2,  // call type, 0 : repeatable sections, 1: repeatable fields, 2: nested repeatable fields.
+                    0,  // @todo find the section index
+                    iIterationIndex  // @todo find the nested field index
+                ]
             );            
             
         });    

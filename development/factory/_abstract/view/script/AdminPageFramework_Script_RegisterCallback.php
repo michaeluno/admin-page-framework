@@ -45,7 +45,8 @@ class AdminPageFramework_Script_RegisterCallback extends AdminPageFramework_Scri
     /**
      * Gets triggered when a repeatable field add button is pressed.
      */  
-    $( document ).bind( 'admin_page_framework_repeated_field', function( oEvent, sFieldType, sID, iCallType, iSectionIndex, iFieldIndex ){
+    $( document ).bind( 'admin_page_framework_repeated_field', function( oEvent, sFieldType, sID, iCallType, iSectionIndex, iFieldIndex ){      
+
         var _oThisNode = jQuery( oEvent.target );
         $.each( $.fn.aAPFAddRepeatableFieldCallbacks, function( iIndex, aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
