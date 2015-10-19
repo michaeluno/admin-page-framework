@@ -48,16 +48,16 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         var _sSectionsContainerID = _oThis.find( '.repeatable-section-add-button' ).first().closest( '.admin-page-framework-sections' ).attr( 'id' );
 
         // Store the sections specific options in an array.
-        if ( ! $.fn.aAPFRepeatableSectionsOptions ) $.fn.aAPFRepeatableSectionsOptions = [];
-        if ( ! $.fn.aAPFRepeatableSectionsOptions.hasOwnProperty( _sSectionsContainerID ) ) {     
-            $.fn.aAPFRepeatableSectionsOptions[ _sSectionsContainerID ] = $.extend({    
+        if ( ! $.fn.aAdminPageFrameworkRepeatableSectionsOptions ) $.fn.aAdminPageFrameworkRepeatableSectionsOptions = [];
+        if ( ! $.fn.aAdminPageFrameworkRepeatableSectionsOptions.hasOwnProperty( _sSectionsContainerID ) ) {     
+            $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ _sSectionsContainerID ] = $.extend({    
                 max: 0, // These are the defaults.
                 min: 0,
                 fadein: 500,
                 fadeout: 500,                
                 }, aSettings );
         }
-        var _aOptions = $.fn.aAPFRepeatableSectionsOptions[ _sSectionsContainerID ];
+        var _aOptions = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ _sSectionsContainerID ];
 
         // The Add button behavior - if the tag id is given, multiple buttons will be selected. 
         // Otherwise, a section node is given and single button will be selected.
@@ -101,11 +101,11 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         var nodeTabsContainer       = $( '#' + sSectionContainerID ).closest( '.admin-page-framework-sections' ).find( '.admin-page-framework-section-tabs' );
         var _iSectionIndex          = nodeSectionsContainer.attr( 'data-largest_index' );
         
-        var _iFadein                = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadein' ];
-        var _iFadeout               = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadeout' ];
+        var _iFadein                = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadein' ];
+        var _iFadeout               = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadeout' ];
         
         // If the set maximum number of sections already exists, do not add.
-        var _sMaxNumberOfSections   = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ][ 'max' ];
+        var _sMaxNumberOfSections   = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ sSectionsContainerID ][ 'max' ];
         if ( _sMaxNumberOfSections != 0 && nodeSectionsContainer.find( '.admin-page-framework-section' ).length >= _sMaxNumberOfSections ) {
             var _nodeLastRepeaterButtons = nodeSectionContainer.find( '.admin-page-framework-repeatable-section-buttons' ).last();
             var _sMessage                = $( this ).formatPrintText( '{$sCannotAddMore}', _sMaxNumberOfSections );
@@ -129,8 +129,8 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
             nodeNewSection.find( '.admin-page-framework-section-title' ).not( '.admin-page-framework-collapsible-section-title' ).hide();
         }
         // Bind the click event to the collapsible section(s) bar. If a collapsible section is not added, the jQuery plugin is not added.
-        if( 'function' === typeof nodeNewSection.enableAPFCollapsibleButton ){ 
-            nodeNewSection.find( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' ).enableAPFCollapsibleButton();
+        if( 'function' === typeof nodeNewSection.enableAdminPageFrameworkCollapsibleButton ){ 
+            nodeNewSection.find( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' ).enableAdminPageFrameworkCollapsibleButton();
         }
                         
         // Add the cloned new field element.
@@ -307,11 +307,11 @@ class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Scr
         var nodeTabs                = nodeTabsContainer.find( '.admin-page-framework-section-tab' );
         var _iSectionIndex          = nodeSectionsContainer.attr( 'data-largest_index' );
         
-        var _iFadein                = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadein' ];
-        var _iFadeout               = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadeout' ];
+        var _iFadein                = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadein' ];
+        var _iFadeout               = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadeout' ];
         
         // If the set minimum number of sections already exists, do not remove.
-        var _sMinNumberOfSections = $.fn.aAPFRepeatableSectionsOptions[ sSectionsContainerID ]['min'];
+        var _sMinNumberOfSections = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ sSectionsContainerID ][ 'min' ];
         if ( _sMinNumberOfSections != 0 && nodeSectionsContainer.find( '.admin-page-framework-section' ).length <= _sMinNumberOfSections ) {
             var _nodeLastRepeaterButtons = nodeSectionContainer.find( '.admin-page-framework-repeatable-section-buttons' ).last();
             var _sMessage                = $( this ).formatPrintText( '{$sCannotRemoveMore}', _sMinNumberOfSections );

@@ -205,7 +205,7 @@ jQuery( document ).ready( function(){
             }                      
                                   
             // TinyMCE and Quick Tags Settings - the enabler script stores the original element id.
-            var _oSettings = jQuery().getAPFInputOptions( _oWrap.attr( 'data-id' ) );  
+            var _oSettings = jQuery().getAdminPageFrameworkInputOptions( _oWrap.attr( 'data-id' ) );  
 
             // Elements
             var _oField              = oCloned.closest( '.admin-page-framework-field' );
@@ -307,7 +307,7 @@ jQuery( document ).ready( function(){
                 }                                   
 
                 // Retrieve the TinyMCE and Quick Tags settings. The enabler script stores the original element id.
-                var oSettings = jQuery().getAPFInputOptions( oWrap.attr( 'data-id' ) );   
+                var oSettings = jQuery().getAdminPageFrameworkInputOptions( oWrap.attr( 'data-id' ) );   
 
                 var oTextArea           = jQuery( this ).find( 'textarea.wp-editor-area' ).first().show().removeAttr( 'aria-hidden' );
                 var oEditorContainer    = jQuery( this ).find( '.wp-editor-container' ).first().clone().empty();
@@ -371,7 +371,7 @@ jQuery( document ).ready( function(){
                 );          
 
                 // Store the settings.
-                jQuery().storeAPFInputOptions( 
+                jQuery().storeAdminPageFrameworkInputOptions( 
                     oWrap.attr( 'data-id' ), 
                     { 
                         TinyMCE:    tinyMCEPreInit.mceInit[ _sWidgetInitialTextareaID ],
@@ -547,7 +547,7 @@ jQuery( document ).ready( function() {
     }
     
     // Store the settings.
-    jQuery().storeAPFInputOptions( 
+    jQuery().storeAdminPageFrameworkInputOptions( 
         '{$sIDSelector}', 
         { 
             TinyMCE: tinyMCEPreInit.mceInit[ '{$sIDSelector}' ], 

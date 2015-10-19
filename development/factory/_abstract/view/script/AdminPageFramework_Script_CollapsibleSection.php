@@ -64,7 +64,7 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
             .hide();
         
         // Bind the click event
-        jQuery( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' ).enableAPFCollapsibleButton();
+        jQuery( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' ).enableAdminPageFrameworkCollapsibleButton();
         
         // Insert the toggle all button.
         jQuery( '.admin-page-framework-collapsible-title[data-toggle_all_button!=\"0\"]' ).each( function(){
@@ -131,7 +131,7 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
     /**
      * Adds a repeatable section.
      */
-    $.fn.enableAPFCollapsibleButton = function() {
+    $.fn.enableAdminPageFrameworkCollapsibleButton = function() {
         
         jQuery( this ).click( function( event, sContext ){
 

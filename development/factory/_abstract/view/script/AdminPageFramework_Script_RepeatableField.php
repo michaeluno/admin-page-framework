@@ -46,18 +46,18 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
         var sFieldsContainerID  = nodeThis.find( '.repeatable-field-add-button' ).first().data( 'id' );
         
         /* Store the fields specific options in an array  */
-        if ( ! $.fn.aAPFRepeatableFieldsOptions ) {
-            $.fn.aAPFRepeatableFieldsOptions = [];
+        if ( ! $.fn.aAdminPageFrameworkRepeatableFieldsOptions ) {
+            $.fn.aAdminPageFrameworkRepeatableFieldsOptions = [];
         }
-        if ( ! $.fn.aAPFRepeatableFieldsOptions.hasOwnProperty( sFieldsContainerID ) ) {     
-            $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ] = $.extend({    
+        if ( ! $.fn.aAdminPageFrameworkRepeatableFieldsOptions.hasOwnProperty( sFieldsContainerID ) ) {     
+            $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ] = $.extend({    
                 max: 0, // These are the defaults.
                 min: 0,
                 fadein: 500,
                 fadeout: 500,
                 }, aSettings );
         }
-        var _aOptions = $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ];
+        var _aOptions = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ];
 
         /* Set the option values in the data attributes so that when a section is repeated and creates a brand new field container, it can refer to the options */
         $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-max', _aOptions[ 'max' ] );
@@ -106,9 +106,9 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
         var sFieldsContainerID  = nodeFieldsContainer.attr( 'id' );
 
         // If the set maximum number of fields already exists, do not add.
-        if ( ! $.fn.aAPFRepeatableFieldsOptions.hasOwnProperty( sFieldsContainerID ) ) {     
+        if ( ! $.fn.aAdminPageFrameworkRepeatableFieldsOptions.hasOwnProperty( sFieldsContainerID ) ) {     
             var nodeButtonContainer = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' );
-            $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ] = {    
+            $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ] = {    
                 max: nodeButtonContainer.attr( 'data-max' ), // These are the defaults.
                 min: nodeButtonContainer.attr( 'data-min' ),
                 fadein: nodeButtonContainer.attr( 'data-fadein' ),
@@ -116,11 +116,11 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
             };
         }  
        
-        var _iFadein  = $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadein' ];
-        var _iFadeout = $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadeout' ];
+        var _iFadein  = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadein' ];
+        var _iFadeout = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadeout' ];
 
         // Show a warning message if the user tries to add more fields than the number of allowed fields.
-        var sMaxNumberOfFields = $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ]['max'];
+        var sMaxNumberOfFields = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ]['max'];
         if ( sMaxNumberOfFields != 0 && nodeFieldsContainer.find( '.admin-page-framework-field' ).length >= sMaxNumberOfFields ) {
             var nodeLastRepeaterButtons = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' ).last();
             var sMessage                = $( this ).formatPrintText( '{$sCannotAddMore}', sMaxNumberOfFields );
@@ -265,7 +265,7 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
         var sFieldsContainerID  = nodeFieldsContainer.attr( 'id' );
         
         /* If the set minimum number of fields already exists, do not remove */
-        var sMinNumberOfFields  = $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ][ 'min' ];
+        var sMinNumberOfFields  = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ][ 'min' ];
         if ( sMinNumberOfFields != 0 && nodeFieldsContainer.find( '.admin-page-framework-field' ).length <= sMinNumberOfFields ) {
             var nodeLastRepeaterButtons = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' ).last();
             var sMessage                = $( this ).formatPrintText( '{$sCannotRemoveMore}', sMinNumberOfFields );
@@ -275,8 +275,8 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
             } else {
                 nodeLastRepeaterButtons.before( nodeMessage );
             }
-            var _iFadeout = $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadeout' ]
-                ? $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadeout' ]
+            var _iFadeout = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadeout' ]
+                ? $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadeout' ]
                 : 500;
             nodeMessage.delay( 2000 ).fadeOut( _iFadeout );
             return;     
@@ -298,8 +298,8 @@ class AdminPageFramework_Script_RepeatableField extends AdminPageFramework_Scrip
 
         /* Remove the field */
         // nodeFieldContainer.remove(); // @deprecated  3.6.0
-        var _iFadeout = $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadeout' ]
-            ? $.fn.aAPFRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadeout' ]
+        var _iFadeout = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadeout' ]
+            ? $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadeout' ]
             : 500;        
         nodeFieldContainer.fadeOut( _iFadeout, function() { 
             $( this ).remove(); 

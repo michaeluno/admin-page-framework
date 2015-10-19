@@ -110,7 +110,7 @@ CSSRULES;
         $_aJSArray      = json_encode( $this->aFieldTypeSlugs );
         $_sDoubleQuote  = '\"';
         return <<<JAVASCRIPTS
-registerAPFColorPickerField = function( osTragetInput, aOptions ) {
+registerAdminPageFrameworkColorPickerField = function( osTragetInput, aOptions ) {
     
     var osTargetInput   = 'string' === typeof osTragetInput 
         ? '#' + osTragetInput 
@@ -188,7 +188,7 @@ jQuery( document ).ready( function(){
             }
 
             // Bind the color picker event.
-            registerAPFColorPickerField( nodeNewColorInput );     
+            registerAdminPageFrameworkColorPickerField( nodeNewColorInput );     
             
         }
     },
@@ -259,7 +259,7 @@ JAVASCRIPTS;
         private function _getColorPickerEnablerScript( $sInputID ) {
             $_sScript = <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
-    registerAPFColorPickerField( '{$sInputID}' );
+    registerAdminPageFrameworkColorPickerField( '{$sInputID}' );
 });            
 JAVASCRIPTS;
             return
