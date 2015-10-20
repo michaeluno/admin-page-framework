@@ -456,6 +456,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     // Insert a included component note in the header comment.
                     if ( $this->oFactory->oUtil->hasSuffix( 'admin-page-framework.php', $sPathInArchive ) ) {
                         $sFileContents = $this->_modifyFileDockblock( $sFileContents );
+                        return $this->_modifyClassName( $sFileContents );
                     }
                     
                     $sFileContents = $this->_modifyClassName( $sFileContents );
