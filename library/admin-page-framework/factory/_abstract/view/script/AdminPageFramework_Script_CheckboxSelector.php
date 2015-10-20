@@ -7,7 +7,7 @@ class AdminPageFramework_Script_CheckboxSelector extends AdminPageFramework_Scri
     /**
      * Checks all the checkboxes in siblings.
      */        
-    $.fn.selectALLAPFCheckboxes = function() {
+    $.fn.selectAllAdminPageFrameworkCheckboxes = function() {
         jQuery( this ).parent()
             .find( 'input[type=checkbox]' )
             .attr( 'checked', true );                
@@ -15,7 +15,7 @@ class AdminPageFramework_Script_CheckboxSelector extends AdminPageFramework_Scri
     /**
      * Unchecks all the checkboxes in siblings.
      */
-    $.fn.deselectAllAPFCheckboxes = function() {
+    $.fn.deselectAllAdminPageFrameworkCheckboxes = function() {
         jQuery( this ).parent()
             .find( 'input[type=checkbox]' )
             .attr( 'checked', false );                             

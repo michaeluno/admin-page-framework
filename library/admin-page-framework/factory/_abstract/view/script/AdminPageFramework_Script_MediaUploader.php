@@ -21,7 +21,7 @@ class AdminPageFramework_Script_MediaUploader extends AdminPageFramework_Script_
         return <<<JAVASCRIPTS
 (function ( $ ) {
             
-    getAPFCustomMediaUploaderSelectObject = function() {
+    getAdminPageFrameworkCustomMediaUploaderSelectObject = function() {
         return wp.media.view.MediaFrame.Select.extend({
 
             initialize: function() {

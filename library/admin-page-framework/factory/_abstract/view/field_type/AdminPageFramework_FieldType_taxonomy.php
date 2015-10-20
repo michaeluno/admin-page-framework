@@ -9,7 +9,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
         $_aJSArray = json_encode($this->aFieldTypeSlugs);
         return parent::getScripts() . <<<JAVASCRIPTS
 /* For tabs */
-var enableAPFTabbedBox = function( nodeTabBoxContainer ) {
+var enableAdminPageFrameworkTabbedBox = function( nodeTabBoxContainer ) {
     jQuery( nodeTabBoxContainer ).each( function() {
         jQuery( this ).find( '.tab-box-tab' ).each( function( i ) {
             
@@ -38,7 +38,7 @@ var enableAPFTabbedBox = function( nodeTabBoxContainer ) {
 
 jQuery( document ).ready( function() {
          
-    enableAPFTabbedBox( jQuery( '.tab-box-container' ) );
+    enableAdminPageFrameworkTabbedBox( jQuery( '.tab-box-container' ) );
 
     /* The repeatable event */
     jQuery().registerAdminPageFrameworkCallbacks( {     
@@ -95,7 +95,7 @@ jQuery( document ).ready( function() {
                     _sFieldTagIDModel // digit model
                 );
             }
-            enableAPFTabbedBox( jQuery( oCloned ).find( '.tab-box-container' ) );            
+            enableAdminPageFrameworkTabbedBox( jQuery( oCloned ).find( '.tab-box-container' ) );            
             
         }
     

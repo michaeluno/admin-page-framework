@@ -22,7 +22,7 @@ jQuery( document ).ready( function(){
          * @param string    sFieldTagID     the field container tag ID
          * @param integer   iCallerType     the caller type. 1 : repeatable sections. 0 : repeatable fields.
          */
-        added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType ) {
+        added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType, iSectionIndex, iFieldIndex ) {
             
             // If it is not the type, do nothing.
             if ( oCloned.find( '.select_image' ).length <= 0 ) { 
@@ -35,47 +35,61 @@ jQuery( document ).ready( function(){
                 oCloned.find( '.image_preview' ).hide(); // for the image field type, hide the preview element
                 oCloned.find( '.image_preview img' ).attr( 'src', '' ); // for the image field type, empty the src property for the image uploader field
             }
-            
-            var _oFieldContainer    = oCloned.closest( '.admin-page-framework-field' );
-            var _oSelectButton      = _oFieldContainer.find( '.select_image' );
-            
+                                    
             // Update attributes.
-            // Repeatable sections event - update attributes with the section id model.
-            if ( 1 === iCallType ) {               
-                var _oSectionsContainer     = jQuery( oCloned ).closest( '.admin-page-framework-sections' );
-                var _iSectionIndex          = _oSectionsContainer.attr( 'data-largest_index' );
-                var _sSectionIDModel        = _oSectionsContainer.attr( 'data-section_id_model' );
-                // var _sSectionNameModel      = _oSectionsContainer.attr( 'data-section_name_model' );
-                // var _sSectionFlatNameModel  = _oSectionsContainer.attr( 'data-flat_section_name_model' );                
-                jQuery( oCloned ).find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
-                    'id', // attribute name
-                    _iSectionIndex, // increment from
-                    _sSectionIDModel // digit model
-                );                  
-            } 
-            // For repeatable fields.
-            else {                
-                var _oFieldsContainer   = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
-                var _iFieldIndex        = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
-                var _sFieldTagIDModel   = _oFieldsContainer.attr( 'data-field_tag_id_model' );
-                jQuery( oCloned ).find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
-                    'id', // attribute name
-                    _iFieldIndex, // increment from
-                    _sFieldTagIDModel // digit model
-                );
+            switch( iCallType ) {
+                
+                // Repeatable sections (calling a belonging field)
+                case 1: 
+
+                    var _oSectionsContainer     = jQuery( oCloned ).closest( '.admin-page-framework-sections' );
+                    var _iSectionIndex          = _oSectionsContainer.attr( 'data-largest_index' );
+                    var _sSectionIDModel        = _oSectionsContainer.attr( 'data-section_id_model' );
+                    // var _sSectionNameModel      = _oSectionsContainer.attr( 'data-section_name_model' );
+                    // var _sSectionFlatNameModel  = _oSectionsContainer.attr( 'data-flat_section_name_model' );                
+                    jQuery( oCloned ).find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
+                        'id', // attribute name
+                        _iSectionIndex, // increment from
+                        _sSectionIDModel // digit model
+                    );                  
+                    break;
+                    
+                // Repeatable fields
+                default:
+                case 0:
+                
+                    var _oFieldsContainer   = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
+                    var _iFieldIndex        = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
+                    var _sFieldTagIDModel   = _oFieldsContainer.attr( 'data-field_tag_id_model' );
+                    jQuery( oCloned ).find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
+                        'id', // attribute name
+                        _iFieldIndex, // increment from
+                        _sFieldTagIDModel // digit model
+                    );                    
+
+                    break;
+                
+                // Parent repeatable fields (calling a nested field)
+                case 2:
+                
+                    break;
+
             }
             
             // Bind the event.
-            var _oImageInput = _oFieldContainer.find( '.image-field input' );
+            var _oFieldContainer = oCloned.closest( '.admin-page-framework-field' );
+            var _oSelectButton   = _oFieldContainer.find( '.select_image' );            
+            var _oImageInput     = _oFieldContainer.find( '.image-field input' );
             if ( _oImageInput.length <= 0 ) {
                 return true;
-            }                
-            setAPFImageUploader( 
+            }           
+
+            setAdminPageFrameworkImageUploader( 
                 _oImageInput.attr( 'id' ), 
                 true, 
                 _oSelectButton.attr( 'data-enable_external_source' )
-            );    
-
+            );               
+            
         }
     },
     $_aJSArray
@@ -94,20 +108,20 @@ JAVASCRIPTS;
  * Bind/rebinds the thickbox script the given selector element.
  * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
  */
-setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
+setAdminPageFrameworkImageUploader = function( sInputID, fMultiple, fExternalSource ) {
     jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
     jQuery( '#select_image_' + sInputID ).click( function() {
         var sPressedID                  = jQuery( this ).attr( 'id' );     
         window.sInputID                 = sPressedID.substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
         window.original_send_to_editor  = window.send_to_editor;
-        window.send_to_editor           = hfAPFSendToEditorImage;
+        window.send_to_editor           = hfAdminPageFrameworkSendToEditorImage;
         var fExternalSource             = jQuery( this ).attr( 'data-enable_external_source' );
         tb_show( '{$_sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$_sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
         return false; // do not click the button after the script by returning false.     
     });    
 }     
 
-var hfAPFSendToEditorImage = function( sRawHTML ) {
+var hfAdminPageFrameworkSendToEditorImage = function( sRawHTML ) {
 
     var sHTML       = '<div>' + sRawHTML + '</div>'; // This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
     var src         = jQuery( 'img', sHTML ).attr( 'src' );
@@ -164,7 +178,7 @@ JAVASCRIPTS;
 /**
  * Binds/rebinds the uploader button script to the specified element with the given ID.
  */
-setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
+setAdminPageFrameworkImageUploader = function( sInputID, fMultiple, fExternalSource ) {
 
     var _bEscaped = false; // indicates whether the frame is escaped/canceled.
     var _oCustomImageUploader;
@@ -210,10 +224,10 @@ setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
         }     
 
         // Store the original select object in a global variable
-        oAPFOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
+        oAdminPageFrameworkOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
         
         // Assign a custom select object
-        wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalImageUploaderSelectObject;
+        wp.media.view.MediaFrame.Select = fExternalSource ? getAdminPageFrameworkCustomMediaUploaderSelectObject() : oAdminPageFrameworkOriginalImageUploaderSelectObject;
         _oCustomImageUploader = wp.media({
             id:         sInputID,
             title:      fExternalSource ? '{$_sInsertFromURL}' : '{$_sThickBoxTitle}',
@@ -277,7 +291,7 @@ setAPFImageUploader = function( sInputID, fMultiple, fExternalSource ) {
             }
             
             // Restore the original select object.
-            wp.media.view.MediaFrame.Select = oAPFOriginalImageUploaderSelectObject;
+            wp.media.view.MediaFrame.Select = oAdminPageFrameworkOriginalImageUploaderSelectObject;
                             
         });
       
@@ -486,7 +500,7 @@ if ( 0 === jQuery( 'a#select_image_{$sInputID}' ).length ) {
     jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
 }
 jQuery( document ).ready( function(){     
-    setAPFImageUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
+    setAdminPageFrameworkImageUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
 });
 JAVASCRIPTS;
         return "<script type='text/javascript' class='admin-page-framework-image-uploader-button'>" . $_sScript . "</script>" . PHP_EOL;

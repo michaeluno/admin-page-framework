@@ -5,18 +5,19 @@ class AdminPageFramework_Script_RegisterCallback extends AdminPageFramework_Scri
 (function ( $ ) {
             
     // Callback containers.
-    $.fn.aAPFAddRepeatableFieldCallbacks        = [];            
-    $.fn.aAPFRemoveRepeatableFieldCallbacks     = [];
-    $.fn.aAPFSortedFieldsCallbacks              = [];            
-    $.fn.aAPFStoppedSortingFieldsCallbacks      = [];
-    $.fn.aAPFAddedWidgetCallbacks               = [];
+    $.fn.aAdminPageFrameworkAddRepeatableFieldCallbacks        = [];            
+    $.fn.aAdminPageFrameworkRemoveRepeatableFieldCallbacks     = [];
+    $.fn.aAdminPageFrameworkSortedFieldsCallbacks              = [];            
+    $.fn.aAdminPageFrameworkStoppedSortingFieldsCallbacks      = [];
+    $.fn.aAdminPageFrameworkAddedWidgetCallbacks               = [];
     
     /**
      * Gets triggered when a repeatable field add button is pressed.
      */  
-    $( document ).bind( 'admin_page_framework_repeated_field', function( oEvent, sFieldType, sID, iCallType, iSectionIndex, iFieldIndex ){
+    $( document ).bind( 'admin_page_framework_repeated_field', function( oEvent, sFieldType, sID, iCallType, iSectionIndex, iFieldIndex ){      
+
         var _oThisNode = jQuery( oEvent.target );
-        $.each( $.fn.aAPFAddRepeatableFieldCallbacks, function( iIndex, aCallback ) {
+        $.each( $.fn.aAdminPageFrameworkAddRepeatableFieldCallbacks, function( iIndex, aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
             var _aFieldTypes = aCallback[ 1 ];       
             if ( 0 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
@@ -35,7 +36,7 @@ class AdminPageFramework_Script_RegisterCallback extends AdminPageFramework_Scri
      */
     /* $( document ).bind( 'admin_page_framework_removed_field', function( oEvent, sFieldType, sID, iCallType, iSectionIndex, iFieldIndex ){
         var _oThisNode = jQuery( oEvent.target );
-        $.each( $.fn.aAPFRemoveRepeatableFieldCallbacks, function( iIndex, aCallback ) {
+        $.each( $.fn.aAdminPageFrameworkRemoveRepeatableFieldCallbacks, function( iIndex, aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
             var _aFieldTypes = aCallback[ 1 ];       
             if ( 0 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
@@ -53,7 +54,7 @@ class AdminPageFramework_Script_RegisterCallback extends AdminPageFramework_Scri
      */
     $.fn.callBackSortedFields = function( sFieldType, sID, iCallType ) {
         var oThisNode = this;
-        $.fn.aAPFSortedFieldsCallbacks.forEach( function( aCallback ) {
+        $.fn.aAdminPageFrameworkSortedFieldsCallbacks.forEach( function( aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
             var _aFieldTypes = aCallback[ 1 ];            
             if ( 0 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
@@ -71,7 +72,7 @@ class AdminPageFramework_Script_RegisterCallback extends AdminPageFramework_Scri
      */
     $.fn.callBackStoppedSortingFields = function( sFieldType, sID, iCallType ) {
         var oThisNode = this;
-        $.fn.aAPFStoppedSortingFieldsCallbacks.forEach( function( aCallback ) {
+        $.fn.aAdminPageFrameworkStoppedSortingFieldsCallbacks.forEach( function( aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
             var _aFieldTypes = aCallback[ 1 ];            
             if ( 0 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
@@ -88,7 +89,7 @@ class AdminPageFramework_Script_RegisterCallback extends AdminPageFramework_Scri
      * @since    3.2.0 
      */
     $( document ).bind( 'admin_page_framework_saved_widget', function( event, oWidget ){
-        $.each( $.fn.aAPFAddedWidgetCallbacks, function( iIndex, aCallback ) {
+        $.each( $.fn.aAdminPageFrameworkAddedWidgetCallbacks, function( iIndex, aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
             var _aFieldTypes = aCallback[ 1 ];
             if ( ! $.isFunction( _hfCallback ) ) { 
@@ -123,19 +124,19 @@ class AdminPageFramework_Script_RegisterCallback extends AdminPageFramework_Scri
             : aFieldTypeSlugs;
 
         // Store the callback functions
-        $.fn.aAPFAddRepeatableFieldCallbacks.push( 
+        $.fn.aAdminPageFrameworkAddRepeatableFieldCallbacks.push( 
             [ oCallbacks.added_repeatable_field, aFieldTypeSlugs ]
         );
-        $.fn.aAPFRemoveRepeatableFieldCallbacks.push( 
+        $.fn.aAdminPageFrameworkRemoveRepeatableFieldCallbacks.push( 
             [ oCallbacks.removed_repeatable_field, aFieldTypeSlugs ]
         );
-        $.fn.aAPFSortedFieldsCallbacks.push( 
+        $.fn.aAdminPageFrameworkSortedFieldsCallbacks.push( 
             [ oCallbacks.sorted_fields, aFieldTypeSlugs ]
         );
-        $.fn.aAPFStoppedSortingFieldsCallbacks.push( 
+        $.fn.aAdminPageFrameworkStoppedSortingFieldsCallbacks.push( 
             [ oCallbacks.stopped_sorting_fields, aFieldTypeSlugs ]
         );
-        $.fn.aAPFAddedWidgetCallbacks.push( 
+        $.fn.aAdminPageFrameworkAddedWidgetCallbacks.push( 
             [ oCallbacks.saved_widget, aFieldTypeSlugs ]
         );
 

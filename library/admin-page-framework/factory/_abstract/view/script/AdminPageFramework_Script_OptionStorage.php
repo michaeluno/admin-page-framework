@@ -4,17 +4,17 @@ class AdminPageFramework_Script_OptionStorage extends AdminPageFramework_Script_
         return <<<JAVASCRIPTS
 (function ( $ ) {
             
-    $.fn.aAPFInputOptions = {}; 
+    $.fn.aAdminPageFrameworkInputOptions = {}; 
                             
-    $.fn.storeAPFInputOptions = function( sID, vOptions ) {
+    $.fn.storeAdminPageFrameworkInputOptions = function( sID, vOptions ) {
         var sID = sID.replace( /__\d+_/, '___' );	// remove the section index. The g modifier is not used so it will replace only the first occurrence.
-        $.fn.aAPFInputOptions[ sID ] = vOptions;
+        $.fn.aAdminPageFrameworkInputOptions[ sID ] = vOptions;
     };	
-    $.fn.getAPFInputOptions = function( sID ) {
+    $.fn.getAdminPageFrameworkInputOptions = function( sID ) {
         var sID = sID.replace( /__\d+_/, '___' ); // remove the section index
-        return ( 'undefined' === typeof $.fn.aAPFInputOptions[ sID ] )
+        return ( 'undefined' === typeof $.fn.aAdminPageFrameworkInputOptions[ sID ] )
             ? null
-            : $.fn.aAPFInputOptions[ sID ];
+            : $.fn.aAdminPageFrameworkInputOptions[ sID ];
     }
 
 }( jQuery ));

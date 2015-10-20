@@ -57,7 +57,7 @@ jQuery( document ).ready( function(){
             if ( _oMediaInput.length <= 0 ) {
                 return true;
             }
-            setAPFMediaUploader( 
+            setAdminPageFrameworkMediaUploader( 
                 _oMediaInput.attr( 'id' ), 
                 true, 
                 jQuery( oCloned ).find( '.select_media' ).attr( 'data-enable_external_source' ) 
@@ -82,20 +82,20 @@ JAVASCRIPTS;
                      * Bind/rebinds the thickbox script the given selector element.
                      * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
                      */
-                    setAPFMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
+                    setAdminPageFrameworkMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
                         jQuery( '#select_media_' + sInputID ).unbind( 'click' ); // for repeatable fields
                         jQuery( '#select_media_' + sInputID ).click( function() {
                             var sPressedID = jQuery( this ).attr( 'id' );
                             window.sInputID = sPressedID.substring( 13 ); // remove the select_media_ prefix and set a property to pass it to the editor callback method.
                             window.original_send_to_editor = window.send_to_editor;
-                            window.send_to_editor = hfAPFSendToEditorMedia;
+                            window.send_to_editor = hfAdminPageFrameworkSendToEditorMedia;
                             var fExternalSource = jQuery( this ).attr( 'data-enable_external_source' );
                             tb_show( '{$_sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$_sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
                             return false; // do not click the button after the script by returning false.     
                         });    
                     }     
                                                     
-                    var hfAPFSendToEditorMedia = function( sRawHTML, param ) {
+                    var hfAdminPageFrameworkSendToEditorMedia = function( sRawHTML, param ) {
 
                         var sHTML = '<div>' + sRawHTML + '</div>'; // This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
                         var src = jQuery( 'a', sHTML ).attr( 'href' );
@@ -122,7 +122,7 @@ JAVASCRIPTS;
                 /**
                  * Binds/rebinds the uploader button script to the specified element with the given ID.
                  */     
-                setAPFMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
+                setAdminPageFrameworkMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
 
                     var _bEscaped = false;
                     var _oMediaUploader;
@@ -143,10 +143,10 @@ JAVASCRIPTS;
                         }     
                         
                         // Store the original select object in a global variable
-                        oAPFOriginalMediaUploaderSelectObject = wp.media.view.MediaFrame.Select;
+                        oAdminPageFrameworkOriginalMediaUploaderSelectObject = wp.media.view.MediaFrame.Select;
                         
                         // Assign a custom select object.
-                        wp.media.view.MediaFrame.Select = fExternalSource ? getAPFCustomMediaUploaderSelectObject() : oAPFOriginalMediaUploaderSelectObject;
+                        wp.media.view.MediaFrame.Select = fExternalSource ? getAdminPageFrameworkCustomMediaUploaderSelectObject() : oAdminPageFrameworkOriginalMediaUploaderSelectObject;
                         _oMediaUploader = wp.media({
                             title:      fExternalSource
                                 ? '{$_sInsertFromURL}'
@@ -208,7 +208,7 @@ JAVASCRIPTS;
                             }
                             
                             // Restore the original select object.
-                            wp.media.view.MediaFrame.Select = oAPFOriginalMediaUploaderSelectObject;    
+                            wp.media.view.MediaFrame.Select = oAdminPageFrameworkOriginalMediaUploaderSelectObject;    
                             
                         });
                         
@@ -302,7 +302,7 @@ if ( jQuery( 'a#select_media_{$sInputID}' ).length == 0 ) {
     jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
 }
 jQuery( document ).ready( function(){     
-    setAPFMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
+    setAdminPageFrameworkMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
 });
 JAVASCRIPTS;
         return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" . $_sScript . "</script>" . PHP_EOL;
