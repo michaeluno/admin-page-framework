@@ -24,7 +24,7 @@ class APF_Demo_CustomFieldType {
         $this->sPageTitle   = $sTitle;
     
         $this->_addPage();
-
+               
     }
         
         /**

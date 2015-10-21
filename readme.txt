@@ -396,6 +396,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.6.0 =
+- Added the ability for the generator to include custom field types.
 - Added the ability to sort sections with the `sortable` argument of a section definition array.
 - Added the `save` argument for the section and field definition.
 - Added the `if` argument to the in-page tab definition.

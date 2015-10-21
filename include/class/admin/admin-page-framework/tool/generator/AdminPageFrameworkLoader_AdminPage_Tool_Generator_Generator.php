@@ -14,12 +14,20 @@
 class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminPageFrameworkLoader_AdminPage_Section_Base {
     
     /**
+     * Stores the admin page factory object.
+     */
+    public $oFactory;
+    
+    /**
      * A user constructor.
      * 
      * @since       3.5.4
      * @return      void
      */
     protected function construct( $oFactory ) {
+        
+        // Store the factory object in a property.
+        $this->oFactory = $oFactory;
         
         add_action( 
             'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug, 
@@ -42,7 +50,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         );
         
     }
-    
+        
     /**
      * Adds form fields.
      * @since       3.5.4
@@ -105,6 +113,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 'title'             => __( 'Download', 'admin-page-framework-loader' ),
                 'type'              => 'export',
                 'label_min_width'   => 0,
+                'order'             => 100,
                 'value'             => __( 'Download', 'adimn-page-framework-demo' ),
                 'file_name'         => 'admin-page-framework.zip',  // the default file name. This will be modified by the filter.
                 'format'            => 'text',  // 'json', 'text', 'array'      
@@ -120,8 +129,13 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                         'disabled'
                     ),
                 ),
-            ) 
+            )            
         );          
+        
+        new AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes( 
+            $oFactory,
+            $sSectionID
+        );
         
     }
         /**

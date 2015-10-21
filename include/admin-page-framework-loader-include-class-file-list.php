@@ -16,6 +16,7 @@ $_aClassFiles = array(
 	"AdminPageFrameworkLoader_AdminPage_Help_Tip"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Tip.php", 
 	"AdminPageFrameworkLoader_AdminPage_Tool"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/tool/AdminPageFrameworkLoader_AdminPage_Tool.php", 
 	"AdminPageFrameworkLoader_AdminPage_Tool_Generator"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator.php", 
+	"AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php", 
 	"AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php", 
 	"AdminPageFrameworkLoader_AdminPage_Tool_Minifier"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/tool/minifier/AdminPageFrameworkLoader_AdminPage_Tool_Minifier.php", 
 	"AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/tool/minifier/AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier.php", 
