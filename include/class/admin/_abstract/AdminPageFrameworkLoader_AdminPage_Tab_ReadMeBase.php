@@ -23,8 +23,17 @@ abstract class AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase extends AdminPa
      */
     protected function _getReadmeContents( $sFilePath, $sTOCTitle, $asSections=array() ) {
         
+        $_sText = file_get_contents( $sFilePath );
+        
+        // Register the shortcode.
+		add_shortcode( 'embed', array( $this, 'replyToProcessShortcode' ) );
+
+		// Do the shortcode (only the [embed] one is registered)
+		$_sText = do_shortcode( $_sText );        
+        
         $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
-            $sFilePath,
+            // $sFilePath,
+            $_sText,
             array(
                 '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
                 '%WP_ADMIN_URL%'    => admin_url(),
@@ -42,7 +51,39 @@ abstract class AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase extends AdminPa
             );
             return $_oTOC->get();        
         }
-        return $_sContent;
+        return ''
+         . $_sContent;
+        
+    }
+    
+    /**
+     * @since       3.6.0
+     * @return      string
+     */
+    public function replyToProcessShortcode( $aAttributes, $sURL ) {
+        
+        $sURL   = isset( $aAttributes[ 'src' ] ) ? $aAttributes[ 'src' ] : $sURL;
+        $_sHTML = wp_oembed_get( $sURL );
+        
+        // If there was a result, return it
+        if ( $_sHTML ) {
+            // This filter is documented in wp-includes/class-wp-embed.php
+            return "<div class='video oembed'>" 
+                        . apply_filters(
+                            'embed_oembed_html', 
+                            $_sHTML, 
+                            $sURL, 
+                            $aAttribute, 
+                            0
+                        )
+                . "</div>";
+        }        
+        
+        // If not found, return the link.
+        $_oWPEmbed = new WP_Embed;        
+        return "<div class='video oembed'>" 
+                . $_oWPEmbed->maybe_make_link( $sURL )
+            . "</div>";
         
     }
     

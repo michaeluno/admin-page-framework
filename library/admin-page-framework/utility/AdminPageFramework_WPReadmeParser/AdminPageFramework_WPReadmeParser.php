@@ -1,8 +1,8 @@
 <?php
 class AdminPageFramework_WPReadmeParser {
     static private $_aStructure_Callbacks = array('code_block' => null, '%PLUGIN_DIR_URL%' => null, '%WP_ADMIN_URL%' => null,);
-    public function __construct($sFilePath = '', array $aReplacements = array(), array $aCallbacks = array()) {
-        $this->sText = file_exists($sFilePath) ? file_get_contents($sFilePath) : '';
+    public function __construct($sFilePathOrContent = '', array $aReplacements = array(), array $aCallbacks = array()) {
+        $this->sText = file_exists($sFilePathOrContent) ? file_get_contents($sFilePathOrContent) : $sFilePathOrContent;
         $this->_aSections = $this->sText ? $this->_getSplitContentsBySection($this->sText) : array();
         $this->aReplacements = $aReplacements;
         $this->aCallbacks = $aCallbacks + self::$_aStructure_Callbacks;

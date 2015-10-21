@@ -287,7 +287,7 @@ This submit button will float right.
 array(    
     'field_id'          => 'submit',
     'type'              => 'submit',
-    'label'             => __( 'Save', 'task-scheduler' ),
+    'value'             => __( 'Save', 'task-scheduler' ),
     'label_min_width'   => 0,
     'attributes'        => array(
         'field' => array(

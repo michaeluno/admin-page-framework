@@ -1,48 +1,56 @@
 == New Features ==
-<h3>User Meta Fields</h3>
+<h3>Sortable Sections</h3>
 
-Now you can add custom fields in the user profile page so that each user can store their own options.
+Finally, we can sort sections. 
 
-![User Meta Fields](%PLUGIN_DIR_URL%/asset/image/new_feature/user_meta_fields.jpg "User Mata Fields")
+[embed src="https://youtu.be/rgF-pel5zgY"]
 
-<h3>Component Generator</h3>
-Generate your own version of the framework files by selecting necessary components. This helps reduce the size of the overall framework files you include by excluding certain components.
+<h3>Component Generator Supporting Custom Field Types</h3>
 
-Also, compared to the minified version which loads all the classes at once, the generated framework uses the auto-loader, which is lighter and improve the load time performance.
+Now the component generator can include custom field types so that you don't have to rename class names of custom field types manually.
 
-![Component Generator](%PLUGIN_DIR_URL%/asset/image/getting_started/my_first_plugin.png "Component Generator")
+![Component Generator Supporting Custom Field Types](%PLUGIN_DIR_URL%/asset/image/new_feature/component_generator_supporting_cstom_field_types.jpg "Component Generator Supporting Custom Field Types")
 
 <div class='apfl_columns_row'>
 
     <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>    
-            <h3>Framework Loader</h3>
+            <h3>Mechanism Refinement of Dynamic Elements</h3>
 
-            <p>The plugin is no longer a demo plugin of Admin Page Framework but it serves as a framework loader and make the framework functionality available to the entire site.</p>
-
-            <p>If you choose it to activate this plugin, and let it run in the background, you don't have to manually include the framework file in your plugins or themes.</p>
+            <p>The refined mechanism of repeatable and sortable sections and fields dramatically reduces the amount of code in a class defining a field type.</p>
         </div>
     </div>
 
     <div class='apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>    
-            <h3>Plugin Bootstrap Utility</h3>
+            <h3>New Section and Field Definition Argument</h3>
 
-            <p>The newly introduced abstract utility class lets you set up loading components including requirement checks upon plugin activation.</p>
-
-            <p>You just extend it and define certain methods and instantiate it. That's it.</p>
+            <p>A new argument `save` is added to the section and field definition arguments. This allows you to decide whether the field value should be saved in the database individually.</p>
         </div>
     </div>
 
     <div class='apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
-            <h3>WordPress Readme & MarkDown Parser</h3>
+            <h3>Capability Inheritance</h3>
 
-            <p>Now you can use the built-in WordPress readme parser. This is useful when you need to create instruction pages in your plugin/theme.</p>
-
-            <p>You can just write instruction in your readme file and display it.</p>
+            <p>Now a capability level set to an outer page element will be inherited to inner elements by default. For example, the level set to a page will be all applied to the tabs and form elements which belong to the page.</p>
         </div>
     </div>
+</div>
+
+<div class='apfl_columns_row'>    
+    <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
+        <div class='apfl_cell'>
+            <h3>Fixes and Clean-ups</h3>
+            <p>Several bugs have been patched and the directory structure has been restructured to shorten overall file paths.</p>
+        </div>
+    </div>
+    <div class='apfl_columns_col apfl_col_element_of_3'>
+        <div class='apfl_cell'>
+            <h3>More Changes</h3>
+            <p>Find out the more details of new changes <a href="%WP_ADMIN_URL%?page=apfl_about&tab=change_log">here</a>.</p>
+        </div>
+    </div>    
     
 </div>
 
