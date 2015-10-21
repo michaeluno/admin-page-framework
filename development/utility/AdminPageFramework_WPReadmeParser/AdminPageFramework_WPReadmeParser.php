@@ -48,8 +48,8 @@ class AdminPageFramework_WPReadmeParser {
      * 
      * If you don't have a file path but a text string, then omit the first parameter and use the `setText()` method.
      * 
-     * @param       string      $sFilePath        The WordPress readme text file path.
-     * @param       array       $aReplacements    An array holding replacements.
+     * @param       string      $sFilePathOrContent     The WordPress readme text file path or the text string.
+     * @param       array       $aReplacements          An array holding replacements.
      *  array(
      *      '%PLUGIN_DIR_URL%'  =>  plugin_directory_path,
      *      '%WP_ADMIN_URL%'  =>  admin_url()
@@ -60,11 +60,12 @@ class AdminPageFramework_WPReadmeParser {
      *      
      * )`
      * @since       3.5.0
+     * @since       3.6.0       Made it accept string content to be passed to the first parameter.
      */
-    public function __construct( $sFilePath='', array $aReplacements=array(), array $aCallbacks=array() ) {
-        $this->sText            = file_exists( $sFilePath )
-            ? file_get_contents( $sFilePath )
-            : '';
+    public function __construct( $sFilePathOrContent='', array $aReplacements=array(), array $aCallbacks=array() ) {
+        $this->sText            = file_exists( $sFilePathOrContent )
+            ? file_get_contents( $sFilePathOrContent )
+            : $sFilePathOrContent;
         $this->_aSections       = $this->sText
             ? $this->_getSplitContentsBySection( $this->sText )
             : array();    
