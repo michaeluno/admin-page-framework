@@ -3,7 +3,7 @@ class AdminPageFramework_AdminNotice {
     public function __construct($sNotice, array $aAttributes = array('class' => 'error')) {
         $this->sNotice = $sNotice;
         $this->aAttributes = $aAttributes + array('class' => 'error',);
-        $this->aAttributes['class'] = $this->oUtil->getClassAttribute($this->oUtil->getElement($this->aAttributes, array('class'), ''), 'admin-page-framework-settings-notice-message', 'notice is-dismissible');
+        $this->aAttributes['class'] = trim($this->aAttributes['class']) . ' admin-page-framework-settings-notice-message notice is-dismissible';
         if (did_action('admin_notices')) {
             $this->_replyToDisplayAdminNotice();
         } else {
@@ -20,7 +20,7 @@ class AdminPageFramework_AdminNotice {
             if ('style' === $_sAttribute && is_array($_asProperty)) {
                 $_asProperty = $this->_getInlineCSS($_asProperty);
             }
-            if (in_array(gettype($_asProperty), array('array', 'object', 'NULL'))) {
+            if (!is_scalar($_asProperty)) {
                 continue;
             }
             $_aOutput[] = "{$_sAttribute}={$_sQuoteCharactor}" . esc_attr($_asProperty) . "{$_sQuoteCharactor}";

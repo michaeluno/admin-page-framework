@@ -38,15 +38,8 @@ class AdminPageFramework_AdminNotice {
         $this->aAttributes          = $aAttributes + array(
             'class' => 'error',
         );        
-        $this->aAttributes[ 'class' ] = $this->oUtil->getClassAttribute(
-            $this->oUtil->getElement(
-                $this->aAttributes,
-                array( 'class' ),
-                ''
-            ),
-            'admin-page-framework-settings-notice-message',
-            'notice is-dismissible' // 3.5.12+
-        );        
+        $this->aAttributes[ 'class' ] = trim( $this->aAttributes[ 'class' ] )
+            . ' admin-page-framework-settings-notice-message notice is-dismissible';
         if ( did_action( 'admin_notices' ) ) {
             $this->_replyToDisplayAdminNotice();
         } else {
@@ -80,7 +73,7 @@ class AdminPageFramework_AdminNotice {
                 }
                 
                 // Must be resolved as a string.
-                if ( in_array( gettype( $_asProperty ), array( 'array', 'object', 'NULL' ) ) ) {
+                if ( ! is_scalar( $_asProperty )  ) {
                     continue;
                 }
                             
@@ -93,7 +86,7 @@ class AdminPageFramework_AdminNotice {
             
         }
         /**
-         * Generates HTML inline style attribute from an array.
+         * Generates an HTML inline style attribute from an array.
          * @since       3.5.0
          * @return      string      The generated inline CSS rules.
          */               

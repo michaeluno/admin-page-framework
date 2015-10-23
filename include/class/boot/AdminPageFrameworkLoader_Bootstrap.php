@@ -45,7 +45,6 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
     public function replyToPluginActivation() {
 
         $this->_checkRequirements();
-        // $this->_setOptions();
         
     }
         /**
@@ -68,30 +67,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
             }        
              
         }    
-        /**
-         * Sets transients.
-         * 
-         * One is for user redirect to the welcome page.
-         * 
-         * @since       3.5.0
-         * @return      void
-         */
-        private function _setOptions() {
             
-            // Check if the plugin option is set.
-            $_aOptions = get_option( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
-            if ( is_array( $_aOptions ) && ! empty( $_aOptions ) ) {
-                return;           
-            }
-            
-            // If not, it means the user newly installed the plugin.
-            $_aOptions = array(
-                'welcomed'  => false,
-                'version' => '',
-            );
-            
-        }
-        
     /**
      * Load localization files.
      * 
@@ -100,7 +76,9 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
     public function setLocalization() {
         
         // This plugin does not have messages to be displayed in the front end.
-        if ( ! $this->bIsAdmin ) { return; }
+        if ( ! $this->bIsAdmin ) { 
+            return; 
+        }
         
         load_plugin_textdomain( 
             AdminPageFrameworkLoader_Registry::TEXT_DOMAIN, 
@@ -142,7 +120,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
                 AdminPageFrameworkLoader_Registry::$aOptionKeys['main'],    // the option key
                 $this->sFilePath   // caller script path            
             );
-            
+
         }   
         
         // Demo
