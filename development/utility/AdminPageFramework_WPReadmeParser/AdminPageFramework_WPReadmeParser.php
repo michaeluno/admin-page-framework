@@ -38,19 +38,15 @@ class AdminPageFramework_WPReadmeParser {
      * @internal
      */
     static private $_aStructure_Callbacks = array(
-        'code_block'        => null,
-        '%PLUGIN_DIR_URL%'  => null,
-        '%WP_ADMIN_URL%'    => null,
+        'code_block'              => null,
+        'content_before_parsing'  => null, // 3.6.1
     ); 
     
-    /**
-     * Represents the structure of the array storing options.
-     * @since       3.6.1
-     */
-    static private $_aStructure_Options  = array(
-        'convert_shortcode'   => true,    // 3.6.1+
+    static private $_aStructure_Replacements = array(
+        // '%PLUGIN_DIR_URL%'  => null,
+        // '%WP_ADMIN_URL%'    => null,    
     );
-    
+        
     /**
      * Stores the parsing text.
      */
@@ -67,10 +63,7 @@ class AdminPageFramework_WPReadmeParser {
      * Callback definitions.
      */
     public $aCallbacks = array();
-    /**
-     * Options.
-     */
-    public $aOptions = array();
+
     
     /**
      * Sets up properties.
@@ -91,16 +84,14 @@ class AdminPageFramework_WPReadmeParser {
      * @param       array       $aOptions           The options array which determines the behaviour of the class.
      * @since       3.5.0
      * @since       3.6.0       Made it accept string content to be passed to the first parameter.
-     * @since       3.6.1       Added the `$aOptions` parameter.
      */
-    public function __construct( $sFilePathOrContent='', array $aReplacements=array(), array $aCallbacks=array(), array $aOptions=array() ) {
+    public function __construct( $sFilePathOrContent='', array $aReplacements=array(), array $aCallbacks=array() ) {
 
         $this->sText            = file_exists( $sFilePathOrContent )
             ? file_get_contents( $sFilePathOrContent )
             : $sFilePathOrContent;
-        $this->aReplacements    = $aReplacements;
+        $this->aReplacements    = $aReplacements + self::$_aStructure_Replacements;
         $this->aCallbacks       = $aCallbacks + self::$_aStructure_Callbacks;        
-        $this->aOptions         = $aOptions + self::$_aStructure_Options;            
         $this->_aSections       = $this->sText
             ? $this->_getSplitContentsBySection( $this->sText )
             : array();    
@@ -168,8 +159,10 @@ class AdminPageFramework_WPReadmeParser {
          */
         private function _getParsedText( $sContent ) {
 
-            // WordPress Shortcodes
-            $_sContent = $this->_getShortcodeConverted( $sContent );
+            // User set callbacks.
+            $_sContent = is_callable( $this->aCallbacks[ 'content_before_parsing' ] )
+                ? call_user_func_array( $this->aCallbacks[ 'content_before_parsing' ], array( $sContent ) )
+                : $sContent; 
             
             // inline backticks.
             $_sContent = preg_replace( '/`(.*?)`/', '<code>\\1</code>', $_sContent );   
@@ -181,56 +174,17 @@ class AdminPageFramework_WPReadmeParser {
             $_sContent = preg_replace( '/= (.*?) =/', '<h4>\\1</h4>', $_sContent );
             
             // Replace user set strings.
-            $_sContent = str_replace( array_keys( $this->aReplacements ), array_values( $this->aReplacements ), $_sContent );
+            $_sContent = str_replace( 
+                array_keys( $this->aReplacements ), // searches
+                array_values( $this->aReplacements ), // replacements
+                $_sContent // subject
+            );
                     
             // Markdown
             $_oParsedown = new AdminPageFramework_Parsedown();        
             return $_oParsedown->text( $_sContent );
             
-        }
-            /**
-             * @return      string 
-             * @return      3.6.1
-             */
-            private function _getShortcodeConverted( $sContent ) {
-                if ( ! $this->aOptions[ 'convert_shortcode' ] ) {
-                    return $sContent;
-                }
-                // Register the 'embed' shortcode.
-                add_shortcode( 'embed', array( $this, '_replyToProcessShortcode_embed' ) );
-                return do_shortcode( $sContent );
-                
-            }
-                /**
-                 * @since       3.6.1
-                 * @return      string      The generate HTML output.
-                 */
-                public function _replyToProcessShortcode_embed( $aAttributes, $sURL, $sShortcode='' ) {
-
-                    $sURL   = isset( $aAttributes[ 'src' ] ) ? $aAttributes[ 'src' ] : $sURL;      
-                    $_sHTML = wp_oembed_get( $sURL );
-                    
-                    // If there was a result, return it
-                    if ( $_sHTML ) {
-                        // This filter is documented in wp-includes/class-wp-embed.php
-                        return "<div class='video oembed'>" 
-                                    . apply_filters(
-                                        'embed_oembed_html', 
-                                        $_sHTML, 
-                                        $sURL, 
-                                        $aAttributes, 
-                                        0
-                                    )
-                            . "</div>";
-                    }        
-                    
-                    // If not found, return the link.
-                    $_oWPEmbed = new WP_Embed;        
-                    return "<div class='video oembed'>" 
-                            . $_oWPEmbed->maybe_make_link( $sURL )
-                        . "</div>";
-                    
-                }            
+        }      
     
         /**
          * Returns the modified code block.
@@ -249,8 +203,8 @@ class AdminPageFramework_WPReadmeParser {
                 . $this->getSyntaxHighlightedPHPCode( $_sIntact )
             . "</code></pre>";                       
             
-            return is_callable( $this->aCallbacks['code_block'] )
-                ? call_user_func_array( $this->aCallbacks['code_block'], array( $_sModified, $_sIntact ) )
+            return is_callable( $this->aCallbacks[ 'code_block' ] )
+                ? call_user_func_array( $this->aCallbacks[ 'code_block' ], array( $_sModified, $_sIntact ) )
                 : $_sModified;       
             
         }

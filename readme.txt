@@ -396,7 +396,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.6.1 =
-- Added an option for the `AdminPageFramework_WPReadmeParser` utility class to parse shortcodes.
+- Added a hook to filter parsing contents to the `AdminPageFramework_WPReadmeParser` utility class.
 - Fixed a bug caused a fatal error in the `AdminPageFramework_AdminNotice` class, introduced in 3.5.12.
  
 = 3.6.0 - 2015/10/22 =

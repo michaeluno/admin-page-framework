@@ -24,10 +24,13 @@ abstract class AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase extends AdminPa
     protected function _getReadmeContents( $sFilePath, $sTOCTitle, $asSections=array() ) {
         
         $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
-            $sFilePath, // $_sText,
-            array(
+            $sFilePath, 
+            array( // replacements
                 '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
                 '%WP_ADMIN_URL%'    => admin_url(),
+            ),
+            array( // callbacks
+                'content_before_parsing' => array( $this, '_replyToProcessShortcodes' ),
             )
         );    
         $_sContent = '';
@@ -46,5 +49,47 @@ abstract class AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase extends AdminPa
          . $_sContent;
         
     }
+    
+        /**
+         * @return      string 
+         * @return      3.6.1
+         */
+        public function _replyToProcessShortcodes( $sContent ) {
+
+            // Register the 'embed' shortcode.
+            add_shortcode( 'embed', array( $this, '_replyToProcessShortcode_embed' ) );
+            return do_shortcode( $sContent );
+            
+        }
+            /**
+             * @since       3.6.1
+             * @return      string      The generate HTML output.
+             */
+            public function _replyToProcessShortcode_embed( $aAttributes, $sURL, $sShortcode='' ) {
+
+                $sURL   = isset( $aAttributes[ 'src' ] ) ? $aAttributes[ 'src' ] : $sURL;      
+                $_sHTML = wp_oembed_get( $sURL );
+                
+                // If there was a result, return it
+                if ( $_sHTML ) {
+                    // This filter is documented in wp-includes/class-wp-embed.php
+                    return "<div class='video oembed'>" 
+                                . apply_filters(
+                                    'embed_oembed_html', 
+                                    $_sHTML, 
+                                    $sURL, 
+                                    $aAttributes, 
+                                    0
+                                )
+                        . "</div>";
+                }        
+                
+                // If not found, return the link.
+                $_oWPEmbed = new WP_Embed;        
+                return "<div class='video oembed'>" 
+                        . $_oWPEmbed->maybe_make_link( $sURL )
+                    . "</div>";
+                
+            }         
     
 }
