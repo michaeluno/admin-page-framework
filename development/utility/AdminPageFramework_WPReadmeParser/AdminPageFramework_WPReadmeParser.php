@@ -42,7 +42,36 @@ class AdminPageFramework_WPReadmeParser {
         '%PLUGIN_DIR_URL%'  => null,
         '%WP_ADMIN_URL%'    => null,
     ); 
-  
+    
+    /**
+     * Represents the structure of the array storing options.
+     * @since       3.6.1
+     */
+    static private $_aStructure_Options  = array(
+        'convert_shortcode'   => true,    // 3.6.1+
+    );
+    
+    /**
+     * Stores the parsing text.
+     */
+    public $sText = '';
+    /**
+     * Stores the divided sections.
+     */
+    protected $_aSections = array();
+    /**
+     * Replacement definitions..
+     */
+    public $aReplacements = array();
+    /**
+     * Callback definitions.
+     */
+    public $aCallbacks = array();
+    /**
+     * Options.
+     */
+    public $aOptions = array();
+    
     /**
      * Sets up properties.
      * 
@@ -59,18 +88,23 @@ class AdminPageFramework_WPReadmeParser {
      *      'code_block'        =>  ...,
      *      
      * )`
+     * @param       array       $aOptions           The options array which determines the behaviour of the class.
      * @since       3.5.0
      * @since       3.6.0       Made it accept string content to be passed to the first parameter.
+     * @since       3.6.1       Added the `$aOptions` parameter.
      */
-    public function __construct( $sFilePathOrContent='', array $aReplacements=array(), array $aCallbacks=array() ) {
+    public function __construct( $sFilePathOrContent='', array $aReplacements=array(), array $aCallbacks=array(), array $aOptions=array() ) {
+
         $this->sText            = file_exists( $sFilePathOrContent )
             ? file_get_contents( $sFilePathOrContent )
             : $sFilePathOrContent;
+        $this->aReplacements    = $aReplacements;
+        $this->aCallbacks       = $aCallbacks + self::$_aStructure_Callbacks;        
+        $this->aOptions         = $aOptions + self::$_aStructure_Options;            
         $this->_aSections       = $this->sText
             ? $this->_getSplitContentsBySection( $this->sText )
             : array();    
-        $this->aReplacements    = $aReplacements;
-        $this->aCallbacks       = $aCallbacks + self::$_aStructure_Callbacks;
+        
     } 
     
     /**
@@ -87,16 +121,20 @@ class AdminPageFramework_WPReadmeParser {
     
         /**
          * Get the split contents by section.
+         * 
          * @since       3.5.0
+         * @return      array
          */
         private function _getSplitContentsBySection( $sText ) {
-            return preg_split( 
+            $_aSections = preg_split( 
                 '/^[\s]*==[\s]*(.+?)[\s]*==/m', 
                 $sText,
                 -1, 
                 PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY 
-            );            
+            );         
+            return $_aSections;
         }
+            
     /**
      * Returns the parsed text.
      * 
@@ -130,8 +168,11 @@ class AdminPageFramework_WPReadmeParser {
          */
         private function _getParsedText( $sContent ) {
 
+            // WordPress Shortcodes
+            $_sContent = $this->_getShortcodeConverted( $sContent );
+            
             // inline backticks.
-            $_sContent = preg_replace( '/`(.*?)`/', '<code>\\1</code>', $sContent );   
+            $_sContent = preg_replace( '/`(.*?)`/', '<code>\\1</code>', $_sContent );   
             
             // multi-line backticks - store code blocks in a separate place
             $_sContent = preg_replace_callback( '/`(.*?)`/ms', array( $this, '_replyToReplaceCodeBlocks' ), $_sContent );
@@ -147,6 +188,49 @@ class AdminPageFramework_WPReadmeParser {
             return $_oParsedown->text( $_sContent );
             
         }
+            /**
+             * @return      string 
+             * @return      3.6.1
+             */
+            private function _getShortcodeConverted( $sContent ) {
+                if ( ! $this->aOptions[ 'convert_shortcode' ] ) {
+                    return $sContent;
+                }
+                // Register the 'embed' shortcode.
+                add_shortcode( 'embed', array( $this, '_replyToProcessShortcode_embed' ) );
+                return do_shortcode( $sContent );
+                
+            }
+                /**
+                 * @since       3.6.1
+                 * @return      string      The generate HTML output.
+                 */
+                public function _replyToProcessShortcode_embed( $aAttributes, $sURL, $sShortcode='' ) {
+
+                    $sURL   = isset( $aAttributes[ 'src' ] ) ? $aAttributes[ 'src' ] : $sURL;      
+                    $_sHTML = wp_oembed_get( $sURL );
+                    
+                    // If there was a result, return it
+                    if ( $_sHTML ) {
+                        // This filter is documented in wp-includes/class-wp-embed.php
+                        return "<div class='video oembed'>" 
+                                    . apply_filters(
+                                        'embed_oembed_html', 
+                                        $_sHTML, 
+                                        $sURL, 
+                                        $aAttributes, 
+                                        0
+                                    )
+                            . "</div>";
+                    }        
+                    
+                    // If not found, return the link.
+                    $_oWPEmbed = new WP_Embed;        
+                    return "<div class='video oembed'>" 
+                            . $_oWPEmbed->maybe_make_link( $sURL )
+                        . "</div>";
+                    
+                }            
     
         /**
          * Returns the modified code block.
