@@ -52,11 +52,15 @@ class APF_Demo_BuiltinFieldTypes_MISC_Raw {
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID        
             array(
-                'field_id'          => 'raw_html_example',
+                'field_id'          => 'raw_html',
                 'title'             => __( 'Raw HTML', 'admin-page-framework-loader' ),
                 'type'              => 'my_custom_made_up_non_exisitng_field_type',
                 'before_field'      => "<p>This is a custom output inserted with the <code>before_field</code> argument.</p>",
                 'after_field'       => "<p>This is a custom output inserted with the <code>after_field</code> argument.</p>",
+                'before_fields'     => "<p>This is a custom output inserted with the <code>before_fields</code> argument.</p>",
+                'after_fields'      => "<p>This is a custom output inserted with the <code>after_fields</code> argument.</p>",                                
+                'before_fieldset'   => "<p>This is a custom output inserted with the <code>before_fieldset</code> argument.</p>",
+                'after_fieldset'    => "<p>This is a custom output inserted with the <code>after_fieldset</code> argument.</p>",                
             )
         );              
       
