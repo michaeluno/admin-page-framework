@@ -103,13 +103,6 @@ abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Mode
         );   
         
         return $this->_replyToGetFieldNameAttribute( '', $aField ) . $sKey;
-        // $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) 
-            // ? "[{$aField['_section_index']}]" 
-            // : ""; 
-        // $_sSectionDimension = $this->isSectionSet( $aField )
-            // ? "[{$aField['section_id']}]"
-            // : '';
-        // return "{$aField['option_key']}{$_sSectionDimension}{$_sSectionIndex}[{$aField['field_id']}]{$sKey}";
         
     }
     /**
@@ -131,14 +124,7 @@ abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Mode
         );        
         
         return $this->_replyToGetFlatFieldName( '', $aField ) . $_sKey;
-        // $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] )
-            // ? "[{$aField['_section_index']}]" 
-            // : ""; 
 
-        // $_sSectionDimension = $this->isSectionSet( $aField )
-            // ? "|{$aField['section_id']}"
-            // : '';
-        // return "{$aField['option_key']}{$_sSectionDimension}{$_sSectionIndex}|{$aField['field_id']}{$_sKey}";
     }
     
     /**
