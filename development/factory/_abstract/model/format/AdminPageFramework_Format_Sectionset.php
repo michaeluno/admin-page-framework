@@ -57,12 +57,14 @@ class AdminPageFramework_Format_Sectionset extends AdminPageFramework_Format_Bas
         'collapsible'       => false,    // 3.4.0+ (boolean|array) For the array structure see the $aStructure_CollapsibleArguments property.
         'save'              => true,     // 3.6.0+
         
+        'content'           => null,     // 3.6.1+  (string) An overriding section-set output.
+        
         // Internal
         '_fields_type'      => null,     // 3.0.0+ - same as the one of the field definition array. Used to insert debug info at the bottom of sections.        
         '_is_first_index'   => false,    // 3.4.0+ (boolean) indicates whether it is the first item of the sub-sections (for repeatable sections).
         '_is_last_index'    => false,    // 3.4.0+ (boolean) indicates whether it is the last item of the sub-sections (for repeatable sections).
         
-        '_caller_object'    => null,     // 3.6.0+ - the caller framework factory object. This allows the framework to access the factory property when rendering the section.
+        '_caller_object'    => null,     // 3.6.0+ - (object) the caller framework factory object. This allows the framework to access the factory property when rendering the section.
     );        
     
     /**

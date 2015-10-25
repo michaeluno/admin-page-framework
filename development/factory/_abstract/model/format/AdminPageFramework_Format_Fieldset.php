@@ -67,6 +67,7 @@ class AdminPageFramework_Format_Fieldset extends AdminPageFramework_Format_FormF
         ), 
 
         'save'                      => true,    // 3.6.0+
+        'content'                   => null,     // 3.6.1+ - (string) An overriding field-set output.
         
         // Internal Keys
         '_fields_type'              => null,    // 3.0.0+ - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.

@@ -203,23 +203,37 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
         private function _getFinalOutput( array $aFieldset, array $aFieldsOutput, $iFieldsCount ) {
                             
             $_oFieldsetAttributes   = new AdminPageFramework_Attribute_Fieldset( $aFieldset );
-            $_oFieldsAttributes     = new AdminPageFramework_Attribute_Fields( 
-                $aFieldset, 
-                array(),    // attribute array
-                $iFieldsCount 
-            );
             return $aFieldset[ 'before_fieldset' ]
                 . "<fieldset " . $_oFieldsetAttributes->get() . ">"
-                    . "<div " . $_oFieldsAttributes->get() . ">"
-                        . $aFieldset[ 'before_fields' ]
-                            . implode( PHP_EOL, $aFieldsOutput )
-                        . $aFieldset[ 'after_fields' ]
-                    . "</div>"
+                    . $this->_getFieldsetContent( $aFieldset, $aFieldsOutput, $iFieldsCount )
                     . $this->_getExtras( $aFieldset, $iFieldsCount )
                 . "</fieldset>"
                 . $aFieldset[ 'after_fieldset' ];
                         
         }
+            /**
+             * @since       3.6.1
+             * @return      string
+             */
+            private function _getFieldsetContent( $aFieldset, $aFieldsOutput, $iFieldsCount ) {
+
+                if ( is_scalar( $aFieldset[ 'content' ] ) ) {
+                    return $aFieldset[ 'content' ];
+                }
+            
+                $_oFieldsAttributes     = new AdminPageFramework_Attribute_Fields( 
+                    $aFieldset, 
+                    array(),    // attribute array
+                    $iFieldsCount
+                );            
+            
+                return "<div " . $_oFieldsAttributes->get() . ">"
+                        . $aFieldset[ 'before_fields' ]
+                            . implode( PHP_EOL, $aFieldsOutput )
+                        . $aFieldset[ 'after_fields' ]
+                    . "</div>";          
+            
+            }
             
             /**
              * Returns the output of the extra elements for the fields such as description and JavaScript.

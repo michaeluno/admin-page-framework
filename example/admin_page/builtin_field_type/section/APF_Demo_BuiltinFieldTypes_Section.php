@@ -70,13 +70,16 @@ class APF_Demo_BuiltinFieldTypes_Section {
         
         $_aClasses = array(
             'APF_Demo_BuiltinFieldTypes_Section_SectionTitleField',
+            'APF_Demo_BuiltinFieldTypes_Section_CustomOutput',
             'APF_Demo_BuiltinFieldTypes_Section_Repeatable',
             'APF_Demo_BuiltinFieldTypes_Section_Tabbed_A',
             'APF_Demo_BuiltinFieldTypes_Section_Tabbed_B',
+            'APF_Demo_BuiltinFieldTypes_Section_Tabbed_C',
             'APF_Demo_BuiltinFieldTypes_Section_Repeatable_Tabbed',
             'APF_Demo_BuiltinFieldTypes_Section_Collapsible_A',
             'APF_Demo_BuiltinFieldTypes_Section_Collapsible_B',
             'APF_Demo_BuiltinFieldTypes_Section_Collapsible_C',
+            'APF_Demo_BuiltinFieldTypes_Section_Collapsible_D',
             'APF_Demo_BuiltinFieldTypes_Section_Collapsible_Repeatable',
         );
         foreach ( $_aClasses as $_sClassName ) {

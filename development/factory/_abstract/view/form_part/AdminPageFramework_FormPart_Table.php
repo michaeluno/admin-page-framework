@@ -99,7 +99,7 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
         
         // Update the array structure by tab slug (passed by reference).
         $this->_divideElementsBySectionTabs( $aSections, $aFieldsInSections );
-     
+
         $_aOutput     = array();
         foreach( $aSections as $_sSectionTabSlug => $_aSectionsBySectionTab ) {        
             $_aOutput[] = $this->_getFormTable(
@@ -113,8 +113,7 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
         
         $_oDebugInfo = new AdminPageFramework_FormPart_DebugInfo( $_sFieldsType );
         
-        return implode( PHP_EOL, $_aOutput ) 
-            // . $this->_getSectionTabsEnablerScript()
+        return implode( PHP_EOL, $_aOutput )
             . AdminPageFramework_Script_Tab::getEnabler()
             . $_oDebugInfo->get();
 
@@ -138,18 +137,13 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
          * @return      string      The generated HTML form table.
          */
         private function _getFormTable( array $aFieldsInSections, $sSectionTabSlug, array $aSectionsBySectionTab, $hfSectionCallback, $hfFieldCallback ) {
-            
-            if ( ! count( $aFieldsInSections[ $sSectionTabSlug ] ) ) { 
-                return ''; 
-            }
-          
+                      
             $_sSectionSet = $this->_getSectionsTables( 
                 $aSectionsBySectionTab,     // sectionset definition
                 $aFieldsInSections[ $sSectionTabSlug ], // fieldset definitions
                 $hfSectionCallback, 
                 $hfFieldCallback 
             );
-            
             return $_sSectionSet
                 ? "<div " . $this->getAttributes(
                         array(
@@ -200,26 +194,45 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
 
             foreach( $aSections as $_sSectionID => $_aSection ) {
 
-                // If no fields for the section, no need to add the section
-                if ( ! isset( $aFields[ $_sSectionID ] ) ) {
+                // If no fields for the section, no need to add the section 
+                // unless the cusedom sectionset output is defined.
+                if ( ! isset( $aFields[ $_sSectionID ] ) && ! $this->_isCustomContentSet( $_aSection ) ) {
                     continue;
-                }            
-                             
+                }
+                                         
                 $_sSectionTaqbSlug = $this->getAOrB(
-                    $_aSection['section_tab_slug'],
-                    $_aSection['section_tab_slug'],
+                    $_aSection[ 'section_tab_slug' ],
+                    $_aSection[ 'section_tab_slug' ],
                     '_default_' . ( ++$_iIndex )
                 );
                 $_aSectionsBySectionTab[ $_sSectionTaqbSlug ][ $_sSectionID ] = $_aSection;
-                $_aFieldsBySectionTab[ $_sSectionTaqbSlug ][ $_sSectionID ]   = $aFields[ $_sSectionID ];
+                $_aFieldsBySectionTab[ $_sSectionTaqbSlug ][ $_sSectionID ]   = $this->getElement(
+                    $aFields,
+                    $_sSectionID
+                );
                     
             }
             
+            // Set new values. 
             $aSections  = $_aSectionsBySectionTab;
             $aFields    = $_aFieldsBySectionTab;
 
         }      
-        
+            /**
+             * @since       3.6.1
+             * @return      boolean     True if a custom content value is set.
+             */
+            private function _isCustomContentSet( array $aSection, array $aKeys=array( 'content' ) ) {
+                foreach( $aKeys as $_sKey ) {
+                    if ( ! isset( $aSection[ $_sKey ] ) ) {
+                        continue;
+                    }
+                    if ( is_scalar( $aSection[ $_sKey ] ) ) {
+                        return true;
+                    }
+                }
+                return false;
+            }        
         /**
          * Returns an output string of sections tables.
          * 
@@ -240,6 +253,12 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
                 return ''; 
             } 
             
+            $_aFirstSectionset  = $this->getFirstEelement( $aSections );
+                        
+            if ( ! count( $aFieldsInSections ) ) {
+                return ''; 
+            }            
+            
             $_sSectionTabSlug   = '';
             $_aOutputs          = array(
                 'section_tab_list'  => array(),
@@ -247,7 +266,6 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
                 'count_subsections' => 0,
             );
             
-            $_aFirstSectionset  = $this->getFirstEelement( $aSections );
             $_sThisSectionID    = $_aFirstSectionset[ 'section_id' ];
             $_sSectionsID       = 'sections-' . $_sThisSectionID;
             
@@ -565,9 +583,10 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
      */
     private function _getSectionTable( $aSection, $aFields, $hfSectionCallback, $hfFieldCallback ) {
 
-        if ( count( $aFields ) <= 0 ) { 
-            return ''; 
-        }
+// @todo        3.6.1 Implement the below check somewhere
+// if ( count( $aFields ) <= 0 ) { 
+    // return ''; 
+// }
                
         $iSectionIndex = $aSection[ '_index' ];
                
@@ -589,7 +608,15 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
         $_aOutput[]     = "<table " . $_oSectionTableAttributes->get() . ">"
                 . $_oTableCaption->get()
                 . "<tbody " . $_oSectionTableBodyAttributes->get() . ">"
-                    . $this->getFieldsetRows( $aFields, $hfFieldCallback, $iSectionIndex )
+                    . (
+                        $aSection[ 'content' ]
+                            ? "<tr>"
+                                . "<td>"
+                                    . $aSection[ 'content' ]
+                                . "</td>"
+                            . "</tr>"
+                            : $this->getFieldsetRows( $aFields, $hfFieldCallback, $iSectionIndex )
+                    )
                 . "</tbody>"
             . "</table>";
         

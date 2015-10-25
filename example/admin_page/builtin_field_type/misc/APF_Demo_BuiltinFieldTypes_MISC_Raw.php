@@ -61,6 +61,13 @@ class APF_Demo_BuiltinFieldTypes_MISC_Raw {
                 'after_fields'      => "<p>This is a custom output inserted with the <code>after_fields</code> argument.</p>",                                
                 'before_fieldset'   => "<p>This is a custom output inserted with the <code>before_fieldset</code> argument.</p>",
                 'after_fieldset'    => "<p>This is a custom output inserted with the <code>after_fieldset</code> argument.</p>",                
+            ),
+            array(
+                'field_id'          => 'custom_field_content',
+                'title'             => __( 'Custom Content', 'admin-page-framework-loader' ),
+                'type'              => 'whatever_of_your_choosing_slug',
+                'content'           => "<p>This is a custom content output inserted with the <code>content</code> argument.</p>",
+                'description'       => __( 'The description part is reserved.', 'admin-page-framework-loader' ),
             )
         );              
       

@@ -396,6 +396,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.6.1 =
+- Added the `content` argument for section and field definition arrays to define custom outputs.
 - Added a hook to filter parsing contents to the `AdminPageFramework_WPReadmeParser` utility class.
 - Fixed a bug caused a fatal error in the `AdminPageFramework_AdminNotice` class, introduced in 3.5.12.
  
