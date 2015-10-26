@@ -399,6 +399,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Added the ability to activate a form section tab by URL.
 - Added the `content` argument for section and field definition arrays to define custom outputs.
 - Added a hook to filter parsing contents to the `AdminPageFramework_WPReadmeParser` utility class.
+- Fixed a bug with form section tabs that the active content elements were not visible when a container element is hidden first on the page load.
 - Fixed a bug caused a fatal error in the `AdminPageFramework_AdminNotice` class, introduced in 3.5.12.
  
 = 3.6.0 - 2015/10/22 =

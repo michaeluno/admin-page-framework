@@ -35,6 +35,28 @@ class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
         return <<<JAVASCRIPTS
 ( function( $ ) {
     
+    var _showOldAdminPageFrameworkElements = $.fn.showAdminPageFrameworkElements;
+    /**
+     * @see     http://stackoverflow.com/questions/1225102/jquery-event-to-trigger-action-when-a-div-is-made-visible/1225238#1225238
+     */
+    $.fn.showAdminPageFrameworkElements = function( speed, oldCallback ) {
+        return $( this ).each( function() {
+            var obj         = $(this),
+              newCallback = function() {
+                if ($.isFunction(oldCallback)) {
+                  oldCallback.apply(obj);
+                }
+                obj.trigger( 'afterShow' );
+              };
+
+            // you can trigger a before show if you want
+            obj.trigger( 'beforeShow' );
+
+            // now use the old function to show the element passing the new callback
+            _showOldAdminPageFrameworkElements.apply(obj, [speed, newCallback]);
+        })    
+    }
+    
     $.fn.createTabs = function( asOptions ) {
         
         var _bIsRefresh = ( typeof asOptions === 'string' && asOptions === 'refresh' );
@@ -48,9 +70,9 @@ class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
         var _sURLHash = 'undefined' !== typeof window.location.hash
             ? window.location.hash
             : '';
-                    
+
         this.children( 'ul' ).each( function () {
-            
+                 
             // First, check if the url has a hash that exists in this tab group. 
             // Consider the possibility that multiple tab groups are in one page.
             var _bSetActive = false;
@@ -72,14 +94,14 @@ class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
                     $( this ).addClass( 'active' );
                 }
                 
-                if ( ! _bIsRefresh && ! _bSetActive && $( this ).is( ':visible' ) ) {
+                if ( ! _bIsRefresh && ! _bSetActive ) {
                     $( this ).addClass( 'active' );
                     _bSetActive = true;
                 }
                 
                 if ( $( this ).hasClass( 'active' ) ) {
                     $( sTabContentID ).show();
-                } else {                            
+                } else {                           
                     $( sTabContentID ).css( 'display', 'none' );
                 }
                 
