@@ -34,29 +34,7 @@ class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
         
         return <<<JAVASCRIPTS
 ( function( $ ) {
-    
-    var _showOldAdminPageFrameworkElements = $.fn.showAdminPageFrameworkElements;
-    /**
-     * @see     http://stackoverflow.com/questions/1225102/jquery-event-to-trigger-action-when-a-div-is-made-visible/1225238#1225238
-     */
-    $.fn.showAdminPageFrameworkElements = function( speed, oldCallback ) {
-        return $( this ).each( function() {
-            var obj         = $(this),
-              newCallback = function() {
-                if ($.isFunction(oldCallback)) {
-                  oldCallback.apply(obj);
-                }
-                obj.trigger( 'afterShow' );
-              };
-
-            // you can trigger a before show if you want
-            obj.trigger( 'beforeShow' );
-
-            // now use the old function to show the element passing the new callback
-            _showOldAdminPageFrameworkElements.apply(obj, [speed, newCallback]);
-        })    
-    }
-    
+        
     $.fn.createTabs = function( asOptions ) {
         
         var _bIsRefresh = ( typeof asOptions === 'string' && asOptions === 'refresh' );
@@ -122,12 +100,12 @@ class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
                     var _oActiveContent = $( this ).parent().parent().find( sTabContentID ).css( 'display', 'block' ); 
                     _oActiveContent.siblings( ':not( ul )' ).css( 'display', 'none' );
                     
-                });                   
+                });                        
 
             });
 
-        });
-                        
+        });      
+                                
     };
 
     
