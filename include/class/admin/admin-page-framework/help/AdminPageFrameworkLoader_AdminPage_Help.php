@@ -39,10 +39,10 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
                 'url'           => add_query_arg( 
                     array( 
                         'page'  => AdminPageFrameworkLoader_Registry::$aAdminPages['about'],
-                        'tab'   => 'guide',
+                        // 'tab'   => 'guide',
                     ),
                     admin_url( 'index.php' )   // Dashboard
-                )               
+                ) . '#section-getting_started__'
             )                          
         );                 
         new AdminPageFrameworkLoader_AdminPage_Help_Tip(

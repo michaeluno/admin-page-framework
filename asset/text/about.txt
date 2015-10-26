@@ -48,7 +48,7 @@ Now the component generator can include custom field types so that you don't hav
     <div class='apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
             <h3>More Changes</h3>
-            <p>Find out the more details of new changes <a href="%WP_ADMIN_URL%?page=apfl_about&tab=change_log">here</a>.</p>
+            <p>Find out the more details of new changes <a href="%WP_ADMIN_URL%?page=apfl_about#section-change_log__">here</a>.</p>
         </div>
     </div>    
     

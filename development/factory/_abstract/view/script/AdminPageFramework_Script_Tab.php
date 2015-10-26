@@ -41,13 +41,24 @@ class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
         if ( typeof asOptions === 'object' )
             var aOptions = $.extend( {
             }, asOptions );
+             
+        var _sURLHash = 'undefined' !== typeof window.location.hash
+            ? window.location.hash
+            : '';
+            
+        var bSetActive = '' !== _sURLHash;
         
         this.children( 'ul' ).each( function () {
-            
-            var bSetActive = false;
+                                            
             $( this ).children( 'li' ).each( function( i ) {     
                 
                 var sTabContentID = $( this ).children( 'a' ).attr( 'href' );
+
+                // If the url hash is set, compare the content id with it. If it matches, activate it.
+                if ( '' !== _sURLHash && sTabContentID === _sURLHash ) {
+                    $( this ).addClass( 'active' );
+                }
+                
                 if ( ! _bIsRefresh && ! bSetActive && $( this ).is( ':visible' ) ) {
                     $( this ).addClass( 'active' );
                     bSetActive = true;
@@ -76,11 +87,16 @@ class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
                     var _oActiveContent = $( this ).parent().parent().find( sTabContentID ).css( 'display', 'block' ); 
                     _oActiveContent.siblings( ':not( ul )' ).css( 'display', 'none' );
                     
-                });
+                });                   
+
             });
+       
+            
         });
                         
     };
+
+    
 }( jQuery ));
 JAVASCRIPTS;
         
@@ -92,7 +108,7 @@ JAVASCRIPTS;
     static private $_bLoadedTabEnablerScript = false;
     
     /**
-     * Returns the JavaScript script that enables section tabs.
+     * Returns the JavaScript script that enables form section tabs.
      * 
      * @since       3.0.0
      * @since       3.6.0       Moved from `AdminPageFramework_FormPart_Table_Base`.

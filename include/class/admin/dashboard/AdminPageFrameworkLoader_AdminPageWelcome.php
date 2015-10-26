@@ -132,46 +132,22 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                 $_sPageSlug,        // page slug
                 array(
                     'tab_slug'      => 'welcome',
-                    'title'         => __( "What's New", 'admin-page-framework-loader' ),   // '
+                    // 'title'         => __( "What's New", 'admin-page-framework-loader' ),   // '
                 )                
             );        
-            new AdminPageFrameworkLoader_AdminPageWelcome_Guide(
-                $this,        
-                $_sPageSlug,                       
-                array(
-                    'tab_slug'      => 'guide',
-                    'title'         => __( 'Getting Started', 'admin-page-framework-loader' ),
-                )                
-            );         
-            new AdminPageFrameworkLoader_AdminPageWelcome_ChangeLog(
-                $this,          
-                $_sPageSlug,   
-                array(
-                    'tab_slug'      => 'change_log',
-                    'title'         => __( 'Change Log', 'admin-page-framework-loader' ),
-                )
-            );
-            new AdminPageFrameworkLoader_AdminPageWelcome_Credit(
-                $this,        
-                $_sPageSlug,  
-                array(
-                    'tab_slug'      => 'credit',
-                    'title'         => __( 'Credit', 'admin-page-framework-loader' ),
-                )                
-            );                 
-            
-            $this->_setPreferences();
+
+            $this->_setPreferences( $oFactory );
             
         }
             /**
              * Gets triggered when the page loads.
-             * 
-             * @remark      A callback of the "load_{page slug}" action hook.
              */
-            private function _setPreferences() {
+            private function _setPreferences( $oFactory ) {
 
                 $this->oProp->sWrapperClassAttribute = "wrap about-wrap";
-            
+                
+                $oFactory->setInPageTabsVisibility( false );
+                
                 add_filter( "content_top_{$this->sPageSlug}", array( $this, 'replyToFilterContentTop' ) );
                 add_action( "style_{$this->sPageSlug}", array( $this, 'replyToAddInlineCSS' ) );
             
