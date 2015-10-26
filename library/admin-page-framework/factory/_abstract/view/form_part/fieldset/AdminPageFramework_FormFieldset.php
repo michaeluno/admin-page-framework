@@ -45,8 +45,14 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
     }
     private function _getFinalOutput(array $aFieldset, array $aFieldsOutput, $iFieldsCount) {
         $_oFieldsetAttributes = new AdminPageFramework_Attribute_Fieldset($aFieldset);
+        return $aFieldset['before_fieldset'] . "<fieldset " . $_oFieldsetAttributes->get() . ">" . $this->_getFieldsetContent($aFieldset, $aFieldsOutput, $iFieldsCount) . $this->_getExtras($aFieldset, $iFieldsCount) . "</fieldset>" . $aFieldset['after_fieldset'];
+    }
+    private function _getFieldsetContent($aFieldset, $aFieldsOutput, $iFieldsCount) {
+        if (is_scalar($aFieldset['content'])) {
+            return $aFieldset['content'];
+        }
         $_oFieldsAttributes = new AdminPageFramework_Attribute_Fields($aFieldset, array(), $iFieldsCount);
-        return $aFieldset['before_fieldset'] . "<fieldset " . $_oFieldsetAttributes->get() . ">" . "<div " . $_oFieldsAttributes->get() . ">" . $aFieldset['before_fields'] . implode(PHP_EOL, $aFieldsOutput) . $aFieldset['after_fields'] . "</div>" . $this->_getExtras($aFieldset, $iFieldsCount) . "</fieldset>" . $aFieldset['after_fieldset'];
+        return "<div " . $_oFieldsAttributes->get() . ">" . $aFieldset['before_fields'] . implode(PHP_EOL, $aFieldsOutput) . $aFieldset['after_fields'] . "</div>";
     }
     private function _getExtras($aField, $iFieldsCount) {
         $_aOutput = array();

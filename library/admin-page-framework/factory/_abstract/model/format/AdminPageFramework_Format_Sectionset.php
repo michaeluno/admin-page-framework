@@ -1,6 +1,6 @@
 <?php
 class AdminPageFramework_Format_Sectionset extends AdminPageFramework_Format_Base {
-    static public $aStructure = array('section_id' => '_default', 'page_slug' => null, 'tab_slug' => null, 'section_tab_slug' => null, 'title' => null, 'description' => null, 'capability' => null, 'if' => true, 'order' => null, 'help' => null, 'help_aside' => null, 'repeatable' => false, 'sortable' => false, 'attributes' => array('class' => null, 'style' => null, 'tab' => array(),), 'class' => array('tab' => array(),), 'hidden' => false, 'collapsible' => false, 'save' => true, '_fields_type' => null, '_is_first_index' => false, '_is_last_index' => false, '_caller_object' => null,);
+    static public $aStructure = array('section_id' => '_default', 'page_slug' => null, 'tab_slug' => null, 'section_tab_slug' => null, 'title' => null, 'description' => null, 'capability' => null, 'if' => true, 'order' => null, 'help' => null, 'help_aside' => null, 'repeatable' => false, 'sortable' => false, 'attributes' => array('class' => null, 'style' => null, 'tab' => array(),), 'class' => array('tab' => array(),), 'hidden' => false, 'collapsible' => false, 'save' => true, 'content' => null, '_fields_type' => null, '_is_first_index' => false, '_is_last_index' => false, '_caller_object' => null,);
     public $aSection = array();
     public $sFieldsType = '';
     public $sCapability = 'manage_options';
