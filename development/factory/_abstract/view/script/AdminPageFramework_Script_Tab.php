@@ -38,18 +38,31 @@ class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
     $.fn.createTabs = function( asOptions ) {
         
         var _bIsRefresh = ( typeof asOptions === 'string' && asOptions === 'refresh' );
-        if ( typeof asOptions === 'object' )
-            var aOptions = $.extend( {
-            }, asOptions );
+        if ( typeof asOptions === 'object' ) {
+            var aOptions = $.extend( 
+                {}, 
+                asOptions 
+            );
+        }
              
         var _sURLHash = 'undefined' !== typeof window.location.hash
             ? window.location.hash
             : '';
-            
-        var bSetActive = '' !== _sURLHash;
-        
+                    
         this.children( 'ul' ).each( function () {
-                                            
+            
+            // First, check if the url has a hash that exists in this tab group. 
+            // Consider the possibility that multiple tab groups are in one page.
+            var _bSetActive = false;
+            $( this ).children( 'li' ).each( function( i ) {     
+                var sTabContentID = $( this ).children( 'a' ).attr( 'href' );
+                if ( '' !== _sURLHash && sTabContentID === _sURLHash ) {
+                    _bSetActive = true;
+                    return false;
+                }
+            });
+            
+            // Second iteration
             $( this ).children( 'li' ).each( function( i ) {     
                 
                 var sTabContentID = $( this ).children( 'a' ).attr( 'href' );
@@ -59,9 +72,9 @@ class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
                     $( this ).addClass( 'active' );
                 }
                 
-                if ( ! _bIsRefresh && ! bSetActive && $( this ).is( ':visible' ) ) {
+                if ( ! _bIsRefresh && ! _bSetActive && $( this ).is( ':visible' ) ) {
                     $( this ).addClass( 'active' );
-                    bSetActive = true;
+                    _bSetActive = true;
                 }
                 
                 if ( $( this ).hasClass( 'active' ) ) {
@@ -90,8 +103,7 @@ class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
                 });                   
 
             });
-       
-            
+
         });
                         
     };
