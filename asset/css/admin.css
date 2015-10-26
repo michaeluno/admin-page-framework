@@ -15,3 +15,7 @@
 .donate-button img {
     width: 100%;
 }
+
+.video.oembed iframe {
+    max-width: 80%;
+}
