@@ -395,7 +395,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
  
-= 3.6.1 =
+= 3.6.1 - 2015/10/26 =
 - Added the ability to activate a form section tab by URL.
 - Added the `content` argument for section and field definition arrays to define custom outputs.
 - Added a hook to filter parsing contents to the `AdminPageFramework_WPReadmeParser` utility class.
