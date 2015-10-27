@@ -24,9 +24,8 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
         $_aOutput = array();
         $_aOutput[] = wp_nonce_field($this->oProp->sClassHash, $this->oProp->sClassHash, true, false);
         $this->_setOptionArray($iTermID, $this->oProp->sOptionKey);
-        $this->oForm->format();
         $_oFieldsTable = new AdminPageFramework_FormPart_Table($this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg);
-        $_aOutput[] = $bRenderTableRow ? $_oFieldsTable->getFieldsetRows($this->oForm->aFields['_default'], array($this, '_replyToGetFieldOutput')) : $_oFieldsTable->getFieldsets($this->oForm->aFields['_default'], array($this, '_replyToGetFieldOutput'));
+        $_aOutput[] = $bRenderTableRow ? $_oFieldsTable->getFieldsetRows($this->oForm->aConditionedFields['_default'], array($this, '_replyToGetFieldOutput')) : $_oFieldsTable->getFieldsets($this->oForm->aConditionedFields['_default'], array($this, '_replyToGetFieldOutput'));
         $_sOutput = $this->oUtil->addAndApplyFilters($this, 'content_' . $this->oProp->sClassName, implode(PHP_EOL, $_aOutput));
         $this->oUtil->addAndDoActions($this, 'do_' . $this->oProp->sClassName, $this);
         return $_sOutput;
