@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.3
 Tested up to:       4.3.1
-Stable tag:         3.6.0
+Stable tag:         3.6.1
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -508,59 +508,5 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 - Fixed a bug that `style_{page slug}_{tab slug}`, `style_{page_slug}`, `script_{page slug}_{tab slug}`, and `script_{page slug}_{tab slug}` were not available.
 - Changed the demo plugin to be a loader plugin that loads Admin Page Framework.
 - Tweaked the styling of admin page container elements.
-
-= 3.4.6 - 2015/01/06 =
-- Added a page that lets the user download the minified version of the framework in the demo examples.
-- Added a utility class that checks requirements of servers such as PHP and MySQL versions etc.
-- Added the `print_type` argument to the `system` field type.
-- Added more information to the `system` field type.
-- Added (revived) the minified version and it is now human readable.
-- Fixed an issue that form fields without setting a section were not registered in pages except first added ones.
-- Changed the timing of importing and exporting of the `import` and `export` field types to be done after performing validation callbacks.
-
-= 3.4.5.1 - 2015/01/01 =
-- Removed the minified version as the WordPress plugin team demanded to do so.
-
-= 3.4.5 - 2014/12/27 =
-- Added the `setting_update_url_{instantiated class name}` filter hook and the pre-defined callback method.
-- CHanged the `getValue()` method of the admin page factory class to respect last input arrays.
-- Fixed a bug that caused a PHP warning that prevented a contact form from being sent on servers with some error reporting settings.
-- Fixed an issue on some servers that the script got aborted while sending an email of the contact form.
-- Fixed a url query key after submitting a contact form.
-- Tweaked the styling of the form confirmation message container element.
-
-= 3.4.4 - 2014/12/17 =
-- Fixed a bug that in in-page tabs saving form values of page meta box fields caused data loss of other in-page tabs, introduced in v3.4.3.
-
-= 3.4.3 - 2014/12/15 =
-- Added CSS rules for debug output container elements.
-- Changed the format of ID of section container elements.
-- Fixed a bug that repeated fields could not be removed in page meta boxes started in v3.4.1.
-- Fixed a bug that in page meta boxes, the `select` field type with the `is_multiple` argument enabled could not store the submitted data properly.
-- Fixed a bug that page meta boxes could not be added by in-page tab slug.
-
-= 3.4.2 - 2014/12/08 =
-- Added the ability to automatically update the preview element of an image field when an image URL is manually typed without using the upload window.
-- Added the ability to accept URLs for the `attachments` argument for the `email` argument of the `submit` field type.
-- Changed the timing of the `setUp()` method of the post type factory class to let the post type arguments set in the method.
-- Fixed an issue of the custom media uploader with IE8.
-- Fixed a bug that the `Insert from URL` pane of the custom uploader modal window did not function even when the `allow_external_source` is set to `true`.
-
-= 3.4.1 - 2014/12/02 =
-- Added the `options_update_status_{...}` and `validation_saved_options_without_dynamic_elements_` filters for the admin page factory class.
-- Added the `field_definition_{...}` filters for the page meta box class.
-- Added the `validate()` and `content()` methods for the meta box and page meta box factory classes.
-- Changed the timing of `field_definition_{...}` filters of the admin page class.
-- Changed not to lose the input data when a form validation error occurs for the meta box, page meta box, and page classes.
-- Fixed an issue that github buttons of the `github` field type did not load in some sites.
-- Fixed a bug that repeatable sections could not be repeated when there is no collapsible section in the page.
-- Fixed a bug that the old options of the second parameter passed in a validation callback method of the page meta box class did not hold dynamic elements.
-- Fixed a bug that the action hooks and their predefined callbacks `submit_{instantiated class name}_{page slug}` and `submit_after_{instantiated class name}_{page slug}` did not work.
-
-= 3.4.0 - 2014/11/23 =
-- Added the ability of collapsing and expanding section containers with the `collapsible` section definition argument.
-- Added the `select_type` argument for the `revealer` custom field type that enables to have checkboxes and radio buttons for the selector.
-- Tweaked the styling of the `section_title` field type.
-- Fixed a bug that the layout of form fields broke in Internet Explorer.
 
 [Old Change Log Items](https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/changelog.md)
