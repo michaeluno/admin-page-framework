@@ -47,3 +47,6 @@
 .Trashes
 ehthumbs.db
 Thumbs.db 
+
+# Git Files
+*.stackdump
