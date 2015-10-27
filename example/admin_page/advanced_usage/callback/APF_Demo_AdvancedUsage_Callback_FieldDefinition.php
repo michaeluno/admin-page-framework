@@ -15,12 +15,12 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_BuiltinFieldTypes_Callback_FieldDefinition {
+class APF_Demo_AdvancedUsage_Callback_FieldDefinition {
     
     /**
      * The page slug to add the tab and form elements.
      */
-    public $sPageSlug   = 'apf_builtin_field_types';
+    public $sPageSlug   = 'apf_advanced_usage';
     
     /**
      * The tab slug to add to the page.

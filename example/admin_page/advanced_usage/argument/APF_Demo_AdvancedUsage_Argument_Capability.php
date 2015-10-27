@@ -15,17 +15,17 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_BuiltinFieldTypes_MISC_Capability {
+class APF_Demo_AdvancedUsage_Argument_Capability {
     
     /**
      * The page slug to add the tab and form elements.
      */
-    public $sPageSlug   = 'apf_builtin_field_types';
+    public $sPageSlug   = 'apf_advanced_usage';
     
     /**
      * The tab slug to add to the page.
      */
-    public $sTabSlug    = 'misc';
+    public $sTabSlug    = 'argument';
     
     /**
      * The section slug to add to the tab.
@@ -44,7 +44,10 @@ class APF_Demo_BuiltinFieldTypes_MISC_Capability {
                 'tab_slug'          => $this->sTabSlug,
                 'section_id'        => $this->sSectionID,
                 'title'             => __( 'Capabilities', 'admin-page-framework-loader' ),
-                'description'       => __( 'This section is only shown to the users with the <code>edit_pages</code> capability.', 'admin-page-framework-loader' ),
+                'description'       => array(
+                    __( 'By using the <code>capability</code> argument, you can control whether a field/section should be displayed to the user.', 'admin-page-framework-loader' ),
+                    __( 'This section is only shown to the users with the <code>edit_pages</code> capability.', 'admin-page-framework-loader' ),
+                ),
                 'capability'        => 'edit_pages',
             )
         );   
@@ -56,7 +59,6 @@ class APF_Demo_BuiltinFieldTypes_MISC_Capability {
                 'field_id'          => 'for_site_admin',
                 'title'             => __( 'Site Admin Only', 'admin-page-framework-loader' ),
                 'type'              => 'text',
-                'save'              => false,
                 'description'       => __( 'This field is only shown to the users with the <code>manage_options</code> capability.', 'admin-page-framework-loader' ),
                 'capability'        => 'manage_options',
             ),
@@ -64,7 +66,6 @@ class APF_Demo_BuiltinFieldTypes_MISC_Capability {
                 'field_id'          => 'for_editors',
                 'title'             => __( 'Editors or Higher Users Only', 'admin-page-framework-loader' ),
                 'type'              => 'text',
-                'save'              => false,
                 'description'       => __( 'This field is only shown to the users with the <code>edit_pages</code> capability.', 'admin-page-framework-loader' ),
                 // 'capability'        => 'edit_pages', // this should be inherited from the section.
             )            

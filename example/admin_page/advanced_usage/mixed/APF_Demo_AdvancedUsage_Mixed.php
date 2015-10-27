@@ -15,18 +15,18 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_BuiltinFieldTypes_MISC {
-     
+class APF_Demo_AdvancedUsage_Mixed {
+        
     /**
      * The page slug to add the tab and form elements.
      */
-    public $sPageSlug   = 'apf_builtin_field_types';
+    public $sPageSlug   = 'apf_advanced_usage';
     
     /**
      * The tab slug to add to the page.
      */
-    public $sTabSlug    = 'misc';
-
+    public $sTabSlug    = 'mixed_types';
+        
     /**
      * Sets up hooks.
      */
@@ -40,11 +40,7 @@ class APF_Demo_BuiltinFieldTypes_MISC {
     }
     
     /**
-     * Adds an in-page tab.
-     * 
      * Triggered when the page is loaded.
-     * 
-     * @callback        action      load_{page slug}
      */
     public function replyToLoadPage( $oFactory ) {
         
@@ -53,8 +49,8 @@ class APF_Demo_BuiltinFieldTypes_MISC {
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'  => $this->sTabSlug,
-                'title'     => __( 'MISC', 'admin-page-framework-loader' ),    
-            )      
+                'title'         => __( 'Mixed', 'admin-page-framework-loader' ),    
+            )     
         );  
         
         add_action( 
@@ -73,17 +69,15 @@ class APF_Demo_BuiltinFieldTypes_MISC {
     public function replyToLoadTab( $oFactory ) {
         
         $_aClasses = array(
-            'APF_Demo_BuiltinFieldTypes_MISC_Color',
-            'APF_Demo_BuiltinFieldTypes_MISC_Hidden',
-            'APF_Demo_BuiltinFieldTypes_MISC_Submit',
+            'APF_Demo_AdvancedUsage_Mixed_Subfield',
         );
         foreach ( $_aClasses as $_sClassName ) {
             if ( ! class_exists( $_sClassName ) ) {
                 continue;
             }
             new $_sClassName( $oFactory );
-        }        
-       
-    }
+        }
 
+    }    
+    
 }

@@ -15,22 +15,22 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_BuiltinFieldTypes_MISC_Raw {
+class APF_Demo_AdvancedUsage_Argument_CustomContent {
     
     /**
      * The page slug to add the tab and form elements.
      */
-    public $sPageSlug   = 'apf_builtin_field_types';
+    public $sPageSlug   = 'apf_advanced_usage';
     
     /**
      * The tab slug to add to the page.
      */
-    public $sTabSlug    = 'misc';
+    public $sTabSlug    = 'argument';
     
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'raw_html';        
+    public $sSectionID  = 'custom_content';        
         
     /**
      * Sets up a form section.

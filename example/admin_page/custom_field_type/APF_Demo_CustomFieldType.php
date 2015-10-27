@@ -16,13 +16,18 @@
  */
 class APF_Demo_CustomFieldType {
 
-    public function __construct( $oFactory, $sPageSlug, $sTitle ) {
+    public $oFactory;
+    public $sClassName;
+    public $sPageSlug;
+    public $sPageTitle;
+        
+    public function __construct( $oFactory ) {
     
         $this->oFactory     = $oFactory;
         $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug;
-        $this->sPageTitle   = $sTitle;
-    
+        $this->sPageSlug    = 'custom_field_type';
+        $this->sPageTitle   = __( 'Custom Field Types', 'admin-page-framework-loader' );
+
         $this->_addPage();
                
     }

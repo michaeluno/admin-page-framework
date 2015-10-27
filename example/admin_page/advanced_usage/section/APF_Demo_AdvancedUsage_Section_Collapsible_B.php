@@ -15,12 +15,12 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_BuiltinFieldTypes_Section_SectionTitleField {
+class APF_Demo_AdvancedUsage_Section_Collapsible_B {
     
     /**
      * The page slug to add the tab and form elements.
      */
-    public $sPageSlug   = 'apf_builtin_field_types';
+    public $sPageSlug   = 'apf_advanced_usage';
     
     /**
      * The tab slug to add to the page.
@@ -30,7 +30,7 @@ class APF_Demo_BuiltinFieldTypes_Section_SectionTitleField {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'section_title_field_type';
+    public $sSectionID  = 'collapsible_section_b';
         
     /**
      * Sets up a form section.
@@ -41,10 +41,13 @@ class APF_Demo_BuiltinFieldTypes_Section_SectionTitleField {
         $oFactory->addSettingSections(    
             $this->sPageSlug, // the target page slug                
             array(
-                'section_id'    => $this->sSectionID,
-                'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Section Title', 'admin-page-framework-loader' ),
-                'description'   => __( 'The <code>section_title</code> field type will be placed in the position of the section title if set. If not set, the set section title will be placed. Only one <code>section_title</code> field is allowed per section.', 'admin-page-framework-loader' ),
+                'section_id'        => $this->sSectionID,
+                'tab_slug'          => $this->sTabSlug,
+                'title'             => __( 'Collapsible Section B', 'admin-page-framework-loader' ),
+                'description'       => __( 'The <code>is_collapsed</code> argument can determine the default state of whether it is collapsed or expanded.', 'admin-page-framework-loader' ),
+                'collapsible'       => array(
+                    'is_collapsed'     => false,
+                ),
             )
         );   
 
@@ -52,14 +55,15 @@ class APF_Demo_BuiltinFieldTypes_Section_SectionTitleField {
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID        
             array(
-                'field_id'      => 'section_title_field',
-                'type'          => 'section_title',
-                'label'         => '<h3>' 
-                        . __( 'Section Name', 'admin-page-framework-loader' )
-                    . '</h3>',
-                'attributes'    => array(
-                    'size' => 30,
+                'field_id'      => 'radio_in_collapsible_section',
+                'title'         => __( 'Radio', 'admin-page-framework-loader' ),
+                'type'          => 'radio',
+                'label'         => array(
+                    'a' => 'A',
+                    'b' => 'B',
+                    'c' => 'C',
                 ),
+                'default'       => 'b',
             )
         );              
       

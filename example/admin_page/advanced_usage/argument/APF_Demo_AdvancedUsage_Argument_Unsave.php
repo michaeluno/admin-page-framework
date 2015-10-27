@@ -15,17 +15,17 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_BuiltinFieldTypes_MISC_Unsave {
+class APF_Demo_AdvancedUsage_Argument_Unsave {
     
     /**
      * The page slug to add the tab and form elements.
      */
-    public $sPageSlug   = 'apf_builtin_field_types';
+    public $sPageSlug   = 'apf_advanced_usage';
     
     /**
      * The tab slug to add to the page.
      */
-    public $sTabSlug    = 'misc';
+    public $sTabSlug    = 'argument';
     
     /**
      * The section slug to add to the tab.
@@ -44,7 +44,10 @@ class APF_Demo_BuiltinFieldTypes_MISC_Unsave {
                 'tab_slug'          => $this->sTabSlug,
                 'section_id'        => $this->sSectionID,
                 'title'             => __( 'Unsaving Items', 'admin-page-framework-loader' ),
-                'description'       => __( 'These form inputs will not be saved while they will be passed to the validation callback methods.', 'admin-page-framework-loader' ),
+                'description'       => array(
+                    __( 'By using the <code>save</code> argument, you can control whether a field value gets saved or not.', 'admin-page-framework-loader' ),
+                    __( 'These form inputs will not be saved while they will be passed to the validation callback methods.', 'admin-page-framework-loader' ),
+                )
             )
         );   
 

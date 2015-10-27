@@ -15,41 +15,45 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_BuiltinFieldTypes_Verification {
-
+class APF_Demo_AdvancedUsage_Argument {
+     
     /**
      * The page slug to add the tab and form elements.
      */
-    public $sPageSlug   = 'apf_builtin_field_types';
+    public $sPageSlug   = 'apf_advanced_usage';
     
     /**
      * The tab slug to add to the page.
      */
-    public $sTabSlug    = 'verification';
-   
+    public $sTabSlug    = 'argument';
+
     /**
      * Sets up hooks.
      */
     public function __construct() {
-
+                      
         add_action( 
             'load_' . $this->sPageSlug, 
-            array( $this, 'replyToAddTab' )
+            array( $this, 'replyToLoadPage' ) 
         );
         
     }
     
     /**
+     * Adds an in-page tab.
+     * 
      * Triggered when the page is loaded.
+     * 
+     * @callback        action      load_{page slug}
      */
-    public function replyToAddTab( $oFactory ) {
+    public function replyToLoadPage( $oFactory ) {
         
         // Tab
         $oFactory->addInPageTabs(    
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'  => $this->sTabSlug,
-                'title'     => __( 'Verification', 'admin-page-framework-loader' ),    
+                'title'     => __( 'Arguments', 'admin-page-framework-loader' ),    
             )      
         );  
         
@@ -58,28 +62,48 @@ class APF_Demo_BuiltinFieldTypes_Verification {
             array( $this, 'replyToLoadTab' ) 
         );
         
+        add_action(
+            'do_' . $this->sPageSlug,
+            array( $this, 'replyToDoPage' )
+        );
+        
     }
     
     /**
      * Adds form sections.
      * 
      * Triggered when the tab is loaded.
-     * 
      * @callback        action      load_{page slug}_{tab slug}
      */
     public function replyToLoadTab( $oFactory ) {
         
         $_aClasses = array(
-            'APF_Demo_BuiltinFieldTypes_Verification_Field',
-            'APF_Demo_BuiltinFieldTypes_Verification_Section',
+            'APF_Demo_AdvancedUsage_Argument_CustomSectionContent',
+            'APF_Demo_AdvancedUsage_Argument_CustomContent',
+            'APF_Demo_AdvancedUsage_Argument_Unsave',
+            'APF_Demo_AdvancedUsage_Argument_Capability',
         );
         foreach ( $_aClasses as $_sClassName ) {
             if ( ! class_exists( $_sClassName ) ) {
                 continue;
             }
             new $_sClassName( $oFactory );
-        }   
-        
+        }        
+       
     }
     
+    /*
+     * Handles the page output.
+     * 
+     * @callback        action      do_{page slug}
+     * */
+    public function replyToDoPage() { 
+    
+        if ( isset( $_GET[ 'tab' ] ) && 'system' === $_GET[ 'tab' ] ) {
+            return;
+        }
+        submit_button();
+        
+    }
+
 }

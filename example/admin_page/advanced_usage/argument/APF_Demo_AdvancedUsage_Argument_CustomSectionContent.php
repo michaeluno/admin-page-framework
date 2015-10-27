@@ -15,22 +15,22 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_BuiltinFieldTypes_Section_CustomOutput {
+class APF_Demo_AdvancedUsage_Argument_CustomSectionContent {
     
     /**
      * The page slug to add the tab and form elements.
      */
-    public $sPageSlug   = 'apf_builtin_field_types';
+    public $sPageSlug   = 'apf_advanced_usage';
     
     /**
      * The tab slug to add to the page.
      */
-    public $sTabSlug    = 'sections';
+    public $sTabSlug    = 'argument';
     
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'custom_output';
+    public $sSectionID  = 'custom_section_content';
         
     /**
      * Sets up a form section.
@@ -42,7 +42,7 @@ class APF_Demo_BuiltinFieldTypes_Section_CustomOutput {
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Custom Section Output', 'admin-page-framework-loader' ),
+                'title'         => __( 'Custom Section Content', 'admin-page-framework-loader' ),
                 'content'       => "<p>" 
                         . __( 'This is inserted with the <code>content</code> argument.', 'admin-page-framework-loader' )
                     . "</p>",

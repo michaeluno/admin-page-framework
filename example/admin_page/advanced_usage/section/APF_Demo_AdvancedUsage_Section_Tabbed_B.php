@@ -15,12 +15,12 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_BuiltinFieldTypes_Section_Collapsible_B {
+class APF_Demo_AdvancedUsage_Section_Tabbed_B {
     
     /**
      * The page slug to add the tab and form elements.
      */
-    public $sPageSlug   = 'apf_builtin_field_types';
+    public $sPageSlug   = 'apf_advanced_usage';
     
     /**
      * The tab slug to add to the page.
@@ -30,7 +30,7 @@ class APF_Demo_BuiltinFieldTypes_Section_Collapsible_B {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'collapsible_section_b';
+    public $sSectionID  = 'tabbed_sections_b';
         
     /**
      * Sets up a form section.
@@ -43,11 +43,9 @@ class APF_Demo_BuiltinFieldTypes_Section_Collapsible_B {
             array(
                 'section_id'        => $this->sSectionID,
                 'tab_slug'          => $this->sTabSlug,
-                'title'             => __( 'Collapsible Section B', 'admin-page-framework-loader' ),
-                'description'       => __( 'The <code>is_collapsed</code> argument can determine the default state of whether it is collapsed or expanded.', 'admin-page-framework-loader' ),
-                'collapsible'       => array(
-                    'is_collapsed'     => false,
-                ),
+                'section_tab_slug'  => 'tabbed_sections',
+                'title'             => __( 'Section Tab B', 'admin-page-framework-loader' ),
+                'description'       => __( 'This is the second item of the tabbed section.', 'admin-page-framework-loader' ),
             )
         );   
 
@@ -55,15 +53,20 @@ class APF_Demo_BuiltinFieldTypes_Section_Collapsible_B {
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID        
             array(
-                'field_id'      => 'radio_in_collapsible_section',
-                'title'         => __( 'Radio', 'admin-page-framework-loader' ),
-                'type'          => 'radio',
+                'field_id'      => 'size_in_tabbed_sections',
+                'title'         => __( 'Size', 'admin-page-framework-loader' ),
+                'type'          => 'size',
+            ),
+            array(
+                'field_id'      => 'select_in_tabbed_sections',
+                'title'         => __( 'Select', 'admin-page-framework-loader' ),
+                'type'          => 'select',
+                'default'       => 'b',
                 'label'         => array(
                     'a' => 'A',
                     'b' => 'B',
-                    'c' => 'C',
+                    'c' => 'C',     
                 ),
-                'default'       => 'b',
             )
         );              
       

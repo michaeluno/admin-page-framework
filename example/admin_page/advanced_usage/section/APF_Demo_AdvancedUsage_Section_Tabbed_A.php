@@ -15,12 +15,12 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_BuiltinFieldTypes_Section_Collapsible_A {
+class APF_Demo_AdvancedUsage_Section_Tabbed_A {
     
     /**
      * The page slug to add the tab and form elements.
      */
-    public $sPageSlug   = 'apf_builtin_field_types';
+    public $sPageSlug   = 'apf_advanced_usage';
     
     /**
      * The tab slug to add to the page.
@@ -30,7 +30,7 @@ class APF_Demo_BuiltinFieldTypes_Section_Collapsible_A {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'collapsible_section_a';
+    public $sSectionID  = 'tabbed_sections_a';
         
     /**
      * Sets up a form section.
@@ -41,13 +41,11 @@ class APF_Demo_BuiltinFieldTypes_Section_Collapsible_A {
         $oFactory->addSettingSections(    
             $this->sPageSlug, // the target page slug                
             array(
-                'section_id'        => $this->sSectionID,
-                'tab_slug'          => $this->sTabSlug,
-                'title'             => __( 'Collapsible Section A', 'admin-page-framework-loader' ),
-                'description'       => __( 'This section can be expanded and collapsed.', 'admin-page-framework-loader' ),
-                'collapsible'       => array(
-                    'toggle_all_button' => 'top-right',
-                ),
+                'section_id'    => $this->sSectionID,
+                'tab_slug'      => $this->sTabSlug,
+                'section_tab_slug'  => 'tabbed_sections',
+                'title'             => __( 'Section Tab A', 'admin-page-framework-loader' ),
+                'description'       => __( 'This is the first item of the tabbed section.', 'admin-page-framework-loader' ),
             )
         );   
 
@@ -55,12 +53,17 @@ class APF_Demo_BuiltinFieldTypes_Section_Collapsible_A {
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID        
             array(
-                'field_id'      => 'text_field_in_collapsible_section',
+                'field_id'      => 'text_field_in_tabbed_section',
                 'title'         => __( 'Text', 'admin-page-framework-loader' ),
                 'type'          => 'text',
+                'default'       => 'xyz',
+            ),
+            array(
+                'field_id'      => 'repeatable_field_in_tabbed_sections',
+                'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
+                'type'          => 'text',
                 'repeatable'    => true,
-                'sortable'      => true,
-            ) 
+            )
         );              
       
     }
