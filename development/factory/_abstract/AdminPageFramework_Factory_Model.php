@@ -120,12 +120,12 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
          * @return      void
          */
         protected function _registerField( array $aField ) {
-            
+
             // Set relevant scripts and styles for the field.
             AdminPageFramework_FieldTypeRegistration::_setFieldResources( $aField, $this->oProp, $this->oResource );
 
             // For the contextual help pane,
-            if ( $aField['help'] ) {
+            if ( $aField[ 'help' ] ) {
                 $this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
             }
             

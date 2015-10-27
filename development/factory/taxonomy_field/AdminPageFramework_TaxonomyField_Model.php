@@ -100,16 +100,16 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * 
      * @since       3.0.0
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
+     * @callback    action      current_screen
      * @internal
      */
     public function _replyToRegisterFormElements( $oScreen ) {
-              
+
         $this->_loadFieldTypeDefinitions();
         
         // Format the fields array.
         $this->oForm->format();
         $this->oForm->applyConditions();
-        
         // @todo    Examine whether applyFiltersToFields() should be performed here or not.
         // @todo    Examine whether setDynamicElements() should be performed here or not.
         

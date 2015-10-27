@@ -62,6 +62,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
      * @internal
      * @since       3.0.0
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`. Renamed from '_replyToAddFieldsWOTableRows'.
+     * @callback    action      {taxonomy slug}_add_form_fields
      */    
     public function _replyToPrintFieldsWOTableRows( $oTerm ) {
         echo $this->_getFieldsOutput( 
@@ -93,6 +94,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
          * 
          * @since       3.0.0
          * @internal
+         * @return      string
          */
         private function _getFieldsOutput( $iTermID, $bRenderTableRow ) {
         
@@ -104,22 +106,37 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
             /* Set the option property array */
             // @todo Move _setOptionArray() to _replyToRegisterFormElements().
             $this->_setOptionArray( $iTermID, $this->oProp->sOptionKey );
-            
-            /* Format the fields arrays - taxonomy fields do not support sections */
-            $this->oForm->format();
-            
+                        
             /* Get the field outputs */
-            $_oFieldsTable = new AdminPageFramework_FormPart_Table( $this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg );
+            $_oFieldsTable = new AdminPageFramework_FormPart_Table( 
+                $this->oProp->aFieldTypeDefinitions, 
+                $this->_getFieldErrors(), 
+                $this->oMsg 
+            );
             $_aOutput[] = $bRenderTableRow 
-                ? $_oFieldsTable->getFieldsetRows( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) )
-                : $_oFieldsTable->getFieldsets( $this->oForm->aFields['_default'], array( $this, '_replyToGetFieldOutput' ) );
+                ? $_oFieldsTable->getFieldsetRows( 
+                    $this->oForm->aConditionedFields[ '_default' ], 
+                    array( $this, '_replyToGetFieldOutput' ) 
+                )
+                : $_oFieldsTable->getFieldsets( 
+                    $this->oForm->aConditionedFields[ '_default' ],
+                    array( $this, '_replyToGetFieldOutput' ) 
+                );
                     
             /* Filter the output */
             // @todo call the content() method.
-            $_sOutput = $this->oUtil->addAndApplyFilters( $this, 'content_' . $this->oProp->sClassName, implode( PHP_EOL, $_aOutput ) );
+            $_sOutput = $this->oUtil->addAndApplyFilters( 
+                $this, 
+                'content_' . $this->oProp->sClassName, 
+                implode( PHP_EOL, $_aOutput ) 
+            );
             
             /* Do action */
-            $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
+            $this->oUtil->addAndDoActions( 
+                $this, 
+                'do_' . $this->oProp->sClassName, 
+                $this 
+            );
                 
             return $_sOutput;
         

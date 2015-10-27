@@ -50,9 +50,17 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Taxon
         }
         
         // Properties 
-        $this->oProp                    = new AdminPageFramework_Property_TaxonomyField( $this, get_class( $this ), $sCapability, $sTextDomain, self::$_sFieldsType );     
+        $this->oProp                    = new AdminPageFramework_Property_TaxonomyField( 
+            $this, 
+            get_class( $this ), 
+            $sCapability, 
+            $sTextDomain, 
+            self::$_sFieldsType 
+        );     
         $this->oProp->aTaxonomySlugs    = ( array ) $asTaxonomySlug;
-        $this->oProp->sOptionKey        = $sOptionKey ? $sOptionKey : $this->oProp->sClassName;
+        $this->oProp->sOptionKey        = $sOptionKey 
+            ? $sOptionKey 
+            : $this->oProp->sClassName;
         
         parent::__construct( $this->oProp );
                 

@@ -395,6 +395,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
  
+= 3.6.2 =
+- Fixed a bug in the `taxonomy` fields that conditions set with the `if` and `capability` arguments were not applied.
+ 
 = 3.6.1 - 2015/10/26 =
 - Added the ability to activate a form section tab by URL.
 - Added the `content` argument for section and field definition arrays to define custom outputs.
