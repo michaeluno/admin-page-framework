@@ -232,6 +232,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * `
      *      </li>
      *      <li>**sortable** - (optional, boolean) [3.6.0+] whether the section is sortable or not. In order for this option to be effective, the `repeatable` argument must be enabled.</li>
+     *      <li>**content** - (optional, string) [3.6.1+] a custom section output.</li>
      * </ul>
      * @return      void
      */
@@ -363,6 +364,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *       <li>**show_title_column** - [3.0.0+] (optional, boolean) If true, the field title column will be omitted from the output.</li>
     *       <li>**hidden** - [3.0.0+] (optional, boolean) If true, the entire field row output will be invisible with the inline style attribute of `style="display:none"`.</li>
     *       <li>**save** - [3.6.0+] (optional, boolean) If `false`, the field value will not be saved. Default: `true`</li>
+    *       <li>**content** - (optional, string) [3.6.1+] a custom section output.</li>
     * </ul>
     * 
     * <h4>Field Type Specific Arguments</h4>
