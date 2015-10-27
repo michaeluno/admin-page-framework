@@ -44,8 +44,8 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
             array(
                 'section_id'    => $this->sSectionID,       // avoid hyphen(dash), dots, and white spaces
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Section Verification', 'admin-page-framework-loader' ),
-                'description'   => __( 'Show error messages of the entire section.', 'admin-page-framework-loader' ),
+                'title'         => __( 'Text Areas', 'admin-page-framework-loader' ),
+                'description'   => __( 'Text input with multiple lines.', 'admin-page-framework-loader' ),
             )
         );   
              
