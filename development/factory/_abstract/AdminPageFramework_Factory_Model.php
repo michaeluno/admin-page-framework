@@ -122,20 +122,29 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         protected function _registerField( array $aField ) {
 
             // Set relevant scripts and styles for the field.
-            AdminPageFramework_FieldTypeRegistration::_setFieldResources( $aField, $this->oProp, $this->oResource );
+            AdminPageFramework_FieldTypeRegistration::_setFieldResources( 
+                $aField, 
+                $this->oProp, 
+                $this->oResource
+            );
 
             // For the contextual help pane,
             if ( $aField[ 'help' ] ) {
-                $this->oHelpPane->_addHelpTextForFormFields( $aField['title'], $aField['help'], $aField['help_aside'] );
+                $this->oHelpPane->_addHelpTextForFormFields( 
+                    $aField[ 'title' ], 
+                    $aField[ 'help' ], 
+                    $aField[ 'help_aside' ] 
+                );
             }
             
             // Call the field type callback method to let it know the field type is registered.
-            if ( 
-                isset( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ][ 'hfDoOnRegistration' ] ) 
-                && is_callable( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ][ 'hfDoOnRegistration' ] )
-            ) {
+            $_oCallableDoOnRegistration = $this->oUtil->getElement(
+                $this->oProp->aFieldTypeDefinitions,
+                array( $aField[ 'type' ], 'hfDoOnRegistration' )
+            );
+            if ( is_callable( $_oCallableDoOnRegistration ) ) {
                 call_user_func_array( 
-                    $this->oProp->aFieldTypeDefinitions[ $aField['type'] ][ 'hfDoOnRegistration' ],
+                    $_oCallableDoOnRegistration,
                     array( $aField )
                 );
             }
@@ -210,16 +219,16 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @todo        Examine which class uses this method. It looks like this can be deprecated as there is the `hasFieldError()` method.
      */
     protected function _isValidationErrors() {
-
-        if ( 
-            isset( $GLOBALS['aAdminPageFramework'][ 'aFieldErrors' ] ) 
-            && $GLOBALS['aAdminPageFramework'][ 'aFieldErrors' ] ) 
-        {
-            return true;
-        }
-        return $this->oUtil->getTransient( 
-            "apf_field_erros_" . get_current_user_id() 
+        
+        $_aFieldErrors = $this->oUtil->getElement(
+            $GLOBALS,
+            array( 'aAdminPageFramework', 'aFieldErrors' )
         );
+        
+        // If the transient is not set, false will be given.
+        return ! empty( $_aFieldErrors )
+            ? $_aFieldErrors
+            : $this->oUtil->getTransient( "apf_field_erros_" . get_current_user_id() );
 
     }
 
