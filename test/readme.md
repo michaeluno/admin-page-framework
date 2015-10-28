@@ -1,5 +1,9 @@
 # Sample TDD Plugin - Test Suite
 
+<p align="center">
+	![Travis Screenshot](./screenshot.png?raw=true)
+</p>
+
 In order to run the tests, configure the setting file (`settings.cfg`) and run the installer and the executor scripts.
 
 ## Requirements
