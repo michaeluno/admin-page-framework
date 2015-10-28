@@ -1,8 +1,8 @@
 # Sample TDD Plugin - Test Suite
 
-
-![Travis Screenshot](./screenshot.png?raw=true)
-
+<p align="center">
+	<img src="./screenshot.png?raw=true" alt="Drawing a screenshot" style="width: 640px;"/>
+</p>
 
 In order to run the tests, configure the setting file (`settings.cfg`) and run the installer and the executor scripts.
 
