@@ -62,6 +62,26 @@ CODECEPT="$TEMP/codecept.phar"
 C3="$TEMP/c3.php"
 TEMP_PROJECT_DIR="$TEMP/$PROJECT_SLUG"
 
+# Fix: Fatal error: Class 'WP_REST_Server' not found in .../wordpress-tests-lib/includes/spy-rest-server.php on line 3
+if echo $WP_VERSION | grep -E '[0-9]+\.[0-9]+(\.[0-9]+)?' > /dev/null
+then
+  WP_TESTS_TAG="tags/$WP_VERSION"
+else
+	# http serves a single offer, whereas https serves multiple. we only want one
+	download http://api.wordpress.org/core/version-check/1.7/ "$TEMP/wp-latest.json"
+    if [[ $(uname -s) == 'Darwin' ]]; then
+        SED_REGEXOPTION='-E' #For Max OSX
+    else
+        SED_REGEXOPTION='-r' #Other OSes
+    fi    
+	LATEST_VERSION=$(sed $SED_REGEXOPTION 's/.*"version":"([0-9]+\.[0-9]+(\.[0-9]+)?)".*$/\1/g' "$TEMP/wp-latest.json")
+	if [[ -z "$LATEST_VERSION" ]]; then
+		echo "The latest WordPress version could not be found. Script exiting."
+		exit 1
+	fi
+	WP_TESTS_TAG="tags/$LATEST_VERSION"
+fi
+
 # convert any relative path or Windows path to linux/unix path to be usable for some path related commands such as basename
 if [ ! -d "$WP_TEST_DIR" ]; then
   mkdir -p "$WP_TEST_DIR"
@@ -73,6 +93,7 @@ cd "$WORKING_DIR"
 echo "Project Dir: $PROJECT_DIR"
 echo "Working Dir: $WORKING_DIR"
 echo "WP Test Dir: $WP_TEST_DIR"
+echo "WP TESTS TAG: $WP_TESTS_TAG"
 
 # Exit on errors, xtrace
 # set -x
@@ -153,7 +174,7 @@ installWPTestSuite() {
     
     # Download WordPress unit test suite library
     local WP_TEST_SUITES_TEMP_DIR="$TEMP/wordpress-tests-lib"
-    svn export --force --quiet "https://develop.svn.wordpress.org/trunk/tests/phpunit/includes/" "$WP_TEST_SUITES_TEMP_DIR/includes"
+    svn export --force --quiet "https://develop.svn.wordpress.org/${WP_TESTS_TAG}/tests/phpunit/includes/" "$WP_TEST_SUITES_TEMP_DIR/includes"
     
     # if [[ $WP_MULTISITE = 1 ]]; then
         # may download multisite.xml for phpUnit
@@ -169,15 +190,11 @@ installWPTestSuite() {
     # Copy the downloaded files to the test WordPress site directory
     cp -r "$WP_TEST_SUITES_TEMP_DIR/" "$WP_TEST_DIR"
     
-    # mkdir -p "$WP_TEST_SUITES_DIR"
-    # cd "$WP_TEST_SUITES_DIR"
-    # svn co --quiet https://develop.svn.wordpress.org/trunk/tests/phpunit/includes/
-
     # Make sure the configuration file does not exist.
     if [ -f "$WP_TEST_SUITES_DIR/wp-tests-config.php" ]; then
         rm -f "$WP_TEST_SUITES_DIR/wp-tests-config.php"        
     fi    
-    download https://develop.svn.wordpress.org/trunk/wp-tests-config-sample.php "$WP_TEST_SUITES_DIR/wp-tests-config.php"
+    download https://develop.svn.wordpress.org/${WP_TESTS_TAG}/wp-tests-config-sample.php "$WP_TEST_SUITES_DIR/wp-tests-config.php"
     
     # Edit the tests configuration file.
     cd "$WP_TEST_SUITES_DIR"

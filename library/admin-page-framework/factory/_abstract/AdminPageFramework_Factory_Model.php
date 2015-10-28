@@ -34,8 +34,9 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         if ($aField['help']) {
             $this->oHelpPane->_addHelpTextForFormFields($aField['title'], $aField['help'], $aField['help_aside']);
         }
-        if (isset($this->oProp->aFieldTypeDefinitions[$aField['type']]['hfDoOnRegistration']) && is_callable($this->oProp->aFieldTypeDefinitions[$aField['type']]['hfDoOnRegistration'])) {
-            call_user_func_array($this->oProp->aFieldTypeDefinitions[$aField['type']]['hfDoOnRegistration'], array($aField));
+        $_oCallableDoOnRegistration = $this->oUtil->getElement($this->oProp->aFieldTypeDefinitions, array($aField['type'], 'hfDoOnRegistration'));
+        if (is_callable($_oCallableDoOnRegistration)) {
+            call_user_func_array($_oCallableDoOnRegistration, array($aField));
         }
     }
     public function getSavedOptions() {
@@ -55,10 +56,8 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         return $this->oUtil->getElementAsArray($_aFieldErrors, $_sID, array());
     }
     protected function _isValidationErrors() {
-        if (isset($GLOBALS['aAdminPageFramework']['aFieldErrors']) && $GLOBALS['aAdminPageFramework']['aFieldErrors']) {
-            return true;
-        }
-        return $this->oUtil->getTransient("apf_field_erros_" . get_current_user_id());
+        $_aFieldErrors = $this->oUtil->getElement($GLOBALS, array('aAdminPageFramework', 'aFieldErrors'));
+        return !empty($_aFieldErrors) ? $_aFieldErrors : $this->oUtil->getTransient("apf_field_erros_" . get_current_user_id());
     }
     public function _replyToDeleteFieldErrors() {
         $this->oUtil->deleteTransient("apf_field_erros_" . get_current_user_id());

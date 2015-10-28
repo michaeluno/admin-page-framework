@@ -2,6 +2,15 @@
 downloadWPCLI() {
 
     download https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar "$1"
+    
+    # 0.20.2 Fatal error: Class 'WP_REST_Server' not found in .../wordpress-tests-lib/includes/spy-rest-server.php on line 3
+    # https://github.com/wp-cli/wp-cli/releases/download/v0.20.2/wp-cli-0.20.2.phar
+    
+    # 0.17.2 Some commands do not work
+    # download https://github.com/wp-cli/wp-cli/releases/download/v0.17.2/wp-cli-0.17.2.phar "$1"
+    
+    # 0.20.0
+    # download https://github.com/wp-cli/wp-cli/releases/download/v0.20.0/wp-cli-0.20.0.phar "$1"
     if [[ ! $(find "$1" -type f -size +0c 2>/dev/null) ]]; then
         echo Could not download wp-cii.
         exit 1
