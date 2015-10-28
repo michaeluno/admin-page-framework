@@ -1,4 +1,4 @@
-# Sample TDD Plugin - Test Suite
+# Test Suite for Admin Page Framework
 
 <p align="center">
 	<img src="./screenshot.png?raw=true" alt="Drawing a screenshot" style="width: 640px;"/>
