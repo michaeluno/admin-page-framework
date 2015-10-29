@@ -43,7 +43,9 @@ class APF_Demo_AdvancedUsage_Section_Collapsible_D {
                 'section_id'        => $this->sSectionID,
                 'tab_slug'          => $this->sTabSlug,
                 'title'             => __( 'Custom Content', 'admin-page-framework-loader' ),
-                'content'           => __( 'This custom output is inserted with the <code>content</code> argument.', 'admin-page-framework-loader' ),
+                'content'           => "<p>"
+                    . __( 'This custom output is inserted with the <code>content</code> argument.', 'admin-page-framework-loader' )
+                    . "</p>",
                 'collapsible'       => array(
                     'collapse_others_on_expand' => false,
                     'toggle_all_button' => 'bottom-right',
