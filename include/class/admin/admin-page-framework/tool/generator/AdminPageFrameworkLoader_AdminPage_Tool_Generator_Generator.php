@@ -61,6 +61,17 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         $oFactory->addSettingFields(
             $sSectionID, // the target section id
             array( 
+                'field_id'          => 'version',
+                'title'             => __( 'Version', 'admin-page-framework-loader' ),
+                'type'              => 'text',
+                'save'              => false,
+                'value'             => AdminPageFramework_Registry::VERSION,
+                'attributes'        => array(
+                    'size'          => 20,
+                    'readonly'      => 'readonly',
+                ),                
+            ),            
+            array( 
                 'field_id'          => 'class_prefix',
                 'title'             => __( 'Class Prefix', 'admin-page-framework-loader' ),
                 'type'              => 'text',
@@ -119,8 +130,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 'format'            => 'text',  // 'json', 'text', 'array'      
                 'description'       => $oFactory->oUtil->getAOrB(
                     class_exists( 'ZipArchive' ),
-                    __( 'Download the framework files as a zip file.', 'admin-page-framework-loader' ),
-                    __( 'The zip extention needs to be enabled to use thi feature.', 'admin-page-framework-loader' )
+                    __( 'Download the compiled framework files as a zip file.', 'admin-page-framework-loader' ),
+                    __( 'The zip extension needs to be enabled to use thi feature.', 'admin-page-framework-loader' )
                 ),
                 'attributes'        => array(
                     'disabled'  => $oFactory->oUtil->getAOrB(
