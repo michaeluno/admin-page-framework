@@ -396,6 +396,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.6.2 =
+- Tweaked the style of buttons of collapsible sections.
 - Fixed a bug in the `taxonomy` fields that conditions set with the `if` and `capability` arguments were not applied.
  
 = 3.6.1 - 2015/10/26 =

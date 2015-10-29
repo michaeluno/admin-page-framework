@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Sort_Input extends AdminPageFramework_Sort_Base {
+class AdminPageFramework_Modifier_SortInput extends AdminPageFramework_Modifier_Base {
     public $aInput = array();
     public $aSortDimensionalKeys = array();
     public function __construct() {

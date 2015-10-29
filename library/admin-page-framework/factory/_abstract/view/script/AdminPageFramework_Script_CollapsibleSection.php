@@ -66,14 +66,12 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
                 }                
                 
                 // Expand or collapse this panel
-                _oButton.click( function(){
-                   
-                    _oButton.toggleClass( 'flipped' );
-                    if ( _oButton.hasClass( 'flipped' ) && _oButton.hasClass( 'dashicons' ) ) {
-                        _oButton.css( 'transform', 'rotateY( 180deg )' );
-                    } else {
-                        _oButton.css( 'transform', '' );
-                    }
+                _oButton.click( function(){                  
+                    
+                    var _oButtons = _bForSections
+                        ? jQuery( this ).closest( '.admin-page-framework-sectionset' ).siblings().andSelf().find( '> .admin-page-framework-collapsible-toggle-all-button-container' )
+                        : jQuery( this ).siblings( '.admin-page-framework-collapsible-toggle-all-button-container' ).andSelf();
+                    _oButtons.toggleClass( 'flipped' );
                     if ( _bForSections ) {
                         _oButton.parent().parent().children().children( '* > .admin-page-framework-collapsible-title' ).each( function() {
                             jQuery( this ).trigger( 'click', [ 'by_toggle_all_button' ] );
@@ -83,6 +81,7 @@ class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Sc
                             jQuery( this ).trigger( 'click', [ 'by_toggle_all_button' ] );
                         } );
                     }
+                    
                 } );                
                              
             });                  

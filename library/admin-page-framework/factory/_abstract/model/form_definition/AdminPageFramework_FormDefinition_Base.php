@@ -1,52 +1,8 @@
 <?php
 abstract class AdminPageFramework_FormDefinition_Base extends AdminPageFramework_WPUtility {
     public function dropRepeatableElements(array $aOptions) {
-        foreach ($aOptions as $_sFieldOrSectionID => $_aSectionOrFieldValue) {
-            if ($this->isSection($_sFieldOrSectionID)) {
-                $_aFields = $_aSectionOrFieldValue;
-                $_sSectionID = $_sFieldOrSectionID;
-                if (!$this->isCurrentUserCapable($_sSectionID)) {
-                    continue;
-                }
-                if ($this->isRepeatableSection($_sSectionID)) {
-                    unset($aOptions[$_sSectionID]);
-                    continue;
-                }
-                if (!is_array($_aFields)) {
-                    continue;
-                }
-                foreach ($_aFields as $_sFieldID => $_aField) {
-                    if (!$this->isCurrentUserCapable($_sSectionID, $_sFieldID)) {
-                        continue;
-                    }
-                    if ($this->isRepeatableField($_sFieldID, $_sSectionID)) {
-                        unset($aOptions[$_sSectionID][$_sFieldID]);
-                        continue;
-                    }
-                }
-                continue;
-            }
-            $_sFieldID = $_sFieldOrSectionID;
-            if (!$this->isCurrentUserCapable('_default', $_sFieldID)) {
-                continue;
-            }
-            if ($this->isRepeatableField($_sFieldID, '_default')) {
-                unset($aOptions[$_sFieldID]);
-            }
-        }
-        return $aOptions;
-    }
-    private function isCurrentUserCapable($sSectionID, $sFieldID = '') {
-        if (!$sFieldID) {
-            return isset($this->aSections[$sSectionID]['capability']) ? current_user_can($this->aSections[$sSectionID]['capability']) : true;
-        }
-        return isset($this->aFields[$sSectionID][$sFieldID]['capability']) ? current_user_can($this->aFields[$sSectionID][$sFieldID]['capability']) : true;
-    }
-    private function isRepeatableSection($sSectionID) {
-        return (isset($this->aSections[$sSectionID]['repeatable']) && $this->aSections[$sSectionID]['repeatable']);
-    }
-    private function isRepeatableField($sFieldID, $sSectionID) {
-        return (isset($this->aFields[$sSectionID][$sFieldID]['repeatable']) && $this->aFields[$sSectionID][$sFieldID]['repeatable']);
+        $_oFilterRepeatableElements = new AdminPageFramework_Modifier_FilterRepeatableElements($aOptions, $this->getElementAsArray($_POST, '__repeatable_elements_' . $this->sFieldsType));
+        return $_oFilterRepeatableElements->get();
     }
     public function isSection($sID) {
         if ($this->isNumericInteger($sID)) {

@@ -83,11 +83,11 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
         if ($_aOutputs['count_subsections']) {
             if (!empty($_aSection['repeatable'])) {
                 $_aOutputs['section_contents'][] = AdminPageFramework_Script_RepeatableSection::getEnabler($_sSectionsID, $_aOutputs['count_subsections'], $_aSection['repeatable'], $this->oMsg);
-                $_aOutputs['section_contents'][] = $this->_getDynamicElementFlagFieldInputTag($_aSection);
+                $_aOutputs['section_contents'][] = $this->_getRepeatableSectionFlagTag($_aSection);
             }
             if (!empty($_aSection['sortable'])) {
                 $_aOutputs['section_contents'][] = AdminPageFramework_Script_SortableSection::getEnabler($_sSectionsID, $_aSection['sortable'], $this->oMsg);
-                $_aOutputs['section_contents'][] = $this->_getDynamicElementFlagFieldInputTag($_aSection);
+                $_aOutputs['section_contents'][] = $this->_getSortableSectionFlagTag($_aSection);
             }
             $_aSubSections = $this->numerizeElements($_aSubSections);
             foreach ($_aSubSections as $_iIndex => $_aFields) {
@@ -100,8 +100,11 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
         $_aOutputs = $this->_getSectionTableWithTabList($_aOutputs, $_oEachSectionArguments->get(), $this->getElementAsArray($aFieldsInSections, $_aSection['section_id'], array()), $hfSectionCallback, $hfFieldCallback);
         return $_aOutputs;
     }
-    private function _getDynamicElementFlagFieldInputTag(array $aSection) {
-        return $this->getHTMLTag('input', array('type' => 'hidden', 'name' => '__dynamic_elements_' . $aSection['_fields_type'] . '[' . $aSection['section_id'] . ']', 'class' => 'dynamic-element-names element-address', 'value' => $aSection['section_id'],));
+    private function _getRepeatableSectionFlagTag(array $aSection) {
+        return $this->getHTMLTag('input', array('class' => 'element-address', 'type' => 'hidden', 'name' => '__repeatable_elements_' . $aSection['_fields_type'] . '[' . $aSection['section_id'] . ']', 'value' => $aSection['section_id'],));
+    }
+    private function _getSortableSectionFlagTag(array $aSection) {
+        return $this->getHTMLTag('input', array('class' => 'element-address', 'type' => 'hidden', 'name' => '__sortable_elements_' . $aSection['_fields_type'] . '[' . $aSection['section_id'] . ']', 'value' => $aSection['section_id'],));
     }
     private function _getUnsetFlagSectionInputTag(array $aSection) {
         if (false !== $aSection['save']) {

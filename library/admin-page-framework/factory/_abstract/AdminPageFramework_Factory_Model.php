@@ -81,11 +81,11 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         return $this->oUtil->setTransient('apf_tfd' . md5('temporary_form_data_' . $this->oProp->sClassName . get_current_user_id()), $aLastInput, 60 * 60);
     }
     protected function _getSortedInputs(array $aInput) {
-        $_sFieldAddressKey = '__dynamic_elements_' . $this->oProp->sFieldsType;
-        if (!isset($_POST[$_sFieldAddressKey])) {
+        $_aDynamicFieldAddressKeys = array_unique(array_merge($this->oUtil->getElementAsArray($_POST, '__repeatable_elements_' . $this->oProp->sFieldsType, array()), $this->oUtil->getElementAsArray($_POST, '__sortable_elements_' . $this->oProp->sFieldsType, array())));
+        if (empty($_aDynamicFieldAddressKeys)) {
             return $aInput;
         }
-        $_oInputSorter = new AdminPageFramework_Sort_Input($aInput, $_POST[$_sFieldAddressKey]);
+        $_oInputSorter = new AdminPageFramework_Modifier_SortInput($aInput, $_aDynamicFieldAddressKeys);
         return $_oInputSorter->get();
     }
 }
