@@ -498,9 +498,6 @@ tbody.admin-page-framework-collapsible-content.table-caption {
 }
 /* Vertically flip the toggle button */
 .flipped > .admin-page-framework-collapsible-toggle-all-button.button.dashicons {
-background-color: red;    
-// direction: rtl; 
-// unicode-bidi: bidi-override;     
     -moz-transform: scaleY(-1);
     -webkit-transform: scaleY(-1);
     transform: scaleY(-1);
