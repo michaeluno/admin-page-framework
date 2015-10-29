@@ -111,8 +111,11 @@ class APF extends AdminPageFramework {
         );
             
     }
-
-    public function do_myfirstpage() {  // do_{page slug}
+    
+    /**
+     * @callback        action      do_{page slug}
+     */
+    public function do_myfirstpage() {
         ?>
         <h3>Say Something</h3>
         <p>This is my first admin page!</p>
@@ -155,8 +158,9 @@ class APF_MyFirstFrom extends AdminPageFramework {
     
     /**
      * The pre-defined callback method that is triggered when the page loads.
-     */
-    public function load_my_first_form( $oAdminPage ) {    // load_{page slug}
+     * @callback        action      load_{page slug}
+     */     
+    public function load_my_first_form( $oAdminPage ) {
     
         $this->addSettingSections(    
             array(
@@ -208,7 +212,7 @@ See more code examples in `Dashboard` -> `AdminPageFramework` -> `Help` -> `Exam
 13. [Add a Meta Box to a Custom Post Type](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/13-add-a-meta-box-for-a-custom-post-type/)
 
 ## Getting Framework Core Files ##
-In order to modify the framework files, you need to clone the repository files. 
+In order to modify the framework development files, you need to clone the repository files. 
 
 Simply clone the repository from either of the following addresses.
 
@@ -234,10 +238,10 @@ With Composer, create a `composer.json` file with the following contents and per
 ## Modifying Framework Core Files ##
 The core files are in the `development` directory. 
 
-1. Make sure the constant `WP_DEBUG` is set to `true` on your development site. If this is `false`, the loader plugin will load the complied files in the `library` directory.
-2. Modify core files and make sure your changes take effect. 
-3. If you add class files, make sure to run `run.sh` in `tool\inclusion_class_list` to generate inclusion file lists.
-4. After all the modifications are done, run `php-class-files-beautifier.sh` in `tool\beautifier` to compile the files.
+1. Make sure the constant `WP_DEBUG` is set to `true` in the `wp-config.php` file of your development site. If this is `false`, the loader plugin will load the complied files in the `library` directory.
+2. Modify the core files and make sure your changes take effect. 
+3. If you add class files, make sure to run `run.sh` in `tool/inclusion_class_list` to generate inclusion file lists.
+4. After all the modifications are done, run `php-class-files-beautifier.sh` in `tool/beautifier` to compile the files.
 
 ## Bugs ##
 If you find an issue, let us know [here](https://github.com/michaeluno/admin-page-framework/issues)!
@@ -255,8 +259,8 @@ Anyone is welcome to contribute to Admin Page Framework. There are various ways 
 - Write a [custom field type](http://admin-page-framework.michaeluno.jp/en/v3/package-AdminPageFramework.FieldType.html). 
 - Write [test cases](test/readme.md).
 - Improve the [documentation](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md).
-- Tweak the styling of the framework by modifying the [CSS rules](https://github.com/michaeluno/admin-page-framework/blob/master/development/_model/AdminPageFramework_CSS.php).
-- Translate the language files in the [language](https://github.com/michaeluno/admin-page-framework/tree/master/language) directory. 
+- Tweak the styling of the framework page elements by modifying the [CSS rules](https://github.com/michaeluno/admin-page-framework/blob/master/development/_model/AdminPageFramework_CSS.php).
+- Translate the language files in the [language](https://github.com/michaeluno/admin-page-framework/tree/master/language) directory to your native language.
 
 ## Supporting Future Development ##
 
