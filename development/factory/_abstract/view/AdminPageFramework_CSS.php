@@ -490,12 +490,21 @@ tbody.admin-page-framework-collapsible-content.table-caption {
     display: table; /* if block, it gets hidden inside the section toggle bar */
 }
 .admin-page-framework-collapsible-toggle-all-button.button {
-
     height: 36px;
     line-height: 34px;
     padding: 0 16px 6px;    
     font-size: 20px;    /* Determines the dashicon size  */
     width: auto;
+}
+/* Vertically flip the toggle button */
+.flipped > .admin-page-framework-collapsible-toggle-all-button.button.dashicons {
+background-color: red;    
+// direction: rtl; 
+// unicode-bidi: bidi-override;     
+    -moz-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    transform: scaleY(-1);
+    filter: flipv; /*IE*/
 }
 
 /* Repeatable Section buttons inside the collapsible section title block */
