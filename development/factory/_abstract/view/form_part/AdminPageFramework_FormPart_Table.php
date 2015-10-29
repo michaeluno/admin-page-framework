@@ -351,7 +351,7 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
                             $_aSection[ 'repeatable' ],
                             $this->oMsg
                         );
-                        $_aOutputs[ 'section_contents' ][] = $this->_getDynamicElementFlagFieldInputTag( $_aSection );
+                        $_aOutputs[ 'section_contents' ][] = $this->_getRepeatableSectionFlagTag( $_aSection );
                     }
                     // Add the sortable sections enabler script. 3.6.0+
                     if ( ! empty( $_aSection[ 'sortable' ] ) ) {
@@ -360,7 +360,7 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
                             $_aSection[ 'sortable' ],
                             $this->oMsg
                         );
-                        $_aOutputs[ 'section_contents' ][] = $this->_getDynamicElementFlagFieldInputTag( $_aSection );
+                        $_aOutputs[ 'section_contents' ][] = $this->_getSortableSectionFlagTag( $_aSection );
                     }
                     
                     // Get the section tables.
@@ -407,8 +407,9 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
                  * Embeds an internal hidden input for the 'sortable' and 'repeatable' arguments.
                  * @since       3.6.0
                  * @return      string
+                 * @deprecated  3.6.2
                  */
-                private function _getDynamicElementFlagFieldInputTag( array $aSection ) {
+/*                 private function _getDynamicElementFlagFieldInputTag( array $aSection ) {
                     return $this->getHTMLTag( 
                         'input',
                         array(
@@ -420,7 +421,43 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
                             'value' => $aSection[ 'section_id' ],
                         )
                     );
-                }     
+                }     */ 
+                /**
+                 * Returns an HTML internal hidden input tag for the 'repeatable' arguments.
+                 * @since       3.6.2
+                 * @return      string
+                 */
+                private function _getRepeatableSectionFlagTag( array $aSection ) {
+                    return $this->getHTMLTag( 
+                        'input',
+                        array(
+                            'class'                     => 'element-address',
+                            'type'                      => 'hidden',
+                            'name'                      => '__repeatable_elements_' . $aSection[ '_fields_type' ] 
+                                . '[' . $aSection[ 'section_id' ] . ']',
+                            // @todo examine whether this value should include a section index.
+                            'value' => $aSection[ 'section_id' ],                            
+                        )
+                    );
+                }                    
+                /**
+                 * Returns an HTML internal hidden input tag for the 'sortable' arguments.
+                 * @since       3.6.2
+                 * @return      string
+                 */
+                private function _getSortableSectionFlagTag( array $aSection ) {
+                    return $this->getHTMLTag( 
+                        'input',
+                        array(
+                            'class'                     => 'element-address',
+                            'type'                      => 'hidden',
+                            'name'                      => '__sortable_elements_' . $aSection[ '_fields_type' ] 
+                                . '[' . $aSection[ 'section_id' ] . ']',
+                            // @todo examine whether this value should include a section index.
+                            'value' => $aSection[ 'section_id' ],                            
+                        )
+                    );
+                }                
                 
                 /**
                  * Embeds an internal hidden input for the 'save' argument.

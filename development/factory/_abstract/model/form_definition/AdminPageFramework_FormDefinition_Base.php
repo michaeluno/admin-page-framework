@@ -32,112 +32,21 @@ abstract class AdminPageFramework_FormDefinition_Base extends AdminPageFramework
      * @remark      This method MUST be called after formatting the form elements because this checks the set user capability.
      * @since       3.0.0
      * @since       3.1.1       Made it not remove the repeatable elements if the user capability is insufficient.
+     * @since       3.6.2       Changed the mechanism to detect repeatable elements.
+     * @return      array       The modified options array.
      */
     public function dropRepeatableElements( array $aOptions ) {
-
-        foreach( $aOptions as $_sFieldOrSectionID => $_aSectionOrFieldValue ) {
-            
-            // If it's a section
-            if ( $this->isSection( $_sFieldOrSectionID ) ) {
-                
-                $_aFields       = $_aSectionOrFieldValue;
-                $_sSectionID    = $_sFieldOrSectionID;     
-                
-                // Check the capability - do not drop if the level is insufficient.
-                if ( ! $this->isCurrentUserCapable( $_sSectionID ) ) {
-                    continue;
-                }
-                
-                if ( $this->isRepeatableSection( $_sSectionID ) ) {
-                    unset( $aOptions[ $_sSectionID ] );     
-                    continue;
-                }
-                
-                // An error may occur with an empty _default element.
-                if ( ! is_array( $_aFields ) ) { continue; }    
-                
-                // At this point, it is not a repeatable section. 
-                foreach( $_aFields as $_sFieldID => $_aField ) {
-                    
-                    if ( ! $this->isCurrentUserCapable( $_sSectionID, $_sFieldID ) ) {
-                        continue;
-                    }     
-                    
-                    if ( $this->isRepeatableField( $_sFieldID, $_sSectionID ) ) {
-                        unset( $aOptions[ $_sSectionID ][ $_sFieldID ] );
-                        continue;
-                    }
-                }
-                continue;
-                
-            }
-
-            // It's a field saved in the root dimension, which corresponds to the '_default' section of the stored registered fields array.
-            $_sFieldID = $_sFieldOrSectionID;     
-            if ( ! $this->isCurrentUserCapable( '_default', $_sFieldID ) ) {
-                continue;
-            }
-            if ( $this->isRepeatableField( $_sFieldID, '_default' ) ) {
-                unset( $aOptions[ $_sFieldID ] );
-            }
         
-        }    
-        return $aOptions;
-        
-    }    
-    
-        /**
-         * Checks if the current user can have the sufficient capability level.
-         * 
-         * @since       3.1.1
-         * @internal
-         * @todo        Examine whether the method name should have an underscore prefixed.
-         */
-        private function isCurrentUserCapable( $sSectionID, $sFieldID='' ) {
-            
-            // Section
-            if ( ! $sFieldID ) {
-                return isset( $this->aSections[ $sSectionID ]['capability'] )
-                    ? current_user_can( $this->aSections[ $sSectionID ]['capability'] )
-                    : true;
-            }
-            
-            // Field
-            return isset( $this->aFields[ $sSectionID ][ $sFieldID ]['capability'] )
-                ? current_user_can( $this->aFields[ $sSectionID ][ $sFieldID ]['capability'] )
-                : true;
-            
-        }
-    
-        /**
-         * Checks whether a section is repeatable from the given section ID.
-         * 
-         * @since       3.0.0
-         * @internal
-         * @todo        Examine whether the method name should have an underscore prefixed.
-         */
-        private function isRepeatableSection( $sSectionID ) {
-            return (
-                isset( $this->aSections[ $sSectionID ]['repeatable'] ) 
-                && $this->aSections[ $sSectionID ]['repeatable']
-            );
-        }
-        
-        /**
-         * Checks whether a field is repeatable from the given field ID.
-         * 
-         * @since       3.0.0
-         * @internal
-         * @todo        Examine whether the method name should have an underscore prefixed.
-         * @todo        Examine whether it should check with conditioned field array. 
-         */     
-        private function isRepeatableField( $sFieldID, $sSectionID ) {            
-            return ( 
-                isset( $this->aFields[ $sSectionID ][ $sFieldID ]['repeatable'] )
-                && $this->aFields[ $sSectionID ][ $sFieldID ]['repeatable']
-            );
-        }
-        
+        $_oFilterRepeatableElements = new AdminPageFramework_Modifier_FilterRepeatableElements( 
+            $aOptions,
+            $this->getElementAsArray(
+                $_POST,
+                '__repeatable_elements_' . $this->sFieldsType
+            )
+        );
+        return $_oFilterRepeatableElements->get();
+    }
+       
     /**
      * Determines whether the given ID is of a registered form section.
      * 

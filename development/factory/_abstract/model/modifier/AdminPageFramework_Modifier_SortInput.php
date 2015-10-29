@@ -15,7 +15,7 @@
  * @since       3.6.0
  * @internal
  */
-class AdminPageFramework_Sort_Input extends AdminPageFramework_Sort_Base {
+class AdminPageFramework_Modifier_SortInput extends AdminPageFramework_Modifier_Base {
     
     public $aInput = array();
     public $aSortDimensionalKeys = array();
@@ -23,7 +23,7 @@ class AdminPageFramework_Sort_Input extends AdminPageFramework_Sort_Base {
     /**
      * Sets up properties.
      */
-    public function __construct( /* $aInput, $aSortDImensionalKeys */ ) {
+    public function __construct( /* $aInput, $aSortDimensionalKeys */ ) {
         
         $_aParameters = func_get_args() + array( 
             $this->aInput, 

@@ -267,23 +267,61 @@ class AdminPageFramework_FormFieldset extends AdminPageFramework_FormFieldset_Ba
                  */
                 private function _getDynamicElementFlagFieldInputTag( array $aFieldset ) {
                     
-                    if ( ! $aFieldset[ 'sortable' ] && ! $aFieldset[ 'repeatable' ] ) {
-                        return '';
+                    if ( $aFieldset[ 'repeatable' ] ) {
+                        return $this->_getRepeatableFieldFlagTag( $aFieldset );
                     }
+                    if ( $aFieldset[ 'sortable' ] ) {
+                        return $this->_getSortableFieldFlagTag( $aFieldset );
+                    }
+                    return '';
 
-                    return $this->getHTMLTag( 
-                        'input',
-                        array(
-                            'type'                      => 'hidden',
-                            'name'                      => '__dynamic_elements_' . $aFieldset[ '_fields_type' ] . '[' . $aFieldset[ '_field_address' ] . ']',
-                            'class'                     => 'dynamic-element-names element-address',
-                            'value'                     => $aFieldset[ '_field_address' ],
-                            'data-field_address_model'  => $aFieldset[ '_field_address_model' ],
-                        )
-                    );
+                    // return $this->getHTMLTag( 
+                        // 'input',
+                        // array(
+                            // 'type'                      => 'hidden',
+                            // 'name'                      => '__dynamic_elements_' . $aFieldset[ '_fields_type' ] . '[' . $aFieldset[ '_field_address' ] . ']',
+                            // 'class'                     => 'dynamic-element-names element-address',
+                            // 'value'                     => $aFieldset[ '_field_address' ],
+                            // 'data-field_address_model'  => $aFieldset[ '_field_address_model' ],
+                        // )
+                    // );
                     
-                }    
-    
+                }
+                    /**
+                     * @since       3.6.2
+                     * @return      string
+                     */
+                    private function _getRepeatableFieldFlagTag( array $aFieldset ) {
+                        return $this->getHTMLTag( 
+                            'input',
+                            array(
+                                'type'                      => 'hidden',
+                                'name'                      => '__repeatable_elements_' . $aFieldset[ '_fields_type' ] 
+                                    . '[' . $aFieldset[ '_field_address' ] . ']',
+                                'class'                     => 'element-address',
+                                'value'                     => $aFieldset[ '_field_address' ],
+                                'data-field_address_model'  => $aFieldset[ '_field_address_model' ],
+                            )
+                        );
+                    }                    
+                    /**
+                     * @since       3.6.2
+                     * @return      string
+                     */
+                    private function _getSortableFieldFlagTag( array $aFieldset ) {
+                        return $this->getHTMLTag( 
+                            'input',
+                            array(
+                                'type'                      => 'hidden',
+                                'name'                      => '__sortable_elements_' . $aFieldset[ '_fields_type' ] 
+                                    . '[' . $aFieldset[ '_field_address' ] . ']',
+                                'class'                     => 'element-address',
+                                'value'                     => $aFieldset[ '_field_address' ],
+                                'data-field_address_model'  => $aFieldset[ '_field_address_model' ],
+                            )
+                        );
+                    }
+                    
                 /**
                  * Returns the output of JavaScript scripts for the field (and its sub-fields).
                  * 

@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.6.2b01 by Michael Uno 
+	Admin Page Framework v3.6.2b02 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -118,8 +118,9 @@ $aClassFiles = array(
 	"AdminPageFramework_FormDefinition"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/model/form_definition/AdminPageFramework_FormDefinition.php", 
 	"AdminPageFramework_FormDefinition_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/model/form_definition/AdminPageFramework_FormDefinition_Base.php", 
 	"AdminPageFramework_FormDefinition_Meta"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/model/form_definition/AdminPageFramework_FormDefinition_Meta.php", 
-	"AdminPageFramework_Sort_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/model/sort/AdminPageFramework_Sort_Base.php", 
-	"AdminPageFramework_Sort_Input"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/model/sort/AdminPageFramework_Sort_Input.php", 
+	"AdminPageFramework_Modifier_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/model/modifier/AdminPageFramework_Modifier_Base.php", 
+	"AdminPageFramework_Modifier_FilterRepeatableElements"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/model/modifier/AdminPageFramework_Modifier_FilterRepeatableElements.php", 
+	"AdminPageFramework_Modifier_SortInput"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/model/modifier/AdminPageFramework_Modifier_SortInput.php", 
 	"AdminPageFramework_ArrayHandler"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_ArrayHandler.php", 
 	"AdminPageFramework_Debug"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_Debug.php", 
 	"AdminPageFramework_ErrorReporting"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_ErrorReporting.php", 

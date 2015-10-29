@@ -15,7 +15,7 @@
  * @since       3.6.0
  * @internal
  */
-abstract class AdminPageFramework_Sort_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Modifier_Base extends AdminPageFramework_WPUtility {
     
     
     /**
