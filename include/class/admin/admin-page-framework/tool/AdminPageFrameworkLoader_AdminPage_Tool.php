@@ -44,6 +44,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool extends AdminPageFrameworkLoader_A
             // )
         // );
             
+        $oFactory->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css' );
+        
     }   
         
 }

@@ -396,6 +396,8 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
  
 = 3.6.2 =
+- Added a notification box in the admin pages of the loader plugin.
+- Tweaked the style of heading tags in meta boxes.
 - Tweaked the style of buttons of collapsible sections.
 - Fixed a bug in the `taxonomy` fields that conditions set with the `if` and `capability` arguments were not applied.
  

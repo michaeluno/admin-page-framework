@@ -120,24 +120,5 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
         );
         
     } 
-    
-    /**
-     * Output custom page contents.
-     */
-    public function replyToDoAfterPage() {
-        
-        $_aReplacements   = array(
-            '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
-            '%WP_ADMIN_URL%'    => admin_url(),
-        );
-        $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
-            $_aReplacements
-        );    
-        echo "<h3>" . __( 'Tutorials', 'admin-page-framework-loader' ) . "</h3>"
-            . $_oWPReadmeParser->getSection( 'Tutorials' );    
-        
-        
-    }
-        
+            
 }

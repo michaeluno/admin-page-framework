@@ -19,3 +19,15 @@
 .video.oembed iframe {
     max-width: 80%;
 }
+
+.new-version-notification {
+    font-weight: 500;
+}
+
+span.header-icon {
+    margin-right: 0.4em;
+}
+
+.float-right {
+    float:right;
+}
