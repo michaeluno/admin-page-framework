@@ -607,6 +607,9 @@ CSSRULES;
     box-shadow: none;
     background: none;
 }      
+#poststuff .metabox-holder .postbox-container .admin-page-framework-collapsible-title h3 {
+    margin: 0;
+}
 #poststuff .metabox-holder .postbox-container h4 {
     margin: 1em 0;
     font-size: 1.04em;
