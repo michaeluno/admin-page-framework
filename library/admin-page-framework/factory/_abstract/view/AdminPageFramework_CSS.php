@@ -526,10 +526,10 @@ CSSRULES;
 }
 
 /* Post Metabox Section Heading Info */
-#poststuff .metabox-holder .admin-page-framework-section-title h3 {
+#poststuff .metabox-holder .postbox-container .admin-page-framework-section-title h3 {
     border: none;
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: 1.12em;
     margin: 1em 0;
     padding: 0;
     font-family: 'Open Sans', sans-serif;     
@@ -544,6 +544,11 @@ CSSRULES;
     box-shadow: none;
     background: none;
 }      
+#poststuff .metabox-holder .postbox-container h4 {
+    margin: 1em 0;
+    font-size: 1.04em;
+}
+
 /* Side meta boxes */
 @media screen and (min-width: 783px) {    
     /* Fix that the text input fields stick out the meta-box container */

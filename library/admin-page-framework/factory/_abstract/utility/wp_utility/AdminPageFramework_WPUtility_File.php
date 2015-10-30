@@ -1,7 +1,8 @@
 <?php
 class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hook {
-    static public function getScriptData($sPath, $sType = 'plugin') {
-        $aData = get_file_data($sPath, array('sName' => 'Name', 'sURI' => 'URI', 'sScriptName' => 'Script Name', 'sLibraryName' => 'Library Name', 'sLibraryURI' => 'Library URI', 'sPluginName' => 'Plugin Name', 'sPluginURI' => 'Plugin URI', 'sThemeName' => 'Theme Name', 'sThemeURI' => 'Theme URI', 'sVersion' => 'Version', 'sDescription' => 'Description', 'sAuthor' => 'Author', 'sAuthorURI' => 'Author URI', 'sTextDomain' => 'Text Domain', 'sDomainPath' => 'Domain Path', 'sNetwork' => 'Network', '_sitewide' => 'Site Wide Only',), $sType);
+    static public function getScriptData($sPathOrContent, $sType = 'plugin', $aDefaultHeaderKeys = array()) {
+        $_aHeaderKeys = $aDefaultHeaderKeys + array('sName' => 'Name', 'sURI' => 'URI', 'sScriptName' => 'Script Name', 'sLibraryName' => 'Library Name', 'sLibraryURI' => 'Library URI', 'sPluginName' => 'Plugin Name', 'sPluginURI' => 'Plugin URI', 'sThemeName' => 'Theme Name', 'sThemeURI' => 'Theme URI', 'sVersion' => 'Version', 'sDescription' => 'Description', 'sAuthor' => 'Author', 'sAuthorURI' => 'Author URI', 'sTextDomain' => 'Text Domain', 'sDomainPath' => 'Domain Path', 'sNetwork' => 'Network', '_sitewide' => 'Site Wide Only',);
+        $aData = file_exists($sPathOrContent) ? get_file_data($sPathOrContent, $_aHeaderKeys, $sType) : self::getScriptDataFromContents($sPathOrContent, $sType, $_aHeaderKeys);
         switch (trim($sType)) {
             case 'theme':
                 $aData['sName'] = $aData['sThemeName'];
@@ -22,6 +23,22 @@ class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hoo
             break;
         }
         return $aData;
+    }
+    static public function getScriptDataFromContents($sContent, $sType = 'plugin', $aDefaultHeaderKeys = array()) {
+        $sContent = str_replace("\r", "\n", $sContent);
+        $_aHeaders = $aDefaultHeaderKeys;
+        if ($sType) {
+            $_aExtraHeaders = apply_filters("extra_{$sType}_headers", array());
+            if (!empty($_aExtraHeaders)) {
+                $_aExtraHeaders = array_combine($_aExtraHeaders, $_aExtraHeaders);
+                $_aHeaders = array_merge($_aExtraHeaders, ( array )$aDefaultHeaderKeys);
+            }
+        }
+        foreach ($_aHeaders as $_sHeaderKey => $_sRegex) {
+            $_bFound = preg_match('/^[ \t\/*#@]*' . preg_quote($_sRegex, '/') . ':(.*)$/mi', $sContent, $_aMatch);
+            $_aHeaders[$_sHeaderKey] = $_bFound && $_aMatch[1] ? _cleanup_header_comment($_aMatch[1]) : '';
+        }
+        return $_aHeaders;
     }
     static public function download($sURL, $iTimeOut = 300) {
         if (false === filter_var($sURL, FILTER_VALIDATE_URL)) {
