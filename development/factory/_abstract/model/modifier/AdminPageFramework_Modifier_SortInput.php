@@ -18,22 +18,23 @@
 class AdminPageFramework_Modifier_SortInput extends AdminPageFramework_Modifier_Base {
     
     public $aInput = array();
-    public $aSortDimensionalKeys = array();
+    public $aFieldAddresses = array();
     
     /**
      * Sets up properties.
      */
-    public function __construct( /* $aInput, $aSortDimensionalKeys */ ) {
+    public function __construct( /* $aInput, $aFieldAddresses */ ) {
         
         $_aParameters = func_get_args() + array( 
             $this->aInput, 
-            $this->aSortDimensionalKeys, 
+            $this->aFieldAddresses, 
         );
         $this->aInput               = $_aParameters[ 0 ];
-        $this->aSortDimensionalKeys = array_unique( $_aParameters[ 1 ] );
+        $this->aFieldAddresses = $_aParameters[ 1 ];
+        
         
     }
-    
+            
     /**
      * Sorts dynamic form input elements such as sortable and repeatable sections and fields.
      * 
@@ -41,7 +42,7 @@ class AdminPageFramework_Modifier_SortInput extends AdminPageFramework_Modifier_
      */
     public function get() {
 
-        foreach( $this->aSortDimensionalKeys as $_sFlatFieldAddress ) {
+        foreach( $this->_getFormattedDimensionalKeys( $this->aFieldAddresses ) as $_sFlatFieldAddress ) {
             
             $_aDimensionalKeys = explode( '|', $_sFlatFieldAddress );
                         
@@ -66,5 +67,24 @@ class AdminPageFramework_Modifier_SortInput extends AdminPageFramework_Modifier_
         return $this->aInput;
         
     }       
+    
+        /**
+         * Formats the array containing section and field addresses.
+         * 
+         * The array must be sorted so that deeper elements get parsed before shallower dimensions get parsed.
+         * This is because if the shallower dimensions get parsed before deeper dimensions, when deeper ones get parsed,
+         * the addresses are already modified and it causes data loss.
+         * 
+         * @since       3.6.2
+         * @return      array
+         */
+        private function _getFormattedDimensionalKeys( $aFieldAddresses ) {
+        
+            $aFieldAddresses = $this->getAsArray( $aFieldAddresses );
+            $aFieldAddresses = array_unique( $aFieldAddresses );
+            arsort( $aFieldAddresses );
+            return $aFieldAddresses;
+            
+        }    
            
 }
