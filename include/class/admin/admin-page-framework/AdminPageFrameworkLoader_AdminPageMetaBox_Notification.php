@@ -31,7 +31,7 @@ class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFr
             return;
         }
         
-        // For debugging remove the transient.
+        // For debugging, uncomment the below line to remove the transient.
         // $this->oUtil->deleteTransient( 
             // AdminPageFrameworkLoader_Registry::TRANSIENT_PREFIX . 'devver'
         // );        
@@ -42,8 +42,7 @@ class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFr
         );
 
         // Disable the meta box if the development version is not above the running one.
-        // if ( version_compare( AdminPageFramework_Registry::VERSION, $this->_sDevelopmentVersion, '>=' ) ) {
-        if ( version_compare( '3.6.0', $this->_sDevelopmentVersion, '>=' ) ) {
+        if ( version_compare( AdminPageFramework_Registry::VERSION, $this->_sDevelopmentVersion, '>=' ) ) {
             $this->oProp->aPageSlugs = array();
         }        
         
@@ -91,11 +90,13 @@ class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFr
                     esc_url( 'https://github.com/michaeluno/admin-page-framework/archive/dev.zip' )
                 )
             . "</p>"
-            . '<a href="' . esc_url( 'https://github.com/michaeluno/admin-page-framework/archive/dev.zip' ). '">'
-                . "<div class='button button-primary float-right'>"  
-                    . __( 'Download', 'admin-page-framework-loader' )
-                . "</div>"            
-            . "</a>"
+            . "<div style='width:100%; display:inline-block;'>"
+                . '<a href="' . esc_url( 'https://github.com/michaeluno/admin-page-framework/archive/dev.zip' ). '">'
+                    . "<div class='button button-primary float-right'>"  
+                        . __( 'Download', 'admin-page-framework-loader' )
+                    . "</div>"            
+                . "</a>"
+            . "</div>"
             ;
             
         return $_sInsert . $sContent;        
