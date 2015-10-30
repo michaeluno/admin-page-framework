@@ -1,14 +1,14 @@
 <?php
 class AdminPageFramework_Modifier_SortInput extends AdminPageFramework_Modifier_Base {
     public $aInput = array();
-    public $aSortDimensionalKeys = array();
+    public $aFieldAddresses = array();
     public function __construct() {
-        $_aParameters = func_get_args() + array($this->aInput, $this->aSortDimensionalKeys,);
+        $_aParameters = func_get_args() + array($this->aInput, $this->aFieldAddresses,);
         $this->aInput = $_aParameters[0];
-        $this->aSortDimensionalKeys = array_unique($_aParameters[1]);
+        $this->aFieldAddresses = $_aParameters[1];
     }
     public function get() {
-        foreach ($this->aSortDimensionalKeys as $_sFlatFieldAddress) {
+        foreach ($this->_getFormattedDimensionalKeys($this->aFieldAddresses) as $_sFlatFieldAddress) {
             $_aDimensionalKeys = explode('|', $_sFlatFieldAddress);
             $_aDynamicElements = $this->getElement($this->aInput, $_aDimensionalKeys);
             if (!is_array($_aDynamicElements)) {
@@ -17,5 +17,11 @@ class AdminPageFramework_Modifier_SortInput extends AdminPageFramework_Modifier_
             $this->setMultiDimensionalArray($this->aInput, $_aDimensionalKeys, array_values($_aDynamicElements));
         }
         return $this->aInput;
+    }
+    private function _getFormattedDimensionalKeys($aFieldAddresses) {
+        $aFieldAddresses = $this->getAsArray($aFieldAddresses);
+        $aFieldAddresses = array_unique($aFieldAddresses);
+        arsort($aFieldAddresses);
+        return $aFieldAddresses;
     }
 }
