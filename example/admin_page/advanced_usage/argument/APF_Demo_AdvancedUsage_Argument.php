@@ -61,12 +61,7 @@ class APF_Demo_AdvancedUsage_Argument {
             'load_' . $this->sPageSlug . '_' . $this->sTabSlug, 
             array( $this, 'replyToLoadTab' ) 
         );
-        
-        add_action(
-            'do_' . $this->sPageSlug,
-            array( $this, 'replyToDoPage' )
-        );
-        
+
     }
     
     /**
@@ -92,18 +87,5 @@ class APF_Demo_AdvancedUsage_Argument {
        
     }
     
-    /*
-     * Handles the page output.
-     * 
-     * @callback        action      do_{page slug}
-     * */
-    public function replyToDoPage() { 
-    
-        if ( isset( $_GET[ 'tab' ] ) && 'system' === $_GET[ 'tab' ] ) {
-            return;
-        }
-        submit_button();
-        
-    }
 
 }

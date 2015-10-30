@@ -39,7 +39,21 @@ class APF_Demo_AdvancedUsage {
             }        
             new $_sTabClassName;
         }
+              
+        add_action(
+            'do_' . 'apf_advanced_usage',
+            array( $this, 'replyToDoPage' )
+        );
         
     }
+     
+    /*
+     * Handles the page output.
+     * 
+     * @callback        action      do_{page slug}
+     * */
+    public function replyToDoPage() { 
+        submit_button();
+    }     
      
 }
