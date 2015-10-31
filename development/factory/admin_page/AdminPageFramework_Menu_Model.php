@@ -20,6 +20,23 @@
 abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Controller {
     
     /**
+     * Registers necessary callbacks and sets up properties.
+     * 
+     * @internal
+     */
+    public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
+        
+        parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
+        
+        if ( $this->oProp->bIsAdminAjax ) {
+            return;
+        }
+        
+        add_action( 'admin_menu', array( $this, '_replyToBuildMenu' ), 98 );     
+        
+    }     
+    
+    /**
      * A look-up array for the built-in root menu slugs.
      * 
      * @since       2.0.0
@@ -49,6 +66,7 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
      * 
      * @since       2.0.0
      * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
+     * @callback    action      admin_menu
      * @internal
      */
     public function _replyToBuildMenu() {
