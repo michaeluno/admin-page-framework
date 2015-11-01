@@ -43,9 +43,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool extends AdminPageFrameworkLoader_A
                 // 'title'     => __( 'Minifier', 'admin-page-framework-loader' ),
             // )
         // );
-            
-        $oFactory->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css' );
-        
+
     }   
         
 }

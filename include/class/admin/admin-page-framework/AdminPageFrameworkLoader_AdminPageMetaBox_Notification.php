@@ -43,7 +43,7 @@ class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFr
 
         // Disable the meta box if the development version is not above the running one.
         if ( version_compare( AdminPageFramework_Registry::VERSION, $this->_sDevelopmentVersion, '>=' ) ) {
-            $this->oProp->aPageSlugs = array();
+            // $this->oProp->aPageSlugs = array();
         }        
         
         // If the value is not set, schedule retrieving the version.

@@ -99,8 +99,24 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
         $this->addSubMenuItems( 
             array(
                 'title'         => AdminPageFrameworkLoader_Registry::SHORTNAME,
-                'page_slug'     => AdminPageFrameworkLoader_Registry::$aAdminPages['about'],    // page slug
+                'page_slug'     => AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ],    // page slug
                 'show_in_menu'  => false,
+                'style'         => array(
+                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/about.css', 
+                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/column.css', 
+                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/javascript/flip/jquery.m.flip.css',
+                    version_compare( $GLOBALS['wp_version'], '3.8', '<' )
+                        ? ".about-wrap .introduction h2 {
+                                padding: 1em;
+                            }"
+                        : "",
+                ),
+                'script'        => array(
+                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/javascript/flip/jquery.m.flip.js',
+                    "jQuery( document ).ready( function() {
+                        jQuery( '.apf-badge-image' ).mflip();
+                    } );",
+                ),
             )
         );
 
@@ -149,42 +165,9 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                 $oFactory->setInPageTabsVisibility( false );
                 
                 add_filter( "content_top_{$this->sPageSlug}", array( $this, 'replyToFilterContentTop' ) );
-                add_action( "style_{$this->sPageSlug}", array( $this, 'replyToAddInlineCSS' ) );
-            
-                $this->enqueueStyle( 
-                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/about.css', 
-                    $this->sPageSlug 
-                );
-                $this->enqueueStyle( 
-                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/column.css', 
-                    $this->sPageSlug 
-                );                
-                
+                           
             } 
-    
-    /**
-     * Modifies the inline CSS rules of the page.
-     * 
-     * @remark      A callback method of the "style_{page slug}" filter hook.
-     */
-    public function replyToAddInlineCSS( $sCSSRules ) {
-        
-        $_sBadgeURL     = esc_url( AdminPageFrameworkLoader_Registry::getPluginURL( 'asset/image/icon-128x128.png' ) );
-        
-        $_sWP38OrBelow  = version_compare( $GLOBALS['wp_version'], '3.8', '<' )
-            ? ".about-wrap .introduction h2 {
-                    padding: 1em;
-                }"
-            : "";
-        
-        return $sCSSRules
-            . ".apf-badge {
-                    background: url('{$_sBadgeURL}') no-repeat;
-                }            
-            " . $_sWP38OrBelow;
-        
-    }
-        
+   
         
     /**
      * Filters the top part of the page content.
@@ -196,6 +179,8 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
         $_sVersion      = '- ' . AdminPageFrameworkLoader_Registry::VERSION;
         $_sPluginName   = AdminPageFrameworkLoader_Registry::SHORTNAME . ' ' . $_sVersion;
         
+        $_sBadgeURL     = esc_url( AdminPageFrameworkLoader_Registry::getPluginURL( 'asset/image/icon-128x128.png' ) );
+        
         $_aOutput   = array();
         $_aOutput[] = "<h1>" 
                 . sprintf( __( 'Welcome to %1$s', 'admin-page-framework-loader' ), $_sPluginName )
@@ -203,9 +188,16 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
         $_aOutput[] = "<div class='about-text'>"
                 . sprintf( __( 'Thank you for updating to the latest version! %1$s is ready to make your plugin or theme development faster, more organized and better!', 'admin-page-framework-loader' ), $_sPluginName )
             . "</div>";
-        $_aOutput[] = "<div class='apf-badge'>"
-                . "<span class='label'>" . sprintf( __( 'Version %1$s', 'admin-page-framework-loader' ), $_sVersion ) . "</span>"
-            . "</div>";		
+        $_aOutput[] = ''
+                // . "<div class='apf-badge-container m-flip'>"
+                . "<div class='apf-badge'>"
+                    . "<div class='apf-badge-image m-flip'>"
+                        . "<img src='{$_sBadgeURL}' />"
+                    . "</div>"
+                    . "<span class='label'>" . sprintf( __( 'Version %1$s', 'admin-page-framework-loader' ), $_sVersion ) . "</span>"
+                . "</div>"
+            // . "</div>"
+;            
             
         return implode( PHP_EOL, $_aOutput )
             . $sContent;

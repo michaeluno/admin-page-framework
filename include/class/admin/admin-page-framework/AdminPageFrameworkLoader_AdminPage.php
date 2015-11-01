@@ -60,7 +60,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             
             $this->setRootMenuPage( 
                 AdminPageFrameworkLoader_Registry::SHORTNAME,     // menu slug
-                AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/wp-logo_16x16.png',
+                AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/wp-logo_16x16.png', // menu icon
                 4  // menu position
             ); 
                         
@@ -134,7 +134,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
                     admin_url( 'admin.php' )
                 )
             );                
-            return "<a href='{$_sLink}'>" . __( 'Tools', 'admin-page-framework-loader' ) . "</a>";             
+            return "<a href='{$_sLink}'>" . __( 'Tools', 'admin-page-framework-loader' ) . "</a>";
         }
         /**
          * Returns the Enable /Disable Admin Pages link.

@@ -1,0 +1,50 @@
+/**
+ * M Flip SASS mixin
+ * <div class="box m-flip">
+ *   <div class="front"> Hi I'm the front </div>
+ *   <div class="back"> Hi I'm the back </div>
+ * </div>
+ */
+.m-flip {
+  -moz-perspective: 1000;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+}
+.m-flip,
+.m-flip .front, .m-flip .back {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 250px;
+  height: 250px;
+}
+.m-flip .m-flip__content {
+  -moz-transition: 0.6s;
+  -o-transition: 0.6s;
+  -webkit-transition: 0.6s;
+  transition: 0.6s;
+  -moz-transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+.m-flip .m-flip__content.active, .m-flip .m-flip__content:hover {
+  -moz-transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.m-flip .front, .m-flip .back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -moz-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.m-flip .front {
+  z-index: 2;
+}
+.m-flip .back {
+  -moz-transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
