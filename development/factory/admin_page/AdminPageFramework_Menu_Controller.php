@@ -285,6 +285,26 @@ abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Men
      *     <li>order - (optional) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
      *     <li>show_page_heading_tab - (optional) If this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
      *     <li>show_in_menu - (optional) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.</li>
+     *     <li>style - [3.6.3+] (optional) (string|array) The path or url of a stylesheet which gets loaded in the head tag. Or inline CSS rules.
+     * When custom arguments need to be set such as whether it should be inserted in the footer, set an array holding the following arguments.
+     *          <ul>
+     *              <li>src - (required, string) the source url or path.</li>    
+     *              <li>handle_id - (optional, string) The handle ID of the stylesheet.</li>    
+     *              <li>dependencies - (optional, array) The dependency array.</li>    
+     *              <li>version - (optional, string) The stylesheet version number.</li>    
+     *              <li>media - (optional, string) the description of the field which is inserted into the after the input field tag.</li>    
+     *          </ul>
+     *     </li>
+     *     <li>script - [3.6.3+] (optional) (string|array) The path or url of a JavaScript script which gets loaded in the head tag. Or an inline JavaScript script.
+     * When custom arguments need to be set such as whether it should be inserted in the footer, set an array holding the following arguments.
+     *          <ul>
+     *              <li>src - (required, string) the source url or path.</li>    
+     *              <li>handle_id - (optional, string) The handle ID of the stylesheet.</li>    
+     *              <li>dependencies - (optional, array) The dependency array.</li>    
+     *              <li>version - (optional, string) The stylesheet version number.</li>    
+     *              <li>translation - (optional, array) an array holding translation key-value pairs.</li>    
+     *          </ul>
+     *     </li>
      * </ul>
      * @return      void
      * @internal

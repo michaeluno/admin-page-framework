@@ -27,12 +27,14 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
      * This must be done before registering settings sections because the default tab needs to be determined in the process.
      * 
      * @since       2.0.0
-     * @since       3.3.0       Changed the name from `_replyToFinalizeInPageTabs()` and been no longer a callback.
+     * @since       3.3.0       Changed the name from `_replyToFinalizeInPageTabs()` an been no longer a callback.
      * @since       3.3.1       Moved from `AdminPageFramework_Page`.
+     * @since       3.6.3       Changed back the name to `_replyToFinalizeInPageTabs()` from `_finalizeInPageTabs()` to serve as a callback.
      * @return      void
      * @internal
+     * @callback    action      load_{page slug}
      */         
-    protected function _finalizeInPageTabs() {
+    public function _replyToFinalizeInPageTabs() {
 
         if ( ! $this->oProp->isPageAdded() ) { 
             return; 
@@ -62,6 +64,13 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
 
     }     
         /**
+         * @since           3.3.0
+         * @deprecated      3.6.3       Use `_replyToFinalizeInPageTabs()` instead.
+         */
+        protected function _finalizeInPageTabs() {
+            $this->_replyToFinalizeInPageTabs();
+        }
+        /**
          * Returns the default in-page tab slug of the given page slug.
          * 
          * @internal
@@ -78,13 +87,6 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
                 return $_aInPageTab[ 'tab_slug' ];
             }
         }    
-
-        /**
-         * An alias of _finalizeInPageTabs().
-         * @deprecated  3.3.0
-         * @since       3.3.1       Moved from `AdminPageFramework_Page`.
-         */
-        public function _replyToFinalizeInPageTabs() { $this->_finalizeInPageTabs(); }
     
     /**
      * @remark      Accessed from the form definition class to determine the section and field capability.

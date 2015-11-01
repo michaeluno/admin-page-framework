@@ -15,7 +15,7 @@
  * @subpackage  Utility
  * @internal
  */
-abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Utility_Deprecated {
+abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Utility_VariableType {
     
     /**
      * Converts non-alphabetic characters to underscore.

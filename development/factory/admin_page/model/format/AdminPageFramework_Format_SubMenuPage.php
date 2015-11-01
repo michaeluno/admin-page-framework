@@ -49,6 +49,8 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
         'page_heading_tab_tag'      => null,
         'disabled'                  => null, // 3.5.10+ (boolean) If false, in the page heading navigation tab, the link will be disabled.
         'attributes'                => null, // 3.5.10+ (array) Applied to navigation tab element.
+        'style'                     => null, // 3.6.0+ (string|array) The path or url of a stylesheet which gets loaded in the head tag.
+        'script'                    => null, // 3.6.3+ (string|array) The path or url of a JavaScript script which gets loaded in the head tag.
     );    
     
     /**

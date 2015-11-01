@@ -186,8 +186,8 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                 $this // the admin page object - this lets third-party scripts use the framework methods.
             );
             
-            // It is possible that an in-page tab is added during the above hooks and the current page is the default tab without the tab GET query key in the url. 
-            $this->_finalizeInPageTabs();
+            // The in-page tabs handling method `_replyToFinalizeInPageTabs()` is called in the above action hook.
+            
             $this->oUtil->addAndDoActions( 
                 $this, // the caller object
                 array( "load_{$sPageSlug}_" . $this->oProp->getCurrentTabSlug( $sPageSlug ) ),
@@ -196,7 +196,10 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             
             $this->oUtil->addAndDoActions( 
                 $this, // the caller object
-                array( "load_after_{$this->oProp->sClassName}" ),
+                array( 
+                    "load_after_{$this->oProp->sClassName}",
+                    "load_after_{$sPageSlug}", // 3.6.3+
+                ),
                 $this // the admin page object - this lets third-party scripts use the framework methods.
             );
             

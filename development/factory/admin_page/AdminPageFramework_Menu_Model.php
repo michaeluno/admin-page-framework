@@ -232,18 +232,26 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
                     // 3.4.1+ Give a lower priority as the page meta box class also hooks the current_screen to register form elements.
                     // When the validation callback is triggered, their form registration should be done already. So this hook should be loaded later than them.
                     add_action( 'current_screen' , array( $this, "load_pre_" . $sPageSlug ), 20 );
+                    
+                    // 3.6.3+
+                    // It is possible that an in-page tab is added during the above hooks and the current page is the default tab without the tab GET query key in the url. 
+                    // Set a low priority because the user may add in-page tabs in their callback method of this action hook.
+                    add_action( "load_" . $sPageSlug, array( $this, '_replyToFinalizeInPageTabs' ), 9999 );
+                    
+                    // 3.6.3+
+                    add_action( "load_after_" . $sPageSlug, array( $this, '_replyToEnqueuePageAssets' ) );
+                    
                 }
                 $this->oProp->aPageHooks[ $sPageSlug ] = $this->oUtil->getAOrB(
                     is_network_admin(),
                     $_sPageHook . '-network',
                     $_sPageHook
                 );
-                if ( $bShowInMenu ) {
-                    return $_sPageHook;
-                }
                 
                 // If the visibility option is false, remove the one just added from the sub-menu array
-                $this->_removePageSubmenuItem( $sMenuSlug, $sMenuTitle, $sPageTitle, $sPageSlug );
+                if ( ! $bShowInMenu ) {
+                    $this->_removePageSubmenuItem( $sMenuSlug, $sMenuTitle, $sPageTitle, $sPageSlug );
+                }                
                 return $_sPageHook;
             
             }

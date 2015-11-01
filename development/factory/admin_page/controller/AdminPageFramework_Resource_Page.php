@@ -229,7 +229,9 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         private function _enqueueResourceByType( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array(), $sType='style' ) {
             
             $sSRC       = trim( $sSRC );
-            if ( empty( $sSRC ) ) { return ''; }
+            if ( empty( $sSRC ) ) { 
+                return ''; 
+            }
             $sSRC       = $this->oUtil->getResolvedSRC( $sSRC );
 
             // Get the property name for the type
@@ -242,9 +244,8 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
                 return ''; 
             } 
             
-            $this->oProp->{$_sContainerPropertyName}[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
-                ( array ) $aCustomArgs,
-                array(     
+            $this->oProp->{$_sContainerPropertyName}[ $_sSRCHash ] = array_filter( $this->oUtil->getAsArray( $aCustomArgs ), array( $this->oUtil, 'isNotNull' ) )
+                + array(     
                     'sPageSlug' => $sPageSlug,
                     'sTabSlug'  => $sTabSlug,
                     'sSRC'      => $sSRC,
@@ -252,7 +253,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
                     'handle_id' => $sType . '_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->{$_sEnqueuedIndexPropertyName} ),
                 )
                 + self::$_aStructure_EnqueuingResources
-            );
+                ;
 
             // Store the attributes in another container by url.
             $this->oProp->aResourceAttributes[ $this->oProp->{$_sContainerPropertyName}[ $_sSRCHash ]['handle_id'] ] = $this->oProp->{$_sContainerPropertyName}[ $_sSRCHash ]['attributes'];

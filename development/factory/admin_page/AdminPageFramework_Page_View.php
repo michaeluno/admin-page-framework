@@ -20,6 +20,18 @@
 abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View_MetaBox {
         
     /**
+     * Enqueues assets set with the `style` and `script` arguments.
+     * 
+     * @callback    action      load_after_{page slug}
+     * @since       3.6.3
+     * @internal
+     * @return      void
+     */
+    public function _replyToEnqueuePageAssets() {
+        new AdminPageFramework_Page_View_Resource( $this );        
+    }       
+        
+    /**
      * Renders the admin page.
      * 
      * @remark      This is not intended for the users to use.

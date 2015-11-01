@@ -63,6 +63,26 @@ abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Pag
      *     <li>**url** - [3.5.0+] (optional, string) If this is set, the link url of the navigation tab will be this url. Use this to create link only tab.</li>
      *     <li>**capability** - [3.6.0+] (optional, string) The capability level.</li>
      *     <li>**if** - [3.6.0+] (optional, boolean) Whether the tab should be displayed or not.</li>
+     *     <li>style - [3.6.3+] (optional) (string|array) The path or url of a stylesheet which gets loaded in the head tag. Or inline CSS rules.
+     * When custom arguments need to be set such as whether it should be inserted in the footer, set an array holding the following arguments.
+     *          <ul>
+     *              <li>src - (required, string) the source url or path.</li>    
+     *              <li>handle_id - (optional, string) The handle ID of the stylesheet.</li>    
+     *              <li>dependencies - (optional, array) The dependency array.</li>    
+     *              <li>version - (optional, string) The stylesheet version number.</li>    
+     *              <li>media - (optional, string) the description of the field which is inserted into the after the input field tag.</li>    
+     *          </ul>
+     *     </li>
+     *     <li>script - [3.6.3+] (optional) (string|array) The path or url of a JavaScript script which gets loaded in the head tag. Or an inline JavaScript script.
+     * When custom arguments need to be set such as whether it should be inserted in the footer, set an array holding the following arguments.
+     *          <ul>
+     *              <li>src - (required, string) the source url or path.</li>    
+     *              <li>handle_id - (optional, string) The handle ID of the stylesheet.</li>    
+     *              <li>dependencies - (optional, array) The dependency array.</li>    
+     *              <li>version - (optional, string) The stylesheet version number.</li>    
+     *              <li>translation - (optional, array) an array holding translation key-value pairs.</li>    
+     *          </ul>
+     *     </li>
      * </ul>
      * @param       array       $aTab2      Another in-page tab array.
      * @param       array       $_and_more  (optional) Add in-page tab arrays as many as necessary to the next parameters.

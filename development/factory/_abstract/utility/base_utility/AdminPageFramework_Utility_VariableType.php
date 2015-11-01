@@ -1,0 +1,54 @@
+<?php
+/**
+ * Admin Page Framework
+ * 
+ * http://en.michaeluno.jp/admin-page-framework/
+ * Copyright (c) 2013-2015 Michael Uno; Licensed MIT
+ * 
+ */
+
+/**
+ * Provides utility methods dealing with variable types which do not use WordPress functions.
+ *
+ * @since       3.6.3
+ * @package     AdminPageFramework
+ * @subpackage  Utility
+ * @internal
+ */
+abstract class AdminPageFramework_Utility_VariableType extends AdminPageFramework_Utility_Deprecated {
+    
+    /**
+     * Checks if the given value is not null.
+     * 
+     * This is mainly used for the callback function of the `array_filter()` function.
+     * 
+     * @since       3.6.3
+     * @return      boolean     If the passed value is not null, true; otherwise, false.
+     */ 
+    public static function isNotNull( $mValue=null ) {
+        return ! is_null( $mValue );
+    }    
+ 
+    /**
+     * Checks whether the given value is numeric and can be resolved as an integer.
+     * 
+     * Saves one conditional statement.
+     * Used to determine sub-sections and sub-fields elements.
+     * 
+     * <code>
+     * var_dump( is_int( '0' ) ); // false 
+     * var_dump( isNumericInteger( '0' ) ); // true
+     * var_dump( is_int( '' + 0 ) ); // true
+     * var_dump( isNumericInteger( '' ) ); // false
+     * </code>
+     * 
+     * @since       3.5.3
+     * @since       3.6.3       Moved from `AdminPageFramework_Utility`.
+     * @return      boolean
+     */
+    static public function isNumericInteger( $mValue ) {
+        return is_numeric( $mValue ) && is_int( $mValue + 0 );
+    }
+     
+ 
+}
