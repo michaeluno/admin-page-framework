@@ -54,9 +54,8 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         $this->oForm->aSections['_default']['page_slug'] = $sPageSlug ? $sPageSlug : null;
         $this->oForm->aSections['_default']['tab_slug'] = $sTabSlug ? $sTabSlug : null;
         $this->oUtil->addAndDoActions($this, array("load_{$this->oProp->sClassName}", "load_{$sPageSlug}",), $this);
-        $this->_finalizeInPageTabs();
         $this->oUtil->addAndDoActions($this, array("load_{$sPageSlug}_" . $this->oProp->getCurrentTabSlug($sPageSlug)), $this);
-        $this->oUtil->addAndDoActions($this, array("load_after_{$this->oProp->sClassName}"), $this);
+        $this->oUtil->addAndDoActions($this, array("load_after_{$this->oProp->sClassName}", "load_after_{$sPageSlug}",), $this);
     }
     private function isPageLoadCall($sMethodName, $sPageSlug, $sScreenID) {
         if (substr($sMethodName, strlen('load_pre_')) !== $sPageSlug) {

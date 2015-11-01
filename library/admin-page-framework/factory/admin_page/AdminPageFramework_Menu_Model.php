@@ -1,5 +1,12 @@
 <?php
 abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Controller {
+    public function __construct($sOptionKey = null, $sCallerPath = null, $sCapability = 'manage_options', $sTextDomain = 'admin-page-framework') {
+        parent::__construct($sOptionKey, $sCallerPath, $sCapability, $sTextDomain);
+        if ($this->oProp->bIsAdminAjax) {
+            return;
+        }
+        add_action('admin_menu', array($this, '_replyToBuildMenu'), 98);
+    }
     protected $_aBuiltInRootMenuSlugs = array('dashboard' => 'index.php', 'posts' => 'edit.php', 'media' => 'upload.php', 'links' => 'link-manager.php', 'pages' => 'edit.php?post_type=page', 'comments' => 'edit-comments.php', 'appearance' => 'themes.php', 'plugins' => 'plugins.php', 'users' => 'users.php', 'tools' => 'tools.php', 'settings' => 'options-general.php', 'network admin' => "network_admin_menu",);
     public function _replyToBuildMenu() {
         if ($this->oProp->aRootMenu['fCreateRoot']) {
@@ -52,12 +59,13 @@ abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Con
         $_sPageHook = add_submenu_page($sRootPageSlug, $sPageTitle, $sMenuTitle, $sCapability, $sPageSlug, array($this, $this->oProp->sClassHash . '_page_' . $sPageSlug));
         if (!isset($this->oProp->aPageHooks[$_sPageHook])) {
             add_action('current_screen', array($this, "load_pre_" . $sPageSlug), 20);
+            add_action("load_" . $sPageSlug, array($this, '_replyToFinalizeInPageTabs'), 9999);
+            add_action("load_after_" . $sPageSlug, array($this, '_replyToEnqueuePageAssets'));
         }
         $this->oProp->aPageHooks[$sPageSlug] = $this->oUtil->getAOrB(is_network_admin(), $_sPageHook . '-network', $_sPageHook);
-        if ($bShowInMenu) {
-            return $_sPageHook;
+        if (!$bShowInMenu) {
+            $this->_removePageSubmenuItem($sMenuSlug, $sMenuTitle, $sPageTitle, $sPageSlug);
         }
-        $this->_removePageSubmenuItem($sMenuSlug, $sMenuTitle, $sPageTitle, $sPageSlug);
         return $_sPageHook;
     }
     private function _removePageSubmenuItem($sMenuSlug, $sMenuTitle, $sPageTitle, $sPageSlug) {

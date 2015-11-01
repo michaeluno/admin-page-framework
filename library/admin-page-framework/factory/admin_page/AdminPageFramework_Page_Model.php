@@ -1,6 +1,6 @@
 <?php
 abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Controller {
-    protected function _finalizeInPageTabs() {
+    public function _replyToFinalizeInPageTabs() {
         if (!$this->oProp->isPageAdded()) {
             return;
         }
@@ -13,6 +13,9 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
             $this->oProp->aDefaultInPageTabs[$_sPageSlug] = $this->_getDefaultInPageTab($_sPageSlug, $this->oProp->aInPageTabs[$_sPageSlug]);
         }
     }
+    protected function _finalizeInPageTabs() {
+        $this->_replyToFinalizeInPageTabs();
+    }
     private function _getDefaultInPageTab($sPageSlug, $aInPageTabs) {
         foreach ($aInPageTabs as $_aInPageTab) {
             if (!isset($_aInPageTab['tab_slug'])) {
@@ -20,9 +23,6 @@ abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Con
             }
             return $_aInPageTab['tab_slug'];
         }
-    }
-    public function _replyToFinalizeInPageTabs() {
-        $this->_finalizeInPageTabs();
     }
     public function _getPageCapability($sPageSlug) {
         return $this->oUtil->getElement($this->oProp->aPages, array($sPageSlug, 'capability'));

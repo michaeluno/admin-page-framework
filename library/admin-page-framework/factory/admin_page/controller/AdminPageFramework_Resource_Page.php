@@ -76,7 +76,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         if (isset($this->oProp->{$_sContainerPropertyName}[$_sSRCHash])) {
             return '';
         }
-        $this->oProp->{$_sContainerPropertyName}[$_sSRCHash] = $this->oUtil->uniteArrays(( array )$aCustomArgs, array('sPageSlug' => $sPageSlug, 'sTabSlug' => $sTabSlug, 'sSRC' => $sSRC, 'sType' => $sType, 'handle_id' => $sType . '_' . $this->oProp->sClassName . '_' . (++$this->oProp->{$_sEnqueuedIndexPropertyName}),) + self::$_aStructure_EnqueuingResources);
+        $this->oProp->{$_sContainerPropertyName}[$_sSRCHash] = array_filter($this->oUtil->getAsArray($aCustomArgs), array($this->oUtil, 'isNotNull')) + array('sPageSlug' => $sPageSlug, 'sTabSlug' => $sTabSlug, 'sSRC' => $sSRC, 'sType' => $sType, 'handle_id' => $sType . '_' . $this->oProp->sClassName . '_' . (++$this->oProp->{$_sEnqueuedIndexPropertyName}),) + self::$_aStructure_EnqueuingResources;
         $this->oProp->aResourceAttributes[$this->oProp->{$_sContainerPropertyName}[$_sSRCHash]['handle_id']] = $this->oProp->{$_sContainerPropertyName}[$_sSRCHash]['attributes'];
         return $this->oProp->{$_sContainerPropertyName}[$_sSRCHash]['handle_id'];
     }

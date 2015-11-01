@@ -70,7 +70,4 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_Sys
     static public function getAOrB($mValue, $mTrue = null, $mFalse = null) {
         return $mValue ? $mTrue : $mFalse;
     }
-    static public function isNumericInteger($mValue) {
-        return is_numeric($mValue) && is_int($mValue + 0);
-    }
 }

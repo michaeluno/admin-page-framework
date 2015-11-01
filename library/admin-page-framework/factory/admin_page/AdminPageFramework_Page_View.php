@@ -1,5 +1,8 @@
 <?php
 abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_View_MetaBox {
+    public function _replyToEnqueuePageAssets() {
+        new AdminPageFramework_Page_View_Resource($this);
+    }
     protected function _renderPage($sPageSlug, $sTabSlug = null) {
         $this->oUtil->addAndDoActions($this, $this->oUtil->getFilterArrayByPrefix('do_before_', $this->oProp->sClassName, $sPageSlug, $sTabSlug, true), $this); ?>
         <div class="<?php echo esc_attr($this->oProp->sWrapperClassAttribute); ?>">

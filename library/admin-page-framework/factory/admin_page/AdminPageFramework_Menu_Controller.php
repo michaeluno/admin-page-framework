@@ -1,12 +1,5 @@
 <?php
 abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Menu_View {
-    public function __construct($sOptionKey = null, $sCallerPath = null, $sCapability = 'manage_options', $sTextDomain = 'admin-page-framework') {
-        parent::__construct($sOptionKey, $sCallerPath, $sCapability, $sTextDomain);
-        if ($this->oProp->bIsAdminAjax) {
-            return;
-        }
-        add_action('admin_menu', array($this, '_replyToBuildMenu'), 98);
-    }
     public function setRootMenuPage($sRootMenuLabel, $sIcon16x16 = null, $iMenuPosition = null) {
         $sRootMenuLabel = trim($sRootMenuLabel);
         $_sSlug = $this->_isBuiltInMenuItem($sRootMenuLabel);
