@@ -41,6 +41,12 @@ Now the component generator can include custom field types so that you don't hav
 <div class='apfl_columns_row'>    
     <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
+            <h3>Easy to Add Page Resources</h3>
+            <p>The newly added `script` and `style` arguments for the page and in-page tab definitions allows you to set custom asset files easily.</p>
+        </div>
+    </div>
+    <div class='apfl_columns_col apfl_col_element_of_3'>
+        <div class='apfl_cell'>
             <h3>Fixes and Clean-ups</h3>
             <p>Several bugs have been patched and the directory structure has been restructured to shorten overall file paths.</p>
         </div>
