@@ -16,7 +16,7 @@
  * @subpackage      AdminPage
  * @internal
  */
-class AdminPageFramework_Page_View_Resource extends AdminPageFramework_WPUtility {
+class AdminPageFramework_View_Resource extends AdminPageFramework_WPUtility {
         
     public $oFactory;
     public $sCurrentPageSlug;

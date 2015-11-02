@@ -182,13 +182,15 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Retrieves the settings error array set by the user in the validation callback.
      * 
-     * @since       3.0.4     
-     * @access      private
+     * @since       3.0.4    
+     * @since       3.6.3       Changed the visibility scope to public as a delegation class needs to access this method.
+     * @access      public
      * @internal
      * @param       string      $sID        deprecated
      * @param       boolean     $bDelete    whether or not the transient should be deleted after retrieving it. 
+     * @return      array
      */
-    protected function _getFieldErrors( $sID='deprecated', $bDelete=true ) {
+    public function _getFieldErrors( $sID='deprecated', $bDelete=true ) {
         
         static $_aFieldErrors;
         
@@ -196,7 +198,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         $_sTransientKey = "apf_field_erros_" . get_current_user_id();
         $_sID           = md5( $this->oProp->sClassName );
 
-        $_aFieldErrors = isset( $_aFieldErrors ) 
+        $_aFieldErrors  = isset( $_aFieldErrors ) 
             ? $_aFieldErrors 
             : $this->oUtil->getTransient( $_sTransientKey );
         if ( $bDelete ) {

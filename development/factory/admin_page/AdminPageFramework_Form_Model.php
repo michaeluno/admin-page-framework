@@ -21,11 +21,13 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
     /**
      * Stores the settings field errors. 
      * 
+     * @remark      Do not set a default value here since it is checked whether it is null or not later.
      * @since       2.0.0
+     * @since       3.6.3       Changed the visibility scope to public as a delegation class needs to access this property.
      * @var         array       Stores field errors.
      * @internal
      */ 
-    protected $aFieldErrors; // Do not set a value here since it is checked to see it's null.
+    public $aFieldErrors; 
     
     /**
      * Defines the fields type.
