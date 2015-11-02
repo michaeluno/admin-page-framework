@@ -7,13 +7,16 @@ abstract class AdminPageFramework_FormFieldset_Base extends AdminPageFramework_W
     public $oMsg;
     public $aCallbacks = array();
     public function __construct(&$aField, $aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg, array $aCallbacks = array()) {
-        $this->aField = $this->uniteArrays($aField, $this->_getFieldTypeDefaultArguments($aField['type'], $aFieldTypeDefinitions));
+        $this->aField = $this->_getFormatted($aField, $aFieldTypeDefinitions);
         $this->aFieldTypeDefinitions = $aFieldTypeDefinitions;
         $this->aOptions = $aOptions;
         $this->aErrors = $this->getAsArray($aErrors);
         $this->oMsg = $oMsg;
         $this->aCallbacks = $aCallbacks + array('hfID' => null, 'hfTagID' => null, 'hfName' => null, 'hfNameFlat' => null, 'hfInputName' => null, 'hfInputNameFlat' => null, 'hfClass' => null,);
         $this->_loadScripts($this->aField['_fields_type']);
+    }
+    private function _getFormatted($aField, $aFieldTypeDefinitions) {
+        return $this->uniteArrays($aField, $this->_getFieldTypeDefaultArguments($aField['type'], $aFieldTypeDefinitions) + AdminPageFramework_Format_Fieldset::$aStructure);
     }
     private function _getFieldTypeDefaultArguments($sFieldType, $aFieldTypeDefinitions) {
         $_aFieldTypeDefinition = $this->getElement($aFieldTypeDefinitions, $sFieldType, $aFieldTypeDefinitions['default']);

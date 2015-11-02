@@ -11,10 +11,10 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         $_sPageSlug = $this->_getCurrentPageSlugForFilter();
         $_sTabSlug = $this->_getCurrentTabSlugForFilter($_sPageSlug);
         if ($_sPageSlug && $_sTabSlug) {
-            $this->oProp->sStyle = $this->oUtil->addAndApplyFilters($_oCaller, "style_{$_sPageSlug}_{$_sTabSlug}", $this->oProp->sStyle);
+            $this->oProp->sStyle = $this->addAndApplyFilters($_oCaller, "style_{$_sPageSlug}_{$_sTabSlug}", $this->oProp->sStyle);
         }
         if ($_sPageSlug) {
-            $this->oProp->sStyle = $this->oUtil->addAndApplyFilters($_oCaller, "style_{$_sPageSlug}", $this->oProp->sStyle);
+            $this->oProp->sStyle = $this->addAndApplyFilters($_oCaller, "style_{$_sPageSlug}", $this->oProp->sStyle);
         }
         parent::_printClassSpecificStyles($sIDPrefix);
     }
@@ -37,10 +37,10 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         $_sPageSlug = $this->_getCurrentPageSlugForFilter();
         $_sTabSlug = $this->_getCurrentTabSlugForFilter($_sPageSlug);
         if ($_sPageSlug && $_sTabSlug) {
-            $this->oProp->sScript = $this->oUtil->addAndApplyFilters($_oCaller, "script_{$_sPageSlug}_{$_sTabSlug}", $this->oProp->sScript);
+            $this->oProp->sScript = $this->addAndApplyFilters($_oCaller, "script_{$_sPageSlug}_{$_sTabSlug}", $this->oProp->sScript);
         }
         if ($_sPageSlug) {
-            $this->oProp->sScript = $this->oUtil->addAndApplyFilters($_oCaller, "script_{$_sPageSlug}", $this->oProp->sScript);
+            $this->oProp->sScript = $this->addAndApplyFilters($_oCaller, "script_{$_sPageSlug}", $this->oProp->sScript);
         }
         parent::_printClassSpecificScripts($sIDPrefix);
     }
@@ -69,14 +69,14 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         if (empty($sSRC)) {
             return '';
         }
-        $sSRC = $this->oUtil->getResolvedSRC($sSRC);
+        $sSRC = $this->getResolvedSRC($sSRC);
         $_sContainerPropertyName = $this->_getContainerPropertyNameByType($sType);
         $_sEnqueuedIndexPropertyName = $this->_getEnqueuedIndexPropertyNameByType($sType);
         $_sSRCHash = md5($sSRC);
         if (isset($this->oProp->{$_sContainerPropertyName}[$_sSRCHash])) {
             return '';
         }
-        $this->oProp->{$_sContainerPropertyName}[$_sSRCHash] = array_filter($this->oUtil->getAsArray($aCustomArgs), array($this->oUtil, 'isNotNull')) + array('sPageSlug' => $sPageSlug, 'sTabSlug' => $sTabSlug, 'sSRC' => $sSRC, 'sType' => $sType, 'handle_id' => $sType . '_' . $this->oProp->sClassName . '_' . (++$this->oProp->{$_sEnqueuedIndexPropertyName}),) + self::$_aStructure_EnqueuingResources;
+        $this->oProp->{$_sContainerPropertyName}[$_sSRCHash] = array_filter($this->getAsArray($aCustomArgs), array($this, 'isNotNull')) + array('sPageSlug' => $sPageSlug, 'sTabSlug' => $sTabSlug, 'sSRC' => $sSRC, 'sType' => $sType, 'handle_id' => $sType . '_' . $this->oProp->sClassName . '_' . (++$this->oProp->{$_sEnqueuedIndexPropertyName}),) + self::$_aStructure_EnqueuingResources;
         $this->oProp->aResourceAttributes[$this->oProp->{$_sContainerPropertyName}[$_sSRCHash]['handle_id']] = $this->oProp->{$_sContainerPropertyName}[$_sSRCHash]['attributes'];
         return $this->oProp->{$_sContainerPropertyName}[$_sSRCHash]['handle_id'];
     }

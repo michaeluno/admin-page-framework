@@ -1,6 +1,6 @@
 <?php
 abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Model_Validation {
-    protected $aFieldErrors;
+    public $aFieldErrors;
     static protected $_sFieldsType = 'page';
     protected $_sTargetPageSlug = null;
     protected $_sTargetTabSlug = null;

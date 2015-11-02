@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Page_View_Resource extends AdminPageFramework_WPUtility {
+class AdminPageFramework_View_Resource extends AdminPageFramework_WPUtility {
     public $oFactory;
     public $sCurrentPageSlug;
     public $sCurrentTabSlug;
@@ -70,7 +70,7 @@ class AdminPageFramework_Page_View_Resource extends AdminPageFramework_WPUtility
         $_oFormatter = new AdminPageFramework_Format_PageResource_Script($asPageScript);
         $_aPageScript = $_oFormatter->get();
         $_sSRC = $_aPageScript['src'];
-        if (file_exists($_sSRC) || filter_var($_sSRC, FILTER_VALIDATE_URL)) {
+        if ($this->isResourcePath($_sSRC)) {
             return $this->oFactory->enqueueScript($_sSRC, $this->sCurrentPageSlug, $this->sCurrentTabSlug, $_aPageScript);
         }
         $this->aScripts[] = $_sSRC;

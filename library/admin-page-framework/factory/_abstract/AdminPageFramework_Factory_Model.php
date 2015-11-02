@@ -45,7 +45,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     public function getFieldErrors() {
         return $this->_getFieldErrors();
     }
-    protected function _getFieldErrors($sID = 'deprecated', $bDelete = true) {
+    public function _getFieldErrors($sID = 'deprecated', $bDelete = true) {
         static $_aFieldErrors;
         $_sTransientKey = "apf_field_erros_" . get_current_user_id();
         $_sID = md5($this->oProp->sClassName);

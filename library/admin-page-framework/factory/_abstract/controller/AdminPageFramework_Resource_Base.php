@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Resource_Base {
+abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUtility {
     protected static $_aStructure_EnqueuingResources = array('sSRC' => null, 'aPostTypes' => array(), 'sPageSlug' => null, 'sTabSlug' => null, 'sType' => null, 'handle_id' => null, 'dependencies' => array(), 'version' => false, 'translation' => array(), 'in_footer' => false, 'media' => 'all', 'attributes' => array(),);
     protected $_sClassSelector_Style = 'admin-page-framework-style';
     protected $_sClassSelector_Script = 'admin-page-framework-script';
@@ -9,7 +9,7 @@ abstract class AdminPageFramework_Resource_Base {
     function __construct($oProp) {
         $this->oProp = $oProp;
         $this->oUtil = new AdminPageFramework_WPUtility;
-        if ($this->oUtil->isDoingAjax()) {
+        if ($this->isDoingAjax()) {
             return;
         }
         add_action('admin_enqueue_scripts', array($this, '_replyToEnqueueScripts'));
@@ -50,7 +50,7 @@ abstract class AdminPageFramework_Resource_Base {
             if (empty($_aAttributes)) {
                 return $sSanitizedURL;
             }
-            $_sAttributes = $this->oUtil->getAttributes($_aAttributes);
+            $_sAttributes = $this->getAttributes($_aAttributes);
             $_sModifiedURL = $sSanitizedURL . "' " . rtrim($_sAttributes, "'\"");
             return $_sModifiedURL;
         }
@@ -67,15 +67,15 @@ abstract class AdminPageFramework_Resource_Base {
         echo $this->_getIEStyleTag($_oCaller, $sIDPrefix);
     }
     private function _getStyleTag($oCaller, $sIDPrefix) {
-        $_sStyle = $this->oUtil->addAndApplyFilters($oCaller, array("style_common_admin_page_framework", "style_common_{$this->oProp->sClassName}",), AdminPageFramework_CSS::getDefaultCSS());
-        $_sStyle = $this->oUtil->isDebugMode() ? trim($_sStyle) : $this->oUtil->minifyCSS($_sStyle);
+        $_sStyle = $this->addAndApplyFilters($oCaller, array("style_common_admin_page_framework", "style_common_{$this->oProp->sClassName}",), AdminPageFramework_CSS::getDefaultCSS());
+        $_sStyle = $this->isDebugMode() ? trim($_sStyle) : $this->minifyCSS($_sStyle);
         if ($_sStyle) {
             echo "<style type='text/css' id='" . esc_attr($sIDPrefix) . "'>" . $_sStyle . "</style>";
         }
     }
     private function _getIEStyleTag($oCaller, $sIDPrefix) {
-        $_sStyleIE = $this->oUtil->addAndApplyFilters($oCaller, array("style_ie_common_admin_page_framework", "style_ie_common_{$this->oProp->sClassName}",), AdminPageFramework_CSS::getDefaultCSSIE());
-        $_sStyleIE = $this->oUtil->isDebugMode() ? trim($_sStyleIE) : $this->oUtil->minifyCSS($_sStyleIE);
+        $_sStyleIE = $this->addAndApplyFilters($oCaller, array("style_ie_common_admin_page_framework", "style_ie_common_{$this->oProp->sClassName}",), AdminPageFramework_CSS::getDefaultCSSIE());
+        $_sStyleIE = $this->isDebugMode() ? trim($_sStyleIE) : $this->minifyCSS($_sStyleIE);
         return $_sStyleIE ? "<!--[if IE]><style type='text/css' id='" . esc_attr($sIDPrefix . "-ie") . "'>" . $_sStyleIE . "</style><![endif]-->" : '';
     }
     static private $_bCommonScriptLoaded = false;
@@ -84,7 +84,7 @@ abstract class AdminPageFramework_Resource_Base {
             return;
         }
         self::$_bCommonScriptLoaded = true;
-        $_sScript = $this->oUtil->addAndApplyFilters($this->oProp->_getCallerObject(), array("script_common_admin_page_framework", "script_common_{$this->oProp->sClassName}",), AdminPageFramework_Property_Base::$_sDefaultScript);
+        $_sScript = $this->addAndApplyFilters($this->oProp->_getCallerObject(), array("script_common_admin_page_framework", "script_common_{$this->oProp->sClassName}",), AdminPageFramework_Property_Base::$_sDefaultScript);
         if ($_sScript) {
             echo "<script type='text/javascript' id='" . esc_attr($sIDPrefix) . "'>" . $_sScript . "</script>";
         }
@@ -98,8 +98,8 @@ abstract class AdminPageFramework_Resource_Base {
     }
     private function _getClassSpecificStyleTag($_oCaller, $sIDPrefix) {
         static $_iCallCount = 1;
-        $_sStyle = $this->oUtil->addAndApplyFilters($_oCaller, "style_{$this->oProp->sClassName}", $this->oProp->sStyle);
-        $_sStyle = $this->oUtil->isDebugMode() ? trim($_sStyle) : $this->oUtil->minifyCSS($_sStyle);
+        $_sStyle = $this->addAndApplyFilters($_oCaller, "style_{$this->oProp->sClassName}", $this->oProp->sStyle);
+        $_sStyle = $this->isDebugMode() ? trim($_sStyle) : $this->minifyCSS($_sStyle);
         if ($_sStyle) {
             return "<style type='text/css' id='" . esc_attr("{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}") . "'>" . $_sStyle . "</style>";
             $_iCallCount++;
@@ -108,8 +108,8 @@ abstract class AdminPageFramework_Resource_Base {
     }
     private function _getClassSpecificIEStyleTag($_oCaller, $sIDPrefix) {
         static $_iCallCountIE = 1;
-        $_sStyleIE = $this->oUtil->addAndApplyFilters($_oCaller, "style_ie_{$this->oProp->sClassName}", $this->oProp->sStyleIE);
-        $_sStyleIE = $this->oUtil->isDebugMode() ? trim($_sStyleIE) : $this->oUtil->minifyCSS($_sStyleIE);
+        $_sStyleIE = $this->addAndApplyFilters($_oCaller, "style_ie_{$this->oProp->sClassName}", $this->oProp->sStyleIE);
+        $_sStyleIE = $this->isDebugMode() ? trim($_sStyleIE) : $this->minifyCSS($_sStyleIE);
         if ($_sStyleIE) {
             return "<!--[if IE]><style type='text/css' id='" . esc_attr("{$sIDPrefix}-ie-{$this->oProp->sClassName}_{$_iCallCountIE}") . "'>" . $_sStyleIE . "</style><![endif]-->";
             $_iCallCountIE++;
@@ -118,7 +118,7 @@ abstract class AdminPageFramework_Resource_Base {
     }
     protected function _printClassSpecificScripts($sIDPrefix) {
         static $_iCallCount = 1;
-        $_sScript = $this->oUtil->addAndApplyFilters($this->oProp->_getCallerObject(), array("script_{$this->oProp->sClassName}",), $this->oProp->sScript);
+        $_sScript = $this->addAndApplyFilters($this->oProp->_getCallerObject(), array("script_{$this->oProp->sClassName}",), $this->oProp->sScript);
         if ($_sScript) {
             echo "<script type='text/javascript' id='" . esc_attr("{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}") . "'>" . $_sScript . "</script>";
             $_iCallCount++;

@@ -12,12 +12,12 @@ class AdminPageFramework_Resource_MetaBox extends AdminPageFramework_Resource_Ba
         if (empty($sSRC)) {
             return '';
         }
-        $sSRC = $this->oUtil->getResolvedSRC($sSRC);
+        $sSRC = $this->getResolvedSRC($sSRC);
         $_sSRCHash = md5($sSRC);
         if (isset($this->oProp->aEnqueuingStyles[$_sSRCHash])) {
             return '';
         }
-        $this->oProp->aEnqueuingStyles[$_sSRCHash] = $this->oUtil->uniteArrays(( array )$aCustomArgs, array('sSRC' => $sSRC, 'aPostTypes' => empty($aPostTypes) ? $this->oProp->aPostTypes : $aPostTypes, 'sType' => 'style', 'handle_id' => 'style_' . $this->oProp->sClassName . '_' . (++$this->oProp->iEnqueuedStyleIndex),), self::$_aStructure_EnqueuingResources);
+        $this->oProp->aEnqueuingStyles[$_sSRCHash] = $this->uniteArrays(( array )$aCustomArgs, array('sSRC' => $sSRC, 'aPostTypes' => empty($aPostTypes) ? $this->oProp->aPostTypes : $aPostTypes, 'sType' => 'style', 'handle_id' => 'style_' . $this->oProp->sClassName . '_' . (++$this->oProp->iEnqueuedStyleIndex),), self::$_aStructure_EnqueuingResources);
         $this->oProp->aResourceAttributes[$this->oProp->aEnqueuingStyles[$_sSRCHash]['handle_id']] = $this->oProp->aEnqueuingStyles[$_sSRCHash]['attributes'];
         return $this->oProp->aEnqueuingStyles[$_sSRCHash]['handle_id'];
     }
@@ -33,12 +33,12 @@ class AdminPageFramework_Resource_MetaBox extends AdminPageFramework_Resource_Ba
         if (empty($sSRC)) {
             return '';
         }
-        $sSRC = $this->oUtil->getResolvedSRC($sSRC);
+        $sSRC = $this->getResolvedSRC($sSRC);
         $_sSRCHash = md5($sSRC);
         if (isset($this->oProp->aEnqueuingScripts[$_sSRCHash])) {
             return '';
         }
-        $this->oProp->aEnqueuingScripts[$_sSRCHash] = $this->oUtil->uniteArrays(( array )$aCustomArgs, array('sSRC' => $sSRC, 'aPostTypes' => empty($aPostTypes) ? $this->oProp->aPostTypes : $aPostTypes, 'sType' => 'script', 'handle_id' => 'script_' . $this->oProp->sClassName . '_' . (++$this->oProp->iEnqueuedScriptIndex),), self::$_aStructure_EnqueuingResources);
+        $this->oProp->aEnqueuingScripts[$_sSRCHash] = $this->uniteArrays(( array )$aCustomArgs, array('sSRC' => $sSRC, 'aPostTypes' => empty($aPostTypes) ? $this->oProp->aPostTypes : $aPostTypes, 'sType' => 'script', 'handle_id' => 'script_' . $this->oProp->sClassName . '_' . (++$this->oProp->iEnqueuedScriptIndex),), self::$_aStructure_EnqueuingResources);
         $this->oProp->aResourceAttributes[$this->oProp->aEnqueuingScripts[$_sSRCHash]['handle_id']] = $this->oProp->aEnqueuingScripts[$_sSRCHash]['attributes'];
         return $this->oProp->aEnqueuingScripts[$_sSRCHash]['handle_id'];
     }

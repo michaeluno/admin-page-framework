@@ -127,4 +127,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         }
         return '';
     }
+    static public function getNumberOfScreenColumns() {
+        return get_current_screen()->get_columns();
+    }
 }
