@@ -45,7 +45,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         
         // tab 
         if ( $_sPageSlug && $_sTabSlug ) {
-            $this->oProp->sStyle     = $this->oUtil->addAndApplyFilters( 
+            $this->oProp->sStyle     = $this->addAndApplyFilters( 
                 $_oCaller, 
                 "style_{$_sPageSlug}_{$_sTabSlug}", 
                 $this->oProp->sStyle 
@@ -54,7 +54,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         
         // page
         if ( $_sPageSlug ) {
-            $this->oProp->sStyle     = $this->oUtil->addAndApplyFilters( 
+            $this->oProp->sStyle     = $this->addAndApplyFilters( 
                 $_oCaller, 
                 "style_{$_sPageSlug}", 
                 $this->oProp->sStyle 
@@ -116,7 +116,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         
         // tab 
         if ( $_sPageSlug && $_sTabSlug ) {
-            $this->oProp->sScript     = $this->oUtil->addAndApplyFilters( 
+            $this->oProp->sScript     = $this->addAndApplyFilters( 
                 $_oCaller, 
                 "script_{$_sPageSlug}_{$_sTabSlug}", 
                 $this->oProp->sScript 
@@ -125,7 +125,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         
         // page
         if ( $_sPageSlug ) {
-            $this->oProp->sScript     = $this->oUtil->addAndApplyFilters( 
+            $this->oProp->sScript     = $this->addAndApplyFilters( 
                 $_oCaller, 
                 "script_{$_sPageSlug}", 
                 $this->oProp->sScript 
@@ -232,7 +232,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
             if ( empty( $sSRC ) ) { 
                 return ''; 
             }
-            $sSRC       = $this->oUtil->getResolvedSRC( $sSRC );
+            $sSRC       = $this->getResolvedSRC( $sSRC );
 
             // Get the property name for the type
             $_sContainerPropertyName     = $this->_getContainerPropertyNameByType( $sType );
@@ -244,7 +244,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
                 return ''; 
             } 
             
-            $this->oProp->{$_sContainerPropertyName}[ $_sSRCHash ] = array_filter( $this->oUtil->getAsArray( $aCustomArgs ), array( $this->oUtil, 'isNotNull' ) )
+            $this->oProp->{$_sContainerPropertyName}[ $_sSRCHash ] = array_filter( $this->getAsArray( $aCustomArgs ), array( $this, 'isNotNull' ) )
                 + array(     
                     'sPageSlug' => $sPageSlug,
                     'sTabSlug'  => $sTabSlug,

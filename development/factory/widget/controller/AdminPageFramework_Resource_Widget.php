@@ -51,8 +51,10 @@ class AdminPageFramework_Resource_Widget extends AdminPageFramework_Resource_Bas
     public function _enqueueStyle( $sSRC, $aCustomArgs=array() ) {
         
         $sSRC = trim( $sSRC );
-        if ( empty( $sSRC ) ) { return ''; }
-        $sSRC       = $this->oUtil->getResolvedSRC( $sSRC );
+        if ( empty( $sSRC ) ) { 
+            return ''; 
+        }
+        $sSRC       = $this->getResolvedSRC( $sSRC );
         
         // Setting the key based on the url prevents duplicate items
         $_sSRCHash  = md5( $sSRC ); 
@@ -60,7 +62,7 @@ class AdminPageFramework_Resource_Widget extends AdminPageFramework_Resource_Bas
             return ''; 
         } 
         
-        $this->oProp->aEnqueuingStyles[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
+        $this->oProp->aEnqueuingStyles[ $_sSRCHash ] = $this->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
                 'sSRC'          => $sSRC,
@@ -106,13 +108,13 @@ class AdminPageFramework_Resource_Widget extends AdminPageFramework_Resource_Bas
         
         $sSRC       = trim( $sSRC );
         if ( empty( $sSRC ) ) { return ''; }
-        $sSRC       = $this->oUtil->getResolvedSRC( $sSRC );
+        $sSRC       = $this->getResolvedSRC( $sSRC );
         
         // Setting the key based on the url prevents duplicate items
         $_sSRCHash  = md5( $sSRC ); 
         if ( isset( $this->oProp->aEnqueuingScripts[ $_sSRCHash ] ) ) { return ''; } 
         
-        $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
+        $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->uniteArrays( 
             ( array ) $aCustomArgs,
             array(     
                 'sSRC'      => $sSRC,
