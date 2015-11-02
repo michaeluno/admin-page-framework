@@ -18,6 +18,26 @@
 abstract class AdminPageFramework_Utility_VariableType extends AdminPageFramework_Utility_Deprecated {
     
     /**
+     * Checks if the passed string is a url or path.
+     * 
+     * This is used to check if an asset file can be used or not.
+     * 
+     * @since       3.6.3
+     * @return      boolean
+     */
+    static public function isResourcePath( $sPathOrURL ) {
+        
+        if ( file_exists( $sPathOrURL ) ) {
+            return true;
+        } 
+        if ( filter_var( $sPathOrURL, FILTER_VALIDATE_URL ) ) {
+            return true;
+        }
+        return false;
+        
+    }
+    
+    /**
      * Checks if the given value is not null.
      * 
      * This is mainly used for the callback function of the `array_filter()` function.
@@ -25,7 +45,7 @@ abstract class AdminPageFramework_Utility_VariableType extends AdminPageFramewor
      * @since       3.6.3
      * @return      boolean     If the passed value is not null, true; otherwise, false.
      */ 
-    public static function isNotNull( $mValue=null ) {
+    static public function isNotNull( $mValue=null ) {
         return ! is_null( $mValue );
     }    
  

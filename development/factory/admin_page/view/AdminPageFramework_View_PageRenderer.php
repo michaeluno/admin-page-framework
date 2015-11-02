@@ -98,6 +98,7 @@ class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility 
          * 
          * @since           3.0.0
          * @since           3.6.3       Changed the visibility scope from `protected`. Moved from `AdminPageFramework_Page_Viee_MetaBox`.
+         * @return          integer
          * @internal
          */
         private function _getNumberOfColumns() {
@@ -115,7 +116,7 @@ class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility 
         private function _getContentTop() {
 
             // Screen icon, page heading tabs(page title), and in-page tabs.
-            $_sContentTop  = $this->_getScreenIcon( $this->sPageSlug );    
+            $_sContentTop  = $this->_getScreenIcon( $this->sPageSlug, $this->sTabSlug );    
             $_sContentTop .= $this->_getPageHeadingTabs( $this->sPageSlug, $this->oFactory->oProp->sPageHeadingTabTag );
             $_sContentTop .= $this->_getInPageTabs( $this->sPageSlug, $this->oFactory->oProp->sInPageTabTag );
 
@@ -306,141 +307,16 @@ class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility 
          * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
          * @return      string      The screen icon HTML output.
          */     
-        private function _getScreenIcon( $sPageSlug ) {
-
-            try {
-                $this->_throwScreenIconByURLOrPath( $sPageSlug );
-                $this->_throwScreenIconByID( $sPageSlug );             
-            } 
+        private function _getScreenIcon( $sPageSlug, $sTabSlug ) {
             
-            // If the user sets a screen icon, this code block will be triggered 
-            // and the exception message contains the custom screen icon output.
-            catch ( Exception $_oException ) {
-                
-                return $_oException->getMessage();
-                
-            }
-            
-            // Otherwise, return the default one.
-            return $this->_getDefaultScreenIcon();
+            $_oScreenIcon = new AdminPageFramework_View_PageRenderer_ScreenIcon( 
+                $this->oFactory, 
+                $sPageSlug,
+                $sTabSlug
+            );
+            return $_oScreenIcon->get();
                             
-        }
-            /**
-             * Throws a screen icon output with an image url if set.
-             * @since       3.5.3
-             * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
-             * @return      void
-             */
-            private function _throwScreenIconByURLOrPath( $sPageSlug ) {
-                
-                // If the icon path is explicitly set, use it.
-                if ( ! isset( $this->oFactory->oProp->aPages[ $sPageSlug ]['href_icon_32x32'] ) ) { 
-                    return;
-                }
-                
-                $_aAttributes = array(
-                    'style'    => $this->generateInlineCSS(
-                        array(
-                            'background-image' => "url('" . esc_url( $this->oFactory->oProp->aPages[ $sPageSlug ]['href_icon_32x32'] ) . "')"
-                        )
-                    )
-                );
-                
-                // Go to the catch clause.
-                throw new Exception( 
-                    $this->_getScreenIconByAttributes( $_aAttributes ) 
-                );
-            
-            }
-            /**
-             * Throws a screen icon output with an ID if set.
-             * @since       3.5.3
-             * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
-             * @return      void
-             */
-            private function _throwScreenIconByID( $sPageSlug ) {
-                
-                // If the screen icon ID is explicitly set, use it.
-                if ( ! isset( $this->oFactory->oProp->aPages[ $sPageSlug ]['screen_icon_id'] ) ) { 
-                    return;
-                }
-                
-                $_aAttributes = array(
-                    'id'       => "icon-" . $this->oFactory->oProp->aPages[ $sPageSlug ]['screen_icon_id'],
-                );
-                
-                // Go to the catch clause.
-                throw new Exception( 
-                    $this->_getScreenIconByAttributes( $_aAttributes ) 
-                );                      
-            
-            }   
-            /**
-             * Throws a default screen icon output.
-             * @since       3.5.3
-             * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
-             * @return      string      
-             */
-            private function _getDefaultScreenIcon() {            
-
-                $_oScreen           = get_current_screen();
-                $_sIconIDAttribute  = $this->_getScreenIDAttribute( $_oScreen );
-                $_aAttributes       = array(
-                    'class'    => $this->getClassAttribute(
-                        $this->getAOrB(
-                            empty( $_sIconIDAttribute ) && $_oScreen->post_type,
-                            sanitize_html_class( 'icon32-posts-' . $_oScreen->post_type ),
-                            ''
-                        ),
-                        $this->getAOrB(
-                            empty( $_sIconIDAttribute ) || $_sIconIDAttribute == $this->oFactory->oProp->sClassName,
-                            'generic',  // the default value
-                            ''
-                        )
-                    ),
-                    'id'       => "icon-" . $_sIconIDAttribute,                
-                );
-                return $this->_getScreenIconByAttributes( $_aAttributes );
-            
-            }           
-                /**
-                 * Retrieves the screen ID attribute from the given screen object.
-                 * 
-                 * @since       2.0.0
-                 * @since       3.3.1       Moved from `AdminPageFramework_Page`.
-                 * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
-                 */     
-                private function _getScreenIDAttribute( $oScreen ) {
-                    
-                    if ( ! empty( $oScreen->parent_base ) ) {
-                        return $oScreen->parent_base;
-                    }
-                    if ( 'page' === $oScreen->post_type ) {
-                        return 'edit-pages';     
-                    }
-                    return esc_attr( $oScreen->base );
-                    
-                }
-                
-                /**
-                 * Returns a screen icon HTML output by the given attributes array.
-                 * 
-                 * @internal
-                 * @since       3.5.3
-                 * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
-                 * @return      string
-                 */
-                private function _getScreenIconByAttributes( array $aAttributes ) {
-                    
-                    $aAttributes['class'] = $this->getClassAttribute( 
-                        'icon32',   // required for a screen icon container element.
-                        $this->getElement( $aAttributes, 'class' )
-                    );
-                    return "<div " . $this->getAttributes( $aAttributes ) . ">"
-                        . "<br />"
-                    . "</div>";
-                    
-                }                
+        }            
 
         /**
          * Retrieves the output of page heading tab navigation bar as HTML.

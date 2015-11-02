@@ -397,7 +397,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 3.6.3 = 
 - Added the `script` and `style` arguments for the page and in-page tab definitions.
+- Fixed an issue in WordPress 3.7 or below that the screen icon appeared even when the screen title and the in-page tabs are disabled.
 - Changed the required WordPress version to 3.4.
+
 
 = 3.6.2 - 2015/10/31 =
 - Added a notification box in the admin pages of the loader plugin.

@@ -44,6 +44,7 @@ $aClassFiles = array(
 	"AdminPageFramework_View_PageMataBoxRender"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/view/AdminPageFramework_View_PageMataBoxRender.php", 
 	"AdminPageFramework_View_PageMetaboxEnabler"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/view/AdminPageFramework_View_PageMetaboxEnabler.php", 
 	"AdminPageFramework_View_PageRenderer"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/view/AdminPageFramework_View_PageRenderer.php", 
+	"AdminPageFramework_View_PageRenderer_ScreenIcon"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/view/AdminPageFramework_View_PageRenderer_ScreenIcon.php", 
 	"AdminPageFramework_View_Resource"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/view/AdminPageFramework_View_Resource.php", 
 	"AdminPageFramework_MetaBox"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/meta_box/AdminPageFramework_MetaBox.php", 
 	"AdminPageFramework_MetaBox_Controller"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/meta_box/AdminPageFramework_MetaBox_Controller.php", 

@@ -159,7 +159,7 @@ class AdminPageFramework_View_Resource extends AdminPageFramework_WPUtility {
                     $_sSRC        = $_aPageScript[ 'src' ];
                     
                     // At this point, it may be a url/path or a text CSS rules.             
-                    if ( file_exists( $_sSRC ) || filter_var( $_sSRC, FILTER_VALIDATE_URL ) ) {
+                    if ( $this->isResourcePath( $_sSRC ) ) {
                         return $this->oFactory->enqueueScript( 
                             $_sSRC, 
                             $this->sCurrentPageSlug,
