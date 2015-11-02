@@ -309,14 +309,23 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
             return $_oScreen->id;
         }
         
-        if ( isset( $GLBOALS['page_hook'] ) ) {
+        if ( isset( $GLBOALS[ 'page_hook' ] ) ) {
             return is_network_admin() 
-                ? $GLBOALS['page_hook'] . '-network'
-                : $GLBOALS['page_hook'];
+                ? $GLBOALS[ 'page_hook' ] . '-network'
+                : $GLBOALS[ 'page_hook' ];
         }
         
         return '';
         
     }
-      
+    
+    /**
+     * Returns the number of columns in the currently loading page.
+     * @return      integer     The number of columns that the current screen displays.
+     * @since       3.6.3
+     */ 
+    static public function getNumberOfScreenColumns() {
+        return get_current_screen()->get_columns();
+    }       
+
 }

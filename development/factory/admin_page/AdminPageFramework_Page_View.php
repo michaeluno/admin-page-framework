@@ -62,7 +62,7 @@ abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_Mode
      */ 
     protected function _renderPage( $sPageSlug, $sTabSlug=null ) {
         
-        $_oPageRenderer = new AdminPageFramework_View_RenderPage( $this, $sPageSlug, $sTabSlug );
+        $_oPageRenderer = new AdminPageFramework_View_PageRenderer( $this, $sPageSlug, $sTabSlug );
         $_oPageRenderer->render();
 
     }

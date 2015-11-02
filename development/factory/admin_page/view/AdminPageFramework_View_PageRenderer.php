@@ -16,7 +16,7 @@
  * @subpackage      AdminPage
  * @internal
  */
-class AdminPageFramework_View_RenderPage extends AdminPageFramework_WPUtility {
+class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility {
         
     public $oFactory;
     public $sPageSlug;
@@ -67,13 +67,10 @@ class AdminPageFramework_View_RenderPage extends AdminPageFramework_WPUtility {
                     <div id="post-body" class="metabox-holder columns-<?php echo $this->_getNumberOfColumns(); ?>">
                     <?php
                         $this->_printMainPageContent( $_sPageSlug, $_sTabSlug );
-                        $_oPageMetaBoxRenderer = new AdminPageFramework_View_RenderPageMataBox();
-                        $_oPageMetaBoxRenderer->render( 'side', 1 );
-                        $_oPageMetaBoxRenderer->render( 'normal', 2 );
-                        $_oPageMetaBoxRenderer->render( 'advanced', 3 );
-                        // $this->oFactory->_printMetaBox( 'side', 1 );      // defined in the parent class.
-                        // $this->oFactory->_printMetaBox( 'normal', 2 );
-                        // $this->oFactory->_printMetaBox( 'advanced', 3 );
+                        $_oPageMetaBoxRenderer = new AdminPageFramework_View_PageMataBoxRender();
+                        $_oPageMetaBoxRenderer->render( 'side' );
+                        $_oPageMetaBoxRenderer->render( 'normal' );
+                        $_oPageMetaBoxRenderer->render( 'advanced' );
                     ?>     
                     </div><!-- #post-body -->    
                 </div><!-- #poststuff -->
@@ -104,7 +101,7 @@ class AdminPageFramework_View_RenderPage extends AdminPageFramework_WPUtility {
          * @internal
          */
         private function _getNumberOfColumns() {
-            $_iColumns = get_current_screen()->get_columns();
+            $_iColumns = $this->getNumberOfScreenColumns();
             return $_iColumns
                 ? $_iColumns
                 : 1;    // default - this is because generic pages do not have meta boxes.
