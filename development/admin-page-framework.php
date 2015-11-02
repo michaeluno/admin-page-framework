@@ -22,7 +22,7 @@
  * @link                http://wordpress.org/plugins/admin-page-framework/
  * @link                http://en.michaeluno.jp/admin-page-framework
  * @package             AdminPageFramework
- * @requirement         >= WordPress 3.3
+ * @requirement         >= WordPress 3.4
  * @requirement         >= PHP 5.2.4
  * @remark              To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remark              The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.

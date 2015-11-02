@@ -2,7 +2,7 @@
 Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
-Requires at least:  3.3
+Requires at least:  3.4
 Tested up to:       4.3.1
 Stable tag:         3.6.2
 License:            GPLv2 or later
@@ -397,6 +397,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 3.6.3 = 
 - Added the `script` and `style` arguments for the page and in-page tab definitions.
+- Changed the required WordPress version to 3.4.
 
 = 3.6.2 - 2015/10/31 =
 - Added a notification box in the admin pages of the loader plugin.

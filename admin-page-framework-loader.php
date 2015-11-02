@@ -86,7 +86,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
             'error'     => 'The plugin requires the PHP version %1$s or higher.',
         ),
         'wordpress'         => array(
-            'version'   => '3.3',
+            'version'   => '3.4',
             'error'     => 'The plugin requires the WordPress version %1$s or higher.',
         ),
         'mysql'             => array(
