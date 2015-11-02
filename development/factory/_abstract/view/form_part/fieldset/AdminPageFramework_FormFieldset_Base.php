@@ -70,11 +70,10 @@ abstract class AdminPageFramework_FormFieldset_Base extends AdminPageFramework_W
      */
     public function __construct( &$aField, $aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg, array $aCallbacks=array() ) {
 
+        // @todo Investigate why the first parameter is passed by reference. 
+
         // Set up the properties that will be accessed later in the methods.
-        $this->aField                   = $this->uniteArrays( 
-            $aField, 
-            $this->_getFieldTypeDefaultArguments( $aField[ 'type' ], $aFieldTypeDefinitions )
-        );
+        $this->aField                   = $this->_getFormatted( $aField, $aFieldTypeDefinitions );
         $this->aFieldTypeDefinitions    = $aFieldTypeDefinitions;
         $this->aOptions                 = $aOptions;
         $this->aErrors                  = $this->getAsArray( $aErrors );
@@ -93,6 +92,20 @@ abstract class AdminPageFramework_FormFieldset_Base extends AdminPageFramework_W
         $this->_loadScripts( $this->aField[ '_fields_type' ] );
         
     }    
+        /**
+         * @return      3.6.3
+         * @return      array       The formatted fieldset definition array
+         */
+        private function _getFormatted( $aField, $aFieldTypeDefinitions ) {
+            return $this->uniteArrays( 
+                $aField, 
+                $this->_getFieldTypeDefaultArguments( 
+                    $aField[ 'type' ], 
+                    $aFieldTypeDefinitions 
+                ) + AdminPageFramework_Format_Fieldset::$aStructure
+            );
+        }    
+        
         /**
          * 
          * @since       3.6.0
