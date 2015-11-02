@@ -27,13 +27,16 @@ abstract class AdminPageFramework_Utility_VariableType extends AdminPageFramewor
      */
     static public function isResourcePath( $sPathOrURL ) {
         
+        // PHP_MAXPATHLEN is available since PHP 5.3.
+        if ( defined( 'PHP_MAXPATHLEN' ) && strlen( $sPathOrURL ) > PHP_MAXPATHLEN ) {
+            // At this point, the variable is not a file path. 
+            return ( boolean ) filter_var( $sPathOrURL, FILTER_VALIDATE_URL );
+        }
+        
         if ( file_exists( $sPathOrURL ) ) {
             return true;
         } 
-        if ( filter_var( $sPathOrURL, FILTER_VALIDATE_URL ) ) {
-            return true;
-        }
-        return false;
+        return ( boolean ) filter_var( $sPathOrURL, FILTER_VALIDATE_URL );
         
     }
     
