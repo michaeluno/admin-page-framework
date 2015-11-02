@@ -67,10 +67,7 @@ class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility 
                     <div id="post-body" class="metabox-holder columns-<?php echo $this->_getNumberOfColumns(); ?>">
                     <?php
                         $this->_printMainPageContent( $_sPageSlug, $_sTabSlug );
-                        $_oPageMetaBoxRenderer = new AdminPageFramework_View_PageMataBoxRender();
-                        $_oPageMetaBoxRenderer->render( 'side' );
-                        $_oPageMetaBoxRenderer->render( 'normal' );
-                        $_oPageMetaBoxRenderer->render( 'advanced' );
+                        $this->_printPageMetaBoxes();
                     ?>     
                     </div><!-- #post-body -->    
                 </div><!-- #poststuff -->
@@ -221,7 +218,20 @@ class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility 
                  );
                    
             }
-                
+           
+        /**
+         * Renders the page meta boxes.
+         * @since       3.6.3
+         * @internal
+         * @return      void
+         */
+        private function _printPageMetaBoxes() {
+            $_oPageMetaBoxRenderer = new AdminPageFramework_View_PageMataBoxRenderer();
+            $_oPageMetaBoxRenderer->render( 'side' );
+            $_oPageMetaBoxRenderer->render( 'normal' );
+            $_oPageMetaBoxRenderer->render( 'advanced' );
+        }
+           
         /**
          * Retrieves the form opening tag.
          * 
