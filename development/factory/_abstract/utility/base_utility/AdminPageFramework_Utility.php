@@ -19,6 +19,22 @@
 abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_SystemInformation {
        
     /**
+     * Captures the output buffer of the given function.
+     * @since       3.6.3
+     * @return      string      The captured output buffer.
+     */
+    static public function getOutputBuffer( $oCallable, array $aParameters=array() ) {
+        
+        ob_start(); 
+        echo call_user_func_array( $oCallable, $aParameters );
+        $_sContent = ob_get_contents(); 
+        ob_end_clean(); 
+        return $_sContent;        
+        
+    }
+       
+       
+    /**
      * Calculates the subtraction of two values with the array key of `order`.
      * 
      * This is used to sort arrays.

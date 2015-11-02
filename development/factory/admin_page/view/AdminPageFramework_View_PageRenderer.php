@@ -116,7 +116,12 @@ class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility 
         private function _getContentTop() {
 
             // Screen icon, page heading tabs(page title), and in-page tabs.
-            $_sContentTop  = $this->_getScreenIcon( $this->sPageSlug, $this->sTabSlug );    
+            $_oScreenIcon = new AdminPageFramework_View_PageRenderer_ScreenIcon( 
+                $this->oFactory, 
+                $this->sPageSlug,
+                $this->sTabSlug
+            );
+            $_sContentTop  = $_oScreenIcon->get();
             $_sContentTop .= $this->_getPageHeadingTabs( $this->sPageSlug, $this->oFactory->oProp->sPageHeadingTabTag );
             $_sContentTop .= $this->_getInPageTabs( $this->sPageSlug, $this->oFactory->oProp->sInPageTabTag );
 
@@ -154,11 +159,6 @@ class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility 
             if ( $_bSideMetaboxExists ) {
                 echo "<div id='post-body-content'>";
             }
-    
-            $_sContent = call_user_func_array( 
-                array( $this->oFactory, 'content' ),     // triggers __call()
-                array( $this->_getMainPageContentOutput( $sPageSlug ) )
-            );    // 3.5.3+
             
             // Apply the content filters.
             echo $this->addAndApplyFilters( 
@@ -169,7 +169,9 @@ class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility 
                     $sPageSlug, 
                     $sTabSlug, 
                     false ), 
-                $_sContent 
+                $this->oFactory->content( 
+                    $this->_getFormOutput( $sPageSlug ) 
+                ) // triggers __call()
             );
 
             // Do the page actions.
@@ -186,55 +188,39 @@ class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility 
             
         }
             /**
-             * Returns the main admin page HTML output.
+             * Returns the form output of the page.
              * @since       3.5.3
              * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
              * @internal
-             * @return      string      The main admin page HTML output.
+             * @return      string      The form output of the page.
              */
-            private function _getMainPageContentOutput( $sPageSlug ) {
+            private function _getFormOutput( $sPageSlug ) {
                 
-                ob_start(); 
-                echo $this->_getFormOutput( $sPageSlug );
-                $_sContent = ob_get_contents(); 
-                ob_end_clean(); 
-                return $_sContent;
-                
-            }
-                /**
-                 * Returns the form output of the page.
-                 * @since       3.5.3
-                 * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
-                 * @internal
-                 * @return      string      The form output of the page.
-                 */
-                private function _getFormOutput( $sPageSlug ) {
-                    
-                    if ( ! $this->oFactory->oProp->bEnableForm ) {
-                        return '';
-                    }
-                    if ( ! $this->oFactory->oForm->isPageAdded( $sPageSlug ) ) {
-                        return '';
-                    }
-                             
-                    $this->oFactory->aFieldErrors = isset( $this->oFactory->aFieldErrors )
-                        ? $this->oFactory->aFieldErrors 
-                        : $this->oFactory->_getFieldErrors( $sPageSlug ); 
-                        
-                    $_oFieldsTable = new AdminPageFramework_FormPart_Table(
-                        $this->oFactory->oProp->aFieldTypeDefinitions, 
-                        $this->oFactory->aFieldErrors, 
-                        $this->oFactory->oMsg
-                    );
-                    
-                    return $_oFieldsTable->getFormTables( 
-                        $this->oFactory->oForm->aConditionedSections, 
-                        $this->oFactory->oForm->aConditionedFields, 
-                        array( $this->oFactory, '_replyToGetSectionHeaderOutput' ), 
-                        array( $this->oFactory, '_replyToGetFieldOutput' ) 
-                     );
-                       
+                if ( ! $this->oFactory->oProp->bEnableForm ) {
+                    return '';
                 }
+                if ( ! $this->oFactory->oForm->isPageAdded( $sPageSlug ) ) {
+                    return '';
+                }
+                         
+                $this->oFactory->aFieldErrors = isset( $this->oFactory->aFieldErrors )
+                    ? $this->oFactory->aFieldErrors 
+                    : $this->oFactory->_getFieldErrors( $sPageSlug ); 
+                    
+                $_oFieldsTable = new AdminPageFramework_FormPart_Table(
+                    $this->oFactory->oProp->aFieldTypeDefinitions, 
+                    $this->oFactory->aFieldErrors, 
+                    $this->oFactory->oMsg
+                );
+                
+                return $_oFieldsTable->getFormTables( 
+                    $this->oFactory->oForm->aConditionedSections, 
+                    $this->oFactory->oForm->aConditionedFields, 
+                    array( $this->oFactory, '_replyToGetSectionHeaderOutput' ), 
+                    array( $this->oFactory, '_replyToGetFieldOutput' ) 
+                 );
+                   
+            }
                 
         /**
          * Retrieves the form opening tag.
@@ -298,26 +284,6 @@ class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility 
             
         }    
     
-        /**
-         * Retrieves the screen icon output as HTML.
-         * 
-         * @remark      the screen object is supported in WordPress 3.3 or above.
-         * @since       2.0.0
-         * @since       3.3.1       Moved from `AdminPageFramework_Page`.
-         * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
-         * @return      string      The screen icon HTML output.
-         */     
-        private function _getScreenIcon( $sPageSlug, $sTabSlug ) {
-            
-            $_oScreenIcon = new AdminPageFramework_View_PageRenderer_ScreenIcon( 
-                $this->oFactory, 
-                $sPageSlug,
-                $sTabSlug
-            );
-            return $_oScreenIcon->get();
-                            
-        }            
-
         /**
          * Retrieves the output of page heading tab navigation bar as HTML.
          * 
