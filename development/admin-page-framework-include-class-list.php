@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.6.3b01 by Michael Uno 
+	Admin Page Framework v3.6.3b02 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -32,6 +32,8 @@ $aClassFiles = array(
 	"AdminPageFramework_ImportOptions"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/AdminPageFramework_ImportOptions.php", 
 	"AdminPageFramework_Property_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/AdminPageFramework_Property_Page.php", 
 	"AdminPageFramework_FormDefinition_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/AdminPageFramework_FormDefinition/AdminPageFramework_FormDefinition_Page.php", 
+	"AdminPageFramework_Model_FormEmailHandler"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/delegate/AdminPageFramework_Model_FormEmailHandler.php", 
+	"AdminPageFramework_Model_FormValiadtion"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/delegate/AdminPageFramework_Model_FormValiadtion.php", 
 	"AdminPageFramework_Format_InPageTab"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/format/AdminPageFramework_Format_InPageTab.php", 
 	"AdminPageFramework_Format_InPageTabs"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/format/AdminPageFramework_Format_InPageTabs.php", 
 	"AdminPageFramework_Format_NavigationTab_InPageTab"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/format/AdminPageFramework_Format_NavigationTab_InPageTab.php", 
