@@ -77,7 +77,9 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
         }
         
         add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToRegisterSettings' ), 20 );
-        add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToCheckRedirects' ), 21 ); // should be loaded after registering the settings.
+
+        // should be loaded after registering the settings.
+        new AdminPageFramework_Model_FormRedirectHandler( $this );
         
         new AdminPageFramework_Model_FormEmailHandler( $this );
                 
@@ -87,56 +89,7 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
         }
         
     }
-        
-    /**
-     * Check if a redirect transient is set and if so it redirects to the set page.
-     * 
-     * @remark A callback method for the admin_init hook.
-     * @since       3.0.0
-     * @since       3.3.1       Moved from `AdminPageFramework_Setting_Base`.
-     * @internal
-     */
-    public function _replyToCheckRedirects() {
-
-        // Check if it's one of the plugin's added page. If not, do nothing.
-        if ( ! $this->_isInThePage() ) {
-            return;
-        }
-
-        // If the settings have not updated the options, do nothing.
-        if ( ! ( isset( $_GET['settings-updated'] ) && ! empty( $_GET['settings-updated'] ) ) ) {
-            return;
-        }
-        
-        // [3.3.0+] If the confirmation key does not hold the 'redirect' string value, do not process.
-        if ( ! isset( $_GET['confirmation'] ) || 'redirect' !== $_GET['confirmation'] ) {
-            return;
-        }
-        
-        // The redirect transient key.
-        $_sTransient = 'apf_rurl' . md5( trim( "redirect_{$this->oProp->sClassName}_{$_GET['page']}" ) );
-        
-        // Check the settings error transient.
-        $_aError = $this->_getFieldErrors( $_GET['page'], false );
-        if ( ! empty( $_aError ) ) {
-            $this->oUtil->deleteTransient( $_sTransient ); // we don't need it any more.
-            return;
-        }
-        
-        // Okay, it seems the submitted data have been updated successfully.
-        $_sURL = $this->oUtil->getTransient( $_sTransient );
-        if ( false === $_sURL ) {
-            return;
-        }
-        
-        // The redirect URL seems to be set.
-        $this->oUtil->deleteTransient( $_sTransient ); // we don't need it any more.
-                    
-        // Go to the page.
-        exit( wp_redirect( $_sURL ) );
-        
-    }
-    
+            
     /**
      * Registers the setting sections and fields.
      * 
