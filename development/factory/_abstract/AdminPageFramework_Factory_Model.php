@@ -73,6 +73,17 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         );     
         
     }    
+    /**
+     * A public version of `_loadFieldTypeDefinitions()`.
+     * 
+     * Used by a delegation class as it access methods from outside so the method needs to be puiblic.
+     * 
+     * @since       3.6.3
+     * @return      void
+     */
+    public function loadFieldTypeDefinitions() {
+        $this->_loadFieldTypeDefinitions();
+    }
 
     /**
      * Registers the given fields.
@@ -149,7 +160,25 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
                 );
             }
             
-        }    
+        }  
+    /**
+     * A public version of `_registerrFields()`,
+     * 
+     * This is used by a delegation class that calls methods of the factory object from outside.
+     * 
+     * @since       3.6.3
+     */
+    public function registerFields( array $aFields ) {
+        $this->_registerFields( $aFields );
+    }
+    /**
+     * A public version of `_registerrField()`,
+     * This is used by a delegation class that calls methods of the factory object from outside.
+     * @since       3.6.3
+     */
+    public function registerField( array $aField ) {
+        $this->_registerField( $aField );
+    }
     
     /**
      * Returns the saved options array.

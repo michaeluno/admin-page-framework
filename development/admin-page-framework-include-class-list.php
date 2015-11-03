@@ -34,6 +34,7 @@ $aClassFiles = array(
 	"AdminPageFramework_FormDefinition_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/AdminPageFramework_FormDefinition/AdminPageFramework_FormDefinition_Page.php", 
 	"AdminPageFramework_Model_FormEmailHandler"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/delegate/AdminPageFramework_Model_FormEmailHandler.php", 
 	"AdminPageFramework_Model_FormRedirectHandler"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/delegate/AdminPageFramework_Model_FormRedirectHandler.php", 
+	"AdminPageFramework_Model_FormRegistration"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/delegate/AdminPageFramework_Model_FormRegistration.php", 
 	"AdminPageFramework_Model_FormValiadtionHandler"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/delegate/AdminPageFramework_Model_FormValiadtionHandler.php", 
 	"AdminPageFramework_Format_InPageTab"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/format/AdminPageFramework_Format_InPageTab.php", 
 	"AdminPageFramework_Format_InPageTabs"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/model/format/AdminPageFramework_Format_InPageTabs.php", 

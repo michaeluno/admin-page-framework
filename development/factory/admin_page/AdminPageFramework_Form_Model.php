@@ -76,7 +76,9 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
             return;
         }
         
-        add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToRegisterSettings' ), 20 );
+        new AdminPageFramework_Model_FormRegistration( $this );
+        
+        // add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToRegisterSettings' ), 20 );
 
         // should be loaded after registering the settings.
         new AdminPageFramework_Model_FormRedirectHandler( $this );
@@ -108,6 +110,7 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
      * @remark      The callback method for the `load_after_{instantiated class name}` hook.
      * @return      void
      * @internal
+     * @deprecated  3.6.3
      */ 
     public function _replyToRegisterSettings() {
 
@@ -186,45 +189,46 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
         
     }
 
-        /**
-         * Registers a field.
-         * 
-         * @since       3.5.0
-         * @internal
-         */
-        protected function _registerField( array $aField ) {
-            
-            // Load head tag elements for fields.
-            AdminPageFramework_FieldTypeRegistration::_setFieldResources( $aField, $this->oProp, $this->oResource ); 
+    /**
+     * Registers a field.
+     * 
+     * @remark      Overrides the parent method.
+     * @since       3.5.0
+     * @internal
+     */
+    protected function _registerField( array $aField ) {
+        
+        // Load head tag elements for fields.
+        AdminPageFramework_FieldTypeRegistration::_setFieldResources( $aField, $this->oProp, $this->oResource ); 
 
-            // For the contextual help pane,
-            if ( $aField['help'] ) {
-                $this->addHelpTab( 
-                    array(
-                        'page_slug'                 => $aField['page_slug'],
-                        'page_tab_slug'             => $aField['tab_slug'],
-                        'help_tab_title'            => $aField['section_title'],
-                        'help_tab_id'               => $aField['section_id'],
-                        'help_tab_content'          => "<span class='contextual-help-tab-title'>" 
-                                . $aField['title'] 
-                            . "</span> - " . PHP_EOL
-                            . $aField['help'],
-                        'help_tab_sidebar_content'  => $aField['help_aside'] 
-                            ? $aField['help_aside'] 
-                            : "",
-                    )
-                );
-            }
-                              
-            // Call the field type callback method to let it know the field type is registered.
-            if ( 
-                isset( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ][ 'hfDoOnRegistration' ] ) 
-                && is_callable( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ][ 'hfDoOnRegistration' ] )
-            ) {
-                call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ][ 'hfDoOnRegistration' ], array( $aField ) );
-            }            
-            
+        // For the contextual help pane,
+        if ( $aField['help'] ) {
+            $this->addHelpTab( 
+                array(
+                    'page_slug'                 => $aField['page_slug'],
+                    'page_tab_slug'             => $aField['tab_slug'],
+                    'help_tab_title'            => $aField['section_title'],
+                    'help_tab_id'               => $aField['section_id'],
+                    'help_tab_content'          => "<span class='contextual-help-tab-title'>" 
+                            . $aField['title'] 
+                        . "</span> - " . PHP_EOL
+                        . $aField['help'],
+                    'help_tab_sidebar_content'  => $aField['help_aside'] 
+                        ? $aField['help_aside'] 
+                        : "",
+                )
+            );
+        }
+                          
+        // Call the field type callback method to let it know the field type is registered.
+        if ( 
+            isset( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ][ 'hfDoOnRegistration' ] ) 
+            && is_callable( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ][ 'hfDoOnRegistration' ] )
+        ) {
+            call_user_func_array( $this->oProp->aFieldTypeDefinitions[ $aField['type'] ][ 'hfDoOnRegistration' ], array( $aField ) );
         }            
+        
+    }            
             
     /**
      * Returns the saved options.
