@@ -397,6 +397,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 3.6.3 = 
 - Added the `script` and `style` arguments for the page and in-page tab definitions.
+- Tweaked the style of section tab titles in meta boxes.
 - Fixed an issue in WordPress 3.7.x or below that the screen icon appeared even when the screen title and the in-page tabs are disabled.
 - Changed the required WordPress version to 3.4.
 
