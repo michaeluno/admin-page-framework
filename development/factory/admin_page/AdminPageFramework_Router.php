@@ -136,7 +136,6 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
          * @since       3.5.3
          * @internal
          * @return      void
-         * @todo        introduce "set_up_pre_{ class name }" action hook.
          */
         private function _doSetUp() {
             

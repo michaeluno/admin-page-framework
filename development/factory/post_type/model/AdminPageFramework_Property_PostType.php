@@ -169,17 +169,17 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
             case 'theme':
                 add_action( 
                     'after_switch_theme', 
-                    array( 'AdminPageFramework_WPUtility', 'FlushRewriteRules' ) 
+                    array( 'AdminPageFramework_WPUtility', 'flushRewriteRules' ) 
                 );
             break;
             case 'plugin':
                 register_activation_hook( 
                     $sCallerPath, 
-                    array( 'AdminPageFramework_WPUtility', 'FlushRewriteRules' ) 
+                    array( 'AdminPageFramework_WPUtility', 'flushRewriteRules' ) 
                 );
                 register_deactivation_hook( 
                     $sCallerPath, 
-                    array( 'AdminPageFramework_WPUtility', 'FlushRewriteRules' ) 
+                    array( 'AdminPageFramework_WPUtility', 'flushRewriteRules' ) 
                 );
             break;
         }

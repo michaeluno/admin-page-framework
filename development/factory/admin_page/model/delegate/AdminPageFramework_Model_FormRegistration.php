@@ -139,7 +139,7 @@ class AdminPageFramework_Model_FormRegistration extends AdminPageFramework_WPUti
         $this->oFactory->oProp->bEnableForm = true;    
         
         /* 7. Handle submitted data. */
-        $this->oFactory->_handleSubmittedData();    
+        // $this->oFactory->_handleSubmittedData();    
         
     }
     

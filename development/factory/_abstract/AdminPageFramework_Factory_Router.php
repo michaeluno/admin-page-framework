@@ -517,7 +517,6 @@ abstract class AdminPageFramework_Factory_Router {
      * Redirects dynamic function calls to the pre-defined internal method.
      * 
      * @internal
-     * @todo        Introduce "set_up_pre_{ class name }" action hook.
      */
     public function __call( $sMethodName, $aArgs=null ) {    
          

@@ -16,7 +16,7 @@
  * @subpackage      AdminPage
  * @internal
  */
-abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Model_Validation {
+abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Router {
     
     /**
      * Stores the settings field errors. 
@@ -71,121 +71,17 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
         if ( $this->oProp->bIsAdminAjax ) {
             return;
         }
-        
         if ( ! $this->oProp->bIsAdmin ) {
             return;
         }
         
         new AdminPageFramework_Model_FormRegistration( $this );
-        
-        // add_action( "load_after_{$this->oProp->sClassName}", array( $this, '_replyToRegisterSettings' ), 20 );
-
-        // should be loaded after registering the settings.
-        new AdminPageFramework_Model_FormRedirectHandler( $this );
-        
-        new AdminPageFramework_Model_FormEmailHandler( $this );
-                
+        new AdminPageFramework_Model_FormSubmission( $this );
+                        
         // Checking the GET and POST methods.
         if ( isset( $_REQUEST['apf_remote_request_test'] ) && '_testing' === $_REQUEST['apf_remote_request_test'] ) {
             exit( 'OK' );
         }
-        
-    }
-            
-    /**
-     * Registers the setting sections and fields.
-     * 
-     * This methods passes the stored section and field array contents to the `add_settings_section()` and `add_settings_fields()` functions.
-     * Then perform `register_setting()`.
-     * 
-     * The filters will be applied to the section and field arrays; that means that third-party scripts can modify the arrays.
-     * Also they get sorted before being registered based on the set order.
-     * 
-     * @since       2.0.0
-     * @since       2.1.5       Added the ability to define custom field types.
-     * @since       3.1.2       Changed the hook from the `admin_menu` to `current_screen` so that the user can add forms in `load_{...}` callback methods.
-     * @since       3.1.3       Removed the Settings API related functions entirely.
-     * @since       3.3.1       Moved from `AdminPageFramework_Setting_Base`.
-     * @remark      This method is not intended to be used by the user.
-     * @remark      The callback method for the `load_after_{instantiated class name}` hook.
-     * @return      void
-     * @internal
-     * @deprecated  3.6.3
-     */ 
-    public function _replyToRegisterSettings() {
-
-        if ( ! $this->_isInThePage() ) { 
-            return;
-        }
-
-        /* 1. Apply filters to added sections and fields */
-        $this->oForm->aSections = $this->oUtil->addAndApplyFilter( $this, "sections_{$this->oProp->sClassName}", $this->oForm->aSections );
-        foreach( $this->oForm->aFields as $_sSectionID => &$_aFields ) {
-            $_aFields = $this->oUtil->addAndApplyFilter( // Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
-                $this,
-                "fields_{$this->oProp->sClassName}_{$_sSectionID}",
-                $_aFields
-            ); 
-            unset( $_aFields ); // to be safe in PHP especially the same variable name is used in the scope.
-        }
-        $this->oForm->aFields = $this->oUtil->addAndApplyFilter( // Parameters: $oCallerObject, $aFilters, $vInput, $vArgs...
-            $this,
-            "fields_{$this->oProp->sClassName}",
-            $this->oForm->aFields
-        );         
-        
-        /* 2. Format ( sanitize ) the section and field arrays and apply conditions to the sections and fields and drop unnecessary items. */
-        // 2-1. Set required properties for formatting.
-        $this->oForm->setDefaultPageSlug( $this->oProp->sDefaultPageSlug );    
-        $this->oForm->setOptionKey( $this->oProp->sOptionKey );
-        $this->oForm->setCallerClassName( $this->oProp->sClassName );
-        
-        // 2-2. Do format internally stored sections and fields definition arrays.
-        $this->oForm->format();
-
-        // 2-3. Now set required properties for conditioning.
-        $_sCurrentPageSlug = $this->oProp->getCurrentPageSlug();
-        $this->oForm->setCurrentPageSlug( $_sCurrentPageSlug );
-        $this->oForm->setCurrentTabSlug( $this->oProp->getCurrentTabSlug( $_sCurrentPageSlug ) );
-
-        // 2-4. Do conditioning.
-        $this->oForm->applyConditions();
-        $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName ); // applies filters to the conditioned field definition arrays.
-        $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
-        
-        /* 3. Define field types. This class adds filters for the field type definitions so that framework's built-in field types will be added. */
-        $this->_loadFieldTypeDefinitions();
-
-        /* 4. Set up the contextual help pane for sections. */ 
-        foreach( $this->oForm->aConditionedSections as $_aSection ) {
-                                    
-            if ( empty( $_aSection['help'] ) ) {
-                continue;
-            }
-            
-            $this->addHelpTab( 
-                array(
-                    'page_slug'                 => $_aSection['page_slug'],
-                    'page_tab_slug'             => $_aSection['tab_slug'],
-                    'help_tab_title'            => $_aSection['title'],
-                    'help_tab_id'               => $_aSection['section_id'],
-                    'help_tab_content'          => $_aSection['help'],
-                    'help_tab_sidebar_content'  => $_aSection['help_aside'] 
-                        ? $_aSection['help_aside'] 
-                        : "",
-                )
-            );
-                
-        }
-
-        /* 5. Register fields - set head tag and help pane elements */
-        $this->_registerFields( $this->oForm->aConditionedFields );
-
-        /* 6. Enable the form - Set the form enabling flag so that the <form></form> tag will be inserted in the page. */
-        $this->oProp->bEnableForm = true;    
-        
-        /* 7. Handle submitted data. */
-        $this->_handleSubmittedData();    
         
     }
 
@@ -244,8 +140,8 @@ abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Mod
      */
     public function getSavedOptions() {
         
-        $_bHasConfirmation  = isset( $_GET['confirmation'] );
-        $_bHasFieldErrors   = isset( $_GET['field_errors'] ) && $_GET['field_errors'];
+        $_bHasConfirmation  = isset( $_GET[ 'confirmation' ] );
+        $_bHasFieldErrors   = isset( $_GET[ 'field_errors' ] ) && $_GET[ 'field_errors' ];
         $_aLastInput        = $_bHasConfirmation || $_bHasFieldErrors
             ? $this->oProp->aLastInput
             : array();

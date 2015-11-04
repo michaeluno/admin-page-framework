@@ -60,9 +60,10 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
      */
     public function _replyToDetermineToLoad( /* $oScreen */ ) {
         
-        if ( ! $this->_isInThePage() ) { return; }
+        if ( ! $this->_isInThePage() ) { 
+            return; 
+        }
 
-        // @todo introduce "set_up_pre_{ class name }" action hook.        
         $this->_setUp();
         
         // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
