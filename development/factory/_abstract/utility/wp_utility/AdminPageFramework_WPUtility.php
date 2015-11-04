@@ -19,6 +19,15 @@
 class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
     
     /**
+     * Redirects the user to the specified url.
+     * @since       3.6.3
+     * @return      void
+     */
+    static public function goToURL( $sURL ) {
+        exit( wp_redirect( $sURL ) ); 
+    }
+    
+    /**
      * Checks whether the site is in the debug mode or not.
      * @since       3.5.7
      * @return      boolean     
@@ -50,7 +59,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
      * @since       3.1.5
      * @todo        Check if capitalizing the name is necessary or not.
      */
-    static public function FlushRewriteRules() {
+    static public function flushRewriteRules() {
         
         $_bIsFlushed = isset( self::$_bIsFlushed ) ? self::$_bIsFlushed : false;
         if ( $_bIsFlushed ) {

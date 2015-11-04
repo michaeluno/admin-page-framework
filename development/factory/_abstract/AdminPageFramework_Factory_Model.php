@@ -381,7 +381,17 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         );
         return $_oInputSorter->get();
         
-    }         
+    }   
+    /**
+     * The public version of `_getSortedInputs()`.
+     * 
+     * A delegation class needs to access the `_getSortedInputs()` method but it is protected, so uses this instead.
+     * 
+     * @since       3.6.3
+     */
+    public function getSortedInputs( array $aInput ) {
+        return $this->_getSortedInputs( $aInput );
+    }
         
     
 }
