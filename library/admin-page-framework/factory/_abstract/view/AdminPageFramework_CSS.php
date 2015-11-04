@@ -551,6 +551,9 @@ CSSRULES;
     margin: 1em 0;
     font-size: 1.04em;
 }
+#poststuff .metabox-holder .postbox-container .admin-page-framework-section-tab h4 {
+    margin: 0;
+}
 
 /* Side meta boxes */
 @media screen and (min-width: 783px) {    

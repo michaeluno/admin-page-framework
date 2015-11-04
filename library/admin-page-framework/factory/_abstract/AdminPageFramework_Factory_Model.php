@@ -10,6 +10,9 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         }
         $this->oProp->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilters($this, array('field_types_admin_page_framework', "field_types_{$this->oProp->sClassName}",), self::$_aFieldTypeDefinitions);
     }
+    public function loadFieldTypeDefinitions() {
+        $this->_loadFieldTypeDefinitions();
+    }
     protected function _registerFields(array $aFields) {
         foreach ($aFields as $_sSecitonID => $_aFields) {
             $_bIsSubSectionLoaded = false;
@@ -38,6 +41,12 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         if (is_callable($_oCallableDoOnRegistration)) {
             call_user_func_array($_oCallableDoOnRegistration, array($aField));
         }
+    }
+    public function registerFields(array $aFields) {
+        $this->_registerFields($aFields);
+    }
+    public function registerField(array $aField) {
+        $this->_registerField($aField);
     }
     public function getSavedOptions() {
         return $this->oProp->aOptions;
@@ -87,5 +96,8 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         }
         $_oInputSorter = new AdminPageFramework_Modifier_SortInput($aInput, $_aDynamicFieldAddressKeys);
         return $_oInputSorter->get();
+    }
+    public function getSortedInputs(array $aInput) {
+        return $this->_getSortedInputs($aInput);
     }
 }

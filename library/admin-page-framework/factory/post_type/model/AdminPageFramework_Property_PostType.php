@@ -20,11 +20,11 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
         }
         switch ($this->_getCallerType($sCallerPath)) {
             case 'theme':
-                add_action('after_switch_theme', array('AdminPageFramework_WPUtility', 'FlushRewriteRules'));
+                add_action('after_switch_theme', array('AdminPageFramework_WPUtility', 'flushRewriteRules'));
             break;
             case 'plugin':
-                register_activation_hook($sCallerPath, array('AdminPageFramework_WPUtility', 'FlushRewriteRules'));
-                register_deactivation_hook($sCallerPath, array('AdminPageFramework_WPUtility', 'FlushRewriteRules'));
+                register_activation_hook($sCallerPath, array('AdminPageFramework_WPUtility', 'flushRewriteRules'));
+                register_deactivation_hook($sCallerPath, array('AdminPageFramework_WPUtility', 'flushRewriteRules'));
             break;
         }
     }
