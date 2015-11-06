@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Controller {
+abstract class AdminPageFramework_Model_Page extends AdminPageFramework_Controller_Form {
     public function _replyToFinalizeInPageTabs() {
         if (!$this->oProp->isPageAdded()) {
             return;

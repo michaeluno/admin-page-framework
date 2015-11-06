@@ -1,3 +1,3 @@
 <?php
-abstract class AdminPageFramework_Model extends AdminPageFramework_Menu_Controller {
+abstract class AdminPageFramework_Model extends AdminPageFramework_Controller_Menu {
 }

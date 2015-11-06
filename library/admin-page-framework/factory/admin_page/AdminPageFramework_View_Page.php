@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_Model {
+abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Page {
     public function __construct($sOptionKey = null, $sCallerPath = null, $sCapability = 'manage_options', $sTextDomain = 'admin-page-framework') {
         parent::__construct($sOptionKey, $sCallerPath, $sCapability, $sTextDomain);
         if ($this->oProp->bIsAdminAjax) {

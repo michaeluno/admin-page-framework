@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Page_View {
+abstract class AdminPageFramework_Controller_Page extends AdminPageFramework_View_Page {
     public function addInPageTabs() {
         foreach (func_get_args() as $asTab) {
             $this->addInPageTab($asTab);

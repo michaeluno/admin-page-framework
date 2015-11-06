@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Router {
+abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
     public $aFieldErrors;
     static protected $_sFieldsType = 'page';
     protected $_sTargetPageSlug = null;

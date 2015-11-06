@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Menu_View {
+abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_View_Menu {
     public function setRootMenuPage($sRootMenuLabel, $sIcon16x16 = null, $iMenuPosition = null) {
         $sRootMenuLabel = trim($sRootMenuLabel);
         $_sSlug = $this->_isBuiltInMenuItem($sRootMenuLabel);

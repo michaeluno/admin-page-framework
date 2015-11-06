@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
+abstract class AdminPageFramework_Form_View extends AdminPageFramework_Model_Form {
     public function _replyToGetSectionName() {
         $_aParams = func_get_args() + array(null, null,);
         $sNameAttribute = $_aParams[0];
