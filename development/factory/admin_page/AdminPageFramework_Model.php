@@ -12,11 +12,12 @@
  *
  * @abstract
  * @since           3.3.1
+ * @extends         AdminPageFramework_Controller_Menu
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
  */
-abstract class AdminPageFramework_Model extends AdminPageFramework_Menu_Controller {
+abstract class AdminPageFramework_Model extends AdminPageFramework_Controller_Menu {
     
     /**
      * A validation callback method.

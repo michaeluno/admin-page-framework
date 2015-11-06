@@ -12,12 +12,13 @@
  *
  * @abstract
  * @since           3.3.1
- * @extends         AdminPageFramework_Form_Controller
+ * @since           3.6.3       Changed the name from `AdminPageFramework_Page_Model`.
+ * @extends         AdminPageFramework_Controller_Form
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
  */
-abstract class AdminPageFramework_Page_Model extends AdminPageFramework_Form_Controller {
+abstract class AdminPageFramework_Model_Page extends AdminPageFramework_Controller_Form {
        
     /**
      * Finalizes the in-page tab property array.

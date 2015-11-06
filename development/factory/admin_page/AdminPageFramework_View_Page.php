@@ -12,12 +12,13 @@
  *
  * @abstract
  * @since           3.3.1       Moved most methods from `AdminPageFramework_Page`.
- * @extends         AdminPageFramework_Page_View
+ * @since           3.6.3       Changed the name from `AdminPageFramework_Page_View`.
+ * @extends         AdminPageFramework_Model_Page
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
  */
-abstract class AdminPageFramework_Page_View extends AdminPageFramework_Page_Model {
+abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Page {
         
     /**
      * Sets up hooks and properties.

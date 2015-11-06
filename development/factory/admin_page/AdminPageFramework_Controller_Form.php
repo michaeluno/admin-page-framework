@@ -13,11 +13,12 @@
  * @abstract
  * @since           2.0.0
  * @since           3.3.1       Changed the name from `AdminPageFramework_Setting`.
- * @extends         AdminPageFramework_Setting_Validation
+ * @since           3.6.3       Changed the name from `AdminPageFramework_Form_Controller`.
+ * @extends         AdminPageFramework_Form_View
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  */
-abstract class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
+abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Form_View {
                                     
     /**
      * {@inheritdoc}

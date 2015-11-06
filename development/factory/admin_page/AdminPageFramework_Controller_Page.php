@@ -12,11 +12,12 @@
  *
  * @abstract
  * @since           3.3.1
- * @extends         AdminPageFramework_Page_View
+ * @since           3.6.3       Changed the name from `AdminPageFramework_Page_Controller`.
+ * @extends         AdminPageFramework_View_Page
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  */
-abstract class AdminPageFramework_Page_Controller extends AdminPageFramework_Page_View {
+abstract class AdminPageFramework_Controller_Page extends AdminPageFramework_View_Page {
     
     /**
      * Adds in-page tabs.

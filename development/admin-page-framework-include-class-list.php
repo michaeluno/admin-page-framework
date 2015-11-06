@@ -1,24 +1,24 @@
 <?php 
 /**
-	Admin Page Framework v3.6.3b02 by Michael Uno 
+	Admin Page Framework v3.6.3b03 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 $aClassFiles = array( 
 	"AdminPageFramework"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework.php", 
 	"AdminPageFramework_Controller"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Controller.php", 
-	"AdminPageFramework_Form_Controller"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Form_Controller.php", 
-	"AdminPageFramework_Form_Model"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Form_Model.php", 
-	"AdminPageFramework_Form_View"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Form_View.php", 
-	"AdminPageFramework_Menu_Controller"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Menu_Controller.php", 
-	"AdminPageFramework_Menu_Model"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Menu_Model.php", 
-	"AdminPageFramework_Menu_View"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Menu_View.php", 
+	"AdminPageFramework_Controller_Form"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Controller_Form.php", 
+	"AdminPageFramework_Controller_Menu"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Controller_Menu.php", 
+	"AdminPageFramework_Controller_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Controller_Page.php", 
 	"AdminPageFramework_Model"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Model.php", 
-	"AdminPageFramework_Page_Controller"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Page_Controller.php", 
-	"AdminPageFramework_Page_Model"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Page_Model.php", 
-	"AdminPageFramework_Page_View"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Page_View.php", 
+	"AdminPageFramework_Model_Form"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Model_Form.php", 
+	"AdminPageFramework_Model_Menu"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Model_Menu.php", 
+	"AdminPageFramework_Model_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Model_Page.php", 
 	"AdminPageFramework_Router"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Router.php", 
 	"AdminPageFramework_View"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_View.php", 
+	"AdminPageFramework_View_Form"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_View_Form.php", 
+	"AdminPageFramework_View_Menu"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_View_Menu.php", 
+	"AdminPageFramework_View_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_View_Page.php", 
 	"AdminPageFramework_HelpPane_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/controller/AdminPageFramework_HelpPane_Page.php", 
 	"AdminPageFramework_Link_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/controller/AdminPageFramework_Link_Page.php", 
 	"AdminPageFramework_Resource_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/controller/AdminPageFramework_Resource_Page.php", 
@@ -248,4 +248,5 @@ $aClassFiles = array(
 	"AdminPageFramework_Zip"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Zip.php", 
 	"AdminPageFramework_WPReadmeParser"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_WPReadmeParser/AdminPageFramework_WPReadmeParser.php", 
 	"AdminPageFramework_Parsedown"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_WPReadmeParser/library/AdminPageFramework_Parsedown/AdminPageFramework_Parsedown.php", 
+	"AdminPageFramework_Form_View"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_View_Form.php", 
 );

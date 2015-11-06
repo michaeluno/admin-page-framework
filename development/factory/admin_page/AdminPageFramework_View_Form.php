@@ -12,11 +12,13 @@
  *
  * @abstract
  * @since           3.3.1
+ * @since           3.6.3       Changed the name from `AdminPageFramework_View_Form`.
+ * @extends         AdminPageFramework_Model_Form
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
  */
-abstract class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
+abstract class AdminPageFramework_Form_View extends AdminPageFramework_Model_Form {
     
     /**
      * Modifies the section name attribute value.

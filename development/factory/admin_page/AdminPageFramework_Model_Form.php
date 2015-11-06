@@ -12,11 +12,13 @@
  *
  * @abstract
  * @since           3.3.1
+ * @since           3.6.3       Chagned the name from `AdminPageFramework_Form_Model`.
+ * @extends         AdminPageFramework_Router
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
  */
-abstract class AdminPageFramework_Form_Model extends AdminPageFramework_Router {
+abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
     
     /**
      * Stores the settings field errors. 

@@ -12,12 +12,13 @@
  *
  * @abstract
  * @since           3.3.1
- * @extends         AdminPageFramework_Menu_Model
+ * @since           3.6.3           Changed the name from `AdminPageFramework_Menu_Model`.
+ * @extends         AdminPageFramework_Controller_Page
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
  */
-abstract class AdminPageFramework_Menu_Model extends AdminPageFramework_Page_Controller {
+abstract class AdminPageFramework_Model_Menu extends AdminPageFramework_Controller_Page {
     
     /**
      * Registers necessary callbacks and sets up properties.

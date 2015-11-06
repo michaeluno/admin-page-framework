@@ -13,11 +13,12 @@
  * @abstract
  * @since           2.0.0
  * @since           3.3.1       Changed the name from `AdminPageFramework_Menu`.
- * @extends         AdminPageFramework_Menu_View
+ * @since           3.6.3       Changed the name from `AdminPageFramework_Menu_Controller`.
+ * @extends         AdminPageFramework_View_Menu
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  */
-abstract class AdminPageFramework_Menu_Controller extends AdminPageFramework_Menu_View {
+abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_View_Menu {
                   
     /**
      * Sets to which top level page is going to be adding sub-pages.
