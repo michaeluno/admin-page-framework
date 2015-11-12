@@ -161,6 +161,9 @@ class AdminPageFramework_Message {
         'acceptable'                            => 'Acceptable', 
         'no_log_found'                          => 'No log found.',
         
+        // DEVVER accessed from `AdminPageFramework_Form`
+        'method_called_too_early'               => 'The method is called too early.',
+        
     );
     
     /**
@@ -360,6 +363,8 @@ class AdminPageFramework_Message {
         __( 'Too Long', 'admin-page-framework' );
         __( 'Acceptable', 'admin-page-framework' );
         __( 'No log found.', 'admin-page-framework' );        
+        
+        __( 'The method is called too early: %1$s', 'admin-page-framework' );
         
     }
     
