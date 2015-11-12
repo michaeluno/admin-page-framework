@@ -16,7 +16,7 @@
  * @subpackage  Property
  * @internal
  */ 
-abstract class AdminPageFramework_Property_Base {
+abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUtility {
 
     /**
      * Represents the structure of the script info array.
@@ -300,6 +300,7 @@ abstract class AdminPageFramework_Property_Base {
     /**
      * The utility object.
      * @since       3.5.3
+     * @deprecated  DEVVER
      */
     public $oUtil;
                 
@@ -308,30 +309,36 @@ abstract class AdminPageFramework_Property_Base {
      */
     public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
         
-        $this->oUtil            = new AdminPageFramework_WPUtility; // 3.5.3+
+        // backward compatibility
+        $this->oUtil            = new AdminPageFramework_WPUtility;
+        
         $this->oCaller          = $oCaller;
-        $this->sCallerPath      = $this->oUtil->getAOrB(
+        $this->sCallerPath      = $this->getAOrB(
             $sCallerPath,
             $sCallerPath,
             null
         );
         $this->sClassName       = $sClassName;     
         $this->sClassHash       = md5( $sClassName );    
-        $this->sCapability      = $this->oUtil->getAOrB(
+        $this->sCapability      = $this->getAOrB(
             empty( $sCapability ),
             'manage_options',
             $sCapability
         );
-        $this->sTextDomain      = $this->oUtil->getAOrB(
+        $this->sTextDomain      = $this->getAOrB(
             empty( $sTextDomain ),
             'admin-page-framework',
             $sTextDomain
         );
         $this->sFieldsType      = $sFieldsType;
-        $GLOBALS['aAdminPageFramework'] = isset( $GLOBALS['aAdminPageFramework'] ) && is_array( $GLOBALS['aAdminPageFramework'] ) 
-            ? $GLOBALS['aAdminPageFramework']
-            : array( 'aFieldFlags' => array() );
-        $this->sPageNow         = $this->oUtil->getPageNow();
+        
+        $GLOBALS[ 'aAdminPageFramework' ] = $this->getElementAsArray(
+            $GLOBALS,
+            'aAdminPageFramework',
+            array( 'aFieldFlags' => array() )
+        );
+        
+        $this->sPageNow         = $this->getPageNow();
         $this->bIsAdmin         = is_admin();
         $this->bIsAdminAjax     = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
                 
@@ -413,7 +420,7 @@ abstract class AdminPageFramework_Property_Base {
             return $_aCallerInfo;
         }
         if ( 'plugin' == $_aCallerInfo['sType'] ) {
-            return $this->oUtil->getScriptData( $_aCallerInfo['sPath'], $_aCallerInfo['sType'] ) + $_aCallerInfo;
+            return $this->getScriptData( $_aCallerInfo['sPath'], $_aCallerInfo['sType'] ) + $_aCallerInfo;
         }
         if ( 'theme' == $_aCallerInfo['sType'] ) {
             $_oTheme = wp_get_theme(); // stores the theme info object
@@ -474,8 +481,8 @@ abstract class AdminPageFramework_Property_Base {
     protected function _getLastInput() {
         
         $_sKey      = 'apf_tfd' . md5( 'temporary_form_data_' . $this->sClassName . get_current_user_id() );
-        $_vValue    = $this->oUtil->getTransient( $_sKey );
-        $this->oUtil->deleteTransient( $_sKey );
+        $_vValue    = $this->getTransient( $_sKey );
+        $this->deleteTransient( $_sKey );
         if ( is_array( $_vValue ) ) {
             return $_vValue;
         }
@@ -495,7 +502,7 @@ abstract class AdminPageFramework_Property_Base {
         if ( 'aScriptInfo' === $sName ) {
             $this->sCallerPath = $this->sCallerPath 
                 ? $this->sCallerPath 
-                : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );
+                : $this->getCallerScriptPath( __FILE__ );
             $this->aScriptInfo = $this->getCallerInfo( $this->sCallerPath );
             return $this->aScriptInfo;    
         }
