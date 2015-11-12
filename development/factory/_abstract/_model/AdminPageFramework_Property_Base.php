@@ -149,30 +149,29 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     /**
      * The default CSS rules for IE loaded in the head tag of the created admin pages.
      * @since       2.1.1
-     * @since       2.1.5 Moved the contents to the taxonomy field definition so it become an empty string.
+     * @since       2.1.5       Moved the contents to the taxonomy field definition so it become an empty string.
      * @deprecated  3.2.0
      * @internal
      */
     public static $_sDefaultStyleIE = '';
         
-
     /**
      * Stores enqueuing script URLs and their criteria by md5 hash of the source url.
-     * @since 2.1.2
-     * @since 2.1.5 Moved to the base class.
+     * @since       2.1.2
+     * @since       2.1.5       Moved to the base class.
      */
     public $aEnqueuingScripts = array();
     /**    
      * Stores enqueuing style URLs and their criteria by md5 hash of the source url.
-     * @since 2.1.2
-     * @since 2.1.5 Moved to the base class.
+     * @since       2.1.2
+     * @since       2.1.5       Moved to the base class.
      */    
     public $aEnqueuingStyles = array();
 
 
     /**
      * Stores enqueued script/style argument array by its url.
-     * @since   3.3.0
+     * @since       3.3.0
      */
     public $aResourceAttributes = array();
 
@@ -180,8 +179,8 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     /**
      * Stores the index of enqueued scripts.
      * 
-     * @since 2.1.2
-     * @since 2.1.5 Moved to the base class.
+     * @since       2.1.2
+     * @since       2.1.5       Moved to the base class.
      */
     public $iEnqueuedScriptIndex = 0;
     /**
@@ -190,29 +189,29 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
      * The index number will be incremented as a script is enqueued regardless a previously added enqueue item has been removed or not.
      * This is because this index number will be used for the script handle ID which is automatically generated.
      * 
-     * @since 2.1.2
-     * @since 2.1.5 Moved to the base class.
+     * @since       2.1.2
+     * @since       2.1.5     Moved to the base class.
      */    
     public $iEnqueuedStyleIndex = 0;     
     
     /**
      * Stores is_admin() value to be reused. 
      * 
-     * @since 3.0.0
+     * @since       3.0.0
      */
     public $bIsAdmin;
     
     /**
      * Stores the flag that indicates whether the library is minified or not.
-     * @since 3.0.0
-     * @deprecated 3.1.3 Use AdminPageFramework_Registry::$bIsMinifiedVersion
+     * @since       3.0.0
+     * @deprecated  3.1.3   Use AdminPageFramework_Registry::$bIsMinifiedVersion
      */
     public $bIsMinifiedVersion;
         
     /**
      * Stores the capability for displayable elements.
      * 
-     * @since 2.0.0
+     * @since       2.0.0
      */     
     public $sCapability;
     
@@ -229,7 +228,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     /**
      * Stores the text domain.
      * 
-     * @since 3.0.4
+     * @since       3.0.4
      * @internal
      */ 
     public $sTextDomain;
@@ -237,7 +236,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     /**
      * Stores the current page's base name.
      * 
-     * @since 3.0.5
+     * @since       3.0.5
      * @internal
      */
     public $sPageNow;
@@ -245,7 +244,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     /**
      * Indicates whether the setUp() method is loaded.
      *  
-     * @since 3.1.0
+     * @since       3.1.0
      * @internal
      */
     public $_bSetupLoaded;
@@ -253,7 +252,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     /**
      * Indicates whether the current page is in admin-ajax.php
      * 
-     * @since 3.1.3
+     * @since       3.1.3
      * @internal
      */
     public $bIsAdminAjax;
@@ -308,10 +307,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
      * Sets up necessary property values.
      */
     public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
-        
-        // backward compatibility
-        $this->oUtil            = new AdminPageFramework_WPUtility;
-        
+                
         $this->oCaller          = $oCaller;
         $this->sCallerPath      = $this->getAOrB(
             $sCallerPath,
@@ -341,7 +337,11 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
         $this->sPageNow         = $this->getPageNow();
         $this->bIsAdmin         = is_admin();
         $this->bIsAdminAjax     = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
-                
+           
+
+        // backward compatibility
+        $this->oUtil            = new AdminPageFramework_WPUtility;
+        
     }
         
     /**
@@ -349,9 +349,9 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
      * 
      * This is used from other sub classes that need to retrieve the caller object.
      * 
-     * @since 2.1.5
-     * @access public    
-     * @return object The caller class object.
+     * @since       2.1.5
+     * @access      public    
+     * @return      object The caller class object.
      * @internal
      */     
     public function _getCallerObject() {
@@ -361,7 +361,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     /**
      * Sets the library information property array.
      * @internal
-     * @since 3.0.0
+     * @since       3.0.0
      */
     static public function _setLibraryData() {
 
@@ -391,7 +391,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
      * Returns the set library data array.
      * 
      * @internal
-     * @since 3.0.0
+     * @since       3.0.0
      */
     static public function _getLibraryData() {
         return isset( self::$_aLibraryData ) 
@@ -405,10 +405,10 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     /**
      * Retrieves the caller script information whether it's a theme or plugin or something else.
      * 
-     * @since 2.0.0
-     * @since 3.0.0 Moved from the link class.
-     * @remark The information can be used to embed into the footer etc.
-     * @return array The information of the script.
+     * @since       2.0.0
+     * @since       3.0.0       Moved from the link class.
+     * @remark      The information can be used to embed into the footer etc.
+     * @return      array       The information of the script.
      */  
     protected function getCallerInfo( $sCallerPath=null ) {
         
@@ -467,7 +467,9 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
      * @since       3.1.0
      * @internal
      */
-    protected function _getOptions() { return array(); }
+    protected function _getOptions() { 
+        return array(); 
+    }
 
     /**
      * Returns the last user form input array.
