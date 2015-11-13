@@ -21,7 +21,7 @@ class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Proper
     /**
      * Defines the property type.
      * 
-     * @since 3.1.0
+     * @since       3.1.0
      * @internal
      */
     public $_sPropertyType = 'network_admin_page';
@@ -29,22 +29,27 @@ class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Proper
     /**
      * Defines the fields type.
      * 
-     * @since 3.1.0
+     * @since       3.1.0
      */
     public $sFieldsType = 'network_admin_page';
     
     /**
      * Returns the option array.
      * 
-     * @since 3.1.0
+     * @since       3.1.0
      * @internal
      */
     protected function _getOptions() {
-    
-        return AdminPageFramework_WPUtility::addAndApplyFilter( // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
-            $GLOBALS['aAdminPageFramework']['aPageClasses'][ $this->sClassName ], // the caller object
+        
+        return $this->addAndApplyFilter( 
+            $this->getElement( // the caller object
+                $GLOBALS, 
+                array( 'aAdminPageFramework', 'aPageClasses', $this->sClassName ) 
+            ),
             'options_' . $this->sClassName, // options_{instantiated class name}
-            $this->sOptionKey ? get_site_option( $this->sOptionKey, array() ) : array()
+            $this->sOptionKey 
+                ? get_site_option( $this->sOptionKey, array() ) 
+                : array()
         );
         
     }
@@ -64,7 +69,12 @@ class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Proper
         if ( $this->_bDisableSavingOptions ) {
             return;
         }        
-        return update_site_option( $this->sOptionKey, $aOptions !== null ? $aOptions : $this->aOptions );
+        return update_site_option( 
+            $this->sOptionKey, 
+            $aOptions !== null 
+                ? $aOptions 
+                : $this->aOptions 
+            );
         
     }    
     
