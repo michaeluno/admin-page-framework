@@ -21,12 +21,17 @@ class AdminPageFramework_WPUtility_Post extends AdminPageFramework_WPUtility_Opt
     /**
      * Retrieves the saved option value from the given option key, field ID, and section ID.
      * 
-     * @since 3.0.4
-     * @return array The saved meta data composed with the given keys.
+     * @since       3.0.4
+     * @return      array       The saved meta data composed with the given keys.
      */
     static public function getSavedMetaArray( $iPostID, array $aKeys ) {
                     
         $_aSavedMeta = array();
+                    
+        if ( ! $iPostID ) {
+            return $_aSavedMeta;
+        }
+                    
         foreach ( $aKeys as $_sKey ) {
             $_aSavedMeta[ $_sKey ] = get_post_meta( $iPostID, $_sKey, true );
         }
