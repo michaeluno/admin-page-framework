@@ -108,17 +108,16 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * @internal
      * @since       3.0.x
      * @since       3.5.0       Renamed from `_replyToSetColumnCell`.
-     * @return      
+     * @callback    filter      manage_{post type slug}_posts_custom_column
+     * @return      string
      */
-    public function _replyToPrintColumnCell( $sColumnKey, $iPostID ) { 
-                
+    public function _replyToPrintColumnCell( $sColumnKey, $iPostID ) {                 
         echo $this->oUtil->addAndApplyFilter( 
             $this, 
             "cell_{$this->oProp->sPostType}_{$sColumnKey}", 
-            '',  // cell
+            '',  // cell output
             $iPostID 
         );
-                  
     }    
     
     /**

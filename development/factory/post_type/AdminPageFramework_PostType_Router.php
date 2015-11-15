@@ -31,6 +31,12 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         if ( ! $this->oProp->bIsAdmin ) {
             return false;
         }
+        
+        // Post table columns use ajax to update when the user modifies the post meta via quick edit.
+        if ( $this->oUtil->getElement( $this->oProp->aPostTypeArgs, 'public', true ) && $this->oProp->bIsAdminAjax ) {
+            return true;
+        }
+        
         if ( ! in_array( $this->oProp->sPageNow, array( 'edit.php', 'edit-tags.php', 'post.php', 'post-new.php' ) ) ) {
             return false;
         }

@@ -395,6 +395,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.7.0 =
+- Fixed an issue that a column data were not updated right away when the user uses Quick Edit in a post listing table of a post type.
+
 = 3.6.3 - 2015/11/07 = 
 - Added the `script` and `style` arguments for the page and in-page tab definitions.
 - Tweaked the style of section tab titles in meta boxes.
