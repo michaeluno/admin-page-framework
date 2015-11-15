@@ -371,70 +371,11 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * @return      array       An array holding default values of form data.
      */
     public function getDefaultFormValues() {
-// @todo Think of a new way when there are nested fieldsets and sectionsets.        
-        $_aDefaultOptions = array();
-        foreach( $this->aFieldsets as $_sSectionID => $_aFields ) {
-            
-            foreach( $_aFields as $_sFieldID => $_aField ) {
-                
-                $_vDefault = $this->_getDefautValue( $_aField );
-                
-                if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
-                    $_aDefaultOptions[ $_aField['section_id'] ][ $_sFieldID ] = $_vDefault;
-                } else {
-                    $_aDefaultOptions[ $_sFieldID ] = $_vDefault;
-                }
-                    
-            }
-                
-        }     
-        
-        return $_aDefaultOptions;     
-        
+        $_oDefaultValues = new AdminPageFramework_Form_Model___DefaultValues(
+            $this->aFieldsets
+        );
+        return $_oDefaultValues->get();
     }
-        /**
-         * Returns the default value from the given field definition array.
-         * 
-         * This is a helper function for the above getDefaultOptions() method.
-         * 
-         * @since 3.0.0
-         */
-        private function _getDefautValue( $aField ) {
-            
-            // Check if sub-fields exist whose keys are numeric
-            $_aSubFields = $this->getIntegerKeyElements( $aField );
-
-            // If there are no sub-fields     
-            if ( count( $_aSubFields ) == 0 ) {
-                return $this->getElement(
-                    $aField,   // subject
-                    'value',    // key
-                    $this->getElement(   // default value
-                        $aField,   // subject  
-                        'default',  // key
-                        null        // default value
-                    )
-                );
-            }
-            
-            // Otherwise, there are sub-fields
-            $_aDefault = array();
-            array_unshift( $_aSubFields, $aField ); // insert the main field into the very first index.
-            foreach( $_aSubFields as $_iIndex => $_aField ) {
-                $_aDefault[ $_iIndex ] = $this->getElement( 
-                    $_aField,   // subject
-                    'value',    // key
-                    $this->getElement(   // default value
-                        $_aField,   // subject  
-                        'default',  // key
-                        null        // default value
-                    )
-                ); 
-            }
-            return $_aDefault;
-            
-        }            
-            
             
     /**
      * Formates the added section-sets and field-sets definition arrays.
@@ -518,25 +459,4 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             $this->deleteTransient( "apf_field_erros_" . get_current_user_id() );
         }        
   
-        
-    /**
-     * @since       DEVVER
-     * @deprecated   Do not drop elements at the registration formatting routine 
-     * to avoid creating two different versions of sectionsets and fieldsets arrays.
-     */
-    // public function applyConditions() {
-
-        // $_oSectionConditioner = new AdminPageFramework_Form_Model___SectionConditioner(
-            // $this->aSectionsets
-        // );
-        // $this->aSectionsets = $_oSectionConditioner->get();
-        
-        // $_oConditioner = new AdminPageFramework_Form_Model_Conditioner(
-            // $this->aSectionsets,
-            // $this->aFieldsets
-        // );
-        // $this->aFieldsets = $_oConditioner->get();
-        
-    // }
-
 }

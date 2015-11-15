@@ -135,6 +135,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Form_Model"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/AdminPageFramework_Form_Model.php", 
 	"AdminPageFramework_Form_View"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/AdminPageFramework_Form_View.php", 
 	"AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_model/AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions.php", 
+	"AdminPageFramework_Form_Model___DefaultValues"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_model/AdminPageFramework_Form_Model___DefaultValues.php", 
 	"AdminPageFramework_Form_Model___FieldTypeRegistration"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_model/AdminPageFramework_Form_Model___FieldTypeRegistration.php", 
 	"AdminPageFramework_Form_Model___FieldTypeResource"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_model/AdminPageFramework_Form_Model___FieldTypeResource.php", 
 	"AdminPageFramework_Form_Model___SetFieldResources"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_model/AdminPageFramework_Form_Model___SetFieldResources.php", 
