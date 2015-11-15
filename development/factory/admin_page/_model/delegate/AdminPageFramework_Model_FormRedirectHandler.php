@@ -31,11 +31,13 @@ class AdminPageFramework_Model_FormRedirectHandler extends AdminPageFramework_WP
         $this->oFactory         = $oFactory;        
         
         // wp_mail() will be loaded by the time 'after_setup_theme' is loaded.
-        add_action( 
-            "load_after_{$this->oFactory->oProp->sClassName}", 
-            array( $this, '_replyToCheckRedirects' ), 
-            22  // lower priority - this must be called after form validation is done. 20: field registration, 21: validation handling 22: handle redirects
-        ); 
+        // @deprecated      DEVVER
+        // add_action( 
+            // "load_after_{$this->oFactory->oProp->sClassName}", 
+            // array( $this, '_replyToCheckRedirects' ), 
+            // 22  // lower priority - this must be called after form validation is done. 20: field registration, 21: validation handling 22: handle redirects
+        // ); 
+        $this->_replyToCheckRedirects();
         
     }   
     

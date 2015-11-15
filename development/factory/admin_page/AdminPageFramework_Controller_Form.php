@@ -14,11 +14,11 @@
  * @since           2.0.0
  * @since           3.3.1       Changed the name from `AdminPageFramework_Setting`.
  * @since           3.6.3       Changed the name from `AdminPageFramework_Form_Controller`.
- * @extends         AdminPageFramework_Form_View
+ * @extends         AdminPageFramework_View_Form
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  */
-abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Form_View {
+abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_View_Form {
                                     
     /**
      * {@inheritdoc}
@@ -306,7 +306,7 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_For
                 ? null                  // will return the entire options array
                 : $_aDimensionalKeys,   // dimensional keys
             $_mDefault, // default
-            $this->getSavedOptions() + $this->oProp->getDefaultOptions( $this->oForm->aFields ) // additional array to merge with the options
+            $this->getSavedOptions() + $this->oForm->getDefaultFormValues()
         );
         
     }
@@ -327,7 +327,7 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_For
                                
         trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is deprecated: %1$s. Use %2$s instead.', $this->oProp->sTextDomain ), __METHOD__, 'getValue()' ), E_USER_WARNING );
     
-        $_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $this->oProp->getDefaultOptions( $this->oForm->aFields ) );
+        $_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $this->oForm->getDefaultFormValues() );
         /* If it's saved, return it */
         if ( ! $sSectionID ) {
             if ( array_key_exists( $sFieldID, $_aOptions ) ) {

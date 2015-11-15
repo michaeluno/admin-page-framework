@@ -31,22 +31,16 @@ abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBo
 
         // Use nonce for verification
         $_aOutput   = array();
-        $_aOutput[] = wp_nonce_field( $this->oProp->sMetaBoxID, $this->oProp->sMetaBoxID, true, false );
+        $_aOutput[] = wp_nonce_field(
+            $this->oProp->sMetaBoxID, 
+            $this->oProp->sMetaBoxID, 
+            true, 
+            false 
+        );
                                  
         // Get the fields output.
-        $_oFieldsTable  = new AdminPageFramework_FormPart_Table( 
-            $this->oProp->aFieldTypeDefinitions, 
-            $this->_getFieldErrors(), 
-            $this->oMsg
-        );
-
-        $_aOutput[]     = $_oFieldsTable->getFormTables(
-            $this->oForm->aConditionedSections, 
-            $this->oForm->aConditionedFields, 
-            array( $this, '_replyToGetSectionHeaderOutput' ), 
-            array( $this, '_replyToGetFieldOutput' ) 
-        );
-
+        $_aOutput[] = $this->oForm->get();
+        
         // Do actions
         $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
         

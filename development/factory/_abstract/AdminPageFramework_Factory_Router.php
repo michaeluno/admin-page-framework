@@ -134,7 +134,11 @@ abstract class AdminPageFramework_Factory_Router {
         $this->oProp = $oProp;
     
         if ( $this->oProp->bIsAdmin && ! $this->oProp->bIsAdminAjax ) {
-            add_action( 'current_screen', array( $this, '_replyToLoadComponents' ) );
+            if ( did_action( 'current_screen' ) ) {
+                $this->_replyToLoadComponents();
+            } else {                
+                add_action( 'current_screen', array( $this, '_replyToLoadComponents' ) );
+            }
         }
         
         // Call the start method - defined in the controller class.
@@ -209,14 +213,15 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * Stores class names by fields type for form element objects.
      * @since       3.5.3
+     * @deprecated  DEVVER
      */    
     protected $_aFormElementClassNameMap = array(
-        'page'                  => 'AdminPageFramework_FormDefinition_Page',
+        'admin_page'            => 'AdminPageFramework_FormDefinition_Page',
         'network_admin_page'    => 'AdminPageFramework_FormDefinition_Page',
         'post_meta_box'         => 'AdminPageFramework_FormDefinition_Meta',
         'page_meta_box'         => 'AdminPageFramework_FormDefinition',
         'post_type'             => 'AdminPageFramework_FormDefinition',
-        'taxonomy'              => 'AdminPageFramework_FormDefinition',
+        'taxonomy_field'        => 'AdminPageFramework_FormDefinition',
         'widget'                => 'AdminPageFramework_FormDefinition',
         'user_meta'             => 'AdminPageFramework_FormDefinition_Meta',
     );        
@@ -226,25 +231,35 @@ abstract class AdminPageFramework_Factory_Router {
      * @since       3.1.0
      * @internal
      * @return      object|null
+     * @deprecated  DEVVER
      */
     protected function _getFormInstance( $oProp ) {
 
-        if ( 
-            in_array( 
-                $oProp->sFieldsType, 
-                array( 'page', 'network_admin_page', 'post_meta_box', 'post_type' )
-            ) 
-            && $oProp->bIsAdminAjax 
-        ) {
-            return null;
-        }
-        return $this->_getInstanceByMap( 
-            $this->_aFormElementClassNameMap,   // map
-            $oProp->sFieldsType,    // key
-            $oProp->sFieldsType,    // parameter 1
-            $oProp->sCapability,    // parameter 2
-            $this   // parameter 3
-        );
+        // DEVVER+
+        $_sFormClass = "AdminPageFramework_Form_{$oProp->_sPropertyType}";
+        return new $_sFormClass(
+            $oProp->aFormArguments, // Options - for the values that do not need to change through out the script execution. 
+            $oProp->aFormCallbacks, // Callbacks - for the values which change dynamically depending on conditions such as the loaded page url.
+            $this->oMsg
+        );    
+    
+        // @deprecated      DEVVER
+        // if ( 
+            // in_array( 
+                // $oProp->sStructureType, 
+                // array( 'admin_page', 'network_admin_page', 'post_meta_box', 'post_type', 'page_meta_box' )
+            // ) 
+            // && $oProp->bIsAdminAjax
+        // ) {
+            // return null;
+        // }
+        // return $this->_getInstanceByMap( 
+            // $this->_aFormElementClassNameMap,   // map
+            // $oProp->sStructureType,    // key
+            // $oProp->sStructureType,    // parameter 1
+            // $oProp->sCapability,    // parameter 2
+            // $this   // parameter 3
+        // );
         
     }
     
@@ -253,12 +268,12 @@ abstract class AdminPageFramework_Factory_Router {
      * @since       3.5.3
      */    
     protected $_aResourceClassNameMap = array(
-        'page'                  => 'AdminPageFramework_Resource_Page',
+        'admin_page'                  => 'AdminPageFramework_Resource_Page',
         'network_admin_page'    => 'AdminPageFramework_Resource_Page',
         'post_meta_box'         => 'AdminPageFramework_Resource_MetaBox',
         'page_meta_box'         => 'AdminPageFramework_Resource_MetaBox_Page',
         'post_type'             => 'AdminPageFramework_Resource_PostType',
-        'taxonomy'              => 'AdminPageFramework_Resource_TaxonomyField',
+        'taxonomy_field'              => 'AdminPageFramework_Resource_TaxonomyField',
         'widget'                => 'AdminPageFramework_Resource_Widget',
         'user_meta'             => 'AdminPageFramework_Resource_UserMeta',
     );        
@@ -269,7 +284,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      */
     protected function _getResourceInstance( $oProp ) {
-        return $this->_getInstanceByMap( $this->_aResourceClassNameMap, $oProp->sFieldsType, $oProp );    
+        return $this->_getInstanceByMap( $this->_aResourceClassNameMap, $oProp->sStructureType, $oProp );
     }
     
     /**
@@ -277,12 +292,12 @@ abstract class AdminPageFramework_Factory_Router {
      * @since       3.5.3
      */    
     protected $_aHelpPaneClassNameMap = array(
-        'page'                  => 'AdminPageFramework_HelpPane_Page',
+        'admin_page'            => 'AdminPageFramework_HelpPane_Page',
         'network_admin_page'    => 'AdminPageFramework_HelpPane_Page',
         'post_meta_box'         => 'AdminPageFramework_HelpPane_MetaBox',
         'page_meta_box'         => 'AdminPageFramework_HelpPane_MetaBox_Page',
         'post_type'             => null,    // no help pane class for the post type factory class.
-        'taxonomy'              => 'AdminPageFramework_HelpPane_TaxonomyField',
+        'taxonomy_field'              => 'AdminPageFramework_HelpPane_TaxonomyField',
         'widget'                => 'AdminPageFramework_HelpPane_Widget',
         'user_meta'             => 'AdminPageFramework_HelpPane_UserMeta',
     );    
@@ -293,7 +308,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      */
     protected function _getHelpPaneInstance( $oProp ) {
-        return $this->_getInstanceByMap( $this->_aHelpPaneClassNameMap, $oProp->sFieldsType, $oProp );
+        return $this->_getInstanceByMap( $this->_aHelpPaneClassNameMap, $oProp->sStructureType, $oProp );
     }
     
     /**
@@ -301,12 +316,12 @@ abstract class AdminPageFramework_Factory_Router {
      * @since       3.5.3
      */
     protected $_aLinkClassNameMap = array(
-        'page'                  => 'AdminPageFramework_Link_Page',
+        'admin_page'            => 'AdminPageFramework_Link_Page',
         'network_admin_page'    => 'AdminPageFramework_Link_NetworkAdmin',
         'post_meta_box'         => null,
         'page_meta_box'         => null,
         'post_type'             => 'AdminPageFramework_Link_PostType', 
-        'taxonomy'              => null,
+        'taxonomy_field'              => null,
         'widget'                => null,
         'user_meta'             => null,
     );    
@@ -317,7 +332,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      */
     protected function _getLinkInstancce( $oProp, $oMsg ) {
-        return $this->_getInstanceByMap( $this->_aLinkClassNameMap, $oProp->sFieldsType, $oProp, $oMsg );
+        return $this->_getInstanceByMap( $this->_aLinkClassNameMap, $oProp->sStructureType, $oProp, $oMsg );
     }
     
     /**
@@ -325,12 +340,12 @@ abstract class AdminPageFramework_Factory_Router {
      * @since       3.5.3
      */
     protected $_aPageLoadClassNameMap = array(
-        'page'                  => 'AdminPageFramework_PageLoadInfo_Page',
+        'admin_page'                  => 'AdminPageFramework_PageLoadInfo_Page',
         'network_admin_page'    => 'AdminPageFramework_PageLoadInfo_NetworkAdminPage',
         'post_meta_box'         => null,
         'page_meta_box'         => null,
         'post_type'             => 'AdminPageFramework_PageLoadInfo_PostType', 
-        'taxonomy'              => null,
+        'taxonomy_field'              => null,
         'widget'                => null,
         'user_meta'             => null,
     );
@@ -342,10 +357,10 @@ abstract class AdminPageFramework_Factory_Router {
      */
     protected function _getPageLoadInfoInstance( $oProp, $oMsg ) {
         
-        if ( ! isset( $this->_aPageLoadClassNameMap[ $oProp->sFieldsType ] ) ) {
+        if ( ! isset( $this->_aPageLoadClassNameMap[ $oProp->sStructureType ] ) ) {
             return null;
         }
-        $_sClassName = $this->_aPageLoadClassNameMap[ $oProp->sFieldsType ];
+        $_sClassName = $this->_aPageLoadClassNameMap[ $oProp->sStructureType ];
         return call_user_func_array( array( $_sClassName, 'instantiate' ), array( $oProp, $oMsg ) );
 
     }
@@ -476,7 +491,7 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          */              
         public function _replyTpSetAndGetInstance_oForm() {
-            $this->oForm = $this->_getFormInstance( $this->oProp );
+            $this->oForm = $this->_getFormInstance( $this->oProp );           
             return $this->oForm;
         }
         /**
@@ -535,7 +550,6 @@ abstract class AdminPageFramework_Factory_Router {
                     "set_up_{$this->oProp->sClassName}", 
                     $this 
                 );
-                $this->oProp->_bSetupLoaded = true;            
                 return;
         }
         

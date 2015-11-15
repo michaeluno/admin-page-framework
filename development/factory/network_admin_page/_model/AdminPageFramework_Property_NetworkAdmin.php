@@ -10,10 +10,10 @@
 /**
  * Stores properties of a network admin object.
  * 
- * @since 3.1.0
- * @package AdminPageFramework
- * @subpackage Property
- * @extends AdminPageFramework_Property_Page
+ * @since       3.1.0
+ * @package     AdminPageFramework
+ * @subpackage  Property
+ * @extends     AdminPageFramework_Property_Page
  * @internal
  */
 class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Property_Page {
@@ -31,7 +31,7 @@ class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Proper
      * 
      * @since       3.1.0
      */
-    public $sFieldsType = 'network_admin_page';
+    public $sStructureType = 'network_admin_page';
     
     /**
      * Returns the option array.

@@ -19,7 +19,7 @@
  * @internal
  */
 class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Base {
-    
+
     /**
      * Defines the property type.
      * @remark      Setting the property type helps to check whether some components are loaded such as scripts that can be reused per a class type basis.
@@ -27,14 +27,14 @@ class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Bas
      * @internal
      */
     public $_sPropertyType = 'widget';
-    
+
     /**
      * Indicates the fields type.
      * 
      * @since       3.2.0
      * @internal
      */
-    public $sFieldsType = 'widget';
+    public $sStructureType = 'widget';
 
     /**
      * Stores the extended instantiated class name.
@@ -45,7 +45,6 @@ class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Bas
      */     
     public $sClassName = '';
 
-    
     /**
      * Stores the caller script path.
      * 
@@ -54,14 +53,14 @@ class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Bas
      * @access public
      */         
     public $sCallerPath = '';
-    
+
     /**
      * Stores the widget title.
      * 
      * @since   3.2.0
      */
     public $sWidgetTitle = '';
-    
+
     /**
      * Stores the widget arguments.
      * 
@@ -74,7 +73,7 @@ class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Bas
      * @since       3.2.0
      */
     public $aWidgetArguments = array();    
-        
+
     /**
      * Determines whether the widget title should be displayed in the front end.
      * 
@@ -84,12 +83,41 @@ class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Bas
      * @since       3.5.7
      */
     public $bShowWidgetTitle = true;
-        
+
     /**
      * Stores the widget object.
      * 
      * @since       3.5.9
      */ 
     public $oWidget;
-     
+
+    /**
+     * Stores the action hook name that gets triggered when the form registration is performed.
+     * 'admin_page' and 'network_admin_page' will use a custom hook for it.
+     * @since       DEVVER
+     * @access      pulbic      Called externally.
+     */
+    // public $_sFormRegistrationHook = 'admin_enqueue_scripts'; 
+    // public $_sFormRegistrationHook = ''; 
+    
+    /**
+     * Sets up properties.
+     * @since       DEVVER
+     */
+    public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sStructureType ) {
+
+        $this->_sFormRegistrationHook = 'load_after_' . $sClassName; // DEVVER+
+        // $this->_sFormRegistrationHook = 'current_screen';
+
+        parent::__construct(
+            $oCaller,
+            $sCallerPath,
+            $sClassName,
+            $sCapability, 
+            $sTextDomain,
+            $sStructureType
+        );
+
+    }
+
 }

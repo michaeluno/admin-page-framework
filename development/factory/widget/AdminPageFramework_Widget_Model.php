@@ -55,7 +55,8 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
          * @callback    filter      validation_{factory class name}
          */
         public function _replyToSortInputs( $aSubmittedFormData, $aStoredFormData, $oFactory ) {            
-            return $this->_getSortedInputs( $aSubmittedFormData ); 
+// @todo examine whether stripslashes_deep() is necceary or not.
+            return $this->oForm->getSortedInputs( $aSubmittedFormData ); 
         }
         
     /**
@@ -82,6 +83,23 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
     // public function validate( $aSubmit, $aStored, $oAdminWidget ) {
         // return $aSubmit;
     // }
+    
+    /**
+     * Gets called after the form element registration is done.
+     * 
+     * @since       DEVVER
+     */
+    public function _replyToHandleSubmittedFormData( $aSavedData, $aArguments, $aSectionsets, $aFieldsets ) {
+        
+        // Instantiate the resource object so that common styles and scripts will be automatically inserted.
+        // This method is called when fields are registered. Originally this method is used to validate form data
+        // but the widget class utilizes WordPress built-in widget factory claass and it has its own validation method.
+        if ( empty( $aSectionsets ) || empty( $aFieldsets ) ) {
+            return;
+        }
+        $this->oResource; // triggers `__get()`.
+        
+    }    
     
     /**
      * Registers the widget.
@@ -114,9 +132,10 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
      * @since       3.2.0
      * @internal
      * @remark      Called from the widget factory class.
+     * @deprecated  DEVVER
      */
     public function _registerFormElements( $aOptions ) {
-                    
+return;
         $this->_loadFieldTypeDefinitions();  // defined in the framework factory class.    
         
         // Set the internal options array. The framework refers this array when rendering the form.

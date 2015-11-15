@@ -22,8 +22,9 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * Indicates whether the submitted data is for a new post.
      * 
      * @since       3.3.0
+     * @deprecated  
      */
-    private $_bIsNewPost = false;    
+    // private $_bIsNewPost = false;    
 
     /**
      * A validation callback method.
@@ -47,13 +48,22 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
     protected function _setUpValidationHooks( $oScreen ) {
 
         if ( 'attachment' === $oScreen->post_type && in_array( 'attachment', $this->oProp->aPostTypes ) ) {
-            add_filter( 'wp_insert_attachment_data', array( $this, '_replyToFilterSavingData' ), 10, 2 );
+            add_filter( 
+                'wp_insert_attachment_data', 
+                array( $this, '_replyToFilterSavingData' ), 
+                10, 
+                2 
+            );
         } else {
-            add_filter( 'wp_insert_post_data', array( $this, '_replyToFilterSavingData' ), 10, 2 );
+            add_filter( 
+                'wp_insert_post_data', 
+                array( $this, '_replyToFilterSavingData' ), 
+                10, 
+                2 
+            );
         }
     
     }
-     
     
     /**
      * Adds the defined meta box.
@@ -65,7 +75,6 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * @callback    action      add_meta_boxes
      */ 
     public function _replyToAddMetaBox() {
-
         foreach( $this->oProp->aPostTypes as $sPostType ) {
             add_meta_box( 
                 $this->oProp->sMetaBoxID,                       // id
@@ -76,176 +85,52 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
                 $this->oProp->sPriority,                        // priority
                 null                                            // argument - deprecated $this->oForm->aFields
             );
-        }
-            
+        }      
     }     
-    
+
     /**
-     * Registers form fields and sections.
+     * Called when the form object tries to set the form data from the database.
      * 
-     * @internal
-     * @since       3.0.0
-     * @since       3.3.0       Changed the name from `_replyToRegisterFormElements()`. Changed the scope to `protected`.
-     * @return      void
+     * @callback    form        `saved_data`    
+     * @remark      The `oOptions` property will be automatically set with the overload method.
+     * @return      array       The saved form data.
+     * @since       DEVVER
      */
-    protected function _registerFormElements( $oScreen ) {
+    public function _replyToGetSavedFormData() {
                 
-        if ( ! $this->oUtil->isPostDefinitionPage( $this->oProp->aPostTypes ) ) { 
-            return; 
-        }
-    
-        $this->_loadFieldTypeDefinitions();  // defined in the factory class.
-    
-        // Format the fields array.
-        $this->oForm->format();
-        $this->oForm->applyConditions(); // will set $this->oForm->aConditionedFields
-        $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );
-        
-        // Set the option array - the framework will refer to this data when displaying the fields.
-        $this->_setOptionArray( 
+        $_oMetaData = new AdminPageFramework_MetaBox_Model___PostMeta(
             $this->_getPostID(),
-            $this->oUtil->getAsArray( $this->oForm->aConditionedFields )
-        ); 
+            $this->oForm->aFieldsets
+        );        
+        $this->oProp->aOptions = $_oMetaData->get();
         
-        // Add the repeatable section elements to the fields definition array.
-        $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
-        
-        $this->_registerFields( $this->oForm->aConditionedFields );
-                
-    }    
-        
+        // The parent method will handle applying filters with the set property object.
+        return parent::_replyToGetSavedFormData();
+    
+    }
         /**
          * Returns the post ID associated with the loading page.
-         * @since   3.4.1
+         * @since       3.4.1
          * @internal
+         * @return      integer     The found post ID. `0` if not found.
          */
         private function _getPostID()  {
             
             // for an editing post page.
-            if ( isset( $GLOBALS['post']->ID ) ) {
-                return $GLOBALS['post']->ID;
+            if ( isset( $GLOBALS[ 'post' ]->ID ) ) {
+                return $GLOBALS[ 'post' ]->ID;
             }
-            if ( isset( $_GET['post'] ) ) {
-                return $_GET['post'];
+            if ( isset( $_GET[ 'post' ] ) ) {
+                return $_GET[ 'post' ];
             }
             // for post.php without any query key-values.
-            if ( isset( $_POST['post_ID'] ) ) {
-                return $_POST['post_ID'];
+            if ( isset( $_POST[ 'post_ID' ] ) ) {
+                return $_POST[ 'post_ID' ];
             }
-            return null;
+            return 0;
             
         }
-    
-    /**
-     * Retrieves the saved meta data as an array.
-     * 
-     * @since       3.0.0
-     * @internal
-     * @uses        get_post_meta()
-     * @deprecated
-     */
-    protected function _getSavedMetaArray( $iPostID, $aInputStructure ) {
-        $_aSavedMeta = array();
-        foreach ( $aInputStructure as $_sSectionORFieldID => $_v ) {
-            $_aSavedMeta[ $_sSectionORFieldID ] = get_post_meta( $iPostID, $_sSectionORFieldID, true );
-        }
-        return $_aSavedMeta;
-    }
-    
-    /**
-     * Sets the aOptions property array in the property object. 
-     * 
-     * This array will be referred later in the getFieldOutput() method.
-     * 
-     * @internal    
-     * @since       unknown
-     * @since       3.0.0       the scope is changed to protected as the taxonomy field class redefines it.
-     * @since       3.5.3       Removed a type check at the beginning of the method and added a type hint to the parameter. 
-     * This change enables an empty value to be parsed and triggers `options_{class name}` filter hook. Before this change if the option is empty, the hook did not get triggered.
-     */
-    protected function _setOptionArray( $iPostID, array $aFields ) {
-        
-        if ( ! $this->oUtil->isNumericInteger( $iPostID ) ) {
-            return; 
-        }
-        
-        $this->oProp->aOptions = $this->oUtil->getAsArray( $this->oProp->aOptions );        
-        $this->_fillOptionsArrayFromPostMeta( 
-            $this->oProp->aOptions, 
-            $iPostID, 
-            $aFields
-        );
-          
-        // Apply the filter to let third party scripts to set own options array.
-        $this->oProp->aOptions = $this->oUtil->addAndApplyFilter( 
-            $this, // the caller object
-            'options_' . $this->oProp->sClassName, 
-            $this->oProp->aOptions
-        );
-        
-        $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] 
-            ? $this->oProp->aLastInput 
-            : array();
-        $this->oProp->aOptions = $_aLastInput + $this->oUtil->getAsArray( $this->oProp->aOptions );
-
-    }
-        /**
-         * Updates the first parameter of the options array with the post meta data associated with the given post ID.
-         * 
-         * @since       3.5.3
-         * @since       3.5.9       Changed it to skip assigning a value when a meta key as a field (section) id does not exist.
-         * @return      void
-         * @uses        get_post_meta()
-         * @internal
-         */
-        private function _fillOptionsArrayFromPostMeta( array &$aOptions, $iPostID, array $aFields ) {
-            
-            $_aMetaKeys = $this->oUtil->getAsArray( 
-                get_post_custom_keys( $iPostID )  // returns array or null
-            );
-            foreach( $aFields as $_sSectionID => $_aFields ) {
-                
-                if ( '_default' == $_sSectionID  ) {
-                    foreach( $_aFields as $_aField ) {
-                        if ( ! in_array( $_aField[ 'field_id' ], $_aMetaKeys ) ) {
-                            continue;
-                        }
-                        $aOptions[ $_aField['field_id'] ] = get_post_meta( 
-                            $iPostID, 
-                            $_aField[ 'field_id' ], 
-                            true 
-                        );    
-                    }
-                }
-                if ( ! in_array( $_sSectionID, $_aMetaKeys ) ) {
-                    continue;
-                }                
-                $aOptions[ $_sSectionID ] = get_post_meta( 
-                    $iPostID, 
-                    $_sSectionID, 
-                    true 
-                );
-                
-            }
-      
-        }
-        
-    /**
-     * Returns the filtered section description output.
-     * 
-     * @internal
-     * @since       3.0.0
-     */
-    public function _replyToGetSectionHeaderOutput( $sSectionDescription, $aSection ) {
-            
-        return $this->oUtil->addAndApplyFilters(
-            $this,
-            array( 'section_head_' . $this->oProp->sClassName . '_' . $aSection['section_id'] ), // section_ + {extended class name} + _ {section id}
-            $sSectionDescription
-        );     
-        
-    }
-            
+               
     /**
      * The submitted data for a new post being passed. 
      * 
@@ -261,28 +146,32 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
     public function _replyToFilterSavingData( $aPostData, $aUnmodified ) {
 
         // Perform initial checks.
-        if ( ! $this->_validateCall( $aUnmodified ) ) { 
+        if ( ! $this->_shouldProceedValidation( $aUnmodified ) ) { 
             return $aPostData; 
         }
                 
         // Retrieve the submitted data. 
-        $_aInput        = $this->oForm->getUserSubmitDataFromPOST( $this->oForm->aConditionedFields, $this->oForm->aConditionedSections );
-        $_aInput        = $this->_getSortedInputs( $_aInput );  // 3.6.0+
-        $_aInputRaw     = $_aInput; // store one for the last input array.
+        $_aInputs       = $this->oForm->getSubmittedData(
+            $_POST,     // subject data to be parsed
+            true,       // extract data with the fieldset structure
+            false       // strip slashes
+        );
+        $_aInputsRaw    = $_aInputs; // store one for the last input array.
         
         // Prepare the saved data. For a new post, the id is set to 0.
         $_iPostID       = $aUnmodified[ 'ID' ];  
-        $_aSavedMeta    = $_iPostID 
-            ? $this->oUtil->getSavedMetaArray( $_iPostID, array_keys( $_aInput ) )
-            : array();
+        $_aSavedMeta    = $this->oUtil->getSavedPostMetaArray( 
+            $_iPostID, 
+            array_keys( $_aInputs )
+        );
         
         // Apply filters to the array of the submitted values.
-        $_aInput = $this->oUtil->addAndApplyFilters( 
+        $_aInputs = $this->oUtil->addAndApplyFilters( 
             $this, 
             "validation_{$this->oProp->sClassName}",
             call_user_func_array( 
                 array( $this, 'validate' ), // triggers __call()
-                array( $_aInput, $_aSavedMeta, $this ) 
+                array( $_aInputs, $_aSavedMeta, $this ) 
             ), // 3.5.3+            
             $_aSavedMeta, 
             $this 
@@ -290,16 +179,19 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
  
         // If there are validation errors. Change the post status to 'pending'.
         if ( $this->hasFieldError() ) {
-            $this->_setLastInput( $_aInputRaw );
-            $aPostData['post_status'] = 'pending';
-            add_filter( 'redirect_post_location', array( $this, '_replyToModifyRedirectPostLocation' ) );
+            $this->_setLastInput( $_aInputsRaw );
+            $aPostData[ 'post_status' ] = 'pending';
+            add_filter( 
+                'redirect_post_location', 
+                array( $this, '_replyToModifyRedirectPostLocation' )
+            );
         }
                     
         $this->oForm->updateMetaDataByType( 
-            $_iPostID,  // object id
-            $_aInput,   // user submit form data
+            $_iPostID,   // object id
+            $_aInputs,   // user submit form data
             $this->oForm->dropRepeatableElements( $_aSavedMeta ), // Drop repeatable section elements from the saved meta array.
-            $this->oForm->sFieldsType   // fields type
+            $this->oForm->sStructureType   // fields type
         );        
         
         return $aPostData;
@@ -319,8 +211,17 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          */
         public function _replyToModifyRedirectPostLocation( $sLocation ) {
 
-            remove_filter( 'redirect_post_location', array( $this, __FUNCTION__ ) );
-            return add_query_arg( array( 'message' => 'apf_field_error', 'field_errors' => true ), $sLocation );
+            remove_filter( 
+                'redirect_post_location', 
+                array( $this, __FUNCTION__ ) 
+            );
+            return add_query_arg(
+                array( 
+                    'message'       => 'apf_field_error', 
+                    'field_errors'  => true
+                ), 
+                $sLocation 
+            );
             
         }        
             
@@ -329,10 +230,11 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          * 
          * @since       3.3.0
          * @since       3.6.0       Added the `$aUnmodified` parameter.
+         * @since       DEVVER      Renamed from `_validateCall()`.
          * @internal
          * @return      boolean
          */
-        private function _validateCall( array $aUnmodified ) {
+        private function _shouldProceedValidation( array $aUnmodified ) {
             
             if ( 'auto-draft' === $aUnmodified[ 'post_status' ] ) { 
                 return false; 

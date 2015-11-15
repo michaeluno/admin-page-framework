@@ -18,11 +18,15 @@
 abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Controller {    
        
     /**
-     * Defines the fields type.
+     * Defines the class object structure type.
+     * 
+     * This is used to create a property object as well as to define the form element structure.
+     * 
      * @since       3.2.0
+     * @since       DEVVER      Changed the name from `$_sStructureType`.
      * @internal
      */
-    static protected $_sFieldsType = 'widget';
+    static protected $_sStructureType = 'widget';
        
     /**
     * The constructor of the class object.
@@ -51,14 +55,14 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
             get_class( $this ),     // class name
             $sCapability,           // capability 
             $sTextDomain,           // text domain
-            self::$_sFieldsType     // fields type
+            self::$_sStructureType  // fields type
         );
         
-        $this->oProp->sWidgetTitle      = $sWidgetTitle;
-        $this->oProp->aWidgetArguments  = $aWidgetArguments;
-                
+        $this->oProp->sWidgetTitle           = $sWidgetTitle;
+        $this->oProp->aWidgetArguments       = $aWidgetArguments;
+                                
         parent::__construct( $this->oProp );
-
+        
         $this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}", $this );
                            
     }

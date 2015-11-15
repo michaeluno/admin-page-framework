@@ -19,11 +19,15 @@
 abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_TaxonomyField_Controller {
     
     /**
-     * Defines the fields type.
+     * Defines the class object structure type.
+     * 
+     * This is used to create a property object as well as to define the form element structure.
+     * 
      * @since       3.0.0
+     * @since       DEVVER      Changed the name from `$_sStructureType`. Changed the default value from `taxonomy`.
      * @internal
      */
-    static protected $_sFieldsType = 'taxonomy';
+    static protected $_sStructureType = 'taxonomy_field';
     
     /**
      * Constructs the class object instance of AdminPageFramework_TaxonomyField.
@@ -55,7 +59,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Taxon
             get_class( $this ), 
             $sCapability, 
             $sTextDomain, 
-            self::$_sFieldsType 
+            self::$_sStructureType 
         );     
         $this->oProp->aTaxonomySlugs    = ( array ) $asTaxonomySlug;
         $this->oProp->sOptionKey        = $sOptionKey 

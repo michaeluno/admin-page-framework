@@ -169,8 +169,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      */    
     public function addSettingSections( /* $aSection1, $aSection2=null, $_and_more=null */ ) {
         
-        foreach( func_get_args() as $asSection ) { 
-            $this->addSettingSection( $asSection ); 
+        foreach( func_get_args() as $_asSectionset ) { 
+            $this->addSettingSection( $_asSectionset ); 
         }
         
         // Reset the stored target tab slug and the target section tab slug.
@@ -236,24 +236,24 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * </ul>
      * @return      void
      */
-    public function addSettingSection( $aSection ) {
+    public function addSettingSection( $aSectionset ) {
         
-        if ( ! is_array( $aSection ) ) { 
+        if ( ! is_array( $aSectionset ) ) { 
             return; 
         }
         
         $this->_sTargetSectionTabSlug = $this->oUtil->getElement(
-            $aSection,
+            $aSectionset,
             'section_tab_slug',
             $this->_sTargetSectionTabSlug
         );
-        $aSection[ 'section_tab_slug' ] = $this->oUtil->getAOrB(
+        $aSectionset[ 'section_tab_slug' ] = $this->oUtil->getAOrB(
             $this->_sTargetSectionTabSlug,
             $this->_sTargetSectionTabSlug,
             null
         );
                 
-        $this->oForm->addSection( $aSection );
+        $this->oForm->addSection( $aSectionset );
             
     }     
         
@@ -271,8 +271,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     * @return       void
     */ 
     public function addSettingFields( /* $aField1, $aField2=null, $_and_more=null */ ) {
-        foreach( func_get_args() as $aField ) { 
-            $this->addSettingField( $aField ); 
+        foreach( func_get_args() as $_aFieldset ) { 
+            $this->addSettingField( $_aFieldset ); 
         }
     }    
         
@@ -543,9 +543,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *       </li>
     * </ul>    
      */     
-    public function addSettingField( $asField ) {
+    public function addSettingField( $asFieldset ) {
         if ( method_exists( $this->oForm, 'addField' ) ) {
-            $this->oForm->addField( $asField );     
+            $this->oForm->addField( $asFieldset );     
         }
     }
     
@@ -567,9 +567,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *      $aErrors = array();
      *      
      *      // 3. Check if the submitted value meets your criteria.
-     *      if ( ! is_numeric( $aNewInput['verify_text_field'] ) ) {
-     *          $aErrors['verify_text_field'] = __( 'The value must be numeric:', 'admin-page-framework-demo' ) 
-     *              . $aNewInput['verify_text_field'];
+     *      if ( ! is_numeric( $aNewInput[ 'verify_text_field' ] ) ) {
+     *          $aErrors[ 'verify_text_field' ] = __( 'The value must be numeric:', 'admin-page-framework-demo' ) 
+     *              . $aNewInput[ 'verify_text_field' ];
      *          $bVerified = false;
      *      }
      *    
@@ -594,20 +594,20 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     public function setFieldErrors( $aErrors ) {
         
         // The field-errors array will be stored in this global array element.
-        $GLOBALS['aAdminPageFramework']['aFieldErrors'] = $this->oUtil->getElement( 
+        $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ] = $this->oUtil->getElement( 
             $GLOBALS,  // subject array
             array( 'aAdminPageFramework', 'aFieldErrors' ), // key
             array()      // default
         );                    
 
-        if ( empty( $GLOBALS['aAdminPageFramework']['aFieldErrors'] ) ) {
+        if ( empty( $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ] ) ) {
             add_action( 'shutdown', array( $this, '_replyToSaveFieldErrors' ) ); // the method is defined in the controller class.
         }
         
         $_sID = md5( $this->oProp->sClassName );
-        $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] = isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ] )
+        $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ][ $_sID ] = isset( $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ][ $_sID ] )
             ? $this->oUtil->uniteArrays( 
-                $GLOBALS['aAdminPageFramework']['aFieldErrors'][ $_sID ], 
+                $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ][ $_sID ], 
                 $aErrors 
             )
             : $aErrors;                   
@@ -621,7 +621,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @return      boolean     Whether or not a field error exists or not.
      */
     public function hasFieldError() {
-        return isset( $GLOBALS['aAdminPageFramework']['aFieldErrors'][ md5( $this->oProp->sClassName ) ] );
+        return isset( $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ][ md5( $this->oProp->sClassName ) ] );
     }
     
     /**
@@ -647,7 +647,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     public function setSettingNotice( $sMessage, $sType='error', $asAttributes=array(), $bOverride=true ) {
         
         // The framework user set notification messages will be stored in this global array element.
-        $GLOBALS['aAdminPageFramework']['aNotices'] = $this->oUtil->getElement( 
+        $GLOBALS[ 'aAdminPageFramework' ][ 'aNotices' ] = $this->oUtil->getElement( 
             $GLOBALS,  // subject array
             array( 'aAdminPageFramework', 'aNotices' ), // key
             array()      // default
@@ -655,7 +655,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
         
         
         // If the array is empty, save the array at shutdown.
-        if ( empty( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) {
+        if ( empty( $GLOBALS[ 'aAdminPageFramework' ][ 'aNotices' ] ) ) {
             add_action( 'shutdown', array( $this, '_replyToSaveNotices' ) ); // the method is defined in the model class.
         }
         
@@ -663,13 +663,13 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
         $_sID = md5( trim( $sMessage ) );
             
         // If the override options is true, or if the message is set,
-        if ( $bOverride || ! isset( $GLOBALS['aAdminPageFramework']['aNotices'][ $_sID ] )  ) {     
+        if ( $bOverride || ! isset( $GLOBALS[ 'aAdminPageFramework' ][ 'aNotices' ][ $_sID ] )  ) {     
             
             $_aAttributes = $this->oUtil->getAsArray( $asAttributes );
             if ( is_string( $asAttributes ) && ! empty( $asAttributes ) ) {
                 $_aAttributes[ 'id' ] = $asAttributes;
             }
-            $GLOBALS['aAdminPageFramework']['aNotices'][ $_sID ] = array(
+            $GLOBALS[ 'aAdminPageFramework' ][ 'aNotices' ][ $_sID ] = array(
                 'sMessage'      => $sMessage,
                 'aAttributes'   => $_aAttributes + array(
                         'class'     => $sType,
@@ -705,10 +705,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
         
         // Check if there is a message of the type.
         foreach( $_aNotices as $aNotice ) {
-            if ( ! isset( $aNotice['aAttributes']['class'] ) ) {
+            if ( ! isset( $aNotice[ 'aAttributes' ][ 'class' ] ) ) {
                 continue;
             }
-            if ( $aNotice['aAttributes']['class'] == $sType ) {
+            if ( $aNotice[ 'aAttributes' ][ 'class' ] == $sType ) {
                 return true;
             }
         }

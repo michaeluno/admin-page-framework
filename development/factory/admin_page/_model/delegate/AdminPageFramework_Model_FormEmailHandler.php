@@ -34,7 +34,7 @@ class AdminPageFramework_Model_FormEmailHandler extends AdminPageFramework_WPUti
         if ( ! isset( $_GET[ 'apf_action' ], $_GET[ 'transient' ] ) ) {
             return;
         }
-        if ( 'email' !== $_GET['apf_action'] ) {
+        if ( 'email' !== $_GET[ 'apf_action' ] ) {
             return;
         }
       
@@ -43,7 +43,7 @@ class AdminPageFramework_Model_FormEmailHandler extends AdminPageFramework_WPUti
         
         // wp_mail() will be loaded by the time 'after_setup_theme' is loaded.
         $this->registerAction( 'after_setup_theme', array( $this, '_replyToSendFormEmail' ) );
-        
+
     }   
     
         /**
@@ -92,6 +92,5 @@ class AdminPageFramework_Model_FormEmailHandler extends AdminPageFramework_WPUti
             exit;
             
         }
-
     
 }

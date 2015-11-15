@@ -316,9 +316,10 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
      * 
      * @since       2.1.2
      * @since       2.1.5       Moved from the main class. Changed the name from enqueueSRCByPageConditoin.
+     * @since       DEVVER      Fixed a typo in the method name.
      * @internal
      */
-    protected function _enqueueSRCByConditoin( $aEnqueueItem ) {
+    protected function _enqueueSRCByCondition( $aEnqueueItem ) {
 
         $sCurrentPageSlug   = $this->oProp->getCurrentPageSlug();
         $sCurrentTabSlug    = $this->oProp->getCurrentTabSlug( $sCurrentPageSlug );

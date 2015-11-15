@@ -27,20 +27,21 @@ class AdminPageFramework_Model_FormSubmission extends AdminPageFramework_Model_F
      * Sets up hooks and properties.
      * @since       3.6.3
      */
-    public function __construct( $oFactory ) {
+    public function __construct( $oFactory, $aSavedData, $aArguments, $aSectionsets, $aFieldsets ) {
        
         $this->oFactory         = $oFactory;        
                 
         // add_action
-        add_action( 
-            "load_after_{$this->oFactory->oProp->sClassName}", 
-            array( $this, '_replyToProcessFormData' ), 
-            21  // lower priority - this must be called after form validation is done. 20: field registration, 21: validation handling 22: handle redirects
-        );                 
+        // @deprecated      DEVVER
+        // add_action( 
+            // "load_after_{$this->oFactory->oProp->sClassName}", 
+            // array( $this, '_replyToProcessFormData' ), 
+            // 21  // lower priority - this must be called after form validation is done. 20: field registration, 21: validation handling 22: handle redirects
+        // );                 
+        $this->_handleFormData();
         
         new AdminPageFramework_Model_FormRedirectHandler( $oFactory );
-        new AdminPageFramework_Model_FormEmailHandler( $oFactory );                
-                
+                        
     }   
     
     /**
@@ -51,6 +52,7 @@ class AdminPageFramework_Model_FormSubmission extends AdminPageFramework_Model_F
      * @since       3.1.0
      * @since       3.1.5       Moved from `AdminPageFramework_Setting_Form`.
      * @since       3.6.3       Moved from `AdminPageFramework_Validation`. Changed the name from `_handleSubmittedData()`.
+     * @since       DEVVER      Changed the name from `_replyToProcessFormData()`.
      * @remark      This method is triggered after form elements are registered when the page is abut to be loaded with the `load_after_{instantiated class name}` hook.
      * @remark      The $_POST array will look like the below.
      *  <code>array(
@@ -68,7 +70,7 @@ class AdminPageFramework_Model_FormSubmission extends AdminPageFramework_Model_F
      * 
      * @callback    action      load_after_{class name}
      */    
-    public function _replyToProcessFormData() {
+    public function _handleFormData() {
         
         if ( ! $this->_shouldProceed() ) {
             return;
@@ -81,11 +83,16 @@ class AdminPageFramework_Model_FormSubmission extends AdminPageFramework_Model_F
         // If only page-meta-boxes are used, it's possible that the option key element does not exist.
         
         // Prepare the saved options 
-        $_aDefaultOptions   = $this->oFactory->oProp->getDefaultOptions( $this->oFactory->oForm->aFields );
+        $_aDefaultOptions   = $this->oFactory->oForm->getDefaultFormValues();
         $_aOptions          = $this->addAndApplyFilter( 
             $this->oFactory, 
             "validation_saved_options_{$this->oFactory->oProp->sClassName}", 
-            $this->uniteArrays( $this->oFactory->oProp->aOptions, $_aDefaultOptions ), 
+            // @todo    Examine whether recursive merging is appropriate here or not 
+            // for cases of a select field with the multiple options and repeatable fields with user-set default values.
+            $this->uniteArrays( 
+                $this->oFactory->oProp->aOptions, 
+                $_aDefaultOptions 
+            ), 
             $this->oFactory
         );
         
@@ -232,8 +239,12 @@ class AdminPageFramework_Model_FormSubmission extends AdminPageFramework_Model_F
                 $this->oFactory->oProp->sOptionKey, 
                 array() 
             );
-            $_aInputs     = stripslashes_deep( $_aInputs );  
-            return $this->oFactory->getSortedInputs( $_aInputs ); // 3.6.0+
+            return $this->oFactory->oForm->getSubmittedData(
+                $_aInputs,
+                false   // do not extract from form fieldsets structure
+            );
+            // $_aInputs     = stripslashes_deep( $_aInputs );  
+            // return $this->oFactory->oForm->getSortedInputs( $_aInputs ); // 3.6.0+
         
         }        
     

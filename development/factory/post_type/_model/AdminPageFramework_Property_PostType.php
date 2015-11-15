@@ -157,9 +157,9 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
     /**
      * Sets up activation/deactivation hooks.
      */
-    public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
+    public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sStructureType ) {
             
-        parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType );
+        parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sStructureType );
 
         // Set up activation/deactivation hooks.
         if ( ! $sCallerPath ) {

@@ -23,17 +23,19 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
     /**
      * Defines the property type.
      * @remark Setting the property type helps to check whether some components are loaded such as scripts that can be reused per a class type basis.
-     * @since 3.0.0
+     * @since       3.0.0
+     * @since       DEVVER      Chaned the default value from `page`.
      * @internal
      */
-    public $_sPropertyType = 'page';
+    public $_sPropertyType = 'admin_page';
     
     /**
      * Defines the fields type.
      * 
-     * @since 3.1.0
+     * @since       3.1.0
+     * @since       DEVVER      Chaned the default value from `page`. Renamed from `$sFieldsType`.
      */
-    public $sFieldsType = 'page';
+    public $sStructureType = 'admin_page';
     
     /**
      * Stores framework's instantiated object name.
@@ -281,6 +283,9 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * @since       2.1.5   The $oCaller parameter was added.
      */ 
     public function __construct( $oCaller, $sCallerPath, $sClassName, $aisOptionKey, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
+
+        // DEVVER+ This must be set before the parent constructor. As the form arguments array uses this value.
+        $this->_sFormRegistrationHook = 'load_after_' . $sClassName;
         
         parent::__construct( 
             $oCaller, 
@@ -288,7 +293,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
             $sClassName, 
             $sCapability, 
             $sTextDomain, 
-            $this->sFieldsType 
+            $this->sStructureType 
         );
         
         $this->sTargetFormPage = $_SERVER[ 'REQUEST_URI' ];
@@ -298,13 +303,16 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
             $sClassName 
         );
                 
-        /* Store the page class objects in the global storage. These will be referred by the meta box class to determine if the passed page slug's screen ID (hook suffix). */
-        $GLOBALS['aAdminPageFramework']['aPageClasses'] = isset( $GLOBALS['aAdminPageFramework']['aPageClasses'] ) && is_array( $GLOBALS['aAdminPageFramework']['aPageClasses'] )
-            ? $GLOBALS['aAdminPageFramework']['aPageClasses']
-            : array();
-        $GLOBALS['aAdminPageFramework']['aPageClasses'][ $sClassName ] = $oCaller; // The meta box class for pages needs to access the object.
+        // Store the page class objects in the global storage. 
+        // These will be referred by the meta box class to determine if the passed page slug's screen ID (hook suffix).
+        $GLOBALS[ 'aAdminPageFramework' ][ 'aPageClasses' ] = $this->getElementAsArray(
+            $GLOBALS,
+            array( 'aAdminPageFramework', 'aPageClasses' )
+        );
+        // The meta box class for pages needs to access the object.
+        $GLOBALS[ 'aAdminPageFramework' ][ 'aPageClasses' ][ $sClassName ] = $oCaller; 
                 
-        // The capability for the settings. $this->sOptionKey is the part that is set in the settings_fields() function.
+        // The capability for the settings. `$this->sOptionKey` is the part that is set in the settings_fields() function.
         // This prevents the "Cheatin' huh?" message.
         add_filter( "option_page_capability_{$this->sOptionKey}", array( $this, '_replyToGetCapability' ) );
         
@@ -383,7 +391,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
             if ( ! is_admin() ) {
                 return false;
             }
-            return isset( $_GET['page'] );
+            return isset( $_GET[ 'page' ] );
             
         }    
     
@@ -396,26 +404,21 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * @return      array       The options array.
      */
     protected function _getOptions() {
-    
-        $_aOptions = $this->oUtil->addAndApplyFilter( 
-            $this->oCaller, // 3.4.1+ changed from $GLOBALS['aAdminPageFramework']['aPageClasses'][ $this->sClassName ], // the caller object
-            'options_' . $this->sClassName, // options_{instantiated class name}
-            $this->_getOptionsByType( $this->sOptionType ) // filtering item
-        );
+        return $this->_getOptionsByType( $this->sOptionType );
+        
+        // @deprecated  DEVVER      Moved the routine of apply filters to the factory model class.
+        // return $this->addAndApplyFilter( 
+            // $this->oCaller, // 3.4.1+ changed from $GLOBALS[ 'aAdminPageFramework' ][ 'aPageClasses' ][ $this->sClassName ], // the caller object
+            // 'options_' . $this->sClassName, // options_{instantiated class name}
+            // $this->_getOptionsByType( $this->sOptionType ) // filtering item
+        // );
 
-// @todo examine whether it is appropriate to merge with $_aLastInput or it should be done in the getSavedOptions() factory method.
-// It seems it is better to merge the last input array here because this method is only called once when the aOptions property is first accessed
-// while getSavedOptions() method is called every time a field is processed for outputs.
-// However, in getSavedOptions, also the last input array is merged when the 'confirmation' query key is set,
-// that should be done here.
-        $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] 
-            ? $this->_getLastInput() 
-            : array();
-        $_aOptions   = $_aLastInput + $this->oUtil->getAsArray( $_aOptions );
-        return $_aOptions;
     }
         /**
          * Returns options data by a given type.
+         * 
+         * This is to support transient form data which disappears with the set timeout.
+         * 
          * @return      array       The retrieved options array.
          */ 
         private function _getOptionsByType( $sOptionType ) {
@@ -423,7 +426,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
                 default:
                 case 'options_table':
                     return $this->sOptionKey 
-                        ? $this->oUtil->getAsArray( 
+                        ? $this->getAsArray( 
                             get_option( 
                                 $this->sOptionKey, // option key
                                 array() // default
@@ -431,8 +434,8 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
                         )
                         : array();                       
                 case 'transient':
-                    return $this->oUtil->getAsArray(
-                        $this->oUtil->getTransient( 
+                    return $this->getAsArray(
+                        $this->getTransient( 
                             $this->sOptionKey,  // transient key
                             array() // default
                         )
@@ -494,7 +497,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
                         $aOptions
                     );
                 case 'transient':
-                    return $this->oUtil->setTransient( 
+                    return $this->setTransient( 
                         $this->sOptionKey,  // transient key
                         $aOptions,
                         $this->iOptionTransientDuration
@@ -507,7 +510,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
     /**
      * Checks if the given page slug is one of the pages added by the framework.
      * @since       2.0.0
-     * @since       2.1.0       Set the default value to the parameter and if the parameter value is empty, it applies the current $_GET['page'] value.
+     * @since       2.1.0       Set the default value to the parameter and if the parameter value is empty, it applies the current $_GET[ 'page' ] value.
      * @return      boolean      Returns true if it is of framework's added page; otherwise, false.
      */
     public function isPageAdded( $sPageSlug='' ) {    
@@ -528,7 +531,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * @remark      Do not return `null` when not found as some framework methods check the retuened value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an emtpy string ('').
      */
     public function getCurrentPageSlug() {
-        return $this->oUtil->getElement( 
+        return $this->getElement( 
             $_GET,  // subject array
             'page', // key
             ''      // default
@@ -549,8 +552,10 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      */    
     public function getCurrentTabSlug( $sCurrentPageSlug='' ) {
         
-        if ( isset( $_GET['tab'] ) && $_GET['tab'] ) { 
-            return $_GET['tab'];
+        // It is possible that the tab slug is not set if it is the default tab.
+        $_sTabSlug = $this->getElement( $_GET, 'tab' );
+        if ( $_sTabSlug ) { 
+            return $_sTabSlug;
         }
         $sCurrentPageSlug = $sCurrentPageSlug
             ? $sCurrentPageSlug
@@ -583,84 +588,14 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
         if ( ! $sPageSlug ) { 
             return ''; 
         }
-        return $this->oUtil->getElement( 
+        return $this->getElement( 
             $this->aDefaultInPageTabs,  // subject array
             $sPageSlug, // key
             ''    // default
         );
         
     }    
-        
-    /**
-     * Returns the default values of all the added fields.
-     * 
-     * @since 3.0.0
-     */
-    public function getDefaultOptions( $aFields ) {
-        
-        $_aDefaultOptions = array();
-        foreach( $aFields as $_sSectionID => $_aFields  ) {
-            
-            foreach( $_aFields as $_sFieldID => $_aField ) {
-                
-                $_vDefault = $this->_getDefautValue( $_aField );
-                
-                if ( isset( $_aField['section_id'] ) && $_aField['section_id'] != '_default' ) {
-                    $_aDefaultOptions[ $_aField['section_id'] ][ $_sFieldID ] = $_vDefault;
-                } else {
-                    $_aDefaultOptions[ $_sFieldID ] = $_vDefault;
-                }
-                    
-            }
-                
-        }     
-        
-        return $_aDefaultOptions;     
-        
-    }
-        /**
-         * Returns the default value from the given field definition array.
-         * 
-         * This is a helper function for the above getDefaultOptions() method.
-         * 
-         * @since 3.0.0
-         */
-        private function _getDefautValue( $aField ) {
-            
-            // Check if sub-fields exist whose keys are numeric
-            $_aSubFields = $this->oUtil->getIntegerKeyElements( $aField );
-
-            // If there are no sub-fields     
-            if ( count( $_aSubFields ) == 0 ) {
-                return $this->oUtil->getElement(
-                    $aField,   // subject
-                    'value',    // key
-                    $this->oUtil->getElement(   // default value
-                        $aField,   // subject  
-                        'default',  // key
-                        null        // default value
-                    )
-                );
-            }
-            
-            // Otherwise, there are sub-fields
-            $_aDefault = array();
-            array_unshift( $_aSubFields, $aField ); // insert the main field into the very first index.
-            foreach( $_aSubFields as $_iIndex => $_aField ) {
-                $_aDefault[ $_iIndex ] = $this->oUtil->getElement( 
-                    $_aField,   // subject
-                    'value',    // key
-                    $this->oUtil->getElement(   // default value
-                        $_aField,   // subject  
-                        'default',  // key
-                        null        // default value
-                    )
-                ); 
-            }
-            return $_aDefault;
-            
-        }
-    
+           
     /**
      * Returns the set capability.
      * @callback        option_page_capability_{$this->sOptionKey}

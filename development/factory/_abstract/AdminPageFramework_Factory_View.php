@@ -30,7 +30,9 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         // 3.5.7+ Form field element output callbacks. 
         // 3.5.8+ Move to above the `isInThePage()` check 
         // since meta boxes cannot detect the current post type if it loaded too early.
-        $this->oProp->aFieldCallbacks = $this->_getFormElementCallbacks();        
+        // DEVVER+ Move this to the router class and deprecate this property. Directly assing the callbacks to the form object property.
+        // @deprecated
+        // $this->oProp->aFieldCallbacks = $this->_getFormElementCallbacks();        
         
         if ( ! $this->_isInThePage() ) {
             return;
@@ -46,7 +48,6 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
             add_action( 'admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
         }     
         
-            
     }     
 
         /**
@@ -56,19 +57,20 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          * @since       3.6.0       Changed the name from '_getFormFieldElementCallbacks()'.
          * @remark      These callbacks are defined in the `AdminPageFramework_Factory_View` class. Some factory classes will override these values.
          * @return      array
+         * @deprecated  DEVVER
          */
-        private function _getFormElementCallbacks() {
-            return array(
-                'hfID'              => array( $this, '_replyToGetInputID' ), // the input id attribute
-                'hfTagID'           => array( $this, '_replyToGetInputTagIDAttribute' ), // the fields & fieldset & field row container id attribute
-                'hfName'            => array( $this, '_replyToGetFieldNameAttribute' ), // the input name attribute
-                'hfNameFlat'        => array( $this, '_replyToGetFlatFieldName' ), // the flat input name attribute
-                'hfInputName'       => array( $this, '_replyToGetInputNameAttribute' ),    // 3.6.0+   the field input name attribute
-                'hfInputNameFlat'   => array( $this, '_replyToGetFlatInputName' ),    // 3.6.0+   the flat field input name                 
-                'hfClass'           => array( $this, '_replyToGetInputClassAttribute' ), // the class attribute
-                'hfSectionName'     => array( $this, '_replyToGetSectionName' ), // 3.6.0+
-            ) + $this->oProp->aFieldCallbacks;
-        }            
+         // private function _getFormElementCallbacks() {
+            // return array(
+                // 'hfID'              => array( $this, '_replyToGetInputID' ), // the input id attribute
+                // 'hfTagID'           => array( $this, '_replyToGetInputTagIDAttribute' ), // the fields & fieldset & field row container id attribute
+                // 'hfName'            => array( $this, '_replyToGetFieldNameAttribute' ), // the input name attribute
+                // 'hfNameFlat'        => array( $this, '_replyToGetFlatFieldName' ), // the flat input name attribute
+                // 'hfInputName'       => array( $this, '_replyToGetInputNameAttribute' ),    // 3.6.0+   the field input name attribute
+                // 'hfInputNameFlat'   => array( $this, '_replyToGetFlatInputName' ),    // 3.6.0+   the flat field input name                 
+                // 'hfClass'           => array( $this, '_replyToGetInputClassAttribute' ), // the class attribute
+                // 'hfSectionName'     => array( $this, '_replyToGetSectionName' ), // 3.6.0+
+            // ) + $this->oProp->aFieldCallbacks;
+        // }             
         
         /**
          * Returns the name attribute value of form sections.
@@ -153,18 +155,59 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
             return $_aParams[ 0 ];
         }
             
+            
+    /**
+     * Determines whether the passed field should be visible or not.
+     * @since       DEVVER
+     * @return      boolean
+     */
+    public function _replyToDetermineSectionsetVisibility( $bVisible, $aSectionset ) {
+        return $this->_isElementVisible( $aSectionset, $bVisible );       
+    }    
+    /**
+     * Determines whether the passed field should be visible or not.
+     * @since       DEVVER
+     * @return      boolean
+     */
+    public function _replyToDetermineFieldsetVisibility( $bVisible, $aFieldset ) {
+        return $this->_isElementVisible( $aFieldset, $bVisible );        
+    }     
+        /**
+         * @since       DEVVER
+         * @return      boolean
+         */
+        private function _isElementVisible( $aElementDefinition, $bDefault ) {
+            
+            $aElementDefinition = $aElementDefinition + array(
+                'if'            => true,
+                'capability'    => '',
+            );
+            if ( ! $aElementDefinition[ 'if' ] ) {
+                return false;
+            }
+            // For front-end forms that allow guests, the capability level can be empty. In that case, return true.
+            if ( ! $aElementDefinition[ 'capability' ] ) {
+                return true;
+            }
+            if ( ! current_user_can( $aElementDefinition[ 'capability' ] ) ) {
+                return false;
+            }            
+            return $bDefault;
+            
+        }
+            
     /**
      * Checks whether a section is set.
      * @internal
      * @since       3.5.7       Moved from `AdminPageFramework_FormField`.
-     * @param       array       $aField     a field definition array.
+     * @param       array       $aFieldset     a fieldset definition array.
      * @return      boolean
      */
-    public function isSectionSet( array $aField ) {
-        $aField = $aField + array(
+    public function isSectionSet( array $aFieldset ) {
+        $aFieldset = $aFieldset + array(
             'section_id'  => null,
         );
-        return $aField[ 'section_id' ] && '_default' !== $aField[ 'section_id' ];
+        return $aFieldset[ 'section_id' ] && '_default' !== $aFieldset[ 'section_id' ];
     }
     
     
@@ -261,34 +304,51 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
                     
             }    
 
+    /**
+     * Returns the output of the filtered section description.
+     * 
+     * @remark      An alternative to `_renderSectionDescription()`.
+     * @since       3.0.0
+     * @since       3.3.1       Moved from `AdminPageFramework_Setting_Base`.
+     * @since       DEVVER      Moved from extended factory classes.
+     * @callback    form        `section_head_output`
+     * @internal
+     */
+    public function _replyToGetSectionHeaderOutput( $sSectionDescription, $aSectionset ) {
+        return $this->oUtil->addAndApplyFilters(
+            $this,
+            array( 
+                // section_{instantiated class name}_{section id}
+                'section_head_' . $this->oProp->sClassName . '_' . $aSectionset[ 'section_id' ] 
+            ), 
+            $sSectionDescription
+        );
+    }            
     
     /**
      * Returns the field output from the given field definition array.
      * 
      * @remark      This method will be called multiple times in a single page load depending on how many fields have been registered.
      * @since       3.0.0
+     * @since       DEVVER      Changed the pamater strcucture. The first parametr no longer receives a fieldset definition array but the generated output string.
+     * @callback    form        `fieldset_output`
      * @internal
      */
-    public function _replyToGetFieldOutput( $aField ) {
+    public function _replyToGetFieldOutput( $sFieldOutput, $aFieldset ) {
 
-        $_oField = new AdminPageFramework_FormFieldset( 
-            $aField,                                // the field definition array
-            // @todo change it to $this->getSavedOptions()
-            $this->oProp->aOptions,                 // the stored form data
-            $this->_getFieldErrors(),               // the field error array.
-            $this->oProp->aFieldTypeDefinitions,    // the field type definition array.
-            $this->oMsg,                            // the system message object
-            $this->oProp->aFieldCallbacks           // field output element callables.
+        $_sSectionPart  = $this->oUtil->getAOrB(
+            isset( $aFieldset[ 'section_id' ] ) && '_default' !== $aFieldset[ 'section_id' ],
+            '_' . $aFieldset[ 'section_id' ],
+            ''
         );
-
-        $_sOutput = $this->oUtil->addAndApplyFilters(
+        return $this->oUtil->addAndApplyFilters(
             $this,
-            array( 'field_' . $this->oProp->sClassName . '_' . $aField['field_id'] ), // field_ + {extended class name} + _ {field id}
-            $_oField->get(), // field output
-            $aField // the field array
-        );     
-
-        return $_sOutput;
+            array( 
+                'field_' . $this->oProp->sClassName . $_sSectionPart . '_' . $aFieldset[ 'field_id' ]
+            ),
+            $sFieldOutput,
+            $aFieldset // the field array
+        );             
         
     }    
         

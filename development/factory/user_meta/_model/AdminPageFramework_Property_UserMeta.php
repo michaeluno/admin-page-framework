@@ -26,6 +26,14 @@ class AdminPageFramework_Property_UserMeta extends AdminPageFramework_Property_M
     public $_sPropertyType = 'user_meta';
  
     /**
+     * Stores the action hook name that gets triggered when the form registration is performed.
+     * 'admin_page' and 'network_admin_page' will use a custom hook for it.
+     * @since       DEVVER
+     * @access      pulbic      Called externally.
+     */
+    public $_sFormRegistrationHook = 'admin_enqueue_scripts'; 
+ 
+    /**
      * Retrieves the option array.
      * 
      * This method is triggerd from the __get() overload magic method to set the $aOptions property.

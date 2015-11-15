@@ -52,33 +52,23 @@ abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_
     public function _printWidgetForm() {
              
         // Get the fields output.
-        $_oFieldsTable  = new AdminPageFramework_FormPart_Table( 
-            $this->oProp->aFieldTypeDefinitions, 
-            $this->_getFieldErrors(),                           // defined in the factory model class.
-            $this->oMsg 
-        );
+        echo $this->oForm->get();
         
-        echo $_oFieldsTable->getFormTables( 
-            $this->oForm->aConditionedSections, 
-            $this->oForm->aConditionedFields, 
-            array( $this, '_replyToGetSectionHeaderOutput' ),   // defined below
-            array( $this, '_replyToGetFieldOutput' )            // defined in the factory view class.
-        );
+        // @deprecated      DEVVER
+        // $_oFieldsTable  = new AdminPageFramework_FormPart_Table( 
+            // $this->oProp->aFieldTypeDefinitions, 
+            // $this->_getFieldErrors(),                           // defined in the factory model class.
+            // $this->oMsg 
+        // );
+        
+        // echo $_oFieldsTable->getFormTables( 
+            // $this->oForm->aConditionedSections, 
+            // $this->oForm->aConditionedFields, 
+            // array( $this, '_replyToGetSectionHeaderOutput' ),   // defined below
+            // array( $this, '_replyToGetFieldOutput' )            // defined in the factory view class.
+        // );
         
     }
     
-        /**
-         * Returns the filtered section description output.
-         * 
-         * @since       3.2.0
-         * @internal
-         */
-        public function _replyToGetSectionHeaderOutput( $sSectionDescription, $aSection ) {
-            return $this->oUtil->addAndApplyFilters(
-                $this,
-                array( 'section_head_' . $this->oProp->sClassName . '_' . $aSection['section_id'] ), // section_ + {extended class name} + _ {section id}
-                $sSectionDescription
-            );     
-        }
     
 }

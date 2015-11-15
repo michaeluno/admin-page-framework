@@ -21,6 +21,23 @@
 abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Factory_Router {
     
     /**
+     * Sets up hooks and properties.
+     * 
+     * @since       DEVVER
+     * @internal
+     */
+    public function __construct( $oProp ) {
+        
+        parent::__construct( $oProp );
+        
+        add_filter(
+            'field_types_admin_page_framework',
+            array( $this, '_replyToFilterFieldTypeDefinitions' )
+        );
+        
+    }       
+    
+    /**
      * Calls the setUp() method. 
      * 
      * @since       3.1.0
@@ -33,12 +50,231 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     }    
     
     /**
+     * Called upon fieldset resource registration.
+     * 
+     * A contextual help pane item associated with this fieldset will be added.
+     * 
+     * @since       DEVVER
+     * @return      void
+     */
+    public function _replyToFieldsetReourceRegistration( $aFieldset ) {
+        
+        $aFieldset = $aFieldset + array(
+            'help'       => null,
+            'title'      => null,
+            'help_aside' => null,
+        );
+        if ( ! $aFieldset[ 'help' ] ) {
+            return;
+        }
+        $this->oHelpPane->_addHelpTextForFormFields( 
+            $aFieldset[ 'title' ], 
+            $aFieldset[ 'help' ], 
+            $aFieldset[ 'help_aside' ] 
+        );
+                   
+    }    
+    
+    /**
+     * Filters field type definitions array.
+     * @callback    filter      field_types_admin_page_framework
+     * @since       DEVVER
+     */
+    public function _replyToFilterFieldTypeDefinitions( $aFieldTypeDefinitions ) {
+        return $this->oUtil->addAndApplyFilters( 
+            $this,
+            "field_types_{$this->oProp->sClassName}",
+            $aFieldTypeDefinitions
+        );                     
+    }
+    
+    /**
+     * Modifies registered sectionsets definition array.
+     * @since       DEVVER
+     * @return      array       The modified sectionsets definition array.
+     */    
+    public function _replyToModifySectionsets( $aSectionsets ) {        
+        // Apply filters to added sectionsets.
+        return $this->oUtil->addAndApplyFilter( 
+            $this,  // caller factory object
+            "sections_{$this->oProp->sClassName}", 
+            $aSectionsets
+        );
+    }
+
+    /**
+     * Modifies registered fieldsets definition array.
+     * @since       DEVVER
+     * @return      array       The modified fieldsets definition array.
+     */
+    public function _replyToModifyFieldsets( $aFieldsets, $aSectionsets ) {
+
+// @todo Think of a new way to retrieve the $_sSectionID for nested sections and fields
+// $aSectionsets can be used
+
+        // Apply filters to added fieldsets
+        foreach( $aFieldsets as $_sSectionID => $_aFields ) {
+            $aFieldsets[ $_sSectionID ] = $this->oUtil->addAndApplyFilter(
+                $this,
+                "fields_{$this->oProp->sClassName}_{$_sSectionID}",
+                $_aFields
+            ); 
+        }
+        $aFieldsets =  $this->oUtil->addAndApplyFilter( 
+            $this,
+            "fields_{$this->oProp->sClassName}",
+            $aFieldsets
+        );         
+        
+        // If at lease one filed is added, set the flag to enable the form.
+        // Be careful not to set `false` when there is no field because page meta boxes may add form fields.
+        if ( count( $aFieldsets ) ) {
+            $this->oProp->bEnableForm = true;
+        }
+        
+        
+        return $aFieldsets;
+        
+    }
+    
+    /**
+     * Applies filters to all the conditioned field definitions array.
+     * @since       DEVVER
+     * @return      array   
+     */
+    public function _replyToModifyFieldsetsDefinitions( $aFieldsets /*, $aSectionsets */ ) {
+        // Apply filters to all the conditioned fields.
+        return $this->oUtil->addAndApplyFilter(
+            $this,
+            "field_definition_{$this->oProp->sClassName}",
+            $aFieldsets
+        );    
+    }
+    
+    /**
+     * Applies filters to each conditioned field definition array.
+     * 
+     * @since       3.0.2
+     * @since       3.1.1       Made it reformat the fields after applying filters.
+     * @since       DEVVER      Changed the name from `applyFiltersToFieldsets()`.
+     * Moved from `AdminPageFramework_FormDefinition_Base`.
+     */
+    public function _replyToModifyFieldsetDefinition( $aFieldset /* , $aSectionsets */ ) {
+return $aFieldset;
+// @todo complete the below     
+        foreach( $_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField ) {
+            
+            // If it is a sub-section array.
+            if ( $this->isNumericInteger( $_sIndexOrFieldID ) ) {
+                $_sSubSectionIndex  = $_sIndexOrFieldID;
+                $_aFieldsets           = $_aSubSectionOrField;
+                $_sSectionSubString = $this->getAOrB(
+                    '_default' == $_sSectionID,
+                    '',
+                    "_{$_sSectionID}"
+                );                        
+                foreach( $_aFieldsets as $_aFieldset ) {
+                    $aFieldsets[ $_sSectionID ][ $_sSubSectionIndex ][ $_aFieldset['field_id'] ] = $this->oUtil->addAndApplyFilter(
+                        $this,
+                        "field_definition_{$this->oProp->sClassName}{$_sSectionSubString}_{$_aFieldset['field_id']}",
+                        $_aFieldset,
+                        $_sSubSectionIndex
+                    );    
+                }
+                continue;
+                
+            }
+            
+            // Otherwise, insert the formatted field definition array.
+            $_aFieldset            = $_aSubSectionOrField;
+            $_sSectionSubString = $this->getAOrB(
+                '_default' == $_sSectionID,
+                '',
+                "_{$_sSectionID}"
+            );
+            $aFieldsets[ $_sSectionID ][ $_aFieldset['field_id'] ] = $this->oUtil->addAndApplyFilter(
+                $this,
+                "field_definition_{$this->oProp->sClassName}{$_sSectionSubString}_{$_aFieldset['field_id']}",
+                $_aFieldset     
+            );
+            
+        }
+            
+        return $aFieldset;
+        
+    }    
+               
+    
+    /**
+     * Gets called after the form element registration is done.
+     * 
+     * @since       DEVVER
+     */
+    public function _replyToHandleSubmittedFormData( $aSavedData, $aArguments, $aSectionsets, $aFieldsets ) {
+        // Do validation and saving data 
+    }
+        
+    /**
+     * @since       DEVVER
+     * @return      array
+     */
+    public function _replyToFormatFieldsetDefinition( $aFieldset, $aSectionsets ) {
+
+        if ( empty( $aFieldset ) ) { 
+            return $aFieldset; 
+        }
+        return $aFieldset;
+    
+    }
+    
+    /**
+     * @since       DEVVER
+     * @return      array
+     */
+    public function _replyToFormatSectionsetDefinition( $aSectionset ) {
+        
+        if ( empty( $aSectionset ) ) {
+            return $aSectionset;
+        }
+        
+        $aSectionset = $aSectionset
+            + array( 
+                '_fields_type'      => $this->oProp->_sPropertyType, // backward compatibility
+                '_structure_type'   => $this->oProp->_sPropertyType,
+            );
+
+        return $aSectionset;
+        
+    }
+    
+    /**
+     * @since       DEVVER
+     * @return      boolean     Whether or not the form registration should be allowed in the current screen.
+     */
+    public function _replyToDetermineWhetherToProcessFormRegistration( $bAllowed ) {
+        return $this->_isInThePage();
+    }
+    
+    /**
+     * Returns the inherited capability value from the page and in-page tab for form elements.
+     * 
+     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+     * @return      string
+     */    
+    public function _replyToGetCapabilityForForm( $sCapability ) {
+        return $this->oProp->sCapability;         
+    }    
+    
+    
+    
+    /**
      * Stores the default field definitions. 
      * 
      * Once they are set, it no longer needs to be done.
      * 
      * @since       3.1.3
      * @internal    
+     * @deprecated  DEVVER
      */
     static private $_aFieldTypeDefinitions = array();
     
@@ -49,9 +285,13 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @since       3.5.0       Changed the scope to protected as it is internal. 
      * Changed the name from `_loadDefaultFieldTypeDefinitions()` as it applies filters so custom field types also get registered here.
      * @internal
+     * @deprecated  DEVVER
      */
     protected function _loadFieldTypeDefinitions() {
-        
+// @todo investigate whether the is a problem here beacuse it caches the field type definitoins 
+// throughout the all factorey classes but the below passes the class name of an instntiated factoy class.
+// This means the retrieved definitions are of a particular one single class instance.
+// It is possible that mulitiple factory types are loaded in the same page. In that case, only one factory type laods these definitions.
         if ( empty( self::$_aFieldTypeDefinitions ) ) {
             
             // This class adds filters for the field type definitions so that framework's default field types will be added.
@@ -76,10 +316,11 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * A public version of `_loadFieldTypeDefinitions()`.
      * 
-     * Used by a delegation class as it access methods from outside so the method needs to be puiblic.
+     * Used by a delegation class as it accesses methods from outside so the method needs to be public.
      * 
      * @since       3.6.3
      * @return      void
+     * @deprecated
      */
     public function loadFieldTypeDefinitions() {
         $this->_loadFieldTypeDefinitions();
@@ -93,6 +334,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @since       3.0.0
      * @internal
      * @return      void
+     * @deprecated  DEVVER
      */
     protected function _registerFields( array $aFields ) {
 
@@ -129,6 +371,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
          * @since       3.5.0       Changed the scope to protected as the admin page factory class overrides it.
          * @internal
          * @return      void
+         * @deprecated  DEVVER
          */
         protected function _registerField( array $aField ) {
 
@@ -167,6 +410,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * This is used by a delegation class that calls methods of the factory object from outside.
      * 
      * @since       3.6.3
+     * @deprecated  DEVVER
      */
     public function registerFields( array $aFields ) {
         $this->_registerFields( $aFields );
@@ -175,9 +419,26 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * A public version of `_registerrField()`,
      * This is used by a delegation class that calls methods of the factory object from outside.
      * @since       3.6.3
+     * @deprecated  DEVVER
      */
     public function registerField( array $aField ) {
         $this->_registerField( $aField );
+    }
+    
+    /**
+     * Called when the form object tries to set the form data from the database.
+     * 
+     * @callback    form        `saved_data`    
+     * @remark      The `oOptions` property will be automatically set with the overload method.
+     * @return      array       The saved form data.
+     * @since       DEVVER
+     */
+    public function _replyToGetSavedFormData() {
+        return $this->oUtil->addAndApplyFilter(
+            $this, // the caller factory object
+            'options_' . $this->oProp->sClassName,
+            $this->oProp->aOptions      // subject value to be filtered
+        );         
     }
     
     /**
@@ -186,13 +447,24 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * The scope public it is accessed from the outside. This is mainly for field callback methods to create inner nested or different type of fields
      * as instantiating a field object requires this value.
      * 
-     * @since       3.4.0
+     * This method is used from inside field classes especially for the 'revealer' custom field type that needs to create a field object
+     * while processing the revealer field output. For that, the saved option array needs to be passed and accessing the property object was somewhat indirect 
+     * so there needs to be a direct method to retrieve the options. 
+     * 
+     * As of DEVVER, the form object will store the saved options by itself. And the revealer field type shuold use the form object method.
+     * 
+     * @remark      When the confirmation URL query key is set, it will merger the saved options with the last form input array, used for contact forms.
+     * @since       3.3.0
+     * @since       3.3.1       Moved from `AdminPageFramework_Setting_Base`. Changed the visibility scope to `protected` as the caller method has moved to the view class.
+     * @since       3.4.0       Changed the visibility scope to public.
+     * @since       3.4.1       Changed the name from '_getSavedOptions()'.
+     * @since       DEVVER      Moved from `AdminPageFramework_Model_Form`.
+     * @remark      assumes the `aSavedData` property is already set. 
+     * This is set when the form fields are registered.
+     * @deprecated  DEVVER      Kept for backward compatibility. 
      */
     public function getSavedOptions() {
-        
-        // @todo: implement the last input data that is available for the page factory using $aLastInput for their factory fields.
-        return $this->oProp->aOptions;
-        
+        return $this->oForm->aSavedData;
     }
 
     /**
@@ -218,6 +490,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @param       string      $sID        deprecated
      * @param       boolean     $bDelete    whether or not the transient should be deleted after retrieving it. 
      * @return      array
+     * @deprecated  DEVVER
      */
     public function _getFieldErrors( $sID='deprecated', $bDelete=true ) {
         
@@ -240,7 +513,19 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         );
         
     }    
-    
+        /**
+         * Deletes the field errors.
+         * 
+         * This should be called with the shutdown hook.
+         * 
+         * @since       3.0.4
+         * @internal
+         * @deprecated  DEVVER
+         */
+        public function _replyToDeleteFieldErrors() {
+            $this->oUtil->deleteTransient( "apf_field_erros_" . get_current_user_id() );
+        }
+        
     /**
      * Checks whether a validation error is set.
      * 
@@ -262,18 +547,6 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
             : $this->oUtil->getTransient( "apf_field_erros_" . get_current_user_id() );
 
     }
-
-        /**
-         * Deletes the field errors.
-         * 
-         * This should be called with the shutdown hook.
-         * 
-         * @since       3.0.4
-         * @internal
-         */
-        public function _replyToDeleteFieldErrors() {
-            $this->oUtil->deleteTransient( "apf_field_erros_" . get_current_user_id() );
-        }
         
     /**
      * Saves the field error array into the transient.
@@ -350,48 +623,49 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     }
      
     /**
-     * Sorts dynamic elements.
-     * @since       3.6.0
-     * @return      array       The sorted input array.
-     */
-    protected function _getSortedInputs( array $aInput ) {
-        
-        $_aDynamicFieldAddressKeys = array_unique(
-            array_merge(
-                $this->oUtil->getElementAsArray( 
-                    $_POST,
-                    '__repeatable_elements_' . $this->oProp->sFieldsType,
-                    array()
-                ),
-                $this->oUtil->getElementAsArray( 
-                    $_POST,
-                    '__sortable_elements_' . $this->oProp->sFieldsType,
-                    array()
-                )
-            )
-        );
-
-        if ( empty( $_aDynamicFieldAddressKeys ) ) {
-            return $aInput;
-        }
-
-        $_oInputSorter = new AdminPageFramework_Modifier_SortInput( 
-            $aInput, 
-            $_aDynamicFieldAddressKeys
-        );
-        return $_oInputSorter->get();
-        
-    }   
-    /**
      * The public version of `_getSortedInputs()`.
      * 
      * A delegation class needs to access the `_getSortedInputs()` method but it is protected, so uses this instead.
      * 
      * @since       3.6.3
+     * @deprecated  DEVVER
      */
-    public function getSortedInputs( array $aInput ) {
-        return $this->_getSortedInputs( $aInput );
-    }
+    // public function getSortedInputs( array $aInput ) {
+        // return $this->_getSortedInputs( $aInput );
+    // }     
+    /**
+     * Sorts dynamic elements.
+     * @since       3.6.0
+     * @return      array       The sorted input array.
+     * @deprecated  DEVVER
+     */
+    // protected function _getSortedInputs( array $aInput ) {
         
-    
+        // $_aDynamicFieldAddressKeys = array_unique(
+            // array_merge(
+                // $this->oUtil->getElementAsArray( 
+                    // $_POST,
+                    // '__repeatable_elements_' . $this->oProp->sStructureType,
+                    // array()
+                // ),
+                // $this->oUtil->getElementAsArray( 
+                    // $_POST,
+                    // '__sortable_elements_' . $this->oProp->sStructureType,
+                    // array()
+                // )
+            // )
+        // );
+
+        // if ( empty( $_aDynamicFieldAddressKeys ) ) {
+            // return $aInput;
+        // }
+
+        // $_oInputSorter = new AdminPageFramework_Modifier_SortInput( 
+            // $aInput, 
+            // $_aDynamicFieldAddressKeys
+        // );
+        // return $_oInputSorter->get();
+        
+    // }   
+
 }

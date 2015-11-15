@@ -16,7 +16,7 @@
  * @subpackage  Utility
  * @internal
  */
-class AdminPageFramework_WPUtility_SiteInformation extends AdminPageFramework_WPUtility_Post {
+class AdminPageFramework_WPUtility_SiteInformation extends AdminPageFramework_WPUtility_Meta {
     
     /**
      * Checks if the site debug mode is on.

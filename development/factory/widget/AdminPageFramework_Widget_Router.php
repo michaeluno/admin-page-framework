@@ -22,7 +22,8 @@ abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Facto
      * Determines whether the currently loaded page is of the post type page.
      * 
      * @since       3.2.0
-     * @remark      The available widget areas are widgets.php and customize.php. However, some plugins implements widgets form interface in post editing page.
+     * @remark      The available widget areas are widgets.php and customize.php. 
+     * However, some plugins implements widgets form interface in post editing page.
      * @internal
      */
     public function _isInThePage() {

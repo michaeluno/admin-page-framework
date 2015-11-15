@@ -18,11 +18,15 @@
 abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Controller {
 
     /**
-     * Defines the fields type.
+     * Defines the class object structure type.
+     * 
+     * This is used to create a property object as well as to define the form element structure.
+     * 
      * @since       3.0.0
+     * @since       DEVVER      Changed the name from `$_sStructureType`.
      * @internal
      */
-    static protected $_sFieldsType = 'post_meta_box';
+    static protected $_sStructureType = 'post_meta_box';
         
     /**
      * Constructs the class object instance of AdminPageFramework_MetaBox.
@@ -55,7 +59,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Con
         if ( ! $this->_isInstantiatable() ) { return; }
         
         /* The property object needs to be done first */
-        $this->oProp                = new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability, $sTextDomain, self::$_sFieldsType );
+        $this->oProp                = new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability, $sTextDomain, self::$_sStructureType );
         $this->oProp->aPostTypes    = is_string( $asPostTypeOrScreenID ) ? array( $asPostTypeOrScreenID ) : $asPostTypeOrScreenID;    
         
         parent::__construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID, $sContext, $sPriority, $sCapability, $sTextDomain );

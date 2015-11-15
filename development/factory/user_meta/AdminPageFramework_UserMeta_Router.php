@@ -28,7 +28,10 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
         parent::__construct( $oProp );
         
         if ( $this->oProp->bIsAdmin ) {
-            add_action( 'wp_loaded', array( $this, '_replyToDetermineToLoad' ) );
+            $this->oUtil->registerAction(
+                'current_screen',
+                array( $this, '_replyToDetermineToLoad' )
+            );
         }        
                 
     }
@@ -38,6 +41,7 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
      * 
      * @internal
      * @since       3.5.0
+     * @return      boolean
      */
     public function _isInThePage() {
                
@@ -57,6 +61,8 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
      * 
      * @since       3.5.0
      * @internal
+     * @callback    action      current_screen
+     * @return      void
      */
     public function _replyToDetermineToLoad( /* $oScreen */ ) {
         
@@ -68,12 +74,7 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
         
         // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
         $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
-        
-        $this->oProp->_bSetupLoaded = true;
-        
-        // the screen object should be established to detect the loaded page. 
-        add_action( 'current_screen', array( $this, '_replyToRegisterFormElements' ), 20 ); 
-        
+                 
         // Hooks to display fields.
         add_action( 'show_user_profile', array( $this, '_replyToPrintFields' ) );   // profile.php
         add_action( 'edit_user_profile', array( $this, '_replyToPrintFields' ) );   // profile.php

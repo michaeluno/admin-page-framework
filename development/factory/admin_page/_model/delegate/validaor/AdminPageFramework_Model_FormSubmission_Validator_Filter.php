@@ -152,7 +152,7 @@ class AdminPageFramework_Model_FormSubmission_Validator_Filter extends AdminPage
              */
             private function _getInputByUnset( array $aInputs ) {
                 
-                $_sUnsetKey = '__unset_' . $this->oFactory->oProp->sFieldsType;
+                $_sUnsetKey = '__unset_' . $this->oFactory->oProp->sStructureType;
                 if ( ! isset( $_POST[ $_sUnsetKey ] ) ) {
                     return $aInputs;
                 }

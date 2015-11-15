@@ -111,11 +111,11 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
      * @since       2.1.5
      * @since       2.1.6       Moved from the AdminPageFramework_Resource_Base class. Added the $bReturnNullIfNotExist parameter.
      * @since       3.6.0       Changed the name from `resolveSRC()`.
-     * @return      string
+     * @return      string|null
      */    
     static public function getResolvedSRC( $sSRC, $bReturnNullIfNotExist=false ) {    
 
-        if ( ! $sSRC ) {
+        if ( ! self::isResourcePath( $sSRC ) ) {
             return $bReturnNullIfNotExist 
                 ? null 
                 : $sSRC;

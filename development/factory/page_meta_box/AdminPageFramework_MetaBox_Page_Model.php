@@ -18,11 +18,15 @@
 abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_MetaBox_Page_Router {
 
     /**
-     * Defines the fields type.
+     * Defines the class object structure type.
+     * 
+     * This is used to create a property object as well as to define the form element structure.
+     * 
      * @since       3.0.0
+     * @since       DEVVER      Changed the name from `$_sStructureType`.
      * @internal
      */
-    static protected $_sFieldsType = 'page_meta_box';
+    static protected $_sStructureType = 'page_meta_box';
 
     /**
      * Sets up properties and hooks.
@@ -37,7 +41,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
             get_class( $this ), 
             $sCapability, 
             $sTextDomain, 
-            self::$_sFieldsType 
+            self::$_sStructureType 
         );
         
         // This property item must be set before the isInThePage() method is used.
@@ -108,8 +112,9 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * 
      * @since       3.0.0
      * @internal
+     * @deprecated  DEVVER
      */
-    protected function getFieldOutput( $aField ) {
+/*     protected function getFieldOutput( $aField ) {
         
         // Since meta box fields don't have the `option_key` key which is required to construct the name attribute in the regular pages. 
         $aField[ 'option_key' ] = $this->_getOptionKey();
@@ -119,17 +124,18 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         
         return parent::getFieldOutput( $aField );
         
-    }
+    } */
         /**
          * Returns the currently loading page's option key if the page has the admin page object.
          * @since       3.0.0
          * @internal
+         * @deprecated  DEVVER
          */
-        private function _getOptionkey() {
-            return isset( $_GET['page'] ) 
-                ? $this->oProp->getOptionKey( $_GET['page'] )
+/*         private function _getOptionkey() {
+            return isset( $_GET[ 'page' ] ) 
+                ? $this->oProp->getOptionKey( $_GET[ 'page' ] )
                 : null;
-        }
+        } */
                     
     /**
      * Adds the defined meta box.
@@ -141,35 +147,39 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * @callback    action      add_meta_boxes
      */ 
     public function _replyToAddMetaBox( $sPageHook='' ) {
-
-        foreach( $this->oProp->aPageSlugs as $sKey => $asPage ) {
-
-            if ( is_string( $asPage ) )  {
-                
-                $this->_addMetaBox( $asPage );
+        foreach( $this->oProp->aPageSlugs as $sKey => $_asPage ) {
+            if ( is_string( $_asPage ) )  {
+                $this->_addMetaBox( $_asPage );
                 continue;
-                
-            }
-            
-            $_sPageSlug = $sKey;
+            }            
+            $this->_addMetaBoxes( $sKey, $_asPage );            
+        }
+    }    
+        /**
+         * Adds meta boxes.
+         * 
+         * @since       DEVVER
+         * @internal
+         * @return      void
+         */
+        private function _addMetaBoxes( $sPageSlug, $asPage ) {
+         
             foreach( $this->oUtil->getAsArray( $asPage ) as $_sTabSlug ) {
                 
                 if ( ! $this->oProp->isCurrentTab( $_sTabSlug ) ) { 
                     continue; 
                 }
-                $this->_addMetaBox( $_sPageSlug );
+                $this->_addMetaBox( $sPageSlug );
                 
-            }
-            
+            }         
         }
-        
-    }    
         /**
          * Adds meta box with the given page slug.
          * 
          * @since       3.0.0
          * @internal
          * @uses        add_meta_box()
+         * @return      void
          */
         private function _addMetaBox( $sPageSlug ) {
             add_meta_box( 
@@ -220,44 +230,40 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * @param       array       $aOldPageOptions        The array holing the saved options of the page. Note that this will be empty if non of generic page fields are created.
      * @param       object      $oAdminPage             The admin page factory class object.
      * @param       array       $aSubmitInfo            An array containing submit information such as a pressed submit field ID.
+     * @return      array       The validated form input data.
      */
     public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions, $oAdminPage, $aSubmitInfo ) {
         
-        // The field values of this class will not be included in the parameter array. So get them.
-        $_aFieldsModel          = $this->oForm->getFieldsModel();
-        $_aNewMetaBoxInput      = $this->oUtil->castArrayContents( $_aFieldsModel, $_POST );
-        $_aNewMetaBoxInput      = $this->_getSortedInputs( $_aNewMetaBoxInput ); // 3.6.0 - sorts dynamic eleemnts.
-        $_aOldMetaBoxInput      = $this->oUtil->castArrayContents( $_aFieldsModel, $aOldPageOptions );
+        $_aNewMetaBoxInputs      = $this->oForm->getSubmittedData( $_POST );
+        $_aOldMetaBoxInputs      = $this->oUtil->castArrayContents( 
+            $this->oForm->getDataStructureFromAddedFieldsets(),   // model
+            $aOldPageOptions        // data source
+        );
         
-        // 3.4.3+ deprecated
-        // $_aOtherOldMetaBoxInput = $this->oUtil->invertCastArrayContents( $aOldPageOptions, $_aFieldsModel ); 
-
         // Apply filters - third party scripts will have access to the input.
-        $_aNewMetaBoxInput      = stripslashes_deep( $_aNewMetaBoxInput ); // fixes magic quotes
-        $_aNewMetaBoxInputRaw   = $_aNewMetaBoxInput; // copy one for a validation error.
-        $_aNewMetaBoxInput      = call_user_func_array( 
+        $_aNewMetaBoxInputsRaw   = $_aNewMetaBoxInputs; // copy one for validation errors.
+        $_aNewMetaBoxInputs      = call_user_func_array( 
             array( $this, 'validate' ),     // triggers __call()
-            array( $_aNewMetaBoxInput, $_aOldMetaBoxInput, $this, $aSubmitInfo ) 
+            array( $_aNewMetaBoxInputs, $_aOldMetaBoxInputs, $this, $aSubmitInfo ) 
         ); // 3.5.3+
-        $_aNewMetaBoxInput      = $this->oUtil->addAndApplyFilters( 
+        $_aNewMetaBoxInputs      = $this->oUtil->addAndApplyFilters( 
             $this, 
             "validation_{$this->oProp->sClassName}", 
-            $_aNewMetaBoxInput, 
-            $_aOldMetaBoxInput, 
+            $_aNewMetaBoxInputs, 
+            $_aOldMetaBoxInputs, 
             $this,
             $aSubmitInfo
         );
     
         // If there are validation errors. set the last input.
         if ( $this->hasFieldError() ) {
-            $this->_setLastInput( $_aNewMetaBoxInputRaw );           
+            $this->_setLastInputs( $_aNewMetaBoxInputsRaw );           
         }    
     
         // Now merge the input values with the passed page options, and plus the old data to cover different in-page tab field options.
         return $this->oUtil->uniteArrays( 
-            $_aNewMetaBoxInput, 
+            $_aNewMetaBoxInputs, 
             $aNewPageOptions
-            // $_aOtherOldMetaBoxInput  // 3.4.3+ deprecated 
         );       
                         
     }
@@ -292,9 +298,10 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * @since       3.0.0
      * @since       3.3.0       Changed the name from `_replyToRegisterFormElements()`. Changed the scope to `protected`.
      * @return      void
+     * @deprecated  DEVVER
      */
     public function _registerFormElements( $oScreen ) {
-                
+return;                
         // Schedule to add head tag elements and help pane contents.     
         if ( ! $this->_isInThePage() ) { 
             return; 
@@ -308,7 +315,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );
         
         // Finalize the options array as it still holds values that are not of this class form fields.
-        $this->_setOptionArray( $_GET['page'], $this->oForm->aConditionedFields );
+        $this->_setOptionArray( $_GET[ 'page' ], $this->oForm->aConditionedFields );
         
         // Add the repeatable section elements to the fields definition array.
         $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
@@ -327,8 +334,9 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
      * @remark      Assumes the `$this->oProp->aOptions` property is already set. It should be done in the `_replyToSetUpProperties()` method of the `AdminPageFramework_Property_Metabox_Page`.
      * @remark      Overrides the parent method defined in the meta box class.
      * @internal    
+     * @deprecated  DEVVER
      */
-    protected function _setOptionArray( $sPageSlug, array $aFields ) {
+   /*  protected function _setOptionArray( $sPageSlug, array $aFields ) {
         
         // Extract the meta box field options from the page options.
         $_aOptions = $this->_getPageMetaBoxOptionsFromPageOptions( 
@@ -342,29 +350,30 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
             'options_' . $this->oProp->sClassName,
             $_aOptions
         );   
-        $_aLastInput = isset( $_GET['field_errors'] ) && $_GET['field_errors'] 
+        $_aLastInput = isset( $_GET[ 'field_errors' ] ) && $_GET[ 'field_errors' ] 
             ? $this->oProp->aLastInput 
             : array();
         
         // Update the options array.
         $this->oProp->aOptions = $_aLastInput + $this->oUtil->getAsArray( $_aOptions );
         
-    }
+    } */
         /**
          * Extracts meta box form fields options array from the given options array of an admin page.
          * 
          * @since       3.5.6
          * @return      array       The extracted options array.
          * @internal
+         * @deprecated  DEVVER
          */
-        private function _getPageMetaBoxOptionsFromPageOptions( array $aPageOptions, array $aFields ) {    
+      /*   private function _getPageMetaBoxOptionsFromPageOptions( array $aPageOptions, array $aFields ) {    
      
             $_aOptions = array();
             foreach( $aFields as $_sSectionID => $_aFields ) {
                 if ( '_default' === $_sSectionID  ) {
                     foreach( $_aFields as $_aField ) {
-                        if ( array_key_exists( $_aField['field_id'], $aPageOptions ) ) {
-                            $_aOptions[ $_aField['field_id'] ] = $aPageOptions[ $_aField['field_id'] ];
+                        if ( array_key_exists( $_aField[ 'field_id' ], $aPageOptions ) ) {
+                            $_aOptions[ $_aField[ 'field_id' ] ] = $aPageOptions[ $_aField[ 'field_id' ] ];
                         }
                     }
                 }
@@ -374,6 +383,6 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
             }       
             return $_aOptions;
         
-        }
+        } */
             
 }

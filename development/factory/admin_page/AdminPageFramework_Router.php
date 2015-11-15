@@ -147,9 +147,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                 "set_up_{$this->oProp->sClassName}", 
                 $this 
             );
-            
-            $this->oProp->_bSetupLoaded = true;            
-            
+        
         }
         
         /**
@@ -263,11 +261,13 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         }
         
         // If the setUp method is not loaded yet,
-        if ( ! $this->oProp->_bSetupLoaded ) {
+        if ( ! did_action( 'set_up_' . $this->oProp->sClassName ) ) {
             return true;
         }    
 
-        if ( ! isset( $_GET['page'] ) ) { return false; }
+        if ( ! isset( $_GET['page'] ) ) { 
+            return false; 
+        }
                 
         $_oScreen = get_current_screen();
         if ( is_object( $_oScreen ) ) {

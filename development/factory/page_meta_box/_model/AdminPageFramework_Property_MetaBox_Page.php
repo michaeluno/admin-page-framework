@@ -45,7 +45,15 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
     
     public $aHelpTabs = array();
     
-    function __construct( $oCaller, $sClassName, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sFieldsType='page_meta_box' ) {     
+    /**
+     * Stores the action hook name that gets triggered when the form registration is performed.
+     * 'admin_page' and 'network_admin_page' will use a custom hook for it.
+     * @since       DEVVER
+     * @access      pulbic      Called externally.
+     */
+    public $_sFormRegistrationHook = 'admin_enqueue_scripts';
+    
+    function __construct( $oCaller, $sClassName, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sStructureType='page_meta_box' ) {     
         
         // this must be done after the menu class finishes building the menu with the _replyToBuildMenu() method.
         add_action( 'admin_menu', array( $this, '_replyToSetUpProperties' ), 100 ); 
@@ -58,8 +66,12 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
             $sClassName, 
             $sCapability, 
             $sTextDomain,
-            $sFieldsType
+            $sStructureType
         );
+
+        // DEVVER+ 
+        // @deprecated      Moved to the declaration area.
+        // $this->_sFormRegistrationHook = 'admin_enqueue_scripts';
 
         // Store the 'meta box for pages' class objects in the global storage. 
         // These will be referred by the admin page class to determine if there are added meta boxes so that the screen option does not have to be set. 
@@ -92,8 +104,20 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
         
         $this->oAdminPage->oProp->bEnableForm = true; // enable the form tag
         
-        $this->aOptions = $this->oAdminPage->oProp->aOptions;
+        // $this->aOptions = $this->oAdminPage->oProp->aOptions;
         
+    }
+    
+    /**
+     * Retrusn the saved form options.
+     * 
+     * This is supposed to be called within the `__get()` overload magic method.
+     * 
+     * @since       DEVVER
+     * @return      array
+     */
+    protected function _getOptions() {
+        return $this->oAdminPage->oProp->aOptions;
     }
         
     /**

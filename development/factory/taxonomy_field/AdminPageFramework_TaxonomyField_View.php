@@ -17,6 +17,19 @@
  * @internal
  */
 abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_TaxonomyField_Model {
+
+    /**
+     * The content filter method,
+     * 
+     * The user may just override this method instead of defining a `content_{...}` callback method.
+     * 
+     * @since       3DEVVER
+     * @remark      Declare this method in each factory class as the form of parameters varies and if parameters are different, it triggers PHP strict standard warnings.
+     * @param       string      $sContent       The filtering content string.
+     */
+    public function content( $sContent ) {
+        return $sContent;
+    }           
     
     /**
      * Generates a name attribute value for a form input element.
@@ -66,7 +79,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
      */    
     public function _replyToPrintFieldsWOTableRows( $oTerm ) {
         echo $this->_getFieldsOutput( 
-            isset( $oTerm->term_id ) 
+            isset( $oTerm->term_id )
                 ? $oTerm->term_id 
                 : null, 
             false 
@@ -100,10 +113,34 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
         
             $_aOutput = array();
             
-            /* Set nonce. */
-            $_aOutput[] = wp_nonce_field( $this->oProp->sClassHash, $this->oProp->sClassHash, true, false );
+            // Set nonce.           
+            $_aOutput[] = wp_nonce_field( 
+                $this->oProp->sClassHash, 
+                $this->oProp->sClassHash, 
+                true, 
+                false 
+            );
             
-            /* Set the option property array */
+            // Set the form data
+            $this->_setOptionArray( $iTermID, $this->oProp->sOptionKey );
+            
+            // Get the field outputs
+            $_aOutput[] = $this->oForm->get();
+            
+            // Filter the output
+            $_sOutput = $this->oUtil->addAndApplyFilters( 
+                $this, 
+                'content_' . $this->oProp->sClassName, 
+                $this->content( implode( PHP_EOL, $_aOutput ) )
+            );
+
+            // Do action 
+            $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
+
+            return $_sOutput;
+                        
+// @deprecated      DEVVER
+            // Set the option property array
             // @todo Move _setOptionArray() to _replyToRegisterFormElements().
             $this->_setOptionArray( $iTermID, $this->oProp->sOptionKey );
                         
@@ -123,7 +160,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
                     array( $this, '_replyToGetFieldOutput' ) 
                 );
                     
-            /* Filter the output */
+            // Filter the output 
             // @todo call the content() method.
             $_sOutput = $this->oUtil->addAndApplyFilters( 
                 $this, 
@@ -149,7 +186,8 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
      * @internal
      * @since       3.0.0
      * @sine        3.5.0       Moved from `AdminPageFramework_TaxonomyField`. Changed the name from '_replyToSetColumnCell'.
-     * @todo        Format the local variable names.
+     * @callback    filter      manage_{taxonomy slug}_custom_column
+     * @return      string
      */
     public function _replyToPrintColumnCell( $vValue, $sColumnSlug, $sTermID ) {
         

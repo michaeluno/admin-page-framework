@@ -18,11 +18,15 @@
 abstract class AdminPageFramework_UserMeta extends AdminPageFramework_UserMeta_Controller {
     
     /**
-     * Defines the fields type.
+     * Defines the class object structure type.
+     * 
+     * This is used to create a property object as well as to define the form element structure.
+     * 
      * @since       3.5.0
+     * @since       DEVVER      Changed the name from `$_sStructureType`.
      * @internal
      */
-    static protected $_sFieldsType = 'user_meta';
+    static protected $_sStructureType = 'user_meta';
     
     /**
      * Sets up the property objects.
@@ -41,7 +45,7 @@ abstract class AdminPageFramework_UserMeta extends AdminPageFramework_UserMeta_C
             get_class( $this ),     // the caller class name    
             $sCapability,           // the capability level
             $sTextDomain,           // the text domain
-            self::$_sFieldsType     // the fields type
+            self::$_sStructureType     // the fields type
         );     
         
         parent::__construct( $this->oProp );

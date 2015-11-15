@@ -26,12 +26,16 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
      * @since       3.4.2
      * @todo        Create a similar function for filters.
      */
-    static public function registerAction( $sActionHook, $oCallable ) {
+    static public function registerAction( $sActionHook, $oCallable, $iPriority=10 ) {
       
         if ( did_action( $sActionHook ) ) {
             return call_user_func_array( $oCallable, array() );
         }
-        add_action( $sActionHook, $oCallable );
+        add_action( 
+            $sActionHook, 
+            $oCallable,
+            $iPriority
+        );
 
     }
     

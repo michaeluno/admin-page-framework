@@ -58,7 +58,10 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         $this->oProp->sPriority     = $sPriority;   // 'high', 'core', 'default' or 'low'    
 
         if ( $this->oProp->bIsAdmin ) {
-            add_action( 'current_screen', array( $this, '_replyToDetermineToLoad' ) );
+            $this->oUtil->registerAction(
+                'current_screen', 
+                array( $this, '_replyToDetermineToLoad' )
+            );            
         }    
 
     }
@@ -73,7 +76,7 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
      */
     public function _isInThePage() {
 
-        if ( ! in_array( $this->oProp->sPageNow, array( 'post.php', 'post-new.php' ) ) ) {            
+        if ( ! in_array( $this->oProp->sPageNow, array( 'post.php', 'post-new.php' ) ) ) {
             return false;
         }
         
@@ -115,16 +118,11 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
                 
         $this->_setUp();
         
-        // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
+        // This action hook must be called AFTER the _setUp() method 
+        // as there are callback methods that hook into this hook 
+        // and assumes required configurations have been made.
         $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
-        
-        $this->oProp->_bSetupLoaded = true;
-        
-        // The screen object should be established to detect the loaded page. 
-        // @since   3.1.5   No longer called as a callback.
-        // @since   3.3.0   Changed the name from `_replyToRegisterFormElements()`.
-        $this->_registerFormElements( $oScreen ); 
-
+                
         add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
         
         // For validation callbacks. Since this method is shared with the page-meta-box class, hooking the validation hooks should be done separately.

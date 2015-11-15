@@ -33,70 +33,33 @@ abstract class AdminPageFramework_UserMeta_View extends AdminPageFramework_UserM
     /**
      * Renders the fields.
      * 
-     * @remark      Called in the _replyTODetermineToLoad() method.
+     * @remark      Called in the `_replyToDetermineToLoad()` method.
      * @since       3.5.0
      * @internal
-     * 
      * @callback    action      show_user_profile
      * @callback    action      edit_user_profile
      * @callback    action      user_new_form
      */
-    public function _replyToPrintFields( $oUser ) {
-        
-        $_iUserID = isset( $oUser->ID ) ? $oUser->ID : 0;
-        
-        $this->_setOptionArray( $_iUserID );
-        
-        // Ouptut the fields
-        echo $this->_getFieldsOutput( $_iUserID );
-        
-    }
-        /**
-         * Retrieves the fields output.
-         * 
-         * @since       3.5.0
-         * @internal
-         */
-        private function _getFieldsOutput( $iUserID ) {
-        
-            $_aOutput = array();
-            
-            // Get the field outputs
-            $_oFieldsTable = new AdminPageFramework_FormPart_Table( $this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg );
-            $_aOutput[]    = $_oFieldsTable->getFormTables( 
-                $this->oForm->aConditionedSections, 
-                $this->oForm->aConditionedFields, 
-                array( $this, '_replyToGetSectionHeaderOutput' ), 
-                array( $this, '_replyToGetFieldOutput' ) 
-            );
-            
-            // Filter the output
-            $_sOutput = $this->oUtil->addAndApplyFilters( 
-                $this, 
-                'content_' . $this->oProp->sClassName, 
-                $this->content( implode( PHP_EOL, $_aOutput ) )
-            );
-            
-            // Do action 
-            $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
-                
-            return $_sOutput;
-               
-            
-        }
+    public function _replyToPrintFields( /* $oUser */ ) {
 
-        /**
-         * Returns the filtered section description output.
-         * 
-         * @since       3.5.0
-         * @internal
-         */
-        public function _replyToGetSectionHeaderOutput( $sSectionDescription, $aSection ) {
-            return $this->oUtil->addAndApplyFilters(
-                $this,
-                array( 'section_head_' . $this->oProp->sClassName . '_' . $aSection['section_id'] ), // section_ + {extended class name} + _ {section id}
-                $sSectionDescription
-            );     
-        }        
+        $_aOutput = array();
+
+        // Get the field outputs
+        $_aOutput[] = $this->oForm->get();
+        
+        // Filter the output
+        $_sOutput = $this->oUtil->addAndApplyFilters( 
+            $this, 
+            'content_' . $this->oProp->sClassName, 
+            $this->content( implode( PHP_EOL, $_aOutput ) )
+        );
+
+        // Do action 
+        $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );       
+
+        // Output
+        echo $_sOutput;    
+    
+    }
     
 }

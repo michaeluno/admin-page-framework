@@ -10,6 +10,8 @@
 /**
  * The base class for Property classes.
  * 
+ * Stores necessary data to render pages and its elements such as forms, including callback functions, resource (asset) localtions (paths and urls), inline script and stylesheet etc.
+ * 
  * Provides the common methods  and properties for the property classes that are used by the main class, the meta box class, and the post type class.
  * @since       2.1.0
  * @package     AdminPageFramework
@@ -218,12 +220,12 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     /**
      * Defines the fields type.
      * 
-     * Can be either 'page', 'network_admin_page', 'post_meta_box', 'page_meta_box', 'post_type', 'taxonomy'
+     * Can be either 'admin_page', 'network_admin_page', 'post_meta_box', 'page_meta_box', 'post_type', 'taxonomy_field'
      * 
      * @since       3.0.4
      * @internal
      */
-    public $sFieldsType;     
+    public $sStructureType;
         
     /**
      * Stores the text domain.
@@ -246,6 +248,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
      *  
      * @since       3.1.0
      * @internal
+     * @deprecated  DEVVER      To check if the `setUp()` is called, perform did_action( 'set_up_' . {instantiated class name} )
      */
     public $_bSetupLoaded;
     
@@ -285,16 +288,17 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
      * 
      * @internal
      * @since       3.2.0
+     * @deprecated  DEVVER      Merged with `$aFormCallbacks`
      */
-    public $aFieldCallbacks  = array(
-        'hfID'              => null,    // the input id attribute
-        'hfTagID'           => null,    // the field container id attribute
-        'hfName'            => null,    // the field name attribute
-        'hfNameFlat'        => null,    // the flat field name attribute
-        'hfInputName'       => null,    // 3.6.0+   the field input name attribute
-        'hfInputNameFlat'   => null,    // 3.6.0+   the flat field input name 
-        'hfClass'           => null,    // the class attribute        
-    );
+    // public $aFieldCallbacks  = array(
+        // 'hfID'              => null,    // the input id attribute
+        // 'hfTagID'           => null,    // the field container id attribute
+        // 'hfName'            => null,    // the field name attribute
+        // 'hfNameFlat'        => null,    // the flat field name attribute
+        // 'hfInputName'       => null,    // 3.6.0+   the field input name attribute
+        // 'hfInputNameFlat'   => null,    // 3.6.0+   the flat field input name 
+        // 'hfClass'           => null,    // the class attribute        
+    // );
     
     /**
      * The utility object.
@@ -302,11 +306,44 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
      * @deprecated  DEVVER
      */
     public $oUtil;
-                
+              
+    /**
+     * Stores the action hook name that gets triggered when the form registration is performed.
+     * 'admin_page' and 'network_admin_page' will use a custom hook for it.
+     * @since       DEVVER
+     * @access      pulbic      Called externally.
+     */
+    public $_sFormRegistrationHook = 'current_screen';
+              
+    /**
+     * Stores arguments for the form object.
+     * @since       DEVVER
+     */
+    public $aFormArguments = array(
+        'caller_id'                         => '',
+        'structure_type'                    => '',
+        'action_hook_form_registration'     => '',
+    );
+    
+    /**
+     * Stores callbacks for the form object.
+     * @since       DEVVER
+     */
+    public $aFormCallbacks = array(
+    
+        'hfID'              => null,    // the input id attribute
+        'hfTagID'           => null,    // the field container id attribute
+        'hfName'            => null,    // the field name attribute
+        'hfNameFlat'        => null,    // the flat field name attribute
+        'hfInputName'       => null,    // 3.6.0+   the field input name attribute
+        'hfInputNameFlat'   => null,    // 3.6.0+   the flat field input name 
+        'hfClass'           => null,    // the class attribute       
+    );
+              
     /**
      * Sets up necessary property values.
      */
-    public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType ) {
+    public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sStructureType ) {
                 
         $this->oCaller          = $oCaller;
         $this->sCallerPath      = $this->getAOrB(
@@ -326,7 +363,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
             'admin-page-framework',
             $sTextDomain
         );
-        $this->sFieldsType      = $sFieldsType;
+        $this->sStructureType      = $sStructureType;
         
         $GLOBALS[ 'aAdminPageFramework' ] = $this->getElementAsArray(
             $GLOBALS,
@@ -338,11 +375,60 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
         $this->bIsAdmin         = is_admin();
         $this->bIsAdminAjax     = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
            
+        $this->aFormArguments = array(
+            'caller_id'                         => $this->sClassName,
+            'structure_type'                    => $this->_sPropertyType,  // @todo change this to admin_page
+            'action_hook_form_registration'     => $this->_sFormRegistrationHook,
+        ) + $this->aFormArguments;
+           
+        $this->aFormCallbacks = array(
+            'is_in_the_page'                    => array( $oCaller, '_replyToDetermineWhetherToProcessFormRegistration' ),
+            'load_fieldset_resource'            => array( $oCaller, '_replyToFieldsetReourceRegistration' ),
+            
+'is_fieldset_registration_allowed'  => null,
 
-        // backward compatibility
-        $this->oUtil            = new AdminPageFramework_WPUtility;
+            'capability'                        => array( $oCaller, '_replyToGetCapabilityForForm' ),
+            'saved_data'                        => array( $oCaller, '_replyToGetSavedFormData' ),
+            
+            // Outputs
+            'section_head_output'               => array( $oCaller, '_replyToGetSectionHeaderOutput' ),
+            'fieldset_output'                   => array( $oCaller, '_replyToGetFieldOutput' ),
+             
+            // 
+            'sectionset_before_output'          => array( $oCaller, '_replyToFormatSectionsetDefinition' ),
+            'fieldset_before_output'            => array( $oCaller, '_replyToFormatFieldsetDefinition' ),
+            'fieldset_after_formatting'         => array( $oCaller, '_replyToModifyFieldsetDefinition' ),
+            'fieldsets_after_formatting'        => array( $oCaller, '_replyToModifyFieldsetsDefinitions' ),
+            
+            'is_sectionset_visible'             => array( $oCaller, '_replyToDetermineSectionsetVisibility' ),
+            'is_fieldset_visible'               => array( $oCaller, '_replyToDetermineFieldsetVisibility' ),
+            
+            'secitonsets_before_registration'   => array( $oCaller, '_replyToModifySectionsets' ),
+            'fieldsets_before_registration'     => array( $oCaller, '_replyToModifyFieldsets' ),
+            
+            'handle_form_data'                  => array( $oCaller, '_replyToHandleSubmittedFormData' ),        
+            
+            // legacy callbacks
+            'hfID'                              => array( $oCaller, '_replyToGetInputID' ), // the input id attribute
+            'hfTagID'                           => array( $oCaller, '_replyToGetInputTagIDAttribute' ), // the fields & fieldset & field row container id attribute
+            'hfName'                            => array( $oCaller, '_replyToGetFieldNameAttribute' ), // the input name attribute
+            'hfNameFlat'                        => array( $oCaller, '_replyToGetFlatFieldName' ), // the flat input name attribute
+            'hfInputName'                       => array( $oCaller, '_replyToGetInputNameAttribute' ),    // 3.6.0+   the field input name attribute
+            'hfInputNameFlat'                   => array( $oCaller, '_replyToGetFlatInputName' ),    // 3.6.0+   the flat field input name                 
+            'hfClass'                           => array( $oCaller, '_replyToGetInputClassAttribute' ), // the class attribute
+            'hfSectionName'                     => array( $oCaller, '_replyToGetSectionName' ), // 3.6.0+            
+        ) + $this->aFormCallbacks;
+        
+        $this->_setDeprecated();
         
     }
+        /**
+         * Sets deprecated property items for backward compatibility.
+         * @since       DEVVER
+         */
+        private function _setDeprecated() {
+            $this->oUtil            = new AdminPageFramework_WPUtility;
+        }
         
     /**
      * Returns the caller object.
@@ -467,8 +553,8 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
      * @since       3.1.0
      * @internal
      */
-    protected function _getOptions() { 
-        return array(); 
+    protected function _getOptions() {
+        return array();
     }
 
     /**
@@ -479,18 +565,19 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
      * @since       3.4.1       Moved from `AdminPageFramework_Property_Page`.
      * @internal
      * @return      array   The last input array.
+     * @deprecated  DEVVER
      */
-    protected function _getLastInput() {
+    // protected function _getLastInput() {
         
-        $_sKey      = 'apf_tfd' . md5( 'temporary_form_data_' . $this->sClassName . get_current_user_id() );
-        $_vValue    = $this->getTransient( $_sKey );
-        $this->deleteTransient( $_sKey );
-        if ( is_array( $_vValue ) ) {
-            return $_vValue;
-        }
-        return array();
+        // $_sKey      = 'apf_tfd' . md5( 'temporary_form_data_' . $this->sClassName . get_current_user_id() );
+        // $_vValue    = $this->getTransient( $_sKey );
+        // $this->deleteTransient( $_sKey );
+        // if ( is_array( $_vValue ) ) {
+            // return $_vValue;
+        // }
+        // return array();
         
-    }
+    // }
     
     /*
      * Magic methods
@@ -519,10 +606,11 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
         
         // 3.3.0+   Sets and returns the last user form input data as an array.
         // 3.4.1+   Moved from `AdminPageFramework_Property_Page` as meta box classes also access it.
-        if ( 'aLastInput' === $sName ) {
-            $this->aLastInput = $this->_getLastInput();
-            return $this->aLastInput;
-        }        
+        // @deprecated      DEVVEWR
+        // if ( 'aLastInput' === $sName ) {
+            // $this->aLastInput = $this->_getLastInput();
+            // return $this->aLastInput;
+        // }        
         
         // For regular undefined items, 
         // return 'undefined';

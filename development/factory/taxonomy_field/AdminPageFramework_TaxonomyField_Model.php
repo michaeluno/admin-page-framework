@@ -47,6 +47,8 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      *      [posts]         => Admin Page Framework
      * ) 
      * </code>
+     * @callback    filter      manage_edit-{taxonomy slug}_columns
+     * @return      string
      */
     public function _replyToManageColumns( $aColumns ) {
         return $this->_getFilteredColumnsByFilterPrefix( 
@@ -63,6 +65,8 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * @internal
      * @since       3.0.0
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
+     * @callback    filter      manage_edit-{taxonomy slug}_sortable_columns
+     * @return      string
      */
     public function _replyToSetSortableColumns( $aSortableColumns ) {
         return $this->_getFilteredColumnsByFilterPrefix( 
@@ -96,26 +100,18 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
         }
    
     /**
-     * Registers form fields and sections.
+     * Called when the form object tries to set the form data from the database.
      * 
-     * @since       3.0.0
-     * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
-     * @callback    action      current_screen
-     * @internal
+     * @callback    form        `saved_data`    
+     * @remark      The `oOptions` property will be automatically set with the overload method.
+     * @remark      Do not call the parant method as it triggers the `option_{...}` filter hook.
+     * This class will set the data right before rendering the form fields as there is no way to find the term id.
+     * @return      array       The saved form data.
+     * @since       DEVVER
      */
-    public function _replyToRegisterFormElements( $oScreen ) {
-
-        $this->_loadFieldTypeDefinitions();
-        
-        // Format the fields array.
-        $this->oForm->format();
-        $this->oForm->applyConditions();
-        // @todo    Examine whether applyFiltersToFields() should be performed here or not.
-        // @todo    Examine whether setDynamicElements() should be performed here or not.
-        
-        $this->_registerFields( $this->oForm->aConditionedFields );
-        
-    }    
+    public function _replyToGetSavedFormData() {
+        return array();    
+    }
        
     /**
      * Sets the <var>$aOptions</var> property array in the property object. 
@@ -123,69 +119,89 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * This array will be referred later in the `getFieldOutput()` method.
      * 
      * @since       unknown
-     * @since       3.0.0     the scope is changed to protected as the taxonomy field class redefines it.
+     * @since       3.0.0       The scope is changed to protected as the taxonomy field class redefines it.
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
+     * @since       DEVVER      No longer sets the value to `$this-oProp->aOptions` but to the form peoperty.
      * @internal
-     * @todo        Add the `options_{instantiated class name}` filter.
      */
     protected function _setOptionArray( $iTermID=null, $sOptionKey ) {
-                
-        $aOptions               = get_option( $sOptionKey, array() );
-        $this->oProp->aOptions  = isset( $iTermID, $aOptions[ $iTermID ] )
-            ? $aOptions[ $iTermID ] 
-            : array();
-
-    }    
+        $this->oForm->aSavedData = $this->_getSavedFormData( 
+            $iTermID, 
+            $sOptionKey
+        );
+    } 
+        /**
+         * @remark      The returned values are portion of the entire data set to the options table row
+         * as the row stores all the form data associated with the taxonomy slug. And each element with the key of term id holds 
+         * each form data of the term.
+         * @return      array
+         */
+        private function _getSavedFormData( $iTermID, $sOptionKey ) {
+            
+            return $this->oUtil->addAndApplyFilter(
+                $this, // the caller factory object
+                'options_' . $this->oProp->sClassName,
+                $this->_getSavedTermFormData( $iTermID, $sOptionKey )
+                // @todo maybe pass the term id because the user will not know whihch form data is
+            );
+            
+        }
+        /**
+         * @return      array
+         */
+        private function _getSavedTermFormData( $iTermID, $sOptionKey ) {
+            $_aSavedTaxonomyFormData = $this->_getSavedTaxonomyFormData( $sOptionKey );
+            return $this->oUtil->getElementAsArray(
+                $_aSavedTaxonomyFormData,
+                $iTermID
+            );
+        }
+        /**
+         * @return      array
+         */
+        private function _getSavedTaxonomyFormData( $sOptionKey ) {
+            return get_option( $sOptionKey, array() );
+        }
     
     /**
      * Validates the given option array.
      * 
      * @since       3.0.0
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
+     * @callback    action      created_{taxonomy slug}
+     * @callback    action      edited_{taxonomy slug}
      * @internal
      */
     public function _replyToValidateOptions( $iTermID ) {
-                
-        if ( ! $this->_verifyFormSubmit() ) {
+
+        if ( ! $this->_shouldProceedValidation() ) {
             return;
         }              
-        
-        $aTaxonomyFieldOptions  = get_option( $this->oProp->sOptionKey, array() );
-        $_aOldOptions           = $this->oUtil->getElementAsArray(
-            $aTaxonomyFieldOptions,
-            $iTermID,
-            array()
-        );
-        $_aSubmittedOptions     = array();
-        foreach( $this->oForm->aFields as $_sSectionID => $_aFields ) {
-            foreach( $_aFields as $_sFieldID => $_aField ) {
-                if ( isset( $_POST[ $_sFieldID ] ) ) {
-                    $_aSubmittedOptions[ $_sFieldID ] = $_POST[ $_sFieldID ];
-                }
-            }
-        }
-        // [3.5.10+] Fix magic quotes 
-        $_aSubmittedOptions     = stripslashes_deep( $_aSubmittedOptions );  
-        $_aSubmittedOptions     = $this->_getSortedInputs( $_aSubmittedOptions ); 
-         
-        // Apply validation filters to the submitted option array. 
-        $_aSubmittedOptions = $this->oUtil->addAndApplyFilters( 
+
+        $_aTaxonomyFormData     = $this->_getSavedTaxonomyFormData( $this->oProp->sOptionKey );
+        $_aSavedFormData        = $this->_getSavedTermFormData( $iTermID, $this->oProp->sOptionKey );
+        $_aSubmittedFormData    = $this->oForm->getSubmittedData( $_POST ); 
+        $_aSubmittedFormData    = $this->oUtil->addAndApplyFilters( 
             $this, 
             'validation_' . $this->oProp->sClassName, 
             call_user_func_array( 
                 array( $this, 'validate' ), // triggers __call()
-                array( $_aSubmittedOptions, $_aOldOptions, $this )
+                array( $_aSubmittedFormData, $_aSavedFormData, $this )
             ), // 3.5.10+
-            $_aOldOptions, 
+            $_aSavedFormData, 
             $this 
         );
-        $aTaxonomyFieldOptions[ $iTermID ]  = $this->oUtil->uniteArrays( 
-            $_aSubmittedOptions, 
-            $_aOldOptions 
+        
+        // @todo Examine whether it is appropriate to merge recursivly 
+        // as some fields will have a problem such as select with multiple options.
+        $_aTaxonomyFormData[ $iTermID ]  = $this->oUtil->uniteArrays( 
+            $_aSubmittedFormData, 
+            $_aSavedFormData 
         );
+                 
         update_option( 
             $this->oProp->sOptionKey, 
-            $aTaxonomyFieldOptions 
+            $_aTaxonomyFormData 
         );
         
     }        
@@ -193,12 +209,14 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
          * Verifies the form submit.
          * 
          * @since       3.3.3
+         * @since       DEVVER      Renamed from `_verifyFormSubmit()`.
          * @internal
          * @return      boolean     True if it is verified; otherwise, false.
          */        
-        private function _verifyFormSubmit() {
+        private function _shouldProceedValidation() {
 
             if ( ! isset( $_POST[ $this->oProp->sClassHash ] ) ) { 
+            
                 return false;
             }
             if ( ! wp_verify_nonce( $_POST[ $this->oProp->sClassHash ], $this->oProp->sClassHash ) ) {

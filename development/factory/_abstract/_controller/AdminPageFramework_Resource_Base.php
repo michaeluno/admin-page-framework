@@ -52,8 +52,8 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
         
     );    
       
-   /**
-     * Stores the class selector used to the class-specific style.
+    /**
+     * Stores the class selector used for the class-specific style.
      * 
      * @since       3.2.0
      * @remark      This value should be overridden in an extended class.
@@ -149,11 +149,12 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
      * A helper function for the _replyToEnqueueScripts() and the `_replyToEnqueueStyle()` methods.
      * 
      * @since       2.1.5
+     * @since       DEVVER      Fixed a typo in the method name.
      * @internal
      * @remark      The widget fields type does not have conditions unlike the meta-box type that requires to check currently loaded post type.
      * @remark      This method should be redefined in the extended class.
      */
-    protected function _enqueueSRCByConditoin( $aEnqueueItem ) {
+    protected function _enqueueSRCByCondition( $aEnqueueItem ) {
         return $this->_enqueueSRC( $aEnqueueItem );            
     }
     
@@ -167,6 +168,8 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
          * 
          * @since       3.3.0
          * @internal
+         * @callback    action      script_loader_src
+         * @callback    action      style_loader_src
          */
         public function _replyToSetupArgumentCallback( $sSRC, $sHandleID ) {
 
@@ -231,7 +234,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
      * @parameter   string      $sClassName  The class name that identify the call group. This is important for the meta-box class because it can be instantiated multiple times in one particular page.
      */
     protected function _printCommonStyles( $sIDPrefix, $sClassName ) {
-                
+
         if ( self::$_bCommonStyleLoaded ) { 
             return; 
         }
@@ -326,6 +329,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
             ),
             AdminPageFramework_Property_Base::$_sDefaultScript 
         );
+        $_sScript = trim( $_sScript );
         if ( $_sScript ) {
             echo "<script type='text/javascript' id='" . esc_attr( $sIDPrefix ) . "'>"
                     . $_sScript
@@ -424,6 +428,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
             ),
             $this->oProp->sScript 
         );
+        $_sScript = trim( $_sScript );
         if ( $_sScript ) {
             echo "<script type='text/javascript' id='" . esc_attr( "{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}" ) . "'>" 
                     . $_sScript
@@ -443,22 +448,24 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
      * 
      * @since       2.0.0
      * @since       2.1.5       Moved from `AdminPageFramework_MetaBox`. Changed the name from `addAtyle()` to `replyToAddStyle()`.
-     * @remark      A callback for the `admin_head` hook.
+     * @callback    action      admin_head
      * @internal
      */     
     public function _replyToAddStyle() {
     
         $_oCaller = $this->oProp->_getCallerObject();     
-        if ( ! $_oCaller->_isInThePage() ) { return; }
+        if ( ! $_oCaller->_isInThePage() ) {
+            return; 
+        }
         
         $this->_printCommonStyles( 'admin-page-framework-style-common', get_class() );
-        $this->_printClassSpecificStyles( $this->_sClassSelector_Style . '-' . $this->oProp->sFieldsType );
+        $this->_printClassSpecificStyles( $this->_sClassSelector_Style . '-' . $this->oProp->sStructureType );
  
     }
     /**
      * Appends the JavaScript script of the framework in the head tag. 
      * 
-     * @remark      A callback for the `admin_head` hook.
+     * @callback    action      admin_head
      * @since       2.0.0
      * @since       2.1.5       Moved from AdminPageFramework_MetaBox. Changed the name from `addScript()` to `replyToAddScript()`.
      * @since       3.2.0       Moved from AdminPageFramework_Resource_MetaBox. 
@@ -467,10 +474,12 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
     public function _replyToAddScript() {
 
         $_oCaller = $this->oProp->_getCallerObject();     
-        if ( ! $_oCaller->_isInThePage() ) { return; }
+        if ( ! $_oCaller->_isInThePage() ) { 
+            return; 
+        }
         
         $this->_printCommonScripts( 'admin-page-framework-script-common', get_class() );
-        $this->_printClassSpecificScripts( $this->_sClassSelector_Script . '-' . $this->oProp->sFieldsType );
+        $this->_printClassSpecificScripts( $this->_sClassSelector_Script . '-' . $this->oProp->sStructureType );
         
     }        
     
@@ -523,7 +532,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
      */    
     public function _replyToEnqueueStyles() {        
         foreach( $this->oProp->aEnqueuingStyles as $_sKey => $_aEnqueuingStyle ) {
-            $this->_enqueueSRCByConditoin( $_aEnqueuingStyle );
+            $this->_enqueueSRCByCondition( $_aEnqueuingStyle );
             unset( $this->oProp->aEnqueuingStyles[ $_sKey ] );
         }
     }
@@ -540,7 +549,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
      */
     public function _replyToEnqueueScripts() {     
         foreach( $this->oProp->aEnqueuingScripts as $_sKey => $_aEnqueuingScript ) {
-            $this->_enqueueSRCByConditoin( $_aEnqueuingScript );     
+            $this->_enqueueSRCByCondition( $_aEnqueuingScript );     
             unset( $this->oProp->aEnqueuingScripts[ $_sKey ] );
         }
     }

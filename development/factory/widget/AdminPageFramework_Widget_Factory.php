@@ -14,6 +14,7 @@
  * @since       3.2.0
  * @package     AdminPageFramework
  * @subpackage  Widget
+ * @extends     WP_Widget
  * @internal
  */
 class AdminPageFramework_Widget_Factory extends WP_Widget {
@@ -140,36 +141,60 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
         $this->oCaller->load( $this->oCaller );
         $this->oCaller->oUtil->addAndDoActions( 
             $this->oCaller, 
-            'load_' . $this->oCaller->oProp->sClassName, 
+            array(
+                'load_' . $this->oCaller->oProp->sClassName, 
+            ),
             $this->oCaller 
         );
 	        
         // Register the form elements.
-        $this->oCaller->_registerFormElements( $aFormData );
+        // @deprecated      DEVVER
+        // $this->oCaller->_registerFormElements( $aFormData );
       
         // Set up callbacks for field element outputs such as for name and it attributes.
-        $this->oCaller->oProp->aFieldCallbacks = array( 
+        $this->oCaller->oProp->aFormCallbacks = array( 
             'hfID'          => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
             'hfTagID'       => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
             'hfName'        => array( $this, '_replyToGetFieldName' ),  // defined in the WP_Widget class.  
             'hfInputName'   => array( $this, '_replyToGetFieldInputName' ),
             // 'hfClass'       => array( $this, '_replyToAddClassSelector' ),
             // 'hfNameFlat'    => array( $this, '_replyToGetFlatFieldName' ), // @deprecated 3.6.0+ the same as the framework factory method.
-        ) + $this->oCaller->oProp->aFieldCallbacks;
-      
+        ) + $this->oCaller->oProp->aFormCallbacks;
+        $this->oCaller->oForm->aCallbacks = $this->oCaller->oProp->aFormCallbacks + $this->oCaller->oForm->aCallbacks;
+       
+        // Set the form data - the form object will trigger a callback to construct the saved form data.
+        // And the factory abstract class has a defined method for it and it applies a filter to the form data (options) array.
+        $this->oCaller->oProp->aOptions = $aFormData; 
+       
+        // This hook triggers the form registration method.
+        $this->oCaller->oUtil->addAndDoActions( 
+            $this->oCaller, 
+            array(
+                'load_after_' . $this->oCaller->oProp->sClassName, 
+            ),
+            $this->oCaller 
+        );        
+              
         // Render the form. 
         $this->oCaller->_printWidgetForm();
-       
+
         /** 
          * Initialize the form object that stores registered sections and fields
-         * because this class gets called multiple times to render the form including added widgets and the initial widget that gets listed on the lsft hand side of the page.
+         * because this class gets called multiple times to render the form including added widgets 
+         * and the initial widget that gets listed on the left hand side of the page.
          * @since       3.5.2
          */
-        $this->oCaller->oForm = new AdminPageFramework_FormDefinition( 
-            $this->oCaller->oProp->sFieldsType, 
-            $this->oCaller->oProp->sCapability, 
-            $this->oCaller
-        );   
+        // $this->oCaller->oForm = new AdminPageFramework_Form_widget(
+            // $this->oCaller->oProp->aFormArguments,
+            // $this->oCaller->oProp->aFormCallbacks,
+            // $this->oCaller->oMsg
+        // );
+        // @deprecated
+        // $this->oCaller->oForm = new AdminPageFramework_FormDefinition( 
+            // $this->oCaller->oProp->sStructureType, 
+            // $this->oCaller->oProp->sCapability, 
+            // $this->oCaller
+        // );   
        
 	}
     

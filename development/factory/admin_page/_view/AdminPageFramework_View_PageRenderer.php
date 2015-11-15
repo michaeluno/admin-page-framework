@@ -205,26 +205,7 @@ class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility 
                 if ( ! $this->oFactory->oProp->bEnableForm ) {
                     return '';
                 }
-                if ( ! $this->oFactory->oForm->isPageAdded( $sPageSlug ) ) {
-                    return '';
-                }
-                         
-                $this->oFactory->aFieldErrors = isset( $this->oFactory->aFieldErrors )
-                    ? $this->oFactory->aFieldErrors 
-                    : $this->oFactory->_getFieldErrors( $sPageSlug ); 
-                    
-                $_oFieldsTable = new AdminPageFramework_FormPart_Table(
-                    $this->oFactory->oProp->aFieldTypeDefinitions, 
-                    $this->oFactory->aFieldErrors, 
-                    $this->oFactory->oMsg
-                );
-                
-                return $_oFieldsTable->getFormTables( 
-                    $this->oFactory->oForm->aConditionedSections, 
-                    $this->oFactory->oForm->aConditionedFields, 
-                    array( $this->oFactory, '_replyToGetSectionHeaderOutput' ), 
-                    array( $this->oFactory, '_replyToGetFieldOutput' ) 
-                 );
+                return $this->oFactory->oForm->get();
                    
             }
            
