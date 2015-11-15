@@ -95,25 +95,21 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
             return; 
         }
 
-        // Properties
         $this->oProp = new AdminPageFramework_Property_PostType( 
             $this, 
-            $sCallerPath 
-                ? trim( $sCallerPath ) 
-                : ( 
-                    ( is_admin() && isset( $GLOBALS['pagenow'] ) && in_array( $GLOBALS['pagenow'], array( 'edit.php', 'post.php', 'post-new.php', 'plugins.php', 'tags.php', 'edit-tags.php', ) ) )
-                        ? AdminPageFramework_Utility::getCallerScriptPath( __FILE__ )
-                        : null 
-                ),     // this is important to attempt to find the caller script path here when separating the library into multiple files.    
+            $this->_getCallerScriptPath( $sCallerPath ),
             get_class( $this ), // class name
             'publish_posts',    // capability
             $sTextDomain,       // text domain
-            'post_type'         // fields type
+            'post_type'         // structure type
         );
         $this->oProp->sPostType     = AdminPageFramework_WPUtility::sanitizeSlug( $sPostType );
-        $this->oProp->aPostTypeArgs = $aArguments; // for the argument array structure, refer to http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
+        
+        // Post type argument array structure
+        // @see http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
+        $this->oProp->aPostTypeArgs = $aArguments; 
 
-        // Make sure to call the parent construct first as the factory router need to set up sub-class objects.
+        // Let the factory router set up sub-class objects.
         parent::__construct( $this->oProp );
                 
         $this->oUtil->addAndDoAction( 
@@ -123,5 +119,33 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
         );
                            
     }
-                
+        /**
+         * Attempts to find the caller script path.
+         * @remark      This is important to do it here when separating the library into multiple files.
+         * @since       DEVVER
+         * @return      string|null
+         */
+        private function _getCallerScriptPath( $sCallerPath ) {
+            
+            $sCallerPath = trim( $sCallerPath );
+            if ( $sCallerPath ) {
+                return $sCallerPath;
+            }
+            
+            if ( ! is_admin() ) {
+                return null;
+            }
+            $_sPageNow = AdminPageFramework_Utility::getElement( $GLOBALS, 'pagenow' );
+            if ( 
+                in_array( 
+                    $_sPageNow, 
+                    array( 'edit.php', 'post.php', 'post-new.php', 'plugins.php', 'tags.php', 'edit-tags.php', )
+                )
+            ) {
+                return AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );
+            }
+            return null;             
+            
+        }
+        
 }
