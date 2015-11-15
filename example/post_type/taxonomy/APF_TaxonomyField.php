@@ -49,6 +49,11 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
                 'field_id'      => 'image_upload',
                 'type'          => 'image',
                 'title'         => __( 'Image Upload', 'admin-page-framework-loader' ),
+                'attributes'    => array(
+                    'preview' => array(
+                        'style' => 'max-width: 200px;',
+                    ),
+                ),                
             )
         );     
     
