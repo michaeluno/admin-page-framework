@@ -28,7 +28,7 @@ abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework
     public function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     
                         
         parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );
-                
+
         $this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}", $this );
     
     }

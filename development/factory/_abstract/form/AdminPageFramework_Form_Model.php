@@ -199,25 +199,30 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         if ( ! $this->isInThePage() ) {
             return;
         }
-        
+                
         // Load field type definitions.
         $this->_setFieldTypeDefinitions();  
 
         // Set the options array
         $this->aSavedData = $this->_getSavedData(
             // Merge with the set property and the generated default valus. 
-            // This allowes external routines to set custom default values prior to the field registration.
+            // This allows external routines to set custom default values prior to the field registration.
             $this->aSavedData + $this->getDefaultFormValues()
         );
         
         /**
          * Call backs registered functions before loading field resources.
-         * The `$this->aSavedData` property shuld be set because it is passed to the validation callback.
+         * The `$this->aSavedData` property should be set because it is passed to the validation callback.
          * Note that in each main routine, it may not be necessary to set this value as they have own validation callback and not necessarily 
          * need saved data at this point, such as the taxonomy factory.
          */
         $this->_handleCallbacks();
 
+        // Bail if there is no added field.
+        if ( empty( $this->aFieldsets ) ) {
+            return;
+        }        
+        
         // Set field resources (assets) such as javascripts and stylesheets. 
         $_oFieldResources = new AdminPageFramework_Form_Model___SetFieldResources(
             $this->aArguments,
@@ -318,7 +323,9 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             $_aSavedData = $this->getAsArray(
                     $this->callBack(
                         $this->aCallbacks[ 'saved_data' ], 
-                        $aDefaultValues // default value
+                        array(
+                            $aDefaultValues, // default value
+                        )
                     )
                 )
                 + $aDefaultValues;
@@ -366,7 +373,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
     public function getDefaultFormValues() {
 // @todo Think of a new way when there are nested fieldsets and sectionsets.        
         $_aDefaultOptions = array();
-        foreach( $this->aFieldsets as $_sSectionID => $_aFields  ) {
+        foreach( $this->aFieldsets as $_sSectionID => $_aFields ) {
             
             foreach( $_aFields as $_sFieldID => $_aField ) {
                 

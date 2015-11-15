@@ -276,7 +276,7 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
             $this, // the caller factory object
             'options_' . $this->oProp->sClassName,
             $this->oProp->oAdminPage->oProp->aOptions  
-        );         
+        );
         return $this->oUtil->castArrayContents( 
             $this->oForm->getDataStructureFromAddedFieldsets(),   // model
             $_aPageOptions        // data source
@@ -291,12 +291,12 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
          * @internal
          * @deprecated  DEVVER
          */
-      /*   private function _getPageMetaBoxOptionsFromPageOptions( array $aPageOptions, array $aFields ) {    
+        private function _getPageMetaBoxOptionsFromPageOptions( array $aPageOptions, array $aFieldsets ) {
      
             $_aOptions = array();
-            foreach( $aFields as $_sSectionID => $_aFields ) {
+            foreach( $aFieldsets as $_sSectionID => $_aFieldsets ) {
                 if ( '_default' === $_sSectionID  ) {
-                    foreach( $_aFields as $_aField ) {
+                    foreach( $_aFieldsets as $_aField ) {
                         if ( array_key_exists( $_aField[ 'field_id' ], $aPageOptions ) ) {
                             $_aOptions[ $_aField[ 'field_id' ] ] = $aPageOptions[ $_aField[ 'field_id' ] ];
                         }
@@ -308,6 +308,6 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
             }       
             return $_aOptions;
         
-        } */
+        }
             
 }
