@@ -146,11 +146,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             ),
             $this->oCaller 
         );
-	        
-        // Register the form elements.
-        // @deprecated      DEVVER
-        // $this->oCaller->_registerFormElements( $aFormData );
-      
+	              
         // Set up callbacks for field element outputs such as for name and it attributes.
         $this->oCaller->oProp->aFormCallbacks = array( 
             'hfID'          => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
@@ -184,6 +180,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * and the initial widget that gets listed on the left hand side of the page.
          * @since       3.5.2
          */
+        // @todo      DEVVER+ Investigate whether this is no longer necessary.
         // $this->oCaller->oForm = new AdminPageFramework_Form_widget(
             // $this->oCaller->oProp->aFormArguments,
             // $this->oCaller->oProp->aFormCallbacks,

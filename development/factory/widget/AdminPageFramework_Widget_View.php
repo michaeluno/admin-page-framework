@@ -50,24 +50,7 @@ abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_
      * @internal
      */
     public function _printWidgetForm() {
-             
-        // Get the fields output.
-        echo $this->oForm->get();
-        
-        // @deprecated      DEVVER
-        // $_oFieldsTable  = new AdminPageFramework_FormPart_Table( 
-            // $this->oProp->aFieldTypeDefinitions, 
-            // $this->_getFieldErrors(),                           // defined in the factory model class.
-            // $this->oMsg 
-        // );
-        
-        // echo $_oFieldsTable->getFormTables( 
-            // $this->oForm->aConditionedSections, 
-            // $this->oForm->aConditionedFields, 
-            // array( $this, '_replyToGetSectionHeaderOutput' ),   // defined below
-            // array( $this, '_replyToGetFieldOutput' )            // defined in the factory view class.
-        // );
-        
+        echo $this->oForm->get();   
     }
     
     

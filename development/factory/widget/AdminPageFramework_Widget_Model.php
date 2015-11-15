@@ -125,30 +125,5 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
         $this->oProp->oWidget = $wp_widget_factory->widgets[ $this->oProp->sClassName ];
         
     }
-
-    /**
-     * Registers form fields and sections.
-     * 
-     * @since       3.2.0
-     * @internal
-     * @remark      Called from the widget factory class.
-     * @deprecated  DEVVER
-     */
-    public function _registerFormElements( $aOptions ) {
-return;
-        $this->_loadFieldTypeDefinitions();  // defined in the framework factory class.    
-        
-        // Set the internal options array. The framework refers this array when rendering the form.
-        $this->oProp->aOptions = $aOptions;
-
-        // Format the fields array.
-        $this->oForm->format();
-        $this->oForm->applyConditions(); // will set $this->oForm->aConditionedFields
-  
-        // Add the repeatable section elements to the fields definition array.
-        $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
-        $this->_registerFields( $this->oForm->aConditionedFields ); // defined in the framework factory model class.
-                
-    }   
     
 }
