@@ -611,16 +611,24 @@ return $aFieldset;
      * To get the set input, call `$this->oProp->aLastInput`.
      * 
      * @since       3.4.1
+     * @since       DEVVER      Changed the name from `_setLastInput()`.
      * @return      boolean     True if set; otherwise, false.
      * @internal
      */
-    public function _setLastInput( array $aLastInput ) {
+    public function _setLastInputs( array $aLastInputs ) {
         return $this->oUtil->setTransient( 
             'apf_tfd' . md5( 'temporary_form_data_' . $this->oProp->sClassName . get_current_user_id() ),
-            $aLastInput, 
+            $aLastInputs, 
             60*60 
         );
     }
+        /**
+         * An alias of `_setLastInputs()`.
+         * @deprecated      DEVVER
+         */
+        public function _setLastInput( $aLastInputs )  {
+            return $this->_setLastInputs( $aLastInputs );
+        }
      
     /**
      * The public version of `_getSortedInputs()`.

@@ -121,7 +121,7 @@ class AdminPageFramework_Model_FormSubmission_Validator_Filter extends AdminPage
             
             // Otherwise, set the last input data and throw an exception.
             $this->_setSettingNoticeAfterValidation( empty( $_aInput ) );
-            $this->oFactory->_setLastInput( $aRawInputs );
+            $this->oFactory->_setLastInputs( $aRawInputs );
             
             add_filter(
                 "options_update_status_{$this->oFactory->oProp->sClassName}", 

@@ -106,36 +106,6 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
         }
     
     }        
-
-    /**
-     * Returns the field output.
-     * 
-     * @since       3.0.0
-     * @internal
-     * @deprecated  DEVVER
-     */
-/*     protected function getFieldOutput( $aField ) {
-        
-        // Since meta box fields don't have the `option_key` key which is required to construct the name attribute in the regular pages. 
-        $aField[ 'option_key' ] = $this->_getOptionKey();
-        
-        // set an empty string to make it yield true for isset() so that saved options will be checked.
-        $aField[ 'page_slug' ]  = $this->oProp->getCurrentPageSlug();
-        
-        return parent::getFieldOutput( $aField );
-        
-    } */
-        /**
-         * Returns the currently loading page's option key if the page has the admin page object.
-         * @since       3.0.0
-         * @internal
-         * @deprecated  DEVVER
-         */
-/*         private function _getOptionkey() {
-            return isset( $_GET[ 'page' ] ) 
-                ? $this->oProp->getOptionKey( $_GET[ 'page' ] )
-                : null;
-        } */
                     
     /**
      * Adds the defined meta box.
@@ -292,73 +262,28 @@ abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_
     }
     
     /**
-     * Registers form fields and sections.
+     * Called when the form object tries to set the form data from the database.
      * 
-     * @internal
-     * @since       3.0.0
-     * @since       3.3.0       Changed the name from `_replyToRegisterFormElements()`. Changed the scope to `protected`.
-     * @return      void
-     * @deprecated  DEVVER
+     * @callback    form        `saved_data`    
+     * @remark      The `oOptions` property will be automatically set with the overload method.
+     * @remark      Redefine (override) this method completely because the parent meta box factory class
+     * has this method and its own way to retrieve form data.
+     * @return      array       The saved form data.
+     * @since       DEVVER
      */
-    public function _registerFormElements( $oScreen ) {
-return;                
-        // Schedule to add head tag elements and help pane contents.     
-        if ( ! $this->_isInThePage() ) { 
-            return; 
-        }
-        
-        $this->_loadFieldTypeDefinitions();
-        
-        // Format the fields array.
-        $this->oForm->format();
-        $this->oForm->applyConditions(); // will create the conditioned elements.
-        $this->oForm->applyFiltersToFields( $this, $this->oProp->sClassName );
-        
-        // Finalize the options array as it still holds values that are not of this class form fields.
-        $this->_setOptionArray( $_GET[ 'page' ], $this->oForm->aConditionedFields );
-        
-        // Add the repeatable section elements to the fields definition array.
-        $this->oForm->setDynamicElements( $this->oProp->aOptions ); // will update $this->oForm->aConditionedFields
-                        
-        $this->_registerFields( $this->oForm->aConditionedFields );
-
-    }
-
-    /**
-     * Sets the aOptions property array in the property object. 
-     * 
-     * But the `$this->oProp->aOptions` array is not finalized and it stores all the page's options. So the field values that are not of this class should be removed.
-     * 
-     * @since       3.4.1    
-     * @since       3.5.3       Added a type hint to the second parameter.
-     * @remark      Assumes the `$this->oProp->aOptions` property is already set. It should be done in the `_replyToSetUpProperties()` method of the `AdminPageFramework_Property_Metabox_Page`.
-     * @remark      Overrides the parent method defined in the meta box class.
-     * @internal    
-     * @deprecated  DEVVER
-     */
-   /*  protected function _setOptionArray( $sPageSlug, array $aFields ) {
-        
-        // Extract the meta box field options from the page options.
-        $_aOptions = $this->_getPageMetaBoxOptionsFromPageOptions( 
-            $this->oProp->aOptions, 
-            $aFields 
-        );
-        
-        // Apply the filters to let third party scripts to set own options array.
-        $_aOptions = $this->oUtil->addAndApplyFilter(
-            $this, // the caller object
+    public function _replyToGetSavedFormData() {
+        $_aPageOptions = $this->oUtil->addAndApplyFilter(
+            $this, // the caller factory object
             'options_' . $this->oProp->sClassName,
-            $_aOptions
-        );   
-        $_aLastInput = isset( $_GET[ 'field_errors' ] ) && $_GET[ 'field_errors' ] 
-            ? $this->oProp->aLastInput 
-            : array();
-        
-        // Update the options array.
-        $this->oProp->aOptions = $_aLastInput + $this->oUtil->getAsArray( $_aOptions );
-        
-    } */
-        /**
+            $this->oProp->oAdminPage->oProp->aOptions  
+        );         
+        return $this->oUtil->castArrayContents( 
+            $this->oForm->getDataStructureFromAddedFieldsets(),   // model
+            $_aPageOptions        // data source
+        );        
+    }    
+    
+       /**
          * Extracts meta box form fields options array from the given options array of an admin page.
          * 
          * @since       3.5.6

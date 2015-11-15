@@ -44,7 +44,7 @@ class AdminPageFramework_Model_FormSubmission_Validator_ContactFormConfirm exten
             return;
         }
 
-        $this->oFactory->_setLastInput( $aInputs );
+        $this->oFactory->_setLastInputs( $aInputs );
         $this->oFactory->oProp->_bDisableSavingOptions = true;
 
         add_filter(
