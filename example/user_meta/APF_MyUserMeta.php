@@ -31,7 +31,22 @@ class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
                 'type'          => 'textarea',
                 'title'         => __( 'Text Area', 'admin-page-framework-loader' ),
                 'default'       => 'Hi there!',   
-            ),        
+            ),    
+            array(
+                'field_id'      => 'image',
+                'type'          => 'image',
+                'title'         => __( 'Image', 'admin-page-framework-loader' ),
+                'attributes'    => array(
+                    'preview' => array(
+                        'style' => 'max-width: 200px;',
+                    ),
+                ),
+            ),
+            array(
+                'field_id'      => 'color',
+                'type'          => 'color',
+                'title'         => __( 'Color', 'admin-page-framework-loader' ),
+            ),
             array(    
                 'field_id'      => 'radio_buttons',
                 'type'          => 'radio',
@@ -49,9 +64,10 @@ class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
     
     /**
      * A pre-defined validation callback method.
+     * @return      array
      */
-    public function validate( $aInput, $aOldInput, $oFactory ) {
-        return $aInput;        
+    public function validate( $aInputs, $aOldInputs, $oFactory ) {
+        return $aInputs;
     }
     
 }
