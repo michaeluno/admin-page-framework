@@ -15,7 +15,7 @@
  * @since       3.6.0
  * @internal
  */
-class AdminPageFramework_Modifier_SortInput extends AdminPageFramework_Modifier_Base {
+class AdminPageFramework_Form_Model___Modifier_SortInput extends AdminPageFramework_Form_Model___Modifier_Base {
     
     public $aInput = array();
     public $aFieldAddresses = array();

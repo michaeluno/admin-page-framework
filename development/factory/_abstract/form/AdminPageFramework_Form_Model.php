@@ -87,7 +87,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             return $aFormInputs;
         }
 
-        $_oInputSorter = new AdminPageFramework_Modifier_SortInput( 
+        $_oInputSorter = new AdminPageFramework_Form_Model___Modifier_SortInput( 
             $aFormInputs, 
             $_aDynamicFieldAddressKeys
         );
@@ -179,7 +179,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * @return      array       The modified options array.
      */
     public function dropRepeatableElements( array $aSubject ) {        
-        $_oFilterRepeatableElements = new AdminPageFramework_Modifier_FilterRepeatableElements( 
+        $_oFilterRepeatableElements = new AdminPageFramework_Form_Model___Modifier_FilterRepeatableElements( 
             $aSubject,
             $this->getElementAsArray(
                 $_POST,

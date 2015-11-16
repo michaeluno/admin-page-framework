@@ -8,16 +8,15 @@
  */
 
 /**
- * Provides methods that deal with sorting array.
+ * Provides methods that deal with modifing data.
  * 
  * @package     AdminPageFramework
  * @subpackage  Format
  * @since       3.6.0
  * @internal
  */
-abstract class AdminPageFramework_Modifier_Base extends AdminPageFramework_WPUtility {
-    
-    
+abstract class AdminPageFramework_Form_Model___Modifier_Base extends AdminPageFramework_WPUtility {
+      
     /**
      * Sets up properties.
      */
@@ -29,8 +28,8 @@ abstract class AdminPageFramework_Modifier_Base extends AdminPageFramework_WPUti
      * 
      * @return      array       The formatted definition array.
      */
-    public function get() {
-        return array();
-    }
+    // public function get() {
+        // return array();
+    // }
            
 }

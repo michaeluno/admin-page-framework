@@ -15,7 +15,7 @@
  * @since       3.6.2
  * @internal
  */
-class AdminPageFramework_Modifier_FilterRepeatableElements extends AdminPageFramework_Modifier_Base {
+class AdminPageFramework_Form_Model___Modifier_FilterRepeatableElements extends AdminPageFramework_Form_Model___Modifier_Base {
     
     public $aSubject         = array();
     public $aDimensionalKeys = array();
