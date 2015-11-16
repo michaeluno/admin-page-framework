@@ -18,27 +18,27 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
         }
     }
     public function addSettingSections() {
-        foreach (func_get_args() as $asSection) {
-            $this->addSettingSection($asSection);
+        foreach (func_get_args() as $_asSectionset) {
+            $this->addSettingSection($_asSectionset);
         }
         $this->_sTargetSectionTabSlug = null;
     }
-    public function addSettingSection($aSection) {
-        if (!is_array($aSection)) {
+    public function addSettingSection($aSectionset) {
+        if (!is_array($aSectionset)) {
             return;
         }
-        $this->_sTargetSectionTabSlug = $this->oUtil->getElement($aSection, 'section_tab_slug', $this->_sTargetSectionTabSlug);
-        $aSection['section_tab_slug'] = $this->oUtil->getAOrB($this->_sTargetSectionTabSlug, $this->_sTargetSectionTabSlug, null);
-        $this->oForm->addSection($aSection);
+        $this->_sTargetSectionTabSlug = $this->oUtil->getElement($aSectionset, 'section_tab_slug', $this->_sTargetSectionTabSlug);
+        $aSectionset['section_tab_slug'] = $this->oUtil->getAOrB($this->_sTargetSectionTabSlug, $this->_sTargetSectionTabSlug, null);
+        $this->oForm->addSection($aSectionset);
     }
     public function addSettingFields() {
-        foreach (func_get_args() as $aField) {
-            $this->addSettingField($aField);
+        foreach (func_get_args() as $_aFieldset) {
+            $this->addSettingField($_aFieldset);
         }
     }
-    public function addSettingField($asField) {
+    public function addSettingField($asFieldset) {
         if (method_exists($this->oForm, 'addField')) {
-            $this->oForm->addField($asField);
+            $this->oForm->addField($asFieldset);
         }
     }
     public function setFieldErrors($aErrors) {

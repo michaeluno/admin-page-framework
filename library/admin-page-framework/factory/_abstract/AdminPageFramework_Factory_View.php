@@ -2,7 +2,6 @@
 abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factory_Model {
     public function __construct($oProp) {
         parent::__construct($oProp);
-        $this->oProp->aFieldCallbacks = $this->_getFormElementCallbacks();
         if (!$this->_isInThePage()) {
             return;
         }
@@ -14,9 +13,6 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         } else {
             add_action('admin_notices', array($this, '_replyToPrintSettingNotice'));
         }
-    }
-    private function _getFormElementCallbacks() {
-        return array('hfID' => array($this, '_replyToGetInputID'), 'hfTagID' => array($this, '_replyToGetInputTagIDAttribute'), 'hfName' => array($this, '_replyToGetFieldNameAttribute'), 'hfNameFlat' => array($this, '_replyToGetFlatFieldName'), 'hfInputName' => array($this, '_replyToGetInputNameAttribute'), 'hfInputNameFlat' => array($this, '_replyToGetFlatInputName'), 'hfClass' => array($this, '_replyToGetInputClassAttribute'), 'hfSectionName' => array($this, '_replyToGetSectionName'),) + $this->oProp->aFieldCallbacks;
     }
     public function _replyToGetSectionName() {
         $_aParams = func_get_args() + array(null, null,);
@@ -50,9 +46,28 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         $_aParams = func_get_args() + array(null, null, null, null);
         return $_aParams[0];
     }
-    public function isSectionSet(array $aField) {
-        $aField = $aField + array('section_id' => null,);
-        return $aField['section_id'] && '_default' !== $aField['section_id'];
+    public function _replyToDetermineSectionsetVisibility($bVisible, $aSectionset) {
+        return $this->_isElementVisible($aSectionset, $bVisible);
+    }
+    public function _replyToDetermineFieldsetVisibility($bVisible, $aFieldset) {
+        return $this->_isElementVisible($aFieldset, $bVisible);
+    }
+    private function _isElementVisible($aElementDefinition, $bDefault) {
+        $aElementDefinition = $aElementDefinition + array('if' => true, 'capability' => '',);
+        if (!$aElementDefinition['if']) {
+            return false;
+        }
+        if (!$aElementDefinition['capability']) {
+            return true;
+        }
+        if (!current_user_can($aElementDefinition['capability'])) {
+            return false;
+        }
+        return $bDefault;
+    }
+    public function isSectionSet(array $aFieldset) {
+        $aFieldset = $aFieldset + array('section_id' => null,);
+        return $aFieldset['section_id'] && '_default' !== $aFieldset['section_id'];
     }
     static private $_bSettingNoticeLoaded = false;
     public function _replyToPrintSettingNotice() {
@@ -95,9 +110,11 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         $aNotice['aAttributes']['class'] = $this->oUtil->getClassAttribute($this->oUtil->getElement($aNotice, array('aAttributes', 'class'), ''), 'admin-page-framework-settings-notice-container', 'notice is-dismissible');
         return "<div " . $this->oUtil->getAttributes($aNotice['aAttributes']) . ">" . "<p class='admin-page-framework-settings-notice-message'>" . $aNotice['sMessage'] . "</p>" . "</div>";
     }
-    public function _replyToGetFieldOutput($aField) {
-        $_oField = new AdminPageFramework_FormFieldset($aField, $this->oProp->aOptions, $this->_getFieldErrors(), $this->oProp->aFieldTypeDefinitions, $this->oMsg, $this->oProp->aFieldCallbacks);
-        $_sOutput = $this->oUtil->addAndApplyFilters($this, array('field_' . $this->oProp->sClassName . '_' . $aField['field_id']), $_oField->get(), $aField);
-        return $_sOutput;
+    public function _replyToGetSectionHeaderOutput($sSectionDescription, $aSectionset) {
+        return $this->oUtil->addAndApplyFilters($this, array('section_head_' . $this->oProp->sClassName . '_' . $aSectionset['section_id']), $sSectionDescription);
+    }
+    public function _replyToGetFieldOutput($sFieldOutput, $aFieldset) {
+        $_sSectionPart = $this->oUtil->getAOrB(isset($aFieldset['section_id']) && '_default' !== $aFieldset['section_id'], '_' . $aFieldset['section_id'], '');
+        return $this->oUtil->addAndApplyFilters($this, array('field_' . $this->oProp->sClassName . $_sSectionPart . '_' . $aFieldset['field_id']), $sFieldOutput, $aFieldset);
     }
 }

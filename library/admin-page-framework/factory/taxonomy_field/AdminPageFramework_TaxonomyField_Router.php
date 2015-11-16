@@ -3,7 +3,7 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
     public function __construct($oProp) {
         parent::__construct($oProp);
         if ($this->oProp->bIsAdmin) {
-            add_action('wp_loaded', array($this, '_replyToDetermineToLoad'));
+            $this->oUtil->registerAction('wp_loaded', array($this, '_replyToDetermineToLoad'));
         }
     }
     public function _isInThePage() {
@@ -18,22 +18,20 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
         }
         return true;
     }
-    public function _replyToDetermineToLoad($oScreen) {
+    public function _replyToDetermineToLoad() {
         if (!$this->_isInThePage()) {
             return;
         }
         $this->_setUp();
         $this->oUtil->addAndDoAction($this, "set_up_{$this->oProp->sClassName}", $this);
-        $this->oProp->_bSetupLoaded = true;
-        add_action('current_screen', array($this, '_replyToRegisterFormElements'), 20);
-        foreach ($this->oProp->aTaxonomySlugs as $__sTaxonomySlug) {
-            add_action("created_{$__sTaxonomySlug}", array($this, '_replyToValidateOptions'), 10, 2);
-            add_action("edited_{$__sTaxonomySlug}", array($this, '_replyToValidateOptions'), 10, 2);
-            add_action("{$__sTaxonomySlug}_add_form_fields", array($this, '_replyToPrintFieldsWOTableRows'));
-            add_action("{$__sTaxonomySlug}_edit_form_fields", array($this, '_replyToPrintFieldsWithTableRows'));
-            add_filter("manage_edit-{$__sTaxonomySlug}_columns", array($this, '_replyToManageColumns'), 10, 1);
-            add_filter("manage_edit-{$__sTaxonomySlug}_sortable_columns", array($this, '_replyToSetSortableColumns'));
-            add_action("manage_{$__sTaxonomySlug}_custom_column", array($this, '_replyToPrintColumnCell'), 10, 3);
+        foreach ($this->oProp->aTaxonomySlugs as $_sTaxonomySlug) {
+            add_action("created_{$_sTaxonomySlug}", array($this, '_replyToValidateOptions'), 10, 2);
+            add_action("edited_{$_sTaxonomySlug}", array($this, '_replyToValidateOptions'), 10, 2);
+            add_action("{$_sTaxonomySlug}_add_form_fields", array($this, '_replyToPrintFieldsWOTableRows'));
+            add_action("{$_sTaxonomySlug}_edit_form_fields", array($this, '_replyToPrintFieldsWithTableRows'));
+            add_filter("manage_edit-{$_sTaxonomySlug}_columns", array($this, '_replyToManageColumns'), 10, 1);
+            add_filter("manage_edit-{$_sTaxonomySlug}_sortable_columns", array($this, '_replyToSetSortableColumns'));
+            add_action("manage_{$_sTaxonomySlug}_custom_column", array($this, '_replyToPrintColumnCell'), 10, 3);
         }
     }
 }

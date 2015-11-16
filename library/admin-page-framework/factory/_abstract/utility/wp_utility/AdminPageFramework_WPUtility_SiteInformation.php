@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_WPUtility_SiteInformation extends AdminPageFramework_WPUtility_Post {
+class AdminPageFramework_WPUtility_SiteInformation extends AdminPageFramework_WPUtility_Meta {
     static public function isDebugModeEnabled() {
         return ( bool )defined('WP_DEBUG') && WP_DEBUG;
     }

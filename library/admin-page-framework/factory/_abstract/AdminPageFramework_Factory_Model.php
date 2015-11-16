@@ -1,75 +1,92 @@
 <?php
 abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Factory_Router {
+    public function __construct($oProp) {
+        parent::__construct($oProp);
+        add_filter('field_types_admin_page_framework', array($this, '_replyToFilterFieldTypeDefinitions'));
+    }
     protected function _setUp() {
         $this->setUp();
     }
-    static private $_aFieldTypeDefinitions = array();
-    protected function _loadFieldTypeDefinitions() {
-        if (empty(self::$_aFieldTypeDefinitions)) {
-            self::$_aFieldTypeDefinitions = AdminPageFramework_FieldTypeRegistration::register(array(), $this->oProp->sClassName, $this->oMsg);
+    public function _replyToFieldsetReourceRegistration($aFieldset) {
+        $aFieldset = $aFieldset + array('help' => null, 'title' => null, 'help_aside' => null,);
+        if (!$aFieldset['help']) {
+            return;
         }
-        $this->oProp->aFieldTypeDefinitions = $this->oUtil->addAndApplyFilters($this, array('field_types_admin_page_framework', "field_types_{$this->oProp->sClassName}",), self::$_aFieldTypeDefinitions);
+        $this->oHelpPane->_addHelpTextForFormFields($aFieldset['title'], $aFieldset['help'], $aFieldset['help_aside']);
     }
-    public function loadFieldTypeDefinitions() {
-        $this->_loadFieldTypeDefinitions();
+    public function _replyToFilterFieldTypeDefinitions($aFieldTypeDefinitions) {
+        return $this->oUtil->addAndApplyFilters($this, "field_types_{$this->oProp->sClassName}", $aFieldTypeDefinitions);
     }
-    protected function _registerFields(array $aFields) {
-        foreach ($aFields as $_sSecitonID => $_aFields) {
-            $_bIsSubSectionLoaded = false;
-            foreach ($_aFields as $_iSubSectionIndexOrFieldID => $_aSubSectionOrField) {
-                if ($this->oUtil->isNumericInteger($_iSubSectionIndexOrFieldID)) {
-                    if ($_bIsSubSectionLoaded) {
-                        continue;
-                    }
-                    $_bIsSubSectionLoaded = true;
-                    foreach ($_aSubSectionOrField as $_aField) {
-                        $this->_registerField($_aField);
-                    }
-                    continue;
+    public function _replyToModifySectionsets($aSectionsets) {
+        return $this->oUtil->addAndApplyFilter($this, "sections_{$this->oProp->sClassName}", $aSectionsets);
+    }
+    public function _replyToModifyFieldsets($aFieldsets, $aSectionsets) {
+        foreach ($aFieldsets as $_sSectionID => $_aFields) {
+            $aFieldsets[$_sSectionID] = $this->oUtil->addAndApplyFilter($this, "fields_{$this->oProp->sClassName}_{$_sSectionID}", $_aFields);
+        }
+        $aFieldsets = $this->oUtil->addAndApplyFilter($this, "fields_{$this->oProp->sClassName}", $aFieldsets);
+        if (count($aFieldsets)) {
+            $this->oProp->bEnableForm = true;
+        }
+        return $aFieldsets;
+    }
+    public function _replyToModifyFieldsetsDefinitions($aFieldsets) {
+        return $this->oUtil->addAndApplyFilter($this, "field_definition_{$this->oProp->sClassName}", $aFieldsets);
+    }
+    public function _replyToModifyFieldsetDefinition($aFieldset) {
+        return $aFieldset;
+        foreach ($_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField) {
+            if ($this->isNumericInteger($_sIndexOrFieldID)) {
+                $_sSubSectionIndex = $_sIndexOrFieldID;
+                $_aFieldsets = $_aSubSectionOrField;
+                $_sSectionSubString = $this->getAOrB('_default' == $_sSectionID, '', "_{$_sSectionID}");
+                foreach ($_aFieldsets as $_aFieldset) {
+                    $aFieldsets[$_sSectionID][$_sSubSectionIndex][$_aFieldset['field_id']] = $this->oUtil->addAndApplyFilter($this, "field_definition_{$this->oProp->sClassName}{$_sSectionSubString}_{$_aFieldset['field_id']}", $_aFieldset, $_sSubSectionIndex);
                 }
-                $_aField = $_aSubSectionOrField;
-                $this->_registerField($_aField);
+                continue;
             }
+            $_aFieldset = $_aSubSectionOrField;
+            $_sSectionSubString = $this->getAOrB('_default' == $_sSectionID, '', "_{$_sSectionID}");
+            $aFieldsets[$_sSectionID][$_aFieldset['field_id']] = $this->oUtil->addAndApplyFilter($this, "field_definition_{$this->oProp->sClassName}{$_sSectionSubString}_{$_aFieldset['field_id']}", $_aFieldset);
         }
+        return $aFieldset;
     }
-    protected function _registerField(array $aField) {
-        AdminPageFramework_FieldTypeRegistration::_setFieldResources($aField, $this->oProp, $this->oResource);
-        if ($aField['help']) {
-            $this->oHelpPane->_addHelpTextForFormFields($aField['title'], $aField['help'], $aField['help_aside']);
+    public function _replyToHandleSubmittedFormData($aSavedData, $aArguments, $aSectionsets, $aFieldsets) {
+    }
+    public function _replyToFormatFieldsetDefinition($aFieldset, $aSectionsets) {
+        if (empty($aFieldset)) {
+            return $aFieldset;
         }
-        $_oCallableDoOnRegistration = $this->oUtil->getElement($this->oProp->aFieldTypeDefinitions, array($aField['type'], 'hfDoOnRegistration'));
-        if (is_callable($_oCallableDoOnRegistration)) {
-            call_user_func_array($_oCallableDoOnRegistration, array($aField));
+        return $aFieldset;
+    }
+    public function _replyToFormatSectionsetDefinition($aSectionset) {
+        if (empty($aSectionset)) {
+            return $aSectionset;
         }
+        $aSectionset = $aSectionset + array('_fields_type' => $this->oProp->_sPropertyType, '_structure_type' => $this->oProp->_sPropertyType,);
+        return $aSectionset;
     }
-    public function registerFields(array $aFields) {
-        $this->_registerFields($aFields);
+    public function _replyToDetermineWhetherToProcessFormRegistration($bAllowed) {
+        return $this->_isInThePage();
     }
-    public function registerField(array $aField) {
-        $this->_registerField($aField);
+    public function _replyToGetCapabilityForForm($sCapability) {
+        return $this->oProp->sCapability;
+    }
+    public function _replyToGetSavedFormData() {
+        return $this->oUtil->addAndApplyFilter($this, 'options_' . $this->oProp->sClassName, $this->oProp->aOptions);
     }
     public function getSavedOptions() {
-        return $this->oProp->aOptions;
+        return $this->oForm->aSavedData;
     }
     public function getFieldErrors() {
         return $this->_getFieldErrors();
     }
     public function _getFieldErrors($sID = 'deprecated', $bDelete = true) {
-        static $_aFieldErrors;
-        $_sTransientKey = "apf_field_erros_" . get_current_user_id();
-        $_sID = md5($this->oProp->sClassName);
-        $_aFieldErrors = isset($_aFieldErrors) ? $_aFieldErrors : $this->oUtil->getTransient($_sTransientKey);
-        if ($bDelete) {
-            add_action('shutdown', array($this, '_replyToDeleteFieldErrors'));
-        }
-        return $this->oUtil->getElementAsArray($_aFieldErrors, $_sID, array());
+        return $this->oForm->getFieldErrors();
     }
     protected function _isValidationErrors() {
         $_aFieldErrors = $this->oUtil->getElement($GLOBALS, array('aAdminPageFramework', 'aFieldErrors'));
         return !empty($_aFieldErrors) ? $_aFieldErrors : $this->oUtil->getTransient("apf_field_erros_" . get_current_user_id());
-    }
-    public function _replyToDeleteFieldErrors() {
-        $this->oUtil->deleteTransient("apf_field_erros_" . get_current_user_id());
     }
     public function _replyToSaveFieldErrors() {
         if (!isset($GLOBALS['aAdminPageFramework']['aFieldErrors'])) {
@@ -86,18 +103,10 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         }
         $this->oUtil->setTransient('apf_notices_' . get_current_user_id(), $GLOBALS['aAdminPageFramework']['aNotices']);
     }
-    public function _setLastInput(array $aLastInput) {
-        return $this->oUtil->setTransient('apf_tfd' . md5('temporary_form_data_' . $this->oProp->sClassName . get_current_user_id()), $aLastInput, 60 * 60);
+    public function _setLastInputs(array $aLastInputs) {
+        return $this->oUtil->setTransient('apf_tfd' . md5('temporary_form_data_' . $this->oProp->sClassName . get_current_user_id()), $aLastInputs, 60 * 60);
     }
-    protected function _getSortedInputs(array $aInput) {
-        $_aDynamicFieldAddressKeys = array_unique(array_merge($this->oUtil->getElementAsArray($_POST, '__repeatable_elements_' . $this->oProp->sFieldsType, array()), $this->oUtil->getElementAsArray($_POST, '__sortable_elements_' . $this->oProp->sFieldsType, array())));
-        if (empty($_aDynamicFieldAddressKeys)) {
-            return $aInput;
-        }
-        $_oInputSorter = new AdminPageFramework_Modifier_SortInput($aInput, $_aDynamicFieldAddressKeys);
-        return $_oInputSorter->get();
-    }
-    public function getSortedInputs(array $aInput) {
-        return $this->_getSortedInputs($aInput);
+    public function _setLastInput($aLastInputs) {
+        return $this->_setLastInputs($aLastInputs);
     }
 }

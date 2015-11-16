@@ -29,7 +29,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
         return esc_url($sHref);
     }
     static public function getResolvedSRC($sSRC, $bReturnNullIfNotExist = false) {
-        if (!$sSRC) {
+        if (!self::isResourcePath($sSRC)) {
             return $bReturnNullIfNotExist ? null : $sSRC;
         }
         if (filter_var($sSRC, FILTER_VALIDATE_URL)) {

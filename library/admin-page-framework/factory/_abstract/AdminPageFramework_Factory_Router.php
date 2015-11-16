@@ -15,7 +15,11 @@ abstract class AdminPageFramework_Factory_Router {
         unset($this->oDebug, $this->oUtil, $this->oMsg, $this->oForm, $this->oPageLoadInfo, $this->oResource, $this->oHelpPane, $this->oLink);
         $this->oProp = $oProp;
         if ($this->oProp->bIsAdmin && !$this->oProp->bIsAdminAjax) {
-            add_action('current_screen', array($this, '_replyToLoadComponents'));
+            if (did_action('current_screen')) {
+                $this->_replyToLoadComponents();
+            } else {
+                add_action('current_screen', array($this, '_replyToLoadComponents'));
+            }
         }
         $this->start();
     }
@@ -43,31 +47,29 @@ abstract class AdminPageFramework_Factory_Router {
     public function _isInThePage() {
         return true;
     }
-    protected $_aFormElementClassNameMap = array('page' => 'AdminPageFramework_FormDefinition_Page', 'network_admin_page' => 'AdminPageFramework_FormDefinition_Page', 'post_meta_box' => 'AdminPageFramework_FormDefinition_Meta', 'page_meta_box' => 'AdminPageFramework_FormDefinition', 'post_type' => 'AdminPageFramework_FormDefinition', 'taxonomy' => 'AdminPageFramework_FormDefinition', 'widget' => 'AdminPageFramework_FormDefinition', 'user_meta' => 'AdminPageFramework_FormDefinition_Meta',);
+    protected $_aFormElementClassNameMap = array('admin_page' => 'AdminPageFramework_FormDefinition_Page', 'network_admin_page' => 'AdminPageFramework_FormDefinition_Page', 'post_meta_box' => 'AdminPageFramework_FormDefinition_Meta', 'page_meta_box' => 'AdminPageFramework_FormDefinition', 'post_type' => 'AdminPageFramework_FormDefinition', 'taxonomy_field' => 'AdminPageFramework_FormDefinition', 'widget' => 'AdminPageFramework_FormDefinition', 'user_meta' => 'AdminPageFramework_FormDefinition_Meta',);
     protected function _getFormInstance($oProp) {
-        if (in_array($oProp->sFieldsType, array('page', 'network_admin_page', 'post_meta_box', 'post_type')) && $oProp->bIsAdminAjax) {
-            return null;
-        }
-        return $this->_getInstanceByMap($this->_aFormElementClassNameMap, $oProp->sFieldsType, $oProp->sFieldsType, $oProp->sCapability, $this);
+        $_sFormClass = "AdminPageFramework_Form_{$oProp->_sPropertyType}";
+        return new $_sFormClass($oProp->aFormArguments, $oProp->aFormCallbacks, $this->oMsg);
     }
-    protected $_aResourceClassNameMap = array('page' => 'AdminPageFramework_Resource_Page', 'network_admin_page' => 'AdminPageFramework_Resource_Page', 'post_meta_box' => 'AdminPageFramework_Resource_MetaBox', 'page_meta_box' => 'AdminPageFramework_Resource_MetaBox_Page', 'post_type' => 'AdminPageFramework_Resource_PostType', 'taxonomy' => 'AdminPageFramework_Resource_TaxonomyField', 'widget' => 'AdminPageFramework_Resource_Widget', 'user_meta' => 'AdminPageFramework_Resource_UserMeta',);
+    protected $_aResourceClassNameMap = array('admin_page' => 'AdminPageFramework_Resource_Page', 'network_admin_page' => 'AdminPageFramework_Resource_Page', 'post_meta_box' => 'AdminPageFramework_Resource_MetaBox', 'page_meta_box' => 'AdminPageFramework_Resource_MetaBox_Page', 'post_type' => 'AdminPageFramework_Resource_PostType', 'taxonomy_field' => 'AdminPageFramework_Resource_TaxonomyField', 'widget' => 'AdminPageFramework_Resource_Widget', 'user_meta' => 'AdminPageFramework_Resource_UserMeta',);
     protected function _getResourceInstance($oProp) {
-        return $this->_getInstanceByMap($this->_aResourceClassNameMap, $oProp->sFieldsType, $oProp);
+        return $this->_getInstanceByMap($this->_aResourceClassNameMap, $oProp->sStructureType, $oProp);
     }
-    protected $_aHelpPaneClassNameMap = array('page' => 'AdminPageFramework_HelpPane_Page', 'network_admin_page' => 'AdminPageFramework_HelpPane_Page', 'post_meta_box' => 'AdminPageFramework_HelpPane_MetaBox', 'page_meta_box' => 'AdminPageFramework_HelpPane_MetaBox_Page', 'post_type' => null, 'taxonomy' => 'AdminPageFramework_HelpPane_TaxonomyField', 'widget' => 'AdminPageFramework_HelpPane_Widget', 'user_meta' => 'AdminPageFramework_HelpPane_UserMeta',);
+    protected $_aHelpPaneClassNameMap = array('admin_page' => 'AdminPageFramework_HelpPane_Page', 'network_admin_page' => 'AdminPageFramework_HelpPane_Page', 'post_meta_box' => 'AdminPageFramework_HelpPane_MetaBox', 'page_meta_box' => 'AdminPageFramework_HelpPane_MetaBox_Page', 'post_type' => null, 'taxonomy_field' => 'AdminPageFramework_HelpPane_TaxonomyField', 'widget' => 'AdminPageFramework_HelpPane_Widget', 'user_meta' => 'AdminPageFramework_HelpPane_UserMeta',);
     protected function _getHelpPaneInstance($oProp) {
-        return $this->_getInstanceByMap($this->_aHelpPaneClassNameMap, $oProp->sFieldsType, $oProp);
+        return $this->_getInstanceByMap($this->_aHelpPaneClassNameMap, $oProp->sStructureType, $oProp);
     }
-    protected $_aLinkClassNameMap = array('page' => 'AdminPageFramework_Link_Page', 'network_admin_page' => 'AdminPageFramework_Link_NetworkAdmin', 'post_meta_box' => null, 'page_meta_box' => null, 'post_type' => 'AdminPageFramework_Link_PostType', 'taxonomy' => null, 'widget' => null, 'user_meta' => null,);
+    protected $_aLinkClassNameMap = array('admin_page' => 'AdminPageFramework_Link_Page', 'network_admin_page' => 'AdminPageFramework_Link_NetworkAdmin', 'post_meta_box' => null, 'page_meta_box' => null, 'post_type' => 'AdminPageFramework_Link_PostType', 'taxonomy_field' => null, 'widget' => null, 'user_meta' => null,);
     protected function _getLinkInstancce($oProp, $oMsg) {
-        return $this->_getInstanceByMap($this->_aLinkClassNameMap, $oProp->sFieldsType, $oProp, $oMsg);
+        return $this->_getInstanceByMap($this->_aLinkClassNameMap, $oProp->sStructureType, $oProp, $oMsg);
     }
-    protected $_aPageLoadClassNameMap = array('page' => 'AdminPageFramework_PageLoadInfo_Page', 'network_admin_page' => 'AdminPageFramework_PageLoadInfo_NetworkAdminPage', 'post_meta_box' => null, 'page_meta_box' => null, 'post_type' => 'AdminPageFramework_PageLoadInfo_PostType', 'taxonomy' => null, 'widget' => null, 'user_meta' => null,);
+    protected $_aPageLoadClassNameMap = array('admin_page' => 'AdminPageFramework_PageLoadInfo_Page', 'network_admin_page' => 'AdminPageFramework_PageLoadInfo_NetworkAdminPage', 'post_meta_box' => null, 'page_meta_box' => null, 'post_type' => 'AdminPageFramework_PageLoadInfo_PostType', 'taxonomy_field' => null, 'widget' => null, 'user_meta' => null,);
     protected function _getPageLoadInfoInstance($oProp, $oMsg) {
-        if (!isset($this->_aPageLoadClassNameMap[$oProp->sFieldsType])) {
+        if (!isset($this->_aPageLoadClassNameMap[$oProp->sStructureType])) {
             return null;
         }
-        $_sClassName = $this->_aPageLoadClassNameMap[$oProp->sFieldsType];
+        $_sClassName = $this->_aPageLoadClassNameMap[$oProp->sStructureType];
         return call_user_func_array(array($_sClassName, 'instantiate'), array($oProp, $oMsg));
     }
     private function _getInstanceByMap() {
@@ -147,7 +149,6 @@ abstract class AdminPageFramework_Factory_Router {
             case 'setup_pre':
                 $this->_setUp();
                 $this->oUtil->addAndDoAction($this, "set_up_{$this->oProp->sClassName}", $this);
-                $this->oProp->_bSetupLoaded = true;
                 return;
         }
         if (has_filter($sMethodName)) {

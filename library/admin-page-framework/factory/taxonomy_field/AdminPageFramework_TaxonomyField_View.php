@@ -1,5 +1,8 @@
 <?php
 abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_TaxonomyField_Model {
+    public function content($sContent) {
+        return $sContent;
+    }
     public function _replyToGetInputNameAttribute() {
         $_aParams = func_get_args() + array(null, null, null);
         $_aField = $_aParams[1];
@@ -24,9 +27,8 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
         $_aOutput = array();
         $_aOutput[] = wp_nonce_field($this->oProp->sClassHash, $this->oProp->sClassHash, true, false);
         $this->_setOptionArray($iTermID, $this->oProp->sOptionKey);
-        $_oFieldsTable = new AdminPageFramework_FormPart_Table($this->oProp->aFieldTypeDefinitions, $this->_getFieldErrors(), $this->oMsg);
-        $_aOutput[] = $bRenderTableRow ? $_oFieldsTable->getFieldsetRows($this->oForm->aConditionedFields['_default'], array($this, '_replyToGetFieldOutput')) : $_oFieldsTable->getFieldsets($this->oForm->aConditionedFields['_default'], array($this, '_replyToGetFieldOutput'));
-        $_sOutput = $this->oUtil->addAndApplyFilters($this, 'content_' . $this->oProp->sClassName, implode(PHP_EOL, $_aOutput));
+        $_aOutput[] = $this->oForm->get();
+        $_sOutput = $this->oUtil->addAndApplyFilters($this, 'content_' . $this->oProp->sClassName, $this->content(implode(PHP_EOL, $_aOutput)));
         $this->oUtil->addAndDoActions($this, 'do_' . $this->oProp->sClassName, $this);
         return $_sOutput;
     }

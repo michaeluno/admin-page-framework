@@ -1,55 +1,22 @@
 <?php
 abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_UserMeta_Router {
-    public function _replyToRegisterFormElements($oScreen) {
-        $this->_loadFieldTypeDefinitions();
-        $this->oForm->format();
-        $this->oForm->applyConditions();
-        $this->_registerFields($this->oForm->aConditionedFields);
-    }
-    protected function _setOptionArray($iUserID) {
-        if (!$iUserID) {
-            return;
-        }
-        $_aMetaKeys = array_keys(get_user_meta($iUserID));
-        $_aOptions = array();
-        foreach ($this->oForm->aConditionedFields as $_sSectionID => $_aFields) {
-            if ('_default' == $_sSectionID) {
-                foreach ($_aFields as $_aField) {
-                    if (!in_array($_aField['field_id'], $_aMetaKeys)) {
-                        continue;
-                    }
-                    $_aOptions[$_aField['field_id']] = get_user_meta($iUserID, $_aField['field_id'], true);
-                }
-            }
-            if (!in_array($_sSectionID, $_aMetaKeys)) {
-                continue;
-            }
-            $_aOptions[$_sSectionID] = get_user_meta($iUserID, $_sSectionID, true);
-        }
-        $_aOptions = $this->oUtil->addAndApplyFilter($this, 'options_' . $this->oProp->sClassName, $_aOptions);
-        $_aLastInput = isset($_GET['field_errors']) && $_GET['field_errors'] ? $this->oProp->aLastInput : array();
-        $_aOptions = $_aLastInput + $this->oUtil->getAsArray($_aOptions);
-        $this->oProp->aOptions = $_aOptions;
+    public function _replyToGetSavedFormData() {
+        $_iUserID = isset($GLOBALS['profileuser']->ID) ? $GLOBALS['profileuser']->ID : 0;
+        $_oMetaData = new AdminPageFramework_UserMeta_Model___UserMeta($_iUserID, $this->oForm->aFieldsets);
+        $this->oProp->aOptions = $_oMetaData->get();
+        return parent::_replyToGetSavedFormData();
     }
     public function _replyToSaveFieldValues($iUserID) {
         if (!current_user_can('edit_user', $iUserID)) {
             return;
         }
-        $_aInput = $this->oForm->getUserSubmitDataFromPOST($this->oForm->aConditionedFields, $this->oForm->aConditionedSections);
-        $_aInput = $this->_getSortedInputs($_aInput);
-        $_aInputRaw = $_aInput;
-        $_aSavedMeta = $iUserID ? $this->_getSavedMetaArray($iUserID, array_keys($_aInput)) : array();
-        $_aInput = $this->oUtil->addAndApplyFilters($this, "validation_{$this->oProp->sClassName}", call_user_func_array(array($this, 'validate'), array($_aInput, $_aSavedMeta, $this)), $_aSavedMeta, $this);
+        $_aInputs = $this->oForm->getSubmittedData($_POST, true, false);
+        $_aInputsRaw = $_aInputs;
+        $_aSavedMeta = $this->oUtil->getSavedUserMetaArray($iUserID, array_keys($_aInputs));
+        $_aInputs = $this->oUtil->addAndApplyFilters($this, "validation_{$this->oProp->sClassName}", call_user_func_array(array($this, 'validate'), array($_aInputs, $_aSavedMeta, $this)), $_aSavedMeta, $this);
         if ($this->hasFieldError()) {
-            $this->_setLastInput($_aInputRaw);
+            $this->_setLastInputs($_aInputsRaw);
         }
-        $this->oForm->updateMetaDataByType($iUserID, $_aInput, $this->oForm->dropRepeatableElements($_aSavedMeta), $this->oForm->sFieldsType);
-    }
-    private function _getSavedMetaArray($iUserID, array $aKeys) {
-        $_aSavedMeta = array();
-        foreach ($aKeys as $_sKey) {
-            $_aSavedMeta[$_sKey] = get_post_meta($iUserID, $_sKey, true);
-        }
-        return $_aSavedMeta;
+        $this->oForm->updateMetaDataByType($iUserID, $_aInputs, $this->oForm->dropRepeatableElements($_aSavedMeta), $this->oForm->sStructureType);
     }
 }

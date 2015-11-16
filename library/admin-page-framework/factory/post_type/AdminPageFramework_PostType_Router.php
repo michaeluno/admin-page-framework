@@ -4,6 +4,9 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         if (!$this->oProp->bIsAdmin) {
             return false;
         }
+        if ($this->oUtil->getElement($this->oProp->aPostTypeArgs, 'public', true) && $this->oProp->bIsAdminAjax) {
+            return true;
+        }
         if (!in_array($this->oProp->sPageNow, array('edit.php', 'edit-tags.php', 'post.php', 'post-new.php'))) {
             return false;
         }

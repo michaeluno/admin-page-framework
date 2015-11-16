@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Form_View {
+abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_View_Form {
     public function addSettingSections() {
         foreach (func_get_args() as $asSection) {
             $this->addSettingSection($asSection);
@@ -51,11 +51,11 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_For
             $_mDefault = $_aDimensionalKeys[1];
             $_aDimensionalKeys = $_aDimensionalKeys[0];
         }
-        return AdminPageFramework_WPUtility::getOption($this->oProp->sOptionKey, empty($_aParams) ? null : $_aDimensionalKeys, $_mDefault, $this->getSavedOptions() + $this->oProp->getDefaultOptions($this->oForm->aFields));
+        return AdminPageFramework_WPUtility::getOption($this->oProp->sOptionKey, empty($_aParams) ? null : $_aDimensionalKeys, $_mDefault, $this->getSavedOptions() + $this->oForm->getDefaultFormValues());
     }
     public function getFieldValue($sFieldID, $sSectionID = '') {
         trigger_error('Admin Page Framework: ' . ' : ' . sprintf(__('The method is deprecated: %1$s. Use %2$s instead.', $this->oProp->sTextDomain), __METHOD__, 'getValue()'), E_USER_WARNING);
-        $_aOptions = $this->oUtil->uniteArrays($this->oProp->aOptions, $this->oProp->getDefaultOptions($this->oForm->aFields));
+        $_aOptions = $this->oUtil->uniteArrays($this->oProp->aOptions, $this->oForm->getDefaultFormValues());
         if (!$sSectionID) {
             if (array_key_exists($sFieldID, $_aOptions)) {
                 return $_aOptions[$sFieldID];

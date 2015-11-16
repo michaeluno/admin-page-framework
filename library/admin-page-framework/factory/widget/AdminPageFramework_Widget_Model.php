@@ -12,7 +12,13 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
         }
     }
     public function _replyToSortInputs($aSubmittedFormData, $aStoredFormData, $oFactory) {
-        return $this->_getSortedInputs($aSubmittedFormData);
+        return $this->oForm->getSortedInputs($aSubmittedFormData);
+    }
+    public function _replyToHandleSubmittedFormData($aSavedData, $aArguments, $aSectionsets, $aFieldsets) {
+        if (empty($aSectionsets) || empty($aFieldsets)) {
+            return;
+        }
+        $this->oResource;
     }
     public function _replyToRegisterWidget() {
         global $wp_widget_factory;
@@ -21,13 +27,5 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
         }
         $wp_widget_factory->widgets[$this->oProp->sClassName] = new AdminPageFramework_Widget_Factory($this, $this->oProp->sWidgetTitle, $this->oUtil->getAsArray($this->oProp->aWidgetArguments));
         $this->oProp->oWidget = $wp_widget_factory->widgets[$this->oProp->sClassName];
-    }
-    public function _registerFormElements($aOptions) {
-        $this->_loadFieldTypeDefinitions();
-        $this->oProp->aOptions = $aOptions;
-        $this->oForm->format();
-        $this->oForm->applyConditions();
-        $this->oForm->setDynamicElements($this->oProp->aOptions);
-        $this->_registerFields($this->oForm->aConditionedFields);
     }
 }

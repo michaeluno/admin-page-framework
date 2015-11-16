@@ -28,11 +28,12 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
     }
     public function form($aFormData) {
         $this->oCaller->load($this->oCaller);
-        $this->oCaller->oUtil->addAndDoActions($this->oCaller, 'load_' . $this->oCaller->oProp->sClassName, $this->oCaller);
-        $this->oCaller->_registerFormElements($aFormData);
-        $this->oCaller->oProp->aFieldCallbacks = array('hfID' => array($this, 'get_field_id'), 'hfTagID' => array($this, 'get_field_id'), 'hfName' => array($this, '_replyToGetFieldName'), 'hfInputName' => array($this, '_replyToGetFieldInputName'),) + $this->oCaller->oProp->aFieldCallbacks;
+        $this->oCaller->oUtil->addAndDoActions($this->oCaller, array('load_' . $this->oCaller->oProp->sClassName,), $this->oCaller);
+        $this->oCaller->oProp->aFormCallbacks = array('hfID' => array($this, 'get_field_id'), 'hfTagID' => array($this, 'get_field_id'), 'hfName' => array($this, '_replyToGetFieldName'), 'hfInputName' => array($this, '_replyToGetFieldInputName'),) + $this->oCaller->oProp->aFormCallbacks;
+        $this->oCaller->oForm->aCallbacks = $this->oCaller->oProp->aFormCallbacks + $this->oCaller->oForm->aCallbacks;
+        $this->oCaller->oProp->aOptions = $aFormData;
+        $this->oCaller->oUtil->addAndDoActions($this->oCaller, array('load_after_' . $this->oCaller->oProp->sClassName,), $this->oCaller);
         $this->oCaller->_printWidgetForm();
-        $this->oCaller->oForm = new AdminPageFramework_FormDefinition($this->oCaller->oProp->sFieldsType, $this->oCaller->oProp->sCapability, $this->oCaller);
     }
     public function _replyToGetFieldName() {
         $_aParams = func_get_args() + array(null, null, null);

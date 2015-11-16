@@ -1,10 +1,10 @@
 <?php
 class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Page {
-    static public function registerAction($sActionHook, $oCallable) {
+    static public function registerAction($sActionHook, $oCallable, $iPriority = 10) {
         if (did_action($sActionHook)) {
             return call_user_func_array($oCallable, array());
         }
-        add_action($sActionHook, $oCallable);
+        add_action($sActionHook, $oCallable, $iPriority);
     }
     static public function doActions($aActionHooks, $vArgs1 = null, $vArgs2 = null, $_and_more = null) {
         $aArgs = func_get_args();

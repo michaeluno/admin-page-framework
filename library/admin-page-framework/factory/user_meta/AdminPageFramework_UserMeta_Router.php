@@ -3,7 +3,7 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
     public function __construct($oProp) {
         parent::__construct($oProp);
         if ($this->oProp->bIsAdmin) {
-            add_action('wp_loaded', array($this, '_replyToDetermineToLoad'));
+            $this->oUtil->registerAction('current_screen', array($this, '_replyToDetermineToLoad'));
         }
     }
     public function _isInThePage() {
@@ -18,8 +18,6 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
         }
         $this->_setUp();
         $this->oUtil->addAndDoAction($this, "set_up_{$this->oProp->sClassName}", $this);
-        $this->oProp->_bSetupLoaded = true;
-        add_action('current_screen', array($this, '_replyToRegisterFormElements'), 20);
         add_action('show_user_profile', array($this, '_replyToPrintFields'));
         add_action('edit_user_profile', array($this, '_replyToPrintFields'));
         add_action('user_new_form', array($this, '_replyToPrintFields'));

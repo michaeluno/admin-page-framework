@@ -11,7 +11,7 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         $this->oProp->sContext = $sContext;
         $this->oProp->sPriority = $sPriority;
         if ($this->oProp->bIsAdmin) {
-            add_action('current_screen', array($this, '_replyToDetermineToLoad'));
+            $this->oUtil->registerAction('current_screen', array($this, '_replyToDetermineToLoad'));
         }
     }
     public function _isInThePage() {
@@ -33,10 +33,9 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         if (!$this->_isInThePage()) {
             return;
         }
+        $this->oForm;
         $this->_setUp();
         $this->oUtil->addAndDoAction($this, "set_up_{$this->oProp->sClassName}", $this);
-        $this->oProp->_bSetupLoaded = true;
-        $this->_registerFormElements($oScreen);
         add_action('add_meta_boxes', array($this, '_replyToAddMetaBox'));
         $this->_setUpValidationHooks($oScreen);
     }

@@ -45,7 +45,6 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     private function _doSetUp() {
         $this->_setUp();
         $this->oUtil->addAndDoAction($this, "set_up_{$this->oProp->sClassName}", $this);
-        $this->oProp->_bSetupLoaded = true;
     }
     protected function _doPageLoadCall($sMethodName, $sPageSlug, $sTabSlug, $oScreen) {
         if (!$this->isPageLoadCall($sMethodName, $sPageSlug, $oScreen->id)) {
@@ -79,7 +78,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         if (!isset($this->oProp)) {
             return true;
         }
-        if (!$this->oProp->_bSetupLoaded) {
+        if (!did_action('set_up_' . $this->oProp->sClassName)) {
             return true;
         }
         if (!isset($_GET['page'])) {

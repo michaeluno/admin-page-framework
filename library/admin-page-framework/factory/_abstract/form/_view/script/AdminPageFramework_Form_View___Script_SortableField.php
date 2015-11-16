@@ -1,0 +1,45 @@
+<?php
+class AdminPageFramework_Form_View___Script_SortableField extends AdminPageFramework_Form_View___Script_Base {
+    protected function construct() {
+        wp_enqueue_script('jquery-ui-sortable');
+    }
+    static public function getScript() {
+        return <<<JAVASCRIPTS
+(function($) {
+    $.fn.enableAdminPageFrameworkSortableFields = function( sFieldsContainerID ) {
+
+        var _oTarget    = 'string' === typeof sFieldsContainerID
+            ? $( '#' + sFieldsContainerID + '.sortable' )
+            : this;
+        
+        _oTarget.unbind( 'sortupdate' );
+        _oTarget.unbind( 'sortstop' );
+        var _oSortable  = _oTarget.sortable(
+            // the options for the sortable plugin
+            { 
+                items: '> div:not( .disabled )',
+            } 
+        );
+
+        // Callback the registered functions.
+        _oSortable.bind( 'sortstop', function() {
+            $( this ).callBackStoppedSortingFields( 
+                $( this ).data( 'type' ),
+                $( this ).attr( 'id' ),
+                0  // call type 0: fields, 1: sections
+            );  
+        });
+        _oSortable.bind( 'sortupdate', function() {
+            $( this ).callBackSortedFields( 
+                $( this ).data( 'type' ),
+                $( this ).attr( 'id' ),
+                0  // call type 0: fields, 1: sections
+            );
+        });                 
+    
+    };
+}( jQuery ));
+JAVASCRIPTS;
+        
+    }
+}
