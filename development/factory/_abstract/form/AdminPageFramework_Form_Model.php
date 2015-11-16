@@ -388,7 +388,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      */
     protected function _formatElementDefinitions( array $aSavedData ) {
                 
-        $_oSectionsetsFormatter = new AdminPageFramework_Form___FormatSectionsets(
+        $_oSectionsetsFormatter = new AdminPageFramework_Form_Model___FormatSectionsets(
             $this->aSectionsets, 
             $this->aArguments[ 'structure_type' ], 
             $this->sCapability,
@@ -398,7 +398,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         $this->aSectionsets = $_oSectionsetsFormatter->get();    
 
         // This must be done after the section-sets are formatted.
-        $_oFieldsetsFormatter = new AdminPageFramework_Form___FormatFieldsets(
+        $_oFieldsetsFormatter = new AdminPageFramework_Form_Model___FormatFieldsets(
             $this->aFieldsets,
             $this->aSectionsets,
             $this->aArguments[ 'structure_type' ],

@@ -138,45 +138,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
             $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
 
             return $_sOutput;
-                        
-// @deprecated      DEVVER
-            // Set the option property array
-            // @todo Move _setOptionArray() to _replyToRegisterFormElements().
-            $this->_setOptionArray( $iTermID, $this->oProp->sOptionKey );
-                        
-            /* Get the field outputs */
-            $_oFieldsTable = new AdminPageFramework_FormPart_Table( 
-                $this->oProp->aFieldTypeDefinitions, 
-                $this->_getFieldErrors(), 
-                $this->oMsg 
-            );
-            $_aOutput[] = $bRenderTableRow 
-                ? $_oFieldsTable->getFieldsetRows( 
-                    $this->oForm->aConditionedFields[ '_default' ], 
-                    array( $this, '_replyToGetFieldOutput' ) 
-                )
-                : $_oFieldsTable->getFieldsets( 
-                    $this->oForm->aConditionedFields[ '_default' ],
-                    array( $this, '_replyToGetFieldOutput' ) 
-                );
-                    
-            // Filter the output 
-            // @todo call the content() method.
-            $_sOutput = $this->oUtil->addAndApplyFilters( 
-                $this, 
-                'content_' . $this->oProp->sClassName, 
-                implode( PHP_EOL, $_aOutput ) 
-            );
-            
-            /* Do action */
-            $this->oUtil->addAndDoActions( 
-                $this, 
-                'do_' . $this->oProp->sClassName, 
-                $this 
-            );
-                
-            return $_sOutput;
-        
+                       
         }    
 
     

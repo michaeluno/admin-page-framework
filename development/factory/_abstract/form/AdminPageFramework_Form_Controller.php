@@ -25,7 +25,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
      */
     public function addSection( array $aSectionset ) {
         
-        // $aSectionset                 = $aSectionset + AdminPageFramework_Format_Sectionset::$aStructure;
+        // $aSectionset                 = $aSectionset + AdminPageFramework_Form_Model___FormatSectionset::$aStructure;
         // Pre-format
         $aSectionset                 = $aSectionset + array(
             'section_id'    => null,

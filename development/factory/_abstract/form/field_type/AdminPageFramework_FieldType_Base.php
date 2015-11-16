@@ -172,7 +172,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
         // DEVVER+ The caller object is no longer a factory object but a form object.
         $_oCallerForm   = $aFieldset[ '_caller_object' ];
 
-        $_oFieldset = new AdminPageFramework_FormFieldset( 
+        $_oFieldset = new AdminPageFramework_Form_View___Fieldset( 
             $aFieldset,                          // the field definition array
             $_oCallerForm->aSavedData,               // the stored form data
             $_oCallerForm->getFieldErrors(),         // the field error array.
@@ -187,7 +187,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
         // $aFieldset[ '_parent_field_object' ] = $aFieldset[ '_field_object' ]; // 3.6.0+
         // $_oCaller   = $aFieldset[ '_caller_object' ];
         // $_aOptions  = $_oCaller->getSavedOptions();
-        // $_oFieldset = new AdminPageFramework_FormFieldset( 
+        // $_oFieldset = new AdminPageFramework_Form_View___Fieldset( 
             // $aFieldset,                                 // the field definition array
             // $_aOptions,                                 // the stored form data
             // $_oCaller->getFieldErrors(),                // the field error array.
