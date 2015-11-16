@@ -171,6 +171,31 @@ In the `setUp()` method of `MyAdminPageClasB`, pass the instantiated class name 
 $this->setRootMenuPageBySlug( 'MyAdminPageClassA' );
 `
 
+Another option is to use the `set_up_{class name}` action hook. The callback method receives the admin page class object and you can access the framework methods to add sub-menu pages.
+
+`
+class MyAdminPageClassB {
+
+    public function __construct() { 
+        add_action( 'set_up_' . 'MyAdminPageClassA', array( $this, 'replyToAddSubMenuPages' ) );
+    }
+    
+    public function replyToAddSubMenuPages( $oAdminPage ) {
+            
+        $oAdminPage->addSubMenuPage(
+            array(
+                'page_slug' => 'my_admin_page_b',
+                'title'     => __( 'Example', 'your-text-domain' ),
+                'order'     => 20,
+            )        
+        );
+            
+    }
+        
+}
+new MyAdminPageClassB;
+`
+
 <h5><strong>Can I create pages in the network admin area?</strong></h5>
 Yes, See the demo.
 
