@@ -22,4 +22,22 @@ class AdminPageFramework_Form_post_meta_box extends AdminPageFramework_Form_Meta
     
     public $sStructureType = 'post_meta_box';    
     
+    /**
+     * Does set-ups.
+     * @since       DEVVER
+     * @return      void
+     */
+    public function construct() {        
+        $this->_addDefaultResources();
+    }
+
+        /**
+         * @return      void
+         * @since       DEVVER
+         */
+        private function _addDefaultResources() {
+            $_oCSS = new AdminPageFramework_Form_View___CSS_meta_box;
+            $this->addResource( 'inline_styles', $_oCSS->get() );
+        }    
+    
 }

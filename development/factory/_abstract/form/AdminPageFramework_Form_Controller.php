@@ -78,8 +78,8 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
      * @since       DEVVER
      * @return      void
      */
-    public function addResource() {
-        
+    public function addResource( $sKey, $sValue ) {
+        self::$_aResources[ $sKey ][] = $sValue;
     }
     
     /**

@@ -18,7 +18,7 @@
  * @extends     AdminPageFramework_Form
  * @internal
  */
-class AdminPageFramework_Form_page_meta_box extends AdminPageFramework_Form {
+class AdminPageFramework_Form_page_meta_box extends AdminPageFramework_Form_post_meta_box {
     
     public $sStructureType = 'page_meta_box';
         
@@ -35,6 +35,9 @@ class AdminPageFramework_Form_page_meta_box extends AdminPageFramework_Form {
             5   //  high priority as it must be done eariler
         );
         
+        // The post_meta_box parent method adds default CSS resouces.
+        parent::construct();
+        
     }
     
     /**
@@ -43,7 +46,7 @@ class AdminPageFramework_Form_page_meta_box extends AdminPageFramework_Form {
      * By default, the set form data (options) which belongs to the page will be returned. 
      * This means it includes data that is nothing to do with the fields added to this page meta box.
      * 
-     * remark      Assumes the user already adds items to `$aFieldsets` property by the time this method is triggered.
+     * @remark      Assumes the user already adds items to `$aFieldsets` property by the time this method is triggered.
      * @callback    filter      options_{caller id}
      * @return      array       The sanitized saved form data.
      */
