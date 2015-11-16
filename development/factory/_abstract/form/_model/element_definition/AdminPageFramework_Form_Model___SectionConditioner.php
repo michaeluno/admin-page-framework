@@ -74,7 +74,7 @@ class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramew
         
         // Check capability. If the access level is not sufficient, skip.
         if ( ! current_user_can( $aDefinition[ 'capability' ] ) ) { 
-            return return false;
+            return false;
         }
         return ( boolean ) $aDefinition[ 'if' ];
     }
