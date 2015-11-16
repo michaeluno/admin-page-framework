@@ -108,7 +108,7 @@ class AdminPageFramework_Form_View___Fieldsets extends AdminPageFramework_WPUtil
          */
         private function _getFieldset( $aFieldset ) {
             
-            $_oFieldsetRow = new AdminPageFramework_Form_View___Fieldset(
+            $_oFieldsetRow = new AdminPageFramework_Form_View___FieldsetRow(
                 $aFieldset, // a field set definition array
                 $this->aSavedData,
                 $this->aFieldErrors,

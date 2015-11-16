@@ -16,7 +16,7 @@
  * @since       DEVVER      Renamed from `AdminPageFramework_FormPart_DebugInfo`.
  * @internal
  */
-class AdminPageFramework_Form_View_DebugInfo extends AdminPageFramework_FormPart_Base {            
+class AdminPageFramework_Form_View___DebugInfo extends AdminPageFramework_FormPart_Base {            
 
     public $sStructureType   = '';
     

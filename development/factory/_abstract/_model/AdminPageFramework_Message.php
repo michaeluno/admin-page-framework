@@ -164,7 +164,7 @@ class AdminPageFramework_Message {
         // DEVVER+ - accessed from `AdminPageFramework_Form`
         'method_called_too_early'               => 'The method is called too early.',
         
-        // DEVVER+  - accessed from `AdminPageFramework_Form_View_DebugInfo`
+        // DEVVER+  - accessed from `AdminPageFramework_Form_View___DebugInfo`
         'debug_info'                            => 'Debug Info',
         
     );

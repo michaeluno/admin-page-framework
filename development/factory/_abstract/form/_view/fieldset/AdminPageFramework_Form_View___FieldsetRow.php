@@ -15,7 +15,7 @@
  * @since       3.6.0 
  * @internal
  */
-class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_View___FieldsetTableRow {
+class AdminPageFramework_Form_View___FieldsetRow extends AdminPageFramework_Form_View___FieldsetTableRow {
 
     public $aFieldset               = array();
     public $aSavedData              = array();
