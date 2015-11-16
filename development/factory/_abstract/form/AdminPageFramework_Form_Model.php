@@ -332,7 +332,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
 
             $_aLastInputs = $this->getAOrB(
                 $this->getElement( $_GET, 'field_errors' ) || isset( $_GET[ 'confirmation' ] ),
-                $this->_getLastInput(),
+                $this->_getLastInputs(),
                 array()
             );
                     
@@ -348,7 +348,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
              * @internal
              * @return      array       The last user form inputs.
              */
-            private function _getLastInput() {
+            private function _getLastInputs() {
                 
                 $_sKey      = 'apf_tfd' . md5( 'temporary_form_data_' . $this->aArguments[ 'caller_id' ] . get_current_user_id() );
                 $_vValue    = $this->getTransient( $_sKey );
