@@ -233,6 +233,25 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         );
         self::$_aResources = $_oFieldResources->get(); // updates the property
 
+        /**
+         * Call back a validation routine.
+         * 
+         * The routines of validation and saving data is not the scope this form class
+         * as each main routine has own timing and predetermined callbacks for validation.
+         * 
+         * Also this must be done after the resouces are set because there is a callback for 
+         * field registration and custom field types uses that hook to set up cusotm validation routines.
+         */
+        $this->callBack(
+            $this->aCallbacks[ 'handle_form_data' ],
+            array(
+                $this->aSavedData,      // 1st parameter
+                $this->aArguments,      // 2nd parameter
+                $this->aSectionsets,    // 3rd parameter
+                $this->aFieldsets,      // 4th parameter
+            )
+        );        
+        
     }    
         /**
          * Triggers callbacks before setting resources.
@@ -254,20 +273,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
                     $this->aSectionsets,  // 2nd parameter
                 )
             );
-                
-            // Now it is ready to handle the form data.
-            // The routines of validation and saving data is not the scope this form class.
-            // In the callback, the main routine which uses this form object may trigger their hooks  
-            // to modify sectionsets and fieldsets arrays.
-            $this->callBack(
-                $this->aCallbacks[ 'handle_form_data' ],
-                array(
-                    $this->aSavedData,      // 1st parameter
-                    $this->aArguments,      // 2nd parameter
-                    $this->aSectionsets,    // 3rd parameter
-                    $this->aFieldsets,      // 4th parameter
-                )
-            );
+
         }
     
         /**

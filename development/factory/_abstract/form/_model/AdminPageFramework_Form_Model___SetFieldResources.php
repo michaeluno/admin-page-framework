@@ -126,6 +126,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 }                
                 
                 // Call the callback method to let the field type know a fieldset of the field type is registered.
+                // This is supposed to be done before form validations so taht custom filed types add own routines for the validation.
                 if ( is_callable( $_aFieldTypeDefinition[ 'hfDoOnRegistration' ] ) ) {
                     call_user_func_array( 
                         $_aFieldTypeDefinition[ 'hfDoOnRegistration' ], 

@@ -35,7 +35,8 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
    
     /**
      * Responds to a call back which is triggered when a field is registered.
-     * @since       3.5.0       
+     * @since       3.5.0     
+     * @callback    fieldtype   hfDoOnRegistration
      */
     public function _replyToDoOnFieldRegistration( array $aField ) { 
         return $this->doOnFieldRegistration( $aField ); 

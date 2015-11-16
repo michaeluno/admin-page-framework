@@ -122,7 +122,8 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
             )
             + $_aField
             + array( 
-                'section_id' => $this->_sTargetSectionID 
+                'section_id'      => $this->_sTargetSectionID,
+                'class_name'      => $this->aArguments[ 'caller_id' ], // for backward-compatibility
             )
             // + self::$_aStructure_Field // @deprecated 3.6.0 as the field will be formatted later anyway.
             ;
