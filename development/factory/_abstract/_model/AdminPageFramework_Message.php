@@ -117,7 +117,7 @@ class AdminPageFramework_Message {
         'select_none'                           => 'Select None',   // 3.3.0+                       
         'no_term_found'                         => 'No term found.', // 3.3.2+
 
-        // AdminPageFramework_Script_{...}
+        // AdminPageFramework_Form_View___Script_{...}
         'select'                                => 'Select', // 3.4.2+             
         'insert'                                => 'Insert',  // 3.4.2+
         'use_this'                              => 'Use This', // 3.4.2+

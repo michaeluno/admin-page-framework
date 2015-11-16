@@ -112,7 +112,7 @@ class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFr
             return;
         }
         self::$_bLoaded = true;
-        new AdminPageFramework_Script_CollapsibleSection( $this->oMsg );     
+        new AdminPageFramework_Form_View___Script_CollapsibleSection( $this->oMsg );     
    
     }     
     

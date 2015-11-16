@@ -8,15 +8,16 @@
  */
 
 /**
- * Provides JavaScript scripts for creating switchable tabs.
+ * Provides JavaScript scripts for creating switchable form section tabs.
  * 
  * @since       3.0.0     
- * @since       3.3.0         Extends `AdminPageFramework_Script_Base`.
+ * @since       3.3.0       Extends `AdminPageFramework_Form_View___Script_Base`.
+ * @since       DEVVER      Renamed from `AdminPageFramework_Form_View___Script_Tab`.
  * @package     AdminPageFramework
  * @subpackage  JavaScript
  * @internal
  */
-class AdminPageFramework_Script_Tab extends AdminPageFramework_Script_Base {
+class AdminPageFramework_Form_View___Script_SectionTab extends AdminPageFramework_Form_View___Script_Base {
     
     /**
      * Returns an inline JavaScript script.

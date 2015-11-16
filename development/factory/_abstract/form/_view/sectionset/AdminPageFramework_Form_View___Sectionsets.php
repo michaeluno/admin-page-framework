@@ -150,7 +150,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
         
         return implode( PHP_EOL, $_aOutput )
 // @todo rename the class to `AdminPageFramework_Form_View_Script_Tab`.
-            . AdminPageFramework_Script_Tab::getEnabler()
+            . AdminPageFramework_Form_View___Script_SectionTab::getEnabler()
             . $_oDebugInfo->get();        
         
     }
@@ -382,7 +382,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
 
                     // Add the repeatable sections enabler script.
                     if ( ! empty( $_aSection[ 'repeatable' ] ) ) {
-                        $_aOutputs[ 'section_contents' ][] = AdminPageFramework_Script_RepeatableSection::getEnabler( 
+                        $_aOutputs[ 'section_contents' ][] = AdminPageFramework_Form_View___Script_RepeatableSection::getEnabler( 
                             $_sSectionsID, 
                             $_aOutputs[ 'count_subsections' ], 
                             $_aSection[ 'repeatable' ],
@@ -393,7 +393,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                     // Add the sortable sections enabler script. 3.6.0+
                     if ( ! empty( $_aSection[ 'sortable' ] ) ) {
 // @todo Change the name of the class to AdminPageFramework_Form_Script_...
-                        $_aOutputs[ 'section_contents' ][] = AdminPageFramework_Script_SortableSection::getEnabler( 
+                        $_aOutputs[ 'section_contents' ][] = AdminPageFramework_Form_View___Script_SortableSection::getEnabler( 
                             $_sSectionsID, 
                             $_aSection[ 'sortable' ],
                             $this->oMsg

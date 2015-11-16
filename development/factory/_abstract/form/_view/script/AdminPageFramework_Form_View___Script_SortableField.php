@@ -11,13 +11,13 @@
  * Provides JavaScript scripts for the sortable method.
  * 
  * @since           3.0.0     
- * @since           3.3.0       Extends `AdminPageFramework_Script_Base`.
- * @since           3.6.0       Changed the name from `AdminPageFramework_Script_Sortable`.
+ * @since           3.3.0       Extends `AdminPageFramework_Form_View___Script_Base`.
+ * @since           3.6.0       Changed the name from `AdminPageFramework_Form_View___Script_Sortable`.
  * @package         AdminPageFramework
  * @subpackage      JavaScript
  * @internal
  */
-class AdminPageFramework_Script_SortableField extends AdminPageFramework_Script_Base {
+class AdminPageFramework_Form_View___Script_SortableField extends AdminPageFramework_Form_View___Script_Base {
     
     /**
      * A user constructor.

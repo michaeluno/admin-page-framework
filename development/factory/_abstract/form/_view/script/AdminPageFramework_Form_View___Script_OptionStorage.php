@@ -11,12 +11,12 @@
  * Provides JavaScript scripts to store temporary option data.
  * 
  * @since       3.1.6
- * @sicne       3.3.0       Extends `AdminPageFramework_Script_Base`.
+ * @sicne       3.3.0       Extends `AdminPageFramework_Form_View___Script_Base`.
  * @package     AdminPageFramework
  * @subpackage  JavaScript
  * @internal
  */
-class AdminPageFramework_Script_OptionStorage extends  AdminPageFramework_Script_Base {
+class AdminPageFramework_Form_View___Script_OptionStorage extends  AdminPageFramework_Form_View___Script_Base {
     
     /**
      * Returns an inline JavaScript script.

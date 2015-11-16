@@ -17,7 +17,7 @@
  * @internal
  * @extends     AdminPageFramework_WPUtility
  */
-class AdminPageFramework_Script_Base extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_View___Script_Base extends AdminPageFramework_WPUtility {
 
     /**
      * Stores the enqueued script class names.

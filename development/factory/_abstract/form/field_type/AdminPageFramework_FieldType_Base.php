@@ -317,7 +317,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
     
         if ( function_exists( 'wp_enqueue_media' ) ) {     
             // If the WordPress version is 3.5 or above,
-            new AdminPageFramework_Script_MediaUploader( $this->oMsg );
+            new AdminPageFramework_Form_View___Script_MediaUploader( $this->oMsg );
         } else {
             wp_enqueue_script( 'media-upload' );    
         }

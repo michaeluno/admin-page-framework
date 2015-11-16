@@ -38,7 +38,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
      */ 
     protected function getScripts() {
-        new AdminPageFramework_Script_CheckboxSelector;
+        new AdminPageFramework_Form_View___Script_CheckboxSelector;
         $_sClassSelectorSelectAll  = $this->_getSelectButtonClassSelectors( 
             $this->aFieldTypeSlugs, 
             'select_all_button' // data attribute

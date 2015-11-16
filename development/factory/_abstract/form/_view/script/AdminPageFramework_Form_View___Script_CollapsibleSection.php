@@ -15,7 +15,7 @@
  * @subpackage  JavaScript
  * @internal
  */
-class AdminPageFramework_Script_CollapsibleSection extends AdminPageFramework_Script_Base {
+class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPageFramework_Form_View___Script_Base {
 
     /**
      * The user constructor.

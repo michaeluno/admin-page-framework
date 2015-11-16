@@ -72,7 +72,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      * @since       3.3.1       Changed from `_replyToFieldLoader()`.
      */ 
     protected function setUp() {
-        new AdminPageFramework_Script_CheckboxSelector;
+        new AdminPageFramework_Form_View___Script_CheckboxSelector;
     }
     
     /**

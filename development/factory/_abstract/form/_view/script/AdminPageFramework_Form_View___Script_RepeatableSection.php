@@ -11,12 +11,12 @@
  * Provides JavaScript utility scripts.
  * 
  * @since       3.0.0     
- * @since       3.3.0      Extends `AdminPageFramework_Script_Base`.
+ * @since       3.3.0      Extends `AdminPageFramework_Form_View___Script_Base`.
  * @package     AdminPageFramework
  * @subpackage  JavaScript
  * @internal
  */
-class AdminPageFramework_Script_RepeatableSection extends AdminPageFramework_Script_Base {
+class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageFramework_Form_View___Script_Base {
 
     /**
      * Returns an inline JavaScript script.

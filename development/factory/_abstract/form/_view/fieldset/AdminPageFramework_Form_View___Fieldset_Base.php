@@ -155,7 +155,7 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
         private function _loadScripts( $sStructureType='' ) {
 
             if ( 'widget' === $sStructureType && ! self::$_bIsLoadedSScripts_Widget ) {
-                new AdminPageFramework_Script_Widget;
+                new AdminPageFramework_Form_View___Script_Widget;
                 self::$_bIsLoadedSScripts_Widget = true;
             }
             
@@ -164,12 +164,12 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
             }
             self::$_bIsLoadedSScripts = true;
             
-            new AdminPageFramework_Script_Utility;
-            new AdminPageFramework_Script_OptionStorage;
-            new AdminPageFramework_Script_AttributeUpdator;
-            new AdminPageFramework_Script_RepeatableField( $this->oMsg );
-            new AdminPageFramework_Script_SortableField;
-            new AdminPageFramework_Script_RegisterCallback;
+            new AdminPageFramework_Form_View___Script_Utility;
+            new AdminPageFramework_Form_View___Script_OptionStorage;
+            new AdminPageFramework_Form_View___Script_AttributeUpdator;
+            new AdminPageFramework_Form_View___Script_RepeatableField( $this->oMsg );
+            new AdminPageFramework_Form_View___Script_SortableField;
+            new AdminPageFramework_Form_View___Script_RegisterCallback;
                         
         }
     
