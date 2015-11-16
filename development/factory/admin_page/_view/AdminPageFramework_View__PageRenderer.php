@@ -16,7 +16,7 @@
  * @subpackage      AdminPage
  * @internal
  */
-class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility {
+class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility {
         
     public $oFactory;
     public $sPageSlug;
@@ -113,19 +113,19 @@ class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility 
         private function _getContentTop() {
 
             // Screen icon, page heading tabs(page title), and in-page tabs.
-            $_oScreenIcon       = new AdminPageFramework_View_PageRenderer_ScreenIcon( 
+            $_oScreenIcon       = new AdminPageFramework_View__PageRenderer__ScreenIcon( 
                 $this->oFactory, 
                 $this->sPageSlug,
                 $this->sTabSlug
             );
             $_sContentTop       = $_oScreenIcon->get();
             
-            $_oPageHeadingTabs  = new AdminPageFramework_View_PageRenderer_PageHeadingTabs( 
+            $_oPageHeadingTabs  = new AdminPageFramework_View__PageRenderer__PageHeadingTabs( 
                 $this->oFactory,  
                 $this->sPageSlug
             );
             $_sContentTop      .= $_oPageHeadingTabs->get();            
-            $_oInPageTabs       = new AdminPageFramework_View_PageRenderer_InPageTabs(
+            $_oInPageTabs       = new AdminPageFramework_View__PageRenderer__InPageTabs(
                 $this->oFactory,  
                 $this->sPageSlug            
             );
@@ -216,7 +216,7 @@ class AdminPageFramework_View_PageRenderer extends AdminPageFramework_WPUtility 
          * @return      void
          */
         private function _printPageMetaBoxes() {
-            $_oPageMetaBoxRenderer = new AdminPageFramework_View_PageMataBoxRenderer();
+            $_oPageMetaBoxRenderer = new AdminPageFramework_View__PageMataBoxRenderer();
             $_oPageMetaBoxRenderer->render( 'side' );
             $_oPageMetaBoxRenderer->render( 'normal' );
             $_oPageMetaBoxRenderer->render( 'advanced' );

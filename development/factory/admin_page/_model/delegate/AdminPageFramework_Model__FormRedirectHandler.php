@@ -15,7 +15,7 @@
  * @subpackage      AdminPage
  * @internal
  */
-class AdminPageFramework_Model_FormRedirectHandler extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_WPUtility {
     
     /**
      * Stores the factory object.

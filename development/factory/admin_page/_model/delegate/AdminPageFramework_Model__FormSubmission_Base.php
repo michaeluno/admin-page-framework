@@ -15,7 +15,7 @@
  * @since       3.6.3
  * @internal
  */
-abstract class AdminPageFramework_Model_FormSubmission_Base extends AdminPageFramework_Format_Base {
+abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFramework_Format_Base {
         
     /**
      * Retrieves the target key's value associated with the given data to a custom submit button.

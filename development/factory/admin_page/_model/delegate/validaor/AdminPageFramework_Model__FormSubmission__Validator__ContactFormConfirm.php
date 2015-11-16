@@ -15,7 +15,7 @@
  * @since       3.6.3
  * @internal
  */
-class AdminPageFramework_Model_FormSubmission_Validator_ContactFormConfirm extends AdminPageFramework_Model_FormSubmission_Validator_ContactForm {
+class AdminPageFramework_Model__FormSubmission__Validator__ContactFormConfirm extends AdminPageFramework_Model__FormSubmission__Validator__ContactForm {
     
     public $sActionHookPrefix = 'try_validation_after_';
     public $iHookPriority = 40;

@@ -16,7 +16,7 @@
  * @subpackage      AdminPage
  * @internal
  */
-class AdminPageFramework_View_PageRenderer_InPageTabs extends AdminPageFramework_WPUtility {
+class AdminPageFramework_View__PageRenderer__InPageTabs extends AdminPageFramework_WPUtility {
         
     public $oFactory;
     public $sPageSlug;

@@ -15,7 +15,7 @@
  * @since       3.6.3
  * @internal
  */
-class AdminPageFramework_Model_FormSubmission_Validator_Filter extends AdminPageFramework_Model_FormSubmission_Base {
+class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminPageFramework_Model__FormSubmission_Base {
     
     public $oFactory;
     public $aInputs = array();

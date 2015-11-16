@@ -15,7 +15,7 @@
  * @since       3.6.3
  * @internal
  */
-class AdminPageFramework_Model_FormSubmission_Validator_Redirect extends AdminPageFramework_Model_FormSubmission_Validator_Base {
+class AdminPageFramework_Model__FormSubmission__Validator__Redirect extends AdminPageFramework_Model__FormSubmission__Validator_Base {
     
     public $sActionHookPrefix   = 'try_validation_before_';
     public $iHookPriority       = 40;

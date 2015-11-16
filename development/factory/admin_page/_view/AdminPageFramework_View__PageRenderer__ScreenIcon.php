@@ -16,7 +16,7 @@
  * @subpackage      AdminPage
  * @internal
  */
-class AdminPageFramework_View_PageRenderer_ScreenIcon extends AdminPageFramework_WPUtility {
+class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramework_WPUtility {
         
     public $oFactory;
     public $sPageSlug;

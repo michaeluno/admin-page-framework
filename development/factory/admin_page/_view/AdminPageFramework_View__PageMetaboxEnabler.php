@@ -16,7 +16,7 @@
  * @subpackage      AdminPage
  * @internal
  */
-class AdminPageFramework_View_PageMetaboxEnabler extends AdminPageFramework_WPUtility {
+class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_WPUtility {
     
     /**
      * Stores the admin page factory object.

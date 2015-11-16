@@ -17,7 +17,7 @@
  * @since       3.6.3
  * @internal
  */
-class AdminPageFramework_Model_FormSubmission_Validator_Reset extends AdminPageFramework_Model_FormSubmission_Validator_Base {
+class AdminPageFramework_Model__FormSubmission__Validator__Reset extends AdminPageFramework_Model__FormSubmission__Validator_Base {
     
     public $sActionHookPrefix = 'try_validation_after_';
     public $iHookPriority = 30;

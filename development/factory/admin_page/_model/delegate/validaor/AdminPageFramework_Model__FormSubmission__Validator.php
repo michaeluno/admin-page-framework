@@ -15,7 +15,7 @@
  * @since       3.6.3
  * @internal
  */
-class AdminPageFramework_Model_FormSubmission_Validator extends AdminPageFramework_Model_FormSubmission_Validator_Base {
+class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFramework_Model__FormSubmission__Validator_Base {
     
     public $oFactory;
     public $aInputs     = array();
@@ -73,16 +73,16 @@ class AdminPageFramework_Model_FormSubmission_Validator extends AdminPageFramewo
             // Hooks - before and after validation
             $_aClassNames = array(
                 // before validation
-                'AdminPageFramework_Model_FormSubmission_Validator_ContactForm',
-                'AdminPageFramework_Model_FormSubmission_Validator_ResetConfirm',
-                'AdminPageFramework_Model_FormSubmission_Validator_Link',
-                'AdminPageFramework_Model_FormSubmission_Validator_Redirect',
+                'AdminPageFramework_Model__FormSubmission__Validator__ContactForm',
+                'AdminPageFramework_Model__FormSubmission__Validator__ResetConfirm',
+                'AdminPageFramework_Model__FormSubmission__Validator__Link',
+                'AdminPageFramework_Model__FormSubmission__Validator__Redirect',
                 
                 // after validation
-                'AdminPageFramework_Model_FormSubmission_Validator_Import',
-                'AdminPageFramework_Model_FormSubmission_Validator_Export',
-                'AdminPageFramework_Model_FormSubmission_Validator_Reset',
-                'AdminPageFramework_Model_FormSubmission_Validator_ContactFormConfirm',
+                'AdminPageFramework_Model__FormSubmission__Validator__Import',
+                'AdminPageFramework_Model__FormSubmission__Validator__Export',
+                'AdminPageFramework_Model__FormSubmission__Validator__Reset',
+                'AdminPageFramework_Model__FormSubmission__Validator__ContactFormConfirm',
                 
             );
             foreach( $_aClassNames as $_sClassName ) {
@@ -102,7 +102,7 @@ class AdminPageFramework_Model_FormSubmission_Validator extends AdminPageFramewo
                     $this->oFactory
                 );                       
                  
-                $_oFormSubmissionFilter = new AdminPageFramework_Model_FormSubmission_Validator_Filter(
+                $_oFormSubmissionFilter = new AdminPageFramework_Model__FormSubmission__Validator__Filter(
                     $this->oFactory,
                     $aInputs, 
                     $aRawInputs, 

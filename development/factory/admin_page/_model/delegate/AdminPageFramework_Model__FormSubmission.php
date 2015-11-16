@@ -15,7 +15,7 @@
  * @subpackage      AdminPage
  * @internal
  */
-class AdminPageFramework_Model_FormSubmission extends AdminPageFramework_Model_FormSubmission_Base {
+class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model__FormSubmission_Base {
         
     /**
      * Stores the factory object.
@@ -40,7 +40,7 @@ class AdminPageFramework_Model_FormSubmission extends AdminPageFramework_Model_F
         // );                 
         $this->_handleFormData();
         
-        new AdminPageFramework_Model_FormRedirectHandler( $oFactory );
+        new AdminPageFramework_Model__FormRedirectHandler( $oFactory );
                         
     }   
     
@@ -124,7 +124,7 @@ class AdminPageFramework_Model_FormSubmission extends AdminPageFramework_Model_F
         );
         
         // Validate the data.
-        new AdminPageFramework_Model_FormSubmission_Validator( $this->oFactory );
+        new AdminPageFramework_Model__FormSubmission__Validator( $this->oFactory );
         
         // [3.6.3+] Apply filters. All sub-routines of handling form submit data use this filter hook.
         $_aInputs    = $this->addAndApplyFilters(    

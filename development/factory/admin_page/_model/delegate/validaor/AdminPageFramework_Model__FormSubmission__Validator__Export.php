@@ -15,7 +15,7 @@
  * @since       3.6.3
  * @internal
  */
-class AdminPageFramework_Model_FormSubmission_Validator_Export extends AdminPageFramework_Model_FormSubmission_Validator_Import {
+class AdminPageFramework_Model__FormSubmission__Validator__Export extends AdminPageFramework_Model__FormSubmission__Validator__Import {
     
     /**
      * @remark      moved to after the validation callbacks (3.4.6+)
