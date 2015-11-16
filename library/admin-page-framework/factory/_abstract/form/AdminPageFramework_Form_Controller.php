@@ -28,7 +28,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
         }
         $_aField = $asField;
         $this->_sTargetSectionID = $this->getElement($_aField, 'section_id', $this->_sTargetSectionID);
-        $_aField = array('_fields_type' => $this->aArguments['structure_type'], '_structure_type' => $this->aArguments['structure_type'],) + $_aField + array('section_id' => $this->_sTargetSectionID);
+        $_aField = array('_fields_type' => $this->aArguments['structure_type'], '_structure_type' => $this->aArguments['structure_type'],) + $_aField + array('section_id' => $this->_sTargetSectionID, 'class_name' => $this->aArguments['caller_id'],);
         if (!isset($_aField['field_id'], $_aField['type'])) {
             return null;
         }

@@ -45,11 +45,11 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         }
         $_oFieldResources = new AdminPageFramework_Form_Model___SetFieldResources($this->aArguments, $this->aFieldsets, self::$_aResources, $this->aFieldTypeDefinitions, $this->aCallbacks);
         self::$_aResources = $_oFieldResources->get();
+        $this->callBack($this->aCallbacks['handle_form_data'], array($this->aSavedData, $this->aArguments, $this->aSectionsets, $this->aFieldsets,));
     }
     private function _handleCallbacks() {
         $this->aSectionsets = $this->callBack($this->aCallbacks['secitonsets_before_registration'], array($this->aSectionsets,));
         $this->aFieldsets = $this->callBack($this->aCallbacks['fieldsets_before_registration'], array($this->aFieldsets, $this->aSectionsets,));
-        $this->callBack($this->aCallbacks['handle_form_data'], array($this->aSavedData, $this->aArguments, $this->aSectionsets, $this->aFieldsets,));
     }
     static private $_aFieldTypeDefinitions = array();
     private function _setFieldTypeDefinitions() {
@@ -63,10 +63,10 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
     }
     private function _getSavedData($aDefaultValues) {
         $_aSavedData = $this->getAsArray($this->callBack($this->aCallbacks['saved_data'], array($aDefaultValues,))) + $aDefaultValues;
-        $_aLastInputs = $this->getAOrB($this->getElement($_GET, 'field_errors') || isset($_GET['confirmation']), $this->_getLastInput(), array());
+        $_aLastInputs = $this->getAOrB($this->getElement($_GET, 'field_errors') || isset($_GET['confirmation']), $this->_getLastInputs(), array());
         return $_aLastInputs + $_aSavedData;
     }
-    private function _getLastInput() {
+    private function _getLastInputs() {
         $_sKey = 'apf_tfd' . md5('temporary_form_data_' . $this->aArguments['caller_id'] . get_current_user_id());
         $_vValue = $this->getTransient($_sKey);
         $this->deleteTransient($_sKey);
