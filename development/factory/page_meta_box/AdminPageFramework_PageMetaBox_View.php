@@ -16,4 +16,4 @@
  * @subpackage      PageMetaBox
  * @internal        
  */
-abstract class AdminPageFramework_MetaBox_Page_View extends AdminPageFramework_MetaBox_Page_Model {}
+abstract class AdminPageFramework_PageMetaBox_View extends AdminPageFramework_PageMetaBox_Model {}

@@ -10,7 +10,7 @@
  */
  
  
-class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFramework_MetaBox_Page {
+class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFramework_PageMetaBox {
         
     /*
      * ( optional ) Use the setUp() method to define settings of this meta box.

@@ -40,4 +40,4 @@
  * @subpackage  PageMetaBox
  * @heading     Page Meta Box
  */
-abstract class AdminPageFramework_MetaBox_Page_Documentation {}
+abstract class AdminPageFramework_PageMetaBox_Documentation {}

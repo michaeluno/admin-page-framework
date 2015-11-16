@@ -17,7 +17,7 @@
  * @internal
  * @extends         AdminPageFramework_MetaBox_View
  */
-abstract class AdminPageFramework_MetaBox_Page_Router extends AdminPageFramework_MetaBox_View {
+abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_MetaBox_View {
     
     /**
      * Triggers the start_{...} action hook.

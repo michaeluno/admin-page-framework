@@ -9,7 +9,7 @@
  * 
  */
 
-class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_MetaBox_Page {
+class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_PageMetaBox {
         
     /*
      * ( optional ) Use the setUp() method to define settings of this meta box.

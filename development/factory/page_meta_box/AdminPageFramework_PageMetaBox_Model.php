@@ -15,7 +15,7 @@
  * @subpackage      PageMetaBox
  * @internal
  */
-abstract class AdminPageFramework_MetaBox_Page_Model extends AdminPageFramework_MetaBox_Page_Router {
+abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_PageMetaBox_Router {
 
     /**
      * Defines the class object structure type.

@@ -396,6 +396,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.7.0 =
+- Changed the factory class name of the page meta box from `AdminPageFramework_MetaBox_Page` to `AdminPageFramework_PageMetaBox`.
 - Fixed an issue that a column data were not updated right away when the user uses Quick Edit in a post listing table of a post type.
 
 = 3.6.3 - 2015/11/07 = 

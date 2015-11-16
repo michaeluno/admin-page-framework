@@ -65,7 +65,7 @@ class AdminPageFramework_Form_page_meta_box extends AdminPageFramework_Form {
          * Extracts meta box form fields options array from the given options array of an admin page.
          * 
          * @since       3.5.6
-         * @since       DEVVER      Moved from `AdminPageFramework_MetaBox_Page_Model`.
+         * @since       DEVVER      Moved from `AdminPageFramework_PageMetaBox_Model`.
          * @return      array       The extracted options array.
          * @internal
          * @deprecated  DEVVER

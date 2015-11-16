@@ -15,7 +15,7 @@
  * @package     AdminPageFramework
  * @subpackage  PageMetaBox
  */
-abstract class AdminPageFramework_MetaBox_Page_Controller extends AdminPageFramework_MetaBox_Page_View {
+abstract class AdminPageFramework_PageMetaBox_Controller extends AdminPageFramework_PageMetaBox_View {
     
     /**
      * Enqueues styles by page slug and tab slug.
