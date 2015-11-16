@@ -2,7 +2,7 @@
 class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramework_Form_Base {
     public $aArguments = array();
     public $aFieldsets = array();
-    public $aResources = array();
+    public $aResources = array('inline_styles' => array(), 'inline_styles_ie' => array(), 'inline_scripts' => array(), 'src_styles' => array(), 'src_scripts' => array(),);
     public $aFieldTypeDefinitions = array();
     public $aCallbacks = array('is_fieldset_registration_allowed' => null,);
     public function __construct() {
@@ -14,8 +14,26 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
         $this->aCallbacks = $_aParameters[4] + $this->aCallbacks;
     }
     public function get() {
+        $this->_setCommonFormInlineCSSRules();
         $this->_set();
         return $this->aResources;
+    }
+    private static $_bCalled = false;
+    private function _setCommonFormInlineCSSRules() {
+        if (self::$_bCalled) {
+            return;
+        }
+        self::$_bCalled = true;
+        $_aClassNames = array('AdminPageFramework_Form_View___CSS_Section', 'AdminPageFramework_Form_View___CSS_Field', 'AdminPageFramework_Form_View___CSS_CollapsibleSection', 'AdminPageFramework_Form_View___CSS_FieldError',);
+        foreach ($_aClassNames as $_sClassName) {
+            $_oCSS = new $_sClassName;
+            $this->aResources['inline_styles'][] = $_oCSS->get();
+        }
+        $_aClassNamesForIE = array('AdminPageFramework_Form_View___CSS_CollapsibleSectionIE',);
+        foreach ($_aClassNames as $_sClassName) {
+            $_oCSS = new $_sClassName;
+            $this->aResources['inline_styles_ie'][] = $_oCSS->get();
+        }
     }
     protected function _set() {
         foreach ($this->aFieldsets as $_sSecitonID => $_aFieldsets) {

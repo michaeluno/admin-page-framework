@@ -18,7 +18,8 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
     public function setResources($sKey, $mValue) {
         return self::$_aResources[$sKey] = $mValue;
     }
-    public function addResource() {
+    public function addResource($sKey, $sValue) {
+        self::$_aResources[$sKey][] = $sValue;
     }
     protected $_sTargetSectionID = '_default';
     public function addField($asField) {
