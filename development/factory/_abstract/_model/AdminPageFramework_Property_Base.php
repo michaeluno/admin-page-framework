@@ -351,7 +351,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
             $sCallerPath,
             null
         );
-        $this->sClassName       = $sClassName;     
+        $this->sClassName       = str_replace( '\\', '_', $sClassName ); // sanitize name space path delimiter.
         $this->sClassHash       = md5( $sClassName );    
         $this->sCapability      = $this->getAOrB(
             empty( $sCapability ),
