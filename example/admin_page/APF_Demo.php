@@ -29,7 +29,7 @@ class APF_Demo extends AdminPageFramework {
         $this->setCapability( 'read' );
         
         /* ( required ) Set the root page */
-        $this->setRootMenuPageBySlug( 'edit.php?post_type=' . AdminPageFrameworkLoader_Registry::$aPostTypes['demo'] );    
+        $this->setRootMenuPageBySlug( 'edit.php?post_type=' . AdminPageFrameworkLoader_Registry::$aPostTypes['demo'] );
                                     
         /*
          * ( optional ) Contextual help pane
