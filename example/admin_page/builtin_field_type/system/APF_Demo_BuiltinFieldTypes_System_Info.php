@@ -55,7 +55,7 @@ class APF_Demo_BuiltinFieldTypes_System_Info {
                 'type'          => 'system',     
                 'title'         => __( 'System Information', 'admin-page-framework-loader' ),
                 'data'          => array(
-                    __( 'Custom Data', 'admin-page-framework-loader' )    => __( 'Her you can can isert own custom data with the data argument.', 'admin-page-framework-loader' ),
+                    __( 'Custom Data', 'admin-page-framework-loader' )    => __( 'Here you can insert your own custom data with the data argument.', 'admin-page-framework-loader' ),
                     __( 'Current Time', 'admin-page-framework' )        => '', // Removes the Current Time Section.
                 ),
                 'attributes'    => array(
