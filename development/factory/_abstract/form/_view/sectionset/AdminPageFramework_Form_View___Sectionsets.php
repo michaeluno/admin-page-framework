@@ -288,7 +288,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                 return ''; 
             }
             
-            $_aFirstSectionset  = $this->getFirstEelement( $aSectionsets );
+            $_aFirstSectionset  = $this->getFirstElement( $aSectionsets );
             $_sSectionTabSlug   = '';
             $_aOutputs          = array(
                 'section_tab_list'  => array(),

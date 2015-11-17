@@ -19,10 +19,19 @@
 abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {
     
     /**
+     * Checks if the given array is an associative array or not.
+     * @since       DEVVER
+     * @return      boolean
+     */
+    static public function isAssociative( array $aArray ) {
+        return array_keys ( $aArray ) !== range( 0, count( $aArray ) - 1 );
+    }
+    
+    /**
      * Returns a first iterated array element.
      * @since       3.6.0
      */
-    static public function getFirstEelement( array $aArray ) {
+    static public function getFirstElement( array $aArray ) {
         foreach( $aArray as $_mElement ) {
             return $_mElement;
         }
@@ -353,7 +362,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }    
     
     /**
-     * Unsets an element of a multi-dimensional array by the given keys.
+     * Unsets an element of a multi-dimensional array by given keys.
      * 
      * <code>
      * $a = array(
