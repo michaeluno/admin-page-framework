@@ -83,7 +83,7 @@ class APF_Demo_ManageOptions_Export {
                 'field_id'      => 'export_multiple',
                 'title'         => __( 'Multiple Export Buttons', 'admin-page-framework-loader' ),
                 'type'          => 'export',
-                'label'         => __( 'Pain Text', 'admin-page-framework-loader' ),
+                'label'         => __( 'Plain Text', 'admin-page-framework-loader' ),
                 'file_name'     => 'plain_text.txt',
                 'format'        => 'text',
                 'attributes'    => array(
