@@ -124,21 +124,17 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
      * @return      string      The generated HTML form tables output.
      */
     public function get() {
-
-        $_aSectionsetsBySectionTab = $this->aStructure[ 'sectionsets' ];
-        $_aFieldsetsBySectionTab   = $this->aStructure[ 'fieldsets' ];
-
-        // Update the array structure by tab slug (passed by reference).
-        $this->_divideElementsBySectionTabs( 
-            $_aSectionsetsBySectionTab, 
-            $_aFieldsetsBySectionTab
+        
+        $_oFormatSectionsetsByTab  = new AdminPageFramework_Form_View___Format_SectionsetsByTab(
+            $this->aStructure[ 'sectionsets' ],
+            $this->aStructure[ 'fieldsets' ]
         );
 
         $_aOutput     = array();
-        foreach( $_aSectionsetsBySectionTab as $_sSectionTabSlug => $_aSectionsets ) {
+        foreach( $_oFormatSectionsetsByTab->getTabs() as $_sSectionTabSlug ) {
             $_aOutput[] = $this->_getFormOutput(
-                $_aSectionsets,
-                $_aFieldsetsBySectionTab[ $_sSectionTabSlug ],
+                $_oFormatSectionsetsByTab->getSectionsets( $_sSectionTabSlug ),
+                $_oFormatSectionsetsByTab->getFieldsets( $_sSectionTabSlug ),
                 $_sSectionTabSlug,
                 $this->aCallbacks
             );   
@@ -149,7 +145,6 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
         );
         
         return implode( PHP_EOL, $_aOutput )
-// @todo rename the class to `AdminPageFramework_Form_View_Script_Tab`.
             . AdminPageFramework_Form_View___Script_SectionTab::getEnabler()
             . $_oDebugInfo->get();        
         
@@ -182,88 +177,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                 : '';
             
         }
-    
-        /**
-         * Divides the given sections array and the fields array by section tabs.
-         * 
-         * The structure will be changed.
-         * From
-         * <code>
-         * array(
-         *      'section id_a'    => array( 'section arguments' ),
-         *      'section id_b'    => array( 'section arguments' ),
-         *      'section id_c'    => array( 'section arguments' ),
-         *          ...
-         * )
-         * </code>
-         * To
-         * <code>
-         * array(
-         *      'section tab_a'   => array( 
-         *          'section id_a'    => array( 'section arguments' ),
-         *          'section id_b'    => array( 'section arguments' ),
-         *      ),
-         *      'section_tab_b'   => array(
-         *          'section id_c'    => array( 'section arguments' ),
-         *      ),
-         *          ...
-         * )
-         * </code>
-         * @since       3.4.0
-         * @since       DEVVER      Moved from `AdminPageFramework_FormPart_Table`.
-         * @return      void
-         */
-        private function _divideElementsBySectionTabs( array &$aSections, array &$aFields ) {
-
-            $_aSectionsBySectionTab = array();
-            $_aFieldsBySectionTab   = array();
-            $_iIndex                = 0;
-
-            foreach( $aSections as $_sSectionID => $_aSection ) {
-
-                // If no fields for the section, no need to add the section 
-                // unless the cusedom sectionset output is defined.
-                if ( ! isset( $aFields[ $_sSectionID ] ) && ! $this->_isCustomContentSet( $_aSection ) ) {
-                    continue;
-                }
-                                  
-                $_sSectionTaqbSlug = $this->getAOrB(
-                    $_aSection[ 'section_tab_slug' ],
-                    $_aSection[ 'section_tab_slug' ],
-                    '_default_' . ( ++$_iIndex )
-                );
-                $_aSectionsBySectionTab[ $_sSectionTaqbSlug ][ $_sSectionID ] = $_aSection;
-                $_aFieldsBySectionTab[ $_sSectionTaqbSlug ][ $_sSectionID ]   = $this->getElement(
-                    $aFields,
-                    $_sSectionID
-                );
-                    
-            }
-            
-            // Set new values. 
-            $aSections  = $_aSectionsBySectionTab;
-            $aFields    = $_aFieldsBySectionTab;
-
-        }      
-            /**
-             * @since       3.6.1
-             * @since       DEVVER      Moved from `AdminPageFramework_FormPart_Table`.
-             * @return      boolean     True if a custom content value is set.
-             */
-            private function _isCustomContentSet( array $aSection, array $aKeys=array( 'content' ) ) {
-                foreach( $aKeys as $_sKey ) {
-                    if ( ! isset( $aSection[ $_sKey ] ) ) {
-                        continue;
-                    }
-                    if ( is_scalar( $aSection[ $_sKey ] ) ) {
-                        return true;
-                    }
-// @todo   For nested sections, the 'content' will hold arrays of child sections. Handle them properly here.
-
-                }
-                return false;
-            }    
-            
+                
         /**
          * Returns an output string of sections tables.
          * 

@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.7.0b02 by Michael Uno 
+	Admin Page Framework v3.7.0b03 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -241,6 +241,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Form_View___Section_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/sectionset/AdminPageFramework_Form_View___Section_Base.php", 
 	"AdminPageFramework_Form_View___Sections"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/sectionset/AdminPageFramework_Form_View___Sections.php", 
 	"AdminPageFramework_Form_View___Sectionsets"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/sectionset/AdminPageFramework_Form_View___Sectionsets.php", 
+	"AdminPageFramework_Form_View___Format_SectionsetsByTab"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/sectionset/format/AdminPageFramework_Form_View___Format_SectionsetsByTab.php", 
 	"AdminPageFramework_ArrayHandler"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_ArrayHandler.php", 
 	"AdminPageFramework_Debug"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_Debug.php", 
 	"AdminPageFramework_ErrorReporting"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_ErrorReporting.php", 
