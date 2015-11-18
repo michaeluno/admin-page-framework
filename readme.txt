@@ -396,6 +396,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.6.4 =
+- Fixed an issue that a column data were not updated right away when the user uses Quick Edit in a post listing table of a post type.
 - Changed the class names in the framework hook names to get backslashes converted to underscores to avoid invalid characters in callback method names.
 
 = 3.6.3 - 2015/11/07 = 

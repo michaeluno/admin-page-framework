@@ -24,6 +24,7 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
      * @internal
      * @since       3.0.4
      * @since       3.2.0       Changed the scope to public from protected as the head tag object will access it.
+     * @return      boolean
      */
     public function _isInThePage() {
         
@@ -31,6 +32,12 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         if ( ! $this->oProp->bIsAdmin ) {
             return false;
         }
+
+        // Post table columns use ajax to update when the user modifies the post meta via quick edit.
+        if ( $this->oUtil->getElement( $this->oProp->aPostTypeArgs, 'public', true ) && $this->oProp->bIsAdminAjax ) {
+            return true;
+        }        
+        
         if ( ! in_array( $this->oProp->sPageNow, array( 'edit.php', 'edit-tags.php', 'post.php', 'post-new.php' ) ) ) {
             return false;
         }
