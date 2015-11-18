@@ -83,7 +83,6 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
                 if ( ! is_array( $_aSection ) ) { 
                     continue; 
                 }
-//@todo change the class name below
                 $_aSectionFormatter = new AdminPageFramework_Form_Model___FormatSectionset(
                     $_aSection, 
                     $sStructureType, 
