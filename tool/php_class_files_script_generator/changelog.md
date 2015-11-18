@@ -1,5 +1,8 @@
 ## CHange Log
 
+### 1.0.7 - 2015/1/19
+- Fixed a bug with the `exclude_dir_names` argument.
+
 ### 1.0.6 - 2015/02/26
 - Added the `output()` method.
 - Added the `exclude_file_names` argument to filter out files with certain names.

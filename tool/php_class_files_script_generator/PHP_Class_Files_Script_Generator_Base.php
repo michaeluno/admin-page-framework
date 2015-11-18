@@ -10,7 +10,7 @@
 /**
  * The base class of script creator.
  * 
- * @version        1.0.6
+ * @version        1.0.7
  */
 abstract class PHP_Class_Files_Script_Generator_Base {
 
@@ -90,7 +90,8 @@ abstract class PHP_Class_Files_Script_Generator_Base {
                 $_sFileExtensionPattern = $this->_getGlobPatternExtensionPart( $aSearchOptions['allowed_extensions'] );
                 $_aFilePaths = $aSearchOptions[ 'is_recursive' ]
                     ? $this->doRecursiveGlob( 
-                        $sDirPath . '*.' . $_sFileExtensionPattern, GLOB_BRACE, 
+                        $sDirPath . '*.' . $_sFileExtensionPattern, 
+                        GLOB_BRACE, 
                         $_aExcludingDirPaths, 
                         ( array ) $aSearchOptions['exclude_dir_names'],
                         $aSearchOptions['exclude_file_names']
@@ -104,7 +105,8 @@ abstract class PHP_Class_Files_Script_Generator_Base {
             foreach( $aSearchOptions['allowed_extensions'] as $__sAllowedExtension ) {
                 $__aFilePaths = $aSearchOptions[ 'is_recursive' ]
                     ? $this->doRecursiveGlob( 
-                        $sDirPath . '*.' . $__sAllowedExtension, 0, 
+                        $sDirPath . '*.' . $__sAllowedExtension, 
+                        0, 
                         $_aExcludingDirPaths, 
                         ( array ) $aSearchOptions['exclude_dir_names'],
                         $aSearchOptions['exclude_file_names']
@@ -157,6 +159,7 @@ abstract class PHP_Class_Files_Script_Generator_Base {
                             $_sDirPath . DIRECTORY_SEPARATOR . basename( $sPathPatten ), 
                             $nFlags, 
                             $aExcludeDirPaths,
+                            $aExcludeDirNames,
                             $aExcludeFileNames
                         )
                     );
@@ -378,5 +381,16 @@ abstract class PHP_Class_Files_Script_Generator_Base {
         }
         echo $sText . $aOptions['carriage_return'];
     }        
+    
+    /**
+     * @since       1.0.7
+     */
+    public function log( $sText ) {
+        file_put_contents( 
+            dirname( __FILE__ ) . '/output.log', 
+            $sText . PHP_EOL,
+            FILE_APPEND 
+        );           
+    }
         
 }
