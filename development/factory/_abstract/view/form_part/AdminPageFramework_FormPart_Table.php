@@ -253,7 +253,7 @@ class AdminPageFramework_FormPart_Table extends AdminPageFramework_WPUtility {
                 return ''; 
             } 
             
-            $_aFirstSectionset  = $this->getFirstEelement( $aSections );
+            $_aFirstSectionset  = $this->getFirstElement( $aSections );
                         
             if ( ! count( $aFieldsInSections ) ) {
                 return ''; 

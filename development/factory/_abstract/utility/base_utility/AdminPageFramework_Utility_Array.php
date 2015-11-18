@@ -22,7 +22,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * Returns a first iterated array element.
      * @since       3.6.0
      */
-    static public function getFirstEelement( array $aArray ) {
+    static public function getFirstElement( array $aArray ) {
         foreach( $aArray as $_mElement ) {
             return $_mElement;
         }
