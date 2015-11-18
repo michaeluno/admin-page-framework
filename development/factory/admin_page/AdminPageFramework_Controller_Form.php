@@ -18,7 +18,7 @@
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  */
-abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Form_View {
+abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_View_Form {
                                     
     /**
      * {@inheritdoc}

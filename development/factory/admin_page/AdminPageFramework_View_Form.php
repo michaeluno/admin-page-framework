@@ -18,7 +18,7 @@
  * @subpackage      AdminPage
  * @internal
  */
-abstract class AdminPageFramework_Form_View extends AdminPageFramework_Model_Form {
+abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_Form {
     
     /**
      * Modifies the section name attribute value.
