@@ -395,6 +395,9 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.6.4 =
+- Changed the class names in the framework hook names to get backslashes converted to underscores to avoid invalid characters in callback method names.
+
 = 3.6.3 - 2015/11/07 = 
 - Added the `script` and `style` arguments for the page and in-page tab definitions.
 - Tweaked the style of section tab titles in meta boxes.

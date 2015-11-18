@@ -315,7 +315,7 @@ abstract class AdminPageFramework_Property_Base {
             $sCallerPath,
             null
         );
-        $this->sClassName       = $sClassName;     
+        $this->sClassName       = str_replace( '\\', '_', $sClassName ); // sanitize name space path delimiter.
         $this->sClassHash       = md5( $sClassName );    
         $this->sCapability      = $this->oUtil->getAOrB(
             empty( $sCapability ),
