@@ -171,6 +171,14 @@ In the `setUp()` method of `MyAdminPageClasB`, pass the instantiated class name 
 $this->setRootMenuPageBySlug( 'MyAdminPageClassA' );
 `
 
+<h5>I want my users to install the loader plugin but do not want to display any visuals of the loader plugin. Is there a way to disable it?</h5>
+
+Enable the silent mode of the loader plugin by setting the `APFL_SILENT_MODE` constant in your script.
+
+`
+define( 'APFL_SILENT_MODE', true );
+`
+
 <h5><strong>Can I create pages in the network admin area?</strong></h5>
 Yes, See the demo.
 
@@ -396,6 +404,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.6.4 =
+- Added the `APFL_SILENT_MODE` constant to the loader plugin that toggle the visuals of the loader admin pages.
 - Fixed an issue that a column data were not updated right away when the user uses Quick Edit in a post listing table of a post type.
 - Changed the class names in the framework hook names to get backslashes converted to underscores to avoid invalid characters in callback method names.
 
