@@ -10,7 +10,7 @@
  */
 
 /**
- * Adds the Contact page to the demo plugin.
+ * Adds the Addon page to the demo plugin.
  * 
  * @since       3.5.0       Moved from the demo.
  * @filter      apply       admin_page_framework_loader_filter_admin_add_ons        Receives an array holding add-on information to list.
