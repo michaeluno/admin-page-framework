@@ -171,7 +171,33 @@ In the `setUp()` method of `MyAdminPageClasB`, pass the instantiated class name 
 $this->setRootMenuPageBySlug( 'MyAdminPageClassA' );
 `
 
-<h5>I want my users to install the loader plugin but do not want to display any visuals of the loader plugin. Is there a way to disable it?</h5>
+Another option is to use the `set_up_{class name}` action hook. The callback method receives the admin page class object and you can access the framework methods to add sub-menu pages.
+
+`
+class MyAdminPageClassB {
+
+    public function __construct() { 
+        add_action( 'set_up_' . 'MyAdminPageClassA', array( $this, 'replyToAddSubMenuPages' ) );
+    }
+    
+    public function replyToAddSubMenuPages( $oAdminPage ) {
+            
+        $oAdminPage->addSubMenuPage(
+            array(
+                'page_slug' => 'my_admin_page_b',
+                'title'     => __( 'Example', 'your-text-domain' ),
+                'order'     => 20,
+            )        
+        );
+            
+    }
+        
+}
+new MyAdminPageClassB;
+`
+
+
+<h5><strong>I want my users to install the loader plugin but do not want to display any visuals of the loader plugin. Is there a way to disable it?</strong></h5>
 
 Enable the silent mode of the loader plugin by setting the `APFL_SILENT_MODE` constant in your script.
 
@@ -402,6 +428,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+
+= 3.7.0 =
+- Changed the factory class name of the page meta box from `AdminPageFramework_MetaBox_Page` to `AdminPageFramework_PageMetaBox`.
 
 = 3.6.4 - 20105/11/19 =
 - Added the `APFL_SILENT_MODE` constant to the loader plugin that toggle the visuals of the loader admin pages.
