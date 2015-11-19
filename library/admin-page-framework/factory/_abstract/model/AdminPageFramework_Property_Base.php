@@ -35,7 +35,7 @@ abstract class AdminPageFramework_Property_Base {
         $this->oUtil = new AdminPageFramework_WPUtility;
         $this->oCaller = $oCaller;
         $this->sCallerPath = $this->oUtil->getAOrB($sCallerPath, $sCallerPath, null);
-        $this->sClassName = $sClassName;
+        $this->sClassName = str_replace('\\', '_', $sClassName);
         $this->sClassHash = md5($sClassName);
         $this->sCapability = $this->oUtil->getAOrB(empty($sCapability), 'manage_options', $sCapability);
         $this->sTextDomain = $this->oUtil->getAOrB(empty($sTextDomain), 'admin-page-framework', $sTextDomain);

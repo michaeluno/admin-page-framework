@@ -403,7 +403,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.6.4 =
+= 3.6.4 - 20105/11/19 =
 - Added the `APFL_SILENT_MODE` constant to the loader plugin that toggle the visuals of the loader admin pages.
 - Fixed an issue that a column data were not updated right away when the user uses Quick Edit in a post listing table of a post type.
 - Changed the class names in the framework hook names to get backslashes converted to underscores to avoid invalid characters in callback method names.

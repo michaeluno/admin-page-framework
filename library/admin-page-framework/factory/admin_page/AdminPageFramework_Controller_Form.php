@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Form_View {
+abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_View_Form {
     public function addSettingSections() {
         foreach (func_get_args() as $asSection) {
             $this->addSettingSection($asSection);

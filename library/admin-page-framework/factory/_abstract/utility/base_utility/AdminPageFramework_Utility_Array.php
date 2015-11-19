@@ -1,6 +1,6 @@
 <?php
 abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {
-    static public function getFirstEelement(array $aArray) {
+    static public function getFirstElement(array $aArray) {
         foreach ($aArray as $_mElement) {
             return $_mElement;
         }
