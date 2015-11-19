@@ -18,10 +18,8 @@
 class AdminPageFrameworkLoader_Demo {
     
     public function __construct() {
-
-        // Check if the demo is enabled.
-        $_oOption = AdminPageFrameworkLoader_Option::getInstance();
-        if ( ! $_oOption->get( 'enable_demo' ) ) {
+        
+        if ( ! $this->_shouldLoadDemo() ) {
             return;
         }
         
@@ -44,7 +42,27 @@ class AdminPageFrameworkLoader_Demo {
         
     }
         /**
+         * @since       3.7.4
+         * @return      boolean
+         */
+        private function _shouldLoadDemo() {
+
+            if ( defined( 'APFL_SILENT_MODE' ) && APFL_SILENT_MODE ) {
+                return false;
+            }
+        
+            // Check if the demo is enabled.
+            $_oOption = AdminPageFrameworkLoader_Option::getInstance();
+            if ( ! $_oOption->get( 'enable_demo' ) ) {
+                return false;
+            }           
+            
+            return true;
+            
+        }
+        /**
          * Registers classes to be auto-loaded.
+         * @return      void
          */
         private function _registerClasses() {
 

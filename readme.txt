@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.4
 Tested up to:       4.3.1
-Stable tag:         3.6.2
+Stable tag:         3.6.4
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -171,29 +171,12 @@ In the `setUp()` method of `MyAdminPageClasB`, pass the instantiated class name 
 $this->setRootMenuPageBySlug( 'MyAdminPageClassA' );
 `
 
-Another option is to use the `set_up_{class name}` action hook. The callback method receives the admin page class object and you can access the framework methods to add sub-menu pages.
+<h5>I want my users to install the loader plugin but do not want to display any visuals of the loader plugin. Is there a way to disable it?</h5>
+
+Enable the silent mode of the loader plugin by setting the `APFL_SILENT_MODE` constant in your script.
 
 `
-class MyAdminPageClassB {
-
-    public function __construct() { 
-        add_action( 'set_up_' . 'MyAdminPageClassA', array( $this, 'replyToAddSubMenuPages' ) );
-    }
-    
-    public function replyToAddSubMenuPages( $oAdminPage ) {
-            
-        $oAdminPage->addSubMenuPage(
-            array(
-                'page_slug' => 'my_admin_page_b',
-                'title'     => __( 'Example', 'your-text-domain' ),
-                'order'     => 20,
-            )        
-        );
-            
-    }
-        
-}
-new MyAdminPageClassB;
+define( 'APFL_SILENT_MODE', true );
 `
 
 <h5><strong>Can I create pages in the network admin area?</strong></h5>
@@ -420,10 +403,11 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.7.0 =
-- Changed the factory class name of the page meta box from `AdminPageFramework_MetaBox_Page` to `AdminPageFramework_PageMetaBox`.
-- Changed the class names in the framework hook names to get backslashes converted to underscores.
+= 3.6.4 - 20105/11/19 =
+- Added the `APFL_SILENT_MODE` constant to the loader plugin that toggle the visuals of the loader admin pages.
+- Tweaked the style of `textarea` fields.
 - Fixed an issue that a column data were not updated right away when the user uses Quick Edit in a post listing table of a post type.
+- Changed the class names in the framework hook names to get backslashes converted to underscores to avoid invalid characters in callback method names.
 
 = 3.6.3 - 2015/11/07 = 
 - Added the `script` and `style` arguments for the page and in-page tab definitions.

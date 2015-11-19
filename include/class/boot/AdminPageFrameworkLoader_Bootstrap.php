@@ -102,7 +102,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
     public function setUp() {
     
         // Admin pages
-        if ( $this->bIsAdmin ) {
+        if ( $this->_shouldShowAdminPages() ) {
             
             // Dashboard
             new AdminPageFrameworkLoader_AdminPageWelcome( 
@@ -151,5 +151,20 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
         new AdminPageFrameworkLoader_Event;
         
     }
+        /**
+         * @return      boolean
+         * @since       3.6.4
+         */
+        private function _shouldShowAdminPages() {
+            
+            if ( ! $this->bIsAdmin ) {
+                return false;
+            }
+            if ( defined( 'APFL_SILENT_MODE' ) && APFL_SILENT_MODE ) {
+                return false;
+            }
+            return true;
+            
+        }
     
 }
