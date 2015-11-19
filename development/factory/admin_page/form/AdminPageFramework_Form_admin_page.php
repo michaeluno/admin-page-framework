@@ -94,8 +94,8 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 // At this point, a section is set.
                 $_aFieldset = $_aFieldset + array(
                     'section_id' => null,
-                    'field_id' => null,
-                    'page_slug' => null,
+                    'field_id'   => null,
+                    'page_slug'  => null,
                 );
                 // @todo Examine whether this check can be removed 
                 // as the section that hods this field is already checked above outside this loop.
