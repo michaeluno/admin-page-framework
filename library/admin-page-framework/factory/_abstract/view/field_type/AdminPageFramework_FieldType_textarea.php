@@ -353,6 +353,8 @@ JAVASCRIPTS;
 }
 .admin-page-framework-field-textarea.admin-page-framework-field .admin-page-framework-input-label-container {
     vertical-align: top; 
+    float: left;
+    clear: both;
 } 
 /* For meta-boxes */
 .postbox .admin-page-framework-field-textarea .admin-page-framework-input-label-container {
