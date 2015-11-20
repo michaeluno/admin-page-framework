@@ -69,7 +69,8 @@ class APF_Demo_AdvancedUsage_Nesting {
     public function replyToLoadTab( $oFactory ) {
         
         $_aClasses = array(
-            'APF_Demo_AdvancedUsage_Nesting_Section',
+            'APF_Demo_AdvancedUsage_Nesting_SectionA',
+            'APF_Demo_AdvancedUsage_Nesting_SectionB',
         );
         foreach ( $_aClasses as $_sClassName ) {
             if ( ! class_exists( $_sClassName ) ) {

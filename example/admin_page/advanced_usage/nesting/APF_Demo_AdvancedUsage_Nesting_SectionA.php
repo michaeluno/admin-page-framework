@@ -15,7 +15,7 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_AdvancedUsage_Nesting_Section {
+class APF_Demo_AdvancedUsage_Nesting_SectionA {
     
     /**
      * The page slug to add the tab and form elements.
@@ -30,7 +30,7 @@ class APF_Demo_AdvancedUsage_Nesting_Section {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'nesting_sections';
+    public $sSectionID  = 'nesting_sections_a';
         
     /**
      * Sets up a form section.
@@ -45,16 +45,21 @@ class APF_Demo_AdvancedUsage_Nesting_Section {
                 'title'             => __( 'Nesting Sections', 'admin-page-framework-loader' ),
                 'description'       => __( 'Sections can be nested.', 'admin-page-framework-loader' )
                     . ' ' . __( 'Pass section definitions to the <code>content</code> argument.', 'admin-page-framework-loader' ),
+                'section_tab_slug'  => 'root_section_tab',
                 'content'           => array(
                     array(
                         'section_id'    => 'nested_section_a',
                         'title'         => __( 'Nested Section A', 'admin-page-framework-loader' ),                                                
                         'description'   => __( 'Nesting one level deep.', 'admin-page-framework-loader' ),
+                        'collapsible'   => array(
+                            'toggle_all_button' => 'top-right',
+                        ),
                     ),                                
                     array(
                         'section_id'    => 'nested_section_b',
                         'title'         => __( 'Nested Section B', 'admin-page-framework-loader' ),
                         'description'   => __( 'Nesting one level deep.', 'admin-page-framework-loader' ),
+                        'collapsible'   => true,
                         'content'       => array(
                             array(
                                 'section_id'    => 'nested_section_b_a',
@@ -71,12 +76,14 @@ class APF_Demo_AdvancedUsage_Nesting_Section {
                     array(
                         'section_id'    => 'nested_section_c',
                         'title'         => __( 'Nested Section C', 'admin-page-framework-loader' ),
-                        'description'   => __( 'This is a description of the nested section.', 'admin-page-framework-loader' ),
+                        'description'   => array(
+                            __( 'This is a description of the nested section.', 'admin-page-framework-loader' ),                            
+                         ),
+                        'collapsible'   => array(
+                            'toggle_all_button' => 'bottom-right',
+                        ),
                         'content'       => '<p>'
-                                . sprintf(
-                                    __( 'This is a custom content of the nested section %1$s.', 'admin-page-framework-loader' ),
-                                    'C'
-                                )
+                            . __( 'An area without any form fields can be used for additional information such as help and contact information etc.', 'admin-page-framework-loader' )
                             . '</p>',
                     ),                     
                 ),
