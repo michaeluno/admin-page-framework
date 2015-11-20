@@ -10,16 +10,30 @@
 /**
  * Provides utility methods which use WordPress functions.
  *
- * @since 2.0.0
- * @extends AdminPageFramework_Utility
- * @package AdminPageFramework
- * @subpackage Utility
+ * @since           2.0.0
+ * @extends         AdminPageFramework_WPUtility_SystemInformation
+ * @package         AdminPageFramework
+ * @subpackage      Utility
  * @internal
  */
 class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
     
     /**
-     * Redirects the user to the specified url.
+     * Redirects the page viewer to the specified local url.
+     * 
+     * Use this method to redirect the viewer within the operating site such as form submission and information page.
+     * 
+     * @uses        wp_safe_redirect
+     * @since       DEVVER
+     * @return      void
+     */
+    static public function goToLocalURL( $sURL ) {
+        exit( wp_safe_redirect( $sURL ) ); 
+    }
+    
+    /**
+     * Redirects the page viewer to the specified url.
+     * @uses        wp_redirect
      * @since       3.6.3
      * @return      void
      */
