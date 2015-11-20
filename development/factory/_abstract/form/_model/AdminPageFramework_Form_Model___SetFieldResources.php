@@ -58,23 +58,31 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
      * @return      array
      */
     public function get() {
-        $this->_setCommonFormInlineCSSRules();
+        $this->_setCommon();
         $this->_set();
         return $this->aResources;
     }
-
         private static $_bCalled = false;
+        /**
+         * 
+         */
+        private function _setCommon() {
+            if ( self::$_bCalled ) {
+                return;
+            }
+            self::$_bCalled = true;
+            
+            new AdminPageFramework_Form_View___Script_RegisterCallback;
+            
+            $this->_setCommonFormInlineCSSRules();
+            
+        }
         /**
          * 
          * 
          */
         private function _setCommonFormInlineCSSRules() {
             
-            if ( self::$_bCalled ) {
-                return;
-            }
-            self::$_bCalled = true;
-        
             $_aClassNames = array(
                 'AdminPageFramework_Form_View___CSS_Field',
                 'AdminPageFramework_Form_View___CSS_Section',

@@ -207,6 +207,7 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
                         'side',
                     )
                 );
+
                 return count( $_aSideMetaBoxes ) > 0;
                 
             }        

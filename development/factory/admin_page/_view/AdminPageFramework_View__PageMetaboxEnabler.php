@@ -62,7 +62,7 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_WPU
             // Trigger the add_meta_boxes hooks to allow meta boxes to be added.
             do_action( "add_meta_boxes_{$_sCurrentScreenID}", null );
             do_action( 'add_meta_boxes', $_sCurrentScreenID, null );
-            
+
             wp_enqueue_script( 'postbox' );
             add_screen_option(
                 'layout_columns', 
@@ -92,7 +92,7 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_WPU
              * @since       3.6.3       Moved from `AdminPageFramework_Page_View_MetaBox`.
              * @return      boolean
              */
-            private function _isMetaBoxAdded( $sPageSlug='' ) {
+            private function _isMetaBoxAdded() {
                 
                 $_aPageMetaBoxClasses = $this->getElementAsArray(
                     $GLOBALS,
@@ -102,15 +102,13 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_WPU
                     return false;
                 }
                 
-                $sPageSlug = $sPageSlug 
-                    ? $sPageSlug 
-                    : $this->getElement( $_GET, 'page', '' );
-                if ( ! $sPageSlug ) {     
+                $_sPageSlug = $this->getElement( $_GET, 'page', '' );
+                if ( ! $_sPageSlug ) {     
                     return false;
                 }
                 
                 foreach( $_aPageMetaBoxClasses as $_sClassName => $_oMetaBox ) {
-                    if ( $this->_isPageOfMetaBox( $sPageSlug, $_oMetaBox ) ) { 
+                    if ( $this->_isPageOfMetaBox( $_sPageSlug, $_oMetaBox ) ) { 
                         return true; 
                     }
                 }
