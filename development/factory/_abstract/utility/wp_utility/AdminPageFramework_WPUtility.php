@@ -58,13 +58,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
     static public function isDoingAjax() {
         return defined( 'DOING_AJAX' ) && DOING_AJAX;
     }
-    
-    /**
-     * Indicates whether the flushing rewrite rules has been performed or not.
-     * @since       3.1.5
-     */
-    static private $_bIsFlushed;
-    
+        
     /**
      * Flushes the site rewrite rules.
      *
@@ -74,7 +68,6 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
      */
     static public function flushRewriteRules() {
         
-        $_bIsFlushed = isset( self::$_bIsFlushed ) ? self::$_bIsFlushed : false;
         if ( $_bIsFlushed ) {
             return;
         }
@@ -82,5 +75,10 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
         self::$_bIsFlushed = true;
         
     }    
-    
+        /**
+         * Indicates whether the flushing rewrite rules has been performed or not.
+         * @since       3.1.5
+         */
+        static private $_bIsFlushed = false;
+        
 }
