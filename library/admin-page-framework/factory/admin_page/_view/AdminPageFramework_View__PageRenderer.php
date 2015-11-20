@@ -50,7 +50,7 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
         return $this->addAndApplyFilters($this->oFactory, $this->getFilterArrayByPrefix('content_top_', $this->oFactory->oProp->sClassName, $this->sPageSlug, $this->sTabSlug, false), $_sContentTop);
     }
     private function _printMainPageContent($sPageSlug, $sTabSlug) {
-        $_bSideMetaboxExists = (isset($GLOBALS['wp_meta_boxes'][$GLOBALS['page_hook']]['side']) && count($GLOBALS['wp_meta_boxes'][$GLOBALS['page_hook']]['side']) > 0);
+        $_bSideMetaboxExists = $this->_doesSideMetaBoxesExist();
         echo "<!-- main admin page content -->";
         echo "<div class='admin-page-framework-content'>";
         if ($_bSideMetaboxExists) {
@@ -62,6 +62,10 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
             echo "</div><!-- #post-body-content -->";
         }
         echo "</div><!-- .admin-page-framework-content -->";
+    }
+    private function _doesSideMetaBoxesExist() {
+        $_aSideMetaBoxes = $this->getElementAsArray($GLOBALS, array('wp_meta_boxes', $GLOBALS['page_hook'], 'side',));
+        return count($_aSideMetaBoxes) > 0;
     }
     private function _getFormOutput($sPageSlug) {
         if (!$this->oFactory->oProp->bEnableForm) {
