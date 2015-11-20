@@ -31,11 +31,18 @@ class APF_MetaBox_For_Pages_Side extends AdminPageFramework_PageMetaBox {
                 'title' => __( 'Size', 'admin-page-framework-loader' ),
                 'default' => array( 'size' => 5, 'unit' => '%' ),
             ),
+            array (
+                'field_id'          => 'side_single_checkbox',
+                'type'              => 'checkbox',
+                'title'             => __( 'Check Box', 'admin-page-framework-loader' ),
+                'label'             => __( 'Check me!', 'admin-page-framework-loader' ),
+            ),            
             array(
                 'field_id'          => 'submit_in_meta_box',
                 'type'              => 'submit',
                 'show_title_column' => false,
                 'label_min_width'   => 0,
+                'save'              => false,
                 'attributes'        => array(
                     'field' => array(
                         'style' => 'float:right; width:auto;',

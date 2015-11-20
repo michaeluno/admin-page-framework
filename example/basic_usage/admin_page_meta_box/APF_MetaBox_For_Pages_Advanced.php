@@ -21,13 +21,6 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_PageMetaBox {
          */
         $this->addSettingFields(
             array(
-                'field_id'      => 'checkbox_field',
-                'type'          => 'checkbox',
-                'title'         => __( 'Checkbox Input', 'admin-page-framework-loader' ),
-                'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
-                'label'         => __( 'This is a check box.', 'admin-page-framework-loader' ),
-            ),
-            array(
                 'field_id'      => 'select_filed',
                 'type'          => 'select',
                 'title'         => __( 'Select Box', 'admin-page-framework-loader' ),
