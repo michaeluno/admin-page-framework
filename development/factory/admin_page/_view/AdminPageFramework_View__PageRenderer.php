@@ -156,7 +156,7 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
          */
         private function _printMainPageContent( $sPageSlug, $sTabSlug ) {
                         
-            $_bSideMetaboxExists = $this->_doesSideMetaBoxesExist();
+            $_bSideMetaboxExists = $this->_doesSideMetaBoxExist();
             
             echo "<!-- main admin page content -->";
             echo "<div class='admin-page-framework-content'>";
@@ -197,7 +197,7 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
              * @since       DEVVER
              * @return      boolean
              */
-            private function _doesSideMetaBoxesExist() {
+            private function _doesSideMetaBoxExist() {
                
                 $_aSideMetaBoxes = $this->getElementAsArray( 
                     $GLOBALS, 
@@ -207,7 +207,6 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
                         'side',
                     )
                 );
-
                 return count( $_aSideMetaBoxes ) > 0;
                 
             }        
