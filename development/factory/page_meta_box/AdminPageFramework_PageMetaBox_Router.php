@@ -42,7 +42,7 @@ abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_
     protected function _isInstantiatable() {
         
         // Disable the functionality in admin-ajax.php
-        if ( isset( $GLOBALS['pagenow'] ) && 'admin-ajax.php' === $GLOBALS['pagenow'] ) {
+        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
             return false;
         }
         return true;
@@ -62,16 +62,16 @@ abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_
             return false;     
         }
                     
-        if ( ! isset( $_GET['page'] ) ) {
+        if ( ! isset( $_GET[ 'page' ] ) ) {
             return false;
         }
         
         // For in-page tabs.
-        if ( array_key_exists( $_GET['page'], $this->oProp->aPageSlugs ) ) {
+        if ( array_key_exists( $_GET[ 'page' ], $this->oProp->aPageSlugs ) ) {
             return true;
         }
         
-        return in_array( $_GET['page'], $this->oProp->aPageSlugs );
+        return in_array( $_GET[ 'page' ], $this->oProp->aPageSlugs );
         
     }     
     
