@@ -155,11 +155,9 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
          * @return      void
          */
         private function _printMainPageContent( $sPageSlug, $sTabSlug ) {
+                        
+            $_bSideMetaboxExists = $this->_doesSideMetaBoxesExist();
             
-            /* Check if a sidebar meta box is registered */
-            $_bSideMetaboxExists = ( isset( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) 
-                && count( $GLOBALS['wp_meta_boxes'][ $GLOBALS['page_hook'] ][ 'side' ] ) > 0 );
-
             echo "<!-- main admin page content -->";
             echo "<div class='admin-page-framework-content'>";
             if ( $_bSideMetaboxExists ) {
@@ -193,6 +191,25 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
             echo "</div><!-- .admin-page-framework-content -->";
             
         }
+            /**
+             * Check if a sidebar meta box is registered.
+             * 
+             * @since       DEVVER
+             * @return      boolean
+             */
+            private function _doesSideMetaBoxesExist() {
+               
+                $_aSideMetaBoxes = $this->getElementAsArray( 
+                    $GLOBALS, 
+                    array( 
+                        'wp_meta_boxes', 
+                        $GLOBALS[ 'page_hook' ],
+                        'side',
+                    )
+                );
+                return count( $_aSideMetaBoxes ) > 0;
+                
+            }        
             /**
              * Returns the form output of the page.
              * @since       3.5.3
