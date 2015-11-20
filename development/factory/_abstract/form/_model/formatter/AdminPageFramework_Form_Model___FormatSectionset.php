@@ -15,7 +15,7 @@
  * @since       3.6.0
  * @internal
  */
-class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramework_Form_Utility {
     
     /**
      * Represents the structure of the form section array.
@@ -65,6 +65,10 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
         '_is_first_index'   => false,    // 3.4.0+ (boolean) indicates whether it is the first item of the sub-sections (for repeatable sections).
         '_is_last_index'    => false,    // 3.4.0+ (boolean) indicates whether it is the last item of the sub-sections (for repeatable sections).
         
+        '_section_path'         => '',       // DEVVER+ (string) e.g. my_section|nested_section       
+        '_section_path_array'   => '',       // DEVVER+ (array) an array version of the above section_path argument. Numerically indexed.
+        '_nested_depth'         => 0,        // DEVVER+ (integer) the nested level of the section
+        
         // 3.6.0+ - (object) the caller framework factory object. This allows the framework to access the factory property when rendering the section.
         // DEVVER+  It no longer stores a factory object but a form object.
         '_caller_object'    => null,     
@@ -73,9 +77,11 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
     /**
      * Stores the section definition.
      */
-    public $aSectionset            = array();
+    public $aSectionset         = array();
     
-    public $sStructureType         = '';
+    public $sSectionPath        = '';
+    
+    public $sStructureType      = '';
     
     public $sCapability         = 'manage_options';
     
@@ -86,20 +92,22 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
     /**
      * Sets up properties.
      */
-    public function __construct( /* array $aSectionset, $sStructureType, $sCapability, $iCountOfElements, $oCaller */ ) {
+    public function __construct( /* array $aSectionset, $sSectionPath, $sStructureType, $sCapability, $iCountOfElements, $oCaller */ ) {
         
         $_aParameters = func_get_args() + array( 
             $this->aSectionset, 
+            $this->sSectionPath, 
             $this->sStructureType, 
             $this->sCapability, 
             $this->iCountOfElements,
             $this->oCaller,
         );
         $this->aSectionset          = $_aParameters[ 0 ];
-        $this->sStructureType       = $_aParameters[ 1 ];
-        $this->sCapability          = $_aParameters[ 2 ];
-        $this->iCountOfElements     = $_aParameters[ 3 ];
-        $this->oCaller              = $_aParameters[ 4 ];
+        $this->sSectionPath         = $_aParameters[ 1 ];
+        $this->sStructureType       = $_aParameters[ 2 ];
+        $this->sCapability          = $_aParameters[ 3 ];
+        $this->iCountOfElements     = $_aParameters[ 4 ];
+        $this->oCaller              = $_aParameters[ 5 ];
 
     }
     
@@ -111,10 +119,14 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
     public function get() {
 
         // Fill missing argument keys - the `uniteArrays()` method overrides `null` values.
-        $_aSectionset = $this->uniteArrays(
+        $_aSectionPath = explode( '|', $this->sSectionPath );
+        $_aSectionset  = $this->uniteArrays(
             array( 
-                '_fields_type'      => $this->sStructureType,   // @deprecated  DEVVER+
-                '_structure_type'   => $this->sStructureType,   // DEVVER+
+                '_fields_type'          => $this->sStructureType,   // @deprecated  DEVVER+
+                '_structure_type'       => $this->sStructureType,   // DEVVER+
+                '_section_path'         => $this->sSectionPath,     // DEVVER+
+                '_section_path_array'   => $_aSectionPath,
+                '_nested_depth'         => count( $_aSectionPath ) - 1,    // DEVVER+ - zero base
             ) 
             + $this->aSectionset
             + array(

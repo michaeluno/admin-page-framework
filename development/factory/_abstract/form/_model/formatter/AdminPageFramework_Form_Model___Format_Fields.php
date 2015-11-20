@@ -133,7 +133,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
              * @return      void
              */
             private function _fillRepeatableElements( array $aField, array &$aSubFields, $mSavedValue ) {
-                if ( ! $aField['repeatable'] ) {
+                if ( ! $aField[ 'repeatable' ] ) {
                     return;
                 }
                 $_aSavedValues = ( array ) $mSavedValue;
@@ -166,7 +166,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
                     $_aSubField = $this->uniteArrays( $_aSubField, $aFirstField ); 
                     
                     // Restore the label element.
-                    $_aSubField['label'] = $_aLabel;
+                    $_aSubField[ 'label' ] = $_aLabel;
                     
                 }
             }
@@ -180,16 +180,16 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
         private function _setSavedFieldsValue( array &$aFields, $mSavedValue, $aField ) {
          
             // Determine whether the elements are saved in an array.
-            $_bHasSubFields = count( $aFields ) > 1 || $aField['repeatable'] || $aField['sortable'];
+            $_bHasSubFields = count( $aFields ) > 1 || $aField[ 'repeatable' ] || $aField[ 'sortable' ];
             if ( ! $_bHasSubFields ) {
-                $aFields[ 0 ]['_saved_value'] = $mSavedValue;
-                $aFields[ 0 ]['_is_multiple_fields'] = false;
+                $aFields[ 0 ][ '_saved_value' ] = $mSavedValue;
+                $aFields[ 0 ][ '_is_multiple_fields' ] = false;
                 return;                    
             }
      
             foreach( $aFields as $_iIndex => &$_aThisField ) {
-                $_aThisField['_saved_value'] = $this->getElement( $mSavedValue, $_iIndex, null );
-                $_aThisField['_is_multiple_fields'] = true;
+                $_aThisField[ '_saved_value' ] = $this->getElement( $mSavedValue, $_iIndex, null );
+                $_aThisField[ '_is_multiple_fields' ] = true;
             }
     
         } 
@@ -202,8 +202,8 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
          */
         private function _setFieldsValue( array &$aFields ) {
             foreach( $aFields as &$_aField ) {
-                $_aField['_is_value_set_by_user'] = isset( $_aField['value'] );
-                $_aField['value']                 = $this->_getSetFieldValue( $_aField );
+                $_aField[ '_is_value_set_by_user' ] = isset( $_aField[ 'value' ] );
+                $_aField[ 'value' ]                 = $this->_getSetFieldValue( $_aField );
             }
         }
         /**
@@ -214,14 +214,14 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
          */
         private function _getSetFieldValue( array $aField ) {
             
-            if ( isset( $aField['value'] ) ) {
-                return $aField['value'];
+            if ( isset( $aField[ 'value' ] ) ) {
+                return $aField[ 'value' ];
             }
-            if ( isset( $aField['_saved_value'] ) ) {
-                return $aField['_saved_value'];
+            if ( isset( $aField[ '_saved_value' ] ) ) {
+                return $aField[ '_saved_value' ];
             }
-            if ( isset( $aField['default'] ) ) {
-                return $aField['default'];
+            if ( isset( $aField[ 'default' ] ) ) {
+                return $aField[ 'default' ];
             }
             return null;                  
             
@@ -242,21 +242,25 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
         private function _getStoredInputFieldValue( $aField, $aOptions ) {    
 
             // If a section is not set, check the first dimension element.
-            if ( ! isset( $aField['section_id'] ) || '_default' === $aField['section_id'] ) {
+            if ( ! isset( $aField[ 'section_id' ] ) || '_default' === $aField[ 'section_id' ] ) {
                 return $this->getElement( 
                     $aOptions, 
-                    $aField['field_id'],
+                    $aField[ 'field_id' ],
                     null
                 );
             }
                 
             // At this point, the section dimension is set.
             
+            $_aSectionPath = $aField[ '_section_path_array' ];
+            $_aFieldPath   = $aField[ '_field_path_array' ];
+            
             // If it belongs to a sub section,
-            if ( isset( $aField['_section_index'] ) ) {
+            if ( isset( $aField[ '_section_index' ] ) ) {
+                
                 return $this->getElement(
                     $aOptions,
-                    array( $aField['section_id'], $aField['_section_index'], $aField['field_id'] ),
+                    array_merge( $_aSectionPath, array( $aField[ '_section_index' ] ), $_aFieldPath ),
                     null
                 );
             }
@@ -264,7 +268,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
             // Otherwise, return the second dimension element.
             return $this->getElement(
                 $aOptions,
-                array( $aField['section_id'], $aField['field_id'] ),
+                array_merge( $_aSectionPath, $_aFieldPath ),
                 null
             );
                                             

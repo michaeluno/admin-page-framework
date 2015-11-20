@@ -86,62 +86,110 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
      * Stores the target page slug which will be applied when no page slug is specified.
      * 
      * @since       3.0.0
-     * @since       DEVVER       Moved from `AminPageFramework_FormDefinition`.
+     * @since       DEVVER      Accepts an array.
+     * @since       DEVVER      Moved from `AminPageFramework_FormDefinition`.
      */
-    protected $_sTargetSectionID = '_default';    
+    protected $_asTargetSectionID = '_default';    
     
     /*
      * Adds the given field definition array to the form property.
      * 
      * @since       3.0.0
      * @since       DEVVER       Moved from `AminPageFramework_FormDefinition`.
-     * @param       array|string            $asField        A field definition array.
+     * @param       array|string            $asFieldset        A field definition array.
      * @return      array|string|null       If the passed field is set, it returns the set field array. If the target section id is set, the set section id is returned. Otherwise null.
      */    
-    public function addField( $asField ) {
+    public function addField( $asFieldset ) {
 
-        if ( ! is_array( $asField ) ) {
-            $this->_sTargetSectionID = $this->getAOrB(
-                is_string( $asField ),
-                $asField,
-                $this->_sTargetSectionID
-            );
-            return $this->_sTargetSectionID;
+        // If it is a target section, update the property and return.
+        if ( ! $this->_isFieldsetDefinition( $asFieldset ) ) {
+            $this->_asTargetSectionID = $this->_getTargetSectionID( $asFieldset );
+            return $this->_asTargetSectionID;
         }
-        $_aField = $asField;
-        $this->_sTargetSectionID = $this->getElement(
-            $_aField,  // subject array
+
+        $_aFieldset = $asFieldset;
+        
+        // Set the target section ID
+        $this->_asTargetSectionID = $this->getElement(
+            $_aFieldset,  // subject array
             'section_id', // key
-            $this->_sTargetSectionID // default
+            $this->_asTargetSectionID // default
         );                               
 
-        // Pre-format
-        $_aField = array( 
-                '_fields_type'    => $this->aArguments[ 'structure_type' ], // @todo deprecate this item.
-                '_structure_type' => $this->aArguments[ 'structure_type' ],
-            )
-            + $_aField
-            + array( 
-                'section_id'      => $this->_sTargetSectionID,
-                'class_name'      => $this->aArguments[ 'caller_id' ], // for backward-compatibility
-            )
-            // + self::$_aStructure_Field // @deprecated 3.6.0 as the field will be formatted later anyway.
-            ;
-        
         // Required Keys
-        if ( ! isset( $_aField[ 'field_id' ], $_aField[ 'type' ] ) ) { 
+        if ( ! isset( $_aFieldset[ 'field_id' ], $_aFieldset[ 'type' ] ) ) { 
             return null; 
-        } 
-            
-        // Sanitize the IDs since they are used as a callback method name.
-        $_aField[ 'field_id' ]     = $this->sanitizeSlug( $_aField[ 'field_id' ] );
-        $_aField[ 'section_id' ]   = $this->sanitizeSlug( $_aField[ 'section_id' ] );     
-        
-        $this->aFieldsets[ $_aField[ 'section_id' ] ][ $_aField[ 'field_id' ] ] = $_aField;
+        }         
+                
+        // Update the fieldset property
+        $this->_setFieldset( $_aFieldset );
 
-        return $_aField;
+        return $_aFieldset;
         
     }    
+        /**
+         * @return      void
+         * @since       DEVVER
+         */
+        private function _setFieldset( array $aFieldset ) {
+            
+            // Pre-format
+            $aFieldset = array( 
+                    '_fields_type'    => $this->aArguments[ 'structure_type' ], // @todo deprecate this item.
+                    '_structure_type' => $this->aArguments[ 'structure_type' ],
+                )
+                + $aFieldset
+                + array( 
+                    'section_id'      => $this->_asTargetSectionID,
+                    'class_name'      => $this->aArguments[ 'caller_id' ], // for backward-compatibility
+                )
+                // + self::$_aStructure_Field // @deprecated 3.6.0 as the field will be formatted later anyway.
+                ;         
+        
+            // Sanitize the IDs since they are used as a callback method name.
+            $aFieldset[ 'field_id' ]     = $this->getIDSanitized( $aFieldset[ 'field_id' ] );
+            $aFieldset[ 'section_id' ]   = $this->getIDSanitized( $aFieldset[ 'section_id' ] );
+            
+            // DEVVER+ A section path (e.g. parent_section|nested_section|more_nested_section) will be stored in the key.
+            // Also in the fieldsets dimension, a field path is stored in the key.
+            $_aSectionPath    = $this->getAsArray( $aFieldset[ 'section_id' ] );
+            $_sSectionPath    = implode( '|', $_aSectionPath );
+            
+            $_aFieldPath      = $this->getAsArray( $aFieldset[ 'field_id' ] );
+            $_sFieldPath      = implode( '|', $_aFieldPath );
+            
+            $this->aFieldsets[ $_sSectionPath ][ $_sFieldPath ] = $aFieldset;
+            
+        }
+
+        /**
+         * Checks if the given item is a fieldset definition or not.
+         * @since       DEVVER
+         * @return      boolean
+         */
+        private function _isFieldsetDefinition( $asFieldset ) {
+            
+            if ( is_scalar( $asFieldset ) ) {
+                return false;
+            }
+            // if ( ! is_array( $asFieldset ) ) {
+                // return false;
+            // }
+            return $this->isAssociative( $asFieldset );
+            
+        }
+        /**
+         * @return      string
+         */
+        private function _getTargetSectionID( $asTargetSectionID ) {
+            
+            if ( is_scalar( $asTargetSectionID ) ) {
+                return $asTargetSectionID;
+            }
+            return $asTargetSectionID;
+            // return implode( '|', $asTargetSectionID );
+            
+        }
         
     /**
      * Removes a field definition array from the property array by the given field ID.

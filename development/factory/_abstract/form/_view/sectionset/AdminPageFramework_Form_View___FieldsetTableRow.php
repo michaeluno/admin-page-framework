@@ -60,7 +60,7 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
     public function get() {
         
         $aFieldset = $this->aFieldset;
-        
+
         if ( 'section_title' === $aFieldset[ 'type' ] ) { 
             return ''; 
         }

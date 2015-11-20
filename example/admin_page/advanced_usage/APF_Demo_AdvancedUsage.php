@@ -28,6 +28,7 @@ class APF_Demo_AdvancedUsage {
         // Define in-page tabs - here tabs are defined in the below classes.
         $_aTabClasses = array(
             'APF_Demo_AdvancedUsage_Section',
+            'APF_Demo_AdvancedUsage_Nesting',
             'APF_Demo_AdvancedUsage_Argument',
             'APF_Demo_AdvancedUsage_Verification',
             'APF_Demo_AdvancedUsage_Mixed',

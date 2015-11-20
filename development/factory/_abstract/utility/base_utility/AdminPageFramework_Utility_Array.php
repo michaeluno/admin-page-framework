@@ -354,7 +354,13 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
                 return self::getArrayValueByArrayKeys( $aArray[ $_sKey ], $aKeys, $vDefault );
             }
             
-            return $aArray[ $_sKey ];   // 3.5.3+ Fixes an issue that setting a non existent key resulted in null.
+            // 3.5.3+ Fixes an issue that setting a non existent key resulted in null.
+            // @deprecated
+            // return $aArray[ $_sKey ];   
+            
+            // DEVVER+ When a too deep element that the subject array does not hold is searched,
+            // it returns the default value. It used to return the value of the most upper dimension.
+            return $vDefault;
             
         }
         return $vDefault;

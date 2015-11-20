@@ -11,7 +11,11 @@ class AdminPageFramework_Form_View___Generate_SectionName extends AdminPageFrame
         if (isset($isIndex)) {
             $this->aArguments['_index'] = $isIndex;
         }
-        $_sSectionIndex = isset($this->aArguments['section_id'], $this->aArguments['_index']) ? "[{$this->aArguments['_index']}]" : "";
-        return $this->aArguments['section_id'] . $_sSectionIndex;
+        $_aNameParts = $this->aArguments['_section_path_array'];
+        if (isset($this->aArguments['section_id'], $this->aArguments['_index'])) {
+            $_aNameParts[] = $this->aArguments['_index'];
+        }
+        $_sResult = $this->_getInputNameConstructed($_aNameParts);
+        return $_sResult;
     }
 }

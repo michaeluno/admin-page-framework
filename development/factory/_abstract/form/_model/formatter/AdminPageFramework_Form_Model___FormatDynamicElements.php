@@ -8,7 +8,9 @@
  */
 
 /**
- * Provides methods to set dynamic form elements such as repeatable secitons.
+ * Provides methods to set dynamic form elements such as repeatable sections.
+ * 
+ * It adds fields of repeated sections to the fieldsets definition array.
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
@@ -65,6 +67,7 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
                 $this->aSectionsets, // model
                 $aOptions // data source
             );
+
             foreach( $aOptions as $_sSectionID => $_aSubSectionOrFields ) {
                 
                 $_aSubSection = $this->_getSubSectionFromOptions(   

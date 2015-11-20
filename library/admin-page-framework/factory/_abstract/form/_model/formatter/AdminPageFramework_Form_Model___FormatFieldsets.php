@@ -18,66 +18,83 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
         $this->oCallerForm = $_aParameters[6];
     }
     public function get() {
-        $this->aFieldsets = $this->_getFieldsetsFormatted($this->aFieldsets, $this->aSectionsets, $this->sStructureType, $this->sCapability);
-        return $this->_getDynamicElementsAdded();
+        $this->aFieldsets = $this->_getFieldsetsFormatted($this->aFieldsets, $this->aSectionsets, $this->sCapability);
+        return $this->_getDynamicElementsAddedToFieldsets();
     }
-    private function _getDynamicElementsAdded() {
+    private function _getDynamicElementsAddedToFieldsets() {
         $_oDynamicElements = new AdminPageFramework_Form_Model___FormatDynamicElements($this->aSectionsets, $this->aFieldsets, $this->aSavedData);
         return $_oDynamicElements->get();
     }
-    private function _getFieldsetsFormatted(array $aFieldsets, array $aSectionsets, $sStructureType, $sCapability) {
+    private function _getFieldsetsFormatted(array $aFieldsets, array $aSectionsets, $sCapability) {
         $_aNewFieldsets = array();
-        foreach ($aFieldsets as $_sSectionID => $_aSubSectionsOrFields) {
-            if (!isset($aSectionsets[$_sSectionID])) {
+        foreach ($aFieldsets as $_sSectionPath => $_aItems) {
+            if (!isset($aSectionsets[$_sSectionPath])) {
                 continue;
             }
-            $sCapability = $this->getElement($aSectionsets[$_sSectionID], 'capability', $sCapability);
-            $_aNewFieldsets[$_sSectionID] = $this->getElementAsArray($_aNewFieldsets, $_sSectionID, array());
-            $_abSectionRepeatable = $aSectionsets[$_sSectionID]['repeatable'];
-            if (count($this->getIntegerKeyElements($_aSubSectionsOrFields)) || $_abSectionRepeatable) {
-                foreach ($this->numerizeElements($_aSubSectionsOrFields) as $_iSectionIndex => $_aFieldsets) {
-                    foreach ($_aFieldsets as $_aFieldset) {
-                        $_iCountElement = count($this->getElementAsArray($_aNewFieldsets, array($_sSectionID, $_iSectionIndex), array()));
-                        $_aFieldset = $this->_getFieldsetFormatted($_aFieldset, $aSectionsets, $sStructureType, $sCapability, $_iCountElement, $_iSectionIndex, $_abSectionRepeatable, $this->oCallerForm);
-                        if (!empty($_aFieldset)) {
-                            $_aNewFieldsets[$_sSectionID][$_iSectionIndex][$_aFieldset['field_id']] = $_aFieldset;
-                        }
-                    }
-                    uasort($_aNewFieldsets[$_sSectionID][$_iSectionIndex], array($this, 'sortArrayByKey'));
-                }
-                continue;
-            }
-            $_aSectionedFields = $_aSubSectionsOrFields;
-            foreach ($_aSectionedFields as $_sFieldID => $_aFieldset) {
-                $_iCountElement = count($this->getElementAsArray($_aNewFieldsets, $_sSectionID, array()));
-                $_aFieldset = $this->_getFieldsetFormatted($_aFieldset, $aSectionsets, $sStructureType, $sCapability, $_iCountElement, null, $_abSectionRepeatable, $this->oCallerForm);
-                if (!empty($_aFieldset)) {
-                    $_aNewFieldsets[$_sSectionID][$_aFieldset['field_id']] = $_aFieldset;
-                }
-            }
-            uasort($_aNewFieldsets[$_sSectionID], array($this, 'sortArrayByKey'));
+            $_aNewFieldsets[$_sSectionPath] = $this->_getItemsFormatteed($_sSectionPath, $_aItems, $this->getElement($aSectionsets, array($_sSectionPath, 'capability',), $sCapability), $aSectionsets);
         }
         $this->_sortFieldsBySectionsOrder($_aNewFieldsets, $aSectionsets);
         return $this->callBack($this->aCallbacks['fieldsets_after_formatting'], array($_aNewFieldsets, $aSectionsets));
     }
-    private function _sortFieldsBySectionsOrder(array & $aFieldsets, array $aSections) {
-        if (empty($aSections) || empty($aFieldsets)) {
+    private function _getItemsFormatteed($sSectionPath, $aItems, $sCapability, $aSectionsets) {
+        $_abSectionRepeatable = $this->getElement($aSectionsets, array($sSectionPath, 'repeatable'), false);
+        if ($this->_isSubSections($aItems, $_abSectionRepeatable)) {
+            return $this->_getSubSectionsFormatted($aItems, $sCapability, $aSectionsets, $_abSectionRepeatable);
+        }
+        return $this->_getNormalFieldsetsFormatted($aItems, $sCapability, $aSectionsets, $_abSectionRepeatable);
+    }
+    private function _getNormalFieldsetsFormatted($aItems, $sCapability, $aSectionsets, $_abSectionRepeatable) {
+        $_aNewItems = array();
+        foreach ($aItems as $_sFieldID => $_aFieldset) {
+            $_aFieldset = $this->_getFieldsetFormatted($_aFieldset, $aSectionsets, $sCapability, count($_aNewItems), null, $_abSectionRepeatable, $this->oCallerForm);
+            if (empty($_aFieldset)) {
+                continue;
+            }
+            $_aNewItems[$_aFieldset['field_id']] = $_aFieldset;
+        }
+        uasort($_aNewItems, array($this, 'sortArrayByKey'));
+        return $_aNewItems;
+    }
+    private function _isSubSections($aItems, $_abSectionRepeatable) {
+        if (!empty($_abSectionRepeatable)) {
+            return true;
+        }
+        return ( boolean )count($this->getIntegerKeyElements($aItems));
+    }
+    private function _getSubSectionsFormatted($aItems, $sCapability, $aSectionsets, $_abSectionRepeatable) {
+        $_aNewFieldset = array();
+        foreach ($this->numerizeElements($aItems) as $_iSubSectionIndex => $_aFieldsets) {
+            foreach ($_aFieldsets as $_aFieldset) {
+                $_iCountElement = count($this->getElementAsArray($_aNewFieldset, $_iSubSectionIndex));
+                $_aFieldset = $this->_getFieldsetFormatted($_aFieldset, $aSectionsets, $sCapability, $_iCountElement, $_iSubSectionIndex, $_abSectionRepeatable, $this->oCallerForm);
+                if (empty($_aFieldset)) {
+                    continue;
+                }
+                $_aNewFieldset[$_iSubSectionIndex][$_aFieldset['field_id']] = $_aFieldset;
+            }
+            uasort($_aNewFieldset[$_iSubSectionIndex], array($this, 'sortArrayByKey'));
+        }
+        return $_aNewFieldset;
+    }
+    private function _sortFieldsBySectionsOrder(array & $aFieldsets, array $aSectionsets) {
+        if (empty($aSectionsets) || empty($aFieldsets)) {
             return;
         }
         $_aSortedFields = array();
-        foreach ($aSections as $_sSectionID => $_aSeciton) {
-            if (isset($aFieldsets[$_sSectionID])) {
-                $_aSortedFields[$_sSectionID] = $aFieldsets[$_sSectionID];
+        foreach ($aSectionsets as $_sSectionPath => $_aSecitonset) {
+            if (isset($aFieldsets[$_sSectionPath])) {
+                $_aSortedFields[$_sSectionPath] = $aFieldsets[$_sSectionPath];
             }
         }
         $aFieldsets = $_aSortedFields;
     }
-    private function _getFieldsetFormatted($aFieldset, $aSectionsets, $sStructureType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject) {
+    private function _getFieldsetFormatted($aFieldset, $aSectionsets, $sCapability, $iCountOfElements, $iSubSectionIndex, $bIsSectionRepeatable, $oCallerObject) {
         if (!isset($aFieldset['field_id'], $aFieldset['type'])) {
             return;
         }
-        $_oFieldsetFormatter = new AdminPageFramework_Form_Model___Format_Fieldset($aFieldset, $sStructureType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject);
+        $_oFieldsetFormatter = new AdminPageFramework_Form_Model___Format_Fieldset($aFieldset, $this->sStructureType, $sCapability, $iCountOfElements, $iSubSectionIndex, $bIsSectionRepeatable, $oCallerObject);
         $_aFieldset = $this->callBack($this->aCallbacks['fieldset_before_output'], array($_oFieldsetFormatter->get(), $aSectionsets));
-        return $this->callBack($this->aCallbacks['fieldset_after_formatting'], array($_aFieldset, $aSectionsets));
+        $_aFieldset = $this->callBack($this->aCallbacks['fieldset_after_formatting'], array($_aFieldset, $aSectionsets));
+        return $_aFieldset;
     }
 }

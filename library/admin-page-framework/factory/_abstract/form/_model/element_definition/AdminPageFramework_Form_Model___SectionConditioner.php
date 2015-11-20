@@ -20,7 +20,7 @@ class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramew
     }
     protected function _isAllowed(array $aDefinition) {
         if (!current_user_can($aDefinition['capability'])) {
-            return return false;
+            return false;
         }
         return ( boolean )$aDefinition['if'];
     }

@@ -48,17 +48,16 @@ class AdminPageFramework_Form_View___Section_Base extends AdminPageFramework_For
     /**
      * The output of the fieldset.
      *
-     * @remark      Accessed from section title class and fieldset table row class.
+     * @remark      Accessed from section title class and fieldset table-row class.
      * @return      string
      */
     public function getFieldsetOutput( $aFieldset ) {
 
-        // check if the field is visible
+        // Check if the field is visible
         if ( ! $this->isFieldsetVisible( $aFieldset ) ) {          
             return '';
         }
 
-// @todo rename the class
         $_oFieldset = new AdminPageFramework_Form_View___Fieldset( 
             $aFieldset, 
             $this->aSavedData,    // passed by reference. @todo: examine why it needs to be passed by reference.

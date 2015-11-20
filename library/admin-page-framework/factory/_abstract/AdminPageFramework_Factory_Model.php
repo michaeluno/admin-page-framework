@@ -34,22 +34,10 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         return $this->oUtil->addAndApplyFilter($this, "field_definition_{$this->oProp->sClassName}", $aFieldsets);
     }
     public function _replyToModifyFieldsetDefinition($aFieldset) {
-        return $aFieldset;
-        foreach ($_aSubSectionOrFields as $_sIndexOrFieldID => $_aSubSectionOrField) {
-            if ($this->isNumericInteger($_sIndexOrFieldID)) {
-                $_sSubSectionIndex = $_sIndexOrFieldID;
-                $_aFieldsets = $_aSubSectionOrField;
-                $_sSectionSubString = $this->getAOrB('_default' == $_sSectionID, '', "_{$_sSectionID}");
-                foreach ($_aFieldsets as $_aFieldset) {
-                    $aFieldsets[$_sSectionID][$_sSubSectionIndex][$_aFieldset['field_id']] = $this->oUtil->addAndApplyFilter($this, "field_definition_{$this->oProp->sClassName}{$_sSectionSubString}_{$_aFieldset['field_id']}", $_aFieldset, $_sSubSectionIndex);
-                }
-                continue;
-            }
-            $_aFieldset = $_aSubSectionOrField;
-            $_sSectionSubString = $this->getAOrB('_default' == $_sSectionID, '', "_{$_sSectionID}");
-            $aFieldsets[$_sSectionID][$_aFieldset['field_id']] = $this->oUtil->addAndApplyFilter($this, "field_definition_{$this->oProp->sClassName}{$_sSectionSubString}_{$_aFieldset['field_id']}", $_aFieldset);
-        }
-        return $aFieldset;
+        $_sFieldPart = '_' . implode('_', $aFieldset['_field_path_array']);
+        $_sSectionPart = implode('_', $aFieldset['_section_path_array']);
+        $_sSectionPart = $this->oUtil->getAOrB('_default' === $_sSectionPart, '', '_' . $_sSectionPart);
+        return $this->oUtil->addAndApplyFilter($this, "field_definition_{$this->oProp->sClassName}{$_sSectionPart}{$_sFieldPart}", $aFieldset, $aFieldset['_subsection_index']);
     }
     public function _replyToHandleSubmittedFormData($aSavedData, $aArguments, $aSectionsets, $aFieldsets) {
     }

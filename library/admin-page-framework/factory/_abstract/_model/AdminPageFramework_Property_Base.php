@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Property_Base {
+abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUtility {
     private static $_aStructure_CallerInfo = array('sPath' => null, 'sType' => null, 'sName' => null, 'sURI' => null, 'sVersion' => null, 'sThemeURI' => null, 'sScriptURI' => null, 'sAuthorURI' => null, 'sAuthor' => null, 'sDescription' => null,);
     static public $_aLibraryData;
     public $_sPropertyType = '';
@@ -22,28 +22,35 @@ abstract class AdminPageFramework_Property_Base {
     public $bIsAdmin;
     public $bIsMinifiedVersion;
     public $sCapability;
-    public $sFieldsType;
+    public $sStructureType;
     public $sTextDomain;
     public $sPageNow;
     public $_bSetupLoaded;
     public $bIsAdminAjax;
     public $sLabelPluginSettingsLink = null;
     public $aFooterInfo = array('sLeft' => '__SCRIPT_CREDIT__', 'sRight' => '__FRAMEWORK_CREDIT__',);
-    public $aFieldCallbacks = array('hfID' => null, 'hfTagID' => null, 'hfName' => null, 'hfNameFlat' => null, 'hfInputName' => null, 'hfInputNameFlat' => null, 'hfClass' => null,);
     public $oUtil;
-    public function __construct($oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sFieldsType) {
-        $this->oUtil = new AdminPageFramework_WPUtility;
+    public $_sFormRegistrationHook = 'current_screen';
+    public $aFormArguments = array('caller_id' => '', 'structure_type' => '', 'action_hook_form_registration' => '',);
+    public $aFormCallbacks = array('hfID' => null, 'hfTagID' => null, 'hfName' => null, 'hfNameFlat' => null, 'hfInputName' => null, 'hfInputNameFlat' => null, 'hfClass' => null,);
+    public function __construct($oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sStructureType) {
         $this->oCaller = $oCaller;
-        $this->sCallerPath = $this->oUtil->getAOrB($sCallerPath, $sCallerPath, null);
+        $this->sCallerPath = $this->getAOrB($sCallerPath, $sCallerPath, null);
         $this->sClassName = str_replace('\\', '_', $sClassName);
         $this->sClassHash = md5($sClassName);
-        $this->sCapability = $this->oUtil->getAOrB(empty($sCapability), 'manage_options', $sCapability);
-        $this->sTextDomain = $this->oUtil->getAOrB(empty($sTextDomain), 'admin-page-framework', $sTextDomain);
-        $this->sFieldsType = $sFieldsType;
-        $GLOBALS['aAdminPageFramework'] = isset($GLOBALS['aAdminPageFramework']) && is_array($GLOBALS['aAdminPageFramework']) ? $GLOBALS['aAdminPageFramework'] : array('aFieldFlags' => array());
-        $this->sPageNow = $this->oUtil->getPageNow();
+        $this->sCapability = $this->getAOrB(empty($sCapability), 'manage_options', $sCapability);
+        $this->sTextDomain = $this->getAOrB(empty($sTextDomain), 'admin-page-framework', $sTextDomain);
+        $this->sStructureType = $sStructureType;
+        $GLOBALS['aAdminPageFramework'] = $this->getElementAsArray($GLOBALS, 'aAdminPageFramework', array('aFieldFlags' => array()));
+        $this->sPageNow = $this->getPageNow();
         $this->bIsAdmin = is_admin();
         $this->bIsAdminAjax = in_array($this->sPageNow, array('admin-ajax.php'));
+        $this->aFormArguments = array('caller_id' => $this->sClassName, 'structure_type' => $this->_sPropertyType, 'action_hook_form_registration' => $this->_sFormRegistrationHook,) + $this->aFormArguments;
+        $this->aFormCallbacks = array('is_in_the_page' => array($oCaller, '_replyToDetermineWhetherToProcessFormRegistration'), 'load_fieldset_resource' => array($oCaller, '_replyToFieldsetReourceRegistration'), 'is_fieldset_registration_allowed' => null, 'capability' => array($oCaller, '_replyToGetCapabilityForForm'), 'saved_data' => array($oCaller, '_replyToGetSavedFormData'), 'section_head_output' => array($oCaller, '_replyToGetSectionHeaderOutput'), 'fieldset_output' => array($oCaller, '_replyToGetFieldOutput'), 'sectionset_before_output' => array($oCaller, '_replyToFormatSectionsetDefinition'), 'fieldset_before_output' => array($oCaller, '_replyToFormatFieldsetDefinition'), 'fieldset_after_formatting' => array($oCaller, '_replyToModifyFieldsetDefinition'), 'fieldsets_after_formatting' => array($oCaller, '_replyToModifyFieldsetsDefinitions'), 'is_sectionset_visible' => array($oCaller, '_replyToDetermineSectionsetVisibility'), 'is_fieldset_visible' => array($oCaller, '_replyToDetermineFieldsetVisibility'), 'secitonsets_before_registration' => array($oCaller, '_replyToModifySectionsets'), 'fieldsets_before_registration' => array($oCaller, '_replyToModifyFieldsets'), 'handle_form_data' => array($oCaller, '_replyToHandleSubmittedFormData'), 'hfID' => array($oCaller, '_replyToGetInputID'), 'hfTagID' => array($oCaller, '_replyToGetInputTagIDAttribute'), 'hfName' => array($oCaller, '_replyToGetFieldNameAttribute'), 'hfNameFlat' => array($oCaller, '_replyToGetFlatFieldName'), 'hfInputName' => array($oCaller, '_replyToGetInputNameAttribute'), 'hfInputNameFlat' => array($oCaller, '_replyToGetFlatInputName'), 'hfClass' => array($oCaller, '_replyToGetInputClassAttribute'), 'hfSectionName' => array($oCaller, '_replyToGetSectionName'),) + $this->aFormCallbacks;
+        $this->_setDeprecated();
+    }
+    private function _setDeprecated() {
+        $this->oUtil = new AdminPageFramework_WPUtility;
     }
     public function _getCallerObject() {
         return $this->oCaller;
@@ -63,7 +70,7 @@ abstract class AdminPageFramework_Property_Base {
             return $_aCallerInfo;
         }
         if ('plugin' == $_aCallerInfo['sType']) {
-            return $this->oUtil->getScriptData($_aCallerInfo['sPath'], $_aCallerInfo['sType']) + $_aCallerInfo;
+            return $this->getScriptData($_aCallerInfo['sPath'], $_aCallerInfo['sType']) + $_aCallerInfo;
         }
         if ('theme' == $_aCallerInfo['sType']) {
             $_oTheme = wp_get_theme();
@@ -83,28 +90,15 @@ abstract class AdminPageFramework_Property_Base {
     protected function _getOptions() {
         return array();
     }
-    protected function _getLastInput() {
-        $_sKey = 'apf_tfd' . md5('temporary_form_data_' . $this->sClassName . get_current_user_id());
-        $_vValue = $this->oUtil->getTransient($_sKey);
-        $this->oUtil->deleteTransient($_sKey);
-        if (is_array($_vValue)) {
-            return $_vValue;
-        }
-        return array();
-    }
     public function __get($sName) {
         if ('aScriptInfo' === $sName) {
-            $this->sCallerPath = $this->sCallerPath ? $this->sCallerPath : AdminPageFramework_Utility::getCallerScriptPath(__FILE__);
+            $this->sCallerPath = $this->sCallerPath ? $this->sCallerPath : $this->getCallerScriptPath(__FILE__);
             $this->aScriptInfo = $this->getCallerInfo($this->sCallerPath);
             return $this->aScriptInfo;
         }
         if ('aOptions' === $sName) {
             $this->aOptions = $this->_getOptions();
             return $this->aOptions;
-        }
-        if ('aLastInput' === $sName) {
-            $this->aLastInput = $this->_getLastInput();
-            return $this->aLastInput;
         }
     }
 }

@@ -1,23 +1,23 @@
 <?php
-class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_Form_Base {
     public $aFieldsets = array();
     public function __construct() {
         $_aParameters = func_get_args() + array($this->aFieldsets,);
         $this->aFieldsets = $_aParameters[0];
     }
     public function get() {
-        $_aDefaultOptions = array();
-        foreach ($this->aFieldsets as $_sSectionID => $_aFieldsetsPerSection) {
-            foreach ($_aFieldsetsPerSection as $_sFieldID => $_aFieldset) {
-                $_vDefault = $this->_getDefautValue($_aFieldset);
-                if (isset($_aFieldset['section_id']) && $_aFieldset['section_id'] != '_default') {
-                    $_aDefaultOptions[$_aFieldset['section_id']][$_sFieldID] = $_vDefault;
-                } else {
-                    $_aDefaultOptions[$_sFieldID] = $_vDefault;
-                }
+        $_aResult = $this->_getDefaultValues($this->aFieldsets, array());
+        return $_aResult;
+    }
+    private function _getDefaultValues($aFieldsets, $aDefaultOptions) {
+        foreach ($aFieldsets as $_sSectionPath => $_aItems) {
+            $_aSectionPath = explode('|', $_sSectionPath);
+            foreach ($_aItems as $_sFieldPath => $_aFieldset) {
+                $_aFieldPath = explode('|', $_sFieldPath);
+                $this->setMultiDimensionalArray($aDefaultOptions, '_default' === $_sSectionPath ? array($_sFieldPath) : array_merge($_aSectionPath, $_aFieldPath), $this->_getDefautValue($_aFieldset));
             }
         }
-        return $_aDefaultOptions;
+        return $aDefaultOptions;
     }
     private function _getDefautValue($aFieldset) {
         $_aSubFields = $this->getIntegerKeyElements($aFieldset);

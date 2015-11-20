@@ -122,17 +122,17 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
             )
         ); // avoid undefined index warnings.
         
-        $aSection['page_slug']          = $aSection['page_slug'] 
-            ? $this->oUtil->sanitizeSlug( $aSection['page_slug'] ) 
+        $aSection[ 'page_slug' ]          = $aSection[ 'page_slug' ] 
+            ? $this->oUtil->sanitizeSlug( $aSection[ 'page_slug' ] ) 
             : ( $this->oProp->sDefaultPageSlug 
                 ? $this->oProp->sDefaultPageSlug 
                 : null 
             );
-        $aSection['tab_slug']           = $this->oUtil->sanitizeSlug( $aSection['tab_slug'] );
-        $aSection['section_tab_slug']   = $this->oUtil->sanitizeSlug( $aSection['section_tab_slug'] );
+        $aSection[ 'tab_slug' ]           = $this->oUtil->sanitizeSlug( $aSection[ 'tab_slug' ] );
+        $aSection[ 'section_tab_slug' ]   = $this->oUtil->sanitizeSlug( $aSection[ 'section_tab_slug' ] );
         
         // A page slug is required.
-        if ( ! $aSection['page_slug'] ) {
+        if ( ! $aSection[ 'page_slug' ] ) {
             return; 
         }
         $this->oForm->addSection( $aSection );

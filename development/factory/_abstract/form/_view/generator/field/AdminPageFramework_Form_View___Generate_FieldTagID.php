@@ -47,17 +47,29 @@ class AdminPageFramework_Form_View___Generate_FieldTagID extends AdminPageFramew
          * @return      string      Returns the base tag id meant to be used before applying to a filter callback,
          */
         protected function _getBaseFieldTagID() {
-            
-// @todo if a parent field object exists, use the parent object value and append the dimension of this field level.
 
             $_sSectionIndex = isset( $this->aArguments[ '_section_index' ] )
                 ? '__' . $this->aArguments[ '_section_index' ] 
                 : '';
-                
+            $_sSectionPart = implode( '_', $this->aArguments[ '_section_path_array' ] );
+            $_sFieldPart   = implode( '_', $this->aArguments[ '_field_path_array' ] );
             return $this->_isSectionSet()
-                ? $this->aArguments[ 'section_id' ] . $_sSectionIndex . '_' . $this->aArguments[ 'field_id' ]
-                : $this->aArguments[ 'field_id' ];            
+                ? $_sSectionPart . $_sSectionIndex . '_' . $_sFieldPart
+                : $_sFieldPart;
             
         }
+        
+       //  @deprecated
+        // protected function _getBaseFieldTagID() {
+
+            // $_sSectionIndex = isset( $this->aArguments[ '_section_index' ] )
+                // ? '__' . $this->aArguments[ '_section_index' ] 
+                // : '';
+                
+            // return $this->_isSectionSet()
+                // ? $this->aArguments[ 'section_id' ] . $_sSectionIndex . '_' . $this->aArguments[ 'field_id' ]
+                // : $this->aArguments[ 'field_id' ];            
+            
+        // }         
     
 }

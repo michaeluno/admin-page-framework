@@ -1,21 +1,24 @@
 <?php
-class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramework_WPUtility {
-    static public $aStructure = array('section_id' => '_default', 'page_slug' => null, 'tab_slug' => null, 'section_tab_slug' => null, 'title' => null, 'description' => null, 'capability' => null, 'if' => true, 'order' => null, 'help' => null, 'help_aside' => null, 'repeatable' => false, 'sortable' => false, 'attributes' => array('class' => null, 'style' => null, 'tab' => array(),), 'class' => array('tab' => array(),), 'hidden' => false, 'collapsible' => false, 'save' => true, 'content' => null, '_fields_type' => null, '_structure_type' => null, '_is_first_index' => false, '_is_last_index' => false, '_caller_object' => null,);
+class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramework_Form_Utility {
+    static public $aStructure = array('section_id' => '_default', 'page_slug' => null, 'tab_slug' => null, 'section_tab_slug' => null, 'title' => null, 'description' => null, 'capability' => null, 'if' => true, 'order' => null, 'help' => null, 'help_aside' => null, 'repeatable' => false, 'sortable' => false, 'attributes' => array('class' => null, 'style' => null, 'tab' => array(),), 'class' => array('tab' => array(),), 'hidden' => false, 'collapsible' => false, 'save' => true, 'content' => null, '_fields_type' => null, '_structure_type' => null, '_is_first_index' => false, '_is_last_index' => false, '_section_path' => '', '_section_path_array' => '', '_nested_depth' => 0, '_caller_object' => null,);
     public $aSectionset = array();
+    public $sSectionPath = '';
     public $sStructureType = '';
     public $sCapability = 'manage_options';
     public $iCountOfElements = 0;
     public $oCaller = null;
     public function __construct() {
-        $_aParameters = func_get_args() + array($this->aSectionset, $this->sStructureType, $this->sCapability, $this->iCountOfElements, $this->oCaller,);
+        $_aParameters = func_get_args() + array($this->aSectionset, $this->sSectionPath, $this->sStructureType, $this->sCapability, $this->iCountOfElements, $this->oCaller,);
         $this->aSectionset = $_aParameters[0];
-        $this->sStructureType = $_aParameters[1];
-        $this->sCapability = $_aParameters[2];
-        $this->iCountOfElements = $_aParameters[3];
-        $this->oCaller = $_aParameters[4];
+        $this->sSectionPath = $_aParameters[1];
+        $this->sStructureType = $_aParameters[2];
+        $this->sCapability = $_aParameters[3];
+        $this->iCountOfElements = $_aParameters[4];
+        $this->oCaller = $_aParameters[5];
     }
     public function get() {
-        $_aSectionset = $this->uniteArrays(array('_fields_type' => $this->sStructureType, '_structure_type' => $this->sStructureType,) + $this->aSectionset + array('capability' => $this->sCapability,), self::$aStructure);
+        $_aSectionPath = explode('|', $this->sSectionPath);
+        $_aSectionset = $this->uniteArrays(array('_fields_type' => $this->sStructureType, '_structure_type' => $this->sStructureType, '_section_path' => $this->sSectionPath, '_section_path_array' => $_aSectionPath, '_nested_depth' => count($_aSectionPath) - 1,) + $this->aSectionset + array('capability' => $this->sCapability,), self::$aStructure);
         $_aSectionset['order'] = $this->getAOrB(is_numeric($_aSectionset['order']), $_aSectionset['order'], $this->iCountOfElements + 10);
         $_oCollapsibleArgumentFormatter = new AdminPageFramework_Form_Model___Format_CollapsibleSection($_aSectionset['collapsible'], $_aSectionset['title']);
         $_aSectionset['collapsible'] = $_oCollapsibleArgumentFormatter->get();

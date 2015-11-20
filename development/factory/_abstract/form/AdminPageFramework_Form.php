@@ -39,7 +39,9 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
      * Stores section set definitions.
      */
     public $aSectionsets  = array(
-        '_default' => array(),
+        '_default' => array(
+            'section_id'    => '_default',
+        ),
     );
 
     /**

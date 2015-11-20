@@ -201,7 +201,7 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
              * @return      string      The form output of the page.
              */
             private function _getFormOutput( $sPageSlug ) {
-                
+
                 if ( ! $this->oFactory->oProp->bEnableForm ) {
                     return '';
                 }

@@ -1,15 +1,13 @@
 <?php
 class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_View___Fieldset_Base {
     public function get() {
-        $_aOutput = array();
-        $_sFieldError = $this->_getFieldError($this->aErrors, $this->aField['section_id'], $this->aField['field_id']);
-        if ('' !== $_sFieldError) {
-            $_aOutput[] = $_sFieldError;
-        }
+        $_aOutputs = array();
+        $_oFieldError = new AdminPageFramework_Form_View___Fieldset___FieldError($this->aErrors, $this->aField['_section_path_array'], $this->aField['_field_path_array'], $this->aField['error_message']);
+        $_aOutputs[] = $_oFieldError->get();
         $_oFieldsFormatter = new AdminPageFramework_Form_Model___Format_Fields($this->aField, $this->aOptions);
         $_aFields = $_oFieldsFormatter->get();
-        $_aOutput[] = $this->_getFieldsOutput($_aFields, $this->aCallbacks);
-        return $this->_getFinalOutput($this->aField, $_aOutput, count($_aFields));
+        $_aOutputs[] = $this->_getFieldsOutput($_aFields, $this->aCallbacks);
+        return $this->_getFinalOutput($this->aField, $_aOutputs, count($_aFields));
     }
     public function _getFieldOutput() {
         return $this->get();
@@ -82,20 +80,5 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
         $_aOutput[] = $aField['repeatable'] ? $this->_getRepeaterFieldEnablerScript('fields-' . $aField['tag_id'], $iFieldsCount, $aField['repeatable']) : '';
         $_aOutput[] = $aField['sortable'] && ($iFieldsCount > 1 || $aField['repeatable']) ? $this->_getSortableFieldEnablerScript('fields-' . $aField['tag_id']) : '';
         return implode(PHP_EOL, $_aOutput);
-    }
-    private function _getFieldError($aErrors, $sSectionID, $sFieldID) {
-        if ($this->_hasFieldErrorsOfSection($aErrors, $sSectionID, $sFieldID)) {
-            return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}" . $aErrors[$sSectionID][$sFieldID] . "</span>";
-        }
-        if ($this->_hasFieldError($aErrors, $sFieldID)) {
-            return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}" . $aErrors[$sFieldID] . "</span>";
-        }
-        return '';
-    }
-    private function _hasFieldErrorsOfSection($aErrors, $sSectionID, $sFieldID) {
-        return (isset($aErrors[$sSectionID], $aErrors[$sSectionID][$sFieldID]) && is_array($aErrors[$sSectionID]) && !is_array($aErrors[$sSectionID][$sFieldID]));
-    }
-    private function _hasFieldError($aErrors, $sFieldID) {
-        return (isset($aErrors[$sFieldID]) && !is_array($aErrors[$sFieldID]));
     }
 }

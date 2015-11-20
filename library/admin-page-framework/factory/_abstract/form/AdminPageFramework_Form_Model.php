@@ -40,9 +40,6 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         $this->_setFieldTypeDefinitions();
         $this->aSavedData = $this->_getSavedData($this->aSavedData + $this->getDefaultFormValues());
         $this->_handleCallbacks();
-        if (empty($this->aFieldsets)) {
-            return;
-        }
         $_oFieldResources = new AdminPageFramework_Form_Model___SetFieldResources($this->aArguments, $this->aFieldsets, self::$_aResources, $this->aFieldTypeDefinitions, $this->aCallbacks);
         self::$_aResources = $_oFieldResources->get();
         $this->callBack($this->aCallbacks['handle_form_data'], array($this->aSavedData, $this->aArguments, $this->aSectionsets, $this->aFieldsets,));

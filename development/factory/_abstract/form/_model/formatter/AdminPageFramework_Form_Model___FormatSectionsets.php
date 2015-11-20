@@ -60,11 +60,15 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
         if ( empty( $this->aSectionsets ) ) {
             return array();
         }
-        return $this->_getSectionsetsFormatted( 
-            $this->aSectionsets,
-            $this->sStructureType,
-            $this->sCapability
+
+        $_aSectionsets = $this->_getSectionsetsFormatted(
+            array(),                // sectionsets array to modify - new formatted items will be stored here
+            $this->aSectionsets,    // parsing sectionsets
+            array(),                // section path - empty for root 
+            $this->sCapability      // capability
         );
+
+        return $_aSectionsets;
         
     }
         /**
@@ -75,34 +79,83 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
          * @since       DEVVER   Moved from `AdminPageFramework_FormDefinition`. Changed the name from `formatSections()`.
          * @return      array    the formatted sections array.
          */
-        private function _getSectionsetsFormatted( array $aSectionsets, $sStructureType, $sCapability ) {
+        private function _getSectionsetsFormatted( $_aNewSectionsets, $aSectionsetsToParse, $aSectionPath, $sCapability ) {
 
-            $_aNewSectionsets = array();
-            foreach( $aSectionsets as $_sSectionID => $_aSection ) {
+            foreach( $aSectionsetsToParse as $_sSectionPath => $_aSectionset ) {
 
-                if ( ! is_array( $_aSection ) ) { 
+                // The '_default' section can be empty so do not check `if ( empty( $_aSectionset ) )` here.
+                if ( ! is_array( $_aSectionset ) ) { 
                     continue; 
                 }
-                $_aSectionFormatter = new AdminPageFramework_Form_Model___FormatSectionset(
-                    $_aSection, 
-                    $sStructureType, 
+                
+                $_aSectionPath = array_merge( $aSectionPath, array( $_aSectionset[ 'section_id' ] ) );
+                $_sSectionPath = implode( '|', $_aSectionPath );
+                
+                $_aSectionsetFormatter = new AdminPageFramework_Form_Model___FormatSectionset(
+                    $_aSectionset, 
+                    $_sSectionPath,
+                    $this->sStructureType, 
                     $sCapability, 
                     count( $_aNewSectionsets ), // this new array gets updated in this loops so the count will be updated.
                     $this->oCallerForm
                 );
-                $_aSection = $this->callBack(
+                $_aSectionset = $this->callBack(
                     $this->aCallbacks[ 'sectionset_before_output' ], 
-                    array( $_aSectionFormatter->get() )
+                    array( $_aSectionsetFormatter->get() )
                 );
-                if ( empty( $_aSection ) ) { 
+                if ( empty( $_aSectionset ) ) { 
                     continue; 
                 }
-                $_aNewSectionsets[ $_sSectionID ] = $_aSection;
+                
+                $_aNewSectionsets[ $_sSectionPath ] = $_aSectionset;
+                
+                // DEVVER+ For nested sections         
+                $_aNewSectionsets = $this->_getNestedSections( 
+                    $_aNewSectionsets,  // sectionset array to modify
+                    $_aSectionset, 
+                    $_aSectionPath, // section path
+                    $_aSectionset[ 'capability' ]
+                );
                 
             }
+
             uasort( $_aNewSectionsets, array( $this, 'sortArrayByKey' ) ); 
             return $_aNewSectionsets;
             
-        }    
+        }   
+            /**
+             * @return      array       The modified sectionsets definitions.
+             */
+            private function _getNestedSections( $aSectionsetsToEdit, $aSectionset, $aSectionPath, $sCapability ) {
+
+                if ( ! $this->_hasNestedSections( $aSectionset ) ) {
+                    return $aSectionsetsToEdit;
+                }
+
+                // Reccursive call
+                return $this->_getSectionsetsFormatted(
+                        $aSectionsetsToEdit,          // sectionsets array to modify - new formatted items will be stored here
+                        $aSectionset[ 'content' ],    // parsing sectionsets
+                        $aSectionPath,                // section path - empty for root 
+                        $sCapability                  // capability
+                    );                          
+
+            }
+                /**
+                 * Checks if a given sectionset definition has nested sections.
+                 * @return      boolean
+                 * @sinec       DEVVER
+                 */
+                private function _hasNestedSections( $aSectionset ) {
+                    
+                    $aSectionset = $aSectionset + array( 'content' => null );
+                    if ( ! is_array( $aSectionset[ 'content' ] ) ) {
+                        return false;
+                    }
+                    $_aContents  = $aSectionset[ 'content' ];
+                    $_aFirstItem = $this->getFirstElement( $_aContents );
+                    return is_scalar( $this->getElement( $_aFirstItem, 'section_id', null ) );
+                    
+                }
  
 }

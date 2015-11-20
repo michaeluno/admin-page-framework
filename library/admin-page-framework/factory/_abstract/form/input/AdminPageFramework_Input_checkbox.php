@@ -10,6 +10,10 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
         $_aParams = func_get_args() + array(0 => '',);
         $_sKey = $_aParams[0];
         $_bIsMultiple = '' !== $_sKey;
-        return $this->getElement($this->aAttributes, $_sKey, array()) + array('type' => 'checkbox', 'id' => $this->aAttributes['id'] . '_' . $_sKey, 'checked' => $this->getElement($this->aAttributes, array('value', $_sKey), null) ? 'checked' : null, 'value' => 1, 'name' => $_bIsMultiple ? "{$this->aAttributes['name']}[{$_sKey}]" : $this->aAttributes['name'], 'data-id' => $this->aAttributes['id'],) + $this->aAttributes;
+        return $this->getElement($this->aAttributes, $_sKey, array()) + array('type' => 'checkbox', 'id' => $this->aAttributes['id'] . '_' . $_sKey, 'checked' => $this->_getCheckedAttributeValue($_sKey), 'value' => 1, 'name' => $_bIsMultiple ? "{$this->aAttributes['name']}[{$_sKey}]" : $this->aAttributes['name'], 'data-id' => $this->aAttributes['id'],) + $this->aAttributes;
+    }
+    private function _getCheckedAttributeValue($_sKey) {
+        $_aValueDimension = '' === $_sKey ? array('value') : array('value', $_sKey);
+        return $this->getElement($this->aAttributes, $_aValueDimension) ? 'checked' : null;
     }
 }

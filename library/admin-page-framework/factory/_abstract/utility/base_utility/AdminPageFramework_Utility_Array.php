@@ -1,5 +1,8 @@
 <?php
 abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {
+    static public function isAssociative(array $aArray) {
+        return array_keys($aArray) !== range(0, count($aArray) - 1);
+    }
     static public function getFirstElement(array $aArray) {
         foreach ($aArray as $_mElement) {
             return $_mElement;
@@ -104,7 +107,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
             if (is_array($aArray[$_sKey])) {
                 return self::getArrayValueByArrayKeys($aArray[$_sKey], $aKeys, $vDefault);
             }
-            return $aArray[$_sKey];
+            return $vDefault;
         }
         return $vDefault;
     }

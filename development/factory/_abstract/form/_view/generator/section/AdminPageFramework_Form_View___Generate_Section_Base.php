@@ -63,5 +63,31 @@ abstract class AdminPageFramework_Form_View___Generate_Section_Base extends Admi
             )
             : $sSubject;        
     }
+
+    /**
+     * Converts an array to a input name
+     * 
+     * `
+     * array( 'apple', 'banana', 'cherry' )
+     * `
+     * to
+     * `
+     * apple[banana][cherry]
+     * `
+     * The first item will not have braces.
+     * 
+     * @return      string
+     * @since       DEVVER
+     */
+    protected function _getInputNameConstructed( $aParts ) {
+        
+        // Extract the first part as it does not have braces
+        $_sName = array_shift( $aParts );
+        foreach( $aParts as $_sPart ) {
+            $_sName .= '[' . $_sPart . ']';
+        }
+        return $_sName;
+        
+    }    
        
 }

@@ -4,8 +4,11 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
         $_aParams = func_get_args() + array(null, null,);
         $sNameAttribute = $_aParams[0];
         $aSectionset = $_aParams[1];
+        $_aSectionPath = $aSectionset['_section_path_array'];
         $_aDimensionalKeys = array($this->oProp->sOptionKey);
-        $_aDimensionalKeys[] = '[' . $aSectionset['section_id'] . ']';
+        foreach ($_aSectionPath as $_sDimension) {
+            $_aDimensionalKeys[] = '[' . $_sDimension . ']';
+        }
         if (isset($aSectionset['_index'])) {
             $_aDimensionalKeys[] = '[' . $aSectionset['_index'] . ']';
         }
@@ -17,10 +20,13 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
         $aFieldset = $_aParams[1];
         $_aDimensionalKeys = array($aFieldset['option_key']);
         if ($this->isSectionSet($aFieldset)) {
-            $_aDimensionalKeys[] = '[' . $aFieldset['section_id'] . ']';
-        }
-        if (isset($aFieldset['section_id'], $aFieldset['_section_index'])) {
-            $_aDimensionalKeys[] = '[' . $aFieldset['_section_index'] . ']';
+            $_aSectionPath = $aFieldset['_section_path_array'];
+            foreach ($_aSectionPath as $_sDimension) {
+                $_aDimensionalKeys[] = '[' . $_sDimension . ']';
+            }
+            if (isset($aFieldset['_section_index'])) {
+                $_aDimensionalKeys[] = '[' . $aFieldset['_section_index'] . ']';
+            }
         }
         $_aDimensionalKeys[] = '[' . $aFieldset['field_id'] . ']';
         return implode('', $_aDimensionalKeys);
@@ -31,10 +37,12 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
         $aFieldset = $_aParams[1];
         $_aDimensionalKeys = array($aFieldset['option_key']);
         if ($this->isSectionSet($aFieldset)) {
-            $_aDimensionalKeys[] = $aFieldset['section_id'];
-        }
-        if (isset($aFieldset['section_id'], $aFieldset['_section_index'])) {
-            $_aDimensionalKeys[] = $aFieldset['_section_index'];
+            foreach ($aFieldset['_section_path_array'] as $_sDimension) {
+                $_aDimensionalKeys[] = $_sDimension;
+            }
+            if (isset($aFieldset['_section_index'])) {
+                $_aDimensionalKeys[] = $aFieldset['_section_index'];
+            }
         }
         $_aDimensionalKeys[] = $aFieldset['field_id'];
         return implode('|', $_aDimensionalKeys);

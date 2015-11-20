@@ -130,12 +130,19 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         if ( ! $aFieldset[ 'help' ] ) {
             return;
         }
+
+        // Get the first item of the section path.
+        $_sRootSectionID = $this->oUtil->getElement(
+            $this->oUtil->getAsArray( $aFieldset[ 'section_id' ] ),
+            0   
+        );
+        
         $this->addHelpTab( 
             array(
                 'page_slug'                 => $aFieldset[ 'page_slug' ],
                 'page_tab_slug'             => $aFieldset[ 'tab_slug' ],
                 'help_tab_title'            => $aFieldset[ 'section_title' ],
-                'help_tab_id'               => $aFieldset[ 'section_id' ],
+                'help_tab_id'               => $_sRootSectionID,
                 'help_tab_content'          => "<span class='contextual-help-tab-title'>" 
                         . $aFieldset[ 'title' ] 
                     . "</span> - " . PHP_EOL
@@ -218,13 +225,12 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         return $bVisible;
         
     }
-     /**
+        /**
          * Checks if the given section belongs to the currently loading tab.
          * 
          * @since       2.0.0
          * @since       3.0.0       Moved from the setting class.
          * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
-         * Renamed from `_isSectionOfCurrentPage()`.
          * @remark      Assumes the given section definition array is already formatted.
          * @return      boolean     Returns true if the section belongs to the current tab page. Otherwise, false.
          */     
@@ -237,7 +243,12 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
             if ( $aSectionset[ 'page_slug' ] !== $_sCurrentPageSlug  ) { 
                 return false; 
             }
-                                        
+
+            // If no tag is specified, the user wants to display the section regardless of the tab.
+            if ( ! $aSectionset[ 'tab_slug' ] ) {
+                return true;
+            }
+                
             // If the checking tab slug and the current loading tab slug is the same, it should be registered.
             return  ( $aSectionset[ 'tab_slug' ] === $this->oProp->getCurrentTabSlug( $_sCurrentPageSlug ) );
             
@@ -265,32 +276,31 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      * @return      array
      */
     public function _replyToFormatFieldsetDefinition( $aFieldset, $aSectionsets ) {
-
-        // 3.6.0+ Inherit the capability value from the tab.
         
         if ( empty( $aFieldset ) ) { 
             return $aFieldset; 
         }
         
-        $_sSectionID = $aFieldset[ 'section_id' ];
+        $_aSectionPath = $this->oUtil->getAsArray( $aFieldset[ 'section_id' ] );
+        $_sSectionPath = implode( '|', $_aSectionPath );
         
         $aFieldset[ 'option_key' ]      = $this->oProp->sOptionKey;
         $aFieldset[ 'class_name' ]      = $this->oProp->sClassName;
         $aFieldset[ 'page_slug' ]       = $this->oUtil->getElement( 
             $aSectionsets, 
-            array( $_sSectionID, 'page_slug' ), 
+            array( $_sSectionPath, 'page_slug' ), 
             null 
-        );
+        );        
         $aFieldset[ 'tab_slug' ]        = $this->oUtil->getElement( 
             $aSectionsets, 
-            array( $_sSectionID, 'tab_slug' ), 
+            array( $_sSectionPath, 'tab_slug' ), 
             null 
         );
         
         // used for the contextual help pane.
         $_aSectionset = $this->oUtil->getElementAsArray(
             $aSectionsets,
-            $_sSectionID
+            $_sSectionPath
         );
         $aFieldset[ 'section_title' ]   = $this->oUtil->getElement( 
             $_aSectionset, 
@@ -303,7 +313,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
                 $aSectionset[ 'page_slug' ], 
                 $aSectionset[ 'tab_slug' ] 
             );
- 
+
         return parent::_replyToFormatFieldsetDefinition( $aFieldset, $aSectionsets );
     
     }
@@ -324,20 +334,75 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
             'capability'    => null,
         );
         
-        $aSectionset[ 'page_slug' ] = $aSectionset[ 'page_slug' ]
-            ? $aSectionset[ 'page_slug' ]
-            : $this->oProp->sDefaultPageSlug;
+        $aSectionset[ 'page_slug' ] = $this->_getSectionPageSlug( $aSectionset );
             
         // 3.6.0+ Inherit the capability value from the page.
-        $aSectionset[ 'capability' ] = $this->_replyToGetCapabilityForForm( 
-            $aSectionset[ 'capability' ], 
-            $aSectionset[ 'page_slug' ], 
-            $aSectionset[ 'tab_slug' ] 
-        );
+        $aSectionset[ 'capability' ] = $this->_getSectionCapability( $aSectionset );
        
         return parent::_replyToFormatSectionsetDefinition( $aSectionset );
+        
     }
-    
+        /**
+         * Attempts to find the capability of a given section.
+         * @since       DEVVER
+         * @return      string
+         */
+        private function _getSectionCapability( $aSectionset ) {
+            
+            if ( $aSectionset[ 'capability' ] ) {
+                return $aSectionset[ 'capability' ];
+            }
+            
+            // Find the capability of the parent section if nested.
+            if ( 0 < $aSectionset[ '_nested_depth' ] ) {
+                $_aSectionPath         = $aSectionset[ '_section_path_array' ];
+                array_pop( $_aSectionPath ); // remove the last element
+                $_sParentCapability = $this->oUtil->getElement(
+                    $this->oForm->aSectionsets,
+                    array_merge( $_aSectionPath, array( 'capability' ) )
+                );
+                if( $_sParentCapability ) {
+                    return $_sParentCapability;
+                }
+            }
+            
+            return $this->_replyToGetCapabilityForForm( 
+                $aSectionset[ 'capability' ], 
+                $aSectionset[ 'page_slug' ], 
+                $aSectionset[ 'tab_slug' ] 
+            );            
+            
+        }
+        /**
+         * Attempts to find the page slug of a given section set definition.
+         * 
+         * Nested sections may not have the page slug assigned. 
+         * In that case, it tries to set the value of the ancestor.
+         * 
+         * @since       DEVVER
+         * @return      string
+         */
+        private function _getSectionPageSlug( $aSectionset ) {
+            
+            if ( $aSectionset[ 'page_slug' ] ) {
+                return $aSectionset[ 'page_slug' ];
+            }
+            if ( 0 < $aSectionset[ '_nested_depth' ] ) {
+                
+                $_aSectionPath         = $aSectionset[ '_section_path_array' ];
+                $_sRootSectionID       = $this->oUtil->getFirstElement( $_aSectionPath );
+                $_sRootSectionPageSlug = $this->oUtil->getElement( 
+                    $this->oForm->aSectionsets,
+                    array( $_sRootSectionID, 'page_slug' )
+                );
+                if ( $_sRootSectionPageSlug ) {
+                    return $_sRootSectionPageSlug;
+                }
+            }
+            
+            return $this->oProp->sDefaultPageSlug;
+            
+        }
     /**
      * @since       DEVVER
      * @return      boolean     Whether or not the form registration should be allowed in the current screen.

@@ -28,28 +28,27 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
      * @return      string
      */
     public function get() {
-     
-        $_aOutput = array(); 
+
+        $_aOutputs      = array(); 
 
         // 1. Prepend the field error message. 
-        $_sFieldError   = $this->_getFieldError( 
+        $_oFieldError   = new AdminPageFramework_Form_View___Fieldset___FieldError(
             $this->aErrors, 
-            $this->aField[ 'section_id' ], 
-            $this->aField[ 'field_id' ] 
+            $this->aField[ '_section_path_array' ], 
+            $this->aField[ '_field_path_array' ],
+            $this->aField[ 'error_message' ]
         );
-        if ( '' !== $_sFieldError ) {
-            $_aOutput[] = $_sFieldError;
-        }
-                        
+        $_aOutputs[]     = $_oFieldError->get();
+
         // 2. Construct fields array for sub-fields.
         $_oFieldsFormatter = new AdminPageFramework_Form_Model___Format_Fields(
             $this->aField, 
             $this->aOptions
         );
         $_aFields = $_oFieldsFormatter->get();
-        
+            
         // 3. Get the field and its sub-fields output.
-        $_aOutput[] = $this->_getFieldsOutput( 
+        $_aOutputs[] = $this->_getFieldsOutput( 
             $_aFields, 
             $this->aCallbacks 
         );
@@ -57,7 +56,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
         // 4. Return the entire output.
         return $this->_getFinalOutput( 
             $this->aField, 
-            $_aOutput, 
+            $_aOutputs, 
             count( $_aFields )
         );
      
@@ -117,7 +116,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                     $_aFieldTypeDefinition
                 );
                 $aField = $_oSubFieldFormatter->get();
-                
+                                
                 // Callback the registered function to output the field 
                 $_oFieldAttribute = new AdminPageFramework_Form_View___Attribute_Field( $aField );
                 return $aField[ 'before_field' ]
@@ -225,8 +224,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                     $aFieldset, 
                     array(),    // attribute array
                     $iFieldsCount
-                );            
-            
+                );
                 return "<div " . $_oFieldsAttributes->get() . ">"
                         . $aFieldset[ 'before_fields' ]
                             . implode( PHP_EOL, $aFieldsOutput )
@@ -274,17 +272,6 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                         return $this->_getSortableFieldFlagTag( $aFieldset );
                     }
                     return '';
-
-                    // return $this->getHTMLTag( 
-                        // 'input',
-                        // array(
-                            // 'type'                      => 'hidden',
-                            // 'name'                      => '__dynamic_elements_' . $aFieldset[ '_structure_type' ] . '[' . $aFieldset[ '_field_address' ] . ']',
-                            // 'class'                     => 'dynamic-element-names element-address',
-                            // 'value'                     => $aFieldset[ '_field_address' ],
-                            // 'data-field_address_model'  => $aFieldset[ '_field_address_model' ],
-                        // )
-                    // );
                     
                 }
                     /**
@@ -346,59 +333,5 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                     return implode( PHP_EOL, $_aOutput );
                     
                 }
-        
-        /**
-         * Returns the set field error message to the section or field.
-         * 
-         * @since       3.1.0
-         * @return      string     The error string message. An empty value if not found.
-         */
-        private function _getFieldError( $aErrors, $sSectionID, $sFieldID ) {
-            
-            // If this field has a section and the error element is set
-            if ( $this->_hasFieldErrorsOfSection( $aErrors, $sSectionID, $sFieldID ) ) {   
-                return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}"         
-                        . $aErrors[ $sSectionID ][ $sFieldID ]
-                    . "</span>";
-            }             
-            
-            // if this field does not have a section and the error element is set,
-            if ( $this->_hasFieldError( $aErrors, $sFieldID ) ) {
-                return "<span class='field-error'>*&nbsp;{$this->aField['error_message']}"                           
-                        . $aErrors[ $sFieldID ]
-                    . "</span>";
-            }  
-            return '';
-            
-        }    
-            /**
-             * Checks whether the given field has a section and an error element is set or not.
-             * 
-             * @internal
-             * @since       3.5.3
-             * @return      boolean
-             */
-            private function _hasFieldErrorsOfSection( $aErrors, $sSectionID, $sFieldID ) {
-                return ( 
-                    isset( 
-                        $aErrors[ $sSectionID ], 
-                        $aErrors[ $sSectionID ][ $sFieldID ]
-                    )
-                    && is_array( $aErrors[ $sSectionID ] )
-                    && ! is_array( $aErrors[ $sSectionID ][ $sFieldID ] )
-                );
-            }
-            /**
-             * Checks whether the given field has a field error.
-             * @internal
-             * @since       3.5.3
-             * @return      boolean
-             */
-            private function _hasFieldError( $aErrors, $sFieldID ) {
-                return ( 
-                    isset( $aErrors[ $sFieldID ] ) 
-                    && ! is_array( $aErrors[ $sFieldID ] )
-                );
-            }
             
 }

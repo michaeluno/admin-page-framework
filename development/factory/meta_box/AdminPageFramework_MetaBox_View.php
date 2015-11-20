@@ -40,7 +40,7 @@ abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBo
                                  
         // Get the fields output.
         $_aOutput[] = $this->oForm->get();
-        
+
         // Do actions
         $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
         

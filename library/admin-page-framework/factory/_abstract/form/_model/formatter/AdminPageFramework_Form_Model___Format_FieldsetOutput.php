@@ -25,7 +25,8 @@ class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFra
         $_oFieldAddressGenerator = new AdminPageFramework_Form_View___Generate_FieldAddress($_aFieldset);
         $_aFieldset['_field_address'] = $_oFieldAddressGenerator->get();
         $_aFieldset['_field_address_model'] = $_oFieldAddressGenerator->getModel();
-        return $this->_getMergedFieldTypeDefault($_aFieldset, $this->aFieldTypeDefinitions);
+        $_aFieldset = $this->_getMergedFieldTypeDefault($_aFieldset, $this->aFieldTypeDefinitions);
+        return $_aFieldset;
     }
     private function _getMergedFieldTypeDefault(array $aFieldset, array $aFieldTypeDefinitions) {
         return $this->uniteArrays($aFieldset, $this->getElementAsArray($aFieldTypeDefinitions, array($aFieldset['type'], 'aDefaultKeys'), array()));

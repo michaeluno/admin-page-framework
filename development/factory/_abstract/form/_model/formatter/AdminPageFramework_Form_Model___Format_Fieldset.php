@@ -29,9 +29,9 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
     static public $aStructure = array(
     
         // Required Keys
-        'field_id'                  => null,
-        'type'                      => null,
-        'section_id'                => null,
+        'field_id'                  => null,    // (string)
+        'type'                      => null,    // (string)
+        'section_id'                => null,    // (string)
 
         // Optional Keys        
         'section_title'             => null,    // This will be assigned automatically in the formatting method.
@@ -67,16 +67,21 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
         ), 
 
         'save'                      => true,    // 3.6.0+
-        'content'                   => null,     // 3.6.1+ - (string) An overriding field-set output.
+        'content'                   => null,    // 3.6.1+ - (string) An overriding field-set output.
         
         // Internal Keys
         '_fields_type'              => null,    // @deprecated  DEVVER++, 3.0.0+ - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
         '_structure_type'           => null,    // DEVVEr+
         '_caller_object'            => null,    // 3.4.0+ - (object) stores the object of the caller class. The object is referenced when creating nested fields.
-        '_nested_depth'             => 0,       // 3.4.0+ - (integer) stores the level of the nesting depth. This is mostly used for debugging by checking if the field is a nested field or not.
                 
-// @todo deprecate this and use the '_parent_field_object' to generate field input names and ids.
-'_parent_field_name_flat'   => '',      // 3.6.0+ - for nested fields. 
+        '_section_path'             => '',      // DEVVER+ (string) Stores the section path that indicates the structural address of the nested section. e.g. my_section|nested_one
+        '_section_path_array'       => '',      // DEVVER+ (array) An array version of the above section path.
+        '_nested_depth'             => 0,       // 3.4.0+ - (integer) stores the level of the nesting depth. This is mostly used for debugging by checking if the field is a nested field or not.        
+        '_subsection_index'         => null,    // DEVVER+  Passed to the `field_definition_{...}` filter hook callbacks.
+        
+        '_field_path'               => '',      // DEVVER+ (string Stores the field path that indicates the structural location of the field. This is relative to the belonging section.
+        '_field_path_array'         => '',      // DEVVER+ (array) An array version of the above field path.
+        
     );        
     
     /**
@@ -103,7 +108,7 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
     /**
      * Stores the section index.
      */
-    public $iSectionIndex = null;
+    public $iSubSectionIndex = null;
     
     /**
      * Stores a flag that indicates whether the section is repeatable or not.
@@ -119,23 +124,23 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
     /**
      * Sets up properties.
      */
-    public function __construct( /* $aFieldset, $sStructureType, $sCapability, $iCountOfElements, $iSectionIndex, $bIsSectionRepeatable, $oCallerObject */ ) {
+    public function __construct( /* $aFieldset, $sStructureType, $sCapability, $iCountOfElements, $iSubSectionIndex, $bIsSectionRepeatable, $oCallerObject */ ) {
         
         $_aParameters = func_get_args() + array( 
             $this->aFieldset, 
             $this->sStructureType, 
             $this->sCapability, 
             $this->iCountOfElements, 
-            $this->iSectionIndex, 
+            $this->iSubSectionIndex, 
             $this->bIsSectionRepeatable, 
             $this->oCallerObject
         );
         $this->aFieldset            = $_aParameters[ 0 ];
-        $this->sStructureType          = $_aParameters[ 1 ];
+        $this->sStructureType       = $_aParameters[ 1 ];
         $this->sCapability          = $_aParameters[ 2 ];
         $this->iCountOfElements     = $_aParameters[ 3 ];
         // @todo    The section index value is still not accurate in the timing that only sanitize and condition sections and fieldset definition arrays.
-        $this->iSectionIndex        = $_aParameters[ 4 ];   
+        $this->iSubSectionIndex     = $_aParameters[ 4 ];   
         $this->bIsSectionRepeatable = $_aParameters[ 5 ];
         $this->oCallerObject        = $_aParameters[ 6 ];
         
@@ -153,6 +158,7 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
                 '_fields_type'          => $this->sStructureType, // @deprecated DEVVER backward-compatibility
                 '_structure_type'       => $this->sStructureType,  
                 '_caller_object'        => $this->oCallerObject,  // 3.4.1+ Stores the caller framework factory object. 
+                '_subsection_index'     => $this->iSubSectionIndex,  // DEVVER+
             )
             + $this->aFieldset,
             array( 
@@ -163,9 +169,19 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
             + self::$aStructure
         );
         
-        $_aFieldset[ 'field_id' ]    = $this->sanitizeSlug( $_aFieldset[ 'field_id' ] );
-        $_aFieldset[ 'section_id' ]  = $this->sanitizeSlug( $_aFieldset[ 'section_id' ] );     
-        $_aFieldset[ 'tip' ]         = esc_attr( strip_tags(
+        $_aFieldset[ 'field_id' ]            = $this->getIDSanitized( $_aFieldset[ 'field_id' ] );
+        $_aFieldset[ 'section_id' ]          = $this->getIDSanitized( $_aFieldset[ 'section_id' ] );
+        $_aFieldset[ '_section_path' ]       = $this->getFormElementPath( $_aFieldset[ 'section_id' ] );
+        $_aFieldset[ '_section_path_array' ] = explode( '|', $_aFieldset[ '_section_path' ] );
+
+// @todo when nested fields are supported, set an appropriate value here.
+$_aFieldset[ '_field_path' ]        = $this->getFormElementPath( $_aFieldset[ 'field_id' ] );
+$_aFieldset[ '_field_path_array' ]  = explode( '|', $_aFieldset[ '_field_path' ] );
+$_aFieldset[ '_nested_depth' ]      = count( $_aFieldset[ '_field_path_array' ] ) - 1 ;
+        
+        
+        
+        $_aFieldset[ 'tip' ]            = esc_attr( strip_tags(
             $this->getElement(
                 $_aFieldset,  // subject array
                 'tip', // key
@@ -181,7 +197,6 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
         );            
         
         $_aFieldset[ 'class' ] = $this->getAsArray( $_aFieldset[ 'class' ] );
-        
         return $_aFieldset;        
         
     }     

@@ -49,6 +49,9 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_PageMetaBox {
                         'size'  => 5,
                     ),                
                 ),
+                'default'       => array(
+                    'c', 'e',
+                ),
             ),                 
             array (
                 'field_id'      => 'radio_field',

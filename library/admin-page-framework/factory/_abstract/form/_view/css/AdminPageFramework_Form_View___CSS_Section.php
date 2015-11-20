@@ -13,6 +13,11 @@ class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form
     display:inline-block;
     width:100%;
 }            
+/* Nested sections */
+.admin-page-framework-section > .admin-page-framework-sectionset {
+    margin-left: 2em;
+}
+
 CSSRULES;
         
     }

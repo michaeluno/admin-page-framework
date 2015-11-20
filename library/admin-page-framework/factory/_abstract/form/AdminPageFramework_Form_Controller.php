@@ -21,22 +21,41 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
     public function addResource($sKey, $sValue) {
         self::$_aResources[$sKey][] = $sValue;
     }
-    protected $_sTargetSectionID = '_default';
-    public function addField($asField) {
-        if (!is_array($asField)) {
-            $this->_sTargetSectionID = $this->getAOrB(is_string($asField), $asField, $this->_sTargetSectionID);
-            return $this->_sTargetSectionID;
+    protected $_asTargetSectionID = '_default';
+    public function addField($asFieldset) {
+        if (!$this->_isFieldsetDefinition($asFieldset)) {
+            $this->_asTargetSectionID = $this->_getTargetSectionID($asFieldset);
+            return $this->_asTargetSectionID;
         }
-        $_aField = $asField;
-        $this->_sTargetSectionID = $this->getElement($_aField, 'section_id', $this->_sTargetSectionID);
-        $_aField = array('_fields_type' => $this->aArguments['structure_type'], '_structure_type' => $this->aArguments['structure_type'],) + $_aField + array('section_id' => $this->_sTargetSectionID, 'class_name' => $this->aArguments['caller_id'],);
-        if (!isset($_aField['field_id'], $_aField['type'])) {
+        $_aFieldset = $asFieldset;
+        $this->_asTargetSectionID = $this->getElement($_aFieldset, 'section_id', $this->_asTargetSectionID);
+        if (!isset($_aFieldset['field_id'], $_aFieldset['type'])) {
             return null;
         }
-        $_aField['field_id'] = $this->sanitizeSlug($_aField['field_id']);
-        $_aField['section_id'] = $this->sanitizeSlug($_aField['section_id']);
-        $this->aFieldsets[$_aField['section_id']][$_aField['field_id']] = $_aField;
-        return $_aField;
+        $this->_setFieldset($_aFieldset);
+        return $_aFieldset;
+    }
+    private function _setFieldset(array $aFieldset) {
+        $aFieldset = array('_fields_type' => $this->aArguments['structure_type'], '_structure_type' => $this->aArguments['structure_type'],) + $aFieldset + array('section_id' => $this->_asTargetSectionID, 'class_name' => $this->aArguments['caller_id'],);
+        $aFieldset['field_id'] = $this->getIDSanitized($aFieldset['field_id']);
+        $aFieldset['section_id'] = $this->getIDSanitized($aFieldset['section_id']);
+        $_aSectionPath = $this->getAsArray($aFieldset['section_id']);
+        $_sSectionPath = implode('|', $_aSectionPath);
+        $_aFieldPath = $this->getAsArray($aFieldset['field_id']);
+        $_sFieldPath = implode('|', $_aFieldPath);
+        $this->aFieldsets[$_sSectionPath][$_sFieldPath] = $aFieldset;
+    }
+    private function _isFieldsetDefinition($asFieldset) {
+        if (is_scalar($asFieldset)) {
+            return false;
+        }
+        return $this->isAssociative($asFieldset);
+    }
+    private function _getTargetSectionID($asTargetSectionID) {
+        if (is_scalar($asTargetSectionID)) {
+            return $asTargetSectionID;
+        }
+        return $asTargetSectionID;
     }
     public function removeField($sFieldID) {
         foreach ($this->aFieldsets as $_sSectionID => $_aSubSectionsOrFields) {

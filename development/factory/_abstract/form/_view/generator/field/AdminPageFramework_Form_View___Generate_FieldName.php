@@ -22,7 +22,8 @@ class AdminPageFramework_Form_View___Generate_FieldName extends AdminPageFramewo
      * @return      string       The generated string value.
      */
     public function get() {
-        return $this->_getFiltered( $this->_getFieldName() );
+        $_sResult = $this->_getFiltered( $this->_getFieldName() );    
+        return $_sResult;
     }
         
     public function getModel()     {
@@ -33,15 +34,36 @@ class AdminPageFramework_Form_View___Generate_FieldName extends AdminPageFramewo
          * @return      string
          */
         protected function _getFieldName() {
-// @todo if a parent field object exists, use the parent object value and append the dimension of this field level.
+                
+            $_aFieldPath   = $this->aArguments[ '_field_path_array' ];
+            if ( ! $this->_isSectionSet() ) {
+                return $this->_getInputNameConstructed( $_aFieldPath );
+            }
+            
+            $_aSectionPath = $this->aArguments[ '_section_path_array' ];
+            if ( $this->_isSectionSet() && isset( $this->aArguments[ '_section_index' ] ) ) {
+                $_aSectionPath[] = $this->aArguments[ '_section_index' ];
+            }
+            $_sFieldName = $this->_getInputNameConstructed( 
+                array_merge( $_aSectionPath, $_aFieldPath )
+            );
+
+            return $_sFieldName;
+            
+        }
+        
+        // @deprecated
+        protected function __getFieldName() {
+
             $_sSectionIndex = isset( $this->aArguments[ 'section_id' ], $this->aArguments[ '_section_index' ] ) 
                 ? "[{$this->aArguments[ '_section_index' ]}]" 
                 : "";
-            return $this->getAOrB(
+            $_sFieldName = $this->getAOrB(
                 $this->_isSectionSet(),
                 $this->aArguments[ 'section_id' ] . $_sSectionIndex . "[" . $this->aArguments[ 'field_id' ] . "]",
                 $this->aArguments[ 'field_id' ]
             );
+            return $_sFieldName;
             
         }
  

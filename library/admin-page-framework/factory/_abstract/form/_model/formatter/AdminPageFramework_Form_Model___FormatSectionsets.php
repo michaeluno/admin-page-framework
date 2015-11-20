@@ -17,22 +17,40 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
         if (empty($this->aSectionsets)) {
             return array();
         }
-        return $this->_getSectionsetsFormatted($this->aSectionsets, $this->sStructureType, $this->sCapability);
+        $_aSectionsets = $this->_getSectionsetsFormatted(array(), $this->aSectionsets, array(), $this->sCapability);
+        return $_aSectionsets;
     }
-    private function _getSectionsetsFormatted(array $aSectionsets, $sStructureType, $sCapability) {
-        $_aNewSectionsets = array();
-        foreach ($aSectionsets as $_sSectionID => $_aSection) {
-            if (!is_array($_aSection)) {
+    private function _getSectionsetsFormatted($_aNewSectionsets, $aSectionsetsToParse, $aSectionPath, $sCapability) {
+        foreach ($aSectionsetsToParse as $_sSectionPath => $_aSectionset) {
+            if (!is_array($_aSectionset)) {
                 continue;
             }
-            $_aSectionFormatter = new AdminPageFramework_Form_Model___FormatSectionset($_aSection, $sStructureType, $sCapability, count($_aNewSectionsets), $this->oCallerForm);
-            $_aSection = $this->callBack($this->aCallbacks['sectionset_before_output'], array($_aSectionFormatter->get()));
-            if (empty($_aSection)) {
+            $_aSectionPath = array_merge($aSectionPath, array($_aSectionset['section_id']));
+            $_sSectionPath = implode('|', $_aSectionPath);
+            $_aSectionsetFormatter = new AdminPageFramework_Form_Model___FormatSectionset($_aSectionset, $_sSectionPath, $this->sStructureType, $sCapability, count($_aNewSectionsets), $this->oCallerForm);
+            $_aSectionset = $this->callBack($this->aCallbacks['sectionset_before_output'], array($_aSectionsetFormatter->get()));
+            if (empty($_aSectionset)) {
                 continue;
             }
-            $_aNewSectionsets[$_sSectionID] = $_aSection;
+            $_aNewSectionsets[$_sSectionPath] = $_aSectionset;
+            $_aNewSectionsets = $this->_getNestedSections($_aNewSectionsets, $_aSectionset, $_aSectionPath, $_aSectionset['capability']);
         }
         uasort($_aNewSectionsets, array($this, 'sortArrayByKey'));
         return $_aNewSectionsets;
+    }
+    private function _getNestedSections($aSectionsetsToEdit, $aSectionset, $aSectionPath, $sCapability) {
+        if (!$this->_hasNestedSections($aSectionset)) {
+            return $aSectionsetsToEdit;
+        }
+        return $this->_getSectionsetsFormatted($aSectionsetsToEdit, $aSectionset['content'], $aSectionPath, $sCapability);
+    }
+    private function _hasNestedSections($aSectionset) {
+        $aSectionset = $aSectionset + array('content' => null);
+        if (!is_array($aSectionset['content'])) {
+            return false;
+        }
+        $_aContents = $aSectionset['content'];
+        $_aFirstItem = $this->getFirstElement($_aContents);
+        return is_scalar($this->getElement($_aFirstItem, 'section_id', null));
     }
 }

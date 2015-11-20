@@ -41,7 +41,7 @@ JAVASCRIPTS;
 .admin-page-framework-checkbox-label {
     margin-top: 0.1em;
 }
-.admin-page-framework-field input[type='checkbox'] {
+.admin-page-framework-field input[type='checkbox' ] {
     margin-right: 0.5em;
 }     
 .admin-page-framework-field-checkbox .admin-page-framework-input-label-container {

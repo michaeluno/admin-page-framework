@@ -218,10 +218,11 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
          */
         $this->_handleCallbacks();
 
-        // Bail if there is no added field.
-        if ( empty( $this->aFieldsets ) ) {
-            return;
-        }        
+        // Do not bail even if there is no added field because there can be any externally added fields including page meta boxes.
+        // And the validation callback below needs to be triggered.
+        // if ( empty( $this->aFieldsets ) ) {            
+            // return;
+        // } 
         
         // Set field resources (assets) such as javascripts and stylesheets. 
         $_oFieldResources = new AdminPageFramework_Form_Model___SetFieldResources(
@@ -239,8 +240,8 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
          * The routines of validation and saving data is not the scope this form class
          * as each main routine has own timing and predetermined callbacks for validation.
          * 
-         * Also this must be done after the resouces are set because there is a callback for 
-         * field registration and custom field types uses that hook to set up cusotm validation routines.
+         * Also this must be done after the resources are set because there is a callback for 
+         * field registration and custom field types uses that hook to set up custom validation routines.
          */
         $this->callBack(
             $this->aCallbacks[ 'handle_form_data' ],
@@ -414,7 +415,6 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             $this   // caller form object - set to the element definition array
         );
         $this->aFieldsets = $_oFieldsetsFormatter->get();
-
 
     }
 

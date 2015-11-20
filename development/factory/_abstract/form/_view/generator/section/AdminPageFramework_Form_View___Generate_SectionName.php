@@ -27,14 +27,13 @@ class AdminPageFramework_Form_View___Generate_SectionName extends AdminPageFrame
         
     public function getModel()     {
         return $this->get() . '[' . $this->sIndexMark . ']';
-        // return $this->_getSectionName( $this->sIndexMark );
     }
         
         /**
          * @return      string
          */
         protected function _getSectionName( $isIndex=null ) {
-// @todo if a parent field object exists, use the parent object value and append the dimension of this field level.
+
             $this->aArguments = $this->aArguments + array(
                 'section_id' => null,
                 '_index'     => null,
@@ -42,10 +41,20 @@ class AdminPageFramework_Form_View___Generate_SectionName extends AdminPageFrame
             if( isset( $isIndex ) ) {
                 $this->aArguments[ '_index' ] = $isIndex;
             }
-            $_sSectionIndex = isset( $this->aArguments[ 'section_id' ], $this->aArguments[ '_index' ] )
-                ? "[{$this->aArguments[ '_index' ]}]" 
-                : "";
-            return $this->aArguments[ 'section_id' ] . $_sSectionIndex;            
+            
+            $_aNameParts = $this->aArguments[ '_section_path_array' ];
+            if ( isset( $this->aArguments[ 'section_id' ], $this->aArguments[ '_index' ] ) ) {
+                $_aNameParts[] = $this->aArguments[ '_index' ];
+            }
+            $_sResult = $this->_getInputNameConstructed( $_aNameParts );
+            return $_sResult;
+            
+            // @deprecated
+            // $_sSectionIndex = isset( $this->aArguments[ 'section_id' ], $this->aArguments[ '_index' ] )
+                // ? "[{$this->aArguments[ '_index' ]}]" 
+                // : "";
+            // return $this->aArguments[ 'section_id' ] . $_sSectionIndex;   
+            
         }
 
 }

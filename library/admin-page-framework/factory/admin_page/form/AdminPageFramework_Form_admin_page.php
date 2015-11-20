@@ -17,9 +17,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
     private function _setPageOnlyOptions(array & $_aStoredOptionsOfThePage, array $aOptions, array $_aSubSectionsOrFields, $sPageSlug, $_sSectionID) {
         foreach ($_aSubSectionsOrFields as $_sFieldID => $_aFieldset) {
             if ($this->isNumericInteger($_sFieldID)) {
-                if (array_key_exists($_sSectionID, $aOptions)) {
-                    $_aStoredOptionsOfThePage[$_sSectionID] = $aOptions[$_sSectionID];
-                }
+                $this->_setOptionValue($_aStoredOptionsOfThePage, $_sSectionID, $aOptions);
                 continue;
             }
             $_aFieldset = $_aFieldset + array('section_id' => null, 'field_id' => null, 'page_slug' => null,);
@@ -27,14 +25,10 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 continue;
             }
             if ('_default' !== $_aFieldset['section_id']) {
-                if (array_key_exists($_aFieldset['section_id'], $aOptions)) {
-                    $_aStoredOptionsOfThePage[$_aFieldset['section_id']] = $aOptions[$_aFieldset['section_id']];
-                }
+                $this->_setOptionValue($_aStoredOptionsOfThePage, $_aFieldset['section_id'], $aOptions);
                 continue;
             }
-            if (array_key_exists($_aFieldset['field_id'], $aOptions)) {
-                $_aStoredOptionsOfThePage[$_aFieldset['field_id']] = $aOptions[$_aFieldset['field_id']];
-            }
+            $this->_setOptionValue($_aStoredOptionsOfThePage, $_aFieldset['field_id'], $aOptions);
         }
     }
     public function getOtherPageOptions($aOptions, $sPageSlug) {
@@ -52,48 +46,35 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
             if ($this->isNumericInteger($_sFieldID)) {
                 continue;
             }
-            if ($sPageSlug === $_aFieldset['page_slug']) {
-                continue;
-            }
             if ('_default' !== $_aFieldset['section_id']) {
-                if (array_key_exists($_aFieldset['section_id'], $aOptions)) {
-                    $_aStoredOptionsNotOfThePage[$_aFieldset['section_id']] = $aOptions[$_aFieldset['section_id']];
-                }
+                $this->_setOptionValue($_aStoredOptionsNotOfThePage, $_aFieldset['section_id'], $aOptions);
                 continue;
             }
-            if (array_key_exists($_aFieldset['field_id'], $aOptions)) {
-                $_aStoredOptionsNotOfThePage[$_aFieldset['field_id']] = $aOptions[$_aFieldset['field_id']];
-            }
+            $this->_setOptionValue($_aStoredOptionsNotOfThePage, $_aFieldset['field_id'], $aOptions);
         }
     }
     public function getOtherTabOptions($aOptions, $sPageSlug, $sTabSlug) {
         $_aStoredOptionsNotOfTheTab = array();
-        foreach ($this->aFieldsets as $_sSectionID => $_aSubSectionsOrFields) {
-            if ($this->_isThisSectionSetToThisTab($_sSectionID, $sPageSlug, $sTabSlug)) {
+        foreach ($this->aFieldsets as $_sSectionPath => $_aSubSectionsOrFields) {
+            if ($this->_isThisSectionSetToThisTab($_sSectionPath, $sPageSlug, $sTabSlug)) {
                 continue;
             }
-            $this->_setOtherTabOptions($_aStoredOptionsNotOfTheTab, $aOptions, $_aSubSectionsOrFields, $_sSectionID);
+            $this->_setOtherTabOptions($_aStoredOptionsNotOfTheTab, $aOptions, $_aSubSectionsOrFields, $_sSectionPath);
         }
         return $_aStoredOptionsNotOfTheTab;
     }
-    private function _setOtherTabOptions(array & $_aStoredOptionsNotOfTheTab, array $aOptions, array $_aSubSectionsOrFields, $_sSectionID) {
+    private function _setOtherTabOptions(array & $_aStoredOptionsNotOfTheTab, array $aOptions, array $_aSubSectionsOrFields, $sSectionPath) {
         foreach ($_aSubSectionsOrFields as $_isSubSectionIndexOrFieldID => $_aSubSectionOrField) {
             if ($this->isNumericInteger($_isSubSectionIndexOrFieldID)) {
-                if (array_key_exists($_sSectionID, $aOptions)) {
-                    $_aStoredOptionsNotOfTheTab[$_sSectionID] = $aOptions[$_sSectionID];
-                }
+                $this->_setOptionValue($_aStoredOptionsNotOfTheTab, $sSectionPath, $aOptions);
                 continue;
             }
             $_aFieldset = $_aSubSectionOrField;
             if ($_aFieldset['section_id'] !== '_default') {
-                if (array_key_exists($_aFieldset['section_id'], $aOptions)) {
-                    $_aStoredOptionsNotOfTheTab[$_aFieldset['section_id']] = $aOptions[$_aFieldset['section_id']];
-                }
+                $this->_setOptionValue($_aStoredOptionsNotOfTheTab, $_aFieldset['section_id'], $aOptions);
                 continue;
             }
-            if (array_key_exists($_aFieldset['field_id'], $aOptions)) {
-                $_aStoredOptionsNotOfTheTab[$_aFieldset['field_id']] = $aOptions[$_aFieldset['field_id']];
-            }
+            $this->_setOptionValue($_aStoredOptionsNotOfTheTab, $_aFieldset['field_id'], $aOptions);
         }
     }
     public function getTabOptions($aOptions, $sPageSlug, $sTabSlug = '') {
@@ -116,21 +97,14 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
     private function _setTabOnlyOptions(array & $_aStoredOptionsOfTheTab, array $aOptions, array $_aSubSectionsOrFields, $_sSectionID) {
         foreach ($_aSubSectionsOrFields as $_sFieldID => $_aFieldset) {
             if ($this->isNumericInteger($_sFieldID)) {
-                if (array_key_exists($_sSectionID, $aOptions)) {
-                    $_aStoredOptionsOfTheTab[$_sSectionID] = $aOptions[$_sSectionID];
-                }
+                $this->_setOptionValue($_aStoredOptionsOfTheTab, $_sSectionID, $aOptions);
                 continue;
             }
             if ('_default' !== $_aFieldset['section_id']) {
-                if (array_key_exists($_aFieldset['section_id'], $aOptions)) {
-                    $_aStoredOptionsOfTheTab[$_aFieldset['section_id']] = $aOptions[$_aFieldset['section_id']];
-                }
+                $this->_setOptionValue($_aStoredOptionsOfTheTab, $_aFieldset['section_id'], $aOptions);
                 continue;
             }
-            if (array_key_exists($_aFieldset['field_id'], $aOptions)) {
-                $_aStoredOptionsOfTheTab[$_aFieldset['field_id']] = $aOptions[$_aFieldset['field_id']];
-                continue;
-            }
+            $this->_setOptionValue($_aStoredOptionsOfTheTab, $_aFieldset['field_id'], $aOptions);
         }
     }
     private function _isThisSectionSetToThisPage($_sSectionID, $sPageSlug) {
@@ -147,5 +121,12 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
             return false;
         }
         return ($sTabSlug === $this->aSectionsets[$_sSectionID]['tab_slug']);
+    }
+    private function _setOptionValue(&$aSubject, $asDimensionalPath, $aOptions) {
+        $_aDimensionalPath = $this->getAsArray($asDimensionalPath);
+        $_mValue = $this->getElement($aOptions, $_aDimensionalPath, null);
+        if (isset($_mValue)) {
+            $this->setMultiDimensionalArray($aSubject, $_aDimensionalPath, $_mValue);
+        }
     }
 }

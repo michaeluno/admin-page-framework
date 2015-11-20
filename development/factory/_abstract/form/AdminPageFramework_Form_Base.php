@@ -14,7 +14,7 @@
  * @subpackage  Form
  * @since       DEVVER
  */
-abstract class AdminPageFramework_Form_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Utility {
     
     /**
      * Stores resource items. 
@@ -28,6 +28,15 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_WPUtility
         'src_styles'       => array(),
         'src_scripts'      => array(),
     );    
+    
+    /**
+     * Checks if a given array holds fieldsets or not.
+     * @return      boolean
+     */
+    public function isFieldsets( array $aItems ) {
+        $_aItem = $this->getFirstElement( $aItems );
+        return isset( $_aItem[ 'type' ], $_aItem[ 'field_id' ], $_aItem[ 'section_id' ] );
+    }    
     
     /**
      * Determines whether the given ID is of a registered form section.

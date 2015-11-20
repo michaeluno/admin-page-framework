@@ -13,4 +13,11 @@ abstract class AdminPageFramework_Form_View___Generate_Section_Base extends Admi
     protected function _getFiltered($sSubject) {
         return is_callable($this->hfCallback) ? call_user_func_array($this->hfCallback, array($sSubject, $this->aArguments,)) : $sSubject;
     }
+    protected function _getInputNameConstructed($aParts) {
+        $_sName = array_shift($aParts);
+        foreach ($aParts as $_sPart) {
+            $_sName.= '[' . $_sPart . ']';
+        }
+        return $_sName;
+    }
 }

@@ -10,11 +10,14 @@
 /**
  * Provides methods to format form field definition arrays to generate actual outputs.
  *
- * There are some internal keys that cannot be set until the container sections table gets rendered.
- * This class provides methods to set those internal keys.
+ * This class should be called during the form rendering routine.
+ * 
+ * This constructs attributes array and some other internal keys crucial to form field outputs 
+ * such as input name and id. Without them the form data will not be sent 
+ * and repeatable and sortable will not be able to bind events.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Form
  * @since       3.6.0
  * @internal
  */
@@ -113,11 +116,12 @@ class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFra
         $_oFieldAddressGenerator = new AdminPageFramework_Form_View___Generate_FieldAddress( $_aFieldset );
         $_aFieldset[ '_field_address' ]         = $_oFieldAddressGenerator->get();
         $_aFieldset[ '_field_address_model' ]   = $_oFieldAddressGenerator->getModel();
-        
-        return $this->_getMergedFieldTypeDefault(
+
+        $_aFieldset = $this->_getMergedFieldTypeDefault(
             $_aFieldset,
             $this->aFieldTypeDefinitions
         );
+        return $_aFieldset;
         
     }
                

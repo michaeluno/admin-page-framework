@@ -85,9 +85,17 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 
                 // If it's a sub-section array,
                 if ( $this->isNumericInteger( $_sFieldID ) ) {
-                    if ( array_key_exists( $_sSectionID, $aOptions ) ) {
-                        $_aStoredOptionsOfThePage[ $_sSectionID ] = $aOptions[ $_sSectionID ];
-                    }
+                    
+                    $this->_setOptionValue( 
+                        $_aStoredOptionsOfThePage,
+                        $_sSectionID, 
+                        $aOptions
+                    );
+                                        
+                    // @deprecated
+                    // if ( array_key_exists( $_sSectionID, $aOptions ) ) {
+                        // $_aStoredOptionsOfThePage[ $_sSectionID ] = $aOptions[ $_sSectionID ];
+                    // }
                     continue;
                 }    
                 
@@ -104,16 +112,30 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 }        
                 
                 if ( '_default' !== $_aFieldset[ 'section_id' ] ) {
-                    if ( array_key_exists( $_aFieldset[ 'section_id' ], $aOptions ) ) {
-                        $_aStoredOptionsOfThePage[ $_aFieldset[ 'section_id' ] ] = $aOptions[ $_aFieldset[ 'section_id' ] ];
-                    }
+                    
+                    $this->_setOptionValue( 
+                        $_aStoredOptionsOfThePage,
+                        $_aFieldset[ 'section_id' ], 
+                        $aOptions
+                    );
+
+                    // @deprecated
+                    // if ( array_key_exists( $_aFieldset[ 'section_id' ], $aOptions ) ) {
+                        // $_aStoredOptionsOfThePage[ $_aFieldset[ 'section_id' ] ] = $aOptions[ $_aFieldset[ 'section_id' ] ];
+                    // }
                     continue;
                 }
                 
                 // It does not have a section so set the field id as its key.
-                if ( array_key_exists( $_aFieldset[ 'field_id' ], $aOptions ) ) {
-                    $_aStoredOptionsOfThePage[ $_aFieldset[ 'field_id' ] ] = $aOptions[ $_aFieldset[ 'field_id' ] ];
-                }
+                $this->_setOptionValue( 
+                    $_aStoredOptionsOfThePage,
+                    $_aFieldset[ 'field_id' ], 
+                    $aOptions
+                );           
+                // @deprecated
+                // if ( array_key_exists( $_aFieldset[ 'field_id' ], $aOptions ) ) {
+                    // $_aStoredOptionsOfThePage[ $_aFieldset[ 'field_id' ] ] = $aOptions[ $_aFieldset[ 'field_id' ] ];
+                // }
                     
             }            
         }
@@ -168,22 +190,37 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 } 
                 
                 // @todo Examine whether this check can be removed 
-                // as the section that hods this field is already checked above outside the loop.
-                if ( $sPageSlug === $_aFieldset[ 'page_slug' ] ) { 
-                    continue; 
-                }
+                // as the section that holds this field is already checked above outside the loop.
+                // if ( $sPageSlug === $_aFieldset[ 'page_slug' ] ) { 
+                    // continue; 
+                // }
              
                 // If a section is set,
                 if ( '_default' !== $_aFieldset[ 'section_id' ] ) {
-                    if ( array_key_exists( $_aFieldset[ 'section_id' ], $aOptions ) ) {
-                        $_aStoredOptionsNotOfThePage[ $_aFieldset[ 'section_id' ] ] = $aOptions[ $_aFieldset[ 'section_id' ] ];
-                    } 
+                    
+                    $this->_setOptionValue( 
+                        $_aStoredOptionsNotOfThePage,
+                        $_aFieldset[ 'section_id' ], 
+                        $aOptions
+                    );                             
+                    
+                    // @deprecated
+                    // if ( array_key_exists( $_aFieldset[ 'section_id' ], $aOptions ) ) {
+                        // $_aStoredOptionsNotOfThePage[ $_aFieldset[ 'section_id' ] ] = $aOptions[ $_aFieldset[ 'section_id' ] ];
+                    // } 
                     continue;
                 }
-                // It does not have a section
-                if ( array_key_exists( $_aFieldset[ 'field_id' ], $aOptions ) ) {
-                    $_aStoredOptionsNotOfThePage[ $_aFieldset[ 'field_id' ] ] = $aOptions[ $_aFieldset[ 'field_id' ] ];
-                }
+                
+                // It does not have a section                
+                $this->_setOptionValue( 
+                    $_aStoredOptionsNotOfThePage,
+                    $_aFieldset[ 'field_id' ], 
+                    $aOptions
+                );                           
+                // @deprecated
+                // if ( array_key_exists( $_aFieldset[ 'field_id' ], $aOptions ) ) {
+                    // $_aStoredOptionsNotOfThePage[ $_aFieldset[ 'field_id' ] ] = $aOptions[ $_aFieldset[ 'field_id' ] ];
+                // }
                     
             }            
         }
@@ -208,10 +245,10 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
     public function getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug ) {
 
         $_aStoredOptionsNotOfTheTab = array();
-        foreach( $this->aFieldsets as $_sSectionID => $_aSubSectionsOrFields ) {
+        foreach( $this->aFieldsets as $_sSectionPath => $_aSubSectionsOrFields ) {
                         
             // If the section is of the given page and the given tab, skip.
-            if ( $this->_isThisSectionSetToThisTab( $_sSectionID, $sPageSlug, $sTabSlug ) ) {
+            if ( $this->_isThisSectionSetToThisTab( $_sSectionPath, $sPageSlug, $sTabSlug ) ) {
                 continue;
             }
             
@@ -220,7 +257,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 $_aStoredOptionsNotOfTheTab,
                 $aOptions, 
                 $_aSubSectionsOrFields, 
-                $_sSectionID
+                $_sSectionPath
             );
  
         }
@@ -236,18 +273,24 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
          * @return      void
          * @internal
          */
-        private function _setOtherTabOptions( array &$_aStoredOptionsNotOfTheTab, array $aOptions, array $_aSubSectionsOrFields, $_sSectionID ) {
+        private function _setOtherTabOptions( array &$_aStoredOptionsNotOfTheTab, array $aOptions, array $_aSubSectionsOrFields, $sSectionPath ) {
             
-           // At this point, the passed element belongs to the other tabs since the section of the given tab is skipped.
+            // At this point, the passed element belongs to the other tabs since the section of the given tab is skipped.
             foreach ( $_aSubSectionsOrFields as $_isSubSectionIndexOrFieldID => $_aSubSectionOrField  ) {
                 
                 // If it's a sub section
                 if ( $this->isNumericInteger( $_isSubSectionIndexOrFieldID ) ) {
                             
                     // Store the entire section 
-                    if ( array_key_exists( $_sSectionID, $aOptions ) ) {
-                        $_aStoredOptionsNotOfTheTab[ $_sSectionID ] = $aOptions[ $_sSectionID ];
-                    }
+                    $this->_setOptionValue( 
+                        $_aStoredOptionsNotOfTheTab,
+                        $sSectionPath, 
+                        $aOptions
+                    );               
+                    // @deprecated
+                    // if ( array_key_exists( $sSectionPath, $aOptions ) ) {
+                        // $_aStoredOptionsNotOfTheTab[ $sSectionPath ] = $aOptions[ $sSectionPath ];
+                    // }
                     continue;
                   
                 }
@@ -257,15 +300,26 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 
                 // If a section is set,
                 if ( $_aFieldset[ 'section_id' ] !== '_default' ) {
-                    if ( array_key_exists( $_aFieldset[ 'section_id' ], $aOptions ) ) {
-                        $_aStoredOptionsNotOfTheTab[ $_aFieldset[ 'section_id' ] ] = $aOptions[ $_aFieldset[ 'section_id' ] ];
-                    }
+                    $this->_setOptionValue( 
+                        $_aStoredOptionsNotOfTheTab,
+                        $_aFieldset[ 'section_id' ], 
+                        $aOptions
+                    );
+                    // @deprecated
+                    // if ( array_key_exists( $_aFieldset[ 'section_id' ], $aOptions ) ) {
+                        // $_aStoredOptionsNotOfTheTab[ $_aFieldset[ 'section_id' ] ] = $aOptions[ $_aFieldset[ 'section_id' ] ];
+                    // }
                     continue;
                 }
                 // So it's a field
-                if ( array_key_exists( $_aFieldset[ 'field_id' ], $aOptions ) ) {
-                    $_aStoredOptionsNotOfTheTab[ $_aFieldset[ 'field_id' ] ] = $aOptions[ $_aFieldset[ 'field_id' ] ];
-                }
+                $this->_setOptionValue( 
+                    $_aStoredOptionsNotOfTheTab,
+                    $_aFieldset[ 'field_id' ], 
+                    $aOptions
+                );                                           
+                // if ( array_key_exists( $_aFieldset[ 'field_id' ], $aOptions ) ) {
+                    // $_aStoredOptionsNotOfTheTab[ $_aFieldset[ 'field_id' ] ] = $aOptions[ $_aFieldset[ 'field_id' ] ];
+                // }
 
             }            
             
@@ -334,25 +388,44 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                                 
                 // if it's a sub-section array.
                 if ( $this->isNumericInteger( $_sFieldID ) ) {
-                    if ( array_key_exists( $_sSectionID, $aOptions ) ) {
-                        $_aStoredOptionsOfTheTab[ $_sSectionID ] = $aOptions[ $_sSectionID ];
-                    }
+                    $this->_setOptionValue( 
+                        $_aStoredOptionsOfTheTab,
+                        $_sSectionID, 
+                        $aOptions
+                    );
+                    // @deprecated
+                    // if ( array_key_exists( $_sSectionID, $aOptions ) ) {
+                        // $_aStoredOptionsOfTheTab[ $_sSectionID ] = $aOptions[ $_sSectionID ];
+                    // }
                     continue;
                 }    
                 
                 // if a section is set,
                 if ( '_default' !== $_aFieldset[ 'section_id' ] ) {
-                    if ( array_key_exists( $_aFieldset[ 'section_id' ], $aOptions ) ) {
-                        $_aStoredOptionsOfTheTab[ $_aFieldset[ 'section_id' ] ] = $aOptions[ $_aFieldset[ 'section_id' ] ];
-                    }
+                    
+                    $this->_setOptionValue(
+                        $_aStoredOptionsOfTheTab, // by reference
+                        $_aFieldset[ 'section_id' ],
+                        $aOptions
+                    );
+                    // @deprecated
+                    // if ( array_key_exists( $_aFieldset[ 'section_id' ], $aOptions ) ) {
+                        // $_aStoredOptionsOfTheTab[ $_aFieldset[ 'section_id' ] ] = $aOptions[ $_aFieldset[ 'section_id' ] ];
+                    // }
                     continue;
                 }
                 
                 // It does not have a section so set the field id as its key.
-                if ( array_key_exists( $_aFieldset[ 'field_id' ], $aOptions ) ) {
-                    $_aStoredOptionsOfTheTab[ $_aFieldset[ 'field_id' ] ] = $aOptions[ $_aFieldset[ 'field_id' ] ];
-                    continue;
-                }
+                $this->_setOptionValue( 
+                    $_aStoredOptionsOfTheTab,
+                    $_aFieldset[ 'field_id' ], 
+                    $aOptions
+                );                
+                // @deprecated      DEVVER
+                // if ( array_key_exists( $_aFieldset[ 'field_id' ], $aOptions ) ) {
+                    // $_aStoredOptionsOfTheTab[ $_aFieldset[ 'field_id' ] ] = $aOptions[ $_aFieldset[ 'field_id' ] ];
+                    // continue;
+                // }
 
             }            
                       
@@ -398,4 +471,26 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
         
     }
 
+    
+    /**
+     * Sets a value of a section of the given option array to the subject array.
+     * @since       DEVVER
+     * @return      void
+     */
+    private function _setOptionValue( &$aSubject, $asDimensionalPath, $aOptions ) {
+        $_aDimensionalPath = $this->getAsArray( $asDimensionalPath );
+        $_mValue     = $this->getElement(
+            $aOptions,
+            $_aDimensionalPath,    // as of DEVVER, it can be an array or string
+            null
+        );
+        if ( isset( $_mValue ) ) {
+            $this->setMultiDimensionalArray( 
+                $aSubject,
+                $_aDimensionalPath,
+                $_mValue
+            );
+        }                                                       
+    }    
+    
 }

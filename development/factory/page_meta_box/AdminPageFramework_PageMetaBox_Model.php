@@ -135,12 +135,10 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
         private function _addMetaBoxes( $sPageSlug, $asPage ) {
          
             foreach( $this->oUtil->getAsArray( $asPage ) as $_sTabSlug ) {
-                
                 if ( ! $this->oProp->isCurrentTab( $_sTabSlug ) ) { 
                     continue; 
                 }
                 $this->_addMetaBox( $sPageSlug );
-                
             }         
         }
         /**
@@ -209,7 +207,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
             $this->oForm->getDataStructureFromAddedFieldsets(),   // model
             $aOldPageOptions        // data source
         );
-        
+
         // Apply filters - third party scripts will have access to the input.
         $_aNewMetaBoxInputsRaw   = $_aNewMetaBoxInputs; // copy one for validation errors.
         $_aNewMetaBoxInputs      = call_user_func_array( 

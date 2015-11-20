@@ -83,9 +83,11 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
         if (!isset($aField['section_id']) || '_default' === $aField['section_id']) {
             return $this->getElement($aOptions, $aField['field_id'], null);
         }
+        $_aSectionPath = $aField['_section_path_array'];
+        $_aFieldPath = $aField['_field_path_array'];
         if (isset($aField['_section_index'])) {
-            return $this->getElement($aOptions, array($aField['section_id'], $aField['_section_index'], $aField['field_id']), null);
+            return $this->getElement($aOptions, array_merge($_aSectionPath, array($aField['_section_index']), $_aFieldPath), null);
         }
-        return $this->getElement($aOptions, array($aField['section_id'], $aField['field_id']), null);
+        return $this->getElement($aOptions, array_merge($_aSectionPath, $_aFieldPath), null);
     }
 }
