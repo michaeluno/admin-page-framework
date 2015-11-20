@@ -26,7 +26,7 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtilit
     public $aField = array();
 
     /**
-     * Stores the attriute array.
+     * Stores the attribute array.
      * 
      * @since       3.5.3
      */
@@ -65,7 +65,12 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtilit
      */
     public function __construct( array $aAttributes, array $aOptions=array() ) {
 
-        $this->aAttributes  = $this->getElementAsArray( $aAttributes, 'attributes', $aAttributes );
+        $this->aAttributes  = $this->getElementAsArray( 
+            $aAttributes, 
+            'attributes', 
+            $aAttributes    // if the above key is not set, this will be set
+        );
+
         $this->aOptions     = $aOptions + $this->aStructureOptions;
         
         // @deprecated 3.5.3+ use $aAttributes.
