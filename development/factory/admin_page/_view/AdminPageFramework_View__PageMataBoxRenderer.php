@@ -17,7 +17,13 @@
  * @internal
  */
 class AdminPageFramework_View__PageMataBoxRenderer extends AdminPageFramework_WPUtility {
-        
+    
+    /**
+     * Stored meta box container id.
+     * @since       DEVVER
+     */
+    private static $_iContainerID = 1;
+       
     /**
      * Renders a registered meta box.
  
@@ -27,12 +33,10 @@ class AdminPageFramework_View__PageMataBoxRenderer extends AdminPageFramework_WP
      * @since       3.6.3       Moved from `AdminPageFramework_Page_View_MetaBox`. Changed the name from `_printMetaBox()`.
      */
     public function render( $sContext ) {
-       
-        static $_iContainerID = 1;
-        
+               
         $_sCurrentScreenID =  $this->getCurrentScreenID();
 
-        /* If nothing is registered do not render even the container */
+        // If nothing is registered do not render even the container.
         $_aMetaBoxes = $this->getElementAsArray(
             $GLOBALS,
             array( 'wp_meta_boxes', $_sCurrentScreenID, $sContext ),
@@ -41,12 +45,13 @@ class AdminPageFramework_View__PageMataBoxRenderer extends AdminPageFramework_WP
         if ( count( $_aMetaBoxes ) <= 0 ) {
             return;
         }
-     
+        
+        $_iContainerID = self::$_iContainerID;
         echo "<div id='postbox-container-{$_iContainerID}' class='postbox-container'>";
         do_meta_boxes( '', $sContext, null ); 
         echo "</div>";
         
-        $_iContainerID++;
+        self::$_iContainerID++;
 
     }
     
