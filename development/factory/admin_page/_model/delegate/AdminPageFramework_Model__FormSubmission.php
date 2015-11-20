@@ -87,7 +87,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
         $_aOptions          = $this->addAndApplyFilter( 
             $this->oFactory, 
             "validation_saved_options_{$this->oFactory->oProp->sClassName}", 
-            // @todo    Examine whether recursive merging is appropriate here or not 
+            // @todo    Examine whether recursive merging here is appropriate here or not 
             // for cases of a select field with the multiple options and repeatable fields with user-set default values.
             $this->uniteArrays( 
                 $this->oFactory->oProp->aOptions, 
@@ -126,7 +126,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
         // Validate the data.
         new AdminPageFramework_Model__FormSubmission__Validator( $this->oFactory );
         
-        // [3.6.3+] Apply filters. All sub-routines of handling form submit data use this filter hook.
+        // [3.6.3+] Apply filters. All the sub-routines of handling form submit data use this filter hook.
         $_aInputs    = $this->addAndApplyFilters(    
             $this->oFactory, 
             "validation_pre_{$this->oFactory->oProp->sClassName}", 
@@ -154,17 +154,15 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
         );
        
         // Reload the page with the update notice.
-        exit( 
-            wp_redirect( 
-                $this->_getSettingUpdateURL( 
-                    // status array - this will be updated with filters.
-                    array(  
-                        'settings-updated' => true 
-                    ), 
-                    $_sPageSlug, 
-                    $_sTabSlug 
-                ) 
-            ) 
+        $this->goToLocalURL( 
+            $this->_getSettingUpdateURL( 
+                // status array - this will be updated with filters.
+                array(  
+                    'settings-updated' => true 
+                ), 
+                $_sPageSlug, 
+                $_sTabSlug 
+            )            
         );        
         
     }

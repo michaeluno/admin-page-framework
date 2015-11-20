@@ -78,7 +78,7 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_W
         $this->deleteTransient( $_sTransient ); // we don't need it any more.
                     
         // Go to the page.
-        exit( wp_redirect( $_sURL ) );
+        $this->goToURL( $_sURL );
         
     }    
     
