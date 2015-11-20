@@ -20,7 +20,7 @@ class APF_BasicUsage extends AdminPageFramework {
         
         $this->setRootMenuPage( 
             'Demo',
-            version_compare( $GLOBALS['wp_version'], '3.8', '>=' ) 
+            version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) 
                 ? 'dashicons-format-audio' 
                 : null // dash-icons are supported since WordPress v3.8
         );
