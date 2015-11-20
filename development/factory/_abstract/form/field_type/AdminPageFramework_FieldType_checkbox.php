@@ -96,7 +96,7 @@ JAVASCRIPTS;
 .admin-page-framework-checkbox-label {
     margin-top: 0.1em;
 }
-.admin-page-framework-field input[type='checkbox'] {
+.admin-page-framework-field input[type='checkbox' ] {
     margin-right: 0.5em;
 }     
 .admin-page-framework-field-checkbox .admin-page-framework-input-label-container {
@@ -127,8 +127,8 @@ CSSRULES;
     protected function getField( $aField ) {
 
         $_aOutput       = array();
-        $_bIsMultiple   = is_array( $aField['label'] );
-        foreach( $this->getAsArray( $aField['label'], true ) as $_sKey => $_sLabel ) {
+        $_bIsMultiple   = is_array( $aField[ 'label' ] );
+        foreach( $this->getAsArray( $aField[ 'label' ], true ) as $_sKey => $_sLabel ) {
             $_aOutput[] = $this->_getEachCheckboxOutput( 
                 $aField, 
                 $_bIsMultiple 
@@ -153,11 +153,11 @@ CSSRULES;
         protected function _getCheckboxContainerAttributes( array $aField ) {
             return array(
                 'class'                     => 'admin-page-framework-checkbox-container-' . $aField[ 'type' ],
-                'data-select_all_button'    => $aField['select_all_button'] 
-                    ? ( ! is_string( $aField['select_all_button'] ) ? $this->oMsg->get( 'select_all' ) : $aField['select_all_button'] )
+                'data-select_all_button'    => $aField[ 'select_all_button' ] 
+                    ? ( ! is_string( $aField[ 'select_all_button' ] ) ? $this->oMsg->get( 'select_all' ) : $aField[ 'select_all_button' ] )
                     : null,
-                'data-select_none_button'   => $aField['select_none_button'] 
-                    ? ( ! is_string( $aField['select_none_button'] ) ? $this->oMsg->get( 'select_none' ) : $aField['select_none_button'] )
+                'data-select_none_button'   => $aField[ 'select_none_button' ] 
+                    ? ( ! is_string( $aField[ 'select_none_button' ] ) ? $this->oMsg->get( 'select_none' ) : $aField[ 'select_none_button' ] )
                     : null,
             );            
         }
@@ -169,12 +169,12 @@ CSSRULES;
          * @return      string      The generated checkbox output.
          */
         private function _getEachCheckboxOutput( array $aField, $sKey, $sLabel ) {
-            
-            $_oCheckbox = new AdminPageFramework_Input_checkbox( $aField['attributes'] );
+
+            $_oCheckbox = new AdminPageFramework_Input_checkbox( $aField[ 'attributes' ] );
             $_oCheckbox->setAttributesByKey( $sKey );
             $_oCheckbox->addClass( $this->_sCheckboxClassSelector );                        
             return $this->getElement( $aField, array( 'before_label', $sKey ) )
-                . "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
+                . "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: " . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>"
                     . "<label " . $this->getAttributes( 
                         array(
                             'for'   => $_oCheckbox->getAttribute( 'id' ),

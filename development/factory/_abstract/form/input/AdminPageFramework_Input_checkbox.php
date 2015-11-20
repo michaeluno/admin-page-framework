@@ -27,31 +27,41 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
     public function get( /* $sLabel, $aAttributes=array() */ ) {
         
         // Parameters
-        $_aParams       = func_get_args() + array( 0 => '', 1 => array() );
+        $_aParams       = func_get_args() + array( 
+            0 => '',            // 1st parameter
+            1 => array()        // 2nd parameter
+        );
         $_sLabel        = $_aParams[ 0 ];       // first parameter
+
+        // Attributes
         $_aAttributes   = $this->uniteArrays(   // second parameter
             $this->getElementAsArray( $_aParams, 1, array() ),
             $this->aAttributes
         );
-        
+        // $_aAttributes   = array(
+            // 'checked'   => $this->getElement( $_aAttributes, 'value' )
+                // ? 'checked' 
+                // : null,    // to not to set, pass null. An empty value '' will still set the attribute.
+        // ) + $_aAttributes;
+
         // Output
         return 
-           "<{$this->aOptions['input_container_tag']} " . $this->getAttributes( $this->aOptions['input_container_attributes'] ) . ">"
+           "<{$this->aOptions[ 'input_container_tag' ]} " . $this->getAttributes( $this->aOptions[ 'input_container_attributes' ] ) . ">"
                 // the unchecked value must be set prior to the checkbox input field.
                 . "<input " . $this->getAttributes( 
                     array(
                         'type'      => 'hidden',
-                        'class'     => $_aAttributes['class'],
-                        'name'      => $_aAttributes['name'],
+                        'class'     => $_aAttributes[ 'class' ],
+                        'name'      => $_aAttributes[ 'name' ],
                         'value'     => '0',
                     ) 
                 ) 
                 . " />"
                 . "<input " . $this->getAttributes( $_aAttributes ) . " />" 
-            . "</{$this->aOptions['input_container_tag']}>"
-            . "<{$this->aOptions['label_container_tag']} " . $this->getAttributes( $this->aOptions['label_container_attributes'] ) . ">"
+            . "</{$this->aOptions[ 'input_container_tag' ]}>"
+            . "<{$this->aOptions[ 'label_container_tag' ]} " . $this->getAttributes( $this->aOptions[ 'label_container_attributes' ] ) . ">"
                 . $_sLabel
-            . "</{$this->aOptions['label_container_tag']}>"
+            . "</{$this->aOptions[ 'label_container_tag' ]}>"
         ;
                         
     }        
@@ -77,19 +87,31 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
             // The type needs to be specified since the postytpe field type extends this class. If not set, the 'posttype' will be passed to the type attribute.
             + array(
                 'type'      => 'checkbox', 
-                'id'        => $this->aAttributes['id'] . '_' . $_sKey,
-                'checked'   => $this->getElement( $this->aAttributes, array( 'value', $_sKey ), null )
-                    ? 'checked' 
-                    : null,    // to not to set, pass null. An empty value '' will still set the attribute.
+                'id'        => $this->aAttributes[ 'id' ] . '_' . $_sKey,
+                'checked'   => $this->_getCheckedAttributeValue( $_sKey ),
                 'value'     => 1,   // this must be always 1 because the key value can be zero. In that case, the value always will be false and unchecked.
                 'name'      => $_bIsMultiple 
-                    ? "{$this->aAttributes['name']}[{$_sKey}]" 
-                    : $this->aAttributes['name'],
-                'data-id'   => $this->aAttributes['id'],       // referenced by the JavaScript scripts such as the revealer script.
+                    ? "{$this->aAttributes[ 'name' ]}[{$_sKey}]" 
+                    : $this->aAttributes[ 'name' ],
+                'data-id'   => $this->aAttributes[ 'id' ],       // referenced by the JavaScript scripts such as the revealer script.
             )
             + $this->aAttributes
             ;
             
     }
+        /**
+         * @since       DEVVER
+         * @return      string|null        If checked, `checked`; otherwize, `null`
+         */
+        private function _getCheckedAttributeValue( $_sKey ) {
+            
+            $_aValueDimension = '' === $_sKey
+                ? array( 'value' )
+                : array( 'value', $_sKey );
+            return $this->getElement( $this->aAttributes, $_aValueDimension )
+                ? 'checked' 
+                : null;    // to not to set, pass null. An empty value '' will still set the attribute.            
+        
+        }
         
 }
