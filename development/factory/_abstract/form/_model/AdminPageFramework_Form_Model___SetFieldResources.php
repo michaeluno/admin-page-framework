@@ -76,8 +76,8 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
             self::$_bCalled = true;
         
             $_aClassNames = array(
-                'AdminPageFramework_Form_View___CSS_Section',
                 'AdminPageFramework_Form_View___CSS_Field',
+                'AdminPageFramework_Form_View___CSS_Section',
                 'AdminPageFramework_Form_View___CSS_CollapsibleSection',
                 'AdminPageFramework_Form_View___CSS_FieldError',
             );
