@@ -85,7 +85,6 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
             
             if ( is_string( $_asTabArrayOrPageSlug ) ) {     
                 $_sPageSlug = $_asTabArrayOrPageSlug;
-                // add_filter( "validation_saved_options_{$_sPageSlug}", array( $this, '_replyToFilterPageOptions' ) ); // 3.4.1 deprecated 
                 add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ), 10, 2 );  // 3.4.1+
                 add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 4 );
                 add_filter( "options_update_status_{$_sPageSlug}", array( $this, '_replyToModifyOptionsUpdateStatus' ) );
@@ -97,8 +96,6 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
             $_aTabs     = $_asTabArrayOrPageSlug;
             foreach( $_aTabs as $_sTabSlug ) {
                 add_filter( "validation_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToValidateOptions' ), 10, 4 );
-                // deprecated 3.4.1+
-                // add_filter( "validation_saved_options_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptions' ) );
                 add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ), 10, 2 ); // 3.4.1+
                 add_filter( "options_update_status_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToModifyOptionsUpdateStatus' ) );
             }
@@ -133,7 +130,6 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
          * @return      void
          */
         private function _addMetaBoxes( $sPageSlug, $asPage ) {
-         
             foreach( $this->oUtil->getAsArray( $asPage ) as $_sTabSlug ) {
                 if ( ! $this->oProp->isCurrentTab( $_sTabSlug ) ) { 
                     continue; 

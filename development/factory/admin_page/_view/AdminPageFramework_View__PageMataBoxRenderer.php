@@ -17,13 +17,7 @@
  * @internal
  */
 class AdminPageFramework_View__PageMataBoxRenderer extends AdminPageFramework_WPUtility {
-    
-    /**
-     * Stored meta box container id.
-     * @since       DEVVER
-     */
-    private static $_iContainerID = 1;
-       
+           
     /**
      * Renders a registered meta box.
  
@@ -34,25 +28,33 @@ class AdminPageFramework_View__PageMataBoxRenderer extends AdminPageFramework_WP
      */
     public function render( $sContext ) {
                
-        $_sCurrentScreenID =  $this->getCurrentScreenID();
-
         // If nothing is registered do not render even the container.
-        $_aMetaBoxes = $this->getElementAsArray(
-            $GLOBALS,
-            array( 'wp_meta_boxes', $_sCurrentScreenID, $sContext ),
-            array()
-        );
-        if ( count( $_aMetaBoxes ) <= 0 ) {
+        if ( ! $this->doesMetaBoxExist() ) {
             return;
         }
         
-        $_iContainerID = self::$_iContainerID;
-        echo "<div id='postbox-container-{$_iContainerID}' class='postbox-container'>";
-        do_meta_boxes( '', $sContext, null ); 
-        echo "</div>";
-        
-        self::$_iContainerID++;
+        $this->_doRender( 
+            $sContext,
+            ++self::$_iContainerID
+        );
 
     }
+        /**
+         * Stored meta box container id. 
+         * @remark      It should start from 1 (1-base) but here 0 is set because it gets initially incremented.
+         * @since       DEVVER
+         */
+        private static $_iContainerID = 0;
+            
+        /**
+         * Renders a metabox.
+         */
+        private function _doRender( $sContext, $iContainerID ) {
+            
+            echo "<div id='postbox-container-{$iContainerID}' class='postbox-container'>";
+            do_meta_boxes( '', $sContext, null ); 
+            echo "</div>";  
+            
+        }
     
 }

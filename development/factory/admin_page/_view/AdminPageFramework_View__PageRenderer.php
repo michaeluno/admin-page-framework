@@ -99,11 +99,24 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
          * @internal
          */
         private function _getNumberOfColumns() {
+            
+            if ( ! $this->doesMetaBoxExist( 'side' ) ) {
+                return 1;
+            }
+            
             $_iColumns = $this->getNumberOfScreenColumns();
             return $_iColumns
                 ? $_iColumns
                 : 1;    // default - this is because generic pages do not have meta boxes.
         } 
+            // @deprecated
+            // Make sure if no side meta box exists, set it 1.
+            // $_iColumns = $this->doesSideMetaBoxExist()
+                // ? $this->getNumberOfScreenColumns()
+                // : 1;
+            // return $_iColumns
+                // ? $_iColumns
+                // : 1;    // default - this is because generic pages do not have meta boxes.        
             
         /**
          * Returns the top part of a page content.
@@ -156,7 +169,7 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
          */
         private function _printMainPageContent( $sPageSlug, $sTabSlug ) {
                         
-            $_bSideMetaboxExists = $this->_doesSideMetaBoxExist();
+            $_bSideMetaboxExists = $this->doesMetaBoxExist( 'side' );
             
             echo "<!-- main admin page content -->";
             echo "<div class='admin-page-framework-content'>";
@@ -191,25 +204,7 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
             echo "</div><!-- .admin-page-framework-content -->";
             
         }
-            /**
-             * Check if a sidebar meta box is registered.
-             * 
-             * @since       DEVVER
-             * @return      boolean
-             */
-            private function _doesSideMetaBoxExist() {
-               
-                $_aSideMetaBoxes = $this->getElementAsArray( 
-                    $GLOBALS, 
-                    array( 
-                        'wp_meta_boxes', 
-                        $GLOBALS[ 'page_hook' ],
-                        'side',
-                    )
-                );
-                return count( $_aSideMetaBoxes ) > 0;
-                
-            }        
+       
             /**
              * Returns the form output of the page.
              * @since       3.5.3

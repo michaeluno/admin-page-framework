@@ -320,6 +320,26 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
     }
     
     /**
+     * Checks if a meta box exists in the current page.
+     * 
+     * @since       DEVVER
+     * @return      boolean
+     */
+    static public function doesMetaBoxExist( $sContext='' ) {
+        
+        $_aDimensions = array( 'wp_meta_boxes', $GLOBALS[ 'page_hook' ] );
+        if ( $sContext ) {
+            $_aDimensions[] = $sContext;
+        }
+        $_aSideMetaBoxes = self::getElementAsArray( 
+            $GLOBALS, 
+            $_aDimensions
+        );
+        return count( $_aSideMetaBoxes ) > 0;        
+        
+    }
+        
+    /**
      * Returns the number of columns in the currently loading page.
      * @return      integer     The number of columns that the current screen displays.
      * @since       3.6.3
