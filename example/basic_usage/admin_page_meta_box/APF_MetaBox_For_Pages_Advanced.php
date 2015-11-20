@@ -89,7 +89,12 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_PageMetaBox {
                 'attributes'    => array(
                     'style' => 'max-width:300px;',
                 ),                
-            )     
+            ),
+            array(
+                'field_id'      => 'advanced_submit',
+                'type'          => 'submit',  
+                'save'          => false,
+            )
         );
         
     }
