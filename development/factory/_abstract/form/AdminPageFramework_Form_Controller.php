@@ -17,6 +17,51 @@
 class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
     
     /**
+     * Checks if an error settings notice has been set.
+     * 
+     * This is used in the internal validation callback method to decide whether the system error or update notice should be added or not.
+     * If this method yields true, the framework discards the system message and displays the user set notification message.
+     * 
+     * @since       3.1.0
+     * @param       string      $sType If empty, the method will check if a message exists in all types. Otherwise, it checks the existence of a message of the specified type.
+     * @return      boolean     True if a setting notice is set; otherwise, false.
+     */
+    public function hasSubmitNotice( $sType='' ) {
+        return $this->oSubmitNotice->hasNotice( $sType );
+    }
+    
+    /**
+     * Sets the given message to be displayed in the next page load. 
+     * 
+     * This is used to inform users about the submitted input data, such as "Updated successfully." or "Problem occurred." etc. 
+     * and normally used in validation callback methods.
+     * 
+     * <h4>Example</h4>
+     * `
+     * if ( ! $bVerified ) {
+     *       $this->setFieldErrors( $aErrors );     
+     *       $this->setSettingNotice( 'There was an error in your input.' );
+     *       return $aOldPageOptions;
+     * }
+     * `
+     * @since        DEVVER
+     * @access       public
+     * @param        string      $sMessage       the text message to be displayed.
+     * @param        string      $sType          (optional) the type of the message, either "error" or "updated"  is used.
+     * @param        array       $asAttributes   (optional) the tag attribute array applied to the message container HTML element. If a string is given, it is used as the ID attribute value.
+     * @param        boolean     $bOverride      (optional) If true, only one message will be shown in the next page load. false: do not override when there is a message of the same id. true: override the previous one.
+     * @return       void
+     */
+    public function setSubmitNotice( $sMessage, $sType='error', $asAttributes=array(), $bOverride=true ) {
+        $this->oSubmitNotice->set(
+            $sMessage, 
+            $sType, 
+            $asAttributes, 
+            $bOverride
+        );
+    }
+    
+    /**
      * Adds the given section definition array to the form property.
      * 
      * @since       3.0.0

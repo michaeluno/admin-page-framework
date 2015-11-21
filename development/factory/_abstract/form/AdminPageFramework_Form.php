@@ -186,6 +186,11 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
     );
     
     /**
+     * A submit notice object.
+     */
+    public $oSubmitNotice;    
+    
+    /**
      * Sets up properties.
      * @since       DEVVER
      */
@@ -198,6 +203,8 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
         );
         $this->aArguments     = $this->_getFormattedArguments( $_aParameters[ 0 ] );
         $this->aCallbacks     = $this->getAsArray( $_aParameters[ 1 ] ) + $this->aCallbacks;        $this->oMsg           = $_aParameters[ 2 ];
+                
+        $this->oSubmitNotice  = new AdminPageFramework_Form___SubmitNotice;
                 
         parent::__construct();
         

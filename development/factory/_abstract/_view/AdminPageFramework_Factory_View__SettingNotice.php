@@ -50,23 +50,7 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
         if ( ! $this->_shouldProceed() ) {
             return;
         }
-            
-        // This will load scripts for the fade-in effect.
-        new AdminPageFramework_AdminNotice( '' );
-        
-        $_iUserID  = get_current_user_id();
-        $_aNotices = $this->getTransient( "apf_notices_{$_iUserID}" );
-        if ( false === $_aNotices ) { 
-            return; 
-        }
-        $this->deleteTransient( "apf_notices_{$_iUserID}" );
-    
-        // By setting false to the 'settings-notice' key, it's possible to disable the notifications set with the framework.
-        if ( isset( $_GET['settings-notice'] ) && ! $_GET['settings-notice'] ) { 
-            return; 
-        }
-        
-        $this->_printSettingNotices( $_aNotices );
+        $this->oFactory->oForm->printSubmitNotices();
         
     }
         
@@ -97,32 +81,5 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
              * @internal
              */
             static private $_bSettingNoticeLoaded = false;   
-        
-        /**
-         * Displays settings notices.
-         * @since       3.5.3
-         * @since       DEVVER      Moved from `AdminPageFramework_Factory_View`.
-         * @internal
-         * @return      void
-         */
-        private function _printSettingNotices( $aNotices ) {
-            
-            $_aPeventDuplicates = array();
-            foreach ( array_filter( ( array ) $aNotices, 'is_array' ) as $_aNotice ) {
-                
-                $_sNotificationKey = md5( serialize( $_aNotice ) );
-                if ( isset( $_aPeventDuplicates[ $_sNotificationKey ] ) ) {
-                    continue;
-                }
-                $_aPeventDuplicates[ $_sNotificationKey ] = true;
-                
-                new AdminPageFramework_AdminNotice(
-                    $this->getElement( $_aNotice, 'sMessage' ),
-                    $this->getElement( $_aNotice, 'aAttributes' )
-                );              
-              
-            }            
-            
-        }
   
 }

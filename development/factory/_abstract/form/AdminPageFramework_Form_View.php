@@ -66,5 +66,13 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
         
     }
     
-    
+    /**
+     * Outputs submit notices stored in the database transient.
+     * @since       DEVVER
+     * @return      void
+     */
+    public function printSubmitNotices() {
+        $this->oSubmitNotice->render();        
+    }
+
 }

@@ -549,7 +549,6 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
         }
     }
     
-    
     /**
      * Sets the field error array. 
      * 
@@ -627,57 +626,35 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     /**
     * Sets the given message to be displayed in the next page load. 
     * 
-    * This is used to inform users about the submitted input data, such as "Updated successfully." or "Problem occurred." etc. and normally used in validation callback methods.
+    * This is used to inform users about the submitted input data, such as "Updated successfully." or "Problem occurred." etc. 
+    * and normally used in validation callback methods.
     * 
     * <h4>Example</h4>
-    * <code>if ( ! $bVerified ) {
+    * `
+    * if ( ! $bVerified ) {
     *       $this->setFieldErrors( $aErrors );     
     *       $this->setSettingNotice( 'There was an error in your input.' );
     *       return $aOldPageOptions;
-    * }</code>
+    * }
+    * `
     *
     * @since        3.0.4     
     * @access       public
     * @param        string      $sMessage       the text message to be displayed.
     * @param        string      $sType          (optional) the type of the message, either "error" or "updated"  is used.
     * @param        array       $asAttributes   (optional) the tag attribute array applied to the message container HTML element. If a string is given, it is used as the ID attribute value.
-    * @param        boolean     $bOverride      (optional) false: do not override when there is a message of the same id. true: override the previous one.
+    * @param        boolean     $bOverride      (optional) If true, only one message will be shown in the next page load. false: do not override when there is a message of the same id. true: override the previous one.
+    * 
     * @return       void
     */      
     public function setSettingNotice( $sMessage, $sType='error', $asAttributes=array(), $bOverride=true ) {
-        
-        // The framework user set notification messages will be stored in this global array element.
-        $GLOBALS[ 'aAdminPageFramework' ][ 'aNotices' ] = $this->oUtil->getElement( 
-            $GLOBALS,  // subject array
-            array( 'aAdminPageFramework', 'aNotices' ), // key
-            array()      // default
-        );                                
-        
-        
-        // If the array is empty, save the array at shutdown.
-        if ( empty( $GLOBALS[ 'aAdminPageFramework' ][ 'aNotices' ] ) ) {
-            add_action( 'shutdown', array( $this, '_replyToSaveNotices' ) ); // the method is defined in the model class.
-        }
-        
-        // Set up local variables
-        $_sID = md5( trim( $sMessage ) );
-            
-        // If the override options is true, or if the message is set,
-        if ( $bOverride || ! isset( $GLOBALS[ 'aAdminPageFramework' ][ 'aNotices' ][ $_sID ] )  ) {     
-            
-            $_aAttributes = $this->oUtil->getAsArray( $asAttributes );
-            if ( is_string( $asAttributes ) && ! empty( $asAttributes ) ) {
-                $_aAttributes[ 'id' ] = $asAttributes;
-            }
-            $GLOBALS[ 'aAdminPageFramework' ][ 'aNotices' ][ $_sID ] = array(
-                'sMessage'      => $sMessage,
-                'aAttributes'   => $_aAttributes + array(
-                        'class'     => $sType,
-                        'id'        => $this->oProp->sClassName . '_' . $_sID,
-                    ),
-            );
-        }
-                            
+        $this->oForm->setSubmitNotice(
+            $sMessage,
+            $sType,
+            $asAttributes,
+            $bOverride
+        );
+        return;           
     }
     
     /**
@@ -691,29 +668,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @return      boolean     True if a setting notice is set; otherwise, false.
      */
     public function hasSettingNotice( $sType='' ) {
-        
-        // The framework user set notification messages are stored in this global array element.
-        $_aNotices = $this->oUtil->getElementAsArray(
-            $GLOBALS,
-            array( 'aAdminPageFramework', 'aNotices' ),
-            array()
-        );
-        
-        if ( ! $sType ) {
-            return ( bool ) count( $_aNotices );
-        }
-        
-        // Check if there is a message of the type.
-        foreach( $_aNotices as $aNotice ) {
-            if ( ! isset( $aNotice[ 'aAttributes' ][ 'class' ] ) ) {
-                continue;
-            }
-            if ( $aNotice[ 'aAttributes' ][ 'class' ] == $sType ) {
-                return true;
-            }
-        }
-        return false;
-        
+        return $this->oForm->hasSubmitNotice( $sType );
     }
 
 }

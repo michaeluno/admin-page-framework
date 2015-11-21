@@ -352,30 +352,6 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     }
     
     /**
-     * Saves the notification array set via the setSettingNotice() method.
-     * 
-     * @remark      This method will be triggered with the 'shutdown' hook.
-     * @since       3.0.4 
-     * @internal
-     * @return      void
-     */
-    public function _replyToSaveNotices() {
-        
-        if ( ! isset( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) { 
-            return; 
-        }
-        if ( empty( $GLOBALS['aAdminPageFramework']['aNotices'] ) ) { 
-            return; 
-        }
-                
-        $this->oUtil->setTransient( 
-            'apf_notices_' . get_current_user_id(), 
-            $GLOBALS['aAdminPageFramework']['aNotices'] 
-        );
-        
-    }
-    
-    /**
      * The validation callback method.
      * 
      * The user may just override this method instead of defining a `validation_{...}` callback method.
@@ -412,50 +388,4 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
             return $this->_setLastInputs( $aLastInputs );
         }
      
-    /**
-     * The public version of `_getSortedInputs()`.
-     * 
-     * A delegation class needs to access the `_getSortedInputs()` method but it is protected, so uses this instead.
-     * 
-     * @since       3.6.3
-     * @deprecated  DEVVER
-     */
-    // public function getSortedInputs( array $aInput ) {
-        // return $this->_getSortedInputs( $aInput );
-    // }     
-    /**
-     * Sorts dynamic elements.
-     * @since       3.6.0
-     * @return      array       The sorted input array.
-     * @deprecated  DEVVER
-     */
-    // protected function _getSortedInputs( array $aInput ) {
-        
-        // $_aDynamicFieldAddressKeys = array_unique(
-            // array_merge(
-                // $this->oUtil->getElementAsArray( 
-                    // $_POST,
-                    // '__repeatable_elements_' . $this->oProp->sStructureType,
-                    // array()
-                // ),
-                // $this->oUtil->getElementAsArray( 
-                    // $_POST,
-                    // '__sortable_elements_' . $this->oProp->sStructureType,
-                    // array()
-                // )
-            // )
-        // );
-
-        // if ( empty( $_aDynamicFieldAddressKeys ) ) {
-            // return $aInput;
-        // }
-
-        // $_oInputSorter = new AdminPageFramework_Form_Model___Modifier_SortInput( 
-            // $aInput, 
-            // $_aDynamicFieldAddressKeys
-        // );
-        // return $_oInputSorter->get();
-        
-    // }   
-
 }
