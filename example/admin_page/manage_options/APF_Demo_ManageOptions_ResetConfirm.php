@@ -52,19 +52,16 @@ class APF_Demo_ManageOptions_ResetConfirm {
         
         add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
 
+        $oAdminPage->setAdminNotice(
+            __( "Are you sure you want to delete all the options?", 'admin-page-framework-loader' )
+        );
+            
         $oAdminPage->addSettingSections(    
             $this->sPageSlug,
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Confirmation', 'admin-page-framework-loader' ),
-                'description' => "<div class='settings-error error notice is-dismissible'>"
-                        . "<p>"
-                            . "<strong>"
-                                . "Are you sure you want to delete all the options?"
-                           . "</strong>"
-                        . "</p>"
-                    . "</div>",
                 'order' => 10,
             )
         );        
