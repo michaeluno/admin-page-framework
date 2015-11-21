@@ -432,8 +432,10 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 = 3.7.0 =
 - Added the ability of nesting sections.
 - Changed the factory class name of the page meta box from `AdminPageFramework_MetaBox_Page` to `AdminPageFramework_PageMetaBox`.
-- Fixed an issue of page meta box layouts which occurred when no side meta box exists.
-- Fixed the style of section tab in WordPress 4.4.
+
+= 3.6.5 - 2015/11/21 =
+- Fixed a bug that layouts of page meta boxes were not displayed properly when no `side` meta box existed and one of `normal` or `advanced` was added.
+- Fixed the style of section tabs in WordPress 4.4.
 
 = 3.6.4 - 20105/11/19 =
 - Added the `APFL_SILENT_MODE` constant to the loader plugin that toggle the visuals of the loader admin pages.
