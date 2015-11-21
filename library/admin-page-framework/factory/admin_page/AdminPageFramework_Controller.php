@@ -48,12 +48,8 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
     }
     public function setAdminNotice($sMessage, $sClassSelector = 'error', $sID = '') {
         $sID = $sID ? $sID : md5($sMessage);
-        $this->oProp->aAdminNotices[md5($sMessage) ] = array('sMessage' => $sMessage, 'sClassSelector' => $sClassSelector, 'sID' => $sID,);
-        if (is_network_admin()) {
-            add_action('network_admin_notices', array($this, '_replyToPrintAdminNotices'));
-        } else {
-            add_action('admin_notices', array($this, '_replyToPrintAdminNotices'));
-        }
+        $this->oProp->aAdminNotices[$sID] = array('sMessage' => $sMessage, 'aAttributes' => array('id' => $sID, 'class' => $sClassSelector));
+        new AdminPageFramework_AdminNotice($this->oProp->aAdminNotices[$sID]['sMessage'], $this->oProp->aAdminNotices[$sID]['aAttributes'], array('should_show' => array($this, '_isInThePage'),));
     }
     public function setDisallowedQueryKeys($asQueryKeys, $bAppend = true) {
         if (!$bAppend) {

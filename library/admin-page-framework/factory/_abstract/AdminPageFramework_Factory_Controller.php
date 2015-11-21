@@ -53,32 +53,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
         return isset($GLOBALS['aAdminPageFramework']['aFieldErrors'][md5($this->oProp->sClassName) ]);
     }
     public function setSettingNotice($sMessage, $sType = 'error', $asAttributes = array(), $bOverride = true) {
-        $GLOBALS['aAdminPageFramework']['aNotices'] = $this->oUtil->getElement($GLOBALS, array('aAdminPageFramework', 'aNotices'), array());
-        if (empty($GLOBALS['aAdminPageFramework']['aNotices'])) {
-            add_action('shutdown', array($this, '_replyToSaveNotices'));
-        }
-        $_sID = md5(trim($sMessage));
-        if ($bOverride || !isset($GLOBALS['aAdminPageFramework']['aNotices'][$_sID])) {
-            $_aAttributes = $this->oUtil->getAsArray($asAttributes);
-            if (is_string($asAttributes) && !empty($asAttributes)) {
-                $_aAttributes['id'] = $asAttributes;
-            }
-            $GLOBALS['aAdminPageFramework']['aNotices'][$_sID] = array('sMessage' => $sMessage, 'aAttributes' => $_aAttributes + array('class' => $sType, 'id' => $this->oProp->sClassName . '_' . $_sID,),);
-        }
+        $this->oForm->setSubmitNotice($sMessage, $sType, $asAttributes, $bOverride);
+        return;
     }
     public function hasSettingNotice($sType = '') {
-        $_aNotices = $this->oUtil->getElementAsArray($GLOBALS, array('aAdminPageFramework', 'aNotices'), array());
-        if (!$sType) {
-            return ( bool )count($_aNotices);
-        }
-        foreach ($_aNotices as $aNotice) {
-            if (!isset($aNotice['aAttributes']['class'])) {
-                continue;
-            }
-            if ($aNotice['aAttributes']['class'] == $sType) {
-                return true;
-            }
-        }
-        return false;
+        return $this->oForm->hasSubmitNotice($sType);
     }
 }

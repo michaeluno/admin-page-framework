@@ -1,5 +1,11 @@
 <?php
 class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
+    public function hasSubmitNotice($sType = '') {
+        return $this->oSubmitNotice->hasNotice($sType);
+    }
+    public function setSubmitNotice($sMessage, $sType = 'error', $asAttributes = array(), $bOverride = true) {
+        $this->oSubmitNotice->set($sMessage, $sType, $asAttributes, $bOverride);
+    }
     public function addSection(array $aSectionset) {
         $aSectionset = $aSectionset + array('section_id' => null,);
         $aSectionset['section_id'] = $this->sanitizeSlug($aSectionset['section_id']);

@@ -82,15 +82,6 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         }
         $this->oUtil->setTransient("apf_field_erros_" . get_current_user_id(), $GLOBALS['aAdminPageFramework']['aFieldErrors'], 300);
     }
-    public function _replyToSaveNotices() {
-        if (!isset($GLOBALS['aAdminPageFramework']['aNotices'])) {
-            return;
-        }
-        if (empty($GLOBALS['aAdminPageFramework']['aNotices'])) {
-            return;
-        }
-        $this->oUtil->setTransient('apf_notices_' . get_current_user_id(), $GLOBALS['aAdminPageFramework']['aNotices']);
-    }
     public function _setLastInputs(array $aLastInputs) {
         return $this->oUtil->setTransient('apf_tfd' . md5('temporary_form_data_' . $this->oProp->sClassName . get_current_user_id()), $aLastInputs, 60 * 60);
     }

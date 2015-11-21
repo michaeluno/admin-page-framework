@@ -13,4 +13,7 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
         $_oFormTables = new AdminPageFramework_Form_View___Sectionsets(array('capability' => $this->sCapability,) + $this->aArguments, array('field_type_definitions' => $this->aFieldTypeDefinitions, 'sectionsets' => $this->aSectionsets, 'fieldsets' => $this->aFieldsets,), $this->aSavedData, $this->getFieldErrors(), $this->aCallbacks, $this->oMsg);
         return $_oFormTables->get();
     }
+    public function printSubmitNotices() {
+        $this->oSubmitNotice->render();
+    }
 }

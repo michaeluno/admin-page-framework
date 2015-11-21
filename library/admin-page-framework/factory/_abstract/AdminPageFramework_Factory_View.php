@@ -8,11 +8,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         if ($this->oProp->bIsAdminAjax) {
             return;
         }
-        if (is_network_admin()) {
-            add_action('network_admin_notices', array($this, '_replyToPrintSettingNotice'));
-        } else {
-            add_action('admin_notices', array($this, '_replyToPrintSettingNotice'));
-        }
+        new AdminPageFramework_Factory_View__SettingNotice($this);
     }
     public function _replyToGetSectionName() {
         $_aParams = func_get_args() + array(null, null,);
@@ -68,47 +64,6 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
     public function isSectionSet(array $aFieldset) {
         $aFieldset = $aFieldset + array('section_id' => null,);
         return $aFieldset['section_id'] && '_default' !== $aFieldset['section_id'];
-    }
-    static private $_bSettingNoticeLoaded = false;
-    public function _replyToPrintSettingNotice() {
-        if (!$this->_isInThePage()) {
-            return;
-        }
-        if (self::$_bSettingNoticeLoaded) {
-            return;
-        }
-        self::$_bSettingNoticeLoaded = true;
-        $_iUserID = get_current_user_id();
-        $_aNotices = $this->oUtil->getTransient("apf_notices_{$_iUserID}");
-        if (false === $_aNotices) {
-            return;
-        }
-        $this->oUtil->deleteTransient("apf_notices_{$_iUserID}");
-        if (isset($_GET['settings-notice']) && !$_GET['settings-notice']) {
-            return;
-        }
-        $this->_printSettingNotices($_aNotices);
-    }
-    private function _printSettingNotices($aNotices) {
-        $_aPeventDuplicates = array();
-        foreach (array_filter(( array )$aNotices, 'is_array') as $_aNotice) {
-            $_sNotificationKey = md5(serialize($_aNotice));
-            if (isset($_aPeventDuplicates[$_sNotificationKey])) {
-                continue;
-            }
-            $_aPeventDuplicates[$_sNotificationKey] = true;
-            echo $this->_getSettingNotice($_aNotice);
-        }
-    }
-    private function _getSettingNotice(array $aNotice) {
-        if (!isset($aNotice['aAttributes'], $aNotice['sMessage'])) {
-            return '';
-        }
-        if (!$aNotice['sMessage']) {
-            return '';
-        }
-        $aNotice['aAttributes']['class'] = $this->oUtil->getClassAttribute($this->oUtil->getElement($aNotice, array('aAttributes', 'class'), ''), 'admin-page-framework-settings-notice-container', 'notice is-dismissible');
-        return "<div " . $this->oUtil->getAttributes($aNotice['aAttributes']) . ">" . "<p class='admin-page-framework-settings-notice-message'>" . $aNotice['sMessage'] . "</p>" . "</div>";
     }
     public function _replyToGetSectionHeaderOutput($sSectionDescription, $aSectionset) {
         return $this->oUtil->addAndApplyFilters($this, array('section_head_' . $this->oProp->sClassName . '_' . $aSectionset['section_id']), $sSectionDescription);
