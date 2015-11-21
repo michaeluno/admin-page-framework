@@ -26,14 +26,21 @@
  */
 class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
 
+    public $sNotice     = '';
+    public $aAttributes = array();
+    public $aCallbacks  = array(
+        'should_show'   => null,    // detemines whether the admin notice should be displayed.
+    );
+     
     /**
      * Sets up hooks and properties.
      * 
      * @param       string      $sNotice        The message to display.
      * @param       array       $aAttributes    An attribute array. Set 'updated' to the 'class' element to display it in a green box.
+     * @param       array       $aCallbacks     DEVVER+ Stores callbacks.
      * @since       3.5.0
      */
-    public function __construct( $sNotice, array $aAttributes=array( 'class' => 'error' ) ) {
+    public function __construct( $sNotice, array $aAttributes=array( 'class' => 'error' ), array $aCallbacks=array() ) {
         
         $this->sNotice                = $sNotice;
         $this->aAttributes            = $aAttributes + array(
@@ -46,6 +53,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
             'notice',
             'is-dismissible'    // 3.5.12+
         );
+        $this->aCallbacks             = $aCallbacks + $this->aCallbacks;
   
         $this->_loadResources();
         
@@ -83,6 +91,10 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
          */
         public function _replyToDisplayAdminNotice() {
             
+            if ( ! $this->_shouldProceed() ) {
+                return;
+            }
+            
             // For a browser that enables JavaScript, hide the admin notice.
             $_aAttributes = $this->aAttributes + array( 'style' => '' );
             $_aAttributes[ 'style' ] = $this->getStyleAttribute( 
@@ -103,6 +115,24 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
                         . "</p>"
                     . "</div>"              
                 . "</noscript>";
+                
         }
+            /**
+             * @return      boolean
+             * @since       DEVVER
+             */
+            private function _shouldProceed() {
+                
+                if ( ! is_callable( $this->aCallbacks[ 'should_show' ] ) ) {
+                    return true;
+                }
+                return call_user_func_array(
+                    $this->aCallbacks[ 'should_show' ],
+                    array(
+                        true,
+                    )
+                );
+            
+            }
 
 }

@@ -320,16 +320,22 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
     public function setAdminNotice( $sMessage, $sClassSelector='error', $sID='' ) {
             
         $sID = $sID ? $sID : md5( $sMessage );
-        $this->oProp->aAdminNotices[ md5( $sMessage ) ] = array(  
+        
+        // Prevents duplicates
+        $this->oProp->aAdminNotices[ $sID ] = array(  
             'sMessage'          => $sMessage,
-            'sClassSelector'    => $sClassSelector,
-            'sID'               => $sID,
+            'aAttributes'       => array(
+                'id'    => $sID,
+                'class' => $sClassSelector
+            )
         );
-        if ( is_network_admin() ) {
-            add_action( 'network_admin_notices', array( $this, '_replyToPrintAdminNotices' ) );
-        } else {
-            add_action( 'admin_notices', array( $this, '_replyToPrintAdminNotices' ) );
-        }
+        new AdminPageFramework_AdminNotice(
+            $this->oProp->aAdminNotices[ $sID ][ 'sMessage' ],
+            $this->oProp->aAdminNotices[ $sID ][ 'aAttributes' ],
+            array(
+                'should_show'        => array( $this, '_isInThePage' ),
+            )
+        );
         
     }
 
