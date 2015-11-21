@@ -114,12 +114,6 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_WPUtilit
                 $this->oMsg            
             );
             return $_oFieldsets->get();
-            
-            // @deprecated      DEVVER
-            // return $this->getFieldsetRows( 
-                // $this->aFieldsetsPerSection, 
-                // $_iSectionIndex 
-            // );
         
         }
      
@@ -213,43 +207,6 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_WPUtilit
                     
                     return $_aNestedSectionPaths + $_aChildSectionPaths;
                     
-                }        
-        /**
-         * Returns the output of a set of fields generated from the given field definition arrays enclosed in a table row tag for each.
-         * 
-         * @since       3.0.0
-         * @since       3.6.0       Added the `$iSectionIndex` parameter. Changed the name from `getFIeldRows`.
-         * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Row`.
-         * @since       DEVVER      Moved from `AdminPageFramework_FormPart_Table`.
-         * @return      string
-         * @deprecated  DEVVER
-         */
-         /* public function getFieldsetRows( array $aFieldsetsPerSection, $iSectionIndex=null ) {
-
-            $_aOutput = array();
-            foreach( $aFieldsetsPerSection as $_aFieldset ) {
-
-                $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput( 
-                    $_aFieldset, 
-                    $iSectionIndex,
-                    $this->aFieldTypeDefinitions
-                );
-                $_aFieldset = $_oFieldsetOutputFormatter->get();
-
-                $_oFieldsetRow = new AdminPageFramework_Form_View___FieldsetTableRow(
-                    $_aFieldset, // $_aFieldset
-                    $this->aSavedData,
-                    $this->aFieldErrors,
-                    $this->aFieldTypeDefinitions,
-                    $this->aCallbacks,
-                    $this->oMsg
-                );
-                $_aOutput[] = $_oFieldsetRow->get();
-
-            } 
-           
-            return implode( PHP_EOL, $_aOutput );
-            
-        }          */
+                }
     
 }
