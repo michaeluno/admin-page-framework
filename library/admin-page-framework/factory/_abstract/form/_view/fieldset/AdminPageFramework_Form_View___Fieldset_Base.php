@@ -40,7 +40,6 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
         new AdminPageFramework_Form_View___Script_AttributeUpdator;
         new AdminPageFramework_Form_View___Script_RepeatableField($this->oMsg);
         new AdminPageFramework_Form_View___Script_SortableField;
-        new AdminPageFramework_Form_View___Script_RegisterCallback;
     }
     protected function _getRepeaterFieldEnablerScript($sFieldsContainerID, $iFieldCount, $aSettings) {
         $_sAdd = $this->oMsg->get('add');

@@ -20,7 +20,7 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_W
             return;
         }
         $this->deleteTransient($_sTransient);
-        exit(wp_redirect($_sURL));
+        $this->goToURL($_sURL);
     }
     private function _shouldProceed() {
         if (!$this->oFactory->_isInThePage()) {

@@ -127,6 +127,14 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         }
         return '';
     }
+    static public function doesMetaBoxExist($sContext = '') {
+        $_aDimensions = array('wp_meta_boxes', $GLOBALS['page_hook']);
+        if ($sContext) {
+            $_aDimensions[] = $sContext;
+        }
+        $_aSideMetaBoxes = self::getElementAsArray($GLOBALS, $_aDimensions);
+        return count($_aSideMetaBoxes) > 0;
+    }
     static public function getNumberOfScreenColumns() {
         return get_current_screen()->get_columns();
     }

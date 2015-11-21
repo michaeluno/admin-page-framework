@@ -16,24 +16,25 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_WPU
         do_action("add_meta_boxes_{$_sCurrentScreenID}", null);
         do_action('add_meta_boxes', $_sCurrentScreenID, null);
         wp_enqueue_script('postbox');
-        add_screen_option('layout_columns', array('max' => 2, 'default' => 2,));
+        $_iColumns = $this->getAOrB($this->doesMetaBoxExist('side'), 2, 1);
+        add_screen_option('layout_columns', array('max' => $_iColumns, 'default' => $_iColumns,));
         wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false);
         wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false);
         if (isset($GLOBALS['page_hook'])) {
             add_action("admin_footer-{$GLOBALS['page_hook']}", array($this, '_replyToAddMetaboxScript'));
         }
     }
-    private function _isMetaBoxAdded($sPageSlug = '') {
+    private function _isMetaBoxAdded() {
         $_aPageMetaBoxClasses = $this->getElementAsArray($GLOBALS, array('aAdminPageFramework', 'aMetaBoxForPagesClasses'));
         if (empty($_aPageMetaBoxClasses)) {
             return false;
         }
-        $sPageSlug = $sPageSlug ? $sPageSlug : $this->getElement($_GET, 'page', '');
-        if (!$sPageSlug) {
+        $_sPageSlug = $this->getElement($_GET, 'page', '');
+        if (!$_sPageSlug) {
             return false;
         }
         foreach ($_aPageMetaBoxClasses as $_sClassName => $_oMetaBox) {
-            if ($this->_isPageOfMetaBox($sPageSlug, $_oMetaBox)) {
+            if ($this->_isPageOfMetaBox($_sPageSlug, $_oMetaBox)) {
                 return true;
             }
         }

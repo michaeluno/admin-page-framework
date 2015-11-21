@@ -28,7 +28,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
             $_bUpdated = $this->oFactory->oProp->updateOption($_aInputs);
         }
         $this->_doActions_submit_after($_aInputs, $_aOptions, $_sPageSlug, $_sTabSlug, $_sSubmitSectionID, $_sPressedFieldID, $_bUpdated);
-        exit(wp_redirect($this->_getSettingUpdateURL(array('settings-updated' => true), $_sPageSlug, $_sTabSlug)));
+        $this->goToLocalURL($this->_getSettingUpdateURL(array('settings-updated' => true), $_sPageSlug, $_sTabSlug));
     }
     private function _shouldProceed() {
         if (!isset($_POST['admin_page_framework_start'], $_POST['_wp_http_referer'])) {

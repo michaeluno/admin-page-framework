@@ -10,6 +10,7 @@ class AdminPageFramework_FieldType_section_title extends AdminPageFramework_Fiel
 }
  .admin-page-framework-section-tab .admin-page-framework-field-section_title .admin-page-framework-input-label-string {     
     vertical-align: middle; 
+    margin-left: 0.2em;
 } 
  .admin-page-framework-section-tab .admin-page-framework-fields {
     display: inline-block;

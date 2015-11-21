@@ -1,5 +1,8 @@
 <?php
 class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
+    static public function goToLocalURL($sURL) {
+        exit(wp_safe_redirect($sURL));
+    }
     static public function goToURL($sURL) {
         exit(wp_redirect($sURL));
     }
@@ -9,13 +12,12 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
     static public function isDoingAjax() {
         return defined('DOING_AJAX') && DOING_AJAX;
     }
-    static private $_bIsFlushed;
     static public function flushRewriteRules() {
-        $_bIsFlushed = isset(self::$_bIsFlushed) ? self::$_bIsFlushed : false;
         if ($_bIsFlushed) {
             return;
         }
         flush_rewrite_rules();
         self::$_bIsFlushed = true;
     }
+    static private $_bIsFlushed = false;
 }

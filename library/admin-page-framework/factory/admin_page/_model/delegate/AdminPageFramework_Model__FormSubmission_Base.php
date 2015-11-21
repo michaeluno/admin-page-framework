@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFramework_Format_Base {
+abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFramework_WPUtility {
     protected function _getPressedSubmitButtonData(array $aPostElements, $sTargetKey = 'field_id') {
         foreach ($aPostElements as $_sInputID => $_aSubElements) {
             if (!isset($_aSubElements['name'])) {

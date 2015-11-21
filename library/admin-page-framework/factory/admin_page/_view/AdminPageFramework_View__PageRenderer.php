@@ -37,6 +37,9 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
         $this->addAndDoActions($this->oFactory, $this->getFilterArrayByPrefix('do_after_', $this->oFactory->oProp->sClassName, $_sPageSlug, $_sTabSlug, true), $this->oFactory);
     }
     private function _getNumberOfColumns() {
+        if (!$this->doesMetaBoxExist('side')) {
+            return 1;
+        }
         $_iColumns = $this->getNumberOfScreenColumns();
         return $_iColumns ? $_iColumns : 1;
     }
@@ -50,7 +53,7 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
         return $this->addAndApplyFilters($this->oFactory, $this->getFilterArrayByPrefix('content_top_', $this->oFactory->oProp->sClassName, $this->sPageSlug, $this->sTabSlug, false), $_sContentTop);
     }
     private function _printMainPageContent($sPageSlug, $sTabSlug) {
-        $_bSideMetaboxExists = $this->_doesSideMetaBoxesExist();
+        $_bSideMetaboxExists = $this->doesMetaBoxExist('side');
         echo "<!-- main admin page content -->";
         echo "<div class='admin-page-framework-content'>";
         if ($_bSideMetaboxExists) {
@@ -62,10 +65,6 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_WPUtility
             echo "</div><!-- #post-body-content -->";
         }
         echo "</div><!-- .admin-page-framework-content -->";
-    }
-    private function _doesSideMetaBoxesExist() {
-        $_aSideMetaBoxes = $this->getElementAsArray($GLOBALS, array('wp_meta_boxes', $GLOBALS['page_hook'], 'side',));
-        return count($_aSideMetaBoxes) > 0;
     }
     private function _getFormOutput($sPageSlug) {
         if (!$this->oFactory->oProp->bEnableForm) {
