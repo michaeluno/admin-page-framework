@@ -8,7 +8,7 @@
  */
 
 /**
- * Provides methods to set setting notices.
+ * Provides methods to handle setting notices.
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
