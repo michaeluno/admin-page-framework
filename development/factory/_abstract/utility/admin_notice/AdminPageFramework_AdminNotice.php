@@ -65,13 +65,14 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
          * @since       DEVVER
          */
         private function _loadResources(){
+            
             // Make sure to load once per page load.
             if ( self::$_bLoaded ) {
                 return;
             }
             self::$_bLoaded = true;
             
-// @todo    load script to fade-in admin notice
+            new AdminPageFramework_AdminNotice___Script;
 
         }
             static private $_bLoaded = false;
@@ -81,11 +82,27 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
          * @since       3.5.0
          */
         public function _replyToDisplayAdminNotice() {
-            echo "<div " . $this->getAttributes( $this->aAttributes ) . ">"
-                    . "<p>" // class='admin-page-framework-settings-notice-message'
+            
+            // For a browser that enables JavaScript, hide the admin notice.
+            $_aAttributes = $this->aAttributes + array( 'style' => '' );
+            $_aAttributes[ 'style' ] = $this->getStyleAttribute( 
+                $_aAttributes[ 'style' ], 
+                'display: none' 
+            );
+            
+            echo "<div " . $this->getAttributes( $_aAttributes ) . ">"
+                    . "<p>"
                         . $this->sNotice 
                     . "</p>"
-                . "</div>";
+                . "</div>"
+                // Insert the same message except it is not hidden.
+                . "<noscript>"
+                    . "<div " . $this->getAttributes( $this->aAttributes ) . ">"
+                        . "<p>" 
+                            . $this->sNotice 
+                        . "</p>"
+                    . "</div>"              
+                . "</noscript>";
         }
 
 }
