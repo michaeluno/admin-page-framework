@@ -274,6 +274,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Message"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_model/AdminPageFramework_Message.php", 
 	"AdminPageFramework_Property_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_model/AdminPageFramework_Property_Base.php", 
 	"AdminPageFramework_CSS"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_view/AdminPageFramework_CSS.php", 
+	"AdminPageFramework_Factory_View__SettingNotice"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_view/AdminPageFramework_Factory_View__SettingNotice.php", 
 	"AdminPageFramework_PageLoadInfo_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_view/AdminPageFramework_PageLoadInfo_Base.php", 
 	"AdminPageFramework_TabNavigationBar"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_view/AdminPageFramework_TabNavigationBar.php", 
 	"AdminPageFramework_PluginBootstrap"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_PluginBootstrap.php", 

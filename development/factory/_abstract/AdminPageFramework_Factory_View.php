@@ -27,13 +27,6 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         
         parent::__construct( $oProp );
 
-        // 3.5.7+ Form field element output callbacks. 
-        // 3.5.8+ Move to above the `isInThePage()` check 
-        // since meta boxes cannot detect the current post type if it loaded too early.
-        // DEVVER+ Move this to the router class and deprecate this property. Directly assing the callbacks to the form object property.
-        // @deprecated
-        // $this->oProp->aFieldCallbacks = $this->_getFormElementCallbacks();        
-        
         if ( ! $this->_isInThePage() ) {
             return;
         }
@@ -42,36 +35,10 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         }
     
         // Admin Notices
-        if ( is_network_admin() ) {
-            add_action( 'network_admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
-        } else {
-            add_action( 'admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
-        }     
+        new AdminPageFramework_Factory_View__SettingNotice( $this );   
         
     }     
 
-        /**
-         * Returns an array holding callables for field type element outputs.
-         * @internal
-         * @since       3.5.7
-         * @since       3.6.0       Changed the name from '_getFormFieldElementCallbacks()'.
-         * @remark      These callbacks are defined in the `AdminPageFramework_Factory_View` class. Some factory classes will override these values.
-         * @return      array
-         * @deprecated  DEVVER
-         */
-         // private function _getFormElementCallbacks() {
-            // return array(
-                // 'hfID'              => array( $this, '_replyToGetInputID' ), // the input id attribute
-                // 'hfTagID'           => array( $this, '_replyToGetInputTagIDAttribute' ), // the fields & fieldset & field row container id attribute
-                // 'hfName'            => array( $this, '_replyToGetFieldNameAttribute' ), // the input name attribute
-                // 'hfNameFlat'        => array( $this, '_replyToGetFlatFieldName' ), // the flat input name attribute
-                // 'hfInputName'       => array( $this, '_replyToGetInputNameAttribute' ),    // 3.6.0+   the field input name attribute
-                // 'hfInputNameFlat'   => array( $this, '_replyToGetFlatInputName' ),    // 3.6.0+   the flat field input name                 
-                // 'hfClass'           => array( $this, '_replyToGetInputClassAttribute' ), // the class attribute
-                // 'hfSectionName'     => array( $this, '_replyToGetSectionName' ), // 3.6.0+
-            // ) + $this->oProp->aFieldCallbacks;
-        // }             
-        
         /**
          * Returns the name attribute value of form sections.
          * @internal    
@@ -209,100 +176,6 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         );
         return $aFieldset[ 'section_id' ] && '_default' !== $aFieldset[ 'section_id' ];
     }
-    
-    
-    /**
-     * Stores a flag value indicating whether the setting notice method is called or not.
-     * 
-     * @since       3.1.3
-     * @internal
-     */
-    static private $_bSettingNoticeLoaded = false;
-    
-    /**
-     * Displays stored setting notification messages.
-     * 
-     * @since       3.0.4
-     * @internal
-     */
-    public function _replyToPrintSettingNotice() {
-            
-        if ( ! $this->_isInThePage() ) { 
-            return; 
-        }
-            
-        // Ensure this method is called only once per a page load.
-        if ( self::$_bSettingNoticeLoaded ) { 
-            return;
-        }
-        self::$_bSettingNoticeLoaded = true;
-
-        $_iUserID  = get_current_user_id();
-        $_aNotices = $this->oUtil->getTransient( "apf_notices_{$_iUserID}" );
-        if ( false === $_aNotices ) { 
-            return; 
-        }
-        $this->oUtil->deleteTransient( "apf_notices_{$_iUserID}" );
-    
-        // By setting false to the 'settings-notice' key, it's possible to disable the notifications set with the framework.
-        if ( isset( $_GET['settings-notice'] ) && ! $_GET['settings-notice'] ) { 
-            return; 
-        }
-        
-        $this->_printSettingNotices( $_aNotices );
-        
-    }
-        /**
-         * Displays settings notices.
-         * @since       3.5.3
-         * @internal
-         */
-        private function _printSettingNotices( $aNotices ) {
-            
-            $_aPeventDuplicates = array();
-            foreach ( array_filter( ( array ) $aNotices, 'is_array' ) as $_aNotice ) {
-                
-                $_sNotificationKey = md5( serialize( $_aNotice ) );
-                if ( isset( $_aPeventDuplicates[ $_sNotificationKey ] ) ) {
-                    continue;
-                }
-                $_aPeventDuplicates[ $_sNotificationKey ] = true;
-                
-                echo $this->_getSettingNotice( $_aNotice );
-                
-            }            
-            
-        }
-            /**
-             * Returns an admin setting notice HTML output generated from the given notification definition array.
-             * @since       3.5.3
-             * @internal
-             * @return      string      The admin setting notice HTML output.
-             */
-            private function _getSettingNotice( array $aNotice ) {
-                
-                if ( ! isset( $aNotice[ 'aAttributes' ], $aNotice[ 'sMessage' ] ) ) {
-                    return '';
-                }
-                if ( ! $aNotice[ 'sMessage' ] ) {
-                    return '';
-                }
-                $aNotice[ 'aAttributes' ][ 'class' ] = $this->oUtil->getClassAttribute(
-                    $this->oUtil->getElement(
-                        $aNotice,
-                        array( 'aAttributes', 'class' ),
-                        ''
-                    ),
-                    'admin-page-framework-settings-notice-container',
-                    'notice is-dismissible' // 3.5.12+
-                );
-                return "<div " . $this->oUtil->getAttributes( $aNotice['aAttributes'] ). ">"
-                        . "<p class='admin-page-framework-settings-notice-message'>" 
-                            . $aNotice['sMessage'] 
-                        . "</p>"
-                    . "</div>";  
-                    
-            }    
 
     /**
      * Returns the output of the filtered section description.

@@ -12,19 +12,19 @@
  * Displays notification in the administration area.
  * 
  * Usage: new AdminPageFramework_AdminNotice( 'There was an error while doing something...' );
- * <code>
+ * `
  * new AdminPageFramework_AdminNotice( 'Error occurred', array( 'class' => 'error' ) );    
- * </code>
- * <code>
+ * `
+ * `
  * new AdminPageFramework_AdminNotice( 'Setting Updated', array( 'class' => 'updated' ) );
- * </code>
+ * `
  * 
  * @since       3.5.0
- * @uses        AdminPageFramework_Parsedown
  * @package     AdminPageFramework
  * @subpackage  Utility
+ * @extends     AdminPageFramework_WPUtility
  */
-class AdminPageFramework_AdminNotice {
+class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
 
     /**
      * Sets up hooks and properties.
@@ -34,70 +34,58 @@ class AdminPageFramework_AdminNotice {
      * @since       3.5.0
      */
     public function __construct( $sNotice, array $aAttributes=array( 'class' => 'error' ) ) {
-        $this->sNotice              = $sNotice;
-        $this->aAttributes          = $aAttributes + array(
-            'class' => 'error',
+        
+        $this->sNotice                = $sNotice;
+        $this->aAttributes            = $aAttributes + array(
+            'class' => 'error', // 'updated' etc.
         );        
-        $this->aAttributes[ 'class' ] = trim( $this->aAttributes[ 'class' ] )
-            . ' admin-page-framework-settings-notice-message notice is-dismissible';
-        if ( did_action( 'admin_notices' ) ) {
-            $this->_replyToDisplayAdminNotice();
-        } else {
-            add_action( 'admin_notices', array( $this, '_replyToDisplayAdminNotice' ) );
+        $this->aAttributes[ 'class' ] = $this->getClassAttribute(
+            $this->aAttributes[ 'class' ],
+            'admin-page-framework-settings-notice-message',
+            'admin-page-framework-settings-notice-container',   // Moved from `AdminPageFramework_Factory_View`.
+            'notice',
+            'is-dismissible'    // 3.5.12+
+        );
+  
+        $this->_loadResources();
+        
+        // An empty value may be set in oreder only to laode the fade-in script.
+        if ( ! $this->sNotice ) {
+            return;
         }
+        
+        $this->registerAction( 
+            'admin_notices', 
+            array( $this, '_replyToDisplayAdminNotice' ) 
+        );
+        
     }    
+        /**
+         * Sets up scripts.
+         * @since       DEVVER
+         */
+        private function _loadResources(){
+            // Make sure to load once per page load.
+            if ( self::$_bLoaded ) {
+                return;
+            }
+            self::$_bLoaded = true;
+            
+// @todo    load script to fade-in admin notice
+
+        }
+            static private $_bLoaded = false;
+            
         /**
          * Displays the set admin notice.
          * @since       3.5.0
          */
         public function _replyToDisplayAdminNotice() {
-            echo "<div " . $this->_getAttributes( $this->aAttributes ) . ">"
-                    . "<p>"
+            echo "<div " . $this->getAttributes( $this->aAttributes ) . ">"
+                    . "<p>" // class='admin-page-framework-settings-notice-message'
                         . $this->sNotice 
                     . "</p>"
                 . "</div>";
         }
-        
-        /**
-         * Generates HTML tag attributes from an array.
-         * @since       3.5.0
-         */
-        private function _getAttributes( array $aAttributes )  {
-            
-            $_sQuoteCharactor   = "'";
-            $_aOutput           = array();
-            foreach( $aAttributes as $_sAttribute => $_asProperty ) {
-                
-                if ( 'style' === $_sAttribute && is_array( $_asProperty ) ) {
-                    $_asProperty = $this->_getInlineCSS( $_asProperty );
-                }
-                
-                // Must be resolved as a string.
-                if ( ! is_scalar( $_asProperty )  ) {
-                    continue;
-                }
-                            
-                $_aOutput[] = "{$_sAttribute}={$_sQuoteCharactor}" 
-                        . esc_attr( $_asProperty )
-                    . "{$_sQuoteCharactor}";
-                
-            }
-            return trim( implode( ' ', $_aOutput ) );
-            
-        }
-        /**
-         * Generates an HTML inline style attribute from an array.
-         * @since       3.5.0
-         * @return      string      The generated inline CSS rules.
-         */               
-        private function _getInlineCSS( array $aCSSRules ) {
-            
-            $_aOutput = array();
-            foreach( $aCSSRules as $_sProperty => $_sValue ) {
-                $_aOutput[] = $_sProperty . ': ' . $_sValue;
-            }
-            return implode( '; ', $_aOutput );
-            
-        }
-    
+
 }
