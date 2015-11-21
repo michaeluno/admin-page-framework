@@ -403,7 +403,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
-= 3.6.5 =
+= 3.6.5 - 2015/11/21 =
 - Fixed a bug that layouts of page meta boxes were not displayed properly when no `side` meta box existed and one of `normal` or `advanced` was added.
 - Fixed the style of section tabs in WordPress 4.4.
 
