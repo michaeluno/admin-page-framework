@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.7.0b04 by Michael Uno 
+	Admin Page Framework v3.7.0b06 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -246,6 +246,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Debug"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_Debug.php", 
 	"AdminPageFramework_ErrorReporting"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_ErrorReporting.php", 
 	"AdminPageFramework_RegisterClasses"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_RegisterClasses.php", 
+	"AdminPageFramework_AdminNotice"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/admin_notice/AdminPageFramework_AdminNotice.php", 
 	"AdminPageFramework_Utility"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility.php", 
 	"AdminPageFramework_Utility_Array"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_Array.php", 
 	"AdminPageFramework_Utility_Deprecated"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_Deprecated.php", 
@@ -275,12 +276,11 @@ $aClassFiles = array(
 	"AdminPageFramework_CSS"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_view/AdminPageFramework_CSS.php", 
 	"AdminPageFramework_PageLoadInfo_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_view/AdminPageFramework_PageLoadInfo_Base.php", 
 	"AdminPageFramework_TabNavigationBar"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_view/AdminPageFramework_TabNavigationBar.php", 
-	"AdminPageFramework_AdminNotice"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_AdminNotice.php", 
 	"AdminPageFramework_PluginBootstrap"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_PluginBootstrap.php", 
 	"AdminPageFramework_Requirement"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Requirement.php", 
 	"AdminPageFramework_TableOfContents"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_TableOfContents.php", 
 	"AdminPageFramework_Zip"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Zip.php", 
-	"AdminPageFramework_WPReadmeParser"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_WPReadmeParser/AdminPageFramework_WPReadmeParser.php", 
-	"AdminPageFramework_Parsedown"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_WPReadmeParser/library/AdminPageFramework_Parsedown/AdminPageFramework_Parsedown.php", 
+	"AdminPageFramework_WPReadmeParser"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/readme_parser/AdminPageFramework_WPReadmeParser.php", 
+	"AdminPageFramework_Parsedown"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/readme_parser/library/AdminPageFramework_Parsedown.php", 
 	"AdminPageFramework_Form_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/form/AdminPageFramework_network_admin_page.php", 
 );
