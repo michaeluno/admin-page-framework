@@ -94,6 +94,12 @@ CSSRULES;
     display:inline-block;
     width:100%;
 }            
+.admin-page-framework-content ul.admin-page-framework-section-tabs > li.admin-page-framework-section-tab {    
+    /* Do not show bullets in section tabs */
+    list-style-type: none;
+    /* For WordPress 4.4, make sure to attach the tab to the container */
+    margin: -4px 4px -1px 0;
+}
 CSSRULES;
         
     }
