@@ -21,7 +21,7 @@ class AdminPageFramework_AdminNotice___Script extends AdminPageFramework_Factory
     /**
      * The initial set-ups.
      */
-    public function construc() {
+    public function construct() {
         wp_enqueue_script( 'jquery' );        
     }
     
