@@ -403,6 +403,10 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 == Changelog ==
 
+= 3.6.5 =
+- Fixed a bug that layouts of page meta boxes were not displayed properly when no `side` meta box existed and one of `normal` or `advanced` was added.
+- Fixed the style of section tabs in WordPress 4.4.
+
 = 3.6.4 - 20105/11/19 =
 - Added the `APFL_SILENT_MODE` constant to the loader plugin that toggle the visuals of the loader admin pages.
 - Tweaked the style of `textarea` fields.

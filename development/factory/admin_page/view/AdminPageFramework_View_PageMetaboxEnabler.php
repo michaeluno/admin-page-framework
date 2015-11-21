@@ -64,11 +64,13 @@ class AdminPageFramework_View_PageMetaboxEnabler extends AdminPageFramework_WPUt
             do_action( 'add_meta_boxes', $_sCurrentScreenID, null );
             
             wp_enqueue_script( 'postbox' );
+            
+            $_iLayoutColumn = $this->_getLayoutColumn();
             add_screen_option(
                 'layout_columns', 
                 array(
-                    'max'       => 2, 
-                    'default'   => 2,
+                    'max'       => $_iLayoutColumn, 
+                    'default'   => $_iLayoutColumn,
                 )
             );
             
@@ -85,6 +87,29 @@ class AdminPageFramework_View_PageMetaboxEnabler extends AdminPageFramework_WPUt
             }
 
         }
+            /**
+             * @since       3.6.5
+             */
+            private function _getLayoutColumn() {
+                return $this->_doesMetaBoxExists( 'side' )
+                    ? 2
+                    : 1;                
+            }
+                /**
+                 * @return      boolean
+                 */
+                private function _doesMetaBoxExists( $sContext='' ) {
+                    $_aDimensions = array( 'wp_meta_boxes', $GLOBALS[ 'page_hook' ] );
+                    if ( $sContext ) {
+                        $_aDimensions[] = $sContext;
+                    }
+                    $_aMetaBoxes = $this->getElementAsArray(
+                        $GLOBALS,
+                        $_aDimensions,
+                        array()
+                    );
+                    return count( $_aMetaBoxes ) > 0;
+                }
             /**
              * Checks if there are meta boxes added to the given slug of the page.
              * @internal
