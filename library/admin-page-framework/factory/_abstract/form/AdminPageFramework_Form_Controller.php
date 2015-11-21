@@ -1,5 +1,11 @@
 <?php
 class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
+    public function setFieldErrors($aErrors) {
+        $this->oFieldError->set($aErrors);
+    }
+    public function hasFieldError() {
+        return $this->oFieldError->hasError();
+    }
     public function hasSubmitNotice($sType = '') {
         return $this->oSubmitNotice->hasNotice($sType);
     }

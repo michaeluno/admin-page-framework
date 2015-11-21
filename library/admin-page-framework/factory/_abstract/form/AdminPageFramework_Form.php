@@ -10,12 +10,14 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
     public $oMsg;
     public $aArguments = array('caller_id' => '', 'structure_type' => 'admin_page', 'action_hook_form_registration' => 'current_screen',);
     public $oSubmitNotice;
+    public $oFieldError;
     public function __construct() {
         $_aParameters = func_get_args() + array($this->aArguments, $this->aCallbacks, $this->oMsg,);
         $this->aArguments = $this->_getFormattedArguments($_aParameters[0]);
         $this->aCallbacks = $this->getAsArray($_aParameters[1]) + $this->aCallbacks;
         $this->oMsg = $_aParameters[2];
         $this->oSubmitNotice = new AdminPageFramework_Form___SubmitNotice;
+        $this->oFieldError = new AdminPageFramework_Form___FieldError($this->aArguments['caller_id']);
         parent::__construct();
         $this->construct();
     }

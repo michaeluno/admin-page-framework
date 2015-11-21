@@ -42,19 +42,13 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
         }
     }
     public function setFieldErrors($aErrors) {
-        $GLOBALS['aAdminPageFramework']['aFieldErrors'] = $this->oUtil->getElement($GLOBALS, array('aAdminPageFramework', 'aFieldErrors'), array());
-        if (empty($GLOBALS['aAdminPageFramework']['aFieldErrors'])) {
-            add_action('shutdown', array($this, '_replyToSaveFieldErrors'));
-        }
-        $_sID = md5($this->oProp->sClassName);
-        $GLOBALS['aAdminPageFramework']['aFieldErrors'][$_sID] = isset($GLOBALS['aAdminPageFramework']['aFieldErrors'][$_sID]) ? $this->oUtil->uniteArrays($GLOBALS['aAdminPageFramework']['aFieldErrors'][$_sID], $aErrors) : $aErrors;
+        $this->oForm->setFieldErrors($aErrors);
     }
     public function hasFieldError() {
-        return isset($GLOBALS['aAdminPageFramework']['aFieldErrors'][md5($this->oProp->sClassName) ]);
+        return $this->oForm->hasFieldError();
     }
     public function setSettingNotice($sMessage, $sType = 'error', $asAttributes = array(), $bOverride = true) {
         $this->oForm->setSubmitNotice($sMessage, $sType, $asAttributes, $bOverride);
-        return;
     }
     public function hasSettingNotice($sType = '') {
         return $this->oForm->hasSubmitNotice($sType);

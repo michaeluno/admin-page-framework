@@ -132,6 +132,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Form_Model"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/AdminPageFramework_Form_Model.php", 
 	"AdminPageFramework_Form_Utility"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/AdminPageFramework_Form_Utility.php", 
 	"AdminPageFramework_Form_View"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/AdminPageFramework_Form_View.php", 
+	"AdminPageFramework_Form___FieldError"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/errors/AdminPageFramework_Form___FieldError.php", 
 	"AdminPageFramework_FieldType"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/field_type/AdminPageFramework_FieldType.php", 
 	"AdminPageFramework_FieldType_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/field_type/AdminPageFramework_FieldType_Base.php", 
 	"AdminPageFramework_FieldType_checkbox"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/field_type/AdminPageFramework_FieldType_checkbox.php", 

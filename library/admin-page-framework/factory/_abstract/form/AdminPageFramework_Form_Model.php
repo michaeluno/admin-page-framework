@@ -82,17 +82,9 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         $_oFieldsetsFormatter = new AdminPageFramework_Form_Model___FormatFieldsets($this->aFieldsets, $this->aSectionsets, $this->aArguments['structure_type'], $this->aSavedData, $this->sCapability, $this->aCallbacks, $this);
         $this->aFieldsets = $_oFieldsetsFormatter->get();
     }
-    public function getFieldErrors($bDelete = true) {
-        static $_aFieldErrors;
-        $_sTransientKey = "apf_field_erros_" . get_current_user_id();
-        $_sID = md5($this->aArguments['caller_id']);
-        $_aFieldErrors = isset($_aFieldErrors) ? $_aFieldErrors : $this->getTransient($_sTransientKey);
-        if ($bDelete) {
-            add_action('shutdown', array($this, '_replyToDeleteFieldErrors'));
-        }
-        return $this->getElementAsArray($_aFieldErrors, $_sID, array());
-    }
-    public function _replyToDeleteFieldErrors() {
-        $this->deleteTransient("apf_field_erros_" . get_current_user_id());
+    public function getFieldErrors() {
+        $_aErrors = $this->oFieldError->get();
+        $this->oFieldError->delete();
+        return $_aErrors;
     }
 }

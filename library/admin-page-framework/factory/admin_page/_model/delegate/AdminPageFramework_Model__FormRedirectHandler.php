@@ -10,7 +10,7 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_W
             return;
         }
         $_sTransient = 'apf_rurl' . md5(trim("redirect_{$this->oFactory->oProp->sClassName}_{$_GET['page']}"));
-        $_aError = $this->oFactory->_getFieldErrors($_GET['page'], false);
+        $_aError = $this->oFactory->getFieldErrors();
         if (!empty($_aError)) {
             $this->deleteTransient($_sTransient);
             return;

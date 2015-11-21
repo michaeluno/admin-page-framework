@@ -67,20 +67,10 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         return $this->oForm->aSavedData;
     }
     public function getFieldErrors() {
-        return $this->_getFieldErrors();
-    }
-    public function _getFieldErrors($sID = 'deprecated', $bDelete = true) {
         return $this->oForm->getFieldErrors();
     }
-    protected function _isValidationErrors() {
-        $_aFieldErrors = $this->oUtil->getElement($GLOBALS, array('aAdminPageFramework', 'aFieldErrors'));
-        return !empty($_aFieldErrors) ? $_aFieldErrors : $this->oUtil->getTransient("apf_field_erros_" . get_current_user_id());
-    }
-    public function _replyToSaveFieldErrors() {
-        if (!isset($GLOBALS['aAdminPageFramework']['aFieldErrors'])) {
-            return;
-        }
-        $this->oUtil->setTransient("apf_field_erros_" . get_current_user_id(), $GLOBALS['aAdminPageFramework']['aFieldErrors'], 300);
+    protected function _getFieldErrors() {
+        return $this->oForm->getFieldErrors();
     }
     public function _setLastInputs(array $aLastInputs) {
         return $this->oUtil->setTransient('apf_tfd' . md5('temporary_form_data_' . $this->oProp->sClassName . get_current_user_id()), $aLastInputs, 60 * 60);
