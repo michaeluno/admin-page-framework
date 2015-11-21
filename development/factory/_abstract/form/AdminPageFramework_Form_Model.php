@@ -430,39 +430,10 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * @param       boolean     $bDelete    whether or not the transient should be deleted after retrieving it. 
      * @return      array
      */
-    public function getFieldErrors( $bDelete=true ) {
-        
-        static $_aFieldErrors;
-        
-        // Find the transient.
-        $_sTransientKey = "apf_field_erros_" . get_current_user_id();
-        $_sID           = md5( $this->aArguments[ 'caller_id' ] );
-        
-        $_aFieldErrors  = isset( $_aFieldErrors ) 
-            ? $_aFieldErrors 
-            : $this->getTransient( $_sTransientKey );
-            
-        if ( $bDelete ) {
-            add_action( 'shutdown', array( $this, '_replyToDeleteFieldErrors' ) );
-        }
-        
-        return $this->getElementAsArray(
-            $_aFieldErrors,
-            $_sID,
-            array()
-        );
-        
+    public function getFieldErrors() {
+        $_aErrors = $this->oFieldError->get();
+        $this->oFieldError->delete();
+        return $_aErrors;
     }   
-        /**
-         * Deletes the field errors transient.
-         * 
-         * @since       3.0.4
-         * @callback    action      shutdown
-         * @since       DEVVER      Moved from `AdminPageFramework_Factory_Model`.
-         * @internal
-         */
-        public function _replyToDeleteFieldErrors() {
-            $this->deleteTransient( "apf_field_erros_" . get_current_user_id() );
-        }        
   
 }

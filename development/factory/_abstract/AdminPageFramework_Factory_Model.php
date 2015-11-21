@@ -288,23 +288,23 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @since       3.4.0
      */
     public function getFieldErrors() {
-        return $this->_getFieldErrors();
+        return $this->oForm->getFieldErrors();
     }
-    
-    
+
     /**
      * Retrieves the settings error array set by the user in the validation callback.
      * 
      * @since       3.0.4    
      * @since       3.6.3       Changed the visibility scope to public as a delegation class needs to access this method.
-     * @access      public
+     * @since       DEVVER      Changed back the visibility scope to protected as there is the `getFieldErrors()` public method.
+     * @access      protected
      * @internal
      * @param       string      $sID        deprecated
      * @param       boolean     $bDelete    whether or not the transient should be deleted after retrieving it. 
      * @return      array
-     * @deprecated  DEVVER      Kept for backward compatibility
+     * @deprecated  DEVVER      Use `getFieldErrors()` instead. Kept for backward compatibility.
      */
-    public function _getFieldErrors( $sID='deprecated', $bDelete=true ) {
+    protected function _getFieldErrors( /* $sID='deprecated', $bDelete=true */ ) {
         return $this->oForm->getFieldErrors();        
     }    
         
@@ -315,8 +315,9 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @internal
      * @return      mixed           If the error is not set, returns false; otherwise, the stored error array.
      * @todo        Examine which class uses this method. It looks like this can be deprecated as there is the `hasFieldError()` method.
+     * @depreacted  DEVVER
      */
-    protected function _isValidationErrors() {
+/*     protected function _isValidationErrors() {
         
         $_aFieldErrors = $this->oUtil->getElement(
             $GLOBALS,
@@ -328,7 +329,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
             ? $_aFieldErrors
             : $this->oUtil->getTransient( "apf_field_erros_" . get_current_user_id() );
 
-    }
+    } */
         
     /**
      * Saves the field error array into the transient.
@@ -336,8 +337,9 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @since       3.0.4
      * @internal
      * @return      void
+     * @deprecated  DEVVER
      */ 
-    public function _replyToSaveFieldErrors() {
+/*     public function _replyToSaveFieldErrors() {
         
         if ( ! isset( $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ] ) ) { 
             return; 
@@ -349,7 +351,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
             300     // store it for 5 minutes ( 60 seconds * 5 )
         );    
         
-    }
+    } */
     
     /**
      * The validation callback method.

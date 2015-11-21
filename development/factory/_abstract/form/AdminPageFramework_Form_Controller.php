@@ -15,6 +15,24 @@
  * @since       DEVVER
  */
 class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
+   
+    /**
+     * Sets a given field errors.
+     * @since       DEVVER
+     * @return      void
+     */
+    public function setFieldErrors( $aErrors ) {
+        $this->oFieldError->set( $aErrors );
+    }
+   
+    /**
+     * Checks whether a field error exists.
+     * @return      boolean
+     * @since       DEVVERs
+     */
+    public function hasFieldError() {
+        return $this->oFieldError->hasError();
+    }
     
     /**
      * Checks if an error settings notice has been set.
@@ -22,7 +40,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
      * This is used in the internal validation callback method to decide whether the system error or update notice should be added or not.
      * If this method yields true, the framework discards the system message and displays the user set notification message.
      * 
-     * @since       3.1.0
+     * @since       DEVVER
      * @param       string      $sType If empty, the method will check if a message exists in all types. Otherwise, it checks the existence of a message of the specified type.
      * @return      boolean     True if a setting notice is set; otherwise, false.
      */

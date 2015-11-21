@@ -591,8 +591,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @param   array   $aErrors     the field error array. The structure should follow the one contained in the submitted `$_POST` array.
      */    
     public function setFieldErrors( $aErrors ) {
-        
-        // The field-errors array will be stored in this global array element.
+        $this->oForm->setFieldErrors( $aErrors );      
+/*         // The field-errors array will be stored in this global array element.
         $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ] = $this->oUtil->getElement( 
             $GLOBALS,  // subject array
             array( 'aAdminPageFramework', 'aFieldErrors' ), // key
@@ -610,17 +610,19 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
                 $aErrors 
             )
             : $aErrors;                   
-    
+     */
     }   
     
     /**
      * Check whether a user has set a field error(s) or not.
      * 
      * @since       3.3.0
-     * @return      boolean     Whether or not a field error exists or not.
+     * @return      boolean     Whether or not a field error exists.
      */
     public function hasFieldError() {
-        return isset( $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ][ md5( $this->oProp->sClassName ) ] );
+        return $this->oForm->hasFieldError();
+        // @deprecated  DEVVER
+        // return isset( $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ][ md5( $this->oProp->sClassName ) ] );
     }
     
     /**

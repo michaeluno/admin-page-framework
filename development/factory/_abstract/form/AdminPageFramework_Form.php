@@ -191,6 +191,11 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
     public $oSubmitNotice;    
     
     /**
+     * A field error object.
+     */
+    public $oFieldError;
+    
+    /**
      * Sets up properties.
      * @since       DEVVER
      */
@@ -202,9 +207,12 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
             $this->oMsg,
         );
         $this->aArguments     = $this->_getFormattedArguments( $_aParameters[ 0 ] );
-        $this->aCallbacks     = $this->getAsArray( $_aParameters[ 1 ] ) + $this->aCallbacks;        $this->oMsg           = $_aParameters[ 2 ];
-                
+        $this->aCallbacks     = $this->getAsArray( $_aParameters[ 1 ] ) + $this->aCallbacks;
+        $this->oMsg           = $_aParameters[ 2 ];
+        
+        // Sub-objects
         $this->oSubmitNotice  = new AdminPageFramework_Form___SubmitNotice;
+        $this->oFieldError    = new AdminPageFramework_Form___FieldError( $this->aArguments[ 'caller_id' ] );
                 
         parent::__construct();
         
