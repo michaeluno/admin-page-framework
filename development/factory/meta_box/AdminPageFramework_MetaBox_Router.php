@@ -106,12 +106,18 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
      * Determines whether the meta box should be loaded in the currently loading page.
      * 
      * @since       3.0.3
-     * @since       3.1.5      Changed the hook to 'current_screen' from 'wp_loaded'.
+     * @since       3.1.5       Changed the hook to 'current_screen' from 'wp_loaded'.
      * @internal    
      * @callback    action      current_screen
      */
-    public function _replyToDetermineToLoad( $oScreen ) {
- 
+    public function _replyToDetermineToLoad( /* $oScreen */ ) {
+        
+        /**
+         * When the current_screen action is already triggered, the parameter will not be passed. 
+         * So retrieve the screen object anyway.
+         */
+        $_oScreen  = get_current_screen();
+        
         if ( ! $this->_isInThePage() ) { 
             return; 
         }
@@ -135,7 +141,7 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
         
         // For validation callbacks. Since this method is shared with the page-meta-box class, hooking the validation hooks should be done separately.
-        $this->_setUpValidationHooks( $oScreen );
+        $this->_setUpValidationHooks( $_oScreen );
           
     }    
     
