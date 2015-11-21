@@ -644,7 +644,6 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     * @param        string      $sType          (optional) the type of the message, either "error" or "updated"  is used.
     * @param        array       $asAttributes   (optional) the tag attribute array applied to the message container HTML element. If a string is given, it is used as the ID attribute value.
     * @param        boolean     $bOverride      (optional) If true, only one message will be shown in the next page load. false: do not override when there is a message of the same id. true: override the previous one.
-    * 
     * @return       void
     */      
     public function setSettingNotice( $sMessage, $sType='error', $asAttributes=array(), $bOverride=true ) {
@@ -653,8 +652,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
             $sType,
             $asAttributes,
             $bOverride
-        );
-        return;           
+        );        
     }
     
     /**
