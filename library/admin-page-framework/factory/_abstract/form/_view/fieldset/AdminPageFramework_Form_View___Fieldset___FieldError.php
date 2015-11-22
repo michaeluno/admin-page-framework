@@ -12,7 +12,13 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
         $this->sHeadingMessage = $_aParameters[3];
     }
     public function get() {
-        return $this->_getFieldError($this->aErrors, $this->aSectionPath, $this->aFieldPath, $this->sHeadingMessage);
+        return $this->_getFieldError($this->aErrors, $this->_getSectionPathSanitized($this->aSectionPath), $this->aFieldPath, $this->sHeadingMessage);
+    }
+    private function _getSectionPathSanitized($aSectionPath) {
+        if ('_default' === $this->getElement($aSectionPath, 0)) {
+            array_shift($aSectionPath);
+        }
+        return $aSectionPath;
     }
     private function _getFieldError($aErrors, $aSectionPath, $aFieldPath, $sHeadingMessage) {
         $_aErrorPath = array_merge($aSectionPath, $aFieldPath);

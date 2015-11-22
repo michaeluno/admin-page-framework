@@ -1,6 +1,6 @@
 <?php
 class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPageFramework_Form_View___Script_Base {
-    protected function construct() {
+    public function construct() {
         wp_enqueue_script('juery');
         wp_enqueue_script('juery-ui-accordion');
     }

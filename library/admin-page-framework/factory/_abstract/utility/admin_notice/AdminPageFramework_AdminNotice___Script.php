@@ -1,6 +1,6 @@
 <?php
 class AdminPageFramework_AdminNotice___Script extends AdminPageFramework_Factory___Script_Base {
-    public function construc() {
+    public function load() {
         wp_enqueue_script('jquery');
     }
     static public function getScript() {

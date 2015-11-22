@@ -69,8 +69,11 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
         var nodeSectionContainer    = $( '#' + sSectionContainerID );
         var nodeNewSection          = nodeSectionContainer.clone(); // clone without bind events.
         var nodeSectionsContainer   = nodeSectionContainer.closest( '.admin-page-framework-sections' );
-        var sSectionsContainerID    = nodeSectionsContainer.attr( 'id' );
-        var nodeTabsContainer       = $( '#' + sSectionContainerID ).closest( '.admin-page-framework-sections' ).find( '.admin-page-framework-section-tabs' );
+        var sSectionsContainerID    = nodeSectionsContainer.attr( 'id' );        
+        var nodeTabsContainer       = $( this ).closest( '.admin-page-framework-section-tabs-contents' )
+            .children( '.admin-page-framework-section-tabs' )
+            .first();
+            
         var _iSectionIndex          = nodeSectionsContainer.attr( 'data-largest_index' );
         
         var _iFadein                = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadein' ];
@@ -274,9 +277,12 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
         var nodeSectionContainer    = $( this ).closest( '.admin-page-framework-section' );
         var sSectionConteinrID      = nodeSectionContainer.attr( 'id' );
         var nodeSectionsContainer   = $( this ).closest( '.admin-page-framework-sections' );
-        var sSectionsContainerID    = nodeSectionsContainer.attr( 'id' );
-        var nodeTabsContainer       = nodeSectionsContainer.find( '.admin-page-framework-section-tabs' );
-        var nodeTabs                = nodeTabsContainer.find( '.admin-page-framework-section-tab' );
+        var sSectionsContainerID    = nodeSectionsContainer.attr( 'id' );        
+        var nodeTabsContainer       = $( this ).closest( '.admin-page-framework-section-tabs-contents' )
+            .children( '.admin-page-framework-section-tabs' )
+            .first();
+        var nodeTabs                = nodeTabsContainer.children( '.admin-page-framework-section-tab' );
+        
         var _iSectionIndex          = nodeSectionsContainer.attr( 'data-largest_index' );
         
         var _iFadein                = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadein' ];

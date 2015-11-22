@@ -1,6 +1,6 @@
 <?php
 class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFramework_Form_View___Script_Base {
-    protected function construct() {
+    public function construct() {
         wp_enqueue_script('jquery');
         if (function_exists('wp_enqueue_media')) {
             add_action('admin_footer', array($this, '_replyToEnqueueMedia'), 1);

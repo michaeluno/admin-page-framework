@@ -29,7 +29,8 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         }
         return true;
     }
-    public function _replyToDetermineToLoad($oScreen) {
+    public function _replyToDetermineToLoad() {
+        $_oScreen = get_current_screen();
         if (!$this->_isInThePage()) {
             return;
         }
@@ -37,6 +38,6 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         $this->_setUp();
         $this->oUtil->addAndDoAction($this, "set_up_{$this->oProp->sClassName}", $this);
         add_action('add_meta_boxes', array($this, '_replyToAddMetaBox'));
-        $this->_setUpValidationHooks($oScreen);
+        $this->_setUpValidationHooks($_oScreen);
     }
 }
