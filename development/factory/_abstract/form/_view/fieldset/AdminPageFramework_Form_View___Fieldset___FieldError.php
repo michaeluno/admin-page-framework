@@ -49,12 +49,26 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
     public function get() {
         return $this->_getFieldError(
             $this->aErrors,
-            $this->aSectionPath,
+            $this->_getSectionPathSanitized( $this->aSectionPath ),
             $this->aFieldPath,
             $this->sHeadingMessage
         );
     }
-
+        /**
+         * Removes the '_default' dimension if exists.
+         * 
+         * The structure of field error arrays corresponds to the options array structure 
+         * and there is no internal default section dimensions, meaning fields without a section
+         * is stored directly in the root dimension.
+         * 
+         * @return      array
+         */
+        private function _getSectionPathSanitized( $aSectionPath ) {
+            if ( '_default' === $this->getElement( $aSectionPath, 0 ) ) {
+                array_shift( $aSectionPath );
+            }
+            return $aSectionPath;
+        }
         /**
          * Returns the set field error message to the section or field.
          * 
