@@ -71,8 +71,9 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_PageMetaBox {
     
     /**
      * (optional) Use this method to insert your custom text.
+     * @callback        action      do_{instantiated class name}
      */
-    public function do_APF_MetaBox_For_Pages_Normal() { // do_{instantiated class name}
+    public function do_APF_MetaBox_For_Pages_Normal() { 
         ?>
             <p><?php _e( 'This meta box is placed with the <code>normal</code>context and this text is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-loader' ) ?></p>
         <?php

@@ -54,11 +54,13 @@ class APF_MetaBox_For_Pages_Side extends AdminPageFramework_PageMetaBox {
         
     }
     
-    public function do_APF_MetaBox_For_Pages_Side() { // do_{instantiated class name}
+    /**
+     * @callback        action      do_{instantiated class name}
+     */
+    public function do_APF_MetaBox_For_Pages_Side() { 
         ?>
             <p><?php _e( 'This is a side meta box. This is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-loader' ) ?></p>
         <?php
-        
     }
 
     
