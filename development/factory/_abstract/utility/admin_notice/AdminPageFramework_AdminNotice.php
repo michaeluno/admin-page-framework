@@ -26,7 +26,12 @@
  */
 class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
 
-    public $sNotice     = '';
+    /**
+     * Stores all the registered notification messages.
+     */
+    static private $_aNotices = array();
+    
+    public $sNotice     = '';    
     public $aAttributes = array();
     public $aCallbacks  = array(
         'should_show'   => null,    // detemines whether the admin notice should be displayed.
@@ -41,8 +46,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
      * @since       3.5.0
      */
     public function __construct( $sNotice, array $aAttributes=array( 'class' => 'error' ), array $aCallbacks=array() ) {
-        
-        $this->sNotice                = $sNotice;
+
         $this->aAttributes            = $aAttributes + array(
             'class' => 'error', // 'updated' etc.
         );        
@@ -58,9 +62,13 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
         $this->_loadResources();
         
         // An empty value may be set in oreder only to laode the fade-in script.
-        if ( ! $this->sNotice ) {
+        if ( ! $sNotice ) {
             return;
         }
+        
+        // This prevents duplicates
+        $this->sNotice = $sNotice;
+        self::$_aNotices[ $sNotice ] = $sNotice;
         
         $this->registerAction( 
             'admin_notices', 
@@ -104,18 +112,20 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
             
             echo "<div " . $this->getAttributes( $_aAttributes ) . ">"
                     . "<p>"
-                        . $this->sNotice 
+                        . self::$_aNotices[ $this->sNotice ]
                     . "</p>"
                 . "</div>"
                 // Insert the same message except it is not hidden.
                 . "<noscript>"
                     . "<div " . $this->getAttributes( $this->aAttributes ) . ">"
                         . "<p>" 
-                            . $this->sNotice 
+                            . self::$_aNotices[ $this->sNotice ]
                         . "</p>"
                     . "</div>"              
                 . "</noscript>";
-                
+            
+            unset( self::$_aNotices[ $this->sNotice ] );
+            
         }
             /**
              * @return      boolean
