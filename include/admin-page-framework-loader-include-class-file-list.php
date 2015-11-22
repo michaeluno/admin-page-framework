@@ -44,5 +44,6 @@ $_aClassFiles = array(
 	"AdminPageFrameworkLoader_Event"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/event/AdminPageFrameworkLoader_Event.php", 
 	"AdminPageFrameworkLoader_Event_Action_GetDevelopmentVersion"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/event/AdminPageFrameworkLoader_Event_Action_GetDevelopmentVersion.php", 
 	"AdminPageFrameworkLoader_FeedList"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_FeedList.php", 
+	"AdminPageFrameworkLoader_Utility"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_Utility.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_Information"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Informationt.php", 
 );

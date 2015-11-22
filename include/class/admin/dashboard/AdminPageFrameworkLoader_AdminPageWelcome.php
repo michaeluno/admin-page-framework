@@ -78,7 +78,9 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                     admin_url( 'index.php' )   // Dashboard
                 )                
             );
-            exit( wp_safe_redirect( $_sWelcomePageURL ) );
+            
+            $this->oUtil->goToLocalURL( $_sWelcomePageURL );
+            
         }
     
     /**

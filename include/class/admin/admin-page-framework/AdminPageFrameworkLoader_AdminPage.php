@@ -28,11 +28,11 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             // Update the options and reload the page
             $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
             $_oOption->update( 'enable_admin_pages', $_GET['enable_apfl_admin_pages'] );
-            if ( ! headers_sent() ) {
-                exit( wp_safe_redirect( remove_query_arg( 'enable_apfl_admin_pages' ) ) );
-            } else {
-                new AdminPageFramework_AdminNotice( 'Header already sent. Could not be redirected after enabling the admin page.' );
-            }
+            
+            $this->oUtil->goToLocalURL( 
+                remove_query_arg( 'enable_apfl_admin_pages' ),
+                array( 'AdminPageFrameworkLoader_Utility', 'replyToShowRedirectError' )
+            );               
             
         }
         
@@ -42,11 +42,12 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             // Update the options and reload the page
             $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
             $_oOption->update( 'enable_demo', $_GET['enable_apfl_demo_pages'] );            
-            if ( ! headers_sent() ) {
-                exit( wp_safe_redirect( remove_query_arg( 'enable_apfl_demo_pages' ) ) );
-            } else {
-                new AdminPageFramework_AdminNotice( 'Header already sent. Could not be redirected after enabling the demo.' );
-            }            
+                        
+            $this->oUtil->goToLocalURL( 
+                remove_query_arg( 'enable_apfl_demo_pages' ),
+                array( 'AdminPageFrameworkLoader_Utility', 'replyToShowRedirectError' )
+            );            
+            
         }
              
     }

@@ -31,12 +31,16 @@ class AdminPageFrameworkLoader_NetworkAdmin extends AdminPageFramework_NetworkAd
             // Update the options and reload the page
             $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
             $_oOption->update( 'enable_demo', $_GET['enable_apfl_demo_pages'] );
-            exit( wp_safe_redirect( remove_query_arg( 'enable_apfl_demo_pages' ) ) );
             
+            $this->oUtil->goToLocalURL( 
+                remove_query_arg( 'enable_apfl_demo_pages' ),
+                array( 'AdminPageFrameworkLoader_Utility', 'replyToShowRedirectError' )
+            );
+
         }
              
     }
-
+  
     /**
      * Sets up admin pages.
      * 
