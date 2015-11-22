@@ -431,7 +431,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 
 = 3.7.0 =
 - Added the ability of nesting sections.
-- Tweaked the style of admin messages.
+- Added an smooth animation effect to admin notices.
 - Changed the factory class name of the page meta box from `AdminPageFramework_MetaBox_Page` to `AdminPageFramework_PageMetaBox`.
 
 = 3.6.5 - 2015/11/21 =
