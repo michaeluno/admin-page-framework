@@ -3,7 +3,7 @@
  * Loads the demo components.
  * 
  * @package      Admin Page Framework Loader
- * @copyright    Copyright (c) 2014, Michael Uno
+ * @copyright    Copyright (c) 2014-2015, Michael Uno
  * @author       Michael Uno
  * @authorurl    http://michaeluno.jp
  */
