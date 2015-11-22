@@ -18,12 +18,12 @@ class APF_BasicUsage extends AdminPageFramework {
      */
     public function start() {
         
-        new AdminPageFramework_PointerToolBox(
+        new AdminPageFramework_PointerToolTip(
             array( 
                 'apf_first_page',
                 'apf_second_page',
             ),     
-            'apf_demo_page_meta_box', // unique id for the pointer tool box
+            'apf_demo_page_meta_boxes', // unique id for the pointer tool box
             array(        // pointer data
                 'target'    => '#apf_metabox_for_pages_normal',
                 'options'   => array(

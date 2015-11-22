@@ -26,16 +26,18 @@ class APF_Demo extends AdminPageFramework {
         /**
          * ( optional ) Pointer tool box
          */ 
-        new AdminPageFramework_PointerToolBox(
+        new AdminPageFramework_PointerToolTip(
             array( 
                 // screen ids
                 'plugins', 
                 'index.php', 
                 'admin.php',
+                'edit.php?post_type=apf_posts',
                 // page slugs below
                 'apfl_addons',
                 'apfl_contact',
                 'apf_first_page',
+                'apf_second_page',
                 'apfl_tools',   
             ),     
             'apf_demo_pointer_tool_box', // unique id for the pointer tool box

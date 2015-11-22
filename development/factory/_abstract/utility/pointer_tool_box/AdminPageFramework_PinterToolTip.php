@@ -14,7 +14,7 @@
  * Usage:
  * 
  * `
- * new AdminPageFramework_PointerToolBox(
+ * new AdminPageFramework_PointerToolTip(
  *     'post',  // screen id or page slug
  *     'xyz140', // unique id for the pointer tool box
  *     array(  // pointer data
@@ -36,12 +36,23 @@
  * @subpackage  Utility
  * @extends     AdminPageFramework_WPUtility
  */
-class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
+class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
     
     static private $_bResourceLoaded = false;
-        
+    
+    /**
+     * Stores pointer data.
+     */
+    static private $aPointers = array();
+    
+    /**
+     * Stores the pointer tool box id for the class instance.
+     */
     public $sPointerID;
     
+    /**
+     * Stores the pointer tool box defintion for the class instance.
+     */
     public $aPointerData;
     
     /**
@@ -66,33 +77,20 @@ class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
             return false;
         }       
     
-        // Prints out the script in the background.
-        if ( 'admin-page-framework-pointer-tool-box' === $this->getElement( $_GET, 'script' ) ) {
-            exit( $this->_renderScript() );
-        }
-        
         // Store the registration data to the property.
         $this->aScreenIDs    = $this->getAsArray( $asScreenIDs );
         $this->sPointerID    = $sPointerID;
         $this->aPointerData  = $aPointerData;
 
-        $this->_setHooks( $this->aScreenIDs );
-        
-        if ( ! $this->_shouldProceed() ) {
-            return;
-        }
-   
-        add_action(
-            'admin_enqueue_scripts', 
-            array( $this, '_replyToLoadPointer' ),
-            1000
-        );
+        $this->_setHooks( $this->aScreenIDs );        
         
     }   
         /**
-         * 
+         * Sets up hooks.
+         * @since       DEVVER
          */
         private function _setHooks( $aScreenIDs ) {
+            
             foreach( $aScreenIDs as $_sScreenID ) {            
                 if ( ! $_sScreenID ) {
                     continue;
@@ -103,17 +101,29 @@ class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
                 );
                                 
             }       
+            
+            if ( ! $this->_hasBeenCalled() ) {
+                return;
+            } 
+            
+            // Checks the screen id and page slug and add items if they match the current screen
+            add_action(
+                'admin_enqueue_scripts', 
+                array( $this, '_replyToLoadPointers' ),
+                1000
+            );            
+                        
         }    
-        /**
-         * @return      boolean
-         */
-        private function _shouldProceed() {
-            if ( self::$_bResourceLoaded ) {
-                return false;
-            }            
-            self::$_bResourceLoaded = true;
-            return true;
-        }
+            /**
+             * @return      boolean
+             */
+            private function _hasBeenCalled() {
+                if ( self::$_bResourceLoaded ) {
+                    return false;
+                }            
+                self::$_bResourceLoaded = true;
+                return true;
+            }
     
         /**
          * @callback    filter      {class name}-{screen id}
@@ -126,9 +136,13 @@ class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
         }    
     
     /**
-     * @callback        action      admin_enqueue_scripts
+     * Checks the screen id and page slug and add items if they match the current screen
+     * 
+     * @callback    action      admin_enqueue_scripts
+     * @since       DEVVER
+     * @return      void
      */
-    public function _replyToLoadPointer( /* $hook_suffix */ ) {
+    public function _replyToLoadPointers( /* $hook_suffix */ ) {
     
         $_aPointers = $this->_getPointers();
              
@@ -136,13 +150,14 @@ class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
             return;
         }
         
-        $this->_loadScripts( 
-            $this->_getValidPointers( $_aPointers )
-        );
+        $this->_enqueueScripts(); 
+        
+        self::$aPointers = $_aPointers + self::$aPointers;
         
     }
         /**
-         * Get pointers for this screen
+         * Get pointers for this screen.
+         * @since       DEVVER
          * @return      array
          */
         private function _getPointers() {
@@ -175,9 +190,7 @@ class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
                     true 
                )
             );
-            $_aValidPointers = array(
-                'pointers'  => array(),
-            );
+            $_aValidPointers = array();
          
             // Check pointers and remove dismissed ones.
             foreach ( $_aPointers as $_iPointerID => $_aPointer ) {
@@ -194,14 +207,15 @@ class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
                 }
 
                 $_aPointer[ 'pointer_id' ] = $_iPointerID;
-         
+                
                 // Add the pointer to $_aValidPointers array
-                $_aValidPointers[ 'pointers' ][] =  $_aPointer;
+                $_aValidPointers[] =  $_aPointer;
                 
             }            
             return $_aValidPointers;
             
         }        
+            
             /**
              * @return      boolean
              * @since       DEVVER
@@ -226,45 +240,38 @@ class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
                 return false;
                 
             }   
-            
-        private function _loadScripts( $_aValidPointers ) {
+        
+        /**
+         * Enqueues scripts.
+         */
+        private function _enqueueScripts() {
                
-            // No valid pointers? Stop here.
-            if ( empty( $_aValidPointers ) ) {
-                return;
-            }           
-            
             wp_enqueue_script( 'jquery' );         
          
             // Add pointers style to queue.
+            wp_enqueue_script( 'wp-pointer' );
             wp_enqueue_style( 'wp-pointer' );
-         
-            // Add pointers script to queue. Add custom script.
-            wp_enqueue_script( 
-                'admin-page-framework-pointer',     // handle id
-                add_query_arg( 
-                    array( 
-                        'script' => 'admin-page-framework-pointer-tool-box'
-                    ), 
-                    admin_url()
-                ),
-                array( 'wp-pointer' ) 
-            );
-         
-            // Add pointer options to script.
-            wp_localize_script( 
-                'admin-page-framework-pointer',     // handle id
-                'AdminPageFrameworkPointerToolBoxes',    // data name
-                $_aValidPointers 
-            );
+
+            // Embeds the inline script
+            add_action( 
+                'admin_print_footer_scripts',
+                array( $this, '_replyToInsertInlineScript' )
+            );            
             
         }    
-
+    
     /**
-     * Renders the script.
+     * @callback        action      admin_print_footer_scripts
+     * @callback        action      admin_print_scripts
      */
-    public function _renderScript() {
-        echo $this->_getScript();
+    public function _replyToInsertInlineScript() {
+   
+        echo "<script type='text/javascript' class='admin-page-framework-pointer-tool-tip'>"
+            . '/* <![CDATA[ */'
+            . $this->_getInlineScript( self::$aPointers )
+            . '/* ]]> */'
+        . "</script>";
+        
     }
         /**
          * Returns an inline JavaScript script.
@@ -272,33 +279,31 @@ class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
          * @since       DEVVER
          * @return      string     
          */
-        public function _getScript() {
-            
+        public function _getInlineScript( $aPointers=array() ) {
+
+            $_aJSArray      = json_encode( $aPointers );
+
             /**
              * Checks checkboxes in siblings.
              */
             return <<<JAVASCRIPTS
-( function( $ ) {
-jQuery( document ).ready( function( $ ) {
-    
-    $.each( AdminPageFrameworkPointerToolBoxes.pointers, function( iIndex, _aPointer ) {
-        
-        var _aOptions = $.extend( _aPointer.options, {
+( function( jQuery ) {
+jQuery( document ).ready( function( jQuery ) {
+    jQuery.each( $_aJSArray, function( iIndex, _aPointer ) {
+        var _aOptions = jQuery.extend( _aPointer.options, {
             close: function() {
-                $.post( ajaxurl, {
+                jQuery.post( ajaxurl, {
                     pointer: _aPointer.pointer_id,
                     action: 'dismiss-wp-pointer'
                 });
             }
         });
- 
-        $( _aPointer.target ).pointer( _aOptions ).pointer( 'open' );
-
+        jQuery( _aPointer.target ).pointer( _aOptions ).pointer( 'open' );
     });
 });
 }( jQuery ));
 JAVASCRIPTS;
         
-        } 
+        }         
     
 }
