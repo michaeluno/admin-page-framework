@@ -218,7 +218,7 @@ abstract class AdminPageFramework_Model_Menu extends AdminPageFramework_Controll
                     return '';
                 }
                 $_sPageHook = add_submenu_page( 
-                    $sRootPageSlug,         // the root(parent) page slug
+                    $sRootPageSlug,         // the root (parent) page slug
                     $sPageTitle,            // page title
                     $sMenuTitle,            // menu title
                     $sCapability,           // capability

@@ -29,9 +29,9 @@ class APF_PostType extends AdminPageFramework_PostType {
             // argument - for the array structure, see http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
             array( 
                 'labels' => array(
-                    'name'               => 'Demo',
+                    'name'               => __( 'APF Demo', 'admin-page-framewrok-loader' ),
                     'all_items'          => __( 'Sample Posts', 'admin-page-framework-loader' ),
-                    'singular_name'      => 'Demo',
+                    'singular_name'      => __( 'APF Demo', 'admin-page-framewrok-loader' ),
                     'add_new'            => __( 'Add New', 'admin-page-framework-loader' ),
                     'add_new_item'       => __( 'Add New APF Post', 'admin-page-framework-loader' ),
                     'edit'               => __( 'Edit', 'admin-page-framework-loader' ),

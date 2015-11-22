@@ -14,17 +14,46 @@
 class APF_BasicUsage extends AdminPageFramework {
     
     /**
+     * 
+     */
+    public function start() {
+        
+        new AdminPageFramework_PointerToolBox(
+            array( 
+                'apf_first_page',
+                'apf_second_page',
+            ),     
+            'apf_demo_page_meta_box', // unique id for the pointer tool box
+            array(        // pointer data
+                'target'    => '#apf_metabox_for_pages_normal',
+                'options'   => array(
+                    'content' => sprintf( '<h3> %1$s </h3> <p> %2$s </p>',
+                        __( 'Page Meta Boxes' ,'admin-page-framework-loader' ),
+                        __( 'Demonstrates the use of meta boxes for admin pages.','admin-page-framework-loader')
+                        . ' ' . __( 'Usually meta boxes are displayed in post editing pages but with Admin Page Framework, you can display them in generic admin pages you create with the framework.','admin-page-framework-loader')
+                    ),
+                    'position'  => array( 'edge' => 'top', 'align' => 'middle' )
+                )
+            )
+        );          
+        
+    }
+    
+    /**
      * Sets up pages.
      */
     public function setUp() {
         
         $this->setRootMenuPage( 
-            'Demo',
+            "<span id='apf-demo-2-menu-label'>" 
+                . __( 'APF Demo 2', 'admin-page-framework-loader' ) 
+            . "</span>"
+            ,
             version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) 
                 ? 'dashicons-format-audio' 
                 : null // dash-icons are supported since WordPress v3.8
         );
-        
+                
         $this->addSubMenuItems(
             array(
                 'title'         => __( 'First Page', 'admin-page-framework-loader' ),

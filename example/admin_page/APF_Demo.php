@@ -19,6 +19,41 @@
 class APF_Demo extends AdminPageFramework {
 
     /**
+     * Constructor.
+     */
+    public function start() {
+                
+        /**
+         * ( optional ) Pointer tool box
+         */ 
+        new AdminPageFramework_PointerToolBox(
+            array( 
+                // screen ids
+                'plugins', 
+                'index.php', 
+                'admin.php',
+                // page slugs below
+                'apfl_addons',
+                'apfl_contact',
+                'apf_first_page',
+                'apfl_tools',   
+            ),     
+            'apf_demo_pointer_tool_box', // unique id for the pointer tool box
+            array(    // pointer data
+                'target'    => '#menu-posts-apf_posts > a',
+                'options'   => array(
+                    'content' => sprintf( '<h3> %1$s </h3> <p> %2$s </p>',
+                        __( 'Admin Page Framework Demo' ,'admin-page-framework-loader '),
+                        __( 'Check out the functionality of Admin Page Framework.','admin-page-framework-loader' )
+                    ),
+                    'position'  => array( 'edge' => 'left', 'align' => 'middle' )
+                )
+            )
+        );       
+        
+    }
+
+    /**
      * Sets up pages.
      * 
      * ( Required ) In this `setUp()` method, you will define admin pages.
@@ -157,7 +192,7 @@ class APF_Demo extends AdminPageFramework {
             . "</span><br />" 
             . $sHTML;
     }
-    
+        
 }
 
 // Add pages and forms in the custom post type root page

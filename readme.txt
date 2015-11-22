@@ -430,6 +430,7 @@ Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues
 == Changelog ==
 
 = 3.7.0 =
+- Added a utility class to create pointer tool box in the admin area.
 - Added the ability of nesting sections.
 - Added an smooth animation effect to admin notices.
 - Changed the factory class name of the page meta box from `AdminPageFramework_MetaBox_Page` to `AdminPageFramework_PageMetaBox`.
