@@ -25,7 +25,7 @@ class AdminPageFramework_Form_View___Script_SortableField extends AdminPageFrame
      * @since       3.3.0
      * @return      void
      */
-    protected function construct() {
+    public function construct() {
         wp_enqueue_script( 'jquery-ui-sortable' ); 
     }
     

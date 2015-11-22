@@ -56,7 +56,9 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
             array( $this, '_replyToPrintScript' )       
         );        
         
-        $this->registerAction( 'wp_enqueue_scripts', array( $this, 'construct' ) );
+        $this->construct();
+        
+        $this->registerAction( 'wp_enqueue_scripts', array( $this, 'load' ) );
         
     }
     
@@ -67,9 +69,16 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
      *
      * @remark      This should be overridden in extended classes.
      * @since       3.3.0
+     * @since       DEVVER      Changed the visibility scope from protected.
      * @return      void
      */
-    protected function construct() {}
+    public  function construct() {}
+    
+    /**
+     * @callback    wp_enqueue_script
+     * @since       DEVVER
+     */
+    public function load() {}
     
     /**
      * Prints the script.
