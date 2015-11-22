@@ -305,7 +305,7 @@ jQuery( document ).ready( function(){
     setAdminPageFrameworkMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
 });
 JAVASCRIPTS;
-        return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" . $_sScript . "</script>" . PHP_EOL;
+        return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>" . PHP_EOL;
     }
     private function _getUploaderButtonHTML_Media($sInputID, array $aButtonAttributes, $bExternalSource) {
         $_bIsLabelSet = isset($aButtonAttributes['data-label']) && $aButtonAttributes['data-label'];

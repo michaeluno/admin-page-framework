@@ -95,6 +95,6 @@ jQuery( document ).ready( function() {
 jQuery( '.admin-page-framework-section-tabs-contents' ).createTabs(); 
 });            
 JAVASCRIPTS;
-        return "<script type='text/javascript' class='admin-page-framework-section-tabs-script'>" . $_sScript . "</script>";
+        return "<script type='text/javascript' class='admin-page-framework-section-tabs-script'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
     }
 }

@@ -87,7 +87,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
         $_sScript = $this->addAndApplyFilters($this->oProp->_getCallerObject(), array("script_common_admin_page_framework", "script_common_{$this->oProp->sClassName}",), AdminPageFramework_Property_Base::$_sDefaultScript);
         $_sScript = trim($_sScript);
         if ($_sScript) {
-            echo "<script type='text/javascript' id='" . esc_attr($sIDPrefix) . "'>" . $_sScript . "</script>";
+            echo "<script type='text/javascript' id='" . esc_attr($sIDPrefix) . "'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
         }
     }
     protected function _printClassSpecificStyles($sIDPrefix) {
@@ -122,7 +122,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
         $_sScript = $this->addAndApplyFilters($this->oProp->_getCallerObject(), array("script_{$this->oProp->sClassName}",), $this->oProp->sScript);
         $_sScript = trim($_sScript);
         if ($_sScript) {
-            echo "<script type='text/javascript' id='" . esc_attr("{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}") . "'>" . $_sScript . "</script>";
+            echo "<script type='text/javascript' id='" . esc_attr("{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}") . "'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
             $_iCallCount++;
         }
         $this->oProp->sScript = '';

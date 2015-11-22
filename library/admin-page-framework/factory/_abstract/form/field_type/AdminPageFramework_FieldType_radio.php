@@ -49,6 +49,6 @@ jQuery( document ).ready( function(){
     });
 });                 
 JAVASCRIPTS;
-        return "<script type='text/javascript' class='radio-button-checked-attribute-updater'>" . $_sScript . "</script>";
+        return "<script type='text/javascript' class='radio-button-checked-attribute-updater'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
     }
 }

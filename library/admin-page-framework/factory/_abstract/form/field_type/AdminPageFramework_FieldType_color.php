@@ -145,6 +145,6 @@ jQuery( document ).ready( function(){
     registerAdminPageFrameworkColorPickerField( '{$sInputID}' );
 });            
 JAVASCRIPTS;
-        return "<script type='text/javascript' class='color-picker-enabler-script'>" . $_sScript . "</script>";
+        return "<script type='text/javascript' class='color-picker-enabler-script'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
     }
 }

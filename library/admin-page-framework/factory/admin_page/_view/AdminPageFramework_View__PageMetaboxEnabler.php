@@ -62,6 +62,6 @@ jQuery( document).ready( function(){
     postboxes.add_postbox_toggles( pagenow ); 
 });
 JAVASCRIPTS;
-        echo '<script class="admin-page-framework-insert-metabox-script">' . $_sScript . '</script>';
+        echo '<script class="admin-page-framework-insert-metabox-script">' . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . '</script>';
     }
 }

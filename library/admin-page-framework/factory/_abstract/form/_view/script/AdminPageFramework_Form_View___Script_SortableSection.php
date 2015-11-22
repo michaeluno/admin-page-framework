@@ -65,6 +65,6 @@ jQuery( document ).ready( function() {
     jQuery( '#{$sContainerTagID}' ).enableAdminPageFrameworkSortableSections( '{$sContainerTagID}' ); 
 });            
 JAVASCRIPTS;
-        return "<script type='text/javascript' class='admin-page-framework-section-sortable-script'>" . $_sScript . "</script>";
+        return "<script type='text/javascript' class='admin-page-framework-section-sortable-script'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
     }
 }

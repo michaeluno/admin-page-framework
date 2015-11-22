@@ -503,7 +503,7 @@ jQuery( document ).ready( function(){
     setAdminPageFrameworkImageUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
 });
 JAVASCRIPTS;
-        return "<script type='text/javascript' class='admin-page-framework-image-uploader-button'>" . $_sScript . "</script>" . PHP_EOL;
+        return "<script type='text/javascript' class='admin-page-framework-image-uploader-button'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>" . PHP_EOL;
     }
     private function _getUploaderButtonHTML($sInputID, array $aButtonAttributes, $bRpeatable, $bExternalSource) {
         $_bIsLabelSet = isset($aButtonAttributes['data-label']) && $aButtonAttributes['data-label'];
@@ -525,7 +525,7 @@ JAVASCRIPTS;
                     jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
                 }
 JAVASCRIPTS;
-        return "<script type='text/javascript' class='admin-page-framework-{$sType}-remove-button'>" . $_sScript . "</script>" . PHP_EOL;
+        return "<script type='text/javascript' class='admin-page-framework-{$sType}-remove-button'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>" . PHP_EOL;
     }
     protected function _getRemoveButtonHTMLByType($sInputID, array $aButtonAttributes, $sType = 'image') {
         $_bIsLabelSet = isset($aButtonAttributes['data-label']) && $aButtonAttributes['data-label'];

@@ -69,7 +69,7 @@ jQuery( document ).ready( function() {
     jQuery( '#{$sFieldsContainerID}' ).updateAdminPageFrameworkRepeatableFields( $_aJSArray ); // Update the fields     
 });
 JAVASCRIPTS;
-        return "<script type='text/javascript'>" . $_sScript . "</script>";
+        return "<script type='text/javascript'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
     }
     protected function _getSortableFieldEnablerScript($sFieldsContainerID) {
         $_sScript = <<<JAVASCRIPTS
@@ -77,6 +77,6 @@ JAVASCRIPTS;
         jQuery( this ).enableAdminPageFrameworkSortableFields( '$sFieldsContainerID' );
     });
 JAVASCRIPTS;
-        return "<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>" . $_sScript . "</script>";
+        return "<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
     }
 }
