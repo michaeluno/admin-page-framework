@@ -12,7 +12,8 @@ class AdminPageFramework_CSS {
 }
 .wrap div.error.confirmation.admin-page-framework-settings-notice-container {
     border-color: #368ADD;
-}        
+}  
+      
 /* Contextual Help Page */
 .contextual-help-description {
     clear: left;    
