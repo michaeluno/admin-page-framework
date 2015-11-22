@@ -32,6 +32,10 @@ class AdminPageFrameworkLoader_NetworkAdmin extends AdminPageFramework_NetworkAd
             $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
             $_oOption->update( 'enable_demo', $_GET['enable_apfl_demo_pages'] );
             
+            $this->setSettingNotice( 
+                __( 'Enabled demo!', 'admin-page-framework-loader' ),
+                'updated' 
+            );
             $this->oUtil->goToLocalURL( 
                 remove_query_arg( 'enable_apfl_demo_pages' ),
                 array( 'AdminPageFrameworkLoader_Utility', 'replyToShowRedirectError' )
