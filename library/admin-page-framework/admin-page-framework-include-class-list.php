@@ -255,7 +255,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Utility_SystemInformation"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_SystemInformation.php", 
 	"AdminPageFramework_Utility_URL"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_URL.php", 
 	"AdminPageFramework_Utility_VariableType"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_VariableType.php", 
-	"AdminPageFramework_PinterToolBox"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/pointer_tool_box/AdminPageFramework_PinterToolBox.php", 
+	"AdminPageFramework_PinterToolTip"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/pointer_tool_box/AdminPageFramework_PinterToolTip.php", 
 	"AdminPageFramework_WPUtility"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/wp_utility/AdminPageFramework_WPUtility.php", 
 	"AdminPageFramework_WPUtility_File"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/wp_utility/AdminPageFramework_WPUtility_File.php", 
 	"AdminPageFramework_WPUtility_HTML"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/wp_utility/AdminPageFramework_WPUtility_HTML.php", 
@@ -284,5 +284,5 @@ $aClassFiles = array(
 	"AdminPageFramework_WPReadmeParser"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/readme_parser/AdminPageFramework_WPReadmeParser.php", 
 	"AdminPageFramework_Parsedown"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/readme_parser/library/AdminPageFramework_Parsedown.php", 
 	"AdminPageFramework_Form_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/form/AdminPageFramework_network_admin_page.php", 
-	"AdminPageFramework_PointerToolBox"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/pointer_tool_box/AdminPageFramework_PinterToolBox.php", 
+	"AdminPageFramework_PointerToolTip"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/pointer_tool_box/AdminPageFramework_PinterToolTip.php", 
 );

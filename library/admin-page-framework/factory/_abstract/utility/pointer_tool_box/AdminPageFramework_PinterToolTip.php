@@ -1,6 +1,7 @@
 <?php
-class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
+class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
     static private $_bResourceLoaded = false;
+    static private $aPointers = array();
     public $sPointerID;
     public $aPointerData;
     public $aScreenIDs = array();
@@ -8,17 +9,10 @@ class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
         if (version_compare($GLOBALS['wp_version'], '3.3', '<')) {
             return false;
         }
-        if ('admin-page-framework-pointer-tool-box' === $this->getElement($_GET, 'script')) {
-            exit($this->_renderScript());
-        }
         $this->aScreenIDs = $this->getAsArray($asScreenIDs);
         $this->sPointerID = $sPointerID;
         $this->aPointerData = $aPointerData;
         $this->_setHooks($this->aScreenIDs);
-        if (!$this->_shouldProceed()) {
-            return;
-        }
-        add_action('admin_enqueue_scripts', array($this, '_replyToLoadPointer'), 1000);
     }
     private function _setHooks($aScreenIDs) {
         foreach ($aScreenIDs as $_sScreenID) {
@@ -27,8 +21,12 @@ class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
             }
             add_filter(get_class($this) . '-' . $_sScreenID, array($this, '_replyToSetPointer'));
         }
+        if (!$this->_hasBeenCalled()) {
+            return;
+        }
+        add_action('admin_enqueue_scripts', array($this, '_replyToLoadPointers'), 1000);
     }
-    private function _shouldProceed() {
+    private function _hasBeenCalled() {
         if (self::$_bResourceLoaded) {
             return false;
         }
@@ -38,12 +36,13 @@ class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
     public function _replyToSetPointer($aPointers) {
         return array($this->sPointerID => $this->aPointerData) + $aPointers;
     }
-    public function _replyToLoadPointer() {
+    public function _replyToLoadPointers() {
         $_aPointers = $this->_getPointers();
         if (empty($_aPointers) || !is_array($_aPointers)) {
             return;
         }
-        $this->_loadScripts($this->_getValidPointers($_aPointers));
+        $this->_enqueueScripts();
+        self::$aPointers = $_aPointers + self::$aPointers;
     }
     private function _getPointers() {
         $_oScreen = get_current_screen();
@@ -58,14 +57,14 @@ class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
     }
     private function _getValidPointers($_aPointers) {
         $_aDismissed = explode(',', ( string )get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
-        $_aValidPointers = array('pointers' => array(),);
+        $_aValidPointers = array();
         foreach ($_aPointers as $_iPointerID => $_aPointer) {
             $_aPointer = $_aPointer + array('target' => null, 'options' => null, 'pointer_id' => null,);
             if ($this->_shouldSkip($_iPointerID, $_aDismissed, $_aPointer)) {
                 continue;
             }
             $_aPointer['pointer_id'] = $_iPointerID;
-            $_aValidPointers['pointers'][] = $_aPointer;
+            $_aValidPointers[] = $_aPointer;
         }
         return $_aValidPointers;
     }
@@ -87,36 +86,30 @@ class AdminPageFramework_PointerToolBox extends AdminPageFramework_WPUtility {
         }
         return false;
     }
-    private function _loadScripts($_aValidPointers) {
-        if (empty($_aValidPointers)) {
-            return;
-        }
+    private function _enqueueScripts() {
         wp_enqueue_script('jquery');
+        wp_enqueue_script('wp-pointer');
         wp_enqueue_style('wp-pointer');
-        wp_enqueue_script('admin-page-framework-pointer', add_query_arg(array('script' => 'admin-page-framework-pointer-tool-box'), admin_url()), array('wp-pointer'));
-        wp_localize_script('admin-page-framework-pointer', 'AdminPageFrameworkPointerToolBoxes', $_aValidPointers);
+        add_action('admin_print_footer_scripts', array($this, '_replyToInsertInlineScript'));
     }
-    public function _renderScript() {
-        echo $this->_getScript();
+    public function _replyToInsertInlineScript() {
+        echo "<script type='text/javascript' class='admin-page-framework-pointer-tool-tip'>" . '/* <![CDATA[ */' . $this->_getInlineScript(self::$aPointers) . '/* ]]> */' . "</script>";
     }
-    public function _getScript() {
+    public function _getInlineScript($aPointers = array()) {
+        $_aJSArray = json_encode($aPointers);
         return <<<JAVASCRIPTS
-( function( $ ) {
-jQuery( document ).ready( function( $ ) {
-    
-    $.each( AdminPageFrameworkPointerToolBoxes.pointers, function( iIndex, _aPointer ) {
-        
-        var _aOptions = $.extend( _aPointer.options, {
+( function( jQuery ) {
+jQuery( document ).ready( function( jQuery ) {
+    jQuery.each( $_aJSArray, function( iIndex, _aPointer ) {
+        var _aOptions = jQuery.extend( _aPointer.options, {
             close: function() {
-                $.post( ajaxurl, {
+                jQuery.post( ajaxurl, {
                     pointer: _aPointer.pointer_id,
                     action: 'dismiss-wp-pointer'
                 });
             }
         });
- 
-        $( _aPointer.target ).pointer( _aOptions ).pointer( 'open' );
-
+        jQuery( _aPointer.target ).pointer( _aOptions ).pointer( 'open' );
     });
 });
 }( jQuery ));
