@@ -160,7 +160,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
             if ( ! $this->bIsAdmin ) {
                 return false;
             }
-            if ( defined( 'APFL_SILENT_MODE' ) && APFL_SILENT_MODE ) {
+            if ( AdminPageFrameworkLoader_Utility::isSilentMode() ) {
                 return false;
             }
             return true;

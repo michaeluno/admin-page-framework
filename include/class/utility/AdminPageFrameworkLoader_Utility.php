@@ -10,9 +10,20 @@
  * @since       DEVVER
  */
 class AdminPageFrameworkLoader_Utility {
+    
+    /**
+     * Checks if the loader runs on the silent mode or not.
+     * @return      boolean
+     * @since       DEVVER
+     */
+    static public function isSilentMode() {
+        return defined( 'APFL_SILENT_MODE' ) && APFL_SILENT_MODE;
+    }
 
     /**
      * Caleld for upon a redirect failure.
+     * @return      void
+     * @since       DEVVER
      */
     static public function replyToShowRedirectError( $iType, $sURL ) {
         

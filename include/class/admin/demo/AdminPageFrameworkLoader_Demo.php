@@ -47,7 +47,7 @@ class AdminPageFrameworkLoader_Demo {
          */
         private function _shouldLoadDemo() {
 
-            if ( defined( 'APFL_SILENT_MODE' ) && APFL_SILENT_MODE ) {
+            if ( AdminPageFrameworkLoader_Utility::isSilentMode() ) {
                 return false;
             }
         
