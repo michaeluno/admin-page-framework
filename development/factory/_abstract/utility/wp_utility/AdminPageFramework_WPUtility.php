@@ -27,18 +27,66 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
      * @since       DEVVER
      * @return      void
      */
-    static public function goToLocalURL( $sURL ) {
-        exit( wp_safe_redirect( $sURL ) ); 
+    static public function goToLocalURL( $sURL, $oCallbackOnError=null ) {
+        self::redirectByType( $sURL, 1, $oCallbackOnError );
     }
     
     /**
      * Redirects the page viewer to the specified url.
      * @uses        wp_redirect
      * @since       3.6.3
+     * @since       DEVVER      Added the second callback parameter.
      * @return      void
      */
-    static public function goToURL( $sURL ) {
-        exit( wp_redirect( $sURL ) ); 
+    static public function goToURL( $sURL, $oCallbackOnError=null ) {
+        self::redirectByType( $sURL, 0, $oCallbackOnError );
+    }
+    
+    /**
+     * Performs a redirect and exits the script.
+     * @param       string      $sURL               The url to get redirected.
+     * @param       integer     $iType              0: external site, 1: local site (within the same domain).
+     * @param       callable    $oCallbackOnError
+     */
+    static public function redirectByType( $sURL, $iType=0, $oCallbackOnError=null ) {
+     
+        $_iRedirectError = self::getRedirectPreError( $sURL, $iType );
+        if ( $_iRedirectError && is_callable( $oCallbackOnError ) ) {
+            call_user_func_array(
+                $oCallbackOnError,
+                array( 
+                    $_iRedirectError,
+                    $sURL,
+                )
+            );
+            return; // do not redirect
+        }
+        $_sFunctionName = array(
+            0 => 'wp_redirect',
+            1 => 'wp_safe_redirect',
+        );
+        exit( $_sFunctionName[ ( integer ) $iType ]( $sURL ) );
+        
+    }
+
+    /**
+     * Checks whether a redirect can proceed.
+     * @since       DEVVER
+     * @param       string      $sURL               The url to get redirected.
+     * @param       integer     $iType              0: external site, 1: local site (within the same domain).
+     * @return      integer     0: no problem, 1: url is no valid, 2: HTTP headers already sent.
+     */
+    static public function getRedirectPreError( $sURL, $iType ) {
+        
+        // check only externnal urls as local ones can be a relative url and always fails the below check.
+        if ( ! $iType && filter_var( $sURL, FILTER_VALIDATE_URL) === false ) {
+            return 1;
+        }
+        // If HTTP headers are already sent, redirect cannot be done.
+        if ( headers_sent() ) {
+            return 2;
+        }
+        return 0;
     }
     
     /**
@@ -68,7 +116,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
      */
     static public function flushRewriteRules() {
         
-        if ( $_bIsFlushed ) {
+        if ( self::$_bIsFlushed ) {
             return;
         }
         flush_rewrite_rules();
