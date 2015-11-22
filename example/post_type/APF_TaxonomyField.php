@@ -149,3 +149,7 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
     }
     
 }
+
+new APF_TaxonomyField( 
+    'apf_sample_taxonomy'   // taxonomy slug     
+);   

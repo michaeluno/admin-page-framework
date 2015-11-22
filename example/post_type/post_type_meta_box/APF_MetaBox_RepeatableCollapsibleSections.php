@@ -65,3 +65,10 @@ class APF_MetaBox_RepeatableCollapsibleSections extends AdminPageFramework_MetaB
     }
 }
     
+new APF_MetaBox_RepeatableCollapsibleSections(
+    null,   // meta box id
+    __( 'Repeatable Collapsible Sections', 'admin-page-framework-loader' ),
+    array( 'apf_posts' ),                             
+    'normal',
+    'low'
+);

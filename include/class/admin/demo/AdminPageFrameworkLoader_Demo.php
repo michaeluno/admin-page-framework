@@ -23,9 +23,6 @@ class AdminPageFrameworkLoader_Demo {
             return;
         }
         
-        // Otherwise, load it.
-        $this->_registerClasses();
-        
         // Backward compatibility.
         define( 'APFDEMO_FILE', AdminPageFrameworkLoader_Registry::$sFilePath );
         define( 'APFDEMO_DIRNAME', AdminPageFrameworkLoader_Registry::$sDirPath );
@@ -33,10 +30,7 @@ class AdminPageFrameworkLoader_Demo {
         do_action( 'admin_page_framework_loader_action_before_loading_demo' );
         
         // Include example components.
-        new AdminPageFrameworkLoader_Demo_PostType;
-        new AdminPageFrameworkLoader_Demo_AdminPage;
-        new AdminPageFrameworkLoader_Demo_Widget;        
-        new AdminPageFrameworkLoader_Demo_UserMeta;
+        include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin-page-framework-demo-bootstrap.php' );
         
         do_action( 'admin_page_framework_loader_action_after_loading_demo' );
         
@@ -58,21 +52,6 @@ class AdminPageFrameworkLoader_Demo {
             }           
             
             return true;
-            
-        }
-        /**
-         * Registers classes to be auto-loaded.
-         * @return      void
-         */
-        private function _registerClasses() {
-
-            $_aClassFiles = array();
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/include/admin-page-framework-demo-include-class-file-list.php' );            
-            new AdminPageFramework_RegisterClasses( 
-                array(),              // scanning directory paths
-                array(),              // autoloader options
-                $_aClassFiles         // pre-generated class list
-            );            
             
         }
  

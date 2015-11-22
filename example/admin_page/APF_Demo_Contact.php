@@ -67,3 +67,10 @@ class APF_Demo_Contact extends AdminPageFramework {
     }
     
 }
+
+new APF_Demo_Contact(
+    '',                         // passing an empty string will disable the form data to be saved.
+    APFDEMO_FILE,               // the caller script path.
+    'read',                     // the default capability
+    'admin-page-framework-loader' // the text domain        
+);   

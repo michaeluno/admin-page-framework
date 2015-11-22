@@ -1,0 +1,112 @@
+<?php
+/**
+ * Loads the demo components.
+ * 
+ * @package      Admin Page Framework Loader
+ * @copyright    Copyright (c) 2014, Michael Uno
+ * @author       Michael Uno
+ * @authorurl    http://michaeluno.jp
+ */
+
+ /**
+  * 
+  * @since      DEVVER
+  */
+class AdminPageFrameworkLoader_Demo_Bootstrap {
+    
+    public function __construct() {
+
+        $this->_registerClasses();
+        
+        $this->_loadCustomPostType();
+        
+        $this->_loadAdminPaeges();
+        
+        $this->_loadWidgets();
+        
+        $this->_loadUserMeta();
+
+    }
+    
+        private function _loadCustomPostType() {
+            
+            // Custom post type
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/APF_PostType.php' );
+            
+            // Post meta boxes
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/post_type_meta_box/APF_MetaBox_BuiltinFieldTypes.php' );
+            
+            // Section Tabs
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/post_type_meta_box/APF_MetaBox_TabbedSections.php' );
+
+            // Repeatable Tabbed Sections
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/post_type_meta_box/APF_MetaBox_RepeatableTabbedSections.php' );
+
+            // Collapsible Sections
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/post_type_meta_box/APF_MetaBox_CollapsibleSections.php' );
+  
+            // Repeatable Collapsielbe Sections
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/post_type_meta_box/APF_MetaBox_RepeatableCollapsibleSections.php' );
+            
+            // Taxonomy
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/APF_TaxonomyField.php' );
+            
+        }
+      
+        private function _loadAdminPaeges() {
+        
+            if ( ! is_admin() ) { 
+                return; 
+            }
+           
+            // Example components
+            
+            // Basic usage - admin page and page meta boxes
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/APF_BasicUsage.php' );
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Normal.php' );
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Advanced.php' );
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Side.php' );
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_WithFormSection.php' );
+            
+            // Network admin pages
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/network_admin/APF_NetworkAdmin.php' );
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/network_admin/APF_NetworkAdmin_ManageOptions.php' );
+           
+            // Admin Pages
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin_page/APF_Demo.php' );
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin_page/APF_Demo_ManageOptions.php' );
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin_page/APF_Demo_HiddenPage.php' );
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin_page/APF_Demo_Contact.php' );
+
+        }
+      
+        private function _loadUserMeta() {
+            
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/user_meta/APF_MyUserMeta.php' );   
+            
+        }
+        
+        private function _loadWidgets() {   
+        
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/widget/APF_Widget.php' );
+            
+        }      
+      
+        /**
+         * Registers classes to be auto-loaded.
+         * @return      void
+         */
+        private function _registerClasses() {
+
+            $_aClassFiles = array();
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/class-file-list.php' );
+            new AdminPageFramework_RegisterClasses( 
+                array(),              // scanning directory paths
+                array(),              // autoloader options
+                $_aClassFiles         // pre-generated class list
+            );            
+            
+        }
+ 
+}
+new AdminPageFrameworkLoader_Demo_Bootstrap;

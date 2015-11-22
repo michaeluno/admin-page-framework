@@ -118,3 +118,10 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
     }
 
 }
+
+new APF_Demo_ManageOptions( 
+    'APF_Demo',                 // passing the option key used by the main pages.
+    APFDEMO_FILE,               // the caller script path.
+    'manage_options',           // the default capability
+    'admin-page-framework-loader' // the text domain        
+);

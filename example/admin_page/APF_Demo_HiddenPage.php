@@ -72,3 +72,5 @@ class APF_Demo_HiddenPage {
     }    
 
 }
+
+new APF_Demo_HiddenPage;

@@ -2,7 +2,7 @@
 
 /* Configuration */
 $sTargetBaseDir     = dirname( dirname( dirname( __FILE__ ) ) );    // the plugin root dir.
-$sResultFilePath    = $sTargetBaseDir . '/include/admin-page-framework-demo-include-class-file-list.php';
+$sResultFilePath    = $sTargetBaseDir . '/example/class-file-list.php';
 
 /* If accessed from a browser, exit. */
 $bIsCLI             = php_sapi_name() == 'cli';

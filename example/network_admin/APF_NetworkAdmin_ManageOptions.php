@@ -90,3 +90,10 @@ class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
     }
 
 }
+
+new APF_NetworkAdmin_ManageOptions( 
+    'APF_NetworkAdmin', 
+    APFDEMO_FILE,               // the caller script path.
+    'manage_options',           // the default capability
+    'admin-page-framework-loader' // the text domain                    
+);    

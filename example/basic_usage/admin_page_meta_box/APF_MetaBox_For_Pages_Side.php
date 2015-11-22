@@ -73,3 +73,11 @@ class APF_MetaBox_For_Pages_Side extends AdminPageFramework_PageMetaBox {
     
     
 }
+
+new APF_MetaBox_For_Pages_Side(    
+    null,                                           // meta box id - passing null will make it auto generate
+    __( 'Sample Meta Box for Admin Pages Inserted in Advanced Area', 'admin-page-framework-loader' ), // title
+    array( 'apf_first_page', 'apf_second_page' ),   // page slugs - setting multiple slugs is possible
+    'side',                                         // context
+    'default'                                       // priority
+);

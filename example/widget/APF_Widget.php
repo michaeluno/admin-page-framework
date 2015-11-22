@@ -142,3 +142,7 @@ class APF_Widget extends AdminPageFramework_Widget {
     }
         
 }
+
+new APF_Widget( 
+    __( 'Admin Page Framework', 'admin-page-framework-loader' ) // the widget title
+);

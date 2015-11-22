@@ -273,3 +273,11 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
     }
     
 }
+
+new APF_MetaBox_BuiltinFieldTypes(
+    null,  // meta box ID - can be null. If null is passed, the ID gets automatically generated and the class name with all lower case characters will be applied.
+    __( 'Demo Meta Box with Built-in Field Types', 'admin-page-framework-loader' ), // title
+    array( 'apf_posts' ),                            // post type slugs: post, page, etc.
+    'normal',                                        // context (what kind of metabox this is)
+    'high'                                           // priority
+);

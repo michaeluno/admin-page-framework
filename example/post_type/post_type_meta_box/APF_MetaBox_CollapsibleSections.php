@@ -78,3 +78,10 @@ class APF_MetaBox_CollapsibleSections extends AdminPageFramework_MetaBox {
      
 }
     
+new APF_MetaBox_CollapsibleSections(
+    null,   // meta box id
+    __( 'Collapsible Sections', 'admin-page-framework-loader' ),
+    array( 'apf_posts' ),                             
+    'normal',
+    'low'
+);

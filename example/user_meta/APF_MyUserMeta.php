@@ -71,3 +71,5 @@ class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
     }
     
 }
+
+new APF_Demo_MyUserMeta; 

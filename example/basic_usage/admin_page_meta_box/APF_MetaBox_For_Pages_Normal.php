@@ -138,3 +138,11 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_PageMetaBox {
 
     
 }
+
+new APF_MetaBox_For_Pages_Normal(
+    null,                                           // meta box id - passing null will make it auto generate
+    __( 'Sample Meta Box for Admin Pages Inserted in Normal Area', 'admin-page-framework-loader' ), // title
+    'apf_first_page',                               // page slugs
+    'normal',                                       // context
+    'default'                                       // priority
+);
