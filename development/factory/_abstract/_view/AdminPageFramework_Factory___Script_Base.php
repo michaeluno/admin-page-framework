@@ -45,10 +45,18 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
         self::$_aEnqueued[ $_sClassName ] = $_sClassName;
         $this->oMsg = $oMsg ? $oMsg : AdminPageFramework_Message::getInstance();
         
-        add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToPrintScript' ) );
-        add_action( 'admin_footer', array( $this, '_replyToPrintScript' ) );        
+        // add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToPrintScript' ) );
+        $this->registerAction(
+            'customize_controls_print_footer_scripts', 
+            array( $this, '_replyToPrintScript' )
+        );
         
-        $this->construct();
+        $this->registerAction(
+            'admin_footer', 
+            array( $this, '_replyToPrintScript' )       
+        );        
+        
+        $this->registerAction( 'wp_enqueue_scripts', array( $this, 'construct' ) );
         
     }
     
