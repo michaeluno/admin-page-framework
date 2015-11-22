@@ -229,6 +229,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
         private function getRevealerScript( $sFieldContainerID, $sDefaultSelectionID ) {
             return 
                 "<script type='text/javascript'>
+                    /* <![CDATA[ */
                     jQuery( document ).ready( function(){
                         jQuery( '#{$sFieldContainerID} input[type=radio]' ).change( function() {
                             jQuery( this ).closest( '.admin-page-framework-field' )
@@ -238,7 +239,8 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
                             revealSelection( jQuery( this ).attr( 'id' ) );
                         });
                         revealSelection( '{$sDefaultSelectionID}' );    // do it for the default one
-                    });                
+                    });               
+                    /* ]]> */
                 </script>";        
             
         }
