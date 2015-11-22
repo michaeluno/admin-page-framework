@@ -214,7 +214,11 @@ jQuery( document ).ready( function() {
     jQuery( '#{$sFieldsContainerID}' ).updateAdminPageFrameworkRepeatableFields( $_aJSArray ); // Update the fields     
 });
 JAVASCRIPTS;
-        return "<script type='text/javascript'>" . $_sScript . "</script>";
+        return "<script type='text/javascript'>" 
+                . '/* <![CDATA[ */'
+                . $_sScript 
+                . '/* ]]> */'
+            . "</script>";
         
     }
     
@@ -231,7 +235,9 @@ JAVASCRIPTS;
     });
 JAVASCRIPTS;
         return "<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>"
+                . '/* <![CDATA[ */'
                 . $_sScript
+                . '/* ]]> */'
             . "</script>";
             
     }

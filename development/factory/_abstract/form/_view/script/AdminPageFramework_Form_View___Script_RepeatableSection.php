@@ -468,7 +468,11 @@ jQuery( document ).ready( function() {
     jQuery( '#{$sContainerTagID}' ).updateAdminPageFrameworkRepeatableSections( $_aJSArray ); 
 });            
 JAVASCRIPTS;
-        return "<script type='text/javascript' class='admin-page-framework-section-repeatable-script'>" . $_sScript . "</script>";
+        return "<script type='text/javascript' class='admin-page-framework-section-repeatable-script'>" 
+                . '/* <![CDATA[ */'
+                . $_sScript 
+                . '/* ]]> */'
+            . "</script>";
             
     }
     

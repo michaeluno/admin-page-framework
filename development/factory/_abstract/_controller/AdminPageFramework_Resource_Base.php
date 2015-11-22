@@ -332,7 +332,9 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
         $_sScript = trim( $_sScript );
         if ( $_sScript ) {
             echo "<script type='text/javascript' id='" . esc_attr( $sIDPrefix ) . "'>"
+                    . '/* <![CDATA[ */'
                     . $_sScript
+                    . '/* ]]> */'
                 . "</script>";
         }
     
@@ -431,7 +433,9 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
         $_sScript = trim( $_sScript );
         if ( $_sScript ) {
             echo "<script type='text/javascript' id='" . esc_attr( "{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}" ) . "'>" 
+                    . '/* <![CDATA[ */'
                     . $_sScript
+                    . '/* ]]> */'
                 . "</script>"; 
             $_iCallCount++;
         }

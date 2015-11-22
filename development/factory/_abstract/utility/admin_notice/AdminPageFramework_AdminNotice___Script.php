@@ -36,19 +36,19 @@ class AdminPageFramework_AdminNotice___Script extends AdminPageFramework_Factory
         
         // Uncomment these lines when parameters need to be accessed.
         // $_aParams   = func_get_args() + array( null );
-        // $_oMsg      = $_aParams[ 0 ];            
+        // $_oMsg      = $_aParams[ 0 ];         
+        
         /**
          * Checks checkboxes in siblings.
          */
         return <<<JAVASCRIPTS
 ( function( $ ) {
-
     jQuery( document ).ready( function() {         
 
         var _oAdminNotices = jQuery( '.admin-page-framework-settings-notice-message' );
         if ( _oAdminNotices.length ) {
                     
-            // animation of the `slideDown()` method does not work well when the target element has a margin
+            // Animation of the `slideDown()` method does not work well when the target element has a margin
             // so enclose the elemnet in a new container and apply new margins to it.
             var _oContainer     = jQuery( _oAdminNotices )
                 .css( 'margin', '0' )   // prevents jumpy animation
@@ -66,7 +66,6 @@ class AdminPageFramework_AdminNotice___Script extends AdminPageFramework_Factory
         }
 
     });              
-
 
 }( jQuery ));
 JAVASCRIPTS;

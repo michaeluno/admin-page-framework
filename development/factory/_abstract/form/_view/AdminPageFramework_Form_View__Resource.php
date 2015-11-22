@@ -275,7 +275,9 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
         if ( $_sScript ) {
             $_sID = $this->sanitizeSlug( strtolower( $this->oForm->aArguments[ 'caller_id' ] ) );
             echo "<script type='text/javascript' id='inline-script-{$_sID}' class='admin-page-framework-form-script'>" 
+                    . '/* <![CDATA[ */'
                     . $_sScript
+                    . '/* ]]> */'
                 . "</script>"; 
         }        
         $this->oForm->setResources( 'inline_scripts', array() );

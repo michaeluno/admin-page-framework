@@ -95,7 +95,9 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
             return;
         }
         echo "<script type='text/javascript' class='" . strtolower( get_class( $this ) ) . "'>"
+                . '/* <![CDATA[ */'
                 . $_sScript
+                . '/* ]]> */'
             . "</script>";
     }
     

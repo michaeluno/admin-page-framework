@@ -399,7 +399,9 @@ jQuery( document ).ready( function(){
 JAVASCRIPTS;
                     
             return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" 
+                    . '/* <![CDATA[ */'
                     . $_sScript 
+                    . '/* ]]> */'
                 . "</script>". PHP_EOL;
 
         }

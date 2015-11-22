@@ -264,7 +264,9 @@ jQuery( document ).ready( function(){
 JAVASCRIPTS;
             return
                 "<script type='text/javascript' class='color-picker-enabler-script'>"
+                    . '/* <![CDATA[ */'
                     . $_sScript
+                    . '/* ]]> */'
                 . "</script>";
         }    
     

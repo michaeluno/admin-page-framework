@@ -175,7 +175,9 @@ jQuery( document).ready( function(){
 });
 JAVASCRIPTS;
                 echo '<script class="admin-page-framework-insert-metabox-script">'
+                        . '/* <![CDATA[ */'
                         . $_sScript
+                        . '/* ]]> */'
                     . '</script>';
 
             }    

@@ -560,7 +560,9 @@ jQuery( document ).ready( function() {
 })            
 JAVASCRIPTS;
             return "<script type='text/javascript' class='admin-page-framework-textarea-enabler'>"
+                    . '/* <![CDATA[ */'
                     . $_sScript
+                    . '/* ]]> */'
                 . "</script>";            
         }    
         

@@ -751,7 +751,9 @@ jQuery( document ).ready( function(){
 JAVASCRIPTS;
                     
             return "<script type='text/javascript' class='admin-page-framework-image-uploader-button'>" 
+                    . '/* <![CDATA[ */'
                     . $_sScript 
+                    . '/* ]]> */'
                 . "</script>". PHP_EOL;
 
         }
@@ -845,7 +847,9 @@ JAVASCRIPTS;
 JAVASCRIPTS;
                     
             return "<script type='text/javascript' class='admin-page-framework-{$sType}-remove-button'>" 
+                    . '/* <![CDATA[ */'
                     . $_sScript 
+                    . '/* ]]> */'
                 . "</script>". PHP_EOL;
            
         }
