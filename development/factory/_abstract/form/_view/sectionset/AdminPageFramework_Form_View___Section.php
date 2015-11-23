@@ -97,11 +97,7 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_WPUtilit
         private function _getSectionContent( $_iSectionIndex ) {
 
             if ( $this->aSectionset[ 'content' ] ) {
-                return "<tr>" 
-                        . "<td>"
-                            . $this->_getCustomSectionContent()
-                        . "</td>"
-                    . "</tr>";
+                return $this->_getCustomSectionContent();
             }
             
             $_oFieldsets = new AdminPageFramework_Form_View___FieldsetRows(
@@ -128,11 +124,11 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_WPUtilit
             private function _getCustomSectionContent() {
                 
                 if ( is_scalar( $this->aSectionset[ 'content' ] ) ) {
-                    return "<tr>"
-                        . "<td>"
-                            . $this->aSectionset[ 'content' ]
-                        . "</td>"
-                    . "</tr>";
+                    return "<tr class='admin-page-framework-custom-content'>" 
+                            . "<td>"
+                                . $this->aSectionset[ 'content' ]
+                            . "</td>"
+                        . "</tr>";                    
                 }
       
                 // Retrieve the formatted sectionsets of the content.
@@ -177,8 +173,12 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_WPUtilit
                     $this->aCallbacks,
                     $this->oMsg
                 );        
-                $_sNestedOutput = $_oFormTables->get();
-                return $_sNestedOutput;
+                return "<tr class='admin-page-framework-nested-sectionsets'>" 
+                        . "<td>"
+                            . $_oFormTables->get()
+                        . "</td>"
+                    . "</tr>";                   
+                
             }        
                 /**
                  * @since       DEVVER
