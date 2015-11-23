@@ -132,14 +132,9 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
             $this->aArguments[ 'nested_depth' ]
         );
 
-// var_dump( 'Nested depth: ' . $this->aArguments[ 'nested_depth' ] );
-// if ( $this->aArguments[ 'nested_depth' ] === 2 ) {
-    // AdminPageFramework_Debug::log( $this->aStructure[ 'sectionsets' ] );
-// }   
         $_aOutput     = array();
         foreach( $_oFormatSectionsetsByTab->getTabs() as $_sSectionTabSlug ) {
 
-// var_dump( array_keys( $_oFormatSectionsetsByTab->getSectionsets( $_sSectionTabSlug ) ) ) ;
             $_aOutput[] = $this->_getFormOutput(
                 $_oFormatSectionsetsByTab->getSectionsets( $_sSectionTabSlug ),
                 $_oFormatSectionsetsByTab->getFieldsets( $_sSectionTabSlug ),
