@@ -1,51 +1,50 @@
 == New Features ==
-<h3>Sortable Sections</h3>
+<h3>Nested Sections</h3>
 
-Finally, we can sort sections. 
+Finally, we can nest form sections. This allows you to construct complex forms with combinations of sections such as collapsible sections inside tabbed sections.
 
-[embed src="https://youtu.be/rgF-pel5zgY"]
+Coming soon...
 
-<h3>Component Generator Supporting Custom Field Types</h3>
+<h3>Nested Fields</h3>
 
-Now the component generator can include custom field types so that you don't have to rename class names of custom field types manually.
+In addition to nested sections, fields now can be nested. Create complex forms with it!
 
-![Component Generator Supporting Custom Field Types](%PLUGIN_DIR_URL%/asset/image/new_feature/component_generator_supporting_cstom_field_types.jpg "Component Generator Supporting Custom Field Types")
+Coming soon...
+
+<h3>Pointer Tool Tips</h3>
+
+With the newly introduced class, `AdminPageFramework_PointerToolTip` ,you can now easily show small instructions to your users by adding a pointer tool tip which pops up in your desired screen at the targeted element. It will not be displayed once the user dismisses it.
+
+![Pointer Tool Tip](%PLUGIN_DIR_URL%/asset/image/new_feature/pointer_tool_tips.jpg "Pointer Tool Tip")
 
 <div class='apfl_columns_row'>
 
     <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>    
-            <h3>Mechanism Refinement of Dynamic Elements</h3>
-
-            <p>The refined mechanism of repeatable and sortable sections and fields dramatically reduces the amount of code in a class defining a field type.</p>
+            <h3>Improved the Way Forms Appear</h3>
+            <p>If you create a form with lots of elements, unformatted tabbed sections used to be displayed until the document was ready.</p>
+            <p>In this version, a new mechanism to render forms has been introduced to make it comfortable and we have no more buggy look during the page load.</p>
         </div>
     </div>
 
     <div class='apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>    
-            <h3>New Section and Field Definition Argument</h3>
-
-            <p>A new argument `save` is added to the section and field definition arguments. This allows you to decide whether the field value should be saved in the database individually.</p>
+            <h3>Improved the Way Admin Notice Appears</h3>
+            <p>Smilar to entire form outputs, notification boxes at the top of the screen also used appear jumpy.</p>
+            <p>This behavior also has been improved and now it renders somoothly.</p>
         </div>
     </div>
 
     <div class='apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
-            <h3>Capability Inheritance</h3>
-
-            <p>Now a capability level set to an outer page element will be inherited to inner elements by default. For example, the level set to a page will be all applied to the tabs and form elements which belong to the page.</p>
+            <h3>Under the Hood</h3>
+            <p>The form class has been overhauled and now it serves as an indivitual component. This is a preparation change to support front-end forms.</p>
         </div>
     </div>
 </div>
 
 <div class='apfl_columns_row'>    
     <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
-        <div class='apfl_cell'>
-            <h3>Easy to Add Page Resources</h3>
-            <p>The newly added `script` and `style` arguments for the page and in-page tab definitions allows you to set custom asset files easily.</p>
-        </div>
-    </div>
-    <div class='apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
             <h3>Fixes and Clean-ups</h3>
             <p>Several bugs have been patched and the directory structure has been restructured to shorten overall file paths.</p>
