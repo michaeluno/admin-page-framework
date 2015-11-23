@@ -21,6 +21,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
         add_action('wp_footer', array($this, '_replyToEnqueueStyles'));
         add_action('wp_print_footer_scripts', array($this, '_replyToAddStyle'), 999);
         add_action('wp_print_footer_scripts', array($this, '_replyToAddScript'), 999);
+        add_action('wp_head', array($this, '_replyToInsertRequiredInlineScripts'));
     }
     private function _setAdminHooks() {
         add_action('admin_enqueue_scripts', array($this, '_replyToEnqueueScripts'));
@@ -33,6 +34,13 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
         add_action('admin_footer', array($this, '_replyToEnqueueStyles'));
         add_action('admin_print_footer_scripts', array($this, '_replyToAddStyle'), 999);
         add_action('admin_print_footer_scripts', array($this, '_replyToAddScript'), 999);
+        add_action('admin_head', array($this, '_replyToInsertRequiredInlineScripts'));
+    }
+    public function _replyToInsertRequiredInlineScripts() {
+        echo "<script type='text/javascript' class='admin-page-framework-form-script-required-in-head'>" . '/* <![CDATA[ */' . $this->_getScripts_RequiredInHead() . '/* ]]> */' . "</script>";
+    }
+    private function _getScripts_RequiredInHead() {
+        return 'document.write( "<style class=\'admin-page-framework-js-embedded-inline-style\'>.admin-page-framework-form-js-on { visibility: hidden; }</style>" );';
     }
     public function _replyToEnqueueScripts() {
         if (!$this->oForm->isInThePage()) {

@@ -22,7 +22,8 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
             $_aOutput[] = $this->_getFormOutput($_oFormatSectionsetsByTab->getSectionsets($_sSectionTabSlug), $_oFormatSectionsetsByTab->getFieldsets($_sSectionTabSlug), $_sSectionTabSlug, $this->aCallbacks);
         }
         $_oDebugInfo = new AdminPageFramework_Form_View___DebugInfo($this->aArguments['structure_type'], $this->oMsg);
-        return implode(PHP_EOL, $_aOutput) . AdminPageFramework_Form_View___Script_SectionTab::getEnabler() . $_oDebugInfo->get();
+        $_sElementID = "admin-page-framework-sectionsets-" . uniqid();
+        return "<div id='{$_sElementID}' class='admin-page-framework-sctionsets admin-page-framework-form-js-on'>" . implode(PHP_EOL, $_aOutput) . AdminPageFramework_Form_View___Script_SectionTab::getEnabler() . $_oDebugInfo->get() . "</div>";
     }
     private function _getFormOutput(array $aSectionsets, array $aFieldsets, $sSectionTabSlug, $aCallbacks) {
         $_sSectionSet = $this->_getSectionsetsTables($aSectionsets, $aFieldsets, $aCallbacks);

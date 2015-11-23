@@ -37,7 +37,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
         return array($this->sPointerID => $this->aPointerData) + $aPointers;
     }
     public function _replyToLoadPointers() {
-        $_aPointers = $this->_getPointers();
+        $_aPointers = $this->_getValidPointers($this->_getPointers());
         if (empty($_aPointers) || !is_array($_aPointers)) {
             return;
         }
@@ -103,6 +103,7 @@ jQuery( document ).ready( function( jQuery ) {
     jQuery.each( $_aJSArray, function( iIndex, _aPointer ) {
         var _aOptions = jQuery.extend( _aPointer.options, {
             close: function() {
+console.log( 'dismissing: ' + _aPointer.pointer_id );
                 jQuery.post( ajaxurl, {
                     pointer: _aPointer.pointer_id,
                     action: 'dismiss-wp-pointer'

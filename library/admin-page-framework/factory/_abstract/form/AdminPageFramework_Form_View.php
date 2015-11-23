@@ -10,6 +10,7 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
             return '';
         }
         $this->_formatElementDefinitions($this->aSavedData);
+        new AdminPageFramework_Form_View___Script_Form;
         $_oFormTables = new AdminPageFramework_Form_View___Sectionsets(array('capability' => $this->sCapability,) + $this->aArguments, array('field_type_definitions' => $this->aFieldTypeDefinitions, 'sectionsets' => $this->aSectionsets, 'fieldsets' => $this->aFieldsets,), $this->aSavedData, $this->getFieldErrors(), $this->aCallbacks, $this->oMsg);
         return $_oFormTables->get();
     }

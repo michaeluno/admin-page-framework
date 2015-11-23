@@ -219,6 +219,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Form_View___Script_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/script/AdminPageFramework_Form_View___Script_Base.php", 
 	"AdminPageFramework_Form_View___Script_CheckboxSelector"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/script/AdminPageFramework_Form_View___Script_CheckboxSelector.php", 
 	"AdminPageFramework_Form_View___Script_CollapsibleSection"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/script/AdminPageFramework_Form_View___Script_CollapsibleSection.php", 
+	"AdminPageFramework_Form_View___Script_Form"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/script/AdminPageFramework_Form_View___Script_Form.php", 
 	"AdminPageFramework_Form_View___Script_MediaUploader"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/script/AdminPageFramework_Form_View___Script_MediaUploader.php", 
 	"AdminPageFramework_Form_View___Script_OptionStorage"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/script/AdminPageFramework_Form_View___Script_OptionStorage.php", 
 	"AdminPageFramework_Form_View___Script_RegisterCallback"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/script/AdminPageFramework_Form_View___Script_RegisterCallback.php", 
