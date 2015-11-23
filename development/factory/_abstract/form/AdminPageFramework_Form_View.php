@@ -65,9 +65,23 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
             $this->aCallbacks,
             $this->oMsg
         );        
-        return $_oFormTables->get();
+        return $this->_getNoScriptMessage()
+            . $_oFormTables->get();
         
     }
+        /**
+         * @return      string
+         * @since       DEVVER
+         */
+        private function _getNoScriptMessage() {
+            return "<noscript>" 
+                . "<div class='error'>"
+                    . "<p class='admin-page-framework-form-warning'>" 
+                        . $this->oMsg->get( 'please_enable_javascript' ) 
+                    . "</p>"
+                . "</div>"
+            . "</noscript>";
+        }
     
     /**
      * Outputs submit notices stored in the database transient.

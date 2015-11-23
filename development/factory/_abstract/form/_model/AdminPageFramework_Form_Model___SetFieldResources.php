@@ -84,6 +84,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
         private function _setCommonFormInlineCSSRules() {
             
             $_aClassNames = array(
+                'AdminPageFramework_Form_View___CSS_Form',
                 'AdminPageFramework_Form_View___CSS_Field',
                 'AdminPageFramework_Form_View___CSS_Section',
                 'AdminPageFramework_Form_View___CSS_CollapsibleSection',

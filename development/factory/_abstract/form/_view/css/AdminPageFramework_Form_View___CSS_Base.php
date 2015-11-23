@@ -18,12 +18,29 @@
 class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_WPUtility {
     
     /**
+     * Stores additional CSS rules.
+     */
+    public $aAdded = array();
+    
+    /**
+     * Adds css rules in a property. When the `get()` method is performed, 
+     * the added ones will be returned togethere.
+     * @return  void
+     * @since   DEVVER
+     */
+    public function add( $sCSSRules ) {
+        $this->aAdded[] = $sCSSRules;
+    }
+    
+    /**
      * @return      string
+     * @since       DEVVER
      */
     public function get() {
         
         $_sCSSRules  = $this->_get() . PHP_EOL;
         $_sCSSRules .= $this->_getVersionSpecific();
+        $_sCSSRules .= implode( PHP_EOL, $this->aAdded );
         return $this->isDebugMode()
             ? trim( $_sCSSRules )
             : $this->minifyCSS( $_sCSSRules );
@@ -31,6 +48,7 @@ class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_WPUtili
     }
     
         /**
+         * @remark      Override this method in an extended class.
          * @since       DEVVER
          * @return      string
          */
@@ -38,6 +56,7 @@ class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_WPUtili
             return '';
         }
         /**
+         * @remark      Override this method in an extended class.
          * @since       DEVVER
          * @return      string
          */

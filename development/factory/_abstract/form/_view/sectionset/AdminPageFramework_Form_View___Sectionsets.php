@@ -148,16 +148,30 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
         );
 
         // Generate id for this output
+        $_sOutput = implode( PHP_EOL, $_aOutput );
         $_sElementID = "admin-page-framework-sectionsets-" . uniqid();
-        return "<div id='{$_sElementID}' class='admin-page-framework-sctionsets admin-page-framework-form-js-on'>"
-                . implode( PHP_EOL, $_aOutput )
+        return $this->_getSpinnerOutput( $_sOutput )
+            .   "<div id='{$_sElementID}' class='admin-page-framework-sctionsets admin-page-framework-form-js-on'>"
+                . $_sOutput
                 . AdminPageFramework_Form_View___Script_SectionTab::getEnabler()
                 . $_oDebugInfo->get()
             . "</div>"
             ;
         
     }
-
+        /**
+         * @since       DEVVER
+         * @return      string
+         */
+        private function _getSpinnerOutput( $_sOutput ) {
+            
+            if ( trim( $_sOutput ) ) {
+                return "<div class='admin-page-framework-form-loading' style='display: none;'>"  
+                    . $this->oMsg->get( 'loading' )
+                . "</div>";           
+            }
+            return '';
+        }
         /**
          * Returns a generated HTML form table output.
          * @since       3.5.3

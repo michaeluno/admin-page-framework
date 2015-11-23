@@ -39,6 +39,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
         $this->_setHooks();
   
     }
+    
         /**
          * @since       DEVVER
          */
@@ -66,15 +67,10 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
             /// For all admin pages.
             add_action( 'wp_print_footer_scripts', array( $this, '_replyToAddStyle' ), 999 );
             add_action( 'wp_print_footer_scripts', array( $this, '_replyToAddScript' ), 999 );
-
+                        
             // Required scripts in the head tag.
             add_action( 'wp_head', array( $this, '_replyToInsertRequiredInlineScripts' ) );
-            
-            // @deprecated      DEVVER      Deprecated since modifying inline attributes sometimes does not take effect
-            // To add the custom attributes to the enqueued style and script tags.
-            // add_filter( 'script_loader_src', array( $this, '_replyToSetupArgumentCallback' ), 1, 2 );
-            // add_filter( 'style_loader_src', array( $this, '_replyToSetupArgumentCallback' ), 1, 2 );
-            
+                      
         }
             private function _setAdminHooks() {
                 
@@ -97,7 +93,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
                 /// For all admin pages.
                 add_action( 'admin_print_footer_scripts', array( $this, '_replyToAddStyle' ), 999 );
                 add_action( 'admin_print_footer_scripts', array( $this, '_replyToAddScript' ), 999 );  
-                
+                               
                 // Required scripts in the head tag.
                 add_action( 'admin_head', array( $this, '_replyToInsertRequiredInlineScripts' ) );
                 
@@ -108,20 +104,49 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
      * @return      string
      */
     public function _replyToInsertRequiredInlineScripts() {
+        
+        // Ensure to load only once per page load
+        if ( self::$_bLoaded ) {
+            return;
+        }
+        self::$_bLoaded = true;                
+        
         echo "<script type='text/javascript' class='admin-page-framework-form-script-required-in-head'>" 
                 . '/* <![CDATA[ */'
                 . $this->_getScripts_RequiredInHead()
                 . '/* ]]> */'
-            . "</script>";        
+            . "</script>";  
+            
     }
+        static private $_bLoaded = false;
+        
         /**
          * @since       DEVVER
          * @return      string
          */
         private function _getScripts_RequiredInHead() {
-            // Hide the form initially to prevent unformatted layouts. Use visibility to reserve the element area in the screen.
-            return 'document.write( "<style class=\'admin-page-framework-js-embedded-inline-style\'>.admin-page-framework-form-js-on { visibility: hidden; }</style>" );';
+            return 'document.write( "<style class=\'admin-page-framework-js-embedded-inline-style\'>'
+                    . esc_js( $this->_getInlineCSS() )
+                . '</style>" );';            
         }
+            /**
+             * @return      string
+             * @since       DEVVER
+             */
+            private function _getInlineCSS() {
+                $_oLoadingCSS = new AdminPageFramework_Form_View___CSS_Loading;
+                $_oLoadingCSS->add( $this->_getScriptElementConcealerCSSRules() );
+                return $_oLoadingCSS->get();
+            }
+                /**
+                 * Hides the form initially to prevent unformatted layouts being displayed during document load. 
+                 * @remark      Use visibility to reserve the element area in the screen.
+                 * @return      string
+                 * @since       DEVVER
+                 */
+                private function _getScriptElementConcealerCSSRules() {                    
+                    return ".admin-page-framework-form-js-on { visibility: hidden; }";
+                }
 
     /**
      * Enqueues page script resources.

@@ -39,11 +39,15 @@ class AdminPageFramework_Form_View___Script_Form extends AdminPageFramework_Form
      * Now when the document is ready, restore that visibility state so that the form will appear.
      */
     jQuery( document ).ready( function() {
+        
+        jQuery( '.admin-page-framework-form-loading' ).remove();
         jQuery( '.admin-page-framework-form-js-on' )
             .hide()
             .css( 'visibility', 'visible' )
-            .fadeIn( 320 )
+            .fadeIn( 200 )
+            .removeClass( '.admin-page-framework-form-js-on' )
             ;
+            
     });    
 
 }( jQuery ));
