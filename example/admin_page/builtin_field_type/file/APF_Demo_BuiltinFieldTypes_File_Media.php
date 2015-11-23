@@ -43,8 +43,9 @@ class APF_Demo_BuiltinFieldTypes_File_Media {
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
-                'title'             => __( 'Media Uploader', 'admin-page-framework-loader' ),
-                'description'       => __( 'Upload binary files in addition to images.', 'admin-page-framework-loader' ),
+                'title'         => __( 'Media Uploader', 'admin-page-framework-loader' ),
+                'tip'           => __( 'If <code>repeatable</code> is set to <code>true</code>, you can select multiple items in the pop up media uploader.', 'admin-page-framework-loader' ),
+                'description'   => __( 'Upload binary files in addition to images.', 'admin-page-framework-loader' ),
             )
         );   
 

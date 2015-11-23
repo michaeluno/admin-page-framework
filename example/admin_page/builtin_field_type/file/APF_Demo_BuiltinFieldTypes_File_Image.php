@@ -43,8 +43,9 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
-                'title'             => __( 'Image Selector', 'admin-page-framework-loader' ),
-                'description'       => __( 'Set an image url with jQuwey based image selector.', 'admin-page-framework-loader' ),
+                'title'         => __( 'Image Selector', 'admin-page-framework-loader' ),
+                'description'   => __( 'Set an image url with jQuwey based image selector.', 'admin-page-framework-loader' ),
+                'tip'           => __( 'The <code>image</code> field type allows your users to submit their images.', 'admin-page-framework-loader' ),
             )
         );   
 

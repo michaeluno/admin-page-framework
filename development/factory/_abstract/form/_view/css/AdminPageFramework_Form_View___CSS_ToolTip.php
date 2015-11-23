@@ -25,6 +25,15 @@ class AdminPageFramework_Form_View___CSS_ToolTip extends AdminPageFramework_Form
 
         return <<<CSSRULES
 
+/* Inside Field Title */        
+th > label > span > .admin-page-framework-form-tooltip {
+    float: right;
+}
+.postbox-container th > label > span > .admin-page-framework-form-tooltip {
+    margin-left: 1em;
+    float: none;
+}
+        
 /* Regular section titles have + button and collapsible title bar has a triangle icon so give a right margin */
 .admin-page-framework-section-title a.admin-page-framework-form-tooltip,
 .admin-page-framework-collapsible-title a.admin-page-framework-form-tooltip {

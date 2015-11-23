@@ -44,6 +44,7 @@ class APF_Demo_BuiltinFieldTypes_File_Upload {
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'File Uploads', 'admin-page-framework-loader' ),
+                'tip'           => __( 'The <code>file</code> field type lets your users uploade and submit their files.', 'admin-page-framework-loader' ),
                 'description'   => __( 'These are upload fields. Check the <code>$_FILES</code> variable in the validation callback method that indicates the temporary location of the uploaded files.', 'admin-page-framework-loader' ),
             )
         );   

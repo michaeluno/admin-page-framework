@@ -54,7 +54,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Checkbox {
             array( // Single checkbox item - set a check box item to the 'label' element.
                 'field_id'      => 'checkbox',
                 'title'         => __( 'Checkbox', 'admin-page-framework-loader' ),
-                'tip'           => __( 'The <code>description</code> argument can be omitted though.', 'admin-page-framework-loader' ),
+                'tip'           => __( 'The <code>description</code> argument can be omitted.', 'admin-page-framework-loader' ),
                 'type'          => 'checkbox',
                 'label'         => __( 'This is a check box.', 'admin-page-framework-loader' ) 
                     . ' ' . __( 'A string can be passed to the <code>label</code> argument for a single item.', 'admin-page-framework-loader' ), 
@@ -81,6 +81,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Checkbox {
                         'disabled' => 'disabled',
                     ),
                 ),
+                'tip'           => __( 'With the <code>attributes</code> argument, check box items can be disabled.', 'admin-page-framework-loader' ),
                 'description'   => __( 'It is possible to disable checkbox items on an individual basis.', 'admin-page-framework-loader' ),
                 'after_label'   => '<br />',
             ),

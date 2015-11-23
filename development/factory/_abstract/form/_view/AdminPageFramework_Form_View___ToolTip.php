@@ -43,7 +43,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
         } else {
             $this->aArguments = $this->getAsArray( $_aParameters[ 0 ] ) + $this->aArguments;
         }
-        $this->sTitleElementID = $_aParameters[ 1 ] + $this->sTitleElementID;
+        $this->sTitleElementID = $_aParameters[ 1 ];
     }
 
     /**
@@ -55,8 +55,9 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
         if ( ! $this->aArguments[ 'content' ] ) {
             return '';
         }
+        $_sHref = esc_attr( "#{$this->sTitleElementID}" );
         return ''
-            . "<a href='#{$this->sTitleElementID}' class='admin-page-framework-form-tooltip'>"
+            . "<a href='{$_sHref}' class='admin-page-framework-form-tooltip'>"
             . $this->_getTipLinkIcon()
             . "<span class='admin-page-framework-form-tooltip-content'>"
                 . $this->_getTipTitle()

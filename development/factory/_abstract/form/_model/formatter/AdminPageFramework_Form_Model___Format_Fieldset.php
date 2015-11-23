@@ -179,17 +179,6 @@ $_aFieldset[ '_field_path' ]        = $this->getFormElementPath( $_aFieldset[ 'f
 $_aFieldset[ '_field_path_array' ]  = explode( '|', $_aFieldset[ '_field_path' ] );
 $_aFieldset[ '_nested_depth' ]      = count( $_aFieldset[ '_field_path_array' ] ) - 1 ;
         
-        
-        
-        $_aFieldset[ 'tip' ]            = esc_attr( strip_tags(
-            $this->getElement(
-                $_aFieldset,  // subject array
-                'tip', // key
-                is_array( $_aFieldset[ 'description' ] )     // default
-                    ? implode( '&#10;', $_aFieldset[ 'description' ] ) 
-                    : $_aFieldset[ 'description' ] 
-            )
-        ) );
         $_aFieldset[ 'order' ]       = $this->getAOrB(
             is_numeric( $_aFieldset[ 'order' ] ),
             $_aFieldset[ 'order' ],

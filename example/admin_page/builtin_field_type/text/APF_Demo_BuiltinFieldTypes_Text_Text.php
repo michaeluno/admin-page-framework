@@ -159,6 +159,7 @@ class APF_Demo_BuiltinFieldTypes_Text_Text {
                     'max' => 10,
                     'min' => 3,
                 ),
+                'tip'               => __( 'With the <code>repeatable</code> argument, you can let your users add and remove field items dynamically.', 'admin-page-framework-loader' ),
                 'description'       => array( 
                     __( 'Press + / - to add / remove the fields. To enable the repeatable fields functionality, set the <code>repeatable</code> argument to <code>true</code>.', 'admin-page-framework-loader' ),
                     __( 'To set maximum and minimum numbers of fields, set the <code>max</code> and <code>min</code> arguments in the <code>repeatable</code> argument array in the field definition array.' ),
