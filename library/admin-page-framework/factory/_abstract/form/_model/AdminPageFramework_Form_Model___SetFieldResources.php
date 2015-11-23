@@ -28,7 +28,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
         $this->_setCommonFormInlineCSSRules();
     }
     private function _setCommonFormInlineCSSRules() {
-        $_aClassNames = array('AdminPageFramework_Form_View___CSS_Field', 'AdminPageFramework_Form_View___CSS_Section', 'AdminPageFramework_Form_View___CSS_CollapsibleSection', 'AdminPageFramework_Form_View___CSS_FieldError',);
+        $_aClassNames = array('AdminPageFramework_Form_View___CSS_Form', 'AdminPageFramework_Form_View___CSS_Field', 'AdminPageFramework_Form_View___CSS_Section', 'AdminPageFramework_Form_View___CSS_CollapsibleSection', 'AdminPageFramework_Form_View___CSS_FieldError',);
         foreach ($_aClassNames as $_sClassName) {
             $_oCSS = new $_sClassName;
             $this->aResources['inline_styles'][] = $_oCSS->get();

@@ -22,8 +22,15 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
             $_aOutput[] = $this->_getFormOutput($_oFormatSectionsetsByTab->getSectionsets($_sSectionTabSlug), $_oFormatSectionsetsByTab->getFieldsets($_sSectionTabSlug), $_sSectionTabSlug, $this->aCallbacks);
         }
         $_oDebugInfo = new AdminPageFramework_Form_View___DebugInfo($this->aArguments['structure_type'], $this->oMsg);
+        $_sOutput = implode(PHP_EOL, $_aOutput);
         $_sElementID = "admin-page-framework-sectionsets-" . uniqid();
-        return "<div id='{$_sElementID}' class='admin-page-framework-sctionsets admin-page-framework-form-js-on'>" . implode(PHP_EOL, $_aOutput) . AdminPageFramework_Form_View___Script_SectionTab::getEnabler() . $_oDebugInfo->get() . "</div>";
+        return $this->_getSpinnerOutput($_sOutput) . "<div id='{$_sElementID}' class='admin-page-framework-sctionsets admin-page-framework-form-js-on'>" . $_sOutput . AdminPageFramework_Form_View___Script_SectionTab::getEnabler() . $_oDebugInfo->get() . "</div>";
+    }
+    private function _getSpinnerOutput($_sOutput) {
+        if (trim($_sOutput)) {
+            return "<div class='admin-page-framework-form-loading' style='display: none;'>" . $this->oMsg->get('loading') . "</div>";
+        }
+        return '';
     }
     private function _getFormOutput(array $aSectionsets, array $aFieldsets, $sSectionTabSlug, $aCallbacks) {
         $_sSectionSet = $this->_getSectionsetsTables($aSectionsets, $aFieldsets, $aCallbacks);

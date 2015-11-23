@@ -360,6 +360,10 @@ JAVASCRIPTS;
 .postbox .admin-page-framework-field-textarea .admin-page-framework-input-label-container {
     width: 100%;
 }
+/* Prevents the input box sticks out in a meta box, especially in the side meta box. */
+.admin-page-framework-field-textarea textarea {    
+    max-width: 100%;
+}
 CSSRULES;
         
     }

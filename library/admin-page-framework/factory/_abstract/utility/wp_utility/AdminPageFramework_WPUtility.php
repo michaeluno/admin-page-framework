@@ -1,5 +1,10 @@
 <?php
 class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
+    static public function getWPAdminDirPath() {
+        $_aFunctionNames = array(0 => 'get_admin_url', 1 => 'get_network_admin_url');
+        $_sWPAdminPath = str_replace(get_bloginfo('url') . '/', ABSPATH, call_user_func($_aFunctionNames[( integer )is_network_admin() ]));
+        return rtrim($_sWPAdminPath, '/');
+    }
     static public function goToLocalURL($sURL, $oCallbackOnError = null) {
         self::redirectByType($sURL, 1, $oCallbackOnError);
     }

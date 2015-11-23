@@ -37,10 +37,23 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
         add_action('admin_head', array($this, '_replyToInsertRequiredInlineScripts'));
     }
     public function _replyToInsertRequiredInlineScripts() {
+        if (self::$_bLoaded) {
+            return;
+        }
+        self::$_bLoaded = true;
         echo "<script type='text/javascript' class='admin-page-framework-form-script-required-in-head'>" . '/* <![CDATA[ */' . $this->_getScripts_RequiredInHead() . '/* ]]> */' . "</script>";
     }
+    static private $_bLoaded = false;
     private function _getScripts_RequiredInHead() {
-        return 'document.write( "<style class=\'admin-page-framework-js-embedded-inline-style\'>.admin-page-framework-form-js-on { visibility: hidden; }</style>" );';
+        return 'document.write( "<style class=\'admin-page-framework-js-embedded-inline-style\'>' . esc_js($this->_getInlineCSS()) . '</style>" );';
+    }
+    private function _getInlineCSS() {
+        $_oLoadingCSS = new AdminPageFramework_Form_View___CSS_Loading;
+        $_oLoadingCSS->add($this->_getScriptElementConcealerCSSRules());
+        return $_oLoadingCSS->get();
+    }
+    private function _getScriptElementConcealerCSSRules() {
+        return ".admin-page-framework-form-js-on { visibility: hidden; }";
     }
     public function _replyToEnqueueScripts() {
         if (!$this->oForm->isInThePage()) {
