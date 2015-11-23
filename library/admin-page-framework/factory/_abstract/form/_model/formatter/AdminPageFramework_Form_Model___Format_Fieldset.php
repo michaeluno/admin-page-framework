@@ -27,7 +27,6 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
         $_aFieldset['_field_path'] = $this->getFormElementPath($_aFieldset['field_id']);
         $_aFieldset['_field_path_array'] = explode('|', $_aFieldset['_field_path']);
         $_aFieldset['_nested_depth'] = count($_aFieldset['_field_path_array']) - 1;
-        $_aFieldset['tip'] = esc_attr(strip_tags($this->getElement($_aFieldset, 'tip', is_array($_aFieldset['description']) ? implode('&#10;', $_aFieldset['description']) : $_aFieldset['description'])));
         $_aFieldset['order'] = $this->getAOrB(is_numeric($_aFieldset['order']), $_aFieldset['order'], $this->iCountOfElements + 10);
         $_aFieldset['class'] = $this->getAsArray($_aFieldset['class']);
         return $_aFieldset;

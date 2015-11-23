@@ -34,6 +34,18 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
     }
     private function _getFieldTitle(array $aField) {
         $_oInputTagIDGenerator = new AdminPageFramework_Form_View___Generate_FieldInputID($aField, 0);
-        return "<label for='" . $_oInputTagIDGenerator->get() . "'>" . "<a id='{$aField['field_id']}'></a>" . "<span title='" . esc_attr(strip_tags(isset($aField['tip']) ? $aField['tip'] : (is_array($aField['description'] ? implode('&#10;', $aField['description']) : $aField['description'])))) . "'>" . $aField['title'] . (in_array($aField['_structure_type'], array('widget', 'post_meta_box', 'page_meta_box')) && isset($aField['title']) && '' !== $aField['title'] ? "<span class='title-colon'>:</span>" : '') . "</span>" . "</label>";
+        return "<label for='" . $_oInputTagIDGenerator->get() . "'>" . "<a id='{$aField['field_id']}'></a>" . "<span title='" . esc_attr(strip_tags(is_array($aField['description']) ? implode('&#10;', $aField['description']) : $aField['description'])) . "'>" . $aField['title'] . $this->_getTitleColon($aField) . $this->_getToolTip($aField['tip'], $aField['field_id']) . "</span>" . "</label>";
+    }
+    private function _getToolTip($asTip, $sElementID) {
+        $_oToolTip = new AdminPageFramework_Form_View___ToolTip($asTip, $sElementID);
+        return $_oToolTip->get();
+    }
+    private function _getTitleColon($aField) {
+        if (!isset($aField['title']) || '' === $aField['title']) {
+            return '';
+        }
+        if (in_array($aField['_structure_type'], array('widget', 'post_meta_box', 'page_meta_box'))) {
+            return "<span class='title-colon'>:</span>";
+        }
     }
 }

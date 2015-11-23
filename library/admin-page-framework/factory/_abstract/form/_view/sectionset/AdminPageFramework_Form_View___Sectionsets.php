@@ -110,7 +110,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
         if (empty($aOutputs['section_contents'])) {
             return '';
         }
-        $_oCollapsibleSectionTitle = new AdminPageFramework_Form_View___CollapsibleSectionTitle(array('title' => $this->getElement($aCollapsible, 'title', ''), 'tag' => 'h3', 'section_index' => null, 'collapsible' => $aCollapsible, 'container_type' => 'sections',), array(), $this->aSavedData, $this->aFieldErrors, $this->aStructure['field_type_definitions'], $this->oMsg, $this->aCallbacks);
+        $_oCollapsibleSectionTitle = new AdminPageFramework_Form_View___CollapsibleSectionTitle(array('title' => $this->getElement($aCollapsible, 'title', ''), 'tag' => 'h3', 'section_index' => null, 'collapsible' => $aCollapsible, 'container_type' => 'sections', 'sectionset' => $aSectionset,), array(), $this->aSavedData, $this->aFieldErrors, $this->aStructure['field_type_definitions'], $this->oMsg, $this->aCallbacks);
         $_oSectionsTablesContainerAttributes = new AdminPageFramework_Form_View___Attribute_SectionsTablesContainer($aSectionset, $sSectionsID, $sSectionTabSlug, $aCollapsible, $aOutputs['count_subsections']);
         return $_oCollapsibleSectionTitle->get() . "<div " . $_oSectionsTablesContainerAttributes->get() . ">" . $this->_getSectionTabList($sSectionTabSlug, $aOutputs['section_tab_list']) . implode(PHP_EOL, $aOutputs['section_contents']) . "</div>";
     }
@@ -126,7 +126,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
         $_aTabAttributes = $aSection['attributes']['tab'] + array('class' => 'admin-page-framework-section-tab nav-tab', 'id' => "section_tab-{$_sSectionTagID}", 'style' => null);
         $_aTabAttributes['class'] = $this->getClassAttribute($_aTabAttributes['class'], $aSection['class']['tab']);
         $_aTabAttributes['style'] = $this->getStyleAttribute($_aTabAttributes['style'], $aSection['hidden'] ? 'display:none' : null);
-        $_oSectionTitle = new AdminPageFramework_Form_View___SectionTitle(array('title' => $aSection['title'], 'tag' => 'h4', 'section_index' => $iSectionIndex,), $aFields, $this->aSavedData, $this->aFieldErrors, $this->aStructure['field_type_definitions'], $this->oMsg, $this->aCallbacks);
+        $_oSectionTitle = new AdminPageFramework_Form_View___SectionTitle(array('title' => $aSection['title'], 'tag' => 'h4', 'section_index' => $iSectionIndex, 'sectionset' => $aSection,), $aFields, $this->aSavedData, $this->aFieldErrors, $this->aStructure['field_type_definitions'], $this->oMsg, $this->aCallbacks);
         return "<li " . $this->getAttributes($_aTabAttributes) . ">" . "<a href='#{$_sSectionTagID}'>" . $_oSectionTitle->get() . "</a>" . "</li>";
     }
 }

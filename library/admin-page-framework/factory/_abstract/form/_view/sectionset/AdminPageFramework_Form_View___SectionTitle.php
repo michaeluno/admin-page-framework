@@ -1,6 +1,6 @@
 <?php
 class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_Form_View___Section_Base {
-    public $aArguments = array('title' => null, 'tag' => null, 'section_index' => null,);
+    public $aArguments = array('title' => null, 'tag' => null, 'section_index' => null, 'sectionset' => array(),);
     public $aFieldsets = array();
     public $aSavedData = array();
     public $aFieldErrors = array();
@@ -18,11 +18,18 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
         $this->aCallbacks = $_aParameters[6];
     }
     public function get() {
-        return $this->_getSectionTitle($this->aArguments['title'], $this->aArguments['tag'], $this->aFieldsets, $this->aArguments['section_index'], $this->aFieldTypeDefinitions);
+        $_sTitle = $this->_getSectionTitle($this->aArguments['title'], $this->aArguments['tag'], $this->aFieldsets, $this->aArguments['section_index'], $this->aFieldTypeDefinitions);
+        return $_sTitle;
+    }
+    private function _getToolTip() {
+        $_aSectionset = $this->aArguments['sectionset'];
+        $_sSectionTitleTagID = str_replace('|', '_', $_aSectionset['_section_path']) . '_' . $this->aArguments['section_index'];
+        $_oToolTip = new AdminPageFramework_Form_View___ToolTip($_aSectionset['tip'], $_sSectionTitleTagID);
+        return $_oToolTip->get();
     }
     protected function _getSectionTitle($sTitle, $sTag, $aFieldsets, $iSectionIndex = null, $aFieldTypeDefinitions = array()) {
         $_aSectionTitleField = $this->_getSectionTitleField($aFieldsets, $iSectionIndex, $aFieldTypeDefinitions);
-        return $_aSectionTitleField ? $this->getFieldsetOutput($_aSectionTitleField) : "<{$sTag}>" . $sTitle . "</{$sTag}>";
+        return $_aSectionTitleField ? $this->getFieldsetOutput($_aSectionTitleField) : "<{$sTag}>" . $sTitle . $this->_getToolTip() . "</{$sTag}>";
     }
     private function _getSectionTitleField(array $aFieldsetsets, $iSectionIndex, $aFieldTypeDefinitions) {
         foreach ($aFieldsetsets as $_aFieldsetset) {
