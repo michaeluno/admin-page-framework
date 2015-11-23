@@ -128,10 +128,6 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
         $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
         $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
            
-        // Styles
-        $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css' );
-        $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css' );
-              
         // Hook
         add_action( "load_" . AdminPageFrameworkLoader_Registry::$aAdminPages['about'], array( $this, 'replyToLoadPage' ) );
         
@@ -151,6 +147,11 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                 array(
                     'tab_slug'      => 'welcome',
                     // 'title'         => __( "What's New", 'admin-page-framework-loader' ),   // '
+                    'style'         => array(
+                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css',
+                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
+                        ' .main-image, .main-image img { text-align: center; max-width: 90%; margin-left: auto; margin-right: auto; } ',
+                    ),
                 )                
             );        
 
@@ -191,16 +192,13 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                 . sprintf( __( 'Thank you for updating to the latest version! %1$s is ready to make your plugin or theme development faster, more organized and better!', 'admin-page-framework-loader' ), $_sPluginName )
             . "</div>";
         $_aOutput[] = ''
-                // . "<div class='apf-badge-container m-flip'>"
                 . "<div class='apf-badge'>"
                     . "<div class='apf-badge-image m-flip'>"
                         . "<img src='{$_sBadgeURL}' />"
                     . "</div>"
                     . "<span class='label'>" . sprintf( __( 'Version %1$s', 'admin-page-framework-loader' ), $_sVersion ) . "</span>"
-                . "</div>"
-            // . "</div>"
-;            
-            
+                . "</div>";
+           
         return implode( PHP_EOL, $_aOutput )
             . $sContent;
     }

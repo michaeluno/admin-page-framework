@@ -3,7 +3,9 @@
 
 Finally, we can nest form sections. This allows you to construct complex forms with combinations of sections such as collapsible sections inside tabbed sections.
 
-![Nested Sections](%PLUGIN_DIR_URL%/asset/image/new_feature/nested_sections.jpg "Nested Sections")
+<div class='main-image'>
+    <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/nested_sections.jpg" alt="Nested Sections">
+</div>
 
 <h3>Nested Fields</h3>
 
@@ -13,9 +15,11 @@ Coming soon...
 
 <h3>Pointer Tool Tips</h3>
 
-With the newly introduced class, `AdminPageFramework_PointerToolTip` ,you can now easily show small instructions to your users by adding a pointer tool tip which pops up in your desired screen at the targeted element. It will not be displayed once the user dismisses it.
+With the newly introduced class, `AdminPageFramework_PointerToolTip`, you can now easily show small instructions to your users by adding a pointer tool tip which pops up in your desired screen at the targeted element. It will not be displayed once the user dismisses it.
 
-![Pointer Tool Tip](%PLUGIN_DIR_URL%/asset/image/new_feature/pointer_tool_tips.jpg "Pointer Tool Tip")
+<div class='main-image'>
+    <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/pointer_tool_tips.jpg" alt="Pointer Tool Tip">
+</div>
 
 <div class='apfl_columns_row'>
 
