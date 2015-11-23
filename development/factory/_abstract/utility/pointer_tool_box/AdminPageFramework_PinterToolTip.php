@@ -261,8 +261,8 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
         }    
     
     /**
-     * @callback        action      admin_print_footer_scripts
-     * @callback        action      admin_print_scripts
+     * @since       DVVER
+     * @callback    action      admin_print_footer_scripts
      */
     public function _replyToInsertInlineScript() {
    
