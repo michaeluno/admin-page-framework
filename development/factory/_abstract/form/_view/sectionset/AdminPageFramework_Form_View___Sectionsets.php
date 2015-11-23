@@ -514,6 +514,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                         'section_index'     => null,
                         'collapsible'       => $aCollapsible,
                         'container_type'    => 'sections', // section or sections                    
+                        'sectionset'        => $aSectionset,    // DEVVER+ for tooltip
                     ),
                     array(),            // fieldsets
                     $this->aSavedData,   
@@ -584,6 +585,8 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                         'title'         => $aSection[ 'title' ],
                         'tag'           => 'h4',
                         'section_index' => $iSectionIndex,
+                        
+                        'sectionset'    => $aSection,   // DEVVER+      for tooltip
                     ),
                     $aFields,            
                     $this->aSavedData,   

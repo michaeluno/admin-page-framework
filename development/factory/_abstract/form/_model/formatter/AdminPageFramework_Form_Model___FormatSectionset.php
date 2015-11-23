@@ -59,6 +59,8 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
         
         'content'           => null,     // 3.6.1+  (string) An overriding section-set output.
         
+        'tip'               => null,     // DEVVER  (string) Tool tip HTML strings. 
+        
         // Internal
         '_fields_type'      => null,     // @deprecated DEVVER+ Use the `_structure_type` instead. 3.0.0+ - same as the one of the field definition array. Used to insert debug info at the bottom of sections.        
         '_structure_type'   => null,     // DEVVER+

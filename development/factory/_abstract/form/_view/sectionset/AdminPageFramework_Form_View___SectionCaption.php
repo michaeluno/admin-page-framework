@@ -101,6 +101,8 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_W
                     'section_index'     => $iSectionIndex,
                     'collapsible'       => $_abCollapsible,
                     'container_type'    => 'section', // section or sections                    
+                    
+                    'sectionset'        => $aSectionset,    // DEVVER+ for tooltip
                 ),
                 $aFieldsets,            
                 $this->aSavedData,   
@@ -171,6 +173,8 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_W
                         'title'         => $aSectionset[ 'title' ],
                         'tag'           => 'h3',
                         'section_index' => $iSectionIndex,
+                        
+                        'sectionset'    => $aSectionset,    // DEVVER+ for tooltip
                     ),
                     $aFieldsets,            
                     $this->aSavedData,   

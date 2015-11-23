@@ -24,6 +24,9 @@ class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFr
         'section_index'     => null,
         'collapsible'       => array(),
         'container_type'    => 'section', // section or sections
+        
+        'sectionset'        => array(),  // DEVVER+ sectionset definition array
+        
     );
     public $aFieldsets               = array();
     public $aSavedData              = array();
@@ -73,9 +76,13 @@ class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFr
                 $this->aFieldTypeDefinitions         
             );
             
+            $_aSectionset        = $this->aArguments[ 'sectionset' ];
+            $_sSectionTitleTagID = str_replace( '|', '_', $_aSectionset[ '_section_path' ]  ) . '_' . $iSectionIndex;
+
             return $this->_getCollapsibleSectionsEnablerScript()
                 . "<div " . $this->getAttributes(
                     array(
+                        'id'    => $_sSectionTitleTagID,
                         'class' => $this->getClassAttribute( 
                             'admin-page-framework-section-title',
                             'accordion-section-title',

@@ -22,6 +22,8 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
         'title'         => null,
         'tag'           => null,
         'section_index' => null,
+        
+        'sectionset'    => array(),
     );
     public $aFieldsets               = array();
     public $aSavedData              = array();
@@ -66,15 +68,29 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
      * @return      string      The output.
      */
     public function get() {
-        return $this->_getSectionTitle( 
+        $_sTitle = $this->_getSectionTitle( 
             $this->aArguments[ 'title' ], 
             $this->aArguments[ 'tag' ],
             $this->aFieldsets,
             $this->aArguments[ 'section_index' ],
             $this->aFieldTypeDefinitions
         );       
+        return $_sTitle;
     }
-
+        /**
+         * 
+         */
+        private function _getToolTip() {
+            
+            $_aSectionset        = $this->aArguments[ 'sectionset' ];
+            $_sSectionTitleTagID = str_replace( '|', '_', $_aSectionset[ '_section_path' ]  ) . '_' . $this->aArguments[ 'section_index' ];
+            $_oToolTip           = new AdminPageFramework_Form_View___ToolTip(
+                $_aSectionset[ 'tip' ],
+                $_sSectionTitleTagID
+            );            
+            return $_oToolTip->get();
+            
+        }
         /**
          * Returns the section title output.
          * 
@@ -93,6 +109,7 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
                 ? $this->getFieldsetOutput( $_aSectionTitleField )
                 : "<{$sTag}>" 
                         . $sTitle 
+                        . $this->_getToolTip()
                     . "</{$sTag}>";
             
         }    

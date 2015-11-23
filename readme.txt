@@ -430,6 +430,8 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.7.0 =
+- Added the ability to display tool tips that appear when the user moves the cursor over the ? icon beside the section title.
+- Added the `tip` argument for section definitions.
 - Added a utility class to create pointer tool box in the admin area.
 - Added the ability of nesting sections.
 - Tweaked the way that forms appear.

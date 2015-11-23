@@ -89,6 +89,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 'AdminPageFramework_Form_View___CSS_Section',
                 'AdminPageFramework_Form_View___CSS_CollapsibleSection',
                 'AdminPageFramework_Form_View___CSS_FieldError',
+                'AdminPageFramework_Form_View___CSS_ToolTip',
             );
             foreach( $_aClassNames as $_sClassName ) {
                 $_oCSS = new $_sClassName;

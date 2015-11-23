@@ -233,6 +233,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *      </li>
      *      <li>**sortable** - (optional, boolean) [3.6.0+] whether the section is sortable or not. In order for this option to be effective, the `repeatable` argument must be enabled.</li>
      *      <li>**content** - (optional, string) [3.6.1+] a custom section output.</li>
+     *      <li>**tip** - (optional, string) [DEVVER+] a tool tip which pops up when the user hovers their mouse over the ? mark icon beside the title..</li>
      * </ul>
      * @return      void
      */

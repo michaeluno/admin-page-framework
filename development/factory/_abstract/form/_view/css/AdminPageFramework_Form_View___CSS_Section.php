@@ -67,6 +67,9 @@ class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form
     margin: 0;
     padding: 8px 14px 10px;
     font-size: 1.2em;
+    vertical-align: middle;
+    white-space: nowrap;
+    display:inline-block;
 }
 .admin-page-framework-section-tab.nav-tab {
     padding: 0;

@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.7.0b14 by Michael Uno 
+	Admin Page Framework v3.7.0b15 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -190,6 +190,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Form_View__Resource"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/AdminPageFramework_Form_View__Resource.php", 
 	"AdminPageFramework_Form_View___DebugInfo"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/AdminPageFramework_Form_View___DebugInfo.php", 
 	"AdminPageFramework_Form_View___Description"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/AdminPageFramework_Form_View___Description.php", 
+	"AdminPageFramework_Form_View___ToolTip"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/AdminPageFramework_Form_View___ToolTip.php", 
 	"AdminPageFramework_Form_View___Attribute_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/attribute/AdminPageFramework_Form_View___Attribute_Base.php", 
 	"AdminPageFramework_Form_View___Attribute_Field"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/attribute/AdminPageFramework_Form_View___Attribute_Field.php", 
 	"AdminPageFramework_Form_View___Attribute_FieldContainer_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/attribute/AdminPageFramework_Form_View___Attribute_FieldContainer_Base.php", 
@@ -208,6 +209,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Form_View___CSS_Form"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/css/AdminPageFramework_Form_View___CSS_Form.php", 
 	"AdminPageFramework_Form_View___CSS_Loading"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/css/AdminPageFramework_Form_View___CSS_Loading.php", 
 	"AdminPageFramework_Form_View___CSS_Section"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/css/AdminPageFramework_Form_View___CSS_Section.php", 
+	"AdminPageFramework_Form_View___CSS_ToolTip"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/css/AdminPageFramework_Form_View___CSS_ToolTip.php", 
 	"AdminPageFramework_Form_View___Fieldset"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/fieldset/AdminPageFramework_Form_View___Fieldset.php", 
 	"AdminPageFramework_Form_View___Fieldset_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/fieldset/AdminPageFramework_Form_View___Fieldset_Base.php", 
 	"AdminPageFramework_Form_View___Fieldset___FieldError"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/fieldset/AdminPageFramework_Form_View___Fieldset___FieldError.php", 
