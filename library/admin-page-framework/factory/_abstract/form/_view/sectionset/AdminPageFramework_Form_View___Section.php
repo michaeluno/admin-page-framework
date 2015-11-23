@@ -33,14 +33,14 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_WPUtilit
     }
     private function _getSectionContent($_iSectionIndex) {
         if ($this->aSectionset['content']) {
-            return "<tr>" . "<td>" . $this->_getCustomSectionContent() . "</td>" . "</tr>";
+            return $this->_getCustomSectionContent();
         }
         $_oFieldsets = new AdminPageFramework_Form_View___FieldsetRows($this->aFieldsetsPerSection, $_iSectionIndex, $this->aSavedData, $this->aFieldErrors, $this->aFieldTypeDefinitions, $this->aCallbacks, $this->oMsg);
         return $_oFieldsets->get();
     }
     private function _getCustomSectionContent() {
         if (is_scalar($this->aSectionset['content'])) {
-            return "<tr>" . "<td>" . $this->aSectionset['content'] . "</td>" . "</tr>";
+            return "<tr class='admin-page-framework-custom-content'>" . "<td>" . $this->aSectionset['content'] . "</td>" . "</tr>";
         }
         $_sSectionPath = $this->aSectionset['_section_path'];
         $_aSectionsets = $this->aStructure['sectionsets'];
@@ -54,8 +54,7 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_WPUtilit
         $_aStructure['sectionsets'] = $_aSectionsets;
         $_aArguments = array('nested_depth' => $this->getElement($this->aArguments, 'nested_depth', 0) + 1) + $this->aArguments;
         $_oFormTables = new AdminPageFramework_Form_View___Sectionsets($_aArguments, $_aStructure, $this->aSavedData, $this->aFieldErrors, $this->aCallbacks, $this->oMsg);
-        $_sNestedOutput = $_oFormTables->get();
-        return $_sNestedOutput;
+        return "<tr class='admin-page-framework-nested-sectionsets'>" . "<td>" . $_oFormTables->get() . "</td>" . "</tr>";
     }
     private function _getNestedSectionPaths($sSubjectSectionPath, array $aNestedSctionsets, array $aSectionsets) {
         $_aNestedSectionPaths = array();
