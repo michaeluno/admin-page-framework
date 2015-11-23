@@ -14,28 +14,57 @@
  * 
  * @since       3.5.0    
  */
-class AdminPageFrameworkLoader_AdminPage_Help_FAQ extends AdminPageFrameworkLoader_AdminPage_Tab_Base {
-
+class AdminPageFrameworkLoader_AdminPage_Help_FAQ extends AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase {
+    
     /**
      * Triggered when the tab is loaded.
      */
     public function replyToLoadTab( $oAdminPage ) {
-            
-        $_aFAQs = array();
-        foreach( $this->getContentsByHeader( $this->getFAQContents(), 4 ) as $_aContent ) {
-            $_aFAQs = array_merge( $_aFAQs, $this->getContentsByHeader( $_aContent[ 1 ], 5 ) );
-        }        
-        $_iLastIndex = count( $_aFAQs ) - 1;
-        foreach( $_aFAQs as $_iIndex => $_aContent ) {
 
-            $_oParser   = new AdminPageFramework_WPReadmeParser;
-            $_oParser->setText( $_aContent[ 1 ] );
-            $_sContent  = $_oParser->get();
+        $_aSections  = $this->getContentsByHeader( $this->getFAQContents(), 4 );
+        foreach( $_aSections as $_iIndex => $_aContent ) {
+            
+            $_sTitle   = $_aContent[ 0 ];
+            $_sContent = $this->_getFAQSubSections( $_aContent[ 1 ] );
+            if ( in_array( $_sTitle, array( 'Tutorials' ) ) ) {
+                continue;
+            }
             $oAdminPage->addSettingSections(    
                 $this->sPageSlug, // the target page slug  
                 array(
-                    'section_id'        => 'faq_items_' . $_iIndex,
+                    'section_id'        => 'faq_sections_' . $_iIndex,
                     'tab_slug'          => $this->sTabSlug,                
+                    'section_tab_slug'  => 'apf_faq',
+                    'title'             => $_sTitle,
+                    'content'           => $_sContent,
+                )
+            );            
+        }
+
+    }
+        /**
+         * @return      array|string        If sections exits, an array holding sections. If no, a string content of the item.
+         */
+        private function _getFAQSubSections( $asItems ) {
+            
+            if ( empty( $asItems ) ) {
+                return array();
+            }
+            $aItems = $this->getContentsByHeader( $asItems, 5 );
+            
+            $_aNestedSections = array();
+            $_iLastIndex = count( $aItems ) - 1;
+            foreach( $aItems as $_iIndex => $_aContent ) {
+                
+                $_oParser   = new AdminPageFramework_WPReadmeParser( $_aContent[ 1 ] );
+                
+                // If no sections, return the contents of the first item.
+                if ( ! $_aContent[ 0 ] ) {
+                    return $_oParser->get();
+                }
+                
+                $_aNestedSections[] = array(
+                    'section_id'        => 'faq_item_' . $_iIndex,
                     'title'             => $_aContent[ 0 ],
                     'collapsible'       => array(
                         'toggle_all_button' => $_iLastIndex === $_iIndex 
@@ -44,28 +73,13 @@ class AdminPageFrameworkLoader_AdminPage_Help_FAQ extends AdminPageFrameworkLoad
                                 ? array( 'top-right' )
                                 : false
                             ),
-                    )
-                )
-            );
-            $oAdminPage->addSettingFields(    
-                'faq_items_' . $_iIndex , // the target section ID     
-                array(
-                    'field_id'          => 'faq',   // non-existent field type
-                    'type'              => 'faq',
-                    'show_title_column' => false,
-                    'before_field'      => $_sContent,
-                    'attributes'        => array(
-                        'field'    => array(
-                            'style' => 'display:none;',
-                        ),
                     ),
-                )
-            );                 
+                    'content'           => $_oParser->get(),
+                );
+            }
+            return $_aNestedSections;
             
-        }        
-
-    }
-    
+        }
         private function getFAQContents()  {
             
             $_aReplacements   = array(
@@ -77,51 +91,6 @@ class AdminPageFrameworkLoader_AdminPage_Help_FAQ extends AdminPageFrameworkLoad
                 $_aReplacements
             );    
             return $_oWPReadmeParser->getRawSection( 'Frequently asked questions' );                        
-            
-        }
-        /**
-         * Returns HTML contents divided by heading.
-         * 
-         * For example,
-         * <h3>First Heading</h3>
-         * Some text.
-         * <h3>Second Heading</h3>
-         * Another text.
-         * 
-         * Will be
-         * array(  
-         *  array( 'First Heading' => 'Some text', ),
-         *  array( 'Second Heading' => 'Another text', ),
-         * )
-         */
-        private function getContentsByHeader( $sContents, $iHeaderNumber=2 ) {
-        
-            $_aContents = array();
-            $_aSplitContents = preg_split( 
-                // '/^[\s]*==[\s]*(.+?)[\s]*==/m', 
-                '/(<h[' . $iHeaderNumber . ']*[^>]*>.*?<\/h[' . $iHeaderNumber . ']>)/i',
-                $sContents,
-                -1, 
-                PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY 
-            );                   
-
-            foreach( $_aSplitContents as $_iIndex => $_sSplitContent ) {
-                if ( ! preg_match( '/<h[' . $iHeaderNumber . ']*[^>]*>(.*?)<\/h[' . $iHeaderNumber . ']>/i', $_sSplitContent , $_aMatches ) ) {
-                    continue;
-                }
-            
-                if ( ! isset( $_aMatches[ 1 ] ) ) {
-                    continue;
-                }
-                if ( isset( $_aSplitContents[ $_iIndex + 1 ] ) )  {
-                    $_aContents[] = array( 
-                        $_aMatches[ 1 ],
-                        $_aSplitContents[ $_iIndex + 1 ]
-                    );
-                }
-            }
-       
-            return $_aContents;
             
         }
     

@@ -44,15 +44,7 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
                     admin_url( 'index.php' )   // Dashboard
                 ) . '#section-getting_started__'
             )                          
-        );                 
-        new AdminPageFrameworkLoader_AdminPage_Help_Tip(
-            $oFactory,    
-            $this->sPageSlug,   
-            array(
-                'tab_slug'  => 'tips',
-                'title'     => __( 'Tips', 'admin-page-framework-loader' ),          
-            )              
-        );               
+        );                             
         new AdminPageFrameworkLoader_AdminPage_Help_FAQ(
             $oFactory,
             $this->sPageSlug, 
@@ -61,6 +53,14 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
                 'title'     => __( 'FAQ', 'admin-page-framework-loader' ),                 
             )                   
         );      
+        new AdminPageFrameworkLoader_AdminPage_Help_Tip(
+            $oFactory,    
+            $this->sPageSlug,   
+            array(
+                'tab_slug'  => 'tips',
+                'title'     => __( 'Tips', 'admin-page-framework-loader' ),          
+            )              
+        );           
         new AdminPageFrameworkLoader_AdminPage_Help_Example(
             $oFactory,
             $this->sPageSlug, 

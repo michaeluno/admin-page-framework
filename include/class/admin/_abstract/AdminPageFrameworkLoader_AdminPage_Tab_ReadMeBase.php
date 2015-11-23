@@ -92,5 +92,53 @@ abstract class AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase extends AdminPa
                     . "</div>";
                 
             }         
+ 
+    /**
+     * Returns HTML contents divided by heading.
+     * 
+     * For example,
+     * <h3>First Heading</h3>
+     * Some text.
+     * <h3>Second Heading</h3>
+     * Another text.
+     * 
+     * Will be
+     * array(  
+     *  array( 'First Heading' => 'Some text', ),
+     *  array( 'Second Heading' => 'Another text', ),
+     * )
+     */
+    public function getContentsByHeader( $sContents, $iHeaderNumber=2 ) {
     
+        $_aContents = array();
+        $_aSplitContents = preg_split( 
+            // '/^[\s]*==[\s]*(.+?)[\s]*==/m', 
+            '/(<h[' . $iHeaderNumber . ']*[^>]*>.*?<\/h[' . $iHeaderNumber . ']>)/i',
+            $sContents,
+            -1, 
+            PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY 
+        );                   
+
+        foreach( $_aSplitContents as $_iIndex => $_sSplitContent ) {
+            if ( ! preg_match( '/<h[' . $iHeaderNumber . ']*[^>]*>(.*?)<\/h[' . $iHeaderNumber . ']>/i', $_sSplitContent , $_aMatches ) ) {
+                continue;
+            }
+        
+            if ( ! isset( $_aMatches[ 1 ] ) ) {
+                continue;
+            }
+            if ( isset( $_aSplitContents[ $_iIndex + 1 ] ) )  {
+                $_aContents[] = array( 
+                    $_aMatches[ 1 ],
+                    $_aSplitContents[ $_iIndex + 1 ]
+                );
+            }
+        }
+   
+        return empty( $_aContents )
+            ? array( array( '', $sContents ) ) 
+            : $_aContents;
+        
+    }
+ 
 }

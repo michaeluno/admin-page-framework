@@ -248,6 +248,9 @@ Check out the [questions tagged as FAQ](https://github.com/michaeluno/admin-page
 <h4>Tutorials</h4>
 [Index](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
 
+<h4>Roadmap</h4>
+Check out the [milestones](https://github.com/michaeluno/admin-page-framework/milestones) and [issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
+
 == Other Notes ==
 
 <h4>Use Unique Page Slug</h4>
@@ -423,9 +426,6 @@ array(
 
 Alternately, if it is in a framework's generic pages (not post meta box fields) you may use the `options_{instantiated class name}` filter to suppress the options so that setting the value argument is not necessary.
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f, 
-
-<h3>Roadmap</h3>
-Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
 
