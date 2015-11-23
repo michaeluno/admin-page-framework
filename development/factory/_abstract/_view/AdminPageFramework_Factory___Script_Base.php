@@ -52,7 +52,7 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
         );
         
         $this->registerAction(
-            'admin_footer', 
+            'admin_print_footer_scripts', 
             array( $this, '_replyToPrintScript' )       
         );        
         

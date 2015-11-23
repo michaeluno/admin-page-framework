@@ -67,8 +67,11 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
             add_action( 'wp_print_footer_scripts', array( $this, '_replyToAddStyle' ), 999 );
             add_action( 'wp_print_footer_scripts', array( $this, '_replyToAddScript' ), 999 );
 
-            // To add the custom attributes to the enqueued style and script tags.
+            // Required scripts in the head tag.
+            add_action( 'wp_head', array( $this, '_replyToInsertRequiredInlineScripts' ) );
+            
             // @deprecated      DEVVER      Deprecated since modifying inline attributes sometimes does not take effect
+            // To add the custom attributes to the enqueued style and script tags.
             // add_filter( 'script_loader_src', array( $this, '_replyToSetupArgumentCallback' ), 1, 2 );
             // add_filter( 'style_loader_src', array( $this, '_replyToSetupArgumentCallback' ), 1, 2 );
             
@@ -94,8 +97,31 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
                 /// For all admin pages.
                 add_action( 'admin_print_footer_scripts', array( $this, '_replyToAddStyle' ), 999 );
                 add_action( 'admin_print_footer_scripts', array( $this, '_replyToAddScript' ), 999 );  
-                    
+                
+                // Required scripts in the head tag.
+                add_action( 'admin_head', array( $this, '_replyToInsertRequiredInlineScripts' ) );
+                
             }
+    /**
+     * Inserts JavaScript scripts whihc must be inserted head.
+     * @since       DEVVER
+     * @return      string
+     */
+    public function _replyToInsertRequiredInlineScripts() {
+        echo "<script type='text/javascript' class='admin-page-framework-form-script-required-in-head'>" 
+                . '/* <![CDATA[ */'
+                . $this->_getScripts_RequiredInHead()
+                . '/* ]]> */'
+            . "</script>";        
+    }
+        /**
+         * @since       DEVVER
+         * @return      string
+         */
+        private function _getScripts_RequiredInHead() {
+            // Hide the form initially to prevent unformatted layouts. Use visibility to reserve the element area in the screen.
+            return 'document.write( "<style class=\'admin-page-framework-js-embedded-inline-style\'>.admin-page-framework-form-js-on { visibility: hidden; }</style>" );';
+        }
 
     /**
      * Enqueues page script resources.

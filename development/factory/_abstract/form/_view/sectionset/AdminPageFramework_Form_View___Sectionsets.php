@@ -146,12 +146,18 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
             $this->aArguments[ 'structure_type' ], // Structure type (for debug info) - this must be done before the $aSections array gets updated below.
             $this->oMsg
         );
-        
-        return implode( PHP_EOL, $_aOutput )
-            . AdminPageFramework_Form_View___Script_SectionTab::getEnabler()
-            . $_oDebugInfo->get();        
+
+        // Generate id for this output
+        $_sElementID = "admin-page-framework-sectionsets-" . uniqid();
+        return "<div id='{$_sElementID}' class='admin-page-framework-sctionsets admin-page-framework-form-js-on'>"
+                . implode( PHP_EOL, $_aOutput )
+                . AdminPageFramework_Form_View___Script_SectionTab::getEnabler()
+                . $_oDebugInfo->get()
+            . "</div>"
+            ;
         
     }
+
         /**
          * Returns a generated HTML form table output.
          * @since       3.5.3
