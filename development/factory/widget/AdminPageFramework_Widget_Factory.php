@@ -39,6 +39,18 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             $aArguments         // widget arguments
         );
         $this->oCaller = $oCaller;
+    
+        // Set up callbacks for field element outputs such as for name and it attributes.
+        $this->oCaller->oProp->aFormCallbacks = array( 
+            'hfID'          => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
+            'hfTagID'       => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
+            'hfName'        => array( $this, '_replyToGetFieldName' ),  // defined in the WP_Widget class.  
+            'hfInputName'   => array( $this, '_replyToGetFieldInputName' ),
+            // 'hfClass'       => array( $this, '_replyToAddClassSelector' ),
+            // 'hfNameFlat'    => array( $this, '_replyToGetFlatFieldName' ), // @deprecated 3.6.0+ the same as the framework factory method.
+        ) + $this->oCaller->oProp->aFormCallbacks;
+        $this->oCaller->oForm->aCallbacks = $this->oCaller->oProp->aFormCallbacks + $this->oCaller->oForm->aCallbacks;
+        
         
 	}
     
@@ -132,46 +144,28 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
 	}
     
     /**
-     * Constructs the widget form.
+     * Constructs the widget form with the given saved form data.
+     * 
+     * In widgets.php, this method is called multiple times per instance of the class defining the widget (widget model).
+     * It is called for the number of added widget instances via drag-and-drop in the UI
+     * of the widget model that the caller class defines.
+     * 
+     * This means, the framework factory class has to renew the saved data every time this method is called.
      * 
      * @return      void
      */
 	public function form( $aFormData ) {
 
-        // Trigger the load() method and load_{...} actions. The user sets up the form.
-        $this->oCaller->load( $this->oCaller );
-        $this->oCaller->oUtil->addAndDoActions( 
-            $this->oCaller, 
-            array(
-                'load_' . $this->oCaller->oProp->sClassName, 
-            ),
-            $this->oCaller 
-        );
-	              
-        // Set up callbacks for field element outputs such as for name and it attributes.
-        $this->oCaller->oProp->aFormCallbacks = array( 
-            'hfID'          => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
-            'hfTagID'       => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
-            'hfName'        => array( $this, '_replyToGetFieldName' ),  // defined in the WP_Widget class.  
-            'hfInputName'   => array( $this, '_replyToGetFieldInputName' ),
-            // 'hfClass'       => array( $this, '_replyToAddClassSelector' ),
-            // 'hfNameFlat'    => array( $this, '_replyToGetFlatFieldName' ), // @deprecated 3.6.0+ the same as the framework factory method.
-        ) + $this->oCaller->oProp->aFormCallbacks;
-        $this->oCaller->oForm->aCallbacks = $this->oCaller->oProp->aFormCallbacks + $this->oCaller->oForm->aCallbacks;
-       
-        // Set the form data - the form object will trigger a callback to construct the saved form data.
-        // And the factory abstract class has a defined method for it and it applies a filter to the form data (options) array.
-        $this->oCaller->oProp->aOptions = $aFormData; 
-       
-        // This hook triggers the form registration method.
-        $this->oCaller->oUtil->addAndDoActions( 
-            $this->oCaller, 
-            array(
-                'load_after_' . $this->oCaller->oProp->sClassName, 
-            ),
-            $this->oCaller 
-        );     
-
+        /**
+         * Set the form data - the form object will trigger a callback to construct the saved form data.
+         * And the factory abstract class has a defined method (_replyToGetSavedFormData()) for it 
+         * and it applies a filter (options_{...}) to the form data (options) array.
+         */
+        $this->oCaller->oProp->aOptions = $aFormData;     
+        
+        // The hook (load_{...}) in the method triggers the form registration method.
+        $this->_loadFrameworkFactory();
+        
         // Render the form 
         $this->oCaller->_printWidgetForm();            
 
@@ -180,20 +174,37 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * because this class gets called multiple times to render the form including added widgets 
          * and the initial widget that gets listed on the left hand side of the page.
          * 
-         * Without this, after saving the widget and reloading the page, the duplicated form fields get inserted.
-         *
-         * @todo        In some occasions, the above problem of duplicated form fields do not occur. Investigate why.
-         * 
          * @since       3.5.2
          */
         $this->oCaller->oForm = new AdminPageFramework_Form_widget(
-            $this->oCaller->oProp->aFormArguments,  // form arguments  
+            array(
+                'register_if_action_already_done' => false, // do not register fields right away
+            ) + $this->oCaller->oProp->aFormArguments,  // form arguments  
             $this->oCaller->oProp->aFormCallbacks,  // callbacks
             $this->oCaller->oMsg
         );
-       
+        
 	}
-
+        /**
+         * Calls the load() method of the caller factory object.
+         * 
+         * Ensures it is called once per a page load.
+         * @since       DEVVER
+         */
+        private function _loadFrameworkFactory() {
+                                       
+            // Trigger the load() method and load_{...} actions. The user sets up the form.
+            $this->oCaller->load( $this->oCaller );
+            $this->oCaller->oUtil->addAndDoActions( 
+                $this->oCaller, 
+                array(
+                    'load_' . $this->oCaller->oProp->sClassName, 
+                ),
+                $this->oCaller 
+            );            
+            
+        }    
+    
         /**
          * 
          * @remark      This one is tricky as the core widget factory method enclose this value in []. So when the framework field has a section, it must NOT end with ].

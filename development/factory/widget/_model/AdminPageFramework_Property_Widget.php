@@ -106,7 +106,7 @@ class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Bas
      */
     public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sStructureType ) {
 
-        $this->_sFormRegistrationHook = 'load_after_' . $sClassName; // DEVVER+
+        $this->_sFormRegistrationHook = 'load_' . $sClassName; // DEVVER+
         // $this->_sFormRegistrationHook = 'current_screen';
 
         parent::__construct(

@@ -183,6 +183,15 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
          */
         'action_hook_form_registration' => 'current_screen',    
         
+        /**
+         * If `true` and if the form registration (loading resources) action hook is already triggerd,
+         * the callback will be triggered right away. If `false`, it must be dealt manually. 
+         * This allows an option of not auto-register. This is useful for widget forms that get called multiple times
+         * so the form object need to be initialized many times. In that case, this value can be `false` 
+         * so that it won't reset the options (form data) right away.
+         */
+        'register_if_action_already_done'   => true,
+        
     );
     
     /**

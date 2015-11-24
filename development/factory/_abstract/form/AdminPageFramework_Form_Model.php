@@ -23,11 +23,18 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
     public function __construct() {
 
         // If the passed action hook is already triggerd, it will trigger the callback right away.
-        $this->registerAction(
-            $this->aArguments[ 'action_hook_form_registration' ],
-            array( $this, '_replyToRegisterFormItems' ),
-            100 // priority - low value is set as meta boxes uses the current_screen action hook for `setUp()`.
-        );
+        if ( $this->aArguments[ 'register_if_action_already_done' ] ) {
+            $this->registerAction(
+                $this->aArguments[ 'action_hook_form_registration' ],
+                array( $this, '_replyToRegisterFormItems' ),
+                100 // priority - low value is set as meta boxes use the `current_screen` action hook for `setUp()`.
+            );
+        } else {                
+            add_action(
+                $this->aArguments[ 'action_hook_form_registration' ],
+                array( $this, '_replyToRegisterFormItems' )
+            );
+        }
         
     }
     
@@ -209,7 +216,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             // This allows external routines to set custom default values prior to the field registration.
             $this->aSavedData + $this->getDefaultFormValues()
         );
-        
+
         /**
          * Call backs registered functions before loading field resources.
          * The `$this->aSavedData` property should be set because it is passed to the validation callback.
@@ -252,7 +259,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
                 $this->aFieldsets,      // 4th parameter
             )
         );        
-        
+
     }    
         /**
          * Triggers callbacks before setting resources.
@@ -344,6 +351,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             );
                     
             return $_aLastInputs + $_aSavedData;
+            
         }
             /**
              * Returns the last user form input array.

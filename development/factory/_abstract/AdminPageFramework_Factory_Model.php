@@ -259,7 +259,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
             $this, // the caller factory object
             'options_' . $this->oProp->sClassName,
             $this->oProp->aOptions      // subject value to be filtered
-        );         
+        );
     }
     
     /**

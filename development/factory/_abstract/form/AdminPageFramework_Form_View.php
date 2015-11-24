@@ -42,7 +42,7 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
         if ( ! $this->canUserView( $this->sCapability ) ) {
             return '';
         }     
-        
+
         // Format and update sectionset and fieldset definitions.
         $this->_formatElementDefinitions( $this->aSavedData );
 
