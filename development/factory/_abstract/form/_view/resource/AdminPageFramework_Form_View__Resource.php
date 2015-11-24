@@ -35,11 +35,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
         if ( $this->isDoingAjax() ) {
             return;
         }    
-    
-        if ( ! $this->oForm->isInThePage() ) {
-            return;
-        }
-        
+            
         $this->_setHooks();
   
     }
@@ -74,7 +70,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
                         
             // Required scripts in the head tag.
             if ( ! in_array( $this->oForm->aArguments[ 'structure_type' ], array( 'widget' ) ) ) {
-                new AdminPageFramework_Form_View__Resource___Head( 'wp_head' );
+                new AdminPageFramework_Form_View__Resource__Head( $this->oForm, 'wp_head' );
             }
                       
         }
@@ -102,7 +98,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
                                
                 // Required scripts in the head tag.
                 if ( ! in_array( $this->oForm->aArguments[ 'structure_type' ], array( 'widget' ) ) ) {       
-                    new AdminPageFramework_Form_View__Resource___Head( 'admin_head' );
+                    new AdminPageFramework_Form_View__Resource__Head( $this->oForm, 'admin_head' );
                 }
                 
             }

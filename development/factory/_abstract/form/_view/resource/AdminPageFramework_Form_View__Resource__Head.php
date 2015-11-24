@@ -8,20 +8,30 @@
  */
 
 /**
- * Provides methods to build forms.
+ * Provides methods to insert required head scripts.
  * 
+ * Most form scripts can be inserted after the head tag. However there are a few that must be inserted in the header,
+ * such as the ones that hides the form and shows a loading message.
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
  * @since       DEVVER
  */
-class AdminPageFramework_Form_View__Resource___Head extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_WPUtility {
+    
+    /**
+     * Stores a form object.
+     */
+    public $oForm;
  
     /**
-     * @since        DEVVER
-     * @param        string      $sHeadActionHook        The action hook triggered inside the `<head>` tag
+     * @since       DEVVER
+     * @param       object      $oForm
+     * @param       string      $sHeadActionHook        The action hook triggered inside the `<head>` tag
      */
-    public function __construct( $sHeadActionHook ) {
+    public function __construct( $oForm, $sHeadActionHook ) {
+    
+        $this->oForm = $oForm;
     
         add_action( $sHeadActionHook, array( $this, '_replyToInsertRequiredInlineScripts' ) );
     
@@ -38,6 +48,10 @@ class AdminPageFramework_Form_View__Resource___Head extends AdminPageFramework_W
         if ( $this->hasBeenCalled( __METHOD__ ) ) {
             return;
         }              
+        
+        if ( ! $this->oForm->isInThePage() ) {
+            return;
+        }
 
         echo "<script type='text/javascript' class='admin-page-framework-form-script-required-in-head'>" 
                 . '/* <![CDATA[ */ '

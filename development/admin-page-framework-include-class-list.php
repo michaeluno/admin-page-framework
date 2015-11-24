@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.7.0b17 by Michael Uno 
+	Admin Page Framework v3.7.0b20 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -224,7 +224,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Form_View___Generate_SectionName"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/generator/section/AdminPageFramework_Form_View___Generate_SectionName.php", 
 	"AdminPageFramework_Form_View___Generate_Section_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/generator/section/AdminPageFramework_Form_View___Generate_Section_Base.php", 
 	"AdminPageFramework_Form_View__Resource"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/resource/AdminPageFramework_Form_View__Resource.php", 
-	"AdminPageFramework_Form_View__Resource___Head"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/resource/AdminPageFramework_Form_View__Resource___Head.php", 
+	"AdminPageFramework_Form_View__Resource__Head"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/resource/AdminPageFramework_Form_View__Resource__Head.php", 
 	"AdminPageFramework_Form_View___Script_AttributeUpdator"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/script/AdminPageFramework_Form_View___Script_AttributeUpdator.php", 
 	"AdminPageFramework_Form_View___Script_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/script/AdminPageFramework_Form_View___Script_Base.php", 
 	"AdminPageFramework_Form_View___Script_CheckboxSelector"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/form/_view/script/AdminPageFramework_Form_View___Script_CheckboxSelector.php", 
