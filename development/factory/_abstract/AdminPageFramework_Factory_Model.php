@@ -90,33 +90,43 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     
     /**
      * Modifies registered sectionsets definition array.
+     * 
+     * This lets third party scripts to set their own sections 
+     * before the framework registered field resource (assets) files.
+     * 
+     * @remark      Called prior to field resource registrations.
      * @since       DEVVER
      * @return      array       The modified sectionsets definition array.
      */    
-    public function _replyToModifySectionsets( $aSectionsets ) {        
-        // Apply filters to added sectionsets.
+    public function _replyToModifySectionsets( $aSectionsets ) {    
+        
         return $this->oUtil->addAndApplyFilter( 
             $this,  // caller factory object
             "sections_{$this->oProp->sClassName}", 
             $aSectionsets
         );
+        
     }
 
     /**
      * Modifies registered fieldsets definition array.
+     * 
+     * This lets third party scripts to set their own sections 
+     * before the framework registered field resource (assets) files.
+     * 
+     * @remark      Called prior to field resource registrations.
      * @since       DEVVER
      * @return      array       The modified fieldsets definition array.
      */
     public function _replyToModifyFieldsets( $aFieldsets, $aSectionsets ) {
 
-// @todo Think of a new way to retrieve the $_sSectionID for nested sections and fields
-// $aSectionsets can be used
-
         // Apply filters to added fieldsets
-        foreach( $aFieldsets as $_sSectionID => $_aFields ) {
-            $aFieldsets[ $_sSectionID ] = $this->oUtil->addAndApplyFilter(
+        foreach( $aFieldsets as $_sSectionPath => $_aFields ) {
+            $_aSectionPath  = explode( '|', $_sSectionPath );
+            $_sFilterSuffix = implode( '_', $_aSectionPath );
+            $aFieldsets[ $_sSectionPath ] = $this->oUtil->addAndApplyFilter(
                 $this,
-                "fields_{$this->oProp->sClassName}_{$_sSectionID}",
+                "fields_{$this->oProp->sClassName}_{$_sFilterSuffix}",
                 $_aFields
             ); 
         }
@@ -127,11 +137,10 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         );         
         
         // If at lease one filed is added, set the flag to enable the form.
-        // Be careful not to set `false` when there is no field because page meta boxes may add form fields.
+        // Do not set `false` when there is no field because page meta boxes may add form fields.
         if ( count( $aFieldsets ) ) {
             $this->oProp->bEnableForm = true;
         }
-        
         
         return $aFieldsets;
         
@@ -151,12 +160,13 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     }
     
     /**
-     * Applies filters to each conditioned field definition array.
+     * Applies filters to each conditioned (formatted) field definition array.
      * 
      * @since       3.0.2
      * @since       3.1.1       Made it reformat the fields after applying filters.
      * @since       DEVVER      Changed the name from `applyFiltersToFieldsets()`.
      * Moved from `AdminPageFramework_FormDefinition_Base`.
+     * @return      array      
      */
     public function _replyToModifyFieldsetDefinition( $aFieldset /*, $aSectionsets */ ) {
         
@@ -176,7 +186,6 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
 
     }    
                
-    
     /**
      * Gets called after the form element registration is done.
      * 
@@ -307,64 +316,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     protected function _getFieldErrors( /* $sID='deprecated', $bDelete=true */ ) {
         return $this->oForm->getFieldErrors();        
     }    
-        
-    /**
-     * Checks whether a validation error is set.
-     * 
-     * @since       3.0.3
-     * @internal
-     * @return      mixed           If the error is not set, returns false; otherwise, the stored error array.
-     * @todo        Examine which class uses this method. It looks like this can be deprecated as there is the `hasFieldError()` method.
-     * @depreacted  DEVVER
-     */
-/*     protected function _isValidationErrors() {
-        
-        $_aFieldErrors = $this->oUtil->getElement(
-            $GLOBALS,
-            array( 'aAdminPageFramework', 'aFieldErrors' )
-        );
-        
-        // If the transient is not set, false will be given.
-        return ! empty( $_aFieldErrors )
-            ? $_aFieldErrors
-            : $this->oUtil->getTransient( "apf_field_erros_" . get_current_user_id() );
 
-    } */
-        
-    /**
-     * Saves the field error array into the transient.
-     * 
-     * @since       3.0.4
-     * @internal
-     * @return      void
-     * @deprecated  DEVVER
-     */ 
-/*     public function _replyToSaveFieldErrors() {
-        
-        if ( ! isset( $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ] ) ) { 
-            return; 
-        }
-
-        $this->oUtil->setTransient( 
-            "apf_field_erros_" . get_current_user_id(),  
-            $GLOBALS['aAdminPageFramework']['aFieldErrors'], 
-            300     // store it for 5 minutes ( 60 seconds * 5 )
-        );    
-        
-    } */
-    
-    /**
-     * The validation callback method.
-     * 
-     * The user may just override this method instead of defining a `validation_{...}` callback method.
-     * 
-     * @since       3.4.1
-     * @remark      Declare this method in each factory class as the form of parameters will be different which triggers PHP strict standard warnings.
-     */
-    // public function validate( $aInput, $aOldInput, $oFactory ) {
-        // return $aInput;
-    // }
-    
     /**
      * Saves user last input in the database as a transient.
      * 
