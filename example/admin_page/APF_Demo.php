@@ -24,8 +24,8 @@ class APF_Demo extends AdminPageFramework {
     public function start() {
                 
         /**
-         * ( optional ) Pointer tool box
-         */ 
+         * ( optional ) Pointer tool boxes
+         */            
         new AdminPageFramework_PointerToolTip(
             array( 
                 // screen ids
@@ -33,6 +33,7 @@ class APF_Demo extends AdminPageFramework {
                 'index.php', 
                 'admin.php',
                 'edit.php?post_type=apf_posts',
+                
                 // page slugs below
                 'apfl_addons',
                 'apfl_contact',
@@ -42,7 +43,10 @@ class APF_Demo extends AdminPageFramework {
             ),     
             'apf_demo_pointer_tool_box', // unique id for the pointer tool box
             array(    // pointer data
-                'target'    => '#menu-posts-apf_posts > a',
+                'target'    => array(
+                    '#menu-posts-apf_posts > a',
+                    // '#button-deactivate-demo', // multiple targets can be set with an array
+                ), 
                 'options'   => array(
                     'content' => sprintf( '<h3> %1$s </h3> <p> %2$s </p>',
                         __( 'Admin Page Framework Demo' ,'admin-page-framework-loader '),

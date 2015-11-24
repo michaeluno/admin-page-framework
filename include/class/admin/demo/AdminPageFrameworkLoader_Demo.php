@@ -22,7 +22,7 @@ class AdminPageFrameworkLoader_Demo {
         if ( ! $this->_shouldLoadDemo() ) {
             return;
         }
-        
+    
         // Backward compatibility.
         define( 'APFDEMO_FILE', AdminPageFrameworkLoader_Registry::$sFilePath );
         define( 'APFDEMO_DIRNAME', AdminPageFrameworkLoader_Registry::$sDirPath );
@@ -48,11 +48,42 @@ class AdminPageFrameworkLoader_Demo {
             // Check if the demo is enabled.
             $_oOption = AdminPageFrameworkLoader_Option::getInstance();
             if ( ! $_oOption->get( 'enable_demo' ) ) {
+                $this->_setPointerToolTips();
                 return false;
             }           
             
             return true;
             
         }
+ 
+    private function _setPointerToolTips() {
+        
+        
+        new AdminPageFramework_PointerToolTip(
+            array( 
+                // screen ids
+                'plugins', 
+                
+                // page slugs below
+                'apfl_addons', 
+            ),     
+            'apf_demo_pointer_tool_box_activate_demo', // unique id for the pointer tool box
+            array(    // pointer data
+                'target'    => array(
+                    '#activate-demo-action-link',
+                    '#button-activate-demo', // multiple targets can be set with an array
+                ), 
+                'options'   => array(
+                    'content' => sprintf( '<h3> %1$s </h3> <p> %2$s </p>',
+                        AdminPageFrameworkLoader_Registry::NAME,
+                        __( 'Check out the functionality of Admin Page Framework by enabling the demo.','admin-page-framework-loader' )
+                    ),
+                    'position'  => array( 'edge' => 'left', 'align' => 'middle' )
+                )
+            )
+        );          
+                
+        
+    }
  
 }

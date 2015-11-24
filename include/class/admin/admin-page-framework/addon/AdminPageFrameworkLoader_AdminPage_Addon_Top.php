@@ -203,8 +203,12 @@ class AdminPageFrameworkLoader_AdminPage_Addon_Top extends AdminPageFrameworkLoa
                         admin_url( $GLOBALS['pagenow'] )
                     ),
                     'label'         => $_bEnabled
-                        ? __( 'Deactivate', 'admin-page-framework-loader' )
-                        : __( 'Activate', 'admin-page-framework-loader' ),
+                        ? "<span id='button-deactivate-demo' class='deactivate'>" 
+                                . __( 'Deactivate', 'admin-page-framework-loader' )
+                            . "</span>"
+                        : "<span id='button-activate-demo' class='activate'>" 
+                                . __( 'Activate', 'admin-page-framework-loader' )
+                            . "</span>"
                 )
             );
                         

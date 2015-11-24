@@ -206,6 +206,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
                     continue;
                 }
 
+                $_aPointer[ 'target' ]     = $this->getAsArray( $_aPointer[ 'target' ] );
                 $_aPointer[ 'pointer_id' ] = $_iPointerID;
                 
                 // Add the pointer to $_aValidPointers array
@@ -224,7 +225,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
                 
                 if ( in_array( $_iPointerID, $_aDismissed ) ) {
                     return true;
-                }               
+                }             
                 if ( empty( $_aPointer ) ) {
                     return true;
                 }
@@ -292,14 +293,22 @@ jQuery( document ).ready( function( jQuery ) {
     jQuery.each( $_aJSArray, function( iIndex, _aPointer ) {
         var _aOptions = jQuery.extend( _aPointer.options, {
             close: function() {
-console.log( 'dismissing: ' + _aPointer.pointer_id );
                 jQuery.post( ajaxurl, {
                     pointer: _aPointer.pointer_id,
                     action: 'dismiss-wp-pointer'
                 });
             }
         });
-        jQuery( _aPointer.target ).pointer( _aOptions ).pointer( 'open' );
+        jQuery.each( _aPointer.target, function( iIndex, _sTarget ) {
+            var _oTarget = jQuery( _sTarget );
+            if ( _oTarget.length <= 0 ) {
+                return true;    // skip
+            }
+            var _oResult = jQuery( _sTarget ).pointer( _aOptions ).pointer( 'open' );
+            if ( _oResult.length > 0 ) {
+                return false;   // escape to ensure no same item gets displayed in one screen
+            }
+        });
     });
 });
 }( jQuery ));
