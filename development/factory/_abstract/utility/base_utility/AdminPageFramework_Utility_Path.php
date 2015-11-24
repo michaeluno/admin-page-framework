@@ -11,22 +11,20 @@
  * Provides utility methods dealing with file paths which do not use WordPress functions.
  *
  * @since       2.0.0
- * @extends     AdminPageFramework_Utility_Array
+ * @extends     AdminPageFramework_Utility_ArraySetter
  * @package     AdminPageFramework
  * @subpackage  Utility
  * @internal
  */
-abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utility_Array {
+abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utility_ArraySetter {
     
     /**
      * Calculates the relative path from the given path.
      * 
      * This function is used to generate a template path.
      * 
-     * @since 2.1.5
-     * @author Gordon
-     * @author Michael Uno, Modified variable names and spacing.
-     * @see http://stackoverflow.com/questions/2637945/getting-relative-path-from-absolute-path-in-php/2638272#2638272
+     * @since   2.1.5
+     * @see     http://stackoverflow.com/questions/2637945/getting-relative-path-from-absolute-path-in-php/2638272#2638272
      */
     static public function getRelativePath( $from, $to ) {
         
@@ -65,8 +63,8 @@ abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utilit
     /**
      * Attempts to find the caller scrip path.
      * 
-     * @since 3.0.0
-     * @return string
+     * @since       3.0.0
+     * @return      string
      */
     static public function getCallerScriptPath( $asRedirectedFiles=array( __FILE__ ) ) {
 

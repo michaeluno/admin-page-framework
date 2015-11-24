@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.7.0b15 by Michael Uno 
+	Admin Page Framework v3.7.0b16 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -258,8 +258,11 @@ $aClassFiles = array(
 	"AdminPageFramework_AdminNotice___Script"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/admin_notice/AdminPageFramework_AdminNotice___Script.php", 
 	"AdminPageFramework_Utility"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility.php", 
 	"AdminPageFramework_Utility_Array"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_Array.php", 
+	"AdminPageFramework_Utility_ArrayGetter"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_ArrayGetter.php", 
+	"AdminPageFramework_Utility_ArraySetter"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_ArraySetter.php", 
 	"AdminPageFramework_Utility_Deprecated"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_Deprecated.php", 
 	"AdminPageFramework_Utility_File"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_File.php", 
+	"AdminPageFramework_Utility_HTMLAttribute"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_HTMLAttribute.php", 
 	"AdminPageFramework_Utility_Path"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_Path.php", 
 	"AdminPageFramework_Utility_String"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_String.php", 
 	"AdminPageFramework_Utility_SystemInformation"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/base_utility/AdminPageFramework_Utility_SystemInformation.php", 

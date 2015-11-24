@@ -16,7 +16,22 @@
  * @internal
  */
 abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Utility_VariableType {
-    
+  
+    /**
+     * Returns the width for HTML attributes.
+     * 
+     * When a value may be a number with a unit like, '100%', it returns the value itself.
+     * When a value misses a unit like '60', it returns with the unit such as '60%'.
+     * 
+     * @since       3.1.1
+     * @return      string
+     */
+    static public function sanitizeLength( $sLength, $sUnit='px' ) {
+        return is_numeric( $sLength ) 
+            ? $sLength . $sUnit
+            : $sLength;
+    }
+  
     /**
      * Converts non-alphabetic characters to underscore.
      * 
