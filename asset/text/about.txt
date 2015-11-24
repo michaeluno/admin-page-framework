@@ -41,19 +41,28 @@ With the newly introduced class, `AdminPageFramework_PointerToolTip`, you can no
 
     <div class='apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
-            <h3>Under the Hood</h3>
-            <p>The form class has been overhauled and now it serves as an indivitual component. This is a preparation change to support front-end forms.</p>
-        </div>
+            <h3>Tool Tips</h3>
+            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/tool_tip.jpg" alt="Tool Tips">
+            <p>With the <code>tip</code> argument of sections and fields, now a tool tip box will appear by hovering the cursor over the question mark inserted beside the title.</p>
+        </div> 
     </div>
 </div>
 
 <div class='apfl_columns_row'>    
     <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
+            <h3>Under the Hood</h3>
+            <p>The form class has been overhauled and now it serves as an indivitual component. This is a preparation change to support front-end forms.</p>
+        </div>    
+    </div>
+
+    <div class='apfl_columns_col apfl_col_element_of_3'>
+        <div class='apfl_cell'>
             <h3>Fixes and Clean-ups</h3>
             <p>Several bugs have been patched and the directory structure has been restructured to shorten overall file paths.</p>
         </div>
-    </div>
+    </div>    
+    
     <div class='apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
             <h3>More Changes</h3>
