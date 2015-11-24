@@ -89,6 +89,7 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
         private function _loadWidgets() {   
         
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/widget/APF_Widget.php' );
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/widget/APF_Widget_WithSection.php' );
             
         }      
       
