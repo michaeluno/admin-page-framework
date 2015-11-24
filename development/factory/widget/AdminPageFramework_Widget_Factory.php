@@ -32,6 +32,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
                 'classname'     => 'admin_page_framework_widget',
                 'description'   => '',  
             );
+            
 		parent::__construct( 
             $oCaller->oProp->sClassName,  // base id 
             $sWidgetTitle,      // widget title
@@ -169,32 +170,30 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
                 'load_after_' . $this->oCaller->oProp->sClassName, 
             ),
             $this->oCaller 
-        );        
-              
-        // Render the form. 
-        $this->oCaller->_printWidgetForm();
+        );     
+
+        // Render the form 
+        $this->oCaller->_printWidgetForm();            
 
         /** 
          * Initialize the form object that stores registered sections and fields
          * because this class gets called multiple times to render the form including added widgets 
          * and the initial widget that gets listed on the left hand side of the page.
+         * 
+         * Without this, after saving the widget and reloading the page, the duplicated form fields get inserted.
+         *
+         * @todo        In some occasions, the above problem of duplicated form fields do not occur. Investigate why.
+         * 
          * @since       3.5.2
          */
-        // @todo      DEVVER+ Investigate whether this is no longer necessary.
-        // $this->oCaller->oForm = new AdminPageFramework_Form_widget(
-            // $this->oCaller->oProp->aFormArguments,
-            // $this->oCaller->oProp->aFormCallbacks,
-            // $this->oCaller->oMsg
-        // );
-        // @deprecated
-        // $this->oCaller->oForm = new AdminPageFramework_FormDefinition( 
-            // $this->oCaller->oProp->sStructureType, 
-            // $this->oCaller->oProp->sCapability, 
-            // $this->oCaller
-        // );   
+        $this->oCaller->oForm = new AdminPageFramework_Form_widget(
+            $this->oCaller->oProp->aFormArguments,  // form arguments  
+            $this->oCaller->oProp->aFormCallbacks,  // callbacks
+            $this->oCaller->oMsg
+        );
        
 	}
-    
+
         /**
          * 
          * @remark      This one is tricky as the core widget factory method enclose this value in []. So when the framework field has a section, it must NOT end with ].
