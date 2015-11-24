@@ -34,6 +34,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
         $this->oCaller->oProp->aOptions = $aFormData;
         $this->oCaller->oUtil->addAndDoActions($this->oCaller, array('load_after_' . $this->oCaller->oProp->sClassName,), $this->oCaller);
         $this->oCaller->_printWidgetForm();
+        $this->oCaller->oForm = new AdminPageFramework_Form_widget($this->oCaller->oProp->aFormArguments, $this->oCaller->oProp->aFormCallbacks, $this->oCaller->oMsg);
     }
     public function _replyToGetFieldName() {
         $_aParams = func_get_args() + array(null, null, null);

@@ -10,7 +10,7 @@ class AdminPageFramework_Form_View__Resource___Head extends AdminPageFramework_W
         echo "<script type='text/javascript' class='admin-page-framework-form-script-required-in-head'>" . '/* <![CDATA[ */ ' . $this->_getScripts_RequiredInHead() . ' /* ]]> */' . "</script>";
     }
     private function _getScripts_RequiredInHead() {
-        return 'document.write( "<style class=\'admin-page-framework-js-embedded-inline-style\'>' . esc_js($this->_getInlineCSS()) . '</style>" );';
+        return 'document.write( "<style class=\'admin-page-framework-js-embedded-inline-style\'>' . str_replace('\\n', '', esc_js($this->_getInlineCSS())) . '</style>" );';
     }
     private function _getInlineCSS() {
         $_oLoadingCSS = new AdminPageFramework_Form_View___CSS_Loading;
@@ -18,6 +18,14 @@ class AdminPageFramework_Form_View__Resource___Head extends AdminPageFramework_W
         return $_oLoadingCSS->get();
     }
     private function _getScriptElementConcealerCSSRules() {
-        return ".admin-page-framework-form-js-on { visibility: hidden; }";
+        return <<<CSSRULES
+.admin-page-framework-form-js-on {  
+    visibility: hidden;
+}
+.widget .admin-page-framework-form-js-on { 
+    visibility: visible; 
+}
+CSSRULES;
+        
     }
 }
