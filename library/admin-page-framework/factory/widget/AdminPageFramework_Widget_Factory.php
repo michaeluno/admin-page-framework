@@ -4,6 +4,8 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
         $aArguments = $aArguments + array('classname' => 'admin_page_framework_widget', 'description' => '',);
         parent::__construct($oCaller->oProp->sClassName, $sWidgetTitle, $aArguments);
         $this->oCaller = $oCaller;
+        $this->oCaller->oProp->aFormCallbacks = array('hfID' => array($this, 'get_field_id'), 'hfTagID' => array($this, 'get_field_id'), 'hfName' => array($this, '_replyToGetFieldName'), 'hfInputName' => array($this, '_replyToGetFieldInputName'),) + $this->oCaller->oProp->aFormCallbacks;
+        $this->oCaller->oForm->aCallbacks = $this->oCaller->oProp->aFormCallbacks + $this->oCaller->oForm->aCallbacks;
     }
     public function widget($aArguments, $aFormData) {
         echo $aArguments['before_widget'];
@@ -27,14 +29,14 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
         return $this->oCaller->oUtil->addAndApplyFilters($this->oCaller, "validation_{$this->oCaller->oProp->sClassName}", call_user_func_array(array($this->oCaller, 'validate'), array($aSubmittedFormData, $aSavedFormData, $this->oCaller)), $aSavedFormData, $this->oCaller);
     }
     public function form($aFormData) {
+        $this->oCaller->oProp->aOptions = $aFormData;
+        $this->_loadFrameworkFactory();
+        $this->oCaller->_printWidgetForm();
+        $this->oCaller->oForm = new AdminPageFramework_Form_widget(array('register_if_action_already_done' => false,) + $this->oCaller->oProp->aFormArguments, $this->oCaller->oProp->aFormCallbacks, $this->oCaller->oMsg);
+    }
+    private function _loadFrameworkFactory() {
         $this->oCaller->load($this->oCaller);
         $this->oCaller->oUtil->addAndDoActions($this->oCaller, array('load_' . $this->oCaller->oProp->sClassName,), $this->oCaller);
-        $this->oCaller->oProp->aFormCallbacks = array('hfID' => array($this, 'get_field_id'), 'hfTagID' => array($this, 'get_field_id'), 'hfName' => array($this, '_replyToGetFieldName'), 'hfInputName' => array($this, '_replyToGetFieldInputName'),) + $this->oCaller->oProp->aFormCallbacks;
-        $this->oCaller->oForm->aCallbacks = $this->oCaller->oProp->aFormCallbacks + $this->oCaller->oForm->aCallbacks;
-        $this->oCaller->oProp->aOptions = $aFormData;
-        $this->oCaller->oUtil->addAndDoActions($this->oCaller, array('load_after_' . $this->oCaller->oProp->sClassName,), $this->oCaller);
-        $this->oCaller->_printWidgetForm();
-        $this->oCaller->oForm = new AdminPageFramework_Form_widget($this->oCaller->oProp->aFormArguments, $this->oCaller->oProp->aFormCallbacks, $this->oCaller->oMsg);
     }
     public function _replyToGetFieldName() {
         $_aParams = func_get_args() + array(null, null, null);

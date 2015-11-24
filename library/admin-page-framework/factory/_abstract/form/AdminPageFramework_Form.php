@@ -8,7 +8,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
     public $sCapability = '';
     public $aCallbacks = array('capability' => null, 'is_in_the_page' => null, 'is_fieldset_registration_allowed' => null, 'load_fieldset_resource' => null, 'saved_data' => null, 'fieldset_output' => null, 'section_head_output' => null, 'sectionset_before_output' => null, 'fieldset_before_output' => null, 'is_sectionset_visible' => null, 'is_fieldset_visible' => null, 'secitonsets_before_registration' => null, 'fieldsets_before_registration' => null, 'fieldset_after_formatting' => null, 'fieldsets_after_formatting' => null, 'handle_form_data' => null,);
     public $oMsg;
-    public $aArguments = array('caller_id' => '', 'structure_type' => 'admin_page', 'action_hook_form_registration' => 'current_screen',);
+    public $aArguments = array('caller_id' => '', 'structure_type' => 'admin_page', 'action_hook_form_registration' => 'current_screen', 'register_if_action_already_done' => true,);
     public $oSubmitNotice;
     public $oFieldError;
     public function __construct() {

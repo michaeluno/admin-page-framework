@@ -1,7 +1,11 @@
 <?php
 class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
     public function __construct() {
-        $this->registerAction($this->aArguments['action_hook_form_registration'], array($this, '_replyToRegisterFormItems'), 100);
+        if ($this->aArguments['register_if_action_already_done']) {
+            $this->registerAction($this->aArguments['action_hook_form_registration'], array($this, '_replyToRegisterFormItems'), 100);
+        } else {
+            add_action($this->aArguments['action_hook_form_registration'], array($this, '_replyToRegisterFormItems'));
+        }
     }
     public function getSubmittedData(array $aDataToParse, $bExtractFromFieldStructure = true, $bStripSlashes = true) {
         $_aSubmittedFormData = $bExtractFromFieldStructure ? $this->castArrayContents($this->getDataStructureFromAddedFieldsets(), $aDataToParse) : $aDataToParse;

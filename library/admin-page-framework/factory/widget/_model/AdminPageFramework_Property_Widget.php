@@ -9,7 +9,7 @@ class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Bas
     public $bShowWidgetTitle = true;
     public $oWidget;
     public function __construct($oCaller, $sCallerPath, $sClassName, $sCapability = 'manage_options', $sTextDomain = 'admin-page-framework', $sStructureType) {
-        $this->_sFormRegistrationHook = 'load_after_' . $sClassName;
+        $this->_sFormRegistrationHook = 'load_' . $sClassName;
         parent::__construct($oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sStructureType);
     }
 }
