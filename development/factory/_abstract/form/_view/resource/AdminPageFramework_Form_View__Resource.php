@@ -36,6 +36,10 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
             return;
         }    
     
+        if ( ! $this->oForm->isInThePage() ) {
+            return;
+        }
+        
         $this->_setHooks();
   
     }
@@ -69,8 +73,9 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
             add_action( 'wp_print_footer_scripts', array( $this, '_replyToAddScript' ), 999 );
                         
             // Required scripts in the head tag.
-            new AdminPageFramework_Form_View__Resource___Head( 'wp_head' );
-            // add_action( 'wp_head', array( $this, '_replyToInsertRequiredInlineScripts' ) );
+            if ( ! in_array( $this->oForm->aArguments[ 'structure_type' ], array( 'widget' ) ) ) {
+                new AdminPageFramework_Form_View__Resource___Head( 'wp_head' );
+            }
                       
         }
             private function _setAdminHooks() {
@@ -96,8 +101,9 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
                 add_action( 'admin_print_footer_scripts', array( $this, '_replyToAddScript' ), 999 );  
                                
                 // Required scripts in the head tag.
-                new AdminPageFramework_Form_View__Resource___Head( 'admin_head' );
-                // add_action( 'admin_head', array( $this, '_replyToInsertRequiredInlineScripts' ) );
+                if ( ! in_array( $this->oForm->aArguments[ 'structure_type' ], array( 'widget' ) ) ) {       
+                    new AdminPageFramework_Form_View__Resource___Head( 'admin_head' );
+                }
                 
             }
 
