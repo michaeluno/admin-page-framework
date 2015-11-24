@@ -179,7 +179,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
  
         // If there are validation errors. Change the post status to 'pending'.
         if ( $this->hasFieldError() ) {
-            $this->_setLastInputs( $_aInputsRaw );
+            $this->setLastInputs( $_aInputsRaw );
             $aPostData[ 'post_status' ] = 'pending';
             add_filter( 
                 'redirect_post_location', 

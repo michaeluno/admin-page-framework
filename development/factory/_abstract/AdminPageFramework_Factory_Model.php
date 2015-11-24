@@ -327,19 +327,16 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @return      boolean     True if set; otherwise, false.
      * @internal
      */
-    public function _setLastInputs( array $aLastInputs ) {
-        return $this->oUtil->setTransient( 
-            'apf_tfd' . md5( 'temporary_form_data_' . $this->oProp->sClassName . get_current_user_id() ),
-            $aLastInputs, 
-            60*60 
-        );
+    public function setLastInputs( array $aLastInputs ) {
+        return $this->oForm->setLastInputs( $aLastInputs );
     }
         /**
          * An alias of `_setLastInputs()`.
          * @deprecated      DEVVER
          */
         public function _setLastInput( $aLastInputs )  {
-            return $this->_setLastInputs( $aLastInputs );
-        }
+            return $this->setLastInputs( $aLastInputs );
+        }    
+
      
 }

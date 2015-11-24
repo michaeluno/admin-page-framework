@@ -221,7 +221,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
     
         // If there are validation errors. set the last input.
         if ( $this->hasFieldError() ) {
-            $this->_setLastInputs( $_aNewMetaBoxInputsRaw );           
+            $this->setLastInputs( $_aNewMetaBoxInputsRaw );           
         }    
     
         // Now merge the input values with the passed page options, and plus the old data to cover different in-page tab field options.

@@ -93,7 +93,7 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
  
         // If there are validation errors. Change the post status to 'pending'.
         if ( $this->hasFieldError() ) {
-            $this->_setLastInputs( $_aInputsRaw );
+            $this->setLastInputs( $_aInputsRaw );
         }
                             
         $this->oForm->updateMetaDataByType( 

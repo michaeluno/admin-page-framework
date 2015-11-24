@@ -436,4 +436,23 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         return $_aErrors;
     }   
   
+    /**
+     * Saves user last input in the database as a transient.
+     * 
+     * To get the set input, call `$this->oProp->aLastInput`.
+     * 
+     * @since       3.4.1
+     * @since       DEVVER      Changed the name from `_setLastInput()`.
+     * @since       DEVVER      Moved from `AdminPageFramework_Factory_Model`.
+     * @return      boolean     True if set; otherwise, false.
+     * @internal
+     */
+    public function setLastInputs( array $aLastInputs ) {
+        return $this->setTransient( 
+            'apf_tfd' . md5( 'temporary_form_data_' . $this->aArguments[ 'caller_id' ] . get_current_user_id() ),
+            $aLastInputs, 
+            60*60 
+        );
+    }  
+  
 }
