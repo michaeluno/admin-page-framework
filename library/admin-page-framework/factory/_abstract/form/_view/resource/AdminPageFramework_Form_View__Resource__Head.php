@@ -1,10 +1,15 @@
 <?php
-class AdminPageFramework_Form_View__Resource___Head extends AdminPageFramework_WPUtility {
-    public function __construct($sHeadActionHook) {
+class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_WPUtility {
+    public $oForm;
+    public function __construct($oForm, $sHeadActionHook) {
+        $this->oForm = $oForm;
         add_action($sHeadActionHook, array($this, '_replyToInsertRequiredInlineScripts'));
     }
     public function _replyToInsertRequiredInlineScripts() {
         if ($this->hasBeenCalled(__METHOD__)) {
+            return;
+        }
+        if (!$this->oForm->isInThePage()) {
             return;
         }
         echo "<script type='text/javascript' class='admin-page-framework-form-script-required-in-head'>" . '/* <![CDATA[ */ ' . $this->_getScripts_RequiredInHead() . ' /* ]]> */' . "</script>";

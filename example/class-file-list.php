@@ -86,6 +86,7 @@ $_aClassFiles = array(
 	"APF_MetaBox_TabbedSections"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/post_type/post_type_meta_box/APF_MetaBox_TabbedSections.php", 
 	"APF_MyUserMeta"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/user_meta/APF_MyUserMeta.php", 
 	"APF_Widget"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/widget/APF_Widget.php", 
+	"APF_Widget_WithSection"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/widget/APF_Widget_WithSection.php", 
 	"AdminPageFrameworkLoader_Demo_Bootstrap"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin-page-framework-demo-bootstrap.php", 
 	"APF_Demo_MyUserMeta"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/user_meta/APF_MyUserMeta.php", 
 );
