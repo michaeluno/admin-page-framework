@@ -74,6 +74,9 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
          * @since       DEVVER
          */
         private function _getNoScriptMessage() {
+            if ( $this->hasBeenCalled( __METHOD__ ) ) {
+                return;
+            }
             return "<noscript>" 
                 . "<div class='error'>"
                     . "<p class='admin-page-framework-form-warning'>" 
