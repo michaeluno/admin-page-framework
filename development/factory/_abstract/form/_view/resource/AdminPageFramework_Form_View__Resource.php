@@ -69,7 +69,8 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
             add_action( 'wp_print_footer_scripts', array( $this, '_replyToAddScript' ), 999 );
                         
             // Required scripts in the head tag.
-            add_action( 'wp_head', array( $this, '_replyToInsertRequiredInlineScripts' ) );
+            new AdminPageFramework_Form_View__Resource___Head( 'wp_head' );
+            // add_action( 'wp_head', array( $this, '_replyToInsertRequiredInlineScripts' ) );
                       
         }
             private function _setAdminHooks() {
@@ -95,58 +96,10 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
                 add_action( 'admin_print_footer_scripts', array( $this, '_replyToAddScript' ), 999 );  
                                
                 // Required scripts in the head tag.
-                add_action( 'admin_head', array( $this, '_replyToInsertRequiredInlineScripts' ) );
+                new AdminPageFramework_Form_View__Resource___Head( 'admin_head' );
+                // add_action( 'admin_head', array( $this, '_replyToInsertRequiredInlineScripts' ) );
                 
             }
-    /**
-     * Inserts JavaScript scripts whihc must be inserted head.
-     * @since       DEVVER
-     * @return      string
-     */
-    public function _replyToInsertRequiredInlineScripts() {
-        
-        // Ensure to load only once per page load
-        if ( self::$_bLoaded ) {
-            return;
-        }
-        self::$_bLoaded = true;                
-        
-        echo "<script type='text/javascript' class='admin-page-framework-form-script-required-in-head'>" 
-                . '/* <![CDATA[ */'
-                . $this->_getScripts_RequiredInHead()
-                . '/* ]]> */'
-            . "</script>";  
-            
-    }
-        static private $_bLoaded = false;
-        
-        /**
-         * @since       DEVVER
-         * @return      string
-         */
-        private function _getScripts_RequiredInHead() {
-            return 'document.write( "<style class=\'admin-page-framework-js-embedded-inline-style\'>'
-                    . esc_js( $this->_getInlineCSS() )
-                . '</style>" );';            
-        }
-            /**
-             * @return      string
-             * @since       DEVVER
-             */
-            private function _getInlineCSS() {
-                $_oLoadingCSS = new AdminPageFramework_Form_View___CSS_Loading;
-                $_oLoadingCSS->add( $this->_getScriptElementConcealerCSSRules() );
-                return $_oLoadingCSS->get();
-            }
-                /**
-                 * Hides the form initially to prevent unformatted layouts being displayed during document load. 
-                 * @remark      Use visibility to reserve the element area in the screen.
-                 * @return      string
-                 * @since       DEVVER
-                 */
-                private function _getScriptElementConcealerCSSRules() {                    
-                    return ".admin-page-framework-form-js-on { visibility: hidden; }";
-                }
 
     /**
      * Enqueues page script resources.
