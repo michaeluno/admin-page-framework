@@ -19,13 +19,6 @@
  * @extends     AdminPageFramework_WPUtility
  */
 abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramework_WPUtility {
-
-    /**
-     * Stores the enqueued script class names.
-     * 
-     * @since       3.3.0
-     */
-    static public $_aEnqueued = array();
     
     public $oMsg;
     
@@ -37,12 +30,11 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
      * @since       3.3.0
      */
     public function __construct( $oMsg=null ) {
-        
-        $_sClassName = get_class( $this );
-        if ( in_array( $_sClassName, self::$_aEnqueued ) ) {
+                
+        if ( $this->hasBeenCalled( get_class( $this ) ) ) {
             return;
         }
-        self::$_aEnqueued[ $_sClassName ] = $_sClassName;
+        
         $this->oMsg = $oMsg ? $oMsg : AdminPageFramework_Message::getInstance();
         
         // add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToPrintScript' ) );
@@ -58,7 +50,7 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
         
         $this->construct();
         
-        $this->registerAction( 'wp_enqueue_scripts', array( $this, 'load' ) );
+        add_action( 'wp_enqueue_scripts', array( $this, 'load' ) );
         
     }
     
