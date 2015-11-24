@@ -50,6 +50,7 @@ class APF_Demo_BuiltinFieldTypes_Text_Text {
                 'section_id'    => $this->sSectionID,       // avoid hyphen(dash), dots, and white spaces
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Text Fields', 'admin-page-framework-loader' ),
+                'tip'           => __( 'With the <code>tip</code> argument in a section definition array, a tool tip can be inserted.', 'admin-page-framework-loader' ),
                 'description'   => __( 'These are text type fields.', 'admin-page-framework-loader' ), // ( optional )
                 'order'         => 10, // ( optional ) - if you don't set this, an index will be assigned internally in the added order
             )
@@ -68,6 +69,7 @@ class APF_Demo_BuiltinFieldTypes_Text_Text {
                     __( 'Type something here. This text is inserted with the <code>description</code> argument in the field definition array.', 'admin-page-framework-loader' ),
                     __( 'The argument accepts as an array and each element will be treated as one paragraph.', 'admin-page-framework-loader' ),
                 ),
+                'tip'               => __( 'With the <code>tip</code> argument in a field definition array, a tool tip can be inserted.', 'admin-page-framework-loader' ),
                 'help'              => __( 'This is a text field and typed text will be saved.', 'admin-page-framework-loader' )
                     . ' ' . __( 'This text is inserted with the <code>help</code> argument in the field definition array.', 'admin-page-framework-loader' ),
                 'type'              => 'text',
