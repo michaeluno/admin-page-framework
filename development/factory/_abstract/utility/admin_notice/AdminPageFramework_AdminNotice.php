@@ -59,7 +59,8 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
         );
         $this->aCallbacks             = $aCallbacks + $this->aCallbacks;
   
-        $this->_loadResources();
+        // Load resources.
+        new AdminPageFramework_AdminNotice___Script;
         
         // An empty value may be set in oreder only to laode the fade-in script.
         if ( ! $sNotice ) {
@@ -75,23 +76,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
             array( $this, '_replyToDisplayAdminNotice' ) 
         );
         
-    }    
-        /**
-         * Sets up scripts.
-         * @since       DEVVER
-         */
-        private function _loadResources(){
-            
-            // Make sure to load once per page load.
-            if ( self::$_bLoaded ) {
-                return;
-            }
-            self::$_bLoaded = true;
-            
-            new AdminPageFramework_AdminNotice___Script;
-
-        }
-            static private $_bLoaded = false;
+    }                
             
         /**
          * Displays the set admin notice.
