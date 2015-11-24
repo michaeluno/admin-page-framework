@@ -57,7 +57,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
         $_aNewMetaBoxInputs = call_user_func_array(array($this, 'validate'), array($_aNewMetaBoxInputs, $_aOldMetaBoxInputs, $this, $aSubmitInfo));
         $_aNewMetaBoxInputs = $this->oUtil->addAndApplyFilters($this, "validation_{$this->oProp->sClassName}", $_aNewMetaBoxInputs, $_aOldMetaBoxInputs, $this, $aSubmitInfo);
         if ($this->hasFieldError()) {
-            $this->_setLastInputs($_aNewMetaBoxInputsRaw);
+            $this->setLastInputs($_aNewMetaBoxInputsRaw);
         }
         return $this->oUtil->uniteArrays($_aNewMetaBoxInputs, $aNewPageOptions);
     }

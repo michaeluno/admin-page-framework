@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utility_Array {
+abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utility_ArraySetter {
     static public function getRelativePath($from, $to) {
         $from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
         $to = is_dir($to) ? rtrim($to, '\/') . '/' : $to;

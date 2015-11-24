@@ -39,7 +39,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
         $_aSavedMeta = $this->oUtil->getSavedPostMetaArray($_iPostID, array_keys($_aInputs));
         $_aInputs = $this->oUtil->addAndApplyFilters($this, "validation_{$this->oProp->sClassName}", call_user_func_array(array($this, 'validate'), array($_aInputs, $_aSavedMeta, $this)), $_aSavedMeta, $this);
         if ($this->hasFieldError()) {
-            $this->_setLastInputs($_aInputsRaw);
+            $this->setLastInputs($_aInputsRaw);
             $aPostData['post_status'] = 'pending';
             add_filter('redirect_post_location', array($this, '_replyToModifyRedirectPostLocation'));
         }

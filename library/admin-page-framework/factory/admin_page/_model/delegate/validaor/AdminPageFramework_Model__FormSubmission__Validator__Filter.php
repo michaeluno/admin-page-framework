@@ -30,7 +30,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
             return $_aInput;
         }
         $this->_setSettingNoticeAfterValidation(empty($_aInput));
-        $this->oFactory->_setLastInputs($aRawInputs);
+        $this->oFactory->setLastInputs($aRawInputs);
         add_filter("options_update_status_{$this->oFactory->oProp->sClassName}", array($this, '_replyToSetStatus'));
         $_oException = new Exception('aReturn');
         $_oException->aReturn = $_aInput;

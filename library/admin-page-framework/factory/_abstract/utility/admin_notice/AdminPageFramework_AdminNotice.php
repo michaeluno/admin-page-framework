@@ -8,7 +8,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
         $this->aAttributes = $aAttributes + array('class' => 'error',);
         $this->aAttributes['class'] = $this->getClassAttribute($this->aAttributes['class'], 'admin-page-framework-settings-notice-message', 'admin-page-framework-settings-notice-container', 'notice', 'is-dismissible');
         $this->aCallbacks = $aCallbacks + $this->aCallbacks;
-        $this->_loadResources();
+        new AdminPageFramework_AdminNotice___Script;
         if (!$sNotice) {
             return;
         }
@@ -16,14 +16,6 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
         self::$_aNotices[$sNotice] = $sNotice;
         $this->registerAction('admin_notices', array($this, '_replyToDisplayAdminNotice'));
     }
-    private function _loadResources() {
-        if (self::$_bLoaded) {
-            return;
-        }
-        self::$_bLoaded = true;
-        new AdminPageFramework_AdminNotice___Script;
-    }
-    static private $_bLoaded = false;
     public function _replyToDisplayAdminNotice() {
         if (!$this->_shouldProceed()) {
             return;

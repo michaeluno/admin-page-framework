@@ -87,4 +87,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         $this->oFieldError->delete();
         return $_aErrors;
     }
+    public function setLastInputs(array $aLastInputs) {
+        return $this->setTransient('apf_tfd' . md5('temporary_form_data_' . $this->aArguments['caller_id'] . get_current_user_id()), $aLastInputs, 60 * 60);
+    }
 }

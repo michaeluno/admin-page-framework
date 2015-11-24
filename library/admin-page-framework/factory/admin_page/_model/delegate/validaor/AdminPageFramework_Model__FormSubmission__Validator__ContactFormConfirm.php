@@ -11,7 +11,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactFormConfirm ex
         if (!$_bConfirmingToSendEmail) {
             return;
         }
-        $this->oFactory->_setLastInputs($aInputs);
+        $this->oFactory->setLastInputs($aInputs);
         $this->oFactory->oProp->_bDisableSavingOptions = true;
         add_filter("options_update_status_{$this->oFactory->oProp->sClassName}", array($this, '_replyToSetStatus'));
         $_oException = new Exception('aReturn');

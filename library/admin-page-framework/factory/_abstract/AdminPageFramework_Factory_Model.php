@@ -21,8 +21,10 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         return $this->oUtil->addAndApplyFilter($this, "sections_{$this->oProp->sClassName}", $aSectionsets);
     }
     public function _replyToModifyFieldsets($aFieldsets, $aSectionsets) {
-        foreach ($aFieldsets as $_sSectionID => $_aFields) {
-            $aFieldsets[$_sSectionID] = $this->oUtil->addAndApplyFilter($this, "fields_{$this->oProp->sClassName}_{$_sSectionID}", $_aFields);
+        foreach ($aFieldsets as $_sSectionPath => $_aFields) {
+            $_aSectionPath = explode('|', $_sSectionPath);
+            $_sFilterSuffix = implode('_', $_aSectionPath);
+            $aFieldsets[$_sSectionPath] = $this->oUtil->addAndApplyFilter($this, "fields_{$this->oProp->sClassName}_{$_sFilterSuffix}", $_aFields);
         }
         $aFieldsets = $this->oUtil->addAndApplyFilter($this, "fields_{$this->oProp->sClassName}", $aFieldsets);
         if (count($aFieldsets)) {
@@ -72,10 +74,10 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     protected function _getFieldErrors() {
         return $this->oForm->getFieldErrors();
     }
-    public function _setLastInputs(array $aLastInputs) {
-        return $this->oUtil->setTransient('apf_tfd' . md5('temporary_form_data_' . $this->oProp->sClassName . get_current_user_id()), $aLastInputs, 60 * 60);
+    public function setLastInputs(array $aLastInputs) {
+        return $this->oForm->setLastInputs($aLastInputs);
     }
     public function _setLastInput($aLastInputs) {
-        return $this->_setLastInputs($aLastInputs);
+        return $this->setLastInputs($aLastInputs);
     }
 }

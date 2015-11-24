@@ -15,7 +15,7 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
         $_aSavedMeta = $this->oUtil->getSavedUserMetaArray($iUserID, array_keys($_aInputs));
         $_aInputs = $this->oUtil->addAndApplyFilters($this, "validation_{$this->oProp->sClassName}", call_user_func_array(array($this, 'validate'), array($_aInputs, $_aSavedMeta, $this)), $_aSavedMeta, $this);
         if ($this->hasFieldError()) {
-            $this->_setLastInputs($_aInputsRaw);
+            $this->setLastInputs($_aInputsRaw);
         }
         $this->oForm->updateMetaDataByType($iUserID, $_aInputs, $this->oForm->dropRepeatableElements($_aSavedMeta), $this->oForm->sStructureType);
     }

@@ -15,6 +15,9 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
         return $this->_getNoScriptMessage() . $_oFormTables->get();
     }
     private function _getNoScriptMessage() {
+        if ($this->hasBeenCalled(__METHOD__)) {
+            return;
+        }
         return "<noscript>" . "<div class='error'>" . "<p class='admin-page-framework-form-warning'>" . $this->oMsg->get('please_enable_javascript') . "</p>" . "</div>" . "</noscript>";
     }
     public function printSubmitNotices() {
