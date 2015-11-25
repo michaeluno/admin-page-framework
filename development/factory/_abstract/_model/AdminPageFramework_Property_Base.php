@@ -282,24 +282,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
         'sLeft'     => '__SCRIPT_CREDIT__',
         'sRight'    => '__FRAMEWORK_CREDIT__',
     );    
-    
-    /**
-     * Stores callables for the form field outputs such as the id and name attribute values.
-     * 
-     * @internal
-     * @since       3.2.0
-     * @deprecated  DEVVER      Merged with `$aFormCallbacks`
-     */
-    // public $aFieldCallbacks  = array(
-        // 'hfID'              => null,    // the input id attribute
-        // 'hfTagID'           => null,    // the field container id attribute
-        // 'hfName'            => null,    // the field name attribute
-        // 'hfNameFlat'        => null,    // the flat field name attribute
-        // 'hfInputName'       => null,    // 3.6.0+   the field input name attribute
-        // 'hfInputNameFlat'   => null,    // 3.6.0+   the flat field input name 
-        // 'hfClass'           => null,    // the class attribute        
-    // );
-    
+
     /**
      * The utility object.
      * @since       3.5.3
@@ -311,7 +294,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
      * Stores the action hook name that gets triggered when the form registration is performed.
      * 'admin_page' and 'network_admin_page' will use a custom hook for it.
      * @since       DEVVER
-     * @access      pulbic      Called externally.
+     * @access      public
      */
     public $_sFormRegistrationHook = 'current_screen';
               
@@ -330,7 +313,6 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
      * @since       DEVVER
      */
     public $aFormCallbacks = array(
-    
         'hfID'              => null,    // the input id attribute
         'hfTagID'           => null,    // the field container id attribute
         'hfName'            => null,    // the field name attribute
@@ -351,7 +333,8 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
             $sCallerPath,
             null
         );
-        $this->sClassName       = str_replace( '\\', '_', $sClassName ); // sanitize name space path delimiter.
+
+        $this->sClassName       = $sClassName; // sanitize name space path delimiter.
         $this->sClassHash       = md5( $sClassName );    
         $this->sCapability      = $this->getAOrB(
             empty( $sCapability ),
@@ -556,28 +539,6 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     protected function _getOptions() {
         return array();
     }
-
-    /**
-     * Returns the last user form input array.
-     * 
-     * @remark      This temporary data is not always set. This is only set when the form needs to show a confirmation message to the user such as for sending an email.
-     * @since       3.3.0
-     * @since       3.4.1       Moved from `AdminPageFramework_Property_Page`.
-     * @internal
-     * @return      array   The last input array.
-     * @deprecated  DEVVER
-     */
-    // protected function _getLastInput() {
-        
-        // $_sKey      = 'apf_tfd' . md5( 'temporary_form_data_' . $this->sClassName . get_current_user_id() );
-        // $_vValue    = $this->getTransient( $_sKey );
-        // $this->deleteTransient( $_sKey );
-        // if ( is_array( $_vValue ) ) {
-            // return $_vValue;
-        // }
-        // return array();
-        
-    // }
     
     /*
      * Magic methods
@@ -603,17 +564,6 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
             $this->aOptions = $this->_getOptions();
             return $this->aOptions;    
         }        
-        
-        // 3.3.0+   Sets and returns the last user form input data as an array.
-        // 3.4.1+   Moved from `AdminPageFramework_Property_Page` as meta box classes also access it.
-        // @deprecated      DEVVEWR
-        // if ( 'aLastInput' === $sName ) {
-            // $this->aLastInput = $this->_getLastInput();
-            // return $this->aLastInput;
-        // }        
-        
-        // For regular undefined items, 
-        // return 'undefined';
         
     }
     
