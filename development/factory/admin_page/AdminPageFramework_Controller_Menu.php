@@ -58,7 +58,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
             'sTitle'        => $sRootMenuLabel,
             'sPageSlug'     => $_sSlug 
                 ? $_sSlug 
-                : $this->oProp->sClassName,
+                : str_replace( '\\', '_', $this->oProp->sClassName ),
             'sIcon16x16'    => $this->oUtil->getResolvedSRC( $sIcon16x16 ),
             'iPosition'     => $iMenuPosition,
             'fCreateRoot'   => empty( $_sSlug ),

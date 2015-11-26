@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.4
 Tested up to:       4.3.1
-Stable tag:         3.6.4
+Stable tag:         3.6.5
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -402,6 +402,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 Check out [the issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.
 
 == Changelog ==
+
+= 3.6.6  -2015/11/26 =
+- Changed back the change introduced in v3.6.4 not to convert backslashes to underscores in class names in the framework hooks but only apply to auto-callback method names.
 
 = 3.6.5 - 2015/11/21 =
 - Fixed a bug that layouts of page meta boxes were not displayed properly when no `side` meta box existed and one of `normal` or `advanced` was added.

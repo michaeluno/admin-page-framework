@@ -518,9 +518,9 @@ abstract class AdminPageFramework_Factory_Router {
      * 
      * @internal
      */
-    public function __call( $sMethodName, $aArgs=null ) {    
+    public function __call( $sMethodName, $aArguments=null ) {    
          
-        $_mFirstArg = $this->oUtil->getElement( $aArgs, 0 );
+        $_mFirstArg = $this->oUtil->getElement( $aArguments, 0 );
         
         switch ( $sMethodName ) {
             case 'validate':
@@ -539,19 +539,55 @@ abstract class AdminPageFramework_Factory_Router {
                 return;
         }
         
+        // If it is called with the framework auto-callback,
         if ( has_filter( $sMethodName ) ) {
-            return $_mFirstArg;
+            return $this->_getAutoCallback( $sMethodName, $aArguments );
         }
                 
-        trigger_error( 
-            'Admin Page Framework: ' . ' : ' . sprintf( 
-                __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ),
-                $sMethodName 
-            ), 
-            E_USER_WARNING 
-        );
+        $this->_triggerUndefinedMethodWarning( $sMethodName );
         
     }     
+        /**
+         * Returns the first parameter value if the method name does not contain a backslash.
+         * If it contains a backslash, the user uses a name-spaced class name. In that case,
+         * the backslashes need to be converted to underscores to support valid PHP method names.
+         * 
+         * @since       3.6.6
+         */
+        private function _getAutoCallback( $sMethodName, $aArguments ) {
+            
+            // Check if the method name contains a backslash.
+            if ( false === strpos( $sMethodName, "\\" ) ) {
+                return $this->oUtil->getElement( $aArguments, 0 );  // the first element - the filter value
+            }
+                
+            // if the method name contains a backslash, the user may be using a name space. 
+            // In that case, convert the backslash to underscore and call the method.
+            $_sAutoCallbackClassName = str_replace( '\\', '_', $this->oProp->sClassName );
+            return method_exists( $this, $_sAutoCallbackClassName )
+                ? call_user_func_array(
+                    array( $this, $_sAutoCallbackClassName ),
+                    $aArguments
+                )
+                : $this->oUtil->getElement( $aArguments, 0 );   // the first argument
+            
+        }
+        
+        /**
+         * @since   3.6.6
+         * @return  void
+         */
+        private function _triggerUndefinedMethodWarning( $sMethodName ) {
+            trigger_error(
+                AdminPageFramework_Registry::NAME . ': ' 
+                    . sprintf( 
+                        __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ),
+                        $sMethodName 
+                    ), 
+                E_USER_WARNING 
+            );            
+        }
+                
     
     /**
      * Prevents the output from getting too long when the object is dumped.
