@@ -43,15 +43,24 @@ class APF_Demo_AdvancedUsage_Section_CollapsibleType_Button {
                 'section_id'        => $this->sSectionID,
                 'tab_slug'          => $this->sTabSlug,
                 'title'             => __( 'Button Type Collapsible Section', 'admin-page-framework-loader' ),
-                'content'           => "<p>"
-                    . __( 'When the <code>type</code> argument is <code>button</code>, the toggle button will be used instead of a container box.', 'admin-page-framework-loader' )
-                    . "</p>",
                 'collapsible'       => array(
                     'container'                 => 'section',
                     'type'                      => 'button',
                 ),
+                'tip'               => __( 'When the <code>type</code> argument is <code>button</code>, the toggle button will be used instead of a container box.', 'admin-page-framework-loader' ),
             )
         );   
+        $oFactory->addSettingFields(
+            $this->sSectionID,   
+            array(
+                'field_id'      => 'field_in_button_type_collapsible_seciton_b',
+                'type'          => 'color',
+                'title'         => __( 'Color', 'admin-page-framework-loader' ),
+                'sortable'      => true,
+                'repeatable'    => true,
+            )
+        );
+        
     }
 
 }

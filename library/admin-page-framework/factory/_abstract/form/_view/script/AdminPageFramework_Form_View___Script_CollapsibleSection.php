@@ -21,13 +21,14 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
             .closest( '.admin-page-framework-section-table' )
             .find( 'tbody' )
             .slideDown( 'fast' );
+            
         // Hide collapsible sections of 'section' containers as they are somehow do not get collapsed by default.
         jQuery( '.admin-page-framework-collapsible-section-title[data-is_collapsed=\"1\"]' )
             .closest( '.admin-page-framework-section-table' )
             .find( 'tbody' )
             .hide();
         
-        // Bind the click event
+        // Bind the click event to the title element.
         jQuery( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' ).enableAdminPageFrameworkCollapsibleButton();
         
         // Insert the toggle all button.
@@ -92,7 +93,7 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
 
 
     /**
-     * Adds a repeatable section.
+     * Binds the click event to collapsible buttons.
      */
     $.fn.enableAdminPageFrameworkCollapsibleButton = function() {
         

@@ -6,8 +6,8 @@ class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFra
     private function _getCollapsibleSectionsRules() {
         $_sCSSRules = <<<CSSRULES
 /* Collapsible Sections Title Block */            
-.admin-page-framework-collapsible-sections-title, 
-.admin-page-framework-collapsible-section-title
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box, 
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box
 {
     font-size:13px;
     background-color: #fff;
@@ -17,46 +17,46 @@ class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFra
     border-bottom: 1px solid #eee;
 }
 
-.admin-page-framework-collapsible-sections-title.collapsed
-.admin-page-framework-collapsible-section-title.collapsed {
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.collapsed
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.collapsed {
     border-bottom: 1px solid #dfdfdf;
     margin-bottom: 1em; /* gives a margin for the debug info at the bottom of the meta box */
 }
-.admin-page-framework-collapsible-section-title {
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box {
     margin-top: 0;
 }
-.admin-page-framework-collapsible-section-title.collapsed {
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.collapsed {
     margin-bottom: 0;
 }
 
 /* Collapsible Sections Title Block in Meta Boxes */            
-#poststuff .metabox-holder .admin-page-framework-collapsible-sections-title.admin-page-framework-section-title h3,
-#poststuff .metabox-holder .admin-page-framework-collapsible-section-title.admin-page-framework-section-title h3
+#poststuff .metabox-holder .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title h3,
+#poststuff .metabox-holder .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title h3
 {
     font-size: 1em;
     margin: 0;
 }
 
 /* Collapsible Sections Title Dashicon */            
-.admin-page-framework-collapsible-sections-title.accordion-section-title:after,
-.admin-page-framework-collapsible-section-title.accordion-section-title:after 
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after 
 {
     top: 12px;
     right: 15px;
 }
-.admin-page-framework-collapsible-sections-title.accordion-section-title:after,
-.admin-page-framework-collapsible-section-title.accordion-section-title:after {
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after {
     content: '\\f142';
 }
-.admin-page-framework-collapsible-sections-title.accordion-section-title.collapsed:after,
-.admin-page-framework-collapsible-section-title.accordion-section-title.collapsed:after 
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title.collapsed:after,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title.collapsed:after 
 {
     content: '\\f140';
 }
 
 /* Collapsible Sections Content Block */            
-.admin-page-framework-collapsible-sections-content, 
-.admin-page-framework-collapsible-section-content
+.admin-page-framework-collapsible-sections-content.admin-page-framework-collapsible-content-type-box, 
+.admin-page-framework-collapsible-section-content.admin-page-framework-collapsible-content-type-box
 {
     border: 1px solid #dfdfdf;
     border-top: 0;
@@ -95,31 +95,55 @@ tbody.admin-page-framework-collapsible-content.table-caption {
 }
 
 /* Repeatable Section buttons inside the collapsible section title block */
-.admin-page-framework-collapsible-section-title .admin-page-framework-repeatable-section-buttons {
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons {
     /* Collapsible section bar has an icon at the right end so the repeatable button needs to be placed before it */
     margin: 0;
     margin-right: 2em; 
     margin-top: -0.32em;
 }
 /* When a section_title field is in the caption tag, do not set the margin-top to align vertically */
-.admin-page-framework-collapsible-section-title .admin-page-framework-repeatable-section-buttons.section_title_field_sibling {
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons.section_title_field_sibling {
     margin-top: 0;
 }
 
-.admin-page-framework-collapsible-section-title .repeatable-section-button {
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button {
     background: none;   /* for Wordpress v3.7.x or below, the background image need to be removed as well */
+}
+
+/* DEVVER+ For the button type collapsible sections, do not set a white color in the background */
+.accordion-section-content.admin-page-framework-collapsible-content-type-button {
+    background-color: transparent;
+}
+/* @todo When fields support a collapsible option, move this rule to a common CSS class as this class is for sections. */
+.admin-page-framework-collapsible-button {
+    color: #888;
+    margin-right: 0.4em;
+    font-size: 0.8em;
+}
+/* Toggle the visibility of the buttons */
+.admin-page-framework-collapsible-button-collapse {
+    display: inline;
+} 
+.collapsed > * > .admin-page-framework-collapsible-button-collapse {
+    display: none;
+}
+.admin-page-framework-collapsible-button-expand {
+    display: none;
+}
+.collapsed > * > .admin-page-framework-collapsible-button-expand {
+    display: inline;
 }
 CSSRULES;
         if (version_compare($GLOBALS['wp_version'], '3.8', '<')) {
             $_sCSSRules.= <<<CSSRULES
-.admin-page-framework-collapsible-sections-title.accordion-section-title:after,
-.admin-page-framework-collapsible-section-title.accordion-section-title:after 
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after 
 {
     content: '';
     top: 18px;
 }
-.admin-page-framework-collapsible-sections-title.accordion-section-title.collapsed:after,
-.admin-page-framework-collapsible-section-title.accordion-section-title.collapsed:after 
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title.collapsed:after,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title.collapsed:after 
 {
     content: '';
 }                 
@@ -127,9 +151,10 @@ CSSRULES;
     font-size: 1em;
 }
 
-.admin-page-framework-collapsible-section-title .admin-page-framework-repeatable-section-buttons {
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons {
     top: -8px;
 }
+
 CSSRULES;
             
         }
