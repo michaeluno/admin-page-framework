@@ -67,32 +67,42 @@ class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFr
             if ( $sContainer !== $aCollapsible[ 'container' ] ) { 
                 return ''; 
             }
-              
+
             $_sSectionTitle = $this->_getSectionTitle( 
                 $this->aArguments[ 'title' ], 
                 $this->aArguments[ 'tag' ],
                 $this->aFieldsets,
                 $iSectionIndex,
-                $this->aFieldTypeDefinitions         
+                $this->aFieldTypeDefinitions,
+                $aCollapsible
             );
             
             $_aSectionset        = $this->aArguments[ 'sectionset' ];
             $_sSectionTitleTagID = str_replace( '|', '_', $_aSectionset[ '_section_path' ]  ) . '_' . $iSectionIndex;
-
+            
             return $this->_getCollapsibleSectionsEnablerScript()
                 . "<div " . $this->getAttributes(
                     array(
                         'id'    => $_sSectionTitleTagID,
-                        'class' => $this->getClassAttribute( 
+                        'class' => $this->getClassAttribute(
                             'admin-page-framework-section-title',
-                            'accordion-section-title',
+                            $this->getAOrB(
+                                'box' === $aCollapsible[ 'type' ],
+                                'accordion-section-title',
+                                ''
+                            ),
                             'admin-page-framework-collapsible-title',
-                            'sections' === $aCollapsible['container']
-                                ? 'admin-page-framework-collapsible-sections-title'
-                                : 'admin-page-framework-collapsible-section-title',
-                            $aCollapsible[ 'is_collapsed' ] 
-                                ? 'collapsed' 
-                                : ''
+                            $this->getAOrB(
+                                'sections' === $aCollapsible[ 'container' ],
+                                'admin-page-framework-collapsible-sections-title',
+                                'admin-page-framework-collapsible-section-title'
+                            ),
+                            $this->getAOrB(
+                                $aCollapsible[ 'is_collapsed' ],
+                                'collapsed',
+                                ''
+                            ),                            
+                            'admin-page-framework-collapsible-type-' . $aCollapsible[ 'type' ]
                         ),
                     ) 
                     + $this->getDataAttributeArray( $aCollapsible )
@@ -100,7 +110,8 @@ class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFr
                         . $_sSectionTitle
                     . "</div>";
             
-        }        
+        }   
+           
     /**
      * Indicates whether the collapsible script is loaded or not.
      * 

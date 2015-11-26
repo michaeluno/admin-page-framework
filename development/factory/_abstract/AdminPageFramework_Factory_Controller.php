@@ -216,6 +216,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *              <li>**toggle_all_button** - (optional, boolean|string|array) the position of where to display the toggle-all button that toggles the folding state of all collapsible sections. Accepts the following values. 'top-right', 'top-left', 'bottom-right', 'bottom-left'. If true is passed, the default 'top-right' will be used. To not to display, do not set any or pass `false` or `null`.</li>
      *              <li>**collapse_others_on_expand** - (optional, boolean) whether the other collapsible sections should be folded when the section is unfolded. If the below `container` argument is set to `section`, this argument value does not take effect.</li>
      *              <li>**container** - (optional, string) the container element that collapsible styling gets applied to. Either 'sections' or 'section' is accepted. Use 'section' for repeatable sections.</li>
+     *              <li>**type** - [DEVVER+] (optional, string) either `box` or `button`. Default: `box`. The `button` type only is supported when the `container` argument is set to `section`.</li>
      *          </ul>
      * `
      * $this->addSettingSections(

@@ -19,6 +19,7 @@ $_aClassFiles = array(
 	"APF_Demo_AdvancedUsage_Nesting_SectionA"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/nesting/APF_Demo_AdvancedUsage_Nesting_SectionA.php", 
 	"APF_Demo_AdvancedUsage_Nesting_SectionB"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/nesting/APF_Demo_AdvancedUsage_Nesting_SectionB.php", 
 	"APF_Demo_AdvancedUsage_Section"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/section/APF_Demo_AdvancedUsage_Section.php", 
+	"APF_Demo_AdvancedUsage_Section_CollapsibleType_Button"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/section/APF_Demo_AdvancedUsage_Section_CollapsibleType_Button.php", 
 	"APF_Demo_AdvancedUsage_Section_Collapsible_A"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/section/APF_Demo_AdvancedUsage_Section_Collapsible_A.php", 
 	"APF_Demo_AdvancedUsage_Section_Collapsible_B"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/section/APF_Demo_AdvancedUsage_Section_Collapsible_B.php", 
 	"APF_Demo_AdvancedUsage_Section_Collapsible_C"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/section/APF_Demo_AdvancedUsage_Section_Collapsible_C.php", 

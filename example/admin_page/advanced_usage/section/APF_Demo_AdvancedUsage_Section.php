@@ -80,6 +80,7 @@ class APF_Demo_AdvancedUsage_Section {
             'APF_Demo_AdvancedUsage_Section_Collapsible_B',
             'APF_Demo_AdvancedUsage_Section_Collapsible_C',
             'APF_Demo_AdvancedUsage_Section_Collapsible_D',
+            'APF_Demo_AdvancedUsage_Section_CollapsibleType_Button',
             'APF_Demo_AdvancedUsage_Section_Collapsible_Repeatable',
         );
         foreach ( $_aClasses as $_sClassName ) {

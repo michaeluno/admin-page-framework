@@ -167,6 +167,9 @@ class AdminPageFramework_Message {
         // DEVVER+  - accessed from `AdminPageFramework_Form_View___DebugInfo`
         'debug_info'                            => 'Debug Info',
         
+        'click_to_expand'                       => 'Click here to expand to view the contents.',
+        'click_to_collapse'                     => 'Click here to collapse the contents.',
+        
         // DEVVER+ - displayed while the page laods
         'loading'                               => 'Loading...',
         'please_enable_javascript'              => 'Please enable JavaScript for better experience.'
@@ -372,6 +375,9 @@ class AdminPageFramework_Message {
         
         __( 'The method is called too early: %1$s', 'admin-page-framework' );
         __( 'Debug Info', 'admin-page-framework' );
+        
+        __( 'Click here to expand to view the contents.', 'admin-page-framework' );
+        __( 'Click here to collapse the contents.', 'admin-page-framework' );
         
         __( 'Loading...', 'admin-page-framework' );
         __( 'Please enable JavaScript for better experience.', 'admin-page-framework' );

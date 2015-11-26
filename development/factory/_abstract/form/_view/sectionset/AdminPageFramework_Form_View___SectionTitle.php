@@ -102,17 +102,33 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
          * @since       DEVVER      Moved from `AdminPageFramework_FormPart_SectionTitle`.
          * @return      string      The section title output. 
          */
-        protected function _getSectionTitle( $sTitle, $sTag, $aFieldsets, $iSectionIndex=null, $aFieldTypeDefinitions=array() ) {
+        protected function _getSectionTitle( $sTitle, $sTag, $aFieldsets, $iSectionIndex=null, $aFieldTypeDefinitions=array(), $aCollapsible=array() ) {
        
             $_aSectionTitleField = $this->_getSectionTitleField( $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions );
             return $_aSectionTitleField
                 ? $this->getFieldsetOutput( $_aSectionTitleField )
                 : "<{$sTag}>" 
+                        . $this->_getCollapseButton( $aCollapsible )
                         . $sTitle 
                         . $this->_getToolTip()
                     . "</{$sTag}>";
             
         }    
+            /**
+             * Returns a collapse button for the 'button' collapsible type.
+             * @since       DEVVER
+             * @return      string
+             */
+            private function _getCollapseButton( $aCollapsible ) {
+                $_sExpand   = esc_attr( $this->oMsg->get( 'click_to_expand' ) );
+                $_sCollapse = esc_attr( $this->oMsg->get( 'click_to_collapse' ) );
+                return $this->getAOrB(
+                    'button' === $this->getElement( $aCollapsible, 'type', 'box' ),
+                    "<span class='admin-page-framework-collapsible-button admin-page-framework-collapsible-button-expand' title='{$_sExpand}'>&#9658;</span>"
+                    . "<span class='admin-page-framework-collapsible-button admin-page-framework-collapsible-button-collapse' title='{$_sCollapse}'>&#9660;</span>",
+                    ''
+                );                
+            }
             /**
              * Returns the first found `section_title` field.
              * 

@@ -27,7 +27,8 @@ class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPag
         'is_collapsed'              => true,        // (boolean) whether it is already collapsed or expanded
         'toggle_all_button'         => null,        // (boolean|string|array) the position of where to display the toggle-all button that toggles the folding state of all collapsible sections. Accepts the following values. 'top-right', 'top-left', 'bottom-right', 'bottom-left'. If true is passed, the default 'top-right' will be used. To not to display, do not set any or pass `false` or `null`.
         'collapse_others_on_expand' => true,        // (boolean) whether the other collapsible sections should be folded when the section is unfolded.
-        'container'                 => 'sections'   // (string) the container element that collapsible styling gets applied to. Either 'sections' or 'section' is accepted.
+        'container'                 => 'sections',  // (string) the container element that collapsible styling gets applied to. Either 'sections' or 'section' is accepted.
+        'type'                      => 'box',       // DEVVER+  (string)  supported types 'box', 'button' Default: `box`. The `button` type is only supported when the `container` argument is `section`.
     );   
     
     public $abCollapsible = false;

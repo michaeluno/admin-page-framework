@@ -227,7 +227,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
             // if ( ! count( $aFieldsets ) ) {
                 // return ''; 
             // }           
-// var_dump( 'depth: ' . $this->aArguments['nested_depth'] );                
+
             $_aFirstSectionset  = $this->getFirstElement( $aSectionsets );
             $_sSectionTabSlug   = '';
             $_aOutputs          = array(
