@@ -136,8 +136,7 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
             nodeNewSection.find( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' ).enableAdminPageFrameworkCollapsibleButton();
         }
                         
-        // Add the cloned new field element.
-        // nodeNewSection.insertAfter( nodeSectionContainer );    
+        // Add the cloned new field element.  
         nodeNewSection
             .hide()
             .insertAfter( nodeSectionContainer )
