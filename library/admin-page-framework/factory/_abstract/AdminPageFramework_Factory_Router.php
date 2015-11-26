@@ -47,7 +47,6 @@ abstract class AdminPageFramework_Factory_Router {
     public function _isInThePage() {
         return true;
     }
-    protected $_aFormElementClassNameMap = array('admin_page' => 'AdminPageFramework_FormDefinition_Page', 'network_admin_page' => 'AdminPageFramework_FormDefinition_Page', 'post_meta_box' => 'AdminPageFramework_FormDefinition_Meta', 'page_meta_box' => 'AdminPageFramework_FormDefinition', 'post_type' => 'AdminPageFramework_FormDefinition', 'taxonomy_field' => 'AdminPageFramework_FormDefinition', 'widget' => 'AdminPageFramework_FormDefinition', 'user_meta' => 'AdminPageFramework_FormDefinition_Meta',);
     protected function _getFormInstance($oProp) {
         $_sFormClass = "AdminPageFramework_Form_{$oProp->_sPropertyType}";
         return new $_sFormClass($oProp->aFormArguments, $oProp->aFormCallbacks, $this->oMsg);

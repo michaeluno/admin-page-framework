@@ -7,7 +7,9 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
     }
     private function _isBuiltInMenuItem($sMenuLabel) {
         $_sMenuLabelLower = strtolower($sMenuLabel);
-        if (array_key_exists($_sMenuLabelLower, $this->_aBuiltInRootMenuSlugs)) return $this->_aBuiltInRootMenuSlugs[$_sMenuLabelLower];
+        if (array_key_exists($_sMenuLabelLower, $this->_aBuiltInRootMenuSlugs)) {
+            return $this->_aBuiltInRootMenuSlugs[$_sMenuLabelLower];
+        }
     }
     public function setRootMenuPageBySlug($sRootMenuSlug) {
         $this->oProp->aRootMenu['sPageSlug'] = $sRootMenuSlug;

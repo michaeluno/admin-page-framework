@@ -36,7 +36,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     public function __construct($oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sStructureType) {
         $this->oCaller = $oCaller;
         $this->sCallerPath = $this->getAOrB($sCallerPath, $sCallerPath, null);
-        $this->sClassName = str_replace('\\', '_', $sClassName);
+        $this->sClassName = $sClassName;
         $this->sClassHash = md5($sClassName);
         $this->sCapability = $this->getAOrB(empty($sCapability), 'manage_options', $sCapability);
         $this->sTextDomain = $this->getAOrB(empty($sTextDomain), 'admin-page-framework', $sTextDomain);

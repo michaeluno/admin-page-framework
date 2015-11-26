@@ -578,4 +578,4 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Changed the demo plugin to be a loader plugin that loads Admin Page Framework.
 - Tweaked the styling of admin page container elements.
 
-[Old Change Log Items](https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/changelog.md)
+[Old Change Log](https://raw.githubusercontent.com/michaeluno/admin-page-framework/master/changelog.md)
