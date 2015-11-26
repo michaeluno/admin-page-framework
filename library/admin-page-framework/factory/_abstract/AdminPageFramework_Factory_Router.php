@@ -138,8 +138,8 @@ abstract class AdminPageFramework_Factory_Router {
         $this->oPageLoadInfo = $this->_getPageLoadInfoInstance($this->oProp, $this->oMsg);
         return $this->oPageLoadInfo;
     }
-    public function __call($sMethodName, $aArgs = null) {
-        $_mFirstArg = $this->oUtil->getElement($aArgs, 0);
+    public function __call($sMethodName, $aArguments = null) {
+        $_mFirstArg = $this->oUtil->getElement($aArguments, 0);
         switch ($sMethodName) {
             case 'validate':
             case 'content':
@@ -151,9 +151,19 @@ abstract class AdminPageFramework_Factory_Router {
                 return;
         }
         if (has_filter($sMethodName)) {
-            return $_mFirstArg;
+            return $this->_getAutoCallback($sMethodName, $aArguments);
         }
-        trigger_error('Admin Page Framework: ' . ' : ' . sprintf(__('The method is not defined: %1$s', $this->oProp->sTextDomain), $sMethodName), E_USER_WARNING);
+        $this->_triggerUndefinedMethodWarning($sMethodName);
+    }
+    private function _getAutoCallback($sMethodName, $aArguments) {
+        if (false === strpos($sMethodName, "\\")) {
+            return $this->oUtil->getElement($aArguments, 0);
+        }
+        $_sAutoCallbackClassName = str_replace('\\', '_', $this->oProp->sClassName);
+        return method_exists($this, $_sAutoCallbackClassName) ? call_user_func_array(array($this, $_sAutoCallbackClassName), $aArguments) : $this->oUtil->getElement($aArguments, 0);
+    }
+    private function _triggerUndefinedMethodWarning($sMethodName) {
+        trigger_error(AdminPageFramework_Registry::NAME . ': ' . sprintf(__('The method is not defined: %1$s', $this->oProp->sTextDomain), $sMethodName), E_USER_WARNING);
     }
     public function __toString() {
         return $this->oUtil->getObjectInfo($this);
