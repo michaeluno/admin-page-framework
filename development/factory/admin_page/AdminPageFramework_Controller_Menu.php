@@ -70,13 +70,14 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
          * 
          * @since       2.0.0
          * @internal
-         * @return      void|string Returns the associated slug string, if true.
+         * @return      void|string     Returns the associated slug string, if true.
          */ 
         private function _isBuiltInMenuItem( $sMenuLabel ) {
             
             $_sMenuLabelLower = strtolower( $sMenuLabel );
-            if ( array_key_exists( $_sMenuLabelLower, $this->_aBuiltInRootMenuSlugs ) )
+            if ( array_key_exists( $_sMenuLabelLower, $this->_aBuiltInRootMenuSlugs ) ) {
                 return $this->_aBuiltInRootMenuSlugs[ $_sMenuLabelLower ];
+            }
             
         }    
 
