@@ -438,6 +438,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Tweaked the way that admin notices appear.
 - Changed the factory class name of the page meta box from `AdminPageFramework_MetaBox_Page` to `AdminPageFramework_PageMetaBox`.
 
+= 3.6.6 - 2015/11/26 =
+- Changed back the change introduced in v3.6.4 not to convert backslashes to underscores in class names in the framework hooks but only apply to auto-callback method names.
+
 = 3.6.5 - 2015/11/21 =
 - Fixed a bug that layouts of page meta boxes were not displayed properly when no `side` meta box existed and one of `normal` or `advanced` was added.
 - Fixed the style of section tabs in WordPress 4.4.
