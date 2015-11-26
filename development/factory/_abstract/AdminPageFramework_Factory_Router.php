@@ -532,6 +532,10 @@ abstract class AdminPageFramework_Factory_Router {
         
     }     
         /**
+         * Returns the first parameter value if the method name does not contain a backslash.
+         * If it contains a backslash, the user uses a name-spaced class name. In that case,
+         * the backslashes need to be converted to underscores to support valid PHP method names.
+         * 
          * @since       DEVVER
          */
         private function _getAutoCallback( $sMethodName, $aArguments ) {
@@ -544,29 +548,26 @@ abstract class AdminPageFramework_Factory_Router {
             // if the method name contains a backslash, the user may be using a name space. 
             // In that case, convert the backslash to underscore and call the method.
             $_sAutoCallbackClassName = str_replace( '\\', '_', $this->oProp->sClassName );
-            if ( method_exists( $this, $_sAutoCallbackClassName ) ) {
-                return call_user_func_array(
+            return method_exists( $this, $_sAutoCallbackClassName )
+                ? call_user_func_array(
                     array( $this, $_sAutoCallbackClassName ),
                     $aArguments
-                );
-            } else {
-// AdminPageFramework_Debug::log( $sMethodName );
-                return $this->oUtil->getElement( $aArguments, 0 );
-            }
-            
-            $this->_triggerUndefinedMethodWarning( $sMethodName );
+                )
+                : $this->oUtil->getElement( $aArguments, 0 );   // the first argument
             
         }
         
         /**
-         * 
+         * @since   DEVVER
+         * @return  void
          */
         private function _triggerUndefinedMethodWarning( $sMethodName ) {
-            trigger_error( 
-                AdminPageFramework_Registry::NAME . ': ' . ' : ' . sprintf( 
-                    __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ),
-                    $sMethodName 
-                ), 
+            trigger_error(
+                AdminPageFramework_Registry::NAME . ': ' 
+                    . sprintf( 
+                        __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ),
+                        $sMethodName 
+                    ), 
                 E_USER_WARNING 
             );            
         }
