@@ -23,6 +23,27 @@ With the newly introduced class, `AdminPageFramework_PointerToolTip`, you can no
 
 <div class='apfl_columns_row'>
 
+    <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_2'>
+        <div class='apfl_cell'>
+            <h3>Tool Tips</h3>
+            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/tool_tip.jpg" alt="Tool Tips">
+            <p>With the <code>tip</code> argument of sections and fields, now a tool tip box will appear by hovering the cursor over the question mark inserted beside the title.</p>
+        </div> 
+    </div>
+
+    <div class='apfl_columns_col apfl_col_element_of_2'>
+        <div class='apfl_cell'>
+            <h3>Collapsible Button</h3>
+            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/collapsible_button.jpg" alt="Collapsible Button">
+            <p>Besides the existent collapsible section style, a new style has been added and you can now fold/unfold seciton contents with a button.</p>
+        </div>
+    </div>
+
+</div>
+
+
+<div class='apfl_columns_row'>
+
     <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>    
             <h3>Better Form Appearing</h3>
@@ -41,9 +62,8 @@ With the newly introduced class, `AdminPageFramework_PointerToolTip`, you can no
 
     <div class='apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
-            <h3>Tool Tips</h3>
-            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/tool_tip.jpg" alt="Tool Tips">
-            <p>With the <code>tip</code> argument of sections and fields, now a tool tip box will appear by hovering the cursor over the question mark inserted beside the title.</p>
+            <h3>Under the Hood</h3>
+            <p>The form class has been overhauled and now it serves as an indivitual component. This is a preparation change to support front-end forms.</p>
         </div> 
     </div>
 </div>
@@ -51,23 +71,21 @@ With the newly introduced class, `AdminPageFramework_PointerToolTip`, you can no
 <div class='apfl_columns_row'>    
     <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
-            <h3>Under the Hood</h3>
-            <p>The form class has been overhauled and now it serves as an indivitual component. This is a preparation change to support front-end forms.</p>
-        </div>    
+            <h3>Fixes and Clean-ups</h3>
+            <p>Several bugs have been patched and the directory structure has been restructured to shorten overall file paths.</p>
+        </div>  
     </div>
 
     <div class='apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
-            <h3>Fixes and Clean-ups</h3>
-            <p>Several bugs have been patched and the directory structure has been restructured to shorten overall file paths.</p>
-        </div>
+            <h3>More Changes</h3>
+            <p>Find out the more details of new changes <a href="%WP_ADMIN_URL%?page=apfl_about#section-change_log__">here</a>.</p>
+        </div> 
     </div>    
     
     <div class='apfl_columns_col apfl_col_element_of_3'>
-        <div class='apfl_cell'>
-            <h3>More Changes</h3>
-            <p>Find out the more details of new changes <a href="%WP_ADMIN_URL%?page=apfl_about#section-change_log__">here</a>.</p>
-        </div>
+         <div class='apfl_cell'>
+        </div> 
     </div>    
     
 </div>
