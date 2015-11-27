@@ -50,7 +50,8 @@ class APF_Widget extends AdminPageFramework_Widget {
                 'field_id'      => 'title',
                 'type'          => 'text',
                 'title'         => __( 'Title', 'admin-page-framework-loader' ),
-                'default'       => 'Hi there!',
+                'default'       => __( 'Hi there!', 'admin-page-framework-loader' ),
+                'tip'           => __( 'We can create fields in the widget form.', 'admin-page-framework-loader' ),
             ),
             array(
                 'field_id'      => 'repeatable_text',
