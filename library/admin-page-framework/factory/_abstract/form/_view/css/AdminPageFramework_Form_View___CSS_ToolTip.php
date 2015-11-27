@@ -6,7 +6,8 @@ class AdminPageFramework_Form_View___CSS_ToolTip extends AdminPageFramework_Form
 /* Inside Field Title */        
 th > label > span > .admin-page-framework-form-tooltip {
     margin-top: 1px;
-    float: right;
+    margin-left: 1em;
+    /* float: right; */
 }
 .postbox-container th > label > span > .admin-page-framework-form-tooltip {
     margin-left: 1em;
@@ -14,9 +15,9 @@ th > label > span > .admin-page-framework-form-tooltip {
 }
         
 /* Regular section titles have + button and collapsible title bar has a triangle icon so give a right margin */
-.admin-page-framework-section-title a.admin-page-framework-form-tooltip,
-.admin-page-framework-collapsible-title a.admin-page-framework-form-tooltip {
-    margin-left: 1em;
+.admin-page-framework-section-title > * > a.admin-page-framework-form-tooltip,
+.admin-page-framework-collapsible-title > * > a.admin-page-framework-form-tooltip {
+    margin-left: 1em;    
 }
 
 /* When it is placed inside h2, h3, h4, the tooltip text becomes large so avoid that */
@@ -27,24 +28,34 @@ a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content
 
 .admin-page-framework-section-tab a.admin-page-framework-form-tooltip {
     margin-left: 0.48em;
-    color: #A8A8A8;
+    color: #BEBEBE;
     vertical-align: middle;
 }     
 .admin-page-framework-section-tab.nav-tab.active a.admin-page-framework-form-tooltip {
-    color: #A8A8A8;
+    color: #BEBEBE;
 }
 
-/* Dashicon vertical alignment */
+/* The question mark (?) size  - we want it to be a little bit smaller thatn the title */
+.admin-page-framework-section-title > * > a.admin-page-framework-form-tooltip > span,
+.admin-page-framework-collapsible-title > * > a.admin-page-framework-form-tooltip > span {
+    margin-top: -4px;
+    font-size: inherit;
+}
 .admin-page-framework-form-tooltip > span {
-    margin-bottom: 1px;
+    
+    font-size: 1.2em;
+    
+    /* Dashicon vertical alignment */
     vertical-align: middle;
+    
 }
 
 a.admin-page-framework-form-tooltip {
+    vertical-align: middle;
     outline: none; 
     text-decoration: none;
     cursor: default;
-    color: #A8A8A8;
+    color: #BEBEBE;
 }
 a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content > .admin-page-framework-form-tooltip-title {
     font-weight: bold;
@@ -76,7 +87,8 @@ a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-toolt
     background: #FFFFF4;
     
     /* Adjust the position of the tooltip here */
-    /* margin-left: -300px; */
+    margin-left: -100px;
+    margin-top: -72px;
 }
 
 /* Balloon Style */
