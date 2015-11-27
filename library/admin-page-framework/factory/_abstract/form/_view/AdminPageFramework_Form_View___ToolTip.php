@@ -4,12 +4,21 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
     public $sTitleElementID;
     public function __construct() {
         $_aParameters = func_get_args() + array($this->aArguments, $this->sTitleElementID,);
-        if (is_string($_aParameters[0])) {
+        if ($this->_isContent($_aParameters[0])) {
             $this->aArguments['content'] = $_aParameters[0];
         } else {
             $this->aArguments = $this->getAsArray($_aParameters[0]) + $this->aArguments;
         }
         $this->sTitleElementID = $_aParameters[1];
+    }
+    private function _isContent($asContent) {
+        if (is_string($asContent)) {
+            return true;
+        }
+        if (is_array($asContent) && !$this->isAssociative($asContent)) {
+            return true;
+        }
+        return false;
     }
     public function get() {
         if (!$this->aArguments['content']) {
@@ -35,7 +44,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
     }
     private function _getDescriptions() {
         if (isset($this->aArguments['content'])) {
-            return "<span class='admin-page-framework-form-tool-tip-description'>" . $this->aArguments['content'] . "</span>";
+            return "<span class='admin-page-framework-form-tool-tip-description'>" . implode("</span><span class='admin-page-framework-form-tool-tip-description'>", $this->getAsArray($this->aArguments['content'])) . "</span>";
         }
         return '';
     }
