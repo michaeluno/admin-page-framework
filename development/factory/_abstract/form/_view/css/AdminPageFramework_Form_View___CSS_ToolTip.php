@@ -30,8 +30,13 @@ class AdminPageFramework_Form_View___CSS_ToolTip extends AdminPageFramework_Form
 th > label > span > .admin-page-framework-form-tooltip {
     margin-top: 1px;
     margin-left: 1em;
-    /* float: right; */
+    
 }
+/* For admin page fields, put the ? icon to the right hand side */
+.admin-page-framework-content th > label > span > .admin-page-framework-form-tooltip {
+    float: right;
+}
+
 .postbox-container th > label > span > .admin-page-framework-form-tooltip {
     margin-left: 1em;
     float: none;
@@ -43,11 +48,6 @@ th > label > span > .admin-page-framework-form-tooltip {
     margin-left: 1em;    
 }
 
-/* When it is placed inside h2, h3, h4, the tooltip text becomes large so avoid that */
-a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content {
-    font-size: 13px;
-    font-weight: normal;
-}
 
 .admin-page-framework-section-tab a.admin-page-framework-form-tooltip {
     margin-left: 0.48em;
@@ -58,7 +58,10 @@ a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content
     color: #BEBEBE;
 }
 
-/* The question mark (?) size  - we want it to be a little bit smaller thatn the title */
+/* Font sizees */
+
+
+/* Question Mark (?) - we want it to be a little bit smaller than the title */
 .admin-page-framework-section-title > * > a.admin-page-framework-form-tooltip > span,
 .admin-page-framework-collapsible-title > * > a.admin-page-framework-form-tooltip > span {
     margin-top: -4px;
@@ -72,6 +75,15 @@ a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content
     vertical-align: middle;
     
 }
+
+/* Tip Contents - When it is placed inside h2, h3, h4, the tooltip text becomes large so avoid that */
+.admin-page-framework-section-title > * > a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content,
+.admin-page-framework-collapsible-title > * > a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content,
+a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content {
+    font-size: 13px;
+    font-weight: normal;
+}
+
 
 a.admin-page-framework-form-tooltip {
     vertical-align: middle;

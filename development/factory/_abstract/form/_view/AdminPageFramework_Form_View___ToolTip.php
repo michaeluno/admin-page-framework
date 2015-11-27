@@ -38,13 +38,29 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
             $this->sTitleElementID,
         );
 
-        if ( is_string( $_aParameters[ 0 ] ) ) {
+        if ( $this->_isContent( $_aParameters[ 0 ] ) ) {
             $this->aArguments[ 'content' ] = $_aParameters[ 0 ];
         } else {
             $this->aArguments = $this->getAsArray( $_aParameters[ 0 ] ) + $this->aArguments;
         }
         $this->sTitleElementID = $_aParameters[ 1 ];
     }
+        /**
+         * @return      boolean
+         * @sine        DEVVER
+         */
+        private function _isContent( $asContent ) {
+            
+            if ( is_string( $asContent ) ) {
+                return true;
+            }
+            if ( is_array( $asContent ) && ! $this->isAssociative( $asContent ) ) {
+                return true;
+            }
+            return false;
+            
+        }
+        
 
     /**
      * Returns HTML formatted description blocks by the given description definition.
@@ -103,8 +119,10 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
 
             if ( isset( $this->aArguments[ 'content' ] ) ) {
                 return  "<span class='admin-page-framework-form-tool-tip-description'>"
-                    
-                    . $this->aArguments[ 'content' ]
+                        . implode( 
+                            "</span><span class='admin-page-framework-form-tool-tip-description'>", 
+                            $this->getAsArray( $this->aArguments[ 'content' ] )
+                        )
                     . "</span>"
                     ;
             }
