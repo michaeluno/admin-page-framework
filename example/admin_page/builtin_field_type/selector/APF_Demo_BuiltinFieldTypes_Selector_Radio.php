@@ -44,7 +44,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Radio Buttons', 'admin-page-framework-loader' ),
-                'description'   => __( 'These are radio buttons.', 'admin-page-framework-loader' ),
+                'tip'           => __( 'These are radio buttons.', 'admin-page-framework-loader' ),
             )
         );   
       
@@ -66,14 +66,14 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
                         'disabled' => 'disabled',
                     ),
                 ),
-                'description'   => __( 'Use the <code>after_input</code> argument to insert <code>&lt;br /&gt;</code> after each sub-field.', 'admin-page-framework-loader' )
+                'tip'           => __( 'Use the <code>after_input</code> argument to insert <code>&lt;br /&gt;</code> after each sub-field.', 'admin-page-framework-loader' )
                     . ' ' . __( 'To disable elements (or apply different attributes) on an individual element basis, use the <code>attributes</code> argument and create the element whose key name is the radio input element value.', 'admin-page-framework-loader' ),
                 
             ),
             array( // Multiple sets of radio buttons
                 'field_id'      => 'radio_multiple',
                 'title'         => __( 'Multiple Sets', 'admin-page-framework-loader' ),
-                'description'   => __( 'Multiple sets of radio buttons. The horizontal line is set with the <code>delimiter</code> argument.', 'admin-page-framework-loader' ),
+                'tip'           => __( 'Multiple sets of radio buttons. The horizontal line is set with the <code>delimiter</code> argument.', 'admin-page-framework-loader' ),
                 'type'          => 'radio',
                 'delimiter'     => '<hr />',
                 'default'       => 1,

@@ -55,7 +55,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Size {
                 'field_id'      => 'size_field',
                 'title'         => __( 'Size', 'admin-page-framework-loader' ),
                 'help'          => $sDescription = __( 'In order to set a default value for the size field type, an array with the <code>size</code> and the <code>unit</code> arguments needs to be set.', 'admin-page-framework-loader' ),
-                'description'   => __( 'The default units and the lengths for CSS.', 'admin-page-framework-loader' ) 
+                'tip'           => __( 'The default units and the lengths for CSS.', 'admin-page-framework-loader' ) 
                     . ' ' . $sDescription,
                 'type'          => 'size',
                 'default'       => array( 
@@ -129,7 +129,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Size {
                         ),
                     ),
                 ),
-                'description'   => __( 'The <code>size</code> field type has four initial keys in the <code>attributes</code> array element: <code>size</code>, <code>unit</code>, <code>optgroup</code>, and <code>option</code>.', 'admin-page-framework-loader' ),
+                'tip'           => __( 'The <code>size</code> field type has four initial keys in the <code>attributes</code> array element: <code>size</code>, <code>unit</code>, <code>optgroup</code>, and <code>option</code>.', 'admin-page-framework-loader' ),
             ),
             array( // Multiple Size Fields
                 'field_id'      => 'sizes_field',

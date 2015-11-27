@@ -44,7 +44,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Drop-down Lists', 'admin-page-framework-loader' ),
-                'description'   => __( 'These are drop-down (pull-down) lists.', 'admin-page-framework-loader' ),
+                'tip'           => __( 'These are drop-down (pull-down) lists.', 'admin-page-framework-loader' ),
             )
         );   
              
@@ -65,7 +65,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                     2 => __( 'Yellow', 'admin-page-framework-loader' ),
                     3 => __( 'Orange', 'admin-page-framework-loader' ),
                 ),
-                'description' => __( 'The key of the array of the <code>label</code> argument serves as the value of the option tag which will be sent to the form and saved in the database.', 'admin-page-framework-loader' )
+                'tip'           => __( 'The key of the array of the <code>label</code> argument serves as the value of the option tag which will be sent to the form and saved in the database.', 'admin-page-framework-loader' )
                     . ' ' . __( 'So when you specify the default value with the <code>default</code> or <code>value</code> argument, specify the <em>KEY</em>.', 'admin-page-framework-loader' ),
             ),    
             array( // Single Drop-down List with Multiple Options
@@ -77,7 +77,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                 'is_multiple'   => true,
                 'default'       => array( 3, 4 ), // note that PHP array indices are zero-base, meaning the index count starts from 0 (not 1). 3 here means the fourth item of the array. array( 3, 4 ) will select the fourth and fifth elements.
                 'label'         => array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'October', 'December' ),
-                'description'   => __( 'Use <code>is_multiple</code> argument to enable multiple selections.' ),
+                'tip'           => __( 'Use <code>is_multiple</code> argument to enable multiple selections.' ),
                 'attributes'    =>  array(
                     'select'    =>  array(
                         'size'  => 10,
@@ -115,14 +115,16 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                         'style' => 'background-color: #DDD',
                     )
                 ),
-                'description'   => __( 'To create grouped options, pass arrays with the key of the group label and pass the options as an array inside them.', 'admin-page-framework-loader' )
-                    . ' ' . __( 'To style the pulldown (dropdown) list, use the <code>attributes</code> argument. For the <code>select</code> field type, it has three major keys, <code>select</code>, <code>option</code>, and <code>optgroup</code>, representing the tag names.', 'admin-page-framework-loader' ),
+                'tip'       => array(
+                    __( 'To create grouped options, pass arrays with the key of the group label and pass the options as an array inside them.', 'admin-page-framework-loader' ),
+                    __( 'To style the pulldown (dropdown) list, use the <code>attributes</code> argument. For the <code>select</code> field type, it has three major keys, <code>select</code>, <code>option</code>, and <code>optgroup</code>, representing the tag names.', 'admin-page-framework-loader' )
+                ),
 
             ),     
             array( // Drop-down Lists with Mixed Types
                 'field_id'      => 'select_multiple_fields',
                 'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
-                'description'   => __( 'These are multiple sets of drop down list.', 'admin-page-framework-loader' ),
+                'tip'           => __( 'These are multiple sets of drop down list.', 'admin-page-framework-loader' ),
                 'type'          => 'select',
                 'label'         => array( 'dark', 'light' ),
                 'default'       => 1,
@@ -154,7 +156,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'          => 'select',
                 'repeatable'    =>    true,
-                'description'   => __( 'To enable repeatable fields, pass <code>true</code> to the <code>repeatable</code> argument.', 'admin-page-framework-loader' ),
+                'tip'           => __( 'To enable repeatable fields, pass <code>true</code> to the <code>repeatable</code> argument.', 'admin-page-framework-loader' ),
                 'default'       => 'y',
                 'label' => array( 
                     'x' => 'X',

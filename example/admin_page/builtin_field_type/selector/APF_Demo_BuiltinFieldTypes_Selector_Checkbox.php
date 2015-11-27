@@ -44,7 +44,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Checkbox {
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Check-boxes', 'admin-page-framework-loader' ),
-                'description'   => __( 'These are check boxes.', 'admin-page-framework-loader' ),
+                'tip'           => __( 'These are check boxes.', 'admin-page-framework-loader' ),
             )
         );   
 
@@ -131,7 +131,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Checkbox {
                         'i' => true 
                     ),
                 ),     
-                'description'   => __( 'To create multiple fields for one field ID, use the numeric keys in the field definition array.', 'admin-page-framework-loader' ),
+                'tip'           => __( 'To create multiple fields for one field ID, use the numeric keys in the field definition array.', 'admin-page-framework-loader' ),
             ),
             array( // Repeatable check boxes
                 'field_id'      => 'checkbox_repeatable_fields',
