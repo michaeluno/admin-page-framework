@@ -31,9 +31,6 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'attributes' => array(
-            'maxlength' => 400,
-        ),    
     );
 
     
