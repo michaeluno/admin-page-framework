@@ -92,6 +92,11 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_WPUtilit
             return;
         }
 
+        // If the override is true, reset the notice array.
+        if ( $bOverride ) {
+            self::$_aNotices = array();
+        }
+        
         $_aAttributes = $this->getAsArray( $asAttributes );
         if ( is_string( $asAttributes ) && ! empty( $asAttributes ) ) {
             $_aAttributes[ 'id' ] = $asAttributes;
