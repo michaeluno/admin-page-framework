@@ -21,6 +21,9 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_WPUtilit
         if (!$bOverride && isset(self::$_aNotices[$_sID])) {
             return;
         }
+        if ($bOverride) {
+            self::$_aNotices = array();
+        }
         $_aAttributes = $this->getAsArray($asAttributes);
         if (is_string($asAttributes) && !empty($asAttributes)) {
             $_aAttributes['id'] = $asAttributes;
