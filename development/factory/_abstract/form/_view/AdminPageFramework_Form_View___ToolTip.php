@@ -96,7 +96,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
                 return "<span class='dashicons dashicons-editor-help'></span>";
             } 
             
-            return '[ ? ]';
+            return '[?]';
             
         }
         /**
