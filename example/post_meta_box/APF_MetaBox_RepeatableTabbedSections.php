@@ -21,7 +21,7 @@ class APF_MetaBox_RepeatableTabbedSections extends AdminPageFramework_MetaBox {
          */
         $this->addSettingSections(   
             array(
-                'section_id'        => 'repeatable_tabbed_sections',
+                'section_id'        => '_repeatable_tabbed_sections',
                 'section_tab_slug'  => 'repeatable_tabbes_sections',
                 'title'             => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'description'       => __( 'It is possible to tab repeatable sections.', 'admin-page-framework-loader' ),
@@ -34,7 +34,7 @@ class APF_MetaBox_RepeatableTabbedSections extends AdminPageFramework_MetaBox {
          * Add form fields into the meta box.
          */ 
         $this->addSettingFields(    
-            'repeatable_tabbed_sections',   // section id
+            '_repeatable_tabbed_sections',   // section id
             array(
                 'field_id'      => 'tab_title',
                 'type'          => 'section_title',

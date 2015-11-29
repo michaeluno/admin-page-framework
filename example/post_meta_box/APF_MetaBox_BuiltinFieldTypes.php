@@ -29,17 +29,17 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
          */
         $this->addSettingSections(
             array(
-                'section_id'        => 'selectors',
+                'section_id'        => '_selectors',
                 'title'             => __( 'Selectors', 'admin-page-framework-loader' ),
                 'description'       => __( 'These are grouped in the <code>selectors</code> section.', 'admin-page-framework-loader' ),
             ),
             array(
-                'section_id'        => 'misc',
+                'section_id'        => '_misc',
                 'title'             => __( 'MISC', 'admin-page-framework-loader' ),
                 'description'       => __( 'These are grouped in the <code>misc</code> section.', 'admin-page-framework-loader' ),
             ),
             array(
-                'section_id'        => 'unsaved',
+                'section_id'        => '_unsaved',
                 'title'             => __( 'Unsaved Fields', 'admin-page-framework-loader' ),            
                 // 'save'              => false,
             )
@@ -47,10 +47,14 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
         
         /*
          * ( optional ) Adds setting fields into the meta box.
+         * 
+         * It is suggested to start with a prefix of underscore for field ids if the field does not have a section.
+         * This is because without it, the field will be shown in the post custom field option in the post editing page.
+         * If you set a section, the section id should have a prefix of an underscore.
          */
         $this->addSettingFields(
             array(
-                'field_id'      => 'metabox_text_field',
+                'field_id'      => '_metabox_text_field',
                 'type'          => 'text',
                 'title'         => __( 'Text Input', 'admin-page-framework-loader' ),
                 'description'   => __( 'Type more than two characters.', 'admin-page-framework-loader' ),
@@ -58,33 +62,33 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                 'help_aside'    => __( 'This is additional help text which goes to the side bar of the help pane.', 'admin-page-framework-loader' ),
             ),
             array(
-                'field_id'      => 'metabox_text_field_repeatable',
+                'field_id'      => '_metabox_text_field_repeatable',
                 'type'          => 'text',
                 'title'         => __( 'Text Repeatable & Sortable', 'admin-page-framework-loader' ),
                 'repeatable'    => true,
                 'sortable'      => true,
             ),     
             array(
-                'field_id' => 'metabox_textarea_field',
-                'type' => 'textarea',
-                'title' => __( 'Text Area', 'admin-page-framework-loader' ),
-                'description' => __( 'The description for the field.', 'admin-page-framework-loader' ),
-                'help' => __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-loader' ),
-                'default' => __( 'This is a default text value.', 'admin-page-framework-loader' ),
-                'attributes' => array(
+                'field_id'      => '_metabox_textarea_field',
+                'type'          => 'textarea',
+                'title'         => __( 'Text Area', 'admin-page-framework-loader' ),
+                'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
+                'help'          => __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-loader' ),
+                'default'       => __( 'This is a default text value.', 'admin-page-framework-loader' ),
+                'attributes'    => array(
                     'cols' => 40,     
                 ),
             ),
             array( // Rich Text Editor
-                'field_id'          => 'rich_textarea',
-                'type'              => 'textarea',
-                'title'             => __( 'Rich Text Editor', 'admin-page-framework-loader' ),
-                'rich'              =>    true, // array( 'media_buttons' => false )  <-- a setting array can be passed. For the specification of the array, see http://codex.wordpress.org/Function_Reference/wp_editor
+                'field_id'      => '_rich_textarea',
+                'type'          => 'textarea',
+                'title'         => __( 'Rich Text Editor', 'admin-page-framework-loader' ),
+                'rich'          =>    true, // array( 'media_buttons' => false )  <-- a setting array can be passed. For the specification of the array, see http://codex.wordpress.org/Function_Reference/wp_editor
             )
         );        
                
         $this->addSettingFields(
-            'selectors',    // section id
+            '_selectors',    // section id
             array(
                 'field_id'      => 'checkbox_field',
                 'type'          => 'checkbox',
@@ -135,7 +139,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
         );     
 
         $this->addSettingFields(
-            'misc', // section id
+            '_misc', // section id
             array (
                 'field_id'          => 'image_field',
                 'type'              => 'image',
@@ -186,7 +190,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
         );     
         
         $this->addSettingFields(
-            'unsaved', // section id
+            '_unsaved', // section id
             array(
                 'field_id'          => 'unsaved',
                 'title'             => __( 'Unsaved', 'admin-page-framework-loader' ),
@@ -253,9 +257,9 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
         // $this->oDebug->log( $aInput );     
         
         // Validate the submitted data.
-        if ( strlen( trim( $aInput['metabox_text_field'] ) ) < 3 ) {
+        if ( strlen( trim( $aInput[ '_metabox_text_field' ] ) ) < 3 ) {
             
-            $_aErrors['metabox_text_field'] = __( 'The entered text is too short! Type more than 2 characters.', 'admin-page-framework-loader' ) . ': ' . $aInput['metabox_text_field'];
+            $_aErrors[ '_metabox_text_field' ] = __( 'The entered text is too short! Type more than 2 characters.', 'admin-page-framework-loader' ) . ': ' . $aInput['metabox_text_field'];
             $_bIsValid = false;     
             
         }

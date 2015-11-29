@@ -21,7 +21,7 @@ class APF_MetaBox_RepeatableCollapsibleSections extends AdminPageFramework_MetaB
          */
         $this->addSettingSections(
             array(
-                'section_id'        => 'repeatable_collapsible_section',
+                'section_id'        => '_repeatable_collapsible_section',
                 'title'             => __( 'Repeatable Collapsible Section', 'admin-page-framework-loader' ),
                 'collapsible'       => array(
                     'toggle_all_button'    => array( 'top-right', 'bottom-right' ),
@@ -36,7 +36,7 @@ class APF_MetaBox_RepeatableCollapsibleSections extends AdminPageFramework_MetaB
          * Add form fields into the meta box.
          */ 
         $this->addSettingFields(     
-            'repeatable_collapsible_section',
+            '_repeatable_collapsible_section',
             array(
                 'field_id'      => 'section_title_field_of_repeatable_collapsible_sections',
                 'label'         => __( 'Section Name', 'admin-page-framework-loader' ),
