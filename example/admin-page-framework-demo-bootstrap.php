@@ -20,6 +20,10 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
         
         $this->_loadCustomPostType();
         
+        $this->_loadPostMetaBoxes();
+        
+        $this->_loadTaxonomyFields();
+        
         $this->_loadAdminPaeges();
         
         $this->_loadWidgets();
@@ -32,24 +36,35 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
             
             // Custom post type
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/APF_PostType.php' );
-            
-            // Post meta boxes
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/post_type_meta_box/APF_MetaBox_BuiltinFieldTypes.php' );
+                         
+        }
+        
+        /**
+         * Post meta boxes
+         */
+        private function _loadPostMetaBoxes() {
+       
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_BuiltinFieldTypes.php' );
             
             // Section Tabs
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/post_type_meta_box/APF_MetaBox_TabbedSections.php' );
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_TabbedSections.php' );
 
             // Repeatable Tabbed Sections
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/post_type_meta_box/APF_MetaBox_RepeatableTabbedSections.php' );
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_RepeatableTabbedSections.php' );
 
             // Collapsible Sections
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/post_type_meta_box/APF_MetaBox_CollapsibleSections.php' );
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_CollapsibleSections.php' );
   
-            // Repeatable Collapsielbe Sections
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/post_type_meta_box/APF_MetaBox_RepeatableCollapsibleSections.php' );
-            
-            // Taxonomy
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/APF_TaxonomyField.php' );
+            // Repeatable Collapsible Sections
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_RepeatableCollapsibleSections.php' );
+           
+        }
+      
+        /**
+         * Taxonomy
+         */
+        private function _loadTaxonomyFields() {
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/taxonomy_field/APF_TaxonomyField.php' );
             
         }
       
