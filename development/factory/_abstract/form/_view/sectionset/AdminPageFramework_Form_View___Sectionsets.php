@@ -218,7 +218,6 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
          */
         private function _getSectionsetsTables( array $aSectionsets, array $aFieldsets, array $aCallbacks ) {
 
-
             if ( empty( $aSectionsets ) ) { 
                 return ''; 
             } 
