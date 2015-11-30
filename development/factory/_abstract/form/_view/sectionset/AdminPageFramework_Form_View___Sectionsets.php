@@ -223,10 +223,13 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                 return ''; 
             } 
             
-            // @todo find the reason why the below check is disabled.
-            // if ( ! count( $aFieldsets ) ) {
-                // return ''; 
-            // }           
+            /**
+             * If no fields belonging to the section, return empty.
+             * Otherwise, the sectionsets container gets rendered and its CSS rules such as margins give unwanted results.
+             */
+            if ( ! count( $aFieldsets ) ) {
+                return ''; 
+            }           
 
             $_aFirstSectionset  = $this->getFirstElement( $aSectionsets );
             $_sSectionTabSlug   = '';
