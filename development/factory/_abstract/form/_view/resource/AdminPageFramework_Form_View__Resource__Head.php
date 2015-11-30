@@ -27,11 +27,15 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_WP
     /**
      * @since       DEVVER
      * @param       object      $oForm
-     * @param       string      $sHeadActionHook        The action hook triggered inside the `<head>` tag
+     * @param       string      $sHeadActionHook        The action hook triggered inside the `<head>` tag. For front-end forms, use `wp_head`.
      */
-    public function __construct( $oForm, $sHeadActionHook ) {
+    public function __construct( $oForm, $sHeadActionHook='admin_head' ) {
     
         $this->oForm = $oForm;
+    
+        if ( in_array( $this->oForm->aArguments[ 'structure_type' ], array( 'widget' ) ) ) {       
+            return;
+        }
     
         add_action( $sHeadActionHook, array( $this, '_replyToInsertRequiredInlineScripts' ) );
     
@@ -44,15 +48,19 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_WP
      */
     public function _replyToInsertRequiredInlineScripts() {
 
+        /**
+         * Make sure to perform this check prior to the below `hasBeenCalled()` method
+         * as multiple instances of the factory class is loaded among separate pages, 
+         * one gets denied here and if it can load earlier than the one which should insert the below script.
+         */
+        if ( ! $this->oForm->isInThePage() ) {
+            return;
+        }    
+    
         // Ensure to load only once per page load
         if ( $this->hasBeenCalled( __METHOD__ ) ) {
             return;
         }              
-        
-        if ( ! $this->oForm->isInThePage() ) {
-            return;
-        }
-
         echo "<script type='text/javascript' class='admin-page-framework-form-script-required-in-head'>" 
                 . '/* <![CDATA[ */ '
                 . $this->_getScripts_RequiredInHead()
