@@ -111,7 +111,13 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                         ? ".about-wrap .introduction h2 {
                                 padding: 1em;
                             }"
+                            
                         : "",
+                        ".admin-page-framework-section-tab h4 {
+                            padding: 6px 16px 8px;
+                            font-size: 1.2em;
+                            font-weight: 400;
+                        }",     
                 ),
                 'script'        => array(
                     AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/javascript/flip/jquery.m.flip.js',
