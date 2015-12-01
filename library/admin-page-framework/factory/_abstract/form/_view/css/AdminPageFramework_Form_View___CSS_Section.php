@@ -30,20 +30,32 @@ class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form
 .admin-page-framework-section-tab {
     background-color: transparent;
     vertical-align: bottom; /* for Firefox */
+    margin-bottom: -1px;    /* For WP 3.4.4+ */
+    margin-left: 0px;
+    margin-right: 0.5em;
+    background-color: #F1F1F1;
+    font-weight: normal;
+}
+.admin-page-framework-section-tab:hover {
+    background-color: #F8F8F8;
 }
 .admin-page-framework-section-tab.active {
     background-color: #fdfdfd;     
 }
+/* Tab title */
 .admin-page-framework-section-tab h4 {
     margin: 0;
-    padding: 8px 14px 10px;
-    font-size: 1.2em;
+    /* padding: 8px 14px 10px; */
+    padding: 0.4em 0.8em;
+    font-size: 1.12em;
     vertical-align: middle;
     white-space: nowrap;
     display:inline-block;
+    font-weight: normal;
 }
 .admin-page-framework-section-tab.nav-tab {
-    padding: 0;
+    /* padding: 0; */
+    padding: 0.2em 0.4em;
 }
 .admin-page-framework-section-tab.nav-tab a {
     text-decoration: none;
@@ -113,7 +125,8 @@ class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form
     margin-bottom: 1em;
 }
 .admin-page-framework-section {
-    margin-bottom: 1em; /* gives a margin between sections. This helps for the debug info in each sectionset and collapsible sections. */
+    /* gives a bottom margin between sections. This helps for the debug info in each sectionset and collapsible sections. */
+    margin-bottom: 1em; 
 }            
 .admin-page-framework-sectionset {
     margin-bottom: 1em; 

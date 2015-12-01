@@ -4,6 +4,12 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     }
     public function setUp() {
     }
+    public function setMessage($sKey, $sMessage) {
+        $this->oMsg->set($sKey, $sMessage);
+    }
+    public function getMessage($sKey = '') {
+        return $this->oMsg->get($sKey);
+    }
     public function enqueueStyles($aSRCs, $_vArg2 = null) {
     }
     public function enqueueStyle($sSRC, $_vArg2 = null) {

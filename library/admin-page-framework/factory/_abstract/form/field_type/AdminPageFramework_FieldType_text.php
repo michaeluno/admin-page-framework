@@ -1,7 +1,7 @@
 <?php
 class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array('text', 'password', 'date', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', 'week',);
-    protected $aDefaultKeys = array('attributes' => array('maxlength' => 400,),);
+    protected $aDefaultKeys = array();
     protected function getStyles() {
         return <<<CSSRULES
 /* Text Field Type */

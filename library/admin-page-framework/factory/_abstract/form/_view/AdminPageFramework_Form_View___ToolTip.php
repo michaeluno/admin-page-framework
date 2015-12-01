@@ -34,7 +34,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
         if (version_compare($GLOBALS['wp_version'], '3.8', '>=')) {
             return "<span class='dashicons dashicons-editor-help'></span>";
         }
-        return '[ ? ]';
+        return '[?]';
     }
     private function _getTipTitle() {
         if (isset($this->aArguments['title'])) {

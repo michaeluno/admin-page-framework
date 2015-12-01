@@ -19,8 +19,21 @@ class AdminPageFramework_Message {
     public function getTextDomain() {
         return $this->_sTextDomain;
     }
-    public function get($sKey) {
+    public function set($sKey, $sValue) {
+        $this->aMessages[$sKey] = $sValue;
+    }
+    public function get($sKey = '') {
+        if (!$sKey) {
+            return $this->_getAllMessages();
+        }
         return isset($this->aMessages[$sKey]) ? __($this->aMessages[$sKey], $this->_sTextDomain) : __($this->{$sKey}, $this->_sTextDomain);
+    }
+    private function _getAllMessages() {
+        $_aMessages = array();
+        foreach ($this->aMessages as $_sLabel => $_sTranslation) {
+            $_aMessages[$_sLabel] = $this->get($_sLabel);
+        }
+        return $_aMessages;
     }
     public function output($sKey) {
         echo $this->get($sKey);

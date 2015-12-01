@@ -1,15 +1,18 @@
 <?php
 class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_WPUtility {
     public $oForm;
-    public function __construct($oForm, $sHeadActionHook) {
+    public function __construct($oForm, $sHeadActionHook = 'admin_head') {
         $this->oForm = $oForm;
+        if (in_array($this->oForm->aArguments['structure_type'], array('widget'))) {
+            return;
+        }
         add_action($sHeadActionHook, array($this, '_replyToInsertRequiredInlineScripts'));
     }
     public function _replyToInsertRequiredInlineScripts() {
-        if ($this->hasBeenCalled(__METHOD__)) {
+        if (!$this->oForm->isInThePage()) {
             return;
         }
-        if (!$this->oForm->isInThePage()) {
+        if ($this->hasBeenCalled(__METHOD__)) {
             return;
         }
         echo "<script type='text/javascript' class='admin-page-framework-form-script-required-in-head'>" . '/* <![CDATA[ */ ' . $this->_getScripts_RequiredInHead() . ' /* ]]> */' . "</script>";
