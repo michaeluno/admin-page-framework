@@ -99,7 +99,8 @@ class AdminPageFramework_Message {
         'show_all_authors'                      => 'Show all Authors', // 3.5.10+
 
         // AdminPageFramework_Link_Base
-        'powered_by'                            => 'Powered by', 
+        'powered_by'                            => 'Thank you for creating with', 
+        'and'                                   => 'and',
 
         // AdminPageFramework_Link_Page
         'settings'                              => 'Settings', 
@@ -356,7 +357,8 @@ class AdminPageFramework_Message {
         __( 'Date', 'admin-page-framework' ); 
         __( 'Show All', 'admin-page-framework' );
         __( 'Show All Authors', 'admin-page-framework' );
-        __( 'Powered by', 'admin-page-framework' );
+        __( 'Thank you for creating with', 'admin-page-framework' );
+        __( 'and', 'admin-page-framework' );
         __( 'Settings', 'admin-page-framework' );
         __( 'Manage', 'admin-page-framework' );
         __( 'Select Image', 'admin-page-framework' );

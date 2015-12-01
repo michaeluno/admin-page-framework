@@ -185,16 +185,19 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
                 );
                 
                 // Update the variable
-                return "<span class='apf-credit'>" // 3.5.7+ added 'apf-credit' class attribute for acceptance testing
+                // 3.5.7+ added the 'apf-credit' class attribute for acceptance testing
+                // DEVVER+  added the footer-thankyou id attribute.
+                return "<span class='apf-credit' id='footer-thankyou'>" 
                     . $this->oMsg->get( 'powered_by' ) . '&nbsp;' 
                     . $_sLibraryInfo
                     . ",&nbsp;"
+                    . $this->oMsg->get( 'and' ) . '&nbsp;' 
                     . $this->getHTMLTag( 
                         'a', 
                         array(
                             'href'      => 'https://wordpress.org',
                             'target'    => '_blank',
-                            'title'     => 'WordPress' . $GLOBALS['wp_version']
+                            'title'     => 'WordPress ' . $GLOBALS[ 'wp_version' ]
                         ), 
                         'WordPress'
                     )
