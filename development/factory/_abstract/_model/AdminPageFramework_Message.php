@@ -242,16 +242,43 @@ class AdminPageFramework_Message {
     }
     
     /**
+     * Sets a message for the given key.
+     * @since       DEVVER
+     */
+    public function set( $sKey, $sValue ) {
+        $this->aMessages[ $sKey ] = $sValue;
+    }
+    
+    /**
      * Returns the framework system message by key.
      * 
      * @remark      An alias of the __() method.
      * @since       3.2.0
+     * @since       DEVVER      If no key is specified, return the entire mesage array.
+     * @return      string|array
      */
-    public function get( $sKey ) {
+    public function get( $sKey='' ) {
+        if ( ! $sKey ) {
+            return $this->_getAllMessages();
+        }
         return isset( $this->aMessages[ $sKey ] )
             ? __( $this->aMessages[ $sKey ], $this->_sTextDomain )
-            : __( $this->{$sKey}, $this->_sTextDomain );         
+            : __( $this->{$sKey}, $this->_sTextDomain );     // triggers __get()
     }
+        /**
+         * Returns the all registered messag items.
+         * By default, no item is set for a performance reason; the message is retuned on the fly. 
+         * So all the keys must be iterated to get all the values.
+         * @since       DEVVER
+         * @return      array
+         */
+        private function _getAllMessages() {
+            $_aMessages = array();
+            foreach ( $this->aMessages as $_sLabel => $_sTranslation ) {
+                $_aMessages[ $_sLabel ] = $this->get( $_sLabel );
+            }
+            return $_aMessages;
+        }
 
     /**
      * Echoes the framework system message by key.

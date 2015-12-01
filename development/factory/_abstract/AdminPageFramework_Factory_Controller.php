@@ -25,7 +25,28 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     public function start() {}
     public function setUp() {}
             
-            
+    /**
+     * Sets a system message.
+     * 
+     * This can be used to replace the framework system messages such as "Allowed maximum number of fields is ...".
+     * 
+     * @return      void
+     * @since       DEVVER
+     */
+    public function setMessage( $sKey, $sMessage ) {
+        $this->oMsg->set( $sKey, $sMessage );
+    }
+    
+    /**
+     * Returns the registered system message item(s).
+     * 
+     * @return      array|string
+     * @since       DEVVER
+     */
+    public function getMessage( $sKey='' ) {
+        return $this->oMsg->get( $sKey );
+    }
+       
     /**
      * Head Tag Methods - should be extended.
      * 
