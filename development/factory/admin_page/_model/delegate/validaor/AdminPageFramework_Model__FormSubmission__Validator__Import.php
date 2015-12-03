@@ -166,7 +166,11 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
                 private function _getImportMIMEType( array $aArguments ) {  
                     return $this->_getFilteredItemForPortByPrefix(
                         'import_mime_types_',
-                        array( 'text/plain', 'application/octet-stream' ), // .json file is dealt as a binary file.
+                        array( 
+                            'text/plain', 
+                            'application/octet-stream', // .json file is dealt as a binary file.
+                            'application/json',  // DEVVER+ some servers cannot upload json files without this
+                        ), 
                         $aArguments
                     ); 
                 }    
