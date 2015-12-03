@@ -40,7 +40,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
         $_sDescription = $this->getAOrB(empty($aScriptInfo['sDescription']), '', "&#13;{$aScriptInfo['sDescription']}");
         $_sVersion = $this->getAOrB(empty($aScriptInfo['sVersion']), '', "&nbsp;{$aScriptInfo['sVersion']}");
         $_sLibraryInfo = $this->getAOrB(empty($aScriptInfo['sURI']), $aScriptInfo['sName'], $this->getHTMLTag('a', array('href' => $aScriptInfo['sURI'], 'target' => '_blank', 'title' => $aScriptInfo['sName'] . $_sVersion . $_sDescription,), $aScriptInfo['sName']));
-        return "<span class='apf-credit'>" . $this->oMsg->get('powered_by') . '&nbsp;' . $_sLibraryInfo . ",&nbsp;" . $this->getHTMLTag('a', array('href' => 'https://wordpress.org', 'target' => '_blank', 'title' => 'WordPress' . $GLOBALS['wp_version']), 'WordPress') . "</span>";
+        return "<span class='apf-credit' id='footer-thankyou'>" . $this->oMsg->get('powered_by') . '&nbsp;' . $_sLibraryInfo . ",&nbsp;" . $this->oMsg->get('and') . '&nbsp;' . $this->getHTMLTag('a', array('href' => 'https://wordpress.org', 'target' => '_blank', 'title' => 'WordPress ' . $GLOBALS['wp_version']), 'WordPress') . "</span>";
     }
     protected function _setFooterHooks() {
         add_filter('admin_footer_text', array($this, '_replyToAddInfoInFooterLeft'));

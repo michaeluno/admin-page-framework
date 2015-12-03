@@ -20,8 +20,11 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
     protected function isTinyMCESupported() {
         return version_compare($GLOBALS['wp_version'], '3.3', '>=') && function_exists('wp_editor');
     }
-    protected function getElementByLabel($asElement, $sKey, $bIsLabelArray) {
-        return $bIsLabelArray ? $this->getElement($asElement, array($sKey), $asElement) : $asElement;
+    protected function getElementByLabel($asElement, $asKey, $asLabel) {
+        if (is_scalar($asElement)) {
+            return $asElement;
+        }
+        return is_array($asLabel) ? $this->getElement($asElement, $this->getAsArray($asKey, true), '') : $asElement;
     }
     protected function geFieldOutput(array $aFieldset) {
         if (!is_object($aFieldset['_caller_object'])) {

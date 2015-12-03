@@ -31,17 +31,17 @@ CSSRULES;
     }
     protected function _getFieldOutputByLabel($isKey, $sLabel, array $aField) {
         $_bMultiLabels = is_array($aField['label']);
-        $_sLabel = $this->getElementByLabel($aField['label'], $isKey, $_bMultiLabels);
-        $aField['value'] = $this->getElementByLabel($aField['value'], $isKey, $_bMultiLabels);
+        $_sLabel = $this->getElementByLabel($aField['label'], $isKey, $aField['label']);
+        $aField['value'] = $this->getElementByLabel($aField['value'], $isKey, $aField['label']);
         $_aBaseAttributes = $_bMultiLabels ? array('name' => $aField['attributes']['name'] . "[{$isKey}]", 'id' => $aField['attributes']['id'] . "_{$isKey}", 'value' => $aField['value'],) + $aField['attributes'] : $aField['attributes'];
         unset($_aBaseAttributes['unit'], $_aBaseAttributes['size']);
-        $_aOutput = array($this->getElementByLabel($aField['before_label'], $isKey, $_bMultiLabels), "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength($aField['label_min_width']) . ";'>", $this->_getNumberInputPart($aField, $_aBaseAttributes, $isKey, $_bMultiLabels), $this->_getUnitSelectInput($aField, $_aBaseAttributes, $isKey, $_bMultiLabels), "</div>", $this->getElementByLabel($aField['after_label'], $isKey, $_bMultiLabels));
+        $_aOutput = array($this->getElementByLabel($aField['before_label'], $isKey, $aField['label']), "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength($aField['label_min_width']) . ";'>", $this->_getNumberInputPart($aField, $_aBaseAttributes, $isKey, $aField['label']), $this->_getUnitSelectInput($aField, $_aBaseAttributes, $isKey, $aField['label']), "</div>", $this->getElementByLabel($aField['after_label'], $isKey, $aField['label']));
         return implode('', $_aOutput);
     }
     private function _getNumberInputPart(array $aField, array $aBaseAttributes, $isKey, $bMultiLabels) {
         $_aSizeAttributes = $this->_getSizeAttributes($aField, $aBaseAttributes, $bMultiLabels ? $isKey : '');
         $_aSizeLabelAttributes = array('for' => $_aSizeAttributes['id'], 'class' => $_aSizeAttributes['disabled'] ? 'disabled' : null,);
-        $_sLabel = $this->getElementByLabel($aField['label'], $isKey, $bMultiLabels);
+        $_sLabel = $this->getElementByLabel($aField['label'], $isKey, $aField['label']);
         return "<label " . $this->getAttributes($_aSizeLabelAttributes) . ">" . $this->getElement($aField, $bMultiLabels ? array('before_label', $isKey, 'size') : array('before_label', 'size')) . ($aField['label'] && !$aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength($aField['label_min_width']) . ";'>" . $_sLabel . "</span>" : "") . "<input " . $this->getAttributes($_aSizeAttributes) . " />" . $this->getElement($aField, $bMultiLabels ? array('after_input', $isKey, 'size') : array('after_input', 'size')) . "</label>";
     }
     private function _getUnitSelectInput(array $aField, array $aBaseAttributes, $isKey, $bMultiLabels) {

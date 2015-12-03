@@ -12,27 +12,39 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
 ( function( $ ) {
 
     jQuery( document ).ready( function() {
+        jQuery( this ).initializeAdminPageFrameworkCollapsibleSections();
+    });              
+
+    /**
+     * Gets triggered when a widget of the framework is saved.
+     * @since    DEVVER
+     */
+    jQuery( document ).bind( 'admin_page_framework_saved_widget', function( event, oWidget ){
+        jQuery( oWidget ).initializeAdminPageFrameworkCollapsibleSections();
+    });    
+    
+    $.fn.initializeAdminPageFrameworkCollapsibleSections = function() {
         
         // Expand collapsible sections that are set not to collapse by default 
-        jQuery( '.admin-page-framework-collapsible-sections-title[data-is_collapsed=\"0\"]' )
+        jQuery( this ).find( '.admin-page-framework-collapsible-sections-title[data-is_collapsed=\"0\"]' )
             .next( '.admin-page-framework-collapsible-sections-content' )
             .slideDown( 'fast' );
-        jQuery( '.admin-page-framework-collapsible-section-title[data-is_collapsed=\"0\"]' )
+        jQuery( this ).find( '.admin-page-framework-collapsible-section-title[data-is_collapsed=\"0\"]' )
             .closest( '.admin-page-framework-section-table' )
             .find( 'tbody' )
             .slideDown( 'fast' );
             
         // Hide collapsible sections of 'section' containers as they are somehow do not get collapsed by default.
-        jQuery( '.admin-page-framework-collapsible-section-title[data-is_collapsed=\"1\"]' )
+        jQuery( this ).find( '.admin-page-framework-collapsible-section-title[data-is_collapsed=\"1\"]' )
             .closest( '.admin-page-framework-section-table' )
             .find( 'tbody' )
             .hide();
         
         // Bind the click event to the title element.
-        jQuery( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' ).enableAdminPageFrameworkCollapsibleButton();
+        jQuery( this ).find( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' ).enableAdminPageFrameworkCollapsibleButton();
         
         // Insert the toggle all button.
-        jQuery( '.admin-page-framework-collapsible-title[data-toggle_all_button!=\"0\"]' ).each( function(){
+        jQuery( this ).find( '.admin-page-framework-collapsible-title[data-toggle_all_button!=\"0\"]' ).each( function(){
             
             var _oThis        = jQuery( this ); // to access from inside the below each() method.
             var _bForSections = jQuery( this ).hasClass( 'admin-page-framework-collapsible-sections-title' );   // or for the 'section' container.
@@ -67,6 +79,7 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
                 }                
                 
                 // Expand or collapse this panel
+                jQuery( _oButton ).unbind( 'click' );       // for initially dropped (created) widgets
                 _oButton.click( function(){                  
                     
                     var _oButtons = _bForSections
@@ -85,17 +98,22 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
                     
                 } );                
                              
-            });                  
-           
+            }); 
+            
         } );      
-                
-    });              
-
-
+        
+    }
     /**
      * Binds the click event to collapsible buttons.
      */
     $.fn.enableAdminPageFrameworkCollapsibleButton = function() {
+        
+        /**
+         * Unbind the event first.
+         * This is for widgets as the initial model widgets placed on the left side is dragged-and-dropped to a sidebar definition container.
+         * Then the event binding will be lost so it needs to be rebound.
+         */
+        jQuery( this ).unbind( 'click' );   
         
         jQuery( this ).click( function( event, sContext ){
 
@@ -111,7 +129,7 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
 
             _oThis.removeClass( 'collapsed' );
             _oTargetContent.slideToggle( 'fast', function(){
-                
+
                 // For Google Chrome, table-caption will animate smoothly for the 'section' containers (not 'sections' container). For FireFox, 'block' is required. For IE both works.
                 var _bIsChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
                 if ( 'expand' === _sAction && 'section' === _sContainerType && ! _bIsChrome ) {

@@ -53,7 +53,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
         $this->oFactory->setSettingNotice($bEmpty ? $this->oFactory->oMsg->get('not_imported_data') : $this->oFactory->oMsg->get('imported_data'), $bEmpty ? 'error' : 'updated', $this->oFactory->oProp->sOptionKey, false);
     }
     private function _getImportMIMEType(array $aArguments) {
-        return $this->_getFilteredItemForPortByPrefix('import_mime_types_', array('text/plain', 'application/octet-stream'), $aArguments);
+        return $this->_getFilteredItemForPortByPrefix('import_mime_types_', array('text/plain', 'application/octet-stream', 'application/json',), $aArguments);
     }
     private function _getImportFormatType(array $aArguments, $sFormatType) {
         return $this->_getFilteredItemForPortByPrefix('import_format_', $sFormatType, $aArguments);
