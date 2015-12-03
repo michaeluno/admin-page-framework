@@ -438,6 +438,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Added the ability of nesting sections.
 - Tweaked the way that forms appear.
 - Tweaked the way that admin notices appear.
+- Fixed a bug that initially collapsed sections did not collapse for widget forms.
 - Changed the factory class name of the page meta box from `AdminPageFramework_MetaBox_Page` to `AdminPageFramework_PageMetaBox`.
 
 = 3.6.6 - 2015/11/26 =
