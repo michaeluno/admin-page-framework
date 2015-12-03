@@ -456,9 +456,9 @@ CSSRULES;
             $_sClassSelector    = $_bIsArray
                 ? 'admin-page-framework-field-textarea-multiple-labels'
                 : '';
-            $_sLabel                = $this->getElementByLabel( $aField[ 'label' ], $sKey, $_bIsArray );
-            $aField[ 'value' ]      = $this->getElementByLabel( $aField[ 'value' ], $sKey, $_bIsArray );
-            $aField[ 'rich' ]       = $this->getElementByLabel( $aField[ 'rich' ], $sKey, $_bIsArray );
+            $_sLabel                = $this->getElementByLabel( $aField[ 'label' ], $sKey, $aField[ 'label' ] );
+            $aField[ 'value' ]      = $this->getElementByLabel( $aField[ 'value' ], $sKey, $aField[ 'label' ] );
+            $aField[ 'rich' ]       = $this->getElementByLabel( $aField[ 'rich' ], $sKey, $aField[ 'label' ] );
             $aField[ 'attributes' ] = $_bIsArray
                 ? array(
                         'name'  => $aField[ 'attributes' ][ 'name' ] . "[{$sKey}]",
@@ -468,20 +468,20 @@ CSSRULES;
                     + $aField[ 'attributes' ]
                 : $aField[ 'attributes' ];
             $_aOutput           = array(
-                $this->getElementByLabel( $aField['before_label'], $sKey, $_bIsArray ),
+                $this->getElementByLabel( $aField['before_label'], $sKey, $aField[ 'label' ] ),
                 "<div class='admin-page-framework-input-label-container {$_sClassSelector}'>",
                     "<label for='" . $aField[ 'attributes' ][ 'id' ] . "'>",
-                        $this->getElementByLabel( $aField['before_input'], $sKey, $_bIsArray ),
+                        $this->getElementByLabel( $aField['before_input'], $sKey, $aField[ 'label' ] ),
                         $_sLabel 
                             ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" 
                                     . $_sLabel
                                 . "</span>"
                             : '',
                         $this->_getEditor( $aField ),
-                        $this->getElementByLabel( $aField['after_input'], $sKey, $_bIsArray ),
+                        $this->getElementByLabel( $aField['after_input'], $sKey, $aField[ 'label' ] ),
                     "</label>",
                 "</div>",
-                $this->getElementByLabel( $aField['after_label'], $sKey, $_bIsArray ),
+                $this->getElementByLabel( $aField['after_label'], $sKey, $aField[ 'label' ] ),
             );
             return implode( '', $_aOutput );
   

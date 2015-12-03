@@ -95,7 +95,7 @@ CSSRULES;
             $_oRadio->setAttribute( 'data-default', $aField['default'] ); // refered by the repeater script
            
             // Output
-            return $this->getElement( $aField, array( 'before_label', $sKey ) )
+            return $this->getElementByLabel( $aField[ 'before_label' ], $sKey, $aField[ 'label' ] )
                 . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
                     . "<label " . $this->getAttributes( 
                             array(
@@ -106,15 +106,16 @@ CSSRULES;
                             )
                         ) 
                     . ">"
-                        . $this->getElement( $aField, array( 'before_input', $sKey ) )
+                        . $this->getElementByLabel( $aField[ 'before_input' ], $sKey, $aField[ 'label' ] )
                         . $_oRadio->get( $sLabel )
-                        . $this->getElement( $aField, array( 'after_input', $sKey ) )
+                        . $this->getElementByLabel( $aField[ 'after_input' ], $sKey, $aField[ 'label' ] )
                     . "</label>"
                 . "</div>"
-                . $this->getElement( $aField, array( 'after_label', $sKey ) )
+                . $this->getElementByLabel( $aField[ 'after_label' ], $sKey, $aField[ 'label' ] )
                 ;
                 
         }    
+
         /**
          * Returns the JavaScript script that updates the checked attribute of radio buttons when the user select one.
          * This helps repeatable field script that duplicate the last checked item.

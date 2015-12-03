@@ -131,7 +131,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
      * @return      boolean
      */
     protected function isTinyMCESupported() {
-        return version_compare( $GLOBALS['wp_version'], '3.3', '>=' )
+        return version_compare( $GLOBALS[ 'wp_version' ], '3.3', '>=' )
             && function_exists( 'wp_editor' )
         ;
     }
@@ -139,20 +139,24 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
     /**
      * Returns the sub-element of a given element by the element key.
      * 
-     * @remark      Used by the `text` and `textarea` field types.
+     * @remark      Used by the `text`, `textarea`, `size`, 'radio', and `checkbox` field types.
      * @since       3.5.8
-     * @return
+     * @since       DEVVER      Changed the third parameter to accept a label argument from a boolean value to be usable for other filed types.
+     * @return      string
      */
-    protected function getElementByLabel( $asElement, $sKey, $bIsLabelArray ) {
-        return $bIsLabelArray
+    protected function getElementByLabel( $asElement, $asKey, $asLabel ) {
+        if ( is_scalar( $asElement ) ) {
+            return $asElement;
+        }
+        return is_array( $asLabel ) // if the user stes multiple items
             ? $this->getElement( 
                 $asElement,         // subject
-                array( $sKey ),     // keys
-                $asElement          // default
+                $this->getAsArray( $asKey, true /* preserve empty */ ),     // dimensional path 
+                ''                  // default - if the elementi is not found, return an empty
             )
             : $asElement;
     }    
-    
+      
     /**
      * Returns another field output by the given field definition array.
      * 

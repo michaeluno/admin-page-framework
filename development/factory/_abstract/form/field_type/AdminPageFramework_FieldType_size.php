@@ -134,8 +134,8 @@ CSSRULES;
         protected function _getFieldOutputByLabel( $isKey, $sLabel, array $aField ) {
             
             $_bMultiLabels      = is_array( $aField[ 'label' ] );
-            $_sLabel            = $this->getElementByLabel( $aField[ 'label' ], $isKey, $_bMultiLabels );
-            $aField[ 'value' ]  = $this->getElementByLabel( $aField[ 'value' ], $isKey, $_bMultiLabels );
+            $_sLabel            = $this->getElementByLabel( $aField[ 'label' ], $isKey, $aField[ 'label' ] );
+            $aField[ 'value' ]  = $this->getElementByLabel( $aField[ 'value' ], $isKey, $aField[ 'label' ] );
            
             $_aBaseAttributes   = $_bMultiLabels
                 ? array(
@@ -151,12 +151,12 @@ CSSRULES;
             );            
             
             $_aOutput = array(
-                $this->getElementByLabel( $aField['before_label'], $isKey, $_bMultiLabels ),
+                $this->getElementByLabel( $aField[ 'before_label' ], $isKey, $aField[ 'label' ] ),
                     "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>",
-                        $this->_getNumberInputPart( $aField, $_aBaseAttributes, $isKey, $_bMultiLabels ),  // The size (number) part
-                        $this->_getUnitSelectInput( $aField, $_aBaseAttributes, $isKey, $_bMultiLabels ),  // The unit (select) part
+                        $this->_getNumberInputPart( $aField, $_aBaseAttributes, $isKey, $aField[ 'label' ] ),  // The size (number) part
+                        $this->_getUnitSelectInput( $aField, $_aBaseAttributes, $isKey, $aField[ 'label' ] ),  // The unit (select) part
                     "</div>",
-                $this->getElementByLabel( $aField['after_label'], $isKey, $_bMultiLabels )
+                $this->getElementByLabel( $aField[ 'after_label' ], $isKey, $aField[ 'label' ] )
             );
             return implode( '', $_aOutput );                
                 
@@ -187,7 +187,7 @@ CSSRULES;
                 $_sLabel                = $this->getElementByLabel( 
                     $aField[ 'label' ], 
                     $isKey, 
-                    $bMultiLabels 
+                    $aField[ 'label' ]
                 );
                 return "<label " . $this->getAttributes( $_aSizeLabelAttributes ) . ">"
                     . $this->getElement( 
