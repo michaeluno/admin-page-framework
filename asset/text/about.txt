@@ -7,12 +7,6 @@ Finally, we can nest form sections. This allows you to construct complex forms w
     <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/nested_sections.jpg" alt="Nested Sections">
 </div>
 
-<h3>Nested Fields</h3>
-
-In addition to nested sections, fields now can be nested. Create complex forms with it!
-
-Coming soon...
-
 <h3>Pointer Tool Tips</h3>
 
 With the newly introduced class, `AdminPageFramework_PointerToolTip`, you can now easily show small instructions to your users by adding a pointer tool tip which pops up in your desired screen at the targeted element. It will not be displayed once the user dismisses it.
