@@ -44,8 +44,9 @@ class APF_Demo_AdvancedUsage_Section_CollapsibleType_Button {
                 'tab_slug'          => $this->sTabSlug,
                 'title'             => __( 'Button Type Collapsible Section', 'admin-page-framework-loader' ),
                 'collapsible'       => array(
-                    'container'                 => 'section',
-                    'type'                      => 'button',
+                    'container' => 'section',
+                    'type'      => 'button',
+                    'collapsed' => true,
                 ),
                 'tip'               => __( 'When the <code>type</code> argument is <code>button</code>, the toggle button will be used instead of a container box.', 'admin-page-framework-loader' ),
             )
