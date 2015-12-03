@@ -181,7 +181,26 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
                 // 'default'       => array( 'green', 'yellow' ),
             )            
         );
+     
+        // validation_{class name}_{seciton path}
+        add_filter(
+            'validation_' . $oFactory->oProp->sClassName . '_' . $this->sSectionID . '_' . 'nested_section_a',
+            array( $this, 'replyToValidateNestedSectionA' ),
+            10,
+            4
+        );
+     
+    }
+    
+    /**
+     * @callback     filter     validation_{class name}_{seciton path}
+     * @return       array
+     */
+    public function replyToValidateNestedSectionA( $aInputs, $aOldInputs, $oFactory, $aSubmitInfo ) {
+        
+        // AdminPageFramework_Debug::log( $aInputs );
+        return $aInputs;
         
     }
-
+    
 }
