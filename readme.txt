@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.4
 Tested up to:       4.3.1
-Stable tag:         3.6.4
+Stable tag:         3.6.6
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,7 @@ easily create:
 - **Collapsible Sections** - form sections can be collapsed and expanded.
 - **Repeatable Sections and Fields** - dynamically add/remove form sections and fields.
 - **Sortable Sections and Fields** - drag and drop form sections and fields to change the order.
+- **Nested Sections** - nest sections to construct complex forms.
 - **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading text files.
 - **Reset Button** - lets the user to initialize the saved options.
 - **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting form data can be verified. Furthermore, by setting the error array, you can display the error message to the user.
@@ -161,7 +162,7 @@ When you go with the second method, make sure to pass an empty string, `''` to t
 new MyAdminPage( '' );
 `
 
-<h5><strong>How can I add sub-menu pages to the top-level page created by the framework in a separate script?</strong></h5>
+<h5><strong>How can I add sub-menu pages to the top-level page created by the framework from a separate script?</strong></h5>
 
 Say, in your main plugin, your class `MyAdminPageClassA` created a top-level page. In your extension plugin, you want to add sub-menu pages from another instance `MyAdminPageClassB`. 
 
@@ -174,7 +175,7 @@ $this->setRootMenuPageBySlug( 'MyAdminPageClassA' );
 Another option is to use the `set_up_{class name}` action hook. The callback method receives the admin page class object and you can access the framework methods to add sub-menu pages.
 
 `
-class MyAdminPageClassB {
+class ThirdPartyScript {
 
     public function __construct() { 
         add_action( 'set_up_' . 'MyAdminPageClassA', array( $this, 'replyToAddSubMenuPages' ) );
@@ -193,7 +194,7 @@ class MyAdminPageClassB {
     }
         
 }
-new MyAdminPageClassB;
+new ThirdPartyScript;
 `
 
 
@@ -438,7 +439,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Added the ability of nesting sections.
 - Tweaked the way that forms appear.
 - Tweaked the way that admin notices appear.
-- Fixed a bug that initially collapsed sections did not collapse for widget forms.
+- Fixed a bug that the `collapsed` of `collapsible` section definition argument did not take effect for widget forms when the widget was initially dropped.
 - Changed the factory class name of the page meta box from `AdminPageFramework_MetaBox_Page` to `AdminPageFramework_PageMetaBox`.
 
 = 3.6.6 - 2015/11/26 =
