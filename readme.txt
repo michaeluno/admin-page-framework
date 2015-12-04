@@ -430,7 +430,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.0 =
+= 3.7.0 - 2015/12/04 =
 - Added the `setMessage()` and `getMessage()` methods to retrieve and modify the framework system messages.
 - Added the 'type' argument for the `collapsible` argument for section definitions which supports `button` to make sections collapsible with a button.
 - Added the ability to display tool tips that appear when the user moves the cursor over the `?` icon beside the section and field title.
