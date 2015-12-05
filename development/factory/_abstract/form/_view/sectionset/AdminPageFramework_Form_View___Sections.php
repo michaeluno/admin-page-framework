@@ -12,15 +12,15 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_View___Sections extends AdminPageFramework_WPUtility {
 
-// DEVVER+ Not used at the moment
+// 3.7.0+ Not used at the moment
     
     /**
      * Sets up properties.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( $aSavedData, $oMsg, $aFieldErrors ) {
         

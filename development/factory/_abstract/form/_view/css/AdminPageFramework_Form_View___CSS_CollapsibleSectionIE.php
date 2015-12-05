@@ -10,7 +10,7 @@
 /**
  * Provides methods to return CSS rules for form outputs.
  *
- * @since       DEVVER
+ * @since       3.7.0
  * @package     AdminPageFramework
  * @subpackage  Form
  * @internal
@@ -18,7 +18,7 @@
 class AdminPageFramework_Form_View___CSS_CollapsibleSectionIE extends AdminPageFramework_Form_View___CSS_Base {
     
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      string
      */
     protected function _get() {
@@ -29,7 +29,7 @@ class AdminPageFramework_Form_View___CSS_CollapsibleSectionIE extends AdminPageF
          * 
          * @since       3.4.0
          * @internal
-         * @since       DEVVER      Moved from `AdminPageFramework_CSS`.
+         * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @return      string
          */
         private function _getCollapsibleSectionsRules() {

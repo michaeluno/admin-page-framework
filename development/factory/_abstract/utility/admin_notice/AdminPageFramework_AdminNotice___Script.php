@@ -10,7 +10,7 @@
 /**
  * Provides a method to load the Javascript script to fade-in admin notices.
  * 
- * @since       DEVVER
+ * @since       3.7.0
  * @package     AdminPageFramework
  * @subpackage  Utility
  * @internal
@@ -30,7 +30,7 @@ class AdminPageFramework_AdminNotice___Script extends AdminPageFramework_Factory
     /**
      * Returns an inline JavaScript script.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @param       $oMsg       object      The message object.
      * @return      string      The inline JavaScript script.
      */

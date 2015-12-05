@@ -37,7 +37,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      * This is used to create a property object as well as to define the form element structure.
      * 
      * @since       3.0.0
-     * @since       DEVVER      Changed the name from `$_sStructureType`.
+     * @since       3.7.0      Changed the name from `$_sStructureType`.
      * @internal
      */
     static protected $_sStructureType = 'admin_page';
@@ -93,7 +93,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
     /**
      * Validates submitted form data and saves them.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @callback    form        handle_form_data
      * @return      void
      */
@@ -113,7 +113,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      * A contextual help pane item associated with this fieldset will be added.
      * 
      * @remark      Overrides the method of the factory class.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      void
      */
     public function _replyToFieldsetReourceRegistration( $aFieldset ) {
@@ -157,7 +157,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
     
     /**
      * Modifies registered sectionsets definition array.
-     * @since       DEVVER
+     * @since       3.7.0
      * @remark      Overrides the method of the factory class.
      * @return      array       The modified sectionsets definition array.
      */    
@@ -174,7 +174,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
          * 
          * Help pane elements must be added before the head tag gets rendered.
          * @return      void
-         * @since       DEVVER
+         * @since       3.7.0
          */
         public function _registerHelpPaneItemsOfFormSections( $aSectionsets ) {            
 // @todo Test if help pane item gets displayed        
@@ -208,7 +208,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
             
     /**
      * Determines whether the passed field should be visible or not.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      boolean
      */
     public function _replyToDetermineSectionsetVisibility( $bVisible, $aSectionset ) {
@@ -230,7 +230,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
          * 
          * @since       2.0.0
          * @since       3.0.0       Moved from the setting class.
-         * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+         * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
          * @remark      Assumes the given section definition array is already formatted.
          * @return      boolean     Returns true if the section belongs to the current tab page. Otherwise, false.
          */     
@@ -256,7 +256,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
     
     /**
      * Determines whether the passed field should be visible or not.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      boolean
      */
     public function _replyToDetermineFieldsetVisibility( $bVisible, $aFieldset ) {
@@ -272,7 +272,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
     }
     
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array
      */
     public function _replyToFormatFieldsetDefinition( $aFieldset, $aSectionsets ) {
@@ -319,7 +319,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
     }
     
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array
      */
     public function _replyToFormatSectionsetDefinition( $aSectionset ) {
@@ -344,7 +344,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
     }
         /**
          * Attempts to find the capability of a given section.
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      string
          */
         private function _getSectionCapability( $aSectionset ) {
@@ -379,7 +379,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
          * Nested sections may not have the page slug assigned. 
          * In that case, it tries to set the value of the ancestor.
          * 
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      string
          */
         private function _getSectionPageSlug( $aSectionset ) {
@@ -404,7 +404,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
             
         }
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      boolean     Whether or not the form registration should be allowed in the current screen.
      */
     public function _replyToDetermineWhetherToProcessFormRegistration( $bAllowed ) {
@@ -415,7 +415,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      * Returns the inherited capability value from the page and in-page tab for form elements.
      * 
      * @since       3.6.0
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      string
      */    
     public function _replyToGetCapabilityForForm( $sCapability /*, $sPageSlug, $sTabSlug */ ) {

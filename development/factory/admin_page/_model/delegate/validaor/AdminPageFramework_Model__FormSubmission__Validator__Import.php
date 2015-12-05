@@ -169,7 +169,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
                         array( 
                             'text/plain', 
                             'application/octet-stream', // .json file is dealt as a binary file.
-                            'application/json',  // DEVVER+ some servers cannot upload json files without this
+                            'application/json',  // 3.7.0+ some servers cannot upload json files without this
                         ), 
                         $aArguments
                     ); 

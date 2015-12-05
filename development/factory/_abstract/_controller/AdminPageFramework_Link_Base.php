@@ -186,7 +186,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility
                 
                 // Update the variable
                 // 3.5.7+ added the 'apf-credit' class attribute for acceptance testing
-                // DEVVER+  added the footer-thankyou id attribute.
+                // 3.7.0+  added the footer-thankyou id attribute.
                 return "<span class='apf-credit' id='footer-thankyou'>" 
                     . $this->oMsg->get( 'powered_by' ) . '&nbsp;' 
                     . $_sLibraryInfo

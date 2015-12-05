@@ -12,7 +12,7 @@
  * Resources in this context means scripts and styles.
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramework_WPUtility {
     
@@ -34,7 +34,7 @@ class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramewo
     
     /**
      * Sets up properties.
-     * @since       DEVVER
+     * @since       3.7.0
      */    
     public function __construct( /* array $aFieldTypeDefinition, array $aResources */ ) {
         
@@ -51,7 +51,7 @@ class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramewo
      * Updates the given resource array by adding resources (styles and scripts) of the fieldset.
      * 
      * @return      array       The updated resource array.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function get() {
 
@@ -80,7 +80,7 @@ class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramewo
     }
         /**
          * @retuen      array
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _getUpdatedInlineItemsByCallback( array $aSubject, $sKey ) {
             $_oCallable = $this->getElement( $this->aFieldTypeDefinition, $sKey );
@@ -95,7 +95,7 @@ class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramewo
         }
         /**
          * @return      array
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _getUpdatedEnqueuingItemsByCallback( $aSubject, $sKey ) {
             return array_merge( 

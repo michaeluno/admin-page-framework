@@ -23,7 +23,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
      * This is used to create a property object as well as to define the form element structure.
      * 
      * @since       3.0.0
-     * @since       DEVVER      Changed the name from `$_sStructureType`.
+     * @since       3.7.0      Changed the name from `$_sStructureType`.
      * @internal
      */
     static protected $_sStructureType = 'page_meta_box';
@@ -125,7 +125,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
         /**
          * Adds meta boxes.
          * 
-         * @since       DEVVER
+         * @since       3.7.0
          * @internal
          * @return      void
          */
@@ -263,7 +263,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
      * @remark      Redefine (override) this method completely because the parent meta box factory class
      * has this method and its own way to retrieve form data.
      * @return      array       The saved form data.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function _replyToGetSavedFormData() {
         $_aPageOptions = $this->oUtil->addAndApplyFilter(
@@ -283,7 +283,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
          * @since       3.5.6
          * @return      array       The extracted options array.
          * @internal
-         * @deprecated  DEVVER
+         * @deprecated  3.7.0
          */
         private function _getPageMetaBoxOptionsFromPageOptions( array $aPageOptions, array $aFieldsets ) {
      

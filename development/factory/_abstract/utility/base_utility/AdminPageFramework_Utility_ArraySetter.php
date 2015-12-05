@@ -12,7 +12,7 @@
  *
  * Listed methods are to modify array contents.
  * 
- * @since       DEVVER
+ * @since       3.7.0
  * @package     AdminPageFramework
  * @extends     AdminPageFramework_Utility_String
  * @subpackage  Utility

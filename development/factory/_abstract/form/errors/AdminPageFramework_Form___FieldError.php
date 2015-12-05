@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form___FieldError extends AdminPageFramework_WPUtility {
     
@@ -38,7 +38,7 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_WPUtility 
      * Checks if a field error exists for the caller (factory class).
      * 
      * @return      boolean     Whether or not a field error exists.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function hasError() {
         return isset( self::$_aErrors[ md5( $this->sCallerID ) ] );
@@ -58,7 +58,7 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_WPUtility 
      *       return $aOldPageOptions;
      * }
      * `
-     * @since        DEVVER
+     * @since        3.7.0
      * @access       public
      * @param        string      $sMessage       the text message to be displayed.
      * @param        string      $sType          (optional) the type of the message, either "error" or "updated"  is used.
@@ -85,7 +85,7 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_WPUtility 
          * Saves the field error array into the transient (database options row).
          * 
          * @since       3.0.4
-         * @since       DEVVER      Moved from `AdminPageFramework_Factory_Model`.
+         * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`.
          * @internal
          * @callback    action      shutdown
          * @return      void
@@ -106,7 +106,7 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_WPUtility 
      * 
      * Retrieves the settings error array set by the user in the validation callback.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @param       boolean     $bDelete    whether or not the transient should be deleted after retrieving it. 
      * @return      array
      */
@@ -131,7 +131,7 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_WPUtility 
     
     /**
      * Deletes the field errors from the database.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function delete() {
         add_action( 'shutdown', array( $this, '_replyToDeleteFieldErrors' ) );
@@ -141,7 +141,7 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_WPUtility 
          * 
          * @since       3.0.4
          * @callback    action      shutdown
-         * @since       DEVVER      Moved from `AdminPageFramework_Factory_Model`.
+         * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`.
          * @internal
          */
         public function _replyToDeleteFieldErrors() {

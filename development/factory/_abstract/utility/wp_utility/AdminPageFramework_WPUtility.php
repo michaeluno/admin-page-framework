@@ -22,7 +22,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
      * Retrieves the `wp-admin` directory path without a trailing slash.
      * 
      * @see         http://www.andrezrv.com/2014/11/11/correctly-obtain-path-admin-directory/
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      string
      */
     static public function getWPAdminDirPath() {
@@ -46,7 +46,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
      * Use this method to redirect the viewer within the operating site such as form submission and information page.
      * 
      * @uses        wp_safe_redirect
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      void
      */
     static public function goToLocalURL( $sURL, $oCallbackOnError=null ) {
@@ -57,7 +57,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
      * Redirects the page viewer to the specified url.
      * @uses        wp_redirect
      * @since       3.6.3
-     * @since       DEVVER      Added the second callback parameter.
+     * @since       3.7.0      Added the second callback parameter.
      * @return      void
      */
     static public function goToURL( $sURL, $oCallbackOnError=null ) {
@@ -93,7 +93,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
 
     /**
      * Checks whether a redirect can proceed.
-     * @since       DEVVER
+     * @since       3.7.0
      * @param       string      $sURL               The url to get redirected.
      * @param       integer     $iType              0: external site, 1: local site (within the same domain).
      * @return      integer     0: no problem, 1: url is no valid, 2: HTTP headers already sent.

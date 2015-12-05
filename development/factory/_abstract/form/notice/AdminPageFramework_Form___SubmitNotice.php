@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_WPUtility {
     
@@ -70,7 +70,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_WPUtilit
      *       return $aOldPageOptions;
      * }
      * `
-     * @since        DEVVER
+     * @since        3.7.0
      * @access       public
      * @param        string      $sMessage       the text message to be displayed.
      * @param        string      $sType          (optional) the type of the message, either "error" or "updated"  is used.
@@ -115,7 +115,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_WPUtilit
          * Saves the notification array set via the setSettingNotice() method.
          * 
          * @since       3.0.4 
-         * @sine        DEVVER      Moved from `AdminPageFramework_Factory_Model`.
+         * @sine        3.7.0      Moved from `AdminPageFramework_Factory_Model`.
          * @internal
          * @callback    action      shutdown
          * @return      void
@@ -157,7 +157,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_WPUtilit
         /**
          * Displays settings notices.
          * @since       3.5.3
-         * @since       DEVVER      Moved from `AdminPageFramework_Factory_View`. Renamed from `_printSettingNotices()`.
+         * @since       3.7.0      Moved from `AdminPageFramework_Factory_View`. Renamed from `_printSettingNotices()`.
          * @internal
          * @return      void
          */

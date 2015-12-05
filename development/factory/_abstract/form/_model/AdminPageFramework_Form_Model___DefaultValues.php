@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  * @deprecated
  */
 class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_Form_Base {
@@ -21,7 +21,7 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
 
     /**
      * Sets up hooks.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( /* $aFieldsets */ ) {
         
@@ -68,7 +68,7 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
      * 
      * )
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array       
      */
     public function get() {
@@ -138,7 +138,7 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
          * This is a helper function for the above getDefaultOptions() method.
          * 
          * @since       3.0.0
-         * @since       DEVVER      Moved from `AdminPageFramework_Property_Page`.
+         * @since       3.7.0      Moved from `AdminPageFramework_Property_Page`.
          */
         private function _getDefautValue( $aFieldset ) {
             

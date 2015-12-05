@@ -10,7 +10,7 @@
 /**
  * Provides methods to return CSS rules for form outputs.
  *
- * @since       DEVVER
+ * @since       3.7.0
  * @package     AdminPageFramework
  * @subpackage  Form
  * @internal
@@ -18,7 +18,7 @@
 class AdminPageFramework_Form_View___CSS_meta_box extends AdminPageFramework_Form_View___CSS_Base {
     
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      string
      */
     protected function _get() {        
@@ -28,7 +28,7 @@ class AdminPageFramework_Form_View___CSS_meta_box extends AdminPageFramework_For
          * Returns the meta-box form specific CSS rules.
          * 
          * @since       3.3.0
-         * @since       DEVVER      Moved from `AdminPageFramework_CSS`.
+         * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @internal
          * @return      string
          */        

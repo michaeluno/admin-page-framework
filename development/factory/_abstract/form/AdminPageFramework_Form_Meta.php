@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER      
+ * @since       3.7.0      
  * @extends     AdminPageFramework_Form
  * @internal
  */
@@ -24,7 +24,7 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
      * Used by the post meta box and user meta classes.
      * 
      * @since       3.5.3
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Meta`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Meta`.
      * @param       integer     $iObjectID      The ID that is associated with the meta data such as user ID and post ID.
      * @param       array       $aInput         The user submit form input data.
      * @param       array       $aSavedMeta     The stored form data (old input data).
@@ -64,7 +64,7 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
         /**
          * Removes elements whose 'save' argument is false.
          * @since       3.6.0
-         * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Meta`.
+         * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Meta`.
          * @return      array
          */
         private function _getInputByUnset( array $aInput ) {
@@ -102,7 +102,7 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
          * 
          * @internal
          * @since       3.5.3
-         * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Meta`.
+         * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Meta`.
          * @return      void
          */
         private function _updateMetaDatumByFuncitonName( $iObjectID, $_vValue, array $aSavedMeta, $_sSectionOrFieldID, $_sFunctionName ) {

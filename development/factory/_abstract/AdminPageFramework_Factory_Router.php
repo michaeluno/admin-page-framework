@@ -220,7 +220,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @since       3.1.0
      * @internal
      * @return      object|null
-     * @deprecated  DEVVER
+     * @deprecated  3.7.0
      */
     protected function _getFormInstance( $oProp ) {
 
@@ -536,7 +536,7 @@ abstract class AdminPageFramework_Factory_Router {
          * If it contains a backslash, the user uses a name-spaced class name. In that case,
          * the backslashes need to be converted to underscores to support valid PHP method names.
          * 
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _getAutoCallback( $sMethodName, $aArguments ) {
             
@@ -558,7 +558,7 @@ abstract class AdminPageFramework_Factory_Router {
         }
         
         /**
-         * @since   DEVVER
+         * @since   3.7.0
          * @return  void
          */
         private function _triggerUndefinedMethodWarning( $sMethodName ) {

@@ -24,7 +24,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Taxon
      * This is used to create a property object as well as to define the form element structure.
      * 
      * @since       3.0.0
-     * @since       DEVVER      Changed the name from `$_sStructureType`. Changed the default value from `taxonomy`.
+     * @since       3.7.0      Changed the name from `$_sStructureType`. Changed the default value from `taxonomy`.
      * @internal
      */
     static protected $_sStructureType = 'taxonomy_field';

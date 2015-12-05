@@ -23,7 +23,7 @@ abstract class AdminPageFramework_UserMeta extends AdminPageFramework_UserMeta_C
      * This is used to create a property object as well as to define the form element structure.
      * 
      * @since       3.5.0
-     * @since       DEVVER      Changed the name from `$_sStructureType`.
+     * @since       3.7.0      Changed the name from `$_sStructureType`.
      * @internal
      */
     static protected $_sStructureType = 'user_meta';

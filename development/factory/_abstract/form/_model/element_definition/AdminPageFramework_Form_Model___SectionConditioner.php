@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  * @deprecated
  */
 class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramework_WPUtility {
@@ -21,7 +21,7 @@ class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramew
 
     /**
      * Sets up hooks.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( /* $aSectionsets */ ) {
         
@@ -33,7 +33,7 @@ class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramew
     }
 
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array       The conditioned fieldsets array.
      */
     public function get() {
@@ -47,7 +47,7 @@ class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramew
      * 
      * @since       3.0.0
      * @since       3.5.3       Added a type hint and changed the default value to array from null.
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition`. Changed the name from `getConditionedSections()`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition`. Changed the name from `getConditionedSections()`.
      * @return      array       The conditioned sectionsets array.
      */
     private function _getSectionsConditioned( array $aSections=array() ) {
@@ -68,7 +68,7 @@ class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramew
      * Checks if the passed item is allowed to be registered.
      * @remark      A child class also accesses this method.
      * @return      boolean
-     * @since       DEVVER
+     * @since       3.7.0
      */
     protected function _isAllowed( array $aDefinition ) {
         

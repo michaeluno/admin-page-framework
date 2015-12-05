@@ -12,7 +12,7 @@
  * 
  * @since       3.0.0     
  * @since       3.3.0       Extends `AdminPageFramework_Form_View___Script_Base`.
- * @since       DEVVER      Renamed from `AdminPageFramework_Form_View___Script_Tab`.
+ * @since       3.7.0      Renamed from `AdminPageFramework_Form_View___Script_Tab`.
  * @package     AdminPageFramework
  * @subpackage  JavaScript
  * @internal

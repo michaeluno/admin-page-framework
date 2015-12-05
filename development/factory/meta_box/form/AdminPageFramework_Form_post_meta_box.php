@@ -14,7 +14,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER      
+ * @since       3.7.0      
  * @extends     AdminPageFramework_Form_Meta       There are some methods defined in the post_meta_box class and are used in this class.
  * @internal
  */
@@ -24,7 +24,7 @@ class AdminPageFramework_Form_post_meta_box extends AdminPageFramework_Form_Meta
     
     /**
      * Does set-ups.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      void
      */
     public function construct() {        
@@ -33,7 +33,7 @@ class AdminPageFramework_Form_post_meta_box extends AdminPageFramework_Form_Meta
 
         /**
          * @return      void
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _addDefaultResources() {
             $_oCSS = new AdminPageFramework_Form_View___CSS_meta_box;

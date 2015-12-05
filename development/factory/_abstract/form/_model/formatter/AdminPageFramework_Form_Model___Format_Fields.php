@@ -237,7 +237,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
          * @since       3.1.0       Changed the name to _getStoredInputFieldValue from _getInputFieldValue
          * @since       3.4.1       Removed the switch block as it was redundant.
          * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
-         * @since       DEVVER      Changed the `_field_type` element to `_structure_type`.
+         * @since       3.7.0      Changed the `_field_type` element to `_structure_type`.
          */
         private function _getStoredInputFieldValue( $aField, $aOptions ) {    
 

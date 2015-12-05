@@ -52,7 +52,7 @@ class AdminPageFramework_Form_View___FieldsetRow extends AdminPageFramework_Form
      * 
      * @since       3.0.0
      * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Row`. Changed the name from `_getFieldRow()`.
-     * @since       DEVVER      Moved from `AdminPageFramework_FormPart_TableRow`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormPart_TableRow`.
      * Changed the name from `_getRow()`.
      * @return      string      The output of a field set row.
      */

@@ -42,7 +42,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
      * 
      * @param       string      $sNotice        The message to display.
      * @param       array       $aAttributes    An attribute array. Set 'updated' to the 'class' element to display it in a green box.
-     * @param       array       $aCallbacks     DEVVER+ Stores callbacks.
+     * @param       array       $aCallbacks     3.7.0+ Stores callbacks.
      * @since       3.5.0
      */
     public function __construct( $sNotice, array $aAttributes=array( 'class' => 'error' ), array $aCallbacks=array() ) {
@@ -114,7 +114,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
         }
             /**
              * @return      boolean
-             * @since       DEVVER
+             * @since       3.7.0
              */
             private function _shouldProceed() {
                 

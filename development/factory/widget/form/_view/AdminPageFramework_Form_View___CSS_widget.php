@@ -10,7 +10,7 @@
 /**
  * Provides methods to return CSS rules for form outputs.
  *
- * @since       DEVVER
+ * @since       3.7.0
  * @package     AdminPageFramework
  * @subpackage  Form
  * @internal
@@ -18,7 +18,7 @@
 class AdminPageFramework_Form_View___CSS_widget extends AdminPageFramework_Form_View___CSS_Base {
     
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      string
      */
     protected function _get() {        
@@ -28,7 +28,7 @@ class AdminPageFramework_Form_View___CSS_widget extends AdminPageFramework_Form_
          * Returns the widget form specific CSS rules.
          * 
          * @since       3.2.0
-         * @since       DEVVER      Moved from `AdminPageFramework_CSS`.
+         * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @internal
          * @return      string
          */        
@@ -86,7 +86,7 @@ CSSRULES;
         }        
         
         /**
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      string
          */
         protected function _getVersionSpecific() {

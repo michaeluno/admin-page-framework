@@ -23,7 +23,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
      * 
      * The user may just override this method instead of defining a `content_{...}` callback method.
      * 
-     * @since       3DEVVER
+     * @since       33.7.0
      * @remark      Declare this method in each factory class as the form of parameters varies and if parameters are different, it triggers PHP strict standard warnings.
      * @param       string      $sContent       The filtering content string.
      */

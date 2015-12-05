@@ -14,7 +14,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER      
+ * @since       3.7.0      
  * @extends     AdminPageFramework_Form
  * @internal
  */
@@ -24,7 +24,7 @@ class AdminPageFramework_Form_page_meta_box extends AdminPageFramework_Form_post
         
     /**
      * Does set-ups.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      void
      */
     public function construct() {
@@ -68,10 +68,10 @@ class AdminPageFramework_Form_page_meta_box extends AdminPageFramework_Form_post
          * Extracts meta box form fields options array from the given options array of an admin page.
          * 
          * @since       3.5.6
-         * @since       DEVVER      Moved from `AdminPageFramework_PageMetaBox_Model`.
+         * @since       3.7.0      Moved from `AdminPageFramework_PageMetaBox_Model`.
          * @return      array       The extracted options array.
          * @internal
-         * @deprecated  DEVVER
+         * @deprecated  3.7.0
          */
     /*     private function _getPageMetaBoxOptionsFromPageOptions( array $aFormDataOfPage, array $aFieldsets ) {    
      

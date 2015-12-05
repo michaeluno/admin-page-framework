@@ -162,16 +162,16 @@ class AdminPageFramework_Message {
         'acceptable'                            => 'Acceptable', 
         'no_log_found'                          => 'No log found.',
         
-        // DEVVER+ - accessed from `AdminPageFramework_Form`
+        // 3.7.0+ - accessed from `AdminPageFramework_Form`
         'method_called_too_early'               => 'The method is called too early.',
         
-        // DEVVER+  - accessed from `AdminPageFramework_Form_View___DebugInfo`
+        // 3.7.0+  - accessed from `AdminPageFramework_Form_View___DebugInfo`
         'debug_info'                            => 'Debug Info',
         
         'click_to_expand'                       => 'Click here to expand to view the contents.',
         'click_to_collapse'                     => 'Click here to collapse the contents.',
         
-        // DEVVER+ - displayed while the page laods
+        // 3.7.0+ - displayed while the page laods
         'loading'                               => 'Loading...',
         'please_enable_javascript'              => 'Please enable JavaScript for better experience.'
     );
@@ -244,7 +244,7 @@ class AdminPageFramework_Message {
     
     /**
      * Sets a message for the given key.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function set( $sKey, $sValue ) {
         $this->aMessages[ $sKey ] = $sValue;
@@ -255,7 +255,7 @@ class AdminPageFramework_Message {
      * 
      * @remark      An alias of the __() method.
      * @since       3.2.0
-     * @since       DEVVER      If no key is specified, return the entire mesage array.
+     * @since       3.7.0      If no key is specified, return the entire mesage array.
      * @return      string|array
      */
     public function get( $sKey='' ) {
@@ -270,7 +270,7 @@ class AdminPageFramework_Message {
          * Returns the all registered messag items.
          * By default, no item is set for a performance reason; the message is retuned on the fly. 
          * So all the keys must be iterated to get all the values.
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      array
          */
         private function _getAllMessages() {

@@ -43,7 +43,7 @@ class AdminPageFramework_Property_TaxonomyField extends AdminPageFramework_Prope
     /**
      * Stores the action hook name that gets triggered when the form registration is performed.
      * 'admin_page' and 'network_admin_page' will use a custom hook for it.
-     * @since       DEVVER
+     * @since       3.7.0
      * @access      pulbic      Called externally.
      */
     // public $_sFormRegistrationHook = 'admin_enqueue_scripts';      

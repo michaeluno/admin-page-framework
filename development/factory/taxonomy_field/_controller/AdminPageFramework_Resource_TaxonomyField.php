@@ -170,7 +170,7 @@ class AdminPageFramework_Resource_TaxonomyField extends AdminPageFramework_Resou
      * A helper function for the _replyToEnqueueScripts() and _replyToEnqueueStyle() methods.
      * 
      * @since       3.0.0
-     * @since       DEVVER      Fixed a typo in the method name.
+     * @since       3.7.0      Fixed a typo in the method name.
      * @remark      the taxonomy page is checked in the constructor, so there is no need to apply a condition.
      * @internal
      */

@@ -10,7 +10,7 @@
 /**
  * Provides methods to display setting notices.
  * 
- * @since       DEVVER
+ * @since       3.7.0
  * @package     AdminPageFramework
  * @subpackage  Factory
  * @internal
@@ -22,7 +22,7 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
     /**
      * Sets up hooks and properties.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( $oFactory ) {
         
@@ -40,7 +40,7 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
      * Displays stored setting notification messages.
      * 
      * @since       3.0.4
-     * @since       DEVVER      Moved from `AdminPageFramework_Factory_View`.
+     * @since       3.7.0      Moved from `AdminPageFramework_Factory_View`.
      * @internal
      * @callback    action      network_admin_notices
      * @callback    action      admin_notice
@@ -56,7 +56,7 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
         
         /**
          * Determines whether to proceed.
-         * @sine        DEVVER
+         * @sine        3.7.0
          * @return      boolean
          */
         private function _shouldProceed() {
@@ -77,7 +77,7 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
              * Stores a flag value indicating whether the setting notice method is called or not.
              * 
              * @since       3.1.3
-             * @since       DEVVER      Moved from `AdminPageFramework_Factory_View`.
+             * @since       3.7.0      Moved from `AdminPageFramework_Factory_View`.
              * @internal
              */
             static private $_bSettingNoticeLoaded = false;   

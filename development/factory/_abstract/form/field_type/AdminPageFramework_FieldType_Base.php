@@ -141,7 +141,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
      * 
      * @remark      Used by the `text`, `textarea`, `size`, 'radio', and `checkbox` field types.
      * @since       3.5.8
-     * @since       DEVVER      Changed the third parameter to accept a label argument from a boolean value to be usable for other filed types.
+     * @since       3.7.0      Changed the third parameter to accept a label argument from a boolean value to be usable for other filed types.
      * @return      string
      */
     protected function getElementByLabel( $asElement, $asKey, $asLabel ) {
@@ -173,7 +173,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
         $aFieldset[ '_nested_depth' ]++;
         $aFieldset[ '_parent_field_object' ] = $aFieldset[ '_field_object' ]; // 3.6.0+
         
-        // DEVVER+ The caller object is no longer a factory object but a form object.
+        // 3.7.0+ The caller object is no longer a factory object but a form object.
         $_oCallerForm   = $aFieldset[ '_caller_object' ];
 
         $_oFieldset = new AdminPageFramework_Form_View___Fieldset( 
@@ -186,7 +186,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUt
         );           
         return $_oFieldset->get();
         
-        // @deprecated      DEVVER
+        // @deprecated      3.7.0
         // $aFieldset[ '_nested_depth' ]++;
         // $aFieldset[ '_parent_field_object' ] = $aFieldset[ '_field_object' ]; // 3.6.0+
         // $_oCaller   = $aFieldset[ '_caller_object' ];

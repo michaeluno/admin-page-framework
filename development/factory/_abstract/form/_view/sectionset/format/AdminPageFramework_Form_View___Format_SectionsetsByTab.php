@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFramework_WPUtility {
     
@@ -34,7 +34,7 @@ class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFr
     
     /**
      * Sets up hooks.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( /* array $aSectionsets, $aFieldsets, $iNestedDepth */ ) {
         
@@ -57,7 +57,7 @@ class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFr
     }
 
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array       The conditioned fieldsets array.
      */
     public function getSectionsets( $sTabSlug ) {
@@ -68,7 +68,7 @@ class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFr
     }
     
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array
      */
     public function getFieldsets( $sTabSlug ) {
@@ -111,7 +111,7 @@ class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFr
          * )
          * </code>
          * @since       3.4.0
-         * @since       DEVVER      Moved from `AdminPageFramework_FormPart_Table`.
+         * @since       3.7.0      Moved from `AdminPageFramework_FormPart_Table`.
          * @return      void
          */
         private function _divideElementsBySectionTabs( array &$aSectionsets, array &$aFieldsets, array &$aSectionTabs ) {
@@ -154,7 +154,7 @@ class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFr
         }      
             /**
              * @since       3.6.1
-             * @since       DEVVER      Moved from `AdminPageFramework_FormPart_Table`.
+             * @since       3.7.0      Moved from `AdminPageFramework_FormPart_Table`.
              * @return      boolean     True if a custom content value is set.
              */
             private function _isCustomContentSet( array $aSectionset, array $aKeys=array( 'content' ) ) {

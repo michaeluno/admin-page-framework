@@ -28,7 +28,7 @@ abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTM
      * 
      * This is used to check if a function which needs to be done only once has been already called or not.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      boolean
      */
     static public function hasBeenCalled( $sID ) {

@@ -14,7 +14,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFramework_WPUtility {
 
@@ -24,7 +24,7 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
     
     /**
      * Sets up properties.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( /* $aSectionsets, $aFieldsets, $aSavedFormData */ ) {
         
@@ -40,7 +40,7 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
     }
     
     /**
-     * @sinde       DEVVER
+     * @sinde       3.7.0
      * @return      array       
      */
     public function get() {
@@ -57,7 +57,7 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
          * 
          * @remark      Assumes sections and fields have already conditioned.
          * @since       3.0.0
-         * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition`. Changed the name from `setDynamicElements()`. 
+         * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition`. Changed the name from `setDynamicElements()`. 
          * Changed the visibility scope from public.
          * @return      void
          */
@@ -96,7 +96,7 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
              * 
              * @internal
              * @since       3.5.3
-             * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition`.
+             * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition`.
              * @param       string      $_sSectionID                    The expected section ID.
              * @param       array       $_aSubSectionOrFields           sub-sections or fields extracted from the saved options array
              * @return      array       sub-sections array.
@@ -138,7 +138,7 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
                  * 
                  * @internal
                  * @since       3.5.3
-                 * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition`.
+                 * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition`.
                  * @param       array           $_aSubSection       the subsection array
                  * @param       string          $_sSectionID        the section id
                  * @param       integer         $_iIndex            the sub-section index

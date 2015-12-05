@@ -12,13 +12,13 @@
  
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_Model___FieldTypeRegistration extends AdminPageFramework_WPUtility {
     
     /**
      * Initializes the field type.
-     * @since       DEVVER
+     * @since       3.7.0
      */    
     public function __construct( array $aFieldTypeDefinition, $sStructureType ) {
        
@@ -33,7 +33,7 @@ class AdminPageFramework_Form_Model___FieldTypeRegistration extends AdminPageFra
          * Runs the initializer the given field type.
          * 
          * @since       3.5.3
-         * @since       DEVVER  Moved from `AdminPageFramework_FieldTypeRegistration`. Changed it not static. Chaned the name from `_initializeFieldType()`.
+         * @since       3.7.0  Moved from `AdminPageFramework_FieldTypeRegistration`. Changed it not static. Chaned the name from `_initializeFieldType()`.
          * @return      void
          */
         private function _initialize( $aFieldTypeDefinition, $sStructureType ) {

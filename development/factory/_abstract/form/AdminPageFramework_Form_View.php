@@ -12,13 +12,13 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
     
     /**
      * Sets up hooks.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct() {
 
@@ -71,7 +71,7 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
     }
         /**
          * @return      string
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _getNoScriptMessage() {
             if ( $this->hasBeenCalled( __METHOD__ ) ) {
@@ -88,7 +88,7 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
     
     /**
      * Outputs submit notices stored in the database transient.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      void
      */
     public function printSubmitNotices() {

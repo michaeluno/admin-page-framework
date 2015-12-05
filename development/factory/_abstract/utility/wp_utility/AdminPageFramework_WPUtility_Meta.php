@@ -11,7 +11,7 @@
  * Provides utility methods dealing with post data.
  *
  * @since           3.0.1
- * @since           DEVVER      Renamed from `AdminPageFramework_WPUtility_Post`.
+ * @since           3.7.0      Renamed from `AdminPageFramework_WPUtility_Post`.
  * @extends         AdminPageFramework_Utility
  * @package         AdminPageFramework
  * @subpackage      Utility
@@ -23,7 +23,7 @@ class AdminPageFramework_WPUtility_Meta extends AdminPageFramework_WPUtility_Opt
      * Retrieves the saved option value from the given option key, field ID, and section ID.
      * 
      * @since       3.0.4
-     * @since       DEVVER      Rnamed from `getSavedMetaArray`.
+     * @since       3.7.0      Rnamed from `getSavedMetaArray`.
      * @return      array       The saved meta data composed with the given keys.
      */
     static public function getSavedPostMetaArray( $iPostID, array $aKeys ) {

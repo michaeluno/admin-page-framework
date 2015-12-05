@@ -12,12 +12,12 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_WPUtility {
     
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array
      */
     static public function getElementPathAsArray( $asPath ) {
@@ -28,7 +28,7 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_WPUtil
     }
     
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      string      The section path. e.g. my_section|nested_section
      */
     static public function getFormElementPath( $asID ) {
@@ -41,7 +41,7 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_WPUtil
     /**
      * Sanitizes a given section or field id.
      * @return      array|string
-     * @since       DEVVER
+     * @since       3.7.0
      */
     static public function getIDSanitized( $asID ) {
         return is_scalar( $asID )

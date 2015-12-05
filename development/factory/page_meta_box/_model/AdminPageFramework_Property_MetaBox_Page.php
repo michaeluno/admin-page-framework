@@ -48,7 +48,7 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
     /**
      * Stores the action hook name that gets triggered when the form registration is performed.
      * 'admin_page' and 'network_admin_page' will use a custom hook for it.
-     * @since       DEVVER
+     * @since       3.7.0
      * @access      pulbic      Called externally.
      */
     public $_sFormRegistrationHook = 'admin_enqueue_scripts';
@@ -69,7 +69,7 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
             $sStructureType
         );
 
-        // DEVVER+ 
+        // 3.7.0+ 
         // @deprecated      Moved to the declaration area.
         // $this->_sFormRegistrationHook = 'admin_enqueue_scripts';
 
@@ -113,7 +113,7 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
      * 
      * This is supposed to be called within the `__get()` overload magic method.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array
      */
     protected function _getOptions() {

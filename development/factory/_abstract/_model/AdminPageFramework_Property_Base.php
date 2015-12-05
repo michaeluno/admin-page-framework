@@ -248,7 +248,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
      *  
      * @since       3.1.0
      * @internal
-     * @deprecated  DEVVER      To check if the `setUp()` is called, perform did_action( 'set_up_' . {instantiated class name} )
+     * @deprecated  3.7.0      To check if the `setUp()` is called, perform did_action( 'set_up_' . {instantiated class name} )
      */
     public $_bSetupLoaded;
     
@@ -286,21 +286,21 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     /**
      * The utility object.
      * @since       3.5.3
-     * @deprecated  DEVVER
+     * @deprecated  3.7.0
      */
     public $oUtil;
               
     /**
      * Stores the action hook name that gets triggered when the form registration is performed.
      * 'admin_page' and 'network_admin_page' will use a custom hook for it.
-     * @since       DEVVER
+     * @since       3.7.0
      * @access      public
      */
     public $_sFormRegistrationHook = 'current_screen';
               
     /**
      * Stores arguments for the form object.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public $aFormArguments = array(
         'caller_id'                         => '',
@@ -310,7 +310,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     
     /**
      * Stores callbacks for the form object.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public $aFormCallbacks = array(
         'hfID'              => null,    // the input id attribute
@@ -407,7 +407,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUti
     }
         /**
          * Sets deprecated property items for backward compatibility.
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _setDeprecated() {
             $this->oUtil            = new AdminPageFramework_WPUtility;

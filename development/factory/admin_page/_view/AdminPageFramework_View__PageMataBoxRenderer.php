@@ -42,7 +42,7 @@ class AdminPageFramework_View__PageMataBoxRenderer extends AdminPageFramework_WP
         /**
          * Stored meta box container id. 
          * @remark      It should start from 1 (1-base) but here 0 is set because it gets initially incremented.
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private static $_iContainerID = 0;
             

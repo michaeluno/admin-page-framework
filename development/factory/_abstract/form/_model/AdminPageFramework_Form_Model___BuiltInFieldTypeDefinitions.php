@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
 
@@ -20,7 +20,7 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
      * Holds the built-in filed type slugs.
      * 
      * @since       2.1.5
-     * @since       DEVVER      Changed the name from `$aDefaultFieldTypeSlugs`. Moved from `AdminPageFramework_FieldTypeRegistration`.
+     * @since       3.7.0      Changed the name from `$aDefaultFieldTypeSlugs`. Moved from `AdminPageFramework_FieldTypeRegistration`.
      */
     static protected $_aDefaultFieldTypeSlugs = array(
         'default', // undefined ones will be applied 
@@ -55,7 +55,7 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
      * @param       string      $sCallerID        The call ID, usually the caller class name.
      * @param       object      $oMsg       A message object that field types refer to. 
      * Field types will show system messages to the user using the message defined in this object.
-     * @since       DEVVER
+     * @since       3.7.0
      */    
     public function __construct( $sCallerID, $oMsg ) {
         $this->sCallerID    = $sCallerID;
@@ -66,7 +66,7 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
      * Returns a field type definitions array.
      * 
      * @since       3.1.3       Moved from the constructor.
-     * @since       DEVVER      Moved from `AdminPageFramework_FieldTypeRegistration`. Change the name from `register()`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FieldTypeRegistration`. Change the name from `register()`.
      * @return      array       The field type definitions array.
      */
     public function get() {

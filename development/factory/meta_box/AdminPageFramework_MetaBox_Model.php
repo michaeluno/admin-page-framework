@@ -94,7 +94,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * @callback    form        `saved_data`    
      * @remark      The `oOptions` property will be automatically set with the overload method.
      * @return      array       The saved form data.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function _replyToGetSavedFormData() {
                 
@@ -230,7 +230,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          * 
          * @since       3.3.0
          * @since       3.6.0       Added the `$aUnmodified` parameter.
-         * @since       DEVVER      Renamed from `_validateCall()`.
+         * @since       3.7.0      Renamed from `_validateCall()`.
          * @internal
          * @return      boolean
          */

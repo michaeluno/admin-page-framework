@@ -322,7 +322,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
     /**
      * Checks if a meta box exists in the current page.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      boolean
      */
     static public function doesMetaBoxExist( $sContext='' ) {

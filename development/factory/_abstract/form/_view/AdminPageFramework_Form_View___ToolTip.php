@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  * @internal
  */
 class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_View___Section_Base {            
@@ -29,7 +29,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
     /**
      * Sets up properties.
      * @since       3.6.0
-     * @since       DEVVER      Changed the parameter structure.
+     * @since       3.7.0      Changed the parameter structure.
      */
     public function __construct( /* $aArguments, $sTitleElementID */ ) {
 
@@ -47,7 +47,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
     }
         /**
          * @return      boolean
-         * @sine        DEVVER
+         * @sine        3.7.0
          */
         private function _isContent( $asContent ) {
             
@@ -83,7 +83,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
             ;
     }
         /**
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      string
          */    
         private function _getTipLinkIcon() {
@@ -100,7 +100,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
             
         }
         /**
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      string
          */
         private function _getTipTitle() {
@@ -112,7 +112,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
             return '';
         }
         /**
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      string
          */
         private function _getDescriptions() {         
