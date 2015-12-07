@@ -41,7 +41,8 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         if (!$this->isInThePage()) {
             return;
         }
-        $this->_setFieldTypeDefinitions();
+        $this->_setFieldTypeDefinitions('admin_page_framework');
+        $this->_setFieldTypeDefinitions($this->aArguments['caller_id']);
         $this->aSavedData = $this->_getSavedData($this->aSavedData + $this->getDefaultFormValues());
         $this->_handleCallbacks();
         $_oFieldResources = new AdminPageFramework_Form_Model___SetFieldResources($this->aArguments, $this->aFieldsets, self::$_aResources, $this->aFieldTypeDefinitions, $this->aCallbacks);
@@ -52,15 +53,22 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         $this->aSectionsets = $this->callBack($this->aCallbacks['secitonsets_before_registration'], array($this->aSectionsets,));
         $this->aFieldsets = $this->callBack($this->aCallbacks['fieldsets_before_registration'], array($this->aFieldsets, $this->aSectionsets,));
     }
-    static private $_aFieldTypeDefinitions = array();
-    private function _setFieldTypeDefinitions() {
-        $_sCallerID = $this->aArguments['caller_id'];
-        $_aCache = $this->getElement(self::$_aFieldTypeDefinitions, $_sCallerID);
-        if (empty($_aCache)) {
+    static private $_aFieldTypeDefinitions = array('admin_page_framework' => array(),);
+    private function _setFieldTypeDefinitions($_sCallerID) {
+        if (!$this->hasBeenCalled(__METHOD__ . $_sCallerID)) {
             $_oBuiltInFieldTypeDefinitions = new AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions($_sCallerID, $this->oMsg);
             self::$_aFieldTypeDefinitions[$_sCallerID] = $_oBuiltInFieldTypeDefinitions->get();
         }
-        $this->aFieldTypeDefinitions = apply_filters('field_types_admin_page_framework', self::$_aFieldTypeDefinitions[$_sCallerID]);
+        if ('admin_page_framework' === $_sCallerID) {
+            $this->_setSiteWiderFieldTypeDefinitions();
+        }
+        $this->aFieldTypeDefinitions = apply_filters("field_types_{$_sCallerID}", self::$_aFieldTypeDefinitions[$_sCallerID] + self::$_aFieldTypeDefinitions['admin_page_framework']);
+    }
+    private function _setSiteWiderFieldTypeDefinitions() {
+        if ($this->hasBeenCalled('__filed_types_admin_page_Framework')) {
+            return;
+        }
+        self::$_aFieldTypeDefinitions['admin_page_framework'] = apply_filters("field_types_admin_page_framework", self::$_aFieldTypeDefinitions['admin_page_framework']);
     }
     private function _getSavedData($aDefaultValues) {
         $_aSavedData = $this->getAsArray($this->callBack($this->aCallbacks['saved_data'], array($aDefaultValues,))) + $aDefaultValues;

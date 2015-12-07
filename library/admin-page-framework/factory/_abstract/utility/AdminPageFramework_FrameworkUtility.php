@@ -3,4 +3,7 @@ class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
     static public function getFrameworkVersion() {
         return AdminPageFramework_Registry::getVersion();
     }
+    static public function getFrameworkName() {
+        return AdminPageFramework_Registry::NAME;
+    }
 }
