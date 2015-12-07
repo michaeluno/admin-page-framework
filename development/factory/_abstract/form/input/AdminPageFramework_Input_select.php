@@ -44,8 +44,8 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
         // For backward compatibility.
         
         // If the $aField property is set, extract certain elements from it and set them to the attribute array.
-        if ( isset( $this->aField['is_multiple'] ) ) {
-            $this->aAttributes['select']['multiple'] = $this->aField['is_multiple']
+        if ( isset( $this->aField[ 'is_multiple' ] ) ) {
+            $this->aAttributes[ 'select' ][ 'multiple' ] = $this->aField[ 'is_multiple' ]
                 ? 'multiple'
                 : $this->getElement( $this->aAttributes, array( 'select', 'multiple' ) );
         }
@@ -69,20 +69,20 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
         );    
 
         return  
-            "<{$this->aOptions['input_container_tag']} " . $this->getAttributes( $this->aOptions['input_container_attributes'] ) . ">"
+            "<{$this->aOptions[ 'input_container_tag' ]} " . $this->getAttributes( $this->aOptions[ 'input_container_attributes' ] ) . ">"
                 . "<select " . $this->getAttributes( $this->_getSelectAttributes( $_aAttributes ) ) . " >"
                     . $this->_getDropDownList( 
                         $this->getAttribute( 'id' ),
                         $this->getAsArray(
                             isset( $_aLabels ) 
                                 ? $_aLabels
-                                : $this->aField['label'],    // backward compatibility
+                                : $this->aField[ 'label' ],    // backward compatibility
                             true
                         ),
                         $_aAttributes
                     )
                 . "</select>"
-            . "</{$this->aOptions['input_container_tag']}>"
+            . "</{$this->aOptions[ 'input_container_tag' ]}>"
             ;
             
     }
@@ -149,7 +149,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
                         $aBaseAttributes, 
                         $sInputID, 
                         $__sKey,
-                        $this->getAsArray( $aBaseAttributes['value'], true )
+                        $this->getAsArray( $aBaseAttributes[ 'value' ], true )
                     ) 
                 );
                     
@@ -164,9 +164,9 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
              */
             private function _getOptGroup( array $aBaseAttributes, $sInputID, $sKey, $asLabel ) {
              
-                $_aOptGroupAttributes = isset( $aBaseAttributes['optgroup'][ $sKey ] ) && is_array( $aBaseAttributes['optgroup'][ $sKey ] )
-                    ? $aBaseAttributes['optgroup'][ $sKey ] + $aBaseAttributes['optgroup']
-                    : $aBaseAttributes['optgroup'];
+                $_aOptGroupAttributes = isset( $aBaseAttributes[ 'optgroup' ][ $sKey ] ) && is_array( $aBaseAttributes[ 'optgroup' ][ $sKey ] )
+                    ? $aBaseAttributes[ 'optgroup' ][ $sKey ] + $aBaseAttributes[ 'optgroup' ]
+                    : $aBaseAttributes[ 'optgroup' ];
                 $_aOptGroupAttributes = array(
                     'label' => $sKey,
                 ) + $_aOptGroupAttributes;
@@ -193,9 +193,9 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
                         'selected'  => in_array( ( string ) $sKey, $aValues ) 
                             ? 'selected' 
                             : null,                                        
-                    ) + ( isset( $aBaseAttributes['option'][ $sKey ] ) && is_array( $aBaseAttributes['option'][ $sKey ] )
-                        ? $aBaseAttributes['option'][ $sKey ] + $aBaseAttributes['option']
-                        : $aBaseAttributes['option'] );
+                    ) + ( isset( $aBaseAttributes[ 'option' ][ $sKey ] ) && is_array( $aBaseAttributes[ 'option' ][ $sKey ] )
+                        ? $aBaseAttributes[ 'option' ][ $sKey ] + $aBaseAttributes[ 'option' ]
+                        : $aBaseAttributes[ 'option' ] );
             
             }
         

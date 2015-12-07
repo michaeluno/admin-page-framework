@@ -71,21 +71,21 @@ CSSRULES;
      */
     protected function getField( $aField ) {
             
-        $_oSelectInput = new AdminPageFramework_Input_select( $aField['attributes'] );
-        if ( $aField['is_multiple']  ) {            
+        $_oSelectInput = new AdminPageFramework_Input_select( $aField[ 'attributes' ] );
+        if ( $aField[ 'is_multiple' ]  ) {            
             $_oSelectInput->setAttribute( array( 'select', 'multiple' ), 'multiple' );
         }
         return
-            $aField['before_label']
-            . "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
-                . "<label for='{$aField['input_id']}'>"
-                    . $aField['before_input']
-                    . $_oSelectInput->get( $aField['label'] )
-                    . $aField['after_input']
+            $aField[ 'before_label' ]
+            . "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>"
+                . "<label for='{$aField[ 'input_id' ]}'>"
+                    . $aField[ 'before_input' ]
+                    . $_oSelectInput->get( $aField[ 'label' ] )
+                    . $aField[ 'after_input' ]
                     . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                 . "</label>"     
             . "</div>"
-            . $aField['after_label'];         
+            . $aField[ 'after_label' ];         
         
     }
         

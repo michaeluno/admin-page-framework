@@ -431,6 +431,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.7.1 =
+- Added the internal ability for the `select` and `radio` field types to accept nested `attributes` arguments for each `label` element.
 - Tweaked the style of help tooltips.
 
 = 3.7.0 - 2015/12/04 =
