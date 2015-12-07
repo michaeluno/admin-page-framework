@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_ArrayHandler extends AdminPageFramework_WPUtility {
+class AdminPageFramework_ArrayHandler extends AdminPageFramework_FrameworkUtility {
     public $aData = array();
     public $aDefault = array();
     public function __construct() {

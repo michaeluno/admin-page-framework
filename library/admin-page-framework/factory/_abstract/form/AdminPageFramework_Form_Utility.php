@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_FrameworkUtility {
     static public function getElementPathAsArray($asPath) {
         if (is_array($asPath)) {
             return;

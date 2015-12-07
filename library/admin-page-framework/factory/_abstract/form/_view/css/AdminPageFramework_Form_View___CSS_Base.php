@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_FrameworkUtility {
     public $aAdded = array();
     public function add($sCSSRules) {
         $this->aAdded[] = $sCSSRules;

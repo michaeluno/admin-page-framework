@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_View___DebugInfo extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_View___DebugInfo extends AdminPageFramework_FrameworkUtility {
     public $sStructureType = '';
     public $oMsg;
     public function __construct() {

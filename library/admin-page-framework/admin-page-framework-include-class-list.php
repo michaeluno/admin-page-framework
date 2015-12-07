@@ -249,6 +249,7 @@ $aClassFiles = array(
 	"AdminPageFramework_ArrayHandler"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_ArrayHandler.php", 
 	"AdminPageFramework_Debug"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_Debug.php", 
 	"AdminPageFramework_ErrorReporting"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_ErrorReporting.php", 
+	"AdminPageFramework_FrameworkUtility"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_FrameworkUtility.php", 
 	"AdminPageFramework_RegisterClasses"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_RegisterClasses.php", 
 	"AdminPageFramework_AdminNotice"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/admin_notice/AdminPageFramework_AdminNotice.php", 
 	"AdminPageFramework_AdminNotice___Script"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/admin_notice/AdminPageFramework_AdminNotice___Script.php", 

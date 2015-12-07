@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFramework_FrameworkUtility {
     public $aSectionsets = array();
     public $aFieldsets = array();
     public $aSavedFormData = array();

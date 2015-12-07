@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_FrameworkUtility {
     static private $_aNotices = array();
     public function hasNotice($sType = '') {
         if (!$sType) {

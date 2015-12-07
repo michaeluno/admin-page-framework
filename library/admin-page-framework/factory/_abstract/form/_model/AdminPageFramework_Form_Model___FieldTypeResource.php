@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramework_FrameworkUtility {
     public $aFieldTypeDefinition = array();
     public $aResources = array('inline_styles' => array(), 'inline_styles_ie' => array(), 'inline_scripts' => array(), 'src_styles' => array(), 'src_scripts' => array(),);
     public function __construct() {

@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_FormEmail extends AdminPageFramework_WPUtility {
+class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
     public $aEmailOptions = array();
     public $aInput = array();
     public $sSubmitSectionID;

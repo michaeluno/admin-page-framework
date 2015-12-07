@@ -1,7 +1,7 @@
 <?php
 class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_select {
     public $aFieldTypeSlugs = array('size',);
-    protected $aDefaultKeys = array('is_multiple' => false, 'units' => null, 'attributes' => array('size' => array('size' => 10, 'maxlength' => 400, 'min' => null, 'max' => null,), 'unit' => array('multiple' => null, 'size' => 1, 'autofocusNew' => null, 'required' => null,), 'optgroup' => array(), 'option' => array(),),);
+    protected $aDefaultKeys = array('is_multiple' => false, 'units' => null, 'attributes' => array('size' => array('min' => null, 'max' => null, 'style' => 'width: 160px;',), 'unit' => array('multiple' => null, 'size' => 1, 'autofocusNew' => null, 'required' => null,), 'optgroup' => array(), 'option' => array(),),);
     protected $aDefaultUnits = array('px' => 'px', '%' => '%', 'em' => 'em', 'ex' => 'ex', 'in' => 'in', 'cm' => 'cm', 'mm' => 'mm', 'pt' => 'pt', 'pc' => 'pc',);
     protected function getStyles() {
         return <<<CSSRULES

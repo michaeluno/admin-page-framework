@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_View___Section extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_View___Section extends AdminPageFramework_FrameworkUtility {
     public $aArguments = array();
     public $aSectionset = array();
     public $aStructure = array();

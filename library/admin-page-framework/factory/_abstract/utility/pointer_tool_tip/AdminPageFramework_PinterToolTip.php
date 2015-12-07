@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
+class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtility {
     static private $_bResourceLoaded = false;
     static private $aPointers = array();
     public $sPointerID;

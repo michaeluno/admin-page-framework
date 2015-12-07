@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_Model___Format_EachSection extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_Model___Format_EachSection extends AdminPageFramework_FrameworkUtility {
     static public $aStructure = array('_count_subsections' => 0, '_is_first_index' => false, '_is_last_index' => false, '_index' => null, '_is_collapsible' => false, '_tag_id' => '', '_tag_id_model' => '', '_sections_id' => '',);
     public $aSection = array();
     public $iIndex = null;

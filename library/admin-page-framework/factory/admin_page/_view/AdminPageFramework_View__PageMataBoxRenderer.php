@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_View__PageMataBoxRenderer extends AdminPageFramework_WPUtility {
+class AdminPageFramework_View__PageMataBoxRenderer extends AdminPageFramework_FrameworkUtility {
     public function render($sContext) {
         if (!$this->doesMetaBoxExist()) {
             return;

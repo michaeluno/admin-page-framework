@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Property_Base extends AdminPageFramework_FrameworkUtility {
     private static $_aStructure_CallerInfo = array('sPath' => null, 'sType' => null, 'sName' => null, 'sURI' => null, 'sVersion' => null, 'sThemeURI' => null, 'sScriptURI' => null, 'sAuthorURI' => null, 'sAuthor' => null, 'sDescription' => null,);
     static public $_aLibraryData;
     public $_sPropertyType = '';

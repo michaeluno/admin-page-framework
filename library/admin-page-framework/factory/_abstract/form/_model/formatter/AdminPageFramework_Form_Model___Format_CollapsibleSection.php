@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPageFramework_FrameworkUtility {
     static public $aStructure = array('title' => null, 'is_collapsed' => true, 'toggle_all_button' => null, 'collapse_others_on_expand' => true, 'container' => 'sections', 'type' => 'box',);
     public $abCollapsible = false;
     public $sTitle = '';

@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFramework_FrameworkUtility {
     public $aField = array();
     public $aFieldTypeDefinitions = array();
     public $aOptions = array();

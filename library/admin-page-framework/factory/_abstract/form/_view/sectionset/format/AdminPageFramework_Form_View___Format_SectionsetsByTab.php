@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFramework_FrameworkUtility {
     public $aSectionsets = array();
     public $aFieldsets = array();
     public $iNestedDepth = 0;

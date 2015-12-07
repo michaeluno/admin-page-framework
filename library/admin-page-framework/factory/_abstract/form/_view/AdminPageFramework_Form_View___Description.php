@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_View___Description extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_View___Description extends AdminPageFramework_FrameworkUtility {
     public $aDescriptions = array();
     public $sClassAttribute = 'admin-page-framework-form-element-description';
     public function __construct() {

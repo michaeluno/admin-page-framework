@@ -21,13 +21,19 @@ class AdminPageFramework_Form_View___CSS_meta_box extends AdminPageFramework_For
 }
 
 .postbox .admin-page-framework-field {
-    width: 96%; /* Not 100% because it will stick out */
+    /* Not 100% because it will stick out */
+    /* width: 96%; @deprecated 3.7.1 */ 
+    
+    /* width: 96% causes the repeatable buttons apper on the far right side. */
+    width: auto;
 }            
 
 /* Sortable fields do not look well if the width is fully expanded  */
 .postbox .sortable .admin-page-framework-field {
     /* In Firefox, in side meta boxes, the width needs to be smaller for image previews. */
-    width: 84%;
+    /* width: 84%; @deprecated 3.7.1 */
+    /* The above width: 84% looks inconsitent in the main meta box areas */
+    width: auto;
 }
             
 /* Field Titles */             

@@ -96,7 +96,9 @@ class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form
 
 /* Sortable Sections */
 .admin-page-framework-sections.sortable-section > .admin-page-framework-section {
-    padding: 1em 2em 1em 2em;
+    /* padding: 1em 2.5em 1.5em 2.5em; */
+    padding: 1em 1.8em 1em 2.6em;
+    
 }
 
 /* Sortable Collapsible Sections */

@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_MetaBox_Model___PostMeta extends AdminPageFramework_WPUtility {
+class AdminPageFramework_MetaBox_Model___PostMeta extends AdminPageFramework_FrameworkUtility {
     public $iPostID = array();
     public $aFieldsets = array();
     public function __construct() {

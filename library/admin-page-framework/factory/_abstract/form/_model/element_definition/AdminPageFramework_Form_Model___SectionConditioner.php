@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramework_FrameworkUtility {
     public $aSectionsets = array();
     public function __construct() {
         $_aParameters = func_get_args() + array($this->aSectionsets,);

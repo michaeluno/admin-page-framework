@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_Model___FieldTypeRegistration extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_Model___FieldTypeRegistration extends AdminPageFramework_FrameworkUtility {
     public function __construct(array $aFieldTypeDefinition, $sStructureType) {
         $this->_initialize($aFieldTypeDefinition, $sStructureType);
     }

@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_UserMeta_Model___UserMeta extends AdminPageFramework_WPUtility {
+class AdminPageFramework_UserMeta_Model___UserMeta extends AdminPageFramework_FrameworkUtility {
     public $iUserID = array();
     public $aFieldsets = array();
     public function __construct() {

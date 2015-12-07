@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Form_View___Attribute_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Form_View___Attribute_Base extends AdminPageFramework_FrameworkUtility {
     public $sContext = '';
     public $aArguments = array();
     public $aAttributes = array();

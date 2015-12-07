@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_FrameworkUtility {
     public $aPost = array();
     public $sInputID;
     public function __construct(array $aPostElement) {

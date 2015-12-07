@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_FrameworkUtility {
     public $aFieldsetsPerSection = array();
     public $iSectionIndex = null;
     public $aSavedData = array();

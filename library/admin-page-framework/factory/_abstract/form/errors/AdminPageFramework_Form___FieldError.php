@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form___FieldError extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form___FieldError extends AdminPageFramework_FrameworkUtility {
     static private $_aErrors = array();
     public $sCallerID;
     public function __construct($sCallerID) {

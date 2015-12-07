@@ -30,12 +30,14 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
     height: auto;
     margin-top: -11px;
 }
-.admin-page-framework-field-color .admin-page-framework-field .admin-page-framework-input-label-container {
-    vertical-align: top; 
-}
 .admin-page-framework-field-color .admin-page-framework-repeatable-field-buttons {
     margin-top: 0;
 }
+.admin-page-framework-field-color .wp-color-result {
+    /* Overriding the default css rule, margin: 0 6px 6px 0px; to vertically align middle in the sortable box */
+    margin: 3px;
+}
+
 CSSRULES;
         
     }

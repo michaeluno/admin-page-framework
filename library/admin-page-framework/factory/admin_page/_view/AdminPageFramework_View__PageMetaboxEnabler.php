@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_WPUtility {
+class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_FrameworkUtility {
     public $oFactory;
     public function __construct($oFactory) {
         $this->oFactory = $oFactory;

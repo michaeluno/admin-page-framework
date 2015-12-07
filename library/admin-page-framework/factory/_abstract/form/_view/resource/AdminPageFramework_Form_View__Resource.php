@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_View__Resource extends AdminPageFramework_FrameworkUtility {
     public $oForm;
     public function __construct($oForm) {
         $this->oForm = $oForm;

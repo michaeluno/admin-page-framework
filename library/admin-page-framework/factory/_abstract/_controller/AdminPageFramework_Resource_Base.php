@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_FrameworkUtility {
     protected static $_aStructure_EnqueuingResources = array('sSRC' => null, 'aPostTypes' => array(), 'sPageSlug' => null, 'sTabSlug' => null, 'sType' => null, 'handle_id' => null, 'dependencies' => array(), 'version' => false, 'translation' => array(), 'in_footer' => false, 'media' => 'all', 'attributes' => array(),);
     protected $_sClassSelector_Style = 'admin-page-framework-style';
     protected $_sClassSelector_Script = 'admin-page-framework-script';

@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
+class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility {
     static private $_aNotices = array();
     public $sNotice = '';
     public $aAttributes = array();

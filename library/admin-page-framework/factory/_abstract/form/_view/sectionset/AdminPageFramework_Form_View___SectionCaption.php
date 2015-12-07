@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_FrameworkUtility {
     public $aSectionset = array();
     public $iSectionIndex = null;
     public $aFieldsets = array();

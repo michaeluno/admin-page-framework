@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Format_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Format_Base extends AdminPageFramework_FrameworkUtility {
     static public $aStructure = array();
     public $aSubject = array();
     public function __construct() {

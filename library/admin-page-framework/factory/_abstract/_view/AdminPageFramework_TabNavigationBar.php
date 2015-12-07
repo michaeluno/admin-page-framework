@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_TabNavigationBar extends AdminPageFramework_WPUtility {
+class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUtility {
     public $sTabTag = 'h2';
     public $aTabs = array();
     public $aAttributes = array('class' => 'nav-tab-wrapper',);

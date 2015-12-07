@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_FrameworkUtility {
     public $_sFieldSetType = '';
     public $aFieldTypeSlugs = array('default');
     protected $aDefaultKeys = array();

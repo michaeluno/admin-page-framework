@@ -1,5 +1,5 @@
 <?php
-class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
     static public function dump($asArray, $sFilePath = null) {
         echo self::get($asArray, $sFilePath);
     }

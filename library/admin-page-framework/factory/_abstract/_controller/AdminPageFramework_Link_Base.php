@@ -1,5 +1,5 @@
 <?php
-abstract class AdminPageFramework_Link_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Link_Base extends AdminPageFramework_FrameworkUtility {
     public function __construct($oProp, $oMsg = null) {
         if (!$this->_isLoadable($oProp)) {
             return;
