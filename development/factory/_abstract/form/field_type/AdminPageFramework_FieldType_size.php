@@ -33,10 +33,9 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
         'units'                 => null,  // do not define units here since this will be merged with the user defined field array.
         'attributes'            => array(
             'size'      => array(
-                'size'          => 10,
-                'maxlength'     => 400,
                 'min'           => null,
                 'max'           => null,
+                'style'         => 'width: 160px;',
             ),
             'unit'      => array(
                 // set 'multiple' for multiple selections. If 'is_multiple' is set, it takes the precedence.
