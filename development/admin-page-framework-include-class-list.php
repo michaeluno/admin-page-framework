@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.7.0b23 by Michael Uno 
+	Admin Page Framework v3.7.1b01 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -254,6 +254,7 @@ $aClassFiles = array(
 	"AdminPageFramework_ArrayHandler"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_ArrayHandler.php", 
 	"AdminPageFramework_Debug"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_Debug.php", 
 	"AdminPageFramework_ErrorReporting"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_ErrorReporting.php", 
+	"AdminPageFramework_FrameworkUtility"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_FrameworkUtility.php", 
 	"AdminPageFramework_RegisterClasses"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/AdminPageFramework_RegisterClasses.php", 
 	"AdminPageFramework_AdminNotice"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/admin_notice/AdminPageFramework_AdminNotice.php", 
 	"AdminPageFramework_AdminNotice___Script"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/utility/admin_notice/AdminPageFramework_AdminNotice___Script.php", 

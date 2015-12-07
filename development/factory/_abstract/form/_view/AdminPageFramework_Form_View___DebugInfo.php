@@ -15,8 +15,9 @@
  * @since       3.6.0
  * @since       3.7.0      Renamed from `AdminPageFramework_FormPart_DebugInfo`.
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_Form_View___DebugInfo extends AdminPageFramework_WPUtility {            
+class AdminPageFramework_Form_View___DebugInfo extends AdminPageFramework_FrameworkUtility {            
 
     public $sStructureType   = '';
     

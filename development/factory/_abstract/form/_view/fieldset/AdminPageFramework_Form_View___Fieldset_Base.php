@@ -15,12 +15,12 @@
  * @since       3.0.0       Separated the methods that defines field types to different classes.
  * @since       3.3.1       Extends `AdminPageFramework_FormOutput`.
  * @since       3.6.0       Extends `AdminPageFramework_WPUtility`.
- * @extends     AdminPageFramework_WPUtility
+ * @extends     AdminPageFramework_FrameworkUtility
  * @package     AdminPageFramework
  * @subpackage  Form
  * @internal
  */
-abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFramework_FrameworkUtility {
 
     /**
      * Stores the field definition array.

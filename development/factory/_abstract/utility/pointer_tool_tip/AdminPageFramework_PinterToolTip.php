@@ -34,9 +34,9 @@
  * @since       3.7.0
  * @package     AdminPageFramework
  * @subpackage  Utility
- * @extends     AdminPageFramework_WPUtility
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
+class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtility {
     
     static private $_bResourceLoaded = false;
     

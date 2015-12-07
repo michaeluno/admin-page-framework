@@ -11,12 +11,12 @@
  * Creates a tab navigation bar.
  *
  * @since           3.5.10
- * @extends         AdminPageFramework_WPUtility
+ * @extends         AdminPageFramework_FrameworkUtility
  * @package         AdminPageFramework
  * @subpackage      Tab
  * @internal
  */
-class AdminPageFramework_TabNavigationBar extends AdminPageFramework_WPUtility {                
+class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUtility {                
     
     /**
      * The HTML tag used for the tag.

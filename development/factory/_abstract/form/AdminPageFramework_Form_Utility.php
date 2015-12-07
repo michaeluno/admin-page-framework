@@ -13,8 +13,9 @@
  * @package     AdminPageFramework
  * @subpackage  Form
  * @since       3.7.0
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_FrameworkUtility {
     
     /**
      * @since       3.7.0

@@ -14,8 +14,9 @@
  * @package     AdminPageFramework
  * @subpackage  Form
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_FrameworkUtility {
     
     /**
      * Stores additional CSS rules.

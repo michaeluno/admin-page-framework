@@ -17,8 +17,9 @@
  * @package     AdminPageFramework
  * @subpackage  Property
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */ 
-abstract class AdminPageFramework_Property_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Property_Base extends AdminPageFramework_FrameworkUtility {
 
     /**
      * Represents the structure of the script info array.

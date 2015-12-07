@@ -14,8 +14,9 @@
  * @subpackage  Form
  * @since       3.6.0
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_Form_View___Description extends AdminPageFramework_WPUtility {            
+class AdminPageFramework_Form_View___Description extends AdminPageFramework_FrameworkUtility {            
 
     public $aDescriptions   = array();
     

@@ -15,8 +15,9 @@
  * @package     AdminPageFramework
  * @subpackage  Form
  * @since       3.7.0
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_View__Resource extends AdminPageFramework_FrameworkUtility {
     
     /**
      * Stores the form object to let this class access the resource array.

@@ -16,8 +16,9 @@
  * @subpackage  Format
  * @since       3.6.0
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_Form_Model___Format_EachSection extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_Model___Format_EachSection extends AdminPageFramework_FrameworkUtility {
     
     /**
      * Represents the structure of the form section definition array.

@@ -15,8 +15,9 @@
  * @subpackage  UserMeta
  * @extends     AdminPageFramework_Property_Base
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_UserMeta_Model___UserMeta extends AdminPageFramework_WPUtility {
+class AdminPageFramework_UserMeta_Model___UserMeta extends AdminPageFramework_FrameworkUtility {
 
     public $iUserID         = array();
     

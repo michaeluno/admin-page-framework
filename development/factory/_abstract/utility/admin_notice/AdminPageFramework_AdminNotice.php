@@ -22,9 +22,9 @@
  * @since       3.5.0
  * @package     AdminPageFramework
  * @subpackage  Utility
- * @extends     AdminPageFramework_WPUtility
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_AdminNotice extends AdminPageFramework_WPUtility {
+class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility {
 
     /**
      * Stores all the registered notification messages.

@@ -15,8 +15,9 @@
  * @subpackage  MetaBox
  * @extends     AdminPageFramework_Property_Base
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_MetaBox_Model___PostMeta extends AdminPageFramework_WPUtility {
+class AdminPageFramework_MetaBox_Model___PostMeta extends AdminPageFramework_FrameworkUtility {
 
     public $iPostID         = array();
     

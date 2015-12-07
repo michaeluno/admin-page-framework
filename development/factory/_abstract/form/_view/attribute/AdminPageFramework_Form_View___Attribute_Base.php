@@ -14,8 +14,9 @@
  * @subpackage  Attribute
  * @since       3.6.0
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-abstract class AdminPageFramework_Form_View___Attribute_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Form_View___Attribute_Base extends AdminPageFramework_FrameworkUtility {
  
     /**
      * Indicates the context of the attribute.

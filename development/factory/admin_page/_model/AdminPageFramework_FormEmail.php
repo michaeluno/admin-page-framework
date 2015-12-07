@@ -17,8 +17,9 @@
  * @package     AdminPageFramework
  * @subpackage  Setting
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_FormEmail extends AdminPageFramework_WPUtility {
+class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
      
     /**
      * Stores email options.

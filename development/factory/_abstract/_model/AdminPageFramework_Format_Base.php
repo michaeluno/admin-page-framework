@@ -14,8 +14,9 @@
  * @subpackage  Format
  * @since       3.6.0
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-abstract class AdminPageFramework_Format_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Format_Base extends AdminPageFramework_FrameworkUtility {
     
     /**
      * Represents the structure and its default values of the definition array.

@@ -16,8 +16,9 @@
  * @package     AdminPageFramework
  * @subpackage  Setting
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_FrameworkUtility {
     
     /**
      * Stores $_POST array content or sub-element of the $_POST array.

@@ -16,12 +16,13 @@
  * @since       2.1.5
  * @since       3.3.0       Changed the name from `AdminPageFramework_HeadTag_Base`.
  * @since       3.6.3       Changed it to extend `AdminPageFramework_WPUtility`.
- * @use         AdminPageFramework_Utility
+ * @extends     AdminPageFramework_FrameworkUtility
  * @package     AdminPageFramework
  * @subpackage  Resource
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_FrameworkUtility {
     
     /**
      * Represents the structure of the array for enqueuing scripts and styles.

@@ -15,8 +15,9 @@
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
+ * @extends         AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_View__PageMataBoxRenderer extends AdminPageFramework_WPUtility {
+class AdminPageFramework_View__PageMataBoxRenderer extends AdminPageFramework_FrameworkUtility {
            
     /**
      * Renders a registered meta box.

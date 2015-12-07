@@ -14,8 +14,9 @@
  * @subpackage  Form
  * @since       3.7.0
  * @deprecated
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramework_FrameworkUtility {
     
     public $aSectionsets  = array();
 

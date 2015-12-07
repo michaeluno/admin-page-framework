@@ -13,8 +13,9 @@
  * @package     AdminPageFramework
  * @subpackage  Form
  * @since       3.7.0
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_Form___FieldError extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form___FieldError extends AdminPageFramework_FrameworkUtility {
     
     /**
      * Stores field errors.

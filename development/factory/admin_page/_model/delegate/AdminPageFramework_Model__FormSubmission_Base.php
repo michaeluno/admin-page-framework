@@ -15,8 +15,9 @@
  * @subpackage  Form
  * @since       3.6.3
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFramework_FrameworkUtility {
         
     /**
      * Retrieves the target key's value associated with the given data to a custom submit button.

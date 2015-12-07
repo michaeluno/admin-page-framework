@@ -14,8 +14,9 @@
  * @subpackage  FormInput
  * @since       3.4.0
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-abstract class AdminPageFramework_Input_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Input_Base extends AdminPageFramework_FrameworkUtility {
     
     /**
      * Stores the field definition array.

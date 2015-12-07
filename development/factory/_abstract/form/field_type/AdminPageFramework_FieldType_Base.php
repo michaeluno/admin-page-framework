@@ -14,8 +14,9 @@
  * @subpackage  FieldType
  * @since       2.1.5
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_FrameworkUtility {
     
     /**
      * Stores the field set type indicating what this field is for such as for meta boxes, taxonomy fields or page fields.

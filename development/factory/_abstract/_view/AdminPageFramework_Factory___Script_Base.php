@@ -16,9 +16,9 @@
  * @package     AdminPageFramework
  * @subpackage  JavaScript
  * @internal
- * @extends     AdminPageFramework_WPUtility
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramework_FrameworkUtility {
     
     public $oMsg;
     

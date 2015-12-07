@@ -13,8 +13,9 @@
  * @package     AdminPageFramework
  * @subpackage  Utility
  * @since       3.6.0
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_ArrayHandler extends AdminPageFramework_WPUtility {
+class AdminPageFramework_ArrayHandler extends AdminPageFramework_FrameworkUtility {
         
     /**
      * Stores field definitions.

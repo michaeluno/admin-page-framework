@@ -14,8 +14,9 @@
  * @subpackage  Format
  * @since       3.6.0
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-abstract class AdminPageFramework_Form_Model___Modifier_Base extends AdminPageFramework_WPUtility {
+abstract class AdminPageFramework_Form_Model___Modifier_Base extends AdminPageFramework_FrameworkUtility {
       
     /**
      * Sets up properties.

@@ -14,8 +14,9 @@
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
+ * @extends         AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_Model__FormEmailHandler extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Model__FormEmailHandler extends AdminPageFramework_FrameworkUtility {
     
     /**
      * Stores the factory object.

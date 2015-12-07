@@ -13,8 +13,9 @@
  * @package     AdminPageFramework
  * @subpackage  Form
  * @since       3.7.0
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_Form_Model___FieldTypeRegistration extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Form_Model___FieldTypeRegistration extends AdminPageFramework_FrameworkUtility {
     
     /**
      * Initializes the field type.

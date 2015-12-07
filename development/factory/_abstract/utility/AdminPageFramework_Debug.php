@@ -12,11 +12,13 @@
  *
  * @since           2.0.0
  * @since           3.1.3       Extends AdminPageFramework_WPUtility
+ * @since           3.7.1       Extends AdminPageFramework_FrameworkUtility
+ * @extends         AdminPageFramework_FrameworkUtility
  * @package         AdminPageFramework
  * @subpackage      Debug
  * @internal
  */
-class AdminPageFramework_Debug extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
             
     /**
      * Prints out the given array contents

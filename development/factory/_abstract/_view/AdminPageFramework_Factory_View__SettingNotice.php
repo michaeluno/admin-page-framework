@@ -14,8 +14,9 @@
  * @package     AdminPageFramework
  * @subpackage  Factory
  * @internal
+ * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_WPUtility {
+class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_FrameworkUtility {
     
     public $oFactory;
     
