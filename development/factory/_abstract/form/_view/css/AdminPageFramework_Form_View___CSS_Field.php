@@ -147,7 +147,8 @@ td.admin-page-framework-field-td-no-title {
     clear: both;
     float: left;
     display: inline-block;
-    padding: 1em 1.2em 0.78em;
+    /* padding: 1em 1.2em 0.78em; @deprecated 3.7.1 */
+    padding: 1em 1.32em 1em;
     margin: 1px 0 0 0;
     border-top-width: 1px;
     border-bottom-width: 1px;

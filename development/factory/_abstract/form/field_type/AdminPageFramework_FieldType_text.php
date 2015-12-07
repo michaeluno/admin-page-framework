@@ -44,7 +44,8 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
         return <<<CSSRULES
 /* Text Field Type */
 .admin-page-framework-field.admin-page-framework-field-text > .admin-page-framework-input-label-container {
-    vertical-align: top; 
+    /* vertical-align: top; @depracated 3.7.1 */
+    vertical-align: middle; 
 }
 
 .admin-page-framework-field.admin-page-framework-field-text > .admin-page-framework-input-label-container.admin-page-framework-field-text-multiple-labels {
