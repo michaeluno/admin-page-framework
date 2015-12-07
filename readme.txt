@@ -432,6 +432,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 = 3.7.1 =
 - Added the internal ability for the `select` and `radio` field types to accept nested `attributes` arguments for each `label` element.
+- Fixed a bug that site-wider field type definitions were loaded multiple times per page load, introduced in 3.7.0.
 - Tweaked the style of form sections and fields.
 - Tweaked the style of help tooltips.
 

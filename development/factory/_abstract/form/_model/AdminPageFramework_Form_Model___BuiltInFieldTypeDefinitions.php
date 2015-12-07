@@ -52,7 +52,7 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
     /**
      * Sets up properties.
      * 
-     * @param       string      $sCallerID        The call ID, usually the caller class name.
+     * @param       string      $sCallerID  The call ID, usually the caller class name.
      * @param       object      $oMsg       A message object that field types refer to. 
      * Field types will show system messages to the user using the message defined in this object.
      * @since       3.7.0
@@ -66,7 +66,7 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
      * Returns a field type definitions array.
      * 
      * @since       3.1.3       Moved from the constructor.
-     * @since       3.7.0      Moved from `AdminPageFramework_FieldTypeRegistration`. Change the name from `register()`.
+     * @since       3.7.0       Moved from `AdminPageFramework_FieldTypeRegistration`. Change the name from `register()`.
      * @return      array       The field type definitions array.
      */
     public function get() {
@@ -80,10 +80,10 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
             }
 
             $_oFieldType = new $_sFieldTypeClassName( 
-                $this->sCallerID, 
+                $this->sCallerID,   // usually a instantiated class name
                 null, 
                 $this->oMsg, 
-                false           // `false` to disable auto-registering.     
+                false               // `false` to disable auto-registering.     
             );    
             foreach( $_oFieldType->aFieldTypeSlugs as $_sSlug ) {     
                 $_aFieldTypeDefinitions[ $_sSlug ] = $_oFieldType->getDefinitionArray();

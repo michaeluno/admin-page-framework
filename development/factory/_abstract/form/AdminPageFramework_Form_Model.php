@@ -208,8 +208,9 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         }
                 
         // Load field type definitions.
-        $this->_setFieldTypeDefinitions();  
-
+        $this->_setFieldTypeDefinitions( 'admin_page_framework' );      // site-wide
+        $this->_setFieldTypeDefinitions( $this->aArguments[ 'caller_id' ] );  // per class 
+        
         // Set the options array
         $this->aSavedData = $this->_getSavedData(
             // Merge with the set property and the generated default valus. 
@@ -293,7 +294,9 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
          * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`.
          * @internal    
          */
-        static private $_aFieldTypeDefinitions = array();
+        static private $_aFieldTypeDefinitions = array(
+            'admin_page_framework'  => array(), // site-wide field type definitions
+        );
         
         /**
          * Loads the default field type definition.
@@ -304,28 +307,55 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
          * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`. Changed the visibility scope to private.
          * @internal
          */
-        private function _setFieldTypeDefinitions() {
+        private function _setFieldTypeDefinitions( $_sCallerID ) {
             
-            $_sCallerID = $this->aArguments[ 'caller_id' ]; // usually a class name
-
-            // This class adds filters for the field type definitions so that framework's default field types will be added.
-            $_aCache = $this->getElement( self::$_aFieldTypeDefinitions, $_sCallerID );
-            
-            if ( empty( $_aCache ) ) {
+            if ( ! $this->hasBeenCalled( __METHOD__ . $_sCallerID ) ) {
+                
                 $_oBuiltInFieldTypeDefinitions = new AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions(
                     $_sCallerID,
                     $this->oMsg                 
                 );
                 self::$_aFieldTypeDefinitions[ $_sCallerID ] = $_oBuiltInFieldTypeDefinitions->get();
+                
             } 
-// @todo Invesitigate whether it is appropriate to apply filters per object instance basis.
+            
+            if ( 'admin_page_framework' === $_sCallerID ) {
+                $this->_setSiteWiderFieldTypeDefinitions();                
+            }
+            
+            // Set the class specific field type definitions.
+            // Instantiated custom field type classes will trigger their registration method with this callback.
             $this->aFieldTypeDefinitions = apply_filters(
-                'field_types_admin_page_framework',
-                self::$_aFieldTypeDefinitions[ $_sCallerID ]
+                "field_types_{$_sCallerID}", 
+                self::$_aFieldTypeDefinitions[ $_sCallerID ] + self::$_aFieldTypeDefinitions[ 'admin_page_framework' ]
             );
-
+                        
         }        
-       
+            /**
+             * Sets Side-wide field type definitions. 
+             * 
+             * @remark      This must be done only once per page load.
+             * @return      void
+             * @since       3.7.1
+             */
+            private function _setSiteWiderFieldTypeDefinitions() {
+                
+                // Using a unique caller slug to prevent multiple calls among different scripts. 
+                if ( $this->hasBeenCalled( '__filed_types_admin_page_Framework' ) ) {
+                    return;
+                }
+                
+                /**
+                 * Collects field type definitions without a class name.
+                 * The gathered site-wide definitions will be marged with each per-class definitions.
+                 */
+                self::$_aFieldTypeDefinitions[ 'admin_page_framework' ] = apply_filters(
+                    "field_types_admin_page_framework",  
+                    self::$_aFieldTypeDefinitions[ 'admin_page_framework' ]
+                );
+
+            }     
+            
         /**
          * @return      array
          */

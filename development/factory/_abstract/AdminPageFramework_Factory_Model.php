@@ -31,7 +31,8 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         parent::__construct( $oProp );
         
         add_filter(
-            'field_types_admin_page_framework',
+            // 'field_types_admin_page_framework',
+            'field_types_' . $oProp->sClassName,
             array( $this, '_replyToFilterFieldTypeDefinitions' )
         );
         
@@ -77,15 +78,27 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     
     /**
      * Filters field type definitions array.
-     * @callback    filter      field_types_admin_page_framework
+     * @callback    filter      field_types_{class name}
      * @since       3.7.0
+     * @since       3.7.1       Changed the callback from `field_types_admin_page_framework`.
      */
     public function _replyToFilterFieldTypeDefinitions( $aFieldTypeDefinitions ) {
-        return $this->oUtil->addAndApplyFilters( 
-            $this,
-            "field_types_{$this->oProp->sClassName}",
-            $aFieldTypeDefinitions
-        );                     
+        
+        // Not triggering `__call()` as the filter is fired manually in the form class.
+        if ( method_exists( $this, 'field_types_' . $this->oProp->sClassName ) ) {
+            return call_user_func_array(
+                array( $this, 'field_types_' . $this->oProp->sClassName ),
+                array( $aFieldTypeDefinitions )
+            );
+        }
+        return $aFieldTypeDefinitions;
+        
+        // @deprecated 3.7.1
+        // return $this->oUtil->addAndApplyFilters( 
+            // $this,
+            // "field_types_{$this->oProp->sClassName}",
+            // $aFieldTypeDefinitions
+        // );                     
     }
     
     /**
