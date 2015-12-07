@@ -188,7 +188,6 @@ class APF_Demo_BuiltinFieldTypes_Text_Text {
                         'disabled' => 'disabled',
                     ),
                 ),     
-                'delimiter'     => '<br />',
             ),    
             array( // Sortable + Repeatable text fields
                 'field_id'      => 'text_repeatable_and_sortable',
