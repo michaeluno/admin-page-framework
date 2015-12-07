@@ -28,10 +28,14 @@ class AdminPageFramework_Form_View___CSS_meta_box extends AdminPageFramework_For
     width: auto;
 }            
 
+/* Fix image width in Firefox */
+.postbox .admin-page-framework-field {
+    max-width: 100%;
+}
 /* Sortable fields do not look well if the width is fully expanded  */
 .postbox .sortable .admin-page-framework-field {
     /* In Firefox, in side meta boxes, the width needs to be smaller for image previews. */
-    /* width: 84%; @deprecated 3.7.1 */
+    max-width: 84%; 
     /* The above width: 84% looks inconsitent in the main meta box areas */
     width: auto;
 }
