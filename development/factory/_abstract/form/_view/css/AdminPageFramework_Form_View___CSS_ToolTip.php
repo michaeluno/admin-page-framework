@@ -107,7 +107,7 @@ a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-con
     padding: 14px 20px 14px;
     margin-top: -30px; 
     margin-left: 28px;
-    width: 400px; 
+    width: 320px; 
     line-height:16px;
     
     /* High z-index is required to appear over the left side bar menu */
@@ -122,7 +122,7 @@ a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-toolt
     background: #FFFFF4;
     
     /* Adjust the position of the tooltip here */
-    margin-left: -100px;
+    margin-left: -280px;
     margin-top: -72px;
 }
 
@@ -140,6 +140,9 @@ a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-toolt
 a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content {
     border-radius:4px;
     box-shadow: 5px 5px 8px #CCC;
+    -webkit-box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);    
 }
 
 CSSRULES;
