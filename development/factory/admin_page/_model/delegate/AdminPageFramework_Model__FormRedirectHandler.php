@@ -31,7 +31,7 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_W
         $this->oFactory         = $oFactory;        
         
         // wp_mail() will be loaded by the time 'after_setup_theme' is loaded.
-        // @deprecated      DEVVER
+        // @deprecated      3.7.0
         // add_action( 
             // "load_after_{$this->oFactory->oProp->sClassName}", 
             // array( $this, '_replyToCheckRedirects' ), 

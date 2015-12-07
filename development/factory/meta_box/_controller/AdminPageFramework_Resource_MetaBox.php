@@ -172,7 +172,7 @@ class AdminPageFramework_Resource_MetaBox extends AdminPageFramework_Resource_Ba
      * A helper function for the _replyToEnqueueScripts() and the _replyToEnqueueStyle() methods.
      * 
      * @since       2.1.5
-     * @since       DEVVER      Fixed a typo in the method name.
+     * @since       3.7.0      Fixed a typo in the method name.
      * @internal
      */
     protected function _enqueueSRCByCondition( $aEnqueueItem ) {

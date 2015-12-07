@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_View___Section extends AdminPageFramework_WPUtility {
     
@@ -28,7 +28,7 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_WPUtilit
     
     /**
      * Sets up properties.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( /* $aArguments, $aSectionset, $aStructure, $aFieldsetsPerSection, $aSavedData, $aFieldErrors, $aCallbacks=array(), $oMsg */ ) {
       
@@ -91,7 +91,7 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_WPUtilit
     }        
         /**
          * Returns the output of seciton contents.
-         * @sicne       DEVVER
+         * @sicne       3.7.0
          * @return      string
          */
         private function _getSectionContent( $_iSectionIndex ) {
@@ -119,7 +119,7 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_WPUtilit
              * If an array is set, it is considered a nested section.
              * 
              * @return      string
-             * @since       DEVVER
+             * @since       3.7.0
              */
             private function _getCustomSectionContent() {
                 
@@ -181,7 +181,7 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_WPUtilit
                 
             }        
                 /**
-                 * @since       DEVVER
+                 * @since       3.7.0
                  * @return      array
                  */
                 private function _getNestedSectionPaths( $sSubjectSectionPath, array $aNestedSctionsets, array $aSectionsets ) {

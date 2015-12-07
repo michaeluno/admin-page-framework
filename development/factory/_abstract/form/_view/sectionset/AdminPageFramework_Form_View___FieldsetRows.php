@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_WPUtility {
 
@@ -26,7 +26,7 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_WPU
     
     /**
      * Sets up properties.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( /* $aFieldsetsPerSection, $iSectionIndex, $aSavedData, $aFieldErrors, $aCallbacks=array(), $oMsg */ ) {
       
@@ -55,7 +55,7 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_WPU
      * The each row has an eclosing `<td>` tag.
      * 
      * @return      string
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function get( $bTableRow=true ) {
         
@@ -86,7 +86,7 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_WPU
         /**
          * Returns a fieldset output enclosed in a `tr` and `td` tag.
          * @return      string
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _getFieldsetRow( $aFieldset ) {
             

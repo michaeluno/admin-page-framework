@@ -149,7 +149,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_WPUti
      * A helper function for the _replyToEnqueueScripts() and the `_replyToEnqueueStyle()` methods.
      * 
      * @since       2.1.5
-     * @since       DEVVER      Fixed a typo in the method name.
+     * @since       3.7.0      Fixed a typo in the method name.
      * @internal
      * @remark      The widget fields type does not have conditions unlike the meta-box type that requires to check currently loaded post type.
      * @remark      This method should be redefined in the extended class.

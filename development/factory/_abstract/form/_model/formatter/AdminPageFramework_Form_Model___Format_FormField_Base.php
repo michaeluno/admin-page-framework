@@ -24,7 +24,7 @@ abstract class AdminPageFramework_Form_Model___Format_FormField_Base extends Adm
      * @since       3.5.3
      * @since       3.6.0       Moved from `AdminPageFramework_FormDefinition`.
      * @param       array       $aField     a field definition array.
-     * @deprecated  DEVVER      Seems not used at the moment
+     * @deprecated  3.7.0      Seems not used at the moment
      */
 // @todo Find a new way for nested sections    
     // protected function _isSectionSet( array $aField ) {

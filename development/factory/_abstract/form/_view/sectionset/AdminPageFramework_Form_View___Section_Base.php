@@ -12,13 +12,13 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER      
+ * @since       3.7.0      
  * @internal
  */
 class AdminPageFramework_Form_View___Section_Base extends AdminPageFramework_Form_Base {
      
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      boolean
      */
     public function isSectionsetVisible( $aSectionset ) {
@@ -32,7 +32,7 @@ class AdminPageFramework_Form_View___Section_Base extends AdminPageFramework_For
     }
 
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      boolean
      */    
     public function isFieldsetVisible( $aFieldset ) {

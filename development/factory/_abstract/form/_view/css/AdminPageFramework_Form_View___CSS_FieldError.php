@@ -10,7 +10,7 @@
 /**
  * Provides methods to return CSS rules for form outputs.
  *
- * @since       DEVVER
+ * @since       3.7.0
  * @package     AdminPageFramework
  * @subpackage  Form
  * @internal
@@ -18,7 +18,7 @@
 class AdminPageFramework_Form_View___CSS_FieldError extends AdminPageFramework_Form_View___CSS_Base {
     
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      string
      */
     protected function _get() {        
@@ -27,7 +27,7 @@ class AdminPageFramework_Form_View___CSS_FieldError extends AdminPageFramework_F
         /**
          * Returns CSS rules for field errors.
          * @since       3.2.1
-         * @since       DEVVER      Moved from `AdminPageFramework_CSS`.
+         * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @return      string
          */
         private function _getFieldErrorRules() {

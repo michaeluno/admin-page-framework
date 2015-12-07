@@ -107,7 +107,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * @remark      Do not call the parant method as it triggers the `option_{...}` filter hook.
      * This class will set the data right before rendering the form fields as there is no way to find the term id.
      * @return      array       The saved form data.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function _replyToGetSavedFormData() {
         return array();    
@@ -121,7 +121,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * @since       unknown
      * @since       3.0.0       The scope is changed to protected as the taxonomy field class redefines it.
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
-     * @since       DEVVER      No longer sets the value to `$this-oProp->aOptions` but to the form peoperty.
+     * @since       3.7.0      No longer sets the value to `$this-oProp->aOptions` but to the form peoperty.
      * @internal
      */
     protected function _setOptionArray( $iTermID=null, $sOptionKey ) {
@@ -209,7 +209,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
          * Verifies the form submit.
          * 
          * @since       3.3.3
-         * @since       DEVVER      Renamed from `_verifyFormSubmit()`.
+         * @since       3.7.0      Renamed from `_verifyFormSubmit()`.
          * @internal
          * @return      boolean     True if it is verified; otherwise, false.
          */        

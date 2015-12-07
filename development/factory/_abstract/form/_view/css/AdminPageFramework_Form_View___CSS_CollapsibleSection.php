@@ -10,7 +10,7 @@
 /**
  * Provides methods to return CSS rules for form outputs.
  *
- * @since       DEVVER
+ * @since       3.7.0
  * @package     AdminPageFramework
  * @subpackage  Form
  * @internal
@@ -18,7 +18,7 @@
 class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFramework_Form_View___CSS_Base {
     
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      string
      */
     protected function _get() {
@@ -29,7 +29,7 @@ class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFra
          * 
          * @since       3.4.0
          * @internal
-         * @since       DEVVER      Moved from `AdminPageFramework_CSS`.
+         * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @return      string
          */
         private function _getCollapsibleSectionsRules() {
@@ -140,7 +140,7 @@ tbody.admin-page-framework-collapsible-content.table-caption {
     background: none;   /* for Wordpress v3.7.x or below, the background image need to be removed as well */
 }
 
-/* DEVVER+ For the button type collapsible sections, do not set a white color in the background */
+/* 3.7.0+ For the button type collapsible sections, do not set a white color in the background */
 .accordion-section-content.admin-page-framework-collapsible-content-type-button {
     background-color: transparent;
 }

@@ -24,7 +24,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * Defines the property type.
      * @remark Setting the property type helps to check whether some components are loaded such as scripts that can be reused per a class type basis.
      * @since       3.0.0
-     * @since       DEVVER      Chaned the default value from `page`.
+     * @since       3.7.0      Chaned the default value from `page`.
      * @internal
      */
     public $_sPropertyType = 'admin_page';
@@ -33,7 +33,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * Defines the fields type.
      * 
      * @since       3.1.0
-     * @since       DEVVER      Chaned the default value from `page`. Renamed from `$sFieldsType`.
+     * @since       3.7.0      Chaned the default value from `page`. Renamed from `$sFieldsType`.
      */
     public $sStructureType = 'admin_page';
     
@@ -284,7 +284,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      */ 
     public function __construct( $oCaller, $sCallerPath, $sClassName, $aisOptionKey, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 
-        // DEVVER+ This must be set before the parent constructor. As the form arguments array uses this value.
+        // 3.7.0+ This must be set before the parent constructor. As the form arguments array uses this value.
         $this->_sFormRegistrationHook = 'load_after_' . $sClassName;
         
         parent::__construct( 
@@ -406,7 +406,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
     protected function _getOptions() {
         return $this->_getOptionsByType( $this->sOptionType );
         
-        // @deprecated  DEVVER      Moved the routine of apply filters to the factory model class.
+        // @deprecated  3.7.0      Moved the routine of apply filters to the factory model class.
         // return $this->addAndApplyFilter( 
             // $this->oCaller, // 3.4.1+ changed from $GLOBALS[ 'aAdminPageFramework' ][ 'aPageClasses' ][ $this->sClassName ], // the caller object
             // 'options_' . $this->sClassName, // options_{instantiated class name}

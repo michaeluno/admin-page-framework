@@ -189,7 +189,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * Calls the load() method of the caller factory object.
          * 
          * Ensures it is called once per a page load.
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _loadFrameworkFactory() {
                                        

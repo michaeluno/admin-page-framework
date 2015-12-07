@@ -13,7 +13,7 @@
  * @package     AdminPageFramework
  * @subpackage  Form
  * @since       3.6.0
- * @since       DEVVER      Renamed from `AdminPageFramework_FormPart_CollapsibleSectionTitle`.
+ * @since       3.7.0      Renamed from `AdminPageFramework_FormPart_CollapsibleSectionTitle`.
  * @internal
  */
 class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFramework_Form_View___SectionTitle {
@@ -25,7 +25,7 @@ class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFr
         'collapsible'       => array(),
         'container_type'    => 'section', // section or sections
         
-        'sectionset'        => array(),  // DEVVER+ sectionset definition array
+        'sectionset'        => array(),  // 3.7.0+ sectionset definition array
         
     );
     public $aFieldsets               = array();

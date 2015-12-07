@@ -77,7 +77,7 @@ abstract class AdminPageFramework_Form_View___Generate_Section_Base extends Admi
      * The first item will not have braces.
      * 
      * @return      string
-     * @since       DEVVER
+     * @since       3.7.0
      */
     protected function _getInputNameConstructed( $aParts ) {
         

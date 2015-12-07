@@ -12,7 +12,7 @@
  *
  * Listed methods are to modify array contents.
  * 
- * @since       DEVVER
+ * @since       3.7.0
  * @package     AdminPageFramework
  * @extends     AdminPageFramework_Utility_String
  * @subpackage  Utility
@@ -170,7 +170,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
             // @deprecated
             // return $aArray[ $_sKey ];   
             
-            // DEVVER+ When a too deep element that the subject array does not hold is searched,
+            // 3.7.0+ When a too deep element that the subject array does not hold is searched,
             // it returns the default value. It used to return the value of the most upper dimension.
             return $vDefault;
             

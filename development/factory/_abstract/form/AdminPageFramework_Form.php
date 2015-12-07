@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
         
@@ -206,7 +206,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
     
     /**
      * Sets up properties.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( /* array $aArguments, array $aCallbacks=array(), $oMsg */ ) {
         
@@ -231,14 +231,14 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
     /**
      * User constructor.
      * Extended classes override this method to do set ups.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function construct() {}
     
         /**
          * Formats the argument array.
          * @return      array       The formatted argument array.
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _getFormattedArguments( $aArguments ) {
             

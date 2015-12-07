@@ -12,7 +12,7 @@
  * 
  * @since       3.3.0
  * @since       3.5.3       Extends `AdminPageFramework_WPUtility`.
- * @since       DEVVER      Ranamed from `AdminPageFramework_Script_Base`.
+ * @since       3.7.0      Ranamed from `AdminPageFramework_Script_Base`.
  * @package     AdminPageFramework
  * @subpackage  JavaScript
  * @internal
@@ -61,14 +61,14 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
      *
      * @remark      This should be overridden in extended classes.
      * @since       3.3.0
-     * @since       DEVVER      Changed the visibility scope from protected.
+     * @since       3.7.0      Changed the visibility scope from protected.
      * @return      void
      */
     public  function construct() {}
     
     /**
      * @callback    wp_enqueue_script
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function load() {}
     

@@ -12,13 +12,13 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
 
     /**
      * Sets up hooks.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct() {
 
@@ -40,7 +40,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
     
     /**
      * Retrieves the submitted form data from $_POST.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array
      */
     public function getSubmittedData( array $aDataToParse, $bExtractFromFieldStructure=true, $bStripSlashes=true ) {
@@ -69,7 +69,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * the submitted form data.
      * 
      * @since       3.6.0
-     * @since       DEVVER      Moved from `AdminPageFramework_Factory_Model`.
+     * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`.
      * Renamed from `_getSortedInputs()`.
      * @return      array       The sorted input array.
      */
@@ -143,7 +143,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * </code>
      * @remark      Just the `_default` section elements get extracted to the upper dimension.
      * @since       3.0.0
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Base`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Base`.
      * Changed the name from `getFieldsModel()`.
      * @return      array
      */
@@ -181,7 +181,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * @since       3.0.0
      * @since       3.1.1       Made it not remove the repeatable elements if the user capability is insufficient.
      * @since       3.6.2       Changed the mechanism to detect repeatable elements.
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Base`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Base`.
      * @param       array       $aSubject       The subject array to modify. Usually the saved option data.
      * @return      array       The modified options array.
      */
@@ -198,7 +198,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         
     /**
      * @callback    action      'current_screen' by default but it depends on the factory class.
-     * @since       DEVVERs
+     * @since       3.7.0s
      */
     public function _replyToRegisterFormItems( /* $oScreen */ ) {
 
@@ -290,7 +290,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
          * Once they are set, it no longer needs to be done. For this reason, the scope must be static.
          * 
          * @since       3.1.3
-         * @since       DEVVER      Moved from `AdminPageFramework_Factory_Model`.
+         * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`.
          * @internal    
          */
         static private $_aFieldTypeDefinitions = array();
@@ -301,7 +301,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
          * @since       2.1.5
          * @since       3.5.0       Changed the visibility scope to protected as it is internal. 
          * Changed the name from `_loadDefaultFieldTypeDefinitions()` as it applies filters so custom field types also get registered here.
-         * @since       DEVVER      Moved from `AdminPageFramework_Factory_Model`. Changed the visibility scope to private.
+         * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`. Changed the visibility scope to private.
          * @internal
          */
         private function _setFieldTypeDefinitions() {
@@ -359,7 +359,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
              * @remark      This temporary data is not always set. This is only set when the form needs to show a confirmation message to the user such as for sending an email.
              * @since       3.3.0
              * @since       3.4.1       Moved from `AdminPageFramework_Property_Page`.
-             * @since       DEVVER      Moved from `AdminPageFramework_Property_Base`.
+             * @since       3.7.0      Moved from `AdminPageFramework_Property_Base`.
              * @internal
              * @return      array       The last user form inputs.
              */
@@ -381,7 +381,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * Analyses the registered form elements and retrieve the default values.
      * 
      * @since       3.0.0
-     * @since       DEVVER      Changed the name from `getDefaultOptions()`.
+     * @since       3.7.0      Changed the name from `getDefaultOptions()`.
      * Moved from `AdminPageFramework_Property_Page`.
      * @return      array       An array holding default values of form data.
      */
@@ -397,7 +397,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * 
      * This method is called right before the form gets rendered.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @param       array       $aSavedData
      * @param       boolean     $bOnlyFieldsets     Whether to format only the fieldsets. The taxonomy field factory uses this parameter.
      */
@@ -431,7 +431,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * 
      * @since       3.0.4    
      * @since       3.6.3       Changed the visibility scope to public as a delegation class needs to access this method.
-     * @since       DEVVER      Moved from `AdminPageFramework_Factory_Model`.
+     * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`.
      * Changed the name from `_getFieldErrors()`. 
      * @access      public      The field type class accesses this method to render nested fields.
      * @internal
@@ -450,8 +450,8 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * To get the set input, call `$this->oProp->aLastInput`.
      * 
      * @since       3.4.1
-     * @since       DEVVER      Changed the name from `_setLastInput()`.
-     * @since       DEVVER      Moved from `AdminPageFramework_Factory_Model`.
+     * @since       3.7.0      Changed the name from `_setLastInput()`.
+     * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`.
      * @return      boolean     True if set; otherwise, false.
      * @internal
      */

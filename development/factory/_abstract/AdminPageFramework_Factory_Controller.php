@@ -31,7 +31,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * This can be used to replace the framework system messages such as "Allowed maximum number of fields is ...".
      * 
      * @return      void
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function setMessage( $sKey, $sMessage ) {
         $this->oMsg->set( $sKey, $sMessage );
@@ -41,7 +41,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * Returns the registered system message item(s).
      * 
      * @return      array|string
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function getMessage( $sKey='' ) {
         return $this->oMsg->get( $sKey );
@@ -237,7 +237,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *              <li>**toggle_all_button** - (optional, boolean|string|array) the position of where to display the toggle-all button that toggles the folding state of all collapsible sections. Accepts the following values. 'top-right', 'top-left', 'bottom-right', 'bottom-left'. If true is passed, the default 'top-right' will be used. To not to display, do not set any or pass `false` or `null`.</li>
      *              <li>**collapse_others_on_expand** - (optional, boolean) whether the other collapsible sections should be folded when the section is unfolded. If the below `container` argument is set to `section`, this argument value does not take effect.</li>
      *              <li>**container** - (optional, string) the container element that collapsible styling gets applied to. Either 'sections' or 'section' is accepted. Use 'section' for repeatable sections.</li>
-     *              <li>**type** - [DEVVER+] (optional, string) either `box` or `button`. Default: `box`. The `button` type only is supported when the `container` argument is set to `section`.</li>
+     *              <li>**type** - [3.7.0+] (optional, string) either `box` or `button`. Default: `box`. The `button` type only is supported when the `container` argument is set to `section`.</li>
      *          </ul>
      * `
      * $this->addSettingSections(
@@ -255,7 +255,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *      </li>
      *      <li>**sortable** - (optional, boolean) [3.6.0+] whether the section is sortable or not. In order for this option to be effective, the `repeatable` argument must be enabled.</li>
      *      <li>**content** - (optional, string) [3.6.1+] a custom section output.</li>
-     *      <li>**tip** - (optional, string) [DEVVER+] a tool tip which pops up when the user hovers their mouse over the ? mark icon beside the title..</li>
+     *      <li>**tip** - (optional, string) [3.7.0+] a tool tip which pops up when the user hovers their mouse over the ? mark icon beside the title..</li>
      * </ul>
      * @return      void
      */
@@ -644,7 +644,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      */
     public function hasFieldError() {
         return $this->oForm->hasFieldError();
-        // @deprecated  DEVVER
+        // @deprecated  3.7.0
         // return isset( $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ][ md5( $this->oProp->sClassName ) ] );
     }
     

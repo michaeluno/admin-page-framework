@@ -13,7 +13,7 @@
  * @package     AdminPageFramework
  * @subpackage  Form
  * @since       3.6.0
- * @since       DEVVER      Changed the name from `AdminPageFramework_FormPart_SectionTitle`.
+ * @since       3.7.0      Changed the name from `AdminPageFramework_FormPart_SectionTitle`.
  * @internal
  */
 class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_Form_View___Section_Base {            
@@ -38,7 +38,7 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
     /**
      * Sets up properties.
      * @since       3.6.0
-     * @since       DEVVER      Changed the parameter structure.
+     * @since       3.7.0      Changed the parameter structure.
      */
     public function __construct( /* $aArguments, $aFieldsets, $aSavedData, $aFieldErrors, $aFieldTypeDefinitions, $oMsg, $aCallbacks */ ) {
 
@@ -99,7 +99,7 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
          * @since       3.4.0       Moved from `AdminPageFramework_FormPart_Table`.
          * @since       3.6.0       Added the `$iSectionIndex` and `$aFieldTypeDefinitions` parameters.
          * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Base`. Changed the name from `_getSectionTitle()`. 
-         * @since       DEVVER      Moved from `AdminPageFramework_FormPart_SectionTitle`.
+         * @since       3.7.0      Moved from `AdminPageFramework_FormPart_SectionTitle`.
          * @return      string      The section title output. 
          */
         protected function _getSectionTitle( $sTitle, $sTag, $aFieldsets, $iSectionIndex=null, $aFieldTypeDefinitions=array(), $aCollapsible=array() ) {
@@ -116,7 +116,7 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
         }    
             /**
              * Returns a collapse button for the 'button' collapsible type.
-             * @since       DEVVER
+             * @since       3.7.0
              * @return      string
              */
             private function _getCollapseButton( $aCollapsible ) {
@@ -135,7 +135,7 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
              * @since       3.0.0
              * @since       3.4.0       Moved from `AdminPageFramework_FormPart_Table`.
              * @since       3.6.0       Added the `$iSectionIndex` parameter. Added the `$aFieldTypeDefinitions` parameter.
-             * @since       DEVVER      Moved from `AdminPageFramework_FormPart_SectionTitle`.
+             * @since       3.7.0      Moved from `AdminPageFramework_FormPart_SectionTitle`.
              */
             private function _getSectionTitleField( array $aFieldsetsets, $iSectionIndex, $aFieldTypeDefinitions ) {   
             

@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_WPUtility {
   
@@ -74,7 +74,7 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_W
          * 
          * @since       3.4.0
          * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Caption`. Added the `$aFieldErrors` and `$oMsg` parameters.
-         * @since       DEVVER      Moved from `AdminPageFramework_FormPart_TableCaptions`.
+         * @since       3.7.0      Moved from `AdminPageFramework_FormPart_TableCaptions`.
          * @return      string
          */
         private function _getCaption( array $aSectionset, $iSectionIndex, $aFieldsets, $aFieldErrors, $aFieldTypeDefinitions, $aCallbacks, $oMsg ) {
@@ -102,7 +102,7 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_W
                     'collapsible'       => $_abCollapsible,
                     'container_type'    => 'section', // section or sections                    
                     
-                    'sectionset'        => $aSectionset,    // DEVVER+ for tooltip
+                    'sectionset'        => $aSectionset,    // 3.7.0+ for tooltip
                 ),
                 $aFieldsets,            
                 $this->aSavedData,   
@@ -142,7 +142,7 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_W
              * 
              * @since       3.4.0
              * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Caption`. Added the `$aFieldErrors` parameter. 
-             * @since       DEVVER      Moved from `AdminPageFramework_FormPart_TableCaptions`.
+             * @since       3.7.0      Moved from `AdminPageFramework_FormPart_TableCaptions`.
              * @return      string
              */
             private function _getSectionError( $aSectionset, $aFieldErrors ) {
@@ -163,7 +163,7 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_W
              * 
              * @since       3.4.0
              * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Caption`.
-             * @since       DEVVER      Moved from `AdminPageFramework_FormPart_TableCaptions`. 
+             * @since       3.7.0      Moved from `AdminPageFramework_FormPart_TableCaptions`. 
              * Removed the `$hfFieldCallback` parameter.
              * @return      string
              */
@@ -174,7 +174,7 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_W
                         'tag'           => 'h3',
                         'section_index' => $iSectionIndex,
                         
-                        'sectionset'    => $aSectionset,    // DEVVER+ for tooltip
+                        'sectionset'    => $aSectionset,    // 3.7.0+ for tooltip
                     ),
                     $aFieldsets,            
                     $this->aSavedData,   
@@ -200,7 +200,7 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_W
              * Returns the section description for the section table caption block.
              * @since       3.4.0
              * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Caption`.
-             * @since       DEVVER      Moved from `AdminPageFramework_FormPart_TableCaptions`.
+             * @since       3.7.0      Moved from `AdminPageFramework_FormPart_TableCaptions`.
              * @return      string
              */
             private function _getCaptionDescription( $aSectionset, $hfSectionCallback ) {
@@ -235,7 +235,7 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_W
              * 
              * @since   3.4.0
              * @since   3.6.0       Moved from `AdminPageFramework_FormTable_Caption`.
-             * @since   DEVVER      Moved from `AdminPageFramework_FormPart_TableCaptions`.
+             * @since   3.7.0      Moved from `AdminPageFramework_FormPart_TableCaptions`.
              * @return  boolean
              */
             private function _shouldShowCaptionTitle( $aSectionset, $iSectionIndex ) {

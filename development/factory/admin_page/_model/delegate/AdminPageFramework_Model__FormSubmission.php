@@ -32,7 +32,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
         $this->oFactory         = $oFactory;        
                 
         // add_action
-        // @deprecated      DEVVER
+        // @deprecated      3.7.0
         // add_action( 
             // "load_after_{$this->oFactory->oProp->sClassName}", 
             // array( $this, '_replyToProcessFormData' ), 
@@ -52,7 +52,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
      * @since       3.1.0
      * @since       3.1.5       Moved from `AdminPageFramework_Setting_Form`.
      * @since       3.6.3       Moved from `AdminPageFramework_Validation`. Changed the name from `_handleSubmittedData()`.
-     * @since       DEVVER      Changed the name from `_replyToProcessFormData()`.
+     * @since       3.7.0      Changed the name from `_replyToProcessFormData()`.
      * @remark      This method is triggered after form elements are registered when the page is abut to be loaded with the `load_after_{instantiated class name}` hook.
      * @remark      The $_POST array will look like the below.
      *  <code>array(

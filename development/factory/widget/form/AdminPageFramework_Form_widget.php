@@ -14,7 +14,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER      
+ * @since       3.7.0      
  * @extends     AdminPageFramework_Form
  * @internal
  */
@@ -24,7 +24,7 @@ class AdminPageFramework_Form_widget extends AdminPageFramework_Form {
     
     /**
      * Does set-ups.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      void
      */
     public function construct() {        
@@ -33,7 +33,7 @@ class AdminPageFramework_Form_widget extends AdminPageFramework_Form {
 
         /**
          * @return      void
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _addDefaultResources() {
             $_oCSS = new AdminPageFramework_Form_View___CSS_widget;

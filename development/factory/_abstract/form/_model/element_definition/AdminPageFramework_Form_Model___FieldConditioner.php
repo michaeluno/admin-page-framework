@@ -15,7 +15,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_Model___FieldConditioner extends AdminPageFramework_Form_Model___SectionConditioner {
     
@@ -24,7 +24,7 @@ class AdminPageFramework_Form_Model___FieldConditioner extends AdminPageFramewor
 
     /**
      * Sets up properties.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( /* $aSectionsets, $aFieldsets */ ) {
         
@@ -38,7 +38,7 @@ class AdminPageFramework_Form_Model___FieldConditioner extends AdminPageFramewor
     }
 
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array       The conditioned fieldsets array.
      */
     public function get() {
@@ -53,7 +53,7 @@ class AdminPageFramework_Form_Model___FieldConditioner extends AdminPageFramewor
          * @remark      Assumes sections are conditioned already.
          * @since       3.0.0
          * @since       3.5.3       Added type hints to the parameters and removed default values.
-         * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition`. Changed the name from `getConditionedFields()`.
+         * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition`. Changed the name from `getConditionedFields()`.
          * @return      array       The conditioned fieldsets array.
          */
         private function _getFieldsConditioned( array $aFields, array $aSections ) {
@@ -85,7 +85,7 @@ class AdminPageFramework_Form_Model___FieldConditioner extends AdminPageFramewor
              * Updates the given array of conditioned fields.
              * 
              * @since       3.5.3
-             * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition`.
+             * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition`.
              * @internal
              * @return      void
              */

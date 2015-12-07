@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Utility {
     
@@ -47,7 +47,7 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      * 2. Parse stored fields and check their ID. If one matches, return false.
      * 
      * @since       3.0.0
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Base`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Base`.
      */
     public function isSection( $sID ) {
 // @todo Find a way for nested sections.        
@@ -90,7 +90,7 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      * 
      * To allow guests to view the form set an empty value to it.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      boolean
      */
     public function canUserView( $sCapability ) {
@@ -104,7 +104,7 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      * Decides whether the form elements should be registered or not.
      * 
      * @access      public      A delegation class accesses this method so it must be public.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      boolean
      */
     public function isInThePage() {
@@ -136,7 +136,7 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      * Calls back a user defined function
      * 
      * @remark      Set a default return value to the first element of the parameter array.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function callBack( $oCallable, $asParameters ) {
         $_aParameters   = self::getAsArray( 
@@ -156,7 +156,7 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      * So shorten it here.
      * 
      * @remark      Called when the object is called as a string.
-     * @since       DEVVER
+     * @since       3.7.0
      */   
     public function __toString() {
         return $this->getObjectInfo( $this );        

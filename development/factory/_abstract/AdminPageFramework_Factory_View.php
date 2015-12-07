@@ -125,7 +125,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
             
     /**
      * Determines whether the passed field should be visible or not.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      boolean
      */
     public function _replyToDetermineSectionsetVisibility( $bVisible, $aSectionset ) {
@@ -133,14 +133,14 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
     }    
     /**
      * Determines whether the passed field should be visible or not.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      boolean
      */
     public function _replyToDetermineFieldsetVisibility( $bVisible, $aFieldset ) {
         return $this->_isElementVisible( $aFieldset, $bVisible );        
     }     
         /**
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      boolean
          */
         private function _isElementVisible( $aElementDefinition, $bDefault ) {
@@ -183,7 +183,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
      * @remark      An alternative to `_renderSectionDescription()`.
      * @since       3.0.0
      * @since       3.3.1       Moved from `AdminPageFramework_Setting_Base`.
-     * @since       DEVVER      Moved from extended factory classes.
+     * @since       3.7.0      Moved from extended factory classes.
      * @callback    form        `section_head_output`
      * @internal
      */
@@ -203,7 +203,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
      * 
      * @remark      This method will be called multiple times in a single page load depending on how many fields have been registered.
      * @since       3.0.0
-     * @since       DEVVER      Changed the pamater strcucture. The first parametr no longer receives a fieldset definition array but the generated output string.
+     * @since       3.7.0      Changed the pamater strcucture. The first parametr no longer receives a fieldset definition array but the generated output string.
      * @callback    form        `fieldset_output`
      * @internal
      */

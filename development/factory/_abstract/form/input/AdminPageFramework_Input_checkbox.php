@@ -100,7 +100,7 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
             
     }
         /**
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      string|null        If checked, `checked`; otherwize, `null`
          */
         private function _getCheckedAttributeValue( $_sKey ) {

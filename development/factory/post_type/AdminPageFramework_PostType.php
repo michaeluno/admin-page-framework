@@ -122,7 +122,7 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
         /**
          * Attempts to find the caller script path.
          * @remark      This is important to do it here when separating the library into multiple files.
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      string|null
          */
         private function _getCallerScriptPath( $sCallerPath ) {

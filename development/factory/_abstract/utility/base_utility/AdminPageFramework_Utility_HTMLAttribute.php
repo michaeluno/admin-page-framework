@@ -10,7 +10,7 @@
 /**
  * Provides utility methods which do not use WordPress functions.
  *
- * @since       DEVVER
+ * @since       3.7.0
  * @subpackage  Utility
  * @internal
  */

@@ -10,7 +10,7 @@
 /**
  * Provides methods to return CSS rules for form outputs.
  *
- * @since       DEVVER
+ * @since       3.7.0
  * @package     AdminPageFramework
  * @subpackage  Form
  * @internal
@@ -26,7 +26,7 @@ class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_WPUtili
      * Adds css rules in a property. When the `get()` method is performed, 
      * the added ones will be returned togethere.
      * @return  void
-     * @since   DEVVER
+     * @since   3.7.0
      */
     public function add( $sCSSRules ) {
         $this->aAdded[] = $sCSSRules;
@@ -34,7 +34,7 @@ class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_WPUtili
     
     /**
      * @return      string
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function get() {
         
@@ -49,7 +49,7 @@ class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_WPUtili
     
         /**
          * @remark      Override this method in an extended class.
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      string
          */
         protected function _get() {
@@ -57,7 +57,7 @@ class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_WPUtili
         }
         /**
          * @remark      Override this method in an extended class.
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      string
          */
         protected function _getVersionSpecific() {

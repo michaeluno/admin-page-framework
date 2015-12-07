@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFramework_WPUtility {
 
@@ -23,7 +23,7 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
     
     /**
      * Sets up properties.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( /* $aErrors, $sSectionPath, $sFieldPath */ ) {
       
@@ -44,7 +44,7 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
      * Returns the output of an error of the field if exists.
      * 
      * @return      string
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function get() {
         return $this->_getFieldError(
@@ -73,7 +73,7 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
          * Returns the set field error message to the section or field.
          * 
          * @since       3.1.0
-         * @since       DEVVER      Moved from `AdminPageFramework_Form_View___Fieldset`.
+         * @since       3.7.0      Moved from `AdminPageFramework_Form_View___Fieldset`.
          * @return      string      The error string message. An empty value if not found.
          */
         private function _getFieldError( $aErrors, $aSectionPath, $aFieldPath, $sHeadingMessage ) {
@@ -93,7 +93,7 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
              * Checks whether the given field has a field error.
              * @internal
              * @since       3.5.3
-             * @since       DEVVER      Changed the 2nd parameter to accept an array of field address.
+             * @since       3.7.0      Changed the 2nd parameter to accept an array of field address.
              * @return      boolean
              */
             private function _hasFieldError( $aErrors, array $aFieldAddress ) {

@@ -14,7 +14,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework_Form_Base {
     
@@ -37,7 +37,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
     
     /**
      * Sets up hooks.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( /* array $aFieldsets, array $aSectionsets $sStructureType, $aSavedData, $sCapability, $aCallbacks, $oCallerForm */ ) {
         
@@ -61,7 +61,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
     }
 
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array       The conditioned fieldsets array.
      */
     public function get() {
@@ -78,7 +78,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
     }
         /**
          * Adds repeatable section items to the given form data array.
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      array
          */
         private function _getDynamicElementsAddedToFieldsets() {
@@ -95,7 +95,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
          * 
          * @since       3.0.0
          * @since       3.1.1       Added a parameter. Changed to return the formatted sections array.
-         * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition`. Changed the name from `formatFields()`.
+         * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition`. Changed the name from `formatFields()`.
          * Added the `$aSectionsets` parameter.
          * @retuen      array
          */
@@ -136,7 +136,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
                         
         }
             /**
-             * @since       DEVVER  
+             * @since       3.7.0  
              * @return      array   
              */
             private function _getItemsFormatteed( $sSectionPath, $aItems, $sCapability, $aSectionsets ) {
@@ -245,7 +245,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
              * Assumes the sections are formatted already.
              * 
              * @since       3.5.3
-             * @since       DEVVER          Moved from `AdminPageFramework_FormDefinition`.
+             * @since       3.7.0          Moved from `AdminPageFramework_FormDefinition`.
              * @return      void
              * @internal
              */
@@ -270,7 +270,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
              * Returns the formatted fieldset array.
              * 
              * @since       3.0.0
-             * @since       DEVVER          Moved from `AdminPageFramework_FormDefinition`. Changed the name from `formatField()`.
+             * @since       3.7.0          Moved from `AdminPageFramework_FormDefinition`. Changed the name from `formatField()`.
              * @return      array|void      An array of formatted field definition array. If required keys are not set, nothing will be returned. 
              */
             private function _getFieldsetFormatted( $aFieldset, $aSectionsets, $sCapability, $iCountOfElements, $iSubSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {

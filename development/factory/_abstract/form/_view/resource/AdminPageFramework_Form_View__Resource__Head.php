@@ -15,7 +15,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_WPUtility {
     
@@ -25,7 +25,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_WP
     public $oForm;
  
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @param       object      $oForm
      * @param       string      $sHeadActionHook        The action hook triggered inside the `<head>` tag. For front-end forms, use `wp_head`.
      */
@@ -43,7 +43,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_WP
 
     /**
      * Inserts JavaScript scripts whihc must be inserted head.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      string
      */
     public function _replyToInsertRequiredInlineScripts() {
@@ -70,7 +70,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_WP
     }
         
         /**
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      string
          */
         private function _getScripts_RequiredInHead() {
@@ -84,7 +84,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_WP
         }
             /**
              * @return      string
-             * @since       DEVVER
+             * @since       3.7.0
              */
             private function _getInlineCSS() {
                 $_oLoadingCSS = new AdminPageFramework_Form_View___CSS_Loading;
@@ -95,7 +95,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_WP
                  * Hides the form initially to prevent unformatted layouts being displayed during document load. 
                  * @remark      Use visibility to reserve the element area in the screen.
                  * @return      string
-                 * @since       DEVVER
+                 * @since       3.7.0
                  */
                 private function _getScriptElementConcealerCSSRules() {                    
                     

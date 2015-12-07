@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramework_Form_Base {
     
@@ -32,7 +32,7 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
     
     /**
      * Sets up hooks.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( /* array $aSectionsets, $sStructureType, $sCapability, $aCallbacks, $oCallerForm */ ) {
         
@@ -52,7 +52,7 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
     }
 
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array       The conditioned fieldsets array.
      */
     public function get() {
@@ -76,7 +76,7 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
          * 
          * @since       3.0.0
          * @since       3.1.1    Added a parameter. Changed to return the formatted sections array.
-         * @since       DEVVER   Moved from `AdminPageFramework_FormDefinition`. Changed the name from `formatSections()`.
+         * @since       3.7.0   Moved from `AdminPageFramework_FormDefinition`. Changed the name from `formatSections()`.
          * @return      array    the formatted sections array.
          */
         private function _getSectionsetsFormatted( $_aNewSectionsets, $aSectionsetsToParse, $aSectionPath, $sCapability ) {
@@ -109,7 +109,7 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
                 
                 $_aNewSectionsets[ $_sSectionPath ] = $_aSectionset;
                 
-                // DEVVER+ For nested sections         
+                // 3.7.0+ For nested sections         
                 $_aNewSectionsets = $this->_getNestedSections( 
                     $_aNewSectionsets,  // sectionset array to modify
                     $_aSectionset, 
@@ -144,7 +144,7 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
                 /**
                  * Checks if a given sectionset definition has nested sections.
                  * @return      boolean
-                 * @sinec       DEVVER
+                 * @sinec       3.7.0
                  */
                 private function _hasNestedSections( $aSectionset ) {
                     

@@ -22,7 +22,7 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
      * 
      * @since       3.4.0
      * @since       3.5.0       Made the scope `protected` from `public` to be consistent with other classes.
-     * @since       DEVVER      Changed the scoper from `protected`.
+     * @since       3.7.0      Changed the scoper from `protected`.
      * @return      void
      */
     public function construct() {
@@ -54,7 +54,7 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
 
     /**
      * Gets triggered when a widget of the framework is saved.
-     * @since    DEVVER
+     * @since    3.7.0
      */
     jQuery( document ).bind( 'admin_page_framework_saved_widget', function( event, oWidget ){
         jQuery( oWidget ).initializeAdminPageFrameworkCollapsibleSections();

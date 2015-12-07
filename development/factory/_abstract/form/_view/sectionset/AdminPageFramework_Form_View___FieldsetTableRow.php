@@ -13,7 +13,7 @@
  * @package     AdminPageFramework
  * @subpackage  Form
  * @since       3.6.0 
- * @since       DEVVER      Moved from `AdminPageFramework_FormPart_TableRow`.
+ * @since       3.7.0      Moved from `AdminPageFramework_FormPart_TableRow`.
  * @internal
  */
 class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework_Form_View___Section_Base {
@@ -53,7 +53,7 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
      * 
      * @since       3.0.0
      * @since       3.6.0       Moved from `AdminPageFramework_FormTable_Row`. Changed the name from `_getFieldRow()`.
-     * @since       DEVVER      Moved from `AdminPageFramework_FormPart_TableRow`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormPart_TableRow`.
      * Changed the name from `_getRow()`.
      * @return      string      The output of a field set row.
      */
@@ -103,7 +103,7 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
          * 
          * @since       3.4.0
          * @since       3.6.0       Removed the `$aFieldFinal` parameter. Changed the first parameter name from `$aField`.
-         * @since       DEVVER      Moved from `AdminPageFramework_FormPart_TableRow`.
+         * @since       3.7.0      Moved from `AdminPageFramework_FormPart_TableRow`.
          * @param       array       $aFieldset         The passed intact field definition array. The field rendering class needs non-finalized field array to construct the field array. 
          */
         protected function _getFieldByContainer( array $aFieldset, array $aOpenCloseTags ) {
@@ -138,7 +138,7 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
              * 
              * @internal
              * @since       3.0.0
-             * @since       DEVVER      Moved from `AdminPageFramework_FormPart_TableRow`.
+             * @since       3.7.0      Moved from `AdminPageFramework_FormPart_TableRow`.
              * @return      string
              */
             private function _getFieldTitle( array $aField ) {
@@ -168,7 +168,7 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
             }
                 /**
                  * @return      string
-                 * @since       DEVVER
+                 * @since       3.7.0
                  */
                 private function _getToolTip( $asTip, $sElementID ) {
                     $_oToolTip           = new AdminPageFramework_Form_View___ToolTip(
@@ -179,7 +179,7 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
                 }
                 
                 /**
-                 * @since       DEVVER
+                 * @since       3.7.0
                  * @return      string
                  */
                 private function _getTitleColon( $aField ) {

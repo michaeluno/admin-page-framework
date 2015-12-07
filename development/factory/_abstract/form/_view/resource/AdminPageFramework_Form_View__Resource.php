@@ -14,7 +14,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtility {
     
@@ -25,7 +25,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
     
     /**
      * Sets up hooks.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( $oForm ) {
 
@@ -41,7 +41,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
     }
     
         /**
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _setHooks() {
             
@@ -102,7 +102,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
     /**
      * Enqueues page script resources.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function _replyToEnqueueScripts() {
         if ( ! $this->oForm->isInThePage() ) {
@@ -114,12 +114,12 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
     }
         /**
          * Stores flags of enqueued items.
-         * @since       DEVVER
+         * @since       3.7.0
          */
         static private $_aEnqueued = array();    
         /**
          * @return      void
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _enqueueScript( $asEnqueue ) {
                 
@@ -151,7 +151,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
         }            
             /**
              * @return      array
-             * @since       DEVVER
+             * @since       3.7.0
              */
             private function _getFormattedEnqueueScript( $asEnqueue ) {
                 static $_iCallCount = 1;
@@ -175,7 +175,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
     /**
      * Enqueues page stylesheet resources.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      */    
     public function _replyToEnqueueStyles() {
 
@@ -220,7 +220,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
     /**
      * Enqueues inline styles.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      */    
     public function _replyToAddStyle() {
         
@@ -252,7 +252,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
         
     }
         /**
-         * @since       DEVVER
+         * @since       3.7.0
          * @string
          */
         private function _getFormattedInlineStyles( array $aInlineStyles ) {
@@ -265,7 +265,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_WPUtilit
     /**
      * Enqueues page inline scripts.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      */    
     public function _replyToAddScript() {
         

@@ -15,14 +15,14 @@
  * @extends     AdminPageFramework_PageMetaBox
  * @package     AdminPageFramework
  * @subpackage  PageMetaBox
- * @deprecated  DEVVER
+ * @deprecated  3.7.0
  */
 abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_PageMetaBox {
     
     /**
      * Registers necessary hooks and internal properties.
      * @since       3.0.0
-     * @deprecated  DEVVER      Use     `AdminPageFramework_PageMetaBox` instead.
+     * @deprecated  3.7.0      Use     `AdminPageFramework_PageMetaBox` instead.
      */
     function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
     

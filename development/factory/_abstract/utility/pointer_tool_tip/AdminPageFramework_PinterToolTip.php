@@ -31,7 +31,7 @@
  *  
  * `
  * 
- * @since       DEVVER
+ * @since       3.7.0
  * @package     AdminPageFramework
  * @subpackage  Utility
  * @extends     AdminPageFramework_WPUtility
@@ -64,7 +64,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
     /**
      * Sets up hooks and properties.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @see         https://codex.wordpress.org/Plugin_API/Admin_Screen_Reference
      * @param       array|strin     $asScreenIDs        Screen IDs or page slug.
      * @param       string          $sPointerID         A unique pointer ID.
@@ -87,7 +87,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
     }   
         /**
          * Sets up hooks.
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _setHooks( $aScreenIDs ) {
             
@@ -139,7 +139,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
      * Checks the screen id and page slug and add items if they match the current screen
      * 
      * @callback    action      admin_enqueue_scripts
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      void
      */
     public function _replyToLoadPointers( /* $hook_suffix */ ) {
@@ -157,7 +157,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
     }
         /**
          * Get pointers for this screen.
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      array
          */
         private function _getPointers() {
@@ -177,7 +177,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
     
         /**
          * @return      array
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _getValidPointers( $_aPointers ) {
         
@@ -219,7 +219,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
             
             /**
              * @return      boolean
-             * @since       DEVVER
+             * @since       3.7.0
              */
             private function _shouldSkip( $_iPointerID, $_aDismissed, $_aPointer ) {
                 
@@ -277,7 +277,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_WPUtility {
         /**
          * Returns an inline JavaScript script.
          * 
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      string     
          */
         public function _getInlineScript( $aPointers=array() ) {

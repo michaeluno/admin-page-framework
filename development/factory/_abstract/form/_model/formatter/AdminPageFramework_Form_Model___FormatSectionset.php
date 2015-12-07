@@ -59,20 +59,20 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
         
         'content'           => null,     // 3.6.1+  (string) An overriding section-set output.
         
-        'tip'               => null,     // DEVVER  (string) Tool tip HTML strings. 
+        'tip'               => null,     // 3.7.0  (string) Tool tip HTML strings. 
         
         // Internal
-        '_fields_type'      => null,     // @deprecated DEVVER+ Use the `_structure_type` instead. 3.0.0+ - same as the one of the field definition array. Used to insert debug info at the bottom of sections.        
-        '_structure_type'   => null,     // DEVVER+
+        '_fields_type'      => null,     // @deprecated 3.7.0+ Use the `_structure_type` instead. 3.0.0+ - same as the one of the field definition array. Used to insert debug info at the bottom of sections.        
+        '_structure_type'   => null,     // 3.7.0+
         '_is_first_index'   => false,    // 3.4.0+ (boolean) indicates whether it is the first item of the sub-sections (for repeatable sections).
         '_is_last_index'    => false,    // 3.4.0+ (boolean) indicates whether it is the last item of the sub-sections (for repeatable sections).
         
-        '_section_path'         => '',       // DEVVER+ (string) e.g. my_section|nested_section       
-        '_section_path_array'   => '',       // DEVVER+ (array) an array version of the above section_path argument. Numerically indexed.
-        '_nested_depth'         => 0,        // DEVVER+ (integer) the nested level of the section
+        '_section_path'         => '',       // 3.7.0+ (string) e.g. my_section|nested_section       
+        '_section_path_array'   => '',       // 3.7.0+ (array) an array version of the above section_path argument. Numerically indexed.
+        '_nested_depth'         => 0,        // 3.7.0+ (integer) the nested level of the section
         
         // 3.6.0+ - (object) the caller framework factory object. This allows the framework to access the factory property when rendering the section.
-        // DEVVER+  It no longer stores a factory object but a form object.
+        // 3.7.0+  It no longer stores a factory object but a form object.
         '_caller_object'    => null,     
     );        
     
@@ -124,11 +124,11 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
         $_aSectionPath = explode( '|', $this->sSectionPath );
         $_aSectionset  = $this->uniteArrays(
             array( 
-                '_fields_type'          => $this->sStructureType,   // @deprecated  DEVVER+
-                '_structure_type'       => $this->sStructureType,   // DEVVER+
-                '_section_path'         => $this->sSectionPath,     // DEVVER+
+                '_fields_type'          => $this->sStructureType,   // @deprecated  3.7.0+
+                '_structure_type'       => $this->sStructureType,   // 3.7.0+
+                '_section_path'         => $this->sSectionPath,     // 3.7.0+
                 '_section_path_array'   => $_aSectionPath,
-                '_nested_depth'         => count( $_aSectionPath ) - 1,    // DEVVER+ - zero base
+                '_nested_depth'         => count( $_aSectionPath ) - 1,    // 3.7.0+ - zero base
             ) 
             + $this->aSectionset
             + array(

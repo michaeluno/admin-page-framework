@@ -12,13 +12,13 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
    
     /**
      * Sets a given field errors.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      void
      */
     public function setFieldErrors( $aErrors ) {
@@ -28,7 +28,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
     /**
      * Checks whether a field error exists.
      * @return      boolean
-     * @since       DEVVERs
+     * @since       3.7.0s
      */
     public function hasFieldError() {
         return $this->oFieldError->hasError();
@@ -40,7 +40,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
      * This is used in the internal validation callback method to decide whether the system error or update notice should be added or not.
      * If this method yields true, the framework discards the system message and displays the user set notification message.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @param       string      $sType If empty, the method will check if a message exists in all types. Otherwise, it checks the existence of a message of the specified type.
      * @return      boolean     True if a setting notice is set; otherwise, false.
      */
@@ -62,7 +62,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
      *       return $aOldPageOptions;
      * }
      * `
-     * @since        DEVVER
+     * @since        3.7.0
      * @access       public
      * @param        string      $sMessage       the text message to be displayed.
      * @param        string      $sType          (optional) the type of the message, either "error" or "updated"  is used.
@@ -83,7 +83,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
      * Adds the given section definition array to the form property.
      * 
      * @since       3.0.0
-     * @since       DEVVER       Moved from `AminPageFramework_FormDefinition`.
+     * @since       3.7.0       Moved from `AminPageFramework_FormDefinition`.
      * @return      void
      */
     public function addSection( array $aSectionset ) {
@@ -108,7 +108,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
      * Removes a section definition array from the property by the given section ID.
      * 
      * @since       3.0.0
-     * @since       DEVVER       Moved from `AminPageFramework_FormDefinition`.
+     * @since       3.7.0       Moved from `AminPageFramework_FormDefinition`.
      */
     public function removeSection( $sSectionID ) {
         
@@ -124,7 +124,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
     
     /**
      * Returns the added resource items.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array
      */
     public function getResources( $sKey ) {
@@ -138,7 +138,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
         return self::$_aResources[ $sKey ] = $mValue;
     }
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      void
      */
     public function addResource( $sKey, $sValue ) {
@@ -149,8 +149,8 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
      * Stores the target page slug which will be applied when no page slug is specified.
      * 
      * @since       3.0.0
-     * @since       DEVVER      Accepts an array.
-     * @since       DEVVER      Moved from `AminPageFramework_FormDefinition`.
+     * @since       3.7.0      Accepts an array.
+     * @since       3.7.0      Moved from `AminPageFramework_FormDefinition`.
      */
     protected $_asTargetSectionID = '_default';    
     
@@ -158,7 +158,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
      * Adds the given field definition array to the form property.
      * 
      * @since       3.0.0
-     * @since       DEVVER       Moved from `AminPageFramework_FormDefinition`.
+     * @since       3.7.0       Moved from `AminPageFramework_FormDefinition`.
      * @param       array|string            $asFieldset        A field definition array.
      * @return      array|string|null       If the passed field is set, it returns the set field array. If the target section id is set, the set section id is returned. Otherwise null.
      */    
@@ -192,7 +192,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
     }    
         /**
          * @return      void
-         * @since       DEVVER
+         * @since       3.7.0
          */
         private function _setFieldset( array $aFieldset ) {
             
@@ -213,7 +213,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
             $aFieldset[ 'field_id' ]     = $this->getIDSanitized( $aFieldset[ 'field_id' ] );
             $aFieldset[ 'section_id' ]   = $this->getIDSanitized( $aFieldset[ 'section_id' ] );
             
-            // DEVVER+ A section path (e.g. parent_section|nested_section|more_nested_section) will be stored in the key.
+            // 3.7.0+ A section path (e.g. parent_section|nested_section|more_nested_section) will be stored in the key.
             // Also in the fieldsets dimension, a field path is stored in the key.
             $_aSectionPath    = $this->getAsArray( $aFieldset[ 'section_id' ] );
             $_sSectionPath    = implode( '|', $_aSectionPath );
@@ -227,7 +227,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
 
         /**
          * Checks if the given item is a fieldset definition or not.
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      boolean
          */
         private function _isFieldsetDefinition( $asFieldset ) {
@@ -279,7 +279,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
      *      )</code>
      * 
      * @since       3.0.0
-     * @since       DEVVER       Moved from `AminPageFramework_FormDefinition`.
+     * @since       3.7.0       Moved from `AminPageFramework_FormDefinition`.
      */     
     public function removeField( $sFieldID ) {
                

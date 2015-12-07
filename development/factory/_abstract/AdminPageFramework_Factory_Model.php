@@ -23,7 +23,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Sets up hooks and properties.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @internal
      */
     public function __construct( $oProp ) {
@@ -54,7 +54,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * 
      * A contextual help pane item associated with this fieldset will be added.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      void
      */
     public function _replyToFieldsetReourceRegistration( $aFieldset ) {
@@ -78,7 +78,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Filters field type definitions array.
      * @callback    filter      field_types_admin_page_framework
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function _replyToFilterFieldTypeDefinitions( $aFieldTypeDefinitions ) {
         return $this->oUtil->addAndApplyFilters( 
@@ -95,7 +95,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * before the framework registered field resource (assets) files.
      * 
      * @remark      Called prior to field resource registrations.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array       The modified sectionsets definition array.
      */    
     public function _replyToModifySectionsets( $aSectionsets ) {    
@@ -115,7 +115,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * before the framework registered field resource (assets) files.
      * 
      * @remark      Called prior to field resource registrations.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array       The modified fieldsets definition array.
      */
     public function _replyToModifyFieldsets( $aFieldsets, $aSectionsets ) {
@@ -148,7 +148,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     
     /**
      * Applies filters to all the conditioned field definitions array.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array   
      */
     public function _replyToModifyFieldsetsDefinitions( $aFieldsets /*, $aSectionsets */ ) {
@@ -164,7 +164,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * 
      * @since       3.0.2
      * @since       3.1.1       Made it reformat the fields after applying filters.
-     * @since       DEVVER      Changed the name from `applyFiltersToFieldsets()`.
+     * @since       3.7.0      Changed the name from `applyFiltersToFieldsets()`.
      * Moved from `AdminPageFramework_FormDefinition_Base`.
      * @return      array      
      */
@@ -189,14 +189,14 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Gets called after the form element registration is done.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function _replyToHandleSubmittedFormData( $aSavedData, $aArguments, $aSectionsets, $aFieldsets ) {
         // Do validation and saving data 
     }
         
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array
      */
     public function _replyToFormatFieldsetDefinition( $aFieldset, $aSectionsets ) {
@@ -209,7 +209,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     }
     
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array
      */
     public function _replyToFormatSectionsetDefinition( $aSectionset ) {
@@ -229,7 +229,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     }
     
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      boolean     Whether or not the form registration should be allowed in the current screen.
      */
     public function _replyToDetermineWhetherToProcessFormRegistration( $bAllowed ) {
@@ -239,7 +239,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     /**
      * Returns the inherited capability value from the page and in-page tab for form elements.
      * 
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      string
      */    
     public function _replyToGetCapabilityForForm( $sCapability ) {
@@ -252,7 +252,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @callback    form        `saved_data`    
      * @remark      The `oOptions` property will be automatically set with the overload method.
      * @return      array       The saved form data.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function _replyToGetSavedFormData() {
         return $this->oUtil->addAndApplyFilter(
@@ -272,17 +272,17 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * while processing the revealer field output. For that, the saved option array needs to be passed and accessing the property object was somewhat indirect 
      * so there needs to be a direct method to retrieve the options. 
      * 
-     * As of DEVVER, the form object will store the saved options by itself. And the revealer field type shuold use the form object method.
+     * As of 3.7.0, the form object will store the saved options by itself. And the revealer field type shuold use the form object method.
      * 
      * @remark      When the confirmation URL query key is set, it will merger the saved options with the last form input array, used for contact forms.
      * @since       3.3.0
      * @since       3.3.1       Moved from `AdminPageFramework_Setting_Base`. Changed the visibility scope to `protected` as the caller method has moved to the view class.
      * @since       3.4.0       Changed the visibility scope to public.
      * @since       3.4.1       Changed the name from '_getSavedOptions()'.
-     * @since       DEVVER      Moved from `AdminPageFramework_Model_Form`.
+     * @since       3.7.0      Moved from `AdminPageFramework_Model_Form`.
      * @remark      assumes the `aSavedData` property is already set. 
      * This is set when the form fields are registered.
-     * @deprecated  DEVVER      Kept for backward compatibility. 
+     * @deprecated  3.7.0      Kept for backward compatibility. 
      */
     public function getSavedOptions() {
         return $this->oForm->aSavedData;
@@ -305,13 +305,13 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * 
      * @since       3.0.4    
      * @since       3.6.3       Changed the visibility scope to public as a delegation class needs to access this method.
-     * @since       DEVVER      Changed back the visibility scope to protected as there is the `getFieldErrors()` public method.
+     * @since       3.7.0      Changed back the visibility scope to protected as there is the `getFieldErrors()` public method.
      * @access      protected
      * @internal
      * @param       string      $sID        deprecated
      * @param       boolean     $bDelete    whether or not the transient should be deleted after retrieving it. 
      * @return      array
-     * @deprecated  DEVVER      Use `getFieldErrors()` instead. Kept for backward compatibility.
+     * @deprecated  3.7.0      Use `getFieldErrors()` instead. Kept for backward compatibility.
      */
     protected function _getFieldErrors( /* $sID='deprecated', $bDelete=true */ ) {
         return $this->oForm->getFieldErrors();        
@@ -323,7 +323,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * To get the set input, call `$this->oProp->aLastInput`.
      * 
      * @since       3.4.1
-     * @since       DEVVER      Changed the name from `_setLastInput()`.
+     * @since       3.7.0      Changed the name from `_setLastInput()`.
      * @return      boolean     True if set; otherwise, false.
      * @internal
      */
@@ -332,7 +332,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     }
         /**
          * An alias of `_setLastInputs()`.
-         * @deprecated      DEVVER
+         * @deprecated      3.7.0
          */
         public function _setLastInput( $aLastInputs )  {
             return $this->setLastInputs( $aLastInputs );

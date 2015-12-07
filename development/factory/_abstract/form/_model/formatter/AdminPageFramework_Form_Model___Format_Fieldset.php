@@ -70,17 +70,17 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
         'content'                   => null,    // 3.6.1+ - (string) An overriding field-set output.
         
         // Internal Keys
-        '_fields_type'              => null,    // @deprecated  DEVVER++, 3.0.0+ - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
+        '_fields_type'              => null,    // @deprecated  3.7.0++, 3.0.0+ - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
         '_structure_type'           => null,    // DEVVEr+
         '_caller_object'            => null,    // 3.4.0+ - (object) stores the object of the caller class. The object is referenced when creating nested fields.
                 
-        '_section_path'             => '',      // DEVVER+ (string) Stores the section path that indicates the structural address of the nested section. e.g. my_section|nested_one
-        '_section_path_array'       => '',      // DEVVER+ (array) An array version of the above section path.
+        '_section_path'             => '',      // 3.7.0+ (string) Stores the section path that indicates the structural address of the nested section. e.g. my_section|nested_one
+        '_section_path_array'       => '',      // 3.7.0+ (array) An array version of the above section path.
         '_nested_depth'             => 0,       // 3.4.0+ - (integer) stores the level of the nesting depth. This is mostly used for debugging by checking if the field is a nested field or not.        
-        '_subsection_index'         => null,    // DEVVER+  Passed to the `field_definition_{...}` filter hook callbacks.
+        '_subsection_index'         => null,    // 3.7.0+  Passed to the `field_definition_{...}` filter hook callbacks.
         
-        '_field_path'               => '',      // DEVVER+ (string Stores the field path that indicates the structural location of the field. This is relative to the belonging section.
-        '_field_path_array'         => '',      // DEVVER+ (array) An array version of the above field path.
+        '_field_path'               => '',      // 3.7.0+ (string Stores the field path that indicates the structural location of the field. This is relative to the belonging section.
+        '_field_path_array'         => '',      // 3.7.0+ (array) An array version of the above field path.
         
     );        
     
@@ -155,10 +155,10 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
         // Fill missing argument keys - this method overrides 'null' values.
         $_aFieldset = $this->uniteArrays(
             array( 
-                '_fields_type'          => $this->sStructureType, // @deprecated DEVVER backward-compatibility
+                '_fields_type'          => $this->sStructureType, // @deprecated 3.7.0 backward-compatibility
                 '_structure_type'       => $this->sStructureType,  
                 '_caller_object'        => $this->oCallerObject,  // 3.4.1+ Stores the caller framework factory object. 
-                '_subsection_index'     => $this->iSubSectionIndex,  // DEVVER+
+                '_subsection_index'     => $this->iSubSectionIndex,  // 3.7.0+
             )
             + $this->aFieldset,
             array( 

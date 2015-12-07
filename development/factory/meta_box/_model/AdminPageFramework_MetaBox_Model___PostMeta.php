@@ -10,7 +10,7 @@
 /**
  * Provides methods to retrieve post meta data for meta box form fields.
  * 
- * @since       DEVVER
+ * @since       3.7.0
  * @package     AdminPageFramework
  * @subpackage  MetaBox
  * @extends     AdminPageFramework_Property_Base
@@ -25,7 +25,7 @@ class AdminPageFramework_MetaBox_Model___PostMeta extends AdminPageFramework_WPU
     /**
      * Sets up hooks.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( /* $iPostID, array $aFieldsets */ ) {
         
@@ -39,7 +39,7 @@ class AdminPageFramework_MetaBox_Model___PostMeta extends AdminPageFramework_WPU
     }
     
     /**
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array
      */
     public function get() {
@@ -55,7 +55,7 @@ class AdminPageFramework_MetaBox_Model___PostMeta extends AdminPageFramework_WPU
         /**
          * Returns an array hodlding post meta data associated with the given post ID and constructed with the given fieldsets.
          * 
-         * @since       DEVVER
+         * @since       3.7.0
          * @uses        get_post_meta()
          * @return      array
          */

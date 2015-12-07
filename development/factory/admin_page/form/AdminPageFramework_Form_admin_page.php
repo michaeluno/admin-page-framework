@@ -14,7 +14,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER      
+ * @since       3.7.0      
  * @extends     AdminPageFramework_Form
  * @internal
  */
@@ -28,7 +28,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * 
      * @since       2.0.0
      * @since       3.0.0       Moved from the settings class.
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @remark      Consider the possibility that page meta box's values are included in the `$aOptions` array. 
      * So rather than storing the page-matching elements, drop the unmatched elements
      * so that the externally injected options will be respected.
@@ -46,7 +46,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * This method does not respect the injected elements by the page meta box class.
      * 
      * @since       3.0.0
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      array
      */
     public function getPageOnlyOptions( $aOptions, $sPageSlug ) {
@@ -76,7 +76,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
          * Updates the first parameter array holding page only options.
          * 
          * @since       3.5.3
-         * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+         * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
          * @return      void
          * @internal
          */
@@ -147,7 +147,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * 
      * @since       2.0.0
      * @since       3.0.0     Moved from the settings class.
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      array     An array storing the options excluding the key of the given page slug.
      */ 
     public function getOtherPageOptions( $aOptions, $sPageSlug ) {
@@ -177,7 +177,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
          * Updates the first parameter array holding the other page options.
          * 
          * @since       3.5.3
-         * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+         * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
          * @return      void
          * @internal
          */
@@ -234,7 +234,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * 
      * @since       2.0.0
      * @since       3.0.0       The second parameter was changed to a tab slug. Moved from the settings class.
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @param       array       $aOptions      the options array. Note that the options array structure are very similar to the aFieldsets array. 
      * However, it does not have the `_default` section key.
      * @param       string      $sPageSlug     the page slug to check
@@ -269,7 +269,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
          * Updates the first parameter array holding the other tab options.
          * 
          * @since       3.5.3
-         * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+         * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
          * @return      void
          * @internal
          */
@@ -330,7 +330,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * @remark Consider the possibility that page meta box's values are included in the $aOptions array. So rather than storing the page-tab-matching elements, drop the unmatched elements
      * so that the externally injected options will be respected.
      * @since 3.0.0
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      array
      */
     public function getTabOptions( $aOptions, $sPageSlug, $sTabSlug='' ) {     
@@ -345,7 +345,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * This method does not respect injected elements such as page meta box fields.
      * 
      * @since       3.0.0
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      array
      */
     public function getTabOnlyOptions( array $aOptions, $sPageSlug, $sTabSlug='' ) {
@@ -378,7 +378,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
          * Updates the first parameter array holding tab only options.
          * 
          * @since       3.5.3
-         * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+         * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
          * @return      void
          * @internal
          */
@@ -421,7 +421,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                     $_aFieldset[ 'field_id' ], 
                     $aOptions
                 );                
-                // @deprecated      DEVVER
+                // @deprecated      3.7.0
                 // if ( array_key_exists( $_aFieldset[ 'field_id' ], $aOptions ) ) {
                     // $_aStoredOptionsOfTheTab[ $_aFieldset[ 'field_id' ] ] = $aOptions[ $_aFieldset[ 'field_id' ] ];
                     // continue;
@@ -436,7 +436,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * Checks if the given section added to the given page.
      * 
      * @since       3.5.3
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      boolean
      */
     private function _isThisSectionSetToThisPage( $_sSectionID, $sPageSlug ) {
@@ -454,7 +454,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * 
      * @internal
      * @since       3.5.3
-     * @since       DEVVER      Moved from `AdminPageFramework_FormDefinition_Page`.
+     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      boolean
      */
     private function _isThisSectionSetToThisTab( $_sSectionID, $sPageSlug, $sTabSlug ) {
@@ -474,14 +474,14 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
     
     /**
      * Sets a value of a section of the given option array to the subject array.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      void
      */
     private function _setOptionValue( &$aSubject, $asDimensionalPath, $aOptions ) {
         $_aDimensionalPath = $this->getAsArray( $asDimensionalPath );
         $_mValue     = $this->getElement(
             $aOptions,
-            $_aDimensionalPath,    // as of DEVVER, it can be an array or string
+            $_aDimensionalPath,    // as of 3.7.0, it can be an array or string
             null
         );
         if ( isset( $_mValue ) ) {

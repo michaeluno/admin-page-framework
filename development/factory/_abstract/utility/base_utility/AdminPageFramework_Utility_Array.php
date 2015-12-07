@@ -20,7 +20,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     
     /**
      * Checks if the given array is an associative array or not.
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      boolean
      */
     static public function isAssociative( array $aArray ) {

@@ -12,7 +12,7 @@
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
- * @since       DEVVER
+ * @since       3.7.0
  */
 class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramework_Form_Base {
     
@@ -32,7 +32,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
     
     /**
      * Sets up hooks.
-     * @since       DEVVER
+     * @since       3.7.0
      */
     public function __construct( /* $aArguments, $aFieldsets, $aResources, $aFieldTypeDefinitions, $aCallbacks */ ) {
         
@@ -54,7 +54,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
     /**
      * Returns an updated the resource array.
      * 
-     * @since       DEVVER
+     * @since       3.7.0
      * @return      array
      */
     public function get() {
@@ -111,7 +111,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
          * @remark      `$oHelpPane` and `$oHeadTab` need to be set in the extended class.
          * @remark      This method should be called after the `_loadFieldTypeDefinitions()` emthod.
          * @since       3.0.0
-         * @since       DEVVER      Moved from `AdminPageFramework_Factory_Model`. Changed the name from `_registerFields()`.
+         * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`. Changed the name from `_registerFields()`.
          * Removed the 1st parameter.
          * @internal
          * @return      void
@@ -152,7 +152,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
              * 
              * @since       3.0.4
              * @since       3.5.0       Changed the scope to protected as the admin page factory class overrides it.
-             * @since       DEVVER      Moved from `AdminPageFramework_Factory_Model`. Changed the name from `_registerField()`.
+             * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`. Changed the name from `_registerField()`.
              * @internal
              * @return      void
              */
@@ -191,7 +191,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                     )
                 );
                 
-// @todo [DEVVER+] retrieve fieldset resources set to the `style` and `script` arguments.
+// @todo [3.7.0+] retrieve fieldset resources set to the `style` and `script` arguments.
 // Be careful not to add duplicate items as currently the sub-field items are parsed.
 
                 // Check the cache
@@ -216,7 +216,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 
                 /**
                  * Checks if the given field type has been registered already by the given fields type.
-                 * @since       DEVVER
+                 * @since       3.7.0
                  * @return      boolean
                  */
                 private function _isAlreadyRegistered( $sFieldtype, $sStructureType ) {
@@ -227,7 +227,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                     return false;
                 }
                     /**
-                     * @since       DEVVER
+                     * @since       3.7.0
                      */
                     static private $_aRegisteredFieldTypes = array();
     
@@ -235,7 +235,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
         
         /**
          * Decides whether the field set should be registered or not.
-         * @since       DEVVER
+         * @since       3.7.0
          * @return      boolean
          */
         private function _isFieldsetAllowed( array $aFieldset ) {
