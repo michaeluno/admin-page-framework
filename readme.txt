@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.4
 Tested up to:       4.3.1
-Stable tag:         3.6.6
+Stable tag:         3.7.0
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -430,7 +430,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.1 =
+= 3.7.1 - 2015/12/08 =
 - Added the internal ability for the `select` and `radio` field types to accept nested `attributes` arguments for each `label` element.
 - Fixed a bug that site-wider field type definitions were loaded multiple times per page load, introduced in 3.7.0.
 - Tweaked the style of form sections and fields.
