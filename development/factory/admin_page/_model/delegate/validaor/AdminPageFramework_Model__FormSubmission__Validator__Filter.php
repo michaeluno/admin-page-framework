@@ -275,11 +275,11 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
              * @since       3.0.2
              */
             private function _validateTabFields( array $aData ) {
-                
+
                 if ( ! $aData[ 'sTabSlug' ] || ! $aData[ 'sPageSlug' ] ) { 
                     return $aData; 
                 }
-                    
+
                 $aData[ 'aStoredTabData' ]        = $this->oFactory->oForm->getTabOptions( 
                     $aData[ 'aStoredData' ], 
                     $aData[ 'sPageSlug' ], 
@@ -291,10 +291,18 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
                     $aData[ 'aStoredTabData' ], 
                     $this->oFactory 
                 );
-                $_aOtherTabOptions  = $this->oFactory->oForm->getOtherTabOptions( $aData[ 'aStoredData' ], $aData[ 'sPageSlug' ], $aData[ 'sTabSlug' ] );
+                $_aOtherTabOptions  = $this->oFactory->oForm->getOtherTabOptions( 
+                    $aData[ 'aStoredData' ], 
+                    $aData[ 'sPageSlug' ], 
+                    $aData[ 'sTabSlug' ] 
+                );
 
                 // This options data contain embedded options.
-                $aData[ 'aStoredTabDataWODynamicElements' ] = $this->oFactory->oForm->getTabOptions( $aData[ 'aStoredDataWODynamicElements' ], $aData[ 'sPageSlug' ], $aData[ 'sTabSlug' ] );
+                $aData[ 'aStoredTabDataWODynamicElements' ] = $this->oFactory->oForm->getTabOptions( 
+                    $aData[ 'aStoredDataWODynamicElements' ], 
+                    $aData[ 'sPageSlug' ], 
+                    $aData[ 'sTabSlug' ] 
+                );
                 $aData[ 'aStoredTabDataWODynamicElements' ] = $this->addAndApplyFilter( 
                     $this->oFactory, 
                     "validation_saved_options_without_dynamic_elements_{$aData[ 'sPageSlug' ]}_{$aData[ 'sTabSlug' ]}", 

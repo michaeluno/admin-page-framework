@@ -367,7 +367,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
            
         $this->aFormCallbacks = array(
             'is_in_the_page'                    => array( $oCaller, '_replyToDetermineWhetherToProcessFormRegistration' ),
-            'load_fieldset_resource'            => array( $oCaller, '_replyToFieldsetReourceRegistration' ),
+            'load_fieldset_resource'            => array( $oCaller, '_replyToFieldsetResourceRegistration' ),
             
 'is_fieldset_registration_allowed'  => null,
 

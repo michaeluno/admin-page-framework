@@ -118,7 +118,10 @@ abstract class AdminPageFramework_Model_Menu extends AdminPageFramework_Controll
         
     }    
         /**
-         * Sets the default page.
+         * Sets the default page. 
+         * 
+         * The first item of the added pages.
+         * 
          * @internal   
          * @since       3.6.0
          */

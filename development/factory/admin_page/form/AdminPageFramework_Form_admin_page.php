@@ -230,7 +230,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * This is used to merge the submitted form data with the previously stored option data of the form elements 
      * that belong to the in-page tab of the given page.
      * 
-     * @remark Note that this method will return the other pages' option elements as well.
+     * @remark      Note that this method will return the other pages' option elements as well.
      * 
      * @since       2.0.0
      * @since       3.0.0       The second parameter was changed to a tab slug. Moved from the settings class.
@@ -327,15 +327,19 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
     /**
      * Retrieves the stored options of the given tab slug.
      * 
-     * @remark Consider the possibility that page meta box's values are included in the $aOptions array. So rather than storing the page-tab-matching elements, drop the unmatched elements
+     * @remark      Consider the possibility that the values of page meta boxes are included in the `$aOptions` array. 
+     * So rather than storing the page-tab-matching elements, drop the unmatched elements
      * so that the externally injected options will be respected.
-     * @since 3.0.0
+     * @since       3.0.0
      * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      array
      */
     public function getTabOptions( $aOptions, $sPageSlug, $sTabSlug='' ) {     
+                
         $_aOtherTabOptions = $this->getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug );
-        return $this->invertCastArrayContents( $aOptions, $_aOtherTabOptions );     
+        $_aTabOptions      = $this->invertCastArrayContents( $aOptions, $_aOtherTabOptions );       
+        return $_aTabOptions;
+        
     }
     
     /**
@@ -439,13 +443,13 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      boolean
      */
-    private function _isThisSectionSetToThisPage( $_sSectionID, $sPageSlug ) {
+    private function _isThisSectionSetToThisPage( $sSectionPath, $sPageSlug ) {
         
-        if ( ! isset( $this->aSectionsets[ $_sSectionID ][ 'page_slug' ] ) ) {
+        if ( ! isset( $this->aSectionsets[ $sSectionPath ][ 'page_slug' ] ) ) {
             return false;
         }
         return ( 
-            $sPageSlug === $this->aSectionsets[ $_sSectionID ][ 'page_slug' ]
+            $sPageSlug === $this->aSectionsets[ $sSectionPath ][ 'page_slug' ]
         );
     }
     
@@ -457,16 +461,16 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      boolean
      */
-    private function _isThisSectionSetToThisTab( $_sSectionID, $sPageSlug, $sTabSlug ) {
+    private function _isThisSectionSetToThisTab( $sSectionPath, $sPageSlug, $sTabSlug ) {
         
-        if ( ! $this->_isThisSectionSetToThisPage( $_sSectionID, $sPageSlug ) ) {
+        if ( ! $this->_isThisSectionSetToThisPage( $sSectionPath, $sPageSlug ) ) {
             return false;
         }
-        if ( ! isset( $this->aSectionsets[ $_sSectionID ][ 'tab_slug' ] ) ) {
+        if ( ! isset( $this->aSectionsets[ $sSectionPath ][ 'tab_slug' ] ) ) {
             return false;
         }
         return (
-            $sTabSlug === $this->aSectionsets[ $_sSectionID ][ 'tab_slug' ]
+            $sTabSlug === $this->aSectionsets[ $sSectionPath ][ 'tab_slug' ]
         );
         
     }

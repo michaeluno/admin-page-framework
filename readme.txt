@@ -431,6 +431,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.7.2 =
+- Changed the form sections and fields registration mechanism of the admin page class to accept items without the `page_slug` and `tab_slug` by letting them being added to the current page or tab which is registed by the classs.
 
 = 3.7.1 - 2015/12/08 =
 - Added the internal ability for the `select` and `radio` field types to accept nested `attributes` arguments for each `label` element.

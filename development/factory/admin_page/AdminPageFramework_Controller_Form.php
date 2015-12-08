@@ -103,32 +103,20 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
         } 
         
         $aSection = $asSection;
-        $this->_sTargetPageSlug         = $this->oUtil->getElement( $aSection, 'page_slug', $this->_sTargetPageSlug );
-        $this->_sTargetTabSlug          = $this->oUtil->getElement( $aSection, 'tab_slug', $this->_sTargetTabSlug );
+        $this->_sTargetPageSlug         = $this->_getTargetPageSlug( $aSection );
+        $this->_sTargetTabSlug          = $this->_getTargetTabSlug( $aSection );
         $this->_sTargetSectionTabSlug   = $this->oUtil->getElement( $aSection, 'section_tab_slug', $this->_sTargetSectionTabSlug );
+        
+        // Pre-format - avoid undefined index warnings.
         $aSection = $this->oUtil->uniteArrays( 
             $aSection, 
             array( 
                 'page_slug'         => $this->_sTargetPageSlug, 
                 'tab_slug'          => $this->_sTargetTabSlug, 
                 'section_tab_slug'  => $this->_sTargetSectionTabSlug, 
-
-                // @depreacated 3.5.3+ Not sure if the checking the property values are necessary.
-                // checking the value allows the user to reset the internal target manually
-                // 'page_slug'         => $this->_sTargetPageSlug ? $this->_sTargetPageSlug : null, 
-                // 'tab_slug'          => $this->_sTargetTabSlug ? $this->_sTargetTabSlug : null,
-                // 'section_tab_slug'  => $this->_sTargetSectionTabSlug ? $this->_sTargetSectionTabSlug : null,
-                
             )
-        ); // avoid undefined index warnings.
+        ); 
         
-        $aSection[ 'page_slug' ]          = $aSection[ 'page_slug' ] 
-            ? $this->oUtil->sanitizeSlug( $aSection[ 'page_slug' ] ) 
-            : ( $this->oProp->sDefaultPageSlug 
-                ? $this->oProp->sDefaultPageSlug 
-                : null 
-            );
-        $aSection[ 'tab_slug' ]           = $this->oUtil->sanitizeSlug( $aSection[ 'tab_slug' ] );
         $aSection[ 'section_tab_slug' ]   = $this->oUtil->sanitizeSlug( $aSection[ 'section_tab_slug' ] );
         
         // A page slug is required.
@@ -138,6 +126,46 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
         $this->oForm->addSection( $aSection );
         
     }
+        /**
+         * Sets the target page slug of the section.
+         * If a page slug is not set, set the currently loading one from the registered items.
+         * Do not simply assign the currently loaded page but the one added by the user because the method can be called from anyware.
+         * @since       3.7.2
+         * @return      string
+         */
+        private function _getTargetPageSlug( $aSection ) {
+            
+            $_sTargetPageSlug = $this->oUtil->getElement( 
+                $aSection,      // subject
+                'page_slug',    // key
+                $this->_sTargetPageSlug     // default
+            );
+         
+            $_sTargetPageSlug = $_sTargetPageSlug
+                ? $this->oUtil->sanitizeSlug( $_sTargetPageSlug ) 
+                : $this->oProp->getCurrentPageSlugIfAdded();
+            return $_sTargetPageSlug;
+            
+        }
+            
+        /**
+         * Sets the target tab slug of the section.
+         * If a tab slug is not set, set the currently loading one from the registered items.
+         * Do not simply assign the currently loaded page but the one added by the user because the method can be called from anyware.
+         * @return      string
+         * @since       3.7.2
+         */
+        private function _getTargetTabSlug( $aSection ) {
+            $_sTargetTabSlug = $this->oUtil->getElement( 
+                $aSection,              // subject
+                'tab_slug',             // key
+                $this->_sTargetTabSlug  // default
+            );
+            $_sTargetTabSlug = $_sTargetTabSlug
+                ? $this->oUtil->sanitizeSlug( $aSection[ 'tab_slug' ] )
+                : $this->oProp->getCurrentInPageTabSlugIfAdded();
+            return $_sTargetTabSlug;
+        }    
     
     /**
     * Removes the given section(s) by section ID.
@@ -159,11 +187,9 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
     * @return       void
     */    
     public function removeSettingSections( /* $sSectionID1=null, $sSectionID2=null, $_and_more=null */ ) {    
-        
         foreach( func_get_args() as $_sSectionID ) {
             $this->oForm->removeSection( $_sSectionID );
-        }
-        
+        }        
     }
     
     /**

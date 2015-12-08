@@ -603,5 +603,56 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
     public function _replyToGetCapability() {
         return $this->sCapability;
     }
+    
+    
+    /**
+     * Returns the currently loaded page slug if it is one of the added ones with the class object.
+     * 
+     * @remark      Used for adding form elements.
+     * @since       3.7.2
+     * @return      string|null
+     */
+    public function getCurrentPageSlugIfAdded() {
+        
+        // Cache
+        static $_nsCurrentPageSlugFromAddedOnes;
+        if ( $this->hasBeenCalled( __METHOD__ ) ) {
+            return $_nsCurrentPageSlugFromAddedOnes;
+        }
+        
+        // Extract the slug from the page definition
+        $_nsCurrentPageSlug              = $this->getElement( $_GET, 'page', null );
+        $_nsCurrentPageSlugFromAddedOnes = $this->getElement( 
+            $this->aPages,
+            array( $_nsCurrentPageSlug, 'page_slug' )
+        );
+        return $_nsCurrentPageSlugFromAddedOnes;
+        
+    }    
+
+    /**
+     * Returns the currently loaded tab slug if it is one of the added ones with the class object.
+     * @return      string|null
+     * @sine        3.7.2
+     */
+    public function getCurrentInPageTabSlugIfAdded() {
+        
+        // Cache
+        static $_nsCurrentTabSlugFromAddedOnes;
+        if ( $this->hasBeenCalled( __METHOD__ ) ) {
+            return $_nsCurrentTabSlugFromAddedOnes;
+        }
+        
+        $_nsCurrentTabSlugFromAddedOnes = $this->getElement(
+            $this->aInPageTabs,
+            array( 
+                $this->getCurrentPageSlugIfAdded(), 
+                $this->getCurrentTabSlug(), 
+                'tab_slug' 
+            )
+        );
+        return $_nsCurrentTabSlugFromAddedOnes;
+        
+    }    
         
 }

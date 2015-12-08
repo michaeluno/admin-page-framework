@@ -116,7 +116,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      * @since       3.7.0
      * @return      void
      */
-    public function _replyToFieldsetReourceRegistration( $aFieldset ) {
+    public function _replyToFieldsetResourceRegistration( $aFieldset ) {
         
         $aFieldset = $aFieldset + array(
             'help'          => null,
@@ -289,12 +289,12 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         $aFieldset[ 'page_slug' ]       = $this->oUtil->getElement( 
             $aSectionsets, 
             array( $_sSectionPath, 'page_slug' ), 
-            null 
+            $this->oProp->getCurrentPageSlugIfAdded()
         );        
         $aFieldset[ 'tab_slug' ]        = $this->oUtil->getElement( 
             $aSectionsets, 
             array( $_sSectionPath, 'tab_slug' ), 
-            null 
+            $this->oProp->getCurrentInPageTabSlugIfAdded()
         );
         
         // used for the contextual help pane.
@@ -334,8 +334,9 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
             'capability'    => null,
         );
         
-        $aSectionset[ 'page_slug' ] = $this->_getSectionPageSlug( $aSectionset );
-            
+        $aSectionset[ 'page_slug' ]  = $this->_getSectionPageSlug( $aSectionset );
+        $aSectionset[ 'tab_slug' ]   = $this->_getSectionTabSlug( $aSectionset );
+        
         // 3.6.0+ Inherit the capability value from the page.
         $aSectionset[ 'capability' ] = $this->_getSectionCapability( $aSectionset );
        
@@ -399,8 +400,21 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
                     return $_sRootSectionPageSlug;
                 }
             }
+            return $this->oProp->getCurrentPageSlugIfAdded();
+            // @deprecated 3.7.2
+            // return $this->oProp->sDefaultPageSlug;
             
-            return $this->oProp->sDefaultPageSlug;
+        }
+        /**
+         * @since       3.7.2
+         * @return      string|null
+         */
+        private function _getSectionTabSlug( $aSectionset ) {
+            
+            if ( $aSectionset[ 'tab_slug' ] ) {
+                return $aSectionset[ 'tab_slug' ];
+            }            
+            return $this->oProp->getCurrentInPageTabSlugIfAdded();
             
         }
     /**

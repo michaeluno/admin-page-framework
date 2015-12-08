@@ -58,7 +58,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @since       3.7.0
      * @return      void
      */
-    public function _replyToFieldsetReourceRegistration( $aFieldset ) {
+    public function _replyToFieldsetResourceRegistration( $aFieldset ) {
         
         $aFieldset = $aFieldset + array(
             'help'       => null,

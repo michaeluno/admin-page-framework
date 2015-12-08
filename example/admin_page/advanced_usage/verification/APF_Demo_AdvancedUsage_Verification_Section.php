@@ -78,7 +78,7 @@ class APF_Demo_AdvancedUsage_Verification_Section {
             10, // priority
             4   // number of parameters
         );
-     
+        
     }
     
     /**
@@ -86,7 +86,7 @@ class APF_Demo_AdvancedUsage_Verification_Section {
      * 
      * @callback        filter      validation_{instantiated class name}_{section id}
      */
-    public function replyToValidateSection( $aInput, $aOldInput, $oAdmin ) { 
+    public function replyToValidateSection( $aInput, $aOldInput, $oAdminPage, $aSubmitInfo ) { 
 
         // Local variables
         $_bIsValid = true;
@@ -99,8 +99,8 @@ class APF_Demo_AdvancedUsage_Verification_Section {
         
         if ( ! $_bIsValid ) {
         
-            $oAdmin->setFieldErrors( $_aErrors );     
-            $oAdmin->setSettingNotice( __( 'There was an error setting an option in a form section.', 'admin-page-framework-loader' ) );                     
+            $oAdminPage->setFieldErrors( $_aErrors );     
+            $oAdminPage->setSettingNotice( __( 'There was an error setting an option in a form section.', 'admin-page-framework-loader' ) );                     
             return $aOldInput;
             
         }     

@@ -101,7 +101,7 @@ class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFrame
                     $_aSubmitsInformation,
                     $this->oFactory
                 );                       
-                 
+
                 $_oFormSubmissionFilter = new AdminPageFramework_Model__FormSubmission__Validator__Filter(
                     $this->oFactory,
                     $aInputs, 
