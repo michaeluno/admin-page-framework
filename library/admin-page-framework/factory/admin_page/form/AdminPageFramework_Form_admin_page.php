@@ -79,7 +79,8 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
     }
     public function getTabOptions($aOptions, $sPageSlug, $sTabSlug = '') {
         $_aOtherTabOptions = $this->getOtherTabOptions($aOptions, $sPageSlug, $sTabSlug);
-        return $this->invertCastArrayContents($aOptions, $_aOtherTabOptions);
+        $_aTabOptions = $this->invertCastArrayContents($aOptions, $_aOtherTabOptions);
+        return $_aTabOptions;
     }
     public function getTabOnlyOptions(array $aOptions, $sPageSlug, $sTabSlug = '') {
         $_aStoredOptionsOfTheTab = array();
@@ -107,20 +108,20 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
             $this->_setOptionValue($_aStoredOptionsOfTheTab, $_aFieldset['field_id'], $aOptions);
         }
     }
-    private function _isThisSectionSetToThisPage($_sSectionID, $sPageSlug) {
-        if (!isset($this->aSectionsets[$_sSectionID]['page_slug'])) {
+    private function _isThisSectionSetToThisPage($sSectionPath, $sPageSlug) {
+        if (!isset($this->aSectionsets[$sSectionPath]['page_slug'])) {
             return false;
         }
-        return ($sPageSlug === $this->aSectionsets[$_sSectionID]['page_slug']);
+        return ($sPageSlug === $this->aSectionsets[$sSectionPath]['page_slug']);
     }
-    private function _isThisSectionSetToThisTab($_sSectionID, $sPageSlug, $sTabSlug) {
-        if (!$this->_isThisSectionSetToThisPage($_sSectionID, $sPageSlug)) {
+    private function _isThisSectionSetToThisTab($sSectionPath, $sPageSlug, $sTabSlug) {
+        if (!$this->_isThisSectionSetToThisPage($sSectionPath, $sPageSlug)) {
             return false;
         }
-        if (!isset($this->aSectionsets[$_sSectionID]['tab_slug'])) {
+        if (!isset($this->aSectionsets[$sSectionPath]['tab_slug'])) {
             return false;
         }
-        return ($sTabSlug === $this->aSectionsets[$_sSectionID]['tab_slug']);
+        return ($sTabSlug === $this->aSectionsets[$sSectionPath]['tab_slug']);
     }
     private function _setOptionValue(&$aSubject, $asDimensionalPath, $aOptions) {
         $_aDimensionalPath = $this->getAsArray($asDimensionalPath);

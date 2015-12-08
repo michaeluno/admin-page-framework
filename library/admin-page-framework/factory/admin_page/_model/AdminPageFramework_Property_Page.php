@@ -124,4 +124,21 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
     public function _replyToGetCapability() {
         return $this->sCapability;
     }
+    public function getCurrentPageSlugIfAdded() {
+        static $_nsCurrentPageSlugFromAddedOnes;
+        if ($this->hasBeenCalled(__METHOD__)) {
+            return $_nsCurrentPageSlugFromAddedOnes;
+        }
+        $_nsCurrentPageSlug = $this->getElement($_GET, 'page', null);
+        $_nsCurrentPageSlugFromAddedOnes = $this->getElement($this->aPages, array($_nsCurrentPageSlug, 'page_slug'));
+        return $_nsCurrentPageSlugFromAddedOnes;
+    }
+    public function getCurrentInPageTabSlugIfAdded() {
+        static $_nsCurrentTabSlugFromAddedOnes;
+        if ($this->hasBeenCalled(__METHOD__)) {
+            return $_nsCurrentTabSlugFromAddedOnes;
+        }
+        $_nsCurrentTabSlugFromAddedOnes = $this->getElement($this->aInPageTabs, array($this->getCurrentPageSlugIfAdded(), $this->getCurrentTabSlug(), 'tab_slug'));
+        return $_nsCurrentTabSlugFromAddedOnes;
+    }
 }

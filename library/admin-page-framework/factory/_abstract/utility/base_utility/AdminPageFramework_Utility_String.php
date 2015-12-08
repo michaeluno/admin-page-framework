@@ -50,6 +50,12 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
         $_iSize = pow(1024, $_nLog - $_iPower);
         return $_iSize . $_aUnits[$_iPower];
     }
+    static public function getPrefixRemoved($sString, $sPrefix) {
+        return self::hasPrefix($sPrefix, $sString) ? substr($sString, strlen($sPrefix)) : $sStrung;
+    }
+    static public function getSuffixRemoved($sString, $sSuffix) {
+        return self::hasSuffix($sSuffix, $sString) ? substr($sString, 0, strlen($sSuffix) * -1) : $sString;
+    }
     static public function hasPrefix($sNeedle, $sHaystack) {
         return $sNeedle === substr($sHaystack, 0, strlen($sNeedle));
     }

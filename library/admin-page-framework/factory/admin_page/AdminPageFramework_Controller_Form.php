@@ -13,17 +13,25 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
             return;
         }
         $aSection = $asSection;
-        $this->_sTargetPageSlug = $this->oUtil->getElement($aSection, 'page_slug', $this->_sTargetPageSlug);
-        $this->_sTargetTabSlug = $this->oUtil->getElement($aSection, 'tab_slug', $this->_sTargetTabSlug);
+        $this->_sTargetPageSlug = $this->_getTargetPageSlug($aSection);
+        $this->_sTargetTabSlug = $this->_getTargetTabSlug($aSection);
         $this->_sTargetSectionTabSlug = $this->oUtil->getElement($aSection, 'section_tab_slug', $this->_sTargetSectionTabSlug);
         $aSection = $this->oUtil->uniteArrays($aSection, array('page_slug' => $this->_sTargetPageSlug, 'tab_slug' => $this->_sTargetTabSlug, 'section_tab_slug' => $this->_sTargetSectionTabSlug,));
-        $aSection['page_slug'] = $aSection['page_slug'] ? $this->oUtil->sanitizeSlug($aSection['page_slug']) : ($this->oProp->sDefaultPageSlug ? $this->oProp->sDefaultPageSlug : null);
-        $aSection['tab_slug'] = $this->oUtil->sanitizeSlug($aSection['tab_slug']);
         $aSection['section_tab_slug'] = $this->oUtil->sanitizeSlug($aSection['section_tab_slug']);
         if (!$aSection['page_slug']) {
             return;
         }
         $this->oForm->addSection($aSection);
+    }
+    private function _getTargetPageSlug($aSection) {
+        $_sTargetPageSlug = $this->oUtil->getElement($aSection, 'page_slug', $this->_sTargetPageSlug);
+        $_sTargetPageSlug = $_sTargetPageSlug ? $this->oUtil->sanitizeSlug($_sTargetPageSlug) : $this->oProp->getCurrentPageSlugIfAdded();
+        return $_sTargetPageSlug;
+    }
+    private function _getTargetTabSlug($aSection) {
+        $_sTargetTabSlug = $this->oUtil->getElement($aSection, 'tab_slug', $this->_sTargetTabSlug);
+        $_sTargetTabSlug = $_sTargetTabSlug ? $this->oUtil->sanitizeSlug($aSection['tab_slug']) : $this->oProp->getCurrentInPageTabSlugIfAdded();
+        return $_sTargetTabSlug;
     }
     public function removeSettingSections() {
         foreach (func_get_args() as $_sSectionID) {

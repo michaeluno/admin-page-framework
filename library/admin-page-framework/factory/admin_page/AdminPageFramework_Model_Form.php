@@ -21,7 +21,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
     public function _replyToHandleSubmittedFormData($aSavedData, $aArguments, $aSectionsets, $aFieldsets) {
         new AdminPageFramework_Model__FormSubmission($this, $aSavedData, $aArguments, $aSectionsets, $aFieldsets);
     }
-    public function _replyToFieldsetReourceRegistration($aFieldset) {
+    public function _replyToFieldsetResourceRegistration($aFieldset) {
         $aFieldset = $aFieldset + array('help' => null, 'title' => null, 'help_aside' => null, 'page_slug' => null, 'tab_slug' => null, 'section_title' => null, 'section_id' => null,);
         if (!$aFieldset['help']) {
             return;
@@ -79,8 +79,8 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         $_sSectionPath = implode('|', $_aSectionPath);
         $aFieldset['option_key'] = $this->oProp->sOptionKey;
         $aFieldset['class_name'] = $this->oProp->sClassName;
-        $aFieldset['page_slug'] = $this->oUtil->getElement($aSectionsets, array($_sSectionPath, 'page_slug'), null);
-        $aFieldset['tab_slug'] = $this->oUtil->getElement($aSectionsets, array($_sSectionPath, 'tab_slug'), null);
+        $aFieldset['page_slug'] = $this->oUtil->getElement($aSectionsets, array($_sSectionPath, 'page_slug'), $this->oProp->getCurrentPageSlugIfAdded());
+        $aFieldset['tab_slug'] = $this->oUtil->getElement($aSectionsets, array($_sSectionPath, 'tab_slug'), $this->oProp->getCurrentInPageTabSlugIfAdded());
         $_aSectionset = $this->oUtil->getElementAsArray($aSectionsets, $_sSectionPath);
         $aFieldset['section_title'] = $this->oUtil->getElement($_aSectionset, 'title');
         $aFieldset['capability'] = $aFieldset['capability'] ? $aFieldset['capability'] : $this->_replyToGetCapabilityForForm($this->oUtil->getElement($_aSectionset, 'capability'), $aSectionset['page_slug'], $aSectionset['tab_slug']);
@@ -92,6 +92,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         }
         $aSectionset = $aSectionset + array('page_slug' => null, 'tab_slug' => null, 'capability' => null,);
         $aSectionset['page_slug'] = $this->_getSectionPageSlug($aSectionset);
+        $aSectionset['tab_slug'] = $this->_getSectionTabSlug($aSectionset);
         $aSectionset['capability'] = $this->_getSectionCapability($aSectionset);
         return parent::_replyToFormatSectionsetDefinition($aSectionset);
     }
@@ -121,7 +122,13 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
                 return $_sRootSectionPageSlug;
             }
         }
-        return $this->oProp->sDefaultPageSlug;
+        return $this->oProp->getCurrentPageSlugIfAdded();
+    }
+    private function _getSectionTabSlug($aSectionset) {
+        if ($aSectionset['tab_slug']) {
+            return $aSectionset['tab_slug'];
+        }
+        return $this->oProp->getCurrentInPageTabSlugIfAdded();
     }
     public function _replyToDetermineWhetherToProcessFormRegistration($bAllowed) {
         $_sPageSlug = $this->oProp->getCurrentPageSlug();

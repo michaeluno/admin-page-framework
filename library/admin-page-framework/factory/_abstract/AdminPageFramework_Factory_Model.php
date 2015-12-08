@@ -7,7 +7,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     protected function _setUp() {
         $this->setUp();
     }
-    public function _replyToFieldsetReourceRegistration($aFieldset) {
+    public function _replyToFieldsetResourceRegistration($aFieldset) {
         $aFieldset = $aFieldset + array('help' => null, 'title' => null, 'help_aside' => null,);
         if (!$aFieldset['help']) {
             return;
