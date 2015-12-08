@@ -149,6 +149,27 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
         $_iSize     = pow( 1024, $_nLog - $_iPower );
         return $_iSize . $_aUnits[ $_iPower ];
     }
+
+    /**
+     * Trims a starting sub-string if exists.
+     * @return      string
+     * @since       3.7.2
+     */    
+    static public function getPrefixRemoved( $sString, $sPrefix ) {
+        return self::hasPrefix( $sPrefix, $sString )
+            ? substr( $sString, strlen( $sPrefix ) )
+            : $sStrung;        
+    }
+    /**
+     * Trims a traling sub-string if exists.
+     * @return      string
+     * @since       3.7.2
+     */
+    static public function getSuffixRemoved( $sString, $sSuffix ) {
+        return self::hasSuffix( $sSuffix, $sString )
+            ? substr( $sString, 0, strlen( $sSuffix ) * - 1 )
+            : $sString;
+    }    
     
     /**
      * Checks if the given string has a certain prefix.

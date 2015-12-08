@@ -24,10 +24,15 @@ class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
      * This is used by field type definition classes to determine whether their required framework version is used or not.
      * 
      * @since       3.7.1
+     * @since       3.7.2       Added the `$bTrimDevVer` parameter.
+     * @param       boolean     $bTrimDevVer           Whether the `.dev` suffix shuold be removed or not.
      * @return      string
      */
-    static public function getFrameworkVersion() {
-        return AdminPageFramework_Registry::getVersion();
+    static public function getFrameworkVersion( $bTrimDevVer=false ) {
+        $_sVersion = AdminPageFramework_Registry::getVersion();
+        return $bTrimDevVer
+            ? self::getSuffixRemoved( $_sVersion, '.dev' )
+            : $_sVersion;
     }
     
     /**
