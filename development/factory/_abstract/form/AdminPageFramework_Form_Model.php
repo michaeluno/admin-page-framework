@@ -245,11 +245,11 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         /**
          * Call back a validation routine.
          * 
-         * The routines of validation and saving data is not the scope this form class
+         * The routines of validation and saving data is not the scope of this form class
          * as each main routine has own timing and predetermined callbacks for validation.
          * 
          * Also this must be done after the resources are set because there is a callback for 
-         * field registration and custom field types uses that hook to set up custom validation routines.
+         * field registration and some custom field types use that hook to set up custom validation routines suc has `edd_software_licensing`.
          */
         $this->callBack(
             $this->aCallbacks[ 'handle_form_data' ],
