@@ -1,6 +1,6 @@
 <?php
 abstract class AdminPageFramework_Registry_Base {
-    const VERSION = '3.7.2b01';
+    const VERSION = '3.7.2b03';
     const NAME = 'Admin Page Framework';
     const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
     const URI = 'http://en.michaeluno.jp/admin-page-framework';
