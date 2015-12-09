@@ -3,7 +3,7 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
 Requires at least:  3.4
-Tested up to:       4.3.1
+Tested up to:       4.4
 Stable tag:         3.7.1
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
@@ -431,6 +431,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.7.2 =
+- Fixed an issue that custom field type specific text domain could not be converted with the Generator tool.
 - Changed the form sections and fields registration mechanism of the admin page class to accept items without the `page_slug` and `tab_slug` by letting them being added to the current page or tab which is registed by the classs.
 
 = 3.7.1 - 2015/12/08 =

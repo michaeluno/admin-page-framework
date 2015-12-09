@@ -22,11 +22,13 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
     public $aCustomFieldTypes = array(
         /*         
         '__key_structure'   =>  array(
+            'class_name'           => '',   // the source class name to be prefixed with the user specified one.
             'directory_path'       => '',
             'label'                => '',
             'description'          => '',
             'archive_file_path'    => '',
             'archive_dir_path'     => '',
+            'text_domain'          => '',   // the source text domain to be converted to the user specified one.
         ), */
     );
     
@@ -89,6 +91,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     'directory_path'       => AdminPageFrameworkLoader_Registry::$sDirPath . '/example/library/ace-custom-field-type',
                     'archive_file_path'    => 'custom-field-types/ace-custom-field-type/AceCustomFieldType.php',
                     'archive_dir_path'     => 'custom-field-types/ace-custom-field-type',
+                    'text_domain'          => 'admin-page-framework',
                 ),
                 'GitHubCustomFieldType'   =>  array(
                     'class_name'           => 'GitHubCustomFieldType',
@@ -97,6 +100,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     'directory_path'       => AdminPageFrameworkLoader_Registry::$sDirPath . '/include/library/github-custom-field-type',
                     'archive_file_path'    => 'custom-field-types/github-custom-field-type/GitHubCustomFieldType.php',
                     'archive_dir_path'     => 'custom-field-types/github-custom-field-type',
+                    'text_domain'          => 'admin-page-framework',
                 ),                
             );
                 
@@ -117,11 +121,17 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
              * Modifies the file contents.
              * 
              * @since       3.6.0
+             * @return      string
+             * @callback    filter      admin_page_framework_loader_filter_generator_file_contents
              */
             public function replyToModifyFileContents( $sFileContents, $sPathInArchive, $aFormData, $oFactory ) {
 
                 // Check the file extension.
-                if ( ! in_array( pathinfo( $sPathInArchive, PATHINFO_EXTENSION ), array( 'php', 'css', 'js' ) ) ) {
+                $_aAllowedExtensions = apply_filters(
+                    AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_allowed_file_extensions',
+                    array( 'php', 'css', 'js' )
+                );                
+                if ( ! in_array( pathinfo( $sPathInArchive, PATHINFO_EXTENSION ), $_aAllowedExtensions ) ) {
                     return $sFileContents;
                 }            
                 
@@ -135,9 +145,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     return $this->_getModifiedInclusionList( $sFileContents );
                 }
                 
-                $_sParsingClassName = $this->_getClassNameIfSelected( $sPathInArchive );
-                if ( $_sParsingClassName ) {
-                    return $this->_getModifiedFileContents( $sFileContents, $sPathInArchive );
+                $_bsParsingClassName = $this->_getClassNameIfSelected( $sPathInArchive );
+                if ( $_bsParsingClassName ) {
+                    return $this->_getModifiedFileContents( $sFileContents, $sPathInArchive, $_bsParsingClassName );
                 }
                 
                 return $sFileContents;
@@ -168,8 +178,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                             $_POST,
                             array( 
                                 $this->oFactory->oProp->sOptionKey, 
-                                'generator', // section id
-                                'class_prefix' // field id
+                                'generator',    // section id
+                                'class_prefix'  // field id
                             ),
                             ''
                         );
@@ -185,6 +195,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
 
                 /**
                  * Retrieves the custom field type class name from the given archive path.
+                 * 
+                 * Checks if the user select the field type in the Generator form.
+                 * 
                  * @since       3.6.0
                  * @return      string|boolean      The found class name; false, otherwise.
                  */
@@ -208,12 +221,19 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                 }                    
             
                 /**
-                 * Modify the class name by adding the user-set class name prefix. 
+                 * Modify the file contents of the given path.
+                 * 
+                 * Converts the class name by adding the user-set class name prefix. 
+                 * Also the text domain used in the custom field type will be converted.
+                 * 
                  * @since       3.6.0
+                 * @since       3.7.2      Added the `$sParsingClassName` argument.
                  * @return      string
                  */
-                private function _getModifiedFileContents( $sFileContents, $sPathInArchive ) {
+                private function _getModifiedFileContents( $sFileContents, $sPathInArchive, $sParsingClassName ) {
                     
+                    // @todo Investigate why retrieve all the selected custom field type classes, not the parsing item.
+
                     // Add the class prefix to each element.
                     $_aSelectedFieldTypeClassNames = array_keys( 
                         $this->_getSelectedCustomFieldTypes( $this->aCustomFieldTypes ) 
@@ -233,13 +253,11 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                         )
                     );
                     
-                    // Search and replace.
+                    // Searches and replaces.
                     $_aSearches = $_aSelectedFieldTypeClassNames;
-                    $_aReplaces = $_aPrefixedClassNames;                    
+                    $_aReplaces = $_aPrefixedClassNames;                                        
                     
-                    // Change the text domain.
-                    $_aSearches[] = 'admin-page-framework';
-                    $_aReplaces[] = $this->oFactory->oUtil->getElement(
+                    $_sUserTextDomain = $this->oFactory->oUtil->getElement(
                         $_POST,
                         array( 
                             $this->oFactory->oProp->sOptionKey, 
@@ -249,17 +267,33 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                         ''
                     );
                     
-                    // Return the changed string.
+                    // Change the text domain.
+                    
+                    /// 3.7.2+ Get the custom field type text domain.
+                    $_sFieldTypeTextDomain = $this->oFactory->oUtil->getElement(
+                        $this->aCustomFieldTypes,
+                        array( $sParsingClassName, 'text_domain' )
+                    );
+                    if ( $_sFieldTypeTextDomain ) {                        
+                        $_aSearches[] = $_sFieldTypeTextDomain;
+                        $_aReplaces[] = $_sUserTextDomain;
+                    }
+                    
+                    $_aSearches[] = 'admin-page-framework';
+                    $_aReplaces[] = $_sUserTextDomain;
+                    
+                    // Return the converted string.
                     return str_replace(
-                        $_aSearches, // search
-                        $_aReplaces, // replace
-                        $sFileContents // subject
+                        $_aSearches,    // search
+                        $_aReplaces,    // replace
+                        $sFileContents  // subject
                     );
                     
                 }
                     /**
                      * @since       3.6.0
                      * @callback    function        array_walk
+                     * @return      string
                      */
                     public function _replyToSetPrefix( &$sClassName, $sKey, $sPrefix='' ) {
                         $sClassName = $sPrefix . $sClassName;

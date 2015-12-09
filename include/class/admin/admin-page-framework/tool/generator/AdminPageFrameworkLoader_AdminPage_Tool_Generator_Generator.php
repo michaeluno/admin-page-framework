@@ -439,6 +439,16 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
              */
             public function _replyToModifyFileContents( $sFileContents, $sPathInArchive ) {
 
+                // Check the file extension.
+                $_aAllowedExtensions = apply_filters(
+                    AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_allowed_file_extensions',
+                    array( 'php', 'css', 'js' )
+                );
+                if ( ! in_array( pathinfo( $sPathInArchive, PATHINFO_EXTENSION ), $_aAllowedExtensions ) ) {
+                    return $sFileContents;
+                }            
+                
+                // Modify the file contents.
                 $sFileContents = apply_filters(
                     AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_file_contents',
                     $sFileContents, 
@@ -452,12 +462,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     ),
                     $this->oFactory
                 );
-            
-                // Check the file extension.
-                if ( ! in_array( pathinfo( $sPathInArchive, PATHINFO_EXTENSION ), array( 'php', 'css', 'js' ) ) ) {
-                    return $sFileContents;
-                }
-                
+                            
                 // At this point, it is a php file.
                 return $this->_modifyClassNameByPath( 
                     $sFileContents, 
