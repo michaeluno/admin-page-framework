@@ -35,7 +35,7 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
         'user_name'     => 'michaeluno',
         'button_type'   => 'follow',        // either of the followings: follow, star, watch, fork, issue
         'count'         => true,            // whether or not the count should be displayed
-        'repository'    => 'admin-page-framework',        
+        'repository'    => null,            // the default value is assigned in the user constructor.
         'size'          => null,
         'attributes'    =>    array(
             'href'              => null,
@@ -52,7 +52,9 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
      * 
      * Loaded at the end of the constructor.
      */
-    protected function construct() {}
+    protected function construct() {
+        $this->aDefaultKeys[ 'repository' ] = 'admin' . '-page' . '-framework' ;    // avoid text-domain conversion by the Generator.        
+    }
         
     
     /**
