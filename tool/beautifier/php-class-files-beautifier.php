@@ -5,20 +5,22 @@
  */
 
 /* Set necessary paths */
-$sTargetBaseDir                = dirname( dirname( dirname( __FILE__ ) ) );
-$sTargetDir                    = $sTargetBaseDir . '/development';
-$sDestinationDirectoryPath    = $sTargetBaseDir . '/library/admin-page-framework';
+$sTargetBaseDir              = dirname( dirname( dirname( __FILE__ ) ) );
+$sTargetDir                  = $sTargetBaseDir . '/development';
+$sDestinationDirectoryPath   = $sTargetBaseDir . '/library/admin-page-framework';
 $sLicenseFileName            = 'LICENSE.txt';
 $sLicenseFilePath            = $sDestinationDirectoryPath . '/' . $sLicenseFileName;
 $sHeaderClassName            = 'AdminPageFramework_BeautifiedVersionHeader';
-$sHeaderClassPath            = $sTargetDir . '/factory/AdminPageFramework_Factory/model/AdminPageFramework_BeautifiedVersionHeader.php';
+$sHeaderClassPath            = $sTargetDir . '/cli/AdminPageFramework_BeautifiedVersionHeader.php';
 
 // For get about the rest.
 
 /* If accessed from a browser, exit. */
-$bIsCLI                = php_sapi_name() == 'cli';
-$sCarriageReturn    = $bIsCLI ? PHP_EOL : '<br />';
-if ( ! $bIsCLI ) { exit; }
+$bIsCLI                      = php_sapi_name() == 'cli';
+$sCarriageReturn             = $bIsCLI ? PHP_EOL : '<br />';
+if ( ! $bIsCLI ) { 
+    exit; 
+}
 
 /* Include necessary files */
 require( dirname( __FILE__ ) . '/class/PHP_Class_Files_Beautifier.php' );
@@ -42,8 +44,8 @@ new PHP_Class_Files_Beautifier(
         ),
         'search'            => array(
             'allowed_extensions'    => array( 'php' ),    // e.g. array( 'php', 'inc' )
-            // 'exclude_dir_paths'        =>    array( $sTargetBaseDir . '/include/class/admin' ),
-            'exclude_dir_names'        => array( '_document', 'document' ),
+            // 'exclude_dir_paths'  =>    array( $sTargetBaseDir . '/include/class/admin' ),
+            'exclude_dir_names'     => array( '_document', 'document', 'cli' ),
             'exclude_file_names'    => array(
                 'AdminPageFramework_InclusionClassFilesHeader.php',
                 'AdminPageFramework_MinifiedVersionHeader.php',

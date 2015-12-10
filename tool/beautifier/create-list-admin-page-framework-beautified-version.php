@@ -53,8 +53,10 @@ new PHP_Class_Files_Inclusion_Script_Creator(
         'base_dir_var'      => 'AdminPageFramework_Registry::$sDirPath',
         'search'            => array(
             'allowed_extensions'    => array( 'php' ),    // e.g. array( 'php', 'inc' )
-            // 'exclude_dir_paths'      => array( $sTargetBaseDir . '/include/class/admin' ),
-            'exclude_dir_names'        => array( '_document', 'document' ),
+            // 'exclude_dir_paths'      => array( 
+                // $sTargetBaseDir . '/include/class/admin' 
+            // ),
+            'exclude_dir_names'        => array( '_document', 'document', 'cli' ),
             'is_recursive'            => true,
         ),            
     )
