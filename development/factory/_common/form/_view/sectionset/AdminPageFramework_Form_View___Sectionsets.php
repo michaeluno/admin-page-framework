@@ -411,7 +411,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                             'class'                     => 'element-address',
                             'type'                      => 'hidden',
                             'name'                      => '__repeatable_elements_' . $aSection[ '_structure_type' ] 
-                                . '[ ' . $aSection[ 'section_id' ] . ' ]',
+                                . '[' . $aSection[ 'section_id' ] . ']',
                             // @todo examine whether this value should include a section index.
                             'value' => $aSection[ 'section_id' ],                            
                         )
@@ -430,7 +430,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                             'class'                     => 'element-address',
                             'type'                      => 'hidden',
                             'name'                      => '__sortable_elements_' . $aSection[ '_structure_type' ] 
-                                . '[ ' . $aSection[ 'section_id' ] . ' ]',
+                                . '[' . $aSection[ 'section_id' ] . ']',
                             // @todo examine whether this value should include a section index.
                             'value' => $aSection[ 'section_id' ],                            
                         )
@@ -452,7 +452,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                         'input',
                         array(
                             'type'  => 'hidden',
-                            'name'  => '__unset_' .  $aSection[ '_structure_type' ] . '[ ' . $aSection[ 'section_id' ] . ' ]',
+                            'name'  => '__unset_' .  $aSection[ '_structure_type' ] . '[' . $aSection[ 'section_id' ] . ']',
                             'value' => "__dummy_option_key|" . $aSection[ 'section_id' ],
                             'class' => 'unset-element-names element-address',
                         )

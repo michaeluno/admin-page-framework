@@ -318,6 +318,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         'hfTagID'           => null,    // the field container id attribute
         'hfName'            => null,    // the field name attribute
         'hfNameFlat'        => null,    // the flat field name attribute
+        // @todo Document the differences between `hfName` and `hfInputName`
         'hfInputName'       => null,    // 3.6.0+   the field input name attribute
         'hfInputNameFlat'   => null,    // 3.6.0+   the flat field input name 
         'hfClass'           => null,    // the class attribute       

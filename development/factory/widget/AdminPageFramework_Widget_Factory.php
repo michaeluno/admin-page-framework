@@ -147,9 +147,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
      * Constructs the widget form with the given saved form data.
      * 
      * In widgets.php, this method is called multiple times per instance of the class defining the widget (widget model).
-     * It is called for the number of added widget instances via drag-and-drop in the UI
-     * of the widget model that the caller class defines.
-     * 
+     * It is called for the number of added widget instances via drag-and-drop in the UI of the widget model that the caller class defines.
      * This means, the framework factory class has to renew the saved data every time this method is called.
      * 
      * @return      void
@@ -212,86 +210,50 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * @since       3.6.0       Changed the name from `_replyToGetInputName`.
          * @return      string
          */
-        public function _replyToGetFieldName( /* $sNameAttribute, array $aField */ ) {
+        public function _replyToGetFieldName( /* $sNameAttribute, array $aFieldset */ ) {
             
             $_aParams      = func_get_args() + array( null, null, null );
-            $aField        = $_aParams[ 1 ];
-            
-            $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) 
-                ? "[{$aField['_section_index']}]" 
-                : "";             
-            $_sID           = $this->oCaller->isSectionSet( $aField )
-                ? $aField['section_id'] . "]" . $_sSectionIndex . "[" . $aField[ 'field_id' ]
-                : $aField['field_id'];
-            return $this->get_field_name( $_sID );
+            $aFieldset     = $_aParams[ 1 ];
+            return $this->_getNameAttributeDimensions( $aFieldset );
         
         }    
         
+            /**
+             * Calculates the name attribute by adding section and field dimensions.
+             * 
+             * @remark      This one is tricky as the core widget factory method enclose this value in []. So when the framework field has a section, it must NOT end with ].
+             * As of WordPress 4.4, the `get_field_name()` method of `WP_Widget` has some handling of strings containing `[`. So avoid the core method to be used as the framework supports nested sections.
+             * @since       3.7.2       No longer uses `$this->get_field_name()`.
+             * @return      string
+             */
+            private function _getNameAttributeDimensions( $aFieldset ) {
+                $_sSectionIndex = isset( $aFieldset[ 'section_id' ], $aFieldset[ '_section_index' ] ) 
+                    ? "[{$aFieldset[ '_section_index' ]}]" 
+                    : "";             
+                $_sDimensions   = $this->oCaller->isSectionSet( $aFieldset )
+                    ? $aFieldset[ 'section_id' ] . "]" . $_sSectionIndex . "[" . $aFieldset[ 'field_id' ]
+                    : $aFieldset[ 'field_id' ];                
+                return 'widget-' . $this->id_base . '[' . $this->number . '][' . $_sDimensions . ']';
+            }        
+        
         /**
          * 
+         * @remark      As of WordPress 4.4, the `get_field_name()` method of `WP_Widget` has some handling of strings containing `[`. So avoid the core method to be used as the framework supports nested sections.
          * @since       3.6.0
          * @return      string
          */
-        public function _replyToGetFieldInputName( /* $sNameAttribute, array $aField, $sIndex */ ) {
+        public function _replyToGetFieldInputName( /* $sNameAttribute, array $aFieldset, $sIndex */ ) {
             
-            $_aParams      = func_get_args() + array( null, null, null );
-            $aField        = $_aParams[ 1 ];
-            $sIndex        = $_aParams[ 2 ];
-            
-            $_sIndex = $this->oCaller->oUtil->getAOrB(
+            $_aParams       = func_get_args() + array( null, null, null );
+            $aFieldset      = $_aParams[ 1 ];
+            $sIndex         = $_aParams[ 2 ];
+            $_sIndex        = $this->oCaller->oUtil->getAOrB(
                 '0' !== $sIndex && empty( $sIndex ),
                 '',
                 "[" . $sIndex . "]"
-            );                        
-            $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] ) 
-                ? "[{$aField['_section_index']}]" 
-                : "";             
-            $_sID           = $this->oCaller->isSectionSet( $aField )
-                ? $aField['section_id'] . "]" . $_sSectionIndex . "[" . $aField[ 'field_id' ]
-                : $aField[ 'field_id' ];
-            return $this->get_field_name( $_sID ) . $_sIndex;
-            
-        }
-        
-        /**
-         * Returns the flat input name.
-         * 
-         * A flat input name is a 'name' attribute value whose dimensional elements are delimited by the pile character.
-         * 
-         * Instead of [] enclosing array elements, it uses the pipe(|) to represent the multi dimensional array key.
-         * This is used to create a reference to the submit field name to determine which button is pressed.
-         * 
-         * @since       3.5.7       Moved from `AdminPageFramework_FormField`.
-         * @since       3.6.0       Changed the name from `_replyToGetFlatInputName()`.
-         * @return      string
-         * @deprecated
-         */
-        // protected function _replyToGetFlatFieldName( /* $sFlatInputName, array $aField */ ) {
-            // $_aParams       = func_get_args() + array( null, null );            
-            // $aField         = $_aParams[ 1 ];
+            );                   
+            return $this->_replyToGetFieldName( '', $aFieldset ) . $_sIndex;
 
-            
-            // $_sSectionIndex = isset( $aField['section_id'], $aField['_section_index'] )
-                // ? "|{$aField['_section_index']}" 
-                // : '';                        
-            // $sFlatInputName = $this->oCaller->isSectionSet( $aField )
-                // ? "{$aField['section_id']}{$_sSectionIndex}|{$aField['field_id']}"
-                // : "{$aField['field_id']}";
-            // return $sFlatInputName;
-        // }
-    
-    /**
-     * Modifies the class Selector.
-     * 
-     * @since   3.2.0
-     * @remark  currently not used
-     * @deprecated
-     */
-    // public function _replyToAddClassSelector( $sClassSelectors ) {
-        
-        // $sClassSelectors .= ' widefat';
-        // return trim( $sClassSelectors );
-        
-    // }
-    
+        }
+  
 }
