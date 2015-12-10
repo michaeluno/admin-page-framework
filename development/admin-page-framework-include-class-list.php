@@ -1,10 +1,11 @@
 <?php 
 /**
-	Admin Page Framework v3.7.2b02 by Michael Uno 
+	Admin Page Framework v3.7.2b03 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 $aClassFiles = array( 
+	"AdminPageFramework_InclusionClassFilesHeader"	=>	AdminPageFramework_Registry::$sDirPath . "/cli/AdminPageFramework_InclusionClassFilesHeader.php", 
 	"AdminPageFramework"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework.php", 
 	"AdminPageFramework_Controller"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Controller.php", 
 	"AdminPageFramework_Controller_Form"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/AdminPageFramework_Controller_Form.php", 
@@ -134,7 +135,6 @@ $aClassFiles = array(
 	"AdminPageFramework_Link_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_controller/AdminPageFramework_Link_Base.php", 
 	"AdminPageFramework_Resource_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_controller/AdminPageFramework_Resource_Base.php", 
 	"AdminPageFramework_Format_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_model/AdminPageFramework_Format_Base.php", 
-	"AdminPageFramework_InclusionClassFilesHeader"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_model/AdminPageFramework_InclusionClassFilesHeader.php", 
 	"AdminPageFramework_Message"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_model/AdminPageFramework_Message.php", 
 	"AdminPageFramework_Property_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_model/AdminPageFramework_Property_Base.php", 
 	"AdminPageFramework_CSS"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_abstract/_view/AdminPageFramework_CSS.php", 

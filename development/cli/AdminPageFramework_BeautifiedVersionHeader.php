@@ -11,7 +11,7 @@
  * If accessed from a console, include the registry class to laod 'AdminPageFramework_Registry_Base'.
  */
 if ( php_sapi_name() === 'cli' ) {
-    $_sFrameworkFilePath = dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/admin-page-framework.php';
+    $_sFrameworkFilePath = dirname( dirname( __FILE__ ) ) . '/admin-page-framework.php';
     if ( file_exists( $_sFrameworkFilePath ) ) {
         include_once( $_sFrameworkFilePath );
     }
