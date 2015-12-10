@@ -13,7 +13,7 @@ if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
 /**
  * Copies files in a specified directory into a set destination directory and applies beautification.
  * 
- * @version    1.0.0
+ * @version    1.0.1
  */
 class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
     
@@ -117,7 +117,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $sSourceDirPath, 
             $sDestinationDirPath, 
             0755,
-            $aOptions['search']
+            $aOptions[ 'search' ]
         );
         if ( ! $_bSuccess ) {
             $this->output(
@@ -171,11 +171,14 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
          */
         private function _formatOptions( array $aOptions ) {
                 
-            $aOptions                    = $aOptions + self::$_aStructure_Options;
-            $aOptions['search']          = $aOptions['search'] + self::$_aStructure_Options['search'];
-            $aOptions['carriage_return'] = php_sapi_name() == 'cli' 
+            $aOptions                      = $aOptions + self::$_aStructure_Options;
+            $aOptions[ 'search' ]          = $aOptions['search'] + self::$_aStructure_Options[ 'search' ];
+            $aOptions[ 'search' ][ 'exclude_dir_paths' ] = $this->_formatPaths( $aOptions[ 'search' ][ 'exclude_dir_paths' ] );
+            $aOptions[ 'carriage_return' ] = php_sapi_name() == 'cli' 
                 ? PHP_EOL 
                 : '<br />';
+                
+                
             return $aOptions;
             
         }
@@ -490,11 +493,12 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             }
         private function isInExcludeList( $sDirPath, array $aOptions=array() ) {
                         
-            $_aExcludeDirPaths = isset( $aOptions['exclude_dir_paths'] )
-                ? ( array ) $aOptions['exclude_dir_paths']
+            $sDirPath          = $this->_getPathFormatted( $sDirPath );
+            $_aExcludeDirPaths = isset( $aOptions[ 'exclude_dir_paths' ] )
+                ? ( array ) $aOptions[ 'exclude_dir_paths' ]
                 : array();
-            $_aExcludeDirNames = isset( $aOptions['exclude_dir_names'] )
-                ? ( array ) $aOptions['exclude_dir_names']
+            $_aExcludeDirNames = isset( $aOptions[ 'exclude_dir_names' ] )
+                ? ( array ) $aOptions[ 'exclude_dir_names' ]
                 : array();            
             
             if ( in_array( $sDirPath, $_aExcludeDirPaths ) ) { 
