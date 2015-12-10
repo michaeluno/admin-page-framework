@@ -10,7 +10,7 @@
 /**
  * The base class of script creator.
  * 
- * @version        1.0.7
+ * @version        1.0.8
  */
 abstract class PHP_Class_Files_Script_Generator_Base {
 
@@ -122,16 +122,22 @@ abstract class PHP_Class_Files_Script_Generator_Base {
              * 
              * This is necessary to check excluding paths because the user may pass paths with a forward slash but the system may use backslashes.
              */
-            private function _formatPaths( $asDirPaths ) {
+            protected function _formatPaths( $asDirPaths ) {
                 
                 $_aFormattedDirPaths = array();
                 $_aDirPaths = is_array( $asDirPaths ) ? $asDirPaths : array( $asDirPaths );
                 foreach( $_aDirPaths as $_sPath ) {
-                    $_aFormattedDirPaths[] = str_replace( '\\', '/', $_sPath );
+                    $_aFormattedDirPaths[] = $this->_getPathFormatted( $_sPath );
                 }
                 return $_aFormattedDirPaths;
                 
             }
+                /**
+                 * @return      string
+                 */
+                protected function _getPathFormatted( $sPath ) {
+                    return rtrim( str_replace( '\\', '/', $sPath ), '/' );
+                }
             /**
              * The recursive version of the glob() function.
              */
@@ -146,7 +152,7 @@ abstract class PHP_Class_Files_Script_Generator_Base {
                 );
                 $_aDirs     = is_array( $_aDirs ) ? $_aDirs : array();
                 foreach ( $_aDirs as $_sDirPath ) {
-                    $_sDirPath  = str_replace( '\\', '/', $_sDirPath );
+                    $_sDirPath        = $this->_getPathFormatted( $_sDirPath );
                     if ( in_array( $_sDirPath, $aExcludeDirPaths ) ) { 
                         continue; 
                     }
