@@ -1,7 +1,7 @@
 === Admin Page Framework ===
 Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
-Tags:               admin, administration, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, theme
+Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
 Tested up to:       4.4
 Stable tag:         3.7.1
@@ -11,38 +11,39 @@ License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 Facilitates WordPress plugin and theme development.
 
 == Description ==
+
+<h4>Build Admin Pages and Forms for Plugin and Theme Development</h4>
 One of the time-consuming part of developing WordPress plugins and themes is creating setting pages. As you more and more write plugins and themes, you'll soon realize major part of code can be reused. Admin Page Framework aims to provide reusable code that eliminates the necessity of writing repeated code over and over again.
 
 Admin Page Framework provides plugin and theme developers with easier means of building option pages. Extend the library class and pass your arrays that define the form elements to the predefined class methods. The library handles all the complex coding behind the scene and creates the pages and the forms for you.
 
-**Notes:** this framework does not do anything by itself. If you are not a developer, you do not need this.
-
-= What you can do =
-
-easily create:
-
+<h4>Create Essential Components of Pages and Forms</h4>
 - **Top-level Page, Sub Pages, and In-page Tabs** - where your users will access to operate your plugin or theme.
 - **Forms** - to let your users store their options.
 - **Custom Post Types** - and the custom columns in the post listing table.
-- **Custom Taxonomies and Fields** - to store options associated with a taxonomy in the taxonomy definition page.
-- **Meta Boxes and Fields** - which help to store meta data associated with posts of set post types. Also meta boxes can be added to the pages created with the framework.
-- **Widgets and Fields** - to display modular outputs based on the user's settings in the front end.
-- **Network Admin Pages and Forms** - for WordPress multi-sites.
-- **Contact Form** - receive emails of user feedback and issue reports sent via the contact form embedded in an admin page.
+- **Custom Taxonomies and Fields** - store options associated with a taxonomy in the taxonomy definition page.
+- **Meta Boxes and Fields** - store meta data associated with posts of set post types. Also meta boxes can be added to the pages created with the framework.
+- **Widgets and Fields** - display modular outputs based on the user's settings in the front end.
+- **Network Admin Pages and Forms** - create admin pages in the newtork admin area of WordPress multi-sites.
 
-= What are useful about =
-- **Extensible** - the created admin pages will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
+<h4>Construct Simple Yet Complex Setting Forms</h4>
 - **Section Tabs** - form sections can be displayed in a tabbed box.
 - **Collapsible Sections** - form sections can be collapsed and expanded.
 - **Repeatable Sections and Fields** - dynamically add/remove form sections and fields.
 - **Sortable Sections and Fields** - drag and drop form sections and fields to change the order.
 - **Nested Sections** - nest sections to construct complex forms.
 - **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading text files.
-- **Reset Button** - lets the user to initialize the saved options.
+- **Reset Button** - let your users to initialize the saved options.
 - **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting form data can be verified. Furthermore, by setting the error array, you can display the error message to the user.
-- **Contextual Help Pane** - help contents can be added to the contextual help pane that appears at the top right of each screen.
+- **Contextual Help Pane** - help information can be added to the contextual help pane that appears at the top right of each screen.
 - **Custom Field Types** - your own field type can be registered. This allows you to design own fields such as a combination of a checkbox with a text field. 
-- **Portable** - use the framework as a library and include the minified version and your plugin or theme does not require an extra plugin to be installed. Therefore, your product will be perfectly portable.
+- **Contact Form** - receive emails of user feedback and issue reports sent via the contact form embedded in an admin page.
+- **Tooltips** - add a small pop-up box beside section and field title for the users to read about the option.
+
+<h4>Produce a Series of Product with the Framework Extensibility</h4>
+If you are planning to create a product possibly extended with an unlimited number of add-ons, take advantage of the framework's native extensibility. The created admin pages and forms will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
+
+Also, use the framework as a library and your plugin or theme does not have to require an extra dependency to be installed. Therefore, your product will be perfectly portable.
 
 <h4>Built-in Field Types</h4>
 - `text` - a normal field to enter text input.
@@ -72,10 +73,10 @@ With custom field types, you can create more detailed customized field outputs. 
 - `sample` - a sample custom field type with a JavaScript script.
 - `github` - displays GitHub buttons.
 
-If you want a field type that are not listed here, you can check the [field type pack](http://admin-page-framework.michaeluno.jp/add-ons/field-type-pack/) or request a new one in the forum.
+If you want a field type that are not listed here, you can check the [field type pack](http://admin-page-framework.michaeluno.jp/add-ons/field-type-pack/) or request a new one in the [forum](https://wordpress.org/support/plugin/admin-page-framework).
 
 <h4>Getting Started</h4>
-Go to **Dashboard** -> **Admin Page Framework** -> **About** -> **Getting Started**.
+To get started, go to **Dashboard** -> **Admin Page Framework** -> **About** -> **Getting Started**.
 
 <h4>Demo</h4>
 Activate the demo pages to see the possible features of the framework. To activate it, go to **Dashboard** -> **Admin Page Framework** -> **Add Ons** -> **Demo**.
@@ -83,6 +84,8 @@ Activate the demo pages to see the possible features of the framework. To activa
 <h4>Documentation</h4>
 - [Online Documentation](http://admin-page-framework.michaeluno.jp/en/v3/package-AdminPageFramework.AdminPage.html)
 - [Tutorials](http://admin-page-framework.michaeluno.jp/tutorials/)
+
+**Notes:** this framework does not do anything by itself. If you are not a developer, you do not need this.
 
 == Screenshots ==
 1. **Text Fields**
@@ -430,7 +433,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.2 - 2015/12/10 =
+= 3.7.2 - 2015/12/11 =
 - Fixed a compatibility issue with WordPress 4.4 that widget fileds with a section could no longer save and retrieve the values.
 - Fixed a bug that the framework library files and user-generated library files were missing file doc-blocks.
 - Fixed an issue that custom field type specific text domain could not be converted with the Generator tool.
