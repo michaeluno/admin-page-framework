@@ -23,7 +23,8 @@ abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Facto
      * 
      * @since       3.2.0
      * @remark      The available widget areas are widgets.php and customize.php. 
-     * However, some plugins implements widgets form interface in post editing page.
+     * However, some plugins implement widget form interface in post editing page.
+     * @return      boolean
      * @internal
      */
     public function _isInThePage() {

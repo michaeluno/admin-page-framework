@@ -55,7 +55,7 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
          * @callback    filter      validation_{factory class name}
          */
         public function _replyToSortInputs( $aSubmittedFormData, $aStoredFormData, $oFactory ) {            
-// @todo examine whether stripslashes_deep() is necceary or not.
+// @todo examine whether stripslashes_deep() is necessary or not.
             return $this->oForm->getSortedInputs( $aSubmittedFormData ); 
         }
         

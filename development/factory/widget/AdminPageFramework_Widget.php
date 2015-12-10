@@ -23,7 +23,7 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
      * This is used to create a property object as well as to define the form element structure.
      * 
      * @since       3.2.0
-     * @since       3.7.0      Changed the name from `$_sStructureType`.
+     * @since       3.7.0      Changed the name from `$_sFieldsType`.
      * @internal
      */
     static protected $_sStructureType = 'widget';
