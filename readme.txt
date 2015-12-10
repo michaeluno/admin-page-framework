@@ -430,7 +430,8 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.2 =
+= 3.7.2 - 2015/12/10 =
+- Fixed a bug that the framework library files and user-generated library files were missing file doc-blocks.
 - Fixed an issue that custom field type specific text domain could not be converted with the Generator tool.
 - Changed the form sections and fields registration mechanism of the admin page class to accept items without the `page_slug` and `tab_slug` by letting them being added to the current page or tab which is registed by the classs.
 
