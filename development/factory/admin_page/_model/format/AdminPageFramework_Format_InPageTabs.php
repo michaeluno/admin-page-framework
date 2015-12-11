@@ -24,7 +24,7 @@ class AdminPageFramework_Format_InPageTabs extends AdminPageFramework_Format_Bas
     
     public $aInPageTabs = array();
     
-    public $sPageSlug = array();
+    public $sPageSlug = '';
     
     public $oFactory;
     
