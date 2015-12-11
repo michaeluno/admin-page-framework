@@ -29,9 +29,10 @@ class APF_PostType extends AdminPageFramework_PostType {
             // argument - for the array structure, see http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
             array( 
                 'labels' => array(
-                    'name'               => __( 'APF Demo', 'admin-page-framewrok-loader' ),
-                    'all_items'          => __( 'Sample Posts', 'admin-page-framework-loader' ),
-                    'singular_name'      => __( 'APF Demo', 'admin-page-framewrok-loader' ),
+                    'name'               => __( 'APF Demo', 'admin-page-framework-loader' ),
+                    'menu_name'          => __( 'APF Demo', 'admin-page-framework-loader' ),
+                    'all_items'          => __( 'Manage Sample Posts', 'admin-page-framework-loader' ),
+                    'singular_name'      => __( 'APF Demo', 'admin-page-framework-loader' ),
                     'add_new'            => __( 'Add New', 'admin-page-framework-loader' ),
                     'add_new_item'       => __( 'Add New APF Post', 'admin-page-framework-loader' ),
                     'edit'               => __( 'Edit', 'admin-page-framework-loader' ),
@@ -134,6 +135,23 @@ class APF_PostType extends AdminPageFramework_PostType {
         return __( 'Custom right footer text.', 'admin-page-framework-loader' ) . '<br />'
             . $sHTML;
     }    
+    
+    /*
+     * Built-in callback methods
+     * 
+     * @callback    filter      action_links_{post type slug}
+     * @return      array
+     */
+    public function action_links_apf_posts( $aActionLinks, $oPost ) {
+        $_sMessage = esc_attr( 
+            __( 'You can embed a custom link with the `action_links_{post type slug}` filter hook.', 'admin-page-framework-loader' )
+        );
+        $aActionLinks[] = "<a href='' title='{$_sMessage}'>"
+            . __( 'Sample Link', 'admin-page-framework-loader' )
+            . "</a>";
+        return $aActionLinks;
+    }
+    
     /*
      * Built-in callback methods
      * 
