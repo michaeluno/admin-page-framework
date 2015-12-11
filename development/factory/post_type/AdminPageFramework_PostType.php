@@ -43,7 +43,7 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
     *               'parent'             => __( 'Parent APF Post', 'admin-page-framework-demo' ),
     *               
     *               // (framework specific)
-    *               'plugin_listing_table_title_cell_link' => __( 'APF Posts', 'admin-page-framework-demo' ), // framework specific key. [3.0.6+]
+    *               'plugin_action_link' => __( 'APF Posts', 'admin-page-framework-demo' ), // framework specific key. [3.7.3+]
     *           ),
     *           'public'            => true,
     *           'menu_position'     => 110,
@@ -76,7 +76,8 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
     * - show_submenu_add_new [3.5.10+]
 
     * <h4>Framework Specific Post Type Label Arguments</h4>
-    * - plugin_listing_table_title_cell_link' - If the caller script is a plugin, this determines the label of the action link embedded in the plugin listing page (plugins.php).
+    * - plugin_listing_table_title_cell_link' - [3.0.6+] Deprecated [3.7.3] use the `plugin_action_link` argument instead.
+    * - plugin_action_link' - [3.7.3+] If the caller script is a plugin, this determines the label of the action link embedded in the plugin listing page (plugins.php).
     * To disable the action link, set an empty string `''`. 
 
     * 
