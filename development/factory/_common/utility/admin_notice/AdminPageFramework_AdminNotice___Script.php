@@ -14,7 +14,7 @@
  * @package     AdminPageFramework
  * @subpackage  Utility
  * @internal
- * @extends     AdminPageFramework_WPUtility
+ * @extends     AdminPageFramework_Factory___Script_Base
  */
 class AdminPageFramework_AdminNotice___Script extends AdminPageFramework_Factory___Script_Base {
 
