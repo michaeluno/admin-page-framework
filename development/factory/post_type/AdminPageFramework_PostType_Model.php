@@ -108,7 +108,7 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * @internal
      * @since       3.0.x
      * @since       3.5.0       Renamed from `_replyToSetColumnCell`.
-     * @callback    filter      manage_{post type slug}_posts_custom_column
+     * @callback    action      manage_{post type slug}_posts_custom_column
      * @return      string
      */
     public function _replyToPrintColumnCell( $sColumnKey, $iPostID ) {                 
@@ -124,6 +124,8 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * Disables the WordPress's built-in auto-save functionality.
      * 
      * @internal
+     * @callback    action      admin_enqueue_scripts
+     * @return      void
      */
     public function _replyToDisableAutoSave() {
         

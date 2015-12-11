@@ -36,16 +36,21 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             add_action( 'restrict_manage_posts', array( $this, '_replyToAddTaxonomyTableFilter' ) );
             add_filter( 'parse_query', array( $this, '_replyToGetTableFilterQueryForTaxonomies' ) );
             
+            // Add an warning icon to the tag unit type's action link.
+            add_filter( 
+                'post_row_actions',
+                array( $this, '_replyToModifyActionLinks' ), 
+                10, 
+                2 
+            );            
+            
             // Style
             add_action( 'admin_head', array( $this, '_replyToPrintStyle' ) );
-                     
-        }     
-        
-        if ( $this->oProp->bIsAdmin ) {
-            // Menu 
-            // 3.5.10+
+
+            // 3.5.10+ Menu 
             add_action( 'admin_menu', array( $this, '_replyToRemoveAddNewSidebarMenu' ) );
-        }
+            
+        }     
         
         // Front-end
         add_action( 'the_content', array( $this, '_replyToFilterPostTypeContent' ) );
@@ -58,6 +63,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
          * @internal
          * @since       3.5.10
          * @return      void
+         * @callback    action      admin_menu
          */
         public function _replyToRemoveAddNewSidebarMenu() {
             
@@ -139,9 +145,31 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             }
         
     /**
+     * Modifies the action links for the post listing table.
+     * @callback    filter      post_row_actions
+     * @since       3.7.3
+     */ 
+    public function _replyToModifyActionLinks( $aActionLinks, $oPost )  {
+        
+        if ( $oPost->post_type !== $this->oProp->sPostType ){
+            return $aActionLinks;
+        }        
+
+        return $this->oUtil->addAndApplyFilters(
+            $this, 
+            "action_links_{$this->oProp->sPostType}", 
+            $aActionLinks,
+            $oPost
+        );    
+        
+    }
+    
+    /**
      * Adds a drop-down list to filter posts by author, placed above the post type listing table.
      * 
      * @internal
+     * @uses        wp_dropdown_users
+     * @callback    filter      restrict_manage_posts
      */ 
     public function _replyToAddAuthorTableFilter() {
         
@@ -150,8 +178,8 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
         }
         
         if ( 
-            ! ( isset( $_GET['post_type'] ) && post_type_exists( $_GET['post_type'] ) 
-            && in_array( strtolower( $_GET['post_type'] ), array( $this->oProp->sPostType ) ) ) 
+            ! ( isset( $_GET[ 'post_type' ] ) && post_type_exists( $_GET[ 'post_type' ] ) 
+            && in_array( strtolower( $_GET[ 'post_type' ] ), array( $this->oProp->sPostType ) ) ) 
         ) {
             return;
         }
@@ -187,7 +215,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             return;
         }
         
-        foreach ( get_object_taxonomies( $GLOBALS['typenow'] ) as $_sTaxonomySulg ) {
+        foreach ( get_object_taxonomies( $GLOBALS[ 'typenow' ] ) as $_sTaxonomySulg ) {
             
             if ( ! in_array( $_sTaxonomySulg, $this->oProp->aTaxonomyTableFilters ) ) {
                 continue;
@@ -229,11 +257,11 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             return $oQuery; 
         }
         
-        if ( ! isset( $GLOBALS['typenow'] ) ) { 
+        if ( ! isset( $GLOBALS[ 'typenow' ] ) ) { 
             return $oQuery; 
         }
 
-        foreach ( get_object_taxonomies( $GLOBALS['typenow'] ) as $sTaxonomySlug ) {
+        foreach ( get_object_taxonomies( $GLOBALS[ 'typenow' ] ) as $sTaxonomySlug ) {
             
             if ( ! in_array( $sTaxonomySlug, $this->oProp->aTaxonomyTableFilters ) ) { 
                 continue; 
@@ -268,8 +296,8 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
         }
 
         // If the screen icon url is specified
-        if ( isset( $this->oProp->aPostTypeArgs['screen_icon'] ) && $this->oProp->aPostTypeArgs['screen_icon'] ) {
-            $this->oProp->sStyle .= $this->_getStylesForPostTypeScreenIcon( $this->oProp->aPostTypeArgs['screen_icon'] );
+        if ( isset( $this->oProp->aPostTypeArgs[ 'screen_icon' ] ) && $this->oProp->aPostTypeArgs[ 'screen_icon' ] ) {
+            $this->oProp->sStyle .= $this->_getStylesForPostTypeScreenIcon( $this->oProp->aPostTypeArgs[ 'screen_icon' ] );
         }
             
         $this->oProp->sStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
@@ -277,7 +305,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
         // Print out the filtered styles.
         if ( ! empty( $this->oProp->sStyle ) ) {
             echo "<style type='text/css' id='admin-page-framework-style-post-type'>" 
-                . $this->oProp->sStyle
+                    . $this->oProp->sStyle
                 . "</style>";     
         }
         
@@ -323,6 +351,8 @@ CSSRULES;
      * 
      * @since       3.1.5
      * @internal
+     * @callback    filter      the_content
+     * @return      string
      */
     public function _replyToFilterPostTypeContent( $sContent ) {
         

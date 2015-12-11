@@ -25,6 +25,7 @@
  *     <li>**sortable_columns_{post type slug}** – receives the array containing the sortable header column array for the listing table of the custom post type's post. The first parameter: the sortable header columns container array.</li>
  *     <li>**footer_right_{instantiated class name}** – [3.5.5+] receives an HTML output for the right footer.</li> 
  *     <li>**footer_left_{instantiated class name}** – [3.5.5+] receives an HTML output for the left footer.</li> 
+ *     <li>**action_links_{post type slug}** – [3.7.3+] receives an array of action links of the post listing table output. The second parameter: post object.</li> 
  * </ul>
  * <h3>Remarks</h3>
  * <p>The slugs must not contain a dot(.) or a hyphen(-) since it is used in the callback method name.</p> 
