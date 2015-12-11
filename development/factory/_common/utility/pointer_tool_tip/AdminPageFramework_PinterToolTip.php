@@ -262,7 +262,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         }    
     
     /**
-     * @since       DVVER
+     * @since       3.7.0
      * @callback    action      admin_print_footer_scripts
      */
     public function _replyToInsertInlineScript() {
