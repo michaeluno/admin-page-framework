@@ -12,12 +12,12 @@ Facilitates WordPress plugin and theme development.
 
 == Description ==
 
-<h4>Build Admin Pages and Forms for Plugin and Theme Development</h4>
+<h4>Reduce Time for Plugin and Theme Development</h4>
 One of the time-consuming part of developing WordPress plugins and themes is creating setting pages. As you more and more write plugins and themes, you'll soon realize major part of code can be reused. Admin Page Framework aims to provide reusable code that eliminates the necessity of writing repeated code over and over again.
 
-Admin Page Framework provides plugin and theme developers with easier means of building option pages. Extend the library class and pass your arrays that define the form elements to the predefined class methods. The library handles all the complex coding behind the scene and creates the pages and the forms for you.
+You will have more organized means of building option pages with the framework. Extend the library class and pass your arrays defining the form elements to the predefined class methods. The library handles all the complex coding behind the scene and creates the pages and the forms for you.
 
-<h4>Create Essential Components of Pages and Forms</h4>
+<h4>Create Essential Page and Form Components for Your Users</h4>
 - **Top-level Page, Sub Pages, and In-page Tabs** - where your users will access to operate your plugin or theme.
 - **Forms** - to let your users store their options.
 - **Custom Post Types** - and the custom columns in the post listing table.
