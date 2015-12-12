@@ -29,11 +29,11 @@
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.7.3b01
+ * @version             3.7.3b02
  */
 abstract class AdminPageFramework_Registry_Base {
 
-    const VERSION       = '3.7.3b01'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION       = '3.7.3b02'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME          = 'Admin Page Framework';
     const DESCRIPTION   = 'Facilitates WordPress plugin and theme development.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
@@ -90,9 +90,9 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
     static public $aClassFiles = array();
 
     // These properties will be defined in the setUp() method.
-    static public $sFilePath    = '';
-    static public $sDirPath     = '';
-    static public $sFileURI     = '';
+    static public $sFilePath   = '';
+    static public $sDirPath    = '';
+    static public $sFileURI    = '';
 
     /**
      * Sets up static properties.
@@ -194,22 +194,7 @@ final class AdminPageFramework_Bootstrap {
         }
 
         // Load the classes only for the non-minified version.
-        include( AdminPageFramework_Registry::$sAutoLoaderPath );
-        new AdminPageFramework_RegisterClasses(
-            // the scanning directory
-            empty( AdminPageFramework_Registry::$aClassFiles )
-                ? AdminPageFramework_Registry::$sDirPath
-                : '',
-            // search options
-            array(
-                'exclude_class_names'   => array(
-                    'AdminPageFramework_MinifiedVersionHeader',
-                    'AdminPageFramework_BeautifiedVersionHeader',
-                ),
-            ),
-            // a class list array
-            AdminPageFramework_Registry::$aClassFiles
-        );
+        $this->_include();
 
         // Update a property - this must be done after registering classes.
         AdminPageFramework_Registry::$bIsDevelopmentVersion = class_exists( 'AdminPageFramework_InclusionClassFilesHeader' );
@@ -232,6 +217,48 @@ final class AdminPageFramework_Bootstrap {
             return defined( 'ABSPATH' );
 
         }
-
+        
+        /**
+         * Includes required files and registers auto-load classes.
+         * 
+         * @since       3.7.3
+         * @return      void
+         */
+        private function _include() {
+            
+            include( AdminPageFramework_Registry::$sAutoLoaderPath );
+            new AdminPageFramework_RegisterClasses(
+                // the scanning directory
+                empty( AdminPageFramework_Registry::$aClassFiles )
+                    ? AdminPageFramework_Registry::$sDirPath
+                    : '',
+                // search options
+                array(
+                    'exclude_class_names'   => array(
+                        'AdminPageFramework_MinifiedVersionHeader',
+                        'AdminPageFramework_BeautifiedVersionHeader',
+                    ),
+                ),
+                // a class list array
+                AdminPageFramework_Registry::$aClassFiles
+            );            
+             
+            /**
+             * Reduce the nesting level of recursive function calls of `spl_autoload_call()`.
+             * 
+             * Instantiating a class with many class inheritances (extending a class) triggers `spl_autoload_call()` 
+             * and it keeps getting called until all the parent classes are loaded, which causes a fatal error,
+             * `Maximum function nesting level of 'x' reached,..` if the Xdebug extension is enabled.
+             * This instantiation of a class won't do anything in particular but just tells spl autoloader to include those files
+             * so that the next time the program utilizing the framework tries to instantiate its class has a less nesting level of nested function calls,
+             * which reduces the change of getting the fatal error.
+             */
+            if ( extension_loaded( 'xdebug' ) ) {
+                new AdminPageFramework_Utility;
+                new AdminPageFramework_WPUtility;
+            }            
+            
+        }
+        
 }
 new AdminPageFramework_Bootstrap( __FILE__ );

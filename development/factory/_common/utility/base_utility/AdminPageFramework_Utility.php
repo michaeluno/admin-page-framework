@@ -11,12 +11,13 @@
  * Provides utility methods which do not use WordPress functions.
  *
  * @since       2.0.0
+ * @since       3.7.3       Became not abstract for the xdebug max nesting level fatal error workaround.
  * @extends     AdminPageFramework_Utility_SystemInformation
  * @package     AdminPageFramework
  * @subpackage  Utility
  * @internal
  */
-abstract class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribute {
+class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribute {
        
     /**
      * Stores calls.
