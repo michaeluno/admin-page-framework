@@ -10,6 +10,7 @@
  * @package     AdminPageFramework
  */
 
+if ( ! class_exists( 'AdminPageFramework_Registry' ) ) :
 /**
  * Facilitates WordPress plugin and theme development.
  *
@@ -29,11 +30,11 @@
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.7.3
+ * @version             3.7.4b01
  */
 abstract class AdminPageFramework_Registry_Base {
 
-    const VERSION       = '3.7.3'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION       = '3.7.4b01'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME          = 'Admin Page Framework';
     const DESCRIPTION   = 'Facilitates WordPress plugin and theme development.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
@@ -163,15 +164,12 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
     }
 
 }
+endif;
 
+if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :
 /**
  * Loads the Admin Page Framework library.
  *
- * @copyright   2013-2015 (c) Michael Uno
- * @license     MIT <http://opensource.org/licenses/MIT>
- * @see         http://wordpress.org/plugins/admin-page-framework/
- * @see         https://github.com/michaeluno/admin-page-framework
- * @link        http://en.michaeluno.jp/admin-page-framework
  * @since       3.0.0
  * @package     AdminPageFramework
  * @subpackage  Utility
@@ -179,6 +177,14 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
  */
 final class AdminPageFramework_Bootstrap {
 
+    /**
+     * Indicates whether the bootstrap has run or not.
+     */
+    static private $_bLoaded = false;
+
+    /**
+     * Loads the framework.
+     */
     public function __construct( $sLibraryPath=__FILE__ ) {
 
         if ( ! $this->_isLoadable() ) {
@@ -209,9 +215,10 @@ final class AdminPageFramework_Bootstrap {
         private function _isLoadable() {
 
             // Prevent it from being loaded multiple times.
-            if ( isset( self::$sAutoLoaderPath ) ) {
+            if ( isset( self::$_bLoaded ) ) {
                 return false;
             }
+            self::$_bLoaded = true;
 
             // The minifier script will include this file ( but it does not include WordPress ) to use the reflection class to extract the docblock
             return defined( 'ABSPATH' );
@@ -262,3 +269,4 @@ final class AdminPageFramework_Bootstrap {
         
 }
 new AdminPageFramework_Bootstrap( __FILE__ );
+endif;
