@@ -156,7 +156,6 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                     'style'         => array(
                         AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css',
                         AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
-                        ' .main-image, .main-image img { text-align: center; max-width: 90%; margin-left: auto; margin-right: auto; } ',
                     ),
                 )                
             );        
