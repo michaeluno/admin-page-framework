@@ -229,7 +229,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
         $_bDebugMode && file_exists( $_sDevelopmentVersionPath )
             ? $_sDevelopmentVersionPath
             : dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php'
-    );
+    );   
 } 
  
 if ( 

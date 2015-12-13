@@ -215,7 +215,7 @@ final class AdminPageFramework_Bootstrap {
         private function _isLoadable() {
 
             // Prevent it from being loaded multiple times.
-            if ( isset( self::$_bLoaded ) ) {
+            if ( self::$_bLoaded ) {
                 return false;
             }
             self::$_bLoaded = true;
