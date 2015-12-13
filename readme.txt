@@ -433,7 +433,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.3 =
+= 3.7.3 - 2015/12/13 =
 - Added the `action_links_{post type slug}` filter to the post type factory class.
 - Fixed an issue of a fatal error `Maximum function nesting level of 'x' reached` when the server enables the XDebug extension and sets a low value for the `xdebug.max_nesting_level` option.
 
