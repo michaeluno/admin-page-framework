@@ -69,6 +69,9 @@ class APF_PostType extends AdminPageFramework_PostType {
                 // [3.5.10+] (framework specific) default: true
                 'show_submenu_add_new'  => true, 
                 
+                // 3.7.4+
+                'submenu_order_manage' => 5,    // default 5
+                'submenu_order_addnew' => 9,   // default 10
             )    
         );
         
@@ -85,8 +88,9 @@ class APF_PostType extends AdminPageFramework_PostType {
                 'hierarchical'          => true,
                 'show_admin_column'     => true,
                 'show_in_nav_menus'     => true,
-                'show_table_filter'     => true,    // framework specific key
-                'show_in_sidebar_menus' => true,    // framework specific key
+                'show_table_filter'     => true,    // (framework specific)
+                'show_in_sidebar_menus' => true,    // (framework specific)
+                'submenu_order'         => 10,      // (framework specific) Default :15
             )
         );
         $this->addTaxonomy( 
@@ -102,8 +106,9 @@ class APF_PostType extends AdminPageFramework_PostType {
                 'hierarchical'          => false,
                 'show_admin_column'     => true,
                 'show_in_nav_menus'     => false,
-                'show_table_filter'     => true,    // framework specific key
-                'show_in_sidebar_menus' => false,   // framework specific key
+                'show_table_filter'     => true,    // (framework specific)
+                'show_in_sidebar_menus' => false,   // (framework specific)
+                // 'submenu_order'         => 15,      // (framework specific)
             )
         );
                 

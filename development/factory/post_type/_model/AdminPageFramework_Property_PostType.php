@@ -155,6 +155,12 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
     public $bEnableAuthorTableFileter = false;    
  
     /**
+     * Stores key value pairs of sub-menu link and the order.
+     * @since       3.7.4
+     */
+    public $aTaxonomySubMenuOrder = array();
+ 
+    /**
      * Sets up activation/deactivation hooks.
      */
     public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sStructureType ) {

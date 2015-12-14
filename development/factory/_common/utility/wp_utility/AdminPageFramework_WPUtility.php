@@ -19,6 +19,29 @@
 class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
     
     /**
+     * Checks whether the admin ui of a post type is visible or not from given arguments.
+     * 
+     * @return      boolean     `true` if it is visible; otherwise, `false`.
+     * @since       3.7.4
+     * @see         http://codex.wordpress.org/Function_Reference/register_post_type#show_in_menu
+     */
+    static public function isPostTypeAdminUIVisible( array $aPostTypeArguments ) {
+        return ( boolean ) self::getElement(
+            $aPostTypeArguments, // subject array
+            'show_in_menu', // dimensional keys
+            self::getElement(
+                $aPostTypeArguments, // subject array
+                'show_ui', // dimensional keys
+                self::getElement(
+                    $aPostTypeArguments, // subject array
+                    'public', // dimensional keys
+                    false // default
+                )
+            )
+        );                        
+    }    
+    
+    /**
      * Retrieves the `wp-admin` directory path without a trailing slash.
      * 
      * @see         http://www.andrezrv.com/2014/11/11/correctly-obtain-path-admin-directory/

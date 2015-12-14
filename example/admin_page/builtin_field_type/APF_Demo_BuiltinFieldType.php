@@ -42,7 +42,7 @@ class APF_Demo_BuiltinFieldType {
                     'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
                     'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',  
                 */     
-                'order' => 1, // ( optional ) - if you don't set this, an index will be assigned internally in the added order
+                'order' => 10, // ( optional ) - if you don't set this, an index will be assigned internally in the added order
             )
         );        
         

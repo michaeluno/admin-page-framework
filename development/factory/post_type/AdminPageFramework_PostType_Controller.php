@@ -163,23 +163,24 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
     * @since    2.0.0
     * @since    3.1.1       Added the third parameter.
     * @param    string      $sTaxonomySlug              The taxonomy slug.
-    * @param    array       $aArgs                      The taxonomy argument array passed to the second parameter of the <a href="http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments">register_taxonomy()</a> function.
+    * @param    array       $aArguments                      The taxonomy argument array passed to the second parameter of the <a href="http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments">register_taxonomy()</a> function.
     * @param    array       $aAdditionalObjectTypes     Additional object types (post types) besides the caller post type.
     * @return   void
     */ 
-    protected function addTaxonomy( $sTaxonomySlug, array $aArgs, array $aAdditionalObjectTypes=array() ) {
+    protected function addTaxonomy( $sTaxonomySlug, array $aArguments, array $aAdditionalObjectTypes=array() ) {
 
         $sTaxonomySlug  = $this->oUtil->sanitizeSlug( $sTaxonomySlug );
-        $aArgs          = $aArgs + array(
+        $aArguments     = $aArguments + array(
             'show_table_filter'     => null,
             'show_in_sidebar_menus' => null,
+            'submenu_order'         => 15,  // 3.7.4
         ) ;
-        $this->oProp->aTaxonomies[ $sTaxonomySlug ] = $aArgs;
+        $this->oProp->aTaxonomies[ $sTaxonomySlug ] = $aArguments;
         
-        if ( $aArgs['show_table_filter'] ) {
+        if ( $aArguments[ 'show_table_filter' ] ) {
             $this->oProp->aTaxonomyTableFilters[] = $sTaxonomySlug;
         }
-        if ( ! $aArgs['show_in_sidebar_menus'] ) {
+        if ( ! $aArguments[ 'show_in_sidebar_menus' ] ) {
             $this->oProp->aTaxonomyRemoveSubmenuPages[ "edit-tags.php?taxonomy={$sTaxonomySlug}&amp;post_type={$this->oProp->sPostType}" ] = "edit.php?post_type={$this->oProp->sPostType}";
         }
 
@@ -195,7 +196,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
         // Set up hooks. If the 'init' hook is already done, register it now.
         $this->_addTaxonomy_setUpHooks( 
             $sTaxonomySlug, 
-            $aArgs,
+            $aArguments,
             $aAdditionalObjectTypes
         );
 

@@ -19,6 +19,25 @@
 abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {
     
     /**
+     * Finds an unused numeric index of an array.
+     * 
+     * @remark      the user may set a decimal number for the `order` argument.
+     * @return      numeric
+     * @since       3.7.4
+     */
+    static public function getUnusedNumericIndex( $aArray, $nIndex, $iOffset=1 ) {
+        
+        // Check if the order value is not used.
+        if ( ! isset( $aArray[ $nIndex ] ) ) {
+            return $nIndex;
+        }
+        
+        // At this point, the index is already taken. So find one.
+        return self::getUnusedNumericIndex( $aArray, $nIndex + $iOffset );
+        
+    }    
+    
+    /**
      * Checks if the given array is an associative array or not.
      * @since       3.7.0
      * @return      boolean

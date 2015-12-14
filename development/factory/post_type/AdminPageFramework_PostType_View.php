@@ -78,7 +78,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             }
             
             // Remove the Add New menu
-            $_bsShowInMenu = $this->_getShowInMenuValue( $this->oProp->aPostTypeArgs );
+            $_bsShowInMenu = $this->oUtil->isPostTypeAdminUIVisible( $this->oProp->aPostTypeArgs );
             $this->_removeAddNewSidebarSubMenu(
                 is_string( $_bsShowInMenu )
                     ? $_bsShowInMenu
@@ -87,32 +87,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             );
             
         }    
-            /**
-             * Retrieves the 'show_in_menu' post type argument value.
-             * 
-             * This argument is determined by the combinations of the values of the 'show_ui' and 'public' arguments.
-             * 
-             * @internal
-             * @since       3.5.10
-             * @see         http://codex.wordpress.org/Function_Reference/register_post_type#show_in_menu
-             * @return      boolean|string
-             */
-            private function _getShowInMenuValue( $aPostTypeArguments ) {
-                return $this->oUtil->getElement(
-                    $aPostTypeArguments, // subject array
-                    'show_in_menu', // dimensional keys
-                    $this->oUtil->getElement(
-                        $this->oProp->aPostTypeArgs, // subject array
-                        'show_ui', // dimensional keys
-                        $this->oUtil->getElement(
-                            $this->oProp->aPostTypeArgs, // subject array
-                            'public', // dimensional keys
-                            false // default
-                        )
-                    )
-                );                        
-            
-            }
+  
             /**
              * Removes the sidebar menu item of "Add New .." of the post type.
              * 
@@ -137,7 +112,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
                     // Remove the default Add New entry.
                     if ( 'post-new.php?post_type=' . $sPostTypeSlug === $_aSubMenu[ 2 ] ) {
                         unset( $GLOBALS['submenu'][ $sMenuKey ][ $_iIndex ] );
-                        continue;
+                        break;
                     }
                     
                 }

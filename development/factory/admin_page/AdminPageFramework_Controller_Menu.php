@@ -19,7 +19,33 @@
  * @subpackage      AdminPage
  */
 abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_View_Menu {
-                  
+       
+    /**
+     * A look-up array for the built-in root menu slugs.
+     * 
+     * @since       2.0.0
+     * @since       3.1.0       Changed it non-static.
+     * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
+     * @since       3.7.4       Moved from `AdminPageFramework_Model_Menu`.
+     * @var         array       Holds the built-in root menu slugs.
+     * @internal
+     */ 
+    protected $_aBuiltInRootMenuSlugs = array(
+        // All keys must be lower case to support case insensitive look-ups.
+        'dashboard'     => 'index.php',
+        'posts'         => 'edit.php',
+        'media'         => 'upload.php',
+        'links'         => 'link-manager.php',
+        'pages'         => 'edit.php?post_type=page',
+        'comments'      => 'edit-comments.php',
+        'appearance'    => 'themes.php',
+        'plugins'       => 'plugins.php',
+        'users'         => 'users.php',
+        'tools'         => 'tools.php',
+        'settings'      => 'options-general.php',
+        'network admin' => "network_admin_menu",
+    );   
+    
     /**
      * Sets to which top level page is going to be adding sub-pages.
      * 

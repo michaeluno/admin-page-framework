@@ -437,7 +437,7 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          */
         public function _replyTpSetAndGetInstance_oUtil() {
-            $this->oUtil = new AdminPageFramework_WPUtility;
+            $this->oUtil = new AdminPageFramework_FrameworkUtility;
             return $this->oUtil;
         }
         /**

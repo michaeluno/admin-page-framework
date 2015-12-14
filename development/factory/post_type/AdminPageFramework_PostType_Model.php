@@ -30,8 +30,10 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
         
         parent::__construct( $oProp );
         
-        // Post type registration should be done after the setUp() method.
-        // Post type has front-tend components so should not be admin_init. Also "if ( is_admin() )" should not be used either.
+        /**
+         * Post type registration should be done after the setUp() method.
+         * Post type has front-tend components so should not be admin_init. Also "if ( is_admin() )" should not be used either.
+         */
         add_action( "set_up_{$this->oProp->sClassName}", array( $this, '_replyToRegisterPostType' ), 999 );
         
         // Properties
@@ -56,7 +58,7 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
             add_action( 'admin_enqueue_scripts', array( $this, '_replyToDisableAutoSave' ) );     
         
         endif;
-        
+                
     }    
     
     /**
@@ -143,28 +145,33 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * Registers the post type passed to the constructor.
      * 
      * @internal
+     * @return      void
+     * @callback    action      set_up_{instantiated class name}
      */
     public function _replyToRegisterPostType() {
+        
         register_post_type( 
             $this->oProp->sPostType, 
             $this->oProp->aPostTypeArgs
         );
+        
+        new AdminPageFramework_PostType_Model__SubMenuOrder( $this );
+        
     }
-
+    
     /**
      * Registers the set custom taxonomies.
      * 
+     * @see         http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
      * @internal
      */
     public function _replyToRegisterTaxonomies() {
 
-        foreach( $this->oProp->aTaxonomies as $_sTaxonomySlug => $_aArgs ) {
+        foreach( $this->oProp->aTaxonomies as $_sTaxonomySlug => $_aArguments ) {
             $this->_registerTaxonomy( 
                 $_sTaxonomySlug,  
-                is_array( $this->oProp->aTaxonomyObjectTypes[ $_sTaxonomySlug ] ) 
-                    ? $this->oProp->aTaxonomyObjectTypes[ $_sTaxonomySlug ] 
-                    : array(), // object types
-                $_aArgs // for the argument array keys, refer to: http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
+                $this->oUtil->getAsArray( $this->oProp->aTaxonomyObjectTypes[ $_sTaxonomySlug ] ), // object types 
+                $_aArguments 
             );
         }
 
@@ -185,8 +192,29 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
             array_unique( $aObjectTypes ), // object types
             $aArguments // for the argument array keys, refer to: http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
         );            
+                
+        $this->_setCustomMenuOrderForTaxonomy( 
+            $this->oUtil->getElement( $aArguments, 'submenu_order', 15 ), 
+            $sTaxonomySlug 
+        );
+        
         
     }
+        /**
+         * Allows the user set a custom sub-menu order (index, position).
+         * 
+         * @since       3.7.4
+         * @internal
+         */
+        private function _setCustomMenuOrderForTaxonomy( $nSubMenuOrder, $sTaxonomySlug ) {
+            
+            // If the user does not set a custom value, no need to modify the sub-menu array.
+            if ( 15 == $nSubMenuOrder ) {
+                return;
+            }
+            $this->oProp->aTaxonomySubMenuOrder[ "edit-tags.php?taxonomy={$sTaxonomySlug}&amp;post_type={$this->oProp->sPostType}" ] = $nSubMenuOrder;
+            
+        }
 
     /**
      * Removes taxonomy menu items from the sidebar menu.

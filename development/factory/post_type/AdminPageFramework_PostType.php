@@ -66,6 +66,10 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
     *           // [3.5.10+] (framework specific) default: true
     *           'show_submenu_add_new'  => true, 
     *           
+                // [3.7.4+] (framework specific) default: 10
+                'submenu_order_manage'  => 20,
+                'submenu_order_addnew'  => 21,
+    * 
     *       )     
     * );</code>
     * 
@@ -73,8 +77,10 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
     * In addition to the post type argument structure defined by the WordPress core, there are arguments defined by the framework.
     * 
     * - screen_icon - For WordPress 3.7.x or below, set an icon url or path for the 32x32 screen icon displayed in the post listing page.
-    * - show_submenu_add_new [3.5.10+]
-
+    * - show_submenu_add_new - [3.5.10+]    (boolean) Whether the sub-menu item of `Add New` should be displayed.
+    * - submenu_order_manage - [3.7.4+]     (numeric) The menu position of the `Manage` sub-menu item which gets automatically crated by the system when the admin ui is enabled. Default: `5`
+    * - submenu_order_addnew - [3.7.4+]     (numeric) The menu position of the `Manage` sub-menu item which gets automatically crated by the system when the admin ui is enabled. Default: `10`
+    *
     * <h4>Framework Specific Post Type Label Arguments</h4>
     * - plugin_listing_table_title_cell_link' - [3.0.6+] Deprecated [3.7.3] use the `plugin_action_link` argument instead.
     * - plugin_action_link' - [3.7.3+] If the caller script is a plugin, this determines the label of the action link embedded in the plugin listing page (plugins.php).

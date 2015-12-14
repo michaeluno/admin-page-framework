@@ -229,16 +229,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * @since 3.1.0
      */
     public $sTargetFormPage = '';
-     
-     
-    /**
-     * Indicates whether the menu building procedure has been completed. 
-     * 
-     * @since 3.1.0
-     * @internal
-     */
-    public $_bBuiltMenu = false; 
-     
+          
     /**
      * Indicates whether the form data should be automatically saved in the options table.
      * @since 3.1.0

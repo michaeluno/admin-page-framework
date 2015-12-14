@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
 Tested up to:       4.4
-Stable tag:         3.7.2
+Stable tag:         3.7.3
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -432,6 +432,11 @@ Alternately, if it is in a framework's generic pages (not post meta box fields) 
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f, 
 
 == Changelog ==
+
+= 3.7.4= 
+- Added the `submenu_order_addnew` and `submenu_order_manage` arguments for the post type arguments.
+- Added the `submenu_order` argument for the taxonomy arguments.
+- Changed the `order` argument of sub-menu pages to be effective site-wide.
 
 = 3.7.3 - 2015/12/13 =
 - Added the `action_links_{post type slug}` filter to the post type factory class.

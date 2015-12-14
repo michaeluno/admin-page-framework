@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.7.3 by Michael Uno 
+	Admin Page Framework v3.7.4b01 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -29,6 +29,7 @@ $aClassFiles = array(
 	"AdminPageFramework_FormEmail"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/AdminPageFramework_FormEmail.php", 
 	"AdminPageFramework_ImportOptions"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/AdminPageFramework_ImportOptions.php", 
 	"AdminPageFramework_Property_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/AdminPageFramework_Property_Page.php", 
+	"AdminPageFramework_Model_Menu__RegisterMenu"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/delegate/AdminPageFramework_Model_Menu__RegisterMenu.php", 
 	"AdminPageFramework_Model__FormEmailHandler"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/delegate/AdminPageFramework_Model__FormEmailHandler.php", 
 	"AdminPageFramework_Model__FormRedirectHandler"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/delegate/AdminPageFramework_Model__FormRedirectHandler.php", 
 	"AdminPageFramework_Model__FormSubmission"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/delegate/AdminPageFramework_Model__FormSubmission.php", 
@@ -94,6 +95,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Form_post_type"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/post_type/form/AdminPageFramework_Form_post_type.php", 
 	"AdminPageFramework_Link_PostType"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/post_type/_controller/AdminPageFramework_Link_PostType.php", 
 	"AdminPageFramework_Resource_PostType"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/post_type/_controller/AdminPageFramework_Resource_PostType.php", 
+	"AdminPageFramework_PostType_Model__SubMenuOrder"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/post_type/_model/AdminPageFramework_PostType_Model__SubMenuOrder.php", 
 	"AdminPageFramework_Property_PostType"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/post_type/_model/AdminPageFramework_Property_PostType.php", 
 	"AdminPageFramework_PageLoadInfo_PostType"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/post_type/_view/AdminPageFramework_PageLoadInfo_PostType.php", 
 	"AdminPageFramework_TaxonomyField"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/taxonomy_field/AdminPageFramework_TaxonomyField.php", 

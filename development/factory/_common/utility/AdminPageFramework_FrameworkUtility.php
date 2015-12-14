@@ -19,6 +19,29 @@
 class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
     
     /**
+     * Sorts admin sub-menu items.
+     * 
+     * @since       3.7.4
+     * @return      void
+     */
+    static public function sortAdminSubMenu() {
+        
+        // This method is only enough to be called only once site-wide per page load.
+        if ( self::hasBeenCalled( __METHOD__ ) ) {
+            return;
+        }
+    
+        foreach( ( array ) $GLOBALS[ '_apf_sub_menus_to_sort' ] as $_sIndex => $_sMenuSlug ) {
+            if ( ! isset( $GLOBALS[ 'submenu' ][ $_sMenuSlug ] ) ) {
+                continue;
+            }
+            ksort( $GLOBALS[ 'submenu' ][ $_sMenuSlug ] );
+            unset( $GLOBALS[ '_apf_sub_menus_to_sort' ][ $_sIndex ] );
+        }
+        
+    }    
+    
+    /**
      * Returns the used framework version.
      * 
      * This is used by field type definition classes to determine whether their required framework version is used or not.
