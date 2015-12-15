@@ -75,6 +75,11 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
             'admin_notices', 
             array( $this, '_replyToDisplayAdminNotice' ) 
         );
+        $this->registerAction( 
+            'network_admin_notices', 
+            array( $this, '_replyToDisplayAdminNotice' ) 
+        );        
+        
         
     }                
             

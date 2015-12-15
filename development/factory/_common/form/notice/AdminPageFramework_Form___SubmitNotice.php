@@ -118,14 +118,14 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
          * @since       3.0.4 
          * @sine        3.7.0      Moved from `AdminPageFramework_Factory_Model`.
          * @internal
-         * @callback    action      shutdown
+         * @callback    action     shutdown
          * @return      void
          */
         public function _replyToSaveNotices() {
             if ( empty( self::$_aNotices ) ) { 
                 return; 
             }
-            $this->setTransient( 
+            $_bResult = $this->setTransient( 
                 'apf_notices_' . get_current_user_id(), 
                 self::$_aNotices
             );
@@ -136,7 +136,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
      * @return      void
      */
     public function render() {
-        
+
         // This will load scripts for the fade-in effect.
         new AdminPageFramework_AdminNotice( '' );
         
@@ -151,7 +151,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
         if ( isset( $_GET[ 'settings-notice' ] ) && ! $_GET[ 'settings-notice' ] ) { 
             return; 
         }
-        
+            
         $this->_printNotices( $_aNotices );                
         
     }
