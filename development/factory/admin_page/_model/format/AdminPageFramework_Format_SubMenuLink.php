@@ -94,7 +94,7 @@ class AdminPageFramework_Format_SubMenuLink extends AdminPageFramework_Format_Su
                     ),
                     'order'         => isset( $aSubMenuLink[ 'order' ] ) && is_numeric( $aSubMenuLink[ 'order' ] )
                         ? $aSubMenuLink[ 'order' ] 
-                        : count( $this->oFactory->oProp->aPages ) + 10,
+                        : count( $this->oFactory->oProp->aPages ) * 5 + 10,
                 )
                 + $aSubMenuLink 
                 + self::$aStructure;
