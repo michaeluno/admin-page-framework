@@ -75,9 +75,11 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 'field_id'          => 'class_prefix',
                 'title'             => __( 'Class Prefix', 'admin-page-framework-loader' ),
                 'type'              => 'text',
-                'description'       => __( 'Set alphanumeric characters for the class names.', 'admin-page-framework-loader' )
-                    . ' ' .  __( 'For example, if you set here <code>MyPluginName_</code>, you will need to extend the class named <code>MyClassName_AdminPageFramework</code> instead of <code>AdminPageFramework</code>.', 'admin-page-framework-loader' )
-                    . ' e.g.<code>MyPluginName_</code>',
+                'tip'               => array(
+                    __( 'Set alphanumeric characters for the class names.', 'admin-page-framework-loader' ),
+                    __( 'For example, if you set here <code>MyPluginName_</code>, you will need to extend the class named <code>MyClassName_AdminPageFramework</code> instead of <code>AdminPageFramework</code>.', 'admin-page-framework-loader' ),
+                ),
+                'description'       => 'e.g.<code>MyPluginName_</code>',
                 'attributes'        => array(
                     'size'          => 30,
                     // 'required' => 'required',
@@ -88,9 +90,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 'field_id'          => 'text_domain',
                 'title'             => __( 'Text Domain', 'admin-page-framework-loader' ),
                 'type'              => 'text',
-                'description'       => __( 'The default text domain of your project.', 'admin-page-framework-loader' )
-                    . ' e.g.<code>my-plugin</code>',
-                // 'default'           => 'admin-page-framework',
+                'tip'               => __( 'The default text domain of your project.', 'admin-page-framework-loader' ),
+                'description'       => 'e.g.<code>my-plugin</code>',
                 'attributes'        => array(
                     'size'          => 40,
                     // 'required' => 'required',
