@@ -433,7 +433,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.4= 
+= 3.7.4 = 
 - Added the `submenu_order_addnew` and `submenu_order_manage` arguments for the post type arguments.
 - Added the `submenu_order` argument for the taxonomy arguments.
 - Fixed a bug that setting notices could not be displayed in the network admin area, introduced in 3.7.0.
