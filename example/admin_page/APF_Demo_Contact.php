@@ -36,6 +36,7 @@ class APF_Demo_Contact extends AdminPageFramework {
                 'page_slug'     => 'apf_contact',
                 'screen_icon'   => 'page',
                 'capability'    => 'manage_options',
+                'order'         => 30,
             )
         );
 
