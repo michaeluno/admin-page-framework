@@ -474,7 +474,6 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                         $aFieldsetsPerSection, 
                         $this->aCallbacks[ 'fieldset_output' ]
                     );                
-// AdminPageFramework_Debug::log( $aSectionset );
 
                     // Section container
                     $_oSectionTable = new AdminPageFramework_Form_View___Section(

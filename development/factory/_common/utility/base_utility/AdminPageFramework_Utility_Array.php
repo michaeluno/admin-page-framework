@@ -33,7 +33,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         }
         
         // At this point, the index is already taken. So find one.
-        return self::getUnusedNumericIndex( $aArray, $nIndex + $iOffset );
+        return self::getUnusedNumericIndex( $aArray, $nIndex + $iOffset, $iOffset );
         
     }    
     

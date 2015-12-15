@@ -124,7 +124,6 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
   
             // Sort by the order of the sections.
             $this->_sortFieldsBySectionsOrder( $_aNewFieldsets, $aSectionsets );
-// AdminPageFramework_Debug::log( $_aNewFieldsets );
 
             return $this->callBack(
                 $this->aCallbacks[ 'fieldsets_after_formatting' ], 

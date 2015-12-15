@@ -38,7 +38,11 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
         add_action( 
             'admin_menu', 
             array( $this, '_replyToSetSubMenuOrder' ), 
-            20  // set a lower priority so that the WordPress can insert sub-menu items set with the `show_in_menu` post type argument.
+            /**
+             * Set a low priority to let WordPress insert sub-menu items of post types with the `show_in_menu` argument.
+             * Also Admin Page Framework admin pages will add sub-menu page items before this.
+             */
+            200 
         );
         
         add_action(
@@ -160,7 +164,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
          * `
          */
         private function _setSubMenuIndexByLinksSlugs( $sSubMenuSlug, array $aLinkSlugs ) {
-      
+
             foreach( $this->getElementAsArray( $GLOBALS, array( 'submenu', $sSubMenuSlug ) ) as $_nIndex => $_aSubMenuItem ) {
                 
                 foreach( $aLinkSlugs as $_sLinkSlug => $_nOrder ) {
@@ -200,7 +204,10 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
                 unset( $GLOBALS[ 'submenu' ][ $sSubMenuSlug ][ $nIndex ] );
 
                 // Get a new index and assign it.
-                $_nNewIndex = $this->getUnusedNumericIndex( $this->getElementAsArray( $GLOBALS, array( 'submenu', $sSubMenuSlug ) ), $nOrder );
+                $_nNewIndex = $this->getUnusedNumericIndex( 
+                    $this->getElementAsArray( $GLOBALS, array( 'submenu', $sSubMenuSlug ) ), 
+                    $nOrder
+                );
                 $GLOBALS[ 'submenu' ][ $sSubMenuSlug ][ $_nNewIndex ] = $aSubMenuItem;
 
                 return true;

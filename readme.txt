@@ -440,7 +440,8 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Fixed a bug in the demo of network admin pages that called non existent class, introduced in 3.7.0.
 - Fixed a bug in the network admin factory class that called an undefined method, , introduced in 3.7.0.
 - Changed the default capability value of the user meta factory class to `read` to allow subscribers to edit options of their profiles.
-- Changed the `order` argument of sub-menu pages to be effective site-wide.
+- Changed the incremental offset automatically assigned to the `order` argument of sub-menu items.
+- Changed the `order` argument of sub-menu items to be effective site-wide.
 
 = 3.7.3 - 2015/12/13 =
 - Added the `action_links_{post type slug}` filter to the post type factory class.

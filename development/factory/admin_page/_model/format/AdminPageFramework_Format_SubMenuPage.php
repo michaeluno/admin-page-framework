@@ -145,7 +145,7 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
                     'order'             => $this->getAOrB(
                         is_numeric( $aSubMenuPage[ 'order' ] ),
                         $aSubMenuPage[ 'order' ],
-                        count( $this->oFactory->oProp->aPages ) * 5 + 10
+                        count( $this->oFactory->oProp->aPages ) + 10
                     ),
                 )
                 + $aSubMenuPage;
