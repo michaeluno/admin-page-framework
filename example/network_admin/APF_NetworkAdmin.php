@@ -67,18 +67,17 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
             "<a href='http://en.michaeluno.jp'>miunosoft</a>"
         );
 
-        // Include custom field type pages (in-page tabs).
+        // Include the custom field type page.
         $_sClassName = get_class( $this );
         new APF_Demo_BuiltinFieldTypes_Text;
         new APF_Demo_BuiltinFieldTypes_Selector;
         new APF_Demo_BuiltinFieldTypes_File( $_sClassName );
         new APF_Demo_BuiltinFieldTypes_Checklist;
         new APF_Demo_BuiltinFieldTypes_MISC;
-        // new APF_Demo_BuiltinFieldTypes_Verification( $_sClassName );
-        // new APF_Demo_BuiltinFieldTypes_Mixed;
-        // new APF_Demo_BuiltinFieldTypes_Sections;
         new APF_Demo_BuiltinFieldTypes_System;
  
+        // Advanced usage
+        new APF_Demo_AdvancedUsage( $this );
     }
             
     /*
