@@ -52,7 +52,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
         
         $_aFunctionNames = array(
             0 => 'get_admin_url',
-            1 => 'get_network_admin_url'
+            1 => 'network_admin_url'
         );
         $_sWPAdminPath = str_replace( 
             get_bloginfo( 'url' ) . '/', 

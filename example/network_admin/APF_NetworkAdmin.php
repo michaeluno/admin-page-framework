@@ -74,9 +74,9 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
         new APF_Demo_BuiltinFieldTypes_File( $_sClassName );
         new APF_Demo_BuiltinFieldTypes_Checklist;
         new APF_Demo_BuiltinFieldTypes_MISC;
-        new APF_Demo_BuiltinFieldTypes_Verification( $_sClassName );
-        new APF_Demo_BuiltinFieldTypes_Mixed;
-        new APF_Demo_BuiltinFieldTypes_Sections;
+        // new APF_Demo_BuiltinFieldTypes_Verification( $_sClassName );
+        // new APF_Demo_BuiltinFieldTypes_Mixed;
+        // new APF_Demo_BuiltinFieldTypes_Sections;
         new APF_Demo_BuiltinFieldTypes_System;
  
     }

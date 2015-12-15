@@ -436,6 +436,8 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 = 3.7.4= 
 - Added the `submenu_order_addnew` and `submenu_order_manage` arguments for the post type arguments.
 - Added the `submenu_order` argument for the taxonomy arguments.
+- Fixed a bug in the demo of network admin pages that called non existent class.
+- Fixed a bug in the network admin factory class that called an undefined method.
 - Changed the `order` argument of sub-menu pages to be effective site-wide.
 
 = 3.7.3 - 2015/12/13 =

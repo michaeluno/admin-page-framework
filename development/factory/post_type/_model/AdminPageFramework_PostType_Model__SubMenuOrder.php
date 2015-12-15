@@ -148,7 +148,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
          */
         private function _setSubMenuIndexByLinksSlugs( $sSubMenuSlug, array $aLinkSlugs ) {
             
-            foreach( ( array ) $GLOBALS[ 'submenu' ][ $sSubMenuSlug ] as $_nIndex => $_aSubMenuItem ) {
+            foreach( $this->getElementAsArray( $GLOBALS, array( 'submenu', $sSubMenuSlug ) ) as $_nIndex => $_aSubMenuItem ) {
                 
                 foreach( $aLinkSlugs as $_sLinkSlug => $_nOrder ) {
                     
@@ -182,7 +182,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
                 unset( $GLOBALS[ 'submenu' ][ $sSubMenuSlug ][ $nIndex ] );
 
                 // Get a new index and assign it.
-                $_nNewIndex = $this->getUnusedNumericIndex( $GLOBALS[ 'submenu' ][ $sSubMenuSlug ], $nOrder );
+                $_nNewIndex = $this->getUnusedNumericIndex( $this->getElementAsArray( $GLOBALS, array( 'submenu', $sSubMenuSlug ) ), $nOrder );
                 $GLOBALS[ 'submenu' ][ $sSubMenuSlug ][ $_nNewIndex ] = $aSubMenuItem;
 
                 return true;

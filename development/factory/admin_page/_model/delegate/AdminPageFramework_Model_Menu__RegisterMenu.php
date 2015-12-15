@@ -28,18 +28,18 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
      * 
      * @internal
      */
-    public function __construct( $oFactory ) {
+    public function __construct( $oFactory, $sActionHook='admin_menu' ) {
         
         $this->oFactory = $oFactory;
         
         add_action( 
-            'admin_menu', 
+            $sActionHook, 
             array( $this, '_replyToRegisterMenu' ), 
             98      // this is below the value set in the `AdminPageFramework_Property_MetaBox_Page` class.
         );
         
         add_action(
-            'admin_menu',
+            $sActionHook,
             array( $this, 'sortAdminSubMenu' ), // defined in the framework utility class.
             9999
         );
@@ -75,10 +75,6 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
             "pages_{$this->oFactory->oProp->sClassName}", 
             $this->oFactory->oProp->aPages
         );
-        
-        // Sort the page array.
-// @deprecated      3.7.4
-        // uasort( $this->oFactory->oProp->aPages, array( $this, 'sortArrayByKey' ) ); 
         
         // Set the default page, the first element.
         $this->_setDefaultPage();
@@ -318,7 +314,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                  */
                 private function _setSubMenuPageByIndex( $nOrder, $aSubMenuItem, $sMenuSlug ) {
                     
-                    $_nNewIndex = $this->getUnusedNumericIndex( $GLOBALS[ 'submenu' ][ $sMenuSlug ], $nOrder );
+                    $_nNewIndex = $this->getUnusedNumericIndex( $this->getElementAsArray( $GLOBALS, array( 'submenu', $sMenuSlug ) ), $nOrder );
                     $GLOBALS[ 'submenu' ][ $sMenuSlug ][ $_nNewIndex ] = $aSubMenuItem;
                     
                 }
@@ -329,7 +325,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                  */
                 private function _getSubMenuPageIndex( $sMenuSlug, $sMenuTitle, $sPageTitle, $sPageSlug ) {
                     
-                    foreach( ( array ) $GLOBALS[ 'submenu' ][ $sMenuSlug ] as $_iIndex => $_aSubMenu ) {
+                    foreach( $this->getElementAsArray( $GLOBALS, array( 'submenu', $sMenuSlug ) ) as $_iIndex => $_aSubMenu ) {
                       
                         if ( ! isset( $_aSubMenu[ 3 ] ) ) { 
                             continue; 
@@ -417,13 +413,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                             $GLOBALS,
                             array( 'submenu', $sMenuSlug, $_iIndex )
                         );
-                        
-                        // If it is in the network admin area, do not remove the menu; otherwise, it gets not accessible. 
-                        // if ( is_network_admin() ) {
-                            // unset( $GLOBALS[ 'submenu' ][ $sMenuSlug ][ $_iIndex ] );
-                            // return $_aSubMenuItem;
-                        // } 
-                        
+                           
                         unset( $GLOBALS[ 'submenu' ][ $sMenuSlug ][ $_iIndex ] );
                         return $_aSubMenuItem;
                         

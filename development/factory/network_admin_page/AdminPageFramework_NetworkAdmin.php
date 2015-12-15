@@ -60,9 +60,7 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
         if ( ! $this->_isInstantiatable() ) {
             return;
         }
-        
-        add_action( 'network_admin_menu', array( $this, '_replyToBuildMenu' ), 98 );     
-            
+                    
         $sCallerPath = $sCallerPath 
             ? $sCallerPath 
             : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );     // this is important to attempt to find the caller script path here when separating the library into multiple files.
@@ -70,6 +68,8 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
         $this->oProp = new AdminPageFramework_Property_NetworkAdmin( $this, $sCallerPath, get_class( $this ), $sOptionKey, $sCapability, $sTextDomain );
         
         parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
+        
+        new AdminPageFramework_Model_Menu__RegisterMenu( $this, 'network_admin_menu' );
         
     }    
 
