@@ -19,6 +19,19 @@
 class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
  
     /**
+     * @since       3.7.4
+     * @remark      When the user sets a custom slug to the `show_in_menu` argument, use it.
+     * @return      string  the 'Manage' sub-menu link slug.
+     */
+    static public function getPostTypeSubMenuSlug( $sPostTypeSlug, $aPostTypeArguments ) {
+        $_sCustomMenuSlug = self::getShowInMenuPostTypeArgument( $aPostTypeArguments );
+        if ( is_string( $_sCustomMenuSlug ) ) {
+            return $_sCustomMenuSlug;
+        }
+        return 'edit.php?post_type=' . $sPostTypeSlug;
+    }             
+ 
+    /**
      * Returns the value of the `show_in_menu` argument from a custom post type arguments.
      * @since       3.7.4
      * @return      boolean|string

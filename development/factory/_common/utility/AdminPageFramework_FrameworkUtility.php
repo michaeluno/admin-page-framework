@@ -30,11 +30,11 @@ class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
         if ( self::hasBeenCalled( __METHOD__ ) ) {
             return;
         }
-    
+
         foreach( ( array ) $GLOBALS[ '_apf_sub_menus_to_sort' ] as $_sIndex => $_sMenuSlug ) {
             if ( ! isset( $GLOBALS[ 'submenu' ][ $_sMenuSlug ] ) ) {
                 continue;
-            }
+            }       
             ksort( $GLOBALS[ 'submenu' ][ $_sMenuSlug ] );
             unset( $GLOBALS[ '_apf_sub_menus_to_sort' ][ $_sIndex ] );
         }

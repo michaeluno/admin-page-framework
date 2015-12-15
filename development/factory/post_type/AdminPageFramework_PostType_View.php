@@ -78,11 +78,8 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             }
             
             // Remove the Add New menu
-            $_bsShowInMenu = $this->oUtil->getShowInMenuPostTypeArgument( $this->oProp->aPostTypeArgs );
             $this->_removeAddNewSidebarSubMenu(
-                is_string( $_bsShowInMenu )
-                    ? $_bsShowInMenu
-                    : 'edit.php?post_type=' . $this->oProp->sPostType,
+                $this->oUtil->getPostTypeSubMenuSlug( $this->oProp->sPostType, $this->oProp->aPostTypeArgs ),
                 $this->oProp->sPostType
             );
             

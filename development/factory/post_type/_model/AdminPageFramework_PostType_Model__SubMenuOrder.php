@@ -35,7 +35,11 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
             return;
         }
         
-        add_action( 'admin_menu', array( $this, '_replyToSetSubMenuOrder' ), 1 );
+        add_action( 
+            'admin_menu', 
+            array( $this, '_replyToSetSubMenuOrder' ), 
+            20  // set a lower priority so that the WordPress can insert sub-menu items set with the `show_in_menu` post type argument.
+        );
         
         add_action(
             'admin_menu',
@@ -121,14 +125,18 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
                     10  // default
                 );
 
+                // @remark      This is the partial link url set in the third element ( index of 2 ) in the third dimension of submenu global array element.
+                // This is not the submenu slug.
+                $_sLinkSlugManage = 'edit.php?post_type=' . $this->oFactory->oProp->sPostType;
+                                
                 $_aLinkSlugs = array(
-                    'edit.php?post_type=' . $this->oFactory->oProp->sPostType     => $_nSubMenuOrderManage,
+                    $_sLinkSlugManage => $_nSubMenuOrderManage,
                     'post-new.php?post_type=' . $this->oFactory->oProp->sPostType => $_nSubMenuOrderAddNew,
                 );
-                
+
                 // If the user does not set a custom value, unset it
                 if ( 5 == $_nSubMenuOrderManage ) {
-                    unset( $_aLinkSlugs[ 'edit.php?post_type=' . $this->oFactory->oProp->sPostType ] );
+                    unset( $_aLinkSlugs[ $_sLinkSlugManage ] );
                 }
                 
                 // If the user does not want to show the Add New sub menu, no need to change the order.
@@ -152,7 +160,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
          * `
          */
         private function _setSubMenuIndexByLinksSlugs( $sSubMenuSlug, array $aLinkSlugs ) {
-            
+      
             foreach( $this->getElementAsArray( $GLOBALS, array( 'submenu', $sSubMenuSlug ) ) as $_nIndex => $_aSubMenuItem ) {
                 
                 foreach( $aLinkSlugs as $_sLinkSlug => $_nOrder ) {
@@ -172,9 +180,14 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
             /**
              * @since       3.7.4
              * @return      boolean     true if set; otherwise. false.
+             * @param       string      $sSubMenuSlug       The slug of the sub-menu to be modified. It is the array key of the first dimension of the `submenu` global array.
+             * @param       numeric     $nIndex             The system-set index number to the sub-menu array.
+             * @param       array       $aSubMenuItem       An array holding the sub-menu item.
+             * @param       string      $sLinkSlug          The link slug (partial url) of the target.
+             * @pram        numeric     $nOrder             The position of the sub-menu to change.
              */
             private function _setSubMenuIndexByLinksSlug( $sSubMenuSlug, $nIndex, $aSubMenuItem, $sLinkSlug, $nOrder ) {
-
+                
                 // The third item is the link slug.
                 if ( ! isset( $aSubMenuItem[ 2 ] ) ) { 
                     return false; 
@@ -191,6 +204,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
                 $GLOBALS[ 'submenu' ][ $sSubMenuSlug ][ $_nNewIndex ] = $aSubMenuItem;
 
                 return true;
+                
             }                
    
 }
