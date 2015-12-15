@@ -317,13 +317,13 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                  * @param       array       $aSubMenuItem       The sub menu item array set in the global `$submenu` array.
                  */
                 private function _setSubMenuPageByIndex( $nOrder, $aSubMenuItem, $sMenuSlug ) {
-AdminPageFramework_Debug::log( func_get_args() );
+
                     $_nNewIndex = $this->getUnusedNumericIndex( 
                         $this->getElementAsArray( $GLOBALS, array( 'submenu', $sMenuSlug ) ), // subject array to parser
                         $nOrder,    // a desired menu position
                         5           // offset 
                     );
-AdminPageFramework_Debug::log( 'new index: ' . $_nNewIndex  );
+
                     $GLOBALS[ 'submenu' ][ $sMenuSlug ][ $_nNewIndex ] = $aSubMenuItem;
                     
                 }
