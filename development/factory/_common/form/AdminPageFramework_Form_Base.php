@@ -94,10 +94,13 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      * @return      boolean
      */
     public function canUserView( $sCapability ) {
+        
         if ( ! $sCapability  ) {
             return true;
         }
+        
         return ( boolean ) current_user_can( $sCapability );
+        
     }
 
     /**

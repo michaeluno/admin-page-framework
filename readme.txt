@@ -439,6 +439,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Fixed a bug that setting notices could not be displayed in the network admin area, introduced in 3.7.0.
 - Fixed a bug in the demo of network admin pages that called non existent class, introduced in 3.7.0.
 - Fixed a bug in the network admin factory class that called an undefined method, , introduced in 3.7.0.
+- Changed the default capability value of the user meta factory class to `read` to allow subscribers to edit options of their profiles.
 - Changed the `order` argument of sub-menu pages to be effective site-wide.
 
 = 3.7.3 - 2015/12/13 =

@@ -36,9 +36,10 @@ abstract class AdminPageFramework_UserMeta extends AdminPageFramework_UserMeta_C
      * new APF_MyUserMeta( 'manage_options' );
      * </code>
      * @since       3.5.0
+     * @since       3.7.4       Changed the default capability value to `read`.
      * @todo        Examine the appropriate default capability level.
      */
-    public function __construct( $sCapability='edit_user', $sTextDomain='admin-page-framework' ) {
+    public function __construct( $sCapability='read', $sTextDomain='admin-page-framework' ) {
         
         $this->oProp = new AdminPageFramework_Property_UserMeta( 
             $this,                  // the caller object
