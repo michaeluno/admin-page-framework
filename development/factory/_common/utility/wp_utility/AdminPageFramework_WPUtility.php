@@ -44,20 +44,15 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
     /**
      * Retrieves the `wp-admin` directory path without a trailing slash.
      * 
-     * @see         http://www.andrezrv.com/2014/11/11/correctly-obtain-path-admin-directory/
      * @since       3.7.0
      * @return      string
      */
     static public function getWPAdminDirPath() {
-        
-        $_aFunctionNames = array(
-            0 => 'get_admin_url',
-            1 => 'network_admin_url'
-        );
+         
         $_sWPAdminPath = str_replace( 
-            get_bloginfo( 'url' ) . '/', 
-            ABSPATH, 
-            call_user_func( $_aFunctionNames[ ( integer ) is_network_admin() ] )
+            get_bloginfo( 'url' ) . '/', // search
+            ABSPATH,    // replace
+            get_admin_url() // subject - works even in the network admin
         );
         return rtrim( $_sWPAdminPath, '/' );
         
