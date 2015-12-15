@@ -80,17 +80,21 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
         $this->_setDefaultPage();
     
         // Register them.
+        $_iParsedIndex = 1;
         foreach ( $this->oFactory->oProp->aPages as &$aSubMenuItem ) {
             
             // needs to be sanitized because there are hook filters applied to this array.
             $_oFormatter = new AdminPageFramework_Format_SubMenuItem( 
-                $aSubMenuItem, 
-                $this->oFactory 
+                $aSubMenuItem,
+                $this->oFactory,
+                $_iParsedIndex
             );
             $aSubMenuItem = $_oFormatter->get();
             
             // store the page hook; this is same as the value stored in the global $page_hook or $hook_suffix variable. 
             $aSubMenuItem[ '_page_hook' ] = $this->_registerSubMenuItem( $aSubMenuItem ); 
+            
+            $_iParsedIndex++;
             
         }
 
@@ -313,13 +317,13 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                  * @param       array       $aSubMenuItem       The sub menu item array set in the global `$submenu` array.
                  */
                 private function _setSubMenuPageByIndex( $nOrder, $aSubMenuItem, $sMenuSlug ) {
-
+AdminPageFramework_Debug::log( func_get_args() );
                     $_nNewIndex = $this->getUnusedNumericIndex( 
                         $this->getElementAsArray( $GLOBALS, array( 'submenu', $sMenuSlug ) ), // subject array to parser
                         $nOrder,    // a desired menu position
                         5           // offset 
                     );
-
+AdminPageFramework_Debug::log( 'new index: ' . $_nNewIndex  );
                     $GLOBALS[ 'submenu' ][ $sMenuSlug ][ $_nNewIndex ] = $aSubMenuItem;
                     
                 }

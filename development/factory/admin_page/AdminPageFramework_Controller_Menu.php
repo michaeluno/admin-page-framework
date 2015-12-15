@@ -252,7 +252,8 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
 
         $_oFormatter   = new AdminPageFramework_Format_SubMenuLink( 
             $aSubMenuLink, 
-            $this 
+            $this,
+            count( $this->oProp->aPages ) + 1
         );
         $_aSubMenuLink = $_oFormatter->get();
         $this->oProp->aPages[ $_aSubMenuLink[ 'href' ] ] = $_aSubMenuLink;
@@ -345,7 +346,8 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
             
         $_oFormatter   = new AdminPageFramework_Format_SubMenuPage( 
             $aSubMenuPage,
-            $this 
+            $this,
+            count( $this->oProp->aPages ) + 1
         );
         $_aSubMenuPage = $_oFormatter->get();
         $this->oProp->aPages[ $_aSubMenuPage[ 'page_slug' ] ] = $_aSubMenuPage;

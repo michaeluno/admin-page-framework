@@ -47,16 +47,26 @@ class AdminPageFramework_Format_SubMenuLink extends AdminPageFramework_Format_Su
     public $oFactory;
     
     /**
+     * The parsed index. 
+     * 
+     * This should represents the order of the registered sub-menu item as it is used to calculate the sub-menu position. 
+     * @since       3.7.4
+     */
+    public $iParsedIndex = 1;
+    
+    /**
      * Sets up properties
      */
-    public function __construct( /* $aSubMenuLink, $oFactory */ ) {
+    public function __construct( /* $aSubMenuLink, $oFactory, $iParsedIndex */ ) {
      
         $_aParameters = func_get_args() + array( 
             $this->aSubMenuLink, 
             $this->oFactory,
+            $this->iParsedIndex
         );
         $this->aSubMenuLink  = $_aParameters[ 0 ];
         $this->oFactory      = $_aParameters[ 1 ];
+        $this->iParsedIndex  = $_aParameters[ 2 ];
      
     }
 
@@ -94,7 +104,7 @@ class AdminPageFramework_Format_SubMenuLink extends AdminPageFramework_Format_Su
                     ),
                     'order'         => isset( $aSubMenuLink[ 'order' ] ) && is_numeric( $aSubMenuLink[ 'order' ] )
                         ? $aSubMenuLink[ 'order' ] 
-                        : count( $this->oFactory->oProp->aPages ) + 10,
+                        : $this->iParsedIndex * 10,
                 )
                 + $aSubMenuLink 
                 + self::$aStructure;

@@ -78,17 +78,27 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
     public $oFactory;
     
     /**
+     * The parsed index. 
+     * 
+     * This should represents the order of the registered sub-menu item as it is used to calculate the sub-menu position. 
+     * @since       3.7.4
+     */
+    public $iParsedIndex = 1;
+    
+    /**
      * Sets up properties
      */
-    public function __construct( /* $aSubMenuPage, $oFactory */ ) {
+    public function __construct( /* $aSubMenuPage, $oFactory, $iParsedIndex */ ) {
      
         $_aParameters = func_get_args() + array( 
             $this->aSubMenuPage, 
             $this->oFactory,
+            $this->iParsedIndex
         );
         $this->aSubMenuPage  = $_aParameters[ 0 ];
         $this->oFactory      = $_aParameters[ 1 ];
-     
+        $this->iParsedIndex  = $_aParameters[ 2 ]; 
+        
     }
 
     /**
@@ -145,7 +155,7 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
                     'order'             => $this->getAOrB(
                         is_numeric( $aSubMenuPage[ 'order' ] ),
                         $aSubMenuPage[ 'order' ],
-                        count( $this->oFactory->oProp->aPages ) + 10
+                        $this->iParsedIndex * 10
                     ),
                 )
                 + $aSubMenuPage;

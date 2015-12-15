@@ -32,16 +32,26 @@ class AdminPageFramework_Format_SubMenuItem extends AdminPageFramework_Format_Ba
     public $oFactory;
     
     /**
+     * The parsed index. 
+     * 
+     * This should represents the order of the registered sub-menu item as it is used to calculate the sub-menu position. 
+     * @since       3.7.4
+     */
+    public $iParsedIndex = 1;
+    
+    /**
      * Sets up properties
      */
-    public function __construct( /* $aSubMenuItem, $oFactory */ ) {
+    public function __construct( /* $aSubMenuItem, $oFactory, $iParsedIndex */ ) {
      
         $_aParameters = func_get_args() + array( 
             $this->aSubMenuItem, 
             $this->oFactory, 
+            $this->iParsedIndex,
         );
         $this->aSubMenuItem  = $_aParameters[ 0 ];
         $this->oFactory      = $_aParameters[ 1 ];
+        $this->iParsedIndex  = $_aParameters[ 2 ];
      
     }
 
@@ -56,7 +66,8 @@ class AdminPageFramework_Format_SubMenuItem extends AdminPageFramework_Format_Ba
         if ( isset( $_aSubMenuItem[ 'page_slug' ] ) ) {
             $_oFormatter = new AdminPageFramework_Format_SubMenuPage(
                 $_aSubMenuItem,
-                $this->oFactory
+                $this->oFactory,
+                $this->iParsedIndex
             );
             return $_oFormatter->get();
         }
@@ -64,7 +75,8 @@ class AdminPageFramework_Format_SubMenuItem extends AdminPageFramework_Format_Ba
         if ( isset( $_aSubMenuItem[ 'href' ] ) ) {
             $_oFormatter = new AdminPageFramework_Format_SubMenuLink( 
                 $_aSubMenuItem,
-                $this->oFactory    
+                $this->oFactory,
+                $this->iParsedIndex
             );
             return $_oFormatter->get();            
         }
