@@ -53,11 +53,16 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
     public function _replyToSetSubMenuOrder() {
             
         // Check the post type `show_ui` and other related UI arguments.
-        if ( ! $this->isPostTypeAdminUIVisible( $this->oFactory->oProp->aPostTypeArgs ) ) {
+        $_bsShowInMeenu = $this->getShowInMenuPostTypeArgument( $this->oFactory->oProp->aPostTypeArgs );
+        if ( ! $_bsShowInMeenu ) {
             return;
         }
         
-        $_sSubMenuSlug  = 'edit.php?post_type=' . $this->oFactory->oProp->sPostType;
+        // If the user sets a menu slug to the 'show_in_menu' argument, use that. 
+        // It is used to set a custom post type sub-menu belong to another menu.
+        $_sSubMenuSlug  = is_string( $_bsShowInMeenu )
+            ? $_bsShowInMeenu
+            : 'edit.php?post_type=' . $this->oFactory->oProp->sPostType;
         
         // Set the index to the framework specific global array for sorting.
         $this->_setSubMenuSlugForSorting( $_sSubMenuSlug );

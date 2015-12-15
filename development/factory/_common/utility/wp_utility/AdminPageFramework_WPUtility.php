@@ -17,16 +17,14 @@
  * @internal
  */
 class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
-    
+ 
     /**
-     * Checks whether the admin ui of a post type is visible or not from given arguments.
-     * 
-     * @return      boolean     `true` if it is visible; otherwise, `false`.
+     * Returns the value of the `show_in_menu` argument from a custom post type arguments.
      * @since       3.7.4
-     * @see         http://codex.wordpress.org/Function_Reference/register_post_type#show_in_menu
+     * @return      boolean|string
      */
-    static public function isPostTypeAdminUIVisible( array $aPostTypeArguments ) {
-        return ( boolean ) self::getElement(
+    static public function getShowInMenuPostTypeArgument( $aPostTypeArguments ) {
+        return self::getElement(
             $aPostTypeArguments, // subject array
             'show_in_menu', // dimensional keys
             self::getElement(
@@ -38,8 +36,8 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
                     false // default
                 )
             )
-        );                        
-    }    
+        );
+    }
     
     /**
      * Retrieves the `wp-admin` directory path without a trailing slash.
