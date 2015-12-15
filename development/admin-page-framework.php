@@ -30,11 +30,11 @@ if ( ! class_exists( 'AdminPageFramework_Registry' ) ) :
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.7.4b07
+ * @version             3.7.4
  */
 abstract class AdminPageFramework_Registry_Base {
 
-    const VERSION       = '3.7.4b07'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION       = '3.7.4'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME          = 'Admin Page Framework';
     const DESCRIPTION   = 'Facilitates WordPress plugin and theme development.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
@@ -251,12 +251,13 @@ final class AdminPageFramework_Bootstrap {
             );            
              
             /**
-             * Reduce the nesting level of recursive function calls of `spl_autoload_call()`.
+             * Reduce the nesting level of recursive function calls produced by the `spl_autoload_call()` PHP function.
              * 
              * Instantiating a class with many class inheritances (extending a class) triggers `spl_autoload_call()` 
              * and it keeps getting called until all the parent classes are loaded, which causes a fatal error,
-             * `Maximum function nesting level of 'x' reached,..` if the Xdebug extension is enabled.
-             * This instantiation of a class won't do anything in particular but just tells spl autoloader to include those files
+             * `Maximum function nesting level of 'x' reached,..` if the Xdebug extension is enabled with a low value of the `xdebug.max_nesting_level` option.
+             * 
+             * This instantiation of a class below won't do anything in particular but just tells the spl autoloader to include those files 
              * so that the next time the program utilizing the framework tries to instantiate its class has a less nesting level of nested function calls,
              * which reduces the change of getting the fatal error.
              */
