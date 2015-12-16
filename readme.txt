@@ -40,7 +40,7 @@ You will have more organized means of building option pages with the framework. 
 - **Contact Form** - receive emails of user feedback and issue reports sent via the contact form embedded in an admin page.
 - **Tooltips** - add a small pop-up box beside section and field title for the users to read about the option.
 
-<h4>Produce a Series of Product with the Framework Extensibility</h4>
+<h4>Produce a Series of Products with the Framework Extensibility</h4>
 If you are planning to create a product possibly extended with an unlimited number of add-ons, take advantage of the framework's native extensibility. The created admin pages and forms will become highly extensible with the automatically created hooks. In other words, it empowers other developers to customize your plugin or theme. That will result on making your projects grow.
 
 Also, use the framework as a library and your plugin or theme does not have to require an extra dependency to be installed. Therefore, your product will be perfectly portable.
