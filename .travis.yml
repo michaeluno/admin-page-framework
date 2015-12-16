@@ -33,10 +33,15 @@ script:
   ]]; then bash test/run.sh -c test/settings.travis.cfg -l 'coverage.xml'; else bash test/run.sh -c test/settings.travis.cfg; fi
 
 after_script:
-- if [[ $TRAVIS_PHP_VERSION = '5.5' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0'
-  ]]; then wget https://scrutinizer-ci.com/ocular.phar --no-check-certificate; 
-  fi
-- if [[ $TRAVIS_PHP_VERSION = '5.5' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0'
-  ]]; then php ocular.phar code-coverage:upload --format=php-clover 'coverage.xml';
-  php test/coverage-checker.php 'coverage.xml' 80;
-  fi
+- wget https://scrutinizer-ci.com/ocular.phar --no-check-certificate;   
+- php ocular.phar code-coverage:upload --format=php-clover 'coverage.xml';
+- php test/coverage-checker.php 'coverage.xml' 80; 
+
+# The following if conditions were disabled as Scrutinizer started not receiving coverage reports.
+#- if [[ $TRAVIS_PHP_VERSION = '5.5' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0'
+#  ]]; then wget https://scrutinizer-ci.com/ocular.phar --no-check-certificate; 
+#  fi
+#- if [[ $TRAVIS_PHP_VERSION = '5.5' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0'
+#  ]]; then php ocular.phar code-coverage:upload --format=php-clover 'coverage.xml';
+#  php test/coverage-checker.php 'coverage.xml' 80;
+#  fi
