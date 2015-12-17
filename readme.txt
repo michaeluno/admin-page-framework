@@ -433,7 +433,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.5 =
+= 3.7.5 - 2015/12/18 =
 - Reduced the number of database queries used in framework widget forms.
 
 = 3.7.4 - 2015/12/16 = 
