@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
 Tested up to:       4.4
-Stable tag:         3.7.3
+Stable tag:         3.7.4
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -432,6 +432,9 @@ Alternately, if it is in a framework's generic pages (not post meta box fields) 
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f, 
 
 == Changelog ==
+
+= 3.7.5 =
+- Reduced the number of database queries used in framework widget forms.
 
 = 3.7.4 - 2015/12/16 = 
 - Added the `submenu_order_addnew` and `submenu_order_manage` arguments for the post type arguments.

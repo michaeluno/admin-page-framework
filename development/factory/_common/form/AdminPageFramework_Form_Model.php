@@ -325,12 +325,23 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             
             // Set the class specific field type definitions.
             // Instantiated custom field type classes will trigger their registration method with this callback.
-            $this->aFieldTypeDefinitions = apply_filters(
-                "field_types_{$_sCallerID}", 
-                self::$_aFieldTypeDefinitions[ $_sCallerID ] + self::$_aFieldTypeDefinitions[ 'admin_page_framework' ]
-            );
+            $this->_setPerClassFieldTypeDefinitions( $_sCallerID );                
                         
         }        
+            /**
+             * Sets per-class field type defintions.
+             * @since       3.7.5
+             * @return      void
+             */
+            private function _setPerClassFieldTypeDefinitions( $_sCallerID ) {
+                                           
+                $this->aFieldTypeDefinitions = apply_filters(
+                    "field_types_{$_sCallerID}", 
+                    self::$_aFieldTypeDefinitions[ $_sCallerID ] + self::$_aFieldTypeDefinitions[ 'admin_page_framework' ]
+                );                
+                
+            }
+        
             /**
              * Sets Side-wide field type definitions. 
              * 
@@ -360,7 +371,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
          * @return      array
          */
         private function _getSavedData( $aDefaultValues ) {
-            
+
             // Retrieve the saved form data and merge with the default values.
             // Do not merge recursively here because there are field values that get messed 
             // such as `select` field type with multiple options.
@@ -389,19 +400,32 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
              * @remark      This temporary data is not always set. This is only set when the form needs to show a confirmation message to the user such as for sending an email.
              * @since       3.3.0
              * @since       3.4.1       Moved from `AdminPageFramework_Property_Page`.
-             * @since       3.7.0      Moved from `AdminPageFramework_Property_Base`.
+             * @since       3.7.0       Moved from `AdminPageFramework_Property_Base`.
              * @internal
              * @return      array       The last user form inputs.
              */
             private function _getLastInputs() {
                 
+                /**
+                 * The framework widget forms calls this method per widget instance (not factory object instance) 
+                 * so use a cache if called multiple times.
+                 */
+                static $_aCaches = array();
+                
                 $_sKey      = 'apf_tfd' . md5( 'temporary_form_data_' . $this->aArguments[ 'caller_id' ] . get_current_user_id() );
+
+                if ( isset( $_aCaches[ $_sKey ] ) ) {
+                    return $_aCaches[ $_sKey ];
+                }
+                
                 $_vValue    = $this->getTransient( $_sKey );
                 $this->deleteTransient( $_sKey );
-                if ( is_array( $_vValue ) ) {
-                    return $_vValue;
-                }
-                return array();
+                
+                $_aCaches[ $_sKey ] = is_array( $_vValue )
+                    ? $_vValue
+                    : array();
+                
+                return $_aCaches[ $_sKey ];
                 
             }
             
