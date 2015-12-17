@@ -22,7 +22,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      */
     public function __construct() {
 
-        // If the passed action hook is already triggerd, it will trigger the callback right away.
+        // If the passed action hook is already triggered, it will trigger the callback right away.
         if ( $this->aArguments[ 'register_if_action_already_done' ] ) {
             $this->registerAction(
                 $this->aArguments[ 'action_hook_form_registration' ],
@@ -320,7 +320,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             } 
             
             if ( 'admin_page_framework' === $_sCallerID ) {
-                $this->_setSiteWiderFieldTypeDefinitions();                
+                $this->_setSiteWideFieldTypeDefinitions();                
             }
             
             // Set the class specific field type definitions.
@@ -338,7 +338,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
              * @return      void
              * @since       3.7.1
              */
-            private function _setSiteWiderFieldTypeDefinitions() {
+            private function _setSiteWideFieldTypeDefinitions() {
                 
                 // Using a unique caller slug to prevent multiple calls among different scripts. 
                 if ( $this->hasBeenCalled( '__filed_types_admin_page_Framework' ) ) {
