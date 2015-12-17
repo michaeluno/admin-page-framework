@@ -67,20 +67,12 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
             }
                 
             // Ensure this method is called only once per a page load.
-            if ( self::$_bSettingNoticeLoaded ) { 
+            if ( $this->hasBeenCalled( __METHOD__ ) ) {
                 return false;
             }
-            self::$_bSettingNoticeLoaded = true;
-            return true;            
+            
+            return true;
             
         }    
-            /**
-             * Stores a flag value indicating whether the setting notice method is called or not.
-             * 
-             * @since       3.1.3
-             * @since       3.7.0      Moved from `AdminPageFramework_Factory_View`.
-             * @internal
-             */
-            static private $_bSettingNoticeLoaded = false;   
   
 }
