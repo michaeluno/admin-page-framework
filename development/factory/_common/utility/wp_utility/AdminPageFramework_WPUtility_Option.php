@@ -31,7 +31,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
      */
     static public function deleteTransient( $sTransientKey ) {
     
-        // temporarily disable $_wp_using_ext_object_cache
+        // Temporarily disable `$_wp_using_ext_object_cache`.
         global $_wp_using_ext_object_cache;  
         $_bWpUsingExtObjectCacheTemp    = $_wp_using_ext_object_cache; 
         $_wp_using_ext_object_cache     = false;
@@ -48,9 +48,11 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
                 : 45
         );
             
-        $_vTransient = self::$_bIsNetworkAdmin 
-            ? delete_site_transient( $sTransientKey ) 
-            : delete_transient( $sTransientKey );
+        $_aFunctionNames = array(
+            0 => 'delete_transient',
+            1 => 'delete_site_transient',
+        );
+        $_vTransient = $_aFunctionNames[ ( integer ) self::$_bIsNetworkAdmin ]( $sTransientKey );
 
         // reset prior value of $_wp_using_ext_object_cache
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp; 
@@ -65,7 +67,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
      */    
     static public function getTransient( $sTransientKey, $vDefault=null ) {
 
-        // temporarily disable $_wp_using_ext_object_cache
+        // Temporarily disable $_wp_using_ext_object_cache
         global $_wp_using_ext_object_cache;  
         $_bWpUsingExtObjectCacheTemp    = $_wp_using_ext_object_cache; 
         $_wp_using_ext_object_cache     = false;
@@ -82,11 +84,13 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
                 : 45
         ); 
         
-        $_vTransient = self::$_bIsNetworkAdmin 
-            ? get_site_transient( $sTransientKey ) 
-            : get_transient( $sTransientKey );    
-
-        // reset prior value of $_wp_using_ext_object_cache
+        $_aFunctionNames = array(
+            0 => 'get_transient',
+            1 => 'get_site_transient',
+        );
+        $_vTransient = $_aFunctionNames[ ( integer ) self::$_bIsNetworkAdmin ]( $sTransientKey );
+ 
+        // Restore the prior value of `$_wp_using_ext_object_cache`.
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp; 
 
         return null === $vDefault 
@@ -105,7 +109,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
      */
     static public function setTransient( $sTransientKey, $vValue, $iExpiration=0 ) {
 
-        // temporarily disable $_wp_using_ext_object_cache
+        // Temporarily disable `$_wp_using_ext_object_cache`.
         global $_wp_using_ext_object_cache;  
         $_bWpUsingExtObjectCacheTemp    = $_wp_using_ext_object_cache; 
         $_wp_using_ext_object_cache     = false;
@@ -122,11 +126,13 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
                 : 45
         );  
         
-        $_bIsSet = self::$_bIsNetworkAdmin 
-            ? set_site_transient( $sTransientKey, $vValue, $iExpiration ) 
-            : set_transient( $sTransientKey, $vValue, $iExpiration );
-
-        // reset prior value of $_wp_using_ext_object_cache
+        $_aFunctionNames = array(
+            0 => 'set_transient',
+            1 => 'set_site_transient',
+        );
+        $_bIsSet = $_aFunctionNames[ ( integer ) self::$_bIsNetworkAdmin ]( $sTransientKey, $vValue, $iExpiration );        
+        
+        // Restore the prior value of $_wp_using_ext_object_cache
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp; 
 
         return $_bIsSet;     
