@@ -378,12 +378,13 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
 
                     // The page title in the browser window title bar will miss the page title as this is left as it is.
                     $this->oFactory->oProp->aHiddenPages[ $sPageSlug ] = $sMenuTitle;
-                    add_filter( 
+                    // @deprecated 3.7.6 - the below function caused the page title to get doubled in the `<title>` tag.
+                    /* add_filter( 
                         'admin_title', 
                         array( $this, '_replyToFixPageTitleForHiddenPages' ), 
                         10, 
                         2 
-                    );
+                    ); */
                     
                     return $_aRemovedMenuItem;
 
@@ -397,13 +398,15 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                      * @internal
                      * @callback    filter      admin_title
                      * return       string
+                     * @deprecated  3.7.6       Not sure what this was for. This caused the page title in the `<title>` tag to be doubled.
                      */
-                    public function _replyToFixPageTitleForHiddenPages( $sAdminTitle, $sPageTitle ) {
+                    /* public function _replyToFixPageTitleForHiddenPages( $sAdminTitle, $sPageTitle ) {
+
                         if ( isset( $_GET[ 'page' ], $this->oFactory->oProp->aHiddenPages[ $_GET[ 'page' ] ] ) ) {
                             return $this->oFactory->oProp->aHiddenPages[ $_GET[ 'page' ] ] . $sAdminTitle;
                         }    
                         return $sAdminTitle;     
-                    }  
+                    }   */
                     
                     /**
                      * Remove the specified item from the menu. 
