@@ -73,15 +73,15 @@ class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFrame
             // Hooks - before and after validation
             $_aClassNames = array(
                 // before validation
-                'AdminPageFramework_Model__FormSubmission__Validator__ContactForm',
-                'AdminPageFramework_Model__FormSubmission__Validator__ResetConfirm',
                 'AdminPageFramework_Model__FormSubmission__Validator__Link',
                 'AdminPageFramework_Model__FormSubmission__Validator__Redirect',
                 
-                // after validation
+                // after validation               
                 'AdminPageFramework_Model__FormSubmission__Validator__Import',
                 'AdminPageFramework_Model__FormSubmission__Validator__Export',
                 'AdminPageFramework_Model__FormSubmission__Validator__Reset',
+                'AdminPageFramework_Model__FormSubmission__Validator__ResetConfirm', // 3.7.6+ Moved to after validation from before validation
+                'AdminPageFramework_Model__FormSubmission__Validator__ContactForm',  // 3.7.6+ Moved to after validation from before validation
                 'AdminPageFramework_Model__FormSubmission__Validator__ContactFormConfirm',
                 
             );
@@ -126,6 +126,7 @@ class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFrame
                 // Assuming the message serves as the property name to return.
                 $_sPropertyName = $_oException->getMessage();
                 if ( isset( $_oException->$_sPropertyName ) ) {
+                    $this->_setSettingNoticeAfterValidation( empty( $_oException->{$_sPropertyName} ) );
                     return $_oException->{$_sPropertyName};
                 }
                 

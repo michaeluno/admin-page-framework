@@ -17,7 +17,7 @@
  */
 class AdminPageFramework_Model__FormSubmission__Validator__ContactForm extends AdminPageFramework_Model__FormSubmission__Validator_Base {
     
-    public $sActionHookPrefix = 'try_validation_before_';
+    public $sActionHookPrefix = 'try_validation_after_';    // 3.7.6 Changed it from `try_validation_before_`
     public $iHookPriority = 10;
     public $iCallbackParameters = 5;
  
@@ -34,11 +34,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactForm extends A
     public function _replyToCallback( $aInputs, $aRawInputs, array $aSubmits, $aSubmitInformation, $oFactory ) {
                 
         // Check whether sending an email has been confirmed by the user or not.
-        $_bConfirmedToSendEmail     = ( bool ) $this->_getPressedSubmitButtonData( 
-            $aSubmits, 
-            'confirmed_sending_email' 
-        );
-        if ( ! $_bConfirmedToSendEmail ) {
+        if ( ! $this->_shouldProceed( $oFactory, $aSubmits ) ) {
             return;
         }
         
@@ -55,11 +51,28 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactForm extends A
         add_action( "setting_update_url_{$this->oFactory->oProp->sClassName}", array( $this, '_replyToRemoveConfirmationQueryKey' ) );
         
         // Go to the catch clause.
-        $_oException = new Exception( 'aReturn' );  // the property name to return from the catch clasue.
+        $_oException = new Exception( 'aReturn' );  // the property name to return from the catch clause.
         $_oException->aReturn = $aInputs;
         throw $_oException;
     
     }
+        /**
+         * @since       3.7.6
+         * @return      boolean
+         */
+        protected function _shouldProceed( $oFactory, $aSubmits ) {
+            
+            if ( $oFactory->hasFieldError() ) {
+                return false;
+            }
+            
+            return ( bool ) $this->_getPressedSubmitButtonData( 
+                $aSubmits, 
+                'confirmed_sending_email' 
+            );            
+            
+        }
+         
         /**
          * Sends an email set via the form.
          * 

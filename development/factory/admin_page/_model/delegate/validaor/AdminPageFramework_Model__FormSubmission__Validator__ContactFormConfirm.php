@@ -33,17 +33,10 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactFormConfirm ex
      */
     public function _replyToCallback( $aInputs, $aRawInputs, array $aSubmits, $aSubmitInformation, $oFactory ) {
                                 
-        if ( $this->oFactory->hasFieldError() ) {
+        if ( ! $this->_shouldProceed( $oFactory, $aSubmits ) ) {
             return;
         }
-        $_bConfirmingToSendEmail    = ( bool ) $this->_getPressedSubmitButtonData( 
-            $aSubmits, 
-            'confirming_sending_email' 
-        );
-        if ( ! $_bConfirmingToSendEmail ) {
-            return;
-        }
-
+        
         $this->oFactory->setLastInputs( $aInputs );
         $this->oFactory->oProp->_bDisableSavingOptions = true;
 
@@ -62,6 +55,23 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactFormConfirm ex
         throw $_oException;
         
     }   
+        /**
+         * @since       3.7.6
+         * @return      boolean
+         */
+        protected function _shouldProceed( $oFactory, $aSubmits ) {
+            
+            if ( $oFactory->hasFieldError() ) {
+                return false;
+            }
+            
+            return ( bool ) $this->_getPressedSubmitButtonData( 
+                $aSubmits, 
+                'confirming_sending_email' 
+            );
+            
+        }    
+    
         /**
          * @return      array
          * @since       3.6.3

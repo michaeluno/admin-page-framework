@@ -37,6 +37,14 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
      */
     public function __construct( $oFactory ) {
     
+        // Validation
+        add_filter( 
+            'validation_' . $oFactory->oProp->sClassName . '_' . $this->sSectionID,
+            array( $this, 'validate' ),
+            10,
+            4
+        );
+    
         // Section
         $oFactory->addSettingSections(    
             $this->sPageSlug, // the target page slug                
@@ -55,7 +63,10 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                 'field_id'          => 'submit_button_field',
                 'title'             => __( 'Submit Button', 'admin-page-framework-loader' ),
                 'type'              => 'submit',
-                'description'       => __( 'This is the default submit button.', 'admin-page-framework-loader' ),
+                'description'       => array(
+                    __( 'This is the default submit button.', 'admin-page-framework-loader' ),
+                    __( 'Use the <code>value</code> argument to set a custom label.', 'admin-page-framework-loader' ),
+                ),
             ),     
             array( // Submit button as a link
                 'field_id'          => 'submit_button_link',
@@ -111,6 +122,21 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                     'class' => 'button button-secondary',
                 ),
             ),
+            
+            array( // with an image
+                'field_id'          => 'image_submit_button',
+                'title'             => __( 'Image Submit Button', 'admin-page-framework-loader' ),
+                'type'              => 'submit',
+                'href'              => 'http://en.michaeluno.jp/donate',
+                'attributes'        =>  array(
+                   'src'    => APFDEMO_DIRNAME . '/asset/image/donation.gif',
+                   'alt'    => __( 'Submit', 'admin-page-framework-loader' ),
+                   'class'  => '',
+                ),
+                'description'   => __( 'For a custom image submit button, set the image url in the <code>src</code> attribute with the <code>attributes</code> argument.', 'admin-page-framework-loader' )
+                    . ' ' . __( 'This button will take you to the donation page for the developer of this framework. If you like to donate, please do so to help the development!', 'admin-page-framework-loader' ),
+            ),      
+            
             array( // Reset Submit button
                 'field_id'      => 'submit_button_reset',
                 'title'         => __( 'Reset Button', 'admin-page-framework-loader' ),
@@ -122,6 +148,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                 ),
                 'description'   => __( 'If you press this button, a confirmation message will appear and then if you press it again, it resets the option.', 'admin-page-framework-loader' ),
             ),
+                        
             array( // Reset Section
                 'field_id'      => 'submit_button_reset_section',
                 'title'         => __( 'Reset Section', 'admin-page-framework-loader' ),
@@ -148,29 +175,69 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                 'attributes'    => array(
                     'class' => 'button button-secondary',
                 ),
-                'skip_confirmation' => true,    // 3.7.6+
                 'description'   => array( 
                     __( 'To reset a value of a particular field, set an array with the the section ID in the first element and field ID in the second element to the <code>reset</code> argument.', 'admin-page-framework-loader' ),
                     __( 'If a field does not have a section, just set the field ID.', 'admin-page-framework-loader' ),
                     __( 'As an example, this reset button rests the first item of the Color section above.', 'admin-page-framework-loader' ),
-                    __( 'With the <code>skip_confirmation</code> argument, you can skip the confirmation.', 'admin-page-framework-loader' ),
                 ),
-            ),            
-            array( // with an image
-                'field_id'          => 'image_submit_button',
-                'title'             => __( 'Image Submit Button', 'admin-page-framework-loader' ),
+            ),       
+
+            // Reset options with a check box
+            array( 
+                'field_id'          => 'reset_confirmation_check',
+                'title'             => __( 'Confirm Reset', 'admin-page-framework-loader' ),
+                'type'              => 'checkbox',
+                'label'             => __( 'I understand the options will be erased by pressing the reset button.', 'admin-page-framework-loader' ),
+                'skip_confirmation' => true,    // 3.7.6+
+                'save'              => false,
+                'value'             => false,
+            ),
+            array( 
+                'field_id'          => 'submit_skip_confirmation',
                 'type'              => 'submit',
-                'href'              => 'http://en.michaeluno.jp/donate',
-                'attributes'        =>  array(
-                   'src'    => APFDEMO_DIRNAME . '/asset/image/donation.gif',
-                   'alt'    => __( 'Submit', 'admin-page-framework-loader' ),
-                   'class'  => '',
+                'label'             => __( 'Reset', 'admin-page-framework-loader' ),
+                'reset'             => true,
+                'skip_confirmation' => true,    // 3.7.6+
+                'description'       => array(
+                    __( 'With the <code>skip_confirmation</code> argument, you can skip the confirmation.', 'admin-page-framework-loader' ),
+                    __( 'And use a checkbox to let the user perform the action by pressing the button only once.', 'admin-page-framework-loader' ),
                 ),
-                'description'   => __( 'For a custom image submit button, set the image url in the <code>src</code> attribute with the <code>attributes</code> argument.', 'admin-page-framework-loader' )
-                    . ' ' . __( 'This button will take you to the donation page for the developer of this framework. If you like to donate, please do so to help the development!', 'admin-page-framework-loader' ),
             )
+            
         );              
       
+    }
+    
+    /**
+     * @return      array
+     */
+    public function validate( $aInputs, $aOldInputs, $oFactory, $aSubmitInfo ) {
+        
+        $_bIsValid = true;
+        $_aErrors  = array();
+        
+        // If the pressed button is not the one with the check box, do not set a field error.
+        if ( 'submit_skip_confirmation' !== $aSubmitInfo[ 'field_id' ] ) {
+            return $aInputs;
+        }
+
+        if ( ! $aInputs[ 'reset_confirmation_check' ] ) {
+            
+            $_bIsValid = false;
+            $_aErrors[ $this->sSectionID ][ 'reset_confirmation_check' ] = __( 'Please check the check box to confirm you want to reset the settings.', 'admin-page-framework-loader' );
+            
+        }
+        
+        if ( ! $_bIsValid ) {
+        
+            $oFactory->setFieldErrors( $_aErrors );     
+            $oFactory->setSettingNotice( __( 'Please help us to help you.', 'admin-page-framework-loader' ) );
+            return $aOldInputs;
+            
+        }  
+                
+        return $aInputs;
+        
     }
 
 }

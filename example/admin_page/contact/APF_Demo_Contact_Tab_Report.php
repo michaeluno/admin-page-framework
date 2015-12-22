@@ -165,17 +165,13 @@ class APF_Demo_Contact_Tab_Report {
                 'field_id'          => 'send',
                 'type'              => 'submit',
                 'label_min_width'   => 0,
-                'value'             => isset( $_GET['confirmation'] ) && 'email' === $_GET['confirmation']
-                    ? __( 'Send', 'adimn-page-framework-demo' )
-                    : __( 'Preview', 'adimn-page-framework-demo' ),
+                'value'             => __( 'Send', 'adimn-page-framework-demo' ),
                 'attributes'        => array(
                     'field' => array(
                         'style' => 'float:right; clear:none; display: inline;',
                     ),
-                    'class' => isset( $_GET['confirmation'] ) && 'email' === $_GET['confirmation']
-                        ? null
-                        : 'button-secondary',
                 ),     
+                'skip_confirmation' => true,
                 'email'             => array(
                     // Each argument can accept a string or an array representing the dimensional array key.
                     // For example, if there is a field for the email title, and its section id is 'my_section'  and  the field id is 'my_field', pass an array, array( 'my_section', 'my_field' )
@@ -193,22 +189,27 @@ class APF_Demo_Contact_Tab_Report {
         );        
         
         // validation + page slug + tab slug
-        add_action( 'validation_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToValidateForm' ), 10, 3 );
+        add_action( 
+            'validation_' . $this->sPageSlug . '_' . $this->sTabSlug, 
+            array( $this, 'replyToValidateForm' ), 
+            10, 
+            4 
+        );
         
     }
     
     /**
      * Validates the submitted data.
      */
-    public function replyToValidateForm( $aInput, $aOldInput, $oFactory ) {
+    public function replyToValidateForm( $aInput, $aOldInput, $oFactory, $aSubmitInfo ) {
         
        // Local variables
         $_bIsValid = true;
         $_aErrors  = array();
       
-        if ( ! $aInput[ $this->sSectionID ]['allow_sending_system_information'] ) {
+        if ( ! $aInput[ $this->sSectionID ][ 'allow_sending_system_information' ] ) {
             $_bIsValid = false;
-            $_aErrors[ $this->sSectionID ]['allow_sending_system_information'] = __( 'We need necessary information to help you.', 'fetch-tweets' );
+            $_aErrors[ $this->sSectionID ][ 'allow_sending_system_information' ] = __( 'We need necessary information to help you.', 'admin-page-framework-loader' );
         }
         
         if ( ! $_bIsValid ) {

@@ -35,6 +35,10 @@ class AdminPageFramework_Model__FormSubmission__Validator__Reset extends AdminPa
      */
     public function _replyToCallback( $aInputs, $aRawInputs, array $aSubmits, $aSubmitInformation, $oFactory ) {
             
+        if ( ! $this->_shouldProceed( $oFactory, $aSubmits ) ) {
+            return;
+        }       
+            
         // this will be set if the user confirms the reset action.
         $_sKeyToReset = $this->_getPressedSubmitButtonData( 
             $aSubmits, 
@@ -52,7 +56,15 @@ class AdminPageFramework_Model__FormSubmission__Validator__Reset extends AdminPa
         );
         throw $_oException;               
         
-    }                
+    }        
+        /**
+         * @since       3.7.6
+         * @return      boolean
+         */
+        protected function _shouldProceed( $oFactory, $aSubmits ) {
+            return ! $oFactory->hasFieldError();            
+        }
+        
         /**
          * Performs resetting options.
          * 

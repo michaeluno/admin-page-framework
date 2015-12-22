@@ -17,8 +17,8 @@
  */
 class AdminPageFramework_Model__FormSubmission__Validator__ResetConfirm extends AdminPageFramework_Model__FormSubmission__Validator__Reset {
         
-    public $sActionHookPrefix = 'try_validation_before_';
-    public $iHookPriority = 20;
+    public $sActionHookPrefix = 'try_validation_after_'; // 3.7.6 Changed it from `try_validation_before_`
+    public $iHookPriority = 40; // 3.7.6 Changed it from 20. Made it load later than the reset routine.
     public $iCallbackParameters = 5;
 
     /**
@@ -33,13 +33,9 @@ class AdminPageFramework_Model__FormSubmission__Validator__ResetConfirm extends 
     public function _replyToCallback( $aInputs, $aRawInputs, array $aSubmits, $aSubmitInformation, $oFactory ) {
                 
         // if the 'reset' key in the field definition array is set, this value will be set.
-        $_bIsReset = ( bool ) $this->_getPressedSubmitButtonData( 
-            $aSubmits, 
-            'is_reset' 
-        );  
-        if ( ! $_bIsReset ) {
+        if ( ! $this->_shouldProceed( $oFactory, $aSubmits ) ) {
             return;
-        }     
+        }
         
         add_filter(
             "options_update_status_{$this->oFactory->oProp->sClassName}", 
@@ -55,7 +51,24 @@ class AdminPageFramework_Model__FormSubmission__Validator__ResetConfirm extends 
         );
         throw $_oException;        
         
-    }       
+    }      
+        /**
+         * @since       3.7.6
+         * @return      boolean
+         */
+        protected function _shouldProceed( $oFactory, $aSubmits ) {
+            
+            if ( $oFactory->hasFieldError() ) {
+                return false;
+            }
+            
+            return ( bool ) $this->_getPressedSubmitButtonData( 
+                $aSubmits, 
+                'is_reset' 
+            );  
+            
+        }
+        
         /**
          * @return      array
          * @since       3.6.3
