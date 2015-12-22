@@ -28,7 +28,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
     /**
      * Checks whether a field error exists.
      * @return      boolean
-     * @since       3.7.0s
+     * @since       3.7.0
      */
     public function hasFieldError() {
         return $this->oFieldError->hasError();
