@@ -191,8 +191,16 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_Framewor
                     
                     // List the section paths of the direct children
                     foreach( $aNestedSctionsets as $_aNestedSectionset ) {
+                        
+                        // 3.7.6+ There were cases non array gets passed (like the FAQ page in the demo)
+                        // and caused warnings in PHP 7.
+                        if ( ! is_array( $_aNestedSectionset ) ) {
+                            continue;
+                        }
+                        
                         $_sThisSectionPath = $sSubjectSectionPath . '|' . $_aNestedSectionset[ 'section_id' ];
                         $_aNestedSectionPaths[ $_sThisSectionPath ] = $_sThisSectionPath;
+                        
                     }                    
                     
                     // Now we need children's children.
