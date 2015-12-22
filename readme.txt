@@ -435,6 +435,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 = 3.7.6 =
 - Added the `skip_confirmation` argument for the `submit` field type, which skips submit confirmation.
+- Fixed some compatibility issues with PHP 7.
 - Fixed an issue that fron-end pages of custom post types registered with the framework could not be accessible in some occasions.
 - Fixed a bug that resetting options did not show a message since v3.5.3.
 - Fixed a bug that page titles got doubled in the `title` tag when there is a hidden page.
