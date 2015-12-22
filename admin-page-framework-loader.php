@@ -217,8 +217,12 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
 AdminPageFrameworkLoader_Registry::setUp( __FILE__ );
 
 // Initial checks. - Do no load if accessed directly, not exiting because the 'uninstall.php' and inclusion list generator will load this file.
-if ( ! defined( 'ABSPATH' ) ) { return; }
-if ( defined( 'DOING_UNINSTALL' ) ) { return; }
+if ( ! defined( 'ABSPATH' ) ) { 
+    return; 
+}
+if ( defined( 'DOING_UNINSTALL' ) ) { 
+    return; 
+}
 
 // Include the library file 
 if ( ! class_exists( 'AdminPageFramework' ) ) {    
@@ -228,7 +232,7 @@ if ( ! class_exists( 'AdminPageFramework' ) ) {
     include( 
         $_bDebugMode && file_exists( $_sDevelopmentVersionPath )
             ? $_sDevelopmentVersionPath
-            : dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php'
+            : dirname( __FILE__ ) . '/library/apf/admin-page-framework.php'
     );   
 } 
  

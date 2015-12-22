@@ -7,7 +7,7 @@
 /* Set necessary paths */
 $sTargetBaseDir              = dirname( dirname( dirname( __FILE__ ) ) );
 $sTargetDir                  = $sTargetBaseDir . '/development';
-$sDestinationDirectoryPath   = $sTargetBaseDir . '/library/admin-page-framework';
+$sDestinationDirectoryPath   = $sTargetBaseDir . '/library/apf';
 $sLicenseFileName            = 'LICENSE.txt';
 $sLicenseFilePath            = $sDestinationDirectoryPath . '/' . $sLicenseFileName;
 $sHeaderClassName            = 'AdminPageFramework_BeautifiedVersionHeader';

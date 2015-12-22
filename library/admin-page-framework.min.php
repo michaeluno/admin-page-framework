@@ -11,4 +11,4 @@ trigger_error(
         . ' Use the component generator instead available at Dashboard -> Admin Page Framework -> Tools -> Generator.',
     E_USER_WARNING 
 );
-include( dirname( __FILE__ ) . '/admin-page-framework/admin-page-framework.php' );
+include( dirname( __FILE__ ) . '/apf/admin-page-framework.php' );

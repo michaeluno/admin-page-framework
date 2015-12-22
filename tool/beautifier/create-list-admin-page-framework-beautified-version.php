@@ -1,8 +1,8 @@
 <?php
 /* Configuration */
 $sTargetBaseDir     = dirname( dirname( dirname( __FILE__ ) ) );
-$sTargetScanDir     = $sTargetBaseDir . '/library/admin-page-framework';
-$sResultFilePath    = $sTargetBaseDir . '/library/admin-page-framework/admin-page-framework-include-class-list.php';
+$sTargetScanDir     = $sTargetBaseDir . '/library/apf';
+$sResultFilePath    = $sTargetBaseDir . '/library/apf/admin-page-framework-include-class-list.php';
 
 /* If accessed from a browser, exit. */
 $bIsCLI             = php_sapi_name() == 'cli';
