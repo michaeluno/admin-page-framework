@@ -191,6 +191,9 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                 'skip_confirmation' => true,    // 3.7.6+
                 'save'              => false,
                 'value'             => false,
+                'attributes'        => array(
+                    'required'  => 'required',
+                ),                     
             ),
             array( 
                 'field_id'          => 'submit_skip_confirmation',
