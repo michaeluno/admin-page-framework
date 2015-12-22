@@ -42,6 +42,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
                 'attachments'   => null,    // string|array     The file path(s) or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the the field ID.
             )
         */
+        'skip_confirmation' => false,   // 3.7.6+ For emails.
         'attributes'    => array(
             'class' => 'button button-primary',
         ),    
@@ -76,14 +77,14 @@ CSSRULES;
         $_aLabelContainerAttributes = $this->_getLabelContainerAttributes( $aField );
 
         return 
-            $aField['before_label']
+            $aField[ 'before_label' ]
             . "<div " . $this->getAttributes( $_aLabelContainerAttributes ) . ">"
                 . $this->_getExtraFieldsBeforeLabel( $aField ) // this is for the import field type that cannot place file input tag inside the label tag.
                 . "<label " . $this->getAttributes( $_aLabelAttributes ) . ">"
-                    . $aField['before_input']
+                    . $aField[ 'before_input' ]
                     . $this->_getExtraInputFields( $aField )
                     . "<input " . $this->getAttributes( $_aInputAttributes ) . " />" // this method is defined in the base class
-                    . $aField['after_input']
+                    . $aField[ 'after_input' ]
                 . "</label>"
             . "</div>"
             . $aField['after_label'];
@@ -179,24 +180,24 @@ CSSRULES;
             'input',
             array(
                 'type'  => 'hidden',
-                'name'  => "__submit[{$aField['input_id']}][input_id]",
-                'value' => $aField['input_id'],
+                'name'  => "__submit[{$aField[ 'input_id' ]}][input_id]",
+                'value' => $aField[ 'input_id' ],
             )
         );
         $_aOutput[] = $this->getHTMLTag( 
             'input',
             array(
                 'type'  => 'hidden',
-                'name'  => "__submit[{$aField['input_id']}][field_id]",
-                'value' => $aField['field_id'],
+                'name'  => "__submit[{$aField[ 'input_id' ]}][field_id]",
+                'value' => $aField[ 'field_id' ],
             ) 
         );            
         $_aOutput[] = $this->getHTMLTag( 
             'input',
             array(
                 'type'  => 'hidden',
-                'name'  => "__submit[{$aField['input_id']}][name]",
-                'value' => $aField['_input_name_flat'],
+                'name'  => "__submit[{$aField[ 'input_id' ]}][name]",
+                'value' => $aField[ '_input_name_flat' ],
             ) 
         );         
         $_aOutput[] = $this->_getHiddenInput_SectionID( $aField );
@@ -256,7 +257,7 @@ CSSRULES;
             if ( ! $aField['reset'] ) {
                 return '';
             }
-            return ! $this->_checkConfirmationDisplayed( $aField['_input_name_flat'], 'reset' )
+            return ! $this->_checkConfirmationDisplayed( $aField, $aField[ '_input_name_flat' ], 'reset' )
                 ? $this->getHTMLTag( 
                     'input',
                     array(
@@ -285,19 +286,19 @@ CSSRULES;
          */ 
         private function _getHiddenInput_Email( array $aField ) {
             
-            if ( empty( $aField['email'] ) ) {
+            if ( empty( $aField[ 'email' ] ) ) {
                 return '';
             }
             $this->setTransient( 
-                'apf_em_' . md5( $aField['_input_name_flat'] . get_current_user_id() ), 
-                $aField['email'] 
+                'apf_em_' . md5( $aField[ '_input_name_flat' ] . get_current_user_id() ), 
+                $aField[ 'email' ] 
             );
-            return ! $this->_checkConfirmationDisplayed( $aField['_input_name_flat'], 'email' )
+            return ! $this->_checkConfirmationDisplayed( $aField, $aField[ '_input_name_flat' ], 'email' )
                 ? $this->getHTMLTag( 
                     'input',
                     array(
                         'type'  => 'hidden',
-                        'name'  => "__submit[{$aField['input_id']}][confirming_sending_email]",
+                        'name'  => "__submit[{$aField[ 'input_id' ]}][confirming_sending_email]",
                         'value' => '1',
                     ) 
                 )
@@ -305,7 +306,7 @@ CSSRULES;
                     'input',
                     array(
                         'type'  => 'hidden',
-                        'name'  => "__submit[{$aField['input_id']}][confirmed_sending_email]",
+                        'name'  => "__submit[{$aField[ 'input_id' ]}][confirmed_sending_email]",
                         'value' => '1',
                     ) 
                 );                
@@ -315,7 +316,7 @@ CSSRULES;
          * A helper function for the above getSubmitField() that checks if a reset confirmation message has been displayed or not when the 'reset' key is set.
          * 
          */
-        private function _checkConfirmationDisplayed( $sFlatFieldName, $sType='reset' ) {
+        private function _checkConfirmationDisplayed( $aField, $sFlatFieldName, $sType='reset' ) {
                             
             switch( $sType ) {
                 default:
@@ -327,7 +328,7 @@ CSSRULES;
                     break;
             }
             
-            $_bConfirmed        = false === $this->getTransient( $_sTransientKey ) 
+            $_bConfirmed = false === $this->getTransient( $_sTransientKey ) && ! $aField[ 'skip_confirmation' ]
                 ? false
                 : true;
             

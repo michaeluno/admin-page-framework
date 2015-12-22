@@ -137,17 +137,19 @@ class APF_Demo_Contact_Tab_Feedback {
                 'field_id'          => 'send',
                 'type'              => 'submit',
                 'label_min_width'   => 0,
-                'value'             => isset( $_GET['confirmation'] ) && 'email' === $_GET['confirmation']
-                    ? __( 'Send', 'adimn-page-framework-demo' )
-                    : __( 'Preview', 'adimn-page-framework-demo' ),
+                // 'value'             => isset( $_GET['confirmation'] ) && 'email' === $_GET['confirmation']
+                    // ? __( 'Send', 'adimn-page-framework-demo' )
+                    // : __( 'Preview', 'adimn-page-framework-demo' ),
+                'value'             => __( 'Send', 'adimn-page-framework-demo' ),
                 'attributes'        => array(
                     'field' => array(
                         'style' => 'float:right; clear:none; display: inline;',
                     ),
-                    'class' => isset( $_GET['confirmation'] ) && 'email' === $_GET['confirmation']
-                        ? null
-                        : 'button-secondary',
+                    // 'class' => isset( $_GET['confirmation'] ) && 'email' === $_GET['confirmation']
+                        // ? null
+                        // : 'button-secondary',
                 ),    
+                'skip_confirmation' => true,
                 'email'             => array(
                     // Each argument can accept a string or an array representing the dimensional array key.
                     // For example, if there is a field for the email title, and its section id is 'my_section'  and  the field id is 'my_field', pass an array, array( 'my_section', 'my_field' )

@@ -434,6 +434,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.7.6 =
+- Added the `skip_confirmation` argument for the `submit` field type, which skips submit confirmation.
 - Fixed a bug that page titles got doubled in the `<title>` tag.
 
 = 3.7.5 - 2015/12/18 =

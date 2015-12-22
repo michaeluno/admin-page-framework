@@ -431,6 +431,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *               <li>**href** - (optional, string) the url(s) linked to the submit button.</li>
     *               <li>**redirect_url** - (optional, string) the url(s) redirected to after submitting the input form.</li>
     *               <li>**reset** - [2.1.2+] (optional, boolean|string|array) the option key to delete. Set 1 for the entire option. [3.5.3+] In order to reset a particular field that belongs to a section, set an array representing the dimensional keys such as `array( 'my_sectio_id', 'my_field_id' )`.</li>
+    *               <li>**skip_confirmation** - [3.7.6+] (optional, boolean) Whether to skip confirmation. Default: `false`.</li>
     *               <li>**email** - [3.3.0+] (optional, array) Coming soon...
     *                   <ul>
     *                       <li>**to** - (string|array) the email address to send the email to. For multiple email addressed, set comma delimited items.</li>

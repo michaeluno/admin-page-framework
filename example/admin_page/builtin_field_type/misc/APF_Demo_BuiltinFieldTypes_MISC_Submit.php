@@ -148,10 +148,12 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                 'attributes'    => array(
                     'class' => 'button button-secondary',
                 ),
+                'skip_confirmation' => true,    // 3.7.6+
                 'description'   => array( 
                     __( 'To reset a value of a particular field, set an array with the the section ID in the first element and field ID in the second element to the <code>reset</code> argument.', 'admin-page-framework-loader' ),
                     __( 'If a field does not have a section, just set the field ID.', 'admin-page-framework-loader' ),
                     __( 'As an example, this reset button rests the first item of the Color section above.', 'admin-page-framework-loader' ),
+                    __( 'With the <code>skip_confirmation</code> argument, you can skip the confirmation.', 'admin-page-framework-loader' ),
                 ),
             ),            
             array( // with an image
