@@ -13,7 +13,7 @@ Facilitates WordPress plugin and theme development.
 == Description ==
 
 <h4>Reduce Time for Plugin and Theme Development</h4>
-One of the time-consuming part of developing WordPress plugins and themes is creating setting pages. As you more and more write plugins and themes, you'll soon realize major part of code can be reused. Admin Page Framework aims to provide reusable code that eliminates the necessity of writing repeated code over and over again.
+One of the time-consuming part of developing WordPress plugins and themes is creating setting pages. As you more and more write plugins and themes, you will ll soon realize major part of code can be reused. Admin Page Framework aims to provide reusable code that eliminates the necessity of writing repeated code over and over again.
 
 You will have more organized means of building option pages with the framework. Extend the library class and pass your arrays defining the form elements to the predefined class methods. The library handles all the complex coding behind the scene and creates the pages and the forms for you.
 
@@ -437,7 +437,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Added the `skip_confirmation` argument for the `submit` field type, which skips submit confirmation.
 - Fixed an issue that fron-end pages of custom post types registered with the framework could not be accessible in some occasions.
 - Fixed a bug that resetting options did not show a message since v3.5.3.
-- Fixed a bug that page titles got doubled in the `<title>` tag when there is a hidden page.
+- Fixed a bug that page titles got doubled in the `title` tag when there is a hidden page.
 - Changed the timing of resetting options and sending contact form emails of the `submit` field type to after the validation hooks so that the user can cancel their actions.
 
 = 3.7.5 - 2015/12/18 =
