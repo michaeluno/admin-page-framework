@@ -89,6 +89,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Form_post_type"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/post_type/form/AdminPageFramework_Form_post_type.php", 
 	"AdminPageFramework_Link_PostType"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/post_type/_controller/AdminPageFramework_Link_PostType.php", 
 	"AdminPageFramework_Resource_PostType"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/post_type/_controller/AdminPageFramework_Resource_PostType.php", 
+	"AdminPageFramework_PostType_Model__FlushRewriteRules"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/post_type/_model/AdminPageFramework_PostType_Model__FlushRewriteRules.php", 
 	"AdminPageFramework_PostType_Model__SubMenuOrder"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/post_type/_model/AdminPageFramework_PostType_Model__SubMenuOrder.php", 
 	"AdminPageFramework_Property_PostType"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/post_type/_model/AdminPageFramework_Property_PostType.php", 
 	"AdminPageFramework_PageLoadInfo_PostType"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/post_type/_view/AdminPageFramework_PageLoadInfo_PostType.php", 
