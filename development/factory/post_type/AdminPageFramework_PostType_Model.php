@@ -58,8 +58,19 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
             add_action( 'admin_enqueue_scripts', array( $this, '_replyToDisableAutoSave' ) );     
         
         endif;
+        
+        if ( $this->oProp->bIsAdmin ) {
+            $this->_setUpAdminHooks();
+        }
                 
     }    
+        /**
+         * Sets up hooks for the admin area.
+         * @sinec       3.7.6
+         */
+        private function _setUpAdminHooks() {
+            new AdminPageFramework_PostType_Model__FlushRewriteRules( $this );            
+        }    
     
     /**
      * Defines the sortable column items in the custom post listing table.
@@ -149,12 +160,12 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * @callback    action      set_up_{instantiated class name}
      */
     public function _replyToRegisterPostType() {
-        
+
         register_post_type( 
             $this->oProp->sPostType, 
             $this->oProp->aPostTypeArgs
         );
-        
+
         new AdminPageFramework_PostType_Model__SubMenuOrder( $this );
         
     }

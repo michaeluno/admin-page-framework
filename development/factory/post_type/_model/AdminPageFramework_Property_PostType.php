@@ -159,54 +159,5 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
      * @since       3.7.4
      */
     public $aTaxonomySubMenuOrder = array();
- 
-    /**
-     * Sets up activation/deactivation hooks.
-     */
-    public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sStructureType ) {
-            
-        parent::__construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sStructureType );
-
-        // Set up activation/deactivation hooks.
-        if ( ! $sCallerPath ) {
-            return;
-        }
-        switch ( $this->_getCallerType( $sCallerPath ) ) {
-            case 'theme':
-                add_action( 
-                    'after_switch_theme', 
-                    array( $this, '_replyToFlushRewriteRules' ) 
-                );
-            break;
-            case 'plugin':
-                register_activation_hook( 
-                    $sCallerPath, 
-                    array( $this, '_replyToFlushRewriteRules' ) 
-                );
-                register_deactivation_hook( 
-                    $sCallerPath, 
-                    array( $this, '_replyToFlushRewriteRules' ) 
-                );
-            break;
-        }
         
-    }
-    
-        /**
-         * Resets the rewrite rules for custom post types.
-         * 
-         * This must be done after the post type is registered. So the shutdown action hook is used.
-         * 
-         * @callback    action      shutdown
-         * @since       3.7.6
-         */
-        public function _replyToFlushRewriteRules() {
-            
-            // Ensure to run this only once per page load and site-wide (among many post types created by the framework)
-            if ( $this->hasBeenCalled( 'flush_rewrite_rules' ) ) {
-                return;
-            }
-            $this->flushRewriteRules();
-            
-        }
 }

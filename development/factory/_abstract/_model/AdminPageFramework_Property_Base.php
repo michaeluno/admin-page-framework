@@ -323,7 +323,15 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         'hfInputNameFlat'   => null,    // 3.6.0+   the flat field input name 
         'hfClass'           => null,    // the class attribute       
     );
-              
+            
+    /**
+     * Indicates the caller script type.
+     * 
+     * This can be either 'unknown', 'plugin', or 'theme'.
+     * @since       3.7.6
+     */
+    public $sScriptType = 'unknown';
+            
     /**
      * Sets up necessary property values.
      */
@@ -348,7 +356,9 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             'admin-page-framework',
             $sTextDomain
         );
-        $this->sStructureType      = $sStructureType;
+        $this->sStructureType   = $sStructureType;
+        
+        $this->sScriptType      = $this->_getCallerType( $sCallerPath );    // 3.7.6+
         
         $GLOBALS[ 'aAdminPageFramework' ] = $this->getElementAsArray(
             $GLOBALS,
@@ -483,17 +493,17 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      */  
     protected function getCallerInfo( $sCallerPath=null ) {
         
-        $_aCallerInfo          = self::$_aStructure_CallerInfo;
-        $_aCallerInfo['sPath'] = $sCallerPath;
-        $_aCallerInfo['sType'] = $this->_getCallerType( $_aCallerInfo['sPath'] );
+        $_aCallerInfo            = self::$_aStructure_CallerInfo;
+        $_aCallerInfo[ 'sPath' ] = $sCallerPath;
+        $_aCallerInfo[ 'sType' ] = $this->_getCallerType( $_aCallerInfo[ 'sPath' ] );
 
-        if ( 'unknown' == $_aCallerInfo['sType'] ) {
+        if ( 'unknown' == $_aCallerInfo[ 'sType' ] ) {
             return $_aCallerInfo;
         }
-        if ( 'plugin' == $_aCallerInfo['sType'] ) {
-            return $this->getScriptData( $_aCallerInfo['sPath'], $_aCallerInfo['sType'] ) + $_aCallerInfo;
+        if ( 'plugin' == $_aCallerInfo[ 'sType' ] ) {
+            return $this->getScriptData( $_aCallerInfo[ 'sPath' ], $_aCallerInfo[ 'sType' ] ) + $_aCallerInfo;
         }
-        if ( 'theme' == $_aCallerInfo['sType'] ) {
+        if ( 'theme' == $_aCallerInfo[ 'sType' ] ) {
             $_oTheme = wp_get_theme(); // stores the theme info object
             return array(
                 'sName'         => $_oTheme->Name,
@@ -505,6 +515,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             ) + $_aCallerInfo;    
         }
         return array();
+        
     }    
     
     /**
@@ -519,13 +530,22 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      */ 
     protected function _getCallerType( $sScriptPath ) {
         
+        static $aCache = array();
+        
+        if ( isset( $aCache[ $sScriptPath ] ) ) {
+            return $aCache[ $sScriptPath ];
+        }
+        
         if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $sScriptPath, $m ) ) {
+            $aCache[ $sScriptPath ] = 'theme';
             return 'theme';
         }
         if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $sScriptPath, $m ) ) {
+            $aCache[ $sScriptPath ] = 'plugin';
             return 'plugin';
         }
-        return 'unknown';    
+        $aCache[ $sScriptPath ] = 'unknown';
+        return 'unknown';
     
     }    
             
