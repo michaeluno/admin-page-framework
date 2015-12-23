@@ -107,7 +107,6 @@ class AdminPageFramework_PostType_Model__FlushRewriteRules extends AdminPageFram
             if ( $this->hasBeenCalled( 'flush_rewrite_rules' ) ) {
                 return;
             }
-AdminPageFramework_Debug::log( 'flushing rewrute rules' )            ;
             $this->flushRewriteRules();
             
         }    
