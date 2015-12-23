@@ -4,4 +4,4 @@ trigger_error(
         . ' The file is moved to: ' . dirname( dirname( __FILE__ ) ) . '/apf/admin-page-framework.php',
     E_USER_WARNING 
 );
-include( dirname( __FILE__ ) . '/apf/admin-page-framework.php' );
+include( dirname( dirname( __FILE__ ) ) . '/apf/admin-page-framework.php' );
