@@ -35,8 +35,8 @@ class FileExistence_Test extends \Codeception\TestCase\Test {
         $this->assertFileExists( $GLOBALS['_sProjectDirPath'] . '/development/admin-page-framework.php' );
         $this->assertFileExists( $GLOBALS['_sProjectDirPath'] . '/development/admin-page-framework-include-class-list.php' );
         $this->assertFileExists( $GLOBALS['_sProjectDirPath'] . '/development/LICENSE.txt' );
-        $this->assertFileExists( $GLOBALS['_sProjectDirPath'] . '/library/admin-page-framework/admin-page-framework.php' );
-        $this->assertFileExists( $GLOBALS['_sProjectDirPath'] . '/library/admin-page-framework/admin-page-framework-include-class-list.php' );
+        $this->assertFileExists( $GLOBALS['_sProjectDirPath'] . '/library/apf/admin-page-framework.php' );
+        $this->assertFileExists( $GLOBALS['_sProjectDirPath'] . '/library/apf/admin-page-framework-include-class-list.php' );
         
     }
  
