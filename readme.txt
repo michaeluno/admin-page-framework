@@ -117,7 +117,7 @@ For usage instructions to get started, go to **Dashboard** -> **Admin Page Frame
 This is a PHP class-based WordPress library that helps to create option pages and form fields in the administration area. In addition, it helps to manage to save, export, and import options.
 
 <h5><strong>Who needs it?</strong></h5>
-WordPress plugin/theme developers who want to speed up creating setting forms, widgets, contact form etc. and don't want to require their users to install extra dependencies. 
+WordPress plugin/theme developers who publish own products and want to speed up creating setting forms, widgets, contact form etc. and don't want to require their users to install extra dependencies. 
 
 <h5><strong>Do my plugin/theme users have to install Admin Page Framework?</strong></h5>
 No. Include the generated framework files in your distribution package. You can generate your own framework files via `Dashboard` -> `Admin Page Framework` -> `Tools` -> `Generator`.
@@ -148,7 +148,23 @@ For instance, if your instantiated class name is `APF` then the code would be
 $my_options = get_option( 'APF' );
 ` 
 
-Alternatively, use the [AdminPageFramework::getOption()](http://admin-page-framework.michaeluno.jp/en/v3/class-AdminPageFramework.html#_getOption) static method.
+If you are new to PHP, you may feel unconfortable dealing with multi-dimensional arrays because you would call `isset()` so many times. The framework has a utility method to help retrieve values of multi-dimensional arrays.
+
+`
+$_oUtil = new AdminPageFramework_WPUtility;
+
+$value = $_oUtil->getElement( 
+    $my_options,    // (required) subject array 
+    array( 'key_in_the_first_depth', 'key_in_the_second_depth' ),   // (required) dimensional path
+    'My Default Value Here' // (optional) set your default value in case a value is not set
+);
+`
+
+In the framework factory class, you can access the utility object as it is defined already.
+
+`
+$value = $this->oUtil->getElement( $subject, $keys, $default );
+`
 
 <h5><strong>Is it possible to use a custom options data for the form instead of the ones used by the framework?</strong></h5>
 Yes, there are two main means to achieve that. 
@@ -237,7 +253,7 @@ Please keep in mind that these are just a few of many possibilities. If you enco
 - You may directly read the code of the demo plugin. The demo plugin code is located in the `example` directory.
 - Ask questions in the [support forum](https://wordpress.org/support/plugin/admin-page-framework).
 
-<h4>Supporting the Project</h4>
+<h4>Getting Involved</h4>
 <h5><strong>I've written a useful class, functions, and even custom field types that will be useful for others! Do you want to include it?</strong></h5>
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is available. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
 
