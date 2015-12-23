@@ -239,7 +239,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
      */
     public function replyToDownloadFramework( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
         
-        $_sFrameworkDirPath = AdminPageFrameworkLoader_Registry::$sDirPath . '/library/admin-page-framework';
+        $_sFrameworkDirPath = AdminPageFrameworkLoader_Registry::$sDirPath . '/library/apf';
         if ( ! file_exists( $_sFrameworkDirPath ) ) {
             return $aSavedData;
         }
@@ -296,7 +296,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
              * @return      string
              */
             public function _replyToModifyPathInArchive( $sPathInArchive ) {
-                
+
                 // Check if it belongs to selected components.
                 if ( false === $this->_isAllowedArchivePath( $sPathInArchive ) ) {
                     return '';  // empty value will drop the entry
