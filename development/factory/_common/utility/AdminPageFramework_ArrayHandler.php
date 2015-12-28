@@ -72,7 +72,7 @@ class AdminPageFramework_ArrayHandler extends AdminPageFramework_FrameworkUtilit
         return $this->getArrayValueByArrayKeys( 
             $this->aData,   // subject array
             $_aKeys,        // dimensional keys
-            $this->getDefaultValue( // default value
+            $this->_getDefaultValue( // default value
                 $_mDefault, 
                 $_aKeys 
             )
