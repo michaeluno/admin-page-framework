@@ -449,6 +449,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.7.7 =
+- Fixed a bug in a field object calling an undefined method.
+
 = 3.7.6.1 - 2015/12/23 =
 - Fixed a bug that debug log was generated.
 - Fixed a bug that Generator could not generate some files, introduced in v3.7.6.
