@@ -44,7 +44,7 @@ class AdminPageFramework_Form_View___Script_Form extends AdminPageFramework_Form
             .removeClass( '.admin-page-framework-form-js-on' );
     
     }
-    
+
     /**
      * When some plugins or themes have JavaScript errors and the script execution gets stopped,
      * remove the style that shows "Loading...".
@@ -58,8 +58,11 @@ class AdminPageFramework_Form_View___Script_Form extends AdminPageFramework_Form
         // Restore the original
         window.onerror = _oneerror;
         
-        // Discontinue the script execution and show the error message in the console.
-        return false;
+        // If the original object is a function, execute it;
+        // otherwise, discontinue the script execution and show the error message in the console.
+        return "function" === typeof _oneerror
+            ? _oneerror()      
+            : false; 
        
     }
     
