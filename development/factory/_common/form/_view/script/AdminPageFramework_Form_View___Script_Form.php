@@ -41,13 +41,30 @@ class AdminPageFramework_Form_View___Script_Form extends AdminPageFramework_Form
             .hide()
             .css( 'visibility', 'visible' )
             .fadeIn( 200 )
-            .removeClass( '.admin-page-framework-form-js-on' )
-            ;
+            .removeClass( '.admin-page-framework-form-js-on' );
     
     }
     
     /**
-     * Renderisn forms is heavy and unformatted layouts will be hidden with a script embedded in the head tag.
+     * When some plugins or themes have JavaScript errors and the script execution gets stopped,
+     * remove the style that shows "Loading...".
+     */
+    var _oneerror = window.onerror;
+    window.onerror = function(){
+        
+        // We need to show the form.
+        _removeAdminPageFrameworkLoadingOutputs();
+        
+        // Restore the original
+        window.onerror = _oneerror;
+        
+        // Discontinue the script execution and show the error message in the console.
+        return false;
+       
+    }
+    
+    /**
+     * Rendering forms is heavy and unformatted layouts will be hidden with a script embedded in the head tag.
      * Now when the document is ready, restore that visibility state so that the form will appear.
      */
     jQuery( document ).ready( function() {

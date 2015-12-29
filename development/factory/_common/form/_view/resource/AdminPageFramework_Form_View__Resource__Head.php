@@ -64,12 +64,12 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
         }              
         echo "<script type='text/javascript' class='admin-page-framework-form-script-required-in-head'>" 
                 . '/* <![CDATA[ */ '
-                . $this->_getScripts_RequiredInHead()
+                . $this->_getScripts_RequiredInHead() 
                 . ' /* ]]> */'
             . "</script>";  
             
     }
-        
+
         /**
          * @since       3.7.0
          * @return      string
@@ -81,7 +81,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
                         '',     // replace
                         esc_js( $this->_getInlineCSS() )    // subject
                     )
-                . '</style>" );';            
+                . '</style>" );';
         }
             /**
              * @return      string

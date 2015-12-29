@@ -449,7 +449,8 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.7 =
+= 3.7.7 - 2015/12/29 =
+- Fixed an issue that the framework forms could not be displayed when some third-party plusins or themes have JavaScript errors.
 - Fixed a bug in a field object calling an undefined method.
 
 = 3.7.6.1 - 2015/12/23 =
