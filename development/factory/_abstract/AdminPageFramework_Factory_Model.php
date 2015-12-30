@@ -337,7 +337,8 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * 
      * @since       3.4.1
      * @since       3.7.0      Changed the name from `_setLastInput()`.
-     * @return      boolean     True if set; otherwise, false.
+     * @since       3.7.8      Changed the return value to void.
+     * @return      void
      * @internal
      */
     public function setLastInputs( array $aLastInputs ) {

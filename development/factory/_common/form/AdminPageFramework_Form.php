@@ -222,6 +222,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
         // Sub-objects
         $this->oSubmitNotice  = new AdminPageFramework_Form___SubmitNotice;
         $this->oFieldError    = new AdminPageFramework_Form___FieldError( $this->aArguments[ 'caller_id' ] );
+        $this->oLastInputs    = new AdminPageFramework_Form_Model___LastInput( $this->aArguments[ 'caller_id' ] );
                 
         parent::__construct();
         

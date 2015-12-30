@@ -384,50 +384,14 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
                     )
                 )
                 + $aDefaultValues;
-
-            $_aLastInputs = $this->getAOrB(
-                $this->getElement( $_GET, 'field_errors' ) || isset( $_GET[ 'confirmation' ] ),
-                $this->_getLastInputs(),
-                array()
-            );
-                    
+            
+            $_aLastInputs = $this->getElement( $_GET, 'field_errors' ) || isset( $_GET[ 'confirmation' ] )
+                ? $this->oLastInputs->get()
+                : array();                    
             return $_aLastInputs + $_aSavedData;
             
         }
-            /**
-             * Returns the last user form input array.
-             * 
-             * @remark      This temporary data is not always set. This is only set when the form needs to show a confirmation message to the user such as for sending an email.
-             * @since       3.3.0
-             * @since       3.4.1       Moved from `AdminPageFramework_Property_Page`.
-             * @since       3.7.0       Moved from `AdminPageFramework_Property_Base`.
-             * @internal
-             * @return      array       The last user form inputs.
-             */
-            private function _getLastInputs() {
-                
-                /**
-                 * The framework widget forms calls this method per widget instance (not factory object instance) 
-                 * so use a cache if called multiple times.
-                 */
-                static $_aCaches = array();
-                
-                $_sKey      = 'apf_tfd' . md5( 'temporary_form_data_' . $this->aArguments[ 'caller_id' ] . get_current_user_id() );
-
-                if ( isset( $_aCaches[ $_sKey ] ) ) {
-                    return $_aCaches[ $_sKey ];
-                }
-                
-                $_vValue    = $this->getTransient( $_sKey );
-                $this->deleteTransient( $_sKey );
-                
-                $_aCaches[ $_sKey ] = is_array( $_vValue )
-                    ? $_vValue
-                    : array();
-                
-                return $_aCaches[ $_sKey ];
-                
-            }
+   
             
     /**
      * Returns the default values of all the added fields.
@@ -506,15 +470,12 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * @since       3.4.1
      * @since       3.7.0      Changed the name from `_setLastInput()`.
      * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`.
-     * @return      boolean     True if set; otherwise, false.
+     * @since       3.7.8      Changed the return value to void.
+     * @return      void
      * @internal
      */
     public function setLastInputs( array $aLastInputs ) {
-        return $this->setTransient( 
-            'apf_tfd' . md5( 'temporary_form_data_' . $this->aArguments[ 'caller_id' ] . get_current_user_id() ),
-            $aLastInputs, 
-            60*60 
-        );
+        $this->oLastInputs->set( $aLastInputs );
     }  
   
 }

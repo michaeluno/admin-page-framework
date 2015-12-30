@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
 Tested up to:       4.4
-Stable tag:         3.7.6.1
+Stable tag:         3.7.7
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -448,6 +448,9 @@ Alternately, if it is in a framework's generic pages (not post meta box fields) 
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f, 
 
 == Changelog ==
+
+= 3.7.7 =
+- Reduced the number of database queries used for forms.
 
 = 3.7.7 - 2015/12/30 =
 - Fixed an issue that the framework forms could not be displayed when some third-party plusins or themes have JavaScript errors.
