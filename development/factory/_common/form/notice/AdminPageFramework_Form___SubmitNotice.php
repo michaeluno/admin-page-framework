@@ -25,7 +25,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
     static private $_aNotices = array();
     
     /**
-     * Checks if a submit notice has been set.
+     * Checks if a submit notice has been set in the current screen (not in the database).
      * 
      * This is used in the internal validation callback method to decide whether the system error or update notice should be added or not.
      * If this method yields true, the framework discards the system message and displays the user set notification message.
@@ -124,7 +124,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
         public function _replyToSaveNotices() {
             if ( empty( self::$_aNotices ) ) { 
                 return; 
-            }
+            }            
             $_bResult = $this->setTransient( 
                 'apf_notices_' . get_current_user_id(), 
                 self::$_aNotices
@@ -140,13 +140,12 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
         // This will load scripts for the fade-in effect.
         new AdminPageFramework_AdminNotice( '' );
         
-        $_iUserID  = get_current_user_id();
-        $_aNotices = $this->getTransient( "apf_notices_{$_iUserID}" );
+        // Retrieve the notifications set in a transient.
+        $_aNotices = $this->_getNotices();
         if ( false === $_aNotices ) { 
             return; 
         }
-        $this->deleteTransient( "apf_notices_{$_iUserID}" );
-    
+            
         // By setting false to the 'settings-notice' key, it's possible to disable the notifications set with the framework.
         if ( isset( $_GET[ 'settings-notice' ] ) && ! $_GET[ 'settings-notice' ] ) { 
             return; 
@@ -155,6 +154,30 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
         $this->_printNotices( $_aNotices );                
         
     }
+        /**
+         * @since       3.7.8
+         * @return      array|boolean
+         */
+        private function _getNotices() {
+
+            $_iUserID      = get_current_user_id();
+            $sTransientKey = "apf_notices_{$_iUserID}";        
+        
+            if ( isset( self::$_aNoticeCaches[ $sTransientKey ] ) ) {
+                return self::$_aNoticeCaches[ $sTransientKey ];
+            }
+                        
+            $_abNotices = $this->getTransient( $sTransientKey );            
+            if ( false !== $_abNotices ) {
+                $this->deleteTransient( $sTransientKey );
+            }
+            
+            self::$_aNoticeCaches[ $sTransientKey ] = $_abNotices;
+            return self::$_aNoticeCaches[ $sTransientKey ];
+            
+        }
+            static private $_aNoticeCaches = array();
+            
         /**
          * Displays settings notices.
          * @since       3.5.3
