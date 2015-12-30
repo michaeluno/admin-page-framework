@@ -180,11 +180,11 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         
         $_aPostTypes = self::getAsArray( $asPostTypes );    
         
-        if ( ! isset( $_GET['post_type'] )  ) { 
+        if ( ! isset( $_GET[ 'post_type' ] )  ) { 
             return in_array( 'post', $_aPostTypes );
         }
 
-        return in_array( $_GET['post_type'], $_aPostTypes );
+        return in_array( $_GET[ 'post_type' ], $_aPostTypes );
         
     }
     
@@ -209,15 +209,17 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         }
         
         // If already set, use that.
-        if ( isset( $GLOBALS['pagenow'] ) ) {
-            self::$_sPageNow = $GLOBALS['pagenow'];
+        if ( isset( $GLOBALS[ 'pagenow' ] ) ) {
+            self::$_sPageNow = $GLOBALS[ 'pagenow' ];
             return self::$_sPageNow;
         }
                         
-        self::$_sPageNow = is_admin() 
-            ? self::_getPageNow_BackEnd() 
-            : self::_getPageNow_FrontEnd();
-            
+        $_aMethodNames = array(
+            0 => '_getPageNow_FrontEnd',
+            1 => '_getPageNow_BackEnd',
+        );
+        $_sMethodName  = $_aMethodNames[ ( integer ) is_admin() ];
+        self::$_sPageNow = self::$_sMethodName();            
         return self::$_sPageNow;          
         
     }
@@ -230,7 +232,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
          * @return      string      The current page url base name.
          */
         static private function _getPageNow_FrontEnd() {
-            if ( preg_match( '#([^/]+\.php)([?/].*?)?$#i', $_SERVER['PHP_SELF'], $_aMatches ) ) {
+            if ( preg_match( '#([^/]+\.php)([?/].*?)?$#i', $_SERVER[ 'PHP_SELF' ], $_aMatches ) ) {
                 return strtolower( $_aMatches[ 1 ] );
             }
             return 'index.php';                
@@ -276,7 +278,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
                 else {
                     $_sNeedle = '#/wp-admin/?(.*?)$#i';
                 }                
-                preg_match( $_sNeedle, $_SERVER['PHP_SELF'], $_aMatches );
+                preg_match( $_sNeedle, $_SERVER[ 'PHP_SELF' ], $_aMatches );
                 return preg_replace( '#\?.*?$#', '', trim( $_aMatches[ 1 ], '/' ) );
                 
             }
