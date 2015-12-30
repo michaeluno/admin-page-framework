@@ -113,22 +113,22 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_FrameworkU
      */
     public function get() {
         
-        static $_aFieldErrors;
-        
         // Find the transient.
         $_sTransientKey = "apf_field_erros_" . get_current_user_id();
         $_sID           = md5( $this->sCallerID );
         
-        $_aFieldErrors  = isset( $_aFieldErrors ) 
-            ? $_aFieldErrors 
+        // Use a cache if exists.
+        self::$_aFieldErrorCaches[ $_sTransientKey ]  = isset( self::$_aFieldErrorCaches[ $_sTransientKey ] ) 
+            ? self::$_aFieldErrorCaches[ $_sTransientKey ] 
             : $this->getTransient( $_sTransientKey );
-                    
+        
         return $this->getElementAsArray(
-            $_aFieldErrors,
+            self::$_aFieldErrorCaches[ $_sTransientKey ],
             $_sID,
             array()
         );
     }
+        private static $_aFieldErrorCaches = array();
     
     /**
      * Deletes the field errors from the database.
