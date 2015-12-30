@@ -449,7 +449,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.7 =
+= 3.7.8 =
 - Reduced the number of database queries used for forms.
 
 = 3.7.7 - 2015/12/30 =

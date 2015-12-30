@@ -24,6 +24,25 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
      */
     static private $_aNotices = array();
     
+    public $sTransientKey;
+    
+    /**
+     * Sets up properties.
+     */
+    public function __construct() {
+        
+        $this->sTransientKey = $this->_getTransientKey();
+        
+    }
+        /**
+         * @remark      Up to 40 chars
+         * @remark      Not using the page-now value nor page slug because the user may be redirected to a different page.
+         * @return      string
+         */
+        private function _getTransientKey() {
+            return "apf_ntc_" . get_current_user_id();
+        }
+    
     /**
      * Checks if a submit notice has been set in the current screen (not in the database).
      * 
@@ -126,7 +145,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
                 return; 
             }            
             $_bResult = $this->setTransient( 
-                'apf_notices_' . get_current_user_id(), 
+                $this->sTransientKey, 
                 self::$_aNotices
             );
         }        
@@ -159,21 +178,18 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
          * @return      array|boolean
          */
         private function _getNotices() {
-
-            $_iUserID      = get_current_user_id();
-            $sTransientKey = "apf_notices_{$_iUserID}";        
         
-            if ( isset( self::$_aNoticeCaches[ $sTransientKey ] ) ) {
-                return self::$_aNoticeCaches[ $sTransientKey ];
+            if ( isset( self::$_aNoticeCaches[ $this->sTransientKey ] ) ) {
+                return self::$_aNoticeCaches[ $this->sTransientKey ];
             }
-                        
-            $_abNotices = $this->getTransient( $sTransientKey );            
+
+            $_abNotices = $this->getTransient( $this->sTransientKey );            
             if ( false !== $_abNotices ) {
-                $this->deleteTransient( $sTransientKey );
+                $this->deleteTransient( $this->sTransientKey );
             }
-            
-            self::$_aNoticeCaches[ $sTransientKey ] = $_abNotices;
-            return self::$_aNoticeCaches[ $sTransientKey ];
+
+            self::$_aNoticeCaches[ $this->sTransientKey ] = $_abNotices;
+            return self::$_aNoticeCaches[ $this->sTransientKey ];
             
         }
             static private $_aNoticeCaches = array();

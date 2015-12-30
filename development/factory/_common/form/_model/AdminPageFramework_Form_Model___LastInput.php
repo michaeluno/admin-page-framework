@@ -44,11 +44,25 @@ class AdminPageFramework_Form_Model___LastInput extends AdminPageFramework_Frame
     public function __construct( $sCallerID ) {
         
         $this->sCallerID = $sCallerID;
-       
-        // 40 chars (8 chars + 32 chars)
-        $this->sTransientKey = 'apf_tfd_' . md5( $this->getPageNow() . get_current_user_id() );
-
+        $this->sTransientKey = $this->_getTransientKey();
+        
     }
+        /**
+         * @remark      Up to 40 chars
+         * @return      string
+         */
+        private function _getTransientKey() {
+            $_sPageNow  = $this->getPageNow();
+            $_sPageSlug = $this->getElement( $_GET, 'page', '' );
+            $_sTabSlug  = $this->getElement( $_GET, 'tab', '' );            
+            $_sUserID   = get_current_user_id();
+            return "apf_li_" . md5( 
+                $_sPageNow 
+                . $_sPageSlug
+                . $_sTabSlug
+                . $_sUserID
+            );
+        }       
     
     /**
      * Sets the given last inputs.
