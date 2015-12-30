@@ -186,7 +186,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                 'type'              => 'taxonomy',
                 'title'             => __( 'Taxonomy Checklist', 'admin-page-framework-loader' ),
                 'taxonomy_slugs'    => get_taxonomies( '', 'names' ),
-            )     
+            )
         );     
         
         $this->addSettingFields(
@@ -259,7 +259,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
         // Validate the submitted data.
         if ( strlen( trim( $aInput[ '_metabox_text_field' ] ) ) < 3 ) {
             
-            $_aErrors[ '_metabox_text_field' ] = __( 'The entered text is too short! Type more than 2 characters.', 'admin-page-framework-loader' ) . ': ' . $aInput['metabox_text_field'];
+            $_aErrors[ '_metabox_text_field' ] = __( 'The entered text is too short! Type more than 2 characters.', 'admin-page-framework-loader' ) . ': ' . $aInput[ '_metabox_text_field' ];
             $_bIsValid = false;     
             
         }
