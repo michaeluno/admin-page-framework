@@ -6,7 +6,7 @@
     Author:         Michael Uno
     Author URI:     http://michaeluno.jp
     Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
-    Version:        3.7.8
+    Version:        3.7.9b01
 */
 
 /**
@@ -16,7 +16,7 @@
  */
 class AdminPageFrameworkLoader_Registry_Base {
 
-	const VERSION        = '3.7.8';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+	const VERSION        = '3.7.9b01';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
 	const NAME           = 'Admin Page Framework - Loader'; // the name is not 'Admin Page Framework' because warning messages gets confusing.
     const SHORTNAME      = 'Admin Page Framework';  // used for a menu title etc.
 	const DESCRIPTION    = 'Loads Admin Page Framework which facilitates WordPress plugin and theme development.';
@@ -158,8 +158,16 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      * @return      string
 	 */
 	public static function getPluginURL( $sRelativePath='' ) {
-		return plugins_url( $sRelativePath, self::$sFilePath );
+        if ( isset( self::$_sPluginURLCache ) ) {
+            return self::$_sPluginURLCache . $sRelativePath;
+        }
+        self::$_sPluginURLCache = trailingslashit( plugins_url( '', self::$sFilePath ) );
+        return self::$_sPluginURLCache . $sRelativePath;
 	}
+        /**
+         * @since       3.7.9
+         */
+        static private $_sPluginURLCache;
     
     /**
      * Returns the information of this class.
