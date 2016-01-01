@@ -64,20 +64,31 @@ abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utilit
      * Attempts to find the caller scrip path.
      * 
      * @since       3.0.0
+     * @since       3.7.9       Made the first parameter only accepts a string.
      * @return      string
      */
-    static public function getCallerScriptPath( $asRedirectedFiles=array( __FILE__ ) ) {
+    static public function getCallerScriptPath( $sRedirectedFile ) {
 
-        $aRedirectedFiles = ( array ) $asRedirectedFiles;
-        $aRedirectedFiles[] = __FILE__;
-        $_sCallerFilePath = '';
+        if ( isset( self::$_aCallerScriptPathCaches[ $sRedirectedFile ] ) ) {
+            return self::$_aCallerScriptPathCaches[ $sRedirectedFile ];
+        }
+        
+        $_aRedirectedFiles = array( $sRedirectedFile, __FILE__ );
+        $_sCallerFilePath  = '';
         foreach( debug_backtrace() as $aDebugInfo )  {     
-            $_sCallerFilePath = $aDebugInfo['file'];
-            if ( in_array( $_sCallerFilePath, $aRedirectedFiles ) ) { continue; }
+            $_sCallerFilePath = $aDebugInfo[ 'file' ];
+            if ( in_array( $_sCallerFilePath, $_aRedirectedFiles ) ) { 
+                continue; 
+            }
             break; // catch the first found item.
         }
+        self::$_aCallerScriptPathCaches[ $sRedirectedFile ] = $_sCallerFilePath;
         return $_sCallerFilePath;
         
     }    
+        /**
+         * @since       3.7.9
+         */
+        static private $_aCallerScriptPathCaches = array();
         
 }
