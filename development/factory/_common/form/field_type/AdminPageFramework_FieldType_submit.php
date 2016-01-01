@@ -97,12 +97,12 @@ CSSRULES;
          */
         private function _getFormatedFieldArray( array $aField ) {
             
-            $aField['label'] = $aField['label'] 
-                ? $aField['label'] 
+            $aField[ 'label' ] = $aField[ 'label' ]
+                ? $aField[ 'label' ] 
                 : $this->oMsg->get( 'submit' );
             
-            if ( isset( $aField['attributes']['src'] ) ) {
-                $aField['attributes']['src'] = $this->getResolvedSRC( $aField['attributes']['src'] );
+            if ( isset( $aField[ 'attributes' ][ 'src' ] ) ) {
+                $aField[ 'attributes' ][ 'src' ] = esc_url( $this->getResolvedSRC( $aField[ 'attributes' ][ 'src' ] ) );
             }            
             return $aField;
             
@@ -144,14 +144,14 @@ CSSRULES;
          * @return      array       The input attribute array.
          */
         private function _getInputAttributes( array $aField ) {
-            $_bIsImageButton    = isset( $aField['attributes']['src'] ) && filter_var( $aField['attributes']['src'], FILTER_VALIDATE_URL );
+            $_bIsImageButton    = isset( $aField[ 'attributes' ][ 'src' ] ) && filter_var( $aField[ 'attributes' ][ 'src' ], FILTER_VALIDATE_URL );
             $_sValue            = $this->_getInputFieldValueFromLabel( $aField );
             return array(
                     // the type must be set because child class including export will use this method; in that case, the export type will be assigned which input tag does not support
                     'type'  => $_bIsImageButton ? 'image' : 'submit', 
                     'value' => $_sValue,
                 ) 
-                + $aField['attributes']
+                + $aField[ 'attributes' ]
                 + array(
                     'title' => $_sValue,
                     'alt'   => $_bIsImageButton ? 'submit' : '',

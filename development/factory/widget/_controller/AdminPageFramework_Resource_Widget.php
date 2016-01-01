@@ -112,7 +112,9 @@ class AdminPageFramework_Resource_Widget extends AdminPageFramework_Resource_Bas
         
         // Setting the key based on the url prevents duplicate items
         $_sSRCHash  = md5( $sSRC ); 
-        if ( isset( $this->oProp->aEnqueuingScripts[ $_sSRCHash ] ) ) { return ''; } 
+        if ( isset( $this->oProp->aEnqueuingScripts[ $_sSRCHash ] ) ) { 
+            return ''; 
+        } 
         
         $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->uniteArrays( 
             ( array ) $aCustomArgs,

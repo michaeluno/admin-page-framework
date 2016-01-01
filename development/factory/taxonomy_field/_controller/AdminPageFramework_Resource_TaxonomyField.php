@@ -53,20 +53,24 @@ class AdminPageFramework_Resource_TaxonomyField extends AdminPageFramework_Resou
      * @since       3.0.0
      * @remark      the $_deprecated parameter is just to avoid the PHP strict standards warning.
      * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-     * @param       string $sSRC The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
-     * @param       array $aCustomArgs (optional) The argument array for more advanced parameters.
-     * @return      string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @param       string      $sSRC           The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+     * @param       array       $aCustomArgs    (optional) The argument array for more advanced parameters.
+     * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
      */    
     public function _enqueueStyle( $sSRC, $aCustomArgs=array(), $_deprecated=null ) {
         
-        $sSRC = trim( $sSRC );
-        if ( empty( $sSRC ) ) { return ''; }        
+        $sSRC       = trim( $sSRC );
+        if ( empty( $sSRC ) ) { 
+            return ''; 
+        }
         $sSRC       = $this->oUtil->getResolvedSRC( $sSRC );
         
         // Setting the key based on the url prevents duplicate items
         $_sSRCHash  = md5( $sSRC ); 
-        if ( isset( $this->oProp->aEnqueuingStyles[ $_sSRCHash ] ) ) {  return ''; } 
+        if ( isset( $this->oProp->aEnqueuingStyles[ $_sSRCHash ] ) ) {
+            return ''; 
+        } 
         
         $this->oProp->aEnqueuingStyles[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,
@@ -123,12 +127,16 @@ class AdminPageFramework_Resource_TaxonomyField extends AdminPageFramework_Resou
     public function _enqueueScript( $sSRC, $aCustomArgs=array(), $_deprecated=null ) {
         
         $sSRC       = trim( $sSRC );
-        if ( empty( $sSRC ) ) { return ''; }
+        if ( empty( $sSRC ) ) { 
+            return ''; 
+        }
         $sSRC       = $this->oUtil->getResolvedSRC( $sSRC );
         
         // Setting the key based on the url prevents duplicate items        
         $_sSRCHash  = md5( $sSRC ); 
-        if ( isset( $this->oProp->aEnqueuingScripts[ $_sSRCHash ] ) ) { return ''; } 
+        if ( isset( $this->oProp->aEnqueuingScripts[ $_sSRCHash ] ) ) { 
+            return ''; 
+        } 
         
         $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->oUtil->uniteArrays( 
             ( array ) $aCustomArgs,

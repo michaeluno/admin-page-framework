@@ -88,18 +88,19 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
      * Calculates the URL from the given path.
      * 
      * @since   2.1.5
+     * @since   3.7.9   Changed not to escape the returining url.
      * @static
      * @access  public
      * @return  string The source url
      */
     static public function getSRCFromPath( $sFilePath ) {
                         
-        $oWPStyles      = new WP_Styles(); // It doesn't matter whether the file is a style or not. Just use the built-in WordPress class to calculate the SRC URL.
-        $sRelativePath  = AdminPageFramework_Utility::getRelativePath( ABSPATH, $sFilePath );     
-        $sRelativePath  = preg_replace( "/^\.[\/\\\]/", '', $sRelativePath, 1 ); // removes the heading ./ or .\ 
-        $sHref          = trailingslashit( $oWPStyles->base_url ) . $sRelativePath;
-        unset( $oWPStyles ); // for PHP 5.2.x or below
-        return esc_url( $sHref );     
+        $_oWPStyles      = new WP_Styles(); // It doesn't matter whether the file is a style or not. Just use the built-in WordPress class to calculate the SRC URL.
+        $_sRelativePath  = AdminPageFramework_Utility::getRelativePath( ABSPATH, $sFilePath );     
+        $_sRelativePath  = preg_replace( "/^\.[\/\\\]/", '', $_sRelativePath, 1 ); // removes the heading ./ or .\ 
+        $_sHref          = trailingslashit( $_oWPStyles->base_url ) . $_sRelativePath;
+        unset( $_oWPStyles ); // for PHP 5.2.x or below
+        return $_sHref;
         
     }    
 
@@ -109,8 +110,9 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
      * Checks if the given string is a url, a relative path, or an absolute path and returns the url if it's not a relative path.
      * 
      * @since       2.1.5
-     * @since       2.1.6       Moved from the AdminPageFramework_Resource_Base class. Added the $bReturnNullIfNotExist parameter.
+     * @since       2.1.6       Moved from the AdminPageFramework_Resource_Base class. Added the `$bReturnNullIfNotExist` parameter.
      * @since       3.6.0       Changed the name from `resolveSRC()`.
+     * @since       3.7.9       Changed not to escape characters.
      * @return      string|null
      */    
     static public function getResolvedSRC( $sSRC, $bReturnNullIfNotExist=false ) {    
@@ -123,7 +125,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
             
         // It is a url
         if ( filter_var( $sSRC, FILTER_VALIDATE_URL ) ) {
-            return esc_url( $sSRC );
+            return $sSRC;
         }
 
         // If the file exists, it means it is an absolute path. If so, calculate the URL from the path.
@@ -135,7 +137,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
             return null;
         }
         
-        // Otherwise, let's assume the string is a relative path 'to the WordPress installed absolute path'.
+        // Otherwise, assume the string is a relative path 'to the WordPress installed absolute path'.
         return $sSRC;
         
     }    

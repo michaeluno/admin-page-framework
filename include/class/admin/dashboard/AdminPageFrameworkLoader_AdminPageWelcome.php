@@ -90,7 +90,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
      */
     public function setUp() {
         
-        $this->sPageSlug  = AdminPageFrameworkLoader_Registry::$aAdminPages['about'];
+        $this->sPageSlug  = AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ];
         
         // Root page
         $this->setRootMenuPage( 

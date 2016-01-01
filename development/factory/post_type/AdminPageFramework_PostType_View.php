@@ -294,7 +294,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
         private function _getStylesForPostTypeScreenIcon( $sSRC ) {
             
             $sNone = 'none';
-            $sSRC  = $this->oUtil->getResolvedSRC( $sSRC );
+            $sSRC  = esc_url( $this->oUtil->getResolvedSRC( $sSRC ) );
             return <<<CSSRULES
 #post-body-content {
     margin-bottom: 10px;

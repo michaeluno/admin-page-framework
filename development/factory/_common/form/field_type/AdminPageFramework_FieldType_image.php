@@ -707,9 +707,11 @@ CSSRULES;
          */
         protected function _getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) {
 
-            if ( ! $aField[ 'show_preview' ] ) { return ''; }
+            if ( ! $aField[ 'show_preview' ] ) { 
+                return ''; 
+            }
             
-            $sImageURL = $this->getResolvedSRC( $sImageURL, true );
+            $sImageURL = esc_url( $this->getResolvedSRC( $sImageURL, true ) );
             return 
                 "<div " . $this->getAttributes( 
                         array(
