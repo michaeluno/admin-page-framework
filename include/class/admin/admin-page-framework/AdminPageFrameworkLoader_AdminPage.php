@@ -85,6 +85,10 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
                 array(
                     'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],
                     'title'     => __( 'Tools', 'admin-page-framework-loader' ),
+                    'style'     => array(
+                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
+                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css'
+                    ),
                 )
             );
             new AdminPageFrameworkLoader_AdminPage_Addon(
@@ -92,6 +96,10 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
                 array(
                     'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages['addon'],    // page slug
                     'title'     => __( 'Add Ons', 'admin-page-framework-loader' ),
+                    'style'     => array(
+                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
+                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css'
+                    ),                    
                 )                
             );
             new AdminPageFrameworkLoader_AdminPage_Help( 
@@ -100,6 +108,10 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
                     'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages['help'],
                     'title'     => __( 'Help', 'admin-page-framework-loader' ),
                     'order'     => 1000, // to be the last menu item
+                    'style'     => array(
+                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
+                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css'
+                    ),                    
                 )                
             );
             
@@ -118,11 +130,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
             $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
             $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
-       
-            // Styles
-            $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css' );
-            $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css' );
-           
+          
             // Action Links (plugin.php)
             $this->addLinkToPluginTitle(
                 $this->_getAdminURLTools( $_bAdminPageEnabled ),
