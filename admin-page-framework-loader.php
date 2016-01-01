@@ -261,7 +261,7 @@ if (
 }
 
 // Include the framework loader plugin components.
-include( AdminPageFrameworkLoader_Registry::$sDirPath . '/include/class/boot/AdminPageFrameworkLoader_Bootstrap.php' );
+include( AdminPageFrameworkLoader_Registry::$sDirPath . '/include/class/AdminPageFrameworkLoader_Bootstrap.php' );
 if ( class_exists( 'AdminPageFrameworkLoader_Bootstrap' ) ) {   // for backward compatibility
     new AdminPageFrameworkLoader_Bootstrap( 
         AdminPageFrameworkLoader_Registry::$sFilePath,
