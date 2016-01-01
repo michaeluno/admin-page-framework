@@ -68,11 +68,8 @@ class AdminPageFramework_RegisterClasses {
     function __construct( $asScanDirPaths, array $aOptions=array(), array $aClasses=array() ) {
         
         $_aOptions = $aOptions + self::$_aStructure_Options;
-        $this->_aClasses   = $aClasses + $this->_constructClassArray( $asScanDirPaths, $_aOptions );
-        $_sIncludeFunciton = in_array( $_aOptions['include_function'], array( 'require', 'require_once', 'include', 'include_once' ) )
-            ? $_aOptions['include_function']
-            : 'include';    // default      
-        $this->_registerClasses( $_sIncludeFunciton );        
+        $this->_aClasses   = $aClasses + $this->_getClassArray( $asScanDirPaths, $_aOptions );
+        $this->_registerClasses( $_aOptions[ 'include_function' ] );
         
     }
     
@@ -80,6 +77,7 @@ class AdminPageFramework_RegisterClasses {
      * Sets up the array consisting of class paths with the key of file name w/o extension.
      * 
      * It will look like
+     * `
      * array(
      *      // class Name (w/o ext) => path 
      *      'MyClassA' => '.../aaa/MyClassA.php',
@@ -87,9 +85,9 @@ class AdminPageFramework_RegisterClasses {
      *      'MyClassC' => '.../ccc/MyClassC.php',
      *      ... 
      * )
-     * 
+     * `
      */
-    protected function _constructClassArray( $asScanDirPaths, array $aSearchOptions ) {
+    private function _getClassArray( $asScanDirPaths, array $aSearchOptions ) {
         
         if ( empty( $asScanDirPaths ) ) {
             return array();
@@ -117,7 +115,12 @@ class AdminPageFramework_RegisterClasses {
         return $_aClasses;
             
     }
-    
+        /**
+         * @deprecated      3.7.9
+         */
+        protected function _constructClassArray( $asScanDirPaths, array $aSearchOptions ) {
+            return $this->_getClassArray( $asScanDirPaths, $aSearchOptions );
+        }
         /**
          * Returns an array of scanned file paths.
          * 
@@ -202,19 +205,27 @@ class AdminPageFramework_RegisterClasses {
          * Responds to the PHP auto-loader and includes the passed class based on the previously stored path associated with the class name in the constructor.
          */
         public function _replyToAutoLoad_include( $sCalledUnknownClassName ) {            
-            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { return; }
+            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { 
+                return; 
+            }
             include( $this->_aClasses[ $sCalledUnknownClassName ] );
         }
         public function _replyToAutoLoad_include_once( $sCalledUnknownClassName ) {            
-            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { return; }
+            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { 
+                return; 
+            }
             include_once( $this->_aClasses[ $sCalledUnknownClassName ] );
         }        
         public function _replyToAutoLoad_require( $sCalledUnknownClassName ) {            
-            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { return; }
+            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { 
+                return; 
+            }
             require( $this->_aClasses[ $sCalledUnknownClassName ] );
         }        
         public function _replyToAutoLoad_require_once( $sCalledUnknownClassName ) {            
-            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { return; }
+            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { 
+                return; 
+            }
             require_once( $this->_aClasses[ $sCalledUnknownClassName ] );
         } 
     
