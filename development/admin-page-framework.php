@@ -93,7 +93,6 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
     // These properties will be defined in the setUp() method.
     static public $sFilePath   = '';
     static public $sDirPath    = '';
-    static public $sFileURI    = '';
 
     /**
      * Sets up static properties.
@@ -103,7 +102,6 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
 
         self::$sFilePath                = $sFilePath;
         self::$sDirPath                 = dirname( self::$sFilePath );
-        self::$sFileURI                 = plugins_url( '', self::$sFilePath );
         self::$sIncludeClassListPath    = self::$sDirPath . '/admin-page-framework-include-class-list.php';
         self::$aClassFiles              = self::_getClassFilePathList( self::$sIncludeClassListPath );
         self::$sAutoLoaderPath          = isset( self::$aClassFiles[ 'AdminPageFramework_RegisterClasses' ] )
@@ -144,8 +142,8 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
             1 => '.dev',
         );
         return self::VERSION
-            . $_aMinifiedVesionSuffix[ ( int ) self::$bIsMinifiedVersion ]
-            . $_aDevelopmentVersionSuffix[ ( int ) self::$bIsDevelopmentVersion ]
+            . $_aMinifiedVesionSuffix[ ( integer ) self::$bIsMinifiedVersion ]
+            . $_aDevelopmentVersionSuffix[ ( integer ) self::$bIsDevelopmentVersion ]
         ;
 
     }
