@@ -119,5 +119,5 @@ class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Bas
         );
 
     }
-
+    
 }

@@ -19,6 +19,8 @@
  */
 class AdminPageFramework_Widget_Factory extends WP_Widget {
     
+    public $oCaller;
+    
     /**
      * Sets up internal properties.
      * 
@@ -41,18 +43,26 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
         $this->oCaller = $oCaller;
     
         // Set up callbacks for field element outputs such as for name and it attributes.
-        $this->oCaller->oProp->aFormCallbacks = array( 
-            'hfID'          => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
-            'hfTagID'       => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
-            'hfName'        => array( $this, '_replyToGetFieldName' ),  // defined in the WP_Widget class.  
-            'hfInputName'   => array( $this, '_replyToGetFieldInputName' ),
-            // 'hfClass'       => array( $this, '_replyToAddClassSelector' ),
-            // 'hfNameFlat'    => array( $this, '_replyToGetFlatFieldName' ), // @deprecated 3.6.0+ the same as the framework factory method.
-        ) + $this->oCaller->oProp->aFormCallbacks;
-        $this->oCaller->oForm->aCallbacks = $this->oCaller->oProp->aFormCallbacks + $this->oCaller->oForm->aCallbacks;
+        $this->oCaller->oProp->aFormCallbacks = $this->_getFormCallbacks() + $this->oCaller->oProp->aFormCallbacks;
+        
+        // @deprecated 3.7.9 The below line seems not necessary
+        // $this->oCaller->oForm->aCallbacks = $this->oCaller->oProp->aFormCallbacks + $this->oCaller->oForm->aCallbacks;
         
         
 	}
+        /**
+         * Returns callbacks for the form.
+         * @return      array
+         * @since       3.7.9
+         */
+        private function _getFormCallbacks() {
+            return array( 
+                'hfID'          => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
+                'hfTagID'       => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
+                'hfName'        => array( $this, '_replyToGetFieldName' ),  // defined in the WP_Widget class.  
+                'hfInputName'   => array( $this, '_replyToGetFieldInputName' ),
+            );      
+        }
     
     /**
      * Displays the widget contents in the front end.
@@ -174,11 +184,12 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * 
          * @since       3.5.2
          */
+        unset( $this->oCaller->oForm );
         $this->oCaller->oForm = new AdminPageFramework_Form_widget(
             array(
                 'register_if_action_already_done' => false, // do not register fields right away
             ) + $this->oCaller->oProp->aFormArguments,  // form arguments  
-            $this->oCaller->oProp->aFormCallbacks,  // callbacks
+            $this->_getFormCallbacks() + $this->oCaller->oProp->aFormCallbacks,  // callbacks // @todo Investigate why simply setting `$this->oCaller->oProp->aFormCallbacks` looses the title data in the displayed widget forms.
             $this->oCaller->oMsg
         );
         

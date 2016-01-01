@@ -287,9 +287,9 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
     /**
      * The utility object.
      * @since       3.5.3
-     * @deprecated  3.7.0
+     * @deprecated  3.7.0       Not declaring it here to trigger the `__get()` overload method.
      */
-    public $oUtil;
+    /* public $oUtil; */
               
     /**
      * Stores the action hook name that gets triggered when the form registration is performed.
@@ -334,18 +334,16 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             
     /**
      * Sets up necessary property values.
+     * 
+     * @remark      This class gets instantiated in every factory class so the constructor should be lightest as possible.
      */
     public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sStructureType ) {
                 
         $this->oCaller          = $oCaller;
-        $this->sCallerPath      = $this->getAOrB(
-            $sCallerPath,
-            $sCallerPath,
-            null
-        );
+        $this->sCallerPath      = $sCallerPath;
 
         $this->sClassName       = $sClassName; // sanitize name space path delimiter.
-        $this->sClassHash       = md5( $sClassName );    
+        
         $this->sCapability      = $this->getAOrB(
             empty( $sCapability ),
             'manage_options',
@@ -357,19 +355,41 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             $sTextDomain
         );
         $this->sStructureType   = $sStructureType;
-        
-        $this->sScriptType      = $this->_getCallerType( $sCallerPath );    // 3.7.6+
-        
-        $GLOBALS[ 'aAdminPageFramework' ] = $this->getElementAsArray(
-            $GLOBALS,
-            'aAdminPageFramework',
-            array( 'aFieldFlags' => array() )
-        );
-        
+                        
         $this->sPageNow         = $this->getPageNow();
         $this->bIsAdmin         = is_admin();
         $this->bIsAdminAjax     = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
            
+        // Overloading property items - these will be set on demand
+        unset(
+            $this->sScriptType,
+            $this->sClassHash
+        );           
+           
+        $this->_setGlobals();
+       
+    }
+        /**
+         * Sets up global variables.
+         * @since       3.7.9
+         */
+        private function _setGlobals() {
+            
+            if ( ! isset( $GLOBALS[ 'aAdminPageFramework' ] ) ) {
+                $GLOBALS[ 'aAdminPageFramework' ] = array( 
+                    'aFieldFlags' => array() 
+                );
+            }
+            
+        }
+        
+    /**
+     * Sets up properties related to the form object.
+     * @remark      Should be called right before the form object gets created.
+     * @since       3.7.9
+     */
+    public function setFormProperties() {
+        
         $this->aFormArguments = array(
             'caller_id'                         => $this->sClassName,
             'structure_type'                    => $this->_sPropertyType,  // @todo change this to admin_page
@@ -377,53 +397,44 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         ) + $this->aFormArguments;
            
         $this->aFormCallbacks = array(
-            'is_in_the_page'                    => array( $oCaller, '_replyToDetermineWhetherToProcessFormRegistration' ),
-            'load_fieldset_resource'            => array( $oCaller, '_replyToFieldsetResourceRegistration' ),
+            'is_in_the_page'                    => array( $this->oCaller, '_replyToDetermineWhetherToProcessFormRegistration' ),
+            'load_fieldset_resource'            => array( $this->oCaller, '_replyToFieldsetResourceRegistration' ),
             
 'is_fieldset_registration_allowed'  => null,
 
-            'capability'                        => array( $oCaller, '_replyToGetCapabilityForForm' ),
-            'saved_data'                        => array( $oCaller, '_replyToGetSavedFormData' ),
+            'capability'                        => array( $this->oCaller, '_replyToGetCapabilityForForm' ),
+            'saved_data'                        => array( $this->oCaller, '_replyToGetSavedFormData' ),
             
             // Outputs
-            'section_head_output'               => array( $oCaller, '_replyToGetSectionHeaderOutput' ),
-            'fieldset_output'                   => array( $oCaller, '_replyToGetFieldOutput' ),
+            'section_head_output'               => array( $this->oCaller, '_replyToGetSectionHeaderOutput' ),
+            'fieldset_output'                   => array( $this->oCaller, '_replyToGetFieldOutput' ),
              
             // 
-            'sectionset_before_output'          => array( $oCaller, '_replyToFormatSectionsetDefinition' ),
-            'fieldset_before_output'            => array( $oCaller, '_replyToFormatFieldsetDefinition' ),
-            'fieldset_after_formatting'         => array( $oCaller, '_replyToModifyFieldsetDefinition' ),
-            'fieldsets_after_formatting'        => array( $oCaller, '_replyToModifyFieldsetsDefinitions' ),
+            'sectionset_before_output'          => array( $this->oCaller, '_replyToFormatSectionsetDefinition' ),
+            'fieldset_before_output'            => array( $this->oCaller, '_replyToFormatFieldsetDefinition' ),
+            'fieldset_after_formatting'         => array( $this->oCaller, '_replyToModifyFieldsetDefinition' ),
+            'fieldsets_after_formatting'        => array( $this->oCaller, '_replyToModifyFieldsetsDefinitions' ),
             
-            'is_sectionset_visible'             => array( $oCaller, '_replyToDetermineSectionsetVisibility' ),
-            'is_fieldset_visible'               => array( $oCaller, '_replyToDetermineFieldsetVisibility' ),
+            'is_sectionset_visible'             => array( $this->oCaller, '_replyToDetermineSectionsetVisibility' ),
+            'is_fieldset_visible'               => array( $this->oCaller, '_replyToDetermineFieldsetVisibility' ),
             
-            'secitonsets_before_registration'   => array( $oCaller, '_replyToModifySectionsets' ),
-            'fieldsets_before_registration'     => array( $oCaller, '_replyToModifyFieldsets' ),
+            'secitonsets_before_registration'   => array( $this->oCaller, '_replyToModifySectionsets' ),
+            'fieldsets_before_registration'     => array( $this->oCaller, '_replyToModifyFieldsets' ),
             
-            'handle_form_data'                  => array( $oCaller, '_replyToHandleSubmittedFormData' ),        
+            'handle_form_data'                  => array( $this->oCaller, '_replyToHandleSubmittedFormData' ),        
             
             // legacy callbacks
-            'hfID'                              => array( $oCaller, '_replyToGetInputID' ), // the input id attribute
-            'hfTagID'                           => array( $oCaller, '_replyToGetInputTagIDAttribute' ), // the fields & fieldset & field row container id attribute
-            'hfName'                            => array( $oCaller, '_replyToGetFieldNameAttribute' ), // the input name attribute
-            'hfNameFlat'                        => array( $oCaller, '_replyToGetFlatFieldName' ), // the flat input name attribute
-            'hfInputName'                       => array( $oCaller, '_replyToGetInputNameAttribute' ),    // 3.6.0+   the field input name attribute
-            'hfInputNameFlat'                   => array( $oCaller, '_replyToGetFlatInputName' ),    // 3.6.0+   the flat field input name                 
-            'hfClass'                           => array( $oCaller, '_replyToGetInputClassAttribute' ), // the class attribute
-            'hfSectionName'                     => array( $oCaller, '_replyToGetSectionName' ), // 3.6.0+            
-        ) + $this->aFormCallbacks;
-        
-        $this->_setDeprecated();
+            'hfID'                              => array( $this->oCaller, '_replyToGetInputID' ), // the input id attribute
+            'hfTagID'                           => array( $this->oCaller, '_replyToGetInputTagIDAttribute' ), // the fields & fieldset & field row container id attribute
+            'hfName'                            => array( $this->oCaller, '_replyToGetFieldNameAttribute' ), // the input name attribute
+            'hfNameFlat'                        => array( $this->oCaller, '_replyToGetFlatFieldName' ), // the flat input name attribute
+            'hfInputName'                       => array( $this->oCaller, '_replyToGetInputNameAttribute' ),    // 3.6.0+   the field input name attribute
+            'hfInputNameFlat'                   => array( $this->oCaller, '_replyToGetFlatInputName' ),    // 3.6.0+   the flat field input name                 
+            'hfClass'                           => array( $this->oCaller, '_replyToGetInputClassAttribute' ), // the class attribute
+            'hfSectionName'                     => array( $this->oCaller, '_replyToGetSectionName' ), // 3.6.0+            
+        ) + $this->aFormCallbacks;        
         
     }
-        /**
-         * Sets deprecated property items for backward compatibility.
-         * @since       3.7.0
-         */
-        private function _setDeprecated() {
-            $this->oUtil            = new AdminPageFramework_WPUtility;
-        }
         
     /**
      * Returns the caller object.
@@ -488,24 +499,31 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * 
      * @since       2.0.0
      * @since       3.0.0       Moved from the link class.
+     * @since       3.7.9       Changed the default value to an empty string. Made it use a cache if set.
      * @remark      The information can be used to embed into the footer etc.
      * @return      array       The information of the script.
      */  
-    protected function getCallerInfo( $sCallerPath=null ) {
-        
+    protected function getCallerInfo( $sCallerPath='' ) {
+
+        if ( isset( self::$_aScriptDataCaches[ $sCallerPath ] ) ) {
+            return self::$_aScriptDataCaches[ $sCallerPath ];
+        }
+    
         $_aCallerInfo            = self::$_aStructure_CallerInfo;
         $_aCallerInfo[ 'sPath' ] = $sCallerPath;
         $_aCallerInfo[ 'sType' ] = $this->_getCallerType( $_aCallerInfo[ 'sPath' ] );
 
         if ( 'unknown' == $_aCallerInfo[ 'sType' ] ) {
+            self::$_aScriptDataCaches[ $sCallerPath ] = $_aCallerInfo;
             return $_aCallerInfo;
         }
         if ( 'plugin' == $_aCallerInfo[ 'sType' ] ) {
-            return $this->getScriptData( $_aCallerInfo[ 'sPath' ], $_aCallerInfo[ 'sType' ] ) + $_aCallerInfo;
+            self::$_aScriptDataCaches[ $sCallerPath ] = $this->getScriptData( $_aCallerInfo[ 'sPath' ], $_aCallerInfo[ 'sType' ] ) + $_aCallerInfo;
+            return self::$_aScriptDataCaches[ $sCallerPath ];
         }
         if ( 'theme' == $_aCallerInfo[ 'sType' ] ) {
             $_oTheme = wp_get_theme(); // stores the theme info object
-            return array(
+            self::$_aScriptDataCaches[ $sCallerPath ] = array(
                 'sName'         => $_oTheme->Name,
                 'sVersion'      => $_oTheme->Version,
                 'sThemeURI'     => $_oTheme->get( 'ThemeURI' ),
@@ -513,10 +531,16 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
                 'sAuthorURI'    => $_oTheme->get( 'AuthorURI' ),
                 'sAuthor'       => $_oTheme->get( 'Author' ),     
             ) + $_aCallerInfo;    
+            return self::$_aScriptDataCaches[ $sCallerPath ];
         }
-        return array();
+        self::$_aScriptDataCaches[ $sCallerPath ] = array();
+        return self::$_aScriptDataCaches[ $sCallerPath ];
         
     }    
+        /** 
+         * @since       3.7.9
+         */
+        static private $_aScriptDataCaches = array();
     
     /**
      * Determines the script type.
@@ -529,25 +553,24 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @return      string      Returns either 'theme', 'plugin', or 'unknown'
      */ 
     protected function _getCallerType( $sScriptPath ) {
-        
-        static $aCache = array();
-        
-        if ( isset( $aCache[ $sScriptPath ] ) ) {
-            return $aCache[ $sScriptPath ];
+                
+        if ( isset( self::$_aCallerTypeCache[ $sScriptPath ] ) ) {
+            return self::$_aCallerTypeCache[ $sScriptPath ];
         }
         
         if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $sScriptPath, $m ) ) {
-            $aCache[ $sScriptPath ] = 'theme';
+            self::$_aCallerTypeCache[ $sScriptPath ] = 'theme';
             return 'theme';
         }
         if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $sScriptPath, $m ) ) {
-            $aCache[ $sScriptPath ] = 'plugin';
+            self::$_aCallerTypeCache[ $sScriptPath ] = 'plugin';
             return 'plugin';
         }
-        $aCache[ $sScriptPath ] = 'unknown';
+        self::$_aCallerTypeCache[ $sScriptPath ] = 'unknown';
         return 'unknown';
     
     }    
+        static private $_aCallerTypeCache = array();
             
     /**
      * Retrieves the option array.
@@ -585,7 +608,21 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         if ( 'aOptions' === $sName ) {
             $this->aOptions = $this->_getOptions();
             return $this->aOptions;    
-        }        
+        }     
+
+        // 3.7.9 Moved from the constructor to make it lighter.
+        if ( 'sClassHash' === $sName ) {
+            $this->sClassHash       = md5( $this->sClassName );    
+            return $this->sClassHash;
+        }
+        if ( 'sScriptType' === $sName ) {
+            $this->sScriptType      = $this->_getCallerType( $this->sCallerPath );    // 3.7.6+        
+            return $this->sScriptType;
+        }
+        if ( 'oUtil' === $sName ) {
+            $this->oUtil = new AdminPageFramework_WPUtility;
+            return $this->oUtil;
+        }
         
     }
     
