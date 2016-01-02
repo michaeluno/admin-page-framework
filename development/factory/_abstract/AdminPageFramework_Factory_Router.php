@@ -223,7 +223,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @deprecated  3.7.0
      */
     protected function _getFormInstance( $oProp ) {
-
+    
         $oProp->setFormProperties();
     
         $_sFormClass = "AdminPageFramework_Form_{$oProp->_sPropertyType}";
