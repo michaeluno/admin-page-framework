@@ -222,6 +222,9 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
      * Enqueues inline styles.
      * 
      * @since       3.7.0
+     * @callback    action      wp_print_footer_scripts
+     * @callback    action      wp_print_styles
+     * @return      void
      */    
     public function _replyToAddStyle() {
         
