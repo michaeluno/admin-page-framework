@@ -111,30 +111,12 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      * @return      boolean
      */
     public function isInThePage() {
-        
-        // Cache the result
-        static $_bInThePage;
-        
-        // if ( ! did_action( 'current_screen' ) ) {
-            // trigger_error( 
-                // sprintf(
-                    // $this->oMsg->get( 'method_called_too_early' ) . ': %1$s',
-                    // __METHOD__
-                // ),
-                // E_USER_WARNING 
-            // );        
-            // return true;
-        // }
-        
-        return isset( $_bInThePage ) 
-            ? $_bInThePage
-            : $this->callBack(
-                $this->aCallbacks[ 'is_in_the_page' ], 
-                true
-            );
-
-    }
-
+        return $this->callBack(
+            $this->aCallbacks[ 'is_in_the_page' ], 
+            true
+        );
+    }    
+    
     /**
      * Calls back a user defined function
      * 
