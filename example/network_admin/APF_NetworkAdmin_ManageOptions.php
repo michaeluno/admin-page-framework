@@ -40,7 +40,7 @@ class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
          * ( optional ) Enqueue styles  
          * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
          * */
-        $sStyleHandle = $this->enqueueStyle(  AdminPageFrameworkLoader_Registry::$sDirName . '/asset/css/code.css', 'apf_manage_options' ); // a path can be used
+        $sStyleHandle = $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css', 'apf_manage_options' ); // a path can be used
     
     
     }
