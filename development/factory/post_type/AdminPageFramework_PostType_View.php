@@ -16,6 +16,7 @@
  * @since       3.0.4
  * @package     AdminPageFramework
  * @subpackage  PostType
+ * @extends     AdminPageFramework_PostType_Model
  */
 abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostType_Model {    
 
@@ -97,12 +98,12 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             private function _removeAddNewSidebarSubMenu( $sMenuKey, $sPostTypeSlug ) {
 
                 // Remove the default post type menu item.
-                if ( ! isset( $GLOBALS['submenu'][ $sMenuKey ] ) ) {
+                if ( ! isset( $GLOBALS[ 'submenu' ][ $sMenuKey ] ) ) {
                     // logged-in users of an insufficient access level don't have the menu to be registered.
                     return; 
                 } 
                 
-                foreach ( $GLOBALS['submenu'][ $sMenuKey ] as $_iIndex => $_aSubMenu ) {
+                foreach ( $GLOBALS[ 'submenu' ][ $sMenuKey ] as $_iIndex => $_aSubMenu ) {
                                 
                     if ( ! isset( $_aSubMenu[ 2 ] ) ) { 
                         continue; 
@@ -262,6 +263,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      * Prints the script.
      * @internal
      * @return      void
+     * @callback    action      admin_head
      */
     public function _replyToPrintStyle() {
         
@@ -318,7 +320,9 @@ CSSRULES;
      * @remark      This class should be overridden in the extended class.
      * @since       3.1.5
      */
-    public function content( $sContent ) { return $sContent; }
+    public function content( $sContent ) { 
+        return $sContent; 
+    }
     
     /**
      * Filters the post type post content.
