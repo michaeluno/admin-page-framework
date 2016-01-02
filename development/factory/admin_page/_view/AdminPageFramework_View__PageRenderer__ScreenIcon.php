@@ -134,7 +134,10 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
             if ( ! $_sScreenIconPath ) {
                 return;
             }
-            
+            $_sScreenIconPath = $this->getResolvedSRC( 
+                $_sScreenIconPath, 
+                true 
+            );
             $_aAttributes = array(
                 'style'    => $this->generateInlineCSS(
                     array(

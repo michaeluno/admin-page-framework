@@ -116,7 +116,7 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
          * @since       3.3.1       Changed the scope to `protected` from `private` as the method is called from a different class.
          * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
          * @since       3.6.0       Moved from `AdminPageFramework_Menu_Model`.
-         * @retutn      array
+         * @return      array
          * @internal
          */
         protected function _getFormattedSubMenuPageArray( array $aSubMenuPage ) {
@@ -138,10 +138,7 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
             );
             
             return array( 
-                    'href_icon_32x32'   => $this->getResolvedSRC( 
-                        $aSubMenuPage[ 'screen_icon' ], 
-                        true 
-                    ),
+                    'href_icon_32x32'   => $aSubMenuPage[ 'screen_icon' ],
                     'screen_icon_id'    => $this->getAOrB(
                         in_array( $aSubMenuPage[ 'screen_icon' ], self::$aScreenIconIDs ),
                         $aSubMenuPage[ 'screen_icon' ],
