@@ -74,7 +74,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
             $_sWelcomePageURL = apply_filters(
                 AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_admin_welcome_redirect_url',
                 add_query_arg( 
-                    array( 'page' => AdminPageFrameworkLoader_Registry::$aAdminPages['about'] ),
+                    array( 'page' => AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ] ),
                     admin_url( 'index.php' )   // Dashboard
                 )                
             );
@@ -89,14 +89,14 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
      * @since       3.5.0
      */
     public function setUp() {
-        
+AdminPageFramework_Debug::log( 'set up' );        
         $this->sPageSlug  = AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ];
         
         // Root page
         $this->setRootMenuPage( 
             'Dashboard'     // menu slug
         ); 
-        
+AdminPageFramework_Debug::log( 'set root page' );        
         // Sub-pages
         $this->addSubMenuItems( 
             array(
@@ -107,7 +107,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                     AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/about.css', 
                     AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/column.css', 
                     AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/javascript/flip/jquery.m.flip.css',
-                    version_compare( $GLOBALS['wp_version'], '3.8', '<' )
+                    version_compare( $GLOBALS[ 'wp_version' ], '3.8', '<' )
                         ? ".about-wrap .introduction h2 {
                                 padding: 1em;
                             }"
@@ -127,60 +127,62 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                 ),
             )
         );
-
+AdminPageFramework_Debug::log( 'set sub menu item' );        
         // Page Settings
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
         $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
         $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
         $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
-           
+AdminPageFramework_Debug::log( 'set page preferences' );                   
         // Hook
-        add_action( "load_" . AdminPageFrameworkLoader_Registry::$aAdminPages['about'], array( $this, 'replyToLoadPage' ) );
-        
+        add_action( "load_" . AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ], array( $this, 'replyToLoadPage' ) );
+AdminPageFramework_Debug::log( 'add hook' );                           
     }   
         
-        /**
-         * Triggered when the page loads.
-         * 
-         * Adds tabs.
-         */
-        public function replyToLoadPage( $oFactory ) {
-            
-            $_sPageSlug = AdminPageFrameworkLoader_Registry::$aAdminPages['about'];
-            new AdminPageFrameworkLoader_AdminPageWelcome_Welcome( 
-                $this,              // factory object
-                $_sPageSlug,        // page slug
-                array(
-                    'tab_slug'      => 'welcome',
-                    // 'title'         => __( "What's New", 'admin-page-framework-loader' ),   // '
-                    'style'         => array(
-                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css',
-                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
-                    ),
-                )                
-            );        
-
-            $this->_setPreferences( $oFactory );
-            
-        }
-            /**
-             * Gets triggered when the page loads.
-             */
-            private function _setPreferences( $oFactory ) {
-
-                $this->oProp->sWrapperClassAttribute = "wrap about-wrap";
-                
-                $oFactory->setInPageTabsVisibility( false );
-                
-                add_filter( "content_top_{$this->sPageSlug}", array( $this, 'replyToFilterContentTop' ) );
-                           
-            } 
-   
+    /**
+     * Triggered when the page loads.
+     * 
+     * Adds tabs.
+     * @callback    action      load_{page slug}
+     * @return      void
+     */
+    public function replyToLoadPage( $oFactory ) {
         
+        $_sPageSlug = AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ];
+        new AdminPageFrameworkLoader_AdminPageWelcome_Welcome( 
+            $this,              // factory object
+            $_sPageSlug,        // page slug
+            array(
+                'tab_slug'      => 'welcome',
+                // 'title'         => __( "What's New", 'admin-page-framework-loader' ),   // '
+                'style'         => array(
+                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css',
+                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
+                ),
+            )                
+        );        
+
+        $this->_setPreferences( $oFactory );
+        
+    }
+        /**
+         * Gets triggered when the page loads.
+         */
+        private function _setPreferences( $oFactory ) {
+
+            $this->oProp->sWrapperClassAttribute = "wrap about-wrap";
+            
+            $oFactory->setInPageTabsVisibility( false );
+            
+            add_filter( "content_top_{$this->sPageSlug}", array( $this, 'replyToFilterContentTop' ) );
+                       
+        } 
+                       
     /**
      * Filters the top part of the page content.
      * 
-     * @remark      A callback of the "content_top_{page slug}" filter hook.
+     * @callback    filter      content_top_{page slug}
+     * @return      string
      */
     public function replyToFilterContentTop( $sContent ) {
 

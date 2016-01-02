@@ -83,11 +83,13 @@ class APF_BasicUsage extends AdminPageFramework {
 
     /**
      * Do page specific settings.
+     * 
+     * @callback        action      load_{page slug}
      */
-    public function load_apf_second_page() { // load_{page slug}
+    public function load_apf_second_page() { 
 
         $this->enqueueStyle( 
-            plugins_url( 'asset/css/code.css', APFDEMO_FILE ), // a url can be used as well
+            plugins_url( 'asset/css/code.css', AdminPageFrameworkLoader_Registry::$sFilePath ), // a url can be used as well
             'apf_second_page'
         );     
 
@@ -129,8 +131,8 @@ class APF_BasicUsage extends AdminPageFramework {
 }
 
 new APF_BasicUsage(
-    null,                       // the option key - when null is passed the class name in this case 'APF_BasicUsage' will be used           
-    APFDEMO_FILE,               // the caller script path.
-    'manage_options',           // the default capability
-    'admin-page-framework-loader' // the text domain    
+    null,                           // the option key - when null is passed the class name in this case 'APF_BasicUsage' will be used           
+    AdminPageFrameworkLoader_Registry::$sFilePath, // the caller script path.
+    'manage_options',               // the default capability
+    'admin-page-framework-loader'   // the text domain    
 );

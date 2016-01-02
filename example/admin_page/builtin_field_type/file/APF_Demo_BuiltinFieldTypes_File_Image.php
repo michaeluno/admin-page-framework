@@ -57,7 +57,7 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                 'title'         => __( 'Select an Image', 'admin-page-framework-loader' ),
                 'type'          => 'image',
                 'label'         => __( 'First', 'admin-page-framework-loader' ),
-                'default'       =>  plugins_url( 'asset/image/demo/wordpress-logo-2x.png' , APFDEMO_FILE ),
+                'default'       =>  plugins_url( 'asset/image/demo/wordpress-logo-2x.png', AdminPageFrameworkLoader_Registry::$sFilePath ),
                 'allow_external_source' => false,
                 'attributes'    => array(
                     'preview' => array(

@@ -22,10 +22,6 @@ class AdminPageFrameworkLoader_Demo {
         if ( ! $this->_shouldLoadDemo() ) {
             return;
         }
-    
-        // Backward compatibility.
-        define( 'APFDEMO_FILE', AdminPageFrameworkLoader_Registry::$sFilePath );
-        define( 'APFDEMO_DIRNAME', AdminPageFrameworkLoader_Registry::$sDirPath );
         
         do_action( 'admin_page_framework_loader_action_before_loading_demo' );
         

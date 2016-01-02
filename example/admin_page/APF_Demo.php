@@ -204,7 +204,7 @@ class APF_Demo extends AdminPageFramework {
 // Add pages and forms in the custom post type root page
 new APF_Demo( 
     null,                       // the option key - when null is passed the class name in this case 'APF_Demo' will be used
-    APFDEMO_FILE,               // the caller script path.
+    AdminPageFrameworkLoader_Registry::$sFilePath,               // the caller script path.
     'manage_options',           // the default capability
     'admin-page-framework-loader' // the text domain
 );

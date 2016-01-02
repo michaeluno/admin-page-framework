@@ -38,13 +38,13 @@ class APF_Demo_HiddenPage {
             array(
                 'title'         => __( 'Sample Page', 'admin-page-framework-loader' ),
                 'page_slug'     => 'apf_sample_page',
-                'screen_icon'   => dirname( APFDEMO_FILE ) . '/asset/image/wp_logo_bw_32x32.png', // ( for WP v3.7.1 or below ) the icon _file path_ can be used
+                'screen_icon'   => AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/wp_logo_bw_32x32.png', // ( for WP v3.7.1 or below ) the icon _file path_ can be used
             ),     
             array(
                 'title'         => __( 'Hidden Page', 'admin-page-framework-loader' ),
                 'page_slug'     => 'apf_hidden_page',
                 'screen_icon'   => version_compare( $GLOBALS['wp_version'], '3.8', '<' ) 
-                    ? plugins_url( 'asset/image/wp_logo_bw_32x32.png', APFDEMO_FILE )
+                    ? plugins_url( 'asset/image/wp_logo_bw_32x32.png', AdminPageFrameworkLoader_Registry::$sFilePath )
                     : null, // ( for WP v3.7.1 or below ) 
                 'show_in_menu' => false,
             )

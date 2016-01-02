@@ -58,13 +58,13 @@ class APF_PostType extends AdminPageFramework_PostType {
                     ? ( 
                         version_compare( $GLOBALS['wp_version'], '3.8', '>=' ) 
                             ? 'dashicons-wordpress' 
-                            : plugins_url( 'asset/image/wp-logo_16x16.png', APFDEMO_FILE ) 
+                            : plugins_url( 'asset/image/wp-logo_16x16.png', AdminPageFrameworkLoader_Registry::$sFilePath ) 
                     )
                     : null, // do not call the function in the front-end.
                     
                 // (framework specific) this sets the screen icon for the post type for WordPress v3.7.1 or below.
                 // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
-                'screen_icon' => dirname( APFDEMO_FILE  ) . '/asset/image/wp-logo_32x32.png', 
+                'screen_icon' => AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/wp-logo_32x32.png', 
                 
                 // [3.5.10+] (framework specific) default: true
                 'show_submenu_add_new'  => true, 
@@ -264,6 +264,6 @@ class APF_PostType extends AdminPageFramework_PostType {
 new APF_PostType( 
     AdminPageFrameworkLoader_Registry::$aPostTypes['demo'],                // the post type slug
     array(),                    // the argument array. Here an empty array is passed because it is defined inside the class.
-    APFDEMO_FILE,               // the caller script path.
+    AdminPageFrameworkLoader_Registry::$sFilePath,               // the caller script path.
     'admin-page-framework-loader' // the text domain.
 );  

@@ -46,8 +46,11 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
     
     /**
      * The pre-defined callback method triggered when one of the added pages loads
+     * 
+     * @callback        action      load_{instantiated class name}
+     * @return          void
      */
-    public function load_APF_Demo_ManageOptions( $oAdminPage ) { // load_{instantiated class name}
+    public function load_APF_Demo_ManageOptions( $oAdminPage ) { 
     
         /* ( optional ) Determine the page style */
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
@@ -57,14 +60,17 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
          * ( optional ) Enqueue styles  
          * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
          * */
-        $this->enqueueStyle(  dirname( APFDEMO_FILE ) . '/asset/css/code.css', 'apf_manage_options' ); // a path can be used
+        $this->enqueueStyle(  AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css', 'apf_manage_options' ); // a path can be used
                 
     }
 
     /**
      * The pre-defined callback method that is triggered when the page loads.
+     * 
+     * @callback        action      load_{page slug}
+     * @return          void
      */ 
-    public function load_apf_manage_options( $oAdminPage ) { // load_{page slug}
+    public function load_apf_manage_options( $oAdminPage ) {
         
         // Tabs
         new APF_Demo_ManageOptions_SavedData(
@@ -122,7 +128,7 @@ class APF_Demo_ManageOptions extends AdminPageFramework {
 
 new APF_Demo_ManageOptions( 
     'APF_Demo',                 // passing the option key used by the main pages.
-    APFDEMO_FILE,               // the caller script path.
+    AdminPageFrameworkLoader_Registry::$sFilePath,               // the caller script path.
     'manage_options',           // the default capability
     'admin-page-framework-loader' // the text domain        
 );

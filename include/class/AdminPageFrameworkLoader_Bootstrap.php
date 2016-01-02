@@ -98,22 +98,22 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
      * @remark        All the necessary classes should have been already loaded.
      */
     public function setUp() {
-
+// AdminPageFramework_Debug::log( 'set up' );
         // Admin pages
         if ( $this->_shouldShowAdminPages() ) {
-            
+// AdminPageFramework_Debug::log( 'welcome page' );            
             // Dashboard
             new AdminPageFrameworkLoader_AdminPageWelcome( 
                 '', // disable saving form data.
                 $this->sFilePath   // caller script path
             );
-            
+// AdminPageFramework_Debug::log( 'loader admin' );                                            
             // Loader plugin admin pages.
             new AdminPageFrameworkLoader_AdminPage( 
                 AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ],    // the option key
                 $this->sFilePath   // caller script path
             );
-        
+// AdminPageFramework_Debug::log( 'page meta boxes' );                                
             new AdminPageFrameworkLoader_AdminPageMetaBox_Notification(
                 null,                                           // meta box id - passing null will make it auto generate
                 __( 'Notification', 'admin-page-framework-loader' ), // title
@@ -134,20 +134,20 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
                 'side',                                       // context
                 'default'                                     // priority            
             );
-            
+// AdminPageFramework_Debug::log( 'network admin' );                        
             new AdminPageFrameworkLoader_NetworkAdmin(
                 AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ],    // the option key
                 $this->sFilePath   // caller script path            
             );
-
+// AdminPageFramework_Debug::log( 'done admin' );            
         }   
-        
+// AdminPageFramework_Debug::log( 'demo' );                        
         // Demo
         new AdminPageFrameworkLoader_Demo;
-        
+// AdminPageFramework_Debug::log( 'event' );                
         // Events
         new AdminPageFrameworkLoader_Event;
-        
+// AdminPageFramework_Debug::log( 'done' );        
     }
         /**
          * @return      boolean

@@ -129,7 +129,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                 'type'              => 'submit',
                 'href'              => 'http://en.michaeluno.jp/donate',
                 'attributes'        =>  array(
-                   'src'    => APFDEMO_DIRNAME . '/asset/image/donation.gif',
+                   'src'    => AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/donation.gif',
                    'alt'    => __( 'Submit', 'admin-page-framework-loader' ),
                    'class'  => '',
                 ),
