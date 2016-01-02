@@ -333,6 +333,13 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
     public $sScriptType = 'unknown';
             
     /**
+     * Indicates the action hook to display setting notices.
+     * 
+     * @since       3.7.9
+     */
+    public $sSettingNoticeActionHook = 'admin_notices';
+         
+    /**
      * Sets up necessary property values.
      * 
      * @remark      This class gets instantiated in every factory class so the constructor should be lightest as possible.

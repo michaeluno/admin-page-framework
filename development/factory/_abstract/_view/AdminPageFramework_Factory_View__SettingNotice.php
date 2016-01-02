@@ -24,16 +24,14 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
      * Sets up hooks and properties.
      * 
      * @since       3.7.0
+     * @since       3.7.9       Added the second parameter to accept an action hook name.
      */
-    public function __construct( $oFactory ) {
+        
+    public function __construct( $oFactory, $sActionHookName='admin_notices' ) {
         
         $this->oFactory = $oFactory;
-        
-        if ( is_network_admin() ) {
-            add_action( 'network_admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
-        } else {
-            add_action( 'admin_notices', array( $this, '_replyToPrintSettingNotice' ) );
-        }          
+           
+        add_action( $sActionHookName, array( $this, '_replyToPrintSettingNotice' ) );
         
     }
     
@@ -41,7 +39,7 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
      * Displays stored setting notification messages.
      * 
      * @since       3.0.4
-     * @since       3.7.0      Moved from `AdminPageFramework_Factory_View`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Factory_View`.
      * @internal
      * @callback    action      network_admin_notices
      * @callback    action      admin_notice
@@ -70,6 +68,16 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
             if ( $this->hasBeenCalled( __METHOD__ ) ) {
                 return false;
             }
+            
+            /**
+             * If a form object is not created, no need to show a form message.
+             * This prevents the script from querying database for a transient and inserting admin script unnecessarily.
+             * 
+             * This also prevents the actual message to be not displayed.
+             */
+            // if ( ! isset( $this->oFactory->oForm ) ) {
+                // return false;
+            // }
             
             return true;
             

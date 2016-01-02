@@ -92,6 +92,12 @@ class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Bas
     public $oWidget;
 
     /**
+     * Indicates the action hook to display setting notices.
+     * @since       3.7.9
+     */
+    public $sSettingNoticeActionHook = '';    
+    
+    /**
      * Stores the action hook name that gets triggered when the form registration is performed.
      * 'admin_page' and 'network_admin_page' will use a custom hook for it.
      * @since       3.7.0
@@ -106,8 +112,11 @@ class AdminPageFramework_Property_Widget extends AdminPageFramework_Property_Bas
      */
     public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sStructureType ) {
 
-        $this->_sFormRegistrationHook = 'load_' . $sClassName; // 3.7.0+
-        // $this->_sFormRegistrationHook = 'current_screen';
+        // 3.7.0+
+        $this->_sFormRegistrationHook   = 'load_' . $sClassName; 
+        
+        // 3.7.9+ - setting a custom action hook for admin notices prevents the form object from being instantiated unnecessarily.
+        $this->sSettingNoticeActionHook = 'load_' . $sClassName; 
 
         parent::__construct(
             $oCaller,

@@ -34,6 +34,12 @@ class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Proper
     public $sStructureType = 'network_admin_page';
     
     /**
+     * Indicates the action hook to display setting notices.
+     * @since       3.7.9
+     */
+    public $sSettingNoticeActionHook = 'network_admin_notices';
+    
+    /**
      * Returns the option array.
      * 
      * @since       3.1.0

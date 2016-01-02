@@ -35,7 +35,10 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         }
     
         // Admin Notices
-        new AdminPageFramework_Factory_View__SettingNotice( $this );   
+        new AdminPageFramework_Factory_View__SettingNotice( 
+            $this,
+            $this->oProp->sSettingNoticeActionHook
+        );
         
     }     
 
