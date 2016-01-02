@@ -32,9 +32,6 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
         // Include the include lists. The including file reassigns the list(array) to the $_aClassFiles variable.
         $_aClassFiles   = array();
         $_bLoaded       = include( dirname( $this->sFilePath ) . '/include/admin-page-framework-loader-include-class-file-list.php' );
-        if ( ! $_bLoaded ) {
-            return $_aClassFiles;
-        }
         return $_aClassFiles;
                 
     }
@@ -71,7 +68,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
     /**
      * Load localization files.
      * 
-     * @remark      A callback for the 'init' hook.
+     * @callback    action      init
      */
     public function setLocalization() {
         
@@ -79,17 +76,18 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
         if ( ! $this->bIsAdmin ) { 
             return; 
         }
-        
+       
+        $_sPluginBaseNameDirName = dirname( plugin_basename( $this->sFilePath ) );
         load_plugin_textdomain( 
             AdminPageFrameworkLoader_Registry::TEXT_DOMAIN, 
             false, 
-            dirname( plugin_basename( $this->sFilePath ) ) . '/' . AdminPageFrameworkLoader_Registry::TEXT_DOMAIN_PATH
+            $_sPluginBaseNameDirName . '/' . AdminPageFrameworkLoader_Registry::TEXT_DOMAIN_PATH
         );
             
         load_plugin_textdomain( 
             'admin-page-framework', 
             false, 
-            dirname( plugin_basename( $this->sFilePath ) ) . '/' . AdminPageFrameworkLoader_Registry::TEXT_DOMAIN_PATH
+            $_sPluginBaseNameDirName . '/' . AdminPageFrameworkLoader_Registry::TEXT_DOMAIN_PATH
         );        
         
     }        
@@ -100,7 +98,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
      * @remark        All the necessary classes should have been already loaded.
      */
     public function setUp() {
-    
+
         // Admin pages
         if ( $this->_shouldShowAdminPages() ) {
             
