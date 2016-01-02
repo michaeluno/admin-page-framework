@@ -262,7 +262,7 @@ class APF_PostType extends AdminPageFramework_PostType {
 }
 
 new APF_PostType( 
-    AdminPageFrameworkLoader_Registry::$aPostTypes['demo'],                // the post type slug
+    AdminPageFrameworkLoader_Registry::$aPostTypes[ 'demo' ],                // the post type slug
     array(),                    // the argument array. Here an empty array is passed because it is defined inside the class.
     AdminPageFrameworkLoader_Registry::$sFilePath,               // the caller script path.
     'admin-page-framework-loader' // the text domain.
