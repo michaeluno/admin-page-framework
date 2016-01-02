@@ -105,8 +105,10 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
      * Registers the widget.
      * 
      * @internal
-     * @since           3.2.0
-     * @callback        filter      set_up_{class name}, widgets_init
+     * @since       3.2.0
+     * @callback    action      set_up_{class name}
+     * @callback    action      widgets_init
+     * @return      void
      */
     public function _replyToRegisterWidget() {
         
@@ -114,7 +116,7 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
         if ( ! is_object( $wp_widget_factory ) ) { 
             return; 
         }
-        
+
         $wp_widget_factory->widgets[ $this->oProp->sClassName ] = new AdminPageFramework_Widget_Factory( 
             $this, 
             $this->oProp->sWidgetTitle, 
