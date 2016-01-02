@@ -30,7 +30,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'nesting_sections_a';
+    public $sSectionID  = 'A';
         
     /**
      * Sets up a form section.
@@ -42,40 +42,47 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'        => $this->sSectionID,
-                'title'             => __( 'Nesting Sections', 'admin-page-framework-loader' ),
+                'title'             => __( 'Section A', 'admin-page-framework-loader' ),
                 'description'       => __( 'Sections can be nested.', 'admin-page-framework-loader' )
                     . ' ' . __( 'Pass section definitions to the <code>content</code> argument.', 'admin-page-framework-loader' ),
                 'section_tab_slug'  => 'root_section_tab',
                 'content'           => array(
                     array(
-                        'section_id'    => 'nested_section_a',
-                        'title'         => __( 'Nested Section A', 'admin-page-framework-loader' ),                                                
+                        'section_id'    => 'i',
+                        'title'         => __( 'A', 'admin-page-framework-loader' )
+                            . ' &raquo; ' . __( 'i', 'admin-page-framework-loader' ),
                         'description'   => __( 'Nesting one level deep.', 'admin-page-framework-loader' ),
                         'collapsible'   => array(
                             'toggle_all_button' => 'top-right',
                         ),
                     ),                                
                     array(
-                        'section_id'    => 'nested_section_b',
-                        'title'         => __( 'Nested Section B', 'admin-page-framework-loader' ),
+                        'section_id'    => 'ii',
+                        'title'         => __( 'A', 'admin-page-framework-loader' )
+                            . ' &raquo; ' . __( 'ii', 'admin-page-framework-loader' ),
                         'description'   => __( 'Nesting one level deep.', 'admin-page-framework-loader' ),
                         'collapsible'   => true,
                         'content'       => array(
                             array(
-                                'section_id'    => 'nested_section_b_a',
-                                'title'         => __( 'Nested Section B of A', 'admin-page-framework-loader' ),
+                                'section_id'    => 'X',
+                                'title'         => __( 'A', 'admin-page-framework-loader' )
+                                    . ' &raquo; ' . __( 'ii', 'admin-page-framework-loader' )
+                                    . ' &raquo; ' . __( 'x', 'admin-page-framework-loader' ),
                                 'description'   => __( 'Nesting two level deep.', 'admin-page-framework-loader' ),
                             ),                            
                             array(
-                                'section_id'    => 'nested_section_b_b',
-                                'title'         => __( 'Nested Section B of B', 'admin-page-framework-loader' ),
+                                'section_id'    => 'Y',
+                                'title'         => __( 'A', 'admin-page-framework-loader' )
+                                    . ' &raquo; ' . __( 'ii', 'admin-page-framework-loader' )
+                                    . ' &raquo; ' . __( 'y', 'admin-page-framework-loader' ),                                
                                 'description'   => __( 'Nesting two level deep.', 'admin-page-framework-loader' ),
                             ),                                                    
                         ),
                     ),
                     array(
-                        'section_id'    => 'nested_section_c',
-                        'title'         => __( 'Nested Section C', 'admin-page-framework-loader' ),
+                        'section_id'    => 'iii',
+                        'title'         => __( 'A', 'admin-page-framework-loader' )
+                            . ' &raquo; ' . __( 'iii', 'admin-page-framework-loader' ),                      
                         'description'   => array(
                             __( 'This is a description of the nested section.', 'admin-page-framework-loader' ),                            
                          ),
@@ -92,7 +99,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
 
         // Fields
         $oFactory->addSettingFields(
-            array( $this->sSectionID, 'nested_section_a', ), // the target section ID - pass dimensional keys of the section
+            array( $this->sSectionID, 'i', ), // the target section ID - pass dimensional keys of the section
             array(
                 'field_id'      => 'text_in_nested_section',
                 'title'         => __( 'Text', 'admin-page-framework-loader' ),
@@ -111,7 +118,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
         );              
         
         $oFactory->addSettingFields(
-            array( $this->sSectionID, 'nested_section_b', 'nested_section_b_a' ), // the target section ID - pass dimensional keys of the section
+            array( $this->sSectionID, 'ii', 'X' ), // the target section ID - pass dimensional keys of the section
             array(
                 'field_id'      => 'textarea_in_nested_section',
                 'title'         => __( 'Text Area', 'admin-page-framework-loader' ),
@@ -134,7 +141,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
         );
 
         $oFactory->addSettingFields(
-            array( $this->sSectionID, 'nested_section_b', 'nested_section_b_b' ), // the target section ID - pass dimensional keys of the section
+            array( $this->sSectionID, 'ii', 'Y' ), // the target section ID - pass dimensional keys of the section
             array(
                 'field_id'      => 'checkbox_in_nested_section',
                 'title'         => __( 'Checkbox', 'admin-page-framework-loader' ),

@@ -30,7 +30,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionB {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'nesting_sections_b';
+    public $sSectionID  = 'B';
         
     /**
      * Sets up a form section.
@@ -42,7 +42,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionB {
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'        => $this->sSectionID,
-                'title'             => __( 'Nesting Sections B', 'admin-page-framework-loader' ),
+                'title'             => __( 'Section B', 'admin-page-framework-loader' ),
                 'description'       => __( 'This is a second tabbed section.', 'admin-page-framework-loader' ),
                 'section_tab_slug'  => 'root_section_tab',
             )
