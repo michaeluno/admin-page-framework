@@ -108,7 +108,10 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
             ? self::$aClassFiles[ 'AdminPageFramework_RegisterClasses' ]
             : '';
         self::$bIsMinifiedVersion       = class_exists( 'AdminPageFramework_MinifiedVersionHeader' );
-
+        self::$bIsDevelopmentVersion    = file_exists( 
+            self::$aClassFiles[ 'AdminPageFramework_InclusionClassFilesHeader' ] 
+        );
+        
     }
         /**
          * Returns the class file path list.
@@ -199,9 +202,6 @@ final class AdminPageFramework_Bootstrap {
 
         // Load the classes only for the non-minified version.
         $this->_include();
-
-        // Update a property - this must be done after registering classes.
-        AdminPageFramework_Registry::$bIsDevelopmentVersion = class_exists( 'AdminPageFramework_InclusionClassFilesHeader' );
 
     }
         /**
