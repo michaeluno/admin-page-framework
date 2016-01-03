@@ -300,8 +300,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Requirement"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Requirement.php", 
 	"AdminPageFramework_TableOfContents"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_TableOfContents.php", 
 	"AdminPageFramework_Zip"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/AdminPageFramework_Zip.php", 
-	"AdminPageFramework_PinterToolTip"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/pointer_tool_tip/AdminPageFramework_PinterToolTip.php", 
+	"AdminPageFramework_PointerToolTip"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/pointer_tool_tip/AdminPageFramework_PointerToolTip.php", 
 	"AdminPageFramework_WPReadmeParser"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/readme_parser/AdminPageFramework_WPReadmeParser.php", 
 	"AdminPageFramework_Parsedown"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/readme_parser/library/AdminPageFramework_Parsedown.php", 
-	"AdminPageFramework_PointerToolTip"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/pointer_tool_tip/AdminPageFramework_PinterToolTip.php", 
 );
