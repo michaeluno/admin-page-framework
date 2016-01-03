@@ -207,7 +207,8 @@ abstract class AdminPageFramework_Factory_Router {
      * This method should be redefined in the extended class.
      * 
      * @since       3.0.3
-     * @since       3.2.0   Changed the scope to public from protected as the head tag object will access it.
+     * @since       3.2.0   Changed the visibility scope to `public` from `protected` as the head tag object will access it.
+     * @todo        Change the visibility scope to `protected` as the public version of the method `isInThePage()` has been introduced to make the design consitent.
      * @internal
      */
     public function _isInThePage() { 

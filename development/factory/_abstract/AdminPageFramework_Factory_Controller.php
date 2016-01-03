@@ -24,7 +24,17 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      */
     public function start() {}
     public function setUp() {}
-            
+         
+    /**
+     * Allows the user to check if the current page belongs to the admin pages of the factory component.
+     * 
+     * @since       3.7.9
+     * @return      boolean
+     */
+    public function isInThePage() {
+        return $this->_isInThePage();
+    }
+         
     /**
      * Sets a system message.
      * 
