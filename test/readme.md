@@ -28,7 +28,7 @@ In order to run the tests, configure the setting file (`settings.cfg`) and run t
     bash run.sh
     ```
 
-4. When tests are done, to uninstall the test site and the database, run the uninstaller script by tying the following.
+4. When tests are done, to uninstall the test site and the database, run the uninstaller script by typing the following.
 
     ```
     bash uninstall.sh
@@ -36,4 +36,4 @@ In order to run the tests, configure the setting file (`settings.cfg`) and run t
 
 ### Notes
 
-To run `.sh` files on Windows, you need a Bash emulater. Here is [one](https://git-for-windows.github.io/).
+To run `.sh` files on Windows, you need a Bash emulator. Here is [one](https://git-for-windows.github.io/).
