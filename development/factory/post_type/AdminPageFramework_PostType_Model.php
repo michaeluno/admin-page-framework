@@ -35,18 +35,7 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
          * Post type has front-tend components so should not be admin_init. Also "if ( is_admin() )" should not be used either.
          */
         add_action( "set_up_{$this->oProp->sClassName}", array( $this, '_replyToRegisterPostType' ), 999 );
-        
-        // Properties
-        $this->oProp->aColumnHeaders = array(
-            'cb'        => '<input type="checkbox" />',     // Checkbox for bulk actions. 
-            'title'     => $this->oMsg->get( 'title' ),     // Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
-            'author'    => $this->oMsg->get( 'author' ),    // Post author.
-            // 'categories' => $this->oMsg->get( 'categories' ), // Categories the post belongs to. 
-            // 'tags' => $this->oMsg->get( 'tags' ),        // Tags for the post. 
-            'comments'  => '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
-            'date'      => $this->oMsg->get( 'date' ),      // The date and publish status of the post. 
-        );     
-                            
+                                    
         if ( $this->_isInThePage() ) :
         
             // For table columns
@@ -57,6 +46,19 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
             // Auto-save
             add_action( 'admin_enqueue_scripts', array( $this, '_replyToDisableAutoSave' ) );     
         
+            // Properties
+            // @todo Examine whether this property can be deprecated as it seems not to be used at the moment. 
+            // And accessing the message object and calling its method is expensive and shouold be done only in the post table page.
+            $this->oProp->aColumnHeaders = array(
+                'cb'        => '<input type="checkbox" />',     // Checkbox for bulk actions. 
+                'title'     => $this->oMsg->get( 'title' ),     // Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
+                'author'    => $this->oMsg->get( 'author' ),    // Post author.
+                // 'categories' => $this->oMsg->get( 'categories' ), // Categories the post belongs to. 
+                // 'tags' => $this->oMsg->get( 'tags' ),        // Tags for the post. 
+                'comments'  => '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
+                'date'      => $this->oMsg->get( 'date' ),      // The date and publish status of the post. 
+            );               
+        
         endif;
         
         if ( $this->oProp->bIsAdmin ) {
@@ -66,7 +68,7 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
     }    
         /**
          * Sets up hooks for the admin area.
-         * @sinec       3.7.6
+         * @since       3.7.6
          */
         private function _setUpAdminHooks() {
             new AdminPageFramework_PostType_Model__FlushRewriteRules( $this );            
@@ -103,6 +105,7 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * @since       2.0.0
      * @remark      A callback for the <em>manage_{post type}_post)_columns</em> hook.
      * @filter      add|apply       columns_{post type slug}
+     * @callback    filter          manage_{post type slug}_posts_columns
      * @return      array
      */ 
     public function _replyToSetColumnHeader( $aHeaderColumns ) {
