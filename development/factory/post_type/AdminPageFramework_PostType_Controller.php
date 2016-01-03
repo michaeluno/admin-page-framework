@@ -65,6 +65,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
     * @since        2.0.0
     * @remark       The user should override this method in their class definition.
     * @remark       A callback for the `wp_loaded` hook.
+    * @callback     action      init
     */
     public function setUp() {}    
         
