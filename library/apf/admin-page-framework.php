@@ -34,7 +34,7 @@ if (!class_exists('AdminPageFramework_Registry')):
             self::$aClassFiles = self::_getClassFilePathList(self::$sIncludeClassListPath);
             self::$sAutoLoaderPath = isset(self::$aClassFiles['AdminPageFramework_RegisterClasses']) ? self::$aClassFiles['AdminPageFramework_RegisterClasses'] : '';
             self::$bIsMinifiedVersion = class_exists('AdminPageFramework_MinifiedVersionHeader');
-            self::$bIsDevelopmentVersion = file_exists(self::$aClassFiles['AdminPageFramework_InclusionClassFilesHeader']);
+            self::$bIsDevelopmentVersion = isset(self::$aClassFiles['AdminPageFramework_InclusionClassFilesHeader']) && file_exists(self::$aClassFiles['AdminPageFramework_InclusionClassFilesHeader']);
         }
         static private function _getClassFilePathList($sInclusionClassListPath) {
             $aClassFiles = array();

@@ -108,7 +108,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
             ? self::$aClassFiles[ 'AdminPageFramework_RegisterClasses' ]
             : '';
         self::$bIsMinifiedVersion       = class_exists( 'AdminPageFramework_MinifiedVersionHeader' );
-        self::$bIsDevelopmentVersion    = file_exists( 
+        self::$bIsDevelopmentVersion    = isset( self::$aClassFiles[ 'AdminPageFramework_InclusionClassFilesHeader' ] ) && file_exists(
             self::$aClassFiles[ 'AdminPageFramework_InclusionClassFilesHeader' ] 
         );
         
