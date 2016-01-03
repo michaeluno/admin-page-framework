@@ -1,6 +1,6 @@
 <?php 
 /**
-	Admin Page Framework v3.7.9b01 by Michael Uno 
+	Admin Page Framework v3.7.9b02 by Michael Uno 
 	Facilitates WordPress plugin and theme development.
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
@@ -73,7 +73,7 @@ $aClassFiles = array(
 	"AdminPageFramework_MetaBox_Model___PostMeta"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/meta_box/_model/AdminPageFramework_MetaBox_Model___PostMeta.php", 
 	"AdminPageFramework_Property_MetaBox"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/meta_box/_model/AdminPageFramework_Property_MetaBox.php", 
 	"AdminPageFramework_NetworkAdmin"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/AdminPageFramework_NetworkAdmin.php", 
-	"AdminPageFramework_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/form/AdminPageFramework_network_admin_page.php", 
+	"AdminPageFramework_Form_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/form/AdminPageFramework_Form_network_admin_page.php", 
 	"AdminPageFramework_Link_NetworkAdmin"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/_controller/AdminPageFramework_Link_NetworkAdmin.php", 
 	"AdminPageFramework_Property_NetworkAdmin"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/_model/AdminPageFramework_Property_NetworkAdmin.php", 
 	"AdminPageFramework_PageLoadInfo_NetworkAdminPage"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/_view/AdminPageFramework_PageLoadInfo_NetworkAdminPage.php", 
@@ -303,6 +303,5 @@ $aClassFiles = array(
 	"AdminPageFramework_PinterToolTip"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/pointer_tool_tip/AdminPageFramework_PinterToolTip.php", 
 	"AdminPageFramework_WPReadmeParser"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/readme_parser/AdminPageFramework_WPReadmeParser.php", 
 	"AdminPageFramework_Parsedown"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/readme_parser/library/AdminPageFramework_Parsedown.php", 
-	"AdminPageFramework_Form_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/form/AdminPageFramework_network_admin_page.php", 
 	"AdminPageFramework_PointerToolTip"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/pointer_tool_tip/AdminPageFramework_PinterToolTip.php", 
 );
