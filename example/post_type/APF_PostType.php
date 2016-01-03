@@ -28,26 +28,7 @@ class APF_PostType extends AdminPageFramework_PostType {
         $this->setArguments(
             // argument - for the array structure, see http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
             array( 
-                'labels' => array(
-                    'name'               => __( 'APF Demo', 'admin-page-framework-loader' ),
-                    'menu_name'          => __( 'APF Demo', 'admin-page-framework-loader' ),
-                    'all_items'          => __( 'Manage Sample Posts', 'admin-page-framework-loader' ),
-                    'singular_name'      => __( 'APF Demo', 'admin-page-framework-loader' ),
-                    'add_new'            => __( 'Add New', 'admin-page-framework-loader' ),
-                    'add_new_item'       => __( 'Add New APF Post', 'admin-page-framework-loader' ),
-                    'edit'               => __( 'Edit', 'admin-page-framework-loader' ),
-                    'edit_item'          => __( 'Edit APF Post', 'admin-page-framework-loader' ),
-                    'new_item'           => __( 'New APF Post', 'admin-page-framework-loader' ),
-                    'view'               => __( 'View', 'admin-page-framework-loader' ),
-                    'view_item'          => __( 'View APF Post', 'admin-page-framework-loader' ),
-                    'search_items'       => __( 'Search APF Post', 'admin-page-framework-loader' ),
-                    'not_found'          => __( 'No APF Post found', 'admin-page-framework-loader' ),
-                    'not_found_in_trash' => __( 'No APF Post found in Trash', 'admin-page-framework-loader' ),
-                    'parent'             => __( 'Parent APF Post', 'admin-page-framework-loader' ),
-                    
-                    // (framework specific)
-                    'plugin_action_link' => __( 'APF Posts', 'admin-page-framework-loader' ), // framework specific key. [3.7.3+]
-                ),
+                'labels'            => $this->_getLabels(),
                 'public'            => true,
                 'menu_position'     => 110,
                 'supports'          => array( 'title' ), // e.g. array( 'title', 'editor', 'comments', 'thumbnail', 'excerpt' ),    
@@ -66,11 +47,11 @@ class APF_PostType extends AdminPageFramework_PostType {
                 // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
                 'screen_icon' => AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/wp-logo_32x32.png', 
                 
-                // [3.5.10+] (framework specific) default: true
+                // (framework specific) [3.5.10+] default: true
                 'show_submenu_add_new'  => true, 
                 
-                // 3.7.4+
-                'submenu_order_manage' => 5,    // default 5
+                // (framework specific) [3.7.4+]
+                'submenu_order_manage' => 5,   // default 5
                 'submenu_order_addnew' => 9,   // default 10
             )    
         );
@@ -112,15 +93,45 @@ class APF_PostType extends AdminPageFramework_PostType {
             )
         );
                 
-        if ( $this->oProp->bIsAdmin ) {
+        if ( $this->isInThePage() ) {
                 
             $this->setAutoSave( false );
             $this->setAuthorTableFilter( true );     
             add_filter( 'request', array( $this, 'replyToSortCustomColumn' ) );
             
         }    
-        
+
     }
+        
+        /**
+         * @return      array
+         */
+        private function _getLabels() {
+            
+            return $this->oProp->bIsAdmin
+                ? array(
+                    'name'               => __( 'APF Demo', 'admin-page-framework-loader' ),
+                    'menu_name'          => __( 'APF Demo', 'admin-page-framework-loader' ),
+                    'all_items'          => __( 'Manage Sample Posts', 'admin-page-framework-loader' ),
+                    'singular_name'      => __( 'APF Demo', 'admin-page-framework-loader' ),
+                    'add_new'            => __( 'Add New', 'admin-page-framework-loader' ),
+                    'add_new_item'       => __( 'Add New APF Post', 'admin-page-framework-loader' ),
+                    'edit'               => __( 'Edit', 'admin-page-framework-loader' ),
+                    'edit_item'          => __( 'Edit APF Post', 'admin-page-framework-loader' ),
+                    'new_item'           => __( 'New APF Post', 'admin-page-framework-loader' ),
+                    'view'               => __( 'View', 'admin-page-framework-loader' ),
+                    'view_item'          => __( 'View APF Post', 'admin-page-framework-loader' ),
+                    'search_items'       => __( 'Search APF Post', 'admin-page-framework-loader' ),
+                    'not_found'          => __( 'No APF Post found', 'admin-page-framework-loader' ),
+                    'not_found_in_trash' => __( 'No APF Post found in Trash', 'admin-page-framework-loader' ),
+                    'parent'             => __( 'Parent APF Post', 'admin-page-framework-loader' ),
+                    
+                    // (framework specific)
+                    'plugin_action_link' => __( 'APF Posts', 'admin-page-framework-loader' ), // framework specific key. [3.7.3+]
+                )
+            : array();
+            
+        }
     
     /**
      * Inserts a custom string into the left footer.
