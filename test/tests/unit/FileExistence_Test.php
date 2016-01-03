@@ -39,5 +39,29 @@ class FileExistence_Test extends \Codeception\TestCase\Test {
         $this->assertFileExists( $GLOBALS['_sProjectDirPath'] . '/library/apf/admin-page-framework-include-class-list.php' );
         
     }
- 
+
+    /**
+     * Checks classes exist.
+     */
+    public function testClassExists() {
+        
+        // Load the framework.
+        include( $GLOBALS['_sProjectDirPath'] . '/development/admin-page-framework.php' );
+        
+        // Output info
+        codecept_debug( 'library name: ' . AdminPageFramework_Registry::NAME );
+        codecept_debug( 'library dir path: ' . AdminPageFramework_Registry::$sDirPath );
+               
+        $_iCount = 0;
+        foreach( AdminPageFramework_Registry::$aClassFiles as $_sClassName => $_sClassPath ) {
+            $_iCount++;
+            codecept_debug( $_iCount . '. ' . $_sClassName );
+            $this->assertTrue( file_exists( $_sClassPath ) );
+            
+        }
+        
+        $this->assertTrue( $_iCount > 0 );
+        
+    }
+    
 }
