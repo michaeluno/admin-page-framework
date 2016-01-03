@@ -7,6 +7,7 @@ WORKING_DIR=$(pwd)
 # Include scripts defining functions
 source $(dirname $0)/include/download.sh
 source $(dirname $0)/include/info.sh
+source $(dirname $0)/include/downloadCodeception.sh
 
 # Parse arguments
 CONFIGURATION_FILE_PATH="settings.cfg"
@@ -59,7 +60,7 @@ echo "Coverage File Path: $COVERAGE_FILE_PATH"
 set -ex
 
 # Make sure Codeception is installed
-download http://codeception.com/codecept.phar "$CODECEPT"
+downloadCodeception "$CODECEPT"
 
 # Check if the codecemption configuration file exists.
 if [ ! -f "$CODECEPT_TEST_DIR/codeception.yml" ]; then
