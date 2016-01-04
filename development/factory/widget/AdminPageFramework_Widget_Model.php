@@ -30,12 +30,10 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
         
         parent::__construct( $oProp );   
 
-        if ( did_action( 'widgets_init' ) ) { 
-            add_action( "set_up_{$this->oProp->sClassName}", array( $this, '_replyToRegisterWidget' ), 20 ); 
-        } else {
-            // set a lower priority to let the setUp method gets processed earlier.
-            add_action( 'widgets_init', array( $this, '_replyToRegisterWidget' ), 20 ); 
-        }
+        $this->oUtil->registerAction(
+            "set_up_{$this->oProp->sClassName}",
+            array( $this, '_replyToRegisterWidget' )
+        );
         
         if ( $this->oProp->bIsAdmin ) {
             add_filter( 
@@ -93,7 +91,7 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
         
         // Instantiate the resource object so that common styles and scripts will be automatically inserted.
         // This method is called when fields are registered. Originally this method is used to validate form data
-        // but the widget class utilizes WordPress built-in widget factory claass and it has its own validation method.
+        // but the widget class utilizes WordPress built-in widget factory class and it has its own validation method.
         if ( empty( $aSectionsets ) || empty( $aFieldsets ) ) {
             return;
         }
@@ -107,7 +105,6 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
      * @internal
      * @since       3.2.0
      * @callback    action      set_up_{class name}
-     * @callback    action      widgets_init
      * @return      void
      */
     public function _replyToRegisterWidget() {

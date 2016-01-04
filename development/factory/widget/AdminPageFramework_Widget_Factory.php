@@ -41,28 +41,8 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             $aArguments         // widget arguments
         );
         $this->oCaller = $oCaller;
-    
-        // Set up callbacks for field element outputs such as for name and it attributes.
-        $this->oCaller->oProp->aFormCallbacks = $this->_getFormCallbacks() + $this->oCaller->oProp->aFormCallbacks;
-        
-        // @deprecated 3.7.9 The below line seems not necessary
-        // $this->oCaller->oForm->aCallbacks = $this->oCaller->oProp->aFormCallbacks + $this->oCaller->oForm->aCallbacks;
-        
-        
+     
 	}
-        /**
-         * Returns callbacks for the form.
-         * @return      array
-         * @since       3.7.9
-         */
-        private function _getFormCallbacks() {
-            return array( 
-                'hfID'          => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
-                'hfTagID'       => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
-                'hfName'        => array( $this, '_replyToGetFieldName' ),  // defined in the WP_Widget class.  
-                'hfInputName'   => array( $this, '_replyToGetFieldInputName' ),
-            );      
-        }
     
     /**
      * Displays the widget contents in the front end.
@@ -162,15 +142,17 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
      * 
      * @return      void
      */
-	public function form( $aFormData ) {
+	public function form( $aSavedFormData ) {
+        
+        $this->oCaller->oForm->aCallbacks = $this->_getFormCallbacks();
 
         /**
          * Set the form data - the form object will trigger a callback to construct the saved form data.
          * And the factory abstract class has a defined method (_replyToGetSavedFormData()) for it 
          * and it applies a filter (options_{...}) to the form data (options) array.
          */
-        $this->oCaller->oProp->aOptions = $aFormData;     
-        
+        $this->oCaller->oProp->aOptions = $aSavedFormData;     
+                
         // The hook (load_{...}) in the method triggers the form registration method.
         $this->_loadFrameworkFactory();
         
@@ -184,14 +166,20 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * 
          * @since       3.5.2
          */
-        unset( $this->oCaller->oForm );
-        $this->oCaller->oForm = new AdminPageFramework_Form_widget(
+        $_aFieldTypeDefinitions = $this->oCaller->oForm->aFieldTypeDefinitions;
+        $_aSectionsets          = $this->oCaller->oForm->aSectionsets;
+        $_aFieldsets            = $this->oCaller->oForm->aFieldsets;
+        $this->oCaller->oForm   = new AdminPageFramework_Form_widget(
             array(
                 'register_if_action_already_done' => false, // do not register fields right away
             ) + $this->oCaller->oProp->aFormArguments,  // form arguments  
-            $this->_getFormCallbacks() + $this->oCaller->oProp->aFormCallbacks,  // callbacks // @todo Investigate why simply setting `$this->oCaller->oProp->aFormCallbacks` looses the title data in the displayed widget forms.
+            $this->oCaller->oForm->aCallbacks,  // callbacks 
             $this->oCaller->oMsg
         );
+        // Reuse the data of the previous widget instance.
+        $this->oCaller->oForm->aFieldTypeDefinitions = $_aFieldTypeDefinitions;
+        $this->oCaller->oForm->aSectionsets          = $_aSectionsets;
+        $this->oCaller->oForm->aFieldsets            = $_aFieldsets;
         
 	}
         /**
@@ -201,7 +189,20 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * @since       3.7.0
          */
         private function _loadFrameworkFactory() {
-                                       
+            
+            /**
+             * Call the load method only once per class. Also the added field registrations in the class also done once.
+             * @since       3.7.9
+             */ 
+            if ( $this->oCaller->oUtil->hasBeenCalled( '_widget_load_' . $this->oCaller->oProp->sClassName ) ) {
+                
+                // The saved option callback is done with the below load_... callback so for widget form instances called from the second time
+                // need to call the callback manually.
+                $this->oCaller->oForm->aSavedData = $this->_replyToGetSavedFormData();
+                return;
+                
+            }
+                       
             // Trigger the load() method and load_{...} actions. The user sets up the form.
             $this->oCaller->load( $this->oCaller );
             $this->oCaller->oUtil->addAndDoActions( 
@@ -213,58 +214,90 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             );            
             
         }    
+               
+        /**
+         * Returns callbacks for the form.
+         * @return      array
+         * @since       3.7.9
+         */
+        private function _getFormCallbacks() {
+            return array( 
+                'hfID'          => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
+                'hfTagID'       => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
+                'hfName'        => array( $this, '_replyToGetFieldName' ),  // defined in the WP_Widget class.  
+                'hfInputName'   => array( $this, '_replyToGetFieldInputName' ),
+                
+                'saved_data'    => array( $this, '_replyToGetSavedFormData' ),
+            ) 
+            + $this->oCaller->oProp->getFormCallbacks()
+            ;
+        }        
+    
+    /**
+     * @return      array
+     * @since       3.7.9
+     * @callback    form        saved_data
+     */
+    public function  _replyToGetSavedFormData() {
+        return $this->oCaller->oUtil->addAndApplyFilter(
+            $this->oCaller, // the caller factory object
+            'options_' . $this->oCaller->oProp->sClassName,
+            $this->oCaller->oProp->aOptions,      // subject value to be filtered
+            $this->id   // 3.7.9+
+        );        
+    }    
+    
+    /**
+     * 
+     * @remark      This one is tricky as the core widget factory method enclose this value in []. So when the framework field has a section, it must NOT end with ].
+     * @since       3.5.7       Moved from `AdminPageFramework_FormField`.
+     * @since       3.6.0       Changed the name from `_replyToGetInputName`.
+     * @return      string
+     */
+    public function _replyToGetFieldName( /* $sNameAttribute, array $aFieldset */ ) {
+        
+        $_aParams      = func_get_args() + array( null, null, null );
+        $aFieldset     = $_aParams[ 1 ];
+        return $this->_getNameAttributeDimensions( $aFieldset );
+    
+    }    
     
         /**
+         * Calculates the name attribute by adding section and field dimensions.
          * 
          * @remark      This one is tricky as the core widget factory method enclose this value in []. So when the framework field has a section, it must NOT end with ].
-         * @since       3.5.7       Moved from `AdminPageFramework_FormField`.
-         * @since       3.6.0       Changed the name from `_replyToGetInputName`.
+         * As of WordPress 4.4, the `get_field_name()` method of `WP_Widget` has some handling of strings containing `[`. So avoid the core method to be used as the framework supports nested sections.
+         * @since       3.7.2       No longer uses `$this->get_field_name()`.
          * @return      string
          */
-        public function _replyToGetFieldName( /* $sNameAttribute, array $aFieldset */ ) {
-            
-            $_aParams      = func_get_args() + array( null, null, null );
-            $aFieldset     = $_aParams[ 1 ];
-            return $this->_getNameAttributeDimensions( $aFieldset );
+        private function _getNameAttributeDimensions( $aFieldset ) {
+            $_sSectionIndex = isset( $aFieldset[ 'section_id' ], $aFieldset[ '_section_index' ] ) 
+                ? "[{$aFieldset[ '_section_index' ]}]" 
+                : "";             
+            $_sDimensions   = $this->oCaller->isSectionSet( $aFieldset )
+                ? $aFieldset[ 'section_id' ] . "]" . $_sSectionIndex . "[" . $aFieldset[ 'field_id' ]
+                : $aFieldset[ 'field_id' ];                
+            return 'widget-' . $this->id_base . '[' . $this->number . '][' . $_sDimensions . ']';
+        }        
+    
+    /**
+     * 
+     * @remark      As of WordPress 4.4, the `get_field_name()` method of `WP_Widget` has some handling of strings containing `[`. So avoid the core method to be used as the framework supports nested sections.
+     * @since       3.6.0
+     * @return      string
+     */
+    public function _replyToGetFieldInputName( /* $sNameAttribute, array $aFieldset, $sIndex */ ) {
         
-        }    
-        
-            /**
-             * Calculates the name attribute by adding section and field dimensions.
-             * 
-             * @remark      This one is tricky as the core widget factory method enclose this value in []. So when the framework field has a section, it must NOT end with ].
-             * As of WordPress 4.4, the `get_field_name()` method of `WP_Widget` has some handling of strings containing `[`. So avoid the core method to be used as the framework supports nested sections.
-             * @since       3.7.2       No longer uses `$this->get_field_name()`.
-             * @return      string
-             */
-            private function _getNameAttributeDimensions( $aFieldset ) {
-                $_sSectionIndex = isset( $aFieldset[ 'section_id' ], $aFieldset[ '_section_index' ] ) 
-                    ? "[{$aFieldset[ '_section_index' ]}]" 
-                    : "";             
-                $_sDimensions   = $this->oCaller->isSectionSet( $aFieldset )
-                    ? $aFieldset[ 'section_id' ] . "]" . $_sSectionIndex . "[" . $aFieldset[ 'field_id' ]
-                    : $aFieldset[ 'field_id' ];                
-                return 'widget-' . $this->id_base . '[' . $this->number . '][' . $_sDimensions . ']';
-            }        
-        
-        /**
-         * 
-         * @remark      As of WordPress 4.4, the `get_field_name()` method of `WP_Widget` has some handling of strings containing `[`. So avoid the core method to be used as the framework supports nested sections.
-         * @since       3.6.0
-         * @return      string
-         */
-        public function _replyToGetFieldInputName( /* $sNameAttribute, array $aFieldset, $sIndex */ ) {
-            
-            $_aParams       = func_get_args() + array( null, null, null );
-            $aFieldset      = $_aParams[ 1 ];
-            $sIndex         = $_aParams[ 2 ];
-            $_sIndex        = $this->oCaller->oUtil->getAOrB(
-                '0' !== $sIndex && empty( $sIndex ),
-                '',
-                "[" . $sIndex . "]"
-            );                   
-            return $this->_replyToGetFieldName( '', $aFieldset ) . $_sIndex;
+        $_aParams       = func_get_args() + array( null, null, null );
+        $aFieldset      = $_aParams[ 1 ];
+        $sIndex         = $_aParams[ 2 ];
+        $_sIndex        = $this->oCaller->oUtil->getAOrB(
+            '0' !== $sIndex && empty( $sIndex ),
+            '',
+            "[" . $sIndex . "]"
+        );                   
+        return $this->_replyToGetFieldName( '', $aFieldset ) . $_sIndex;
 
-        }
+    }
   
 }

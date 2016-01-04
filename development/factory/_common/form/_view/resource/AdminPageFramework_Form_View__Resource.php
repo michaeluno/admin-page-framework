@@ -36,9 +36,15 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
         if ( $this->isDoingAjax() ) {
             return;
         }    
-            
+       
+        // Widgets can be called multiple times for the number of user-created widget instances for one class instance 
+        // so make sure it is processed only once per page.
+        if ( $this->hasBeenCalled( 'resource_' . $oForm->aArguments[ 'caller_id' ] ) ) {
+             return;
+        }
+
         $this->_setHooks();
-  
+
     }
     
         /**

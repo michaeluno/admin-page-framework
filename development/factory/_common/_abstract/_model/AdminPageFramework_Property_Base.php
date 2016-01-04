@@ -396,14 +396,28 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @since       3.7.9
      */
     public function setFormProperties() {
-        
-        $this->aFormArguments = array(
+        $this->aFormArguments = $this->getFormArguments();
+        $this->aFormCallbacks = $this->getFormCallbacks();
+    }
+    /**
+     * @remark      The Widget factory class access this method.
+     * @return      array
+     * @since       3.7.9
+     */
+    public function getFormArguments() {
+        return array(
             'caller_id'                         => $this->sClassName,
             'structure_type'                    => $this->_sPropertyType,  // @todo change this to admin_page
             'action_hook_form_registration'     => $this->_sFormRegistrationHook,
         ) + $this->aFormArguments;
-           
-        $this->aFormCallbacks = array(
+    }
+    /**
+     * @remark      The widget factory class accesses this method.
+     * @return      array
+     * @since       3.7.9
+     */
+    public function getFormCallbacks() {
+        return array(
             'is_in_the_page'                    => array( $this->oCaller, '_replyToDetermineWhetherToProcessFormRegistration' ),
             'load_fieldset_resource'            => array( $this->oCaller, '_replyToFieldsetResourceRegistration' ),
             
@@ -440,9 +454,8 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             'hfClass'                           => array( $this->oCaller, '_replyToGetInputClassAttribute' ), // the class attribute
             'hfSectionName'                     => array( $this->oCaller, '_replyToGetSectionName' ), // 3.6.0+            
         ) + $this->aFormCallbacks;        
-        
     }
-        
+    
     /**
      * Returns the caller object.
      * 
