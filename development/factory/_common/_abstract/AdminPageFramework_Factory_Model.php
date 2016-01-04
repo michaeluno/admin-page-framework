@@ -92,13 +92,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
             );
         }
         return $aFieldTypeDefinitions;
-        
-        // @deprecated 3.7.1
-        // return $this->oUtil->addAndApplyFilters( 
-            // $this,
-            // "field_types_{$this->oProp->sClassName}",
-            // $aFieldTypeDefinitions
-        // );                     
+                     
     }
     
     /**
