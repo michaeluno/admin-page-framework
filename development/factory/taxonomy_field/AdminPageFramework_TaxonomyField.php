@@ -49,7 +49,6 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Taxon
     function __construct( $asTaxonomySlug, $sOptionKey='', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
         
         if ( empty( $asTaxonomySlug ) ) { 
-            // @todo trigger a PHP warning
             return; 
         }
         

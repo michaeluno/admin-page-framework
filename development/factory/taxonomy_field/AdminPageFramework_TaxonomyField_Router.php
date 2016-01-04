@@ -72,7 +72,7 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
      * @callback    action      wp_loaded
      * @internal
      */
-    public function _replyToDetermineToLoad( /* $oScreen */ ) {
+    public function _replyToDetermineToLoad() {
 
         if ( ! $this->_isInThePage() ) { 
             return; 
