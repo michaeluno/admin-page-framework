@@ -27,14 +27,6 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         
         parent::__construct( $oProp );
 
-        if ( ! $this->_isInThePage() ) {
-            return;
-        }
-        if ( $this->oProp->bIsAdminAjax ) {
-            return;
-        }
-    
-        // Admin Notices
         new AdminPageFramework_Factory_View__SettingNotice( 
             $this,
             $this->oProp->sSettingNoticeActionHook
