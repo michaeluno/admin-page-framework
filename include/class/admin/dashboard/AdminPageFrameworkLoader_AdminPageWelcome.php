@@ -29,7 +29,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
             return;
         }
         
-        add_action( 'admin_menu', array( $this, '_replyToHandleRedirects' ) );
+        add_action( 'init', array( $this, '_replyToHandleRedirects' ) );
         
     }
         /**
@@ -39,12 +39,12 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
          * If this is called in the start() method above, it will redirect the user to the page during the activation process 
          * and the user gets a page that is not created because the plugin is not activated.
          * 
-         * @callback    action      admin_menu
+         * @callback    action      init
          * @since       3.5.0
          * @sicne       3.5.3       Change the hook from `admin_init` as the resetting option results in an error 'You do not have permission to access this page.'
          */
         public function _replyToHandleRedirects() {
-                
+
             // When newly installed, the 'welcomed' value is not set.
             $_oOption = AdminPageFrameworkLoader_Option::getInstance();
             if ( ! $_oOption->get( 'welcomed' ) ) {                
@@ -88,9 +88,10 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
      * Sets up admin pages.
      * 
      * @since       3.5.0
+     * @callback    action      wp_loaded
      */
     public function setUp() {
-        
+  
         $_oOption = AdminPageFrameworkLoader_Option::getInstance();
         if ( ! $_oOption->get( 'enable_admin_pages' ) ) {
             return;
@@ -134,16 +135,24 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
             )
         );
 
-        // Page Settings
-        $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
-        $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
-        $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
         $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
-
+        
         // Hook
+        add_action( "load_" . $this->oProp->sClassName, array( $this, 'replyToLoadClassPages' ) );
         add_action( "load_" . AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ], array( $this, 'replyToLoadPage' ) );
 
     }   
+    
+    /**
+     * Set up page settings.
+     */
+    public function replyToLoadClassPages( $oFactory ) {
+
+        $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
+        $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
+        $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
+    
+    }
         
     /**
      * Triggered when the page loads.
@@ -153,7 +162,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
      * @return      void
      */
     public function replyToLoadPage( $oFactory ) {
-        
+
         $_sPageSlug = AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ];
         new AdminPageFrameworkLoader_AdminPageWelcome_Welcome( 
             $this,              // factory object
