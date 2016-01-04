@@ -2,7 +2,7 @@
 
 # Script information
 SCRIPT_NAME="WordPress Plugin The Test Suite Installer"
-SCRIPT_VERSION="1.0.0"
+SCRIPT_VERSION="1.0.1"
 
 # Scripts defining custom functions
 source $(dirname $0)/include/download.sh

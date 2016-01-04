@@ -8,6 +8,7 @@ include_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/_bootstrap.php' );
 /**
  * @group   factory
  * @group   utility
+ * @group   core
  */
 class AdminPageFramework_Utility_URL_Test extends \WP_UnitTestCase {
     

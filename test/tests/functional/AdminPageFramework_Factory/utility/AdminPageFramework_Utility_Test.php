@@ -8,6 +8,7 @@ include_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/_bootstrap.php' );
 /**
  * @group   factory
  * @group   utility
+ * @group   core
  */
 class AdminPageFramework_Utility_Test extends \WP_UnitTestCase {
     
@@ -17,9 +18,11 @@ class AdminPageFramework_Utility_Test extends \WP_UnitTestCase {
     public $oUtil;
     
     public function setUp() {
+        
         parent::setUp();
         
         $this->oUtil = new AdminPageFramework_WPUtility;
+        
     }
 
     public function tearDown() {
@@ -31,6 +34,7 @@ class AdminPageFramework_Utility_Test extends \WP_UnitTestCase {
         $this->assertEquals( '80px', $this->oUtil->sanitizeLength( 80 ) );
         $this->assertEquals( '80em', $this->oUtil->sanitizeLength( 80 , 'em' ) );
         $this->assertEquals( '0%', $this->oUtil->sanitizeLength( 0 , '%' ) );
+        
     }   
     
 
