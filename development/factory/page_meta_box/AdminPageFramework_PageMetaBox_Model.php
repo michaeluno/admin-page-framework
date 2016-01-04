@@ -50,7 +50,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
             : $asPageSlugs; 
         
         parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );
-
+        
     }
     
     /**

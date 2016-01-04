@@ -19,13 +19,66 @@
 abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaBox_Router {
     
     /**
-     * Indicates whether the submitted data is for a new post.
-     * 
-     * @since       3.3.0
-     * @deprecated  
+     * Sets up hooks.
+     * @since       3.7.9
      */
-    // private $_bIsNewPost = false;    
+    public function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
+                
+        parent::__construct( 
+            $sMetaBoxID, 
+            $sTitle, 
+            $asPostTypeOrScreenID, 
+            $sContext, 
+            $sPriority, 
+            $sCapability, 
+            $sTextDomain 
+        );
+        
+        add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToSetUpHooks' ) );
+        
+    }    
+    
+    /**
+     * Sets up hooks after calling the `setUp()` method.
+     * 
+     * @since       3.7.9
+     * @callback    action      set_up_{instantiated class name}
+     * @internal
+     */
+    public function _replyToSetUpHooks( $oFactory ) {
+                
+        add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
+        
+        // For validation callbacks. Since this method is shared with the page-meta-box class, hooking the validation hooks should be done separately.
+        $this->_setUpValidationHooks( get_current_screen() );                
+        
+    }
+        /**
+         * Sets up validation hooks.
+         * 
+         * @since       3.3.0
+         * @internal
+         */
+        protected function _setUpValidationHooks( $oScreen ) {
 
+            if ( 'attachment' === $oScreen->post_type && in_array( 'attachment', $this->oProp->aPostTypes ) ) {
+                add_filter( 
+                    'wp_insert_attachment_data', 
+                    array( $this, '_replyToFilterSavingData' ), 
+                    10, 
+                    2 
+                );
+            } else {
+                add_filter( 
+                    'wp_insert_post_data', 
+                    array( $this, '_replyToFilterSavingData' ), 
+                    10, 
+                    2 
+                );
+            }
+        
+        }    
+    
     /**
      * A validation callback method.
      * 
@@ -38,33 +91,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
     // public function validate( $aInput, $aOldInput, $oFactory ) {
         // return $aInput;
     // }         
-    
-    /**
-     * Sets up validation hooks.
-     * 
-     * @since       3.3.0
-     * @internal
-     */
-    protected function _setUpValidationHooks( $oScreen ) {
-
-        if ( 'attachment' === $oScreen->post_type && in_array( 'attachment', $this->oProp->aPostTypes ) ) {
-            add_filter( 
-                'wp_insert_attachment_data', 
-                array( $this, '_replyToFilterSavingData' ), 
-                10, 
-                2 
-            );
-        } else {
-            add_filter( 
-                'wp_insert_post_data', 
-                array( $this, '_replyToFilterSavingData' ), 
-                10, 
-                2 
-            );
-        }
-    
-    }
-    
+        
     /**
      * Adds the defined meta box.
      * 

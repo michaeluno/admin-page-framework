@@ -54,15 +54,36 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Con
      * @param       string            $sTextDomain              (optional) The text domain applied to the displayed text messages. Default: `admin-page-framework`.
      * @return      void
      */ 
-    function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
+    public function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
         
-        if ( ! $this->_isInstantiatable() ) { return; }
+        if ( ! $this->_isInstantiatable() ) { 
+            return; 
+        }
+        if ( empty( $asPostTypeOrScreenID ) ) { 
+            return; 
+        }        
         
-        /* The property object needs to be done first */
-        $this->oProp                = new AdminPageFramework_Property_MetaBox( $this, get_class( $this ), $sCapability, $sTextDomain, self::$_sStructureType );
-        $this->oProp->aPostTypes    = is_string( $asPostTypeOrScreenID ) ? array( $asPostTypeOrScreenID ) : $asPostTypeOrScreenID;    
+        // A property object needs to be done first.
+        $this->oProp                = new AdminPageFramework_Property_MetaBox( 
+            $this, 
+            get_class( $this ), 
+            $sCapability, 
+            $sTextDomain, 
+            self::$_sStructureType 
+        );
+        $this->oProp->aPostTypes    = is_string( $asPostTypeOrScreenID ) 
+            ? array( $asPostTypeOrScreenID ) 
+            : $asPostTypeOrScreenID;
         
-        parent::__construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID, $sContext, $sPriority, $sCapability, $sTextDomain );
+        parent::__construct( 
+            $sMetaBoxID, 
+            $sTitle, 
+            $asPostTypeOrScreenID, 
+            $sContext, 
+            $sPriority, 
+            $sCapability, 
+            $sTextDomain 
+        );
                         
         $this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}", $this );
         

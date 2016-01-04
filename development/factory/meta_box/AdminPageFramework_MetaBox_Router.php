@@ -35,24 +35,12 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
      * @return      void
      */ 
     public function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
+             
+        parent::__construct( $this->oProp );
         
-        if ( empty( $asPostTypeOrScreenID ) ) { 
-            return; 
-        }
-                
-        // Properties
-        $_sClassName = get_class( $this );
-        parent::__construct( 
-            isset( $this->oProp ) 
-                ? $this->oProp 
-                : new AdminPageFramework_Property_MetaBox( 
-                    $this, 
-                    $_sClassName, 
-                    $sCapability 
-                )
-        );
-        
-        $this->oProp->sMetaBoxID    = $sMetaBoxID ? $this->oUtil->sanitizeSlug( $sMetaBoxID ) : strtolower( $_sClassName );
+        $this->oProp->sMetaBoxID    = $sMetaBoxID 
+            ? $this->oUtil->sanitizeSlug( $sMetaBoxID ) 
+            : strtolower( $this->oProp->sClassName );
         $this->oProp->sTitle        = $sTitle;
         $this->oProp->sContext      = $sContext;    // 'normal', 'advanced', or 'side' 
         $this->oProp->sPriority     = $sPriority;   // 'high', 'core', 'default' or 'low'    
@@ -96,7 +84,7 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
     protected  function _isInstantiatable() {
         
         // Disable in admin-ajax.php
-        if ( isset( $GLOBALS['pagenow'] ) && 'admin-ajax.php' === $GLOBALS['pagenow'] ) {
+        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
             return false;
         }
         return true;
@@ -111,20 +99,14 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
      * @callback    action      current_screen
      */
     public function _replyToDetermineToLoad( /* $oScreen */ ) {
-        
-        /**
-         * When the current_screen action is already triggered, the parameter will not be passed. 
-         * So retrieve the screen object anyway.
-         */
-        $_oScreen  = get_current_screen();
-        
+                
         if ( ! $this->_isInThePage() ) { 
             return; 
         }
-        
+                
         /**
-         * Make sure the form object (`$this->oForm`) is instantiated.
-         * If the form object has not been created, this will instantiate it by triggering `__get()`.
+         * Make sure a form object (`$this->oForm`) is instantiated.
+         * If a form object has not been created, this will instantiate it by triggering `__get()`.
          * This lets the form object available in the callback functions (methods) of the factory class
          * as some callbacks possibly be called during the instantiation (constructor) 
          * if the set action is already triggered by the system (WordPress).
@@ -133,16 +115,13 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
                
         $this->_setUp();
         
-        // This action hook must be called AFTER the _setUp() method 
-        // as there are callback methods that hook into this hook 
-        // and assumes required configurations have been made.
+        /**
+         * This action hook must be called AFTER the _setUp() method 
+         * as there are callback methods that hook into this hook 
+         * and assumes required configurations have been made.
+         */
         $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
-                
-        add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
-        
-        // For validation callbacks. Since this method is shared with the page-meta-box class, hooking the validation hooks should be done separately.
-        $this->_setUpValidationHooks( $_oScreen );
-          
+                          
     }    
     
 }
