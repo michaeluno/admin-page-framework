@@ -452,12 +452,13 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 = 3.7.9 =
 - Reduced the number of library files.
 - Fixed an issue that widget resources were loaded in pages that do not have widget forms.
+- Changed the demo to be disabled when the loader plugin admin pages are disabled.
 
 = 3.7.8 - 2015/12/31 =
 - Reduced the number of database queries used for forms.
 
 = 3.7.7 - 2015/12/30 =
-- Fixed an issue that the framework forms could not be displayed when some third-party plusins or themes have JavaScript errors.
+- Fixed an issue that the framework forms could not be displayed when some third-party plugins or themes have JavaScript errors.
 - Fixed a bug in a field object calling an undefined method.
 
 = 3.7.6.1 - 2015/12/23 =

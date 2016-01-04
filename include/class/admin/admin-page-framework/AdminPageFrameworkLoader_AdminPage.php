@@ -40,8 +40,8 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
         if ( isset( $_GET['enable_apfl_demo_pages'] ) ) {
             
             // Update the options and reload the page
-            $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
-            $_oOption->update( 'enable_demo', $_GET['enable_apfl_demo_pages'] );            
+            $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ] );
+            $_oOption->update( 'enable_demo', $_GET[ 'enable_apfl_demo_pages' ] );
              
             if ( $_GET[ 'enable_apfl_demo_pages' ] ) {
                 $this->setSettingNotice( 

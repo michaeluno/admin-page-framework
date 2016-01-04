@@ -70,7 +70,8 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                 
             }
             
-        private function _goToWelcomePage() {        
+        private function _goToWelcomePage() {    
+        
             $_sWelcomePageURL = apply_filters(
                 AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_admin_welcome_redirect_url',
                 add_query_arg( 
@@ -89,14 +90,19 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
      * @since       3.5.0
      */
     public function setUp() {
-AdminPageFramework_Debug::log( 'set up' );        
+        
+        $_oOption = AdminPageFrameworkLoader_Option::getInstance();
+        if ( ! $_oOption->get( 'enable_admin_pages' ) ) {
+            return;
+        }
+        
         $this->sPageSlug  = AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ];
         
         // Root page
         $this->setRootMenuPage( 
             'Dashboard'     // menu slug
         ); 
-AdminPageFramework_Debug::log( 'set root page' );        
+
         // Sub-pages
         $this->addSubMenuItems( 
             array(
@@ -127,16 +133,16 @@ AdminPageFramework_Debug::log( 'set root page' );
                 ),
             )
         );
-AdminPageFramework_Debug::log( 'set sub menu item' );        
+
         // Page Settings
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
         $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
         $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
         $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
-AdminPageFramework_Debug::log( 'set page preferences' );                   
+
         // Hook
         add_action( "load_" . AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ], array( $this, 'replyToLoadPage' ) );
-AdminPageFramework_Debug::log( 'add hook' );                           
+
     }   
         
     /**

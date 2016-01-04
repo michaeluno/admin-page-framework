@@ -43,6 +43,9 @@ class AdminPageFrameworkLoader_Demo {
         
             // Check if the demo is enabled.
             $_oOption = AdminPageFrameworkLoader_Option::getInstance();
+            if ( ! $_oOption->get( 'enable_admin_pages' ) ) {
+                return false;
+            }            
             if ( ! $_oOption->get( 'enable_demo' ) ) {
                 $this->_setPointerToolTips();
                 return false;

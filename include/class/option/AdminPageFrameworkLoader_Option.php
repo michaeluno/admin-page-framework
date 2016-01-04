@@ -56,7 +56,7 @@ class AdminPageFrameworkLoader_Option {
         
         $sOptionKey = $sOptionKey 
             ? $sOptionKey
-            : AdminPageFrameworkLoader_Registry::$aOptionKeys['main'];
+            : AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ];
         
         if ( isset( self::$aInstances[ $sOptionKey ] ) ) {
             return self::$aInstances[ $sOptionKey ];
