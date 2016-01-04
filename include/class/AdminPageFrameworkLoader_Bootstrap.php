@@ -155,7 +155,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
          * @since       3.6.4
          */
         private function _shouldShowAdminPages() {
-            
+       
             if ( ! $this->bIsAdmin ) {
                 return false;
             }

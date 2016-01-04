@@ -57,7 +57,6 @@ class AdminPageFrameworkLoader_Demo {
  
     private function _setPointerToolTips() {
         
-        
         new AdminPageFramework_PointerToolTip(
             array( 
                 // screen ids
@@ -80,8 +79,7 @@ class AdminPageFrameworkLoader_Demo {
                     'position'  => array( 'edge' => 'left', 'align' => 'middle' )
                 )
             )
-        );          
-                
+        );               
         
     }
  
