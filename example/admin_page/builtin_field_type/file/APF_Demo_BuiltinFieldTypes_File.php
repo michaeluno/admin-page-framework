@@ -30,20 +30,8 @@ class APF_Demo_BuiltinFieldTypes_File {
     /**
      * Sets up hooks.
      */
-    public function __construct() {
+    public function __construct( $oFactory ) {
                       
-        add_action( 
-            'load_' . $this->sPageSlug, 
-            array( $this, 'replyToLoadPage' ) 
-        );
-        
-    }
-    
-    /**
-     * Triggered when the page is loaded.
-     */
-    public function replyToLoadPage( $oFactory ) {
-        
         // Tab
         $oFactory->addInPageTabs(    
             $this->sPageSlug, // target page slug
@@ -59,7 +47,7 @@ class APF_Demo_BuiltinFieldTypes_File {
         );
         
     }
-    
+        
     /**
      * Triggered when the tab is loaded.
      * 

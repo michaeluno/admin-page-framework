@@ -12,7 +12,7 @@
 class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
         
     /*
-     * ( optional ) Use the setUp() method to define settings of this meta box.
+     * ( optional ) Use the setUp() method to define settings of this taxonomy fields.
      */
     public function setUp() {
 

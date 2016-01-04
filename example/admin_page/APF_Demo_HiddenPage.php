@@ -21,7 +21,6 @@ class APF_Demo_HiddenPage {
      */
     public function __construct() {
         
-        // set_up_{instantiated class name} - 'APF_Demo' is the class name of the main class.
         add_action( "set_up_" . "APF_Demo", array( $this, 'replyToSetUpPages' ) );
         add_action( "do_" . "apf_sample_page", array( $this, 'replyToModifySamplePage' ) );
         add_action( "do_" . "apf_hidden_page", array( $this, 'replyToModifyHiddenPage' ) );
@@ -30,10 +29,12 @@ class APF_Demo_HiddenPage {
     
     /**
      * Sets up pages.
+     * 
+     * @callback        action      set_up_{instantiated class name}
      */
     public function replyToSetUpPages( $oAdminPage ) {    
     
-        /* ( required ) Add sub-menu items (pages or links) */
+        // ( required ) Add sub-menu items (pages or links) 
         $oAdminPage->addSubMenuItems(     
             array(
                 'title'         => __( 'Sample Page', 'admin-page-framework-loader' ),
@@ -53,7 +54,9 @@ class APF_Demo_HiddenPage {
     }
     
     /*
-     * The sample page and the hidden page
+     * The sample page and the hidden page.
+     * 
+     * @callback        action      do_{page slug}
      */
     public function replyToModifySamplePage( $oAdminPage ) {
         
@@ -62,6 +65,10 @@ class APF_Demo_HiddenPage {
         echo "<a href='{$_sLinkToHiddenPage}'>" . __( 'Go to Hidden Page', 'admin-page-framework-loader' ). "</a>";
     
     }
+    
+    /**
+     * @callback        action      do_{page slug}
+     */
     public function replyToModifyHiddenPage( $oAdminPage ) {
         
         echo "<p>" . __( 'This is a hidden page.', 'admin-page-framework-loader' ) . "</p>";

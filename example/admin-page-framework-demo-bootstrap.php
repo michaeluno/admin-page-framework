@@ -8,10 +8,10 @@
  * @authorurl    http://michaeluno.jp
  */
 
- /**
-  * 
-  * @since      DEVVER
-  */
+/**
+ * 
+ * @since      DEVVER
+ */
 class AdminPageFrameworkLoader_Demo_Bootstrap {
     
     public function __construct() {

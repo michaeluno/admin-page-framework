@@ -16,6 +16,11 @@
  */
 class APF_Demo_BuiltinFieldType {
 
+    public $sPageSlug = 'apf_builtin_field_types';
+
+    /**
+     * Adds a page item and sets up hooks.
+     */
     public function __construct( $oFactory ) {
      
         /* ( required ) Add sub-menu items (pages or links) */
@@ -35,7 +40,7 @@ class APF_Demo_BuiltinFieldType {
             */
             array(
                 'title'         => __( 'Built-in Field Types', 'admin-page-framework-loader' ),
-                'page_slug'     => 'apf_builtin_field_types',
+                'page_slug'     => $this->sPageSlug,
                 'screen_icon'   => 'options-general', // one of the screen type from the below can be used.
                 /* Screen Types (for WordPress v3.7.x or below) :
                     'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
@@ -45,8 +50,34 @@ class APF_Demo_BuiltinFieldType {
                 'order' => 10, // ( optional ) - if you don't set this, an index will be assigned internally in the added order
             )
         );        
+           
+        add_action( 'load_' . $this->sPageSlug, array( $this, 'replyToLoadPage' ) );
         
-        // Define in-page tabs - here tabs are defined in the below classes.
+    }
+    
+    /**
+     * @return      void
+     * @callback    action      load_{page slug}
+     */
+    public function replyToLoadPage( $oFactory ) {
+        
+        /**
+         * (optional) Contextual help pane
+         */
+        $oFactory->addHelpTab( 
+            array(
+                'page_slug'                => $this->sPageSlug, // ( required )
+                'help_tab_id'              => 'admin_page_framework', // ( required )
+                // 'page_tab_slug' => null, // ( optional )
+                'help_tab_title'           => AdminPageFramework_Registry::NAME,
+                'help_tab_content'         => __( 'This contextual help text can be set with the <code>addHelpTab()</code> method.', 'admin-page-framework' ),
+                'help_tab_sidebar_content' => __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
+            )
+        );        
+        
+        /**
+         * (optional) Add in-page tabs - here tabs are defined in the below classes.
+         */
         $_aTabClasses = array(
             'APF_Demo_BuiltinFieldTypes_Text',
             'APF_Demo_BuiltinFieldTypes_Selector',
@@ -59,7 +90,7 @@ class APF_Demo_BuiltinFieldType {
             if ( ! class_exists( $_sTabClassName ) ) {
                 continue;                
             }        
-            new $_sTabClassName;
+            new $_sTabClassName( $oFactory );
         }
         
     }

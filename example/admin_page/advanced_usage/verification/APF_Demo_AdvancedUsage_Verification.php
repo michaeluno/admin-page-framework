@@ -30,19 +30,7 @@ class APF_Demo_AdvancedUsage_Verification {
     /**
      * Sets up hooks.
      */
-    public function __construct() {
-
-        add_action( 
-            'load_' . $this->sPageSlug, 
-            array( $this, 'replyToAddTab' )
-        );
-        
-    }
-    
-    /**
-     * Triggered when the page is loaded.
-     */
-    public function replyToAddTab( $oFactory ) {
+    public function __construct( $oFactory ) {
         
         // Tab
         $oFactory->addInPageTabs(    

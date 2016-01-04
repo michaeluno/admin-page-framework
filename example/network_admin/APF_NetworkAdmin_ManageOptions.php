@@ -13,6 +13,9 @@ class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
 
     protected $sPageSlug = 'apf_manage_options';
 
+    /**
+     * Sets up pages.
+     */
     public function setUp() { // this method automatically gets triggered with the wp_loaded hook. 
 
         /* ( optional ) this can be set via the constructor. For available values, see https://codex.wordpress.org/Roles_and_Capabilities */
@@ -30,6 +33,16 @@ class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
                 'order'         => 20, // ( optional )
             )
         );
+      
+    
+    }
+    
+    /**
+     * The pre-defined callback method that is triggered when the page loads.
+     * 
+     * @callback        action      load_{page slug}
+     */ 
+    public function load_apf_manage_options( $oAdminPage ) {
    
         /* ( optional ) Determine the page style */
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
@@ -41,16 +54,9 @@ class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
          * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
          * */
         $sStyleHandle = $this->enqueueStyle( AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css', 'apf_manage_options' ); // a path can be used
-    
-    
-    }
-    
-    /**
-     * The pre-defined callback method that is triggered when the page loads.
-     */ 
-    public function load_apf_manage_options( $oAdminPage ) { // load_{page slug}
-           
-      // Tabs
+
+   
+        // Tabs
         new APF_Demo_ManageOptions_SavedData(
             $this,              // factory object
             $this->sPageSlug,   // page slug

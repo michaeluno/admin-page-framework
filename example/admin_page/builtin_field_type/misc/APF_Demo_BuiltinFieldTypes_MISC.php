@@ -30,24 +30,8 @@ class APF_Demo_BuiltinFieldTypes_MISC {
     /**
      * Sets up hooks.
      */
-    public function __construct() {
+    public function __construct( $oFactory ) {
                       
-        add_action( 
-            'load_' . $this->sPageSlug, 
-            array( $this, 'replyToLoadPage' ) 
-        );
-        
-    }
-    
-    /**
-     * Adds an in-page tab.
-     * 
-     * Triggered when the page is loaded.
-     * 
-     * @callback        action      load_{page slug}
-     */
-    public function replyToLoadPage( $oFactory ) {
-        
         // Tab
         $oFactory->addInPageTabs(    
             $this->sPageSlug, // target page slug
@@ -63,7 +47,7 @@ class APF_Demo_BuiltinFieldTypes_MISC {
         );
         
     }
-    
+        
     /**
      * Adds form sections.
      * 

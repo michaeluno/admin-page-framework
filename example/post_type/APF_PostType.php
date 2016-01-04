@@ -224,7 +224,7 @@ class APF_PostType extends AdminPageFramework_PostType {
      */
     public function replyToSortCustomColumn( $aVars ){
 
-        if ( isset( $aVars['orderby'] ) && 'samplecolumn' == $aVars['orderby'] ){
+        if ( isset( $aVars[ 'orderby' ] ) && 'samplecolumn' == $aVars[ 'orderby' ] ){
             $aVars = array_merge( 
                 $aVars, 
                 array(

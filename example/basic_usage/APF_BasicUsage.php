@@ -16,28 +16,7 @@ class APF_BasicUsage extends AdminPageFramework {
     /**
      * 
      */
-    public function start() {
-        
-        new AdminPageFramework_PointerToolTip(
-            array( 
-                'apf_first_page',
-                'apf_second_page',
-            ),     
-            'apf_demo_page_meta_boxes', // unique id for the pointer tool box
-            array(        // pointer data
-                'target'    => '#apf_metabox_for_pages_normal',
-                'options'   => array(
-                    'content' => sprintf( '<h3> %1$s </h3> <p> %2$s </p>',
-                        __( 'Page Meta Boxes' ,'admin-page-framework-loader' ),
-                        __( 'Demonstrates the use of meta boxes for admin pages.','admin-page-framework-loader')
-                        . ' ' . __( 'Usually meta boxes are displayed in post editing pages but with Admin Page Framework, you can display them in generic admin pages you create with the framework.','admin-page-framework-loader')
-                    ),
-                    'position'  => array( 'edge' => 'top', 'align' => 'middle' )
-                )
-            )
-        );          
-        
-    }
+    public function start() {}
     
     /**
      * Sets up pages.
@@ -86,13 +65,40 @@ class APF_BasicUsage extends AdminPageFramework {
      * 
      * @callback        action      load_{page slug}
      */
+    public function load_apf_first_page() { 
+    
+        new AdminPageFramework_PointerToolTip(
+            array( 
+                'apf_first_page',  // page slugs
+            ),     
+            'apf_demo_page_meta_boxes', // unique id for the pointer tool box
+            array(        // pointer data
+                'target'    => '#apf_metabox_for_pages_normal',
+                'options'   => array(
+                    'content' => sprintf( '<h3> %1$s </h3> <p> %2$s </p>',
+                        __( 'Page Meta Boxes' ,'admin-page-framework-loader' ),
+                        __( 'Demonstrates the use of meta boxes for admin pages.','admin-page-framework-loader')
+                        . ' ' . __( 'Usually meta boxes are displayed in post editing pages but with Admin Page Framework, you can display them in generic admin pages you create with the framework.','admin-page-framework-loader')
+                    ),
+                    'position'  => array( 'edge' => 'top', 'align' => 'middle' )
+                )
+            )
+        );      
+    
+    }    
+    
+    /**
+     * Do page specific settings.
+     * 
+     * @callback        action      load_{page slug}
+     */
     public function load_apf_second_page() { 
 
         $this->enqueueStyle( 
-            plugins_url( 'asset/css/code.css', AdminPageFrameworkLoader_Registry::$sFilePath ), // a url can be used as well
-            'apf_second_page'
-        );     
-
+            plugins_url( 'asset/css/code.css', AdminPageFrameworkLoader_Registry::$sFilePath ), // source path/url
+            'apf_second_page'   // page slug
+        );              
+        
     }
     
     /**
@@ -121,10 +127,7 @@ class APF_BasicUsage extends AdminPageFramework {
                 . __( 'This message is inserted with the <code>content_{page slug}</code> filter.', 'admin-page-framework-loader' ) 
             . "</p>"
             . "<h3>" . __( 'Saved Options', 'admin-page-framework-loader' ) . "</h3>"
-            . $this->oDebug->get( 
-                $this->getValue()
-            )                     
-            ;
+            . $this->oDebug->get( $this->getValue() );
             
     }
     

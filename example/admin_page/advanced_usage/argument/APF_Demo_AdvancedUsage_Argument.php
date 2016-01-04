@@ -30,24 +30,8 @@ class APF_Demo_AdvancedUsage_Argument {
     /**
      * Sets up hooks.
      */
-    public function __construct() {
-                      
-        add_action( 
-            'load_' . $this->sPageSlug, 
-            array( $this, 'replyToLoadPage' ) 
-        );
-        
-    }
-    
-    /**
-     * Adds an in-page tab.
-     * 
-     * Triggered when the page is loaded.
-     * 
-     * @callback        action      load_{page slug}
-     */
-    public function replyToLoadPage( $oFactory ) {
-        
+    public function __construct( $oFactory ) {
+                              
         // Tab
         $oFactory->addInPageTabs(    
             $this->sPageSlug, // target page slug

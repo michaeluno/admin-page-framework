@@ -55,7 +55,7 @@ class APF_Demo extends AdminPageFramework {
                     'position'  => array( 'edge' => 'left', 'align' => 'middle' )
                 )
             )
-        );       
+        );
         
     }
 
@@ -71,21 +71,7 @@ class APF_Demo extends AdminPageFramework {
         
         /* ( required ) Set the root page */
         $this->setRootMenuPageBySlug( 'edit.php?post_type=' . AdminPageFrameworkLoader_Registry::$aPostTypes['demo'] );
-                                    
-        /*
-         * ( optional ) Contextual help pane
-         */
-        $this->addHelpTab( 
-            array(
-                'page_slug' => 'apf_builtin_field_types', // ( required )
-                // 'page_tab_slug' => null, // ( optional )
-                'help_tab_title' => 'Admin Page Framework',
-                'help_tab_id' => 'admin_page_framework', // ( required )
-                'help_tab_content' => __( 'This contextual help text can be set with the <code>addHelpTab()</code> method.', 'admin-page-framework' ),
-                'help_tab_sidebar_content' => __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
-            )
-        );
-                
+                                                    
         /*
          * ( optional ) Add links in the plugin listing table. ( .../wp-admin/plugins.php )
          */

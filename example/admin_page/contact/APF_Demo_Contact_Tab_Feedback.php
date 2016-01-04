@@ -19,28 +19,26 @@ class APF_Demo_Contact_Tab_Feedback {
     public function __construct( $oFactory, $sPageSlug='', $sTabSlug='' ) {
     
         $this->oFactory     = $oFactory;
-        // $this->sClassName   = $oFactory->oProp->sClassName;
         $this->sPageSlug    = $sPageSlug ? $sPageSlug : $this->sPageSlug;
         $this->sTabSlug     = $sTabSlug ? $sTabSlug : $this->sTabSlug;
         $this->sSectionID   = $this->sTabSlug;
         $this->_addTab();
     
-    }
-    
-    private function _addTab() {
-        
-        $this->oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
-            array(
-                'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Feedback', 'admin-page-framework-loader' ),
-            )
-        );  
-        
-        // load + page slug + tab slug
-        add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToAddFormElements' ) );
-        
-    }
+    }    
+        private function _addTab() {
+            
+            $this->oFactory->addInPageTabs(    
+                $this->sPageSlug, // target page slug
+                array(
+                    'tab_slug'      => $this->sTabSlug,
+                    'title'         => __( 'Feedback', 'admin-page-framework-loader' ),
+                )
+            );  
+            
+            // load + page slug + tab slug
+            add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToAddFormElements' ) );
+            
+        }
     
     /**
      * Triggered when the tab is loaded.

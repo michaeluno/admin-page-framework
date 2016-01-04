@@ -30,25 +30,9 @@ class APF_Demo_BuiltinFieldTypes_Selector {
     /**
      * Sets up hooks.
      */
-    public function __construct() {
-                      
-        add_action( 
-            'load_' . $this->sPageSlug, 
-            array( $this, 'replyToLoadPage' ) 
-        );
-                
-    }
-    
-    /**
-     * Adds an in-page tab.
-     * 
-     * Triggered when the page is loaded.
-     * 
-     * @callback        action      load_{page slug}
-     */
-    public function replyToLoadPage( $oFactory ) {
-        
-        // Tab
+    public function __construct( $oFactory ) {
+                  
+        // Tabs
         $oFactory->addInPageTabs(    
             $this->sPageSlug, // target page slug
             array(
@@ -60,8 +44,8 @@ class APF_Demo_BuiltinFieldTypes_Selector {
         add_action( 
             'load_' . $this->sPageSlug . '_' . $this->sTabSlug, 
             array( $this, 'replyToLoadTab' ) 
-        );                
-        
+        );              
+                
     }
     
     /**
@@ -72,6 +56,7 @@ class APF_Demo_BuiltinFieldTypes_Selector {
      */
     public function replyToLoadTab( $oFactory ) {
         
+        // Form sections
         $_aClasses = array(
             'APF_Demo_BuiltinFieldTypes_Selector_Select',
             'APF_Demo_BuiltinFieldTypes_Selector_Radio',

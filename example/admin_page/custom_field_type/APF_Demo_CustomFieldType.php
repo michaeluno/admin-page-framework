@@ -28,51 +28,52 @@ class APF_Demo_CustomFieldType {
         $this->sPageSlug    = 'custom_field_type';
         $this->sPageTitle   = __( 'Custom Field Types', 'admin-page-framework-loader' );
 
-        $this->_addPage();
-               
-    }
-        
-        /**
-         * Adds an admin page.
-         */
-        private function _addPage() {
-            
-            $this->oFactory->addSubMenuItems( 
-                array(
-                    'title'         => $this->sPageTitle,
-                    'page_slug'     => $this->sPageSlug,    // page slug
-                )
-            );
+        $this->oFactory->addSubMenuItems( 
+            array(
+                'title'         => $this->sPageTitle,
+                'page_slug'     => $this->sPageSlug,    // page slug
+            )
+        );
 
-            // Tabs
-            new APF_Demo_CustomFieldType_ACE(
-                $this->oFactory,    // factory object
-                $this->sPageSlug,   // page slug
-                'ace'       // tab slug 
-            );   
-            new APF_Demo_CustomFieldType_Sample(
-                $this->oFactory,    // factory object
-                $this->sPageSlug,   // page slug
-                'sample'       // tab slug             
-            );
-            new APF_Demo_CustomFieldType_GitHub(
-                $this->oFactory,    // factory object
-                $this->sPageSlug,   // page slug
-                'github'       // tab slug                         
-            );
-            
-            // Add a link
-            $this->oFactory->addInPageTabs(    
-                $this->sPageSlug, // target page slug
-                array(
-                    'tab_slug'      => 'more',
-                    'title'         => __( 'More', 'admin-page-framework-loader' ),
-                    'url'           => 'http://en.michaeluno.jp/admin-page-framwork/field-type-pack',
-                    'order'         => 999,
-                )
-            );  
-                    
-        }
-  
+        add_action( 'load_' . $this->sPageSlug, array( $this, 'replyToLoadPage' ) );
+        
+    }
+
+    /**
+     * Called when the page starts loading.
+     * 
+     * @callback        action      load_{page slug}
+     */
+    public function replyToLoadPage( $oFactory ) {
+        
+        // Tabs
+        new APF_Demo_CustomFieldType_ACE(
+            $this->oFactory,    // factory object
+            $this->sPageSlug,   // page slug
+            'ace'       // tab slug 
+        );   
+        new APF_Demo_CustomFieldType_Sample(
+            $this->oFactory,    // factory object
+            $this->sPageSlug,   // page slug
+            'sample'       // tab slug             
+        );
+        new APF_Demo_CustomFieldType_GitHub(
+            $this->oFactory,    // factory object
+            $this->sPageSlug,   // page slug
+            'github'       // tab slug                         
+        );
+        
+        // Add a link
+        $this->oFactory->addInPageTabs(    
+            $this->sPageSlug, // target page slug
+            array(
+                'tab_slug'      => 'more',
+                'title'         => __( 'More', 'admin-page-framework-loader' ),
+                'url'           => 'http://en.michaeluno.jp/admin-page-framwork/field-type-pack',
+                'order'         => 999,
+            )
+        );  
+                
+    }
         
 }

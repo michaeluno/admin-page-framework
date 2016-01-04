@@ -59,8 +59,10 @@ class APF_Demo_Contact extends AdminPageFramework {
     
     /**
      * Do page specific settings.
+     * 
+     * @callback        action      load_ + {page slug}
      */
-    public function load_apf_contact() {    // load_ + {page slug}
+    public function load_apf_contact() {   
         
         new APF_Demo_Contact_Tab_Feedback( $this, 'apf_contact', 'feedback' );
         new APF_Demo_Contact_Tab_Report( $this, 'apf_contact', 'report' );
