@@ -348,21 +348,14 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
                 
         $this->oCaller          = $oCaller;
         $this->sCallerPath      = $sCallerPath;
-
         $this->sClassName       = $sClassName; // sanitize name space path delimiter.
-        
-        $this->sCapability      = $this->getAOrB(
-            empty( $sCapability ),
-            'manage_options',
-            $sCapability
-        );
-        $this->sTextDomain      = $this->getAOrB(
-            empty( $sTextDomain ),
-            'admin-page-framework',
-            $sTextDomain
-        );
+        $this->sCapability      = empty( $sCapability )
+            ? 'manage_options'
+            : $sCapability;
+        $this->sTextDomain      = empty( $sTextDomain )
+            ? 'admin-page-framework'
+            : $sTextDomain;
         $this->sStructureType   = $sStructureType;
-                        
         $this->sPageNow         = $this->getPageNow();
         $this->bIsAdmin         = is_admin();
         $this->bIsAdminAjax     = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
