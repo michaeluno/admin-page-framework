@@ -13,11 +13,12 @@ if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
 /**
  * Copies files in a specified directory into a set destination directory and applies beautification.
  * 
- * @version    1.0.1
+ * @version    1.1.0
  */
 class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
     
     static protected $_aStructure_Options = array(
+    
         'header_class_name' => '',
         'header_class_path' => '',        
         'output_buffer'     => true,
@@ -28,6 +29,21 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         'css_heredoc_keys'  => array( 'CSSRULES' ),     
         'js_heredoc_keys'   => array( 'JAVASCRIPTS' ),  
         'carriage_return'   => PHP_EOL,
+        
+        /**
+         * Whether or not to combine files in the same directory with hierarchical relationships. 
+         * 
+         * For example, say there are A.php defining class A extends A_Base {} and A_Base.php defining A_Base {} in the same directory,
+         * A.php will include the definition of A_Base in the same file and A_Base.php will be omitted.
+         * 
+         * This helps to reduce time for loading files and improve performance when using auto-loader. 
+         * @since       1.1.0
+         */
+        'combine' => array(
+            'inheritance'       => true,
+            'exclude_classes'   => array(),
+        ),
+        
         // Search options
         'search'    =>    array(
             'allowed_extensions' => array( 'php' ),    // e.g. array( 'php', 'inc' )
@@ -44,7 +60,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      * 
      * Currently only used in the loop of the JavaScript minifier.
      * 
-     * @since       1.1.0
+     * @since       ? 1.1.0
      */
     private $_sCurrentIterationClassName;
     
@@ -76,8 +92,11 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      *  - 'output_buffer'       : boolean    whether or not output buffer should be printed.
      *  - 'header_type'         : string    whether or not to use the docBlock of the header class; otherwise, it will parse the constants of the class. 
      *  - 'exclude_classes'     : array        an array holding class names to exclude.
-     *  - 'css_heredoc_keys'    : array     [1.1.0+] (optional) an array holding heredoc keywords used to assign CSS rules to a variable.
-     *  - 'js_heredoc_keys'     : array     [1.1.0+] (optional) an array holding heredoc keywords used to assign JavaScript scripts to a variable.
+     *  - 'css_heredoc_keys'    : (array, optional) an array holding heredoc keywords used to assign CSS rules to a variable.
+     *  - 'js_heredoc_keys'     : (array, optional) an array holding heredoc keywords used to assign JavaScript scripts to a variable.
+     *  - 'combine' : (array, optional) [1.1.0+]  Combine option
+     *      - 'inheritance' : (boolean) Whether or not to combine files in the same directory with hierarchical relationships. 
+     *      - 'exclude_classes' : (string|array, optional)  Class names to exclude from combining.
      *  - 'search'              : array        the arguments for the directory search options.
      *     The accepted values are 'CONSTANTS' or 'DOCBLOCK'.
      * <h3>Example</h3>
@@ -105,17 +124,20 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      */
     public function __construct( $sSourceDirPath, $sDestinationDirPath, array $aOptions=array() ) {
         
-        $aOptions  = $this->_formatOptions( $aOptions );
+        $aOptions  = $this->_getOptionsFormatted( $aOptions );
 
-        $this->deleteDir( $sDestinationDirPath );
-        $this->output(
-            'Deleting: ' . $sDestinationDirPath,
-            $aOptions
-        );  
-            
+        $_sTempDirPath = $this->createTempDir();
+        if ( ! $_sTempDirPath ) {
+            $this->output(
+                'Failed to create a temporary directory: ' . $sSourceDirPath,
+                $aOptions
+            );           
+            return;                        
+        }
+        
         $_bSuccess = $this->xcopy(
             $sSourceDirPath, 
-            $sDestinationDirPath, 
+            $_sTempDirPath, 
             0755,
             $aOptions[ 'search' ]
         );
@@ -131,10 +153,11 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $aOptions
         );
         
-        // Store the file contents into an array. 
-        $_aFiles = $this->_getFileLists( 
-            $sDestinationDirPath, 
-            $aOptions['search']
+        $_aFiles = $this->_formatFileArray(
+            $this->_getFileLists( 
+                $_sTempDirPath, 
+                $aOptions[ 'search' ]
+            )
         );
         $this->output(
             sprintf( 'Found %1$s file(s)', count( $_aFiles ) ),
@@ -142,52 +165,364 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         );
  
         // Generate the output script header comment.
-        $aOptions['header_comment'] = trim( $this->_getHeaderComment( $_aFiles, $aOptions ) );
+        $aOptions[ 'header_comment' ] = trim( $this->_getHeaderComment( array(), $aOptions ) );
+        $this->output( 'File Header', $aOptions );        
         $this->output(
-            $this->sHeaderComment,
+            $aOptions[ 'header_comment' ],
             $aOptions
         );
-     
+        
+        // Retrieve file contents.
+  
+        // Combine files.
+        $_aFiles = $this->_getCombinedFiles( $_aFiles, $aOptions );
+        
         // Apply the beautifier 
-        $this->beautify( $_aFiles, $aOptions );     
+        $_aFiles = $this->_getBeautifiedFiles( $_aFiles, $aOptions );
+   
+        $this->_createFiles( 
+            $_aFiles,               // parsing files
+            $_sTempDirPath,         // temporary directory path
+            $sDestinationDirPath,   // destination directory path
+            $aOptions 
+        );
         
     }
-        /**
-         * Echoes the passed string.
-         * 
-         * @since       1.0.0
-         * @return      void
-         */
-        // protected function output( $sText, array $aOptions ) {
-            // if ( ! $aOptions['output_buffer'] ) {
-                // return;
-            // }
-            // echo $sText . $aOptions['carriage_return'];
-        // }
         /**
          * Formats the given options array
          * @since       1.0.0
          * @return      array
          */
-        private function _formatOptions( array $aOptions ) {
-                
+        private function _getOptionsFormatted( array $aOptions ) {
             $aOptions                      = $aOptions + self::$_aStructure_Options;
             $aOptions[ 'search' ]          = $aOptions['search'] + self::$_aStructure_Options[ 'search' ];
             $aOptions[ 'search' ][ 'exclude_dir_paths' ] = $this->_formatPaths( $aOptions[ 'search' ][ 'exclude_dir_paths' ] );
             $aOptions[ 'carriage_return' ] = php_sapi_name() == 'cli' 
                 ? PHP_EOL 
                 : '<br />';
-                
-                
+            $aOptions[ 'combine' ]         = $aOptions[ 'combine' ] + self::$_aStructure_Options[ 'combine' ];
+            $aOptions[ 'combine' ][ 'exclude_classes' ] = is_array( $aOptions[ 'combine' ][ 'exclude_classes' ] )
+                ? $aOptions[ 'combine' ][ 'exclude_classes' ]
+                : array( $aOptions[ 'combine' ][ 'exclude_classes' ] );
             return $aOptions;
+        }    
+
+
+    /**
+     * @return      array
+     * @since       1.1.0
+     */
+    private function _getCombinedFiles( $aFiles, $aOptions ) {
+        
+        $_aCombineOptions = $aOptions[ 'combine' ];
+        if ( ! $_aCombineOptions[ 'inheritance' ] ) {
+            return $aFiles;
+        }
+        
+        $_aNew = array();
+        $_aClassNamesToRemove = array();
+        foreach( $aFiles as $_sClassName => $_aFile ) {
+            
+            $_sParentClassName = $_aFile[ 'dependency' ];
+            
+            // If it does not extend any, do nothing.
+            if ( empty( $_sParentClassName ) ) {
+                $_aNew[ $_sClassName ] = $_aFile;
+                continue;
+            }
+            // For parent classes which do not belong to the project,
+            if ( ! isset( $aFiles[ $_sParentClassName ] ) ) {
+                $_aNew[ $_sClassName ] = $_aFile;
+                continue;                
+            }
+            if ( in_array( $_sClassName, $_aCombineOptions[ 'exclude_classes' ] ) ) {
+                $_aNew[ $_sClassName ] = $_aFile;
+                continue;
+            }
+            // If it is a parent of another class, do nothing.
+            if ( $this->_isParent( $_sClassName, $aFiles, true, $_aCombineOptions[ 'exclude_classes' ] ) ) {
+                $_aNew[ $_sClassName ] = $_aFile;
+                continue;                                
+            }
+            
+            // At this point, the parsing item is the most extended class in the same directory.
+            
+            // Combine code
+            $_sThisCode = $_aFile[ 'code' ];
+            foreach( $this->_getAncestorClassNames( $_sClassName, $aFiles, true ) as $_sAnscestorClassName ) {
+                // Insert the parent code at the top of the code of the parsing file
+                $_sThisCode = $aFiles[ $_sAnscestorClassName ][ 'code' ] . ' ' . $_sThisCode;
+                unset( $aFiles[ $_sAnscestorClassName ] );
+                $_aClassNamesToRemove[] = $_sAnscestorClassName;
+            }
+            $_aFile[ 'code' ] = $_sThisCode;
+            
+            // Add it to the new array
+            $_aNew[ $_sClassName ] = $_aFile;
             
         }
+
+        // Remove combined items
+        foreach ( $_aClassNamesToRemove as $_sClassNameToRemove ) {
+            unset( $_aNew[ $_sClassNameToRemove ] );
+        }
+        
+        return $_aNew;
+        
+    }
+        /**
+         * Checks if there is a class extending the subject class in the project files.
+         * @since       1.1.0
+         * @return      boolean
+         */
+        private function _isParent( $sClassName, $aFiles, $bOnlyInTheSameDirectory=true, array $aExcludingClassNames=array() ) {
+            
+            $_sSubjectDirPath = dirname( $aFiles[ $sClassName ][ 'path' ] );
+            foreach( $aFiles as $_sClassName => $_aFile ) {
+    
+                if ( in_array( $_sClassName, $aExcludingClassNames ) ) {
+                    continue;
+                }
+            
+                if ( $bOnlyInTheSameDirectory && $_sSubjectDirPath !== dirname( $_aFile[ 'path' ] ) ) {
+                    continue;
+                }
+                
+                if ( $sClassName === $_aFile[ 'dependency' ] ) {
+                    return true;
+                }
+            }
+            return false;
+            
+        }
+        /**
+         * @remark      The closet ancestor (the direct parent) will come first and the farthest one goes the last in the array 
+         * The order is important as the their contents will be appended to the subject class code. And in some PHP versions,
+         * parent classes must be written before its child class; otherwise. it causes a fatal error.
+         * @since       1.1.0
+         * @return      array
+         */
+        private function _getAncestorClassNames( $sClassName, &$aFiles, $bOnlyInTheSameDirectory=true ) {
+            
+            $_aAncestors = array();
+            
+            $_sParentClass = isset( $aFiles[ $sClassName ] )
+                ? $aFiles[ $sClassName ][ 'dependency' ]
+                : '';
+            // Make sure the retrieved parent one also belongs to the project files.
+            $_sParentClass = isset( $aFiles[ $_sParentClass ] ) 
+                ? $_sParentClass
+                : '';
+            if ( ! $_sParentClass ) {
+                return $_aAncestors;
+            }
+            
+            // Add the parent class to the returining array.
+            if ( $bOnlyInTheSameDirectory ) {
+                $_sThisDirPath        = dirname( $aFiles[ $sClassName ][ 'path' ] );
+                $_sParentClassDirPath = dirname( $aFiles[ $_sParentClass ][ 'path' ] );
+                if ( $_sThisDirPath !== $_sParentClassDirPath ) {                    
+                    return $_aAncestors;
+                }
+            } 
+            
+            $_aAncestors[] = $_sParentClass;
+            
+            $_aAncestors = array_merge(
+                $_aAncestors,   // for numeric numeric items, the first parameter items will come first
+                $this->_getAncestorClassNames( $_sParentClass, $aFiles, $bOnlyInTheSameDirectory )
+            );
+            
+            return $_aAncestors;
+        }
+        
+    
+    /**
+     * @return      array
+     * @since       1.1.0
+     */
+    private function _getBeautifiedFiles( $aFiles, $aOptions ) {
+        
+        if ( ! $this->_isBeautifierSet( $aOptions ) ) {
+            return $aFiles;
+        }
+        
+        $_sCR = $aOptions[ 'carriage_return' ];
+        $aOptions[ 'carriage_return' ] = '';
+        $this->output( 'Beautifying PHP code.', $aOptions );
+        
+        $_aNew   = array();
+        $_iCount = 0;
+        foreach( $aFiles as $_sClassName => $_aFile  ) {
+            $_aFile[ 'code' ] = $this->_getBeautifiedCode( 
+                $_aFile[ 'code' ],
+                $aOptions[ 'header_comment' ]
+            );
+            $_aNew[ $_sClassName ] = $_aFile;
+            $this->output( '.', $aOptions );
+        }
+        $this->output( $_sCR, $aOptions );
+        return $_aNew;
+        
+    }
+        /**
+         * @return      boolean
+         */
+        private function _isBeautifierSet( $aOptions ) {
+        
+            if ( ! function_exists( 'token_get_all' ) ) {
+                $this->output(
+                    'Warning: The Tokenizer PHP extension needs to be installed to beautify PHP code.',
+                    $aOptions
+                );
+                return false;
+            }
+            
+            // Find Beautifier.php in ./library/PHP_Beautifier/ directory.
+            $_sBeautifierPath = $this->_getBeautifierPath( $aOptions );
+            if ( ! file_exists( $_sBeautifierPath ) ) {
+                $this->output(
+                    'Warning: The PHP_Beautifier needs to be placed in ./library/PHP_Beautifier directory.',
+                    $aOptions
+                );
+                return false;            
+            }
+            
+            // Perform beautification.
+            include_once( $_sBeautifierPath );        
+            return true;
+        
+        }
+        
+        /**
+         * Beautifies PHP code with the PHP_Beautify library.
+         * 
+         * @since       1.1.0
+         * @see         http://beautifyphp.sourceforge.net/docs/
+         * @see         http://beautifyphp.sourceforge.net/docs/PHP_Beautifier/tutorial_PHP_Beautifier.howtouse.script.pkg.html
+         */
+        private function _getBeautifiedCode( $sCode, $sHeaderComment='' ) {
+                        
+            // Set up a beautified object.
+            $_oBeautifier = new PHP_Beautifier(); 
+            $_oBeautifier->setIndentChar(' ');  
+            $_oBeautifier->setIndentNumber( 4 );
+            $_oBeautifier->setNewLine( "\n" );
+            
+            // PHP_Beautifier needs the beginning < ?php notation. The passed code is already formatted and the notation is removed.
+            $sCode = '<?php ' . trim( $sCode );  
+            $_oBeautifier->setInputString( $sCode );
+            $_oBeautifier->process();
+            
+            $sCode = $_oBeautifier->get();
+            
+            $sCode = trim( $sCode );    // remove trailing line-feed.
+            $sCode = preg_replace( 
+                '/^<\?php\s+?/', 
+                '<?php ' . PHP_EOL . $sHeaderComment . PHP_EOL,
+                $sCode 
+            ); // File comment header
+            return $sCode;
+            
+        }    
+        
+    /**
+     * Writes contents to files.
+     * @since       1.1.0
+     * @return      void
+     */
+    private function _createFiles( array $aFiles, $sTempDirPath, $sDestinationDirPath, array $aOptions ) {
+        
+        // Make sure to remove old files.
+        $this->deleteDir( $sDestinationDirPath );
+        $this->output(
+            'Deleting: ' . $sDestinationDirPath,
+            $aOptions
+        );  
+        
+        // Create files.
+        foreach( $aFiles as $_sClassName => $_aFile ) {
+            $this->_write( 
+                $this->_getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $_aFile[ 'path' ] ),
+                $_aFile[ 'code' ] 
+            );
+        }
+        
+        // Make sure to delete the used files.
+        $this->deleteDir( $sTempDirPath );
+        
+    }
+        /**
+         * @return      string
+         * @since       1.1.0
+         */
+        private function _getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $sFilePath ) {           
+            return $this->_getAbsolutePathFromRelative( 
+                $sDestinationDirPath, 
+                $this->_getRelativePath( $sTempDirPath, $sFilePath )
+            );
+        }
+            /**
+             * @since       1.1.0
+             */
+            private function _getAbsolutePathFromRelative( $sPrefix, $sRelativePath ) {
+                
+                // removes the heading ./ or .\ 
+                $sRelativePath  = preg_replace( "/^\.[\/\\\]/", '', $sRelativePath, 1 );    
+                
+                // APSPATH has a trailing slash.
+                return rtrim( $sPrefix, '/\\' ) . '/' . ltrim( $sRelativePath,'/\\' );    
+                
+            }        
+            /**
+             * Calculates the relative path from the given path.
+             * 
+             * This function is used to generate a template path.
+             * 
+             * @author            Gordon
+             * @see               http://stackoverflow.com/questions/2637945/getting-relative-path-from-absolute-path-in-php/2638272#2638272
+             */
+            private function _getRelativePath( $from, $to ) {
+                
+                // some compatibility fixes for Windows paths
+                $from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
+                $to   = is_dir($to)   ? rtrim($to, '\/') . '/'   : $to;
+                $from = str_replace('\\', '/', $from);
+                $to   = str_replace('\\', '/', $to);
+
+                $from     = explode('/', $from);
+                $to       = explode('/', $to);
+                $relPath  = $to;
+
+                foreach($from as $depth => $dir) {
+                    // find first non-matching dir
+                    if($dir === $to[$depth]) {
+                        // ignore this directory
+                        array_shift($relPath);
+                    } else {
+                        // get number of remaining dirs to $from
+                        $remaining = count($from) - $depth;
+                        if($remaining > 1) {
+                            // add traversals up to first matching dir
+                            $padLength = (count($relPath) + $remaining - 1) * -1;
+                            $relPath = array_pad($relPath, $padLength, '..');
+                            break;
+                        } else {
+                            $relPath[0] = './' . $relPath[0];
+                        }
+                    }
+                }
+                return implode('/', $relPath);
+                
+            }
+    
     /**
      * Beautifies the PHP code.
      * 
      * @since       1.0.0
+     * @deprecated
      */
-    public function beautify( array $aFiles, array $aOptions ) {
+  /*   public function beautify( array $aFiles, array $aOptions ) {
          
         if ( ! function_exists( 'token_get_all' ) ) {
             $this->output(
@@ -214,11 +549,11 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $aOptions
         );
         foreach( $aFiles as $_sFilePath ) {
-            $this->_beautifyPHPFile( $_sFilePath, $aOptions['header_comment'] );
+            $this->_beautifyPHPFile( $_sFilePath, $aOptions[ 'header_comment' ] );
         }
 
         
-    }   
+    }    */
     
         /**
          * Beautifies PHP code with the PHP_Beautify library.
@@ -226,8 +561,9 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
          * @since       1.0.0
          * @see         http://beautifyphp.sourceforge.net/docs/
          * @see         http://beautifyphp.sourceforge.net/docs/PHP_Beautifier/tutorial_PHP_Beautifier.howtouse.script.pkg.html
+         * @deprecated
          */
-        private function _beautifyPHPFile( $sFilePath, $sHeaderComment='' ) {
+     /*    private function _beautifyPHPFile( $sFilePath, $sHeaderComment='' ) {
                         
             // Create the instance
             $_oBeautifier = new PHP_Beautifier(); 
@@ -259,7 +595,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             
             return;
             
-        }
+        } */
             
             private function _write( $sFilePath, $sData ) {
                 
@@ -267,6 +603,16 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 if ( file_exists( $sFilePath ) ) {
                     unlink( $sFilePath );
                 }   
+                
+                // Make sure the parent directory exists.                
+                $_sDirPath = dirname( $sFilePath );
+                if ( ! is_dir( $_sDirPath ) ) {
+                    mkdir( 
+                        $_sDirPath,  
+                        0777,       // chmod
+                        true        // recursive
+                    );
+                }                
                 
                 // Write to a file.
                 file_put_contents( $sFilePath, $sData, FILE_APPEND | LOCK_EX );                
@@ -512,6 +858,27 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         }
     
     /**
+     * @return      the created directory path
+     * @since       1.1.0
+     */
+    public function createTempDir() {
+        
+        $_sTempFilePath = tempnam( sys_get_temp_dir(),'' );
+        
+        if ( file_exists( $_sTempFilePath ) ) { 
+            unlink( $_sTempFilePath );
+        }
+        
+        mkdir( $_sTempFilePath );
+        
+        if ( is_dir( $_sTempFilePath ) ) {
+            return $_sTempFilePath; 
+        }
+        return '';
+        
+    }
+    
+    /**
      * 
      * @since       1.0.0
      * @return      boolean     Returns TRUE on success or FALSE on failure. 
@@ -521,18 +888,18 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             return false;
             // throw new InvalidArgumentException("$dirPath must be a directory");
         }
-        if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+        if (substr( $dirPath, strlen( $dirPath ) - 1, 1 ) != '/') {
             $dirPath .= '/';
         }
-        $files = glob($dirPath . '*', GLOB_MARK);
-        foreach ($files as $file) {
-            if (is_dir($file)) {
-                self::deleteDir($file);
+        $files = glob( $dirPath . '*', GLOB_MARK );
+        foreach( $files as $file ) {
+            if ( is_dir( $file ) ) {
+                self::deleteDir( $file );
             } else {
-                unlink($file);
+                unlink( $file );
             }
         }
-        return rmdir($dirPath);
+        return @rmdir( $dirPath );
     }    
     
 }
