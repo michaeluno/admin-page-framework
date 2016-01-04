@@ -3,13 +3,14 @@
  * Beautify PHP files.
  *
  */
+$_nStart = microtime( true );
 
 /* Set necessary paths */
 $sTargetBaseDir              = dirname( dirname( dirname( __FILE__ ) ) );
 $sTargetDir                  = $sTargetBaseDir . '/development';
 $sDestinationDirectoryPath   = $sTargetBaseDir . '/library/apf';
 $sLicenseFileName            = 'LICENSE.txt';
-$sLicenseFilePath            = $sDestinationDirectoryPath . '/' . $sLicenseFileName;
+$sLicenseSourceFilePath      = $sTargetDir . '/' . $sLicenseFileName;
 $sHeaderClassName            = 'AdminPageFramework_BeautifiedVersionHeader';
 $sHeaderClassPath            = $sTargetDir . '/cli/AdminPageFramework_BeautifiedVersionHeader.php';
 
@@ -27,10 +28,10 @@ require( dirname( __FILE__ ) . '/class/PHP_Class_Files_Beautifier.php' );
 
 /* Check the permission to write. */
 if (  ! is_writable( dirname( $sDestinationDirectoryPath ) ) ) {
-    exit( sprintf( 'The permission denied. Make sure if the folder, %1$s, allows to modify/create a file.', dirname( $sDestinationDirectoryPath ) ) );
+    exit( sprintf( 'The permission denied. Make sure if the folder, %1$s, allows the script to modify/create a file.', dirname( $sDestinationDirectoryPath ) ) );
 }
 
-/* Create a minified version of the framework. */
+/* Create a beautified version of the framework. */
 echo 'Started...' . $sCarriageReturn;
 new PHP_Class_Files_Beautifier( 
     $sTargetDir, 
@@ -39,27 +40,34 @@ new PHP_Class_Files_Beautifier(
         'header_class_name'    => $sHeaderClassName,
         'header_class_path'    => $sHeaderClassPath,
         'output_buffer'        => true,
-        'header_type'        => 'CONSTANTS',    
-        'exclude_classes'    => array(
+        'header_type'          => 'CONSTANTS',    
+        'exclude_classes'      => array(
         ),
-        'search'            => array(
+        'search'               => array(
             'allowed_extensions'    => array( 'php' ),    // e.g. array( 'php', 'inc' )
-            // 'exclude_dir_paths'  =>    array( $sTargetBaseDir . '/include/class/admin' ),
+            // 'exclude_dir_paths'  => array( $sTargetBaseDir . '/include/class/admin' ),
             'exclude_dir_names'     => array( '_document', 'document', 'cli' ),
             'exclude_file_names'    => array(
                 'AdminPageFramework_InclusionClassFilesHeader.php',
                 'AdminPageFramework_MinifiedVersionHeader.php',
                 'AdminPageFramework_BeautifiedVersionHeader.php',            
             ),
-            'is_recursive'            =>    true,
+            'is_recursive'            => true,
         ),                
+        'combine'              => array(
+            'exclude_classes' => array( 'AdminPageFramework_Form_Meta' ),
+        ),
     )
 );
 
 // Copy the license text.
-@copy( $sLicenseFilePath, dirname( $sDestinationDirectoryPath ) . '/' . $sLicenseFileName );
+@copy( 
+    $sLicenseSourceFilePath,  // source
+    $sDestinationDirectoryPath . '/' . $sLicenseFileName     // destination
+);
 
 // Generate a inclusion class list.
 include( 'create-list-admin-page-framework-beautified-version.php' );
 
 echo 'Done!' . $sCarriageReturn;
+echo 'Elapsed Seconds: ' . ( microtime( true ) - $_nStart ) . $sCarriageReturn;

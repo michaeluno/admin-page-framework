@@ -22,11 +22,11 @@ if (
     ( file_exists( $sResultFilePath ) && ! is_writable( $sResultFilePath ) )
     || ! is_writable( dirname( $sResultFilePath ) )     
 ) {
-    exit( sprintf( 'The permission denied. Make sure if the folder, %1$s, allows to modify/create a file.', dirname( $sResultFilePath ) ) );
+    exit( sprintf( 'The permission denied. Make sure if the folder, %1$s, allows the script o modify/create a file.', dirname( $sResultFilePath ) ) );
 }
 
-/* Create a minified version of the framework. */
-echo 'Generating an lnclusion list.' . $sCarriageReturn;
+/* Create a include list. */
+echo 'Generating an inclusion list.' . $sCarriageReturn;
 new PHP_Class_Files_Inclusion_Script_Creator(
     $sTargetScanDir,
     array( $sTargetScanDir, ),     // scan directory paths
@@ -61,4 +61,4 @@ new PHP_Class_Files_Inclusion_Script_Creator(
         ),            
     )
 );
-echo 'An inclusion list has been sucessfully generated.' . $sCarriageReturn;
+echo 'An inclusion list has been successfully generated.' . $sCarriageReturn;

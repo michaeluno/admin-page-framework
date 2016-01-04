@@ -450,6 +450,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.7.9 =
+- Reduced the number of library files.
 - Fixed an issue that widget resources were loaded in pages that do not have widget forms.
 
 = 3.7.8 - 2015/12/31 =
