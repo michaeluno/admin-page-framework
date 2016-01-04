@@ -28,19 +28,20 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
      * @return      string|null     The found post type slug.
      */
     static public function getCurrentPostType() {
-                 
-        static $_sCurrentPostType;
-        
-        // Since the current page will be the same throughout the execution of the script, 
-        // once it's found, there is no need to find it again.
-        if ( $_sCurrentPostType ) { 
-            return $_sCurrentPostType; 
+                         
+        if ( isset( self::$_sCurrentPostType ) ) { 
+            return self::$_sCurrentPostType; 
         }
-        $_sCurrentPostType = self::_getCurrentPostType();
-        
-        return $_sCurrentPostType;
+        self::$_sCurrentPostType = self::_getCurrentPostType();
+        return self::$_sCurrentPostType;
         
     }
+        /**
+         * Since the current page will be the same throughout the execution of the script, 
+         * once it's found, there is no need to find it again.
+         */
+        static private $_sCurrentPostType;
+        
         /**
          * Attempts to retrieve the current admin post type
          * 
@@ -75,39 +76,40 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
              * @since       3.5.3
              */            
             static public function getPostTypeByTypeNow() {
-                if ( isset( $GLOBALS['typenow'] ) && $GLOBALS['typenow'] ) {
-                    return $GLOBALS['typenow'];
-                }                
+                if ( isset( $GLOBALS[ 'typenow' ] ) && $GLOBALS[ 'typenow' ] ) {
+                    return $GLOBALS[ 'typenow' ];
+                }
             }
             static public function getPostTypeByScreenObject() {
                 if ( 
-                    isset( $GLOBALS['current_screen']->post_type )
-                    && $GLOBALS['current_screen']->post_type 
+                    isset( $GLOBALS[ 'current_screen' ]->post_type )
+                    && $GLOBALS[ 'current_screen' ]->post_type 
                 ) {
-                    return $GLOBALS['current_screen']->post_type;
+                    return $GLOBALS[ 'current_screen' ]->post_type;
                 }    
             }         
             /**
              * Tries to find the post type from the URL query for type.
              */
             static public function getPostTypeByREQUEST() {
-                if ( isset( $_REQUEST['post_type'] ) ) {
-                    return sanitize_key( $_REQUEST['post_type'] );
+                if ( isset( $_REQUEST[ 'post_type' ] ) ) {
+                    return sanitize_key( $_REQUEST[ 'post_type' ] );
                 }
-                if ( isset( $_GET['post'] ) && $_GET['post'] ) {
+                if ( isset( $_GET[ 'post' ] ) && $_GET[ 'post' ] ) {
                     // It will perform a database query.
-                    return get_post_type( $_GET['post'] );
+                    return get_post_type( $_GET[ 'post' ] );
                 }                                
             }
+                
             /**
              * @remark      Checking with the global post object is not reliable because it gets modified when the `WP_Query::the_post()` method is performed.
              */
             static public function getPostTypeByPostObject() {
                 if ( 
-                    isset( $GLOBALS['post'], $GLOBALS['post']->post_type ) 
-                    && $GLOBALS['post']->post_type 
+                    isset( $GLOBALS[ 'post' ]->post_type ) 
+                    && $GLOBALS[ 'post' ]->post_type 
                 ) {
-                    return $GLOBALS['post']->post_type;
+                    return $GLOBALS[ 'post' ]->post_type;
                 }
             }            
             /**#@-*/
