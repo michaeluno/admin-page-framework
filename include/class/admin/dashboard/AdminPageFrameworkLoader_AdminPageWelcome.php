@@ -49,11 +49,11 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
             $_oOption = AdminPageFrameworkLoader_Option::getInstance();
             if ( ! $_oOption->get( 'welcomed' ) ) {                
                 $this->_setInitialOptions( $_oOption, AdminPageFrameworkLoader_Registry::VERSION );
-                $this->_gotToWelcomePage(); // will exit
+                $this->_goToWelcomePage(); // will exit
             }
             if ( $_oOption->hasUpgraded() ) {
                 $this->_setInitialOptions( $_oOption, $_oOption->get( 'version_saved' ) );
-                $this->_gotToWelcomePage(); // will exit
+                $this->_goToWelcomePage(); // will exit
             }            
             
         }
@@ -70,7 +70,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                 
             }
             
-        private function _gotToWelcomePage() {        
+        private function _goToWelcomePage() {        
             $_sWelcomePageURL = apply_filters(
                 AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_admin_welcome_redirect_url',
                 add_query_arg( 
