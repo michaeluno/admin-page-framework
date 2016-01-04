@@ -69,16 +69,6 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
                 return false;
             }
             
-            /**
-             * If a form object is not created, no need to show a form message.
-             * This prevents the script from querying database for a transient and inserting admin script unnecessarily.
-             * 
-             * This also prevents the actual message to be not displayed.
-             */
-            // if ( ! isset( $this->oFactory->oForm ) ) {
-                // return false;
-            // }
-            
             return true;
             
         }    
