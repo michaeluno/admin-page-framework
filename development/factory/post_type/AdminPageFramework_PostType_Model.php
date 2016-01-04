@@ -35,44 +35,50 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
          * Post type has front-tend components so should not be admin_init. Also "if ( is_admin() )" should not be used either.
          */
         add_action( "set_up_{$this->oProp->sClassName}", array( $this, '_replyToRegisterPostType' ), 999 );
-                                    
-        if ( $this->_isInThePage() ) :
-        
-            // For table columns
-            add_filter( "manage_{$this->oProp->sPostType}_posts_columns", array( $this, '_replyToSetColumnHeader' ) );
-            add_filter( "manage_edit-{$this->oProp->sPostType}_sortable_columns", array( $this, '_replyToSetSortableColumns' ) );
-            add_action( "manage_{$this->oProp->sPostType}_posts_custom_column", array( $this, '_replyToPrintColumnCell' ), 10, 2 );
-        
-            // Auto-save
-            add_action( 'admin_enqueue_scripts', array( $this, '_replyToDisableAutoSave' ) );     
-        
-            // Properties
-            // @todo Examine whether this property can be deprecated as it seems not to be used at the moment. 
-            // And accessing the message object and calling its method is expensive and shouold be done only in the post table page.
-            $this->oProp->aColumnHeaders = array(
-                'cb'        => '<input type="checkbox" />',     // Checkbox for bulk actions. 
-                'title'     => $this->oMsg->get( 'title' ),     // Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
-                'author'    => $this->oMsg->get( 'author' ),    // Post author.
-                // 'categories' => $this->oMsg->get( 'categories' ), // Categories the post belongs to. 
-                // 'tags' => $this->oMsg->get( 'tags' ),        // Tags for the post. 
-                'comments'  => '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
-                'date'      => $this->oMsg->get( 'date' ),      // The date and publish status of the post. 
-            );               
-        
-        endif;
         
         if ( $this->oProp->bIsAdmin ) {
-            $this->_setUpAdminHooks();
+            
+            add_action( 'current_screen', array( $this, '_replyToSetUpHooksForModel' ) );
+  
+            new AdminPageFramework_PostType_Model__FlushRewriteRules( $this );
+            
         }
                 
     }    
-        /**
-         * Sets up hooks for the admin area.
-         * @since       3.7.6
-         */
-        private function _setUpAdminHooks() {
-            new AdminPageFramework_PostType_Model__FlushRewriteRules( $this );            
-        }    
+    
+    /**
+     * Called when the current screen is determined.
+     * @callback    action      current_screen
+     * @since       3.7.9
+     */
+    public function _replyToSetUpHooksForModel( /* $oScreen */ ) {
+        
+        if ( ! $this->_isInThePage() ) {
+            return;
+        }
+        
+        // For table columns
+        add_filter( "manage_{$this->oProp->sPostType}_posts_columns", array( $this, '_replyToSetColumnHeader' ) );
+        add_filter( "manage_edit-{$this->oProp->sPostType}_sortable_columns", array( $this, '_replyToSetSortableColumns' ) );
+        add_action( "manage_{$this->oProp->sPostType}_posts_custom_column", array( $this, '_replyToPrintColumnCell' ), 10, 2 );
+    
+        // Auto-save
+        add_action( 'admin_enqueue_scripts', array( $this, '_replyToDisableAutoSave' ) );     
+    
+        // Properties
+        // @todo Examine whether this property can be deprecated as it seems not to be used at the moment. 
+        // And accessing the message object and calling its method is expensive and shouold be done only in the post table page.
+        $this->oProp->aColumnHeaders = array(
+            'cb'        => '<input type="checkbox" />',     // Checkbox for bulk actions. 
+            'title'     => $this->oMsg->get( 'title' ),     // Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
+            'author'    => $this->oMsg->get( 'author' ),    // Post author.
+            // 'categories' => $this->oMsg->get( 'categories' ), // Categories the post belongs to. 
+            // 'tags' => $this->oMsg->get( 'tags' ),        // Tags for the post. 
+            'comments'  => '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
+            'date'      => $this->oMsg->get( 'date' ),      // The date and publish status of the post. 
+        );
+        
+    }
     
     /**
      * Defines the sortable column items in the custom post listing table.

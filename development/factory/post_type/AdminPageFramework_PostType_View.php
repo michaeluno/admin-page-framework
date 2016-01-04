@@ -29,8 +29,13 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
     function __construct( $oProp ) {
         
         parent::__construct( $oProp );
-                        
-        if ( $this->_isInThePage() ) {     
+
+        if ( $this->oProp->bIsAdmin ) {
+            add_action( 'current_screen', array( $this, '_replyToSetUpHooksForView' ) );
+        }
+        
+        
+/*         if ( $this->_isInThePage() ) {     
     
             // Table filters
             add_action( 'restrict_manage_posts', array( $this, '_replyToAddAuthorTableFilter' ) );
@@ -48,18 +53,51 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             // Style
             add_action( 'admin_head', array( $this, '_replyToPrintStyle' ) );
             
-        }     
+        }     */ 
         
-        if ( $this->oProp->bIsAdmin ) {
             // 3.5.10+ Menu 
-            add_action( 'admin_menu', array( $this, '_replyToRemoveAddNewSidebarMenu' ) );
-        }
+        // if ( $this->oProp->bIsAdmin ) {
+            // add_action( 'admin_menu', array( $this, '_replyToRemoveAddNewSidebarMenu' ) );
+        // }
         
         // Front-end
         add_action( 'the_content', array( $this, '_replyToFilterPostTypeContent' ) );
         
     }
 
+    /**
+     * Called when the current screen is determined.
+     * @callback    action      current_screen
+     * @since       3.7.9
+     */
+    public function _replyToSetUpHooksForView( /* $oScreen */ ) {
+       
+        // 3.5.10+
+        add_action( 'admin_menu', array( $this, '_replyToRemoveAddNewSidebarMenu' ) );       
+        
+        
+        if ( ! $this->_isInThePage() ) {     
+            return;
+        }
+    
+        // Table filters
+        add_action( 'restrict_manage_posts', array( $this, '_replyToAddAuthorTableFilter' ) );
+        add_action( 'restrict_manage_posts', array( $this, '_replyToAddTaxonomyTableFilter' ) );
+        add_filter( 'parse_query', array( $this, '_replyToGetTableFilterQueryForTaxonomies' ) );
+        
+        // Add an warning icon to the tag unit type's action link.
+        add_filter( 
+            'post_row_actions',
+            array( $this, '_replyToModifyActionLinks' ), 
+            10, 
+            2 
+        );            
+        
+        // Style
+        add_action( 'admin_head', array( $this, '_replyToPrintStyle' ) );       
+        
+    }
+    
         /**
          * Removes the sidebar item of "Add New" if the 'show_menu_add_new' argument is set.
          * 
@@ -222,7 +260,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
         }
     }
     /**
-     * Returns a query object based on the taxonomies belongs to the post type.
+     * Returns a query object based on the taxonomies that belong to the post type.
      * 
      * @internal
      */
