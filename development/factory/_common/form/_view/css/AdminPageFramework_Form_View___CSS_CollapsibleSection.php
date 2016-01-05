@@ -84,7 +84,12 @@ class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFra
     content: '\\f140';
 }
 
-/* Collapsible Sections Content Block */            
+/** 
+ * Collapsible Sections Content Block 
+ * @todo ...-content-type-box may have been deprecated. So investigate whether it is not used anywhere and remove it in that case.
+ **/           
+.admin-page-framework-collapsible-sections-content.admin-page-framework-collapsible-content.accordion-section-content,
+.admin-page-framework-collapsible-section-content.admin-page-framework-collapsible-content.accordion-section-content,
 .admin-page-framework-collapsible-sections-content.admin-page-framework-collapsible-content-type-box, 
 .admin-page-framework-collapsible-section-content.admin-page-framework-collapsible-content-type-box
 {

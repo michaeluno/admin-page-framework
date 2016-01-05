@@ -453,6 +453,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Reduced the number of library files.
 - Fixed an issue with widgets that caused some overhead.
 - Fixed an issue that widget resources were loaded in pages that do not have widget forms.
+- Tweaked the style of collapsible form sections.
 - Changed the demo to be disabled when the loader plugin admin pages are disabled.
 
 = 3.7.8 - 2015/12/31 =
