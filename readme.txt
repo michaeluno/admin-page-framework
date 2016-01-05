@@ -449,7 +449,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.9 =
+= 3.7.9 - 2015/01/06 =
 - Reduced the number of library files.
 - Fixed an issue with widgets that caused some overhead.
 - Fixed an issue that widget resources were loaded in pages that do not have widget forms.
