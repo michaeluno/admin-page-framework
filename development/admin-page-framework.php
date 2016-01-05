@@ -136,7 +136,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
             trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is called too early. Perform <code>%2$s</code> earlier.', 'admin-page-framework' ), __METHOD__, 'setUp()' ), E_USER_WARNING );
             return self::VERSION;
         }
-        $_aMinifiedVesionSuffix = array(
+        $_aMinifiedVesionSuffix     = array(
             0 => '',
             1 => '.min',
         );
@@ -146,8 +146,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
         );
         return self::VERSION
             . $_aMinifiedVesionSuffix[ ( integer ) self::$bIsMinifiedVersion ]
-            . $_aDevelopmentVersionSuffix[ ( integer ) self::$bIsDevelopmentVersion ]
-        ;
+            . $_aDevelopmentVersionSuffix[ ( integer ) self::$bIsDevelopmentVersion ];
 
     }
 
@@ -160,8 +159,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
     static public function getInfo() {
         $_oReflection = new ReflectionClass( __CLASS__ );
         return $_oReflection->getConstants()
-            + $_oReflection->getStaticProperties()
-        ;
+            + $_oReflection->getStaticProperties();
     }
 
 }
@@ -218,7 +216,7 @@ final class AdminPageFramework_Bootstrap {
             }
             self::$_bLoaded = true;
 
-            // The minifier script will include this file ( but it does not include WordPress ) to use the reflection class to extract the docblock
+            // The minifier script will include this file (but it does not include WordPress) to use the reflection class to extract the doc-block.
             return defined( 'ABSPATH' );
 
         }
@@ -257,7 +255,7 @@ final class AdminPageFramework_Bootstrap {
              * 
              * This instantiation of a class below won't do anything in particular but just tells the spl autoloader to include those files 
              * so that the next time the program utilizing the framework tries to instantiate its class has a less nesting level of nested function calls,
-             * which reduces the change of getting the fatal error.
+             * which reduces the chance of getting the fatal error.
              */
             if ( extension_loaded( 'xdebug' ) ) {
                 new AdminPageFramework_Utility;
