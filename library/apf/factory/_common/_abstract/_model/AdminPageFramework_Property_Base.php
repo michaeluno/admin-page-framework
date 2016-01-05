@@ -43,8 +43,8 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         $this->oCaller = $oCaller;
         $this->sCallerPath = $sCallerPath;
         $this->sClassName = $sClassName;
-        $this->sCapability = $this->getAOrB(empty($sCapability), 'manage_options', $sCapability);
-        $this->sTextDomain = $this->getAOrB(empty($sTextDomain), 'admin-page-framework', $sTextDomain);
+        $this->sCapability = empty($sCapability) ? 'manage_options' : $sCapability;
+        $this->sTextDomain = empty($sTextDomain) ? 'admin-page-framework' : $sTextDomain;
         $this->sStructureType = $sStructureType;
         $this->sPageNow = $this->getPageNow();
         $this->bIsAdmin = is_admin();
@@ -58,8 +58,14 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         }
     }
     public function setFormProperties() {
-        $this->aFormArguments = array('caller_id' => $this->sClassName, 'structure_type' => $this->_sPropertyType, 'action_hook_form_registration' => $this->_sFormRegistrationHook,) + $this->aFormArguments;
-        $this->aFormCallbacks = array('is_in_the_page' => array($this->oCaller, '_replyToDetermineWhetherToProcessFormRegistration'), 'load_fieldset_resource' => array($this->oCaller, '_replyToFieldsetResourceRegistration'), 'is_fieldset_registration_allowed' => null, 'capability' => array($this->oCaller, '_replyToGetCapabilityForForm'), 'saved_data' => array($this->oCaller, '_replyToGetSavedFormData'), 'section_head_output' => array($this->oCaller, '_replyToGetSectionHeaderOutput'), 'fieldset_output' => array($this->oCaller, '_replyToGetFieldOutput'), 'sectionset_before_output' => array($this->oCaller, '_replyToFormatSectionsetDefinition'), 'fieldset_before_output' => array($this->oCaller, '_replyToFormatFieldsetDefinition'), 'fieldset_after_formatting' => array($this->oCaller, '_replyToModifyFieldsetDefinition'), 'fieldsets_after_formatting' => array($this->oCaller, '_replyToModifyFieldsetsDefinitions'), 'is_sectionset_visible' => array($this->oCaller, '_replyToDetermineSectionsetVisibility'), 'is_fieldset_visible' => array($this->oCaller, '_replyToDetermineFieldsetVisibility'), 'secitonsets_before_registration' => array($this->oCaller, '_replyToModifySectionsets'), 'fieldsets_before_registration' => array($this->oCaller, '_replyToModifyFieldsets'), 'handle_form_data' => array($this->oCaller, '_replyToHandleSubmittedFormData'), 'hfID' => array($this->oCaller, '_replyToGetInputID'), 'hfTagID' => array($this->oCaller, '_replyToGetInputTagIDAttribute'), 'hfName' => array($this->oCaller, '_replyToGetFieldNameAttribute'), 'hfNameFlat' => array($this->oCaller, '_replyToGetFlatFieldName'), 'hfInputName' => array($this->oCaller, '_replyToGetInputNameAttribute'), 'hfInputNameFlat' => array($this->oCaller, '_replyToGetFlatInputName'), 'hfClass' => array($this->oCaller, '_replyToGetInputClassAttribute'), 'hfSectionName' => array($this->oCaller, '_replyToGetSectionName'),) + $this->aFormCallbacks;
+        $this->aFormArguments = $this->getFormArguments();
+        $this->aFormCallbacks = $this->getFormCallbacks();
+    }
+    public function getFormArguments() {
+        return array('caller_id' => $this->sClassName, 'structure_type' => $this->_sPropertyType, 'action_hook_form_registration' => $this->_sFormRegistrationHook,) + $this->aFormArguments;
+    }
+    public function getFormCallbacks() {
+        return array('is_in_the_page' => array($this->oCaller, '_replyToDetermineWhetherToProcessFormRegistration'), 'load_fieldset_resource' => array($this->oCaller, '_replyToFieldsetResourceRegistration'), 'is_fieldset_registration_allowed' => null, 'capability' => array($this->oCaller, '_replyToGetCapabilityForForm'), 'saved_data' => array($this->oCaller, '_replyToGetSavedFormData'), 'section_head_output' => array($this->oCaller, '_replyToGetSectionHeaderOutput'), 'fieldset_output' => array($this->oCaller, '_replyToGetFieldOutput'), 'sectionset_before_output' => array($this->oCaller, '_replyToFormatSectionsetDefinition'), 'fieldset_before_output' => array($this->oCaller, '_replyToFormatFieldsetDefinition'), 'fieldset_after_formatting' => array($this->oCaller, '_replyToModifyFieldsetDefinition'), 'fieldsets_after_formatting' => array($this->oCaller, '_replyToModifyFieldsetsDefinitions'), 'is_sectionset_visible' => array($this->oCaller, '_replyToDetermineSectionsetVisibility'), 'is_fieldset_visible' => array($this->oCaller, '_replyToDetermineFieldsetVisibility'), 'secitonsets_before_registration' => array($this->oCaller, '_replyToModifySectionsets'), 'fieldsets_before_registration' => array($this->oCaller, '_replyToModifyFieldsets'), 'handle_form_data' => array($this->oCaller, '_replyToHandleSubmittedFormData'), 'hfID' => array($this->oCaller, '_replyToGetInputID'), 'hfTagID' => array($this->oCaller, '_replyToGetInputTagIDAttribute'), 'hfName' => array($this->oCaller, '_replyToGetFieldNameAttribute'), 'hfNameFlat' => array($this->oCaller, '_replyToGetFlatFieldName'), 'hfInputName' => array($this->oCaller, '_replyToGetInputNameAttribute'), 'hfInputNameFlat' => array($this->oCaller, '_replyToGetFlatInputName'), 'hfClass' => array($this->oCaller, '_replyToGetInputClassAttribute'), 'hfSectionName' => array($this->oCaller, '_replyToGetSectionName'),) + $this->aFormCallbacks;
     }
     public function _getCallerObject() {
         return $this->oCaller;

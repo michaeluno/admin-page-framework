@@ -11,6 +11,9 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
         if ($this->isDoingAjax()) {
             return;
         }
+        if ($this->hasBeenCalled('resource_' . $oForm->aArguments['caller_id'])) {
+            return;
+        }
         $this->_setHooks();
     }
     private function _setHooks() {

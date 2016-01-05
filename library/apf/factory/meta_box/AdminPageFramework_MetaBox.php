@@ -6,12 +6,8 @@
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Factory {
     public function __construct($sMetaBoxID, $sTitle, $asPostTypeOrScreenID = array('post'), $sContext = 'normal', $sPriority = 'default', $sCapability = 'edit_posts', $sTextDomain = 'admin-page-framework') {
-        if (empty($asPostTypeOrScreenID)) {
-            return;
-        }
-        $_sClassName = get_class($this);
-        parent::__construct(isset($this->oProp) ? $this->oProp : new AdminPageFramework_Property_MetaBox($this, $_sClassName, $sCapability));
-        $this->oProp->sMetaBoxID = $sMetaBoxID ? $this->oUtil->sanitizeSlug($sMetaBoxID) : strtolower($_sClassName);
+        parent::__construct($this->oProp);
+        $this->oProp->sMetaBoxID = $sMetaBoxID ? $this->oUtil->sanitizeSlug($sMetaBoxID) : strtolower($this->oProp->sClassName);
         $this->oProp->sTitle = $sTitle;
         $this->oProp->sContext = $sContext;
         $this->oProp->sPriority = $sPriority;
@@ -35,18 +31,23 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         return true;
     }
     public function _replyToDetermineToLoad() {
-        $_oScreen = get_current_screen();
         if (!$this->_isInThePage()) {
             return;
         }
         $this->oForm;
         $this->_setUp();
         $this->oUtil->addAndDoAction($this, "set_up_{$this->oProp->sClassName}", $this);
-        add_action('add_meta_boxes', array($this, '_replyToAddMetaBox'));
-        $this->_setUpValidationHooks($_oScreen);
     }
 }
 abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaBox_Router {
+    public function __construct($sMetaBoxID, $sTitle, $asPostTypeOrScreenID = array('post'), $sContext = 'normal', $sPriority = 'default', $sCapability = 'edit_posts', $sTextDomain = 'admin-page-framework') {
+        parent::__construct($sMetaBoxID, $sTitle, $asPostTypeOrScreenID, $sContext, $sPriority, $sCapability, $sTextDomain);
+        add_action('set_up_' . $this->oProp->sClassName, array($this, '_replyToSetUpHooks'));
+    }
+    public function _replyToSetUpHooks($oFactory) {
+        add_action('add_meta_boxes', array($this, '_replyToAddMetaBox'));
+        $this->_setUpValidationHooks(get_current_screen());
+    }
     protected function _setUpValidationHooks($oScreen) {
         if ('attachment' === $oScreen->post_type && in_array('attachment', $this->oProp->aPostTypes)) {
             add_filter('wp_insert_attachment_data', array($this, '_replyToFilterSavingData'), 10, 2);
@@ -146,8 +147,11 @@ abstract class AdminPageFramework_MetaBox_Controller extends AdminPageFramework_
 }
 abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Controller {
     static protected $_sStructureType = 'post_meta_box';
-    function __construct($sMetaBoxID, $sTitle, $asPostTypeOrScreenID = array('post'), $sContext = 'normal', $sPriority = 'default', $sCapability = 'edit_posts', $sTextDomain = 'admin-page-framework') {
+    public function __construct($sMetaBoxID, $sTitle, $asPostTypeOrScreenID = array('post'), $sContext = 'normal', $sPriority = 'default', $sCapability = 'edit_posts', $sTextDomain = 'admin-page-framework') {
         if (!$this->_isInstantiatable()) {
+            return;
+        }
+        if (empty($asPostTypeOrScreenID)) {
             return;
         }
         $this->oProp = new AdminPageFramework_Property_MetaBox($this, get_class($this), $sCapability, $sTextDomain, self::$_sStructureType);

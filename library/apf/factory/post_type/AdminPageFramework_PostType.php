@@ -22,19 +22,20 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
     function __construct($oProp) {
         parent::__construct($oProp);
         add_action("set_up_{$this->oProp->sClassName}", array($this, '_replyToRegisterPostType'), 999);
-        if ($this->_isInThePage()):
-            add_filter("manage_{$this->oProp->sPostType}_posts_columns", array($this, '_replyToSetColumnHeader'));
-            add_filter("manage_edit-{$this->oProp->sPostType}_sortable_columns", array($this, '_replyToSetSortableColumns'));
-            add_action("manage_{$this->oProp->sPostType}_posts_custom_column", array($this, '_replyToPrintColumnCell'), 10, 2);
-            add_action('admin_enqueue_scripts', array($this, '_replyToDisableAutoSave'));
-            $this->oProp->aColumnHeaders = array('cb' => '<input type="checkbox" />', 'title' => $this->oMsg->get('title'), 'author' => $this->oMsg->get('author'), 'comments' => '<div class="comment-grey-bubble"></div>', 'date' => $this->oMsg->get('date'),);
-        endif;
         if ($this->oProp->bIsAdmin) {
-            $this->_setUpAdminHooks();
+            add_action('current_screen', array($this, '_replyToSetUpHooksForModel'));
+            new AdminPageFramework_PostType_Model__FlushRewriteRules($this);
         }
     }
-    private function _setUpAdminHooks() {
-        new AdminPageFramework_PostType_Model__FlushRewriteRules($this);
+    public function _replyToSetUpHooksForModel() {
+        if (!$this->_isInThePage()) {
+            return;
+        }
+        add_filter("manage_{$this->oProp->sPostType}_posts_columns", array($this, '_replyToSetColumnHeader'));
+        add_filter("manage_edit-{$this->oProp->sPostType}_sortable_columns", array($this, '_replyToSetSortableColumns'));
+        add_action("manage_{$this->oProp->sPostType}_posts_custom_column", array($this, '_replyToPrintColumnCell'), 10, 2);
+        add_action('admin_enqueue_scripts', array($this, '_replyToDisableAutoSave'));
+        $this->oProp->aColumnHeaders = array('cb' => '<input type="checkbox" />', 'title' => $this->oMsg->get('title'), 'author' => $this->oMsg->get('author'), 'comments' => '<div class="comment-grey-bubble"></div>', 'date' => $this->oMsg->get('date'),);
     }
     public function _replyToSetSortableColumns($aColumns) {
         return $this->oUtil->getAsArray($this->oUtil->addAndApplyFilter($this, "sortable_columns_{$this->oProp->sPostType}", $aColumns));
@@ -86,17 +87,21 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
 abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostType_Model {
     function __construct($oProp) {
         parent::__construct($oProp);
-        if ($this->_isInThePage()) {
-            add_action('restrict_manage_posts', array($this, '_replyToAddAuthorTableFilter'));
-            add_action('restrict_manage_posts', array($this, '_replyToAddTaxonomyTableFilter'));
-            add_filter('parse_query', array($this, '_replyToGetTableFilterQueryForTaxonomies'));
-            add_filter('post_row_actions', array($this, '_replyToModifyActionLinks'), 10, 2);
-            add_action('admin_head', array($this, '_replyToPrintStyle'));
-        }
         if ($this->oProp->bIsAdmin) {
-            add_action('admin_menu', array($this, '_replyToRemoveAddNewSidebarMenu'));
+            add_action('current_screen', array($this, '_replyToSetUpHooksForView'));
         }
         add_action('the_content', array($this, '_replyToFilterPostTypeContent'));
+    }
+    public function _replyToSetUpHooksForView() {
+        add_action('admin_menu', array($this, '_replyToRemoveAddNewSidebarMenu'));
+        if (!$this->_isInThePage()) {
+            return;
+        }
+        add_action('restrict_manage_posts', array($this, '_replyToAddAuthorTableFilter'));
+        add_action('restrict_manage_posts', array($this, '_replyToAddTaxonomyTableFilter'));
+        add_filter('parse_query', array($this, '_replyToGetTableFilterQueryForTaxonomies'));
+        add_filter('post_row_actions', array($this, '_replyToModifyActionLinks'), 10, 2);
+        add_action('admin_head', array($this, '_replyToPrintStyle'));
     }
     public function _replyToRemoveAddNewSidebarMenu() {
         if ($this->oUtil->getElement($this->oProp->aPostTypeArgs, 'show_submenu_add_new', true)) {

@@ -5,18 +5,11 @@
 	<http://en.michaeluno.jp/admin-page-framework>
 	Copyright (c) 2013-2015, Michael Uno; Licensed under MIT <http://opensource.org/licenses/MIT> */
 abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Factory {
-    public function _isInThePage() {
-        return true;
-    }
 }
 abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget_Router {
     function __construct($oProp) {
         parent::__construct($oProp);
-        if (did_action('widgets_init')) {
-            add_action("set_up_{$this->oProp->sClassName}", array($this, '_replyToRegisterWidget'), 20);
-        } else {
-            add_action('widgets_init', array($this, '_replyToRegisterWidget'), 20);
-        }
+        $this->oUtil->registerAction("set_up_{$this->oProp->sClassName}", array($this, '_replyToRegisterWidget'));
         if ($this->oProp->bIsAdmin) {
             add_filter('validation_' . $this->oProp->sClassName, array($this, '_replyToSortInputs'), 1, 3);
         }
@@ -50,13 +43,7 @@ abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_
 abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_Widget_View {
     function __construct($oProp) {
         parent::__construct($oProp);
-        if ($this->_isInThePage()):
-            if (did_action('widgets_init')) {
-                $this->setup_pre();
-            } {
-                add_action('widgets_init', array($this, 'setup_pre'));
-            }
-        endif;
+        $this->oUtil->registerAction('widgets_init', array($this, 'setup_pre'));
     }
     public function setUp() {
     }
