@@ -55,7 +55,10 @@ new PHP_Class_Files_Beautifier(
             'is_recursive'            => true,
         ),                
         'combine'              => array(
-            'exclude_classes' => array( 'AdminPageFramework_Form_Meta' ),
+            'exclude_classes' => array( 
+                'AdminPageFramework_Form_Meta',
+                'AdminPageFramework_MetaBox_Page',
+            ),
         ),
     )
 );
