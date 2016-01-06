@@ -94,9 +94,7 @@ For more details, see the **Getting Started** (`Dashboard` -> `Admin Page Framew
 <?php
 /* Plugin Name: Admin Page Framework - Getting Started */ 
 
-if ( ! class_exists( 'AdminPageFramework' ) ) {
-    include( dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php' );
-}
+include( dirname( __FILE__ ) . '/library/apf/admin-page-framework.php' );
     
 class APF extends AdminPageFramework {
 
@@ -138,9 +136,7 @@ new APF;
 <?php
 /* Plugin Name: Admin Page Framework - My First Form */ 
 
-if ( ! class_exists( 'AdminPageFramework' ) ) {
-    include( dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php' );
-}
+include( dirname( __FILE__ ) . '/library/apf/admin-page-framework.php' );
     
 class APF_MyFirstFrom extends AdminPageFramework {
 
@@ -241,7 +237,7 @@ The core files are in the `development` directory.
 1. Make sure the constant `WP_DEBUG` is set to `true` in the `wp-config.php` file of your development site. If this is `false`, the loader plugin will load the complied files in the `library` directory.
 2. Modify the core files and make sure your changes take effect. 
 3. If you add class files, make sure to run `run.sh` in `tool/inclusion_class_list` to generate inclusion file lists.
-4. After all the modifications are done, run `php-class-files-beautifier.sh` in `tool/beautifier` to compile the files.
+4. After all the modifications are done, run `run.sh` in `tool/beautifier` to compile the files.
 
 ## Bugs ##
 If you find an issue, let us know [here](https://github.com/michaeluno/admin-page-framework/issues)!
