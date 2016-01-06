@@ -32,7 +32,6 @@ class APF_Demo_Contact_Tab_Report {
             array(
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Report', 'admin-page-framework-loader' ),
-                'order'         => 20,
             )
         );  
         

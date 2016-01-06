@@ -45,7 +45,7 @@ class APF_Demo_Contact {
                 'page_slug'     => $this->sPageSlug,
                 'screen_icon'   => 'page',
                 'capability'    => 'manage_options',
-                'order'         => 30,
+                'order'         => 60,
             )
         );
 
@@ -86,16 +86,9 @@ class APF_Demo_Contact {
      */
     public function replyToLoadPage( $oFactory ) {   
         
-        new APF_Demo_Contact_Tab_Report( $oFactory, $this->sPageSlug );
         new APF_Demo_Contact_Tab_Feedback( $oFactory, $this->sPageSlug );
+        new APF_Demo_Contact_Tab_Report( $oFactory, $this->sPageSlug );
 
     }
     
 }
-
-new APF_Demo_Contact(
-    '',                         // passing an empty string will disable the form data to be saved.
-    AdminPageFrameworkLoader_Registry::$sFilePath,               // the caller script path.
-    'read',                     // the default capability
-    'admin-page-framework-loader' // the text domain        
-);   
