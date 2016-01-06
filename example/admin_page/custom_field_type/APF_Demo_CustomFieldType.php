@@ -48,28 +48,25 @@ class APF_Demo_CustomFieldType {
         
         // Tabs
         new APF_Demo_CustomFieldType_ACE(
-            $this->oFactory,    // factory object
-            $this->sPageSlug,   // page slug
-            'ace'       // tab slug 
+            $oFactory,    // factory object
+            $this->sPageSlug   // page slug
         );   
         new APF_Demo_CustomFieldType_Sample(
-            $this->oFactory,    // factory object
-            $this->sPageSlug,   // page slug
-            'sample'       // tab slug             
+            $oFactory,    // factory object
+            $this->sPageSlug   // page slug
         );
         new APF_Demo_CustomFieldType_GitHub(
-            $this->oFactory,    // factory object
-            $this->sPageSlug,   // page slug
-            'github'       // tab slug                         
+            $oFactory,    // factory object
+            $this->sPageSlug   // page slug
         );
         
         // Add a link
-        $this->oFactory->addInPageTabs(    
+        $oFactory->addInPageTabs(    
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => 'more',
                 'title'         => __( 'More', 'admin-page-framework-loader' ),
-                'url'           => 'http://en.michaeluno.jp/admin-page-framwork/field-type-pack',
+                'url'           => 'http://admin-page-framework.michaeluno.jp/add-ons/field-type-pack/',
                 'order'         => 999,
             )
         );  

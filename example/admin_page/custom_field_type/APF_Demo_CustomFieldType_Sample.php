@@ -16,20 +16,21 @@
  */
 class APF_Demo_CustomFieldType_Sample {
 
-    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
+    public $oFactory;
+    
+    public $sClassName;
+    
+    public $sPageSlug;
+    
+    public $sTabSlug = 'sample';
+
+    public function __construct( $oFactory, $sPageSlug ) {
     
         $this->oFactory     = $oFactory;
         $this->sClassName   = $oFactory->oProp->sClassName;
         $this->sPageSlug    = $sPageSlug; 
-        $this->sTabSlug     = $sTabSlug;
         $this->sSectionID   = $this->sTabSlug;
-                
-        $this->_addTab();
-    
-    }
-    
-    private function _addTab() {
-        
+                        
         $this->oFactory->addInPageTabs(    
             $this->sPageSlug, // target page slug
             array(
@@ -44,10 +45,11 @@ class APF_Demo_CustomFieldType_Sample {
     }
     
     /**
-     * Triggered when the tab is loaded.
+     * Triggered when the tab starts loading.
+     * 
+     * @callback        action      load_{page slug}_{tab slug}
      */
     public function replyToLoadTab( $oAdminPage ) {
-        
         
         $this->registerFieldTypes( $this->sClassName );
         

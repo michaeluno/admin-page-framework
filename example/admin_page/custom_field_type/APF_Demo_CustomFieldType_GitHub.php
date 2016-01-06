@@ -16,19 +16,19 @@
  */
 class APF_Demo_CustomFieldType_GitHub {
 
-    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
+    public $oFactory;
+    
+    public $sPageSlug;
+    
+    public $sTabSlug = 'github';
+
+    public function __construct( $oFactory, $sPageSlug ) {
     
         $this->oFactory     = $oFactory;
         $this->sClassName   = $oFactory->oProp->sClassName;
         $this->sPageSlug    = $sPageSlug; 
-        $this->sTabSlug     = $sTabSlug;
         $this->sSectionID   = $this->sTabSlug;
                 
-        $this->_addTab();
-    
-    }
-    
-    private function _addTab() {
         
         $this->oFactory->addInPageTabs(    
             $this->sPageSlug, // target page slug
@@ -51,6 +51,8 @@ class APF_Demo_CustomFieldType_GitHub {
         
     /**
      * Triggered when the tab is loaded.
+     * 
+     * @callback        action      load_{page slug}_{tab slug}
      */
     public function replyToLoadTab( $oAdminPage ) {
         

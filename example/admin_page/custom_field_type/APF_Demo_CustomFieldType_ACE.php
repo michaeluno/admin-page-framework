@@ -15,21 +15,22 @@
  * @since       3.5.0    
  */
 class APF_Demo_CustomFieldType_ACE {
+    
+    public $oFactory;
+    
+    public $sClassName;
+    
+    public $sPageSlug;
 
-    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
+    public $sTabSlug = 'ace';
+
+    public function __construct( $oFactory, $sPageSlug ) {
     
         $this->oFactory     = $oFactory;
         $this->sClassName   = $oFactory->oProp->sClassName;
         $this->sPageSlug    = $sPageSlug; 
-        $this->sTabSlug     = $sTabSlug;
         $this->sSectionID   = $this->sTabSlug;
                
-        $this->_addTab();
-    
-    }
-    
-    private function _addTab() {
-        
         $this->oFactory->addInPageTabs(    
             $this->sPageSlug, // target page slug
             array(
@@ -44,7 +45,9 @@ class APF_Demo_CustomFieldType_ACE {
     }
     
     /**
-     * Triggered when the tab is loaded.
+     * Triggered when the tab starts loading.
+     * 
+     * @callback        action      load_{page slug}_{tab slug}
      */
     public function replyToLoadTab( $oAdminPage ) {
         
