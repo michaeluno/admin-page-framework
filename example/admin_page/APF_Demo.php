@@ -105,6 +105,7 @@ class APF_Demo extends AdminPageFramework {
             array(
                 'href'  => 'http://admin-page-framework.michaeluno.jp/en/v3/package-AdminPageFramework.AdminPage.html',
                 'title' => __( 'Documentation', 'admin-page-framework-loader' ),
+                'order' => 60,
             )
         );
         
