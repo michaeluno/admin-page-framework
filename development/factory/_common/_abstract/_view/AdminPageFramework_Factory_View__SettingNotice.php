@@ -42,7 +42,7 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
      * @since       3.7.0       Moved from `AdminPageFramework_Factory_View`.
      * @internal
      * @callback    action      network_admin_notices
-     * @callback    action      admin_notice
+     * @callback    action      admin_notices
      */
     public function _replyToPrintSettingNotice() {
             

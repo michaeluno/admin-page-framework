@@ -64,7 +64,7 @@ CSSRULES;
      * @since       3.3.1       Changed from `_replyToGetField()`.
      */
     protected function getField( $aField ) {
-        
+
         $_aOutput = array();
         foreach( ( array ) $aField[ 'label' ] as $_sKey => $_sLabel ) {
             $_aOutput[] = $this->_getFieldOutputByLabel( 
