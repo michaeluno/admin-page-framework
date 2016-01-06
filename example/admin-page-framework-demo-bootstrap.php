@@ -73,9 +73,7 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
             if ( ! is_admin() ) { 
                 return; 
             }
-           
-            // Example components
-            
+                      
             // Basic usage - admin page and page meta boxes
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/APF_BasicUsage.php' );
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Normal.php' );
