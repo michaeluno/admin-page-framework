@@ -71,6 +71,7 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
      */
     public function get() {
         
+        $_aFieldTypeDefinitions = array();
         foreach( self::$_aDefaultFieldTypeSlugs as $_sFieldTypeSlug ) {
             
             $_sFieldTypeClassName = "AdminPageFramework_FieldType_{$_sFieldTypeSlug}";
@@ -79,26 +80,17 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
             }
 
             $_oFieldType = new $_sFieldTypeClassName( 
-                $this->sCallerID, // usually an instantiated class name
-                null,             // field type slugs - if it is different from the one defined in the class property
+                $this->sCallerID,   // usually an instantiated class name
+                null,               // field type slugs - if it is different from the one defined in the class property
                 $this->oMsg, 
-                false             // `false` to disable auto-registering.     
+                false               // `false` to disable auto-registering.     
             );    
-            foreach( $_oFieldType->aFieldTypeSlugs as $_sSlug ) {
-                self::$_aFieldTypeDefinitions[ $_sSlug ] = isset( self::$_aFieldTypeDefinitions[ $_sSlug ] )
-                    ? self::$_aFieldTypeDefinitions[ $_sSlug ]
-                    : $_oFieldType->getDefinitionArray();
+            foreach( $_oFieldType->aFieldTypeSlugs as $_sSlug ) {     
+                $_aFieldTypeDefinitions[ $_sSlug ] = $_oFieldType->getDefinitionArray();
             }
         }
-        return self::$_aFieldTypeDefinitions;
+        return $_aFieldTypeDefinitions;
 
-    }   
-
-        /**
-         * Caches built-in field type definitions.
-         * 
-         * @since       3.7.9
-         */
-        static private $_aFieldTypeDefinitions = array();
+    }    
 
 }
