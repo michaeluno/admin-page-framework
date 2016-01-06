@@ -48,7 +48,7 @@ class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
      * 
      * @since       3.7.1
      * @since       3.7.2       Added the `$bTrimDevVer` parameter.
-     * @param       boolean     $bTrimDevVer           Whether the `.dev` suffix shuold be removed or not.
+     * @param       boolean     $bTrimDevVer           Whether the `.dev` suffix should be removed or not.
      * @return      string
      */
     static public function getFrameworkVersion( $bTrimDevVer=false ) {
@@ -59,7 +59,7 @@ class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
     }
     
     /**
-     * Return the framwork name.
+     * Return the framework name.
      * @since       3.7.1
      * @return      string
      */
