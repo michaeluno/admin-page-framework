@@ -96,7 +96,10 @@ class AdminPageFramework_Model__FormSubmission__Validator__Reset extends AdminPa
             $this->unsetDimensionalArrayElement( $aInputs, $_aDimensionalKeys );
           
             update_option( $this->oFactory->oProp->sOptionKey, $this->oFactory->oProp->aOptions );
-            $this->oFactory->setSettingNotice( $this->oFactory->oMsg->get( 'specified_option_been_deleted' ) );
+            $this->oFactory->setSettingNotice( 
+                $this->oFactory->oMsg->get( 'specified_option_been_deleted' ),
+                'updated'
+            );
         
             // the returned array will be saved.
             return $aInputs; 

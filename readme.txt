@@ -449,22 +449,23 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.9 - 2015/01/06 =
+= 3.7.9 =
 - Reduced the number of library files.
 - Fixed an issue with widgets that caused some overhead.
 - Fixed an issue that widget resources were loaded in pages that do not have widget forms.
 - Tweaked the style of collapsible form sections.
+- Changed the color of setting notices for resetting options with the `submit` field type from red to green.
 - Changed the demo to be disabled when the loader plugin admin pages are disabled.
 
 = 3.7.8 - 2015/12/31 =
-- Reduced the number of database queries used for forms.
+- Reduced the number of database queries used in framework forms.
 
 = 3.7.7 - 2015/12/30 =
 - Fixed an issue that the framework forms could not be displayed when some third-party plugins or themes have JavaScript errors.
 - Fixed a bug in a field object calling an undefined method.
 
 = 3.7.6.1 - 2015/12/23 =
-- Fixed a bug that debug log was generated.
+- Fixed a bug that debug log was generated, introduced in v3.7.6.
 - Fixed a bug that Generator could not generate some files, introduced in v3.7.6.
 
 = 3.7.6 - 2015/12/23 =

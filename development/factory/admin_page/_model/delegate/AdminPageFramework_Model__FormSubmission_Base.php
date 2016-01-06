@@ -94,7 +94,7 @@ abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFr
                 $this->oFactory->oMsg->get( 'option_cleared' ), 
                 $this->oFactory->oMsg->get( 'option_updated' ) 
             ),
-            $this->getAOrB( $bIsInputEmtpy, 'error', 'updated' ),
+            'updated',
             $this->oFactory->oProp->sOptionKey, // the id
             false // do not override
         );
