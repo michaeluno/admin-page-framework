@@ -35,7 +35,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
         add_action( 
             $sActionHook, 
             array( $this, '_replyToRegisterMenu' ), 
-            98      // this is below the value set in the `AdminPageFramework_Property_MetaBox_Page` class.
+            98      // this is below the value set in the `AdminPageFramework_Property_PageMetaBox` class.
         );
         
         add_action(

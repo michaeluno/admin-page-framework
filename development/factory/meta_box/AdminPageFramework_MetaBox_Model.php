@@ -35,6 +35,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
         );
         
         add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToSetUpHooks' ) );
+        add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToSetUpValidationHooks' ) );
         
     }    
     
@@ -46,38 +47,41 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * @internal
      */
     public function _replyToSetUpHooks( $oFactory ) {
+        
+        $this->oUtil->registerAction(
+            'add_meta_boxes',
+            array( $this, '_replyToAddMetaBox' )
+        );
                 
-        add_action( 'add_meta_boxes', array( $this, '_replyToAddMetaBox' ) );
-        
-        // For validation callbacks. Since this method is shared with the page-meta-box class, hooking the validation hooks should be done separately.
-        $this->_setUpValidationHooks( get_current_screen() );                
-        
     }
-        /**
-         * Sets up validation hooks.
-         * 
-         * @since       3.3.0
-         * @internal
-         */
-        protected function _setUpValidationHooks( $oScreen ) {
+    
+    /**
+     * Sets up validation hooks.
+     * 
+     * @since       3.3.0
+     * @since       3.7.9       Renamed from `_setUpValidationHooks`. Changed the scope to public from protected.
+     * @callback    action      set_up_{instantiated class name}
+     * @internal
+     */
+    public function _replyToSetUpValidationHooks( $oScreen ) {
 
-            if ( 'attachment' === $oScreen->post_type && in_array( 'attachment', $this->oProp->aPostTypes ) ) {
-                add_filter( 
-                    'wp_insert_attachment_data', 
-                    array( $this, '_replyToFilterSavingData' ), 
-                    10, 
-                    2 
-                );
-            } else {
-                add_filter( 
-                    'wp_insert_post_data', 
-                    array( $this, '_replyToFilterSavingData' ), 
-                    10, 
-                    2 
-                );
-            }
-        
-        }    
+        if ( 'attachment' === $oScreen->post_type && in_array( 'attachment', $this->oProp->aPostTypes ) ) {
+            add_filter( 
+                'wp_insert_attachment_data', 
+                array( $this, '_replyToFilterSavingData' ), 
+                10, 
+                2 
+            );
+        } else {
+            add_filter( 
+                'wp_insert_post_data', 
+                array( $this, '_replyToFilterSavingData' ), 
+                10, 
+                2 
+            );
+        }
+    
+    }    
     
     /**
      * A validation callback method.

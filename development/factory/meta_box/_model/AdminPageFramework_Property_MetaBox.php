@@ -152,22 +152,24 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
      * Stores the action hook name that gets triggered when the form registration is performed.
      * 'admin_page' and 'network_admin_page' will use a custom hook for it.
      * @since       3.7.0
-     * @access      pulbic      Called externally.
+     * @access      public      Called externally.
      */
     public $_sFormRegistrationHook = 'admin_enqueue_scripts';      
     
+    /**
+     * Calls the parent constructor by formatting the parameter values.
+     */
     public function __construct( $oCaller, $sClassName, $sCapability='edit_posts', $sTextDomain='admin-page-framework', $sStructureType='post_meta_box' ) {
         
-        // meta boxes don't need the caller script path.
         parent::__construct( 
-            $oCaller, 
-            null, 
-            $sClassName, 
-            $sCapability, 
-            $sTextDomain, 
-            $sStructureType 
+            $oCaller,           // caller object
+            null,               // caller script path - meta boxes don't need the caller script path.
+            $sClassName,        // class name
+            $sCapability,       // capability
+            $sTextDomain,       // text domain
+            $sStructureType     // structure type
         ); 
-            
+     
     }
     
     /**

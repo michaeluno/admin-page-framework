@@ -23,7 +23,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
      * This is used to create a property object as well as to define the form element structure.
      * 
      * @since       3.0.0
-     * @since       3.7.0      Changed the name from `$_sStructureType`.
+     * @since       3.7.0      Changed the name from `$_sPropertyType`.
      * @internal
      */
     static protected $_sStructureType = 'page_meta_box';
@@ -36,7 +36,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
     public function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     
                 
         // The property object needs to be done first before the parent constructor.
-        $this->oProp             = new AdminPageFramework_Property_MetaBox_Page( 
+        $this->oProp             = new AdminPageFramework_Property_PageMetaBox( 
             $this, 
             get_class( $this ), 
             $sCapability, 
@@ -49,7 +49,15 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
             ? array( $asPageSlugs ) 
             : $asPageSlugs; 
         
-        parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );
+        parent::__construct( 
+            $sMetaBoxID, 
+            $sTitle, 
+            $asPageSlugs, 
+            $sContext, 
+            $sPriority, 
+            $sCapability, 
+            $sTextDomain 
+        );
         
     }
     
@@ -74,16 +82,17 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
     /**
      * Sets up validation hooks.
      * 
-     * @internal
      * @since       3.3.0
-     * @return      void
+     * @since       3.7.9       Renamed from `_setUpValidationHooks`. Changed the scope to public from protected.
+     * @callback    action      set_up_{instantiated class name}
+     * @internal
      */
-    protected function _setUpValidationHooks( $oScreen ) {
+    public function _replyToSetUpValidationHooks( $oScreen ) {
 
         // Validation hooks
         foreach( $this->oProp->aPageSlugs as $_sIndexOrPageSlug => $_asTabArrayOrPageSlug ) {
             
-            if ( is_string( $_asTabArrayOrPageSlug ) ) {     
+            if ( is_scalar( $_asTabArrayOrPageSlug ) ) {
                 $_sPageSlug = $_asTabArrayOrPageSlug;
                 add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ), 10, 2 );  // 3.4.1+
                 add_filter( "validation_{$_sPageSlug}", array( $this, '_replyToValidateOptions' ), 10, 4 );
@@ -114,12 +123,12 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
      * @callback    action      add_meta_boxes
      */ 
     public function _replyToAddMetaBox( $sPageHook='' ) {
-        foreach( $this->oProp->aPageSlugs as $sKey => $_asPage ) {
+        foreach( $this->oProp->aPageSlugs as $_sKey => $_asPage ) {
             if ( is_string( $_asPage ) )  {
                 $this->_addMetaBox( $_asPage );
                 continue;
             }            
-            $this->_addMetaBoxes( $sKey, $_asPage );            
+            $this->_addMetaBoxes( $_sKey, $_asPage );
         }
     }    
         /**

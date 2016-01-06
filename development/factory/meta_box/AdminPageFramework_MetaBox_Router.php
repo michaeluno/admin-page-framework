@@ -103,7 +103,7 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         if ( ! $this->_isInThePage() ) { 
             return; 
         }
-                
+
         /**
          * Make sure a form object (`$this->oForm`) is instantiated.
          * If a form object has not been created, this will instantiate it by triggering `__get()`.
@@ -113,6 +113,7 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
          */
         $this->oForm;
                
+        // Calls `setUp()` and the user will set up the meta box.
         $this->_setUp();
         
         /**

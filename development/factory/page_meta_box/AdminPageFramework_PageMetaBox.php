@@ -65,7 +65,7 @@ abstract class AdminPageFramework_PageMetaBox extends AdminPageFramework_PageMet
      * @param       string          $sPriority      The priority, either `high`, `core`, `default` or `low`.
      * @param       string          $sCapability    The capability. See <a href="https://codex.wordpress.org/Roles_and_Capabilities" target="_blank">Roles and Capabilities</a>.
      */
-    function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
+    public function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
         
         if ( empty( $asPageSlugs ) ) { 
             return; 
@@ -75,7 +75,15 @@ abstract class AdminPageFramework_PageMetaBox extends AdminPageFramework_PageMet
             return; 
         }
                 
-        parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );
+        parent::__construct( 
+            $sMetaBoxID, 
+            $sTitle, 
+            $asPageSlugs, 
+            $sContext, 
+            $sPriority, 
+            $sCapability,
+            $sTextDomain 
+        );
                     
     }
                 

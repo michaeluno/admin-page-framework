@@ -12,13 +12,14 @@
  * 
  * This class stores various types of values. This is used to encapsulate properties so that it helps to avoid naming conflicts.
  * 
- * @since 3.0.0
- * @package AdminPageFramework
- * @subpackage Property
- * @extends AdminPageFramework_Property_Base
+ * @since       3.0.0
+ * @since       3.7.9       Renamed from `AdminPageFramework_Property_MetaBox_Page`.
+ * @package     AdminPageFramework
+ * @subpackage  PageMetaBox
+ * @extends     AdminPageFramework_Property_Base
  * @internal
  */
-class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Property_MetaBox {
+class AdminPageFramework_Property_PageMetaBox extends AdminPageFramework_Property_MetaBox {
 
     /**
      * Defines the property type.
@@ -53,14 +54,17 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
      */
     public $_sFormRegistrationHook = 'admin_enqueue_scripts';
     
-    function __construct( $oCaller, $sClassName, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sStructureType='page_meta_box' ) {     
+    /**
+     * Sets up hooks and properties.
+     */
+    public function __construct( $oCaller, $sClassName, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sStructureType='page_meta_box' ) {     
         
-        // this must be done after the menu class finishes building the menu with the _replyToBuildMenu() method.
-        add_action( 'admin_menu', array( $this, '_replyToSetUpProperties' ), 100 ); 
-        if ( is_network_admin() ) { 
-            add_action( 'network_admin_menu', array( $this, '_replyToSetUpProperties' ), 100 ); 
-        }     
-        
+        // Let them overload.
+        unset(
+            $this->oAdminPage,
+            $this->aHelpTabs
+        );
+
         parent::__construct( 
             $oCaller, 
             $sClassName, 
@@ -69,12 +73,10 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
             $sStructureType
         );
 
-        // 3.7.0+ 
-        // @deprecated      Moved to the declaration area.
-        // $this->_sFormRegistrationHook = 'admin_enqueue_scripts';
-
-        // Store the 'meta box for pages' class objects in the global storage. 
-        // These will be referred by the admin page class to determine if there are added meta boxes so that the screen option does not have to be set. 
+        /**
+         * Store the 'meta box for pages' class objects in the global storage. 
+         * These will be referred by the admin page class to determine if there are added meta boxes so that the screen option does not have to be set. 
+         */
         $GLOBALS[ 'aAdminPageFramework' ][ 'aMetaBoxForPagesClasses' ] = $this->getElementAsArray(
             $GLOBALS,
             array( 'aAdminPageFramework', 'aMetaBoxForPagesClasses' )
@@ -82,32 +84,8 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
         // The meta box class for pages needs to access the object.
         $GLOBALS[ 'aAdminPageFramework' ][ 'aMetaBoxForPagesClasses' ][ $sClassName ] = $oCaller; 
         
-    }     
-    
-    /**
-     * Determines the current page and sets the appropriate properties.
-     * @since       3.0.0
-     * @internal
-     */
-    public function _replyToSetUpProperties() {
-        
-        if ( ! isset( $_GET[ 'page' ] ) ) { 
-            return; 
-        }
-                
-        $this->oAdminPage = $this->_getOwnerObjectOfPage( $_GET[ 'page' ] );
-        if ( ! $this->oAdminPage ) { 
-            return; 
-        }
-        
-        $this->aHelpTabs = $this->oAdminPage->oProp->aHelpTabs; // the $this->oHelpPane object access it.
-        
-        $this->oAdminPage->oProp->bEnableForm = true; // enable the form tag
-        
-        // $this->aOptions = $this->oAdminPage->oProp->aOptions;
-        
-    }
-    
+    }         
+     
     /**
      * Retrusn the saved form options.
      * 
@@ -236,6 +214,7 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
      * 
      * @since       3.0.0
      * @since       3.4.1       Changed the name from `_getOwneerClass`.
+     * @return      object|null
      * @internal
      */
     private function _getOwnerObjectOfPage( $sPageSlug ) {
@@ -252,5 +231,33 @@ class AdminPageFramework_Property_MetaBox_Page extends AdminPageFramework_Proper
         return null;
         
     }
+ 
+    /**
+     * Called un-named property item is accessed.
+     * @since       3.7.9
+     */
+    public function __get( $sName ) {
+        
+        if ( 'oAdminPage' === $sName ) {
+
+            $this->oAdminPage = $this->_getOwnerObjectOfPage( $_GET[ 'page' ] );
+            
+            // Enable the form tag of the admin page that the meta box belongs to.
+            
+            // @todo This means the form is always get enabled if a page meta box is added. 
+            // So find a way not to enable the form if the user does not add a field.
+            $this->oAdminPage->oProp->bEnableForm = true;             
+
+            return $this->oAdminPage;
+        }
+        
+        if ( 'aHelpTabs' == $sName ) {
+            
+            $this->aHelpTabs = $this->oAdminPage->oProp->aHelpTabs; 
+            return $this->aHelpTabs;
+        }
+        return parent::__get( $sName );
+        
+    }    
     
 }
