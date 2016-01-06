@@ -40,7 +40,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
          * @return      string
          */
         private function _getTransientKey() {
-            return "apf_ntc_" . get_current_user_id();
+            return 'apf_ntc_' . get_current_user_id();
         }
     
     /**
@@ -55,7 +55,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
     public function hasNotice( $sType='' ) {
                 
         if ( ! $sType ) {
-            return ( bool ) count( self::$_aNotices );
+            return ( boolean ) count( self::$_aNotices );
         }
         
         // Check if there is a message of the type.
@@ -100,7 +100,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
      */
     public function set( $sMessage, $sType='error', $asAttributes=array(), $bOverride=true ) {
         
-        // If the array is empty, shecule the task of saving the array at shutdown.
+        // If the array is empty, schedule the task of saving the array at shutdown.
         if ( empty( self::$_aNotices ) ) {
             add_action( 'shutdown', array( $this, '_replyToSaveNotices' ) ); // the method is defined in the model class.
         }
