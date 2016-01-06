@@ -197,10 +197,10 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
     }        
         
     /**
-     * @callback    action      'current_screen' by default but it depends on the factory class.
+     * @callback    action      variant - 'current_screen' by default but it depends on the factory class.
      * @since       3.7.0s
      */
-    public function _replyToRegisterFormItems( /* $oScreen */ ) {
+    public function _replyToRegisterFormItems() {
 
         // Check if the form should be created or not.
         if ( ! $this->isInThePage() ) {
@@ -309,38 +309,18 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
          */
         private function _setFieldTypeDefinitions( $_sCallerID ) {
             
-            if ( ! $this->hasBeenCalled( __METHOD__ . $_sCallerID ) ) {
-                
-                $_oBuiltInFieldTypeDefinitions = new AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions(
-                    $_sCallerID,
-                    $this->oMsg                 
-                );
-                self::$_aFieldTypeDefinitions[ $_sCallerID ] = $_oBuiltInFieldTypeDefinitions->get();
-                
-            } 
-            
             if ( 'admin_page_framework' === $_sCallerID ) {
-                $this->_setSiteWideFieldTypeDefinitions();                
+                $this->_setSiteWideFieldTypeDefinitions();
             }
             
             // Set the class specific field type definitions.
             // Instantiated custom field type classes will trigger their registration method with this callback.
-            $this->_setPerClassFieldTypeDefinitions( $_sCallerID );                
-                        
+            $this->aFieldTypeDefinitions = apply_filters(
+                "field_types_{$_sCallerID}", 
+                self::$_aFieldTypeDefinitions[ 'admin_page_framework' ]
+            );                
+
         }        
-            /**
-             * Sets per-class field type defintions.
-             * @since       3.7.5
-             * @return      void
-             */
-            private function _setPerClassFieldTypeDefinitions( $_sCallerID ) {
-                                           
-                $this->aFieldTypeDefinitions = apply_filters(
-                    "field_types_{$_sCallerID}", 
-                    self::$_aFieldTypeDefinitions[ $_sCallerID ] + self::$_aFieldTypeDefinitions[ 'admin_page_framework' ]
-                );                
-                
-            }
         
             /**
              * Sets Side-wide field type definitions. 
@@ -350,19 +330,24 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
              * @since       3.7.1
              */
             private function _setSiteWideFieldTypeDefinitions() {
-                
+                        
                 // Using a unique caller slug to prevent multiple calls among different scripts. 
                 if ( $this->hasBeenCalled( '__filed_types_admin_page_framework' ) ) {
                     return;
                 }
-                
+            
+                $_oBuiltInFieldTypeDefinitions = new AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions(
+                    'admin_page_framework',
+                    $this->oMsg                 
+                );
+            
                 /**
                  * Collects field type definitions without a class name.
-                 * The gathered site-wide definitions will be marged with each per-class definitions.
+                 * The gathered site-wide definitions will be merged with each per-class definitions.
                  */
                 self::$_aFieldTypeDefinitions[ 'admin_page_framework' ] = apply_filters(
-                    "field_types_admin_page_framework",  
-                    self::$_aFieldTypeDefinitions[ 'admin_page_framework' ]
+                    'field_types_admin_page_framework',  
+                    $_oBuiltInFieldTypeDefinitions->get()
                 );
 
             }     

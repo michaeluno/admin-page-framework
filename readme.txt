@@ -451,6 +451,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 = 3.7.9 =
 - Reduced the number of library files.
+- Fixed a bug that site-side field type definitions were overridden by built-in field types of per-class field type definitions which caused some field types which override the built-in field type slug did not load, introduced in v3.7.1.
 - Fixed an issue with widgets that caused some overhead.
 - Fixed an issue that widget resources were loaded in pages that do not have widget forms.
 - Tweaked the style of collapsible form sections.
