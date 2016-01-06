@@ -39,7 +39,7 @@ class APF_Demo_ManageOptions {
                 'title'         => __( 'Manage Options', 'admin-page-framework-loader' ),
                 'page_slug'     => $this->_sPageSlug,
                 'screen_icon'   => 'link-manager',    
-                'order'         => 20,
+                'order'         => 40,
             )
         );     
 
