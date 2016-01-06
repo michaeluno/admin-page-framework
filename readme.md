@@ -268,7 +268,7 @@ If you like the library, please rate and review it in the [WordPress Plugin Dire
 
 ### Admin Page Framework (Framework Files)###
 Released under the [MIT license](./development/MIT-LICENSE.txt).
-Copyright © 2013-2015 Michael Uno
+Copyright © 2013-2016 Michael Uno
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -295,7 +295,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ### Admin Page Framework - Loader (WordPress Plugin) ###
 Released under the [GPL v2](./LICENSE.txt) or later.
-Copyright © 2013-2015 Michael Uno
+Copyright © 2013-2016 Michael Uno
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
