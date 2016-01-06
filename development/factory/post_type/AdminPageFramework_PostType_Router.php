@@ -42,7 +42,13 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
             return false;
         }
                 
-        return ( $this->oUtil->getCurrentPostType() == $this->oProp->sPostType );
+        // 3.7.9+  Limitation: If the `page` argument is set in the query url, 
+        // this factory will not be loaded to make the overall responses lighter.
+        if ( isset( $_GET[ 'page' ] ) ) {
+            return false;
+        }
+
+        return $this->oUtil->getCurrentPostType() === $this->oProp->sPostType;
 
     }
   
