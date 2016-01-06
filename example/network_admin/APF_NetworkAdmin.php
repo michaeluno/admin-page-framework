@@ -25,8 +25,8 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
         $this->setRootMenuPage( 'Admin Page Framework' ); // or $this->setRootMenuPageBySlug( 'sites.php' );    
                     
         // Pages
-        new APF_Demo_BuiltinFieldType( $this );
-        new APF_Demo_AdvancedUsage( $this );
+        new APF_Demo_BuiltinFieldType( $this->oProp->sClassName );
+        new APF_Demo_AdvancedUsage( $this->oProp->sClassName );
                     
         /* (optional) Determine the page style */
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
@@ -83,20 +83,6 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
         echo "<p>" . __( 'It is useful when you have a setting page that requires a proceeding page.', 'admin-page-framework-loader' ) . "</p>";
         $sLinkToGoBack = $this->oUtil->getQueryAdminURL( array( 'page' => 'apf_sample_page' ) );
         echo "<a href='{$sLinkToGoBack}'>" . __( 'Go Back', 'admin-page-framework-loader' ). "</a>";
-        
-    }
-    
-    /**
-     * 
-     * @callback        filter      validation_{instantiated class name}
-     */
-    public function validation_APF_NetworkAdmin( $aInput, $aOldOptions ) { 
-        
-        /* If the delete options button is pressed, return an empty array that will delete the entire options stored in the database. */
-        if ( isset( $_POST[ $this->oProp->sOptionKey ]['submit_buttons_confirm']['submit_delete_options_confirmation'] ) ) { 
-            return array();
-        }
-        return $aInput;
         
     }
                 

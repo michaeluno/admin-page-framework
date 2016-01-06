@@ -23,7 +23,9 @@ class APF_Demo_AdvancedUsage {
     /**
      * Adds a page item and sets up hooks.
      */
-    public function __construct() {
+    public function __construct( $sClassName='' ) {
+        
+        $this->_sClassName = $sClassName ? $sClassName : $this->_sClassName;
         
         add_action(
             'set_up_' . $this->_sClassName,
