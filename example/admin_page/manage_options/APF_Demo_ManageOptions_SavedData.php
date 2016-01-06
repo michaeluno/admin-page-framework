@@ -16,39 +16,41 @@
  */
 class APF_Demo_ManageOptions_SavedData {
 
-    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
+    private $_oFactory;
+    private $_sClassName;
+    private $_sPageSlug;
     
-        $this->oFactory     = $oFactory;
-        $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug; 
-        $this->sTabSlug     = $sTabSlug;
-        $this->sSectionID   = $this->sTabSlug;
+    private $_sTabSlug   = 'saved_data';
+    private $_sSectionID = 'saved_data';
+
+    /**
+     * Sets uo properties, hooks, and in-page tabs.
+     */    
+    public function __construct( $oFactory, $sPageSlug ) {
+    
+        $this->_oFactory     = $oFactory;
+        $this->_sClassName   = $oFactory->oProp->sClassName;
+        $this->_sPageSlug    = $sPageSlug; 
         
-        $this->_addTab();
-    
-    }
-    
-    private function _addTab() {
-        
-        $this->oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
+        $this->_oFactory->addInPageTabs(    
+            $this->_sPageSlug, // target page slug
             array(
-                'tab_slug'      => $this->sTabSlug,
+                'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Saved Data', 'admin-page-framework-loader' ),
             )
         );  
         
         // load + page slug + tab slug
-        add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
+        add_action( 'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug, array( $this, 'replyToLoadTab' ) );
   
     }
     
     /**
      * Triggered when the tab is loaded.
      */
-    public function replyToLoadTab( $oAdminPage ) {
+    public function replyToLoadTab( $oFactory ) {
         
-        add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
+        add_action( 'do_' . $this->_sPageSlug . '_' . $this->_sTabSlug, array( $this, 'replyToDoTab' ) );
 
     }
     
@@ -58,8 +60,8 @@ class APF_Demo_ManageOptions_SavedData {
         <h3><?php _e( 'Saved Data', 'admin-page-framework-loader' ); ?></h3>
         <p>
         <?php 
-            echo sprintf( __( 'To retrieve the saved option values simply you can use the WordPress <code>get_option()</code> function. The key is the instantiated class name by default unless it is specified in the constructor. In this demo plugin, <code>%1$s</code>, is used as the option key.', 'admin-page-framework-loader' ), $this->oFactory->oProp->sOptionKey );
-            echo ' ' . sprintf( __( 'It is stored in the <code>$this->oProp-sOptionKey</code> class property so you may access it directly to confirm the value. So the required code would be <code>get_option( %1$s );</code>.', 'admin-page-framework-loader' ), $this->oFactory->oProp->sOptionKey );
+            echo sprintf( __( 'To retrieve the saved option values simply you can use the WordPress <code>get_option()</code> function. The key is the instantiated class name by default unless it is specified in the constructor. In this demo plugin, <code>%1$s</code>, is used as the option key.', 'admin-page-framework-loader' ), $this->_oFactory->oProp->sOptionKey );
+            echo ' ' . sprintf( __( 'It is stored in the <code>$this->oProp-sOptionKey</code> class property so you may access it directly to confirm the value. So the required code would be <code>get_option( %1$s );</code>.', 'admin-page-framework-loader' ), $this->_oFactory->oProp->sOptionKey );
             echo ' ' . __( 'If you are retrieving them within the framework class, simply call <code>$this->oProp->aOptions</code>.', 'admin-page-framework-loader' );
         ?>
         </p>
@@ -73,7 +75,7 @@ class APF_Demo_ManageOptions_SavedData {
         ?>
         </p>
         <?php
-            echo $this->oFactory->oDebug->getArray( $this->oFactory->oProp->aOptions ); 
+            echo $this->_oFactory->oDebug->getArray( $this->_oFactory->oProp->aOptions ); 
         
     }
     

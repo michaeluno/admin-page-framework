@@ -180,30 +180,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                     __( 'If a field does not have a section, just set the field ID.', 'admin-page-framework-loader' ),
                     __( 'As an example, this reset button rests the first item of the Color section above.', 'admin-page-framework-loader' ),
                 ),
-            ),       
-
-            // Reset options with a check box
-            array( 
-                'field_id'          => 'reset_confirmation_check',
-                'title'             => __( 'Confirm Reset', 'admin-page-framework-loader' ),
-                'type'              => 'checkbox',
-                'label'             => __( 'I understand the options will be erased by pressing the reset button.', 'admin-page-framework-loader' ),
-                'skip_confirmation' => true,    // 3.7.6+
-                'save'              => false,
-                'value'             => false,
-            ),
-            array( 
-                'field_id'          => 'submit_skip_confirmation',
-                'type'              => 'submit',
-                'label'             => __( 'Reset', 'admin-page-framework-loader' ),
-                'reset'             => true,
-                'skip_confirmation' => true,    // 3.7.6+
-                'description'       => array(
-                    __( 'With the <code>skip_confirmation</code> argument, you can skip the confirmation.', 'admin-page-framework-loader' ),
-                    __( 'And use a checkbox to let the user perform the action by pressing the button only once.', 'admin-page-framework-loader' ),
-                ),
-            )
-            
+            )   
         );              
       
     }
@@ -215,19 +192,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
         
         $_bIsValid = true;
         $_aErrors  = array();
-        
-        // If the pressed button is not the one with the check box, do not set a field error.
-        if ( 'submit_skip_confirmation' !== $aSubmitInfo[ 'field_id' ] ) {
-            return $aInputs;
-        }
-
-        if ( ! $aInputs[ 'reset_confirmation_check' ] ) {
-            
-            $_bIsValid = false;
-            $_aErrors[ $this->sSectionID ][ 'reset_confirmation_check' ] = __( 'Please check the check box to confirm you want to reset the settings.', 'admin-page-framework-loader' );
-            
-        }
-        
+                
         if ( ! $_bIsValid ) {
         
             $oFactory->setFieldErrors( $_aErrors );     

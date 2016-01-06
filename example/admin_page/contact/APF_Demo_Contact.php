@@ -16,9 +16,9 @@
  */
 class APF_Demo_Contact {
 
-    public $sClassName = 'APF_Demo';
+    private $_sClassName = 'APF_Demo';
     
-    public $sPageSlug  = 'apf_contact';
+    private $_sPageSlug  = 'apf_contact';
 
     /**
      * Sets up hooks.
@@ -26,7 +26,7 @@ class APF_Demo_Contact {
     public function __construct() {
         
         add_action( 
-            'set_up_' . $this->sClassName,
+            'set_up_' . $this->_sClassName,
             array( $this, 'replyToSetUpPages' )
         );
 
@@ -42,41 +42,18 @@ class APF_Demo_Contact {
         $oFactory->addSubMenuItems(     
             array(
                 'title'         => __( 'Contact', 'admin-page-framework-loader' ),
-                'page_slug'     => $this->sPageSlug,
+                'page_slug'     => $this->_sPageSlug,
                 'screen_icon'   => 'page',
                 'capability'    => 'manage_options',
                 'order'         => 60,
             )
         );
-
+       
         add_action( 
-            'load_' . $this->sClassName,
-            array( $this, 'replyToLoadClass' )
-        );
-        
-        add_action( 
-            'load_' . $this->sPageSlug,
+            'load_' . $this->_sPageSlug,
             array( $this, 'replyToLoadPage' )
         );
         
-    }
-    
-    /**
-     * The pre-defined callback method triggered when one of the added pages loads
-     * 
-     * @callback        action      load_{instantiated class name}
-     */
-    public function replyToLoadClass( $oFactory ) { 
-
-        // disables the page heading tabs by passing false.
-        $oFactory->setPageHeadingTabsVisibility( false ); 
-        
-        // sets the tag used for in-page tabs.
-        $oFactory->setInPageTabTag( 'h2' ); 
-        
-        // disable the page title.
-        $oFactory->setPageTitleVisibility( false ); 
-
     }
     
     /**
@@ -86,8 +63,17 @@ class APF_Demo_Contact {
      */
     public function replyToLoadPage( $oFactory ) {   
         
-        new APF_Demo_Contact_Tab_Feedback( $oFactory, $this->sPageSlug );
-        new APF_Demo_Contact_Tab_Report( $oFactory, $this->sPageSlug );
+        // disables the page heading tabs by passing false.
+        $oFactory->setPageHeadingTabsVisibility( false ); 
+        
+        // sets the tag used for in-page tabs.
+        $oFactory->setInPageTabTag( 'h2' ); 
+        
+        // disable the page title.
+        $oFactory->setPageTitleVisibility( false ); 
+        
+        new APF_Demo_Contact_Tab_Feedback( $oFactory, $this->_sPageSlug );
+        new APF_Demo_Contact_Tab_Report( $oFactory, $this->_sPageSlug );
 
     }
     

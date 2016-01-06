@@ -16,12 +16,17 @@
  */
 class APF_Demo_HiddenPage {
     
+    private $_sClassName = 'APF_Demo';
+    
     /**
      * Sets up hooks.
      */
     public function __construct() {
         
-        add_action( "set_up_" . "APF_Demo", array( $this, 'replyToSetUpPages' ) );
+        add_action( 
+            'set_up_' . $this->_sClassName, 
+            array( $this, 'replyToSetUpPages' ) 
+        );
         
     }
     
@@ -30,10 +35,10 @@ class APF_Demo_HiddenPage {
      * 
      * @callback        action      set_up_{instantiated class name}
      */
-    public function replyToSetUpPages( $oAdminPage ) {    
+    public function replyToSetUpPages( $oFactory ) {    
     
         // ( required ) Add sub-menu items (pages or links) 
-        $oAdminPage->addSubMenuItems(     
+        $oFactory->addSubMenuItems(     
             array(
                 'title'         => __( 'Sample Page', 'admin-page-framework-loader' ),
                 'page_slug'     => 'apf_sample_page',
@@ -73,10 +78,10 @@ class APF_Demo_HiddenPage {
      * 
      * @callback        action      do_{page slug}
      */
-    public function replyToModifySamplePage( $oAdminPage ) {
+    public function replyToModifySamplePage( $oFactory ) {
         
         echo "<p>" . __( 'This is a sample page that has a link to a hidden page created by the framework.', 'admin-page-framework-loader' ) . "</p>";
-        $_sLinkToHiddenPage = esc_url( $oAdminPage->oUtil->getQueryAdminURL( array( 'page' => 'apf_hidden_page' ) ) );
+        $_sLinkToHiddenPage = esc_url( $oFactory->oUtil->getQueryAdminURL( array( 'page' => 'apf_hidden_page' ) ) );
         echo "<a href='{$_sLinkToHiddenPage}'>" . __( 'Go to Hidden Page', 'admin-page-framework-loader' ). "</a>";
     
     }
@@ -84,11 +89,11 @@ class APF_Demo_HiddenPage {
     /**
      * @callback        action      do_{page slug}
      */
-    public function replyToModifyHiddenPage( $oAdminPage ) {
+    public function replyToModifyHiddenPage( $oFactory ) {
         
         echo "<p>" . __( 'This is a hidden page.', 'admin-page-framework-loader' ) . "</p>";
         echo "<p>" . __( 'It is useful when you have a setting page that requires a proceeding page.', 'admin-page-framework-loader' ) . "</p>";
-        $_sLinkToGoBack = esc_url( $oAdminPage->oUtil->getQueryAdminURL( array( 'page' => 'apf_sample_page' ) ) );
+        $_sLinkToGoBack = esc_url( $oFactory->oUtil->getQueryAdminURL( array( 'page' => 'apf_sample_page' ) ) );
         echo "<a href='{$_sLinkToGoBack}'>" . __( 'Go Back', 'admin-page-framework-loader' ). "</a>";
         
     }    

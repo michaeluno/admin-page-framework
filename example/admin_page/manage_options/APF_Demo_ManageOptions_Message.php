@@ -16,39 +16,41 @@
  */
 class APF_Demo_ManageOptions_Message {
 
-    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
+    private $_oFactory;
+    private $_sClassName;
+    private $_sPageSlug;
     
-        $this->oFactory     = $oFactory;
-        $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug; 
-        $this->sTabSlug     = $sTabSlug;
-        $this->sSectionID   = $this->sTabSlug;
+    private $_sTabSlug   = 'messages';
+    private $_sSectionID = 'messages';
+
+    /**
+     * Sets uo properties, hooks, and in-page tabs.
+     */    
+    public function __construct( $oFactory, $sPageSlug ) {
+    
+        $this->_oFactory     = $oFactory;
+        $this->_sClassName   = $oFactory->oProp->sClassName;
+        $this->_sPageSlug    = $sPageSlug; 
         
-        $this->_addTab();
-    
-    }
-    
-    private function _addTab() {
-        
-        $this->oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
+        $this->_oFactory->addInPageTabs(    
+            $this->_sPageSlug, // target page slug
             array(
-                'tab_slug'      => $this->sTabSlug,
+                'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Messages', 'admin-page-framework-loader' ),
             )
         );  
         
         // load + page slug + tab slug
-        add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
+        add_action( 'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug, array( $this, 'replyToLoadTab' ) );
   
     }
     
     /**
      * Triggered when the tab is loaded.
      */
-    public function replyToLoadTab( $oAdminPage ) {
+    public function replyToLoadTab( $oFactory ) {
         
-        add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
+        add_action( 'do_' . $this->_sPageSlug . '_' . $this->_sTabSlug, array( $this, 'replyToDoTab' ) );
 
     }
     
@@ -61,12 +63,12 @@ class APF_Demo_ManageOptions_Message {
         </p>
         <h4><?php _e( 'Check the Original Message', 'admin-page-framework-loader' ); ?></h4>
         <pre class="dump-array"><code>$this-&gt;getMessage( 'option_updated' );</code></pre>
-        <?php $this->oFactory->oDebug->dump( $this->oFactory->getMessage( 'option_updated' ) ); ?>
+        <?php $this->_oFactory->oDebug->dump( $this->_oFactory->getMessage( 'option_updated' ) ); ?>
 
         <h4><?php _e( 'Modify a Message', 'admin-page-framework-loader' ); ?></h4>
         <pre class="dump-array"><code>$this-&gt;setMessage( 'option_updated', 'This is a modified message.' );</code></pre>
         <?php 
-            $this->oFactory->setMessage( 
+            $this->_oFactory->setMessage( 
                 'option_updated', 
                 __( 'This is a modified message', 'admin-page-framework-loader' ) 
             ); 
@@ -75,7 +77,7 @@ class APF_Demo_ManageOptions_Message {
         <h4><?php _e( 'List All the Messages', 'admin-page-framework-loader' ); ?></h4>
         <pre class="dump-array"><code>$this-&gt;getMessage();</code></pre>
         <?php
-        $this->oFactory->oDebug->dump( $this->oFactory->getMessage() );
+        $this->_oFactory->oDebug->dump( $this->_oFactory->getMessage() );
      
     }
     

@@ -16,39 +16,41 @@
  */
 class APF_Demo_ManageOptions_Property {
 
-    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
+    private $_oFactory;
+    private $_sClassName;
+    private $_sPageSlug;
     
-        $this->oFactory     = $oFactory;
-        $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug; 
-        $this->sTabSlug     = $sTabSlug;
-        $this->sSectionID   = $this->sTabSlug;
-        
-        $this->_addTab();
+    private $_sTabSlug   = 'properties';
+    private $_sSectionID = 'properties';
+
+    /**
+     * Sets uo properties, hooks, and in-page tabs.
+     */    
+    public function __construct( $oFactory, $sPageSlug ) {
     
-    }
-    
-    private function _addTab() {
-        
-        $this->oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
+        $this->_oFactory     = $oFactory;
+        $this->_sClassName   = $oFactory->oProp->sClassName;
+        $this->_sPageSlug    = $sPageSlug; 
+                
+        $this->_oFactory->addInPageTabs(    
+            $this->_sPageSlug, // target page slug
             array(
-                'tab_slug'      => $this->sTabSlug,
+                'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Properties', 'admin-page-framework-loader' ),
             )
         );  
         
         // load + page slug + tab slug
-        add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
+        add_action( 'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug, array( $this, 'replyToLoadTab' ) );
   
     }
     
     /**
      * Triggered when the tab is loaded.
      */
-    public function replyToLoadTab( $oAdminPage ) {
+    public function replyToLoadTab( $oFactory ) {
         
-        add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
+        add_action( 'do_' . $this->_sPageSlug . '_' . $this->_sTabSlug, array( $this, 'replyToDoTab' ) );
 
     }
     
@@ -59,7 +61,7 @@ class APF_Demo_ManageOptions_Property {
         <p><?php _e( 'These are the property values stored in the framework. Advanced users may change the property values by directly modifying the <code>$this->oProp</code> object.', 'admin-page-framework-loader' ); ?></p>
         <pre class="dump-array"><code>$this-&gt;oDebug-&gt;get( get_object_vars( $this-&gt;oProp ) );</code></pre>
         <?php
-            $this->oFactory->oDebug->dump( get_object_vars( $this->oFactory->oProp ) );   
+            $this->_oFactory->oDebug->dump( get_object_vars( $this->_oFactory->oProp ) );   
    
      
     }

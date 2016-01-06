@@ -94,6 +94,7 @@ class APF_Demo extends AdminPageFramework {
         new APF_Demo_AdvancedUsage( $this );
         new APF_Demo_CustomFieldType( $this );
  
+        new APF_Demo_ManageOptions;
         new APF_Demo_HiddenPage;
         new APF_Demo_Contact;
  

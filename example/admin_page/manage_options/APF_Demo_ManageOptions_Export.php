@@ -16,52 +16,54 @@
  */
 class APF_Demo_ManageOptions_Export {
 
-    public function __construct( $oFactory, $sPageSlug, $sTabSlug ) {
+    private $_oFactory;
+    private $_sClassName;
+    private $_sPageSlug;
     
-        $this->oFactory     = $oFactory;
-        $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug; 
-        $this->sTabSlug     = $sTabSlug;
-        $this->sSectionID   = $this->sTabSlug;
-        
-        $this->_addTab();
+    private $_sTabSlug   = 'export';
+    private $_sSectionID = 'export';
+
+    /**
+     * Sets uo properties, hooks, and in-page tabs.
+     */    
+    public function __construct( $oFactory, $sPageSlug ) {
     
-    }
-    
-    private function _addTab() {
-        
-        $this->oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
+        $this->_oFactory     = $oFactory;
+        $this->_sClassName   = $oFactory->oProp->sClassName;
+        $this->_sPageSlug    = $sPageSlug; 
+                
+        $this->_oFactory->addInPageTabs(    
+            $this->_sPageSlug, // target page slug
             array(
-                'tab_slug'      => $this->sTabSlug,
+                'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Export', 'admin-page-framework-loader' ),
             )
         );  
         
         // load + page slug + tab slug
-        add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
+        add_action( 'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug, array( $this, 'replyToLoadTab' ) );
   
     }
     
     /**
      * Triggered when the tab is loaded.
      */
-    public function replyToLoadTab( $oAdminPage ) {
+    public function replyToLoadTab( $oFactory ) {
         
-        add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
+        add_action( 'do_' . $this->_sPageSlug . '_' . $this->_sTabSlug, array( $this, 'replyToDoTab' ) );
 
-        $oAdminPage->addSettingSections(     
-            $this->sPageSlug,
+        $oFactory->addSettingSections(     
+            $this->_sPageSlug,
             array(
-                'section_id'    => $this->sSectionID,
-                'tab_slug'      => $this->sTabSlug,
+                'section_id'    => $this->_sSectionID,
+                'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Export Data', 'admin-page-frameowork-demo' ),
                 'description'   => __( 'After exporting the options, change and save new options and then import the file to see if the options get restored.', 'admin-page-framework-loader' ),
             ) 
         );   
 
-       $oAdminPage->addSettingFields(   
-            $this->sSectionID,  // target section id
+       $oFactory->addSettingFields(   
+            $this->_sSectionID,  // target section id
             array(
                 'field_id'      => 'export_format_type',     
                 'title'         => __( 'Export Format Type', 'admin-page-framework-loader' ),
@@ -116,10 +118,10 @@ class APF_Demo_ManageOptions_Export {
         );   
         
         // export_name_{instantiated class name}_{export section id}_{export field id}
-        add_filter( "export_name_{$this->oFactory->oProp->sClassName}_{$this->sSectionID}_export_single", array( $this, 'replyToModifyFileName' ), 10, 5 );
+        add_filter( "export_name_{$this->_oFactory->oProp->sClassName}_{$this->_sSectionID}_export_single", array( $this, 'replyToModifyFileName' ), 10, 5 );
         
         // export_format_{instantiated class name}_{export section id}_{export field id}
-        add_filter( "export_format_{$this->oFactory->oProp->sClassName}_{$this->sSectionID}_export_single", array( $this, 'replyToModifyFileType' ), 10, 2 );
+        add_filter( "export_format_{$this->_oFactory->oProp->sClassName}_{$this->_sSectionID}_export_single", array( $this, 'replyToModifyFileType' ), 10, 2 );
         
     }
     
@@ -132,11 +134,11 @@ class APF_Demo_ManageOptions_Export {
      * 
      * @remark      export_name_{instantiated class name}_{export section id}_{export field id}
      */
-    public function replyToModifyFileName( $sFileName, $sFieldID, $sInputID, $vData, $oAdminPage ) { 
+    public function replyToModifyFileName( $sFileName, $sFieldID, $sInputID, $vData, $oFactory ) { 
 
         // Change the exporting file name based on the selected format type in the other field.     
-        $sSelectedFormatType = isset( $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ]['export_format_type'] )
-            ? $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ]['export_format_type'] 
+        $sSelectedFormatType = isset( $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ]['export_format_type'] )
+            ? $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ]['export_format_type'] 
             : null;    
         $aFileNameParts = pathinfo( $sFileName );
         $sFileNameWOExt = $aFileNameParts['filename'];     
@@ -162,8 +164,8 @@ class APF_Demo_ManageOptions_Export {
     public function replyToModifyFileType( $sFormatType, $sFieldID ) { 
 
         // Set the internal formatting type based on the selected format type in the other field.
-        return isset( $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ]['export_format_type'] ) 
-            ? $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ]['export_format_type']
+        return isset( $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ]['export_format_type'] ) 
+            ? $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ]['export_format_type']
             : $sFormatType;
         
     }        

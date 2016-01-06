@@ -16,28 +16,28 @@
  */
 class APF_Demo_Contact_Tab_Feedback {
 
-    public $oFactory;
-    public $sPageSlug;
+    private $_oFactory;
+    private $_sPageSlug;
     
-    public $sTabSlug   = 'feedback';
-    public $sSectionID = 'feedback';
+    private $_sTabSlug   = 'feedback';
+    private $_sSectionID = 'feedback';
 
     public function __construct( $oFactory, $sPageSlug ) {
     
-        $this->oFactory     = $oFactory;
-        $this->sPageSlug    = $sPageSlug;
+        $this->_oFactory    = $oFactory;
+        $this->_sPageSlug   = $sPageSlug;
         
-        $this->oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
+        $this->_oFactory->addInPageTabs(    
+            $this->_sPageSlug, // target page slug
             array(
-                'tab_slug'      => $this->sTabSlug,
+                'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Feedback', 'admin-page-framework-loader' ),
             )
         );  
         
         // load + page slug + tab slug
         add_action( 
-            'load_' . $this->sPageSlug . '_' . $this->sTabSlug, 
+            'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug, 
             array( $this, 'replyToAddFormElements' ) 
         );
         
@@ -49,7 +49,7 @@ class APF_Demo_Contact_Tab_Feedback {
      * @return      void
      * @callback    action      load_{page slug}_{tab slug}
      */
-    public function replyToAddFormElements( $oAdminPage ) {
+    public function replyToAddFormElements( $oFactory ) {
         
         /*
          * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.
@@ -57,11 +57,11 @@ class APF_Demo_Contact_Tab_Feedback {
          * Use the addSettingSections() method to create sections and use the addSettingFields() method to create fields.
          */
         // Section
-        $oAdminPage->addSettingSections(    
-            $this->sPageSlug, // the target page slug                
+        $oFactory->addSettingSections(    
+            $this->_sPageSlug, // the target page slug                
             array(
-                'section_id'    => $this->sSectionID,       // avoid hyphen(dash), dots, and white spaces
-                'tab_slug'      => $this->sTabSlug,
+                'section_id'    => $this->_sSectionID,       // avoid hyphen(dash), dots, and white spaces
+                'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Feedback', 'admin-page-framework-loader' ),
                 'description'   => __( 'Tell the developer how you are using the framework.', 'admin-page-framework-loader' ), 
             )            
@@ -69,8 +69,8 @@ class APF_Demo_Contact_Tab_Feedback {
 
         $_oCurrentUser = wp_get_current_user();
         
-        $oAdminPage->addSettingFields(
-            $this->sSectionID, // the target section id
+        $oFactory->addSettingFields(
+            $this->_sSectionID, // the target section id
             array( 
                 'field_id'          => 'name',
                 'title'             => __( 'Your Name', 'admin-page-framework-loader' ),
@@ -158,13 +158,13 @@ class APF_Demo_Contact_Tab_Feedback {
                     // Each argument can accept a string or an array representing the dimensional array key.
                     // For example, if there is a field for the email title, and its section id is 'my_section'  and  the field id is 'my_field', pass an array, array( 'my_section', 'my_field' )
                     'to'          => 'admin-page-framework@michaeluno.jp',
-                    'subject'     => array( $this->sSectionID, 'subject' ),
-                    'message'     => array( $this->sSectionID ), // the section name enclosed in an array. If it is a field, set it to the second element like array( 'seciton id', 'field id' ).
+                    'subject'     => array( $this->_sSectionID, 'subject' ),
+                    'message'     => array( $this->_sSectionID ), // the section name enclosed in an array. If it is a field, set it to the second element like array( 'seciton id', 'field id' ).
                     'headers'     => '',
                     'attachments' => '',    // the file path
                     'is_html'     => true,  // boolean  Whether the mail should be sent as an html text
-                    'from'        => array( $this->sSectionID, 'from' ),
-                    'name'        => array( $this->sSectionID, 'name' ),
+                    'from'        => array( $this->_sSectionID, 'from' ),
+                    'name'        => array( $this->_sSectionID, 'name' ),
                 ),                
             )   
         );        

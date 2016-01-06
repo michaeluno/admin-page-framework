@@ -85,11 +85,9 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
             
             // Network admin pages
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/network_admin/APF_NetworkAdmin.php' );
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/network_admin/APF_NetworkAdmin_ManageOptions.php' );
            
             // Admin Pages
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin_page/APF_Demo.php' );
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin_page/APF_Demo_ManageOptions.php' );
 
         }
       

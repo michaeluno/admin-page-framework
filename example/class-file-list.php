@@ -2,7 +2,6 @@
 $_aClassFiles = array( 
 	"admin-page-framework-demo-bootstrap"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin-page-framework-demo-bootstrap.php", 
 	"APF_Demo"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/APF_Demo.php", 
-	"APF_Demo_ManageOptions"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/APF_Demo_ManageOptions.php", 
 	"APF_Demo_AdvancedUsage"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/APF_Demo_AdvancedUsage.php", 
 	"APF_Demo_AdvancedUsage_Argument"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/argument/APF_Demo_AdvancedUsage_Argument.php", 
 	"APF_Demo_AdvancedUsage_Argument_Capability"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/argument/APF_Demo_AdvancedUsage_Argument_Capability.php", 
@@ -62,6 +61,7 @@ $_aClassFiles = array(
 	"APF_Demo_CustomFieldType_GitHub"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/custom_field_type/APF_Demo_CustomFieldType_GitHub.php", 
 	"APF_Demo_CustomFieldType_Sample"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/custom_field_type/APF_Demo_CustomFieldType_Sample.php", 
 	"APF_Demo_HiddenPage"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/hidden_page/APF_Demo_HiddenPage.php", 
+	"APF_Demo_ManageOptions"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions.php", 
 	"APF_Demo_ManageOptions_Export"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_Export.php", 
 	"APF_Demo_ManageOptions_Import"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_Import.php", 
 	"APF_Demo_ManageOptions_Message"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_Message.php", 

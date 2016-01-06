@@ -13,31 +13,31 @@
  */
 class APF_Demo_Contact_Tab_Report {
 
-    public $oFactory;
-    public $sPageSlug;
+    private $_oFactory;
+    private $_sPageSlug;
     
-    public $sTabSlug   = 'report';
-    public $sSectionID = 'report';
+    private $_sTabSlug   = 'report';
+    private $_sSectionID = 'report';
 
     /**
      * Sets up hooks and properties.
      */
     public function __construct( $oFactory, $sPageSlug ) {
     
-        $this->oFactory     = $oFactory;
-        $this->sPageSlug    = $sPageSlug;
+        $this->_oFactory     = $oFactory;
+        $this->_sPageSlug    = $sPageSlug;
         
-        $this->oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
+        $this->_oFactory->addInPageTabs(    
+            $this->_sPageSlug, // target page slug
             array(
-                'tab_slug'      => $this->sTabSlug,
+                'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Report', 'admin-page-framework-loader' ),
             )
         );  
         
         // load + page slug + tab slug
         add_action( 
-            'load_' . $this->sPageSlug . '_' . $this->sTabSlug, 
+            'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug, 
             array( $this, 'replyToAddFormElements' ) 
         );
         
@@ -46,7 +46,7 @@ class APF_Demo_Contact_Tab_Report {
     /**
      * Triggered when the tab is loaded.
      */
-    public function replyToAddFormElements( $oAdminPage ) {
+    public function replyToAddFormElements( $oFactory ) {
         
         /*
          * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.
@@ -54,11 +54,11 @@ class APF_Demo_Contact_Tab_Report {
          * Use the addSettingSections() method to create sections and use the addSettingFields() method to create fields.
          */
         // Section
-        $oAdminPage->addSettingSections(    
-            $this->sPageSlug, // the target page slug                
+        $oFactory->addSettingSections(    
+            $this->_sPageSlug, // the target page slug                
             array(
-                'section_id'    => $this->sSectionID,       // avoid hyphen(dash), dots, and white spaces
-                'tab_slug'      => $this->sTabSlug,
+                'section_id'    => $this->_sSectionID,       // avoid hyphen(dash), dots, and white spaces
+                'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Report Issues', 'admin-page-framework-loader' ),
                 'description'   => __( 'If you find a bug, you can report it from here.', 'admin-page-framework-loader' ),
             )            
@@ -66,7 +66,7 @@ class APF_Demo_Contact_Tab_Report {
 
         $_oCurrentUser = wp_get_current_user();
         
-        $oAdminPage->addSettingFields(
+        $oFactory->addSettingFields(
             'report',
             array( 
                 'field_id'          => 'name',
@@ -192,7 +192,7 @@ class APF_Demo_Contact_Tab_Report {
         
         // validation + page slug + tab slug
         add_action( 
-            'validation_' . $this->sPageSlug . '_' . $this->sTabSlug, 
+            'validation_' . $this->_sPageSlug . '_' . $this->_sTabSlug, 
             array( $this, 'replyToValidateForm' ), 
             10, 
             4 
@@ -212,9 +212,9 @@ class APF_Demo_Contact_Tab_Report {
         $_bIsValid = true;
         $_aErrors  = array();
       
-        if ( ! $aInput[ $this->sSectionID ][ 'allow_sending_system_information' ] ) {
+        if ( ! $aInput[ $this->_sSectionID ][ 'allow_sending_system_information' ] ) {
             $_bIsValid = false;
-            $_aErrors[ $this->sSectionID ][ 'allow_sending_system_information' ] = __( 'We need necessary information to help you.', 'admin-page-framework-loader' );
+            $_aErrors[ $this->_sSectionID ][ 'allow_sending_system_information' ] = __( 'We need necessary information to help you.', 'admin-page-framework-loader' );
         }
         
         if ( ! $_bIsValid ) {
