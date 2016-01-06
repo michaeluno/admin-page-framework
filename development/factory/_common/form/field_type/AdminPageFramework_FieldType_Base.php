@@ -99,15 +99,22 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Fram
      * @param       object              $oMsg                   The framework message object.
      * @param       boolean             $bAutoRegister          Whether or not to register the field type(s).
      */
-    function __construct( $asClassName='admin_page_framework', $asFieldTypeSlug=null, $oMsg=null, $bAutoRegister=true ) {
+    public function __construct( $asClassName='admin_page_framework', $asFieldTypeSlug=null, $oMsg=null, $bAutoRegister=true ) {
             
-        $this->aFieldTypeSlugs  = empty( $asFieldTypeSlug ) ? $this->aFieldTypeSlugs : ( array ) $asFieldTypeSlug;
-        $this->oMsg             = $oMsg ? $oMsg : AdminPageFramework_Message::getInstance();
+        $this->aFieldTypeSlugs  = empty( $asFieldTypeSlug ) 
+            ? $this->aFieldTypeSlugs 
+            : ( array ) $asFieldTypeSlug;
+        $this->oMsg             = $oMsg 
+            ? $oMsg 
+            : AdminPageFramework_Message::getInstance();
         
         // This automatically registers the field type. The build-in ones will be registered manually so it will be skipped.
         if ( $bAutoRegister ) {
-            foreach( ( array ) $asClassName as $_sClassName  ) {
-                add_filter( "field_types_{$_sClassName}", array( $this, '_replyToRegisterInputFieldType' ) );
+            foreach( ( array ) $asClassName as $_sClassName ) {
+                add_filter( 
+                    'field_types_' . $_sClassName, 
+                    array( $this, '_replyToRegisterInputFieldType' )
+                );
             }
         }
         
@@ -153,7 +160,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Fram
             ? $this->getElement( 
                 $asElement,         // subject
                 $this->getAsArray( $asKey, true /* preserve empty */ ),     // dimensional path 
-                ''                  // default - if the elementi is not found, return an empty
+                ''                  // default - if the element is not found, return an empty
             )
             : $asElement;
     }    
@@ -187,28 +194,15 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Fram
         );           
         return $_oFieldset->get();
         
-        // @deprecated      3.7.0
-        // $aFieldset[ '_nested_depth' ]++;
-        // $aFieldset[ '_parent_field_object' ] = $aFieldset[ '_field_object' ]; // 3.6.0+
-        // $_oCaller   = $aFieldset[ '_caller_object' ];
-        // $_aOptions  = $_oCaller->getSavedOptions();
-        // $_oFieldset = new AdminPageFramework_Form_View___Fieldset( 
-            // $aFieldset,                                 // the field definition array
-            // $_aOptions,                                 // the stored form data
-            // $_oCaller->getFieldErrors(),                // the field error array.
-            // $_oCaller->oProp->aFieldTypeDefinitions,    // the field type definition array.
-            // $_oCaller->oMsg,                            // the system message object
-            // $_oCaller->oProp->aFieldCallbacks           // field output element callables.
-        // );           
-        // return $_oFieldset->get();
-        
     }
     
     /**
      * Registers the field type.
      * 
-     * A callback function for the field_types_{$sClassName} filter.
      * @since       2.1.5
+     * @callback    filter      field_types_{class name}
+     * @callback    filter      field_types_admin_page_framework
+     * @return      array
      * @internal
      */
     public function _replyToRegisterInputFieldType( $aFieldDefinitions ) {
