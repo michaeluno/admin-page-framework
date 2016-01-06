@@ -352,7 +352,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             private function _setSiteWideFieldTypeDefinitions() {
                 
                 // Using a unique caller slug to prevent multiple calls among different scripts. 
-                if ( $this->hasBeenCalled( '__filed_types_admin_page_Framework' ) ) {
+                if ( $this->hasBeenCalled( '__filed_types_admin_page_framework' ) ) {
                     return;
                 }
                 
