@@ -16,26 +16,37 @@
  */
 class APF_Demo_CustomFieldType {
 
-    public $oFactory;
-    public $sClassName;
-    public $sPageSlug;
-    public $sPageTitle;
+    private $_oFactory;
+    private $_sClassName   = 'APF_Demo';
+    private $_sPageSlug    = 'custom_field_type';
         
-    public function __construct( $oFactory ) {
+    /**
+     * Adds a page item and sets up hooks.
+     */
+    public function __construct() {
+        
+        add_action(
+            'set_up_' . $this->_sClassName,
+            array( $this, 'replyToSetUp' )
+        );
+        
+    }
     
-        $this->oFactory     = $oFactory;
-        $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = 'custom_field_type';
-        $this->sPageTitle   = __( 'Custom Field Types', 'admin-page-framework-loader' );
-
-        $this->oFactory->addSubMenuItems( 
+    /**
+     * @callback        action      set_up_{instantiated class name}
+     */
+    public function replyToSetUp( $oFactory ) {
+    
+        $this->_oFactory     = $oFactory;
+        
+        $this->_oFactory->addSubMenuItems( 
             array(
-                'title'         => $this->sPageTitle,
-                'page_slug'     => $this->sPageSlug,    // page slug
+                'title'     => __( 'Custom Field Types', 'admin-page-framework-loader' ),
+                'page_slug' => $this->_sPageSlug,    // page slug
             )
         );
 
-        add_action( 'load_' . $this->sPageSlug, array( $this, 'replyToLoadPage' ) );
+        add_action( 'load_' . $this->_sPageSlug, array( $this, 'replyToLoadPage' ) );
         
     }
 
@@ -49,20 +60,20 @@ class APF_Demo_CustomFieldType {
         // Tabs
         new APF_Demo_CustomFieldType_ACE(
             $oFactory,    // factory object
-            $this->sPageSlug   // page slug
+            $this->_sPageSlug   // page slug
         );   
         new APF_Demo_CustomFieldType_Sample(
             $oFactory,    // factory object
-            $this->sPageSlug   // page slug
+            $this->_sPageSlug   // page slug
         );
         new APF_Demo_CustomFieldType_GitHub(
             $oFactory,    // factory object
-            $this->sPageSlug   // page slug
+            $this->_sPageSlug   // page slug
         );
         
         // Add a link
         $oFactory->addInPageTabs(    
-            $this->sPageSlug, // target page slug
+            $this->_sPageSlug, // target page slug
             array(
                 'tab_slug'      => 'more',
                 'title'         => __( 'More', 'admin-page-framework-loader' ),

@@ -19,7 +19,7 @@
 class APF_Demo extends AdminPageFramework {
 
     /**
-     * Constructor.
+     * User constructor.
      */
     public function start() {
                 
@@ -62,18 +62,21 @@ class APF_Demo extends AdminPageFramework {
     /**
      * Sets up pages.
      * 
-     * ( Required ) In this `setUp()` method, you will define admin pages.
+     * (Required) In this `setUp()` method, you will define admin pages.
+     * 
+     * @callback    action      wp_loaded
+     * @return      void
      */
     public function setUp() { 
 
-        /* ( optional ) this can be set via the constructor. For available values, see https://codex.wordpress.org/Roles_and_Capabilities */
+        // (optional) this can be set via the constructor. For available values, see https://codex.wordpress.org/Roles_and_Capabilities.
         $this->setCapability( 'read' );
         
-        /* ( required ) Set the root page */
+        // (required) Set the root page.
         $this->setRootMenuPageBySlug( 'edit.php?post_type=' . AdminPageFrameworkLoader_Registry::$aPostTypes['demo'] );
                                                     
-        /*
-         * ( optional ) Add links in the plugin listing table. ( .../wp-admin/plugins.php )
+        /**
+         * (optional) Add links in the plugin listing table. ( .../wp-admin/plugins.php )
          */
         /* 
         $this->addLinkToPluginDescription( 
@@ -83,17 +86,16 @@ class APF_Demo extends AdminPageFramework {
         $this->addLinkToPluginTitle(
             "<a href='http://en.michaeluno.jp'>miunosoft</a>"
         );
+        $this->setPluginSettingsLinkLabel( __( 'Built-in Field Types', 'admin-page-framework-loader' ) );
         */
        
         // Disable the action link in the plugin listing table.
         $this->setPluginSettingsLinkLabel( '' );    
-        // $this->setPluginSettingsLinkLabel( __( 'Built-in Field Types', 'admin-page-framework-loader' ) );
         
-        // Add pages    
-        new APF_Demo_BuiltinFieldType( $this );
-        new APF_Demo_AdvancedUsage( $this );
-        new APF_Demo_CustomFieldType( $this );
- 
+        // Add pages - below classes do not extend the framework factory class but uses the framework hooks to add pages.
+        new APF_Demo_BuiltinFieldType;
+        new APF_Demo_AdvancedUsage;
+        new APF_Demo_CustomFieldType;
         new APF_Demo_ManageOptions;
         new APF_Demo_HiddenPage;
         new APF_Demo_Contact;
@@ -115,9 +117,13 @@ class APF_Demo extends AdminPageFramework {
      */
     public function load_APF_Demo( $oAdminPage ) { 
     
-        /* ( optional ) Determine the page style */
-        $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
-        $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
+        // (optional) Determine the page style
+        
+        /// disables the page heading tabs by passing false.
+        $this->setPageHeadingTabsVisibility( false ); 
+        
+        /// sets the tag used for in-page tabs. 
+        $this->setInPageTabTag( 'h2' ); 
     
     }
           

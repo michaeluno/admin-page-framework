@@ -16,22 +16,36 @@
  */
 class APF_Demo_AdvancedUsage {
     
-    public $sPageSlug = 'apf_advanced_usage';
+    private $_sClassName = 'APF_Demo';
+    
+    private $_sPageSlug  = 'apf_advanced_usage';
     
     /**
      * Adds a page item and sets up hooks.
      */
-    public function __construct( $oFactory ) {
+    public function __construct() {
+        
+        add_action(
+            'set_up_' . $this->_sClassName,
+            array( $this, 'replyToSetUp' )
+        );
+        
+    }
     
+    /**
+     * @callback        action      set_up_{instantiated class name}
+     */
+    public function replyToSetUp( $oFactory ) {
+        
         $oFactory->addSubMenuItems( 
             array(
                 'title'         => __( 'Advanced Usage', 'admin-page-framework-loader' ),
-                'page_slug'     => $this->sPageSlug,    // page slug
+                'page_slug'     => $this->_sPageSlug,    // page slug
             )
         );        
               
-        add_action( 'load_' . $this->sPageSlug, array( $this, 'replyToLoadPage' ) );
-        add_action( 'do_' . $this->sPageSlug, array( $this, 'replyToDoPage' ) );
+        add_action( 'load_' . $this->_sPageSlug, array( $this, 'replyToLoadPage' ) );
+        add_action( 'do_' . $this->_sPageSlug, array( $this, 'replyToDoPage' ) );
         
     }
 

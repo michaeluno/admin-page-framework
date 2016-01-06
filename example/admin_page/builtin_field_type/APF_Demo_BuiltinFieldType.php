@@ -16,13 +16,28 @@
  */
 class APF_Demo_BuiltinFieldType {
 
-    public $sPageSlug = 'apf_builtin_field_types';
+    private $_sClassName = 'APF_Demo';
 
+    private $_sPageSlug  = 'apf_builtin_field_types';
+
+    
     /**
      * Adds a page item and sets up hooks.
      */
-    public function __construct( $oFactory ) {
-     
+    public function __construct() {
+        
+        add_action(
+            'set_up_' . $this->_sClassName,
+            array( $this, 'replyToSetUp' )
+        );
+        
+    }
+    
+    /**
+     * @callback        action      set_up_{instantiated class name}
+     */
+    public function replyToSetUp( $oFactory ) {
+        
         /* ( required ) Add sub-menu items (pages or links) */
         $oFactory->addSubMenuItems(
             /*     Example
@@ -40,7 +55,7 @@ class APF_Demo_BuiltinFieldType {
             */
             array(
                 'title'         => __( 'Built-in Field Types', 'admin-page-framework-loader' ),
-                'page_slug'     => $this->sPageSlug,
+                'page_slug'     => $this->_sPageSlug,
                 'screen_icon'   => 'options-general', // one of the screen type from the below can be used.
                 /* Screen Types (for WordPress v3.7.x or below) :
                     'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
@@ -51,7 +66,7 @@ class APF_Demo_BuiltinFieldType {
             )
         );        
            
-        add_action( 'load_' . $this->sPageSlug, array( $this, 'replyToLoadPage' ) );
+        add_action( 'load_' . $this->_sPageSlug, array( $this, 'replyToLoadPage' ) );
         
     }
     
@@ -66,7 +81,7 @@ class APF_Demo_BuiltinFieldType {
          */
         $oFactory->addHelpTab( 
             array(
-                'page_slug'                => $this->sPageSlug, // ( required )
+                'page_slug'                => $this->_sPageSlug, // ( required )
                 'help_tab_id'              => 'admin_page_framework', // ( required )
                 // 'page_tab_slug' => null, // ( optional )
                 'help_tab_title'           => AdminPageFramework_Registry::NAME,
