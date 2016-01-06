@@ -52,21 +52,28 @@ class APF_BasicUsage extends AdminPageFramework {
                 'show_in_menu'  => false,
             )
         );
-        
-        $this->setPageHeadingTabsVisibility( true ); // disables the page heading tabs by passing false.
-        
+                
         // Disable it
         $this->setPluginSettingsLinkLabel( '' ); 
         
     }    
+    
+    /**
+     * @callback        action      load_{instantiated class name}
+     */
+    public function load_APF_BasicUsage() {
 
+        $this->setPageHeadingTabsVisibility( true ); // disables the page heading tabs by passing false.
+ 
+    }
+    
     /**
      * Do page specific settings.
      * 
      * @callback        action      load_{page slug}
      */
     public function load_apf_first_page() { 
-    
+        
         new AdminPageFramework_PointerToolTip(
             array( 
                 'apf_first_page',  // page slugs
@@ -95,7 +102,7 @@ class APF_BasicUsage extends AdminPageFramework {
     public function load_apf_second_page() { 
 
         $this->enqueueStyle( 
-            plugins_url( 'asset/css/code.css', AdminPageFrameworkLoader_Registry::$sFilePath ), // source path/url
+            AdminPageFrameworkLoader_Registry::getPluginURL( 'asset/css/code.css', AdminPageFrameworkLoader_Registry::$sFilePath ), // source path/url
             'apf_second_page'   // page slug
         );              
         
