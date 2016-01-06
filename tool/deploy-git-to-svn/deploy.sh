@@ -237,9 +237,6 @@ svn delete --force --quiet $SVNPATH/tags/$PLUGINVERSION/trunk
 cd $SVNPATH/tags/$PLUGINVERSION
 svn commit --username=$SVNUSER --password=$SVNPASS -m "Tagging version $PLUGINVERSION"
 
-$SHELL
-exit
-
 echo "# Removing temporary directory $SVNPATH"
 cd $SVNPATH
 cd ..
