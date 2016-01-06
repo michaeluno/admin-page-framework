@@ -449,7 +449,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.9 =
+= 3.7.9 - 2015/01/07 =
 - Reduced the number of library files.
 - Fixed a bug that site-side field type definitions were overridden by built-in field types of per-class field type definitions which caused some field types which override the built-in field type slug did not load, introduced in v3.7.1.
 - Fixed an issue with widgets that caused some overhead.
