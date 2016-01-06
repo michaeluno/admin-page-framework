@@ -13,32 +13,36 @@
  */
 class APF_Demo_Contact_Tab_Report {
 
+    public $oFactory;
+    public $sPageSlug;
+    
+    public $sTabSlug   = 'report';
+    public $sSectionID = 'report';
+
     /**
      * Sets up hooks and properties.
      */
-    public function __construct( $oFactory, $sPageSlug='', $sTabSlug='' ) {
+    public function __construct( $oFactory, $sPageSlug ) {
     
         $this->oFactory     = $oFactory;
-        $this->sPageSlug    = $sPageSlug ? $sPageSlug : $this->sPageSlug;
-        $this->sTabSlug     = $sTabSlug ? $sTabSlug : $this->sTabSlug;
-        $this->sSectionID   = $this->sTabSlug;
-        $this->_addTab();
-    
+        $this->sPageSlug    = $sPageSlug;
+        
+        $this->oFactory->addInPageTabs(    
+            $this->sPageSlug, // target page slug
+            array(
+                'tab_slug'      => $this->sTabSlug,
+                'title'         => __( 'Report', 'admin-page-framework-loader' ),
+                'order'         => 20,
+            )
+        );  
+        
+        // load + page slug + tab slug
+        add_action( 
+            'load_' . $this->sPageSlug . '_' . $this->sTabSlug, 
+            array( $this, 'replyToAddFormElements' ) 
+        );
+        
     }
-        private function _addTab() {
-            
-            $this->oFactory->addInPageTabs(    
-                $this->sPageSlug, // target page slug
-                array(
-                    'tab_slug'      => $this->sTabSlug,
-                    'title'         => __( 'Report', 'admin-page-framework-loader' ),
-                )
-            );  
-            
-            // load + page slug + tab slug
-            add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToAddFormElements' ) );
-            
-        }
         
     /**
      * Triggered when the tab is loaded.
@@ -199,6 +203,9 @@ class APF_Demo_Contact_Tab_Report {
     
     /**
      * Validates the submitted data.
+     * 
+     * @callback    filter      validation_{page slug}_{tab slug}
+     * @return      string
      */
     public function replyToValidateForm( $aInput, $aOldInput, $oFactory, $aSubmitInfo ) {
         

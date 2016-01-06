@@ -22,8 +22,6 @@ class APF_Demo_HiddenPage {
     public function __construct() {
         
         add_action( "set_up_" . "APF_Demo", array( $this, 'replyToSetUpPages' ) );
-        add_action( "do_" . "apf_sample_page", array( $this, 'replyToModifySamplePage' ) );
-        add_action( "do_" . "apf_hidden_page", array( $this, 'replyToModifyHiddenPage' ) );
         
     }
     
@@ -44,13 +42,30 @@ class APF_Demo_HiddenPage {
             array(
                 'title'         => __( 'Hidden Page', 'admin-page-framework-loader' ),
                 'page_slug'     => 'apf_hidden_page',
-                'screen_icon'   => version_compare( $GLOBALS['wp_version'], '3.8', '<' ) 
-                    ? plugins_url( 'asset/image/wp_logo_bw_32x32.png', AdminPageFrameworkLoader_Registry::$sFilePath )
+                'screen_icon'   => version_compare( $GLOBALS[ 'wp_version' ], '3.8', '<' ) 
+                    ? AdminPageFrameworkLoader_Registry::getPluginURL( 'asset/image/wp_logo_bw_32x32.png', AdminPageFrameworkLoader_Registry::$sFilePath )
                     : null, // ( for WP v3.7.1 or below ) 
-                'show_in_menu' => false,
+                'show_in_menu'  => false,
             )
         );
-                    
+
+        add_action( "load_" . "apf_sample_page", array( $this, 'replyToLoadPage' ) );
+        add_action( "load_" . "apf_hidden_page", array( $this, 'replyToLoadPage' ) );
+        add_action( "do_" . "apf_sample_page", array( $this, 'replyToModifySamplePage' ) );
+        add_action( "do_" . "apf_hidden_page", array( $this, 'replyToModifyHiddenPage' ) );
+        
+    }
+    
+    /**
+     * Called when the page starts loading.
+     * 
+     * @callback        action      load_{page slug}
+     */
+    public function replyToLoadPage( $oFactory ) {
+        
+        $oFactory->setPageTitleVisibility( true ); 
+        $oFactory->setPageHeadingTabsVisibility( false ); 
+        
     }
     
     /*
@@ -79,5 +94,3 @@ class APF_Demo_HiddenPage {
     }    
 
 }
-
-new APF_Demo_HiddenPage;

@@ -90,8 +90,6 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
             // Admin Pages
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin_page/APF_Demo.php' );
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin_page/APF_Demo_ManageOptions.php' );
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin_page/APF_Demo_HiddenPage.php' );
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin_page/APF_Demo_Contact.php' );
 
         }
       
