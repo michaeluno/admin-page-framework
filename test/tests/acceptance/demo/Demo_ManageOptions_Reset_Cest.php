@@ -33,7 +33,7 @@ class Demo_ManageOptions_Reset_Cest extends \Demo_AdminPage_Base {
         // Check some field elements.
         
         // <input type="submit" value="Delete Options" class="button-secondary" id="reset_submit_manage__0" name="APF_Demo[reset][submit_manage]" data-id_model="reset_submit_manage__-fi-" data-name_model="APF_Demo[reset][submit_manage]" title="Delete Options" alt="">
-        $I->seeElement( '//input[contains(@name, "submit_manage")]' );
+        $I->seeElement( '//input[contains(@name, "submit_skip_confirmation")]' );
    
         // @todo fill the form and confirm that values are stored
         
