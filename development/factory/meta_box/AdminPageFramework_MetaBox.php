@@ -84,8 +84,6 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Con
             $sCapability, 
             $sTextDomain 
         );
-                        
-        $this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}", $this );
         
     }
     

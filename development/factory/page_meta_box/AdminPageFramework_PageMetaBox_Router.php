@@ -18,20 +18,6 @@
  * @extends         AdminPageFramework_MetaBox_View
  */
 abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_MetaBox_View {
-    
-    /**
-     * Triggers the start_{...} action hook.
-     *
-     * @since       3.0.4
-     * @internal
-     */
-    public function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     
-                        
-        parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );
-
-        $this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}", $this );
-    
-    }
             
     /**
      * Determines whether the meta box class components should be loaded in the currently loading page.

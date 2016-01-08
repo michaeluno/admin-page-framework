@@ -74,8 +74,6 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
             $sTextDomain 
         );
         
-        $this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName, $this );
-
     }    
         
 }

@@ -118,13 +118,7 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
 
         // Let the factory router set up sub-class objects.
         parent::__construct( $this->oProp );
-                
-        $this->oUtil->addAndDoAction( 
-            $this, 
-            "start_{$this->oProp->sClassName}", 
-            $this 
-        );
-                           
+
     }
         /**
          * Attempts to find the caller script path.

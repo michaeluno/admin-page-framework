@@ -66,8 +66,6 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Taxon
             : $this->oProp->sClassName;
         
         parent::__construct( $this->oProp );
-                
-        $this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );     
         
     }
 

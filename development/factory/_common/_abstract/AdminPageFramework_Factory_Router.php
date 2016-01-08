@@ -143,6 +143,7 @@ abstract class AdminPageFramework_Factory_Router {
         
         // Call the start method - defined in the controller class.
         $this->start();    
+        $this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName, $this );
         
     }    
         

@@ -50,7 +50,6 @@ abstract class AdminPageFramework_UserMeta extends AdminPageFramework_UserMeta_C
         );     
         
         parent::__construct( $this->oProp );
-        $this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}" );
         
     }
     

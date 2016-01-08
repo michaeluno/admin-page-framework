@@ -62,8 +62,6 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
         $this->oProp->aWidgetArguments       = $aWidgetArguments;
                                 
         parent::__construct( $this->oProp );
-        
-        $this->oUtil->addAndDoAction( $this, "start_{$this->oProp->sClassName}", $this );
                            
     }
                 
