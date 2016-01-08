@@ -14,7 +14,7 @@
  * 
  * @since       2.0.0
  * @package     AdminPageFramework
- * @subpackage  Property
+ * @subpackage  AdminPage
  * @extends     AdminPageFramework_Property_Base
  * @internal
  */
@@ -24,7 +24,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * Defines the property type.
      * @remark Setting the property type helps to check whether some components are loaded such as scripts that can be reused per a class type basis.
      * @since       3.0.0
-     * @since       3.7.0      Chaned the default value from `page`.
+     * @since       3.7.0      Changed the default value from `page`.
      * @internal
      */
     public $_sPropertyType = 'admin_page';
@@ -396,14 +396,6 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      */
     protected function _getOptions() {
         return $this->_getOptionsByType( $this->sOptionType );
-        
-        // @deprecated  3.7.0      Moved the routine of apply filters to the factory model class.
-        // return $this->addAndApplyFilter( 
-            // $this->oCaller, // 3.4.1+ changed from $GLOBALS[ 'aAdminPageFramework' ][ 'aPageClasses' ][ $this->sClassName ], // the caller object
-            // 'options_' . $this->sClassName, // options_{instantiated class name}
-            // $this->_getOptionsByType( $this->sOptionType ) // filtering item
-        // );
-
     }
         /**
          * Returns options data by a given type.
@@ -433,27 +425,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
                     );
             }
         }
-        
-    /*
-     * Magic methods
-     * */
-    /**
-     * 
-     * @since       3.2.0       Removed the ampersand prepended in the method name.
-     * @since       3.4.1       Deprecated
-     * @deprecated
-     */
-/*     public function __get( $sName ) {
-                        
-        // For regular undefined items, 
-        return parent::__get( $sName );
-        
-    } */
-    
-    /*
-     * Utility methods
-     * */
-     
+             
     /**
      * Saves the options into the database.
      * 
