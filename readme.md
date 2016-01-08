@@ -1,12 +1,10 @@
-# [Admin Page Framework](http://wordpress.org/plugins/admin-page-framework/) #
+# [Admin Page Framework](http://wordpress.org/plugins/admin-page-framework/)
 
-### Welcome to our GitHub Repository
+## Welcome to Admin Page Framework GitHub Repository
 
-Admin Page Framework is an OOP based open source WordPress library that facilitates theme and plugin development. 
+*Admin Page Framework* is an OOP based open source WordPress library that facilitates theme and plugin development. 
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/michaeluno/admin-page-framework/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/michaeluno/admin-page-framework/?branch=master)
-
-## Screenshots ##
 
 <p align="center">
 	<a href="https://lh6.googleusercontent.com/-U_29dZp26Yw/VCFc0cDPGSI/AAAAAAAABtM/0l9klA6JFcg/s0/built-in%2520field%2520types.png" title="Admin Page Framework - Text, Password, and Textarea">
@@ -68,7 +66,7 @@ Admin Page Framework is an OOP based open source WordPress library that facilita
 	</a>        
 </div>
 
-## Installation ##
+## Installation
 
 There are mainly two ways to include the framework.
 
@@ -80,7 +78,7 @@ There are mainly two ways to include the framework.
 
 For more details, see the **Getting Started** (`Dashboard` -> `Admin Page Framework` -> `Help` -> `Getting Started`) of the admin pages of the loader plugin.
 
-## Example ##
+## Examples
 
 ### Create a Page
 
@@ -167,7 +165,7 @@ class APF_MyFirstFrom extends AdminPageFramework {
         
         $this->addSettingFields(
             array(    
-                'field_id'      => 'text',
+                'field_id'      => 'text',8
                 'section_id'    => 'my_first_text_section',
                 'title'         => 'Text',
                 'type'          => 'text',
@@ -187,30 +185,24 @@ new APF_MyFirstFrom;
 
 See more code examples in `Dashboard` -> `AdminPageFramework` -> `Help` -> `Examples`.
 
-## Documentation ##
-[Online documentation](http://admin-page-framework.michaeluno.jp/en/v3/)
+## Resources
 
-### Tutorials ###
-[Online tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
+- [Online documentation](http://admin-page-framework.michaeluno.jp/en/v3/)
+- [Online tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
+- [FAQ](https://wordpress.org/plugins/admin-page-framework/faq/)
+- [Other Notes](https://wordpress.org/plugins/admin-page-framework/other_notes/)
+- [Change Log](https://wordpress.org/plugins/admin-page-framework/changelog/)
 
-1. [Create an Admin Page](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/01-create-an-admin-page/)
-2. [Create a Form](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/02-create-a-form/)
-3. [Create a Page Group](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/03-create-a-page-group/)
-4. [Create In-page Tabs](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/04-create-inpage-tabs/)
-5. [Organize a Form with Sections](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/05-organize-a-form-with-sections/)
-6. [Use Section Tabs and Repeatable Sections](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/06-use-section-tabs-and-repeatable-sections/)
-7. [Validate Submitted Form Data of a Single Field](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/07-validate-submitted-form-data-of-a-single-field/)
-8. [Validate Submitted Form Data of Multiple Fields](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/08-validate-submitted-form-data-of-multiple-fields/)
-9. [Add a Meta Box in an Admin Page](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/09-add-a-meta-box-in-an-admin-page/)
-10. [Add a Page Meta Box Specific to an In-page Tab](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/10-add-a-page-meta-box-specific-to-an-in-page-tab/)
-11. [Add a Meta Box for Posts](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/11-add-a-meta-box-for-posts/)
-12. [Create a Custom Post Type and Custom Taxonomy](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/12-create-a-custom-post-type-and-custom-taxonomy/)
-13. [Add a Meta Box to a Custom Post Type](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/13-add-a-meta-box-for-a-custom-post-type/)
+## Getting Helped
 
-## Getting Framework Core Files ##
-In order to modify the framework development files, you need to clone the repository files. 
+- [Support Forum](http://wordpress.org/support/plugin/admin-page-framework)
 
-Simply clone the repository from either of the following addresses.
+## Framework Core Development
+
+If you download the zip file, you have complied library files and the core files are not included. If you encounter an issue with using the framework and want to investigate it or want to add some functionality, you would need to access the code of the core files.
+
+### Getting Core Files 
+In order to modify the framework development files, clone the repository files. Simply clone the repository from either of the following addresses.
 
 ssh: 
 ```
@@ -221,7 +213,7 @@ https:
 https://github.com/michaeluno/admin-page-framework.git
 ```
 
-With Composer, create a `composer.json` file with the following contents and perform `php composer.phar install`.
+With [Composer](https://getcomposer.org/), create a `composer.json` file with the following contents and perform `php composer.phar install`.
 
 ```
 {
@@ -231,82 +223,38 @@ With Composer, create a `composer.json` file with the following contents and per
 }
 ```
 
-## Modifying Framework Core Files ##
-The core files are in the `development` directory. 
+### Adding Modifications to the Framework Core
+The core files are located in the `development` directory. 
 
 1. Make sure the constant `WP_DEBUG` is set to `true` in the `wp-config.php` file of your development site. If this is `false`, the loader plugin will load the complied files in the `library` directory.
 2. Modify the core files and make sure your changes take effect. 
 3. If you add class files, make sure to run `run.sh` in `tool/inclusion_class_list` to generate inclusion file lists.
 4. After all the modifications are done, run `run.sh` in `tool/beautifier` to compile the files.
 
-## Bugs ##
-If you find an issue, let us know [here](https://github.com/michaeluno/admin-page-framework/issues)!
+## Contributions
 
-## Support ##
-This is a developer's portal for Admin Page Framework and should _not_ be used for support. Please visit the [support forums](http://wordpress.org/support/plugin/admin-page-framework).
+Anyone is welcome to contribute to *Admin Page Framework*. There are various ways you can contribute:
 
-## Contributions ##
-Anyone is welcome to contribute to Admin Page Framework. There are various ways you can contribute:
-
-- Try the open [beta version](https://github.com/michaeluno/admin-page-framework/labels/Beta%20Stage) and report issues you encounter.
+- Report [bugs](https://github.com/michaeluno/admin-page-framework/issues).
 - Post ideas on [enhancements](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
-- Raise an [Issue](https://github.com/michaeluno/admin-page-framework/issues) on GitHub.
 - Send us a Pull Request with your bug fixes and/or new features.
 - Write a [custom field type](http://admin-page-framework.michaeluno.jp/en/v3/package-AdminPageFramework.FieldType.html). 
 - Write [test cases](test/readme.md).
 - Improve the [documentation](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md).
-- Tweak the styling of the framework page elements by modifying the [CSS rules](https://github.com/michaeluno/admin-page-framework/blob/master/development/_model/AdminPageFramework_CSS.php).
+- Tweak the styling of the framework page elements.
 - Translate the language files in the [language](https://github.com/michaeluno/admin-page-framework/tree/master/language) directory to your native language.
+- Possibly more.s
 
-## Supporting Future Development ##
+### Supporting Future Development 
 
 If you like the library, please rate and review it in the [WordPress Plugin Directory](http://wordpress.org/support/view/plugin-reviews/admin-page-framework?filter=5). Also donation would be greatly appreciated. Thank you!
 
 [![Donate with PayPal](https://www.paypal.com/en_US/i/btn/x-click-but04.gif)](http://en.michaeluno.jp/donate) 
 
-## Copyright and License ##
+## Copyright and License
 
-### Admin Page Framework (Framework Files)###
-Released under the [MIT license](./development/MIT-LICENSE.txt).
-Copyright © 2013-2016 Michael Uno
+### Admin Page Framework (Framework Files)
+[MIT license](development/LICENSE.txt)
 
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the "Software"), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-
-[http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT)
-
-### Admin Page Framework - Loader (WordPress Plugin) ###
-Released under the [GPL v2](./LICENSE.txt) or later.
-Copyright © 2013-2016 Michael Uno
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+### Admin Page Framework - Loader (WordPress Plugin) 
+[GPL v2](./LICENSE.txt)
