@@ -28,8 +28,12 @@ $file = $_file;
 
 // Loading the library bootstrap before activating the loader plugin makes it possible not to load the development verision.
 // To test the development version just comment out this line.
+$_bUseCompiled = true;
 require_once( $GLOBALS[ '_sProjectDirPath' ] . '/library/apf/admin-page-framework.php' );
 
 $_noActivated = activate_plugin( 'admin-page-framework/admin-page-framework-loader.php' );
-codecept_debug( 'Activated Admin Page Framework - Loader: ' . ( null === $_noActivated ? 'Yes' : 'No' ) );        
 $GLOBALS[ 'apf_loader_activated' ] = true;
+
+// Console messages
+codecept_debug( 'Testing against Complied Files: ' . ( empty( $_bUseCompiled ) ? 'No' : 'Yes' ) );        
+codecept_debug( 'Activated Admin Page Framework - Loader: ' . ( null === $_noActivated ? 'Yes' : 'No' ) );        
