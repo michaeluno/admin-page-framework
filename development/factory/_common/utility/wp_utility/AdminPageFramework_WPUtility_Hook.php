@@ -96,13 +96,15 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
      * @param       mixed       $_and_more          add as many arguments as necessary to the next parameters.
      * @return      void
      */ 
-    static public function addAndDoActions( $oCallerObject, $aActionHooks, $vArgs1=null, $vArgs2=null, $_and_more=null ) {
+    static public function addAndDoActions( /* $oCallerObject, $aActionHooks, $vArgs1=null, $vArgs2=null, $_and_more=null */ ) {
     
         $aArgs          = func_get_args();    
         $oCallerObject  = $aArgs[ 0 ];
         $aActionHooks   = $aArgs[ 1 ];
         foreach( ( array ) $aActionHooks as $sActionHook ) {
-            if ( ! $sActionHook ) { continue; }
+            if ( ! $sActionHook ) { 
+                continue; 
+            }
             $aArgs[ 1 ] = $sActionHook;    
             call_user_func_array( array( get_class(), 'addAndDoAction' ) , $aArgs );     
         }
@@ -117,18 +119,27 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
      * @remark      Accepts variadic parameters.
      * @return      void
      */ 
-    static public function addAndDoAction( $oCallerObject, $sActionHook, $vArgs1=null, $vArgs2=null, $_and_more=null ) {
+    static public function addAndDoAction( /* $oCallerObject, $sActionHook, $vArgs1=null, $vArgs2=null, $_and_more=null */ ) {
         
         $_iArgs          = func_num_args();
         $_aArgs          = func_get_args();
         $_oCallerObject  = $_aArgs[ 0 ];
         $_sActionHook    = $_aArgs[ 1 ];
-        if ( ! $_sActionHook ) { return; }
-        add_action( $_sActionHook, array( $_oCallerObject, $_sActionHook ), 10, $_iArgs - 2 );
-        array_shift( $_aArgs ); // remove the first element, the caller object
+        if ( ! $_sActionHook ) { 
+            return; 
+        }
+        
+        // [3.7.10+] Auto-callback within the object
+        if ( method_exists( $_oCallerObject, $_sActionHook ) ) {
+            add_action( $_sActionHook, array( $_oCallerObject, $_sActionHook ), 10, $_iArgs - 2 );
+        }
+
+        // Remove the first element, the caller object.
+        array_shift( $_aArgs ); 
         call_user_func_array( 'do_action' , $_aArgs );
         
     }
+    
     /**
      * Registers filter hooks and then triggers them right away.
      * 
@@ -154,7 +165,9 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
         $_vInput        = $_aArgs[ 2 ];
 
         foreach( ( array ) $_aFilters as $_sFilter ) {
-            if ( ! $_sFilter ) { continue; }
+            if ( ! $_sFilter ) { 
+                continue; 
+            }
             $_aArgs[ 1 ] = $_sFilter;
             $_aArgs[ 2 ] = $_vInput;    // assigns the updated value as it is filtered in previous iterations
             $_vInput = call_user_func_array( 
@@ -194,14 +207,15 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
             return $_aArgs[ 2 ]; 
         }
         
-        // Register the method named $_sFilter with the filter hook name $_sFilter.
-        add_filter( $_sFilter, array( $_oCallerObject, $_sFilter ), 10, $_iArgs - 2 ); 
+        // 3.7.10+ Auto-callback within the object
+        if ( method_exists( $_oCallerObject, $_sFilter ) ) {
+            // Register the method named $_sFilter with the filter hook name $_sFilter.
+            add_filter( $_sFilter, array( $_oCallerObject, $_sFilter ), 10, $_iArgs - 2 ); 
+        }
         
-        // Remove the first element, the caller object 
-        array_shift( $_aArgs );     // removes the caller object     
-        
-        // Trigger the magic method __call().
-        return call_user_func_array( 'apply_filters', $_aArgs ); // $_aArgs: $vData, $vArgs...
+        // Remove the first element, the caller object.
+        array_shift( $_aArgs );     
+        return call_user_func_array( 'apply_filters', $_aArgs ); 
         
     }     
     
