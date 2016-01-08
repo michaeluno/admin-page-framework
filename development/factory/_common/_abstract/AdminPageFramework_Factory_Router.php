@@ -248,7 +248,7 @@ abstract class AdminPageFramework_Factory_Router {
         'admin_page'            => 'AdminPageFramework_Resource_Page',
         'network_admin_page'    => 'AdminPageFramework_Resource_Page',
         'post_meta_box'         => 'AdminPageFramework_Resource_MetaBox',
-        'page_meta_box'         => 'AdminPageFramework_Resource_MetaBox_Page',
+        'page_meta_box'         => 'AdminPageFramework_Resource_PageMetaBox',
         'post_type'             => 'AdminPageFramework_Resource_PostType',
         'taxonomy_field'        => 'AdminPageFramework_Resource_TaxonomyField',
         'widget'                => 'AdminPageFramework_Resource_Widget',
@@ -272,7 +272,7 @@ abstract class AdminPageFramework_Factory_Router {
         'admin_page'            => 'AdminPageFramework_HelpPane_Page',
         'network_admin_page'    => 'AdminPageFramework_HelpPane_Page',
         'post_meta_box'         => 'AdminPageFramework_HelpPane_MetaBox',
-        'page_meta_box'         => 'AdminPageFramework_HelpPane_MetaBox_Page',
+        'page_meta_box'         => 'AdminPageFramework_HelpPane_PageMetaBox',
         'post_type'             => null,    // no help pane class for the post type factory class.
         'taxonomy_field'        => 'AdminPageFramework_HelpPane_TaxonomyField',
         'widget'                => 'AdminPageFramework_HelpPane_Widget',

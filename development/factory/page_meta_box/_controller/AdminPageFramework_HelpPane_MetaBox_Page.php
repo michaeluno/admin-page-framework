@@ -16,7 +16,7 @@
  * @extends AdminPageFramework_HelpPane_MetaBox
  * @internal
  */
-class AdminPageFramework_HelpPane_MetaBox_Page extends AdminPageFramework_HelpPane_MetaBox {
+class AdminPageFramework_HelpPane_PageMetaBox extends AdminPageFramework_HelpPane_MetaBox {
 
     /**
      * Determines whether the currently loaded page belongs to the meta box page.
