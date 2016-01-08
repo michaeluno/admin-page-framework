@@ -264,10 +264,10 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
             
         }   
             /**
-             * Reurn the base part of the crurrently loading admin url.
+             * Return the base part of the currently loading admin url.
              * @since       3.5.3
              * @internal
-             * return       string      The base part of the crurrently loading admin url.
+             * return       string      The base part of the currently loading admin url.
              */
             static private function _getPageNowAdminURLBasePath() {
                 
