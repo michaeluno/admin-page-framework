@@ -156,8 +156,7 @@ abstract class AdminPageFramework_Factory_Router {
         public function _replyToLoadComponents( /* $oScreen */ ) {
 
             if ( 'plugins.php' === $this->oProp->sPageNow ) {
-                // triggers __get() if not set.
-                $this->oLink = $this->oLink;
+                $this->oLink = $this->_replyTpSetAndGetInstance_oLink();
             }
     
             if ( ! $this->_isInThePage() ) { 
@@ -169,7 +168,7 @@ abstract class AdminPageFramework_Factory_Router {
                 return;
             }
             
-            $this->_setSubClasses();
+            $this->_setSubClassObjects();
             
         }
             /**
@@ -179,14 +178,20 @@ abstract class AdminPageFramework_Factory_Router {
              * are not set.
              * 
              * @since       3.5.3
+             * @since       3.7.10      Changed the name from `_setSubClasses()`. Changed it not to trigger `__call()` to improve performance.
              * @internal
              * @return      void
              */
-            private function _setSubClasses() {
-                $this->oResource        = $this->oResource;
-                $this->oHeadTag         = $this->oResource; // backward compatibility                
-                $this->oLink            = $this->oLink;
-                $this->oPageLoadInfo    = $this->oPageLoadInfo;
+            private function _setSubClassObjects() {
+                $this->oResource        = $this->_replyTpSetAndGetInstance_oResource();
+                $this->oHeadTag         = $this->oResource; // backward compatibility
+                $this->oLink            = isset( $this->oLink ) 
+                    ? $this->oLink
+                    : $this->_replyTpSetAndGetInstance_oLink();
+                    
+                if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                    $this->oPageLoadInfo = $this->_replyTpSetAndGetInstance_oPageLoadInfo();
+                }
             }
 
     /**
@@ -329,11 +334,14 @@ abstract class AdminPageFramework_Factory_Router {
      */
     protected function _getPageLoadInfoInstance( $oProp, $oMsg ) {
         
-        if ( ! isset( $this->_aPageLoadClassNameMap[ $oProp->sStructureType ] ) ) {
+        $_sClassName = $this->_aPageLoadClassNameMap[ $oProp->sStructureType ];
+        if ( ! isset( $_sClassName ) ) {
             return null;
         }
-        $_sClassName = $this->_aPageLoadClassNameMap[ $oProp->sStructureType ];
-        return call_user_func_array( array( $_sClassName, 'instantiate' ), array( $oProp, $oMsg ) );
+        return call_user_func_array( 
+            array( $_sClassName, 'instantiate' ), 
+            array( $oProp, $oMsg ) 
+        );
 
     }
     
