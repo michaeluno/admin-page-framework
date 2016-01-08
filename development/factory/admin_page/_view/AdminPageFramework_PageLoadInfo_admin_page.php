@@ -16,7 +16,7 @@
  * @subpackage Debug
  * @internal
  */
-class AdminPageFramework_PageLoadInfo_Page extends AdminPageFramework_PageLoadInfo_Base {
+class AdminPageFramework_PageLoadInfo_admin_page extends AdminPageFramework_PageLoadInfo_Base {
     
     private static $_oInstance;
     private static $aClassNames = array();
@@ -32,7 +32,7 @@ class AdminPageFramework_PageLoadInfo_Page extends AdminPageFramework_PageLoadIn
             return self::$_oInstance;
         
         self::$aClassNames[] = $oProp->sClassName;
-        self::$_oInstance = new AdminPageFramework_PageLoadInfo_Page( $oProp, $oMsg );
+        self::$_oInstance = new AdminPageFramework_PageLoadInfo_admin_page( $oProp, $oMsg );
         
         return self::$_oInstance;
         

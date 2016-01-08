@@ -13,8 +13,7 @@
  * @package     AdminPageFramework
  * @subpackage  HelpPane
  * @since       3.5.0
- * @extends     AdminPageFramework_HelpPane_MetaBox
+ * @extends     AdminPageFramework_HelpPane_post_meta_box
  * @internal
  */
-class AdminPageFramework_HelpPane_UserMeta extends AdminPageFramework_HelpPane_MetaBox {
-}
+class AdminPageFramework_HelpPane_user_meta extends AdminPageFramework_HelpPane_Base {}

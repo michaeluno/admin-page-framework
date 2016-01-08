@@ -72,6 +72,28 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
         new AdminPageFramework_Model_Menu__RegisterMenu( $this, 'network_admin_menu' );
         
     }    
+    
+    /**
+     * Instantiates a link object based on the type.
+     * 
+     * @since       3.7.10
+     * @internal
+     * @return      null|object
+     */
+    protected function _getLinkObject() {
+        return new AdminPageFramework_Link_network_admin_page( $this->oProp, $this->oMsg );
+    }
+    
+    /**
+     * Instantiates a link object based on the type.
+     * 
+     * @since       3.7.10
+     * @internal
+     * @return      null|object
+     */    
+    protected function _getPageLoadObject() {
+        return new AdminPageFramework_PageLoadInfo_network_admin_page( $this->oProp, $this->oMsg );
+    }    
 
     /**
      * Checks whether the class should be instantiated.

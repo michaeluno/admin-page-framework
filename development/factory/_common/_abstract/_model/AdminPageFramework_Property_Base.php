@@ -59,9 +59,10 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
     /**
      * Stores the main (caller) object.
      * 
-     * @since 2.1.5
+     * @since       2.1.5
+     * @since       3.7.10      Changed the visibility scope to public as accessing the property directly rather than using _getCallerObject() is faster..
      */
-    protected $oCaller;    
+    public $oCaller;    
     
     /**
      * Stores the caller script file path.
@@ -265,7 +266,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * Stores the label of the settings link embedded to the plugin listing table cell of the plugin title.
      * 
      * @since       3.1.0
-     * @since       3.5.5       Moved from `AdminPageFramework_Property_Page` as the post type class also access it.
+     * @since       3.5.5       Moved from `AdminPageFramework_Property_admin_page` as the post type class also access it.
      * @remark      The default value should be `null` as the user may explicitly set an empty value.
      * The `null` value will be replaced with the system default text 'Settings' while an empty string '' will remove the link.
      */     
@@ -338,7 +339,33 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @since       3.7.9
      */
     public $sSettingNoticeActionHook = 'admin_notices';
-         
+                  
+    /**
+     * Stores text to insert into the contextual help tab.
+     * @since       2.1.0
+     * @since       3.7.10      Moved from `AdminPageFramework_Property_post_meta_box`
+     */ 
+    public $aHelpTabText = array();
+    
+    /**
+     * Stores text to insert into the sidebar of a contextual help tab.
+     * @since       2.1.0
+     * @since       3.7.10      Moved from `AdminPageFramework_Property_post_meta_box`
+     */ 
+    public $aHelpTabTextSide = array();                  
+                  
+    /**
+     * Stores the meta box title.
+     * 
+     * Used for the help pane and meta box title.
+     * 
+     * @since       2.0.0
+     * @since       2.1.0       Moved from the meta box class.
+     * @since       3.7.10      Moved from `AdminPageFramework_Property_post_meta_box`
+     * @var string
+     */ 
+    public $sTitle = '';                  
+                  
     /**
      * Sets up necessary property values.
      * 
@@ -359,7 +386,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         $this->sPageNow         = $this->getPageNow();
         $this->bIsAdmin         = is_admin();
         $this->bIsAdminAjax     = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
-           
+               
         // Overloading property items - these will be set on demand
         unset(
             $this->sScriptType,
@@ -374,14 +401,12 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
          * @since       3.7.9
          */
         private function _setGlobals() {
-            
             if ( ! isset( $GLOBALS[ 'aAdminPageFramework' ] ) ) {
                 $GLOBALS[ 'aAdminPageFramework' ] = array( 
                     'aFieldFlags' => array() 
                 );
             }
-            
-        }
+        } 
         
     /**
      * Sets up properties related to the form object.
@@ -458,10 +483,11 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @access      public    
      * @return      object The caller class object.
      * @internal
+     * @deprecated  3.7.10          Directly access the $oCaller object for performance.
      */     
-    public function _getCallerObject() {
-        return $this->oCaller;
-    }
+    // public function _getCallerObject() {
+        // return $this->oCaller;
+    // }
     
     /**
      * Sets the library information property array.
@@ -571,14 +597,23 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             return self::$_aCallerTypeCache[ $sScriptPath ];
         }
         
-        if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $sScriptPath, $m ) ) {
+        $sScriptPath = str_replace( '\\', '/', $sScriptPath );
+        if ( false !== strpos( $sScriptPath, '/themes/' ) ) {
             self::$_aCallerTypeCache[ $sScriptPath ] = 'theme';
-            return 'theme';
+            return 'theme';            
         }
-        if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $sScriptPath, $m ) ) {
+        // if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $sScriptPath, $m ) ) {
+            // self::$_aCallerTypeCache[ $sScriptPath ] = 'theme';
+            // return 'theme';
+        // }
+        if ( false !== strpos( $sScriptPath, '/plugins/' ) ) {
             self::$_aCallerTypeCache[ $sScriptPath ] = 'plugin';
             return 'plugin';
-        }
+        }        
+        // if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $sScriptPath, $m ) ) {
+            // self::$_aCallerTypeCache[ $sScriptPath ] = 'plugin';
+            // return 'plugin';
+        // }
         self::$_aCallerTypeCache[ $sScriptPath ] = 'unknown';
         return 'unknown';
     
@@ -615,7 +650,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             return $this->aScriptInfo;    
         }
         
-        // 3.4.1+ Moved from `AdminPageFramework_Property_Page` as meta box classes also access it.
+        // 3.4.1+ Moved from `AdminPageFramework_Property_admin_page` as meta box classes also access it.
         // If $this->aOptions is called for the first time, retrieve the option data from the database and assign them to the property.
         // Once this is done, calling $this->aOptions will not trigger the __get() magic method any more.
         if ( 'aOptions' === $sName ) {

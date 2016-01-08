@@ -13,10 +13,10 @@
  * @since       3.5.0
  * @package     AdminPageFramework
  * @subpackage  Property
- * @extends     AdminPageFramework_Property_MetaBox
+ * @extends     AdminPageFramework_Property_post_meta_box
  * @internal
  */
-class AdminPageFramework_Property_UserMeta extends AdminPageFramework_Property_MetaBox {
+class AdminPageFramework_Property_user_meta extends AdminPageFramework_Property_post_meta_box {
 
     /**
      * Defines      the property type.

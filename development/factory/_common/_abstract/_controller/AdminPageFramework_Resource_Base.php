@@ -241,7 +241,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         }
         self::$_bCommonStyleLoaded = true;
         
-        $_oCaller = $this->oProp->_getCallerObject();     
+        $_oCaller = $this->oProp->oCaller;     
         echo $this->_getStyleTag( $_oCaller, $sIDPrefix );
         echo $this->_getIEStyleTag( $_oCaller, $sIDPrefix );
             
@@ -323,7 +323,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         self::$_bCommonScriptLoaded = true;
         
         $_sScript = $this->addAndApplyFilters( 
-            $this->oProp->_getCallerObject(), 
+            $this->oProp->oCaller, 
             array(
                 "script_common_admin_page_framework",       // 3.2.1+
                 "script_common_{$this->oProp->sClassName}", 
@@ -351,7 +351,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      */
     protected function _printClassSpecificStyles( $sIDPrefix ) {
            
-        $_oCaller   = $this->oProp->_getCallerObject();     
+        $_oCaller   = $this->oProp->oCaller;     
         echo $this->_getClassSpecificStyleTag( $_oCaller, $sIDPrefix );
         echo $this->_getClassSpecificIEStyleTag( $_oCaller, $sIDPrefix );
         
@@ -425,7 +425,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         
         static $_iCallCount = 1;
         $_sScript = $this->addAndApplyFilters( 
-            $this->oProp->_getCallerObject(),
+            $this->oProp->oCaller,
             array(
                 "script_{$this->oProp->sClassName}", 
             ),
@@ -458,7 +458,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      */     
     public function _replyToAddStyle() {
     
-        $_oCaller = $this->oProp->_getCallerObject();     
+        $_oCaller = $this->oProp->oCaller;     
         if ( ! $_oCaller->_isInThePage() ) {
             return; 
         }
@@ -473,12 +473,12 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      * @callback    action      admin_head
      * @since       2.0.0
      * @since       2.1.5       Moved from AdminPageFramework_MetaBox. Changed the name from `addScript()` to `replyToAddScript()`.
-     * @since       3.2.0       Moved from AdminPageFramework_Resource_MetaBox. 
+     * @since       3.2.0       Moved from AdminPageFramework_Resource_post_meta_box. 
      * @internal
      */ 
     public function _replyToAddScript() {
 
-        $_oCaller = $this->oProp->_getCallerObject();     
+        $_oCaller = $this->oProp->oCaller;     
         if ( ! $_oCaller->_isInThePage() ) { 
             return; 
         }

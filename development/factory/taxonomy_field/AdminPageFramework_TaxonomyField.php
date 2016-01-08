@@ -53,7 +53,7 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Taxon
         }
         
         // Properties 
-        $this->oProp                    = new AdminPageFramework_Property_TaxonomyField( 
+        $this->oProp                    = new AdminPageFramework_Property_taxonomy_field( 
             $this, 
             get_class( $this ), 
             $sCapability, 

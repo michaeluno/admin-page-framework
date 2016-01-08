@@ -18,10 +18,10 @@
  * @since       3.3.0       Changed the name from AdminPageFramework_HeadTag_TaxonomyField.
  * @package     AdminPageFramework
  * @subpackage  Resource
- * @extends     AdminPageFramework_Resource_MetaBox
+ * @extends     AdminPageFramework_Resource_post_meta_box
  * @internal
  */
-class AdminPageFramework_Resource_TaxonomyField extends AdminPageFramework_Resource_MetaBox {
+class AdminPageFramework_Resource_taxonomy_field extends AdminPageFramework_Resource_post_meta_box {
 
     /**
      * Enqueues styles by page slug and tab slug.

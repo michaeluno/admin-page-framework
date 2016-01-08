@@ -118,7 +118,7 @@ abstract class AdminPageFramework_Factory_Router {
      */
     public function __construct( $oProp ) {
 
-        // Let them overload.
+        // Let them overload so that these sub-class objects will not be instantiated until they are required.
         unset( 
             $this->oDebug, 
             $this->oUtil, 
@@ -130,7 +130,7 @@ abstract class AdminPageFramework_Factory_Router {
             $this->oLink
         );
         
-        // Property object
+        // Property object.
         $this->oProp = $oProp;
     
         if ( $this->oProp->bIsAdmin && ! $this->oProp->bIsAdminAjax ) {
@@ -164,7 +164,7 @@ abstract class AdminPageFramework_Factory_Router {
             }
             
             // Do not load widget resources in the head tag because widgets can be loaded in any page unless it is in customize.php.
-            if ( in_array( $this->oProp->_sPropertyType, array( 'widget' ) ) && 'customize.php' !== $this->oProp->sPageNow ) {
+            if ( 'widget' === $this->oProp->_sPropertyType && 'customize.php' !== $this->oProp->sPageNow ) {
                 return;
             }
             
@@ -183,14 +183,10 @@ abstract class AdminPageFramework_Factory_Router {
              * @return      void
              */
             private function _setSubClassObjects() {
-                $this->oResource        = $this->_replyTpSetAndGetInstance_oResource();
-                $this->oHeadTag         = $this->oResource; // backward compatibility
-                $this->oLink            = isset( $this->oLink ) 
-                    ? $this->oLink
-                    : $this->_replyTpSetAndGetInstance_oLink();
-                    
-                if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                    $this->oPageLoadInfo = $this->_replyTpSetAndGetInstance_oPageLoadInfo();
+                $this->oResource        = $this->oResource;
+                $this->oLink            = $this->oLink;                    
+                if ( $this->oUtil->isDebugMode() ) {
+                    $this->oPageLoadInfo = $this->oPageLoadInfo;
                 }
             }
 
@@ -228,7 +224,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      * @return      object|null
      */
-    protected function _getFormInstance( $oProp ) {
+    protected function _getFormObject( $oProp ) {
     
         $oProp->setFormProperties();
         $_sFormClass = "AdminPageFramework_Form_{$oProp->_sPropertyType}";
@@ -239,181 +235,31 @@ abstract class AdminPageFramework_Factory_Router {
         );    
         
     }
-    
-    /**
-     * Stores class names by fields type for help pane objects.
-     * @since       3.5.3
-     */    
-    protected $_aResourceClassNameMap = array(
-        'admin_page'            => 'AdminPageFramework_Resource_Page',
-        'network_admin_page'    => 'AdminPageFramework_Resource_Page',
-        'post_meta_box'         => 'AdminPageFramework_Resource_MetaBox',
-        'page_meta_box'         => 'AdminPageFramework_Resource_PageMetaBox',
-        'post_type'             => 'AdminPageFramework_Resource_PostType',
-        'taxonomy_field'        => 'AdminPageFramework_Resource_TaxonomyField',
-        'widget'                => 'AdminPageFramework_Resource_Widget',
-        'user_meta'             => 'AdminPageFramework_Resource_UserMeta',
-    );        
-    /**
-     * Instantiate a resource handler object based on the type.
-     * 
-     * @since       3.0.4
-     * @internal
-     */
-    protected function _getResourceInstance( $oProp ) {
-        return $this->_getInstanceByMap( $this->_aResourceClassNameMap, $oProp->sStructureType, $oProp );
-    }
-    
-    /**
-     * Stores class names by fields type for help pane objects.
-     * @since       3.5.3
-     */    
-    protected $_aHelpPaneClassNameMap = array(
-        'admin_page'            => 'AdminPageFramework_HelpPane_Page',
-        'network_admin_page'    => 'AdminPageFramework_HelpPane_Page',
-        'post_meta_box'         => 'AdminPageFramework_HelpPane_MetaBox',
-        'page_meta_box'         => 'AdminPageFramework_HelpPane_PageMetaBox',
-        'post_type'             => null,    // no help pane class for the post type factory class.
-        'taxonomy_field'        => 'AdminPageFramework_HelpPane_TaxonomyField',
-        'widget'                => 'AdminPageFramework_HelpPane_Widget',
-        'user_meta'             => 'AdminPageFramework_HelpPane_UserMeta',
-    );    
-    /**
-     * Instantiates a help pane object based on the type.
-     * 
-     * @since       3.0.4
-     * @internal
-     */
-    protected function _getHelpPaneInstance( $oProp ) {
-        return $this->_getInstanceByMap( $this->_aHelpPaneClassNameMap, $oProp->sStructureType, $oProp );
-    }
-    
-    /**
-     * Stores class names by fields type for link objects.
-     * @since       3.5.3
-     */
-    protected $_aLinkClassNameMap = array(
-        'admin_page'            => 'AdminPageFramework_Link_Page',
-        'network_admin_page'    => 'AdminPageFramework_Link_NetworkAdmin',
-        'post_meta_box'         => null,
-        'page_meta_box'         => null,
-        'post_type'             => 'AdminPageFramework_Link_PostType', 
-        'taxonomy_field'        => null,
-        'widget'                => null,
-        'user_meta'             => null,
-    );    
+     
     /**
      * Instantiates a link object based on the type.
      * 
      * @since       3.0.4
+     * @since       3.7.10      Removed the parameters as those values will be set in the extended class.
+     * @remark      Override this method in an extended class.
      * @internal
+     * @return      null|object
      */
-    protected function _getLinkInstancce( $oProp, $oMsg ) {
-        return $this->_getInstanceByMap( $this->_aLinkClassNameMap, $oProp->sStructureType, $oProp, $oMsg );
+    protected function _getLinkObject() {
+        return null;
     }
     
-    /**
-     * Stores class names by fields type for page load objects.
-     * @since       3.5.3
-     */
-    protected $_aPageLoadClassNameMap = array(
-        'admin_page'            => 'AdminPageFramework_PageLoadInfo_Page',
-        'network_admin_page'    => 'AdminPageFramework_PageLoadInfo_NetworkAdminPage',
-        'post_meta_box'         => null,
-        'page_meta_box'         => null,
-        'post_type'             => 'AdminPageFramework_PageLoadInfo_PostType', 
-        'taxonomy_field'        => null,
-        'widget'                => null,
-        'user_meta'             => null,
-    );
     /**
      * Instantiates a page load object based on the type.
      * 
-     * @since 3.0.4
+     * @since       3.0.4
+     * @since       3.7.10      Removed the parameters as those values will be set in the extended class.
      * @internal
      */
-    protected function _getPageLoadInfoInstance( $oProp, $oMsg ) {
-        
-        $_sClassName = $this->_aPageLoadClassNameMap[ $oProp->sStructureType ];
-        if ( ! isset( $_sClassName ) ) {
-            return null;
-        }
-        return call_user_func_array( 
-            array( $_sClassName, 'instantiate' ), 
-            array( $oProp, $oMsg ) 
-        );
-
+    protected function _getPageLoadObject() {
+        return null;
     }
-    
-    /**
-     * Returns a class object instance by the given map array and the key, plus one or two arguments.
-     * 
-     * @remark      There is a limitation that only can accept up to 3 parameters at the moment. 
-     * @internal
-     * @since       3.5.3
-     * @return      null|object
-     */
-    private function _getInstanceByMap( /* array $aClassNameMap, $sKey, $mParam1, $mParam2, $mParam3 */ ) {
-        
-        $_aParams       = func_get_args();
-        $_aClassNameMap = array_shift( $_aParams );
-        $_sKey          = array_shift( $_aParams );
-        
-        if ( ! isset( $_aClassNameMap[ $_sKey ] ) ) {
-            return null;
-        }
-        
-        $_iParamCount = count( $_aParams );
-        
-        // passing more than 3 arguments is not supported at the moment.
-        if ( $_iParamCount > 3 ) {
-            return null;
-        }
-        
-        // Insert the class name at the beginning of the parameter array.
-        array_unshift( $_aParams, $_aClassNameMap[ $_sKey ] );    
-        
-        // Instantiate the class and return the instance.
-        return call_user_func_array( 
-            array( $this, "_replyToGetClassInstanceByArgumentOf{$_iParamCount}" ), 
-            $_aParams
-        );
-    
-    }
-        /**#@+
-         * @internal
-         * @return      object
-         */      
-        /**
-         * Instantiate a class with zero parameter.
-         * @since       3.5.3
-         */
-        private function _replyToGetClassInstanceByArgumentOf0( $sClassName ) {
-            return new $sClassName;
-        }    
-        /**
-         * Instantiate a class with one parameter.
-         * @since       3.5.3
-         */        
-        private function _replyToGetClassInstanceByArgumentOf1( $sClassName, $mArg ) {
-            return new $sClassName( $mArg );
-        }
-        /**
-         * Instantiate a class with two parameters.
-         * @since       3.5.3
-         */             
-        private function _replyToGetClassInstanceByArgumentOf2( $sClassName, $mArg1, $mArg2 ) {
-            return new $sClassName( $mArg1, $mArg2 );
-        }      
-        /**
-         * Instantiate a class with two parameters.
-         * @since       3.5.3
-         */             
-        private function _replyToGetClassInstanceByArgumentOf3( $sClassName, $mArg1, $mArg2, $mArg3 ) {
-            return new $sClassName( $mArg1, $mArg2, $mArg3 );
-        }              
-        /**#@-*/        
-    
+      
     /**
      * Responds to a request of an undefined property.
      * 
@@ -423,14 +269,8 @@ abstract class AdminPageFramework_Factory_Router {
      */
     public function __get( $sPropertyName ) {
             
-        switch( $sPropertyName ) {
-            case 'oHeadTag':    // 3.3.0+ for backward compatibility
-                $sPropertyName = 'oResource';
-                break;
-        }     
-
         // Set and return the sub class object instance.
-        if ( in_array( $sPropertyName, $this->_aSubClassNames ) ) {            
+        if ( in_array( $sPropertyName, $this->_aSubClassNames ) ) {                        
             return call_user_func( 
                 array( $this, "_replyTpSetAndGetInstance_{$sPropertyName}"  )
             );
@@ -471,7 +311,7 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          */              
         public function _replyTpSetAndGetInstance_oForm() {
-            $this->oForm = $this->_getFormInstance( $this->oProp );           
+            $this->oForm = $this->_getFormObject( $this->oProp );           
             return $this->oForm;
         }
         /**
@@ -479,15 +319,28 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          */            
         public function _replyTpSetAndGetInstance_oResource() {
-            $this->oResource = $this->_getResourceInstance( $this->oProp );
+            if ( isset( $this->oResource ) ) {
+                return $this->oResource;
+            }
+            $_sClassName     = "AdminPageFramework_Resource_{$this->oProp->_sPropertyType}";
+            $this->oResource = new $_sClassName( $this->oProp );
             return $this->oResource;
         }
+            /**
+             * Kept for backward compatibility.
+             * @since       3.7.10
+             */
+            public function _replyTpSetAndGetInstance_oHeadTag() {
+                $this->oHead = $this->_replyTpSetAndGetInstance_oResource();
+                return $this->oHead;
+            }        
         /**
          * Sets and returns the `oHelpPane` property.
          * @since       3.5.3
          */
         public function _replyTpSetAndGetInstance_oHelpPane() {
-            $this->oHelpPane = $this->_getHelpPaneInstance( $this->oProp );
+            $_sClassName     = "AdminPageFramework_HelpPane_{$this->oProp->_sPropertyType}";
+            $this->oHelpPane = new $_sClassName( $this->oProp );            
             return $this->oHelpPane;
         }
         /**
@@ -495,7 +348,7 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          */
         public function _replyTpSetAndGetInstance_oLink() {
-            $this->oLink = $this->_getLinkInstancce( $this->oProp, $this->oMsg );
+            $this->oLink = $this->_getLinkObject();
             return $this->oLink;
         }
         /**
@@ -503,7 +356,7 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          */        
         public function _replyTpSetAndGetInstance_oPageLoadInfo() {
-            $this->oPageLoadInfo = $this->_getPageLoadInfoInstance( $this->oProp, $this->oMsg );
+            $this->oPageLoadInfo = $this->_getPageLoadObject();
             return $this->oPageLoadInfo;
         }
         /**#@-*/
@@ -550,17 +403,17 @@ abstract class AdminPageFramework_Factory_Router {
          */
         private function _getAutoCallback( $sMethodName, $aArguments ) {
             
-            // Check if the method name contains a backslash.
+            // Check if the method name does not contain a backslash.
             if ( false === strpos( $sMethodName, "\\" ) ) {
                 return $this->oUtil->getElement( $aArguments, 0 );  // the first element - the filter value
             }
                 
-            // if the method name contains a backslash, the user may be using a name space. 
+            // If the method name contains a backslash, the user may be using a name space. 
             // In that case, convert the backslash to underscore and call the method.
-            $_sAutoCallbackClassName = str_replace( '\\', '_', $this->oProp->sClassName );
-            return method_exists( $this, $_sAutoCallbackClassName )
+            $_sAutoCallbackMethodName = str_replace( '\\', '_', $sMethodName );
+            return method_exists( $this, $_sAutoCallbackMethodName )
                 ? call_user_func_array(
-                    array( $this, $_sAutoCallbackClassName ),
+                    array( $this, $_sAutoCallbackMethodName ),
                     $aArguments
                 )
                 : $this->oUtil->getElement( $aArguments, 0 );   // the first argument

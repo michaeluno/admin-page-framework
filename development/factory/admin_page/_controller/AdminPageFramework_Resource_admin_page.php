@@ -21,7 +21,7 @@
  * @extends     AdminPageFramework_Resource_Base
  * @internal
  */
-class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base {
+class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource_Base {
     
     /**
      * Applies page and tab specific filters to inline CSS rules.
@@ -39,7 +39,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         }        
         $_bLoaded   = true;
      
-        $_oCaller   = $this->oProp->_getCallerObject();     
+        $_oCaller   = $this->oProp->oCaller;     
         $_sPageSlug = $this->_getCurrentPageSlugForFilter();
         $_sTabSlug  = $this->_getCurrentTabSlugForFilter( $_sPageSlug );
         
@@ -110,7 +110,7 @@ class AdminPageFramework_Resource_Page extends AdminPageFramework_Resource_Base 
         }        
         $_bLoaded   = true;
        
-        $_oCaller   = $this->oProp->_getCallerObject();     
+        $_oCaller   = $this->oProp->oCaller;     
         $_sPageSlug = $this->_getCurrentPageSlugForFilter();
         $_sTabSlug  = $this->_getCurrentTabSlugForFilter( $_sPageSlug );
         

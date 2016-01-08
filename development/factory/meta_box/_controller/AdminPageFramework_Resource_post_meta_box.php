@@ -22,7 +22,7 @@
  * @subpackage  Resource
  * @internal
  */
-class AdminPageFramework_Resource_MetaBox extends AdminPageFramework_Resource_Base {
+class AdminPageFramework_Resource_post_meta_box extends AdminPageFramework_Resource_Base {
              
     /**
      * Enqueues styles by post type slug.

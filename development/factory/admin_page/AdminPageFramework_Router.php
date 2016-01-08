@@ -27,12 +27,11 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      * 
      * @since       3.3.0
      */
-    function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
-                
-        // Objects
+    public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
+
         $this->oProp = isset( $this->oProp ) 
             ? $this->oProp // for the AdminPageFramework_NetworkAdmin class
-            : new AdminPageFramework_Property_Page( 
+            : new AdminPageFramework_Property_admin_page( 
                 $this, 
                 $sCallerPath, 
                 get_class( $this ), 
@@ -51,6 +50,28 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         }
         
     }
+    
+    /**
+     * Instantiates a link object based on the type.
+     * 
+     * @since       3.7.10
+     * @internal
+     * @return      null|object
+     */
+    protected function _getLinkObject() {
+        return new AdminPageFramework_Link_admin_page( $this->oProp, $this->oMsg );
+    }    
+    
+    /**
+     * Instantiates a link object based on the type.
+     * 
+     * @since       3.7.10
+     * @internal
+     * @return      null|object
+     */    
+    protected function _getPageLoadObject() {
+        return new AdminPageFramework_PageLoadInfo_admin_page( $this->oProp, $this->oMsg );
+    }        
     
     /**
      * Handles undefined function calls.

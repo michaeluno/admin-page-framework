@@ -18,7 +18,7 @@
  * @extends     AdminPageFramework_Property_Base
  * @internal
  */
-class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_Base {
+class AdminPageFramework_Property_post_type extends AdminPageFramework_Property_Base {
     
     /**
      * Defines the property type.
@@ -33,7 +33,7 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
      * Stores the post type slug.
      * 
      * @since   2.0.0
-     * @since   2.1.0   Moved to AdminPageFramework_Property_PostType.
+     * @since   2.1.0   Moved to AdminPageFramework_Property_post_type.
      * @var     string
      * @access  public
      */ 
@@ -43,7 +43,7 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
      * Stores the post type argument.
      * 
      * @since   2.0.0
-     * @since   2.1.0   Moved to AdminPageFramework_Property_PostType.
+     * @since   2.1.0   Moved to AdminPageFramework_Property_post_type.
      * @var     array
      * @access  public
      */ 
@@ -53,7 +53,7 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
      * Stores the extended class name.
      * 
      * @since       2.0.0
-     * @since       2.1.0     Moved to AdminPageFramework_Property_PostType.
+     * @since       2.1.0     Moved to AdminPageFramework_Property_post_type.
      * @var         string
      * @access      public
      */     
@@ -63,7 +63,7 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
      * Stores the column headers of the post listing table.
      * 
      * @since       2.0.0
-     * @since       2.1.0       Moved to AdminPageFramework_Property_PostType.
+     * @since       2.1.0       Moved to AdminPageFramework_Property_post_type.
      * @see         http://codex.wordpress.org/Plugin_API/Filter_Reference/manage_edit-post_type_columns
      * @remark      This should be overriden in the constructor because it includes translated text.
      * @internal
@@ -80,7 +80,7 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
     /**
      * Stores the sortable column items.
      * @since       2.0.0
-     * @since       2.1.0       Moved to AdminPageFramework_Property_PostType.
+     * @since       2.1.0       Moved to AdminPageFramework_Property_post_type.
      * @internal
      */         
     public $aColumnSortable = array(
@@ -92,7 +92,7 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
      * Stores the caller script path.
      * 
      * @since 2.0.0
-     * @since 2.1.0 Moved to AdminPageFramework_Property_PostType.
+     * @since 2.1.0 Moved to AdminPageFramework_Property_post_type.
      * @var string
      * @access public
      */         
@@ -103,7 +103,7 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
      * Stores custom taxonomy slugs.
      * 
      * @since       2.0.0
-     * @since       2.1.0       Moved to AdminPageFramework_Property_PostType.
+     * @since       2.1.0       Moved to AdminPageFramework_Property_post_type.
      * @internal
      */     
     public $aTaxonomies; // stores the registering taxonomy info.
@@ -123,7 +123,7 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
      * Stores the taxonomy IDs as value to indicate whether the drop-down filter option should be displayed or not.
      * 
      * @since       2.0.0
-     * @since       2.1.0       Moved to AdminPageFramework_Property_PostType.
+     * @since       2.1.0       Moved to AdminPageFramework_Property_post_type.
      * @internal
      */     
     public $aTaxonomyTableFilters = array();    
@@ -132,7 +132,7 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
      * Stores removing taxonomy menus' info.
      * 
      * @since       2.0.0
-     * @since       2.1.0       Moved to AdminPageFramework_Property_PostType.
+     * @since       2.1.0       Moved to AdminPageFramework_Property_post_type.
      * @internal
      */     
     public $aTaxonomyRemoveSubmenuPages = array();    
@@ -140,7 +140,7 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
     // Default Values
     /**
      * @since 2.0.0
-     * @since 2.1.0 Moved to AdminPageFramework_Property_PostType.
+     * @since 2.1.0 Moved to AdminPageFramework_Property_post_type.
      * @internal
      */                     
     public $bEnableAutoSave = true;    
@@ -149,7 +149,7 @@ class AdminPageFramework_Property_PostType extends AdminPageFramework_Property_B
      * Stores the flag value which indicates whether author table filters should be enabled or not.
      * 
      * @since       2.0.0
-     * @since       2.1.0       Moved to AdminPageFramework_Property_PostType.
+     * @since       2.1.0       Moved to AdminPageFramework_Property_post_type.
      * @internal
      */                     
     public $bEnableAuthorTableFileter = false;    

@@ -13,12 +13,12 @@
  * Embeds links in the footer and plugin's listing table etc.
  * 
  * @since           3.5.0
- * @extends         AdminPageFramework_Link_Page
+ * @extends         AdminPageFramework_Link_admin_page
  * @package         AdminPageFramework
  * @subpackage      Link
  * @internal
  */
-class AdminPageFramework_Link_NetworkAdmin extends AdminPageFramework_Link_Page {
+class AdminPageFramework_Link_network_admin_page extends AdminPageFramework_Link_admin_page {
     
     /**
      * Sets up hooks and properties.

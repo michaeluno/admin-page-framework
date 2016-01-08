@@ -385,7 +385,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * 
      * @since       3.0.0
      * @since       3.7.0      Changed the name from `getDefaultOptions()`.
-     * Moved from `AdminPageFramework_Property_Page`.
+     * Moved from `AdminPageFramework_Property_admin_page`.
      * @return      array       An array holding default values of form data.
      */
     public function getDefaultFormValues() {

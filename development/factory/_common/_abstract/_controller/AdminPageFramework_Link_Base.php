@@ -220,7 +220,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
             /**
              * Inserts the left footer text.
              * @since       2.0.0
-             * @since       3.5.5       Moved from `AdminPageFramework_Link_PostType`.
+             * @since       3.5.5       Moved from `AdminPageFramework_Link_post_type`.
              * @remark      The page link class will override this method.
              * @callback    filter      admin_footer_text
              * @internal
@@ -232,7 +232,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
                     : $this->oProp->aFooterInfo['sLeft'];
              
                 return $this->addAndApplyFilters( 
-                    $this->oProp->_getCallerObject(), 
+                    $this->oProp->oCaller, 
                     'footer_left_' . $this->oProp->sClassName, 
                     $sLinkHTML
                 );
@@ -241,14 +241,14 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
             /**
              * Inserts the right footer text.
              * @since       2.0.0
-             * @since       3.5.5       Moved from `AdminPageFramework_Link_PostType`.
+             * @since       3.5.5       Moved from `AdminPageFramework_Link_post_type`.
              * @remark      The page link class will override this method.
              * @callback    filter      admin_footer_text
              * @internal
              */     
             public function _replyToAddInfoInFooterRight( $sLinkHTML='' ) {
                 return $this->addAndApplyFilters( 
-                    $this->oProp->_getCallerObject(), 
+                    $this->oProp->oCaller, 
                     'footer_right_' . $this->oProp->sClassName, 
                     $this->oProp->aFooterInfo['sRight']
                 );                

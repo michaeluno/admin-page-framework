@@ -13,10 +13,10 @@
  * @since       3.1.0
  * @package     AdminPageFramework
  * @subpackage  Property
- * @extends     AdminPageFramework_Property_Page
+ * @extends     AdminPageFramework_Property_admin_page
  * @internal
  */
-class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Property_Page {
+class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Property_admin_page {
     
     /**
      * Defines the property type.
@@ -38,7 +38,7 @@ class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Proper
      * @since       3.7.9
      */
     public $sSettingNoticeActionHook = 'network_admin_notices';
-    
+
     /**
      * Returns the option array.
      * 

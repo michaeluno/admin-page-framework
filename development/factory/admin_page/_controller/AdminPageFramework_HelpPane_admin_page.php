@@ -18,7 +18,7 @@
  * @staticvar   array       $_aStructure_HelpTabUserArray       stores the array structure of the help tab array.
  * @internal
  */
-class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base {
+class AdminPageFramework_HelpPane_admin_page extends AdminPageFramework_HelpPane_Base {
         
     /**
      * Represents the structure of help tab array that is used by the user to set a help tab content.
@@ -66,6 +66,10 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
      */  
     public function _replyToRegisterHelpTabs() {
 
+        if ( ! $this->_isInThePage() ) {
+            return;
+        }
+    
         $_sCurrentPageSlug  = $this->oProp->getCurrentPageSlug();
         $_sCurrentTabSlug   = $this->oProp->getCurrentTabSlug( $_sCurrentPageSlug );
         
@@ -94,10 +98,10 @@ class AdminPageFramework_HelpPane_Page extends AdminPageFramework_HelpPane_Base 
             }
 
             $this->_setHelpTab( 
-                $aHelpTab['sID'], 
-                $aHelpTab['sTitle'], 
-                $aHelpTab['aContent'], 
-                $aHelpTab['aSidebar']
+                $aHelpTab[ 'sID' ], 
+                $aHelpTab[ 'sTitle' ], 
+                $aHelpTab[ 'aContent' ], 
+                $aHelpTab[ 'aSidebar' ]
             );            
             
         }

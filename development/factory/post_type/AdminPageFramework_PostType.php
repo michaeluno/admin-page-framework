@@ -102,7 +102,7 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
             return; 
         }
 
-        $this->oProp = new AdminPageFramework_Property_PostType( 
+        $this->oProp = new AdminPageFramework_Property_post_type( 
             $this, 
             $this->_getCallerScriptPath( $sCallerPath ),
             get_class( $this ), // class name

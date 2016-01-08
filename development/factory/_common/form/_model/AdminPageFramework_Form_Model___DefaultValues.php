@@ -138,7 +138,7 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
          * This is a helper function for the above getDefaultOptions() method.
          * 
          * @since       3.0.0
-         * @since       3.7.0      Moved from `AdminPageFramework_Property_Page`.
+         * @since       3.7.0      Moved from `AdminPageFramework_Property_admin_page`.
          */
         private function _getDefautValue( $aFieldset ) {
             

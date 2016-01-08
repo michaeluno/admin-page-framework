@@ -67,7 +67,6 @@ $_aClassFiles = array(
 	"APF_Demo_ManageOptions_Message"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_Message.php", 
 	"APF_Demo_ManageOptions_Property"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_Property.php", 
 	"APF_Demo_ManageOptions_Reset"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_Reset.php", 
-	"APF_Demo_ManageOptions_ResetConfirm"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_ResetConfirm.php", 
 	"APF_Demo_ManageOptions_SavedData"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_SavedData.php", 
 	"APF_BasicUsage"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/APF_BasicUsage.php", 
 	"APF_MetaBox_For_Pages_Advanced"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Advanced.php", 

@@ -41,12 +41,12 @@ abstract class AdminPageFramework_UserMeta extends AdminPageFramework_UserMeta_C
      */
     public function __construct( $sCapability='read', $sTextDomain='admin-page-framework' ) {
         
-        $this->oProp = new AdminPageFramework_Property_UserMeta( 
+        $this->oProp = new AdminPageFramework_Property_user_meta( 
             $this,                  // the caller object
             get_class( $this ),     // the caller class name    
             $sCapability,           // the capability level
             $sTextDomain,           // the text domain
-            self::$_sStructureType     // the fields type
+            self::$_sStructureType  // the structure type
         );     
         
         parent::__construct( $this->oProp );

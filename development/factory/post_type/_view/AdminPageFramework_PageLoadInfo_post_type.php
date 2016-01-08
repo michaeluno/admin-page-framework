@@ -8,30 +8,17 @@
  */
 
 /**
- * Collects data of page loads of the added pages.
- *
- * @since 3.1.0
+ * Collects data of page loads of the added post type pages. 
+ * @since 2.1.7
  * @extends AdminPageFramework_PageLoadInfo_Base
  * @package AdminPageFramework
  * @subpackage Debug
  * @internal
  */
-class AdminPageFramework_PageLoadInfo_NetworkAdminPage extends AdminPageFramework_PageLoadInfo_Base {
+class AdminPageFramework_PageLoadInfo_post_type extends AdminPageFramework_PageLoadInfo_Base {
     
     private static $_oInstance;
     private static $aClassNames = array();
-    
-    function __construct( $oProp, $oMsg ) {
-
-        if ( is_network_admin() && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-
-            add_action( 'in_admin_footer', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 ); // must be loaded after the sub pages are registered
-            
-        }
-        parent::__construct( $oProp, $oMsg );
-        
-    }
-        
     
     /**
      * Ensures that only one instance of this class object exists per class. ( no multiple instances of this object on a particular class ) 
@@ -39,32 +26,35 @@ class AdminPageFramework_PageLoadInfo_NetworkAdminPage extends AdminPageFramewor
      * @remark This class should be instantiated via this method.
      */
     public static function instantiate( $oProp, $oMsg ) {
-
-        if ( ! is_network_admin() ) { 
-            return;
-        }     
         
         if ( in_array( $oProp->sClassName, self::$aClassNames ) )
             return self::$_oInstance;
         
         self::$aClassNames[] = $oProp->sClassName;
-        self::$_oInstance = new AdminPageFramework_PageLoadInfo_NetworkAdminPage( $oProp, $oMsg );
+        self::$_oInstance = new AdminPageFramework_PageLoadInfo_post_type( $oProp, $oMsg );
         
         return self::$_oInstance;
         
-    }     
-    
+    }    
+        
     /**
-     * Sets the hook if the current page is one of the framework's added pages.
+     * Sets the hook if the current page is one of the framework's added post type pages.
      * @internal
      */ 
     public function _replyToSetPageLoadInfoInFooter() {
-                
-        // For added pages
-        if ( $this->oProp->isPageAdded() ) {
+
+        // Some users sets $_GET['post_type'] element even in regular admin pages. In that case, do not load the style to avoid duplicates.
+        if ( isset( $_GET['page'] ) && $_GET['page'] ) { return; }
+    
+        // For post type pages
+        if ( 
+            AdminPageFramework_WPUtility::getCurrentPostType() == $this->oProp->sPostType
+            || AdminPageFramework_WPUtility::isPostDefinitionPage( $this->oProp->sPostType )
+            || AdminPageFramework_WPUtility::isCustomTaxonomyPage( $this->oProp->sPostType )
+        ) {
             add_filter( 'update_footer', array( $this, '_replyToGetPageLoadInfo' ), 999 );
         }
         
-    }     
+    }    
     
 }

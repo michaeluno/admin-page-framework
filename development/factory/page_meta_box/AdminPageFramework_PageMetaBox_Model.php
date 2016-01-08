@@ -36,7 +36,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
     public function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     
                 
         // The property object needs to be done first before the parent constructor.
-        $this->oProp             = new AdminPageFramework_Property_PageMetaBox( 
+        $this->oProp             = new AdminPageFramework_Property_page_meta_box( 
             $this, 
             get_class( $this ), 
             $sCapability, 

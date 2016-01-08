@@ -17,8 +17,8 @@
  * @since       3.5.0      
  * @package     Admin Page Framework
  * @subpackage  Resource
- * @extends     AdminPageFramework_Resource_MetaBox
+ * @extends     AdminPageFramework_Resource_post_meta_box
  * @internal
  */
-class AdminPageFramework_Resource_UserMeta extends AdminPageFramework_Resource_MetaBox {    
+class AdminPageFramework_Resource_user_meta extends AdminPageFramework_Resource_post_meta_box {    
 }

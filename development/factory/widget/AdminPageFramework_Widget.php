@@ -49,7 +49,7 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
         }
      
         // Properties
-        $this->oProp = new AdminPageFramework_Property_Widget( 
+        $this->oProp = new AdminPageFramework_Property_widget( 
             $this,                  // caller object
             null,                   // the caller script path
             get_class( $this ),     // class name

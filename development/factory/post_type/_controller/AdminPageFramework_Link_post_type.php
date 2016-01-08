@@ -16,7 +16,7 @@
  * @subpackage  Link
  * @internal
  */
-class AdminPageFramework_Link_PostType extends AdminPageFramework_Link_Base {
+class AdminPageFramework_Link_post_type extends AdminPageFramework_Link_Base {
         
     /**
      * Sets up hooks and properties.

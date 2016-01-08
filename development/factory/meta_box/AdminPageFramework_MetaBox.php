@@ -64,7 +64,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Con
         }        
         
         // A property object needs to be done first.
-        $this->oProp                = new AdminPageFramework_Property_MetaBox( 
+        $this->oProp                = new AdminPageFramework_Property_post_meta_box( 
             $this, 
             get_class( $this ), 
             $sCapability, 

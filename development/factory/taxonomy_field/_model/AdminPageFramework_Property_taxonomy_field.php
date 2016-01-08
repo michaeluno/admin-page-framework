@@ -13,10 +13,10 @@
  * @since       3.0.0
  * @package     AdminPageFramework
  * @subpackage  Property
- * @extends     AdminPageFramework_Property_MetaBox
+ * @extends     AdminPageFramework_Property_post_meta_box
  * @internal
  */
-class AdminPageFramework_Property_TaxonomyField extends AdminPageFramework_Property_MetaBox {
+class AdminPageFramework_Property_taxonomy_field extends AdminPageFramework_Property_post_meta_box {
 
     /**
      * Defines the property type.

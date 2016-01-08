@@ -10,13 +10,13 @@
 /**
  * Provides base methods and properties for manipulating the contextual help tabs.
  * 
- * @package AdminPageFramework
- * @subpackage HelpPane
- * @since 2.1.0
+ * @package     AdminPageFramework
+ * @subpackage  HelpPane
+ * @since       2.1.0
  * @abstract
  * @internal
  */
-abstract class AdminPageFramework_HelpPane_Base extends AdminPageFramework_Debug {
+abstract class AdminPageFramework_HelpPane_Base extends AdminPageFramework_FrameworkUtility {
     
     /**
      * A property object.
@@ -26,27 +26,21 @@ abstract class AdminPageFramework_HelpPane_Base extends AdminPageFramework_Debug
     public $oProp;
     
     /**
-     * A utility object.
-     * 
-     * @remark      Set in the constructor.
-     */
-    public $oUtil;    
-    
-    /**
      * Stores the screen object.
-     * @var object
-     * @since 2.1.0
+     * @var     object
+     * @since   2.1.0
      */ 
     protected $_oScreen;
        
     /**
-     * Sets up properties.
+     * Sets up properties and hooks.
      */
-    function __construct( $oProp ) {
+    public function __construct( $oProp ) {
         
         $this->oProp = $oProp;
-        $this->oUtil = new AdminPageFramework_WPUtility;
-
+        
+        add_action( 'admin_head', array( $this, '_replyToRegisterHelpTabText' ) ); 
+        
     }
         
     /**
@@ -71,9 +65,9 @@ abstract class AdminPageFramework_HelpPane_Base extends AdminPageFramework_Debug
             : get_current_screen();
         $this->_oScreen->add_help_tab( 
             array(
-                'id'        => $sID,
-                'title'     => $sTitle,
-                'content'   => implode( PHP_EOL, $aContents ),
+                'id'      => $sID,
+                'title'   => $sTitle,
+                'content' => implode( PHP_EOL, $aContents ),
             ) 
         );     
         
@@ -91,4 +85,77 @@ abstract class AdminPageFramework_HelpPane_Base extends AdminPageFramework_Debug
     protected function _formatHelpDescription( $sHelpDescription ) {
         return "<div class='contextual-help-description'>" . $sHelpDescription . "</div>";
     }
+    
+    
+    /**
+     * Determines whether the currently loaded page belongs to the meta box page.
+     * 
+     * @since       3.7.10
+     * @internal
+     */
+    protected function _isInThePage() {
+        return $this->oProp->oCaller->isInThePage();    
+    }
+    
+    /**
+     * Adds the given HTML text to the contextual help pane.
+     * 
+     * The help tab will be the meta box title and all the added text will be inserted into the content area within the tab.
+     *  
+     * @since       2.1.0
+     * @remark      This method just adds the given text into the class property. The actual registration will be performed with the <em>replyToRegisterHelpTabTextForMetaBox()</em> method.
+     * @internal
+     */ 
+    public function _addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) {
+        
+        $this->oProp->aHelpTabText[]        = "<div class='contextual-help-description'>" . $sHTMLContent . "</div>";
+        $this->oProp->aHelpTabTextSide[]    = "<div class='contextual-help-description'>" . $sHTMLSidebarContent . "</div>";
+        
+    }
+    
+    /**
+     * Adds the given HTML text to the contextual help pane.
+     * 
+     * The help tab will be the meta box title and all the added text will be inserted into the content area within the tab.
+     * On contrary to the `addHelpTab()` method of the `AdminPageFramework_HelpPane_admin_page` class, the help tab title is already determined and the meta box ID and the title will be used.
+     * 
+     * @since       2.1.0
+     * @since       3.7.10      Moved from `AdminPageFrameowrk_HelpPane_post_meta_box`
+     * @uses        _addHelpText()
+     * @remark      This method just adds the given text into the class property. The actual registration will be performed with the `replyToRegisterHelpTabTextForMetaBox()` method.
+     * @internal
+     */     
+    public function _addHelpTextForFormFields( $sFieldTitle, $sHelpText, $sHelpTextSidebar="" ) {
+        $this->_addHelpText(
+            "<span class='contextual-help-tab-title'>" . $sFieldTitle . "</span> - " . PHP_EOL
+                . $sHelpText,     
+            $sHelpTextSidebar
+        );     
+    }
+
+    /**
+     * Registers the contextual help tab contents.
+     * 
+     * @remark      Since the screen object needs to be established, some hooks are too early like `admin_init` or `admin_menu`.
+     * @since       2.1.0
+     * @since       3.7.10      Moved from `AdminPageFrameowrk_HelpPane_post_meta_box`. Changed the name from `_replyToRegisterHelpTabTextForMetaBox()`.
+     * @callback    action      admin_head
+     * @internal
+     */ 
+    public function _replyToRegisterHelpTabText() {
+
+        // Check if the currently loaded page is of meta box page.
+        if ( ! $this->_isInThePage() ) { 
+            return false; 
+        }
+
+        $this->_setHelpTab(     // defined in the base class.
+            $this->oProp->sClassName,
+            $this->oProp->sTitle, 
+            $this->oProp->aHelpTabText, 
+            $this->oProp->aHelpTabTextSide 
+        );
+        
+    }    
+    
 }

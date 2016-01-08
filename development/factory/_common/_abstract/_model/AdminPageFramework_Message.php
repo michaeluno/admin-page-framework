@@ -102,10 +102,10 @@ class AdminPageFramework_Message {
         'powered_by'                            => 'Thank you for creating with', 
         'and'                                   => 'and',
 
-        // AdminPageFramework_Link_Page
+        // AdminPageFramework_Link_admin_page
         'settings'                              => 'Settings', 
 
-        // AdminPageFramework_Link_PostType
+        // AdminPageFramework_Link_post_type
         'manage'                                => 'Manage', 
 
         // AdminPageFramework_FieldType_{...}

@@ -13,13 +13,13 @@
  * This class stores various types of values. This is used to encapsulate properties so that it helps to avoid naming conflicts.
  * 
  * @since       3.0.0
- * @since       3.7.9       Renamed from `AdminPageFramework_Property_MetaBox_Page`.
+ * @since       3.7.9       Renamed from `AdminPageFramework_Property_post_meta_box_Page`.
  * @package     AdminPageFramework
  * @subpackage  PageMetaBox
  * @extends     AdminPageFramework_Property_Base
  * @internal
  */
-class AdminPageFramework_Property_PageMetaBox extends AdminPageFramework_Property_MetaBox {
+class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Property_post_meta_box {
 
     /**
      * Defines the property type.

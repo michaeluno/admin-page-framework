@@ -18,7 +18,7 @@
  * @extends     AdminPageFramework_Property_Base
  * @internal
  */
-class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Base {
+class AdminPageFramework_Property_post_meta_box extends AdminPageFramework_Property_Base {
     
     /**
      * Defines the property type.
@@ -37,15 +37,6 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
      */     
     public $sMetaBoxID ='';
     
-    /**
-     * Stores the meta box title.
-     * 
-     * @since       2.0.0
-     * @since       2.1.0       Moved from the meta box class.
-     * @var string
-     */ 
-    public $sTitle = '';
-
     /**
      * Stores the post type slugs associated with the meta box.
      * 
@@ -128,18 +119,6 @@ class AdminPageFramework_Property_MetaBox extends AdminPageFramework_Property_Ba
      * @internal
      */     
     public $sThickBoxButtonUseThis = '';
-
-    /**
-     * Stores text to insert into the contextual help tab.
-     * @since       2.1.0
-     */ 
-    public $aHelpTabText = array();
-    
-    /**
-     * Stores text to insert into the sidebar of a contextual help tab.
-     * @since       2.1.0
-     */ 
-    public $aHelpTabTextSide = array();
         
     /**
      * Defines the fields type.

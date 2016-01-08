@@ -19,6 +19,28 @@
 abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Factory {    
   
     /**
+     * Instantiates a link object based on the type.
+     * 
+     * @since       3.7.10
+     * @internal
+     * @return      null|object
+     */
+    protected function _getLinkObject() {
+        return new AdminPageFramework_Link_post_type( $this->oProp, $this->oMsg );
+    }          
+
+    /**
+     * Instantiates a link object based on the type.
+     * 
+     * @since       3.7.10
+     * @internal
+     * @return      null|object
+     */    
+    protected function _getPageLoadObject() {
+        return new AdminPageFramework_PageLoadInfo_post_type( $this->oProp, $this->oMsg );
+    }
+  
+    /**
      * Determines whether the currently loaded page is of the post type page.
      * 
      * @internal

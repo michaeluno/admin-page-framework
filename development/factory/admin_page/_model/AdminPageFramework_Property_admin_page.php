@@ -18,7 +18,7 @@
  * @extends     AdminPageFramework_Property_Base
  * @internal
  */
-class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base {
+class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property_Base {
     
     /**
      * Defines the property type.
@@ -33,7 +33,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * Defines the fields type.
      * 
      * @since       3.1.0
-     * @since       3.7.0      Chaned the default value from `page`. Renamed from `$sFieldsType`.
+     * @since       3.7.0      Changed the default value from `page`. Renamed from `$sFieldsType`.
      */
     public $sStructureType = 'admin_page';
     
@@ -264,10 +264,10 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
      * Stores the cache lifetime of the transient used for the form options when the user passes an integer to the option key parameter.
      * @since       3.5.9
      */
-    public $iOptionTransientDuration  = 0;
+    public $iOptionTransientDuration  = 0; 
      
     /**
-     * Constructs the instance of AdminPageFramework_Property_Page class object.
+     * Constructs the instance of AdminPageFramework_Property_admin_page class object.
      * 
      * @remark      Used by the setInPageTabsVisibility() method.
      * @since       2.0.0
@@ -277,7 +277,7 @@ class AdminPageFramework_Property_Page extends AdminPageFramework_Property_Base 
 
         // 3.7.0+ This must be set before the parent constructor. As the form arguments array uses this value.
         $this->_sFormRegistrationHook = 'load_after_' . $sClassName;
-        
+
         parent::__construct( 
             $oCaller, 
             $sCallerPath, 

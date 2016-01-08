@@ -13,18 +13,19 @@
  * @package AdminPageFramework
  * @subpackage HelpPane
  * @since 3.0.4    
- * @extends AdminPageFramework_HelpPane_MetaBox
+ * @extends AdminPageFramework_HelpPane_Base
  * @internal
  */
-class AdminPageFramework_HelpPane_PageMetaBox extends AdminPageFramework_HelpPane_MetaBox {
+class AdminPageFramework_HelpPane_page_meta_box extends AdminPageFramework_HelpPane_Base {
 
     /**
      * Determines whether the currently loaded page belongs to the meta box page.
      * 
-     * @sicne 3.0.4
+     * @sicne       3.0.4
      * @internal
+     * @deprecated  3.7.10
      */
-    protected function _isInThePage() {
+/*     protected function _isInThePage() {
 
         if ( ! $this->oProp->bIsAdmin ) {
             return false;
@@ -45,5 +46,5 @@ class AdminPageFramework_HelpPane_PageMetaBox extends AdminPageFramework_HelpPan
         return $this->oProp->isCurrentTab( $_GET[ 'tab' ] );
         
     }
-    
+     */
 }
