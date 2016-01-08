@@ -130,8 +130,9 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
         }
         
         // [3.7.10+] Auto-callback within the object
-        if ( method_exists( $_oCallerObject, $_sActionHook ) ) {
-            add_action( $_sActionHook, array( $_oCallerObject, $_sActionHook ), 10, $_iArgs - 2 );
+        $_sAutoCallbackMethodName = str_replace( '\\', '_', $_sActionHook );
+        if ( method_exists( $_oCallerObject, $_sAutoCallbackMethodName ) ) {
+            add_action( $_sActionHook, array( $_oCallerObject, $_sAutoCallbackMethodName ), 10, $_iArgs - 2 );
         }
 
         // Remove the first element, the caller object.
@@ -208,9 +209,15 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
         }
         
         // 3.7.10+ Auto-callback within the object
-        if ( method_exists( $_oCallerObject, $_sFilter ) ) {
+        $_sAutoCallbackMethodName = str_replace( '\\', '_', $_sFilter );
+        if ( method_exists( $_oCallerObject, $_sAutoCallbackMethodName ) ) {
             // Register the method named $_sFilter with the filter hook name $_sFilter.
-            add_filter( $_sFilter, array( $_oCallerObject, $_sFilter ), 10, $_iArgs - 2 ); 
+            add_filter( 
+                $_sFilter, 
+                array( $_oCallerObject, $_sAutoCallbackMethodName ), 
+                10, 
+                $_iArgs - 2 
+            ); 
         }
         
         // Remove the first element, the caller object.
