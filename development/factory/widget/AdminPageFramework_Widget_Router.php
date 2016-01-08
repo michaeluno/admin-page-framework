@@ -17,4 +17,22 @@
  * @internal
  */
 abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Factory {    
+
+    /**
+     * Sets up hooks and properties.
+     * 
+     * @since       3.2.0
+     * @since       3.7.10      Moved from `AdminPageFramework_Widget_Controller`.
+     * @internal    
+     */
+    function __construct( $oProp ) {
+        
+        parent::__construct( $oProp );
+        
+        // Other admin page framework factory classes uses wp_loaded hook but widget_init hook is called before that.
+        // So we use widgets_init hook for this factory.
+        $this->oUtil->registerAction( 'widgets_init', array( $this, '_replyToDetermineToLoad' ) );
+        
+    }
+
 }

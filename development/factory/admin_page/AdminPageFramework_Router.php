@@ -45,9 +45,13 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         if ( $this->oProp->bIsAdminAjax ) {
             return;
         }     
-        if ( $this->oProp->bIsAdmin ) {
-            add_action( 'wp_loaded', array( $this, 'setup_pre' ) );     
+        if ( ! $this->oProp->bIsAdmin ) {
+            return;
         }
+        
+        add_action( 'wp_loaded', array( $this, '_replyToDetermineToLoad' ) );
+        // @deprecated      3.7.10
+        // add_action( 'wp_loaded', array( $this, 'setup_pre' ) );    
         
     }
     
@@ -99,9 +103,11 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         );        
         
         switch( $this->_getCallbackName( $sMethodName, $_sPageSlug, $_aKnownMethodPrefixes ) ) {
-            case 'setup_pre':
-                $this->_doSetUp();
-                return;
+            
+            // @deprecated      3.7.10
+            // case 'setup_pre':
+                // $this->_doSetUp();
+                // return;
                 
             // A callback of the call_page_{page slug} action hook
             case $this->oProp->sClassHash . '_page_' . $_sPageSlug:
@@ -135,7 +141,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             if ( in_array( 
                     $sMethodName, 
                     array( 
-                        'setup_pre',  
+                        // 'setup_pre',  // @deprecated       3.7.10
                         $this->oProp->sClassHash . '_page_' . $sPageSlug
                     ) 
                 ) 
@@ -157,8 +163,9 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
          * @since       3.5.3
          * @internal
          * @return      void
+         * @deprecated  3.7.10      _replyToDetermineToLoad is used instead.
          */
-        private function _doSetUp() {
+/*         private function _doSetUp() {
             
             $this->_setUp();
             
@@ -169,7 +176,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                 $this 
             );
         
-        }
+        }  */
         
         /**
          * Redirects the callback of the load-{page} action hook to the framework's callback.
@@ -191,8 +198,8 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             }
 
             // [3.4.6+] Set the page and tab slugs to the default form section so that added form fields without a section will appear in different pages and tabs.
-            $this->oForm->aSections[ '_default' ]['page_slug']  = $sPageSlug ? $sPageSlug : null;
-            $this->oForm->aSections[ '_default' ]['tab_slug']   = $sTabSlug ? $sTabSlug : null;
+            $this->oForm->aSections[ '_default' ][ 'page_slug' ]  = $sPageSlug ? $sPageSlug : null;
+            $this->oForm->aSections[ '_default' ][ 'tab_slug' ]   = $sTabSlug ? $sTabSlug : null;
         
             // Do actions, class ->  page -> in-page tab
             $this->oUtil->addAndDoActions( 
@@ -244,7 +251,8 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                 }
                 return true;
                 
-            }        
+            }       
+            
     /* Shared methods */
     
     /**
@@ -286,7 +294,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             return true;
         }    
 
-        if ( ! isset( $_GET['page'] ) ) { 
+        if ( ! isset( $_GET[ 'page' ] ) ) { 
             return false; 
         }
                 

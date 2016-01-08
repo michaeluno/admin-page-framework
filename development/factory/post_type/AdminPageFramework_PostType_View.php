@@ -33,33 +33,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
         if ( $this->oProp->bIsAdmin ) {
             add_action( 'current_screen', array( $this, '_replyToSetUpHooksForView' ) );
         }
-        
-        
-/*         if ( $this->_isInThePage() ) {     
-    
-            // Table filters
-            add_action( 'restrict_manage_posts', array( $this, '_replyToAddAuthorTableFilter' ) );
-            add_action( 'restrict_manage_posts', array( $this, '_replyToAddTaxonomyTableFilter' ) );
-            add_filter( 'parse_query', array( $this, '_replyToGetTableFilterQueryForTaxonomies' ) );
             
-            // Add an warning icon to the tag unit type's action link.
-            add_filter( 
-                'post_row_actions',
-                array( $this, '_replyToModifyActionLinks' ), 
-                10, 
-                2 
-            );            
-            
-            // Style
-            add_action( 'admin_head', array( $this, '_replyToPrintStyle' ) );
-            
-        }     */ 
-        
-            // 3.5.10+ Menu 
-        // if ( $this->oProp->bIsAdmin ) {
-            // add_action( 'admin_menu', array( $this, '_replyToRemoveAddNewSidebarMenu' ) );
-        // }
-        
         // Front-end
         add_action( 'the_content', array( $this, '_replyToFilterPostTypeContent' ) );
         

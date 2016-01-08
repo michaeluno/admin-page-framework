@@ -219,6 +219,42 @@ abstract class AdminPageFramework_Factory_Router {
     }
          
     /**
+     * Determines whether the `setUp()` method should be called.
+     * 
+     * @since       3.7.10
+     * @callback    
+     * @internal    
+     * @return      void
+     */
+    public function _replyToDetermineToLoad() {
+                
+        if ( ! $this->_isInThePage() ) { 
+            return; 
+        }
+
+        /**
+         * Make sure a form object (`$this->oForm`) is instantiated.
+         * If a form object has not been created, this will instantiate it by triggering `__get()`.
+         * This lets the form object available in the callback functions (methods) of the factory class
+         * as some callbacks possibly be called during the instantiation (constructor) 
+         * if the set action is already triggered by the system (WordPress).
+         */
+        $this->oForm;
+               
+        // Calls `setUp()` and the user will set up the meta box.
+        $this->_setUp();
+        
+        /**
+         * This action hook must be called AFTER the _setUp() method 
+         * as there are callback methods that hook into this hook 
+         * and assumes required configurations have been made.
+         */
+        $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
+                          
+    }          
+         
+         
+    /**
      * Instantiate a form object based on the type.
      * 
      * @since       3.1.0
@@ -375,7 +411,9 @@ abstract class AdminPageFramework_Factory_Router {
             case 'validate':
             case 'content':
                 return $_mFirstArg;
-            case 'setup_pre':
+                
+            // @deprecated 3.7.10 use the `_replyToDetermineToLoad()` method.
+/*             case 'setup_pre':
                 $this->_setUp();
                 
                 // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
@@ -384,7 +422,7 @@ abstract class AdminPageFramework_Factory_Router {
                     "set_up_{$this->oProp->sClassName}", 
                     $this 
                 );
-                return;
+                return; */
         }
         
         // If it is called with the framework auto-callback,

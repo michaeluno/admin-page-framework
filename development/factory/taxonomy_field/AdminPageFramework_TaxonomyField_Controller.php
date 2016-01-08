@@ -25,6 +25,5 @@ abstract class AdminPageFramework_TaxonomyField_Controller extends AdminPageFram
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
      */
     public function setUp() {}    
-    
-       
+        
 }

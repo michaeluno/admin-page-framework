@@ -20,22 +20,6 @@
 abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_Widget_View {    
 
     /**
-     * Sets up hooks and properties.
-     * 
-     * @since       3.2.0
-     * @internal    
-     */
-    function __construct( $oProp ) {
-        
-        parent::__construct( $oProp );
-        
-        // Other admin page framework factory classes uses wp_loaded hook but widget_init hook is called before that.
-        // So we use widgets_init hook for this factory.
-        $this->oUtil->registerAction( 'widgets_init', array( $this, 'setup_pre' ) );
-        
-    }
-
-    /**
     * The method for necessary set-ups.
     * 
     * <h4>Example</h4>

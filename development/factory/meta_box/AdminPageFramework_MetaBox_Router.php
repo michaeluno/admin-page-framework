@@ -45,12 +45,14 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         $this->oProp->sContext      = $sContext;    // 'normal', 'advanced', or 'side' 
         $this->oProp->sPriority     = $sPriority;   // 'high', 'core', 'default' or 'low'    
 
-        if ( $this->oProp->bIsAdmin ) {
-            $this->oUtil->registerAction(
-                'current_screen', 
-                array( $this, '_replyToDetermineToLoad' )
-            );            
-        }    
+        if ( ! $this->oProp->bIsAdmin ) {
+            return;
+        }
+        
+        $this->oUtil->registerAction(
+            'current_screen', 
+            array( $this, '_replyToDetermineToLoad' )
+        );                    
 
     }
   
@@ -90,39 +92,5 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         return true;
         
     }
-    /**
-     * Determines whether the meta box should be loaded in the currently loading page.
-     * 
-     * @since       3.0.3
-     * @since       3.1.5       Changed the hook to 'current_screen' from 'wp_loaded'.
-     * @internal    
-     * @callback    action      current_screen
-     */
-    public function _replyToDetermineToLoad( /* $oScreen */ ) {
-                
-        if ( ! $this->_isInThePage() ) { 
-            return; 
-        }
-
-        /**
-         * Make sure a form object (`$this->oForm`) is instantiated.
-         * If a form object has not been created, this will instantiate it by triggering `__get()`.
-         * This lets the form object available in the callback functions (methods) of the factory class
-         * as some callbacks possibly be called during the instantiation (constructor) 
-         * if the set action is already triggered by the system (WordPress).
-         */
-        $this->oForm;
-               
-        // Calls `setUp()` and the user will set up the meta box.
-        $this->_setUp();
-        
-        /**
-         * This action hook must be called AFTER the _setUp() method 
-         * as there are callback methods that hook into this hook 
-         * and assumes required configurations have been made.
-         */
-        $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
-                          
-    }    
-    
+   
 }

@@ -20,22 +20,6 @@
 abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework_PostType_View {    
 
     /**
-     * Sets up hooks and properties.
-     * 
-     * @internal
-     * @remark      Make sure to call the parent construct first as the factory router need to set up sub-class objects.
-     */
-    public function __construct( $oProp ) {
-                
-        parent::__construct( $oProp );
-        
-        // 3.4.2+ Changed the hook to init from wp_loaded.
-        // 3.5.1+ Moved to after the constructor.
-        $this->oUtil->registerAction( 'init', array( $this, 'setup_pre' ) );
-        
-    }
-
-    /**
     * The method for necessary set-ups.
     * 
     * <h4>Example</h4>

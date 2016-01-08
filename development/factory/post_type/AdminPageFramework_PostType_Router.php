@@ -19,6 +19,46 @@
 abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Factory {    
   
     /**
+     * Sets up hooks and properties.
+     * 
+     * @internal
+     * @remark      Make sure to call the parent construct first as the factory router need to set up sub-class objects.
+     * @since       3.7.10
+     */
+    public function __construct( $oProp ) {
+                
+        parent::__construct( $oProp );
+
+        $this->oUtil->registerAction( 'init', array( $this, '_replyToDetermineToLoad' ) );
+        
+    }
+    
+    /**
+     * Calls the setUp() method.
+     * 
+     * In this method, unlike the other factory classes, _isInThePage() is not used to check whether to load the `setUp()`.
+     * This is because a registration of a post type should be done in any page. 
+     * For example, a post type with UI enabled is not registered in an admin page, the top-level menu will not be added in the page.
+     * Also a post type should be accessible from the front-end. So the check is not necessary.
+     * 
+     * @internal
+     * @return      void
+     * @since       3.7.10     
+     */
+    public function _replyToDetermineToLoad() {
+        
+        $this->_setUp();
+        
+        // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
+        $this->oUtil->addAndDoAction( 
+            $this, 
+            "set_up_{$this->oProp->sClassName}", 
+            $this 
+        );
+    
+    }     
+
+    /**
      * Instantiates a link object based on the type.
      * 
      * @since       3.7.10

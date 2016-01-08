@@ -27,13 +27,18 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
         
         parent::__construct( $oProp );
         
-        if ( $this->oProp->bIsAdmin ) {
-            $this->oUtil->registerAction(
-                'current_screen',
-                array( $this, '_replyToDetermineToLoad' )
-            );
-        }        
-                
+        if ( ! $this->oProp->bIsAdmin ) {
+            return;
+        }
+        
+        $this->oUtil->registerAction(
+            'current_screen',
+            array( $this, '_replyToDetermineToLoad' )
+        );
+        
+        // 3.7.10+
+        add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToSetUpHooks' ) );
+                        
     }
     
     /**
@@ -55,26 +60,16 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
         );
 
     }    
-        
+ 
     /**
-     * Determines whether the meta box should be loaded in the currently loading page.
+     * Sets up hooks after calling the `setUp()` method.
      * 
-     * @since       3.5.0
+     * @since       3.7.10
+     * @callback    action      set_up_{instantiated class name}
      * @internal
-     * @callback    action      current_screen
-     * @return      void
      */
-    public function _replyToDetermineToLoad( /* $oScreen */ ) {
+    public function _replyToSetUpHooks( $oFactory ) {
         
-        if ( ! $this->_isInThePage() ) { 
-            return; 
-        }
-
-        $this->_setUp();
-        
-        // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
-        $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
-                 
         // Hooks to display fields.
         add_action( 'show_user_profile', array( $this, '_replyToPrintFields' ) );   // profile.php
         add_action( 'edit_user_profile', array( $this, '_replyToPrintFields' ) );   // profile.php
@@ -84,7 +79,7 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
         add_action( 'personal_options_update', array( $this, '_replyToSaveFieldValues' ) ); // profile.php
         add_action( 'edit_user_profile_update', array( $this, '_replyToSaveFieldValues' ) );    // profile.php
         add_action('user_register', array( $this, '_replyToSaveFieldValues' ) );    // user-new.php
-        
-    }           
+                       
+    }        
     
 }
