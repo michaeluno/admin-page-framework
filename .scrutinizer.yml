@@ -3,12 +3,12 @@ checks:
         code_rating: true
         duplication: false
 tools:
-    php_sim: true
-    php_pdepend: true
-    php_analyzer: true
+    # php_sim: true
+    # php_pdepend: true
+    # php_analyzer: true
     # php_code_coverage: true # must be removed if using external code coverage
-    external_code_coverage:
-        timeout: 1800    # 30 minutes (in seconds.)
+    # external_code_coverage:
+        # timeout: 1800    # 30 minutes (in seconds.)
 filter:
     excluded_paths:
         - 'library/*'
