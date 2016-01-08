@@ -10,29 +10,38 @@
 /**
  * Collects data of page loads in admin pages.
  *
- * @since 2.1.7
- * @package AdminPageFramework
- * @subpackage Debug
+ * @since       2.1.7
+ * @package     AdminPageFramework
+ * @subpackage  Debug
  * @internal
  */
 abstract class AdminPageFramework_PageLoadInfo_Base {
+
+    public $oProp;
     
-    function __construct( $oProp, $oMsg ) {
+    public $oMsg;
+    
+    protected $_nInitialMemoryUsage;
+    
+    /**
+     * Sets up hooks and properties.
+     */
+    public function __construct( $oProp, $oMsg ) {
         
         if ( $oProp->bIsAdminAjax || ! $oProp->bIsAdmin ) {
             return;
         }     
         
-        if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-            
-            $this->oProp = $oProp;
-            $this->oMsg = $oMsg;
-            $this->_nInitialMemoryUsage = memory_get_usage();
-            
-            // must be loaded after the sub pages are registered
-            add_action( 'in_admin_footer', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 );    
-                        
+        if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+            return;
         }
+            
+        $this->oProp                = $oProp;
+        $this->oMsg                 = $oMsg;
+        $this->_nInitialMemoryUsage = memory_get_usage();
+        
+        // must be loaded after the sub pages are registered
+        add_action( 'in_admin_footer', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 );    
 
     }
     
@@ -54,14 +63,16 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
      */
     public function _replyToGetPageLoadInfo( $sFooterHTML ) {
         
-        if ( self::$_bLoadedPageLoadInfo ) { return; }
+        if ( self::$_bLoadedPageLoadInfo ) { 
+            return; 
+        }
         self::$_bLoadedPageLoadInfo = true;     
         
-        $_nSeconds                 = timer_stop( 0 );
-        $_nQueryCount             = get_num_queries();
-        $_nMemoryUsage             = round( $this->_convertBytesToHR( memory_get_usage() ), 2 );
-        $_nMemoryPeakUsage         = round( $this->_convertBytesToHR( memory_get_peak_usage() ), 2 );
-        $_nMemoryLimit             = round( $this->_convertBytesToHR( $this->_convertToNumber( WP_MEMORY_LIMIT ) ), 2 );
+        $_nSeconds            = timer_stop( 0 );
+        $_nQueryCount         = get_num_queries();
+        $_nMemoryUsage        = round( $this->_convertBytesToHR( memory_get_usage() ), 2 );
+        $_nMemoryPeakUsage    = round( $this->_convertBytesToHR( memory_get_peak_usage() ), 2 );
+        $_nMemoryLimit        = round( $this->_convertBytesToHR( $this->_convertToNumber( WP_MEMORY_LIMIT ) ), 2 );
         $_sInitialMemoryUsage = round( $this->_convertBytesToHR( $this->_nInitialMemoryUsage ), 2 );
 
         return $sFooterHTML
