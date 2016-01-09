@@ -30,11 +30,11 @@ if ( ! class_exists( 'AdminPageFramework_Registry', false ) ) :
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.7.10b04
+ * @version             3.7.10b05
  */
 abstract class AdminPageFramework_Registry_Base {
 
-    const VERSION       = '3.7.10b04'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION       = '3.7.10b05'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME          = 'Admin Page Framework';
     const DESCRIPTION   = 'Facilitates WordPress plugin and theme development.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
@@ -108,9 +108,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
             ? self::$aClassFiles[ 'AdminPageFramework_RegisterClasses' ]
             : '';
         self::$bIsMinifiedVersion       = class_exists( 'AdminPageFramework_MinifiedVersionHeader', false );
-        self::$bIsDevelopmentVersion    = isset( self::$aClassFiles[ 'AdminPageFramework_InclusionClassFilesHeader' ] ) && file_exists(
-            self::$aClassFiles[ 'AdminPageFramework_InclusionClassFilesHeader' ] 
-        );
+        self::$bIsDevelopmentVersion    = isset( self::$aClassFiles[ 'AdminPageFramework_InclusionClassFilesHeader' ] );
         
     }
         /**

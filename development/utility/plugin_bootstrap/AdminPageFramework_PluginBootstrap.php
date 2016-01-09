@@ -175,7 +175,7 @@ abstract class AdminPageFramework_PluginBootstrap {
         $_aClasses = array();
         
         // Example
-        // include( dirname( $this->sFilePath ) . '/include/admin-page-framework-loader-include-class-file-list.php' );
+        // include( dirname( $this->sFilePath ) . '/include/class-list.php' );
         
         return $_aClasses;
     }

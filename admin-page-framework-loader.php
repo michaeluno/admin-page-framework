@@ -6,7 +6,7 @@
     Author:         Michael Uno
     Author URI:     http://en.michaeluno.jp/
     Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
-    Version:        3.7.10b04
+    Version:        3.7.10b05
 */
 
 /**
@@ -16,7 +16,7 @@
  */
 class AdminPageFrameworkLoader_Registry_Base {
 
-	const VERSION        = '3.7.10b04';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+	const VERSION        = '3.7.10b05';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
 	const NAME           = 'Admin Page Framework - Loader'; // the name is not 'Admin Page Framework' because warning messages gets confusing.
     const SHORTNAME      = 'Admin Page Framework';  // used for a menu title etc.
 	const DESCRIPTION    = 'Loads Admin Page Framework which facilitates WordPress plugin and theme development.';
@@ -232,6 +232,29 @@ if ( defined( 'DOING_UNINSTALL' ) ) {
     return; 
 }
 
+// Set warnings.
+function AdminPageFrameworkLoader_Warning() {
+    
+    $_bFrameworkLoaded = class_exists( 'AdminPageFramework_Registry', false );
+    if ( 
+        ! $_bFrameworkLoaded
+        || ! defined( 'AdminPageFramework_Registry::VERSION' ) // backward compatibility
+        || version_compare( AdminPageFramework_Registry::VERSION, AdminPageFrameworkLoader_Registry::VERSION, '<' )
+    ) {
+        AdminPageFrameworkLoader_Registry::setAdminNotice(
+            sprintf( 
+                'The framework has been already loaded and its version is lesser than yours. Your framework will not be loaded to avoid unexpected results. Loaded Version - %1$s. Your Version - %2$s.',
+                $_bFrameworkLoaded && defined( 'AdminPageFramework_Registry::VERSION' )
+                    ? AdminPageFramework_Registry::VERSION
+                    : 'unknown',
+                AdminPageFrameworkLoader_Registry::VERSION            
+            )
+        );
+    }
+    
+}
+add_action( 'admin_init', 'AdminPageFrameworkLoader_Warning' );
+
 // Include the library file - the development version will be available if you cloned the GitHub repository.
 $_sDevelopmentVersionPath = AdminPageFrameworkLoader_Registry::$sDirPath . '/development/admin-page-framework.php';
 $_bDebugMode              = defined( 'WP_DEBUG' ) && WP_DEBUG;
@@ -240,25 +263,10 @@ include(
     $_bLoadDevelopmentVersion
         ? $_sDevelopmentVersionPath
         : AdminPageFrameworkLoader_Registry::$sDirPath . '/library/apf/admin-page-framework.php'
-);   
-    
-if ( 
-    ! class_exists( 'AdminPageFramework_Registry', false )
-    || ! defined( 'AdminPageFramework_Registry::VERSION' ) // backward compatibility
-    || version_compare( AdminPageFramework_Registry::VERSION, AdminPageFrameworkLoader_Registry::VERSION, '<' )
-) {
-    AdminPageFrameworkLoader_Registry::setAdminNotice(
-        sprintf( 
-            'The framework has been already loaded and its version is lesser than yours. Your framework will not be loaded to avoid unexpected results. Loaded Version - %1$s. Your Version - %2$s.',
-            class_exists( 'AdminPageFramework_Registry', false ) && defined( 'AdminPageFramework_Registry::VERSION' )
-                ? AdminPageFramework_Registry::VERSION
-                : 'unknown',
-            AdminPageFrameworkLoader_Registry::VERSION            
-        )
-    );
-}
+);
 
 // Include the framework loader plugin components.
+include( AdminPageFramework_Registry::$aClassFiles[ 'AdminPageFramework_PluginBootstrap' ] );
 include( AdminPageFrameworkLoader_Registry::$sDirPath . '/include/class/AdminPageFrameworkLoader_Bootstrap.php' );
 new AdminPageFrameworkLoader_Bootstrap( 
     AdminPageFrameworkLoader_Registry::$sFilePath,
