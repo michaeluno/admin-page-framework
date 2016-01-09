@@ -50,7 +50,18 @@ abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Pag
     public function _replyToEnqueuePageAssets() {
         new AdminPageFramework_View__Resource( $this );        
     }
-        
+       
+    /**
+     * @since       3.7.10
+     * @callback    function        add_submenu_page
+     * @return      void
+     */
+    public function _replyToRenderPage() {
+        $_sPageSlug             = $this->oProp->getCurrentPageSlug();
+        $_sTabSlug              = $this->oProp->getCurrentTabSlug( $_sPageSlug );        
+        $this->_renderPage( $_sPageSlug, $_sTabSlug );
+    }
+       
     /**
      * Renders the admin page.
      * 

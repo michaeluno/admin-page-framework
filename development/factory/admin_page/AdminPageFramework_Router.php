@@ -49,11 +49,9 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             return;
         }
         
-        add_action( 'wp_loaded', array( $this, '_replyToDetermineToLoad' ) );
-        // @deprecated      3.7.10
-        // add_action( 'wp_loaded', array( $this, 'setup_pre' ) );    
+        add_action( 'wp_loaded', array( $this, '_replyToDetermineToLoad' ) );        
         
-    }
+    }   
     
     /**
      * Instantiates a link object based on the type.
@@ -103,15 +101,11 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         );        
         
         switch( $this->_getCallbackName( $sMethodName, $_sPageSlug, $_aKnownMethodPrefixes ) ) {
-            
-            // @deprecated      3.7.10
-            // case 'setup_pre':
-                // $this->_doSetUp();
-                // return;
                 
             // A callback of the call_page_{page slug} action hook
-            case $this->oProp->sClassHash . '_page_' . $_sPageSlug:
-                return $this->_renderPage( $_sPageSlug, $_sTabSlug );   // defined in AdminPageFramework_Page.
+            // @deprecated  3.7.10
+            // case $this->oProp->sClassHash . '_page_' . $_sPageSlug:
+                // return $this->_renderPage( $_sPageSlug, $_sTabSlug );   // defined in AdminPageFramework_Page.
              
             // add_settings_section() callback 
             case 'section_pre_':
@@ -138,16 +132,16 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
          */
         private function _getCallbackName( $sMethodName, $sPageSlug, array $aKnownMethodPrefixes=array() ) {
             
-            if ( in_array( 
-                    $sMethodName, 
-                    array( 
-                        // 'setup_pre',  // @deprecated       3.7.10
-                        $this->oProp->sClassHash . '_page_' . $sPageSlug
-                    ) 
-                ) 
-            ) {
-                return $sMethodName;
-            }
+            // @deprecated      3.7.10
+            // if ( in_array( 
+                    // $sMethodName, 
+                    // array( 
+                        // $this->oProp->sClassHash . '_page_' . $sPageSlug
+                    // ) 
+                // ) 
+            // ) {
+                // return $sMethodName;
+            // }
             
             foreach( $aKnownMethodPrefixes as $_sMethodPrefix ) {
                 if ( $this->oUtil->hasPrefix( $_sMethodPrefix, $sMethodName ) ) {
@@ -157,27 +151,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             return '';
             
         }    
-        
-        /**
-         * Calls the setUp() method.
-         * @since       3.5.3
-         * @internal
-         * @return      void
-         * @deprecated  3.7.10      _replyToDetermineToLoad is used instead.
-         */
-/*         private function _doSetUp() {
-            
-            $this->_setUp();
-            
-            // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
-            $this->oUtil->addAndDoAction( 
-                $this, 
-                "set_up_{$this->oProp->sClassName}", 
-                $this 
-            );
-        
-        }  */
-        
+                
         /**
          * Redirects the callback of the load-{page} action hook to the framework's callback.
          * 
@@ -193,7 +167,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
          */ 
         protected function _doPageLoadCall( $sMethodName, $sPageSlug, $sTabSlug, $oScreen ) {
             
-            if ( ! $this->isPageLoadCall( $sMethodName, $sPageSlug, $oScreen->id ) ) {
+            if ( ! $this->_isPageLoadCall( $sMethodName, $sPageSlug, $oScreen->id ) ) {
                 return;
             }
 
@@ -238,7 +212,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
              * @param       string      $sPageSlug          The currently loading page slug.
              * @param       string      $sScreenID          The screen ID that the WordPress screen object gives.
              */
-            private function isPageLoadCall( $sMethodName, $sPageSlug, $sScreenID ) {
+            private function _isPageLoadCall( $sMethodName, $sPageSlug, $sScreenID ) {
                 
                 if ( substr( $sMethodName, strlen( 'load_pre_' ) ) !== $sPageSlug ) {
                     return false;
@@ -265,7 +239,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     protected function _isInstantiatable() {
         
         // Disable in admin-ajax.php
-        if ( isset( $GLOBALS['pagenow'] ) && 'admin-ajax.php' === $GLOBALS['pagenow'] ) {
+        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
             return false;
         }
         
@@ -282,12 +256,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      * @since       3.3.1       Moved from `AdminPageFramework_Base`.
      * @internal
      */
-    public function _isInThePage( $aPageSlugs=array() ) {
-
-        // Maybe called too early
-        if ( ! isset( $this->oProp ) ) {
-            return true;
-        }
+    public function _isInThePage() {
         
         // If the setUp method is not loaded yet,
         if ( ! did_action( 'set_up_' . $this->oProp->sClassName ) ) {
@@ -296,19 +265,10 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
 
         if ( ! isset( $_GET[ 'page' ] ) ) { 
             return false; 
-        }
-                
-        $_oScreen = get_current_screen();
-        if ( is_object( $_oScreen ) ) {
-            return in_array( $_oScreen->id, $this->oProp->aPageHooks );
-        }
-                
-        if ( empty( $aPageSlugs ) ) {
-            return $this->oProp->isPageAdded();
-        }
-                
-        return in_array( $_GET['page'], $aPageSlugs );
+        }        
         
-    }    
+        return $this->oProp->isPageAdded();
+        
+    }
     
 }

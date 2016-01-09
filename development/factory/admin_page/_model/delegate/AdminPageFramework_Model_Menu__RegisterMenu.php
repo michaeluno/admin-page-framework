@@ -60,6 +60,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
      * @since       3.7.4       Moved from `AdminPageFramework_Model_Menu`. Changed the name from `_replyToBuildMenu()`.
      * @callback    action      admin_menu
      * @internal
+     * @uses        remove_submenu_page
      */    
     public function _replyToRegisterMenu() {
         
@@ -69,11 +70,10 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
         }
         
         // Apply filters to let other scripts add sub menu pages.
-        // Parameters: $oCallerObject, $sFilter, $vInput, $vArgs...
         $this->oFactory->oProp->aPages = $this->addAndApplyFilter( 
-            $this->oFactory,
-            "pages_{$this->oFactory->oProp->sClassName}", 
-            $this->oFactory->oProp->aPages
+            $this->oFactory,    // caller object
+            "pages_{$this->oFactory->oProp->sClassName}",   // filter
+            $this->oFactory->oProp->aPages  // arguments
         );
         
         // Set the default page, the first element.
@@ -106,7 +106,6 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
             );
         }     
         
-        
     }
  
         /**
@@ -136,14 +135,16 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
          * @since       2.0.0
          * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
          * @internal
+         * @uses        add_menu_page    
          */ 
         private function _registerRootMenuPage() {
+
             $this->oFactory->oProp->aRootMenu[ '_page_hook' ] = add_menu_page(  
                 $this->oFactory->oProp->sClassName,                 // Page title - will be invisible anyway
                 $this->oFactory->oProp->aRootMenu[ 'sTitle' ],      // Menu title - should be the root page title.
                 $this->oFactory->oProp->sCapability,                // Capability - access right
                 $this->oFactory->oProp->aRootMenu[ 'sPageSlug' ],   // Menu ID 
-                '',                                       // Page content displaying function - the root page will be removed so no need to register a function.
+                '',                                       // Callback function for the page content output - the root page will be removed so no need to register a function.
                 $this->oFactory->oProp->aRootMenu[ 'sIcon16x16' ],  // icon path
                 $this->getElement( 
                     $this->oFactory->oProp->aRootMenu, 
@@ -151,6 +152,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                     null 
                 )  // menu position
             );
+
         }
                
         /**
@@ -159,10 +161,8 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
          * @since       2.0.0
          * @since       3.0.0       Changed the name from `registerSubMenuPage()`.
          * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
-         * @remark      Used in the `buildMenu()` method. 
-         * @remark      Within the `admin_menu` hook callback process.
          * @remark      The sub menu page slug should be unique because `add_submenu_page()` can add one callback per page slug.
-         * @remark      Assumes the argument array is aready formatted.
+         * @remark      Assumes the argument array is already formatted.
          * @internal
          * @return      string      The page hook if the page is added.
          */ 
@@ -171,37 +171,57 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
             if ( ! current_user_can( $aArgs[ 'capability' ] ) ) {
                 return '';
             }
-                 
-            $_sRootPageSlug = $this->oFactory->oProp->aRootMenu['sPageSlug'];
-            $_sMenuSlug     = plugin_basename( $_sRootPageSlug ); // to be compatible with add_submenu_page()
-                        
-            switch( $aArgs['type'] ) {
-                case 'page':
-                    // it's possible that the page_slug key is not set if the user uses a method like setPageHeadingTabsVisibility() prior to addSubMenuItam().
-                    return $this->_addPageSubmenuItem(
-                        $_sRootPageSlug,
-                        $_sMenuSlug,
-                        $aArgs[ 'page_slug' ],
-                        $this->getElement( $aArgs, 'page_title', $aArgs[ 'title' ] ),
-                        $this->getElement( $aArgs, 'menu_title', $aArgs[ 'title' ] ),
-                        $aArgs[ 'capability' ],
-                        $aArgs[ 'show_in_menu' ],
-                        $aArgs[ 'order' ]
-                    );
-                case 'link':
-                    return $this->_addLinkSubmenuItem( 
-                        $_sMenuSlug, 
-                        $aArgs[ 'title' ], 
-                        $aArgs[ 'capability' ],
-                        $aArgs[ 'href' ],
-                        $aArgs[ 'show_in_menu' ],
-                        $aArgs[ 'order' ]
-                    );
-                default:
-                    return '';
+                                    
+            $_sRootPageSlug = $this->oFactory->oProp->aRootMenu[ 'sPageSlug' ];
+            $_sRootMenuSlug = $this->_getRootMenuSlug( $_sRootPageSlug );
+
+            // It is possible that the page_slug key is not set if the user uses a method like setPageHeadingTabsVisibility() prior to addSubMenuItam().
+            if ( 'page' === $aArgs[ 'type' ] ) {
+                return $this->_addPageSubmenuItem(
+                    $_sRootPageSlug,
+                    $_sRootMenuSlug,
+                    $aArgs[ 'page_slug' ],
+                    $this->getElement( $aArgs, 'page_title', $aArgs[ 'title' ] ),
+                    $this->getElement( $aArgs, 'menu_title', $aArgs[ 'title' ] ),
+                    $aArgs[ 'capability' ],
+                    $aArgs[ 'show_in_menu' ],
+                    $aArgs[ 'order' ]
+                );                
             }
-      
-        }     
+            if ( 'link' === $aArgs[ 'type' ] ) {
+                return $this->_addLinkSubmenuItem( 
+                    $_sRootMenuSlug, 
+                    $aArgs[ 'title' ], 
+                    $aArgs[ 'capability' ],
+                    $aArgs[ 'href' ],
+                    $aArgs[ 'show_in_menu' ],
+                    $aArgs[ 'order' ]
+                );                
+            }
+            
+            return '';
+            
+        }   
+            /**
+             * @remark      To be compatible with `add_submenu_page()`
+             * @since       3.7.10
+             * @return      string
+             * @uses        plugin_basename
+             */
+            private function _getRootMenuSlug( $sRootPageSlug ) {
+                
+                if ( isset( self::$_aRootMenuSlugCache[ $sRootPageSlug ] ) ) {
+                    return self::$_aRootMenuSlugCache[ $sRootPageSlug ];
+                }
+                self::$_aRootMenuSlugCache[ $sRootPageSlug ] = plugin_basename( $sRootPageSlug );
+                return self::$_aRootMenuSlugCache[ $sRootPageSlug ];
+                
+            }
+                /**
+                 * @since       3.7.10
+                 */
+                static private $_aRootMenuSlugCache = array();
+                
             /**
              * Adds a page sub-menu item.
              * 
@@ -209,6 +229,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
              * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
              * @since       3.7.4       Added the `$nOrder` parameter.
              * @return      string      The page hook of the added page.
+             * @uses        add_submenu_page
              */
             private function _addPageSubmenuItem( $sRootPageSlug, $sMenuSlug, $sPageSlug, $sPageTitle, $sMenuTitle, $sCapability, $bShowInMenu, $nOrder ) {
                 
@@ -226,7 +247,8 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                      * In admin.php ( line 149 of WordPress v3.6.1 ), do_action($page_hook) ( where $page_hook is $_sPageHook )
                      * will be executed and it triggers the __call() magic method with the method name of "md5 class hash + _page_ + this page slug".
                      */
-                    array( $this->oFactory, $this->oFactory->oProp->sClassHash . '_page_' . $sPageSlug )
+                    // array( $this->oFactory, $this->oFactory->oProp->sClassHash . '_page_' . $sPageSlug )
+                    array( $this->oFactory, '_replyToRenderPage' )  // 3.7.10+
                 );     
                 
                 $this->_setPageHooks( $_sPageHook, $sPageSlug );
@@ -287,9 +309,13 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                     /**
                      * Give a lower priority as the page meta box class also hooks the current_screen to register form elements.
                      * When the validation callback is triggered, their form registration should be done already. So this hook should be loaded later than them.
-                     * @since       3.4.1+
+                     * @since       3.4.1
                      */
-                    add_action( 'current_screen' , array( $this->oFactory, "load_pre_" . $sPageSlug ), 20 );
+                    add_action( 
+                        'current_screen', 
+                        array( $this->oFactory, "load_pre_" . $sPageSlug ), 
+                        20 
+                    );
                     
                     /**
                      * It is possible that an in-page tab is added during the above hooks and the current page is the default tab without the tab GET query key in the url. 

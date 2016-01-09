@@ -474,7 +474,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * Checks if the given page slug is one of the pages added by the framework.
      * @since       2.0.0
      * @since       2.1.0       Set the default value to the parameter and if the parameter value is empty, it applies the current $_GET[ 'page' ] value.
-     * @return      boolean      Returns true if it is of framework's added page; otherwise, false.
+     * @return      boolean     Returns true if it is of framework's added page; otherwise, false.
      */
     public function isPageAdded( $sPageSlug='' ) {    
         

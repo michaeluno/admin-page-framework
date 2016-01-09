@@ -239,7 +239,7 @@ abstract class AdminPageFramework_Factory_Router {
          * as some callbacks possibly be called during the instantiation (constructor) 
          * if the set action is already triggered by the system (WordPress).
          */
-        $this->oForm;
+        // $this->oForm;
                
         // Calls `setUp()` and the user will set up the meta box.
         $this->_setUp();
