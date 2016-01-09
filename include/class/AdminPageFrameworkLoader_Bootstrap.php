@@ -9,10 +9,6 @@
  * @since        3.5.0
  * 
  */
-
-if ( ! class_exists( 'AdminPageFramework_PluginBootstrap' ) ) {
-    return;
-}
  
 /**
  * Loads the plugin.
@@ -23,6 +19,11 @@ if ( ! class_exists( 'AdminPageFramework_PluginBootstrap' ) ) {
 final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_PluginBootstrap {
     
     /**
+     * Stores class files.
+     */
+    private $_aClassFiles = array();
+    
+    /**
      * Register classes to be auto-loaded.
      * 
      * @since       3.5.0
@@ -31,7 +32,8 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
         
         // Include the include lists. The including file reassigns the list(array) to the $_aClassFiles variable.
         $_aClassFiles   = array();
-        $_bLoaded       = include( dirname( $this->sFilePath ) . '/include/admin-page-framework-loader-include-class-file-list.php' );
+        include( dirname( $this->sFilePath ) . '/include/loader-class-list.php' );
+        $this->_aClassFiles = $_aClassFiles;
         return $_aClassFiles;
                 
     }
@@ -98,7 +100,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
      * @remark        All the necessary classes should have been already loaded.
      */
     public function setUp() {
-
+        
         // Admin pages
         if ( $this->_shouldShowAdminPages() ) {
 
@@ -165,5 +167,37 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
             return true;
             
         }
+        
+        /**
+         * Includes files prior to the auto-loader's callback for performance.
+         */
+/*         private function _include() {
+            
+            // $_aClassFiles = array();
+            // include( dirname( $this->sFilePath ) . '/include/loader-class-list.php' );
+            $_aClassFiles = $this->_aClassFiles;
+            
+            // Abstract (parent) classes.
+            include( $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_RootBase' ] );
+            include( $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Page_Base' ] );
+            include( $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Section_Base' ] );
+            include( $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Tab_Base' ] );
+            include( $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase' ] );
+            unset( 
+                $_aClassFiles[ 'AdminPageFrameworkLoader_Bootstrap' ],
+                $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Page_Base' ],
+                $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_RootBase' ],
+                $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Section_Base' ],
+                $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Tab_Base' ],
+                $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase' ]
+                
+            );
+            
+            // Rest of the files.
+            foreach( $_aClassFiles as $_sPath ) {
+                include( $_sPath );
+            }
+            
+        }     */    
     
 }

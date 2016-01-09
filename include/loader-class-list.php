@@ -13,7 +13,7 @@ $_aClassFiles = array(
 	"AdminPageFrameworkLoader_AdminPage_Help_Example"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Example.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_FAQ"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_FAQ.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_Guide"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Guide.php", 
-	"AdminPageFrameworkLoader_AdminPage_Help_Informationt"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Informationt.php", 
+	"AdminPageFrameworkLoader_AdminPage_Help_Information"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Information.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_Report"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_Report_Report"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php", 
 	"AdminPageFrameworkLoader_AdminPage_Help_Tip"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Tip.php", 
@@ -37,5 +37,4 @@ $_aClassFiles = array(
 	"AdminPageFrameworkLoader_Option"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/option/AdminPageFrameworkLoader_Option.php", 
 	"AdminPageFrameworkLoader_FeedList"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_FeedList.php", 
 	"AdminPageFrameworkLoader_Utility"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/utility/AdminPageFrameworkLoader_Utility.php", 
-	"AdminPageFrameworkLoader_AdminPage_Help_Information"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/include/class/admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Informationt.php", 
 );

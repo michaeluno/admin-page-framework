@@ -2,7 +2,7 @@
 
 /* Configuration */
 $sTargetBaseDir     = dirname( dirname( dirname( __FILE__ ) ) );
-$sResultFilePath    = $sTargetBaseDir . '/include/admin-page-framework-loader-include-class-file-list.php';
+$sResultFilePath    = $sTargetBaseDir . '/include/loader-class-list.php';
 
 /* If accessed from a browser, exit. */
 $bIsCLI             = php_sapi_name() == 'cli';
