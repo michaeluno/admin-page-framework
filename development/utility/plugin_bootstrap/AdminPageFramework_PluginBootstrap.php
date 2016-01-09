@@ -100,7 +100,9 @@ abstract class AdminPageFramework_PluginBootstrap {
         protected function _hasLoaded() {
             
             static $_bLoaded = false;
-            if ( $_bLoaded ) { return true; }
+            if ( $_bLoaded ) { 
+                return true; 
+            }
             $_bLoaded = true;            
             return false;
             
@@ -113,9 +115,11 @@ abstract class AdminPageFramework_PluginBootstrap {
          */
         protected function _registerClasses() {
             
-            if ( ! class_exists( 'AdminPageFramework_RegisterClasses' ) ) {
+            // This class should be used in the framework bootstrap so disabling the auto-load option for performance.
+            if ( ! class_exists( 'AdminPageFramework_RegisterClasses', false ) ) {
                 return;
-            }                        
+            }              
+            
             // Register classes
             new AdminPageFramework_RegisterClasses( 
                 $this->getScanningDirs(),   // scanning directory paths

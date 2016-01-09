@@ -140,9 +140,9 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
 	 * Sets up static properties.
      * @return      void
 	 */
-	static public function setUp( $sPluginFilePath=null ) {
+	static public function setUp( $sPluginFilePath ) {
 	                    
-		self::$sFilePath = $sPluginFilePath ? $sPluginFilePath : __FILE__;
+		self::$sFilePath = $sPluginFilePath;
 		self::$sDirPath  = dirname( self::$sFilePath );
 	    
 	}    
@@ -232,27 +232,25 @@ if ( defined( 'DOING_UNINSTALL' ) ) {
     return; 
 }
 
-// Include the library file 
-if ( ! class_exists( 'AdminPageFramework' ) ) {    
-    // The development version is available in the repository cloned via GitHub.
-    $_sDevelopmentVersionPath = dirname( __FILE__ ) . '/development/admin-page-framework.php';
-    $_bDebugMode              = defined( 'WP_DEBUG' ) && WP_DEBUG;
-    include( 
-        $_bDebugMode && file_exists( $_sDevelopmentVersionPath )
-            ? $_sDevelopmentVersionPath
-            : dirname( __FILE__ ) . '/library/apf/admin-page-framework.php'
-    );   
-} 
- 
+// Include the library file - the development version will be available if you cloned the GitHub repository.
+$_sDevelopmentVersionPath = AdminPageFrameworkLoader_Registry::$sDirPath . '/development/admin-page-framework.php';
+$_bDebugMode              = defined( 'WP_DEBUG' ) && WP_DEBUG;
+$_bLoadDevelopmentVersion = $_bDebugMode && file_exists( $_sDevelopmentVersionPath );
+include( 
+    $_bLoadDevelopmentVersion
+        ? $_sDevelopmentVersionPath
+        : AdminPageFrameworkLoader_Registry::$sDirPath . '/library/apf/admin-page-framework.php'
+);   
+    
 if ( 
-    ! class_exists( 'AdminPageFramework_Registry' ) 
+    ! class_exists( 'AdminPageFramework_Registry', false )
     || ! defined( 'AdminPageFramework_Registry::VERSION' ) // backward compatibility
     || version_compare( AdminPageFramework_Registry::VERSION, AdminPageFrameworkLoader_Registry::VERSION, '<' )
 ) {
     AdminPageFrameworkLoader_Registry::setAdminNotice(
         sprintf( 
             'The framework has been already loaded and its version is lesser than yours. Your framework will not be loaded to avoid unexpected results. Loaded Version - %1$s. Your Version - %2$s.',
-            class_exists( 'AdminPageFramework_Registry' ) && defined( 'AdminPageFramework_Registry::VERSION' )
+            class_exists( 'AdminPageFramework_Registry', false ) && defined( 'AdminPageFramework_Registry::VERSION' )
                 ? AdminPageFramework_Registry::VERSION
                 : 'unknown',
             AdminPageFrameworkLoader_Registry::VERSION            
@@ -262,12 +260,10 @@ if (
 
 // Include the framework loader plugin components.
 include( AdminPageFrameworkLoader_Registry::$sDirPath . '/include/class/AdminPageFrameworkLoader_Bootstrap.php' );
-if ( class_exists( 'AdminPageFrameworkLoader_Bootstrap' ) ) {   // for backward compatibility
-    new AdminPageFrameworkLoader_Bootstrap( 
-        AdminPageFrameworkLoader_Registry::$sFilePath,
-        AdminPageFrameworkLoader_Registry::HOOK_SLUG    // hook prefix
-    );
-}
+new AdminPageFrameworkLoader_Bootstrap( 
+    AdminPageFrameworkLoader_Registry::$sFilePath,
+    AdminPageFrameworkLoader_Registry::HOOK_SLUG    // hook prefix
+);
 
 /*
  * If you find this framework useful, include it in your project!

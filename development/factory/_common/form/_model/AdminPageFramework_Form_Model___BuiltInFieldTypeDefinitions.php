@@ -75,10 +75,6 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
         foreach( self::$_aDefaultFieldTypeSlugs as $_sFieldTypeSlug ) {
             
             $_sFieldTypeClassName = "AdminPageFramework_FieldType_{$_sFieldTypeSlug}";
-            if ( ! class_exists( $_sFieldTypeClassName ) ) { 
-                continue; 
-            }
-
             $_oFieldType = new $_sFieldTypeClassName( 
                 $this->sCallerID,   // usually an instantiated class name
                 null,               // field type slugs - if it is different from the one defined in the class property

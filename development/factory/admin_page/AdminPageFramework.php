@@ -57,7 +57,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
      * @param       string                  $sTextDomain    (optional) the <a href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains" target="_blank">text domain</a> used for the framework's system messages. Default: admin-page-framework.
      */
     public function __construct( $isOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ){
-                        
+
         if ( ! $this->_isInstantiatable() ) {
             return;
         }
@@ -73,7 +73,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
             $sCapability, 
             $sTextDomain 
         );
-        
+
     }    
         
 }

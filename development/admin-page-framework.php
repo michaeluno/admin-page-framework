@@ -10,7 +10,7 @@
  * @package     AdminPageFramework
  */
 
-if ( ! class_exists( 'AdminPageFramework_Registry' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Registry', false ) ) :
 /**
  * Facilitates WordPress plugin and theme development.
  *
@@ -107,7 +107,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
         self::$sAutoLoaderPath          = isset( self::$aClassFiles[ 'AdminPageFramework_RegisterClasses' ] )
             ? self::$aClassFiles[ 'AdminPageFramework_RegisterClasses' ]
             : '';
-        self::$bIsMinifiedVersion       = class_exists( 'AdminPageFramework_MinifiedVersionHeader' );
+        self::$bIsMinifiedVersion       = class_exists( 'AdminPageFramework_MinifiedVersionHeader', false );
         self::$bIsDevelopmentVersion    = isset( self::$aClassFiles[ 'AdminPageFramework_InclusionClassFilesHeader' ] ) && file_exists(
             self::$aClassFiles[ 'AdminPageFramework_InclusionClassFilesHeader' ] 
         );
@@ -165,7 +165,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
 }
 endif;
 
-if ( ! class_exists( 'AdminPageFramework_Bootstrap' ) ) :
+if ( ! class_exists( 'AdminPageFramework_Bootstrap', false ) ) :
 /**
  * Loads the Admin Page Framework library.
  *
@@ -184,7 +184,7 @@ final class AdminPageFramework_Bootstrap {
     /**
      * Loads the framework.
      */
-    public function __construct( $sLibraryPath=__FILE__ ) {
+    public function __construct( $sLibraryPath ) {
 
         if ( ! $this->_isLoadable() ) {
             return;
@@ -231,11 +231,7 @@ final class AdminPageFramework_Bootstrap {
             
             include( AdminPageFramework_Registry::$sAutoLoaderPath );
             new AdminPageFramework_RegisterClasses(
-                // the scanning directory
-                empty( AdminPageFramework_Registry::$aClassFiles )
-                    ? AdminPageFramework_Registry::$sDirPath
-                    : '',
-                // search options
+                '', // the scanning directory - do not scan anything
                 array(
                     'exclude_class_names'   => array(
                         'AdminPageFramework_MinifiedVersionHeader',
@@ -257,12 +253,17 @@ final class AdminPageFramework_Bootstrap {
              * so that the next time the program utilizing the framework tries to instantiate its class has a less nesting level of nested function calls,
              * which reduces the chance of getting the fatal error.
              */
-            if ( extension_loaded( 'xdebug' ) ) {
+            self::$_bXDebug = isset( self::$_bXDebug ) ? self::$_bXDebug : extension_loaded( 'xdebug' );
+            if ( self::$_bXDebug ) {
                 new AdminPageFramework_Utility;
                 new AdminPageFramework_WPUtility;
             }            
             
         }
+            /**
+             * @since       3.7.10
+             */
+            static private $_bXDebug;
         
 }
 new AdminPageFramework_Bootstrap( __FILE__ );

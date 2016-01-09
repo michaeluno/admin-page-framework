@@ -32,7 +32,7 @@ abstract class AdminPageFramework_Model_Menu extends AdminPageFramework_Controll
         if ( $this->oProp->bIsAdminAjax ) {
             return;
         }
-        
+
         new AdminPageFramework_Model_Menu__RegisterMenu( $this );
         
     }     

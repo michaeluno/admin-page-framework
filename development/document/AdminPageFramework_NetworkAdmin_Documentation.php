@@ -6,7 +6,7 @@
  * Copyright (c) 2013-2016 Michael Uno; Licensed MIT
  * 
  */
-if ( ! class_exists( 'AdminPageFramework_NetworkAdmin_Documentation' ) ) :
+if ( ! class_exists( 'AdminPageFramework_NetworkAdmin_Documentation', false ) ) :
 /**
  * Provides an abstract base to create admin pages in the network admin area.
  *
