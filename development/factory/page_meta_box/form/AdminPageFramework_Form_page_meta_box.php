@@ -32,10 +32,10 @@ class AdminPageFramework_Form_page_meta_box extends AdminPageFramework_Form_post
         add_filter(
             'options_' . $this->aArguments[ 'caller_id' ],
             array( $this, '_replyToSanitizeSavedFormData' ),
-            5   //  high priority as it must be done eariler
+            5   //  high priority as it must be done earlier
         );
         
-        // The post_meta_box parent method adds default CSS resouces.
+        // The post_meta_box parent method adds default CSS resources.
         parent::construct();
         
     }
@@ -57,39 +57,8 @@ class AdminPageFramework_Form_page_meta_box extends AdminPageFramework_Form_post
             $this->getDataStructureFromAddedFieldsets(),    // form data structure generate from fieldsets
             $aSavedFormData
         );
-        
-        // Extract the meta box field options from the page options.
-        // return $this->_getPageMetaBoxOptionsFromPageOptions( 
-            // $aSavedFormData, 
-            // $this->aFieldsets
-        // );        
+  
     }
-        /**
-         * Extracts meta box form fields options array from the given options array of an admin page.
-         * 
-         * @since       3.5.6
-         * @since       3.7.0      Moved from `AdminPageFramework_PageMetaBox_Model`.
-         * @return      array       The extracted options array.
-         * @internal
-         * @deprecated  3.7.0
-         */
-    /*     private function _getPageMetaBoxOptionsFromPageOptions( array $aFormDataOfPage, array $aFieldsets ) {    
-     
-            $_aFormData = array();
-            foreach( $aFieldsets as $_sSectionID => $_aFieldsets ) {
-                if ( '_default' === $_sSectionID  ) {
-                    foreach( $_aFieldsets as $_aFieldset ) {
-                        if ( array_key_exists( $_aFieldset[ 'field_id' ], $aFormDataOfPage ) ) {
-                            $_aFormData[ $_aFieldset[ 'field_id' ] ] = $aFormDataOfPage[ $_aFieldset[ 'field_id' ] ];
-                        }
-                    }
-                }
-                if ( array_key_exists( $_sSectionID, $aFormDataOfPage ) ) {
-                    $_aFormData[ $_sSectionID ] = $aFormDataOfPage[ $_sSectionID ];
-                }
-            }       
-            return $_aFormData;
-        
-        }     */
+       
     
 }
