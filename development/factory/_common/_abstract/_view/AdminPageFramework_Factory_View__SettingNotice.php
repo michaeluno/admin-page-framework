@@ -69,7 +69,8 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
                 return false;
             }
             
-            return true;
+            // Some factory classes including the page meta box factory can leave the form object uninstantiated.
+            return isset( $this->oFactory->oForm );
             
         }    
   

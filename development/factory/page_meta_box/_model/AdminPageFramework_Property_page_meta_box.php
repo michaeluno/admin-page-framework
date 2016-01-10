@@ -50,7 +50,7 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
      * Stores the action hook name that gets triggered when the form registration is performed.
      * 'admin_page' and 'network_admin_page' will use a custom hook for it.
      * @since       3.7.0
-     * @access      pulbic      Called externally.
+     * @access      public      Called externally.
      */
     public $_sFormRegistrationHook = 'admin_enqueue_scripts';
     
@@ -104,7 +104,8 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
      * @internal
      */
     public function _getScreenIDOfPage( $sPageSlug ) {
-        return ( $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug ) )
+        $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug );
+        return $_oAdminPage
             ? $_oAdminPage->oProp->aPages[ $sPageSlug ][ '_page_hook' ] . ( is_network_admin() ? '-network' : '' )
             : '';
     }    
@@ -116,7 +117,8 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
      * @return      boolean     Returns true if it is of framework's added page; otherwise, false.
      */
     public function isPageAdded( $sPageSlug='' ) {    
-        return ( $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug ) )
+        $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug );
+        return $_oAdminPage
             ? $_oAdminPage->oProp->isPageAdded( $sPageSlug )
             : false;
     }
@@ -159,10 +161,13 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
      * Returns the currently loading in-page tab slug.
      * @since       3.5.0
      * @since       3.5.3       Changed the name from `getCurrentTab()` to be more specific.
+     * @return      string
      */
     public function getCurrentTabSlug( $sPageSlug ) {
         $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug );
-        return $_oAdminPage->oProp->getCurrentTabSlug( $sPageSlug );
+        return $_oAdminPage
+            ? $_oAdminPage->oProp->getCurrentTabSlug( $sPageSlug )
+            : '';
     }
         /**
          * An alias of `getCurrentTabSlug()`.
@@ -246,7 +251,9 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
             
             // @todo This means the form is always get enabled if a page meta box is added. 
             // So find a way not to enable the form if the user does not add a field.
-            $this->oAdminPage->oProp->bEnableForm = true;             
+            if ( is_object( $this->oAdminPage ) ) {
+                $this->oAdminPage->oProp->bEnableForm = true;             
+            }
 
             return $this->oAdminPage;
         }
