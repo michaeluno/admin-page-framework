@@ -449,9 +449,13 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.7.10 =
+- Optimized performance in the common admin area.
+- Changed the framework inline CSS rules in the compiled library files to be minified.
+
 = 3.7.9 - 2015/01/07 =
 - Reduced the number of library files.
-- Fixed a bug that site-side field type definitions were overridden by built-in field types of per-class field type definitions which caused some field types which override the built-in field type slug did not load, introduced in v3.7.1.
+- Fixed a bug that site-wide field type definitions were overridden by built-in field types of per-class field type definitions which caused some field types which override the built-in field type slug did not load, introduced in v3.7.1.
 - Fixed an issue with widgets that caused some overhead.
 - Fixed an issue that widget resources were loaded in pages that do not have widget forms.
 - Tweaked the style of collapsible form sections.

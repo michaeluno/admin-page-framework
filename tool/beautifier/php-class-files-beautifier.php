@@ -37,12 +37,16 @@ new PHP_Class_Files_Beautifier(
     $sTargetDir, 
     $sDestinationDirectoryPath, 
     array(
+    
         'header_class_name'    => $sHeaderClassName,
         'header_class_path'    => $sHeaderClassPath,
         'output_buffer'        => true,
         'header_type'          => 'CONSTANTS',    
-        'exclude_classes'      => array(
-        ),
+        'exclude_classes'      => array(),
+        
+        'css_heredoc_keys'     => array( 'CSSRULES' ),
+        'js_heredoc_keys'   => array( 'JAVASCRIPTS' ),  
+        
         'search'               => array(
             'allowed_extensions'    => array( 'php' ),    // e.g. array( 'php', 'inc' )
             // 'exclude_dir_paths'  => array( $sTargetBaseDir . '/include/class/admin' ),

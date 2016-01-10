@@ -3,7 +3,7 @@
  * PHP Class Files Beautifier
  * 
  * @author      Michael Uno <michael@michaeluno.jp>
- * @copyright   2015 (c) Michael Uno
+ * @copyright   2015-2016 (c) Michael Uno
  * @license     MIT    <http://opensource.org/licenses/MIT>
  */
 if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
@@ -13,7 +13,7 @@ if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
 /**
  * Copies files in a specified directory into a set destination directory and applies beautification.
  * 
- * @version    1.1.0
+ * @version    1.2.0
  */
 class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
     
@@ -26,7 +26,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
         'header_type'       => 'DOCBLOCK',    
         'exclude_classes'   => array(),
-        'css_heredoc_keys'  => array( 'CSSRULES' ),     
+        'css_heredoc_keys'  => array( 'CSSRULES' ),       
         'js_heredoc_keys'   => array( 'JAVASCRIPTS' ),  
         'carriage_return'   => PHP_EOL,
         
@@ -58,11 +58,11 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
     /**
      * Stores current iterated class name.
      * 
-     * Currently only used in the loop of the JavaScript minifier.
+     * Used in the loop of the JavaScript minifier.
      * 
-     * @since       ? 1.1.0
+     * @since       1.2.0
      */
-    private $_sCurrentIterationClassName;
+    private $_sCurrentIterationFilePath;
     
     /**
      * Stores the output file path.
@@ -173,13 +173,20 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         );
         
         // Retrieve file contents.
+     
+        // Minifiy Inline CSS Rules
+        $_aFiles = $this->_getInlineCSSMinified( $_aFiles, $aOptions );
+
+        // Minifiy Inline JavaScript Scripts
+        // Currently not used.
+        // $_aFiles = $this->_getInlineJavaScriptMinified( $_aFiles, $aOptions );
   
         // Combine files.
         $_aFiles = $this->_getCombinedFiles( $_aFiles, $aOptions );
-        
+  
         // Apply the beautifier 
         $_aFiles = $this->_getBeautifiedFiles( $_aFiles, $aOptions );
-   
+      
         $this->_createFiles( 
             $_aFiles,               // parsing files
             $_sTempDirPath,         // temporary directory path
@@ -204,9 +211,17 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $aOptions[ 'combine' ][ 'exclude_classes' ] = is_array( $aOptions[ 'combine' ][ 'exclude_classes' ] )
                 ? $aOptions[ 'combine' ][ 'exclude_classes' ]
                 : array( $aOptions[ 'combine' ][ 'exclude_classes' ] );
+                
+            $aOptions[ 'css_heredoc_keys' ] = is_array( $aOptions[ 'css_heredoc_keys' ] )
+                ? $aOptions[ 'css_heredoc_keys' ]
+                : array( $aOptions[ 'css_heredoc_keys' ] );
+                
+            $aOptions[ 'js_heredoc_keys' ] = is_array( $aOptions[ 'js_heredoc_keys' ] )
+                ? $aOptions[ 'js_heredoc_keys' ]
+                : array( $aOptions[ 'js_heredoc_keys' ] );
+                
             return $aOptions;
         }    
-
 
     /**
      * @return      array
@@ -336,12 +351,240 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             return $_aAncestors;
         }
         
+    /**
+     * @remark      Currently not used as some html tags in scripts get white spaced inserted and double quotes are not being escaped properly.
+     * @return      array  
+     * @since       1.2.0
+     * @deprecated
+     */
+    private function _getInlineJavaScriptMinified( array $aFiles, array $aOptions ) {
+     
+        if ( ! $this->_canMinifyInlineJavaScript( $aOptions ) ) {
+            return $aFiles;
+        }
+     
+        $_sCR = $aOptions[ 'carriage_return' ];
+        $this->output( 'Minifiying inline JavaScript scripts.', $aOptions );
+        $this->output( 'Here-doc Keys: ' . implode( ',', $aOptions[ 'js_heredoc_keys' ] ), $aOptions );
+        $aOptions[ 'carriage_return' ] = '';
+        
+        $_aNew   = array();
+        $_iCount = 0;
+        foreach( $aFiles as $_sClassName => $_aFile  ) {
+            $_aFile[ 'code' ] = $this->_getInlineJavaScriptMinifiedCode( 
+                $_aFile[ 'code' ],
+                $_aFile[ 'path' ],
+                $aOptions[ 'js_heredoc_keys' ]
+            );
+            $_aNew[ $_sClassName ] = $_aFile;
+            $this->output( '.', $aOptions );
+        }
+        $this->output( $_sCR, $aOptions );
+        return $_aNew;
+     
+    }
+        /**
+         * @since       1.2.0
+         * @return      boolean
+         */
+        private function _canMinifyInlineJavaScript( $aOptions ) {
+            
+            // The JSMinPlus.mod library crashes in PHP 5.2.9 or below.
+            if ( version_compare( PHP_VERSION, '5.2.9' ) <= 0 ) {
+                if ( $aOptions[ 'carriage_return' ] ) {
+                    $this->oOutput( 
+                        sprintf( 
+                            'JavaScript scripts are not minified. It requires PHP above 5.2.9 to minify JavaScripts. You are using PHP %1$s.', 
+                            PHP_VERSION 
+                        )
+                    );
+                }
+                return false;
+            }     
+            
+            // Include the library
+            if ( class_exists( 'JSMinPlus' ) ) {
+                return true;
+            }
+            $_sPathJSMinPlus = dirname( __FILE__ ) . '/library/JSMinPlus.php';
+            if ( file_exists( $_sPathJSMinPlus ) ) {
+                include( $_sPathJSMinPlus );                     
+            }
+            if ( ! class_exists( 'JSMinPlus' ) ) {
+                $this->oOutput( 
+                    sprintf( 
+                        'In order to minify Inline JavaScirpt sciripts, a modified version of JSMinPlus is required. The library could not be located.',
+                        PHP_VERSION 
+                    )
+                );      
+                return false;                
+            }
+            return true;
+            
+        }
+        
+        /**
+         * Minifies JavaScript scripts in variables defined with the heredoc syntax. 
+         * @since       1.2.0
+         * @return      string
+         */
+        private function _getInlineJavaScriptMinifiedCode( $sCode, $sFilePath, array $aHereDocKeys=array() ) {
+                    
+            // Now minify the script.
+            $this->_sCurrentIterationFilePath = $sFilePath;
+            foreach( $aHereDocKeys as $_sHereDocKey ) {
+                $sCode = preg_replace_callback( 
+                    "/\s?+\K(<<<{$_sHereDocKey}[\r\n])(.+?)([\r\n]{$_sHereDocKey};(\s+)?[\r\n])/ms",   // needle
+                    array( $this, '_replyToMinifyJavaScripts' ),                               // callback
+                    $sCode,                                                         // haystack
+                    -1  // limit -1 for no limit
+                );                    
+            }            
+            $this->_sCurrentIterationFilePath = '';
+            return $sCode;            
+            
+        }
+            /**
+             * The callback function to minify the JavaScript scripts defined in heredoc variable assignments.
+             * 
+             * @since       1.2.0
+             */    
+            public function _replyToMinifyJavaScripts( $aMatch ) {
+                
+                if ( ! isset( $aMatch[ 1 ], $aMatch[ 2 ], $aMatch[ 3 ] ) ) {
+                    return $aMatch[ 0 ];
+                }                   
+                $_sJavaScript = $aMatch[ 2 ];
+                
+                // Escape PHP variables enclosed in curly braces such as {$abc}.
+                $_aReplacedPHPVariables = $this->_getPHPVariablesReserved( 
+                    $_sJavaScript  // by reference - this gets modified in the method
+                );                
+                
+                // Minify Script
+                $_sJavaScript = '"' 
+                    . JSMinPlus::minify( 
+                        $_sJavaScript,
+                        $this->_sCurrentIterationFilePath
+                    )
+                    . ';"; ';
+                    
+                // Restore the reserved PHP variables.
+                $_sJavaScript = str_replace(
+                    array_keys( $_aReplacedPHPVariables ), // search - reserved values
+                    array_values( $_aReplacedPHPVariables ), // replace - original values
+                    $_sJavaScript
+                ); 
+                
+                return $_sJavaScript;
+                    
+            }                    
+                /**
+                 * Modified the given code by replacing PHP variables enclosed in curly braces.
+                 * @return      array       Replaced items.
+                 */
+                private function _getPHPVariablesReserved( &$sCode ) {
+                    
+                    // Initialize properties.
+                    $this->_aReservedPHPVariables = array();
+                    
+                    // Perform replacements to reserve PHP variables.
+                    $sCode = preg_replace_callback(
+                        '/{\$.[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*?}/ms',
+                        array( $this, '_replyToReservePHPVaraiable' ),
+                        $sCode,
+                        -1,
+                        $_iCount
+                    );
+                    return $this->_aReservedPHPVariables;
+                    
+                }
+                    private $_iReservedPHPVariableIndex = 0;
+                    private $_aReservedPHPVariables = array();
+                    /**
+                     * Called when a match is found.
+                     * @callback    function        preg_replace_callback
+                     * @return      string
+                     */
+                    public function _replyToReservePHPVaraiable( $aMatches ) {
+                        $_sReplacement = '__RESERVED_PHP_VARIABLE_' . count( $this->_aReservedPHPVariables );
+                        $this->_aReservedPHPVariables[ $_sReplacement ] = $aMatches[ 0 ];   // original
+                        return $_sReplacement;                
+                    }             
+        
+        
+    /**
+     * @return      array
+     * @since       1.2.0
+     */
+    private function _getInlineCSSMinified( array $aFiles, array $aOptions ) {
+        
+        $_sCR = $aOptions[ 'carriage_return' ];
+        $this->output( 'Minifiying inline CSS rules.', $aOptions );
+        $this->output( 'Here-doc Keys: ' . implode( ',', $aOptions[ 'css_heredoc_keys' ] ), $aOptions );
+        $aOptions[ 'carriage_return' ] = '';
+        
+        $_aNew   = array();
+        $_iCount = 0;
+        foreach( $aFiles as $_sClassName => $_aFile  ) {
+            $_aFile[ 'code' ] = $this->_getInlineCSSMinifiedCode( 
+                $_aFile[ 'code' ],
+                $aOptions[ 'css_heredoc_keys' ]
+            );
+            $_aNew[ $_sClassName ] = $_aFile;
+            $this->output( '.', $aOptions );
+        }
+        $this->output( $_sCR, $aOptions );
+        return $_aNew;
+        
+    }    
+        /**
+         * Minifies CSS Rules in variables defined with the PHP heredoc syntax. 
+         * @since       1.2.0
+         * @param       array           $sCode
+         * @param       array           $aHereDocKeys
+         * @return      string
+         */ 
+        public function _getInlineCSSMinifiedCode( $sCode, array $aHereDocKeys=array() ) {
+            foreach( $aHereDocKeys as $_sHereDocKey ) {
+                $sCode = preg_replace_callback( 
+                    "/\s?+\K(<<<{$_sHereDocKey}[\r\n])(.+?)([\r\n]{$_sHereDocKey};(\s+)?[\r\n])/ms",   // needle
+                    array( $this, '_replyToMinifyCSSRules' ),                               // callback
+                    $sCode,                                                         // haystack
+                    -1  // limit -1 for no limit
+                );
+            }
+            return $sCode;
+        }
+            /**
+             * The callback function to modify the CSS rules defined in heredoc variable assignments.
+             * 
+             * @since       1.2.0
+             * @callback    function        preg_replace_callback
+             * @return      string
+             */
+            public function _replyToMinifyCSSRules( $aMatch ) {
+     
+                if ( ! isset( $aMatch[ 1 ], $aMatch[ 2 ], $aMatch[ 3 ] ) ) {
+                    return $aMatch[ 0 ];
+                }                   
+                $_sCSSRules = $aMatch[ 2 ];
+                
+                // CSS Minify
+                $_sCSSRules = str_replace( 
+                    array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    '),  // needle - remove tabs, spaces, newlines, etc.
+                    '',     // replace
+                    preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $_sCSSRules )  // haystack - comments removed
+                );
+                return '"' . $_sCSSRules . '"; '; 
+                
+            }    
     
     /**
      * @return      array
      * @since       1.1.0
      */
-    private function _getBeautifiedFiles( $aFiles, $aOptions ) {
+    private function _getBeautifiedFiles( array $aFiles, array $aOptions ) {
         
         if ( ! $this->_isBeautifierSet( $aOptions ) ) {
             return $aFiles;
@@ -515,88 +758,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 return implode('/', $relPath);
                 
             }
-    
-    /**
-     * Beautifies the PHP code.
-     * 
-     * @since       1.0.0
-     * @deprecated
-     */
-  /*   public function beautify( array $aFiles, array $aOptions ) {
-         
-        if ( ! function_exists( 'token_get_all' ) ) {
-            $this->output(
-                'Warning: The Tokenizer PHP extension needs to be installed to beautify PHP code.',
-                $aOptions
-            );
-            return $aFiles;
-        }
-        
-        // Find Beautifier.php in ./library/PHP_Beautifier/ directory.
-        $_sBeautifierPath = $this->_getBeautifierPath( $aOptions );
-        if ( ! file_exists( $_sBeautifierPath ) ) {
-            $this->output(
-                'Warning: The PHP_Beautifier needs to be placed in ./library/PHP_Beautifier directory.',
-                $aOptions
-            );
-            return $aFiles;            
-        }
-        
-        // Perform beautification.
-        include_once( $_sBeautifierPath );        
-        $this->output(
-            'Beautifying PHP code.',
-            $aOptions
-        );
-        foreach( $aFiles as $_sFilePath ) {
-            $this->_beautifyPHPFile( $_sFilePath, $aOptions[ 'header_comment' ] );
-        }
-
-        
-    }    */
-    
-        /**
-         * Beautifies PHP code with the PHP_Beautify library.
-         * 
-         * @since       1.0.0
-         * @see         http://beautifyphp.sourceforge.net/docs/
-         * @see         http://beautifyphp.sourceforge.net/docs/PHP_Beautifier/tutorial_PHP_Beautifier.howtouse.script.pkg.html
-         * @deprecated
-         */
-     /*    private function _beautifyPHPFile( $sFilePath, $sHeaderComment='' ) {
-                        
-            // Create the instance
-            $_oBeautifier = new PHP_Beautifier(); 
-         
-            // Set the indent char, number of chars to indent and newline char
-            $_oBeautifier->setIndentChar(' ');
-            $_oBeautifier->setIndentNumber( 4 );
-            $_oBeautifier->setNewLine( "\n" );
-            
-            // Set the paths
-            // $_oBeautifier->setInputFile( $sFilePath );
-            
-            $_sCode = php_strip_whitespace( $sFilePath );
-            
-            // PHP_Beautifier needs the beginning < ?php notation. So add it for parsing and remove it after that.       
-            $_sCode = preg_replace( '/^<\?php/', '<?php ' . PHP_EOL . $sHeaderComment, $_sCode );
-            $_oBeautifier->setInputString( trim( $_sCode ) );
-            
-            $_oBeautifier->setOutputFile( $sFilePath ); 
-            
-            // Process the file. DON'T FORGET TO USE IT
-            $_oBeautifier->process();
-            
-            // The save() method causes a line break to be embedded at the end
-            // $_oBeautifier->save(); 
-            
-            $_sCode = $_oBeautifier->get(); 
-            $this->_write( $sFilePath, trim( $_sCode ) );
-            
-            return;
-            
-        } */
-            
+                
             private function _write( $sFilePath, $sData ) {
                 
                 // Remove the existing file.
@@ -661,11 +823,11 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 $_aScannedFiles = $this->_formatFileArray( 
                     $this->_getFileLists( 
                         dirname( __FILE__ ) . '/library', 
-                        self::$_aStructure_Options['search'] 
+                        self::$_aStructure_Options[ 'search' ] 
                     )
                 );
-                if ( isset( $_aScannedFiles['Beautifier']['path'] ) ) {
-                    return $_aScannedFiles['Beautifier']['path'];
+                if ( isset( $_aScannedFiles[ 'Beautifier' ][ 'path' ] ) ) {
+                    return $_aScannedFiles[ 'Beautifier' ][ 'path' ];
                 } 
              
             }
@@ -675,7 +837,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             private function _unzip( $sFilePath, array $aOptions=array() ) {
                 
                 if ( ! class_exists( 'ZipArchive' ) ) {
-                    if ( $aOptions['output_buffer'] ) {
+                    if ( $aOptions[ 'output_buffer' ] ) {
                         echo "The zlib PHP extension is required to extract zip files." . $aOptions['carriage_return'];
                     }                                        
                     return;
