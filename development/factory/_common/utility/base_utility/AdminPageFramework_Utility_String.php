@@ -90,17 +90,31 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * Compresses CSS rules.
      * 
      * @since       3.0.0
+     * @since       3.7.10      Changed the name from `minifyCSS()`.
      * @return      string
      */
-    static public function minifyCSS( $sCSSRules ) {
-        
+    static public function getCSSMinified( $sCSSRules ) {
         return str_replace( 
-            array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    '),     // remove line breaks, tab, and white sspaces.
+            array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    '),  // remove line breaks, tab, and white sspaces.
             '', 
             preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $sCSSRules ) // remove comments
         );
-        
     }    
+        /**
+         * @deprecated     3.7.10      Use `getCSSMinified()` instead.
+         */
+        static public function minifyCSS( $sCSSRules ) {
+            trigger_error( 
+                AdminPageFramework_Registry::NAME . ': ' . sprintf(
+                    'The method, %1$s, is deprecated. Use %2$s instead.',
+                    'minifyCSS()',
+                    'getCSSMinified()'
+                    
+                ),
+                E_USER_WARNING 
+            );            
+            return self::getCSSMinified( $sCSSRules );
+        }
     
     /**
      * Returns the given string length.

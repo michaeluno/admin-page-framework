@@ -267,9 +267,11 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
          */
         private function _getFormattedInlineStyles( array $aInlineStyles ) {
             $_sCSSRules = implode( PHP_EOL, array_unique( $aInlineStyles ) );
-            return $this->isDebugMode()
-                ? $_sCSSRules
-                : $this->minifyCSS( $_sCSSRules );
+            return $_sCSSRules;
+            // @deprecated      3.7.10      The beautifier script compresses inline CSS rules.
+            // return $this->isDebugMode()
+                // ? $_sCSSRules
+                // : $this->getCSSMinified( $_sCSSRules );
         }
     
     /**

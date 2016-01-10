@@ -261,9 +261,13 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 ), 
                 AdminPageFramework_CSS::getDefaultCSS() 
             );
-            $_sStyle     = $this->isDebugMode()
-                ? trim( $_sStyle )
-                : $this->minifyCSS( $_sStyle );
+            $_sStyle = trim( $_sStyle );
+            
+            // @deprecated      3.7.10      The beautifier script compresses inline CSS rules.
+            // $_sStyle     = $this->isDebugMode()
+                // ? trim( $_sStyle )
+                // : $this->getCSSMinified( $_sStyle );
+                
             if ( $_sStyle ) {
                 echo "<style type='text/css' id='" . esc_attr( $sIDPrefix ) . "'>"
                         . $_sStyle
@@ -287,10 +291,11 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 ),
                 AdminPageFramework_CSS::getDefaultCSSIE() 
             );
-            
-            $_sStyleIE   = $this->isDebugMode()
-                ? trim( $_sStyleIE )
-                : $this->minifyCSS( $_sStyleIE );
+            $_sStyleIE = trim( $_sStyleIE );
+            // @deprecated      3.7.10      The beautifier script compresses inline CSS rules.
+            // $_sStyleIE   = $this->isDebugMode()
+                // ? trim( $_sStyleIE )
+                // : $this->getCSSMinified( $_sStyleIE );
             return $_sStyleIE
                 ? "<!--[if IE]><style type='text/css' id='" . esc_attr( $sIDPrefix . "-ie" ) . "'>"
                         . $_sStyleIE
@@ -375,9 +380,11 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 "style_{$this->oProp->sClassName}", 
                 $this->oProp->sStyle 
             );
-            $_sStyle = $this->isDebugMode()
-                ? trim( $_sStyle )
-                : $this->minifyCSS( $_sStyle );
+            $_sStyle = trim( $_sStyle );
+            // @deprecated      3.7.10      The beautifier script compresses inline CSS rules.
+            // $_sStyle = $this->isDebugMode()
+                // ? trim( $_sStyle )
+                // : $this->getCSSMinified( $_sStyle );
             if ( $_sStyle ) {
                 return "<style type='text/css' id='" . esc_attr( "{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}" ) . "'>"
                         . $_sStyle
@@ -401,9 +408,11 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 "style_ie_{$this->oProp->sClassName}",
                 $this->oProp->sStyleIE 
             );
-            $_sStyleIE = $this->isDebugMode()
-                ? trim( $_sStyleIE )
-                : $this->minifyCSS( $_sStyleIE );
+            $_sStyleIE = trim( $_sStyleIE );
+            // @deprecated      3.7.10      The beautifier script compresses inline CSS rules.
+            // $_sStyleIE = $this->isDebugMode()
+                // ? trim( $_sStyleIE )
+                // : $this->getCSSMinified( $_sStyleIE );
             if ( $_sStyleIE ) {
                 return "<!--[if IE]><style type='text/css' id='" . esc_attr( "{$sIDPrefix}-ie-{$this->oProp->sClassName}_{$_iCallCountIE}" ) . "'>" 
                         . $_sStyleIE
