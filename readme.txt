@@ -450,6 +450,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.7.10 =
+- Added the `load()` method to the post type factory class which gets called when the `edit.php` page of the post type starts loading.
 - Optimized performance in the common admin area.
 - Changed the framework inline CSS rules in the compiled library files to be minified.
 
@@ -499,7 +500,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Fixed an issue of a fatal error `Maximum function nesting level of 'x' reached` when the server enables the XDebug extension and sets a low value for the `xdebug.max_nesting_level` option.
 
 = 3.7.2 - 2015/12/11 =
-- Fixed a compatibility issue with WordPress 4.4 that widget fileds with a section could no longer save and retrieve the values.
+- Fixed a compatibility issue with WordPress 4.4 that widget fields with a section could no longer save and retrieve the values.
 - Fixed a bug that the framework library files and user-generated library files were missing file doc-blocks.
 - Fixed an issue that custom field type specific text domain could not be converted with the Generator tool.
 - Changed the form sections and fields registration mechanism of the admin page class to accept items without the `page_slug` and `tab_slug` by letting them being added to the current page or tab which is registed by the classs.
@@ -508,7 +509,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Added the internal ability for the `select` and `radio` field types to accept nested `attributes` arguments for each `label` element.
 - Fixed a bug that site-wide field type definitions were loaded multiple times per page load, introduced in 3.7.0.
 - Tweaked the style of form sections and fields.
-- Tweaked the style of help tooltips.
+- Tweaked the style of help tool tips.
 
 = 3.7.0 - 2015/12/04 =
 - Added the `setMessage()` and `getMessage()` methods to retrieve and modify the framework system messages.
