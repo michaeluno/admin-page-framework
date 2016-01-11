@@ -26,12 +26,17 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      * @internal    
      * @remark      Make sure to call the parent construct first as the factory router need to set up sub-class objects.
      */
-    function __construct( $oProp ) {
+    public function __construct( $oProp ) {
         
         parent::__construct( $oProp );
 
         if ( $this->oProp->bIsAdmin ) {
-            add_action( 'current_screen', array( $this, '_replyToSetUpHooksForView' ) );
+
+            add_action( 'load_' . $this->oProp->sPostType, array( $this, '_replyToSetUpHooksForView' ) );
+
+            // 3.5.10+
+            add_action( 'admin_menu', array( $this, '_replyToRemoveAddNewSidebarMenu' ) );                   
+            
         }
             
         // Front-end
@@ -41,25 +46,17 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 
     /**
      * Called when the current screen is determined.
-     * @callback    action      current_screen
+     * @callback    action      load_{post type slug}
      * @since       3.7.9
      */
-    public function _replyToSetUpHooksForView( /* $oScreen */ ) {
-       
-        // 3.5.10+
-        add_action( 'admin_menu', array( $this, '_replyToRemoveAddNewSidebarMenu' ) );       
-        
-        
-        if ( ! $this->_isInThePage() ) {     
-            return;
-        }
-    
+    public function _replyToSetUpHooksForView() {   
+            
         // Table filters
         add_action( 'restrict_manage_posts', array( $this, '_replyToAddAuthorTableFilter' ) );
         add_action( 'restrict_manage_posts', array( $this, '_replyToAddTaxonomyTableFilter' ) );
         add_filter( 'parse_query', array( $this, '_replyToGetTableFilterQueryForTaxonomies' ) );
         
-        // Add an warning icon to the tag unit type's action link.
+        // Action links
         add_filter( 
             'post_row_actions',
             array( $this, '_replyToModifyActionLinks' ), 
@@ -98,8 +95,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
                 $this->oProp->sPostType
             );
             
-        }    
-  
+        }      
             /**
              * Removes the sidebar menu item of "Add New .." of the post type.
              * 
@@ -123,7 +119,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
                     
                     // Remove the default Add New entry.
                     if ( 'post-new.php?post_type=' . $sPostTypeSlug === $_aSubMenu[ 2 ] ) {
-                        unset( $GLOBALS['submenu'][ $sMenuKey ][ $_iIndex ] );
+                        unset( $GLOBALS[ 'submenu' ][ $sMenuKey ][ $_iIndex ] );
                         break;
                     }
                     
@@ -135,8 +131,9 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      * Modifies the action links for the post listing table.
      * @callback    filter      post_row_actions
      * @since       3.7.3
+     * @return      array
      */ 
-    public function _replyToModifyActionLinks( $aActionLinks, $oPost )  {
+    public function _replyToModifyActionLinks( $aActionLinks, $oPost ) {
         
         if ( $oPost->post_type !== $this->oProp->sPostType ){
             return $aActionLinks;
@@ -176,9 +173,9 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
                 'show_option_all'   => $this->oMsg->get( 'show_all_authors' ),
                 'show_option_none'  => false,
                 'name'              => 'author',
-                'selected'          => ! empty( $_GET[ 'author' ] ) 
-                    ? $_GET[ 'author' ] 
-                    : 0,
+                'selected'          => empty( $_GET[ 'author' ] )
+                    ? 0
+                    : $_GET[ 'author' ],
                 'include_selected'  => false,
             )
         );
@@ -189,6 +186,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      * Adds drop-down lists to filter posts by added taxonomies, placed above the post type listing table.
      * 
      * @internal
+     * @callback        action      restrict_manage_posts
      */ 
     public function _replyToAddTaxonomyTableFilter() {
         

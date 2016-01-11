@@ -92,17 +92,8 @@ class APF_PostType extends AdminPageFramework_PostType {
                 // 'submenu_order'         => 15,      // (framework specific)
             )
         );
-                
-        if ( $this->isInThePage() ) {
-                
-            $this->setAutoSave( false );
-            $this->setAuthorTableFilter( true );     
-            add_filter( 'request', array( $this, 'replyToSortCustomColumn' ) );
-            
-        }    
 
     }
-        
         /**
          * @return      array
          */
@@ -132,6 +123,19 @@ class APF_PostType extends AdminPageFramework_PostType {
             : array();
             
         }
+    
+    /**
+     * Called when the edit.php page starts loading.
+     * 
+     * Alternatively you can use the `load_{post type slug}` method and action hook.
+     */
+    public function load() {
+        
+        $this->setAutoSave( false );
+        $this->setAuthorTableFilter( true );     
+        add_filter( 'request', array( $this, 'replyToSortCustomColumn' ) );        
+        
+    }
     
     /**
      * Inserts a custom string into the left footer.

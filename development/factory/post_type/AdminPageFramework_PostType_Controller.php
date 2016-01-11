@@ -51,7 +51,14 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
     * @remark       A callback for the `wp_loaded` hook.
     * @callback     action      init
     */
-    public function setUp() {}    
+    public function setUp() {}
+    
+    /**
+     * Gets called when the edit.php of the post type starts loading.
+     * @return      void
+     * @since       3.7.10
+     */
+    public function load() {}
         
     /*
      * Head Tag Methods
@@ -166,7 +173,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
             $this->oProp->aTaxonomyTableFilters[] = $sTaxonomySlug;
         }
         if ( ! $aArguments[ 'show_in_sidebar_menus' ] ) {
-// @todo investigate the best handling method of taxonomy sub-menu items of a custom post type added to another custom post type menu with the `show_in_menu` arugment.
+            // @todo investigate the best handling method of taxonomy sub-menu items of a custom post type added to another custom post type menu with the `show_in_menu` arugment.
             $this->oProp->aTaxonomyRemoveSubmenuPages[ "edit-tags.php?taxonomy={$sTaxonomySlug}&amp;post_type={$this->oProp->sPostType}" ] = "edit.php?post_type={$this->oProp->sPostType}";
         }
 

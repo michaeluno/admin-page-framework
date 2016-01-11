@@ -30,7 +30,31 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         parent::__construct( $oProp );
 
         $this->oUtil->registerAction( 'init', array( $this, '_replyToDetermineToLoad' ) );
+        $this->oUtil->registerAction( 'current_screen', array( $this, '_replyToDetermineToLoadAdmin' ) );
         
+    }
+    
+    /**
+     * Determines whether to load the admin components of the post type.
+     * 
+     * @internal   
+     * @since       3.7.10
+     * @return      void
+     * @callback    action      current_screen
+     */
+    public function _replyToDetermineToLoadAdmin( /* $oScreen */ ) {
+
+        if ( ! $this->_isInThePage() ) {
+            return;
+        }
+        
+        $this->load();
+        $this->oUtil->addAndDoAction( 
+            $this, 
+            "load_{$this->oProp->sPostType}", 
+            $this 
+        );
+    
     }
     
     /**
@@ -96,7 +120,7 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         }
 
         // Post table columns use ajax to update when the user modifies the post meta via quick edit.
-        if ( $this->oUtil->getElement( $this->oProp->aPostTypeArgs, 'public', true ) && $this->oProp->bIsAdminAjax ) {
+        if ( $this->oProp->bIsAdminAjax && $this->oUtil->getElement( $this->oProp->aPostTypeArgs, 'public', true ) ) {
             return true;
         }        
         
