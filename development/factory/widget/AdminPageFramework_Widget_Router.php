@@ -25,7 +25,7 @@ abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Facto
      * @since       3.7.10      Moved from `AdminPageFramework_Widget_Controller`.
      * @internal    
      */
-    function __construct( $oProp ) {
+    public function __construct( $oProp ) {
         
         parent::__construct( $oProp );
         
@@ -34,5 +34,19 @@ abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Facto
         $this->oUtil->registerAction( 'widgets_init', array( $this, '_replyToDetermineToLoad' ) );
         
     }
+
+    /**
+     * Loads sub-components.
+     * 
+     * Do not load components but let them auto-load to save performance because the widget factory is loaded anywhere.
+     * 
+     * @internal
+     * @callback    action      current_screen
+     * @return      void
+     * @since       3.7.10
+     */
+    public function _replyToLoadComponents( /* $oScreen */ ) {
+        return;        
+    }    
 
 }

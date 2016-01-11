@@ -17,8 +17,6 @@
  * @package     AdminPageFramework
  * @subpackage  Factory
  * @internal
- * @method      void    start()   User constructor. Defined in `AdminPageFramework_Factory_Controller`.
- * @method      void    _setUp()    
  */
 abstract class AdminPageFramework_Factory_Router {
     
@@ -130,9 +128,9 @@ abstract class AdminPageFramework_Factory_Router {
             $this->oLink
         );
         
-        // Property object.
+        // Required sub-class objects
         $this->oProp = $oProp;
-    
+            
         if ( $this->oProp->bIsAdmin && ! $this->oProp->bIsAdminAjax ) {
             if ( did_action( 'current_screen' ) ) {
                 $this->_replyToLoadComponents();
@@ -141,55 +139,39 @@ abstract class AdminPageFramework_Factory_Router {
             }
         }
         
-        // Call the start method - defined in the controller class.
-        $this->start();    
+        // Call the user constructor.
+        $this->start();     // defined in the controller class.
         $this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName, $this );
         
     }    
         
-        /**
-         * Determines whether the class component classes should be instantiated or not.
-         * 
-         * @internal
-         * @callback    action      current_screen
-         * @return      void
-         */
-        public function _replyToLoadComponents( /* $oScreen */ ) {
+    /**
+     * Determines whether the class component classes should be instantiated or not.
+     * 
+     * @internal
+     * @callback    action      current_screen
+     * @return      void
+     */
+    public function _replyToLoadComponents( /* $oScreen */ ) {
 
-            if ( 'plugins.php' === $this->oProp->sPageNow ) {
-                $this->oLink = $this->_replyTpSetAndGetInstance_oLink();
-            }
-    
-            if ( ! $this->_isInThePage() ) { 
-                return; 
-            }
-            
-            // Do not load widget resources in the head tag because widgets can be loaded in any page unless it is in customize.php.
-            if ( 'widget' === $this->oProp->_sPropertyType && 'customize.php' !== $this->oProp->sPageNow ) {
-                return;
-            }
-            
-            $this->_setSubClassObjects();
-            
+        if ( ! $this->_isInThePage() ) { 
+            return; 
         }
-            /**
-             * Sets sub-class objects.
-             * 
-             * This method forces the overload method __get() to be triggered if those sub-class objects
-             * are not set.
-             * 
-             * @since       3.5.3
-             * @since       3.7.10      Changed the name from `_setSubClasses()`. Changed it not to trigger `__call()` to improve performance.
-             * @internal
-             * @return      void
-             */
-            private function _setSubClassObjects() {
-                $this->oResource        = $this->oResource;
-                $this->oLink            = $this->oLink;                    
-                if ( $this->oUtil->isDebugMode() ) {
-                    $this->oPageLoadInfo = $this->oPageLoadInfo;
-                }
-            }
+                    
+        if ( ! isset( $this->oResource ) ) {
+            $this->oResource = $this->_replyTpSetAndGetInstance_oResource();
+        }
+        
+        if ( ! isset(  $this->oLink ) ) {
+            $this->oLink = $this->_replyTpSetAndGetInstance_oLink();         
+        }
+        
+        if ( $this->oUtil->isDebugMode() ) {
+            $this->oPageLoadInfo = $this->oPageLoadInfo;
+        }
+        
+    }
+
 
     /**
      * Determines whether the class object is instantiatable in the current page.
@@ -412,17 +394,6 @@ abstract class AdminPageFramework_Factory_Router {
             case 'content':
                 return $_mFirstArg;
                 
-            // @deprecated 3.7.10 use the `_replyToDetermineToLoad()` method.
-/*             case 'setup_pre':
-                $this->_setUp();
-                
-                // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
-                $this->oUtil->addAndDoAction( 
-                    $this, 
-                    "set_up_{$this->oProp->sClassName}", 
-                    $this 
-                );
-                return; */
         }
         
         // If it is called with the framework auto-callback,

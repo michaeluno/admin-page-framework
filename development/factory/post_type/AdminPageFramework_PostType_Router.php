@@ -137,5 +137,23 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         return $this->oUtil->getCurrentPostType() === $this->oProp->sPostType;
 
     }
+    
+    /**
+     * Determines whether the class component classes should be instantiated or not.
+     * 
+     * @internal
+     * @callback    action      current_screen
+     * @return      void
+     * @since       3.7.0
+     */
+    public function _replyToLoadComponents( /* $oScreen */ ) {
+
+        if ( 'plugins.php' === $this->oProp->sPageNow ) {
+            $this->oLink = $this->_replyTpSetAndGetInstance_oLink();
+        }
+        
+        parent::_replyToLoadComponents();
+        
+    }
   
 }
