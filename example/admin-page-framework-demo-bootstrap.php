@@ -80,6 +80,7 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Advanced.php' );
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Side.php' );
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_WithFormSection.php' );
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_NoField.php' );
             
             // Network admin pages
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/network_admin/APF_NetworkAdmin.php' );
