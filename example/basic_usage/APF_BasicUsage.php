@@ -65,6 +65,13 @@ class APF_BasicUsage extends AdminPageFramework {
 
         $this->setPageHeadingTabsVisibility( true ); // disables the page heading tabs by passing false.
  
+        // Page Meta-boxes
+        include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Normal.php' );
+        include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Advanced.php' );
+        include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Side.php' );
+        include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_WithFormSection.php' );
+        include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_NoField.php' );       
+ 
     }
     
     /**
@@ -74,6 +81,7 @@ class APF_BasicUsage extends AdminPageFramework {
      */
     public function load_apf_first_page() { 
         
+        // Pointer Tool Tips
         new AdminPageFramework_PointerToolTip(
             array( 
                 'apf_first_page',  // page slugs
@@ -91,7 +99,7 @@ class APF_BasicUsage extends AdminPageFramework {
                 )
             )
         );      
-    
+        
     }    
     
     /**

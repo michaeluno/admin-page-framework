@@ -452,6 +452,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 = 3.7.10 =
 - Added the `load()` method to the post type factory class which gets called when the `edit.php` page of the post type starts loading.
 - Optimized performance in the common admin area.
+- Changed the timing of registering page meta boxes so that their classes can be instantiated in the `load_{...}` hook of the admin page factory class.
 - Changed the framework inline CSS rules in the compiled library files to be minified.
 
 = 3.7.9 - 2015/01/07 =

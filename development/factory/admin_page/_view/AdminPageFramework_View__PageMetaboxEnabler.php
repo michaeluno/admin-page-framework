@@ -54,7 +54,7 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_Fra
             if ( ! $this->_isMetaBoxAdded() ) {
                 return;
             }
-            
+
             $_sCurrentScreenID =  $this->getCurrentScreenID();
 
             // Trigger the add_meta_boxes hooks to allow meta boxes to be added.

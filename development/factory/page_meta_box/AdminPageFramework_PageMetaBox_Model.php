@@ -118,43 +118,46 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
      * 
      * @internal
      * @since       3.0.0
+     * @since       3.7.10      Changed the name from `_replyToAddMetaBox()`.
      * @remark      Before this method is called, the pages and in-page tabs need to be registered already.
      * @return      void
      * @callback    action      add_meta_boxes
      */ 
-    public function _replyToAddMetaBox( $sPageHook='' ) {
+    public function _replyToRegisterMetaBoxes( $sPageHook='' ) {
         foreach( $this->oProp->aPageSlugs as $_sKey => $_asPage ) {
             if ( is_string( $_asPage ) )  {
-                $this->_addMetaBox( $_asPage );
+                $this->_registerMetaBox( $_asPage );
                 continue;
             }            
-            $this->_addMetaBoxes( $_sKey, $_asPage );
+            $this->_registerMetaBoxes( $_sKey, $_asPage );
         }
     }    
         /**
          * Adds meta boxes.
          * 
          * @since       3.7.0
+         * @since       3.7.10      Changed the name from `_addMetaBoxes()`.
          * @internal
          * @return      void
          */
-        private function _addMetaBoxes( $sPageSlug, $asPage ) {
+        private function _registerMetaBoxes( $sPageSlug, $asPage ) {
             foreach( $this->oUtil->getAsArray( $asPage ) as $_sTabSlug ) {
                 if ( ! $this->oProp->isCurrentTab( $_sTabSlug ) ) { 
                     continue; 
                 }
-                $this->_addMetaBox( $sPageSlug );
+                $this->_registerMetaBox( $sPageSlug );
             }         
         }
         /**
          * Adds meta box with the given page slug.
          * 
          * @since       3.0.0
+         * @since       3.7.10      Changed the name from `_addMetaBox()`.
          * @internal
          * @uses        add_meta_box()
          * @return      void
          */
-        private function _addMetaBox( $sPageSlug ) {
+        private function _registerMetaBox( $sPageSlug ) {
             add_meta_box( 
                 $this->oProp->sMetaBoxID,                       // id
                 $this->oProp->sTitle,                           // title

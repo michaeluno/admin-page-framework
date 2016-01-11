@@ -23,6 +23,11 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * @since       3.7.9
      */
     public function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
+         
+        // This is important to set the hooks before the parent constructor 
+        // as the setUp wil be called in there if the default action hook (current_screen) is already triggered.
+        add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToSetUpHooks' ) );
+        add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToSetUpValidationHooks' ) );                
                 
         parent::__construct( 
             $sMetaBoxID, 
@@ -33,10 +38,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             $sCapability, 
             $sTextDomain 
         );
-        
-        add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToSetUpHooks' ) );
-        add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToSetUpValidationHooks' ) );
-        
+                
     }    
     
     /**
@@ -47,12 +49,10 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * @internal
      */
     public function _replyToSetUpHooks( $oFactory ) {
-        
         $this->oUtil->registerAction(
             'add_meta_boxes',
-            array( $this, '_replyToAddMetaBox' )
+            array( $this, '_replyToRegisterMetaBoxes' )
         );
-                
     }
     
     /**
@@ -100,12 +100,13 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * Adds the defined meta box.
      * 
      * @since       2.0.0
+     * @since       3.7.10      Changed the name from `_replyToAddMetaBox()`.
      * @internal
      * @uses        add_meta_box()
      * @return      void
      * @callback    action      add_meta_boxes
      */ 
-    public function _replyToAddMetaBox() {
+    public function _replyToRegisterMetaBoxes() {
         foreach( $this->oProp->aPostTypes as $sPostType ) {
             add_meta_box( 
                 $this->oProp->sMetaBoxID,                       // id
