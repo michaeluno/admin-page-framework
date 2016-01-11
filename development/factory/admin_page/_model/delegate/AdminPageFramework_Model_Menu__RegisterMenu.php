@@ -326,6 +326,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                     
                     // 3.6.3+
                     add_action( "load_after_" . $sPageSlug, array( $this->oFactory, '_replyToEnqueuePageAssets' ) );
+                    add_action( "load_after_" . $sPageSlug, array( $this->oFactory, '_replyToEnablePageMetaBoxes' ) );  // 3.7.10+
                           
                     $this->oFactory->oProp->aPageHooks[ $sPageSlug ] = $this->getAOrB(
                         is_network_admin(),

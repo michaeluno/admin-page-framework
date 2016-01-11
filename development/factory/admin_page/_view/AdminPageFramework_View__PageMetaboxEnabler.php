@@ -50,10 +50,7 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_Fra
          * @callback    action      admin_head
          */
         public function _replyToEnableMetaBox() {
-            
-            if ( ! $this->oFactory->oProp->isPageAdded() ) {     
-                return;
-            }
+
             if ( ! $this->_isMetaBoxAdded() ) {
                 return;
             }
@@ -64,7 +61,7 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_Fra
             do_action( "add_meta_boxes_{$_sCurrentScreenID}", null );
             do_action( 'add_meta_boxes', $_sCurrentScreenID, null );
 
-            // Resoucrces
+            // Resources
             wp_enqueue_script( 'postbox' );
             
             // Screen options

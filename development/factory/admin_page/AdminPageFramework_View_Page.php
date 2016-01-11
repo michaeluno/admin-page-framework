@@ -19,26 +19,16 @@
  * @internal
  */
 abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Page {
-        
+           
     /**
-     * Sets up hooks and properties.
-     * 
-     * @since       unknown
-     * @since       3.6.3       Moved from `AdminPageFramework_Page_View_MetaBox`.
+     * Load resources of page meta boxes.
+     * @callback    action      load_after_{page slug}
+     * @since       3.7.10
      */
-    public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
-                        
-        parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
-        
-        if ( $this->oProp->bIsAdminAjax ) {
-            return;
-        }     
-        
+    public function _replyToEnablePageMetaBoxes() {
         new AdminPageFramework_View__PageMetaboxEnabler( $this );
-        
-    }       
+    }
 
-        
     /**
      * Enqueues assets set with the `style` and `script` arguments.
      * 
@@ -57,9 +47,11 @@ abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Pag
      * @return      void
      */
     public function _replyToRenderPage() {
-        $_sPageSlug             = $this->oProp->getCurrentPageSlug();
-        $_sTabSlug              = $this->oProp->getCurrentTabSlug( $_sPageSlug );        
-        $this->_renderPage( $_sPageSlug, $_sTabSlug );
+        $_sPageSlug = $this->oProp->getCurrentPageSlug();
+        $this->_renderPage( 
+            $_sPageSlug, 
+            $this->oProp->getCurrentTabSlug( $_sPageSlug ) 
+        );
     }
        
     /**
@@ -73,10 +65,8 @@ abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Pag
      * @internal
      */ 
     protected function _renderPage( $sPageSlug, $sTabSlug=null ) {
-        
         $_oPageRenderer = new AdminPageFramework_View__PageRenderer( $this, $sPageSlug, $sTabSlug );
         $_oPageRenderer->render();
-
     }
                 
 }

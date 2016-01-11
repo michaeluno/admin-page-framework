@@ -38,8 +38,10 @@ abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBo
             false 
         );
                                  
-        // Get the fields output.
-        $_aOutput[] = $this->oForm->get();
+        // Get the fields output. If no field is added, the form object is not instantiated.
+        if ( isset( $this->oForm ) ) {
+            $_aOutput[] = $this->oForm->get();
+        }
 
         // Do actions
         $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
