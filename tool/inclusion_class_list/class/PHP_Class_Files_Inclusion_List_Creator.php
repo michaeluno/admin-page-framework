@@ -174,7 +174,7 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 		// Write to a file.
 		file_put_contents( 
             $sOutputFilePath, 
-            trim( implode( '', $_aData ) ), 
+            trim( implode( '', $_aData ) ) . PHP_EOL, 
             FILE_APPEND | LOCK_EX
         );
 		
