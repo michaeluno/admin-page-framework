@@ -70,6 +70,7 @@ $_aClassFiles = array(
 	"APF_Demo_ManageOptions_SavedData"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_SavedData.php", 
 	"APF_BasicUsage"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/APF_BasicUsage.php", 
 	"APF_MetaBox_For_Pages_Advanced"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Advanced.php", 
+	"APF_MetaBox_For_Pages_NoField"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_NoField.php", 
 	"APF_MetaBox_For_Pages_Normal"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Normal.php", 
 	"APF_MetaBox_For_Pages_Side"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Side.php", 
 	"APF_MetaBox_For_Pages_WithFormSection"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_WithFormSection.php", 
