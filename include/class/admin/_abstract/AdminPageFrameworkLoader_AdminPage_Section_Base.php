@@ -44,8 +44,8 @@ abstract class AdminPageFrameworkLoader_AdminPage_Section_Base extends AdminPage
             'tab_slug'      => '',
             'section_id'    => '',
         );
-        $this->sTabSlug     = $aSectionDefinition['tab_slug'];
-        $this->sSectionID   = $aSectionDefinition['section_id'];
+        $this->sTabSlug     = $aSectionDefinition[ 'tab_slug' ];
+        $this->sSectionID   = $aSectionDefinition[ 'section_id' ];
         
         if ( ! $this->sSectionID ) {
             return;

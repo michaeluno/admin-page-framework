@@ -32,22 +32,8 @@ abstract class AdminPageFrameworkLoader_AdminPage_Page_Base extends AdminPageFra
         $this->sPageSlug    = $aPageArguments['page_slug'];
         $this->_addPage( $aPageArguments );
         $this->construct( $oFactory );
-        $this->_enqueueStyle();        
         
     }
-        /**
-         * Enqueues the style of the css file with the page slug name to the page.
-         */
-        protected function _enqueueStyle() {
-            $_sCSSPath = AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/' . $this->sPageSlug . '.css';
-            if ( ! file_exists( $_sCSSPath ) ) {
-                return;
-            }
-            $this->oFactory->enqueueStyle( 
-                $_sCSSPath,
-                $this->sPageSlug
-            );    
-        }    
     
     private function _addPage( array $aPageArguments ) {
         
@@ -59,6 +45,7 @@ abstract class AdminPageFrameworkLoader_AdminPage_Page_Base extends AdminPageFra
                 'screen_icon'   => null,
             )                
         );
+        add_action( "load_{$this->sPageSlug}", array( $this, 'replyToLoadResources' ) );
         add_action( "load_{$this->sPageSlug}", array( $this, 'replyToLoadPage' ) );
         add_action( "do_{$this->sPageSlug}", array( $this, 'replyToDoPage' ) );
         add_action( "do_after_{$this->sPageSlug}", array( $this, 'replyToDoAfterPage' ) );
@@ -66,6 +53,22 @@ abstract class AdminPageFrameworkLoader_AdminPage_Page_Base extends AdminPageFra
         
     }
 
+    /**
+     * @callback        action      load_{page slug}
+     */
+    public function replyToLoadResources( $oFactory ) {
+
+        $_sCSSPath = AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/' . $this->sPageSlug . '.css';
+        if ( ! file_exists( $_sCSSPath ) ) {
+            return;
+        }
+        $this->oFactory->enqueueStyle( 
+            $_sCSSPath,
+            $this->sPageSlug
+        );    
+    
+    }
+    
     /**
      * Called when the page loads.
      * 
