@@ -386,10 +386,10 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 // ? trim( $_sStyle )
                 // : $this->getCSSMinified( $_sStyle );
             if ( $_sStyle ) {
+                $_iCallCount++;
                 return "<style type='text/css' id='" . esc_attr( "{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}" ) . "'>"
                         . $_sStyle
                     . "</style>";
-                $_iCallCount++;
             }         
             return '';
             
@@ -414,10 +414,10 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 // ? trim( $_sStyleIE )
                 // : $this->getCSSMinified( $_sStyleIE );
             if ( $_sStyleIE ) {
+                $_iCallCountIE++;
                 return "<!--[if IE]><style type='text/css' id='" . esc_attr( "{$sIDPrefix}-ie-{$this->oProp->sClassName}_{$_iCallCountIE}" ) . "'>" 
                         . $_sStyleIE
                     . "</style><![endif]-->";
-                $_iCallCountIE++;
             }            
             return '';
             
@@ -442,12 +442,12 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         );
         $_sScript = trim( $_sScript );
         if ( $_sScript ) {
+            $_iCallCount++;
             echo "<script type='text/javascript' id='" . esc_attr( "{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}" ) . "'>" 
                     . '/* <![CDATA[ */'
                     . $_sScript
                     . '/* ]]> */'
                 . "</script>"; 
-            $_iCallCount++;
         }
         
         // As of 3.2.0, this method also gets called in the footer to ensure there is not any left scripts.
