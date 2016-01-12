@@ -107,8 +107,8 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         $_sStyle = $this->addAndApplyFilters($_oCaller, "style_{$this->oProp->sClassName}", $this->oProp->sStyle);
         $_sStyle = trim($_sStyle);
         if ($_sStyle) {
-            return "<style type='text/css' id='" . esc_attr("{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}") . "'>" . $_sStyle . "</style>";
             $_iCallCount++;
+            return "<style type='text/css' id='" . esc_attr("{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}") . "'>" . $_sStyle . "</style>";
         }
         return '';
     }
@@ -117,8 +117,8 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         $_sStyleIE = $this->addAndApplyFilters($_oCaller, "style_ie_{$this->oProp->sClassName}", $this->oProp->sStyleIE);
         $_sStyleIE = trim($_sStyleIE);
         if ($_sStyleIE) {
-            return "<!--[if IE]><style type='text/css' id='" . esc_attr("{$sIDPrefix}-ie-{$this->oProp->sClassName}_{$_iCallCountIE}") . "'>" . $_sStyleIE . "</style><![endif]-->";
             $_iCallCountIE++;
+            return "<!--[if IE]><style type='text/css' id='" . esc_attr("{$sIDPrefix}-ie-{$this->oProp->sClassName}_{$_iCallCountIE}") . "'>" . $_sStyleIE . "</style><![endif]-->";
         }
         return '';
     }
@@ -127,8 +127,8 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         $_sScript = $this->addAndApplyFilters($this->oProp->oCaller, array("script_{$this->oProp->sClassName}",), $this->oProp->sScript);
         $_sScript = trim($_sScript);
         if ($_sScript) {
-            echo "<script type='text/javascript' id='" . esc_attr("{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}") . "'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
             $_iCallCount++;
+            echo "<script type='text/javascript' id='" . esc_attr("{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}") . "'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
         }
         $this->oProp->sScript = '';
     }
