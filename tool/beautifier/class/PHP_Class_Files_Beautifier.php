@@ -659,11 +659,11 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             
             $sCode = $_oBeautifier->get();
             
-            $sCode = trim( $sCode );    // remove trailing line-feed.
+            // $sCode = trim( $sCode );    // remove trailing line-feed.
             $sCode = preg_replace( 
-                '/^<\?php\s+?/', 
-                '<?php ' . PHP_EOL . $sHeaderComment . PHP_EOL,
-                $sCode 
+                '/^<\?php\s+?/',        // search
+                '<?php ' . PHP_EOL . $sHeaderComment . PHP_EOL, // replace
+                $sCode  // subject
             ); // File comment header
             return $sCode;
             
