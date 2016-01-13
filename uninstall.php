@@ -3,17 +3,17 @@
  * Cleans up the plugin options.
  *    
  * @package      Admin Page Framework Loader
- * @copyright    Copyright (c) 2013-2015, <Michael Uno>
+ * @copyright    Copyright (c) 2013-2016, Michael Uno
  * @author       Michael Uno
  * @authorurl    http://michaeluno.jp
  * @since        3.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+    return;
 }
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-    exit;
+    return;
 }
 
 /* 
@@ -43,10 +43,13 @@ if ( class_exists( 'AdminPageFrameworkLoader_Registry' ) ) :
         AdminPageFrameworkLoader_Registry::TRANSIENT_PREFIX, // the plugin transients
         'apf_',      // the admin page framework transients
     );
+    $_oWPDB = ${ 'GLOBALS' }[ 'wpdb' ];
     foreach( $_aPrefixes as $_sPrefix ) {
-        if ( ! $_sPrefix ) { continue; }
-        $GLOBALS['wpdb']->query( "DELETE FROM `" . $GLOBALS['table_prefix'] . "options` WHERE `option_name` LIKE ( '_transient_%{$_sPrefix}%' )" );
-        $GLOBALS['wpdb']->query( "DELETE FROM `" . $GLOBALS['table_prefix'] . "options` WHERE `option_name` LIKE ( '_transient_timeout_%{$_sPrefix}%' )" );    
+        if ( ! $_sPrefix ) { 
+            continue; 
+        }
+        $_oWPDB->query( "DELETE FROM `{$_oWPDB->prefix}options` WHERE `option_name` LIKE ( '_transient_%{$_sPrefix}%' )" );
+        $_oWPDB->query( "DELETE FROM `{$_oWPDB->prefix}options` WHERE `option_name` LIKE ( '_transient_timeout_%{$_sPrefix}%' )" );
     }
     
 endif;
