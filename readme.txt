@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
 Tested up to:       4.4.1
-Stable tag:         3.7.9
+Stable tag:         3.7.10
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -449,13 +449,13 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.10 =
+= 3.7.10 - 2016/01/13 =
 - Added the `load()` method to the post type factory class which gets called when the `edit.php` page of the post type starts loading.
 - Optimized performance in the common admin area.
 - Changed the timing of registering page meta boxes so that their classes can be instantiated in the `load_{...}` hook of the admin page factory class.
 - Changed the framework inline CSS rules in the compiled library files to be minified.
 
-= 3.7.9 - 2015/01/07 =
+= 3.7.9 - 2016/01/07 =
 - Reduced the number of library files.
 - Fixed a bug that site-wide field type definitions were overridden by built-in field types of per-class field type definitions which caused some field types which override the built-in field type slug did not load, introduced in v3.7.1.
 - Fixed an issue with widgets that caused some overhead.
