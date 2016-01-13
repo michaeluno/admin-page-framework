@@ -449,6 +449,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.7.11 =
+- Changed the error level of custom errors for using deprecated items.
+
 = 3.7.10 - 2016/01/13 =
 - Added the `load()` method to the post type factory class which gets called when the `edit.php` page of the post type starts loading.
 - Optimized performance in the common admin area.
