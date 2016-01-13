@@ -28,18 +28,16 @@ before_script:
     - php -S 127.0.0.1:4000 &
     - sleep 3
   
-script:
-- |
-if [[ $TRAVIS_PHP_VERSION = '5.6' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0' ]]; then 
-    bash test/run.sh -c test/settings.travis.cfg -l 'coverage.xml'; 
-else 
-    bash test/run.sh -c test/settings.travis.cfg; 
-fi
+script: |
+    if [[ $TRAVIS_PHP_VERSION = '5.6' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0' ]]; then 
+        bash test/run.sh -c test/settings.travis.cfg -l 'coverage.xml'; 
+    else 
+        bash test/run.sh -c test/settings.travis.cfg; 
+    fi
 
-after_script:
-- |
-if [[ $TRAVIS_PHP_VERSION = '5.6' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0' ]]; then 
-    wget https://scrutinizer-ci.com/ocular.phar --no-check-certificate; 
-    php ocular.phar code-coverage:upload --format=php-clover 'coverage.xml';
-    php test/coverage-checker.php 'coverage.xml' 80;
-fi
+after_script: |
+    if [[ $TRAVIS_PHP_VERSION = '5.6' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0' ]]; then 
+        wget https://scrutinizer-ci.com/ocular.phar --no-check-certificate; 
+        php ocular.phar code-coverage:upload --format=php-clover 'coverage.xml';
+        php test/coverage-checker.php 'coverage.xml' 80;
+    fi
