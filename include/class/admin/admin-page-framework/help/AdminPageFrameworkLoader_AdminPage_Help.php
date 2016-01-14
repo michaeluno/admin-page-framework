@@ -15,11 +15,6 @@
  * @extends     AdminPageFrameworkLoader_AdminPage_Page_Base
  */
 class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_AdminPage_Page_Base {
-
-    /**
-     * Adds an admin page.
-     */
-    protected function construct( $oFactory ) {}
         
     /**
      * Gets triggered when the page loads.

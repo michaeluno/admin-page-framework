@@ -26,8 +26,8 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
         if ( isset( $_GET['enable_apfl_admin_pages'] ) ) {
             
             // Update the options and reload the page
-            $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
-            $_oOption->update( 'enable_admin_pages', $_GET['enable_apfl_admin_pages'] );
+            $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ] );
+            $_oOption->update( 'enable_admin_pages', $_GET[ 'enable_apfl_admin_pages' ] );
             
             $this->oUtil->goToLocalURL( 
                 remove_query_arg( 'enable_apfl_admin_pages' ),
@@ -37,7 +37,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
         }
         
         // Enable / disable the demo pages
-        if ( isset( $_GET['enable_apfl_demo_pages'] ) ) {
+        if ( isset( $_GET[ 'enable_apfl_demo_pages' ] ) ) {
             
             // Update the options and reload the page
             $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ] );
@@ -83,7 +83,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             new AdminPageFrameworkLoader_AdminPage_Tool( 
                 $this,
                 array(
-                    'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],
+                    'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages[ 'tool' ],
                     'title'     => __( 'Tools', 'admin-page-framework-loader' ),
                     'style'     => array(
                         AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
@@ -94,7 +94,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             new AdminPageFrameworkLoader_AdminPage_Addon(
                 $this,
                 array(
-                    'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages['addon'],    // page slug
+                    'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages[ 'addon' ],    // page slug
                     'title'     => __( 'Add Ons', 'admin-page-framework-loader' ),
                     'style'     => array(
                         AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
@@ -105,7 +105,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             new AdminPageFrameworkLoader_AdminPage_Help( 
                 $this,
                 array(
-                    'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages['help'],
+                    'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages[ 'help' ],
                     'title'     => __( 'Help', 'admin-page-framework-loader' ),
                     'order'     => 1000, // to be the last menu item
                     'style'     => array(

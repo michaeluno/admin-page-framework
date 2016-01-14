@@ -15,15 +15,6 @@
  * @extends     AdminPageFrameworkLoader_AdminPage_Page_Base
  */
 class AdminPageFrameworkLoader_AdminPage_Tool extends AdminPageFrameworkLoader_AdminPage_Page_Base {
-
-
-    /**
-     * A user constructor.
-     * 
-     * @since       3.5.3
-     * @return      void
-     */
-    public function construct( $oFactory ) {}   
     
     public function replyToLoadPage( $oFactory ) {
         
