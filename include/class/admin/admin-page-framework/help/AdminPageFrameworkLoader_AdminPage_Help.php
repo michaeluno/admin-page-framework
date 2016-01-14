@@ -19,8 +19,15 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
     /**
      * Adds an admin page.
      */
-    protected function construct( $oFactory ) {
+    protected function construct( $oFactory ) {}
         
+    /**
+     * Gets triggered when the page loads.
+     * 
+     * @callback        action      load_{page slug}
+     */
+    public function replyToLoadPage( $oFactory ) {
+
         // Tabs
         new AdminPageFrameworkLoader_AdminPage_Help_Information(
             $oFactory,    // factory object
@@ -99,21 +106,19 @@ class AdminPageFrameworkLoader_AdminPage_Help extends AdminPageFrameworkLoader_A
                 'title'     => __( 'Debug', 'admin-page-framework-loader' ),
                 'if'        => defined( 'WP_DEBUG' ) && WP_DEBUG,
             )
-        );  
-
-    }
-        
-    /**
-     * Gets triggered when the page loads.
-     * 
-     * @remark      A callback of the "load_{page slug}" action hook.
-     */
-    public function replyToLoadPage( $oFactory ) {
-
-        // add_filter( "content_top_{$this->sPageSlug}", array( $this, 'replyToFilterContentTop' ) );
-        // add_action( "style_{$this->sPageSlug}", array( $this, 'replyToAddInlineCSS' ) );
-        add_action( "do_after_{$this->sPageSlug}", array( $this, 'replyToDoAfterPage' ) );    
-        
+        );      
+    
+        // Page meta boxes
+        new AdminPageFrameworkLoader_AdminPageMetaBox_ExternalLinks(
+            null,                                           // meta box id - passing null will make it auto generate
+            __( 'Resources', 'admin-page-framework-loader' ), // title
+            array( // page slugs
+                AdminPageFrameworkLoader_Registry::$aAdminPages[ 'help' ],
+            ),
+            'side',                                       // context
+            'default'                                     // priority            
+        );        
+     
         $oFactory->enqueueStyle( 
             AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/help.css', 
             $this->sPageSlug

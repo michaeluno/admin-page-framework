@@ -128,16 +128,6 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
                 'default'                                     // priority
             );       
             
-            new AdminPageFrameworkLoader_AdminPageMetaBox_ExternalLinks(
-                null,                                           // meta box id - passing null will make it auto generate
-                __( 'Resources', 'admin-page-framework-loader' ), // title
-                array( // page slugs
-                    AdminPageFrameworkLoader_Registry::$aAdminPages[ 'help' ],
-                ),
-                'side',                                       // context
-                'default'                                     // priority            
-            );
-
             new AdminPageFrameworkLoader_NetworkAdmin(
                 AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ],    // the option key
                 $this->sFilePath   // caller script path            
