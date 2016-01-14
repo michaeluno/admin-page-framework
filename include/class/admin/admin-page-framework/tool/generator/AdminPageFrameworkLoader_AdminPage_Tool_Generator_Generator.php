@@ -187,12 +187,12 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
             $_aMatches 
         );
         if ( $aInput[ 'class_prefix' ] && empty( $_aMatches ) ) {
-            $_aErrors[ 'class_prefix' ] = __( 'The prefix must consist of alphanumeric with underscores.', 'admin-page-framework-loader' );
+            $_aErrors[ $this->sSectionID ][ 'class_prefix' ] = __( 'The prefix must consist of alphanumeric with underscores.', 'admin-page-framework-loader' );
             $_bVerified = false;
         }
                         
         if ( ! $aInput[ 'text_domain' ] ) {
-            $_aErrors[ 'text_domain' ] = __( 'The text domain cannot be empty.', 'admin-page-framework-loader' );
+            $_aErrors[ $this->sSectionID ][ 'text_domain' ] = __( 'The text domain cannot be empty.', 'admin-page-framework-loader' );
             $_bVerified = false;
         }
                 

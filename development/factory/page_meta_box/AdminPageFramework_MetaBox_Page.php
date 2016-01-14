@@ -32,7 +32,7 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_PageMe
                 __CLASS__, // %1$s
                 'AdminPageFramework_PageMetaBox'    // %2%s
             ),
-            E_USER_WARNING 
+            E_USER_NOTICE 
         );        
                 
         parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );

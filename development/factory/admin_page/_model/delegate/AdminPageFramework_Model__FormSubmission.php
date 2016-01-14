@@ -265,7 +265,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
                             "submit_{instantiated class name}_{pressed input id}", 
                             "submit_{instantiated class name}_{pressed field id}"
                         ), 
-                    E_USER_WARNING 
+                    E_USER_NOTICE 
                 );
             }
             $this->addAndDoActions(

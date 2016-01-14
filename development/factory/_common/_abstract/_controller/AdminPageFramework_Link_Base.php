@@ -19,6 +19,10 @@
  */
 abstract class AdminPageFramework_Link_Base extends AdminPageFramework_FrameworkUtility {
      
+    public $oProp;
+
+    public $oMsg;
+     
     /**
      * Sets up hooks and properties.
      */ 
@@ -34,9 +38,9 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
         add_action( 'in_admin_footer', array( $this, '_replyToSetFooterInfo' ) );
         
         // Add an action link in the plugin listing page
-        if ( 'plugins.php' === $this->oProp->sPageNow && 'plugin' === $this->oProp->aScriptInfo['sType'] ) {
+        if ( 'plugins.php' === $this->oProp->sPageNow && 'plugin' === $this->oProp->aScriptInfo[ 'sType' ] ) {
             add_filter( 
-                'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ),
+                'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo[ 'sPath' ] ),
                 array( $this, '_replyToAddSettingsLinkInPluginListingPage' ), 
                 20     // set a lower priority so that the link will be embedded at the beginning ( the most left hand side ).
             );     
@@ -56,7 +60,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
             if ( $oProp->bIsAdminAjax ) {
                 return false;
             }
-            return true;            
+            return ! $this->hasBeenCalled( 'links_' . $oProp->sClassName );
         }
         
     /**
@@ -80,15 +84,15 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
          */
         protected function _setDefaultFooterText() {
         
-            $this->oProp->aFooterInfo['sLeft'] = str_replace( 
+            $this->oProp->aFooterInfo[ 'sLeft' ] = str_replace( 
                 '__SCRIPT_CREDIT__', 
                 $this->_getFooterInfoLeft( $this->oProp->aScriptInfo ),
-                $this->oProp->aFooterInfo['sLeft']
+                $this->oProp->aFooterInfo[ 'sLeft' ]
             );
-            $this->oProp->aFooterInfo['sRight'] = str_replace(
+            $this->oProp->aFooterInfo[ 'sRight' ] = str_replace(
                 '__FRAMEWORK_CREDIT__',
                 $this->_getFooterInfoRight( $this->oProp->_getLibraryData() ),
-                $this->oProp->aFooterInfo['sRight']
+                $this->oProp->aFooterInfo[ 'sRight' ]
             );
             
         }
@@ -102,44 +106,44 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
             private function _getFooterInfoLeft( $aScriptInfo ) {
 
                 $_sDescription = $this->getAOrB(
-                    empty( $aScriptInfo['sDescription'] ),
+                    empty( $aScriptInfo[ 'sDescription' ] ),
                     '',
-                    "&#13;{$aScriptInfo['sDescription']}"
+                    "&#13;{$aScriptInfo[ 'sDescription' ]}"
                 );
                 $_sVersion = $this->getAOrB(
-                    empty( $aScriptInfo['sVersion'] ),
+                    empty( $aScriptInfo[ 'sVersion' ] ),
                     '',
-                    "&nbsp;{$aScriptInfo['sVersion']}"
+                    "&nbsp;{$aScriptInfo[ 'sVersion' ]}"
                 );
                 $_sPluginInfo = $this->getAOrB(
-                    empty( $aScriptInfo['sURI'] ),
-                    $aScriptInfo['sName'],
+                    empty( $aScriptInfo[ 'sURI' ] ),
+                    $aScriptInfo[ 'sName' ],
                     $this->getHTMLTag( 
                         'a', 
                         array(
-                            'href'      => $aScriptInfo['sURI'],
+                            'href'      => $aScriptInfo[ 'sURI' ],
                             'target'    => '_blank',
-                            'title'     => $aScriptInfo['sName'] . $_sVersion . $_sDescription 
+                            'title'     => $aScriptInfo[ 'sName' ] . $_sVersion . $_sDescription 
                         ), 
-                        $aScriptInfo['sName'] 
+                        $aScriptInfo[ 'sName' ] 
                     )    
                 );
 
                 $_sAuthorInfo = $this->getAOrB(
-                    empty( $aScriptInfo['sAuthorURI'] ),
+                    empty( $aScriptInfo[ 'sAuthorURI' ] ),
                     '',
                     $this->getHTMLTag( 
                         'a', 
                         array(
-                            'href'      => $aScriptInfo['sAuthorURI'],
+                            'href'      => $aScriptInfo[ 'sAuthorURI' ],
                             'target'    => '_blank',
-                            'title'     => $aScriptInfo['sAuthor'],
+                            'title'     => $aScriptInfo[ 'sAuthor' ],
                         ), 
-                        $aScriptInfo['sAuthor']
+                        $aScriptInfo[ 'sAuthor' ]
                     )                
                 );
                 $_sAuthorInfo = $this->getAOrB(
-                    empty( $aScriptInfo['sAuthor'] ),
+                    empty( $aScriptInfo[ 'sAuthor' ] ),
                     $_sAuthorInfo,
                     ' by ' . $_sAuthorInfo
                 );
@@ -161,26 +165,26 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
             private function _getFooterInfoRight( $aScriptInfo ) {
 
                 $_sDescription = $this->getAOrB(
-                    empty( $aScriptInfo['sDescription'] ),
+                    empty( $aScriptInfo[ 'sDescription' ] ),
                     '',
-                    "&#13;{$aScriptInfo['sDescription']}"
+                    "&#13;{$aScriptInfo[ 'sDescription' ]}"
                 );
                 $_sVersion = $this->getAOrB(
-                    empty( $aScriptInfo['sVersion'] ),
+                    empty( $aScriptInfo[ 'sVersion' ] ),
                     '',
-                    "&nbsp;{$aScriptInfo['sVersion']}"
+                    "&nbsp;{$aScriptInfo[ 'sVersion' ]}"
                 );
                 $_sLibraryInfo = $this->getAOrB(
-                    empty( $aScriptInfo['sURI'] ),
-                    $aScriptInfo['sName'],
+                    empty( $aScriptInfo[ 'sURI' ] ),
+                    $aScriptInfo[ 'sName' ],
                     $this->getHTMLTag( 
                         'a', 
                         array(
-                            'href'      => $aScriptInfo['sURI'],
+                            'href'      => $aScriptInfo[ 'sURI' ],
                             'target'    => '_blank',
-                            'title'     => $aScriptInfo['sName'] . $_sVersion . $_sDescription,
+                            'title'     => $aScriptInfo[ 'sName' ] . $_sVersion . $_sDescription,
                         ), 
-                        $aScriptInfo['sName']
+                        $aScriptInfo[ 'sName' ]
                     )                   
                 );
                 
@@ -227,9 +231,9 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
              */ 
             public function _replyToAddInfoInFooterLeft( $sLinkHTML='' ) {
 
-                $sLinkHTML = empty( $this->oProp->aScriptInfo['sName'] )
+                $sLinkHTML = empty( $this->oProp->aScriptInfo[ 'sName' ] )
                     ? $sLinkHTML
-                    : $this->oProp->aFooterInfo['sLeft'];
+                    : $this->oProp->aFooterInfo[ 'sLeft' ];
              
                 return $this->addAndApplyFilters( 
                     $this->oProp->oCaller, 
@@ -250,7 +254,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
                 return $this->addAndApplyFilters( 
                     $this->oProp->oCaller, 
                     'footer_right_' . $this->oProp->sClassName, 
-                    $this->oProp->aFooterInfo['sRight']
+                    $this->oProp->aFooterInfo[ 'sRight' ]
                 );                
             }       
        

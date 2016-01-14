@@ -228,6 +228,9 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
     * @return       void
     */     
     public function addLinkToPluginDescription( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {
+        if ( 'plugins.php' !== $this->oProp->sPageNow ) {
+            return;
+        }        
         $this->oLink->_addLinkToPluginDescription( func_get_args() ); 
     }
 
@@ -250,7 +253,12 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
     * @return       void
     */    
     public function addLinkToPluginTitle( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {    
+    
+        if ( 'plugins.php' !== $this->oProp->sPageNow ) {
+            return;
+        }    
         $this->oLink->_addLinkToPluginTitle( func_get_args() );     
+        
     }
      
     /**

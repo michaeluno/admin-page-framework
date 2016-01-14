@@ -116,32 +116,13 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
                 $this->sFilePath   // caller script path
             );
 
-            new AdminPageFrameworkLoader_AdminPageMetaBox_Notification(
-                null,                                           // meta box id - passing null will make it auto generate
-                __( 'Notification', 'admin-page-framework-loader' ), // title
-                array( // page slugs
-                    AdminPageFrameworkLoader_Registry::$aAdminPages[ 'tool' ],
-                    AdminPageFrameworkLoader_Registry::$aAdminPages[ 'addon' ],
-                    AdminPageFrameworkLoader_Registry::$aAdminPages[ 'help' ],
-                ),
-                'side',                                       // context
-                'default'                                     // priority
-            );       
-            
-            new AdminPageFrameworkLoader_AdminPageMetaBox_ExternalLinks(
-                null,                                           // meta box id - passing null will make it auto generate
-                __( 'Resources', 'admin-page-framework-loader' ), // title
-                array( // page slugs
-                    AdminPageFrameworkLoader_Registry::$aAdminPages[ 'help' ],
-                ),
-                'side',                                       // context
-                'default'                                     // priority            
-            );
-
-            new AdminPageFrameworkLoader_NetworkAdmin(
-                AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ],    // the option key
-                $this->sFilePath   // caller script path            
-            );
+            // Network admin pages.
+            if ( is_network_admin() ) {
+                new AdminPageFrameworkLoader_NetworkAdmin(
+                    AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ],    // the option key
+                    $this->sFilePath   // caller script path            
+                );
+            }
 
         }   
 
@@ -168,36 +149,4 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
             
         }
         
-        /**
-         * Includes files prior to the auto-loader's callback for performance.
-         */
-/*         private function _include() {
-            
-            // $_aClassFiles = array();
-            // include( dirname( $this->sFilePath ) . '/include/loader-class-list.php' );
-            $_aClassFiles = $this->_aClassFiles;
-            
-            // Abstract (parent) classes.
-            include( $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_RootBase' ] );
-            include( $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Page_Base' ] );
-            include( $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Section_Base' ] );
-            include( $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Tab_Base' ] );
-            include( $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase' ] );
-            unset( 
-                $_aClassFiles[ 'AdminPageFrameworkLoader_Bootstrap' ],
-                $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Page_Base' ],
-                $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_RootBase' ],
-                $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Section_Base' ],
-                $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Tab_Base' ],
-                $_aClassFiles[ 'AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase' ]
-                
-            );
-            
-            // Rest of the files.
-            foreach( $_aClassFiles as $_sPath ) {
-                include( $_sPath );
-            }
-            
-        }     */    
-    
 }

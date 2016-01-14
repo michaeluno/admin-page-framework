@@ -193,7 +193,7 @@ See more code examples in `Dashboard` -> `AdminPageFramework` -> `Help` -> `Exam
 - [Other Notes](https://wordpress.org/plugins/admin-page-framework/other_notes/)
 - [Change Log](https://wordpress.org/plugins/admin-page-framework/changelog/)
 
-## Getting Helped
+### Getting Helped
 
 - [Support Forum](http://wordpress.org/support/plugin/admin-page-framework)
 
@@ -243,7 +243,7 @@ Anyone is welcome to contribute to *Admin Page Framework*. There are various way
 - Improve the [documentation](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md).
 - Tweak the styling of the framework page elements.
 - Translate the language files in the [language](https://github.com/michaeluno/admin-page-framework/tree/master/language) directory to your native language.
-- Possibly more.s
+- Possibly more.
 
 ### Supporting Future Development 
 

@@ -13,12 +13,11 @@
  * Adds a tab of the set page to the loader plugin.
  * 
  * @since       3.5.0    
- * @sicne       3.5.3       Extends `AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase`.
+ * @since       3.5.3       Extends `AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase`.
  * @extends     AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase
  */
 class AdminPageFrameworkLoader_AdminPageWelcome_Welcome extends AdminPageFrameworkLoader_AdminPage_Tab_ReadMeBase {
 
-    // "load_{$sPageSlug}_{$aTabDefinition['tab_slug']}",
     public function replyToLoadTab( $oFactory ) {
         
         add_action( "style_{$this->sPageSlug}_{$this->sTabSlug}", array( $this, 'replyToAddInlineCSS' ) );

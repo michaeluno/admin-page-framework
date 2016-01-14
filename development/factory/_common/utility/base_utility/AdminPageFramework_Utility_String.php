@@ -111,7 +111,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
                     'getCSSMinified()'
                     
                 ),
-                E_USER_WARNING 
+                E_USER_NOTICE 
             );            
             return self::getCSSMinified( $sCSSRules );
         }

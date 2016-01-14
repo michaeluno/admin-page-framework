@@ -9,7 +9,9 @@
  * 
  */
  
- 
+/**
+ * 
+ */
 class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFramework_PageMetaBox {
         
     /*
@@ -75,7 +77,7 @@ class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFr
      * Alternatively use the `content_{instantiated class name}` method instead.
      */
     public function content( $sContent ) {
-        
+
         $_sInsert = ''
             . "<h4>" 
                 . "<span class='header-icon dashicons dashicons-warning'></span>"
