@@ -243,4 +243,5 @@ cd ..
 rm -fr $SVNPATH/
 
 echo "*** FIN ***"
+start notice.mp3
 $SHELL
