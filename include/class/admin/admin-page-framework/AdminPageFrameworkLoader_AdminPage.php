@@ -115,85 +115,103 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
                 )                
             );
             
+            add_action( 'load_' . $this->oProp->sClassName, array( $this, 'replyToDoPageSettings' ) );
+            
         }
               
-        $this->_doPageSettings( $_bAdminPageEnabled, $_aOptions );
+        $this->_addActionLinks( $_bAdminPageEnabled, $_aOptions );
         
     }
+    
         /**
          * Does page settings.
          */
-        private function _doPageSettings( $_bAdminPageEnabled, $_aOptions ) {
-                
-            // Page Settings
-            $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
-            $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
-            $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
-            $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
+        private function _addActionLinks( $_bAdminPageEnabled, $_aOptions ) {
           
-            // Action Links (plugin.php)
+            if ( 'plugins.php' !==  $this->oProp->sPageNow ) {
+                return;
+            }
+          
+            // Action Links 
+            
+            $this->setPluginSettingsLinkLabel( '' );
             $this->addLinkToPluginTitle(
                 $this->_getAdminURLTools( $_bAdminPageEnabled ),
                 $this->_getAdminPageSwitchLink( $_bAdminPageEnabled ),
                 $this->_getDemoSwitcherLink( $_bAdminPageEnabled, $_aOptions )
             );
             $this->addLinkToPluginDescription(
-                "<a href='https://wordpress.org/support/plugin/admin-page-framework' target='_blank'>" . __( 'Support', 'admin-page-framework-loader' ) . "</a>"
+                "<a href='https://wordpress.org/support/plugin/admin-page-framework' target='_blank'>" 
+                    . __( 'Support', 'admin-page-framework-loader' ) 
+                . "</a>"
             );            
             
-        }
-        /**
-         * Returns the Tools admin page link.
-         */
-        private function _getAdminURLTools( $_bAdminPageEnabled ) {
-            if ( ! $_bAdminPageEnabled ) {
-                return;
-            }
-            $_sLink    = esc_url(
-                add_query_arg( 
-                    array( 
-                        'page' => AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],
-                    ),
-                    admin_url( 'admin.php' )
-                )
-            );                
-            return "<a href='{$_sLink}'>" . __( 'Tools', 'admin-page-framework-loader' ) . "</a>";
-        }
-        /**
-         * Returns the Enable /Disable Admin Pages link.
-         */
-        private function _getAdminPageSwitchLink( $bEnabled ) {
-            $_sLink    = esc_url( 
-                add_query_arg( 
-                    array( 
-                        'enable_apfl_admin_pages' => $bEnabled ? 0 : 1,
+        }        
+            /**
+             * Returns the Tools admin page link.
+             * @return      string
+             */
+            private function _getAdminURLTools( $_bAdminPageEnabled ) {
+                if ( ! $_bAdminPageEnabled ) {
+                    return;
+                }
+                $_sLink    = esc_url(
+                    add_query_arg( 
+                        array( 
+                            'page' => AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],
+                        ),
+                        admin_url( 'admin.php' )
                     )
-                )
-            );            
-            return $bEnabled
-                ? "<a href='{$_sLink}'>" . __( 'Disable Admin Pages', 'admin-page-framework-loader' ) . "</a>"
-                : "<a href='{$_sLink}'>" . __( 'Enable Admin Pages', 'admin-page-framework-loader' ) . "</a>";                     
-        }
-        /**
-         * Returns the switch link of the demo pages.
-         */
-        private function _getDemoSwitcherLink( $_bAdminPageEnabled, $mOptions=array() ) {
-            
-            if ( ! $_bAdminPageEnabled ) {
-                return '';
+                );                
+                return "<a href='{$_sLink}'>" . __( 'Tools', 'admin-page-framework-loader' ) . "</a>";
             }
-            $_bEnabled  = isset( $mOptions['enable_demo'] ) && $mOptions['enable_demo'];
-            $_sLink    = esc_url( 
-                add_query_arg( 
-                    array( 
-                        'enable_apfl_demo_pages' => $_bEnabled ? 0 : 1,
+            /**
+             * Returns the Enable /Disable Admin Pages link.
+             */
+            private function _getAdminPageSwitchLink( $bEnabled ) {
+                $_sLink    = esc_url( 
+                    add_query_arg( 
+                        array( 
+                            'enable_apfl_admin_pages' => $bEnabled ? 0 : 1,
+                        )
                     )
-                )
-            );        
-            return $_bEnabled
-                ? "<a href='{$_sLink}'>" . __( 'Disable Demo', 'admin-page-framework-loader' ) . "</a>"
-                : "<a href='{$_sLink}'><strong id='activate-demo-action-link' style='font-size: 1em;'>" . __( 'Enable Demo', 'admin-page-framework-loader' ) . "</strong></a>";
-            
-        }            
+                );            
+                return $bEnabled
+                    ? "<a href='{$_sLink}'>" . __( 'Disable Admin Pages', 'admin-page-framework-loader' ) . "</a>"
+                    : "<a href='{$_sLink}'>" . __( 'Enable Admin Pages', 'admin-page-framework-loader' ) . "</a>";                     
+            }
+            /**
+             * Returns the switch link of the demo pages.
+             */
+            private function _getDemoSwitcherLink( $_bAdminPageEnabled, $mOptions=array() ) {
+                
+                if ( ! $_bAdminPageEnabled ) {
+                    return '';
+                }
+                $_bEnabled  = isset( $mOptions['enable_demo'] ) && $mOptions['enable_demo'];
+                $_sLink    = esc_url( 
+                    add_query_arg( 
+                        array( 
+                            'enable_apfl_demo_pages' => $_bEnabled ? 0 : 1,
+                        )
+                    )
+                );        
+                return $_bEnabled
+                    ? "<a href='{$_sLink}'>" . __( 'Disable Demo', 'admin-page-framework-loader' ) . "</a>"
+                    : "<a href='{$_sLink}'><strong id='activate-demo-action-link' style='font-size: 1em;'>" . __( 'Enable Demo', 'admin-page-framework-loader' ) . "</strong></a>";
+                
+            }      
+
+    /**
+     * @return      void
+     * @callback    action      load_{class name}
+     */
+    public function replyToDoPageSettings( /* $oFactory */ ) {
+
+        $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
+        $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
+        $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
+    
+    }        
 
 }
