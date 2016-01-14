@@ -450,6 +450,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.7.11 =
+- Fixed a bug that the default plugin action link were doubled when setting a custom label.
 - Changed the error level of custom errors for using deprecated items.
 
 = 3.7.10 - 2016/01/13 =

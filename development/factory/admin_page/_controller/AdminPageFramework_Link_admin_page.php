@@ -58,14 +58,18 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
         if ( ! is_array( $asLinks ) ) {
             $this->oProp->aPluginDescriptionLinks[] = $asLinks;
         } else {
-            $this->oProp->aPluginDescriptionLinks = array_merge( $this->oProp->aPluginDescriptionLinks , $asLinks );
-        }
-
-        if ( 'plugins.php' !== $this->oProp->sPageNow ) {
-            return;
+            $this->oProp->aPluginDescriptionLinks = array_merge( 
+                $this->oProp->aPluginDescriptionLinks, 
+                $asLinks 
+            );
         }
         
-        add_filter( 'plugin_row_meta', array( $this, '_replyToAddLinkToPluginDescription' ), 10, 2 );
+        add_filter( 
+            'plugin_row_meta', 
+            array( $this, '_replyToAddLinkToPluginDescription' ), 
+            10, 
+            2 
+        );
 
     }
     
@@ -85,11 +89,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
                 $asLinks 
            );
         }
-        
-        if ( 'plugins.php' !== $this->oProp->sPageNow ) {
-            return;
-        }
-        
+                
         $this->_addFilterHook_PluginTitleActionLink();
 
     }
@@ -105,6 +105,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
          * Adds a filter hook of a plugin title action link.
          * @remark      The network admin link class extends this method.
          * @uses        add_filter()
+         * @uses        plugin_basename()
          * @since       3.5.5
          * @return      void
          */
@@ -113,10 +114,10 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
             if ( isset( $_sPluginBaseName ) ) {
                 return;
             }
-            $_sPluginBaseName = plugin_basename( $this->oProp->aScriptInfo['sPath'] );
+            $_sPluginBaseName = plugin_basename( $this->oProp->aScriptInfo[ 'sPath' ] );
             add_filter( 
                 $this->_sFilterSuffix_PluginActionLinks . $_sPluginBaseName, 
-                array( $this, '_replyToAddLinkToPluginTitle' ) 
+                array( $this, '_replyToAddPluginActionLinks' ) 
             );            
         }
         
@@ -222,14 +223,14 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
         if ( ! $this->oProp->sLabelPluginSettingsLink ) {
             return $aLinks;
         }
-        
+
         // For a custom root slug,
-        $_sLinkURL = preg_match( '/^.+\.php/', $this->oProp->aRootMenu['sPageSlug'] ) 
+        $_sLinkURL = preg_match( '/^.+\.php/', $this->oProp->aRootMenu[ 'sPageSlug' ] ) 
             ? add_query_arg( 
                 array( 
                     'page' => $this->oProp->sDefaultPageSlug 
                 ), 
-                admin_url( $this->oProp->aRootMenu['sPageSlug'] )
+                admin_url( $this->oProp->aRootMenu[ 'sPageSlug' ] )
             )
             : "admin.php?page={$this->oProp->sDefaultPageSlug}";
         
@@ -259,7 +260,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
      */
     public function _replyToAddLinkToPluginDescription( $aLinks, $sFile ) {
 
-        if ( $sFile != plugin_basename( $this->oProp->aScriptInfo['sPath'] ) ) { 
+        if ( $sFile !== plugin_basename( $this->oProp->aScriptInfo[ 'sPath' ] ) ) { 
             return $aLinks; 
         }
         
@@ -282,17 +283,16 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
     }   
 
     /**
-     * 
-     * @callback        filter      plugin_action_links_{plugin base name}
+     * @return      array
+     * @callback    filter      plugin_action_links_{plugin base name}
+     * @since       unknown
+     * @since       3.7.11      Renamed from `_replyToAddLinkToPluginTitle`.
      */
-    public function _replyToAddLinkToPluginTitle( $aLinks ) {
+    public function _replyToAddPluginActionLinks( $aLinks ) {
 
         $_aAddingLinks = array();
         foreach( array_filter( $this->oProp->aPluginTitleLinks ) as $_sLinkHTML ) {
-            
-            if ( ! $_sLinkHTML ) {
-                continue;
-            }
+
             if ( is_array( $_sLinkHTML ) ) {
                 $_aAddingLinks = array_merge( $_sLinkHTML, $aAddingLinks );
                 continue;
