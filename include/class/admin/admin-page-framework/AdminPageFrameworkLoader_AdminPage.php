@@ -212,6 +212,19 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
         $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
         $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
     
+        // Page meta boxes            
+        new AdminPageFrameworkLoader_AdminPageMetaBox_Notification(
+            null,                                           // meta box id - passing null will make it auto generate
+            __( 'Notification', 'admin-page-framework-loader' ), // title
+            array( // page slugs
+                AdminPageFrameworkLoader_Registry::$aAdminPages[ 'tool' ],
+                AdminPageFrameworkLoader_Registry::$aAdminPages[ 'addon' ],
+                AdminPageFrameworkLoader_Registry::$aAdminPages[ 'help' ],
+            ),
+            'side',                                       // context
+            'default'                                     // priority
+        );        
+    
     }        
 
 }
