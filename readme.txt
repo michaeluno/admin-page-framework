@@ -449,6 +449,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.7.12 =
+- Added the `load()` method to the admin page factory class which gets called when one of the added admin pages starts loading.
+
 = 3.7.11 - 2016/01/15 =
 - Fixed a bug that the default plugin action link were doubled when setting a custom label.
 - Changed the error level of custom errors for using deprecated items.

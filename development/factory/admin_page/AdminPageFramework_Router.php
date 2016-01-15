@@ -16,7 +16,6 @@
  * @package         AdminPageFramework
  * @subpackage      AdminPage
  * @internal
- * @method          _renderPage( $_sPageSlug, $_sTabSlug )      
  * @method          _renderSectionDescription( $sMethodName )           defined in AdminPageFramework_Setting
  * @method          _renderSettingField( $_mFirstArg, $_sPageSlug )     defined in AdminPageFramework_Setting
  */
@@ -176,6 +175,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             $this->oForm->aSections[ '_default' ][ 'tab_slug' ]   = $sTabSlug ? $sTabSlug : null;
         
             // Do actions, class ->  page -> in-page tab
+            $this->load();  // 3.7.12+
             $this->oUtil->addAndDoActions( 
                 $this, // the caller object
                 array( 

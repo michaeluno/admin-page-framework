@@ -18,6 +18,16 @@
 abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
     
     /**
+     * Called when one of the added admin page starts loading.
+     * 
+     * Alternatively the user may use the `load_{instantiated class name}` action hook and its auto-callback method.
+     * 
+     * @since       3.7.12
+     * @return      void
+     */
+    public function load() {}
+    
+    /**
      * The method for all the necessary set-ups. 
      * 
      * The users should override this method to set-up necessary settings. To perform certain tasks prior to this method, use the `start_{instantiated class name}` hook that is triggered at the end of the class constructor.
