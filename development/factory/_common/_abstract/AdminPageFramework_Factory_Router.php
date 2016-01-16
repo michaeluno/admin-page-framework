@@ -214,15 +214,6 @@ abstract class AdminPageFramework_Factory_Router {
             return; 
         }
 
-        /**
-         * Make sure a form object (`$this->oForm`) is instantiated.
-         * If a form object has not been created, this will instantiate it by triggering `__get()`.
-         * This lets the form object available in the callback functions (methods) of the factory class
-         * as some callbacks possibly be called during the instantiation (constructor) 
-         * if the set action is already triggered by the system (WordPress).
-         */
-        // $this->oForm;
-               
         // Calls `setUp()` and the user will set up the meta box.
         $this->_setUp();
         
@@ -243,13 +234,13 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      * @return      object|null
      */
-    protected function _getFormObject( $oProp ) {
+    protected function _getFormObject() {
     
-        $oProp->setFormProperties();
-        $_sFormClass = "AdminPageFramework_Form_{$oProp->_sPropertyType}";
+        $this->oProp->setFormProperties();
+        $_sFormClass = "AdminPageFramework_Form_{$this->oProp->_sPropertyType}";
         return new $_sFormClass(
-            $oProp->aFormArguments, // Options - for the values that do not need to change through out the script execution. 
-            $oProp->aFormCallbacks, // Callbacks - for the values which change dynamically depending on conditions such as the loaded page url.
+            $this->oProp->aFormArguments, // Options - for the values that do not need to change through out the script execution. 
+            $this->oProp->aFormCallbacks, // Callbacks - for the values which change dynamically depending on conditions such as the loaded page url.
             $this->oMsg
         );    
         
@@ -330,7 +321,7 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          */              
         public function _replyTpSetAndGetInstance_oForm() {
-            $this->oForm = $this->_getFormObject( $this->oProp );           
+            $this->oForm = $this->_getFormObject();           
             return $this->oForm;
         }
         /**
