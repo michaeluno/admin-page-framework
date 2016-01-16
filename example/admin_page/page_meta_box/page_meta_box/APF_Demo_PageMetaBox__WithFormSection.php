@@ -9,7 +9,7 @@
  * 
  */
 
-class APF_MetaBox_For_Pages_WithFormSection extends AdminPageFramework_PageMetaBox {
+class APF_Demo_PageMetaBox__WithFormSection extends AdminPageFramework_PageMetaBox {
         
     /*
      * ( optional ) Use the setUp() method to define settings of this meta box.
@@ -53,10 +53,3 @@ class APF_MetaBox_For_Pages_WithFormSection extends AdminPageFramework_PageMetaB
     
 }
 
-new APF_MetaBox_For_Pages_WithFormSection(
-    null,
-    __( 'Meta box with a Form Section', 'admin-page-framework-loader' ), // title        
-    array( 'apf_first_page', 'apf_second_page' ),   
-    'side',
-    'low'
-);

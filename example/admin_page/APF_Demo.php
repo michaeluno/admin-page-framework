@@ -96,6 +96,7 @@ class APF_Demo extends AdminPageFramework {
         new APF_Demo_BuiltinFieldType;
         new APF_Demo_AdvancedUsage;
         new APF_Demo_CustomFieldType;
+        new APF_Demo_PageMetaBox;
         new APF_Demo_ManageOptions;
         new APF_Demo_HiddenPage;
         new APF_Demo_Contact;
@@ -107,25 +108,26 @@ class APF_Demo extends AdminPageFramework {
                 'title' => __( 'Documentation', 'admin-page-framework-loader' ),
                 'order' => 60,
             )
-        );
+        );       
         
     }
     
     /**
-     * The pre-defined callback method triggered when one of the added pages loads
+     * Called when the admin pages added with this class get loaded.
      * 
-     * @callback        action      load_{instantiated class name}
+     * Do some set-ups common in all the added pages and tabs.
+     * 
+     * Alternatively you can use load_{instantiated class name} hook.
+     * @return      void
      */
-    public function load_APF_Demo( $oAdminPage ) { 
-    
-        // (optional) Determine the page style
+    public function load() {
         
-        /// disables the page heading tabs by passing false.
+        // Disable the page heading tabs by passing false.
         $this->setPageHeadingTabsVisibility( false ); 
         
-        /// sets the tag used for in-page tabs. 
-        $this->setInPageTabTag( 'h2' ); 
-    
+        // Set the tag used for in-page tabs. 
+        $this->setInPageTabTag( 'h2' );     
+                
     }
           
     /*

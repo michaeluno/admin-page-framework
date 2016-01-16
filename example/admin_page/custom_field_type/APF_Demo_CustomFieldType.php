@@ -43,6 +43,7 @@ class APF_Demo_CustomFieldType {
             array(
                 'title'     => __( 'Custom Field Types', 'admin-page-framework-loader' ),
                 'page_slug' => $this->_sPageSlug,    // page slug
+                'order'     => 30,
             )
         );
 

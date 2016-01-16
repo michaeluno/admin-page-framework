@@ -452,6 +452,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.7.12 =
+- Added an example for page meta boxes for in-page tabs in the demo.
 - Added the `load()` method to the admin page factory class which gets called when one of the added admin pages starts loading.
 - Tweaked the style of page meta boxes.
 

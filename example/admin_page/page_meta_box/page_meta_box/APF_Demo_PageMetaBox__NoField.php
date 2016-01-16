@@ -12,7 +12,7 @@
  /**
   * Defines a meta box without form fields.
   */
-class APF_MetaBox_For_Pages_NoField extends AdminPageFramework_PageMetaBox {
+class APF_Demo_PageMetaBox__NoField extends AdminPageFramework_PageMetaBox {
     
     /**
      * @return      string
@@ -25,11 +25,3 @@ class APF_MetaBox_For_Pages_NoField extends AdminPageFramework_PageMetaBox {
     }
     
 }
-
-new APF_MetaBox_For_Pages_NoField(
-    null,
-    __( 'Information Box', 'admin-page-framework-loader' ), // title        
-    array( 'apf_first_page', 'apf_second_page' ),   
-    'side',
-    'low'
-);

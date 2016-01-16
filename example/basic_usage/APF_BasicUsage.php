@@ -14,18 +14,13 @@
 class APF_BasicUsage extends AdminPageFramework {
     
     /**
-     * 
-     */
-    public function start() {}
-    
-    /**
      * Sets up pages.
      */
     public function setUp() {
         
         $this->setRootMenuPage( 
             "<span id='apf-demo-2-menu-label'>" 
-                . __( 'APF Demo 2', 'admin-page-framework-loader' ) 
+                . __( 'Basic Usage', 'admin-page-framework-loader' ) 
             . "</span>"
             ,
             version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) 
@@ -41,6 +36,7 @@ class APF_BasicUsage extends AdminPageFramework {
             array(
                 'title'         => __( 'Second Page', 'admin-page-framework-loader' ),
                 'page_slug'     => 'apf_second_page',
+                'style'         => AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
             ),
             array(
                 'title'         => __( 'Disabled', 'admin-page-framework-loader' ),
@@ -53,25 +49,22 @@ class APF_BasicUsage extends AdminPageFramework {
             )
         );
                 
-        // Disable it
+        // Disable the plugin action link.
         $this->setPluginSettingsLinkLabel( '' ); 
         
     }    
     
     /**
-     * @callback        action      load_{instantiated class name}
+     * Called when one of the added pages starts loading.
+     * 
+     * Alternatively use `load_{instantiated class name}` hook.
+     * @return      void
      */
-    public function load_APF_BasicUsage() {
+    public function load() {
 
-        $this->setPageHeadingTabsVisibility( true ); // disables the page heading tabs by passing false.
- 
-        // Page Meta-boxes
-        include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Normal.php' );
-        include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Advanced.php' );
-        include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_Side.php' );
-        include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_WithFormSection.php' );
-        include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/admin_page_meta_box/APF_MetaBox_For_Pages_NoField.php' );       
- 
+        // Disable the page heading tabs by passing false. 
+        $this->setPageHeadingTabsVisibility( true );    
+        
     }
     
     /**
@@ -81,41 +74,30 @@ class APF_BasicUsage extends AdminPageFramework {
      */
     public function load_apf_first_page() { 
         
-        // Pointer Tool Tips
-        new AdminPageFramework_PointerToolTip(
-            array( 
-                'apf_first_page',  // page slugs
-            ),     
-            'apf_demo_page_meta_boxes', // unique id for the pointer tool box
-            array(        // pointer data
-                'target'    => '#apf_metabox_for_pages_normal',
-                'options'   => array(
-                    'content' => sprintf( '<h3> %1$s </h3> <p> %2$s </p>',
-                        __( 'Page Meta Boxes' ,'admin-page-framework-loader' ),
-                        __( 'Demonstrates the use of meta boxes for admin pages.','admin-page-framework-loader')
-                        . ' ' . __( 'Usually meta boxes are displayed in post editing pages but with Admin Page Framework, you can display them in generic admin pages you create with the framework.','admin-page-framework-loader')
-                    ),
-                    'position'  => array( 'edge' => 'top', 'align' => 'middle' )
-                )
+        $this->addSettingSections(
+            array(
+                'section_id'    => 'basic_usage',
+                'title'         => __( 'Setting Form', 'admin-page-framework-loader' )
             )
-        );      
+        );
+        
+        $this->addSettingFields(
+            'basic_usage',  // target section ID
+            array(
+                'field_id'  => 'text',
+                'type'      => 'text',
+                'title'     => __( 'Text', 'admin-page-framework-loader' ),
+                'default'   => 'xyz',
+            ),
+            array(
+                'field_id'  => '__submit',
+                'type'      => 'submit',
+                'save'      => false
+            )        
+        );
         
     }    
-    
-    /**
-     * Do page specific settings.
-     * 
-     * @callback        action      load_{page slug}
-     */
-    public function load_apf_second_page() { 
-
-        $this->enqueueStyle( 
-            AdminPageFrameworkLoader_Registry::getPluginURL( 'asset/css/code.css', AdminPageFrameworkLoader_Registry::$sFilePath ), // source path/url
-            'apf_second_page'   // page slug
-        );              
         
-    }
-    
     /**
      * Do render the page contents.
      * 
@@ -135,7 +117,6 @@ class APF_BasicUsage extends AdminPageFramework {
      * @callback        filter      content_ + {page slug}
      */
     public function content_apf_second_page( $sContent ) { 
-
         return $sContent 
             . "<h3>" . __( 'content_ + {...} Filter Hooks', 'admin-page-framework-loader' ) . "</h3>"
             . "<p>" 
@@ -143,7 +124,6 @@ class APF_BasicUsage extends AdminPageFramework {
             . "</p>"
             . "<h3>" . __( 'Saved Options', 'admin-page-framework-loader' ) . "</h3>"
             . $this->oDebug->get( $this->getValue() );
-            
     }
     
 }

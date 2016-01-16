@@ -9,7 +9,7 @@
  * 
  */
 
-class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_PageMetaBox {
+class APF_Demo_PageMetaBox__Normal extends AdminPageFramework_PageMetaBox {
         
     /*
      * ( optional ) Use the setUp() method to define settings of this meta box.
@@ -53,19 +53,7 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_PageMetaBox {
                 'attributes'    => array(
                     'cols' => 40,     
                 ),
-            ),
-            // array(
-                // 'field_id' => 'submit_in_meta_box',
-                // 'type' => 'submit',
-                // 'show_title_column' => false,
-                // 'label_min_width' => 0,
-                // 'attributes' => array(
-                    // 'fieldset' => array(
-                        // 'style' => 'float:right;',
-                    // ),
-                // ),
-            // ),            
-            array()
+            )
         );     
         
     }
@@ -74,7 +62,7 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_PageMetaBox {
      * (optional) Use this method to insert your custom text.
      * @callback        action      do_{instantiated class name}
      */
-    public function do_APF_MetaBox_For_Pages_Normal() { 
+    public function do_APF_Demo_PageMetaBox__Normal() { 
         ?>
             <p><?php _e( 'This meta box is placed with the <code>normal</code>context and this text is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-loader' ) ?></p>
         <?php
@@ -95,8 +83,11 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_PageMetaBox {
     
     /**
      * The content filter callback method.
+     * 
+     * @callback    filter      content_{instantiated class name}
+     * @return      string
      */
-    public function content_APF_MetaBox_For_Pages_Normal( $sContent ) { // content_{instantiated class name}
+    public function content_APF_Demo_PageMetaBox__Normal( $sContent ) {
         
         $_sInsert = "<p>" . sprintf( __( 'This text is inserted with the <code>%1$s</code> hook.', 'admin-page-framework-loader' ), __FUNCTION__ ) . "</p>";
         return $sContent . $_sInsert;
@@ -109,19 +100,19 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_PageMetaBox {
      * 
      * Alternatively, use the `validation_{instantiated class name}()` method instead.
      */
-    public function validate( $aInput, $aOldInput, $oAdminPage ) {
+    public function validate( $aInputs, $aOldInputs, $oAdminPage ) {
         
         $_bIsValid  = true;
         $_aErrors   = array();
 
         // You can check the passed values with the log() method of the oDebug object.
-        // $this->oDebug->log( $aInput );     
-        // $this->oDebug->log( $aOldInput );
+        // $this->oDebug->log( $aInputs );     
+        // $this->oDebug->log( $aOldInputs );
         
         // Validate the submitted data.
-        if ( strlen( trim( $aInput['metabox_text_field'] ) ) < 3 ) {
+        if ( strlen( trim( $aInputs['metabox_text_field'] ) ) < 3 ) {
             
-            $_aErrors['metabox_text_field'] = __( 'The entered text is too short! Type more than 2 characters.', 'admin-page-framework-loader' ) . ': ' . $aInput['metabox_text_field'];
+            $_aErrors['metabox_text_field'] = __( 'The entered text is too short! Type more than 2 characters.', 'admin-page-framework-loader' ) . ': ' . $aInputs['metabox_text_field'];
             $_bIsValid = false;     
             
         }
@@ -130,21 +121,12 @@ class APF_MetaBox_For_Pages_Normal extends AdminPageFramework_PageMetaBox {
             
             $this->setFieldErrors( $_aErrors );
             $this->setSettingNotice( __( 'There was an error in your input in meta box form fields', 'admin-page-framework-loader' ) );    
-            return $aOldInput;
+            return $aOldInputs;
             
         }
 
-        return $aInput;        
+        return $aInputs;        
 
     }
 
-    
 }
-
-new APF_MetaBox_For_Pages_Normal(
-    null,                                           // meta box id - passing null will make it auto generate
-    __( 'Sample Meta Box for Admin Pages Inserted in Normal Area', 'admin-page-framework-loader' ), // title
-    'apf_first_page',                               // page slugs
-    'normal',                                       // context
-    'default'                                       // priority
-);

@@ -9,7 +9,7 @@
  * 
  */
 
-class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_PageMetaBox {
+class APF_Demo_PageMetaBox__Advanced extends AdminPageFramework_PageMetaBox {
         
     /*
      * ( optional ) Use the setUp() method to define settings of this meta box.
@@ -89,18 +89,16 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_PageMetaBox {
                 'attributes'    => array(
                     'style' => 'max-width:300px;',
                 ),                
-            ),
-            // array(
-                // 'field_id'      => 'advanced_submit',
-                // 'type'          => 'submit',  
-                // 'save'          => false,
-            // ),
-            array()
+            )
         );
         
+                
     }
     
-    public function do_APF_MetaBox_For_Pages_Advanced() { // do_{instantiated class name}
+    /**
+     * @callback        action      do_{instantiated class name}
+     */
+    public function do_APF_Demo_PageMetaBox__Advanced() { 
         ?>
             <p><?php _e( 'This meta box is placed with the <code>advanced</code> context and this text is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-loader' ) ?></p>
         <?php
@@ -112,16 +110,8 @@ class APF_MetaBox_For_Pages_Advanced extends AdminPageFramework_PageMetaBox {
      * 
      * Alternatively you can use `validation_{class name}()` predefined callback method.
      */
-    public function validate( $aNewOptions, $aOldOptions, $oAdminPage ) {
-        return $aNewOptions;
+    public function validate( $aInputs, $aOldInputs, $oAdminPage ) {
+        return $aInputs;
     }
     
 }
-
-new APF_MetaBox_For_Pages_Advanced(    
-    null,                                           // meta box id - passing null will make it auto generate
-    __( 'Sample Meta Box for Admin Pages Inserted in Advanced Area', 'admin-page-framework-loader' ), // title
-    'apf_first_page',                               // page slugs
-    'advanced',                                     // context
-    'default'                                       // priority
-);    
