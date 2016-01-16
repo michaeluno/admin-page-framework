@@ -18,6 +18,7 @@
  * @internal
  * @method          _renderSectionDescription( $sMethodName )           defined in AdminPageFramework_Setting
  * @method          _renderSettingField( $_mFirstArg, $_sPageSlug )     defined in AdminPageFramework_Setting
+ * @method          load()
  */
 abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     
@@ -101,16 +102,11 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         
         switch( $this->_getCallbackName( $sMethodName, $_sPageSlug, $_aKnownMethodPrefixes ) ) {
                 
-            // A callback of the call_page_{page slug} action hook
-            // @deprecated  3.7.10
-            // case $this->oProp->sClassHash . '_page_' . $_sPageSlug:
-                // return $this->_renderPage( $_sPageSlug, $_sTabSlug );   // defined in AdminPageFramework_Page.
-             
             // add_settings_section() callback 
             case 'section_pre_':
                 return $this->_renderSectionDescription( $sMethodName );    // defined in AdminPageFramework_Setting
                 
-            // add_settings_field() callback - 
+            // add_settings_field() callback
             case 'field_pre_':
                 return $this->_renderSettingField( $_mFirstArg, $_sPageSlug );  // defined in AdminPageFramework_Setting
             
@@ -128,20 +124,10 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
          * 
          * @since       3.5.3
          * @return      string      The found callback method name or the prefix of a known callback method name. An empty string if not found.
+         * @internal
          */
         private function _getCallbackName( $sMethodName, $sPageSlug, array $aKnownMethodPrefixes=array() ) {
-            
-            // @deprecated      3.7.10
-            // if ( in_array( 
-                    // $sMethodName, 
-                    // array( 
-                        // $this->oProp->sClassHash . '_page_' . $sPageSlug
-                    // ) 
-                // ) 
-            // ) {
-                // return $sMethodName;
-            // }
-            
+                        
             foreach( $aKnownMethodPrefixes as $_sMethodPrefix ) {
                 if ( $this->oUtil->hasPrefix( $_sMethodPrefix, $sMethodName ) ) {
                     return $_sMethodPrefix;
