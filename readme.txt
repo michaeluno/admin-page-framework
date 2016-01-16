@@ -344,6 +344,7 @@ This submit button will float right.
 array(    
     'field_id'          => 'submit',
     'type'              => 'submit',
+    'save'              => false,
     'value'             => __( 'Save', 'task-scheduler' ),
     'label_min_width'   => 0,
     'attributes'        => array(
@@ -354,11 +355,12 @@ array(
 )    
 `
 
-For meta boxe and widget form fields (as they have a sligtly different styling than generic admin pages),
+For meta box and widget form fields (as they have a slightly different styling than generic admin pages),
 `
 array(
     'field_id'          => 'submit_in_meta_box',
     'type'              => 'submit',
+    'save'              => false,
     'show_title_column' => false,
     'label_min_width'   => 0,
     'attributes'        => array(
