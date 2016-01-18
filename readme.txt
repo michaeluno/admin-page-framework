@@ -454,6 +454,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 = 3.7.12 =
 - Added an example for page meta boxes for in-page tabs in the demo.
 - Added the `load()` method to the admin page factory class which gets called when one of the added admin pages starts loading.
+- Fixed a bug that the `size` field type could not save and retrieve values in a sub-field, introduced in v3.7.0.
 - Tweaked the style of page meta boxes.
 
 = 3.7.11 - 2016/01/15 =

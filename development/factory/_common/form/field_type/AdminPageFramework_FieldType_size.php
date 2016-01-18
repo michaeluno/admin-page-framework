@@ -113,7 +113,7 @@ CSSRULES;
             'units', 
             $this->aDefaultUnits 
         );
-        
+
         $_aOutput = array();
         foreach( ( array ) $aField[ 'label' ] as $_isKey => $_sLabel ) {
             $_aOutput[] = $this->_getFieldOutputByLabel( 
@@ -135,7 +135,7 @@ CSSRULES;
             $_bMultiLabels      = is_array( $aField[ 'label' ] );
             $_sLabel            = $this->getElementByLabel( $aField[ 'label' ], $isKey, $aField[ 'label' ] );
             $aField[ 'value' ]  = $this->getElementByLabel( $aField[ 'value' ], $isKey, $aField[ 'label' ] );
-           
+
             $_aBaseAttributes   = $_bMultiLabels
                 ? array(
                         'name'  => $aField[ 'attributes' ][ 'name' ] . "[{$isKey}]",
@@ -145,15 +145,15 @@ CSSRULES;
                     + $aField[ 'attributes' ]
                 : $aField[ 'attributes' ];
             unset( 
-                $_aBaseAttributes['unit'], 
-                $_aBaseAttributes['size'] 
+                $_aBaseAttributes[ 'unit' ], 
+                $_aBaseAttributes[ 'size' ] 
             );            
-            
+                     
             $_aOutput = array(
                 $this->getElementByLabel( $aField[ 'before_label' ], $isKey, $aField[ 'label' ] ),
                     "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>",
-                        $this->_getNumberInputPart( $aField, $_aBaseAttributes, $isKey, $aField[ 'label' ] ),  // The size (number) part
-                        $this->_getUnitSelectInput( $aField, $_aBaseAttributes, $isKey, $aField[ 'label' ] ),  // The unit (select) part
+                        $this->_getNumberInputPart( $aField, $_aBaseAttributes, $isKey, is_array( $aField[ 'label' ] ) ),  // The size (number) part
+                        $this->_getUnitSelectInput( $aField, $_aBaseAttributes, $isKey, is_array( $aField[ 'label' ] ) ),  // The unit (select) part
                     "</div>",
                 $this->getElementByLabel( $aField[ 'after_label' ], $isKey, $aField[ 'label' ] )
             );
@@ -176,6 +176,7 @@ CSSRULES;
                         ? $isKey
                         : ''
                 );
+
                 $_aSizeLabelAttributes  = array(
                     'for'   => $_aSizeAttributes[ 'id' ],
                     'class' => $_aSizeAttributes[ 'disabled' ] 
