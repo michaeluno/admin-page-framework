@@ -199,7 +199,7 @@ See more code examples in `Dashboard` -> `AdminPageFramework` -> `Help` -> `Exam
 
 ## Framework Core Development
 
-You would need to access the code of the core files to add modifications. The downloadable zip file only does not include core files but only the complied library files.
+You would need to access the code of the core files to add modifications. The downloadable zip file does not include core files but the complied library files only.
 
 ### Getting Core Files 
 In order to modify the framework development files, clone the repository files. Simply clone the repository from either of the following addresses.
