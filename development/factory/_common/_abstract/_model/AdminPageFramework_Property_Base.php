@@ -74,10 +74,17 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
     /**
      * Stores the caller script data
      * 
-     * @remark Do not even declare the variable name so that it triggers the getter method.
-     * @since Unknown
+     * @remark  This will be set with the `__get()` method.
+     * @since   unknown
      */
-    // public $aScriptInfo;
+    public $aScriptInfo;
+    
+    /**
+     * Stores form data.
+     * @remark  This will be set with the `__get()` method.
+     * @since   unknwon
+     */
+    public $aOptions;
     
     /**
      * Stores the extended class name that instantiated the property object.
@@ -389,6 +396,8 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
                
         // Overloading property items - these will be set on demand
         unset(
+            $this->aScriptInfo,
+            $this->aOptions,
             $this->sScriptType,
             $this->sClassHash
         );           
