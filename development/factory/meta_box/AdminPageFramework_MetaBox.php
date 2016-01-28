@@ -26,7 +26,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Con
      * @since       3.7.0      Changed the name from `$_sStructureType`.
      * @internal
      */
-    static protected $_sStructureType = 'post_meta_box';
+    protected $_sStructureType = 'post_meta_box';
         
     /**
      * Constructs the class object instance of AdminPageFramework_MetaBox.
@@ -64,12 +64,15 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Con
         }        
         
         // A property object needs to be done first.
-        $this->oProp                = new AdminPageFramework_Property_post_meta_box( 
+        $_sProprtyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
+            ? $this->aSubClassNames[ 'oProp' ]
+            : 'AdminPageFramework_Property_' . $this->_sStructureType;        
+        $this->oProp                = new $_sProprtyClassName( 
             $this, 
             get_class( $this ), 
             $sCapability, 
             $sTextDomain, 
-            self::$_sStructureType 
+            $this->_sStructureType 
         );
         $this->oProp->aPostTypes    = is_string( $asPostTypeOrScreenID ) 
             ? array( $asPostTypeOrScreenID ) 

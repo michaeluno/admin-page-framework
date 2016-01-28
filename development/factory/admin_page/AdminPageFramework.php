@@ -21,7 +21,19 @@
  * @subpackage  AdminPage
  */
 abstract class AdminPageFramework extends AdminPageFramework_Controller {
-        
+     
+    /**
+     * Defines the class object structure type.
+     * 
+     * This is used to create a property object as well as to define the form element structure.
+     * 
+     * @since       3.0.0
+     * @since       3.7.0       Changed the name from `$_sFieldsType`.
+     * @since       3.7.12      Moved from `AdminPageFrmework_Model_Form`. Remvoed the static scope.
+     * @internal
+     */
+    protected $_sStructureType = 'admin_page';
+     
     /**
      * Registers necessary callbacks ans sets up internal components including properties.
      * 

@@ -90,7 +90,8 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
      * @return      null|object
      */
     protected function _getLinkObject() {
-        return new AdminPageFramework_Link_post_type( $this->oProp, $this->oMsg );
+        $_sClassName = $this->aSubClassNames[ 'oLink' ];
+        return new $_sClassName( $this->oProp, $this->oMsg );        
     }          
 
     /**
@@ -101,7 +102,8 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
      * @return      null|object
      */    
     protected function _getPageLoadObject() {
-        return new AdminPageFramework_PageLoadInfo_post_type( $this->oProp, $this->oMsg );
+        $_sClassName = $this->aSubClassNames[ 'oPageLoadInfo' ];
+        return new $_sClassName( $this->oProp, $this->oMsg );
     }
   
     /**

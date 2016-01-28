@@ -18,6 +18,18 @@
 abstract class AdminPageFramework_PageMetaBox extends AdminPageFramework_PageMetaBox_Controller {
     
     /**
+     * Defines the class object structure type.
+     * 
+     * This is used to create a property object as well as to define the form element structure.
+     * 
+     * @since       3.0.0
+     * @since       3.7.0      Changed the name from `$_sPropertyType`.
+     * @since       3.7.12     Moved from `AdminPageFramework_PageMetaBox_Model`.
+     * @internal
+     */
+    protected $_sStructureType = 'page_meta_box';    
+    
+    /**
      * Registers necessary hooks and internal properties.
      * 
      * <h4>Examples</h4>
@@ -74,6 +86,23 @@ abstract class AdminPageFramework_PageMetaBox extends AdminPageFramework_PageMet
         if ( ! $this->_isInstantiatable() ) { 
             return; 
         }
+                
+        // The property object needs to be done first before the parent constructor.
+        $_sProprtyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
+            ? $this->aSubClassNames[ 'oProp' ]
+            : 'AdminPageFramework_Property_' . $this->_sStructureType;        
+        $this->oProp             = new $_sProprtyClassName( 
+            $this, 
+            get_class( $this ), 
+            $sCapability, 
+            $sTextDomain, 
+            $this->_sStructureType 
+        );
+        
+        // This property item must be set before the isInThePage() method is used.
+        $this->oProp->aPageSlugs = is_string( $asPageSlugs ) 
+            ? array( $asPageSlugs ) 
+            : $asPageSlugs;                 
                 
         parent::__construct( 
             $sMetaBoxID, 

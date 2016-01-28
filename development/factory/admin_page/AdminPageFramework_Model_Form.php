@@ -30,18 +30,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      * @internal
      */ 
     public $aFieldErrors; 
-    
-    /**
-     * Defines the class object structure type.
-     * 
-     * This is used to create a property object as well as to define the form element structure.
-     * 
-     * @since       3.0.0
-     * @since       3.7.0      Changed the name from `$_sStructureType`.
-     * @internal
-     */
-    static protected $_sStructureType = 'admin_page';
-    
+        
     /**
      * Stores the target page slug which will be applied when no page slug is specified for the `addSettingSection()` method.
      * 

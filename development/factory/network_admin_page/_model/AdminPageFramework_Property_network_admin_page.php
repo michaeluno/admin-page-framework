@@ -16,7 +16,7 @@
  * @extends     AdminPageFramework_Property_admin_page
  * @internal
  */
-class AdminPageFramework_Property_NetworkAdmin extends AdminPageFramework_Property_admin_page {
+class AdminPageFramework_Property_network_admin_page extends AdminPageFramework_Property_admin_page {
     
     /**
      * Defines the property type.

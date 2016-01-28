@@ -16,7 +16,15 @@
  * @subpackage      PostType
  */
 abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_Controller {    
-        
+      
+    /**
+     * Defines the class object structure type.
+     * 
+     * @since       3.7.12      
+     * @internal
+     */
+    protected $_sStructureType = 'post_type';
+    
     /**
     * The constructor of the class object.
     * 
@@ -66,9 +74,9 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
     *           // [3.5.10+] (framework specific) default: true
     *           'show_submenu_add_new'  => true, 
     *           
-                // [3.7.4+] (framework specific) default: 10
-                'submenu_order_manage'  => 20,
-                'submenu_order_addnew'  => 21,
+    *           // [3.7.4+] (framework specific) default: 10
+    *           'submenu_order_manage'  => 20,
+    *           'submenu_order_addnew'  => 21,
     * 
     *       )     
     * );</code>
@@ -102,13 +110,16 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
             return; 
         }
 
-        $this->oProp = new AdminPageFramework_Property_post_type( 
+        $_sProprtyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
+            ? $this->aSubClassNames[ 'oProp' ]
+            : 'AdminPageFramework_Property_' . $this->_sStructureType;           
+        $this->oProp = new $_sProprtyClassName( 
             $this, 
             $this->_getCallerScriptPath( $sCallerPath ),
-            get_class( $this ), // class name
-            'publish_posts',    // capability
-            $sTextDomain,       // text domain
-            'post_type'         // structure type
+            get_class( $this ),     // class name
+            'publish_posts',        // capability
+            $sTextDomain,           // text domain
+            $this->_sStructureType  // structure type
         );
         $this->oProp->sPostType     = AdminPageFramework_WPUtility::sanitizeSlug( $sPostType );
         

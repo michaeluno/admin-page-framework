@@ -26,7 +26,7 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
      * @since       3.7.0      Changed the name from `$_sFieldsType`.
      * @internal
      */
-    static protected $_sStructureType = 'widget';
+    protected $_sStructureType = 'widget';
        
     /**
     * The constructor of the class object.
@@ -49,13 +49,16 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
         }
      
         // Properties
-        $this->oProp = new AdminPageFramework_Property_widget( 
+        $_sProprtyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
+            ? $this->aSubClassNames[ 'oProp' ]
+            : 'AdminPageFramework_Property_' . $this->_sStructureType;        
+        $this->oProp        = new $_sProprtyClassName(
             $this,                  // caller object
             null,                   // the caller script path
             get_class( $this ),     // class name
             $sCapability,           // capability 
             $sTextDomain,           // text domain
-            self::$_sStructureType  // fields type
+            $this->_sStructureType  // fields type
         );
         
         $this->oProp->sWidgetTitle           = $sWidgetTitle;

@@ -98,24 +98,54 @@ abstract class AdminPageFramework_Factory_Router {
      * 
      * Used in the __get() method to check whether a method with the name of the property should be called or not.
      * 
-     * @since       3.5.3
+     * @since       3.7.12      Renamed from `_aSubClassNames`.
+     * @internal
+     * @remark      `$oProp` is not listed as it is created prior to calling the constructor of this class.
      */
-    protected $_aSubClassNames = array(
-        'oDebug', 
-        'oUtil',
-        'oMsg',
-        'oForm',
-        'oPageLoadInfo',
-        'oResource',
-        'oHelpPane',
-        'oLink',
+    protected $_aSubClassPrefixes = array(
+        'oForm'             => 'AdminPageFramework_Form_',
+        'oPageLoadInfo'     => 'AdminPageFramework_PageLoadInfo_',
+        'oResource'         => 'AdminPageFramework_Resource_',
+        'oHelpPane'         => 'AdminPageFramework_HelpPane_',
+        'oLink'             => 'AdminPageFramework_Link_',
     );
+    
+    /**
+     * Stores the sub-object class names.
+     * @since       3.5.3
+     * @since       3.7.12      Changed the scope to private.
+     */
+    private $_aSubClassNames = array(
+        'oProp'             => null,
+        'oDebug'            => 'AdminPageFramework_Debug',
+        'oUtil'             => 'AdminPageFramework_FrameworkUtility',
+        'oMsg'              => 'AdminPageFramework_Message',
+        'oForm'             => null,
+        'oPageLoadInfo'     => null,
+        'oResource'         => null,
+        'oHelpPane'         => null,
+        'oLink'             => null,
+    );
+    
+    /**
+     * Stores user-set sub-object class names.
+     * 
+     * This is for the user to use own classes for sub-class objects.
+     * @since       3.7.12
+     */
+    public $aSubClassNames = array();
     
     /**
      * Sets up built-in objects.
      */
     public function __construct( $oProp ) {
 
+        // Set sub-class names.
+        foreach( $this->_aSubClassPrefixes as $_sObjectVariableName => $_sPrefix ) {
+            $this->aSubClassNames[ $_sObjectVariableName ] = $_sPrefix . $this->_sStructureType;
+        }
+        $this->aSubClassNames = $this->aSubClassNames + $this->_aSubClassNames;
+    
         // Let them overload so that these sub-class objects will not be instantiated until they are required.
         unset( 
             $this->oDebug, 
@@ -237,7 +267,7 @@ abstract class AdminPageFramework_Factory_Router {
     protected function _getFormObject() {
     
         $this->oProp->setFormProperties();
-        $_sFormClass = "AdminPageFramework_Form_{$this->oProp->_sPropertyType}";
+        $_sFormClass = $this->aSubClassNames[ 'oForm' ];
         return new $_sFormClass(
             $this->oProp->aFormArguments, // Options - for the values that do not need to change through out the script execution. 
             $this->oProp->aFormCallbacks, // Callbacks - for the values which change dynamically depending on conditions such as the loaded page url.
@@ -280,7 +310,7 @@ abstract class AdminPageFramework_Factory_Router {
     public function __get( $sPropertyName ) {
             
         // Set and return the sub class object instance.
-        if ( in_array( $sPropertyName, $this->_aSubClassNames ) ) {                        
+        if ( isset( $this->aSubClassNames[ $sPropertyName ] ) ) {
             return call_user_func( 
                 array( $this, "_replyTpSetAndGetInstance_{$sPropertyName}"  )
             );
@@ -297,7 +327,8 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          */
         public function _replyTpSetAndGetInstance_oUtil() {
-            $this->oUtil = new AdminPageFramework_FrameworkUtility;
+            $_sClassName = $this->aSubClassNames[ 'oUtil' ];
+            $this->oUtil = new $_sClassName;
             return $this->oUtil;
         }
         /**
@@ -305,7 +336,8 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          */        
         public function _replyTpSetAndGetInstance_oDebug() {
-            $this->oDebug = new AdminPageFramework_Debug;
+            $_sClassName = $this->aSubClassNames[ 'oDebug' ];
+            $this->oDebug = new $_sClassName;
             return $this->oDebug;
         }
         /**
@@ -313,7 +345,10 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          */              
         public function _replyTpSetAndGetInstance_oMsg() {
-            $this->oMsg = AdminPageFramework_Message::getInstance( $this->oProp->sTextDomain );
+            $this->oMsg = call_user_func_array(
+                array( $this->aSubClassNames[ 'oMsg' ], 'getInstance'),
+                array( $this->oProp->sTextDomain )  // parameters
+            );
             return $this->oMsg;
         }
         /**
@@ -332,7 +367,7 @@ abstract class AdminPageFramework_Factory_Router {
             if ( isset( $this->oResource ) ) {
                 return $this->oResource;
             }
-            $_sClassName     = "AdminPageFramework_Resource_{$this->oProp->_sPropertyType}";
+            $_sClassName     = $this->aSubClassNames[ 'oResource' ];
             $this->oResource = new $_sClassName( $this->oProp );
             return $this->oResource;
         }
@@ -349,7 +384,7 @@ abstract class AdminPageFramework_Factory_Router {
          * @since       3.5.3
          */
         public function _replyTpSetAndGetInstance_oHelpPane() {
-            $_sClassName     = "AdminPageFramework_HelpPane_{$this->oProp->_sPropertyType}";
+            $_sClassName     = $this->aSubClassNames[ 'oHelpPane' ];
             $this->oHelpPane = new $_sClassName( $this->oProp );            
             return $this->oHelpPane;
         }

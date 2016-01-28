@@ -225,7 +225,6 @@ $aClassFiles = array(
 	"AdminPageFramework_MetaBox_View"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/meta_box/AdminPageFramework_MetaBox.php", 
 	"AdminPageFramework_MetaBox_Controller"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/meta_box/AdminPageFramework_MetaBox.php", 
 	"AdminPageFramework_Link_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/_controller/AdminPageFramework_Link_network_acmin_page.php", 
-	"AdminPageFramework_Property_NetworkAdmin"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/_model/AdminPageFramework_Property_network_admin_page.php", 
 	"AdminPageFramework_PageMetaBox_Router"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/page_meta_box/AdminPageFramework_PageMetaBox.php", 
 	"AdminPageFramework_PageMetaBox_Model"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/page_meta_box/AdminPageFramework_PageMetaBox.php", 
 	"AdminPageFramework_PageMetaBox_View"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/page_meta_box/AdminPageFramework_PageMetaBox.php", 

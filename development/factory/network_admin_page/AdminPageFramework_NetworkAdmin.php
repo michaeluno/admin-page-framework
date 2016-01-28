@@ -18,7 +18,15 @@
  * @subpackage  NetworkAdmin
  */
 abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
-        
+       
+    /**
+     * Defines the class object structure type.
+     * 
+     * @since       3.7.12      
+     * @internal
+     */
+    protected $_sStructureType = 'network_admin_page';
+       
     /**
      * Used to refer the built-in root menu slugs.
      * 
@@ -64,8 +72,20 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
         $sCallerPath = $sCallerPath 
             ? $sCallerPath 
             : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );     // this is important to attempt to find the caller script path here when separating the library into multiple files.
-        
-        $this->oProp = new AdminPageFramework_Property_NetworkAdmin( $this, $sCallerPath, get_class( $this ), $sOptionKey, $sCapability, $sTextDomain );
+     
+        // $_sProprtyClassName = $this->aSubClassNames[ 'oProp' ] 
+            // ? $this->aSubClassNames[ 'oProp' ] 
+            // : 'AdminPageFramework_Property_' . $this->_sStructureType;
+            
+        // $this->oProp = new $_sProprtyClassName( 
+            // $this, 
+            // $sCallerPath, 
+            // get_class( $this ), 
+            // $sOptionKey, 
+            // $sCapability,
+            // $sTextDomain,
+            // $this->_sStructureType
+        // );
         
         parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
         
@@ -81,7 +101,8 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
      * @return      null|object
      */
     protected function _getLinkObject() {
-        return new AdminPageFramework_Link_network_admin_page( $this->oProp, $this->oMsg );
+        $_sClassName = $this->aSubClassNames[ 'oLink' ];
+        return new $_sClassName( $this->oProp, $this->oMsg );        
     }
     
     /**
@@ -92,7 +113,8 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
      * @return      null|object
      */    
     protected function _getPageLoadObject() {
-        return new AdminPageFramework_PageLoadInfo_network_admin_page( $this->oProp, $this->oMsg );
+        $_sClassName = $this->aSubClassNames[ 'oPageLoadInfo' ];
+        return new $_sClassName( $this->oProp, $this->oMsg );
     }    
 
     /**

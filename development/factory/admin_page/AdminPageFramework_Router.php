@@ -28,17 +28,19 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      * @since       3.3.0
      */
     public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
-
-        $this->oProp = isset( $this->oProp ) 
-            ? $this->oProp // for the AdminPageFramework_NetworkAdmin class
-            : new AdminPageFramework_Property_admin_page( 
-                $this, 
-                $sCallerPath, 
-                get_class( $this ), 
-                $sOptionKey, 
-                $sCapability, 
-                $sTextDomain 
-            );
+        
+        $_sProprtyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
+            ? $this->aSubClassNames[ 'oProp' ]
+            : 'AdminPageFramework_Property_' . $this->_sStructureType;
+            
+        $this->oProp = new $_sProprtyClassName( 
+            $this, 
+            $sCallerPath, 
+            get_class( $this ), 
+            $sOptionKey, 
+            $sCapability, 
+            $sTextDomain 
+        );
 
         parent::__construct( $this->oProp );
 
@@ -61,7 +63,8 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      * @return      null|object
      */
     protected function _getLinkObject() {
-        return new AdminPageFramework_Link_admin_page( $this->oProp, $this->oMsg );
+        $_sClassName = $this->aSubClassNames[ 'oLink' ];
+        return new $_sClassName( $this->oProp, $this->oMsg );        
     }    
     
     /**
@@ -72,7 +75,8 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      * @return      null|object
      */    
     protected function _getPageLoadObject() {
-        return new AdminPageFramework_PageLoadInfo_admin_page( $this->oProp, $this->oMsg );
+        $_sClassName = $this->aSubClassNames[ 'oPageLoadInfo' ];
+        return new $_sClassName( $this->oProp, $this->oMsg );
     }        
     
     /**

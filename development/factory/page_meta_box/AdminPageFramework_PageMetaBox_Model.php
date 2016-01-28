@@ -16,50 +16,6 @@
  * @internal
  */
 abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_PageMetaBox_Router {
-
-    /**
-     * Defines the class object structure type.
-     * 
-     * This is used to create a property object as well as to define the form element structure.
-     * 
-     * @since       3.0.0
-     * @since       3.7.0      Changed the name from `$_sPropertyType`.
-     * @internal
-     */
-    static protected $_sStructureType = 'page_meta_box';
-
-    /**
-     * Sets up properties and hooks.
-     * 
-     * @since       3.0.4
-     */
-    public function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {     
-                
-        // The property object needs to be done first before the parent constructor.
-        $this->oProp             = new AdminPageFramework_Property_page_meta_box( 
-            $this, 
-            get_class( $this ), 
-            $sCapability, 
-            $sTextDomain, 
-            self::$_sStructureType 
-        );
-        
-        // This property item must be set before the isInThePage() method is used.
-        $this->oProp->aPageSlugs = is_string( $asPageSlugs ) 
-            ? array( $asPageSlugs ) 
-            : $asPageSlugs; 
-        
-        parent::__construct( 
-            $sMetaBoxID, 
-            $sTitle, 
-            $asPageSlugs, 
-            $sContext, 
-            $sPriority, 
-            $sCapability, 
-            $sTextDomain 
-        );
-        
-    }
     
     /**
      * A validation callback method.

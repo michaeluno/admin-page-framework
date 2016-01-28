@@ -10,7 +10,7 @@
  */
 
 class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
-        
+
     /**
      * (required) In the setUp() method, you will define how the pages and the form elements should be composed.
      * 
