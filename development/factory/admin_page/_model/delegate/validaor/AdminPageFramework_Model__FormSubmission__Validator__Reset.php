@@ -37,32 +37,32 @@ class AdminPageFramework_Model__FormSubmission__Validator__Reset extends AdminPa
             
         if ( ! $this->_shouldProceed( $oFactory, $aSubmits ) ) {
             return;
-        }       
+        }
             
         // this will be set if the user confirms the reset action.
-        $_sKeyToReset = $this->_getPressedSubmitButtonData( 
-            $aSubmits, 
-            'reset_key' 
+        $_sKeyToReset = $this->_getPressedSubmitButtonData(
+            $aSubmits,
+            'reset_key'
         );
         $_sKeyToReset = trim( $_sKeyToReset );
         if ( ! $_sKeyToReset ) {
             return;
-        }            
+        }
         $_oException = new Exception( 'aReturn' );
         $_oException->aReturn = $this->_resetOptions(
-            $_sKeyToReset, 
+            $_sKeyToReset,
             $aInputs,
             $aSubmitInformation
         );
-        throw $_oException;               
+        throw $_oException;
         
-    }        
+    }
         /**
          * @since       3.7.6
          * @return      boolean
          */
         protected function _shouldProceed( $oFactory, $aSubmits ) {
-            return ! $oFactory->hasFieldError();            
+            return ! $oFactory->hasFieldError();
         }
         
         /**
@@ -87,6 +87,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Reset extends AdminPa
             // The key to delete is not specified, 1 is sent from the form input.
             if ( in_array( $sKeyToReset, array( '1', ), true ) ) {
                 delete_option( $this->oFactory->oProp->sOptionKey );
+
                 return array();
             }
             
@@ -96,13 +97,13 @@ class AdminPageFramework_Model__FormSubmission__Validator__Reset extends AdminPa
             $this->unsetDimensionalArrayElement( $aInputs, $_aDimensionalKeys );
           
             update_option( $this->oFactory->oProp->sOptionKey, $this->oFactory->oProp->aOptions );
-            $this->oFactory->setSettingNotice( 
+            $this->oFactory->setSettingNotice(
                 $this->oFactory->oMsg->get( 'specified_option_been_deleted' ),
                 'updated'
             );
         
             // the returned array will be saved.
-            return $aInputs; 
+            return $aInputs;
          
         }
             /**
@@ -124,12 +125,12 @@ class AdminPageFramework_Model__FormSubmission__Validator__Reset extends AdminPa
                 $_sSectionID = $aSubmitInformation[ 'section_id' ];
                 $this->addAndDoActions(
                     $this->oFactory,
-                    array( 
-                        $_sSectionID 
-                            ? "reset_{$this->oFactory->oProp->sClassName}_{$_sSectionID}_{$_sFieldID}" 
+                    array(
+                        $_sSectionID
+                            ? "reset_{$this->oFactory->oProp->sClassName}_{$_sSectionID}_{$_sFieldID}"
                             : "reset_{$this->oFactory->oProp->sClassName}_{$_sFieldID}",
-                        $_sSectionID 
-                            ? "reset_{$this->oFactory->oProp->sClassName}_{$_sSectionID}" 
+                        $_sSectionID
+                            ? "reset_{$this->oFactory->oProp->sClassName}_{$_sSectionID}"
                             : null, // if null given, the method will ignore it
                         $_sTabSlug
                             ? "reset_{$this->oFactory->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}"
@@ -141,8 +142,8 @@ class AdminPageFramework_Model__FormSubmission__Validator__Reset extends AdminPa
                     $aInputs,
                     $this->oFactory,
                     $aSubmitInformation
-                );                      
+                );
                 
-            }        
+            }
 
 }

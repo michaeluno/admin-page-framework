@@ -23,6 +23,7 @@ class AdminPageFramework_WPReadmeParser {
     }
     private function _getSplitContentsBySection($sText) {
         $_aSections = preg_split('/^[\s]*==[\s]*(.+?)[\s]*==/m', $sText, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+
         return $_aSections;
     }
     public function get($sSectionName = '') {
@@ -30,6 +31,7 @@ class AdminPageFramework_WPReadmeParser {
     }
     public function getSection($sSectionName) {
         $_sContent = $this->getRawSection($sSectionName);
+
         return $this->_getParsedText($_sContent);
     }
     private function _getParsedText($sContent) {
@@ -39,6 +41,7 @@ class AdminPageFramework_WPReadmeParser {
         $_sContent = preg_replace('/= (.*?) =/', '<h4>\\1</h4>', $_sContent);
         $_sContent = str_replace(array_keys($this->aReplacements), array_values($this->aReplacements), $_sContent);
         $_oParsedown = new AdminPageFramework_Parsedown();
+
         return $_oParsedown->text($_sContent);
     }
     public function _replyToReplaceCodeBlocks($aMatches) {
@@ -47,10 +50,12 @@ class AdminPageFramework_WPReadmeParser {
         }
         $_sIntact = trim($aMatches[1]);
         $_sModified = "<pre><code>" . $this->getSyntaxHighlightedPHPCode($_sIntact) . "</code></pre>";
+
         return is_callable($this->aCallbacks['code_block']) ? call_user_func_array($this->aCallbacks['code_block'], array($_sModified, $_sIntact)) : $_sModified;
     }
     public function getRawSection($sSectionName) {
         $_iIndex = array_search($sSectionName, $this->_aSections);
+
         return false === $_iIndex ? '' : trim($this->_aSections[$_iIndex + 1]);
     }
     public function getSyntaxHighlightedPHPCode($sCode) {
@@ -59,6 +64,7 @@ class AdminPageFramework_WPReadmeParser {
         $sCode = str_replace('"', "'", $sCode);
         $sCode = highlight_string($sCode, true);
         $sCode = $_bHasPHPTag ? $sCode : preg_replace('/(&lt;|<)\Q?php\E(&nbsp;)?/', '', $sCode, 1);
+
         return $sCode;
     }
 }

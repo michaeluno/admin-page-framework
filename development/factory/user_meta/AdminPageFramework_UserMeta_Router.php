@@ -54,12 +54,12 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
             return false;
         }
 
-        return in_array( 
+        return in_array(
             $this->oProp->sPageNow,
             array( 'user-new.php', 'user-edit.php', 'profile.php' )
         );
 
-    }    
+    }
  
     /**
      * Sets up hooks after calling the `setUp()` method.
@@ -74,12 +74,12 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
         add_action( 'show_user_profile', array( $this, '_replyToPrintFields' ) );   // profile.php
         add_action( 'edit_user_profile', array( $this, '_replyToPrintFields' ) );   // profile.php
         add_action( 'user_new_form', array( $this, '_replyToPrintFields' ) );   // user-new.php
-        
+
         // Hooks to save field values.
         add_action( 'personal_options_update', array( $this, '_replyToSaveFieldValues' ) ); // profile.php
         add_action( 'edit_user_profile_update', array( $this, '_replyToSaveFieldValues' ) );    // profile.php
         add_action('user_register', array( $this, '_replyToSaveFieldValues' ) );    // user-new.php
-                       
-    }        
+
+    }
     
 }

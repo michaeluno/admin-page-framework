@@ -30,7 +30,7 @@ class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPag
         'collapse_others_on_expand' => true,        // (boolean) whether the other collapsible sections should be folded when the section is unfolded.
         'container'                 => 'sections',  // (string) the container element that collapsible styling gets applied to. Either 'sections' or 'section' is accepted.
         'type'                      => 'box',       // 3.7.0+  (string)  supported types 'box', 'button' Default: `box`. The `button` type is only supported when the `container` argument is `section`.
-    );   
+    );
     
     public $abCollapsible = false;
     
@@ -49,13 +49,13 @@ class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPag
      */
     public function __construct( /* $abCollapsible, $sTitle, $aSection */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->abCollapsible, 
+        $_aParameters = func_get_args() + array(
+            $this->abCollapsible,
             $this->sTitle,
             $this->aSection,
         );
-        $this->abCollapsible      = $_aParameters[ 0 ];        
-        $this->sTitle             = $_aParameters[ 1 ];        
+        $this->abCollapsible      = $_aParameters[ 0 ];
+        $this->sTitle             = $_aParameters[ 1 ];
         $this->aSection           = $_aParameters[ 2 ];
         
     }
@@ -68,9 +68,9 @@ class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPag
         
         if ( empty( $this->abCollapsible ) ) {
             return $this->abCollapsible;
-        } 
+        }
         
-        return $this->_getArguments( 
+        return $this->_getArguments(
             $this->abCollapsible,
             $this->sTitle,
             $this->aSection
@@ -87,19 +87,19 @@ class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPag
                 'title'     => $sTitle,
             ) +  self::$aStructure;
             
-            $_aCollapsible[ 'toggle_all_button' ] = implode( 
-                ',', 
-                $this->getAsArray( $_aCollapsible[ 'toggle_all_button' ] ) 
+            $_aCollapsible[ 'toggle_all_button' ] = implode(
+                ',',
+                $this->getAsArray( $_aCollapsible[ 'toggle_all_button' ] )
             );
             
             if ( ! empty( $aSection ) ) {
-                $_aCollapsible[ 'toggle_all_button' ] = $this->_getToggleAllButtonArgument( 
-                    $_aCollapsible[ 'toggle_all_button' ], 
+                $_aCollapsible[ 'toggle_all_button' ] = $this->_getToggleAllButtonArgument(
+                    $_aCollapsible[ 'toggle_all_button' ],
                     $aSection
-                );            
+                );
             }
             
-            return $_aCollapsible;            
+            return $_aCollapsible;
             
         }
           
@@ -116,7 +116,7 @@ class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPag
              */
             private function _getToggleAllButtonArgument( $sToggleAll, array $aSection ) {
                 
-                if ( ! $aSection[ 'repeatable' ] ) {            
+                if ( ! $aSection[ 'repeatable' ] ) {
                     return $sToggleAll;
                 }
                 
@@ -128,13 +128,13 @@ class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPag
                 // Disable the toggle all button for middle sub-sections in repeatable sections.
                 if ( ! $aSection[ '_is_first_index' ] && ! $aSection[ '_is_last_index' ] ) {
                     return 0;
-                }            
+                }
                 
                 $_aToggleAll = $this->getAOrB(
                     true === $sToggleAll || 1 ===  $sToggleAll, // evaluate
                     array( 'top-right', 'bottom-right' ),   // if true
                     explode( ',', $sToggleAll ) // if false
-                );            
+                );
                 $_aToggleAll = $this->getAOrB(
                     $aSection[ '_is_first_index' ],
                     $this->dropElementByValue( $_aToggleAll, array( 1, true, 0, false, 'bottom-right', 'bottom-left' ) ),
@@ -150,8 +150,9 @@ class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPag
                     array( 0 ),
                     $_aToggleAll
                 );
+
                 return implode( ',', $_aToggleAll );
                 
-            }                        
+            }
           
 }

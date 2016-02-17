@@ -30,8 +30,8 @@ class APF_Demo_PageMetaBox__Nested extends AdminPageFramework_PageMetaBox {
                         'section_id'    => 'b',
                         'title'         => __( 'Parent', 'admin-page-framework-loader' )
                             . ' -> ' . __( 'B', 'admin-page-framework-loader' ),
-                    ),                    
-                ),   
+                    ),
+                ),
             )
         );
         
@@ -76,7 +76,7 @@ class APF_Demo_PageMetaBox__Nested extends AdminPageFramework_PageMetaBox {
      */
     public function validate( $aInputs, $aOldInputs, $oAdminPage, $aSubmitInfo ) {
         return $aInputs;
-    }    
+    }
     
     
 }

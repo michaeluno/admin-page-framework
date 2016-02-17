@@ -17,7 +17,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
     /**
      * Stores the admin page factory object.
      */
-    public $oFactory;    
+    public $oFactory;
     
     public $aCustomFieldTypes = array(
         /*         
@@ -47,24 +47,24 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
         // Form fields - the field type pack extension also uses this field.
         $oFactory->addSettingFields(
             $sSectionID, // the target section id
-            array( 
+            array(
                 'field_id'              => 'custom_field_types',
                 'title'                 => __( 'Custom Field Types', 'admin-page-framework-loader' ),
                 'type'                  => 'checkbox',
                 'order'                 => 13,
                 'label'                 => $this->aCustomFieldTypeLabels,
                 'label_min_width'       => '100%',
-                'select_all_button'     => true,        
-                'select_none_button'    => true,        
+                'select_all_button'     => true,
+                'select_none_button'    => true,
             )
-        );    
+        );
       
         /// Hooks        
         // Register custom field files to the Generator of the framework loader.
-        add_filter( 
+        add_filter(
             'admin_page_framework_loader_filter_generator_additional_source_directories',
             array( $this, 'replyToSetAdditionalDirectoriesForGenerator' )
-        );        
+        );
          
         // Register a callback to modify archive files. 
         add_filter(
@@ -72,7 +72,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
             array( $this, 'replyToModifyFileContents' ),
             10,
             4
-        );        
+        );
         
     }
     
@@ -101,14 +101,14 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     'archive_file_path'    => 'custom-field-types/github-custom-field-type/GitHubCustomFieldType.php',
                     'archive_dir_path'     => 'custom-field-types/github-custom-field-type',
                     'text_domain'          => 'admin-page-framework',
-                ),                
+                ),
             );
                 
             // Let third-party scripts add custom field types.
             $this->aCustomFieldTypes = apply_filters(
                 AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_custom_field_types',
                 $this->aCustomFieldTypes
-            );                    
+            );
             
             foreach( $this->aCustomFieldTypes as $_sKey => $_aCustomFieldType ) {
                 $this->aCustomFieldTypeLabels[ $_sKey ] = $_aCustomFieldType[ 'label' ]
@@ -130,10 +130,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                 $_aAllowedExtensions = apply_filters(
                     AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_allowed_file_extensions',
                     array( 'php', 'css', 'js' )
-                );                
+                );
                 if ( ! in_array( pathinfo( $sPathInArchive, PATHINFO_EXTENSION ), $_aAllowedExtensions ) ) {
                     return $sFileContents;
-                }            
+                }
                 
                 // Skip the framework bootstrap file.
                 if ( $this->oFactory->oUtil->hasSuffix( 'admin-page-framework.php', $sPathInArchive ) ) {
@@ -176,19 +176,20 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                         );
                         $_sClassPrefix = $this->oFactory->oUtil->getElement(
                             $_POST,
-                            array( 
-                                $this->oFactory->oProp->sOptionKey, 
+                            array(
+                                $this->oFactory->oProp->sOptionKey,
                                 'generator',    // section id
-                                'class_prefix'  // field id
+                                'class_prefix',  // field id
                             ),
                             ''
                         );
                         $_aOutput = array();
                         foreach( $_aCheckedCustomFieldTypes as $_sClassName => $_aCustomFieldType ) {
                             $_aOutput[] = '    "' . $_sClassPrefix . $_sClassName . '"'
-                                . ' => ' 
+                                . ' => '
                                 . 'AdminPageFramework_Registry::$sDirPath . ' . '"/' . ltrim( $_aCustomFieldType[ 'archive_file_path' ], '/' ) . '",';
                         }
+
                         return implode( PHP_EOL, $_aOutput ) . PHP_EOL;
                     
                     }
@@ -214,11 +215,12 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                             ''
                         );
                     }
-                    return array_search( 
+
+                    return array_search(
                         ltrim( $sPathInArchive, '/' ),
                         $_aArchiveFilePaths
-                    );                    
-                }                    
+                    );
+                }
             
                 /**
                  * Modify the file contents of the given path.
@@ -235,19 +237,19 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     // @todo Investigate why retrieve all the selected custom field type classes, not the parsing item.
 
                     // Add the class prefix to each element.
-                    $_aSelectedFieldTypeClassNames = array_keys( 
-                        $this->_getSelectedCustomFieldTypes( $this->aCustomFieldTypes ) 
+                    $_aSelectedFieldTypeClassNames = array_keys(
+                        $this->_getSelectedCustomFieldTypes( $this->aCustomFieldTypes )
                     );
                     $_aPrefixedClassNames          = $_aSelectedFieldTypeClassNames;
                     array_walk(
-                        $_aPrefixedClassNames, 
+                        $_aPrefixedClassNames,
                         array( $this, '_replyToSetPrefix' ),
                         $this->oFactory->oUtil->getElement(
                             $_POST,
-                            array( 
-                                $this->oFactory->oProp->sOptionKey, 
+                            array(
+                                $this->oFactory->oProp->sOptionKey,
                                 'generator', // section id
-                                'class_prefix' // field id
+                                'class_prefix', // field id
                             ),
                             ''
                         )
@@ -255,26 +257,26 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     
                     // Searches and replaces.
                     $_aSearches = $_aSelectedFieldTypeClassNames;
-                    $_aReplaces = $_aPrefixedClassNames;                                        
+                    $_aReplaces = $_aPrefixedClassNames;
                     
                     $_sUserTextDomain = $this->oFactory->oUtil->getElement(
                         $_POST,
-                        array( 
-                            $this->oFactory->oProp->sOptionKey, 
+                        array(
+                            $this->oFactory->oProp->sOptionKey,
                             'generator', // section id
-                            'text_domain' // field id
+                            'text_domain', // field id
                         ),
                         ''
                     );
                     
                     // Change the text domain.
-                    
+
                     /// 3.7.2+ Get the custom field type text domain.
                     $_sFieldTypeTextDomain = $this->oFactory->oUtil->getElement(
                         $this->aCustomFieldTypes,
                         array( $sParsingClassName, 'text_domain' )
                     );
-                    if ( $_sFieldTypeTextDomain ) {                        
+                    if ( $_sFieldTypeTextDomain ) {
                         $_aSearches[] = $_sFieldTypeTextDomain;
                         $_aReplaces[] = $_sUserTextDomain;
                     }
@@ -297,7 +299,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                      */
                     public function _replyToSetPrefix( &$sClassName, $sKey, $sPrefix='' ) {
                         $sClassName = $sPrefix . $sClassName;
-                    }   
+                    }
                                     
  
             /**
@@ -342,19 +344,20 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     
                     $_aCheckedCustomFieldTypes = $this->oFactory->oUtil->getElementAsArray(
                         $_POST,
-                        array( 
-                            $this->oFactory->oProp->sOptionKey, 
+                        array(
+                            $this->oFactory->oProp->sOptionKey,
                             'generator', // section id
-                            'custom_field_types' // field id
+                            'custom_field_types', // field id
                         ),
                         array()
-                    );                
+                    );
                     $_aCheckedCustomFieldTypes = array_intersect_key(
-                        $aSubject, 
+                        $aSubject,
                         array_filter( $_aCheckedCustomFieldTypes ) // drop 0 values
-                    );        
+                    );
+
                     return $_aCheckedCustomFieldTypes;
                     
-                } 
+                }
  
 }

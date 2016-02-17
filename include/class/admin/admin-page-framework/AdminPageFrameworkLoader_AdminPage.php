@@ -29,7 +29,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ] );
             $_oOption->update( 'enable_admin_pages', $_GET[ 'enable_apfl_admin_pages' ] );
             
-            $this->oUtil->goToLocalURL( 
+            $this->oUtil->goToLocalURL(
                 remove_query_arg( 'enable_apfl_admin_pages' ),
                 array( 'AdminPageFrameworkLoader_Utility', 'replyToShowRedirectError' )
             );
@@ -44,16 +44,16 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             $_oOption->update( 'enable_demo', $_GET[ 'enable_apfl_demo_pages' ] );
              
             if ( $_GET[ 'enable_apfl_demo_pages' ] ) {
-                $this->setSettingNotice( 
+                $this->setSettingNotice(
                     __( 'Enabled demo!', 'admin-page-framework-loader' ),
                     'updated'
                 );
             }
               
-            $this->oUtil->goToLocalURL( 
+            $this->oUtil->goToLocalURL(
                 remove_query_arg( 'enable_apfl_demo_pages' ),
                 array( 'AdminPageFrameworkLoader_Utility', 'replyToShowRedirectError' )
-            );        
+            );
             
         }
                 
@@ -68,26 +68,26 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
 
         $_aOptions          = $this->oProp->aOptions;
         $_bAdminPageEnabled = ! is_array( $_aOptions )  // for the first time of loading, the option is not set and it is not an array. 
-            || ( isset( $_aOptions['enable_admin_pages'] ) && $_aOptions['enable_admin_pages'] );    
+            || ( isset( $_aOptions['enable_admin_pages'] ) && $_aOptions['enable_admin_pages'] );
     
         // Set up pages
         if ( $_bAdminPageEnabled ) {
             
-            $this->setRootMenuPage( 
+            $this->setRootMenuPage(
                 AdminPageFrameworkLoader_Registry::SHORTNAME,     // menu slug
                 AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/wp-logo_16x16.png', // menu icon
                 4  // menu position
-            ); 
+            );
                         
             // Add pages
-            new AdminPageFrameworkLoader_AdminPage_Tool( 
+            new AdminPageFrameworkLoader_AdminPage_Tool(
                 $this,
                 array(
                     'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages[ 'tool' ],
                     'title'     => __( 'Tools', 'admin-page-framework-loader' ),
                     'style'     => array(
                         AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
-                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css'
+                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css',
                     ),
                 )
             );
@@ -98,11 +98,11 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
                     'title'     => __( 'Add Ons', 'admin-page-framework-loader' ),
                     'style'     => array(
                         AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
-                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css'
-                    ),                    
-                )                
+                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css',
+                    ),
+                )
             );
-            new AdminPageFrameworkLoader_AdminPage_Help( 
+            new AdminPageFrameworkLoader_AdminPage_Help(
                 $this,
                 array(
                     'page_slug' => AdminPageFrameworkLoader_Registry::$aAdminPages[ 'help' ],
@@ -110,9 +110,9 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
                     'order'     => 1000, // to be the last menu item
                     'style'     => array(
                         AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
-                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css'
-                    ),                    
-                )                
+                        AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css',
+                    ),
+                )
             );
             
             add_action( 'load_' . $this->oProp->sClassName, array( $this, 'replyToDoPageSettings' ) );
@@ -133,7 +133,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             }
           
             // Action Links 
-            
+
             $this->setPluginSettingsLinkLabel( '' );
             $this->addLinkToPluginTitle(
                 $this->_getAdminURLTools( $_bAdminPageEnabled ),
@@ -141,12 +141,12 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
                 $this->_getDemoSwitcherLink( $_bAdminPageEnabled, $_aOptions )
             );
             $this->addLinkToPluginDescription(
-                "<a href='https://wordpress.org/support/plugin/admin-page-framework' target='_blank'>" 
-                    . __( 'Support', 'admin-page-framework-loader' ) 
+                "<a href='https://wordpress.org/support/plugin/admin-page-framework' target='_blank'>"
+                    . __( 'Support', 'admin-page-framework-loader' )
                 . "</a>"
-            );            
+            );
             
-        }        
+        }
             /**
              * Returns the Tools admin page link.
              * @return      string
@@ -156,29 +156,31 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
                     return;
                 }
                 $_sLink    = esc_url(
-                    add_query_arg( 
-                        array( 
+                    add_query_arg(
+                        array(
                             'page' => AdminPageFrameworkLoader_Registry::$aAdminPages['tool'],
                         ),
                         admin_url( 'admin.php' )
                     )
-                );                
+                );
+
                 return "<a href='{$_sLink}'>" . __( 'Tools', 'admin-page-framework-loader' ) . "</a>";
             }
             /**
              * Returns the Enable /Disable Admin Pages link.
              */
             private function _getAdminPageSwitchLink( $bEnabled ) {
-                $_sLink    = esc_url( 
-                    add_query_arg( 
-                        array( 
+                $_sLink    = esc_url(
+                    add_query_arg(
+                        array(
                             'enable_apfl_admin_pages' => $bEnabled ? 0 : 1,
                         )
                     )
-                );            
+                );
+
                 return $bEnabled
                     ? "<a href='{$_sLink}'>" . __( 'Disable Admin Pages', 'admin-page-framework-loader' ) . "</a>"
-                    : "<a href='{$_sLink}'>" . __( 'Enable Admin Pages', 'admin-page-framework-loader' ) . "</a>";                     
+                    : "<a href='{$_sLink}'>" . __( 'Enable Admin Pages', 'admin-page-framework-loader' ) . "</a>";
             }
             /**
              * Returns the switch link of the demo pages.
@@ -189,18 +191,19 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
                     return '';
                 }
                 $_bEnabled  = isset( $mOptions['enable_demo'] ) && $mOptions['enable_demo'];
-                $_sLink    = esc_url( 
-                    add_query_arg( 
-                        array( 
+                $_sLink    = esc_url(
+                    add_query_arg(
+                        array(
                             'enable_apfl_demo_pages' => $_bEnabled ? 0 : 1,
                         )
                     )
-                );        
+                );
+
                 return $_bEnabled
                     ? "<a href='{$_sLink}'>" . __( 'Disable Demo', 'admin-page-framework-loader' ) . "</a>"
                     : "<a href='{$_sLink}'><strong id='activate-demo-action-link' style='font-size: 1em;'>" . __( 'Enable Demo', 'admin-page-framework-loader' ) . "</strong></a>";
                 
-            }      
+            }
 
     /**
      * @return      void
@@ -211,7 +214,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
         $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
         $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
-    
+
         // Page meta boxes            
         new AdminPageFrameworkLoader_AdminPageMetaBox_Notification(
             null,                                           // meta box id - passing null will make it auto generate
@@ -223,8 +226,8 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             ),
             'side',                                       // context
             'default'                                     // priority
-        );        
+        );
     
-    }        
+    }
 
 }

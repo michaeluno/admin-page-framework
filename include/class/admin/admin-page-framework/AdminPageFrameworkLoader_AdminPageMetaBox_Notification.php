@@ -18,9 +18,9 @@ class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFr
      * ( optional ) Use the setUp() method to define settings of this meta box.
      */
     public function setUp() {
-        add_action( 
-            'current_screen', 
-            array( $this, 'replyToDecideToLoad' ), 
+        add_action(
+            'current_screen',
+            array( $this, 'replyToDecideToLoad' ),
             1
         );
     }
@@ -37,16 +37,16 @@ class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFr
         // $this->oUtil->deleteTransient( 
             // AdminPageFrameworkLoader_Registry::TRANSIENT_PREFIX . 'devver'
         // );        
-        
+
         // Retrieve the development version.
-        $this->_sDevelopmentVersion = $this->oUtil->getTransient( 
+        $this->_sDevelopmentVersion = $this->oUtil->getTransient(
             AdminPageFrameworkLoader_Registry::TRANSIENT_PREFIX . 'devver'
         );
 
         // Disable the meta box if the development version is not above the running one.
         if ( version_compare( AdminPageFramework_Registry::VERSION, $this->_sDevelopmentVersion, '>=' ) ) {
             $this->oProp->aPageSlugs = array();
-        }        
+        }
         
         // If the value is not set, schedule retrieving the version.
         if ( empty( $this->_sDevelopmentVersion ) ) {
@@ -62,13 +62,13 @@ class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFr
             $_sActionName = AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_action_get_development_version';
             $_aArguments  = array();
             if ( wp_next_scheduled( $_sActionName, $_aArguments ) ) {
-                return false; 
-            }            
-            wp_schedule_single_event( 
-                time(), 
+                return false;
+            }
+            wp_schedule_single_event(
+                time(),
                 $_sActionName,
                 $_aArguments
-            );              
+            );
             
         }
     /**
@@ -79,14 +79,14 @@ class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFr
     public function content( $sContent ) {
 
         $_sInsert = ''
-            . "<h4>" 
+            . "<h4>"
                 . "<span class='header-icon dashicons dashicons-warning'></span>"
-                . __( 'Test Development Version', 'admin-page-framework-loader' ) 
-            . "</h4>"        
-            . "<p class='new-version-notification'>" 
-                . sprintf( 
+                . __( 'Test Development Version', 'admin-page-framework-loader' )
+            . "</h4>"
+            . "<p class='new-version-notification'>"
+                . sprintf(
                     __( 'A new development version <code>%1$s</code> is available!', 'admin-page-framework-loader' )
-                    . ' ' 
+                    . ' '
                     . __( 'Please test it before it gets released.', 'admin-page-framework-loader' ),
                     $this->_sDevelopmentVersion,
                     esc_url( 'https://github.com/michaeluno/admin-page-framework/archive/dev.zip' )
@@ -94,14 +94,14 @@ class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFr
             . "</p>"
             . "<div style='width:100%; display:inline-block;'>"
                 . '<a href="' . esc_url( 'https://github.com/michaeluno/admin-page-framework/archive/dev.zip' ). '">'
-                    . "<div class='button button-primary float-right'>"  
+                    . "<div class='button button-primary float-right'>"
                         . __( 'Download', 'admin-page-framework-loader' )
-                    . "</div>"            
+                    . "</div>"
                 . "</a>"
             . "</div>"
             ;
             
-        return $_sInsert . $sContent;        
+        return $_sInsert . $sContent;
         
     }
  

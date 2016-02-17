@@ -5,7 +5,7 @@ use \AcceptanceTester;
  * Bootstrap does not work for including abstract classes.
  * @see     https://github.com/Codeception/Codeception/issues/862
  */
-require_once( dirname( dirname( __FILE__ ) ) . '/_bootstrap.php' );
+require_once dirname( dirname( __FILE__ ) ) . '/_bootstrap.php';
 
 class Demo_BuiltinFieldTypes_Selectors_Cest extends \Demo_AdminPage_Base {
     
@@ -33,23 +33,23 @@ class Demo_BuiltinFieldTypes_Selectors_Cest extends \Demo_AdminPage_Base {
         // Check some field values.
         // <option id="select_select_multiple_options__0_3" value="3" selected="selected">April</option> 
         $I->seeElement(
-            'option', 
-            [ 
+            'option',
+            [
                 'id' => 'select_select_multiple_options__0_3',
-                'selected' => 'selected'
+                'selected' => 'selected',
             ]
         );
         $I->seeElement(
-            'option', 
-            [ 
+            'option',
+            [
                 'id' => 'select_select_multiple_options__0_4',
-                'selected' => 'selected'
+                'selected' => 'selected',
             ]
         );
         
         // @todo fill the form and confirm that values are stored
+
         
-        
-    } 
+    }
         
 }

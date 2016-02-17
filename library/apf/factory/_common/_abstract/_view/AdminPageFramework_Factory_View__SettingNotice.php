@@ -23,6 +23,7 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
         if ($this->hasBeenCalled(__METHOD__)) {
             return false;
         }
+
         return isset($this->oFactory->oForm);
     }
 }

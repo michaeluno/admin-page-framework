@@ -16,6 +16,7 @@ class AdminPageFramework_UserMeta_Model___UserMeta extends AdminPageFramework_Fr
         if (!$this->iUserID) {
             return array();
         }
+
         return $this->_getSavedDataFromFieldsets($this->iUserID, $this->aFieldsets);
     }
     private function _getSavedDataFromFieldsets($iUserID, $aFieldsets) {
@@ -35,6 +36,7 @@ class AdminPageFramework_UserMeta_Model___UserMeta extends AdminPageFramework_Fr
             }
             $_aMetaData[$_sSectionID] = get_user_meta($iUserID, $_sSectionID, true);
         }
+
         return $_aMetaData;
     }
 }

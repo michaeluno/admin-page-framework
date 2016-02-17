@@ -25,6 +25,7 @@ class AdminPageFramework_Format_InPageTabs extends AdminPageFramework_Format_Bas
             $_aInPageTabs[$_sTabSlug] = $_oFormatter->get();
         }
         uasort($_aInPageTabs, array($this, 'sortArrayByKey'));
+
         return $_aInPageTabs;
     }
 }

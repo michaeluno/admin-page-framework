@@ -39,9 +39,9 @@ class AdminPageFramework_Form_View___Generate_FlatFieldName extends AdminPageFra
          */
         protected function _getFlatFieldName() {
             
-            $_sSectionIndex = isset( $this->aArguments[ 'section_id' ], $this->aArguments[ '_section_index' ] ) 
-                ? "|{$this->aArguments[ '_section_index' ]}" 
-                : '';                 
+            $_sSectionIndex = isset( $this->aArguments[ 'section_id' ], $this->aArguments[ '_section_index' ] )
+                ? "|{$this->aArguments[ '_section_index' ]}"
+                : '';
                 
             return $this->getAOrB(
                 $this->_isSectionSet(),

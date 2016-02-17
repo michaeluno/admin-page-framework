@@ -32,16 +32,16 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_F
      */
     public function __construct( /* array $aSectionset, $iSectionIndex, $aFieldsets, $aSavedData, $aFieldErrors, $aFieldTypeDefinitions, $aCallbacks, $oMsg */ ) {
 
-        $_aParameters = func_get_args() + array( 
-            $this->aSectionset, 
-            $this->iSectionIndex, 
-            $this->aFieldsets, 
+        $_aParameters = func_get_args() + array(
+            $this->aSectionset,
+            $this->iSectionIndex,
+            $this->aFieldsets,
             $this->aSavedData,
             $this->aFieldErrors,
             $this->aFieldTypeDefinitions,
             $this->aCallbacks,
             $this->oMsg,
-        ); 
+        );
         $this->aSectionset           = $_aParameters[ 0 ];
         $this->iSectionIndex         = $_aParameters[ 1 ];
         $this->aFieldsets            = $_aParameters[ 2 ];
@@ -59,10 +59,10 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_F
      * @return      string      The output of a form table caption.
      */
     public function get() {
-        return $this->_getCaption( 
-            $this->aSectionset, 
-            $this->iSectionIndex, 
-            $this->aFieldsets, 
+        return $this->_getCaption(
+            $this->aSectionset,
+            $this->iSectionIndex,
+            $this->aFieldsets,
             $this->aFieldErrors,
             $this->aFieldTypeDefinitions,
             $this->aCallbacks,
@@ -82,54 +82,55 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_F
             
             if ( ! $aSectionset[ 'description' ] && ! $aSectionset[ 'title' ] ) {
                 return "<caption class='admin-page-framework-section-caption' style='display:none;'></caption>";
-            }    
+            }
 
             $_oArgumentFormater = new AdminPageFramework_Form_Model___Format_CollapsibleSection(
                 $aSectionset[ 'collapsible' ],
                 $aSectionset[ 'title' ],
-                $aSectionset            
+                $aSectionset
             );
-            $_abCollapsible = $_oArgumentFormater->get();            
+            $_abCollapsible = $_oArgumentFormater->get();
             
             $_oCollapsibleSectionTitle = new AdminPageFramework_Form_View___CollapsibleSectionTitle(
                 array(
-                    'title'             => $this->getElement( 
-                        $_abCollapsible, 
-                        'title', 
-                        $aSectionset[ 'title' ] 
+                    'title'             => $this->getElement(
+                        $_abCollapsible,
+                        'title',
+                        $aSectionset[ 'title' ]
                     ),
                     'tag'               => 'h3',
                     'section_index'     => $iSectionIndex,
                     'collapsible'       => $_abCollapsible,
                     'container_type'    => 'section', // section or sections                    
-                    
+
                     'sectionset'        => $aSectionset,    // 3.7.0+ for tooltip
                 ),
-                $aFieldsets,            
-                $this->aSavedData,   
-                $this->aFieldErrors, 
-                $aFieldTypeDefinitions, 
+                $aFieldsets,
+                $this->aSavedData,
+                $this->aFieldErrors,
+                $aFieldTypeDefinitions,
                 $oMsg,
                 $aCallbacks // field output element callables.                
-            );            
+            );
             
             $_bShowTitle    = empty( $_abCollapsible ) && ! $aSectionset[ 'section_tab_slug' ];
-            return 
-                "<caption " . $this->getAttributes( 
+
+            return
+                "<caption " . $this->getAttributes(
                     array(
                         'class'             => 'admin-page-framework-section-caption',
                         // data-section_tab is referred by the repeater script to hide/show the title and the description
                         'data-section_tab'  => $aSectionset[ 'section_tab_slug' ],
-                    ) 
+                    )
                 ) . ">"
                     . $_oCollapsibleSectionTitle->get()
                     . $this->getAOrB(
                         $_bShowTitle,
-                        $this->_getCaptionTitle( 
-                            $aSectionset, 
-                            $iSectionIndex, 
-                            $aFieldsets, 
-                            $aFieldTypeDefinitions 
+                        $this->_getCaptionTitle(
+                            $aSectionset,
+                            $iSectionIndex,
+                            $aFieldsets,
+                            $aFieldTypeDefinitions
                         ),
                         ''
                     )
@@ -137,7 +138,7 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_F
                     . $this->_getSectionError( $aSectionset, $aFieldErrors )
                 . "</caption>";
             
-        }   
+        }
             /**
              * Returns the section validation error message.
              * 
@@ -151,12 +152,13 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_F
                 $_sSectionID    = $aSectionset[ 'section_id' ];
                 $_sSectionError = isset( $aFieldErrors[ $_sSectionID ] ) && is_string( $aFieldErrors[ $_sSectionID ] )
                     ? $aFieldErrors[ $_sSectionID ]
-                    : '';          
-                return $_sSectionError  
+                    : '';
+
+                return $_sSectionError
                     ? "<div class='admin-page-framework-error'><span class='section-error'>* "
-                            . $_sSectionError 
+                            . $_sSectionError
                         .  "</span></div>"
-                    : '';  
+                    : '';
                     
             }
             /**
@@ -177,13 +179,14 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_F
                         
                         'sectionset'    => $aSectionset,    // 3.7.0+ for tooltip
                     ),
-                    $aFieldsets,            
-                    $this->aSavedData,   
-                    $this->aFieldErrors, 
-                    $aFieldTypeDefinitions, 
+                    $aFieldsets,
+                    $this->aSavedData,
+                    $this->aFieldErrors,
+                    $aFieldTypeDefinitions,
                     $this->oMsg,
                     $this->aCallbacks // field output element callables.
                 );
+
                 return "<div " . $this->getAttributes(
                         array(
                             'class' => 'admin-page-framework-section-title',
@@ -193,9 +196,9 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_F
                                 'display: none;'
                             ),
                         )
-                    ). ">" 
+                    ). ">"
                         . $_oSectionTitle->get()
-                    . "</div>";                
+                    . "</div>";
             }
             /**
              * Returns the section description for the section table caption block.
@@ -219,14 +222,15 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_F
                 $_oSectionDescription = new AdminPageFramework_Form_View___Description(
                     $aSectionset[ 'description' ],
                     'admin-page-framework-section-description'    // class selector
-                );            
-                return "<div class='admin-page-framework-section-description'>"     
+                );
+
+                return "<div class='admin-page-framework-section-description'>"
                     . call_user_func_array(
-                        $hfSectionCallback, 
-                        array( 
+                        $hfSectionCallback,
+                        array(
                             $_oSectionDescription->get(),
-                            $aSectionset 
-                        ) 
+                            $aSectionset,
+                        )
                     )
                 . "</div>";
 
@@ -253,8 +257,9 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_F
                 if ( $aSectionset[ 'repeatable' ] && $iSectionIndex != 0 ) {
                     return false;
                 }
-                return true;                
+
+                return true;
                 
-            }     
+            }
     
 }

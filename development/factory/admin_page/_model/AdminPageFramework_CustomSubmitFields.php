@@ -37,7 +37,7 @@ abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_
             
         $this->aPost    = $aPostElement;
         $this->sInputID = $this->getInputID( $aPostElement['submit'] ); // the submit element must be set by the field type.
-    
+
     }
     
     /**
@@ -47,23 +47,23 @@ abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_
      * 
      * @since   2.0.0
      * @since   3.4.0   Changed the name from `getElement()`.
-     */ 
+     */
     protected function getSubmitValueByType( $aElement, $sInputID, $sElementKey='format' ) {
             
-        return $this->getElement( 
+        return $this->getElement(
             $aElement,  // subject array
             array( $sInputID, $sElementKey ), // dimensional keys
             null    // default
         );
         
-    }     
+    }
     
     /**
      * Returns the specified sibling value.
      * 
      * @since 2.1.5
      */
-    public function getSiblingValue( $sKey ) {    
+    public function getSiblingValue( $sKey ) {
         return $this->getSubmitValueByType( $this->aPost, $this->sInputID, $sKey );
     }
     
@@ -83,8 +83,9 @@ abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_
         // The array structure:  array( 'my_section_my_import_field_the_index' => 'Import Button' )
         foreach( $aSubmitElement as $sInputID => $v ) { // $aSubmitElement should have been set in the constructor.
             $this->sInputID = $sInputID;
+
             return $this->sInputID;
-        }     
+        }
         
     }
         

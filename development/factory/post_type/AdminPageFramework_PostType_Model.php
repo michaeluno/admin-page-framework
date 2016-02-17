@@ -18,7 +18,7 @@
  * @subpackage      PostType
  * @internal
  */
-abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_PostType_Router {    
+abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_PostType_Router {
 
     /**
      * Sets up hooks and properties.
@@ -46,7 +46,7 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
             
         }
                 
-    }    
+    }
            
     /**
      * Called when the current screen is determined.
@@ -61,7 +61,7 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
         add_action( "manage_{$this->oProp->sPostType}_posts_custom_column", array( $this, '_replyToPrintColumnCell' ), 10, 2 );
     
         // Auto-save
-        add_action( 'admin_enqueue_scripts', array( $this, '_replyToDisableAutoSave' ) );     
+        add_action( 'admin_enqueue_scripts', array( $this, '_replyToDisableAutoSave' ) );
     
         // Properties - sets translatable labels.
         $this->oProp->aColumnHeaders = array(
@@ -84,13 +84,13 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * @remark      A callback for the `manage_edit-{post type}_sortable_columns` hook.
      * @filter      add|apply       sortable_columns_{post type slug}
      * @return      array
-     */ 
+     */
     public function _replyToSetSortableColumns( $aColumns ) {
         return $this->oUtil->getAsArray(
-            $this->oUtil->addAndApplyFilter( 
-                $this, 
-                "sortable_columns_{$this->oProp->sPostType}", 
-                $aColumns 
+            $this->oUtil->addAndApplyFilter(
+                $this,
+                "sortable_columns_{$this->oProp->sPostType}",
+                $aColumns
             )
         );
     }
@@ -107,16 +107,16 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * @filter      add|apply       columns_{post type slug}
      * @callback    filter          manage_{post type slug}_posts_columns
      * @return      array
-     */ 
+     */
     public function _replyToSetColumnHeader( $aHeaderColumns ) {
         return $this->oUtil->getAsArray(
-            $this->oUtil->addAndApplyFilter( 
-                $this, 
-                "columns_{$this->oProp->sPostType}", 
-                $aHeaderColumns 
+            $this->oUtil->addAndApplyFilter(
+                $this,
+                "columns_{$this->oProp->sPostType}",
+                $aHeaderColumns
             )
         );
-    }    
+    }
     
     /**
      * Prints the cell column output.
@@ -127,14 +127,14 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      * @callback    action      manage_{post type slug}_posts_custom_column
      * @return      string
      */
-    public function _replyToPrintColumnCell( $sColumnKey, $iPostID ) {                 
-        echo $this->oUtil->addAndApplyFilter( 
-            $this, 
-            "cell_{$this->oProp->sPostType}_{$sColumnKey}", 
+    public function _replyToPrintColumnCell( $sColumnKey, $iPostID ) {
+        echo $this->oUtil->addAndApplyFilter(
+            $this,
+            "cell_{$this->oProp->sPostType}_{$sColumnKey}",
             '',  // value to be filtered - cell output
-            $iPostID 
+            $iPostID
         );
-    }    
+    }
     
     /**
      * Disables the WordPress's built-in auto-save functionality.
@@ -145,11 +145,11 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      */
     public function _replyToDisableAutoSave() {
         
-        if ( $this->oProp->bEnableAutoSave ) { 
-            return; 
+        if ( $this->oProp->bEnableAutoSave ) {
+            return;
         }
-        if ( $this->oProp->sPostType != get_post_type() ) { 
-            return; 
+        if ( $this->oProp->sPostType != get_post_type() ) {
+            return;
         }
         wp_dequeue_script( 'autosave' );
             
@@ -164,14 +164,14 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      */
     public function _replyToRegisterPostType() {
         
-        register_post_type( 
-            $this->oProp->sPostType, 
+        register_post_type(
+            $this->oProp->sPostType,
             $this->oProp->aPostTypeArgs
         );
         
         new AdminPageFramework_PostType_Model__SubMenuOrder( $this );
         
-    }    
+    }
     
     /**
      * Registers the set custom taxonomies.
@@ -181,10 +181,10 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
      */
     public function _replyToRegisterTaxonomies() {
         foreach( $this->oProp->aTaxonomies as $_sTaxonomySlug => $_aArguments ) {
-            $this->_registerTaxonomy( 
-                $_sTaxonomySlug,  
+            $this->_registerTaxonomy(
+                $_sTaxonomySlug,
                 $this->oUtil->getAsArray( $this->oProp->aTaxonomyObjectTypes[ $_sTaxonomySlug ] ), // object types 
-                $_aArguments 
+                $_aArguments
             );
         }
     }
@@ -203,11 +203,11 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
             $sTaxonomySlug,
             array_unique( $aObjectTypes ), // object types
             $aArguments // for the argument array keys, refer to: http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
-        );            
+        );
                 
-        $this->_setCustomMenuOrderForTaxonomy( 
-            $this->oUtil->getElement( $aArguments, 'submenu_order', 15 ), 
-            $sTaxonomySlug 
+        $this->_setCustomMenuOrderForTaxonomy(
+            $this->oUtil->getElement( $aArguments, 'submenu_order', 15 ),
+            $sTaxonomySlug
         );
         
         

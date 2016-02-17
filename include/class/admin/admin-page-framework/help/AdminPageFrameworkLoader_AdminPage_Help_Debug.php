@@ -27,7 +27,7 @@ class AdminPageFrameworkLoader_AdminPage_Help_Debug extends AdminPageFrameworkLo
                 'type'      => 'submit',
                 'reset'     => true,
                 'show_title_column' => false,
-                'value'     => __( 'Reset', 'admin-page-framework-loader' ),                
+                'value'     => __( 'Reset', 'admin-page-framework-loader' ),
             )
         );
     }

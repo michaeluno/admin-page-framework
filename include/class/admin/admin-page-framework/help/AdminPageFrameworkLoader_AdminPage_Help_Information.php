@@ -20,11 +20,11 @@ class AdminPageFrameworkLoader_AdminPage_Help_Information extends AdminPageFrame
     
     public function replyToDoTab( /* $oFactory */ ) {
     
-        echo $this->_getReadmeContents( 
-            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt', 
+        echo $this->_getReadmeContents(
+            AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
             '',     // no TOC
             array( 'Support' )
-        );    
+        );
  
     }
     

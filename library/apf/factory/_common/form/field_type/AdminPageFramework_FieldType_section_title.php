@@ -12,6 +12,7 @@ class AdminPageFramework_FieldType_section_title extends AdminPageFramework_Fiel
     }
     protected function getField($aField) {
         $aField['attributes'] = array('type' => 'text') + $aField['attributes'];
+
         return parent::getField($aField);
     }
 }

@@ -7,6 +7,7 @@
 class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
     public function getPageOptions($aOptions, $sPageSlug) {
         $_aOtherPageOptions = $this->getOtherPageOptions($aOptions, $sPageSlug);
+
         return $this->invertCastArrayContents($aOptions, $_aOtherPageOptions);
     }
     public function getPageOnlyOptions($aOptions, $sPageSlug) {
@@ -17,6 +18,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
             }
             $this->_setPageOnlyOptions($_aStoredOptionsOfThePage, $aOptions, $_aSubSectionsOrFields, $sPageSlug, $_sSectionID);
         }
+
         return $_aStoredOptionsOfThePage;
     }
     private function _setPageOnlyOptions(array & $_aStoredOptionsOfThePage, array $aOptions, array $_aSubSectionsOrFields, $sPageSlug, $_sSectionID) {
@@ -44,6 +46,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
             }
             $this->_setOtherPageOptions($_aStoredOptionsNotOfThePage, $aOptions, $_aSubSectionsOrFields, $sPageSlug);
         }
+
         return $_aStoredOptionsNotOfThePage;
     }
     private function _setOtherPageOptions(array & $_aStoredOptionsNotOfThePage, array $aOptions, array $_aSubSectionsOrFields, $sPageSlug) {
@@ -66,6 +69,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
             }
             $this->_setOtherTabOptions($_aStoredOptionsNotOfTheTab, $aOptions, $_aSubSectionsOrFields, $_sSectionPath);
         }
+
         return $_aStoredOptionsNotOfTheTab;
     }
     private function _setOtherTabOptions(array & $_aStoredOptionsNotOfTheTab, array $aOptions, array $_aSubSectionsOrFields, $sSectionPath) {
@@ -85,6 +89,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
     public function getTabOptions($aOptions, $sPageSlug, $sTabSlug = '') {
         $_aOtherTabOptions = $this->getOtherTabOptions($aOptions, $sPageSlug, $sTabSlug);
         $_aTabOptions = $this->invertCastArrayContents($aOptions, $_aOtherTabOptions);
+
         return $_aTabOptions;
     }
     public function getTabOnlyOptions(array $aOptions, $sPageSlug, $sTabSlug = '') {
@@ -98,6 +103,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
             }
             $this->_setTabOnlyOptions($_aStoredOptionsOfTheTab, $aOptions, $_aSubSectionsOrFields, $_sSectionID);
         }
+
         return $_aStoredOptionsOfTheTab;
     }
     private function _setTabOnlyOptions(array & $_aStoredOptionsOfTheTab, array $aOptions, array $_aSubSectionsOrFields, $_sSectionID) {
@@ -117,6 +123,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
         if (!isset($this->aSectionsets[$sSectionPath]['page_slug'])) {
             return false;
         }
+
         return ($sPageSlug === $this->aSectionsets[$sSectionPath]['page_slug']);
     }
     private function _isThisSectionSetToThisTab($sSectionPath, $sPageSlug, $sTabSlug) {
@@ -126,6 +133,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
         if (!isset($this->aSectionsets[$sSectionPath]['tab_slug'])) {
             return false;
         }
+
         return ($sTabSlug === $this->aSectionsets[$sSectionPath]['tab_slug']);
     }
     private function _setOptionValue(&$aSubject, $asDimensionalPath, $aOptions) {

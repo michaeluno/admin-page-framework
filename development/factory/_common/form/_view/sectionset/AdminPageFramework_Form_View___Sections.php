@@ -18,7 +18,7 @@
 class AdminPageFramework_Form_View___Sections extends AdminPageFramework_FrameworkUtility {
 
 // 3.7.0+ Not used at the moment
-    
+
     /**
      * Sets up properties.
      * @since       3.7.0

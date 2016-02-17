@@ -38,7 +38,7 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
@@ -47,12 +47,12 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                 'description'   => __( 'Set an image url with jQuwey based image selector.', 'admin-page-framework-loader' ),
                 'tip'           => __( 'The <code>image</code> field type allows your users to submit their images.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         // Fields
-        $oFactory->addSettingFields(     
+        $oFactory->addSettingFields(
             $this->sSectionID,
-            array( 
+            array(
                 'field_id'      => 'image_select_field',
                 'title'         => __( 'Select an Image', 'admin-page-framework-loader' ),
                 'type'          => 'image',
@@ -61,7 +61,7 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                 'allow_external_source' => false,
                 'attributes'    => array(
                     'preview' => array(
-                        'style' => 'max-width:300px;' // determines the size of the preview image. // margin-left: auto; margin-right: auto; will make the image in the center.
+                        'style' => 'max-width:300px;', // determines the size of the preview image. // margin-left: auto; margin-right: auto; will make the image in the center.
                     ),
                 ),
                 array(
@@ -77,15 +77,15 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                         ),
                         'remove_button'    => array(
                             'style' => 'background-color: #E1FCD2',
-                        ),                
-                    ),     
+                        ),
+                    ),
                 ),
                 array(
                     'label'         => __( 'Third', 'admin-page-framework-loader' ),
                     'default'       => '',
-                ),     
+                ),
                 'description'   => __( 'See the button and the input colors of the second item are different. This is done by setting the attributes individually.', 'admin-page-framework-loader' ),
-            ),     
+            ),
             array( // Image selector with additional capturing attributes
                 'field_id'              => 'image_with_attributes',
                 'title'                 => __( 'Save Image Attributes', 'admin-page-framework-loader' ),
@@ -100,10 +100,10 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                         'data-label' => __( 'Remove', 'admin-page-framework-loader' ), // will set the Remove button label instead of the dashicon
                     ),
                     'preview' => array(
-                        'style' => 'max-width: 300px;'
-                    ),                    
+                        'style' => 'max-width: 300px;',
+                    ),
                 ),
-            ),     
+            ),
             array( // Repeatable Image Fields
                 'field_id'              => 'image_select_field_repeater',
                 'title'                 => __( 'Repeatable', 'admin-page-framework-loader' ),
@@ -111,9 +111,9 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                 'repeatable'            => true,
                 'attributes'            => array(
                     'preview' => array(
-                        'style' => 'max-width: 300px;'
+                        'style' => 'max-width: 300px;',
                     ),
-                ),    
+                ),
                 'description'           => __( 'In repeatable fields, you can select multiple items at once.', 'admin-page-framework-loader' ),
             ),
             array( // Sortable Image Fields
@@ -123,13 +123,13 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                 'sortable'              => true,
                 'attributes'            => array(
                     'preview' => array(
-                        'style' => 'max-width: 200px;'
+                        'style' => 'max-width: 200px;',
                     ),
-                ),    
+                ),
                 array(), // the second item
                 array(), // the third item
                 'description' => __( 'Image fields can be sortable. This may be useful when you need to let the user set an order of images.', 'admin-page-framework-loader' ),
-            ),     
+            ),
             array( // Repeatable & Sortable Image Fields
                 'field_id'              => 'image_select_field_repeatable_and_sortable',
                 'title'                 => __( 'Repeatable & Sortable', 'admin-page-framework-loader' ),
@@ -138,11 +138,11 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                 'sortable'              => true,
                 'attributes'            => array(
                     'preview' => array(
-                        'style' => 'max-width: 200px;'
+                        'style' => 'max-width: 200px;',
                     ),
-                ),    
+                ),
             )
-        );            
+        );
       
     }
 

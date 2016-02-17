@@ -191,9 +191,10 @@ CSSRULES;
 }
 
 CSSRULES;
-            }   
+            }
+
             return $_sCSSRules;
             
-        }  
+        }
 
 }

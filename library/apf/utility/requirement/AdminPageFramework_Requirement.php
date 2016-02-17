@@ -27,6 +27,7 @@ class AdminPageFramework_Requirement {
         $this->_aRequirements = $this->_aRequirements + array('functions' => array(), 'classes' => array(), 'constants' => array(), 'files' => array(),);
         $_aWarnings = array_merge($_aWarnings, $this->_checkFunctions($this->_aRequirements['functions']), $this->_checkClasses($this->_aRequirements['classes']), $this->_checkConstants($this->_aRequirements['constants']), $this->_checkFiles($this->_aRequirements['files']));
         $this->aWarnings = array_filter($_aWarnings);
+
         return count($this->aWarnings);
     }
     private function _getWarningByType($sType) {
@@ -36,6 +37,7 @@ class AdminPageFramework_Requirement {
         if ($this->_checkPHPVersion($this->_aRequirements[$sType]['version'])) {
             return '';
         }
+
         return sprintf($this->_aRequirements[$sType]['error'], $this->_aRequirements[$sType]['version']);
     }
     private function _checkPHPVersion($sPHPVersion) {
@@ -47,6 +49,7 @@ class AdminPageFramework_Requirement {
     private function _checkMySQLVersion($sMySQLVersion) {
         global $wpdb;
         $_sInstalledMySQLVersion = isset($wpdb->use_mysqli) && $wpdb->use_mysqli ? @mysqli_get_server_info($wpdb->dbh) : @mysql_get_server_info();
+
         return $_sInstalledMySQLVersion ? version_compare($_sInstalledMySQLVersion, $sMySQLVersion, ">=") : true;
     }
     private function _checkClasses($aClasses) {
@@ -68,6 +71,7 @@ class AdminPageFramework_Requirement {
                 $_aWarnings[] = sprintf($_sWarning, $_sSubject);
             }
         }
+
         return $_aWarnings;
     }
     public function setAdminNotices() {
@@ -86,6 +90,7 @@ class AdminPageFramework_Requirement {
             return '';
         }
         $_sScripTitle = $this->_sScriptName ? "<strong>" . $this->_sScriptName . "</strong>:&nbsp;" : '';
+
         return $_sScripTitle . implode('<br />', $_aWarnings);
     }
     public function deactivatePlugin($sPluginFilePath, $sMessage = '', $bIsOnActivation = false) {

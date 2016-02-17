@@ -43,6 +43,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
             add_filter('clean_url', array($this, '_replyToModifyEnqueuedAttrbutes'), 1, 3);
             remove_filter(current_filter(), array($this, '_replyToSetupArgumentCallback'), 1, 2);
         }
+
         return $sSRC;
     }
     public function _replyToModifyEnqueuedAttrbutes($sSanitizedURL, $sOriginalURL, $sContext) {
@@ -57,8 +58,10 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
             }
             $_sAttributes = $this->getAttributes($_aAttributes);
             $_sModifiedURL = $sSanitizedURL . "' " . rtrim($_sAttributes, "'\"");
+
             return $_sModifiedURL;
         }
+
         return $sSanitizedURL;
     }
     static private $_bCommonStyleLoaded = false;
@@ -81,6 +84,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     private function _getIEStyleTag($oCaller, $sIDPrefix) {
         $_sStyleIE = $this->addAndApplyFilters($oCaller, array("style_ie_common_admin_page_framework", "style_ie_common_{$this->oProp->sClassName}",), AdminPageFramework_CSS::getDefaultCSSIE());
         $_sStyleIE = trim($_sStyleIE);
+
         return $_sStyleIE ? "<!--[if IE]><style type='text/css' id='" . esc_attr($sIDPrefix . "-ie") . "'>" . $_sStyleIE . "</style><![endif]-->" : '';
     }
     static private $_bCommonScriptLoaded = false;
@@ -108,8 +112,10 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         $_sStyle = trim($_sStyle);
         if ($_sStyle) {
             $_iCallCount++;
+
             return "<style type='text/css' id='" . esc_attr("{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}") . "'>" . $_sStyle . "</style>";
         }
+
         return '';
     }
     private function _getClassSpecificIEStyleTag($_oCaller, $sIDPrefix) {
@@ -118,8 +124,10 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         $_sStyleIE = trim($_sStyleIE);
         if ($_sStyleIE) {
             $_iCallCountIE++;
+
             return "<!--[if IE]><style type='text/css' id='" . esc_attr("{$sIDPrefix}-ie-{$this->oProp->sClassName}_{$_iCallCountIE}") . "'>" . $_sStyleIE . "</style><![endif]-->";
         }
+
         return '';
     }
     protected function _printClassSpecificScripts($sIDPrefix) {
@@ -151,6 +159,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     protected function _enqueueSRC($aEnqueueItem) {
         if ('style' === $aEnqueueItem['sType']) {
             wp_enqueue_style($aEnqueueItem['handle_id'], $aEnqueueItem['sSRC'], $aEnqueueItem['dependencies'], $aEnqueueItem['version'], $aEnqueueItem['media']);
+
             return;
         }
         wp_enqueue_script($aEnqueueItem['handle_id'], $aEnqueueItem['sSRC'], $aEnqueueItem['dependencies'], $aEnqueueItem['version'], did_action('admin_body_class') ? true : $aEnqueueItem['in_footer']);

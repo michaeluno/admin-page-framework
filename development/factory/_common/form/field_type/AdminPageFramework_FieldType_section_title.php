@@ -37,7 +37,7 @@ class AdminPageFramework_FieldType_section_title extends AdminPageFramework_Fiel
         'attributes'        => array(
             'size'      => 20,
             'maxlength' => 100,
-        ),    
+        ),
     );
 
     /**
@@ -45,7 +45,7 @@ class AdminPageFramework_FieldType_section_title extends AdminPageFramework_Fiel
      * 
      * @since       3.0.0
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     */ 
+     */
     protected function getStyles() {
         return <<<CSSRULES
 /* Section Tab Field Type */
@@ -75,7 +75,7 @@ class AdminPageFramework_FieldType_section_title extends AdminPageFramework_Fiel
 }
 CSSRULES;
    
-    }    
+    }
     
     /**
      * Returns the output of the text input field.
@@ -87,6 +87,7 @@ CSSRULES;
     protected function getField( $aField ) {
         
         $aField[ 'attributes' ] = array( 'type' => 'text' ) + $aField[ 'attributes' ];
+
         return parent::getField( $aField );
 
     }

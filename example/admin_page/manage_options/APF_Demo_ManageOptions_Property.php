@@ -25,20 +25,20 @@ class APF_Demo_ManageOptions_Property {
 
     /**
      * Sets uo properties, hooks, and in-page tabs.
-     */    
+     */
     public function __construct( $oFactory, $sPageSlug ) {
     
         $this->_oFactory     = $oFactory;
         $this->_sClassName   = $oFactory->oProp->sClassName;
-        $this->_sPageSlug    = $sPageSlug; 
+        $this->_sPageSlug    = $sPageSlug;
                 
-        $this->_oFactory->addInPageTabs(    
+        $this->_oFactory->addInPageTabs(
             $this->_sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Properties', 'admin-page-framework-loader' ),
             )
-        );  
+        );
         
         // load + page slug + tab slug
         add_action( 'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug, array( $this, 'replyToLoadTab' ) );
@@ -61,7 +61,7 @@ class APF_Demo_ManageOptions_Property {
         <p><?php _e( 'These are the property values stored in the framework. Advanced users may change the property values by directly modifying the <code>$this->oProp</code> object.', 'admin-page-framework-loader' ); ?></p>
         <pre class="dump-array"><code>$this-&gt;oDebug-&gt;get( get_object_vars( $this-&gt;oProp ) );</code></pre>
         <?php
-            $this->_oFactory->oDebug->dump( get_object_vars( $this->_oFactory->oProp ) );   
+            $this->_oFactory->oDebug->dump( get_object_vars( $this->_oFactory->oProp ) );
    
      
     }

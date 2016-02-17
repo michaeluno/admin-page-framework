@@ -9,7 +9,7 @@
  * @license     MIT    <http://opensource.org/licenses/MIT>
  */
 if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
-    require( dirname( dirname( dirname( __FILE__ ) ) ) . '/php_class_files_script_generator/PHP_Class_Files_Script_Generator_Base.php' );
+    require dirname( dirname( dirname( __FILE__ ) ) ) . '/php_class_files_script_generator/PHP_Class_Files_Script_Generator_Base.php';
 }
 
 /**
@@ -24,12 +24,12 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
     
     static protected $_aStructure_Options = array(
         'header_class_name' => '',
-        'header_class_path' => '',        
+        'header_class_path' => '',
         'output_buffer'     => true,
         'write_to_file'     => true,        // 1.2.0+
         'character_encode'  => 'UTF-8',     // 1.2.0+
         'use_beautifier'    => true,        // 1.2.0+
-        'header_type'       => 'DOCBLOCK',    
+        'header_type'       => 'DOCBLOCK',
         'exclude_classes'   => array(),
         'css_heredoc_keys'  => array( 'CSSRULES' ),     // 1.1.0+
         'js_heredoc_keys'   => array( 'JAVASCRIPTS' ),  // 1.1.0+
@@ -40,7 +40,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
             'exclude_dir_paths'  => array(),
             'exclude_dir_names'  => array(),
             'is_recursive'       => true,
-        ),        
+        ),
         
     );
         
@@ -57,7 +57,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
      * Stores the output file path.
      * @since       1.2.0
      */
-    public $sOutputFilePath;    
+    public $sOutputFilePath;
     
     /**
      * Stores the header comment to insert at the top of the script.
@@ -68,7 +68,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
     /**
      * Stores the scanned files.
      * @since       1.2.0
-     */    
+     */
     public $aFiles = array();
     
     /**
@@ -124,15 +124,15 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
             }
         
         /* Store the file contents into an array. */
-        $_aFiles = $this->_formatFileArray( $this->_getFileLists( $_aScanDirPaths, $aOptions['search'] ) );        
+        $_aFiles = $this->_formatFileArray( $this->_getFileLists( $_aScanDirPaths, $aOptions['search'] ) );
         unset( $_aFiles[ pathinfo( $sOutputFilePath, PATHINFO_FILENAME ) ] );    // it's possible that the minified file also gets loaded but we don't want it.
 
-            if ( $aOptions['output_buffer'] ) {                
+            if ( $aOptions['output_buffer'] ) {
                 echo sprintf( 'Found %1$s file(s)', count( $_aFiles ) ) . $aOptions['carriage_return'];
                 // foreach ( $_aFiles as $_aFile ) {
                     // echo $_aFile['path'] . $aOptions['carriage_return'];
                 // }
-            }    
+            }
  
             
         /* Minify CSS Rules in variables defined with the heredoc syntax [1.1.0+] */
@@ -141,27 +141,27 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
         /* Minify JavaScript scripts in variables defined with the heredoc syntax [1.1.0+] */
         $_sPathJSMinPlus = dirname( __FILE__ ) . '/library/JSMinPlus.php';
         if ( file_exists( $_sPathJSMinPlus ) ) {
-            include( $_sPathJSMinPlus );
+            include $_sPathJSMinPlus;
             $_aFiles = $this->minifyJS( $_aFiles, $aOptions['js_heredoc_keys'], $aOptions['output_buffer'] ? $aOptions['carriage_return'] : false );
-        }             
+        }
 
         /* Generate the output script header comment */
         $this->sHeaderComment = trim( $this->_getHeaderComment( $_aFiles, $aOptions ) );
             if ( $aOptions['output_buffer'] ) {
                 echo( $this->sHeaderComment ) . $aOptions['carriage_return'];
-            }        
+            }
         
         /* Sort the classes - in some PHP versions, parent classes must be defined before extended classes. */
         $this->aFiles = $this->sort( $_aFiles, $aOptions['exclude_classes'] );
         
             if ( $aOptions['output_buffer'] ) {
                 echo sprintf( 'Sorted %1$s file(s).', count( $this->aFiles ) ) . $aOptions['carriage_return'];
-            }        
+            }
             
         // Apply the beautifier [1.2.0+]
         if ( $aOptions['use_beautifier'] ) {
-            $this->aFiles = $this->beautify( $this->aFiles, $aOptions );     
-        }    
+            $this->aFiles = $this->beautify( $this->aFiles, $aOptions );
+        }
             
         /* Write to a file */
         $this->sData = $this->get( $this->aFiles, $this->sHeaderComment, $aOptions['character_encode'] );
@@ -182,6 +182,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
             if ( $aOptions['output_buffer'] ) {
                 echo 'Warning: The Tokenizer PHP extension needs to be installed to beautify PHP code.' . $aOptions['carriage_return'];
             }
+
             return $aFiles;
         }
         
@@ -191,14 +192,15 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
             if ( $aOptions['output_buffer'] ) {
                 echo 'Warning: The PHP_Beautifier needs to be placed in ./library/PHP_Beautifier directory.' . $aOptions['carriage_return'];
             }
-            return $aFiles;            
+
+            return $aFiles;
         }
         
         // Perform beautification.
-        include_once( $_sBeautifierPath );
+        include_once $_sBeautifierPath;
         if ( $aOptions['output_buffer'] ) {
             echo 'Beautifying PHP code.' . $aOptions['carriage_return'];
-        }        
+        }
         foreach( $aFiles as &$_aFile ) {
             // PHP_Beautifier needs the beginning < ?php notation. So add it for parsing and remove it after that.
             $_aFile['code'] = $this->_getBeautifiedPHPCode( '<?php ' . $_aFile['code'] );
@@ -207,7 +209,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
    
         return $aFiles;
         
-    }   
+    }
     
         /**
          * Beautifies PHP code with the PHP_Beautify library.
@@ -219,7 +221,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
         private function _getBeautifiedPHPCode( $sCode ) {
                         
             // Create the instance
-            $_oBeautifier = new PHP_Beautifier(); 
+            $_oBeautifier = new PHP_Beautifier();
          
             // Set the indent char, number of chars to indent and newline char
             $_oBeautifier->setIndentChar(' ');
@@ -231,7 +233,8 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
             
             // Process the file. DON'T FORGET TO USE IT
             $_oBeautifier->process();
-            return $_oBeautifier->get();            
+
+            return $_oBeautifier->get();
             
         }
         /**
@@ -246,21 +249,22 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
             }
             
             // Download it.
-            $_bDownloaded = $this->_downloadZip( 
+            $_bDownloaded = $this->_downloadZip(
                 "https://github.com/clbustos/PHP_Beautifier/archive/master.zip",
                 dirname( __FILE__ ) . '/library/PHP_Beautifier/php_beautifier.zip',
                 $aOptions
             );
-            if ( ! $_bDownloaded ) {                
+            if ( ! $_bDownloaded ) {
                 return '';
             }
         
             $this->_unZip(
                 dirname( __FILE__ ) . '/library/PHP_Beautifier/php_beautifier.zip',
-                $aOptions            
-            );            
+                $aOptions
+            );
             
             $_sPath = $this->_findBeautifierPath();
+
             return $_sPath
                 ? $_sPath
                 : '';
@@ -273,15 +277,15 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
             private function _findBeautifierPath() {
                 
                 // Scan the 'library' directory and return the script path if found.
-                $_aScannedFiles = $this->_formatFileArray( 
-                    $this->_getFileLists( 
-                        dirname( __FILE__ ) . '/library', 
-                        self::$_aStructure_Options['search'] 
+                $_aScannedFiles = $this->_formatFileArray(
+                    $this->_getFileLists(
+                        dirname( __FILE__ ) . '/library',
+                        self::$_aStructure_Options['search']
                     )
                 );
                 if ( isset( $_aScannedFiles['Beautifier']['path'] ) ) {
                     return $_aScannedFiles['Beautifier']['path'];
-                } 
+                }
              
             }
             /**
@@ -292,7 +296,8 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
                 if ( ! class_exists( 'ZipArchive' ) ) {
                     if ( $aOptions['output_buffer'] ) {
                         echo "The zlib PHP extension is required to extract zip files." . $aOptions['carriage_return'];
-                    }                                        
+                    }
+
                     return;
                 }
                 
@@ -301,12 +306,12 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
                 if( $_oZip->open( $sFilePath ) != "true" ) {
                     if ( $aOptions['output_buffer'] ) {
                         echo "Error :- Unable to open the Zip File" . $aOptions['carriage_return'];
-                    }                          
-                } 
+                    }
+                }
                 
                 /* Extract Zip File */
                 $_oZip->extractTo( dirname( $sFilePath ) );
-                $_oZip->close();                
+                $_oZip->close();
                 
             }
             /**
@@ -320,7 +325,8 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
                     
                     if ( $aOptions['output_buffer'] ) {
                         echo 'To download a file, the cURL PHP extension needs to be installed. You are using PHP ' . PHP_VERSION . '.' . $aOptions['carriage_return'];
-                    }                    
+                    }
+
                     return false;
                 }
                 
@@ -328,19 +334,19 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
                 $_sDirPath = dirname( $sFilePath );
                 if ( ! is_dir( $_sDirPath ) ) {
                     mkdir( $_sDirPath, 0777, true );
-                }                
+                }
       
                 // Remove the existing file.
                 if ( file_exists( $sFilePath ) ) {
                     unlink( $sFilePath );
-                }   
+                }
                 
                 $sURL = $this->_getRedirectedURL( $sURL );
                 
                 $_hZipResource = fopen( $sFilePath , "w" );
                     if ( $aOptions['output_buffer'] ) {
                         echo 'Downloading PHP Beautifier.' . $aOptions['carriage_return'];
-                    }                          
+                    }
                 // Get The Zip File From Server
                 $ch = curl_init();
                 curl_setopt( $ch, CURLOPT_URL, $sURL );
@@ -351,15 +357,17 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
                 curl_setopt( $ch, CURLOPT_BINARYTRANSFER,true );
                 curl_setopt( $ch, CURLOPT_TIMEOUT, 10);
                 curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 0 );
-                curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 0 ); 
+                curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 0 );
                 curl_setopt( $ch, CURLOPT_FILE, $_hZipResource );
                 $page = curl_exec( $ch );
                 if( ! $page && $aOptions['output_buffer'] ) {
                     echo "Download Error : " . curl_error( $ch ) . $aOptions['carriage_return'];
-                    curl_close( $ch );            
+                    curl_close( $ch );
+
                     return false;
                 }
-                curl_close( $ch );                
+                curl_close( $ch );
+
                 return true;
             }
             
@@ -372,11 +380,11 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
                 
                 $ch = curl_init( $sURL );
                 curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true); // follow redirects
-                curl_setopt( $ch, 
-                    CURLOPT_USERAGENT, 
+                curl_setopt( $ch,
+                    CURLOPT_USERAGENT,
                     'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.7 '
                     . '(KHTML, like Gecko) Chrome/7.0.517.41 Safari/534.7'  // imitate chrome
-                ); 
+                );
                 curl_setopt( $ch, CURLOPT_NOBODY, true ); // HEAD request only (faster)
                 curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true ); // don't echo results
                 curl_exec( $ch );
@@ -387,7 +395,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
                     ? $_sFinalURL
                     : $sURL;
                 
-            }       
+            }
             
     /**
      * Minifies JavaScript scripts in variables defined with the heredoc syntax. 
@@ -396,7 +404,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
      * @param   array           $aFiles
      * @param   array           $aHereDocKeys
      * @param   boolean|string  $bsCarriageReturns      If the output buffer is enabled, the carriage return value; otherwise, false.
-     */     
+     */
     public function minifyJS( array $aFiles, array $aHereDocKeys=array(), $bsCarriageReturn=false ) {
         
         // The JSMinPlus library crashes in PHP 5.2.9 or below.
@@ -404,8 +412,9 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
             if ( $bsCarriageReturn ) {
                 echo sprintf( 'JavaScript scripts are not minified. It requires PHP above 5.2.9 to minify JavaScripts. You are using PHP %1$s.', PHP_VERSION );
             }
+
             return $aFiles;
-        }     
+        }
      
         $_iMinified = $_iCount = 0;
         foreach( $aFiles as $_sClassName => &$_aFile ) {
@@ -413,7 +422,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
             $this->_sCurrentIterationClassName = $_sClassName;
             foreach( $aHereDocKeys as $_sHereDocKey ) {
 
-                $_aFile['code'] = preg_replace_callback( 
+                $_aFile['code'] = preg_replace_callback(
                     "/\s?+\K(<<<{$_sHereDocKey}[\r\n])(.+?)([\r\n]{$_sHereDocKey};(\s+)?[\r\n])/ms",   // needle
                     array( $this, '_replyToMinifyJavaScripts' ),                               // callback
                     $_aFile['code'],                                                         // haystack
@@ -437,18 +446,18 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
          * The callback function to minify the JavaScript scripts defined in heredoc variable assignments.
          * 
          * @since       1.1.0
-         */    
+         */
         public function _replyToMinifyJavaScripts( $aMatch ) {
             
             if ( ! isset( $aMatch[ 1 ], $aMatch[ 2 ], $aMatch[ 3 ] ) ) {
                 return $aMatch[ 0 ];
-            }                   
+            }
             if ( ! class_exists( 'JSMinPlus' ) ) {
                 return $aMatch[ 0 ];
             }
             $_sJavaScript = $aMatch[ 2 ];
             
-            return '"' 
+            return '"'
                 . JSMinPlus::minify( $_sJavaScript, $this->_sCurrentIterationClassName )
                 . ';"; ';
             
@@ -461,7 +470,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
      * @param   array           $aFiles
      * @param   array           $aHereDocKeys
      * @param   boolean|string  $bsCarriageReturns      If the output buffer is enabled, the carriage return value; otherwise, false.
-     */ 
+     */
     public function minifyCSS( array $aFiles, array $aHereDocKeys=array(), $bsCarriageReturn=false ) {
 
         $_iMinified = $_iCount = 0;
@@ -469,7 +478,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
           
             foreach( $aHereDocKeys as $_sHereDocKey ) {
 
-                $_aFile['code'] = preg_replace_callback( 
+                $_aFile['code'] = preg_replace_callback(
                     "/\s?+\K(<<<{$_sHereDocKey}[\r\n])(.+?)([\r\n]{$_sHereDocKey};(\s+)?[\r\n])/ms",   // needle
                     array( $this, '_replyToMinifyCSSRules' ),                               // callback
                     $_aFile['code'],                                                         // haystack
@@ -483,7 +492,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
         }
         
         if ( $bsCarriageReturn ) {
-            echo sprintf( 'Minified CSS Rules in %1$s of heredoc variable(s).', $_iMinified ) . $bsCarriageReturn;            
+            echo sprintf( 'Minified CSS Rules in %1$s of heredoc variable(s).', $_iMinified ) . $bsCarriageReturn;
         }
         
         return $aFiles;
@@ -498,14 +507,15 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
  
             if ( ! isset( $aMatch[ 1 ], $aMatch[ 2 ], $aMatch[ 3 ] ) ) {
                 return $aMatch[ 0 ];
-            }                   
+            }
             $_sCSSRules = $aMatch[ 2 ];
-            $_sCSSRules = str_replace( 
+            $_sCSSRules = str_replace(
                 array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    '),  // needle - remove tabs, spaces, newlines, etc.
                 '',     // replace
                 preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $_sCSSRules )  // haystack - comments removed
             );
-            return '"' . $_sCSSRules . '"; '; 
+
+            return '"' . $_sCSSRules . '"; ';
             
         }
             
@@ -516,6 +526,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
                 unset( $aFiles[ $_sClassName ] );
             }
         }
+
         return $this->_resolveDependent( $aFiles );
     
     }
@@ -545,6 +556,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
             if ( $_iDependency ) {
                 return $this->_resolveDependent( $aFiles );
             }
+
             return $aFiles;
             
         }
@@ -564,6 +576,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
             if ( $iMoved ) {
                 $aFiles = $this->_moveDependant( $aFiles );
             }
+
             return $aFiles;
             
         }
@@ -600,13 +613,13 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
         
         $_sData     = ! empty( $sData )
             ? $sData
-            : ( 
-                isset( $this->sData ) 
-                    ? $this->sData 
-                    : $this->get() 
+            : (
+                isset( $this->sData )
+                    ? $this->sData
+                    : $this->get()
             );
         $_sFilePath = $sFilePath
-            ? $sFilePath 
+            ? $sFilePath
             : ( isset( $this->sOutputFilePath )
                 ? $this->sOutputFilePath
                 : '' );
@@ -614,7 +627,7 @@ class PHP_Class_Files_Minifier extends PHP_Class_Files_Script_Generator_Base {
         // Remove the existing file.
         if ( file_exists( $_sFilePath ) ) {
             unlink( $_sFilePath );
-        }   
+        }
         
         // Write to a file.
         file_put_contents( $_sFilePath, $_sData, FILE_APPEND | LOCK_EX );

@@ -46,6 +46,7 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_Framework
             return 1;
         }
         $_iColumns = $this->getNumberOfScreenColumns();
+
         return $_iColumns ? $_iColumns : 1;
     }
     private function _getContentTop() {
@@ -55,6 +56,7 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_Framework
         $_sContentTop.= $_oPageHeadingTabs->get();
         $_oInPageTabs = new AdminPageFramework_View__PageRenderer__InPageTabs($this->oFactory, $this->sPageSlug);
         $_sContentTop.= $_oInPageTabs->get();
+
         return $this->addAndApplyFilters($this->oFactory, $this->getFilterArrayByPrefix('content_top_', $this->oFactory->oProp->sClassName, $this->sPageSlug, $this->sTabSlug, false), $_sContentTop);
     }
     private function _printMainPageContent($sPageSlug, $sTabSlug) {
@@ -75,6 +77,7 @@ class AdminPageFramework_View__PageRenderer extends AdminPageFramework_Framework
         if (!$this->oFactory->oProp->bEnableForm) {
             return '';
         }
+
         return $this->oFactory->oForm->get();
     }
     private function _printPageMetaBoxes() {

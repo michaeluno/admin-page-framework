@@ -39,6 +39,7 @@ class AdminPageFramework_Model__FormSubmission__Validator_Base extends AdminPage
         $this->oFactory->setFieldErrors($_aErrors);
         $this->setTransient($_sTransientKey, $sPressedInputName, 60 * 2);
         $this->oFactory->setSettingNotice($this->oFactory->oMsg->get('confirm_perform_task'), 'error confirmation');
+
         return $this->oFactory->oProp->aOptions;
     }
 }
@@ -72,11 +73,14 @@ class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFrame
             $_sPropertyName = $_oException->getMessage();
             if (isset($_oException->$_sPropertyName)) {
                 $this->_setSettingNoticeAfterValidation(empty($_oException->{$_sPropertyName}));
+
                 return $_oException->{$_sPropertyName};
             }
+
             return array();
         }
         $this->_setSettingNoticeAfterValidation(empty($aInputs));
+
         return $aInputs;
     }
 }

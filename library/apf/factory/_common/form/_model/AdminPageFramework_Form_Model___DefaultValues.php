@@ -12,6 +12,7 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
     }
     public function get() {
         $_aResult = $this->_getDefaultValues($this->aFieldsets, array());
+
         return $_aResult;
     }
     private function _getDefaultValues($aFieldsets, $aDefaultOptions) {
@@ -22,6 +23,7 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
                 $this->setMultiDimensionalArray($aDefaultOptions, '_default' === $_sSectionPath ? array($_sFieldPath) : array_merge($_aSectionPath, $_aFieldPath), $this->_getDefautValue($_aFieldset));
             }
         }
+
         return $aDefaultOptions;
     }
     private function _getDefautValue($aFieldset) {
@@ -34,6 +36,7 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
         foreach ($_aSubFields as $_iIndex => $_aField) {
             $_aDefault[$_iIndex] = $this->getElement($_aField, 'value', $this->getElement($_aField, 'default', null));
         }
+
         return $_aDefault;
     }
 }

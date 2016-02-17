@@ -15,6 +15,7 @@ class AdminPageFramework_Property_network_admin_page extends AdminPageFramework_
         if ($this->_bDisableSavingOptions) {
             return;
         }
+
         return update_site_option($this->sOptionKey, $aOptions !== null ? $aOptions : $this->aOptions);
     }
 }

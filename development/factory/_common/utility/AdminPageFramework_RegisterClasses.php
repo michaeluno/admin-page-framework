@@ -108,7 +108,7 @@ class AdminPageFramework_RegisterClasses {
             if ( in_array( $_sClassNameWOExt, $aSearchOptions['exclude_class_names'] ) ) {
                 continue;
             }
-            $_aClasses[ $_sClassNameWOExt ] = $_sFilePath; 
+            $_aClasses[ $_sClassNameWOExt ] = $_sFilePath;
             
         }
         
@@ -144,8 +144,9 @@ class AdminPageFramework_RegisterClasses {
                 $_aFilePaths = $_bIsRecursive
                     ? $this->doRecursiveGlob( $sClassDirPath . '*.' . $this->_getGlobPatternExtensionPart( $_aAllowedExtensions ), GLOB_BRACE, $_aExcludeDirPaths, $_aExcludeDirNames )
                     : ( array ) glob( $sClassDirPath . '*.' . $this->_getGlobPatternExtensionPart( $_aAllowedExtensions ), GLOB_BRACE );
+
                 return array_filter( $_aFilePaths ); // drop non-value elements.    
-            } 
+            }
                 
             // For the Solaris operation system.
             $_aFilePaths = array();
@@ -158,6 +159,7 @@ class AdminPageFramework_RegisterClasses {
                 $_aFilePaths = array_merge( $__aFilePaths, $_aFilePaths );
                 
             }
+
             return array_unique( array_filter( $_aFilePaths ) );
             
         }
@@ -166,7 +168,7 @@ class AdminPageFramework_RegisterClasses {
          * Constructs the file pattern of the file extension part used for the glob() function with the given file extensions.
          */
         protected function _getGlobPatternExtensionPart( array $aExtensions=array( 'php', 'inc' ) ) {
-            return empty( $aExtensions ) 
+            return empty( $aExtensions )
                 ? '*'
                 : '{' . implode( ',', $aExtensions ) . '}';
         }
@@ -176,7 +178,7 @@ class AdminPageFramework_RegisterClasses {
          */
         protected function doRecursiveGlob( $sPathPatten, $nFlags=0, array $aExcludeDirs=array(), array $aExcludeDirNames=array() ) {
 
-            $_aFiles = glob( $sPathPatten, $nFlags );    
+            $_aFiles = glob( $sPathPatten, $nFlags );
             $_aFiles = is_array( $_aFiles ) ? $_aFiles : array(); // glob() can return false.
             $_aDirs = glob( dirname( $sPathPatten ) . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR|GLOB_NOSORT );
             $_aDirs = is_array( $_aDirs ) ? $_aDirs : array();
@@ -188,9 +190,10 @@ class AdminPageFramework_RegisterClasses {
                 $_aFiles = array_merge( $_aFiles, $this->doRecursiveGlob( $_sDirPath . DIRECTORY_SEPARATOR . basename( $sPathPatten ), $nFlags, $aExcludeDirs ) );
                 
             }
+
             return $_aFiles;
             
-        }     
+        }
     
     /**
      * Performs registration of the callback.
@@ -200,33 +203,33 @@ class AdminPageFramework_RegisterClasses {
      */
     protected function _registerClasses( $sIncludeFunction ) {
         spl_autoload_register( array( $this, '_replyToAutoLoad_' . $sIncludeFunction ) );
-    }    
+    }
         /**
          * Responds to the PHP auto-loader and includes the passed class based on the previously stored path associated with the class name in the constructor.
          */
-        public function _replyToAutoLoad_include( $sCalledUnknownClassName ) {            
-            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { 
-                return; 
+        public function _replyToAutoLoad_include( $sCalledUnknownClassName ) {
+            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) {
+                return;
             }
-            include( $this->_aClasses[ $sCalledUnknownClassName ] );
+            include $this->_aClasses[ $sCalledUnknownClassName ];
         }
-        public function _replyToAutoLoad_include_once( $sCalledUnknownClassName ) {            
-            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { 
-                return; 
+        public function _replyToAutoLoad_include_once( $sCalledUnknownClassName ) {
+            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) {
+                return;
             }
-            include_once( $this->_aClasses[ $sCalledUnknownClassName ] );
-        }        
-        public function _replyToAutoLoad_require( $sCalledUnknownClassName ) {            
-            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { 
-                return; 
+            include_once $this->_aClasses[ $sCalledUnknownClassName ];
+        }
+        public function _replyToAutoLoad_require( $sCalledUnknownClassName ) {
+            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) {
+                return;
             }
-            require( $this->_aClasses[ $sCalledUnknownClassName ] );
-        }        
-        public function _replyToAutoLoad_require_once( $sCalledUnknownClassName ) {            
-            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { 
-                return; 
+            require $this->_aClasses[ $sCalledUnknownClassName ];
+        }
+        public function _replyToAutoLoad_require_once( $sCalledUnknownClassName ) {
+            if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) {
+                return;
             }
-            require_once( $this->_aClasses[ $sCalledUnknownClassName ] );
-        } 
+            require_once $this->_aClasses[ $sCalledUnknownClassName ];
+        }
     
 }

@@ -17,6 +17,7 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_FrameworkU
         $_sPageSlug = $this->getElement($_GET, 'page', '');
         $_sTabSlug = $this->getElement($_GET, 'tab', '');
         $_sUserID = get_current_user_id();
+
         return "apf_fe_" . md5($_sPageNow . $_sPageSlug . $_sTabSlug . $_sUserID);
     }
     public function hasError() {
@@ -36,6 +37,7 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_FrameworkU
     }
     public function get() {
         self::$_aFieldErrorCaches[$this->sTransientKey] = isset(self::$_aFieldErrorCaches[$this->sTransientKey]) ? self::$_aFieldErrorCaches[$this->sTransientKey] : $this->getTransient($this->sTransientKey);
+
         return $this->getElementAsArray(self::$_aFieldErrorCaches[$this->sTransientKey], $this->sCallerID, array());
     }
     private static $_aFieldErrorCaches = array();

@@ -32,14 +32,14 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
     public function _replyToGetInputIEStyles() { return $this->getIEStyles(); }             // should return the style for IE
     public function _replyToGetStyles() { return $this->getStyles(); }                      // should return the style
     public function _replyToGetField( $aField ) {  return $this->getField( $aField ); }     // should return the field output
-   
+
     /**
      * Responds to a call back which is triggered when a field is registered.
      * @since       3.5.0     
      * @callback    fieldtype   hfDoOnRegistration
      */
-    public function _replyToDoOnFieldRegistration( array $aField ) { 
-        return $this->doOnFieldRegistration( $aField ); 
+    public function _replyToDoOnFieldRegistration( array $aField ) {
+        return $this->doOnFieldRegistration( $aField );
     }
    
     protected function _replyToGetEnqueuingScripts() { return $this->getEnqueuingScripts(); }   // should return an array holding the urls of enqueuing items
@@ -70,7 +70,7 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      * public $aFieldTypeSlugs = array( 'my_field_type_slug', 'alternative_field_type_slug' );
      * </code>
      * @access       public      This must be public as accessed from outside.
-     */    
+     */
     public $aFieldTypeSlugs = array( 'default', );
     
     /**
@@ -115,35 +115,35 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      * 
      * @since 3.1.3
      */
-    protected function construct() {}    
+    protected function construct() {}
         
     /**
      * Loads the field type necessary components.
      * 
      * This method is triggered when a field definition array that calls this field type is parsed. 
      * @since   3.0.0
-     */     
+     */
     protected function setUp() {}
     
     /**
      * Returns the JavaScript output inside the `<script></script>` tags.
      * @since   3.0.0
      */
-    protected function getScripts() { return ''; } 
+    protected function getScripts() { return ''; }
     /**
      * Returns the CSS output specific to Internet Explorer inside the `<style></style>` tags.
      * @since   3.0.0
-     */    
+     */
     protected function getIEStyles() { return ''; }
     /**
      * Returns the field type specific CSS output inside the `<style></style>` tags.
      * @since   3.0.0
-     */    
+     */
     protected function getStyles() { return ''; }
     /**
      * Returns the field output.
      * @since   3.0.0
-     */    
+     */
     protected function getField( $aField ) { return ''; }
     /**
      * Returns an array holding the urls of enqueuing scripts.
@@ -173,9 +173,9 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      *      );
      * }
      * </code>
-     */    
+     */
     protected function getEnqueuingScripts() { return array(); } // should return an array holding the urls of enqueuing items
-    
+
     /**
      * Returns an array holding the urls of enqueuing styles.
      * 
@@ -203,9 +203,9 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      *      );
      * }     
      * </code>
-     */    
+     */
     protected function getEnqueuingStyles() { return array(); } // should return an array holding the urls of enqueuing items
-    
+
     /**
      * Called when the given field of this field type is registered.
      * @since       3.5.0

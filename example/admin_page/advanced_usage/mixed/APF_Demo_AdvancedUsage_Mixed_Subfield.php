@@ -38,7 +38,7 @@ class APF_Demo_AdvancedUsage_Mixed_Subfield {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
@@ -46,7 +46,7 @@ class APF_Demo_AdvancedUsage_Mixed_Subfield {
                 'title'         => __( 'Mixed Field Types', 'admin-page-framework-loader' ),
                 'description'   => __( 'As of v3, it is possible to mix field types in one field on a per-ID basis.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID       
@@ -59,15 +59,15 @@ class APF_Demo_AdvancedUsage_Mixed_Subfield {
                     // 'field' => array(
                         // 'style' => 'display: inline; clear:none;' // since the rich editor does not accept the cols attribute, set the width by inline-style.
                     // ),
-                ),     
+                ),
                 array(
                     'type'          => 'textarea',
                     'default'       => __( 'A hidden field is embedded. This is useful when you need to embed extra information to be sent with the visible elements.', 'admin-page-framework-loader' ),
-                ),                
+                ),
                 array(
                     'type'          => 'hidden',
                     'value'         => 'xyz',
-                ),                
+                ),
             )
         );
 

@@ -33,7 +33,7 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_Framewor
      */
     public function __construct( /* $aArguments, $aSectionset, $aStructure, $aFieldsetsPerSection, $aSavedData, $aFieldErrors, $aCallbacks=array(), $oMsg */ ) {
       
-        $_aParameters = func_get_args() + array( 
+        $_aParameters = func_get_args() + array(
             $this->aArguments,
             $this->aSectionset,
             $this->aStructure, // needed for nested sections
@@ -63,9 +63,9 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_Framewor
 
         $_iSectionIndex = $this->aSectionset[ '_index' ];
         $_oTableCaption = new AdminPageFramework_Form_View___SectionCaption(
-            $this->aSectionset, 
+            $this->aSectionset,
             $_iSectionIndex,
-            $this->aFieldsetsPerSection, 
+            $this->aFieldsetsPerSection,
             $this->aSavedData,
             $this->aFieldErrors,
             $this->aFieldTypeDefinitions,
@@ -85,11 +85,12 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_Framewor
             . "</table>";
 
         $_oSectionTableContainerAttributes  = new AdminPageFramework_Form_View___Attribute_SectionTableContainer( $this->aSectionset );
+
         return "<div " . $_oSectionTableContainerAttributes->get() . ">"
                 . implode( PHP_EOL, $_aOutput )
-            . "</div>";    
+            . "</div>";
         
-    }        
+    }
         /**
          * Returns the output of seciton contents.
          * @sicne       3.7.0
@@ -102,14 +103,15 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_Framewor
             }
             
             $_oFieldsets = new AdminPageFramework_Form_View___FieldsetRows(
-                $this->aFieldsetsPerSection, 
+                $this->aFieldsetsPerSection,
                 $_iSectionIndex,
                 $this->aSavedData,
                 $this->aFieldErrors,
                 $this->aFieldTypeDefinitions,
                 $this->aCallbacks,
-                $this->oMsg            
+                $this->oMsg
             );
+
             return $_oFieldsets->get();
         
         }
@@ -125,11 +127,11 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_Framewor
             private function _getCustomSectionContent() {
                 
                 if ( is_scalar( $this->aSectionset[ 'content' ] ) ) {
-                    return "<tr class='admin-page-framework-custom-content'>" 
+                    return "<tr class='admin-page-framework-custom-content'>"
                             . "<td>"
                                 . $this->aSectionset[ 'content' ]
                             . "</td>"
-                        . "</tr>";                    
+                        . "</tr>";
                 }
       
                 // Retrieve the formatted sectionsets of the content.
@@ -137,11 +139,11 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_Framewor
                 $_aSectionsets = $this->aStructure[ 'sectionsets' ];
                 if ( ! isset( $_aSectionsets[ $_sSectionPath ] ) ) {    // @todo    not sure what this check is for
                     return '';
-                }          
+                }
                 
                 // Generate nested section paths.
                 unset( $_aSectionsets[ $_sSectionPath ] ); // remove this subject section assigned to this class
-                $_aNestedSectionPaths = $this->_getNestedSectionPaths( 
+                $_aNestedSectionPaths = $this->_getNestedSectionPaths(
                     $_sSectionPath,
                     $this->aSectionset[ 'content' ],
                     $_aSectionsets  // all sectionsets list
@@ -150,37 +152,38 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_Framewor
                 // Extract sectonsets of the section paths and set.
                 $_aSectionsets = array_intersect_key(
                     $_aSectionsets, // precedence
-                    $_aNestedSectionPaths 
+                    $_aNestedSectionPaths
                 );
                 
                 // The passing structure should have only nested items.
                 $_aStructure = $this->aStructure;
                 $_aStructure[ 'sectionsets' ] = $_aSectionsets;
 
-                $_aArguments = array(  
-                    'nested_depth'  => $this->getElement( 
-                        $this->aArguments, 
-                        'nested_depth', 
-                        0 
-                    ) + 1
+                $_aArguments = array(
+                    'nested_depth'  => $this->getElement(
+                        $this->aArguments,
+                        'nested_depth',
+                        0
+                    ) + 1,
                 ) + $this->aArguments;
        
                 // Retrieve the output of the nested sections.
                 $_oFormTables = new AdminPageFramework_Form_View___Sectionsets(
                     $_aArguments,
                     $_aStructure,
-                    $this->aSavedData,            
+                    $this->aSavedData,
                     $this->aFieldErrors,
                     $this->aCallbacks,
                     $this->oMsg
-                );        
-                return "<tr class='admin-page-framework-nested-sectionsets'>" 
+                );
+
+                return "<tr class='admin-page-framework-nested-sectionsets'>"
                         . "<td>"
                             . $_oFormTables->get()
                         . "</td>"
-                    . "</tr>";                   
+                    . "</tr>";
                 
-            }        
+            }
                 /**
                  * @since       3.7.0
                  * @return      array
@@ -201,16 +204,16 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_Framewor
                         $_sThisSectionPath = $sSubjectSectionPath . '|' . $_aNestedSectionset[ 'section_id' ];
                         $_aNestedSectionPaths[ $_sThisSectionPath ] = $_sThisSectionPath;
                         
-                    }                    
+                    }
                     
                     // Now we need children's children.
                     $_aChildSectionPaths = array();
                     foreach( $_aNestedSectionPaths as $_sNestedSectionPath ) {
-                        $_aNestedSectionsets = $this->getElementAsArray( 
-                            $aSectionsets, 
+                        $_aNestedSectionsets = $this->getElementAsArray(
+                            $aSectionsets,
                             array( $_sNestedSectionPath, 'content' )
                         );
-                        $_aChildSectionPaths = $_aChildSectionPaths 
+                        $_aChildSectionPaths = $_aChildSectionPaths
                             + $this->_getNestedSectionPaths( $_sNestedSectionPath, $_aNestedSectionsets, $aSectionsets );
                     }
                     

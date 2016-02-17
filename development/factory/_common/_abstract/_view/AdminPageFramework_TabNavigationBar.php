@@ -16,7 +16,7 @@
  * @subpackage      Tab
  * @internal
  */
-class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUtility {                
+class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUtility {
     
     /**
      * The HTML tag used for the tag.
@@ -66,10 +66,10 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUt
             'arguments' => null,  // custom arguments to pass to the callback functions.
         );
         $this->aTabs                = $this->_getFormattedTabs( $aTabs );
-        $this->aActiveSlugs         = $this->getAsArray( $asActiveTabSlugs );        
+        $this->aActiveSlugs         = $this->getAsArray( $asActiveTabSlugs );
         $this->sTabTag              = $sTabTag
             ? tag_escape( $sTabTag )
-            : $this->sTabTag;                
+            : $this->sTabTag;
         $this->aAttributes          = $aAttributes;
         
     }
@@ -85,6 +85,7 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUt
                     unset( $aTabs[ $_isKey ] );
                 }
             }
+
             return $aTabs;
         }
             /**
@@ -93,19 +94,20 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUt
             private function _getFormattedTab( array $aTab, array $aTabs ) {
 
                 $aTab = is_callable( $this->aCallbacks[ 'format' ] )
-                    ? call_user_func_array( 
-                        $this->aCallbacks[ 'format' ], 
-                        array( 
+                    ? call_user_func_array(
+                        $this->aCallbacks[ 'format' ],
+                        array(
                             $aTab, // 1st parameter
                             $this->aTab, // 2nd parameter
                             $aTabs, // 3rd parameter
-                            $this->aCallbacks[ 'arguments' ] // 4th parameter
+                            $this->aCallbacks[ 'arguments' ], // 4th parameter
                         )
-                    ) 
+                    )
                     : $aTab;
                 if ( isset( $aTab[ 'attributes' ], $this->aTab[ 'attributes' ] ) ) {
                     $aTab[ 'attributes' ] = $aTab[ 'attributes' ] + $this->aTab[ 'attributes' ];
                 }
+
                 return $aTab + $this->aTab;
                 
             }
@@ -139,16 +141,16 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUt
             $_aContainerAttributes = $this->aAttributes + array( 'class' => null );
             $_aContainerAttributes[ 'class' ] = $this->getClassAttribute(
                 'nav-tab-wrapper',
-                $_aContainerAttributes[ 'class' ]    
-            );            
+                $_aContainerAttributes[ 'class' ]
+            );
 
             return empty( $_aOutput )
                 ? ''
                 : "<{$this->sTabTag} " . $this->getAttributes( $_aContainerAttributes ) . ">"
-                    . implode( '', $_aOutput )                    
+                    . implode( '', $_aOutput )
                 . "</{$this->sTabTag}>";
             
-        }   
+        }
             /**
              * Returns the output of each tab.
              * 
@@ -174,7 +176,7 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUt
                         'class',
                         ''
                     ),
-                    $this->getAOrB( 
+                    $this->getAOrB(
                         in_array( $aTab[ 'slug' ], $this->aActiveSlugs ),
                         "nav-tab-active",
                         ''
@@ -187,7 +189,7 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUt
                 );
                 $_aATagAttributes = array(
                     'class' => $_sClassAttribute,
-                ) 
+                )
                 + $_aATagAttributes
                 + array(
                     'href'  => $aTab[ 'href' ],
@@ -196,9 +198,10 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUt
                 if ( $aTab[ 'disabled' ] ) {
                     unset( $_aATagAttributes[ 'href' ] );
                 }
-                return $this->getHTMLTag( 
-                    'a', 
-                    $_aATagAttributes, 
+
+                return $this->getHTMLTag(
+                    'a',
+                    $_aATagAttributes,
                     $aTab[ 'title' ]
                 );
             

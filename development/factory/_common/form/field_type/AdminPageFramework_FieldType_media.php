@@ -35,27 +35,27 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
         'attributes'            => array(
             'input'     => array(
                 'size'      => 40,
-                'maxlength' => 400,     
+                'maxlength' => 400,
             ),
             'button'    => array(
             ),
             'remove_button' =>  array(  // 3.2.0+
             ),
             'preview'   => array(
-            ),     
-        ),    
+            ),
+        ),
     );
         
     /**
      * Returns the field type specific JavaScript script.
-     */ 
+     */
     protected function getScripts() {
-        return 
+        return
             $this->_getScript_MediaUploader(
                 "admin_page_framework"
             ) . PHP_EOL
             . $this->_getScript_RegisterCallbacks();
-    }    
+    }
     
         /**
          * Returns the JavaScript script that handles repeatable events. 
@@ -343,7 +343,7 @@ JAVASCRIPTS;
         }
     /**
      * Returns the field type specific CSS rules.
-     */ 
+     */
     protected function getStyles() {
         
         return <<<CSSRULES
@@ -382,7 +382,7 @@ CSSRULES;
          * @since       2.1.5   Moved from AdminPageFramework_FormField.
          * @since       3.2.0   Made it use dashicon for the select button.
          * @return      string
-         */     
+         */
         protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
       
             // Do not include the escaping character (backslash) in the heredoc variable declaration 
@@ -398,9 +398,9 @@ jQuery( document ).ready( function(){
 });
 JAVASCRIPTS;
                     
-            return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" 
+            return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>"
                     . '/* <![CDATA[ */'
-                    . $_sScript 
+                    . $_sScript
                     . '/* ]]> */'
                 . "</script>". PHP_EOL;
 
@@ -413,14 +413,15 @@ JAVASCRIPTS;
             private function _getUploaderButtonHTML_Media( $sInputID, array $aButtonAttributes, $bExternalSource ) {
                     
                 $_bIsLabelSet = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
-                $_aAttributes = $this->_getFormattedUploadButtonAttributes_Media( 
-                    $sInputID, 
-                    $aButtonAttributes, 
-                    $_bIsLabelSet, 
-                    $bExternalSource 
+                $_aAttributes = $this->_getFormattedUploadButtonAttributes_Media(
+                    $sInputID,
+                    $aButtonAttributes,
+                    $_bIsLabelSet,
+                    $bExternalSource
                 );
+
                 return "<a " . $this->getAttributes( $_aAttributes ) . ">"
-                        . $this->getAOrB( 
+                        . $this->getAOrB(
                             $_bIsLabelSet,
                             $_aAttributes['data-label'],
                             $this->getAOrB(
@@ -431,7 +432,7 @@ JAVASCRIPTS;
                         )
                     ."</a>";
                     
-            }      
+            }
                 /**
                  * Returns a formatted upload button attribuets array.
                  * @since       3.5.3
@@ -441,31 +442,32 @@ JAVASCRIPTS;
                    
                     $_aAttributes           = array(
                             'id'        => "select_media_{$sInputID}",
-                            'href'      => '#',            
+                            'href'      => '#',
                             'data-uploader_type'            => ( string ) function_exists( 'wp_enqueue_media' ),    //  ? 1 : 0,
                             'data-enable_external_source'   => ( string ) ( bool ) $bExternalSource,    //  ? 1 : 0, 
-                        ) 
+                        )
                         + $aButtonAttributes
                         + array(
-                            'title'     => $_bIsLabelSet 
-                                ? $aButtonAttributes['data-label'] 
+                            'title'     => $_bIsLabelSet
+                                ? $aButtonAttributes['data-label']
                                 : $this->oMsg->get( 'select_file' ),
                             'data-label' => null,
                         );
-                    $_aAttributes['class']  = $this->getClassAttribute( 
+                    $_aAttributes['class']  = $this->getClassAttribute(
                         'select_media button button-small ',
                         $this->getAOrB(
                             trim( $aButtonAttributes['class'] ),
                             $aButtonAttributes['class'],
-                            $this->getAOrB( 
+                            $this->getAOrB(
                                 ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' ),
                                 'dashicons dashicons-portfolio',
                                 ''
                             )
                         )
-                    );       
+                    );
+
                     return $_aAttributes;
                     
-                }            
+                }
      
 }

@@ -23,7 +23,7 @@ class AdminPageFramework_Input_radio extends AdminPageFramework_Input_Base {
      * @since       3.4.0    
      * @param       string      $sLabel         The label text.
      * @param       array       $aAttributes    (optional) The attribute array. If set, it will be merged with the attribute set in the constructor.
-     */    
+     */
     public function get( /* $sLabel, $aAttributes=array() */ ) {
         
         // Parameters
@@ -31,20 +31,20 @@ class AdminPageFramework_Input_radio extends AdminPageFramework_Input_Base {
         $_sLabel        = $_aParams[ 0 ];
         $_aAttributes   = $this->uniteArrays(
             $this->getElementAsArray( $_aParams, 1, array() ),
-            $this->aAttributes 
+            $this->aAttributes
         );
         
         // Output
-        return 
+        return
             "<{$this->aOptions['input_container_tag']} " . $this->getAttributes( $this->aOptions['input_container_attributes'] ) . ">"
-                . "<input " . $this->getAttributes( $_aAttributes ) . " />" 
+                . "<input " . $this->getAttributes( $_aAttributes ) . " />"
             . "</{$this->aOptions['input_container_tag']}>"
             . "<{$this->aOptions['label_container_tag']} " . $this->getAttributes( $this->aOptions['label_container_attributes'] ) . ">"
                 . $_sLabel
             . "</{$this->aOptions['label_container_tag']}>"
             ;
         
-    }    
+    }
     
         
     /**
@@ -59,14 +59,14 @@ class AdminPageFramework_Input_radio extends AdminPageFramework_Input_Base {
         
         // Parameters
         $_aParams       = func_get_args() + array( 0 => '', );
-        $_sKey           = $_aParams[ 0 ];        
+        $_sKey           = $_aParams[ 0 ];
         
         // Result
         return $this->getElementAsArray( $this->aAttributes, $_sKey, array() )
             + array(
                 'type'          => 'radio',
-                'checked'       => isset( $this->aAttributes['value'] ) && $this->aAttributes['value'] == $_sKey 
-                    ? 'checked' 
+                'checked'       => isset( $this->aAttributes['value'] ) && $this->aAttributes['value'] == $_sKey
+                    ? 'checked'
                     : null,
                 'value'         => $_sKey,
                 // 'id'            => $this->aField['input_id'] . '_' . $_sKey,
@@ -74,8 +74,8 @@ class AdminPageFramework_Input_radio extends AdminPageFramework_Input_Base {
                 // 'data-default'  => $this->aField['default'],        // refered by the repeater script
                 // 'data-id'       => $this->aField['input_id'],       // refered by the JavaScript scripts such as the revealer script.
                 'data-id'       => $this->getAttribute( 'id' ),       // refered by the JavaScript scripts such as the revealer script.
-            ) 
-            + $this->aAttributes; 
+            )
+            + $this->aAttributes;
             
     }
             

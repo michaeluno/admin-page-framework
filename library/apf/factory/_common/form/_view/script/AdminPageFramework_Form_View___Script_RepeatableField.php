@@ -10,6 +10,7 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
         $_oMsg = $_aParams[0];
         $sCannotAddMore = $_oMsg->get('allowed_maximum_number_of_fields');
         $sCannotRemoveMore = $_oMsg->get('allowed_minimum_number_of_fields');
+
         return <<<JAVASCRIPTS
 (function ( $ ) {
         

@@ -18,6 +18,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
         if ($this->oFactory->hasFieldError()) {
             return false;
         }
+
         return isset($_POST['__import']['submit'], $_FILES['__import']);
     }
     private function _doImportOptions($sPageSlug, $sTabSlug) {
@@ -30,17 +31,20 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
         $_aArguments = array('class_name' => $this->oFactory->oProp->sClassName, 'page_slug' => $sPageSlug, 'tab_slug' => $sTabSlug, 'section_id' => $_oImport->getSiblingValue('section_id'), 'pressed_field_id' => $_oImport->getSiblingValue('field_id'), 'pressed_input_id' => $_oImport->getSiblingValue('input_id'), 'should_merge' => $_oImport->getSiblingValue('is_merge'),);
         if ($_oImport->getError() > 0) {
             $this->oFactory->setSettingNotice($this->oFactory->oMsg->get('import_error'));
+
             return $aStoredOptions;
         }
         $_aMIMEType = $this->_getImportMIMEType($_aArguments);
         $_sType = $_oImport->getType();
         if (!in_array($_sType, $_aMIMEType)) {
             $this->oFactory->setSettingNotice(sprintf($this->oFactory->oMsg->get('uploaded_file_type_not_supported'), $_sType));
+
             return $aStoredOptions;
         }
         $_mData = $_oImport->getImportData();
         if (false === $_mData) {
             $this->oFactory->setSettingNotice($this->oFactory->oMsg->get('could_not_load_importing_data'));
+
             return $aStoredOptions;
         }
         $_sFormatType = $this->_getImportFormatType($_aArguments, $_oImport->getFormatType());
@@ -50,8 +54,10 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
         $this->_setImportAdminNotice(empty($_mData));
         if ($_sImportOptionKey != $this->oFactory->oProp->sOptionKey) {
             update_option($_sImportOptionKey, $_mData);
+
             return $aStoredOptions;
         }
+
         return $_aArguments['should_merge'] ? $this->uniteArrays($_mData, $aStoredOptions) : $_mData;
     }
     private function _setImportAdminNotice($bEmpty) {
@@ -90,6 +96,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Export extends AdminP
         if ($this->oFactory->hasFieldError()) {
             return false;
         }
+
         return isset($_POST['__export']['submit']);
     }
     protected function _exportOptions($mData, $sPageSlug, $sTabSlug) {
@@ -102,6 +109,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Export extends AdminP
     }
     private function _getExportHeaderArray(array $aArguments, $sFileName, $mData) {
         $_aHeader = array('Content-Description' => 'File Transfer', 'Content-Disposition' => "attachment; filename=\"{$sFileName}\";",);
+
         return $this->addAndApplyFilters($this->oFactory, $this->_getPortFilterHookNames('export_header_', $aArguments), $_aHeader, $aArguments['pressed_field_id'], $aArguments['pressed_input_id'], $mData, $sFileName, $this->oFactory);
     }
     private function _getFilteredExportingData(array $aArguments, $mData) {

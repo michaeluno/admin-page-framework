@@ -30,7 +30,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'submit_buttons';        
+    public $sSectionID  = 'submit_buttons';
         
     /**
      * Sets up a form section.
@@ -38,7 +38,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
     public function __construct( $oFactory ) {
     
         // Validation
-        add_filter( 
+        add_filter(
             'validation_' . $oFactory->oProp->sClassName . '_' . $this->sSectionID,
             array( $this, 'validate' ),
             10,
@@ -46,7 +46,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
         );
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'tab_slug'          => $this->sTabSlug,
@@ -54,7 +54,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                 'title'             => __( 'Submit Buttons', 'admin-page-framework-loader' ),
                 'description'       => __( 'These are custom submit buttons.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -67,7 +67,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                     __( 'This is the default submit button.', 'admin-page-framework-loader' ),
                     __( 'Use the <code>value</code> argument to set a custom label.', 'admin-page-framework-loader' ),
                 ),
-            ),     
+            ),
             array( // Submit button as a link
                 'field_id'          => 'submit_button_link',
                 'type'              => 'submit',
@@ -76,7 +76,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                 'label'             => __( 'Google', 'admin-page-framework-loader' ),
                 'href'              => 'http://www.google.com',
                 'attributes'        => array(
-                    'class'     => 'button button-secondary',     
+                    'class'     => 'button button-secondary',
                     'title'     => __( 'Go to Google!', 'admin-page-framework-loader' ),
                     'style'     => 'background-color: #C1DCFA;',
                     'field'     => array(
@@ -87,7 +87,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                     'label'         => __( 'Yahoo', 'admin-page-framework-loader' ),
                     'href'          => 'http://www.yahoo.com',
                     'attributes'    => array(
-                        'class' => 'button button-secondary',     
+                        'class' => 'button button-secondary',
                         'title' => __( 'Go to Yahoo!', 'admin-page-framework-loader' ),
                         'style' => 'background-color: #C8AEFF;',
                     ),
@@ -96,20 +96,20 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                     'label'         => __( 'Bing', 'admin-page-framework-loader' ),
                     'href'          => 'http://www.bing.com',
                     'attributes'    => array(
-                        'class' => 'button button-secondary',     
+                        'class' => 'button button-secondary',
                         'title' => __( 'Go to Bing!', 'admin-page-framework-loader' ),
                         'style' => 'background-color: #FFE5AE;',
-                    ),     
-                ),     
-            ),     
-            array( 
+                    ),
+                ),
+            ),
+            array(
                 'field_id'      => 'submit_button_download',
                 'title'         => __( 'Download Button', 'admin-page-framework-loader' ),
                 'type'          => 'submit',
                 'label'         => __( 'Admin Page Framework', 'admin-page-framework-loader' ),
                 'description'   => __( 'Download the latest version of the Admin Page Framework Demo plugin.', 'admin-page-framework-loader' ),
                 'href'          => 'http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip',
-            ),            
+            ),
             array( // Submit button as a redirect
                 'field_id'      => 'submit_button_redirect',
                 'title'         => __( 'Redirect Button', 'admin-page-framework-loader' ),
@@ -135,7 +135,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                 ),
                 'description'   => __( 'For a custom image submit button, set the image url in the <code>src</code> attribute with the <code>attributes</code> argument.', 'admin-page-framework-loader' )
                     . ' ' . __( 'This button will take you to the donation page for the developer of this framework. If you like to donate, please do so to help the development!', 'admin-page-framework-loader' ),
-            ),      
+            ),
             
             array( // Reset Submit button
                 'field_id'      => 'submit_button_reset',
@@ -158,7 +158,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                 'attributes'    => array(
                     'class' => 'button button-secondary',
                 ),
-                'description'   => array( 
+                'description'   => array(
                     __( 'To reset values of a section, set the section ID to the <code>reset</code> argument.', 'admin-page-framework-loader' ),
                     __( 'As an example, this reset button rests the Color section above.', 'admin-page-framework-loader' ),
                  ),
@@ -168,20 +168,20 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                 'title'         => __( 'Reset Field', 'admin-page-framework-loader' ),
                 'type'          => 'submit',
                 'label'         => __( 'Reset Field', 'admin-page-framework-loader' ),
-                'reset'         => array( 
+                'reset'         => array(
                     'color_picker',         // section ID   
-                    'color_picker_field'    // field ID to reset
+                    'color_picker_field',    // field ID to reset
                 ),
                 'attributes'    => array(
                     'class' => 'button button-secondary',
                 ),
-                'description'   => array( 
+                'description'   => array(
                     __( 'To reset a value of a particular field, set an array with the the section ID in the first element and field ID in the second element to the <code>reset</code> argument.', 'admin-page-framework-loader' ),
                     __( 'If a field does not have a section, just set the field ID.', 'admin-page-framework-loader' ),
                     __( 'As an example, this reset button rests the first item of the Color section above.', 'admin-page-framework-loader' ),
                 ),
-            )   
-        );              
+            )
+        );
       
     }
     
@@ -195,11 +195,12 @@ class APF_Demo_BuiltinFieldTypes_MISC_Submit {
                 
         if ( ! $_bIsValid ) {
         
-            $oFactory->setFieldErrors( $_aErrors );     
+            $oFactory->setFieldErrors( $_aErrors );
             $oFactory->setSettingNotice( __( 'Please help us to help you.', 'admin-page-framework-loader' ) );
+
             return $aOldInputs;
             
-        }  
+        }
                 
         return $aInputs;
         

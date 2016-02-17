@@ -31,7 +31,7 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_Fra
      */
     public function __construct( /* $aFieldsetsPerSection, $iSectionIndex, $aSavedData, $aFieldErrors, $aCallbacks=array(), $oMsg */ ) {
       
-        $_aParameters = func_get_args() + array( 
+        $_aParameters = func_get_args() + array(
             $this->aFieldsetsPerSection,
             $this->iSectionIndex,
             $this->aSavedData,
@@ -70,10 +70,10 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_Fra
         foreach( $this->aFieldsetsPerSection as $_aFieldset ) {
 
             $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput(
-                $_aFieldset, 
+                $_aFieldset,
                 $this->iSectionIndex,
                 $this->aFieldTypeDefinitions
-            );        
+            );
             
             $_aOutput[] = call_user_func_array(
                 array( $this, $_sMethodName ),
@@ -81,6 +81,7 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_Fra
             );
             
         }
+
         return implode( PHP_EOL, $_aOutput );
         
     }
@@ -99,6 +100,7 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_Fra
                 $this->aCallbacks,
                 $this->oMsg
             );
+
             return $_oFieldsetRow->get();
          
         }
@@ -117,7 +119,8 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_Fra
                 $this->aCallbacks,
                 $this->oMsg
             );
-            return $_oFieldsetRow->get();            
+
+            return $_oFieldsetRow->get();
 
         }
     

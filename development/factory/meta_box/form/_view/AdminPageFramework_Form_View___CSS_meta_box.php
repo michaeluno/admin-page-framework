@@ -21,7 +21,7 @@ class AdminPageFramework_Form_View___CSS_meta_box extends AdminPageFramework_For
      * @since       3.7.0
      * @return      string
      */
-    protected function _get() {        
+    protected function _get() {
         return $this->_getRules();
     }
         /**
@@ -31,7 +31,7 @@ class AdminPageFramework_Form_View___CSS_meta_box extends AdminPageFramework_For
          * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @internal
          * @return      string
-         */        
+         */
         private function _getRules() {
             return <<<CSSRULES
 /* Meta-box form fields */
@@ -115,7 +115,7 @@ class AdminPageFramework_Form_View___CSS_meta_box extends AdminPageFramework_For
     }
 }            
 CSSRULES;
-        }        
+        }
         
     
 }

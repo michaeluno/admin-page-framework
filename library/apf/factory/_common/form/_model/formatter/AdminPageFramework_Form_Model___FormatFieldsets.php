@@ -24,10 +24,12 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
     }
     public function get() {
         $this->aFieldsets = $this->_getFieldsetsFormatted($this->aFieldsets, $this->aSectionsets, $this->sCapability);
+
         return $this->_getDynamicElementsAddedToFieldsets();
     }
     private function _getDynamicElementsAddedToFieldsets() {
         $_oDynamicElements = new AdminPageFramework_Form_Model___FormatDynamicElements($this->aSectionsets, $this->aFieldsets, $this->aSavedData);
+
         return $_oDynamicElements->get();
     }
     private function _getFieldsetsFormatted(array $aFieldsets, array $aSectionsets, $sCapability) {
@@ -39,6 +41,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
             $_aNewFieldsets[$_sSectionPath] = $this->_getItemsFormatteed($_sSectionPath, $_aItems, $this->getElement($aSectionsets, array($_sSectionPath, 'capability',), $sCapability), $aSectionsets);
         }
         $this->_sortFieldsBySectionsOrder($_aNewFieldsets, $aSectionsets);
+
         return $this->callBack($this->aCallbacks['fieldsets_after_formatting'], array($_aNewFieldsets, $aSectionsets));
     }
     private function _getItemsFormatteed($sSectionPath, $aItems, $sCapability, $aSectionsets) {
@@ -46,6 +49,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
         if ($this->_isSubSections($aItems, $_abSectionRepeatable)) {
             return $this->_getSubSectionsFormatted($aItems, $sCapability, $aSectionsets, $_abSectionRepeatable);
         }
+
         return $this->_getNormalFieldsetsFormatted($aItems, $sCapability, $aSectionsets, $_abSectionRepeatable);
     }
     private function _getNormalFieldsetsFormatted($aItems, $sCapability, $aSectionsets, $_abSectionRepeatable) {
@@ -58,12 +62,14 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
             $_aNewItems[$_aFieldset['field_id']] = $_aFieldset;
         }
         uasort($_aNewItems, array($this, 'sortArrayByKey'));
+
         return $_aNewItems;
     }
     private function _isSubSections($aItems, $_abSectionRepeatable) {
         if (!empty($_abSectionRepeatable)) {
             return true;
         }
+
         return ( boolean )count($this->getIntegerKeyElements($aItems));
     }
     private function _getSubSectionsFormatted($aItems, $sCapability, $aSectionsets, $_abSectionRepeatable) {
@@ -79,6 +85,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
             }
             uasort($_aNewFieldset[$_iSubSectionIndex], array($this, 'sortArrayByKey'));
         }
+
         return $_aNewFieldset;
     }
     private function _sortFieldsBySectionsOrder(array & $aFieldsets, array $aSectionsets) {
@@ -100,6 +107,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
         $_oFieldsetFormatter = new AdminPageFramework_Form_Model___Format_Fieldset($aFieldset, $this->sStructureType, $sCapability, $iCountOfElements, $iSubSectionIndex, $bIsSectionRepeatable, $oCallerObject);
         $_aFieldset = $this->callBack($this->aCallbacks['fieldset_before_output'], array($_oFieldsetFormatter->get(), $aSectionsets));
         $_aFieldset = $this->callBack($this->aCallbacks['fieldset_after_formatting'], array($_aFieldset, $aSectionsets));
+
         return $_aFieldset;
     }
 }

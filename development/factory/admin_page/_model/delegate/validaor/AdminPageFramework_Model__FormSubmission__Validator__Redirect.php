@@ -19,7 +19,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Redirect extends Admi
     
     public $sActionHookPrefix   = 'try_validation_before_';
     public $iHookPriority       = 40;
-    public $iCallbackParameters = 5; 
+    public $iCallbackParameters = 5;
         
     /**
      * Sets a redirect url in a transient and confirmation message.
@@ -31,21 +31,21 @@ class AdminPageFramework_Model__FormSubmission__Validator__Redirect extends Admi
      */
     public function _replyToCallback( $aInputs, $aRawInputs, array $aSubmits, $aSubmitInformation, $oFactory ) {
         
-        $_sRedirectURL = $this->_getPressedSubmitButtonData( 
-            $aSubmits, 
-            'redirect_url' 
+        $_sRedirectURL = $this->_getPressedSubmitButtonData(
+            $aSubmits,
+            'redirect_url'
         );
         if ( ! $_sRedirectURL ) {
             return;
         }
         
         add_filter(
-            "options_update_status_{$this->oFactory->oProp->sClassName}", 
+            "options_update_status_{$this->oFactory->oProp->sClassName}",
             array( $this, '_replyToSetStatus' )
-        );            
+        );
         
-        $this->_setRedirectTransients( 
-            $_sRedirectURL, 
+        $this->_setRedirectTransients(
+            $_sRedirectURL,
             $this->getElement( $aSubmitInformation, 'page_slug' )
         );
         
@@ -57,10 +57,10 @@ class AdminPageFramework_Model__FormSubmission__Validator__Redirect extends Admi
          * @callback    filter      options_update_status_{class name}
          */
         public function _replyToSetStatus( $aStatus ) {
-            return array( 
-                'confirmation' => 'redirect'
+            return array(
+                'confirmation' => 'redirect',
             ) + $aStatus;
-        }      
+        }
         
         /**
          * Sets the given URL's transient.
@@ -68,10 +68,11 @@ class AdminPageFramework_Model__FormSubmission__Validator__Redirect extends Admi
          * @since       3.6.3       Moved from `AdminPageFramework_Validation`.
          */
         private function _setRedirectTransients( $sURL, $sPageSlug ) {
-            if ( empty( $sURL ) ) { 
-                return; 
+            if ( empty( $sURL ) ) {
+                return;
             }
             $_sTransient = 'apf_rurl' . md5( trim( "redirect_{$this->oFactory->oProp->sClassName}_{$sPageSlug}" ) );
+
             return $this->setTransient( $_sTransient, $sURL , 60*2 );
         }
  

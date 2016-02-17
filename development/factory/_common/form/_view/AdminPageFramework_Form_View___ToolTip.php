@@ -15,12 +15,12 @@
  * @since       3.7.0
  * @internal
  */
-class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_View___Section_Base {            
+class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_View___Section_Base {
   
     public $aArguments      = array(
         'attributes'    => array(), // attributes
         'icon'          => null,  // the icon output
-        'title'         => null,  
+        'title'         => null,
         'content'       => null,
     );
     
@@ -33,8 +33,8 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
      */
     public function __construct( /* $aArguments, $sTitleElementID */ ) {
 
-        $_aParameters = func_get_args() + array( 
-            $this->aArguments,                 
+        $_aParameters = func_get_args() + array(
+            $this->aArguments,
             $this->sTitleElementID,
         );
 
@@ -57,6 +57,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
             if ( is_array( $asContent ) && ! $this->isAssociative( $asContent ) ) {
                 return true;
             }
+
             return false;
             
         }
@@ -72,6 +73,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
             return '';
         }
         $_sHref = esc_attr( "#{$this->sTitleElementID}" );
+
         return ''
             . "<a href='{$_sHref}' class='admin-page-framework-form-tooltip'>"
             . $this->_getTipLinkIcon()
@@ -85,7 +87,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
         /**
          * @since       3.7.0
          * @return      string
-         */    
+         */
         private function _getTipLinkIcon() {
             
             if ( isset( $this->aArguments[ 'icon' ] ) ) {
@@ -94,7 +96,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
             
             if ( version_compare( $GLOBALS['wp_version'], '3.8', '>=' ) ) {
                 return "<span class='dashicons dashicons-editor-help'></span>";
-            } 
+            }
             
             return '[?]';
             
@@ -109,23 +111,25 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
                     . $this->aArguments[ 'title' ]
                     . "</span>";
             }
+
             return '';
         }
         /**
          * @since       3.7.0
          * @return      string
          */
-        private function _getDescriptions() {         
+        private function _getDescriptions() {
 
             if ( isset( $this->aArguments[ 'content' ] ) ) {
                 return  "<span class='admin-page-framework-form-tool-tip-description'>"
-                        . implode( 
-                            "</span><span class='admin-page-framework-form-tool-tip-description'>", 
+                        . implode(
+                            "</span><span class='admin-page-framework-form-tool-tip-description'>",
                             $this->getAsArray( $this->aArguments[ 'content' ] )
                         )
                     . "</span>"
                     ;
             }
+
             return '';
         }
 

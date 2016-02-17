@@ -17,6 +17,7 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
         if (!$this->_isScreenIconVisible()) {
             return '';
         }
+
         return $this->_getScreenIcon($this->sPageSlug);
     }
     private function _isScreenIconVisible() {
@@ -46,6 +47,7 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
         catch(Exception $_oException) {
             return $_oException->getMessage();
         }
+
         return $this->_getDefaultScreenIcon();
     }
     private function _throwScreenIconByURLOrPath($sPageSlug) {
@@ -69,6 +71,7 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
         $_oScreen = get_current_screen();
         $_sIconIDAttribute = $this->_getScreenIDAttribute($_oScreen);
         $_aAttributes = array('class' => $this->getClassAttribute($this->getAOrB(empty($_sIconIDAttribute) && $_oScreen->post_type, sanitize_html_class('icon32-posts-' . $_oScreen->post_type), ''), $this->getAOrB(empty($_sIconIDAttribute) || $_sIconIDAttribute == $this->oFactory->oProp->sClassName, 'generic', '')), 'id' => "icon-" . $_sIconIDAttribute,);
+
         return $this->_getScreenIconByAttributes($_aAttributes);
     }
     private function _getScreenIDAttribute($oScreen) {
@@ -78,10 +81,12 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
         if ('page' === $oScreen->post_type) {
             return 'edit-pages';
         }
+
         return esc_attr($oScreen->base);
     }
     private function _getScreenIconByAttributes(array $aAttributes) {
         $aAttributes['class'] = $this->getClassAttribute('icon32', $this->getElement($aAttributes, 'class'));
+
         return "<div " . $this->getAttributes($aAttributes) . ">" . "<br />" . "</div>";
     }
 }

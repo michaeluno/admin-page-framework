@@ -17,7 +17,7 @@
  * @package     AdminPageFramework
  * @subpackage  Widget
  */
-abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_Widget_View {    
+abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_Widget_View {
 
     /**
     * The method for necessary set-ups.
@@ -36,7 +36,7 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
     * @abstract
     * @since        3.2.0
     */
-    public function setUp() {}    
+    public function setUp() {}
       
     /**
      * The method for setting up form elements.
@@ -126,7 +126,7 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * @since       3.2.0
      * @internal    Temporarily marked internal
      */
-    public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {     
+    public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueStyles' ) ) {
             return $this->oResource->_enqueueStyles( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
         }
@@ -138,10 +138,10 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * 
      * @since       3.2.0
      * @internal    Temporarily marked internal
-     */    
+     */
     public function enqueueStyle( $sSRC, $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueStyle' ) ) {
-            return $this->oResource->_enqueueStyle( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );     
+            return $this->oResource->_enqueueStyle( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
         }
     }
     /**
@@ -156,7 +156,7 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
         if ( method_exists( $this->oResource, '_enqueueScripts' ) ) {
             return $this->oResource->_enqueueScripts( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
         }
-    }    
+    }
     /**
      * {@inheritdoc}
      * 
@@ -165,11 +165,11 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * @since           3.2.0
      * @internal    Temporarily marked internal
      */
-    public function enqueueScript( $sSRC, $aCustomArgs=array() ) {    
+    public function enqueueScript( $sSRC, $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueScript' ) ) {
             return $this->oResource->_enqueueScript( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
         }
-    }     
+    }
     
     /**
      * Sets the widget arguments.
@@ -178,9 +178,9 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * 
      * @since       3.2.0
      * @return      void
-     */ 
+     */
     protected function setArguments( array $aArguments=array() ) {
-        $this->oProp->aWidgetArguments = $aArguments;  
-    }  
+        $this->oProp->aWidgetArguments = $aArguments;
+    }
     
 }

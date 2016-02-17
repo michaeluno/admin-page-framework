@@ -39,12 +39,12 @@ class APF_Demo_AdvancedUsage {
      */
     public function replyToSetUp( $oFactory ) {
         
-        $oFactory->addSubMenuItems( 
+        $oFactory->addSubMenuItems(
             array(
                 'title'         => __( 'Advanced Usage', 'admin-page-framework-loader' ),
                 'page_slug'     => $this->_sPageSlug,    // page slug
             )
-        );        
+        );
               
         add_action( 'load_' . $this->_sPageSlug, array( $this, 'replyToLoadPage' ) );
         add_action( 'do_' . $this->_sPageSlug, array( $this, 'replyToDoPage' ) );
@@ -56,7 +56,7 @@ class APF_Demo_AdvancedUsage {
      * 
      * @callback        action      load_{page slug}
      * */
-    public function replyToLoadPage( $oFactory ) { 
+    public function replyToLoadPage( $oFactory ) {
 
         // Define in-page tabs - here tabs are defined in the below classes.
         $_aTabClasses = array(
@@ -69,20 +69,20 @@ class APF_Demo_AdvancedUsage {
         );
         foreach ( $_aTabClasses as $_sTabClassName ) {
             if ( ! class_exists( $_sTabClassName ) ) {
-                continue;                
-            }        
+                continue;
+            }
             new $_sTabClassName( $oFactory );
         }
     
-    }     
+    }
     
     /*
      * Handles the page output.
      * 
      * @callback        action      do_{page slug}
      * */
-    public function replyToDoPage() { 
+    public function replyToDoPage() {
         submit_button();
-    }     
+    }
      
 }

@@ -17,21 +17,21 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
         'attributes'    => array(
             'size'      => 10,
             'maxlength' => 400,
-        ),    
+        ),
         'label'         => array(),    // determines the elements of radio button.
         'reveal'        => array(),    // the keys should correspond the label key element.
-        
+
     );
 
     /**
      * Loads the field type necessary components.
-     */ 
-    protected function setUp() {}    
+     */
+    protected function setUp() {}
 
     /**
      * Returns an array holding the urls of enqueuing scripts.
      */
-    protected function getEnqueuingScripts() { 
+    protected function getEnqueuingScripts() {
         return array(
             // array( 'src' => dirname( __FILE__ ) . '/js/jquery.knob.js', 'dependencies' => array( 'jquery' ) ),
         );
@@ -40,15 +40,15 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
     /**
      * Returns an array holding the urls of enqueuing styles.
      */
-    protected function getEnqueuingStyles() { 
+    protected function getEnqueuingStyles() {
         return array();
-    }            
+    }
 
 
     /**
      * Returns the field type specific JavaScript script.
-     */ 
-    protected function getScripts() { 
+     */
+    protected function getScripts() {
 
         $aJSArray = json_encode( $this->aFieldTypeSlugs );
         /*    The below function will be triggered when a new repeatable field is added. */
@@ -129,7 +129,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
 
     /**
      * Returns the field type specific CSS rules.
-     */ 
+     */
     protected function getStyles() {
         return "";
     }
@@ -138,7 +138,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
      * Returns the output of the field type.
      * @return      string      The field output.
      */
-    protected function getField( $aField ) { 
+    protected function getField( $aField ) {
 
         $_aOutput   = array();
         $sValue     = $aField['attributes']['value'];
@@ -151,7 +151,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
                     'value'         => $sKey,
                     'id'            => $aField['input_id'] . '_' . $sKey,
                     'data-default'  => $aField['default'],
-                ) 
+                )
                 + $this->getElement( $aField, array( 'attributes', $sKey ), $aField['attributes'] )
                 + $aField['attributes'];
             $aLabelAttributes = array(
@@ -169,7 +169,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
                         . "</span>"
                         . "<span class='admin-page-framework-input-label-string'>"
                             . $sLabel
-                        . "</span>"    
+                        . "</span>"
                         . $this->getElement( $aField, array( 'after_input', $sKey ) )
                     . "</label>"
                 . "</div>"
@@ -182,15 +182,15 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
         $_aOutput[] = $this->_getHiddenContents( $aField );
         
         // Revealer script
-        $_aOutput[] = $this->getRevealerScript( 
-            $aField['_field_container_id'], 
-            $aField['input_id'] . '_' . $sValue 
+        $_aOutput[] = $this->getRevealerScript(
+            $aField['_field_container_id'],
+            $aField['input_id'] . '_' . $sValue
         );
         
         // Result
         return implode( PHP_EOL, $_aOutput );
             
-    }    
+    }
         /**
          * Returns a generated hidden HTML output which appears when a redio button is selected.
          * @since       3.5.3
@@ -202,24 +202,25 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
             foreach( $aField['reveal'] as $sKey => $sHiddenOutput ) {
 
                 // the hidden array key should correspond to the label array.
-                if ( ! isset( $aField['label'][ $sKey ] ) ) { 
-                    continue;    
-                }        
+                if ( ! isset( $aField['label'][ $sKey ] ) ) {
+                    continue;
+                }
                 $_aOutput[] =     /* Insert the output */
                     "<div " . $this->generateAttributes(
-                        array(    
+                        array(
                             'style'    => 'display:none;',
                             'class'    => 'sample_hidden_element',
                             'id'       => "hidden-" . $aField['input_id'] . '_' . $sKey,    // hidden- + {input id}
-                        )                    
+                        )
                     ) . ">"
                         . $sHiddenOutput
                     . "</div>";
                     
             }
+
             return "<div class='sample_hidden_elements_container'>"
                     . implode( '', $_aOutput )
-                . "</div>";            
+                . "</div>";
             
         }
         /**
@@ -227,7 +228,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
          * @return      string
          */
         private function getRevealerScript( $sFieldContainerID, $sDefaultSelectionID ) {
-            return 
+            return
                 "<script type='text/javascript'>
                     /* <![CDATA[ */
                     jQuery( document ).ready( function(){
@@ -241,7 +242,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
                         revealSelection( '{$sDefaultSelectionID}' );    // do it for the default one
                     });               
                     /* ]]> */
-                </script>";        
+                </script>";
             
         }
     

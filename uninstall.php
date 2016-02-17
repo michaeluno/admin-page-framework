@@ -30,7 +30,7 @@ if ( ! defined( 'DOING_UNINSTALL' ) ) {
  */
 $_sMaingPluginFileName  = 'admin-page-framework-loader.php';
 if ( file_exists( dirname( __FILE__ ). '/' . $_sMaingPluginFileName ) ) {
-   include( $_sMaingPluginFileName );
+   include $_sMaingPluginFileName;
 }
 
 if ( class_exists( 'AdminPageFrameworkLoader_Registry' ) ) :
@@ -45,8 +45,8 @@ if ( class_exists( 'AdminPageFrameworkLoader_Registry' ) ) :
     );
     $_oWPDB = ${ 'GLOBALS' }[ 'wpdb' ];
     foreach( $_aPrefixes as $_sPrefix ) {
-        if ( ! $_sPrefix ) { 
-            continue; 
+        if ( ! $_sPrefix ) {
+            continue;
         }
         $_oWPDB->query( "DELETE FROM `{$_oWPDB->prefix}options` WHERE `option_name` LIKE ( '_transient_%{$_sPrefix}%' )" );
         $_oWPDB->query( "DELETE FROM `{$_oWPDB->prefix}options` WHERE `option_name` LIKE ( '_transient_timeout_%{$_sPrefix}%' )" );

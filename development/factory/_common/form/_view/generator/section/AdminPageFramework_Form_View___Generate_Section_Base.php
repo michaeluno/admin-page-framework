@@ -30,14 +30,14 @@ abstract class AdminPageFramework_Form_View___Generate_Section_Base extends Admi
      */
     public function __construct( /* $aArguments, $hfCallback */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aArguments, 
+        $_aParameters = func_get_args() + array(
+            $this->aArguments,
             $this->hfCallback,
         );
-        $this->aArguments = $_aParameters[ 0 ];        
+        $this->aArguments = $_aParameters[ 0 ];
         $this->hfCallback  = $_aParameters[ 1 ];
 
-    }    
+    }
     
     /**
      * Returns a model that indicates where the index digit is placed.
@@ -54,14 +54,14 @@ abstract class AdminPageFramework_Form_View___Generate_Section_Base extends Admi
      */
     protected function _getFiltered( $sSubject ) {
         return is_callable( $this->hfCallback )
-            ? call_user_func_array( 
-                $this->hfCallback, 
-                array( 
+            ? call_user_func_array(
+                $this->hfCallback,
+                array(
                     $sSubject,
                     $this->aArguments, // aSectionset
                 )
             )
-            : $sSubject;        
+            : $sSubject;
     }
 
     /**
@@ -86,8 +86,9 @@ abstract class AdminPageFramework_Form_View___Generate_Section_Base extends Admi
         foreach( $aParts as $_sPart ) {
             $_sName .= '[' . $_sPart . ']';
         }
+
         return $_sName;
         
-    }    
+    }
        
 }

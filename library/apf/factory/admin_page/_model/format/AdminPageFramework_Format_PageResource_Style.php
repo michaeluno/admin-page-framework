@@ -19,6 +19,7 @@ class AdminPageFramework_Format_PageResource_Style extends AdminPageFramework_Fo
         if (is_string($asSubject)) {
             $_aSubject['src'] = $asSubject;
         }
+
         return $_aSubject + self::$aStructure;
     }
 }

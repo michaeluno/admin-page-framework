@@ -24,6 +24,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Redirect extends Admi
             return;
         }
         $_sTransient = 'apf_rurl' . md5(trim("redirect_{$this->oFactory->oProp->sClassName}_{$sPageSlug}"));
+
         return $this->setTransient($_sTransient, $sURL, 60 * 2);
     }
 }

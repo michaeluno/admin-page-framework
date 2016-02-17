@@ -39,9 +39,9 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactForm extends A
         }
         
         // At this point, the user has confirmed to send an email of a contact form.
-        $this->_sendEmailInBackground( 
-            $aInputs, 
-            $this->getElement( $aSubmitInformation, 'input_name' ), 
+        $this->_sendEmailInBackground(
+            $aInputs,
+            $this->getElement( $aSubmitInformation, 'input_name' ),
             $this->getElement( $aSubmitInformation, 'section_id' )
         );
         $this->oFactory->oProp->_bDisableSavingOptions = true;
@@ -66,10 +66,10 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactForm extends A
                 return false;
             }
             
-            return ( bool ) $this->_getPressedSubmitButtonData( 
-                $aSubmits, 
-                'confirmed_sending_email' 
-            );            
+            return ( bool ) $this->_getPressedSubmitButtonData(
+                $aSubmits,
+                'confirmed_sending_email'
+            );
             
         }
          
@@ -110,34 +110,34 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactForm extends A
             $_bIsSet = $this->setTransient( $_sTransientKey,  $_aFormEmailData, 100 );
             
             // Send the email in the background.
-            wp_remote_get( 
-                add_query_arg( 
-                    array( 
+            wp_remote_get(
+                add_query_arg(
+                    array(
                         'apf_action' => 'email',
                         'transient'  => $_sTransientKey,
-                    ), 
-                    admin_url( $GLOBALS[ 'pagenow' ] ) 
+                    ),
+                    admin_url( $GLOBALS[ 'pagenow' ] )
                 ),
-                array( 
-                    'timeout'     => 0.01, 
-                    'sslverify'   => false, 
-                ) 
-            );  
+                array(
+                    'timeout'     => 0.01,
+                    'sslverify'   => false,
+                )
+            );
             
             // @remark      Not possible to tell whether it is sent or not at the moment because it is performed in the background.
-            $_bSent      = $_bIsSet;    
-            $this->oFactory->setSettingNotice( 
-                $this->oFactory->oMsg->get( 
-                    $this->getAOrB( 
-                        $_bSent, 
-                        'email_scheduled', 
-                        'email_could_not_send' 
-                    ) 
+            $_bSent      = $_bIsSet;
+            $this->oFactory->setSettingNotice(
+                $this->oFactory->oMsg->get(
+                    $this->getAOrB(
+                        $_bSent,
+                        'email_scheduled',
+                        'email_could_not_send'
+                    )
                 ),
                 $this->getAOrB( $_bSent, 'updated', 'error' )
             );
         
-        }        
+        }
         /**
          * Removes the 'confirmation' key in the query url.
          * 
@@ -148,6 +148,6 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactForm extends A
          */
         public function _replyToRemoveConfirmationQueryKey( $sSettingUpdateURL ) {
             return remove_query_arg( array( 'confirmation', ), $sSettingUpdateURL );
-        }      
+        }
         
 }

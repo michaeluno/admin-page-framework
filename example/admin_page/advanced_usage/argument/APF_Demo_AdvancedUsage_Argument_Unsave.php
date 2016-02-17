@@ -30,7 +30,7 @@ class APF_Demo_AdvancedUsage_Argument_Unsave {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'unsaving_items';        
+    public $sSectionID  = 'unsaving_items';
         
     /**
      * Sets up a form section.
@@ -38,7 +38,7 @@ class APF_Demo_AdvancedUsage_Argument_Unsave {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'tab_slug'          => $this->sTabSlug,
@@ -47,9 +47,9 @@ class APF_Demo_AdvancedUsage_Argument_Unsave {
                 'description'       => array(
                     __( 'By using the <code>save</code> argument, you can control whether a field value gets saved or not.', 'admin-page-framework-loader' ),
                     __( 'These form inputs will not be saved while they will be passed to the validation callback methods.', 'admin-page-framework-loader' ),
-                )
+                ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -76,7 +76,7 @@ class APF_Demo_AdvancedUsage_Argument_Unsave {
                 ),
                 'default'           => date_i18n( 'j F Y g:i:s', time() + 60*60*24 ),
             )
-        );              
+        );
       
     }
 

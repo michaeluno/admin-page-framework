@@ -38,7 +38,7 @@ class APF_Demo_AdvancedUsage_Section_Repeatable_Tabbed {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'        => $this->sSectionID,
@@ -49,7 +49,7 @@ class APF_Demo_AdvancedUsage_Section_Repeatable_Tabbed {
                 'repeatable'        => true,
                 'sortable'          => true,
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -74,7 +74,7 @@ class APF_Demo_AdvancedUsage_Section_Repeatable_Tabbed {
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'          => 'text',
                 'repeatable'    => true,
-            ),     
+            ),
             array(
                 'field_id'      => 'size_in_tabbed_sections_in_repeatable_sections',
                 'title'         => __( 'Size', 'admin-page-framework-loader' ),
@@ -90,7 +90,7 @@ class APF_Demo_AdvancedUsage_Section_Repeatable_Tabbed {
                     'three' => __( 'Three', 'admin-page-framework-loader' ),
                 ),
                 'default'       => 'two',
-            ),            
+            ),
             array(
                 'field_id'      => 'select_in_tabbed_sections_in_repeatable_sections',
                 'title'         => __( 'Select', 'admin-page-framework-loader' ),
@@ -99,16 +99,16 @@ class APF_Demo_AdvancedUsage_Section_Repeatable_Tabbed {
                 'label'         => array(
                     'a' => 'A',
                     'b' => 'B',
-                    'c' => 'C',     
+                    'c' => 'C',
                 ),
-            ),     
+            ),
             array(
                 'field_id'      => 'color_in_tabbed_sections_in_repeatable_sections',
                 'title'         => __( 'Color', 'admin-page-framework-loader' ),
                 'type'          => 'color',
                 'repeatable'    => true,
                 'sortable'      => true,
-            ), 
+            ),
             array(
                 'field_id'      => 'image_in_tabbed_sections_in_repeatable_sections',
                 'title'         => __( 'Image', 'admin-page-framework-loader' ),
@@ -118,7 +118,7 @@ class APF_Demo_AdvancedUsage_Section_Repeatable_Tabbed {
                 'attributes'    => array(
                     'style' => 'max-width:300px;',
                 ),
-            ),     
+            ),
             array(
                 'field_id'      => 'media_in_tabbed_sections_in_repeatable_sections',
                 'title'         => __( 'Media', 'admin-page-framework-loader' ),
@@ -127,7 +127,7 @@ class APF_Demo_AdvancedUsage_Section_Repeatable_Tabbed {
                 'sortable'      => true,
                 'description'   => __( 'This field is repeatable and sortable.', 'admin-page-framework-loader' ),
             )
-        );              
+        );
       
     }
 

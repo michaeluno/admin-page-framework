@@ -5,7 +5,7 @@ use \AcceptanceTester;
  * Bootstrap does not work for including abstract classes.
  * @see     https://github.com/Codeception/Codeception/issues/862
  */
-require_once( dirname( dirname( __FILE__ ) ) . '/_common/Demo_AdminPage_Base.php' );
+require_once dirname( dirname( __FILE__ ) ) . '/_common/Demo_AdminPage_Base.php';
 
 class Demo_CustomTaxonomyPage_Cest extends \Demo_AdminPage_Base {
     
@@ -30,6 +30,6 @@ class Demo_CustomTaxonomyPage_Cest extends \Demo_AdminPage_Base {
             '//input[@id="submit"]'
         );
         
-    } 
+    }
 
 }

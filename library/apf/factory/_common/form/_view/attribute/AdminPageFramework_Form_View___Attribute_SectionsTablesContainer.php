@@ -27,6 +27,7 @@ class AdminPageFramework_Form_View___Attribute_SectionsTablesContainer extends A
         }
         $aSectionset['_index'] = null;
         $_oSectionNameGenerator = new AdminPageFramework_Form_View___Generate_SectionName($aSectionset, $aSectionset['_caller_object']->aCallbacks['hfSectionName']);
+
         return array('data-largest_index' => max(( int )$this->iSubSectionCount - 1, 0), 'data-section_id_model' => $aSectionset['section_id'] . '__' . '___i___', 'data-flat_section_name_model' => $aSectionset['section_id'] . '|___i___', 'data-section_name_model' => $_oSectionNameGenerator->getModel(),);
     }
 }

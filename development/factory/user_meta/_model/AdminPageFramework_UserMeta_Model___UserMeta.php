@@ -30,9 +30,9 @@ class AdminPageFramework_UserMeta_Model___UserMeta extends AdminPageFramework_Fr
      */
     public function __construct( /* $iUserID, array $aFieldsets */ ) {
         
-        $_aParameters = func_get_args() + array( 
+        $_aParameters = func_get_args() + array(
             $this->iUserID,
-            $this->aFieldsets, 
+            $this->aFieldsets,
         );
         $this->iUserID          = $_aParameters[ 0 ];
         $this->aFieldsets       = $_aParameters[ 1 ];
@@ -48,6 +48,7 @@ class AdminPageFramework_UserMeta_Model___UserMeta extends AdminPageFramework_Fr
         if ( ! $this->iUserID ) {
             return array();
         }
+
         return $this->_getSavedDataFromFieldsets(
             $this->iUserID,
             $this->aFieldsets
@@ -70,24 +71,25 @@ class AdminPageFramework_UserMeta_Model___UserMeta extends AdminPageFramework_Fr
                     foreach( $_aFieldsets as $_aFieldset ) {
                         if ( ! in_array( $_aFieldset[ 'field_id' ], $_aMetaKeys ) ) {
                             continue;
-                        }                        
-                        $_aMetaData[ $_aFieldset[ 'field_id' ] ] = get_user_meta( 
-                            $iUserID, 
-                            $_aFieldset[ 'field_id' ], 
-                            true 
+                        }
+                        $_aMetaData[ $_aFieldset[ 'field_id' ] ] = get_user_meta(
+                            $iUserID,
+                            $_aFieldset[ 'field_id' ],
+                            true
                         );
                     }
                 }
                 if ( ! in_array( $_sSectionID, $_aMetaKeys ) ) {
                     continue;
-                }                                
-                $_aMetaData[ $_sSectionID ] = get_user_meta( 
-                    $iUserID, 
-                    $_sSectionID, 
-                    true 
+                }
+                $_aMetaData[ $_sSectionID ] = get_user_meta(
+                    $iUserID,
+                    $_sSectionID,
+                    true
                 );
                 
             }
+
             return $_aMetaData;
             
         }

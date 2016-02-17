@@ -3,7 +3,7 @@
  * Manually include the bootstrap script as Codeception bootstrap runs after loading this file.
  * @see https://github.com/Codeception/Codeception/issues/862
  */
-include_once( dirname( dirname( __FILE__ ) ) . '/_bootstrap.php' );
+include_once dirname( dirname( __FILE__ ) ) . '/_bootstrap.php';
 
 /**
  * @group   factory
@@ -38,18 +38,18 @@ class AdminPageFramework_Loader_Test extends \WP_UnitTestCase {
             AdminPageFrameworkLoader_Registry::$sFilePath   // caller script path        
         );
         $_nElapsed = microtime( true ) - $_nStart;
-        codecept_debug( 'Elapsed seconds for instantiating ' . $_oAdminPage->oProp->sClassName . ': ' . $_nElapsed );  
+        codecept_debug( 'Elapsed seconds for instantiating ' . $_oAdminPage->oProp->sClassName . ': ' . $_nElapsed );
         
-        $this->assertEquals( 
-            true, 
+        $this->assertEquals(
+            true,
             method_exists( $_oAdminPage, 'setUp' )
         );
-        $this->assertEquals( 
-            true, 
+        $this->assertEquals(
+            true,
             method_exists( $_oAdminPage, 'start' )
         );
         
-    }   
+    }
     
     /**
      * @group       class
@@ -62,20 +62,20 @@ class AdminPageFramework_Loader_Test extends \WP_UnitTestCase {
             AdminPageFrameworkLoader_Registry::$sFilePath   // caller script path        
         );
         $_nElapsed = microtime( true ) - $_nStart;
-        codecept_debug( 'Elapsed seconds for instantiating ' . $_oAdminPage->oProp->sClassName . ': ' . $_nElapsed );  
+        codecept_debug( 'Elapsed seconds for instantiating ' . $_oAdminPage->oProp->sClassName . ': ' . $_nElapsed );
         
-        $this->assertEquals( 
-            true, 
+        $this->assertEquals(
+            true,
             method_exists( $_oAdminPage, 'setUp' )
         );
-        $this->assertEquals( 
-            true, 
+        $this->assertEquals(
+            true,
             method_exists( $_oAdminPage, 'start' )
         );
         
         // Instantiation a Tab class which does not extend the framework class.
         $_nStart = microtime( true );
-        $_oTab   = new AdminPageFrameworkLoader_AdminPageWelcome_Welcome( 
+        $_oTab   = new AdminPageFrameworkLoader_AdminPageWelcome_Welcome(
             $_oAdminPage,              // factory object
             AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ],        // page slug
             array(
@@ -84,10 +84,10 @@ class AdminPageFramework_Loader_Test extends \WP_UnitTestCase {
                     AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css',
                     AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
                 ),
-            )                
-        );     
+            )
+        );
         $_nElapsed = microtime( true ) - $_nStart;
-        codecept_debug( 'Elapsed seconds for instantiating ' . get_class( $_oTab ) . ': ' . $_nElapsed );  
+        codecept_debug( 'Elapsed seconds for instantiating ' . get_class( $_oTab ) . ': ' . $_nElapsed );
         
     }
 
@@ -107,11 +107,11 @@ class AdminPageFramework_Loader_Test extends \WP_UnitTestCase {
             ),
             'side',                                       // context
             'default'                                     // priority
-        );   
+        );
         $_nElapsed = microtime( true ) - $_nStart;
         codecept_debug( 'Elapsed seconds for instantiating ' . get_class( $_o ) . ': ' . $_nElapsed );
         
-    }        
+    }
     
     /**
      * @group   class
@@ -126,12 +126,12 @@ class AdminPageFramework_Loader_Test extends \WP_UnitTestCase {
                 AdminPageFrameworkLoader_Registry::$aAdminPages[ 'help' ],
             ),
             'side',                                       // context
-            'default'   
-        );   
+            'default'
+        );
         $_nElapsed = microtime( true ) - $_nStart;
         codecept_debug( 'Elapsed seconds for instantiating ' . get_class( $_o ) . ': ' . $_nElapsed );
         
-    }      
+    }
 
     /**
      * @group   class
@@ -146,7 +146,7 @@ class AdminPageFramework_Loader_Test extends \WP_UnitTestCase {
         $_nElapsed = microtime( true ) - $_nStart;
         codecept_debug( 'Elapsed seconds for instantiating ' . get_class( $_o ) . ': ' . $_nElapsed );
         
-    }        
+    }
     
     /**
      * @group   class
@@ -158,7 +158,7 @@ class AdminPageFramework_Loader_Test extends \WP_UnitTestCase {
         $_nElapsed = microtime( true ) - $_nStart;
         codecept_debug( 'Elapsed seconds for instantiating ' . get_class( $_o ) . ': ' . $_nElapsed );
         
-    }    
+    }
     
     /**
      * @group   class
@@ -179,32 +179,32 @@ class AdminPageFramework_Loader_Test extends \WP_UnitTestCase {
         
         $_nStart = microtime( true );
         $_o = new AdminPageFramework_PointerToolTip(
-            array( 
+            array(
                 // screen ids
-                'plugins', 
+                'plugins',
                 
                 // page slugs below
-                'apfl_addons', 
-            ),     
+                'apfl_addons',
+            ),
             'apf_demo_pointer_tool_box_activate_demo', // unique id for the pointer tool box
             array(    // pointer data
                 'target'    => array(
                     '#activate-demo-action-link',
                     '#button-activate-demo', // multiple targets can be set with an array
-                ), 
+                ),
                 'options'   => array(
                     'content' => sprintf( '<h3> %1$s </h3> <p> %2$s </p>',
                         AdminPageFrameworkLoader_Registry::NAME,
                         __( 'Check out the functionality of Admin Page Framework by enabling the demo.','admin-page-framework-loader' )
                     ),
-                    'position'  => array( 'edge' => 'left', 'align' => 'middle' )
-                )
+                    'position'  => array( 'edge' => 'left', 'align' => 'middle' ),
+                ),
             )
         );
         $_nElapsed = microtime( true ) - $_nStart;
         codecept_debug( 'Elapsed seconds for instantiating ' . get_class( $_o ) . ': ' . $_nElapsed );
         
-    }    
+    }
     
     /**
      * @group   include
@@ -212,10 +212,10 @@ class AdminPageFramework_Loader_Test extends \WP_UnitTestCase {
     public function test_Demo() {
         
         $_nStart = microtime( true );
-        include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin-page-framework-demo-bootstrap.php' );
+        include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin-page-framework-demo-bootstrap.php';
         $_nElapsed = microtime( true ) - $_nStart;
         codecept_debug( 'Elapsed seconds for including demo components: ' . $_nElapsed );
         
-    }        
+    }
     
 }

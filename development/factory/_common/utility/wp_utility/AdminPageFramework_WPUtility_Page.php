@@ -29,10 +29,11 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
      */
     static public function getCurrentPostType() {
                          
-        if ( isset( self::$_sCurrentPostType ) ) { 
-            return self::$_sCurrentPostType; 
+        if ( isset( self::$_sCurrentPostType ) ) {
+            return self::$_sCurrentPostType;
         }
         self::$_sCurrentPostType = self::_getCurrentPostType();
+
         return self::$_sCurrentPostType;
         
     }
@@ -65,6 +66,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
                     return $_sPostType;
                 }
             }
+
             return null;
           
         }
@@ -74,20 +76,20 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
              * @return      null|string
              * @callback    function        call_user_func
              * @since       3.5.3
-             */            
+             */
             static public function getPostTypeByTypeNow() {
                 if ( isset( $GLOBALS[ 'typenow' ] ) && $GLOBALS[ 'typenow' ] ) {
                     return $GLOBALS[ 'typenow' ];
                 }
             }
             static public function getPostTypeByScreenObject() {
-                if ( 
+                if (
                     isset( $GLOBALS[ 'current_screen' ]->post_type )
-                    && $GLOBALS[ 'current_screen' ]->post_type 
+                    && $GLOBALS[ 'current_screen' ]->post_type
                 ) {
                     return $GLOBALS[ 'current_screen' ]->post_type;
-                }    
-            }         
+                }
+            }
             /**
              * Tries to find the post type from the URL query for type.
              */
@@ -98,20 +100,20 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
                 if ( isset( $_GET[ 'post' ] ) && $_GET[ 'post' ] ) {
                     // It will perform a database query.
                     return get_post_type( $_GET[ 'post' ] );
-                }                                
+                }
             }
                 
             /**
              * @remark      Checking with the global post object is not reliable because it gets modified when the `WP_Query::the_post()` method is performed.
              */
             static public function getPostTypeByPostObject() {
-                if ( 
-                    isset( $GLOBALS[ 'post' ]->post_type ) 
-                    && $GLOBALS[ 'post' ]->post_type 
+                if (
+                    isset( $GLOBALS[ 'post' ]->post_type )
+                    && $GLOBALS[ 'post' ]->post_type
                 ) {
                     return $GLOBALS[ 'post' ]->post_type;
                 }
-            }            
+            }
             /**#@-*/
 
     /**
@@ -120,12 +122,13 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
      * @since       3.1.3
      * @param       array|string        The post type slug(s) to check. If this is empty, the method just checks the current page is a taxonomy page.
      * @return      boolean
-     */    
+     */
     static public function isCustomTaxonomyPage( $asPostTypes=array() ) {
         
         if ( ! in_array( self::getPageNow(), array( 'tags.php', 'edit-tags.php', ) ) ) {
             return false;
         }
+
         return self::isCurrentPostTypeIn( $asPostTypes );
 
     }
@@ -141,12 +144,13 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
     static public function isPostDefinitionPage( $asPostTypes=array() ) {
         
         // If it's not the post definition page, 
-        if ( ! in_array( self::getPageNow(), array( 'post.php', 'post-new.php', ) ) ) { 
+        if ( ! in_array( self::getPageNow(), array( 'post.php', 'post-new.php', ) ) ) {
             return false;
         }
+
         return self::isCurrentPostTypeIn( $asPostTypes );
           
-    }   
+    }
         
     /**
      * Checks if the curently loading page's post type is of the given post types.
@@ -157,15 +161,15 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
      */
     static public function isCurrentPostTypeIn( $asPostTypes ) {
         
-        $_aPostTypes = self::getAsArray( $asPostTypes );        
+        $_aPostTypes = self::getAsArray( $asPostTypes );
         
         // If the parameter is empty, 
-        if ( empty( $_aPostTypes ) ) { 
+        if ( empty( $_aPostTypes ) ) {
             return true;
         }
 
         // If the parameter of the post type is set and it's in the given post types, 
-        return in_array( self::getCurrentPostType(), $_aPostTypes );            
+        return in_array( self::getCurrentPostType(), $_aPostTypes );
         
     }
     
@@ -176,13 +180,13 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
      */
     static public function isPostListingPage( $asPostTypes=array() ) {
                 
-        if ( 'edit.php' != self::getPageNow() ) { 
+        if ( 'edit.php' != self::getPageNow() ) {
             return false;
         }
         
-        $_aPostTypes = self::getAsArray( $asPostTypes );    
+        $_aPostTypes = self::getAsArray( $asPostTypes );
         
-        if ( ! isset( $_GET[ 'post_type' ] )  ) { 
+        if ( ! isset( $_GET[ 'post_type' ] )  ) {
             return in_array( 'post', $_aPostTypes );
         }
 
@@ -213,6 +217,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         // If already set, use that.
         if ( isset( $GLOBALS[ 'pagenow' ] ) ) {
             self::$_sPageNow = $GLOBALS[ 'pagenow' ];
+
             return self::$_sPageNow;
         }
                         
@@ -221,8 +226,9 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
             1 => '_getPageNow_BackEnd',
         );
         $_sMethodName  = $_aMethodNames[ ( integer ) is_admin() ];
-        self::$_sPageNow = self::$_sMethodName();            
-        return self::$_sPageNow;          
+        self::$_sPageNow = self::$_sMethodName();
+
+        return self::$_sPageNow;
         
     }
         /**
@@ -237,8 +243,9 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
             if ( preg_match( '#([^/]+\.php)([?/].*?)?$#i', $_SERVER[ 'PHP_SELF' ], $_aMatches ) ) {
                 return strtolower( $_aMatches[ 1 ] );
             }
-            return 'index.php';                
-        }    
+
+            return 'index.php';
+        }
 
         /**
          * Returns the current page url base name of the admin page.
@@ -253,16 +260,17 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
             $_sPageNow = self::_getPageNowAdminURLBasePath();
             if ( self::_isInAdminIndex( $_sPageNow ) ) {
                 return 'index.php';
-            }       
+            }
             
             preg_match( '#(.*?)(/|$)#', $_sPageNow, $_aMatches );
             $_sPageNow = strtolower( $_aMatches[ 1 ] );
             if ( '.php' !== substr( $_sPageNow, -4, 4 ) ) {
                 $_sPageNow .= '.php'; // for Options +Multiviews: /wp-admin/themes/index.php (themes.php is queried)
             }
+
             return $_sPageNow;
             
-        }   
+        }
             /**
              * Return the base part of the currently loading admin url.
              * @since       3.5.3
@@ -279,8 +287,9 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
                 }
                 else {
                     $_sNeedle = '#/wp-admin/?(.*?)$#i';
-                }                
+                }
                 preg_match( $_sNeedle, $_SERVER[ 'PHP_SELF' ], $_aMatches );
+
                 return preg_replace( '#\?.*?$#', '', trim( $_aMatches[ 1 ], '/' ) );
                 
             }
@@ -314,7 +323,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         }
         
         if ( isset( $GLBOALS[ 'page_hook' ] ) ) {
-            return is_network_admin() 
+            return is_network_admin()
                 ? $GLBOALS[ 'page_hook' ] . '-network'
                 : $GLBOALS[ 'page_hook' ];
         }
@@ -335,11 +344,12 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         if ( $sContext ) {
             $_aDimensions[] = $sContext;
         }
-        $_aSideMetaBoxes = self::getElementAsArray( 
-            $GLOBALS, 
+        $_aSideMetaBoxes = self::getElementAsArray(
+            $GLOBALS,
             $_aDimensions
         );
-        return count( $_aSideMetaBoxes ) > 0;        
+
+        return count( $_aSideMetaBoxes ) > 0;
         
     }
         
@@ -347,9 +357,9 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
      * Returns the number of columns in the currently loading page.
      * @return      integer     The number of columns that the current screen displays.
      * @since       3.6.3
-     */ 
+     */
     static public function getNumberOfScreenColumns() {
         return get_current_screen()->get_columns();
-    }       
+    }
 
 }

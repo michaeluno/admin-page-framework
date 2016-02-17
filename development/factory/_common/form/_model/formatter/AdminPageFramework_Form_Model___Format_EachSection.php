@@ -26,20 +26,20 @@ class AdminPageFramework_Form_Model___Format_EachSection extends AdminPageFramew
      * @since       3.6.0       Moved from `AdminPageFramework_FormDefinition`.
      * @var         array       Represents the array structure of form section definition.
      * @static
-     */     
-    static public $aStructure = array(    
+     */
+    static public $aStructure = array(
         '_count_subsections' => 0,
         '_is_first_index'    => false,
-        '_is_last_index'     => false,     
+        '_is_last_index'     => false,
         '_index'             => null,
         
         '_is_collapsible'    => false, // (boolean)
-        
+
         '_tag_id'            => '',
         '_tag_id_model'      => '',
         
         '_sections_id'       => '',
-    );        
+    );
     
     /**
      * Stores the section definition.
@@ -62,9 +62,9 @@ class AdminPageFramework_Form_Model___Format_EachSection extends AdminPageFramew
      */
     public function __construct( /* array $aSection, $iIndex, $sSectionsID */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aSection, 
-            $this->iIndex, 
+        $_aParameters = func_get_args() + array(
+            $this->aSection,
+            $this->iIndex,
             $this->aSubSections,
             $this->sSectionsID,
         );

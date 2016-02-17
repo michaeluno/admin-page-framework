@@ -30,25 +30,25 @@ class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFra
      * 
      * @static
      * @internal
-     */ 
-    static public $aStructure = array(       
+     */
+    static public $aStructure = array(
         '_section_index'            => null,    // 3.0.0+ - internally set to indicate the section index for repeatable sections.        
-        
+
         'tag_id'                    => null,
         '_tag_id_model'             => '',      // 3.6.0+   
-        
+
         '_field_name'               => '',      // 3.6.0+   
         '_field_name_model'         => '',      // 3.6.0+           
-        
+
         '_field_name_flat'          => '',      // 3.6.0+
         '_field_name_flat_model'    => '',      // 3.6.0+   
-                
+
         '_field_address'            => '',      // 3.6.0+
         '_field_address_model'      => '',      // 3.6.0+
-                
+
         '_parent_field_object'      => null,    // 3.6.0+   Assigned when a field creates a nested field.
-        
-    );        
+
+    );
     
     /**
      * Stores the passed unformatted field definition array.
@@ -69,8 +69,8 @@ class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFra
      */
     public function __construct( /* $aFieldset, $iSectionIndex, $aFieldTypeDefinitions */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aFieldset, 
+        $_aParameters = func_get_args() + array(
+            $this->aFieldset,
             $this->iSectionIndex,
             $this->aFieldTypeDefinitions,
         );
@@ -91,16 +91,16 @@ class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFra
         // The section index must be set before generating a field tag id as it uses a section index.
         $_aFieldset[ '_section_index' ]   = $this->iSectionIndex;
 
-        $_oFieldTagIDGenerator = new AdminPageFramework_Form_View___Generate_FieldTagID( 
+        $_oFieldTagIDGenerator = new AdminPageFramework_Form_View___Generate_FieldTagID(
             $_aFieldset,
             $_aFieldset[ '_caller_object' ]->aCallbacks[ 'hfTagID' ]
         );
         $_aFieldset[ 'tag_id' ]        = $_oFieldTagIDGenerator->get();
         $_aFieldset[ '_tag_id_model' ] = $_oFieldTagIDGenerator->getModel();
         
-        $_oFieldNameGenerator = new AdminPageFramework_Form_View___Generate_FieldName( 
+        $_oFieldNameGenerator = new AdminPageFramework_Form_View___Generate_FieldName(
             $_aFieldset,
-            $_aFieldset[ '_caller_object' ]->aCallbacks[ 'hfName' ]        
+            $_aFieldset[ '_caller_object' ]->aCallbacks[ 'hfName' ]
         );
         $_aFieldset[ '_field_name' ]        = $_oFieldNameGenerator->get();
         $_aFieldset[ '_field_name_model' ]  = $_oFieldNameGenerator->getModel();
@@ -121,6 +121,7 @@ class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFra
             $_aFieldset,
             $this->aFieldTypeDefinitions
         );
+
         return $_aFieldset;
         
     }
@@ -139,14 +140,14 @@ class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFra
          * do not use the array returned from this method but the raw (non-merged) array.
          */
         private function _getMergedFieldTypeDefault( array $aFieldset, array $aFieldTypeDefinitions ) {
-            return $this->uniteArrays( 
-                $aFieldset, 
+            return $this->uniteArrays(
+                $aFieldset,
                 $this->getElementAsArray(
                     $aFieldTypeDefinitions,
                     array( $aFieldset[ 'type' ], 'aDefaultKeys' ),
                     array()
                 )
             );
-        }                    
+        }
                
 }

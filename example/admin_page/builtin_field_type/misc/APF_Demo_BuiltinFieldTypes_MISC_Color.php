@@ -30,7 +30,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Color {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'color_picker';        
+    public $sSectionID  = 'color_picker';
         
     /**
      * Sets up a form section.
@@ -38,7 +38,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Color {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'tab_slug'          => $this->sTabSlug,
@@ -46,7 +46,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Color {
                 'title'             => __( 'Colors', 'admin-page-framework-loader' ),
                 'description'       => __( 'These are color picker fields.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -55,7 +55,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Color {
                 'field_id'      => 'color_picker_field',
                 'title'         => __( 'Color Picker', 'admin-page-framework-loader' ),
                 'type'          => 'color',
-            ),     
+            ),
             array( // Multiple Color Pickers
                 'field_id'      => 'multiple_color_picker_field',
                 'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
@@ -67,8 +67,8 @@ class APF_Demo_BuiltinFieldTypes_MISC_Color {
                 ),
                 array(
                     'label' => __( 'Third', 'admin-page-framework-loader' ),
-                ),     
-            ),     
+                ),
+            ),
             array( // Repeatable Color Pickers
                 'field_id'      => 'color_picker_repeatable_field',
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
@@ -83,8 +83,8 @@ class APF_Demo_BuiltinFieldTypes_MISC_Color {
                 'sortable'      => true,
                 array(),    // the second item
                 array(),    // the third item
-            )      
-        );              
+            )
+        );
       
     }
 

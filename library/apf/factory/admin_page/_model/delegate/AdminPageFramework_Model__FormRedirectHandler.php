@@ -18,6 +18,7 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_F
         $_aError = $this->oFactory->getFieldErrors();
         if (!empty($_aError)) {
             $this->deleteTransient($_sTransient);
+
             return;
         }
         $_sURL = $this->getTransient($_sTransient);
@@ -36,6 +37,7 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_F
             return false;
         }
         $_sConfirmationType = $this->getElement($_GET, 'confirmation', '');
+
         return 'redirect' === $_sConfirmationType;
     }
 }

@@ -21,12 +21,14 @@ class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramew
             }
             $_aNewSections[$_sSectionID] = $_aSection;
         }
+
         return $_aNewSections;
     }
     protected function _isAllowed(array $aDefinition) {
         if (!current_user_can($aDefinition['capability'])) {
             return false;
         }
+
         return ( boolean )$aDefinition['if'];
     }
 }
@@ -50,6 +52,7 @@ class AdminPageFramework_Form_Model___FieldConditioner extends AdminPageFramewor
             }
             $this->_setConditionedFields($_aNewFields, $_aSubSectionOrFields, $_sSectionID);
         }
+
         return $_aNewFields;
     }
     private function _setConditionedFields(array & $_aNewFields, $_aSubSectionOrFields, $_sSectionID) {

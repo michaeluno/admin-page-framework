@@ -60,11 +60,11 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
         
         // Check if there is a message of the type.
         foreach( self::$_aNotices as $_aNotice ) {
-            $_sClassAttribute = $this->getElement( 
-                $_aNotice, 
-                array( 
-                    'aAttributes', 
-                    'class' 
+            $_sClassAttribute = $this->getElement(
+                $_aNotice,
+                array(
+                    'aAttributes',
+                    'class',
                 ),
                 ''
             );
@@ -72,6 +72,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
                 return true;
             }
         }
+
         return false;
         
     }
@@ -130,7 +131,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
         );
 
 
-    }       
+    }
         /**
          * Saves the notification array set via the setSettingNotice() method.
          * 
@@ -141,14 +142,14 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
          * @return      void
          */
         public function _replyToSaveNotices() {
-            if ( empty( self::$_aNotices ) ) { 
-                return; 
-            }            
-            $_bResult = $this->setTransient( 
-                $this->sTransientKey, 
+            if ( empty( self::$_aNotices ) ) {
+                return;
+            }
+            $_bResult = $this->setTransient(
+                $this->sTransientKey,
                 self::$_aNotices
             );
-        }        
+        }
     
     /**
      * Outputs the stored submit notices in the database.
@@ -161,16 +162,16 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
         
         // Retrieve the notifications set in a transient.
         $_aNotices = $this->_getNotices();
-        if ( false === $_aNotices ) { 
-            return; 
+        if ( false === $_aNotices ) {
+            return;
         }
             
         // By setting false to the 'settings-notice' key, it's possible to disable the notifications set with the framework.
-        if ( isset( $_GET[ 'settings-notice' ] ) && ! $_GET[ 'settings-notice' ] ) { 
-            return; 
+        if ( isset( $_GET[ 'settings-notice' ] ) && ! $_GET[ 'settings-notice' ] ) {
+            return;
         }
             
-        $this->_printNotices( $_aNotices );                
+        $this->_printNotices( $_aNotices );
         
     }
         /**
@@ -183,12 +184,13 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
                 return self::$_aNoticeCaches[ $this->sTransientKey ];
             }
 
-            $_abNotices = $this->getTransient( $this->sTransientKey );            
+            $_abNotices = $this->getTransient( $this->sTransientKey );
             if ( false !== $_abNotices ) {
                 $this->deleteTransient( $this->sTransientKey );
             }
 
             self::$_aNoticeCaches[ $this->sTransientKey ] = $_abNotices;
+
             return self::$_aNoticeCaches[ $this->sTransientKey ];
             
         }
@@ -215,10 +217,10 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
                 new AdminPageFramework_AdminNotice(
                     $this->getElement( $_aNotice, 'sMessage' ),
                     $this->getElement( $_aNotice, 'aAttributes' )
-                );              
+                );
               
-            }            
+            }
             
-        }    
+        }
         
 }

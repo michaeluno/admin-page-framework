@@ -20,7 +20,7 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
     public $aSectionsets  = array();
     public $sCapability = '';
     public $aCallbacks = array(
-        'sectionset_before_output' => null
+        'sectionset_before_output' => null,
     );
     
     /**
@@ -36,14 +36,14 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
      */
     public function __construct( /* array $aSectionsets, $sStructureType, $sCapability, $aCallbacks, $oCallerForm */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aSectionsets, 
-            $this->sStructureType, 
+        $_aParameters = func_get_args() + array(
+            $this->aSectionsets,
+            $this->sStructureType,
             $this->sCapability,
             $this->aCallbacks,
-            $this->oCallerForm
+            $this->oCallerForm,
         );
-        $this->aSectionsets     = $_aParameters[ 0 ];                    
+        $this->aSectionsets     = $_aParameters[ 0 ];
         $this->sStructureType   = $_aParameters[ 1 ];
         $this->sCapability      = $_aParameters[ 2 ];
         $this->aCallbacks       = $_aParameters[ 3 ];
@@ -84,45 +84,46 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
             foreach( $aSectionsetsToParse as $_sSectionPath => $_aSectionset ) {
 
                 // The '_default' section can be empty so do not check `if ( empty( $_aSectionset ) )` here.
-                if ( ! is_array( $_aSectionset ) ) { 
-                    continue; 
+                if ( ! is_array( $_aSectionset ) ) {
+                    continue;
                 }
                 
                 $_aSectionPath = array_merge( $aSectionPath, array( $_aSectionset[ 'section_id' ] ) );
                 $_sSectionPath = implode( '|', $_aSectionPath );
                 
                 $_aSectionsetFormatter = new AdminPageFramework_Form_Model___FormatSectionset(
-                    $_aSectionset, 
+                    $_aSectionset,
                     $_sSectionPath,
-                    $this->sStructureType, 
-                    $sCapability, 
+                    $this->sStructureType,
+                    $sCapability,
                     count( $_aNewSectionsets ), // this new array gets updated in this loops so the count will be updated.
                     $this->oCallerForm
                 );
                 $_aSectionset = $this->callBack(
-                    $this->aCallbacks[ 'sectionset_before_output' ], 
+                    $this->aCallbacks[ 'sectionset_before_output' ],
                     array( $_aSectionsetFormatter->get() )
                 );
-                if ( empty( $_aSectionset ) ) { 
-                    continue; 
+                if ( empty( $_aSectionset ) ) {
+                    continue;
                 }
                 
                 $_aNewSectionsets[ $_sSectionPath ] = $_aSectionset;
                 
                 // 3.7.0+ For nested sections         
-                $_aNewSectionsets = $this->_getNestedSections( 
+                $_aNewSectionsets = $this->_getNestedSections(
                     $_aNewSectionsets,  // sectionset array to modify
-                    $_aSectionset, 
+                    $_aSectionset,
                     $_aSectionPath, // section path
                     $_aSectionset[ 'capability' ]
                 );
                 
             }
 
-            uasort( $_aNewSectionsets, array( $this, 'sortArrayByKey' ) ); 
+            uasort( $_aNewSectionsets, array( $this, 'sortArrayByKey' ) );
+
             return $_aNewSectionsets;
             
-        }   
+        }
             /**
              * @return      array       The modified sectionsets definitions.
              */
@@ -138,7 +139,7 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
                         $aSectionset[ 'content' ],    // parsing sectionsets
                         $aSectionPath,                // section path - empty for root 
                         $sCapability                  // capability
-                    );                          
+                    );
 
             }
                 /**
@@ -154,6 +155,7 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
                     }
                     $_aContents  = $aSectionset[ 'content' ];
                     $_aFirstItem = $this->getFirstElement( $_aContents );
+
                     return is_scalar( $this->getElement( $_aFirstItem, 'section_id', null ) );
                     
                 }

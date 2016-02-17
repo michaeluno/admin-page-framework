@@ -33,19 +33,19 @@ class APF_Demo_BuiltinFieldTypes_System {
     public function __construct( $oFactory ) {
         
         // Tab
-        $oFactory->addInPageTabs(    
+        $oFactory->addInPageTabs(
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'System', 'admin-page-framework-loader' ),    
+                'title'         => __( 'System', 'admin-page-framework-loader' ),
                 'capability'    => 'manage_options',
-            )      
-        );  
+            )
+        );
         
-        add_action( 
-            'load_' . $this->sPageSlug . '_' . $this->sTabSlug, 
-            array( $this, 'replyToLoadTab' ) 
-        );     
+        add_action(
+            'load_' . $this->sPageSlug . '_' . $this->sTabSlug,
+            array( $this, 'replyToLoadTab' )
+        );
 
     }
         

@@ -30,7 +30,7 @@ class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form
          * @since       3.4.0
          * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @internal
-         */    
+         */
         private function _getFormSectionRules() {
             
             return <<<CSSRULES

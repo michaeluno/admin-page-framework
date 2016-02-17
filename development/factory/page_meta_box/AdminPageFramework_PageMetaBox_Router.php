@@ -31,6 +31,7 @@ abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_
         if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
             return false;
         }
+
         return true;
         
     }
@@ -45,7 +46,7 @@ abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_
     public function _isInThePage() {
         
         if ( ! $this->oProp->bIsAdmin ) {
-            return false;     
+            return false;
         }
                     
         if ( ! isset( $_GET[ 'page' ] ) ) {
@@ -59,6 +60,6 @@ abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_
         
         return in_array( $_GET[ 'page' ], $this->oProp->aPageSlugs );
         
-    }     
+    }
     
 }

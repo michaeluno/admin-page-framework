@@ -23,6 +23,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
                 return true;
             }
         }
+
         return false;
     }
     public function set($sMessage, $sType = 'error', $asAttributes = array(), $bOverride = true) {
@@ -68,6 +69,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
             $this->deleteTransient($this->sTransientKey);
         }
         self::$_aNoticeCaches[$this->sTransientKey] = $_abNotices;
+
         return self::$_aNoticeCaches[$this->sTransientKey];
     }
     static private $_aNoticeCaches = array();

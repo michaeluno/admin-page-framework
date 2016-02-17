@@ -76,18 +76,18 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
         
         // Local variables
         $_iID            = $oTerm->term_id;
-        $_sTaxonomySlug  = empty( $aArgs[ 'taxonomy' ] ) 
-            ? 'category' 
+        $_sTaxonomySlug  = empty( $aArgs[ 'taxonomy' ] )
+            ? 'category'
             : $aArgs[ 'taxonomy' ];
         $_sID            = "{$aArgs['_input_id_prefix']}_{$_sTaxonomySlug}_{$_iID}";
 
         // Post count
-        $_sPostCount     = $aArgs['show_post_count'] 
-            ? " <span class='font-lighter'>(" . $oTerm->count . ")</span>" 
+        $_sPostCount     = $aArgs['show_post_count']
+            ? " <span class='font-lighter'>(" . $oTerm->count . ")</span>"
             : '';
         
         // Attributes
-        $_aInputAttributes = isset( $_aInputAttributes[ $_iID ] ) 
+        $_aInputAttributes = isset( $_aInputAttributes[ $_iID ] )
             ? $_aInputAttributes[ $_iID ] + $aArgs['_attributes']
             : $aArgs['_attributes'];
         $_aInputAttributes = array(
@@ -96,7 +96,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
             'type'      => 'checkbox',
             'name'      => "{$aArgs['_name_prefix']}[{$_iID}]",
             'checked'   => in_array( $_iID, ( array ) $aArgs[ '_selected_items' ] )
-                ? 'checked' 
+                ? 'checked'
                 : null,
         ) + $_aInputAttributes
           + array(
@@ -112,13 +112,13 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
         
         // Output - the variable is by reference so the modification takes effect
         $sOutput .= "\n"
-            . "<li " . AdminPageFramework_WPUtility::getAttributes( $_aLiTagAttributes ) . ">" 
+            . "<li " . AdminPageFramework_WPUtility::getAttributes( $_aLiTagAttributes ) . ">"
                 . "<label for='{$_sID}' class='taxonomy-checklist-label'>"
                     . "<input value='0' type='hidden' name='" . $_aInputAttributes[ 'name' ] . "' class='apf_checkbox' />"
                     . "<input " . AdminPageFramework_WPUtility::getAttributes( $_aInputAttributes ) . " />"
-                    . esc_html( apply_filters( 'the_category', $oTerm->name ) ) 
+                    . esc_html( apply_filters( 'the_category', $oTerm->name ) )
                     . $_sPostCount
-                . "</label>";    
+                . "</label>";
             /* no need to close the </li> tag since it is dealt in the end_el() method. */
             
     }

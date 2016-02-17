@@ -28,8 +28,9 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
         if ( is_string( $_sCustomMenuSlug ) ) {
             return $_sCustomMenuSlug;
         }
+
         return 'edit.php?post_type=' . $sPostTypeSlug;
-    }             
+    }
  
     /**
      * Returns the value of the `show_in_menu` argument from a custom post type arguments.
@@ -60,11 +61,12 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
      */
     static public function getWPAdminDirPath() {
          
-        $_sWPAdminPath = str_replace( 
+        $_sWPAdminPath = str_replace(
             get_bloginfo( 'url' ) . '/', // search
             ABSPATH,    // replace
             get_admin_url() // subject - works even in the network admin
         );
+
         return rtrim( $_sWPAdminPath, '/' );
         
     }
@@ -105,11 +107,12 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
         if ( $_iRedirectError && is_callable( $oCallbackOnError ) ) {
             call_user_func_array(
                 $oCallbackOnError,
-                array( 
+                array(
                     $_iRedirectError,
                     $sURL,
                 )
             );
+
             return; // do not redirect
         }
         $_sFunctionName = array(
@@ -137,6 +140,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
         if ( headers_sent() ) {
             return 2;
         }
+
         return 0;
     }
     
@@ -173,7 +177,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
         flush_rewrite_rules();
         self::$_bIsFlushed = true;
         
-    }    
+    }
         /**
          * Indicates whether the flushing rewrite rules has been performed or not.
          * @since       3.1.5

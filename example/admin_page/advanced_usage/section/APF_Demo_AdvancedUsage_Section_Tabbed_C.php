@@ -37,7 +37,7 @@ class APF_Demo_AdvancedUsage_Section_Tabbed_C {
      */
     public function __construct( $oFactory ) {
 
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'        => $this->sSectionID,
@@ -45,11 +45,11 @@ class APF_Demo_AdvancedUsage_Section_Tabbed_C {
                 'section_tab_slug'  => 'tabbed_sections',
                 'title'             => __( 'Custom Content', 'admin-page-framework-loader' ),
                 'description'       => __( 'This is the third item of the tabbed section.', 'admin-page-framework-loader' ),
-                'content'           => "<p>" 
-                        . __( 'This custom output is inserted with the <code>content</code> argument.', 'admin-page-framework-loader' ) 
+                'content'           => "<p>"
+                        . __( 'This custom output is inserted with the <code>content</code> argument.', 'admin-page-framework-loader' )
                     . "</p>",
             )
-        );           
+        );
       
     }
 

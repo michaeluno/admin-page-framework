@@ -17,6 +17,7 @@ class AdminPageFramework_Form_Model___LastInput extends AdminPageFramework_Frame
         $_sPageSlug = $this->getElement($_GET, 'page', '');
         $_sTabSlug = $this->getElement($_GET, 'tab', '');
         $_sUserID = get_current_user_id();
+
         return "apf_li_" . md5($_sPageNow . $_sPageSlug . $_sTabSlug . $_sUserID);
     }
     public function set($aLastInputs) {
@@ -42,6 +43,7 @@ class AdminPageFramework_Form_Model___LastInput extends AdminPageFramework_Frame
                 $this->delete();
             }
         }
+
         return $this->getElementAsArray($_aLastInputs, $this->sCallerID, array());
     }
     private static $_aCaches = array();

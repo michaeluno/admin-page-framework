@@ -34,7 +34,7 @@ class AdminPageFramework_View__PageMataBoxRenderer extends AdminPageFramework_Fr
             return;
         }
         
-        $this->_doRender( 
+        $this->_doRender(
             $sContext,
             ++self::$_iContainerID
         );
@@ -53,8 +53,8 @@ class AdminPageFramework_View__PageMataBoxRenderer extends AdminPageFramework_Fr
         private function _doRender( $sContext, $iContainerID ) {
             
             echo "<div id='postbox-container-{$iContainerID}' class='postbox-container'>";
-            do_meta_boxes( '', $sContext, null ); 
-            echo "</div>";  
+            do_meta_boxes( '', $sContext, null );
+            echo "</div>";
             
         }
     

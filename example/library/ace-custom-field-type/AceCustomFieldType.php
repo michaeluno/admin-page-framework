@@ -65,6 +65,7 @@ class AceCustomFieldType extends AdminPageFramework_FieldType {
     protected function getScripts() {
 
         $_aJSArray = json_encode( $this->aFieldTypeSlugs );
+
         return "jQuery( document ).ready( function(){
             var getWidth = function( oElement ){
                 var _oClone = oElement.clone();
@@ -185,7 +186,7 @@ class AceCustomFieldType extends AdminPageFramework_FieldType {
             . "<div class='admin-page-framework-input-label-container'>"
                 . "<label for='{$aField['input_id']}'>"
                     . $aField['before_input']
-                    . "<textarea " . $this->generateAttributes( $aInputAttributes  ) . " >" 
+                    . "<textarea " . $this->generateAttributes( $aInputAttributes  ) . " >"
                             . $aField['value']
                     . "</textarea>"
                     . $aField['after_input']

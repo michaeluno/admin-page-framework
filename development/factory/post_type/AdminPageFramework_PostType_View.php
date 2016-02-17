@@ -18,7 +18,7 @@
  * @subpackage  PostType
  * @extends     AdminPageFramework_PostType_Model
  */
-abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostType_Model {    
+abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostType_Model {
 
     /**
      * Sets up hooks.
@@ -35,7 +35,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             add_action( 'load_' . $this->oProp->sPostType, array( $this, '_replyToSetUpHooksForView' ) );
 
             // 3.5.10+
-            add_action( 'admin_menu', array( $this, '_replyToRemoveAddNewSidebarMenu' ) );                   
+            add_action( 'admin_menu', array( $this, '_replyToRemoveAddNewSidebarMenu' ) );
             
         }
             
@@ -49,7 +49,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      * @callback    action      load_{post type slug}
      * @since       3.7.9
      */
-    public function _replyToSetUpHooksForView() {   
+    public function _replyToSetUpHooksForView() {
             
         // Table filters
         add_action( 'restrict_manage_posts', array( $this, '_replyToAddAuthorTableFilter' ) );
@@ -57,15 +57,15 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
         add_filter( 'parse_query', array( $this, '_replyToGetTableFilterQueryForTaxonomies' ) );
         
         // Action links
-        add_filter( 
+        add_filter(
             'post_row_actions',
-            array( $this, '_replyToModifyActionLinks' ), 
-            10, 
-            2 
-        );            
+            array( $this, '_replyToModifyActionLinks' ),
+            10,
+            2
+        );
         
         // Style
-        add_action( 'admin_head', array( $this, '_replyToPrintStyle' ) );       
+        add_action( 'admin_head', array( $this, '_replyToPrintStyle' ) );
         
     }
     
@@ -79,7 +79,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
          */
         public function _replyToRemoveAddNewSidebarMenu() {
             
-            if ( 
+            if (
                 $this->oUtil->getElement(
                     $this->oProp->aPostTypeArgs, // subject array
                     'show_submenu_add_new', // dimensional keys
@@ -95,7 +95,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
                 $this->oProp->sPostType
             );
             
-        }      
+        }
             /**
              * Removes the sidebar menu item of "Add New .." of the post type.
              * 
@@ -108,13 +108,13 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
                 // Remove the default post type menu item.
                 if ( ! isset( $GLOBALS[ 'submenu' ][ $sMenuKey ] ) ) {
                     // logged-in users of an insufficient access level don't have the menu to be registered.
-                    return; 
-                } 
+                    return;
+                }
                 
                 foreach ( $GLOBALS[ 'submenu' ][ $sMenuKey ] as $_iIndex => $_aSubMenu ) {
                                 
-                    if ( ! isset( $_aSubMenu[ 2 ] ) ) { 
-                        continue; 
+                    if ( ! isset( $_aSubMenu[ 2 ] ) ) {
+                        continue;
                     }
                     
                     // Remove the default Add New entry.
@@ -132,19 +132,19 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      * @callback    filter      post_row_actions
      * @since       3.7.3
      * @return      array
-     */ 
+     */
     public function _replyToModifyActionLinks( $aActionLinks, $oPost ) {
         
         if ( $oPost->post_type !== $this->oProp->sPostType ){
             return $aActionLinks;
-        }        
+        }
 
         return $this->oUtil->addAndApplyFilters(
-            $this, 
-            "action_links_{$this->oProp->sPostType}", 
+            $this,
+            "action_links_{$this->oProp->sPostType}",
             $aActionLinks,
             $oPost
-        );    
+        );
         
     }
     
@@ -154,21 +154,21 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      * @internal
      * @uses        wp_dropdown_users
      * @callback    filter      restrict_manage_posts
-     */ 
+     */
     public function _replyToAddAuthorTableFilter() {
         
-        if ( ! $this->oProp->bEnableAuthorTableFileter ) { 
-            return; 
+        if ( ! $this->oProp->bEnableAuthorTableFileter ) {
+            return;
         }
         
-        if ( 
-            ! ( isset( $_GET[ 'post_type' ] ) && post_type_exists( $_GET[ 'post_type' ] ) 
-            && in_array( strtolower( $_GET[ 'post_type' ] ), array( $this->oProp->sPostType ) ) ) 
+        if (
+            ! ( isset( $_GET[ 'post_type' ] ) && post_type_exists( $_GET[ 'post_type' ] )
+            && in_array( strtolower( $_GET[ 'post_type' ] ), array( $this->oProp->sPostType ) ) )
         ) {
             return;
         }
         
-        wp_dropdown_users( 
+        wp_dropdown_users(
             array(
                 'show_option_all'   => $this->oMsg->get( 'show_all_authors' ),
                 'show_option_none'  => false,
@@ -187,11 +187,11 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      * 
      * @internal
      * @callback        action      restrict_manage_posts
-     */ 
+     */
     public function _replyToAddTaxonomyTableFilter() {
         
-        if ( $GLOBALS[ 'typenow' ] != $this->oProp->sPostType ) { 
-            return; 
+        if ( $GLOBALS[ 'typenow' ] != $this->oProp->sPostType ) {
+            return;
         }
         
         // If there is no post added to the post type, do nothing.
@@ -210,11 +210,11 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
  
             // If there is no added term, skip.
             if ( 0 == wp_count_terms( $_oTaxonomy->name ) ) {
-                continue;             
+                continue;
             }
 
             // Echo the drop down list based on the passed array argument.
-            wp_dropdown_categories( 
+            wp_dropdown_categories(
                 array(
                     'show_option_all'   => $this->oMsg->get( 'show_all' ) . ' ' . $_oTaxonomy->label,
                     'taxonomy'          => $_sTaxonomySulg,
@@ -226,7 +226,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
                     'hide_empty'        => false,
                     'hide_if_empty'     => false,
                     'echo'              => true, // print the output
-                ) 
+                )
             );
             
         }
@@ -238,23 +238,23 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
      */
     public function _replyToGetTableFilterQueryForTaxonomies( $oQuery=null ) {
         
-        if ( 'edit.php' != $this->oProp->sPageNow ) { 
-            return $oQuery; 
+        if ( 'edit.php' != $this->oProp->sPageNow ) {
+            return $oQuery;
         }
         
-        if ( ! isset( $GLOBALS[ 'typenow' ] ) ) { 
-            return $oQuery; 
+        if ( ! isset( $GLOBALS[ 'typenow' ] ) ) {
+            return $oQuery;
         }
 
         foreach ( get_object_taxonomies( $GLOBALS[ 'typenow' ] ) as $sTaxonomySlug ) {
             
-            if ( ! in_array( $sTaxonomySlug, $this->oProp->aTaxonomyTableFilters ) ) { 
-                continue; 
+            if ( ! in_array( $sTaxonomySlug, $this->oProp->aTaxonomyTableFilters ) ) {
+                continue;
             }
             
             $sVar = &$oQuery->query_vars[ $sTaxonomySlug ];
-            if ( ! isset( $sVar ) ) { 
-                continue; 
+            if ( ! isset( $sVar ) ) {
+                continue;
             }
             
             $oTerm = get_term_by( 'id', $sVar, $sTaxonomySlug );
@@ -290,9 +290,9 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
         
         // Print out the filtered styles.
         if ( ! empty( $this->oProp->sStyle ) ) {
-            echo "<style type='text/css' id='admin-page-framework-style-post-type'>" 
+            echo "<style type='text/css' id='admin-page-framework-style-post-type'>"
                     . $this->oProp->sStyle
-                . "</style>";     
+                . "</style>";
         }
         
     }
@@ -307,6 +307,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             
             $sNone = 'none';
             $sSRC  = esc_url( $this->oUtil->getResolvedSRC( $sSRC ) );
+
             return <<<CSSRULES
 #post-body-content {
     margin-bottom: 10px;
@@ -320,7 +321,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
 }     
 CSSRULES;
             
-        }    
+        }
     
     /**
      * Filters the post type post content.
@@ -330,8 +331,8 @@ CSSRULES;
      * @remark      This class should be overridden in the extended class.
      * @since       3.1.5
      */
-    public function content( $sContent ) { 
-        return $sContent; 
+    public function content( $sContent ) {
+        return $sContent;
     }
     
     /**
@@ -356,10 +357,10 @@ CSSRULES;
         }
     
         return $this->oUtil->addAndApplyFilters(
-            $this, 
-            "content_{$this->oProp->sClassName}", 
+            $this,
+            "content_{$this->oProp->sClassName}",
             $this->content( $sContent )
-        );    
+        );
         
     }
     

@@ -34,10 +34,10 @@ class AdminPageFramework_Format_InPageTabs extends AdminPageFramework_Format_Bas
      */
     public function __construct( /* $sPageSlug, $oFactory */ ) {
      
-        $_aParameters = func_get_args() + array( 
+        $_aParameters = func_get_args() + array(
             $this->aInPageTabs,
-            $this->sPageSlug, 
-            $this->oFactory, 
+            $this->sPageSlug,
+            $this->oFactory,
         );
         $this->aInPageTabs  = $_aParameters[ 0 ];
         $this->sPageSlug    = $_aParameters[ 1 ];
@@ -56,14 +56,14 @@ class AdminPageFramework_Format_InPageTabs extends AdminPageFramework_Format_Bas
             $this->oFactory,  // caller object
             "tabs_{$this->oFactory->oProp->sClassName}_{$this->sPageSlug}", // filter name
             $this->aInPageTabs     // filtering value
-        );    
+        );
 
         // Added items may be missing necessary keys so format them
         foreach( ( array ) $_aInPageTabs as $_sTabSlug => $_aInPageTab ) {
             if ( ! is_array( $_aInPageTab ) ) {
                 continue;
             }
-            $_oFormatter = new AdminPageFramework_Format_InPageTab( 
+            $_oFormatter = new AdminPageFramework_Format_InPageTab(
                 $_aInPageTab,
                 $this->sPageSlug,
                 $this->oFactory
@@ -72,9 +72,9 @@ class AdminPageFramework_Format_InPageTabs extends AdminPageFramework_Format_Bas
         }
 
         // Sort the in-page tab array.
-        uasort( 
-            $_aInPageTabs, 
-            array( $this, 'sortArrayByKey' ) 
+        uasort(
+            $_aInPageTabs,
+            array( $this, 'sortArrayByKey' )
         );
         
         return $_aInPageTabs;

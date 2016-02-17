@@ -16,7 +16,7 @@
  * @since       3.7.0      Changed the name from `AdminPageFramework_FormPart_SectionTitle`.
  * @internal
  */
-class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_Form_View___Section_Base {            
+class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_Form_View___Section_Base {
   
     public $aArguments      = array(
         'title'         => null,
@@ -42,14 +42,14 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
      */
     public function __construct( /* $aArguments, $aFieldsets, $aSavedData, $aFieldErrors, $aFieldTypeDefinitions, $oMsg, $aCallbacks */ ) {
 
-        $_aParameters = func_get_args() + array( 
+        $_aParameters = func_get_args() + array(
             $this->aArguments,
-            $this->aFieldsets,            
-            $this->aSavedData,   
-            $this->aFieldErrors, 
-            $this->aFieldTypeDefinitions, 
+            $this->aFieldsets,
+            $this->aSavedData,
+            $this->aFieldErrors,
+            $this->aFieldTypeDefinitions,
             $this->oMsg,
-            $this->aCallbacks // field output element callables.                  
+            $this->aCallbacks, // field output element callables.                  
         );
 
         $this->aArguments               = $_aParameters[ 0 ] + $this->aArguments;
@@ -57,8 +57,8 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
         $this->aSavedData               = $_aParameters[ 2 ];
         $this->aFieldErrors             = $_aParameters[ 3 ];
         $this->aFieldTypeDefinitions    = $_aParameters[ 4 ];
-        $this->oMsg                     = $_aParameters[ 5 ];        
-        $this->aCallbacks               = $_aParameters[ 6 ];        
+        $this->oMsg                     = $_aParameters[ 5 ];
+        $this->aCallbacks               = $_aParameters[ 6 ];
         
     }
 
@@ -68,13 +68,14 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
      * @return      string      The output.
      */
     public function get() {
-        $_sTitle = $this->_getSectionTitle( 
-            $this->aArguments[ 'title' ], 
+        $_sTitle = $this->_getSectionTitle(
+            $this->aArguments[ 'title' ],
             $this->aArguments[ 'tag' ],
             $this->aFieldsets,
             $this->aArguments[ 'section_index' ],
             $this->aFieldTypeDefinitions
-        );       
+        );
+
         return $_sTitle;
     }
         /**
@@ -87,7 +88,8 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
             $_oToolTip           = new AdminPageFramework_Form_View___ToolTip(
                 $_aSectionset[ 'tip' ],
                 $_sSectionTitleTagID
-            );            
+            );
+
             return $_oToolTip->get();
             
         }
@@ -105,15 +107,16 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
         protected function _getSectionTitle( $sTitle, $sTag, $aFieldsets, $iSectionIndex=null, $aFieldTypeDefinitions=array(), $aCollapsible=array() ) {
        
             $_aSectionTitleField = $this->_getSectionTitleField( $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions );
+
             return $_aSectionTitleField
                 ? $this->getFieldsetOutput( $_aSectionTitleField )
-                : "<{$sTag}>" 
+                : "<{$sTag}>"
                         . $this->_getCollapseButton( $aCollapsible )
-                        . $sTitle 
+                        . $sTitle
                         . $this->_getToolTip()
                     . "</{$sTag}>";
             
-        }    
+        }
             /**
              * Returns a collapse button for the 'button' collapsible type.
              * @since       3.7.0
@@ -122,12 +125,13 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
             private function _getCollapseButton( $aCollapsible ) {
                 $_sExpand   = esc_attr( $this->oMsg->get( 'click_to_expand' ) );
                 $_sCollapse = esc_attr( $this->oMsg->get( 'click_to_collapse' ) );
+
                 return $this->getAOrB(
                     'button' === $this->getElement( $aCollapsible, 'type', 'box' ),
                     "<span class='admin-page-framework-collapsible-button admin-page-framework-collapsible-button-expand' title='{$_sExpand}'>&#9658;</span>"
                     . "<span class='admin-page-framework-collapsible-button admin-page-framework-collapsible-button-collapse' title='{$_sCollapse}'>&#9660;</span>",
                     ''
-                );                
+                );
             }
             /**
              * Returns the first found `section_title` field.
@@ -137,7 +141,7 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
              * @since       3.6.0       Added the `$iSectionIndex` parameter. Added the `$aFieldTypeDefinitions` parameter.
              * @since       3.7.0      Moved from `AdminPageFramework_FormPart_SectionTitle`.
              */
-            private function _getSectionTitleField( array $aFieldsetsets, $iSectionIndex, $aFieldTypeDefinitions ) {   
+            private function _getSectionTitleField( array $aFieldsetsets, $iSectionIndex, $aFieldTypeDefinitions ) {
             
                 foreach( $aFieldsetsets as $_aFieldsetset ) {
                     
@@ -146,12 +150,13 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
                     }
                     
                     // Return the first found one.    
-                    $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput( 
-                        $_aFieldsetset, 
+                    $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput(
+                        $_aFieldsetset,
                         $iSectionIndex,
                         $aFieldTypeDefinitions
-                    );                    
-                    return $_oFieldsetOutputFormatter->get(); 
+                    );
+
+                    return $_oFieldsetOutputFormatter->get();
                     
                 }
             }

@@ -38,7 +38,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Size {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
@@ -46,7 +46,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Size {
                 'title'         => __( 'Sizes', 'admin-page-framework-loader' ),
                 'description'   => __( 'These are size fields.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -55,14 +55,14 @@ class APF_Demo_BuiltinFieldTypes_Selector_Size {
                 'field_id'      => 'size_field',
                 'title'         => __( 'Size', 'admin-page-framework-loader' ),
                 'help'          => $sDescription = __( 'In order to set a default value for the size field type, an array with the <code>size</code> and the <code>unit</code> arguments needs to be set.', 'admin-page-framework-loader' ),
-                'tip'           => __( 'The default units and the lengths for CSS.', 'admin-page-framework-loader' ) 
+                'tip'           => __( 'The default units and the lengths for CSS.', 'admin-page-framework-loader' )
                     . ' ' . $sDescription,
                 'type'          => 'size',
-                'default'       => array( 
-                    'size' => 5, 
+                'default'       => array(
+                    'size' => 5,
                     'unit' => '%',
                 ),
-            ),     
+            ),
             array( // Size with custom units
                 'field_id'      => 'size_custom_unit_field',
                 'title'         => __( 'Size with Custom Units', 'admin-page-framework-loader' ),
@@ -75,37 +75,37 @@ class APF_Demo_BuiltinFieldTypes_Selector_Size {
                     'ounce'     => __( 'ounces', 'admin-page-framework-loader' ),
                     'pounds'    => __( 'pounds', 'admin-page-framework-loader' ),
                 ),
-                'default' => array( 
+                'default' => array(
                     'size'      => 200,
-                    'unit'      => 'ounce' 
+                    'unit'      => 'ounce',
                 ),
-            ),    
+            ),
             array( // Size with custom attributes
                 'field_id'      => 'size_field_custom_attributes',
                 'title'         => __( 'Size with Custom Attributes', 'admin-page-framework-loader' ),
                 'type'          => 'size',
                 'units'         => array( // Pass the group label as the key of an option array.
                     __( 'Metric Unit System', 'admin-page-framework' ) => array(     // each key must be unique throughout this 'label' element array.
-                        'mm'    => 'mm (' . __( 'millimetre', 'admin-page-framework' ) . ')', 
-                        'cm'    => 'cm (' . __( 'centmeter', 'admin-page-framework' ) . ')', 
-                        'm'     => 'm (' . __( 'meter', 'admin-page-framework' ) . ')', 
-                        'km'    => 'km (' . __( 'kilometer', 'admin-page-framework' ) . ')', 
+                        'mm'    => 'mm (' . __( 'millimetre', 'admin-page-framework' ) . ')',
+                        'cm'    => 'cm (' . __( 'centmeter', 'admin-page-framework' ) . ')',
+                        'm'     => 'm (' . __( 'meter', 'admin-page-framework' ) . ')',
+                        'km'    => 'km (' . __( 'kilometer', 'admin-page-framework' ) . ')',
                     ),
-                    __( 'Imperial and US Unit System', 'admin-page-framework' ) => array( 
-                        'in'    => 'in (' . __( 'inch', 'admin-page-framework' ) . ')', 
-                        'ft'    => 'ft (' . __( 'foot', 'admin-page-framework' ) . ')', 
-                        'yd'    => 'yd (' . __( 'yard', 'admin-page-framework' ) . ')', 
-                        'ml'    => 'ml (' . __( 'mile', 'admin-page-framework' ) . ')', 
-                    ),     
-                    __( 'Astronomical Units', 'admin-page-framework' ) => array( 
-                        'au'    => 'au (' . __( 'astronomical unit', 'admin-page-framework' ) . ')', 
-                        'ly'    => 'ly (' . __( 'light year', 'admin-page-framework' ) . ')', 
-                        'pc'    => 'pc (' . __( 'parsec', 'admin-page-framework' ) . ')', 
-                    ),     
+                    __( 'Imperial and US Unit System', 'admin-page-framework' ) => array(
+                        'in'    => 'in (' . __( 'inch', 'admin-page-framework' ) . ')',
+                        'ft'    => 'ft (' . __( 'foot', 'admin-page-framework' ) . ')',
+                        'yd'    => 'yd (' . __( 'yard', 'admin-page-framework' ) . ')',
+                        'ml'    => 'ml (' . __( 'mile', 'admin-page-framework' ) . ')',
+                    ),
+                    __( 'Astronomical Units', 'admin-page-framework' ) => array(
+                        'au'    => 'au (' . __( 'astronomical unit', 'admin-page-framework' ) . ')',
+                        'ly'    => 'ly (' . __( 'light year', 'admin-page-framework' ) . ')',
+                        'pc'    => 'pc (' . __( 'parsec', 'admin-page-framework' ) . ')',
+                    ),
                 ),
-                'default'       => array( 
-                    'size' => 15.2, 
-                    'unit' => 'ft' 
+                'default'       => array(
+                    'size' => 15.2,
+                    'unit' => 'ft',
                 ),
                 'attributes'    => array( // the size field type has four initial keys: size, option, optgroup.
                     'size'      => array(
@@ -148,7 +148,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Size {
                     'label'     => __( 'File Size', 'admin-page-framework-loader' ),
                     'units'     => array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb' => 'gb', 'tb' => 'tb' ),
                     'default'   => array( 'size' => 30, 'unit' => 'mb' ),
-                ),     
+                ),
             ),
             array( // Multiple Size Fields by Label
                 'field_id'          => 'sizes_field_multiple_labels',
@@ -163,7 +163,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Size {
                     'weight'    => '<br />',
                     'length'    => '<br />',
                     'size'      => '<br />',
-                ),                
+                ),
                 'units'             => array(
                     'weight'    => array( 'mg'=>'mg', 'g'=>'g', 'kg'=>'kg' ),
                     'length'    => array( 'cm'=>'cm', 'mm'=>'mm', 'm'=>'m' ),
@@ -171,10 +171,10 @@ class APF_Demo_BuiltinFieldTypes_Selector_Size {
                 ),
                 'default'           => array(
                     'weight'    => array( 'size' => 15, 'unit' => 'g' ),
-                    'length'    => array( 'size' => 100, 'unit' => 'mm' ),               
+                    'length'    => array( 'size' => 100, 'unit' => 'mm' ),
                     'size'      => array( 'size' => 30, 'unit' => 'mb' ),
-                ),                
-            ),            
+                ),
+            ),
             array( // Repeatable Size Fields
                 'field_id'      => 'size_repeatable_fields',
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
@@ -189,7 +189,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Size {
                 array(), // the second item
                 array(), // the third item
                 array(), // the fourth item
-            )                 
+            )
         );
         
     }

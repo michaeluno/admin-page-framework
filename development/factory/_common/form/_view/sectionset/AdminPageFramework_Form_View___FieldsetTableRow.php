@@ -31,20 +31,20 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
      */
     public function __construct( /* array $aFieldset, $aSavedData, $aFieldErrors, $aFieldTypeDefinitions, $oMsg, $aCallbacks */ ) {
 
-        $_aParameters = func_get_args() + array( 
-            $this->aFieldset, 
+        $_aParameters = func_get_args() + array(
+            $this->aFieldset,
             $this->aSavedData,    // passed by reference. @todo: examine why it needs to be passed by reference.
-            $this->aFieldErrors, 
-            $this->aFieldTypeDefinitions, 
+            $this->aFieldErrors,
+            $this->aFieldTypeDefinitions,
             $this->aCallbacks, // field output element callables.        
             $this->oMsg,
         );
         $this->aFieldset                = $_aParameters[ 0 ];
         $this->aSavedData               = $_aParameters[ 1 ];
-        $this->aFieldErrors             = $_aParameters[ 2 ]; 
+        $this->aFieldErrors             = $_aParameters[ 2 ];
         $this->aFieldTypeDefinitions    = $_aParameters[ 3 ];
         $this->aCallbacks               = $_aParameters[ 4 ];
-        $this->oMsg                     = $_aParameters[ 5 ];     
+        $this->oMsg                     = $_aParameters[ 5 ];
         
     }
 
@@ -61,43 +61,43 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
         
         $aFieldset = $this->aFieldset;
 
-        if ( 'section_title' === $aFieldset[ 'type' ] ) { 
-            return ''; 
+        if ( 'section_title' === $aFieldset[ 'type' ] ) {
+            return '';
         }
         
-        $_oFieldrowAttribute   = new AdminPageFramework_Form_View___Attribute_Fieldrow( 
+        $_oFieldrowAttribute   = new AdminPageFramework_Form_View___Attribute_Fieldrow(
             $aFieldset,
-            array( 
+            array(
                 'id'        => 'fieldrow-' . $aFieldset[ 'tag_id' ],
                 'valign'    => 'top',
                 'class'     => 'admin-page-framework-fieldrow',
-            )                
+            )
         );
         
-        return $this->_getFieldByContainer( 
-            $aFieldset, 
+        return $this->_getFieldByContainer(
+            $aFieldset,
             array(
                 'open_container'    => "<tr " . $_oFieldrowAttribute->get() . ">",
                 'close_container'   => "</tr>",
                 'open_title'        => "<th>",
                 'close_title'       => "</th>",
-                'open_main'         => "<td " 
-                    . $this->getAttributes( 
+                'open_main'         => "<td "
+                    . $this->getAttributes(
                         array(
-                            'colspan'   => $aFieldset[ 'show_title_column' ] 
-                                ? 1 
+                            'colspan'   => $aFieldset[ 'show_title_column' ]
+                                ? 1
                                 : 2,
-                            'class'     => $aFieldset[ 'show_title_column' ] 
-                                ? null 
+                            'class'     => $aFieldset[ 'show_title_column' ]
+                                ? null
                                 : 'admin-page-framework-field-td-no-title',
                         )
                     )
                     . ">",
-                'close_main'        => "</td>",       
-            ) 
+                'close_main'        => "</td>",
+            )
         );
 
-    }    
+    }
         /**
          * Returns the field output with the given opening and closing HTML tags.
          * 
@@ -143,21 +143,21 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
              */
             private function _getFieldTitle( array $aField ) {
                 
-                $_oInputTagIDGenerator = new AdminPageFramework_Form_View___Generate_FieldInputID( 
+                $_oInputTagIDGenerator = new AdminPageFramework_Form_View___Generate_FieldInputID(
                     $aField,
                     0   // the first item
                 );
                 
                 return "<label for='" . $_oInputTagIDGenerator->get() . "'>"
                         . "<a id='{$aField[ 'field_id' ]}'></a>"  // to allow the browser to link to the element.
-                        . "<span title='" 
-                                . esc_attr( 
-                                    strip_tags( 
+                        . "<span title='"
+                                . esc_attr(
+                                    strip_tags(
                                         is_array( $aField[ 'description' ] )
                                             ? implode( '&#10;', $aField[ 'description' ] )
-                                            : $aField[ 'description' ] 
+                                            : $aField[ 'description' ]
                                     )
-                                ) 
+                                )
                             . "'>"
                                 . $aField[ 'title' ]
                                 . $this->_getTitleColon( $aField )
@@ -174,7 +174,8 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
                     $_oToolTip           = new AdminPageFramework_Form_View___ToolTip(
                         $asTip,
                         $sElementID
-                    );            
+                    );
+
                     return $_oToolTip->get();
                 }
                 
@@ -186,15 +187,15 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
                     
                     if ( ! isset( $aField[ 'title' ] ) || '' === $aField[ 'title' ] ) {
                         return '';
-                    }                    
-                    if ( 
-                        in_array( 
-                            $aField[ '_structure_type' ], 
-                            array( 'widget', 'post_meta_box', 'page_meta_box' ) 
-                        ) 
+                    }
+                    if (
+                        in_array(
+                            $aField[ '_structure_type' ],
+                            array( 'widget', 'post_meta_box', 'page_meta_box' )
+                        )
                     ){
                         return "<span class='title-colon'>:</span>" ;
-                    }                                                 
+                    }
                     
                 }
     

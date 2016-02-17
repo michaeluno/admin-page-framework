@@ -25,20 +25,20 @@ class APF_Demo_PageMetaBox__FirstTab {
 
     /**
      * Sets uo properties, hooks, and in-page tabs.
-     */    
+     */
     public function __construct( $oFactory, $sPageSlug ) {
     
         $this->_oFactory     = $oFactory;
         $this->_sClassName   = $oFactory->oProp->sClassName;
-        $this->_sPageSlug    = $sPageSlug; 
+        $this->_sPageSlug    = $sPageSlug;
                 
-        $this->_oFactory->addInPageTabs(    
+        $this->_oFactory->addInPageTabs(
             $this->_sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'First', 'admin-page-framework-loader' ),
             )
-        );  
+        );
         
         // load + page slug + tab slug
         add_action( 'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug, array( $this, 'replyToLoadTab' ) );

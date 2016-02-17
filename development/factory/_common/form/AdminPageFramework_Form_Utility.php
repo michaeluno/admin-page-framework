@@ -25,6 +25,7 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
         if ( is_array( $asPath ) ) {
             return;
         }
+
         return explode( '|', $asPath );
     }
     
@@ -33,10 +34,10 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
      * @return      string      The section path. e.g. my_section|nested_section
      */
     static public function getFormElementPath( $asID ) {
-        return implode( 
-            '|', 
-            self::getAsArray( $asID ) 
-        );        
+        return implode(
+            '|',
+            self::getAsArray( $asID )
+        );
     }
   
     /**

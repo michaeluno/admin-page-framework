@@ -36,6 +36,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
             return false;
         }
         self::$_bResourceLoaded = true;
+
         return true;
     }
     public function _replyToSetPointer($aPointers) {
@@ -58,6 +59,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         if (isset($_GET['page'])) {
             return apply_filters(get_class($this) . '-' . $_GET['page'], array());
         }
+
         return array();
     }
     private function _getValidPointers($_aPointers) {
@@ -72,6 +74,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
             $_aPointer['pointer_id'] = $_iPointerID;
             $_aValidPointers[] = $_aPointer;
         }
+
         return $_aValidPointers;
     }
     private function _shouldSkip($_iPointerID, $_aDismissed, $_aPointer) {
@@ -90,6 +93,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         if (empty($_aPointer['options'])) {
             return true;
         }
+
         return false;
     }
     private function _enqueueScripts() {
@@ -103,6 +107,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
     }
     public function _getInlineScript($aPointers = array()) {
         $_aJSArray = json_encode($aPointers);
+
         return <<<JAVASCRIPTS
 ( function( jQuery ) {
 jQuery( document ).ready( function( jQuery ) {

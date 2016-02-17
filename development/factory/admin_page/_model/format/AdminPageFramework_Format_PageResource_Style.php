@@ -22,15 +22,15 @@ class AdminPageFramework_Format_PageResource_Style extends AdminPageFramework_Fo
      * 
      * @since       3.6.3
      * @static
-     */     
-    static public $aStructure = array(    
+     */
+    static public $aStructure = array(
         'src'           => null,    // (required, string) the source url or path
         'handle_id'     => null,    // (optional, string) The handle ID of the stylesheet
         'dependencies'  => null,    // (optional, array) The dependency array.
         'version'       => null,    // (optional, string) The stylesheet version number.
         'media'         => null,    // (optional, string) the description of the field which is inserted into the after the input field tag.
         // 'attributes'    => null,    // (optional, array) [3.3.0+] attributes array. `array( 'data-id' => '...' )`
-    );        
+    );
     
     public $asSubject = '';
     
@@ -38,8 +38,8 @@ class AdminPageFramework_Format_PageResource_Style extends AdminPageFramework_Fo
      * Sets up properties.
      */
     public function __construct( /* $asSubject */ ) {
-        $_aParameters = func_get_args() + array( 
-            $this->asSubject, 
+        $_aParameters = func_get_args() + array(
+            $this->asSubject,
         );
         $this->asSubject             = $_aParameters[ 0 ];
     }
@@ -62,6 +62,7 @@ class AdminPageFramework_Format_PageResource_Style extends AdminPageFramework_Fo
             if ( is_string( $asSubject ) ) {
                 $_aSubject[ 'src' ] = $asSubject;
             }
+
             return $_aSubject + self::$aStructure;
         }
            

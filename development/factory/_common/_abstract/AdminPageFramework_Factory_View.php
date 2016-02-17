@@ -27,21 +27,22 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         
         parent::__construct( $oProp );
 
-        new AdminPageFramework_Factory_View__SettingNotice( 
+        new AdminPageFramework_Factory_View__SettingNotice(
             $this,
             $this->oProp->sSettingNoticeActionHook
         );
         
-    }     
+    }
 
         /**
          * Returns the name attribute value of form sections.
          * @internal    
          * @since       3.6.0
          * @return      string      the input id attribute
-         */    
+         */
         public function _replyToGetSectionName( /* $sSectionName, $aSectionset */ ) {
             $_aParams = func_get_args() + array( null, null, );
+
             return $_aParams[ 0 ];
         }
         
@@ -49,18 +50,20 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          * @internal    
          * @since       3.5.7
          * @return      string      the input id attribute
-         */    
+         */
         public function _replyToGetInputID( /* $sInputIDAttribute, $aField, $sKey, $iSectionIndex */ ) {
             $_aParams = func_get_args() + array( null, null, null, null );
+
             return $_aParams[ 0 ];
         }
         /**
          * @internal    
          * @since       3.5.7
          * @return      string      the fields & fieldset & field row container id attribute
-         */    
+         */
         public function _replyToGetInputTagIDAttribute( /* $sTagIDAttribute, $aFiel, $sKey, $iSectionIndex */ ) {
             $_aParams = func_get_args() + array( null, null, null, null );
+
             return $_aParams[ 0 ];
         }
         
@@ -71,17 +74,19 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          */
         public function _replyToGetFieldNameAttribute( /* $sFieldName, $aFieldset */ )  {
             $_aParams = func_get_args() + array( null, null, );
-            return $_aParams[ 0 ];                        
+
+            return $_aParams[ 0 ];
         }
         /**
          * 
          * @internal
          * @since       3.6.0
          * @return      string
-         */        
+         */
         public function _replyToGetFlatFieldName( /* $sFieldName, $aFieldset */ ) {
             $_aParams = func_get_args() + array( null, null, );
-            return $_aParams[ 0 ];            
+
+            return $_aParams[ 0 ];
         }
         
         /**
@@ -89,9 +94,10 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          * @internal    
          * @since       3.5.7
          * @return      string      the input name attribute
-         */    
+         */
         public function _replyToGetInputNameAttribute( /* $sNameAttribute, $aField, $sKey */ ) {
             $_aParams = func_get_args() + array( null, null, null );
+
             return $_aParams[ 0 ];
         }
         
@@ -100,9 +106,10 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          * @internal    
          * @since       3.5.7
          * @return      string      the flat input name attribute
-         */    
+         */
         public function _replyToGetFlatInputName( /* $sFlatNameAttribute, $aField, $sKey */ ) {
             $_aParams   = func_get_args() + array( null, null, null );
+
             return $_aParams[ 0 ];
         }
 
@@ -114,6 +121,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          */
         public function _replyToGetInputClassAttribute( /* $sClsssAttribute, $aField, $sKey, $iSectionIndex */ ) {
             $_aParams = func_get_args() + array( null, null, null, null );
+
             return $_aParams[ 0 ];
         }
             
@@ -124,16 +132,16 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
      * @return      boolean
      */
     public function _replyToDetermineSectionsetVisibility( $bVisible, $aSectionset ) {
-        return $this->_isElementVisible( $aSectionset, $bVisible );       
-    }    
+        return $this->_isElementVisible( $aSectionset, $bVisible );
+    }
     /**
      * Determines whether the passed field should be visible or not.
      * @since       3.7.0
      * @return      boolean
      */
     public function _replyToDetermineFieldsetVisibility( $bVisible, $aFieldset ) {
-        return $this->_isElementVisible( $aFieldset, $bVisible );        
-    }     
+        return $this->_isElementVisible( $aFieldset, $bVisible );
+    }
         /**
          * @since       3.7.0
          * @return      boolean
@@ -153,7 +161,8 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
             }
             if ( ! current_user_can( $aElementDefinition[ 'capability' ] ) ) {
                 return false;
-            }            
+            }
+
             return $bDefault;
             
         }
@@ -169,6 +178,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         $aFieldset = $aFieldset + array(
             'section_id'  => null,
         );
+
         return $aFieldset[ 'section_id' ] && '_default' !== $aFieldset[ 'section_id' ];
     }
 
@@ -185,13 +195,13 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
     public function _replyToGetSectionHeaderOutput( $sSectionDescription, $aSectionset ) {
         return $this->oUtil->addAndApplyFilters(
             $this,
-            array( 
+            array(
                 // section_{instantiated class name}_{section id}
-                'section_head_' . $this->oProp->sClassName . '_' . $aSectionset[ 'section_id' ] 
-            ), 
+                'section_head_' . $this->oProp->sClassName . '_' . $aSectionset[ 'section_id' ],
+            ),
             $sSectionDescription
         );
-    }            
+    }
     
     /**
      * Returns the field output from the given field definition array.
@@ -209,16 +219,17 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
             '_' . $aFieldset[ 'section_id' ],
             ''
         );
+
         return $this->oUtil->addAndApplyFilters(
             $this,
-            array( 
-                'field_' . $this->oProp->sClassName . $_sSectionPart . '_' . $aFieldset[ 'field_id' ]
+            array(
+                'field_' . $this->oProp->sClassName . $_sSectionPart . '_' . $aFieldset[ 'field_id' ],
             ),
             $sFieldOutput,
             $aFieldset // the field array
-        );             
+        );
         
-    }    
+    }
         
     /**
      * The content filter method,
@@ -232,5 +243,5 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
     // public function content( $sContent ) {
         // return $sContent;
     // }            
-    
+
 }

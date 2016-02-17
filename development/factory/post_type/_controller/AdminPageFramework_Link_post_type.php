@@ -28,13 +28,13 @@ class AdminPageFramework_Link_post_type extends AdminPageFramework_Link_Base {
                        
         // For post type posts listing table page ( edit.php )
         if ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProp->sPostType ) {
-            add_action( 
-                'get_edit_post_link', 
-                array( $this, '_replyToAddPostTypeQueryInEditPostLink' ), 
-                10, 
-                3 
+            add_action(
+                'get_edit_post_link',
+                array( $this, '_replyToAddPostTypeQueryInEditPostLink' ),
+                10,
+                3
            );
-        }        
+        }
     }
 
     /**
@@ -57,7 +57,7 @@ class AdminPageFramework_Link_post_type extends AdminPageFramework_Link_Base {
             $this->oProp->aPostTypeArgs, // subject array
             array( 'labels', 'plugin_action_link' ), // dimensional keys
             $_sLinkLabel // default
-        );     
+        );
      
         // If the user explicitly sets an empty string to the label key, do not insert a link.
         if ( ! $_sLinkLabel ) {
@@ -65,7 +65,7 @@ class AdminPageFramework_Link_post_type extends AdminPageFramework_Link_Base {
         }
 
         // http://.../wp-admin/edit.php?post_type=[...]
-        array_unshift(    
+        array_unshift(
             $aLinks,
             // "<a href='" . esc_url( "edit.php?post_type={$this->oProp->sPostType}" ) . "'>" 
             '<a ' . $this->getAttributes(
@@ -74,11 +74,12 @@ class AdminPageFramework_Link_post_type extends AdminPageFramework_Link_Base {
                     // 3.5.7+ Added for acceptance testing
                     'class'     => 'apf-plugin-title-action-link apf-admin-page',
                 )
-            ) . '>'             
-                . $_sLinkLabel 
+            ) . '>'
+                . $_sLinkLabel
             . "</a>"
-        ); 
-        return $aLinks;     
+        );
+
+        return $aLinks;
         
     }
     
@@ -89,9 +90,9 @@ class AdminPageFramework_Link_post_type extends AdminPageFramework_Link_Base {
      */
     public function _replyToSetFooterInfo() {
 
-        if ( 
-            ! $this->isPostDefinitionPage( $this->oProp->sPostType ) 
-            && ! $this->isPostListingPage( $this->oProp->sPostType ) 
+        if (
+            ! $this->isPostDefinitionPage( $this->oProp->sPostType )
+            && ! $this->isPostListingPage( $this->oProp->sPostType )
             && ! $this->isCustomTaxonomyPage( $this->oProp->sPostType )
         ) {
             return;
@@ -109,16 +110,16 @@ class AdminPageFramework_Link_post_type extends AdminPageFramework_Link_Base {
      * @since       2.0.0
      * @remark      e.g. `http://.../wp-admin/post.php?post=180&action=edit` -> `http://.../wp-admin/post.php?post=180&action=edit&post_type=[...]`
      * @callback    filter      get_edit_post_link
-     */  
+     */
     public function _replyToAddPostTypeQueryInEditPostLink( $sURL, $iPostID=null, $sContext=null ) {
-        return add_query_arg( 
-            array( 
-                'post'      => $iPostID, 
-                'action'    => 'edit', 
-                'post_type' => $this->oProp->sPostType 
-            ), 
+        return add_query_arg(
+            array(
+                'post'      => $iPostID,
+                'action'    => 'edit',
+                'post_type' => $this->oProp->sPostType,
+            ),
             $sURL
-        );    
+        );
     }
 
 }

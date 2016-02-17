@@ -20,6 +20,7 @@ abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_
     public function getInputID($aSubmitElement) {
         foreach ($aSubmitElement as $sInputID => $v) {
             $this->sInputID = $sInputID;
+
             return $this->sInputID;
         }
     }
@@ -43,6 +44,7 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
                 $vData = $_tmp;
             }
         }
+
         return $vData;
     }
     public function getFileName() {
@@ -74,13 +76,16 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
                     echo AdminPageFramework_Debug::get($vData, null, false);
                 }
                 echo $vData;
+
                 return;
             case 'json':
                 echo json_encode(( array )$vData);
+
                 return;
             case 'array':
             default:
                 echo serialize(( array )$vData);
+
                 return;
         }
     }

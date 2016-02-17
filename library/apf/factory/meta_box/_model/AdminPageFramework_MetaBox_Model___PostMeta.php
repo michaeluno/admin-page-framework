@@ -16,6 +16,7 @@ class AdminPageFramework_MetaBox_Model___PostMeta extends AdminPageFramework_Fra
         if (!$this->iPostID) {
             return array();
         }
+
         return $this->_getSavedDataFromFieldsets($this->iPostID, $this->aFieldsets);
     }
     private function _getSavedDataFromFieldsets($iPostID, $aFieldsets) {
@@ -35,6 +36,7 @@ class AdminPageFramework_MetaBox_Model___PostMeta extends AdminPageFramework_Fra
             }
             $_aMetaData[$_sSectionID] = get_post_meta($iPostID, $_sSectionID, true);
         }
+
         return $_aMetaData;
     }
 }

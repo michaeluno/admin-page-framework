@@ -38,7 +38,7 @@ class APF_Demo_AdvancedUsage_Section_Collapsible_B {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'        => $this->sSectionID,
@@ -49,7 +49,7 @@ class APF_Demo_AdvancedUsage_Section_Collapsible_B {
                     'is_collapsed'     => false,
                 ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -65,7 +65,7 @@ class APF_Demo_AdvancedUsage_Section_Collapsible_B {
                 ),
                 'default'       => 'b',
             )
-        );              
+        );
       
     }
 

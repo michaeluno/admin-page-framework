@@ -29,7 +29,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      * @since       3.7.4       Moved from `AdminPageFramework_Model_Menu`.
      * @var         array       Holds the built-in root menu slugs.
      * @internal
-     */ 
+     */
     protected $_aBuiltInRootMenuSlugs = array(
         // All keys must be lower case to support case insensitive look-ups.
         'dashboard'     => 'index.php',
@@ -44,7 +44,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
         'tools'         => 'tools.php',
         'settings'      => 'options-general.php',
         'network admin' => "network_admin_menu",
-    );   
+    );
     
     /**
      * Sets to which top level page is going to be adding sub-pages.
@@ -82,13 +82,13 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
         $_sSlug         = $this->_isBuiltInMenuItem( $sRootMenuLabel ); // if true, this method returns the slug
         $this->oProp->aRootMenu = array(
             'sTitle'        => $sRootMenuLabel,
-            'sPageSlug'     => $_sSlug 
-                ? $_sSlug 
+            'sPageSlug'     => $_sSlug
+                ? $_sSlug
                 : str_replace( '\\', '_', $this->oProp->sClassName ),
             'sIcon16x16'    => $this->oUtil->getResolvedSRC( $sIcon16x16 ),
             'iPosition'     => $iMenuPosition,
             'fCreateRoot'   => empty( $_sSlug ),
-        );    
+        );
                     
     }
         /**
@@ -97,7 +97,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
          * @since       2.0.0
          * @internal
          * @return      void|string     Returns the associated slug string, if true.
-         */ 
+         */
         private function _isBuiltInMenuItem( $sMenuLabel ) {
             
             $_sMenuLabelLower = strtolower( $sMenuLabel );
@@ -105,7 +105,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
                 return $this->_aBuiltInRootMenuSlugs[ $_sMenuLabelLower ];
             }
             
-        }    
+        }
 
     /**
      * Sets the top level menu page by page slug.
@@ -122,12 +122,12 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      * @access      public
      * @param       string      The page slug of the top-level root page.
      * @return      void
-     */ 
+     */
     public function setRootMenuPageBySlug( $sRootMenuSlug ) {
         
         $this->oProp->aRootMenu['sPageSlug']    = $sRootMenuSlug; // do not sanitize the slug here because post types includes a question mark.
         $this->oProp->aRootMenu['fCreateRoot']  = false; // indicates to use an existing menu item. 
-        
+
     }
     
     /**
@@ -163,10 +163,10 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
     * @param        array       $_and_more          (optional) a third and add items as many as necessary with next parameters.
     * @access       public
     * @return       void
-    */     
+    */
     public function addSubMenuItems( $aSubMenuItem1, $aSubMenuItem2=null, $_and_more=null ) {
         foreach ( func_get_args() as $_aSubMenuItem ) {
-            $this->addSubMenuItem( $_aSubMenuItem );     
+            $this->addSubMenuItem( $_aSubMenuItem );
         }
     }
     
@@ -214,7 +214,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
     * </ul>
     * @access       public
     * @return       void
-    */    
+    */
     public function addSubMenuItem( array $aSubMenuItem ) {
         if ( isset( $aSubMenuItem[ 'href' ] ) ) {
             $this->addSubMenuLink( $aSubMenuItem );
@@ -237,28 +237,28 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
     * @access       public
     * @return       void
     * @internal
-    */    
+    */
     public function addSubMenuLink( array $aSubMenuLink ) {
         
         // If required keys are not set, return.
-        if ( ! isset( $aSubMenuLink['href'], $aSubMenuLink['title'] ) ) { 
-            return; 
+        if ( ! isset( $aSubMenuLink['href'], $aSubMenuLink['title'] ) ) {
+            return;
         }
         
         // If the set URL is not valid, return.
-        if ( ! filter_var( $aSubMenuLink['href'], FILTER_VALIDATE_URL ) ) { 
-            return; 
+        if ( ! filter_var( $aSubMenuLink['href'], FILTER_VALIDATE_URL ) ) {
+            return;
         }
 
-        $_oFormatter   = new AdminPageFramework_Format_SubMenuLink( 
-            $aSubMenuLink, 
+        $_oFormatter   = new AdminPageFramework_Format_SubMenuLink(
+            $aSubMenuLink,
             $this,
             count( $this->oProp->aPages ) + 1
         );
         $_aSubMenuLink = $_oFormatter->get();
         $this->oProp->aPages[ $_aSubMenuLink[ 'href' ] ] = $_aSubMenuLink;
         
-    }    
+    }
     
     /**
      * Adds sub-menu pages.
@@ -271,7 +271,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      * @internal
      * @return      void
      * @remark      The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
-     */ 
+     */
     public function addSubMenuPages() {
         foreach ( func_get_args() as $_aSubMenuPage ) {
             $this->addSubMenuPage( $_aSubMenuPage );
@@ -337,14 +337,14 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      * </ul>
      * @return      void
      * @internal
-     */ 
+     */
     public function addSubMenuPage( array $aSubMenuPage ) {
 
-        if ( ! isset( $aSubMenuPage[ 'page_slug' ] ) ) { 
-            return; 
+        if ( ! isset( $aSubMenuPage[ 'page_slug' ] ) ) {
+            return;
         }
             
-        $_oFormatter   = new AdminPageFramework_Format_SubMenuPage( 
+        $_oFormatter   = new AdminPageFramework_Format_SubMenuPage(
             $aSubMenuPage,
             $this,
             count( $this->oProp->aPages ) + 1

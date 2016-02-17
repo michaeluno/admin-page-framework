@@ -25,9 +25,9 @@ class AdminPageFramework_Form_Model___Modifier_SortInput extends AdminPageFramew
      */
     public function __construct( /* $aInput, $aFieldAddresses */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aInput, 
-            $this->aFieldAddresses, 
+        $_aParameters = func_get_args() + array(
+            $this->aInput,
+            $this->aFieldAddresses,
         );
         $this->aInput               = $_aParameters[ 0 ];
         $this->aFieldAddresses = $_aParameters[ 1 ];
@@ -46,8 +46,8 @@ class AdminPageFramework_Form_Model___Modifier_SortInput extends AdminPageFramew
             
             $_aDimensionalKeys = explode( '|', $_sFlatFieldAddress );
                         
-            $_aDynamicElements = $this->getElement( 
-                $this->aInput, 
+            $_aDynamicElements = $this->getElement(
+                $this->aInput,
                 $_aDimensionalKeys
             );
             
@@ -57,16 +57,17 @@ class AdminPageFramework_Form_Model___Modifier_SortInput extends AdminPageFramew
                 continue;
             }
             
-            $this->setMultiDimensionalArray( 
-                $this->aInput, 
-                $_aDimensionalKeys, 
+            $this->setMultiDimensionalArray(
+                $this->aInput,
+                $_aDimensionalKeys,
                 array_values( $_aDynamicElements ) // re-indexed array
-            ); 
+            );
                       
         }
+
         return $this->aInput;
         
-    }       
+    }
     
         /**
          * Formats the array containing section and field addresses.
@@ -83,8 +84,9 @@ class AdminPageFramework_Form_Model___Modifier_SortInput extends AdminPageFramew
             $aFieldAddresses = $this->getAsArray( $aFieldAddresses );
             $aFieldAddresses = array_unique( $aFieldAddresses );
             arsort( $aFieldAddresses );
+
             return $aFieldAddresses;
             
-        }    
+        }
            
 }

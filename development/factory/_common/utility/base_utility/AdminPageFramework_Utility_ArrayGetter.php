@@ -50,12 +50,13 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
         $_aToDefault = is_null( $asToDefault )
             ? array( null )
             : self::getAsArray( $asToDefault, true );
-        $_mValue     = self::getArrayValueByArrayKeys( 
-            $aSubject, 
+        $_mValue     = self::getArrayValueByArrayKeys(
+            $aSubject,
             self::getAsArray( $aisKey, true ),
             $mDefault
         );
-        return in_array( $_mValue, $_aToDefault, true /* important! type-sensitive */ ) 
+
+        return in_array( $_mValue, $_aToDefault, true /* important! type-sensitive */ )
             ? $mDefault
             : $_mValue;
                     
@@ -73,11 +74,11 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
      * @return      array       The cast retrieved element value.
      */
     static public function getElementAsArray( $aSubject, $aisKey, $mDefault=null, $asToDefault=array( null ) ) {
-        return self::getAsArray( 
+        return self::getAsArray(
             self::getElement( $aSubject, $aisKey, $mDefault, $asToDefault ),
             true       // preserve an empty value
         );
-    }        
+    }
     
     /**
      * Removes elements of non-numeric keys from the given array.
@@ -97,13 +98,14 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
             }
             
             // Convert string numeric value to integer or float.
-            $_isKey = $_isKey + 0; 
+            $_isKey = $_isKey + 0;
             
             if ( ! is_int( $_isKey ) ) {
                 unset( $aParse[ $_isKey ] );
             }
                 
         }
+
         return $aParse;
     }
     
@@ -119,9 +121,10 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
         
         foreach ( $aParse as $_isKey => $_v ) {
             if ( is_numeric( $_isKey ) && is_int( $_isKey+ 0 ) ) {
-                unset( $aParse[ $_isKey ] );     
+                unset( $aParse[ $_isKey ] );
             }
         }
+
         return $aParse;
         
     }
@@ -169,15 +172,16 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
             // 3.5.3+ Fixes an issue that setting a non existent key resulted in null.
             // @deprecated
             // return $aArray[ $_sKey ];   
-            
+
             // 3.7.0+ When a too deep element that the subject array does not hold is searched,
             // it returns the default value. It used to return the value of the most upper dimension.
             return $vDefault;
             
         }
+
         return $vDefault;
         
-    }    
+    }
         
     /**
      * Casts array but does not create an empty element with the zero key when non-true value is given.
@@ -193,7 +197,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
     static public function getAsArray( $mValue, $bPreserveEmpty=false ) {
         
         if ( is_array( $mValue ) ) {
-            return $mValue; 
+            return $mValue;
         }
         
         if ( $bPreserveEmpty ) {
@@ -232,6 +236,6 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
             $aSubject,
             array_flip( $aKeys )
         );
-    }    
+    }
    
 }

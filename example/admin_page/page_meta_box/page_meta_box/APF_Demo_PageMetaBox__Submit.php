@@ -14,7 +14,7 @@ class APF_Demo_PageMetaBox__Submit extends AdminPageFramework_PageMetaBox {
         
     /**
      * Sets up form fields.
-     */ 
+     */
     public function setUp() {
         
         $this->addSettingFields(
@@ -28,8 +28,8 @@ class APF_Demo_PageMetaBox__Submit extends AdminPageFramework_PageMetaBox {
                     'field'    => array(
                         'style' => 'width: 100%; text-align: center;',
                     ),
-                )
-            )        
+                ),
+            )
         );
         
     }

@@ -9,6 +9,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
     protected $aDefaultKeys = array('rich' => false, 'attributes' => array('autofocus' => null, 'cols' => 60, 'disabled' => null, 'formNew' => null, 'maxlength' => null, 'placeholder' => null, 'readonly' => null, 'required' => null, 'rows' => 4, 'wrap' => null,),);
     public function getScripts() {
         $_aJSArray = json_encode($this->aFieldTypeSlugs);
+
         return <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
     
@@ -354,6 +355,7 @@ JAVASCRIPTS;
             $_aOutput[] = $this->_getFieldOutputByLabel($_sKey, $_sLabel, $aField);
         }
         $_aOutput[] = "<div class='repeatable-field-buttons'></div>";
+
         return implode('', $_aOutput);
     }
     private function _getFieldOutputByLabel($sKey, $sLabel, $aField) {
@@ -364,6 +366,7 @@ JAVASCRIPTS;
         $aField['rich'] = $this->getElementByLabel($aField['rich'], $sKey, $aField['label']);
         $aField['attributes'] = $_bIsArray ? array('name' => $aField['attributes']['name'] . "[{$sKey}]", 'id' => $aField['attributes']['id'] . "_{$sKey}", 'value' => $aField['value'],) + $aField['attributes'] : $aField['attributes'];
         $_aOutput = array($this->getElementByLabel($aField['before_label'], $sKey, $aField['label']), "<div class='admin-page-framework-input-label-container {$_sClassSelector}'>", "<label for='" . $aField['attributes']['id'] . "'>", $this->getElementByLabel($aField['before_input'], $sKey, $aField['label']), $_sLabel ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength($aField['label_min_width']) . ";'>" . $_sLabel . "</span>" : '', $this->_getEditor($aField), $this->getElementByLabel($aField['after_input'], $sKey, $aField['label']), "</label>", "</div>", $this->getElementByLabel($aField['after_label'], $sKey, $aField['label']),);
+
         return implode('', $_aOutput);
     }
     private function _getEditor($aField) {
@@ -375,6 +378,7 @@ JAVASCRIPTS;
         wp_editor($aField['value'], $aField['attributes']['id'], $this->uniteArrays(( array )$aField['rich'], array('wpautop' => true, 'media_buttons' => true, 'textarea_name' => $aField['attributes']['name'], 'textarea_rows' => $aField['attributes']['rows'], 'tabindex' => '', 'tabfocus_elements' => ':prev,:next', 'editor_css' => '', 'editor_class' => $aField['attributes']['class'], 'teeny' => false, 'dfw' => false, 'tinymce' => true, 'quicktags' => true)));
         $_sContent = ob_get_contents();
         ob_end_clean();
+
         return $_sContent . $this->_getScriptForRichEditor($aField['attributes']['id']);
     }
     private function _getScriptForRichEditor($sIDSelector) {
@@ -398,6 +402,7 @@ jQuery( document ).ready( function() {
 
 })            
 JAVASCRIPTS;
+
         return "<script type='text/javascript' class='admin-page-framework-textarea-enabler'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
     }
 }

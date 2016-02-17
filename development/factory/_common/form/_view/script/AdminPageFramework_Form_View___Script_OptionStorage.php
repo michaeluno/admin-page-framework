@@ -31,10 +31,10 @@ class AdminPageFramework_Form_View___Script_OptionStorage extends  AdminPageFram
         // Uncomment these lines when parameters need to be accessed.
         // $_aParams   = func_get_args() + array( null );
         // $_oMsg      = $_aParams[ 0 ];            
-        
+
         /**
          * Stores framework JavaScript script options.
-         */     
+         */
         return <<<JAVASCRIPTS
 (function ( $ ) {
             

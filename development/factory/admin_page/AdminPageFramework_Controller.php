@@ -49,7 +49,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * @remark      In v1, this is triggered with the `admin_menu` hook; however, in v2, this is triggered with the `wp_loaded` hook.
      * @access      public
      * @return      void
-     */    
+     */
     public function setUp() {}
         
     /*
@@ -85,7 +85,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      *     <li>**help_tab_sidebar_content** - (optional) the HTML string content of the sidebar of the contextual help tab.</li>
      * </ul>
      * @return void
-     */ 
+     */
     public function addHelpTab( $aHelpTab ) {
         $this->oHelpPane->_addHelpTab( $aHelpTab );
     }
@@ -149,9 +149,9 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      *     <li>**attributes** - (optional, array) [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
      * </ul>
      * @return      string      The style handle ID. If the passed url is not a valid url string, an empty string will be returned.
-     */    
+     */
     public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-        return $this->oResource->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );     
+        return $this->oResource->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
     }
     /**
      * Enqueues scripts by page slug and tab slug.
@@ -177,7 +177,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      */
     public function enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
         return $this->oResource->_enqueueScripts( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
-    }    
+    }
     /**
      * Enqueues a script by page slug and tab slug.
      *  
@@ -214,7 +214,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * </ul>
      * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
-    public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {    
+    public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
         return $this->oResource->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
     }
     
@@ -236,12 +236,12 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
     * @param        string      (optional) add more as many as want by adding items to the next parameters.
     * @access       public
     * @return       void
-    */     
+    */
     public function addLinkToPluginDescription( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {
         if ( 'plugins.php' !== $this->oProp->sPageNow ) {
             return;
-        }        
-        $this->oLink->_addLinkToPluginDescription( func_get_args() ); 
+        }
+        $this->oLink->_addLinkToPluginDescription( func_get_args() );
     }
 
     /**
@@ -261,13 +261,13 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
     * @param        string      (optional) add more as many as want by adding items to the next parameters.
     * @access       public
     * @return       void
-    */    
-    public function addLinkToPluginTitle( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {    
+    */
+    public function addLinkToPluginTitle( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {
     
         if ( 'plugins.php' !== $this->oProp->sPageNow ) {
             return;
-        }    
-        $this->oLink->_addLinkToPluginTitle( func_get_args() );     
+        }
+        $this->oLink->_addLinkToPluginTitle( func_get_args() );
         
     }
      
@@ -278,7 +278,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * 
      * @since       3.1.0
      * @since       3.3.1       Moved from `AdminPageFramework`.
-     */  
+     */
     public function setPluginSettingsLinkLabel( $sLabel ) {
         $this->oProp->sLabelPluginSettingsLink = $sLabel;
     }
@@ -297,12 +297,12 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * @param       string      The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> for the created pages.
      * @return      void
      * @access      public
-     */ 
+     */
     public function setCapability( $sCapability ) {
         $this->oProp->sCapability = $sCapability;
         if ( isset( $this->oForm ) ) {
             $this->oForm->sCapability = $sCapability;
-        }  
+        }
     }
             
     /**
@@ -326,12 +326,12 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
         $sID = $sID ? $sID : md5( $sMessage );
         
         // Prevents duplicates
-        $this->oProp->aAdminNotices[ $sID ] = array(  
+        $this->oProp->aAdminNotices[ $sID ] = array(
             'sMessage'          => $sMessage,
             'aAttributes'       => array(
                 'id'    => $sID,
-                'class' => $sClassSelector
-            )
+                'class' => $sClassSelector,
+            ),
         );
         new AdminPageFramework_AdminNotice(
             $this->oProp->aAdminNotices[ $sID ][ 'sMessage' ],
@@ -362,6 +362,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
         
         if ( ! $bAppend ) {
             $this->oProp->aDisallowedQueryKeys = ( array ) $asQueryKeys;
+
             return;
         }
         
@@ -405,6 +406,6 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      */
     static public function getOption( $sOptionKey, $asKey=null, $vDefault=null ) {
         return AdminPageFramework_WPUtility::getOption( $sOptionKey, $asKey, $vDefault );
-    }    
+    }
     
 }

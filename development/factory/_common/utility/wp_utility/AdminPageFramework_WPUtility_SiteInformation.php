@@ -35,7 +35,7 @@ class AdminPageFramework_WPUtility_SiteInformation extends AdminPageFramework_WP
      */
     static public function isDebugLogEnabled() {
         return ( bool ) defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG;
-    }    
+    }
     
     /**
      * Checks if the site debug display mode is enabled.

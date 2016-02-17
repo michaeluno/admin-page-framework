@@ -24,6 +24,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactForm extends A
         if ($oFactory->hasFieldError()) {
             return false;
         }
+
         return ( bool )$this->_getPressedSubmitButtonData($aSubmits, 'confirmed_sending_email');
     }
     private function _sendEmailInBackground($aInputs, $sPressedInputNameFlat, $sSubmitSectionID) {
@@ -61,6 +62,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactFormConfirm ex
         if ($oFactory->hasFieldError()) {
             return false;
         }
+
         return ( bool )$this->_getPressedSubmitButtonData($aSubmits, 'confirming_sending_email');
     }
     public function _replyToSetStatus($aStatus) {

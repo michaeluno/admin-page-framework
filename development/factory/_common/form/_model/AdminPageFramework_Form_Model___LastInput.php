@@ -54,15 +54,16 @@ class AdminPageFramework_Form_Model___LastInput extends AdminPageFramework_Frame
         private function _getTransientKey() {
             $_sPageNow  = $this->getPageNow();
             $_sPageSlug = $this->getElement( $_GET, 'page', '' );
-            $_sTabSlug  = $this->getElement( $_GET, 'tab', '' );            
+            $_sTabSlug  = $this->getElement( $_GET, 'tab', '' );
             $_sUserID   = get_current_user_id();
-            return "apf_li_" . md5( 
-                $_sPageNow 
+
+            return "apf_li_" . md5(
+                $_sPageNow
                 . $_sPageSlug
                 . $_sTabSlug
                 . $_sUserID
             );
-        }       
+        }
     
     /**
      * Sets the given last inputs.
@@ -73,18 +74,18 @@ class AdminPageFramework_Form_Model___LastInput extends AdminPageFramework_Frame
     public function set( $aLastInputs ) {
               
         if ( empty( self::$_aLastInputs ) ) {
-            add_action( 'shutdown', array( $this, '_replyToSave' ) ); 
+            add_action( 'shutdown', array( $this, '_replyToSave' ) );
         }
         
         $_sID = $this->sCallerID;
         self::$_aLastInputs[ $_sID ] = isset( self::$_aLastInputs[ $_sID ] )
-            ? $this->uniteArrays( 
-                self::$_aLastInputs[ $_sID ], 
-                $aLastInputs 
+            ? $this->uniteArrays(
+                self::$_aLastInputs[ $_sID ],
+                $aLastInputs
             )
-            : $aLastInputs; 
+            : $aLastInputs;
 
-    }     
+    }
         /**
          * Saves the data into the transient (database options row).
          * 
@@ -92,17 +93,17 @@ class AdminPageFramework_Form_Model___LastInput extends AdminPageFramework_Frame
          * @internal
          * @callback    action      shutdown
          * @return      void
-         */ 
+         */
         public function _replyToSave() {
-            if ( ! isset( self::$_aLastInputs ) ) { 
-                return; 
+            if ( ! isset( self::$_aLastInputs ) ) {
+                return;
             }
-            $this->setTransient( 
+            $this->setTransient(
                 $this->sTransientKey,
-                self::$_aLastInputs, 
+                self::$_aLastInputs,
                 60*60     // store it for 1 hour 
-            );    
-        }    
+            );
+        }
     
     /**
      * Returns the saved field errors.
@@ -124,7 +125,7 @@ class AdminPageFramework_Form_Model___LastInput extends AdminPageFramework_Frame
             if ( false !== $_aLastInputs ) {
                 $this->delete();    // deletes at the end of the script.
             }
-        }        
+        }
         
         return $this->getElementAsArray(
             $_aLastInputs,
@@ -156,6 +157,6 @@ class AdminPageFramework_Form_Model___LastInput extends AdminPageFramework_Frame
          */
         public function _replyToDelete() {
             $this->deleteTransient( $this->sTransientKey );
-        }               
+        }
         
 }

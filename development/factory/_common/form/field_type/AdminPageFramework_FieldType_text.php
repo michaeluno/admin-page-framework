@@ -39,8 +39,8 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     */        
-    protected function getStyles() { 
+     */
+    protected function getStyles() {
         return <<<CSSRULES
 /* Text Field Type */
 .admin-page-framework-field.admin-page-framework-field-text > .admin-page-framework-input-label-container {
@@ -54,7 +54,7 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
 }
 CSSRULES;
 
-    }    
+    }
     
     /**
      * Returns the output of the text input field.
@@ -67,15 +67,16 @@ CSSRULES;
 
         $_aOutput = array();
         foreach( ( array ) $aField[ 'label' ] as $_sKey => $_sLabel ) {
-            $_aOutput[] = $this->_getFieldOutputByLabel( 
-                $_sKey, 
-                $_sLabel, 
+            $_aOutput[] = $this->_getFieldOutputByLabel(
+                $_sKey,
+                $_sLabel,
                 $aField
             );
         }
         
         // the repeatable field buttons will be replaced with this element.
         $_aOutput[] = "<div class='repeatable-field-buttons'></div>";
+
         return implode( '', $_aOutput );
         
     }
@@ -97,7 +98,7 @@ CSSRULES;
                         'name'  => $aField[ 'attributes' ][ 'name' ] . "[{$sKey}]",
                         'id'    => $aField[ 'attributes' ][ 'id' ] . "_{$sKey}",
                         'value' => $aField[ 'value' ],
-                    ) 
+                    )
                     + $aField[ 'attributes' ]
                 : $aField[ 'attributes' ];
             $_aOutput           = array(
@@ -105,8 +106,8 @@ CSSRULES;
                 "<div class='admin-page-framework-input-label-container {$_sClassSelector}'>",
                     "<label for='" . $_aInputAttributes[ 'id' ] . "'>",
                         $this->getElementByLabel( $aField[ 'before_input' ], $sKey, $aField[ 'label' ] ),
-                        $_sLabel 
-                            ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" 
+                        $_sLabel
+                            ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
                                     . $_sLabel
                                 . "</span>"
                             : '',
@@ -116,8 +117,9 @@ CSSRULES;
                 "</div>",
                 $this->getElementByLabel( $aField[ 'after_label' ], $sKey, $aField[ 'label' ] ),
             );
+
             return implode( '', $_aOutput );
   
-        }   
+        }
 
 }

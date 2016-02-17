@@ -39,14 +39,14 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
         
         // add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToPrintScript' ) );
         $this->registerAction(
-            'customize_controls_print_footer_scripts', 
+            'customize_controls_print_footer_scripts',
             array( $this, '_replyToPrintScript' )
         );
         
         $this->registerAction(
-            'admin_print_footer_scripts', 
-            array( $this, '_replyToPrintScript' )       
-        );        
+            'admin_print_footer_scripts',
+            array( $this, '_replyToPrintScript' )
+        );
         
         $this->construct();
         
@@ -103,8 +103,9 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
      */
     static public function getScript( /* $oMsg */ ) {
         $_aParams   = func_get_args() + array( null );
-        $_oMsg      = $_aParams[ 0 ];                 
-        return "";  
+        $_oMsg      = $_aParams[ 0 ];
+
+        return "";
     }
 
 }

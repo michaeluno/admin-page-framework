@@ -17,6 +17,7 @@ class AdminPageFramework_Zip {
     }
     private function _getFormattedOptions($abOptions) {
         $_aOptions = is_array($abOptions) ? $abOptions : array('include_directory' => $abOptions,);
+
         return $_aOptions + $this->aOptions;
     }
     public function compress() {
@@ -33,6 +34,7 @@ class AdminPageFramework_Zip {
         $this->sSource = $this->_getSanitizedSourcePath($this->sSource);
         $_aMethods = array('unknown' => '_replyToReturnFalse', 'directory' => '_replyToCompressDirectory', 'file' => '_replyToCompressFile',);
         $_sMethodName = $_aMethods[$this->_getSourceType($this->sSource) ];
+
         return call_user_func_array(array($this, $_sMethodName), array($_oZip, $this->sSource, $this->aCallbacks, $this->aOptions['include_directory'], $this->aOptions['additional_source_directories'],));
     }
     private function _getSanitizedSourcePath($sPath) {
@@ -47,6 +49,7 @@ class AdminPageFramework_Zip {
         array_unshift($aAdditionalSourceDirs, $sSourceDirPath);
         $_aSourceDirPaths = array_unique($aAdditionalSourceDirs);
         $this->_addArchiveItems($oZip, $_aSourceDirPaths, $aCallbacks, $_sArchiveRootDirName);
+
         return $oZip->close();
     }
     private function _addArchiveItems($oZip, $aSourceDirPaths, $aCallbacks, $sRootDirName = '') {
@@ -88,10 +91,12 @@ class AdminPageFramework_Zip {
     }
     private function _getMainDirectoryName($sSource) {
         $_aPathParts = explode("/", $sSource);
+
         return $_aPathParts[count($_aPathParts) - 1];
     }
     public function _replyToCompressFile(ZipArchive $oZip, $sSourceFilePath, $aCallbacks = null) {
         $this->_addFromString($oZip, basename($sSourceFilePath), file_get_contents($sSourceFilePath), $aCallbacks);
+
         return $oZip->close();
     }
     private function _getSourceType($sSource) {
@@ -101,12 +106,14 @@ class AdminPageFramework_Zip {
         if (true === is_file($sSource)) {
             return 'file';
         }
+
         return 'unknown';
     }
     private function isFeasible($sSource) {
         if (!extension_loaded('zip')) {
             return false;
         }
+
         return file_exists($sSource);
     }
     public function _replyToReturnFalse() {

@@ -56,13 +56,14 @@ class AdminPageFramework_WPUtility_Meta extends AdminPageFramework_WPUtility_Opt
             $_aSavedMeta[ $_sKey ] = call_user_func_array(
                 $_sFunctionName,
                 array(
-                    $iObjectID, 
-                    $_sKey, 
-                    true                 
+                    $iObjectID,
+                    $_sKey,
+                    true,
                 )
             );
         }
-        return $_aSavedMeta;        
+
+        return $_aSavedMeta;
         
     }
 

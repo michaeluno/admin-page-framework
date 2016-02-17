@@ -36,7 +36,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType {
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     */ 
+     */
     protected function getStyles() {
         return <<<CSSRULES
 /* Radio Field Type */
@@ -61,10 +61,10 @@ CSSRULES;
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
      * @since       3.6.0       Removed the script as the repeatable field mechanism has changed.
-     */ 
+     */
     protected function getScripts() {
         return '';
-    }     
+    }
     
     /**
      * Returns the output of the field type.
@@ -76,10 +76,11 @@ CSSRULES;
     protected function getField( $aField ) {
         
         $_aOutput   = array();
-        foreach( $this->getAsArray( $aField['label'] ) as $_sKey => $_sLabel ) {            
+        foreach( $this->getAsArray( $aField['label'] ) as $_sKey => $_sLabel ) {
             $_aOutput[] = $this->_getEachRadioButtonOutput( $aField, $_sKey, $_sLabel );
         }
         $_aOutput[] = $this->_getUpdateCheckedScript( $aField['input_id'] );
+
         return implode( PHP_EOL, $_aOutput );
             
     }
@@ -94,18 +95,18 @@ CSSRULES;
             $_oRadio      = new AdminPageFramework_Input_radio( $_aAttributes );
             $_oRadio->setAttributesByKey( $sKey );
             $_oRadio->setAttribute( 'data-default', $aField['default'] ); // refered by the repeater script
-           
+
             // Output
             return $this->getElementByLabel( $aField[ 'before_label' ], $sKey, $aField[ 'label' ] )
                 . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
-                    . "<label " . $this->getAttributes( 
+                    . "<label " . $this->getAttributes(
                             array(
                                 'for'   => $_oRadio->getAttribute( 'id' ),
                                 'class' => $_oRadio->getAttribute( 'disabled' )
-                                    ? 'disabled' 
+                                    ? 'disabled'
                                     : null, // important to set null not '' as generateAttributes will not drop the element if it is ''
                             )
-                        ) 
+                        )
                     . ">"
                         . $this->getElementByLabel( $aField[ 'before_input' ], $sKey, $aField[ 'label' ] )
                         . $_oRadio->get( $sLabel )
@@ -115,7 +116,7 @@ CSSRULES;
                 . $this->getElementByLabel( $aField[ 'after_label' ], $sKey, $aField[ 'label' ] )
                 ;
                 
-        }    
+        }
 
         /**
          * Returns the JavaScript script that updates the checked attribute of radio buttons when the user select one.
@@ -136,12 +137,13 @@ jQuery( document ).ready( function(){
     });
 });                 
 JAVASCRIPTS;
-            return 
+
+            return
                 "<script type='text/javascript' class='radio-button-checked-attribute-updater'>"
                     . '/* <![CDATA[ */'
                     . $_sScript
                     . '/* ]]> */'
                 . "</script>";
             
-        }    
+        }
 }

@@ -21,17 +21,17 @@ abstract class AdminPageFrameworkLoader_AdminPage_Section_Base extends AdminPage
     /**
      * Stores the associated page slug with the adding section.
      */
-    public $sPageSlug;    
+    public $sPageSlug;
 
     /**
      * Stores the associated tab slug with the adding section.
      */
-    public $sTabSlug;    
+    public $sTabSlug;
 
     /**
      * Stores the section ID.
      */
-    public $sSectionID;    
+    public $sSectionID;
     
     /**
      * Sets up hooks and properties.
@@ -58,18 +58,18 @@ abstract class AdminPageFrameworkLoader_AdminPage_Section_Base extends AdminPage
     
     private function _addSection( $oFactory, $sPageSlug, array $aSectionDefinition ) {
         
-        add_action( 
+        add_action(
             // 'validation_' . $this->sPageSlug . '_' . $this->sTabSlug, 
             'validation_' . $oFactory->oProp->sClassName . '_' . $this->sSectionID,
-            array( $this, 'validate' ), 
-            10, 
-            4 
+            array( $this, 'validate' ),
+            10,
+            4
         );
         
         $oFactory->addSettingSections(
             $sPageSlug,    // target page slug
             $aSectionDefinition
-        );        
+        );
         
         // Set the target section id
         $oFactory->addSettingFields(
@@ -97,12 +97,13 @@ abstract class AdminPageFrameworkLoader_AdminPage_Section_Base extends AdminPage
                  
         // An invalid value is found. Set a field error array and an admin notice and return the old values.
         if ( ! $_bVerified ) {
-            $oFactory->setFieldErrors( $_aErrors );     
+            $oFactory->setFieldErrors( $_aErrors );
             $oFactory->setSettingNotice( __( 'There was something wrong with your input.', 'admin-page-framework-loader' ) );
+
             return $aOldInput;
         }
                 
-        return $aInput;     
+        return $aInput;
         
     }
  

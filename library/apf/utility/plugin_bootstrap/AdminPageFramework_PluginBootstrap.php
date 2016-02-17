@@ -40,6 +40,7 @@ abstract class AdminPageFramework_PluginBootstrap {
             return true;
         }
         $_bLoaded = true;
+
         return false;
     }
     protected function _registerClasses() {
@@ -63,10 +64,12 @@ abstract class AdminPageFramework_PluginBootstrap {
     }
     public function getClasses() {
         $_aClasses = array();
+
         return $_aClasses;
     }
     public function getScanningDirs() {
         $_aDirs = array();
+
         return $_aDirs;
     }
     public function replyToPluginActivation() {

@@ -36,7 +36,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
      */
     public function __construct( /* $aArguments, $aFieldsets, $aResources, $aFieldTypeDefinitions, $aCallbacks */ ) {
         
-        $_aParameters = func_get_args() + array( 
+        $_aParameters = func_get_args() + array(
             $this->aArguments,
             $this->aFieldsets,
             $this->aResources,
@@ -60,6 +60,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
     public function get() {
         $this->_setCommon();
         $this->_set();
+
         return $this->aResources;
     }
         private static $_bCalled = false;
@@ -130,12 +131,12 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                     if ( $this->isNumericInteger( $_iSubSectionIndexOrFieldID ) ) {
 
                         // no need to repeat the same set of fields
-                        if ( $_bIsSubSectionLoaded ) { 
+                        if ( $_bIsSubSectionLoaded ) {
                             continue;
                         }
                         $_bIsSubSectionLoaded = true;
                         foreach( $_aSubSectionOrField as $_aField ) {
-                            $this->_setFieldResources( $_aField );     
+                            $this->_setFieldResources( $_aField );
                         }
                         continue;
                     }
@@ -167,25 +168,25 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 $_aFieldTypeDefinition  = $this->getElementAsArray(
                     $this->aFieldTypeDefinitions,
                     $_sFieldtype
-                );                
+                );
 
                 // If the field type is not defined, it is not possible to load resources.
                 if ( empty( $_aFieldTypeDefinition ) ) {
                     return;
-                }                
+                }
                 
                 // Call the callback method to let the field type know a fieldset of the field type is registered.
                 // This is supposed to be done before form validations so taht custom filed types add own routines for the validation.
                 if ( is_callable( $_aFieldTypeDefinition[ 'hfDoOnRegistration' ] ) ) {
-                    call_user_func_array( 
-                        $_aFieldTypeDefinition[ 'hfDoOnRegistration' ], 
+                    call_user_func_array(
+                        $_aFieldTypeDefinition[ 'hfDoOnRegistration' ],
                         array( $aFieldset )
                     );
                 }
                 
                 // Let the main routine do something upon adding fieldset resources such as adding help pane items.
                 $this->callBack(
-                    $this->aCallbacks[ 'load_fieldset_resource' ], 
+                    $this->aCallbacks[ 'load_fieldset_resource' ],
                     array(
                         $aFieldset,   // 1st parameter 
                     )
@@ -212,7 +213,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 );
                 $this->aResources = $_oFieldTypeResources->get();
                 
-            }     
+            }
                 
                 /**
                  * Checks if the given field type has been registered already by the given fields type.
@@ -224,6 +225,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                         return true;
                     }
                     self::$_aRegisteredFieldTypes[ $sFieldtype . '_' .$sStructureType ] = true;
+
                     return false;
                 }
                     /**
@@ -240,12 +242,12 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
          */
         private function _isFieldsetAllowed( array $aFieldset ) {
             return $this->callBack(
-                $this->aCallbacks[ 'is_fieldset_registration_allowed' ], 
+                $this->aCallbacks[ 'is_fieldset_registration_allowed' ],
                 array(
                     true,   // 1st parameter 
                     $aFieldset, // 2nd parameter
                 )
             );
-        }            
+        }
 
 }

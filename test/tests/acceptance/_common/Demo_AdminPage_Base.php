@@ -1,7 +1,7 @@
 <?php
 use \AcceptanceTester;
 
-require_once( dirname( __FILE__ ) . '/Loader_AdminPage_Base.php' );
+require_once dirname( __FILE__ ) . '/Loader_AdminPage_Base.php';
 
 class Demo_AdminPage_Base extends \Loader_AdminPage_Base {
     
@@ -11,7 +11,7 @@ class Demo_AdminPage_Base extends \Loader_AdminPage_Base {
         //$this->_enableAdminPage( $I );
         $this->_enableDemo( $I );
         
-    }   
+    }
         protected function _enableAdminPage( $I ) {
             
             // Go to the plugin listing page.

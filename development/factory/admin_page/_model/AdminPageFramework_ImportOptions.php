@@ -60,13 +60,14 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
     private function getElementInFilesArray( array $aFilesImport, $sInputID, $sElementKey='error' ) {
 
         $sElementKey = strtolower( $sElementKey );
-        return $this->getElement( 
+
+        return $this->getElement(
             $aFilesImport,  // subject array
             array( $sElementKey, $sInputID ), // dimensional keys
             null    // default
         );
         
-    }    
+    }
         
     public function getError() {
         
@@ -101,13 +102,14 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
             case 'array': // for serialized PHP array.
             default: // for anything else, 
                 $vData = maybe_unserialize( trim( $vData ) );
+
                 return;
-        }     
+        }
     
     }
     public function getFormatType() {
                     
-        $this->sFormatType = isset( $this->sFormatType ) && $this->sFormatType 
+        $this->sFormatType = isset( $this->sFormatType ) && $this->sFormatType
             ? $this->sFormatType
             : $this->getSubmitValueByType( $this->aPost, $this->sInputID, 'format' );
 

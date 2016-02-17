@@ -33,18 +33,18 @@ class APF_Demo_AdvancedUsage_Section {
     public function __construct( $oFactory ) {
                               
         // Tab
-        $oFactory->addInPageTabs(    
+        $oFactory->addInPageTabs(
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'  => $this->sTabSlug,
-                'title'     => __( 'Sections', 'admin-page-framework-loader' ),    
-            )    
-        );  
+                'title'     => __( 'Sections', 'admin-page-framework-loader' ),
+            )
+        );
         
-        add_action( 
-            'load_' . $this->sPageSlug . '_' . $this->sTabSlug, 
-            array( $this, 'replyToLoadTab' ) 
-        );                
+        add_action(
+            'load_' . $this->sPageSlug . '_' . $this->sTabSlug,
+            array( $this, 'replyToLoadTab' )
+        );
         
     }
     

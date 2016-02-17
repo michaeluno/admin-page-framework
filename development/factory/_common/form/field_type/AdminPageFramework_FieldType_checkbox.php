@@ -36,17 +36,18 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
-     */ 
+     */
     protected function getScripts() {
         new AdminPageFramework_Form_View___Script_CheckboxSelector;
-        $_sClassSelectorSelectAll  = $this->_getSelectButtonClassSelectors( 
-            $this->aFieldTypeSlugs, 
+        $_sClassSelectorSelectAll  = $this->_getSelectButtonClassSelectors(
+            $this->aFieldTypeSlugs,
             'select_all_button' // data attribute
         );
-        $_sClassSelectorSelectNone = $this->_getSelectButtonClassSelectors( 
-            $this->aFieldTypeSlugs, 
+        $_sClassSelectorSelectNone = $this->_getSelectButtonClassSelectors(
+            $this->aFieldTypeSlugs,
             'select_none_button' // data attribute
         );
+
         return <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
     // Add the buttons.
@@ -59,7 +60,7 @@ jQuery( document ).ready( function(){
 });
 JAVASCRIPTS;
 
-    }    
+    }
         /**
          * 
          * @since       3.5.12
@@ -74,6 +75,7 @@ JAVASCRIPTS;
                 }
                 $_aClassSelectors[] = '.admin-page-framework-checkbox-container-' . $_sSlug . "[data-{$sDataAttribute}]";
             }
+
             return implode( ',', $_aClassSelectors );
             
         }
@@ -83,7 +85,7 @@ JAVASCRIPTS;
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     */ 
+     */
     protected function getStyles() {
         return <<<CSSRULES
 /* Checkbox field type */
@@ -129,20 +131,21 @@ CSSRULES;
         $_aOutput       = array();
         $_bIsMultiple   = is_array( $aField[ 'label' ] );
         foreach( $this->getAsArray( $aField[ 'label' ], true ) as $_sKey => $_sLabel ) {
-            $_aOutput[] = $this->_getEachCheckboxOutput( 
-                $aField, 
-                $_bIsMultiple 
-                    ? $_sKey 
+            $_aOutput[] = $this->_getEachCheckboxOutput(
+                $aField,
+                $_bIsMultiple
+                    ? $_sKey
                     : '',
                 $_sLabel
             );
-        }        
+        }
+
         return "<div " . $this->getAttributes( $this->_getCheckboxContainerAttributes( $aField ) ) . ">"
                 . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                 . implode( PHP_EOL, $_aOutput )
             . "</div>";
             
-    }    
+    }
         /**
          * Returns the checkbox container element attributes array.
          * @internal
@@ -153,13 +156,13 @@ CSSRULES;
         protected function _getCheckboxContainerAttributes( array $aField ) {
             return array(
                 'class'                     => 'admin-page-framework-checkbox-container-' . $aField[ 'type' ],
-                'data-select_all_button'    => $aField[ 'select_all_button' ] 
+                'data-select_all_button'    => $aField[ 'select_all_button' ]
                     ? ( ! is_string( $aField[ 'select_all_button' ] ) ? $this->oMsg->get( 'select_all' ) : $aField[ 'select_all_button' ] )
                     : null,
-                'data-select_none_button'   => $aField[ 'select_none_button' ] 
+                'data-select_none_button'   => $aField[ 'select_none_button' ]
                     ? ( ! is_string( $aField[ 'select_none_button' ] ) ? $this->oMsg->get( 'select_none' ) : $aField[ 'select_none_button' ] )
                     : null,
-            );            
+            );
         }
 
         /**
@@ -172,26 +175,27 @@ CSSRULES;
 
             $_oCheckbox = new AdminPageFramework_Input_checkbox( $aField[ 'attributes' ] );
             $_oCheckbox->setAttributesByKey( $sKey );
-            $_oCheckbox->addClass( $this->_sCheckboxClassSelector );                        
+            $_oCheckbox->addClass( $this->_sCheckboxClassSelector );
+
             return $this->getElementByLabel( $aField[ 'before_label' ], $sKey, $aField[ 'label' ] )
                 . "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: " . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>"
-                    . "<label " . $this->getAttributes( 
+                    . "<label " . $this->getAttributes(
                         array(
                             'for'   => $_oCheckbox->getAttribute( 'id' ),
                             'class' => $_oCheckbox->getAttribute( 'disabled' )
                                 ? 'disabled'
                                 : null,
-                        ) 
-                    ) 
+                        )
+                    )
                     . ">"
                         . $this->getElementByLabel( $aField[ 'before_input' ], $sKey, $aField[ 'label' ] )
                         . $_oCheckbox->get( $sLabel )
                         . $this->getElementByLabel( $aField[ 'after_input' ], $sKey, $aField[ 'label' ] )
-                    . "</label>"     
+                    . "</label>"
                 . "</div>"
                 . $this->getElementByLabel( $aField[ 'after_label' ], $sKey, $aField[ 'label' ] )
                 ;
                 
-        }    
+        }
     
 }

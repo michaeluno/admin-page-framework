@@ -32,8 +32,8 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
                 'field_id'      => 'text_field_repeatable',
                 'type'          => 'text',
                 'title'         => __( 'Text Repeatable', 'admin-page-framework-loader' ),
-                'repeatable'    => true
-            ),     
+                'repeatable'    => true,
+            ),
             array(
                 'field_id'      => 'textarea_field',
                 'type'          => 'textarea',
@@ -42,7 +42,7 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
                 'help'          => __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-loader' ),
                 'default'       => __( 'This is a default text value.', 'admin-page-framework-loader' ),
                 'attributes'    => array(
-                    'cols' => 40,     
+                    'cols' => 40,
                 ),
             ),
             array(
@@ -53,9 +53,9 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
                     'preview' => array(
                         'style' => 'max-width: 200px;',
                     ),
-                ),                
+                ),
             )
-        );     
+        );
     
         // Customize the sorting algorithm of the terms of a custom column.
         add_filter( 'get_terms', array( $this, 'replyToSortCustomColumn' ), 10, 3 );
@@ -66,31 +66,32 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
      * ( optional ) modify the columns of the term listing table
      */
     public function sortable_columns_APF_TaxonomyField( $aColumn ) { // sortable_column_{instantiated class name}
-        
-        return array( 
+
+        return array(
                 'custom' => 'custom',
-            ) 
+            )
             + $aColumn;
         
     }
 
     public function columns_APF_TaxonomyField( $aColumn ) { // column_{instantiated class name}
-        
+
         unset( $aColumn['description'] );
-        return array( 
+
+        return array(
                 'cb' => $aColumn['cb'],
                 'thumbnail' => __( 'Thumbnail', 'admin-page-framework-loader' ),
                 'custom' => __( 'Custom Column', 'admin-page-framework-loader' ),
-            ) 
+            )
             + $aColumn;
         
     }
     
     /*
      * ( optional ) output the stored option to the custom column
-     */    
+     */
     public function cell_APF_TaxonomyField( $sCellHTML, $sColumnSlug, $iTermID ) { // cell_{instantiated class name}
-        
+
         if ( ! $iTermID || $sColumnSlug != 'thumbnail' ) { return $sCellHTML; }
         
         $aOptions = get_option( 'APF_TaxonomyField', array() ); // by default the class name is the option key.
@@ -101,9 +102,9 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
     }
     
     public function cell_APF_TaxonomyField_custom( $sCellHTML, $iTermID ) { // cell_{instantiated class name}_{cell slug}
-        
+
         // Using AdminPageFramework::getOption() is another way to retrieve an option value.
-        return AdminPageFramework::getOption( 'APF_TaxonomyField', array( $iTermID, 'text_field' ) );            
+        return AdminPageFramework::getOption( 'APF_TaxonomyField', array( $iTermID, 'text_field' ) );
         
     }
     
@@ -113,7 +114,7 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
     public function do_APF_TaxonomyField() { // do_{instantiated class name}
         ?>
             <p><?php _e( 'This text is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-loader' ) ?></p>
-        <?php     
+        <?php 
     }
 
     /**
@@ -124,6 +125,7 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
         if ( 'edit-tags.php' == $GLOBALS['pagenow'] && isset( $_GET{'orderby'} ) && 'custom' == $_GET{'orderby'} ) {
             usort( $aTerms, array( $this, '_replyToSortByCustomOptionValue' ) );
         }
+
         return $aTerms;
         
     }
@@ -132,11 +134,12 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
             $_sClassName = get_class( $this ); // the instantiated class name is the option key by default.
             $_sTextFieldA = AdminPageFramework::getOption( $_sClassName, array( $oTermA->term_id, 'text_field' ) );
             $_sTextFieldB = AdminPageFramework::getOption( $_sClassName, array( $oTermB->term_id, 'text_field' ) );
+
             return isset( $_GET['order'] ) && 'asc' == $_GET['order']
                 ? strnatcmp( $_sTextFieldA, $_sTextFieldB )
                 : strnatcmp( $_sTextFieldB, $_sTextFieldA );
             
-        }    
+        }
     
     
     /*
@@ -150,6 +153,6 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
     
 }
 
-new APF_TaxonomyField( 
+new APF_TaxonomyField(
     'apf_sample_taxonomy'   // taxonomy slug     
-);   
+);

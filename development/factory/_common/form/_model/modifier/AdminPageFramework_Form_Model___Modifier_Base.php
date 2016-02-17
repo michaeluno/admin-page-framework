@@ -22,9 +22,9 @@ abstract class AdminPageFramework_Form_Model___Modifier_Base extends AdminPageFr
      * Sets up properties.
      */
     // public function __construct() {
-        
+
     // }
-    
+
     /**
      * 
      * @return      array       The formatted definition array.
@@ -32,5 +32,5 @@ abstract class AdminPageFramework_Form_Model___Modifier_Base extends AdminPageFr
     // public function get() {
         // return array();
     // }
-           
+
 }

@@ -26,6 +26,7 @@ class AdminPageFramework_Form_Model___Format_EachSection extends AdminPageFramew
         $_aSection['_is_collapsible'] = $_aSection['collapsible'] && 'section' === $_aSection['collapsible']['container'];
         $_aSection['_tag_id'] = 'section-' . $_aSection['section_id'] . '__' . $this->iIndex;
         $_aSection['_tag_id_model'] = 'section-' . $_aSection['section_id'] . '__' . '___i___';
+
         return $_aSection;
     }
 }

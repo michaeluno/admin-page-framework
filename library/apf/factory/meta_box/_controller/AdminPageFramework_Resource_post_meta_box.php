@@ -10,6 +10,7 @@ class AdminPageFramework_Resource_post_meta_box extends AdminPageFramework_Resou
         foreach (( array )$aSRCs as $_sSRC) {
             $_aHandleIDs[] = $this->_enqueueStyle($_sSRC, $aPostTypes, $aCustomArgs);
         }
+
         return $_aHandleIDs;
     }
     public function _enqueueStyle($sSRC, $aPostTypes = array(), $aCustomArgs = array()) {
@@ -24,6 +25,7 @@ class AdminPageFramework_Resource_post_meta_box extends AdminPageFramework_Resou
         }
         $this->oProp->aEnqueuingStyles[$_sSRCHash] = $this->uniteArrays(( array )$aCustomArgs, array('sSRC' => $sSRC, 'aPostTypes' => empty($aPostTypes) ? $this->oProp->aPostTypes : $aPostTypes, 'sType' => 'style', 'handle_id' => 'style_' . $this->oProp->sClassName . '_' . (++$this->oProp->iEnqueuedStyleIndex),), self::$_aStructure_EnqueuingResources);
         $this->oProp->aResourceAttributes[$this->oProp->aEnqueuingStyles[$_sSRCHash]['handle_id']] = $this->oProp->aEnqueuingStyles[$_sSRCHash]['attributes'];
+
         return $this->oProp->aEnqueuingStyles[$_sSRCHash]['handle_id'];
     }
     public function _enqueueScripts($aSRCs, $aPostTypes = array(), $aCustomArgs = array()) {
@@ -31,6 +33,7 @@ class AdminPageFramework_Resource_post_meta_box extends AdminPageFramework_Resou
         foreach (( array )$aSRCs as $_sSRC) {
             $_aHandleIDs[] = $this->_enqueueScript($_sSRC, $aPostTypes, $aCustomArgs);
         }
+
         return $_aHandleIDs;
     }
     public function _enqueueScript($sSRC, $aPostTypes = array(), $aCustomArgs = array()) {
@@ -45,6 +48,7 @@ class AdminPageFramework_Resource_post_meta_box extends AdminPageFramework_Resou
         }
         $this->oProp->aEnqueuingScripts[$_sSRCHash] = $this->uniteArrays(( array )$aCustomArgs, array('sSRC' => $sSRC, 'aPostTypes' => empty($aPostTypes) ? $this->oProp->aPostTypes : $aPostTypes, 'sType' => 'script', 'handle_id' => 'script_' . $this->oProp->sClassName . '_' . (++$this->oProp->iEnqueuedScriptIndex),), self::$_aStructure_EnqueuingResources);
         $this->oProp->aResourceAttributes[$this->oProp->aEnqueuingScripts[$_sSRCHash]['handle_id']] = $this->oProp->aEnqueuingScripts[$_sSRCHash]['attributes'];
+
         return $this->oProp->aEnqueuingScripts[$_sSRCHash]['handle_id'];
     }
     public function _forceToEnqueueStyle($sSRC, $aCustomArgs = array()) {

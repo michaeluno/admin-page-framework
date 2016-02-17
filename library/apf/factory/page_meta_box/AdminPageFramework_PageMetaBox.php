@@ -9,6 +9,7 @@ abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_
         if (isset($GLOBALS['pagenow']) && 'admin-ajax.php' === $GLOBALS['pagenow']) {
             return false;
         }
+
         return true;
     }
     public function _isInThePage() {
@@ -21,6 +22,7 @@ abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_
         if (array_key_exists($_GET['page'], $this->oProp->aPageSlugs)) {
             return true;
         }
+
         return in_array($_GET['page'], $this->oProp->aPageSlugs);
     }
 }
@@ -78,16 +80,19 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
         if ($this->hasFieldError()) {
             $this->setLastInputs($_aNewMetaBoxInputsRaw);
         }
+
         return $this->oUtil->uniteArrays($_aNewMetaBoxInputs, $aNewPageOptions);
     }
     public function _replyToModifyOptionsUpdateStatus($aStatus) {
         if (!$this->hasFieldError()) {
             return $aStatus;
         }
+
         return array('field_errors' => true) + $this->oUtil->getAsArray($aStatus);
     }
     public function _replyToGetSavedFormData() {
         $_aPageOptions = $this->oUtil->addAndApplyFilter($this, 'options_' . $this->oProp->sClassName, $this->oProp->oAdminPage->oProp->aOptions);
+
         return $this->oUtil->castArrayContents($this->oForm->getDataStructureFromAddedFieldsets(), $_aPageOptions);
     }
     private function _getPageMetaBoxOptionsFromPageOptions(array $aPageOptions, array $aFieldsets) {
@@ -104,6 +109,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
                 $_aOptions[$_sSectionID] = $aPageOptions[$_sSectionID];
             }
         }
+
         return $_aOptions;
     }
 }

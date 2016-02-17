@@ -15,7 +15,7 @@
  * @package     AdminPageFramework
  * @subpackage  Widget
  */
-abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Controller {    
+abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Controller {
        
     /**
      * Defines the class object structure type.
@@ -44,14 +44,14 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
     */
     public function __construct( $sWidgetTitle, $aWidgetArguments=array(), $sCapability='edit_theme_options', $sTextDomain='admin-page-framework' ) {
         
-        if ( empty( $sWidgetTitle ) ) { 
-            return; 
+        if ( empty( $sWidgetTitle ) ) {
+            return;
         }
      
         // Properties
         $_sProprtyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
             ? $this->aSubClassNames[ 'oProp' ]
-            : 'AdminPageFramework_Property_' . $this->_sStructureType;        
+            : 'AdminPageFramework_Property_' . $this->_sStructureType;
         $this->oProp        = new $_sProprtyClassName(
             $this,                  // caller object
             null,                   // the caller script path

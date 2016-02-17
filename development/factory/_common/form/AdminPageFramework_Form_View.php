@@ -37,11 +37,11 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
         $this->sCapability = $this->callBack(
             $this->aCallbacks[ 'capability' ],
             '' // default value
-        );        
+        );
 
         if ( ! $this->canUserView( $this->sCapability ) ) {
             return '';
-        }     
+        }
 
         // Format and update sectionset and fieldset definitions.
         $this->_formatElementDefinitions( $this->aSavedData );
@@ -60,11 +60,12 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
                 'sectionsets'               => $this->aSectionsets,
                 'fieldsets'                 => $this->aFieldsets,
             ),
-            $this->aSavedData,            
+            $this->aSavedData,
             $this->getFieldErrors(),
             $this->aCallbacks,
             $this->oMsg
-        );        
+        );
+
         return $this->_getNoScriptMessage()
             . $_oFormTables->get();
         
@@ -77,10 +78,11 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
             if ( $this->hasBeenCalled( __METHOD__ ) ) {
                 return;
             }
-            return "<noscript>" 
+
+            return "<noscript>"
                 . "<div class='error'>"
-                    . "<p class='admin-page-framework-form-warning'>" 
-                        . $this->oMsg->get( 'please_enable_javascript' ) 
+                    . "<p class='admin-page-framework-form-warning'>"
+                        . $this->oMsg->get( 'please_enable_javascript' )
                     . "</p>"
                 . "</div>"
             . "</noscript>";
@@ -92,7 +94,7 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
      * @return      void
      */
     public function printSubmitNotices() {
-        $this->oSubmitNotice->render();        
+        $this->oSubmitNotice->render();
     }
 
 }

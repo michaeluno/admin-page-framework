@@ -9,6 +9,7 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
         if (is_array($asPath)) {
             return;
         }
+
         return explode('|', $asPath);
     }
     static public function getFormElementPath($asID) {
@@ -22,6 +23,7 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
     static public $_aResources = array('inline_styles' => array(), 'inline_styles_ie' => array(), 'inline_scripts' => array(), 'src_styles' => array(), 'src_scripts' => array(),);
     public function isFieldsets(array $aItems) {
         $_aItem = $this->getFirstElement($aItems);
+
         return isset($_aItem['type'], $_aItem['field_id'], $_aItem['section_id']);
     }
     public function isSection($sID) {
@@ -43,12 +45,14 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
                 return false;
             }
         }
+
         return $_bIsSeciton;
     }
     public function canUserView($sCapability) {
         if (!$sCapability) {
             return true;
         }
+
         return ( boolean )current_user_can($sCapability);
     }
     public function isInThePage() {
@@ -57,6 +61,7 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
     public function callBack($oCallable, $asParameters) {
         $_aParameters = self::getAsArray($asParameters, true);
         $_mDefaultValue = self::getElement($_aParameters, 0);
+
         return is_callable($oCallable) ? call_user_func_array($oCallable, $_aParameters) : $_mDefaultValue;
     }
     public function __toString() {
@@ -74,6 +79,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
     public function getSubmittedData(array $aDataToParse, $bExtractFromFieldStructure = true, $bStripSlashes = true) {
         $_aSubmittedFormData = $bExtractFromFieldStructure ? $this->castArrayContents($this->getDataStructureFromAddedFieldsets(), $aDataToParse) : $aDataToParse;
         $_aSubmittedFormData = $this->getSortedInputs($_aSubmittedFormData);
+
         return $bStripSlashes ? stripslashes_deep($_aSubmittedFormData) : $_aSubmittedFormData;
     }
     public function getSortedInputs(array $aFormInputs) {
@@ -82,6 +88,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             return $aFormInputs;
         }
         $_oInputSorter = new AdminPageFramework_Form_Model___Modifier_SortInput($aFormInputs, $_aDynamicFieldAddressKeys);
+
         return $_oInputSorter->get();
     }
     public function getDataStructureFromAddedFieldsets() {
@@ -95,10 +102,12 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
                 $_aFormDataStructure[$_aFieldset['field_id']] = $_aFieldset;
             }
         }
+
         return $_aFormDataStructure;
     }
     public function dropRepeatableElements(array $aSubject) {
         $_oFilterRepeatableElements = new AdminPageFramework_Form_Model___Modifier_FilterRepeatableElements($aSubject, $this->getElementAsArray($_POST, '__repeatable_elements_' . $this->aArguments['structure_type']));
+
         return $_oFilterRepeatableElements->get();
     }
     public function _replyToRegisterFormItems() {
@@ -134,10 +143,12 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
     private function _getSavedData($aDefaultValues) {
         $_aSavedData = $this->getAsArray($this->callBack($this->aCallbacks['saved_data'], array($aDefaultValues,))) + $aDefaultValues;
         $_aLastInputs = $this->getElement($_GET, 'field_errors') || isset($_GET['confirmation']) ? $this->oLastInputs->get() : array();
+
         return $_aLastInputs + $_aSavedData;
     }
     public function getDefaultFormValues() {
         $_oDefaultValues = new AdminPageFramework_Form_Model___DefaultValues($this->aFieldsets);
+
         return $_oDefaultValues->get();
     }
     protected function _formatElementDefinitions(array $aSavedData) {
@@ -149,6 +160,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
     public function getFieldErrors() {
         $_aErrors = $this->oFieldError->get();
         $this->oFieldError->delete();
+
         return $_aErrors;
     }
     public function setLastInputs(array $aLastInputs) {
@@ -168,12 +180,14 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
         $this->_formatElementDefinitions($this->aSavedData);
         new AdminPageFramework_Form_View___Script_Form;
         $_oFormTables = new AdminPageFramework_Form_View___Sectionsets(array('capability' => $this->sCapability,) + $this->aArguments, array('field_type_definitions' => $this->aFieldTypeDefinitions, 'sectionsets' => $this->aSectionsets, 'fieldsets' => $this->aFieldsets,), $this->aSavedData, $this->getFieldErrors(), $this->aCallbacks, $this->oMsg);
+
         return $this->_getNoScriptMessage() . $_oFormTables->get();
     }
     private function _getNoScriptMessage() {
         if ($this->hasBeenCalled(__METHOD__)) {
             return;
         }
+
         return "<noscript>" . "<div class='error'>" . "<p class='admin-page-framework-form-warning'>" . $this->oMsg->get('please_enable_javascript') . "</p>" . "</div>" . "</noscript>";
     }
     public function printSubmitNotices() {
@@ -218,6 +232,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
     public function addField($asFieldset) {
         if (!$this->_isFieldsetDefinition($asFieldset)) {
             $this->_asTargetSectionID = $this->_getTargetSectionID($asFieldset);
+
             return $this->_asTargetSectionID;
         }
         $_aFieldset = $asFieldset;
@@ -226,6 +241,7 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
             return null;
         }
         $this->_setFieldset($_aFieldset);
+
         return $_aFieldset;
     }
     private function _setFieldset(array $aFieldset) {
@@ -242,12 +258,14 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
         if (is_scalar($asFieldset)) {
             return false;
         }
+
         return $this->isAssociative($asFieldset);
     }
     private function _getTargetSectionID($asTargetSectionID) {
         if (is_scalar($asTargetSectionID)) {
             return $asTargetSectionID;
         }
+
         return $asTargetSectionID;
     }
     public function removeField($sFieldID) {
@@ -297,6 +315,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
         if ($this->sStructureType) {
             $aArguments['structure_type'] = $this->sStructureType;
         }
+
         return $aArguments;
     }
 }

@@ -27,7 +27,7 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
      */
     public function construct() {
         
-        wp_enqueue_script( 'jquery' );    
+        wp_enqueue_script( 'jquery' );
         
         // wp_enqueue_media() should not be called right away as the WordPress built-in featured image image uploader gets affected.
         if ( function_exists( 'wp_enqueue_media' ) ) {
@@ -43,7 +43,7 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
          * @return      void
          */
         public function _replyToEnqueueMedia() {
-            wp_enqueue_media();  
+            wp_enqueue_media();
         }
  
     /**
@@ -55,12 +55,12 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
     static public function getScript( /* $oMsg */ ) {
         
         $_aParams   = func_get_args() + array( null );
-        $_oMsg      = $_aParams[ 0 ];                
+        $_oMsg      = $_aParams[ 0 ];
         
         // means the WordPress version is 3.4.x or below
-        if ( ! function_exists( 'wp_enqueue_media' ) ) { 
-            return ""; 
-        } 
+        if ( ! function_exists( 'wp_enqueue_media' ) ) {
+            return "";
+        }
 
         // Labels
         $_sReturnToLibrary  = esc_js( $_oMsg->get( 'return_to_library' ) );
@@ -71,7 +71,7 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
          * Returns the custom uploader frame object.
          * 
          * @since   3.3.1
-         */     
+         */
         return <<<JAVASCRIPTS
 (function ( $ ) {
             

@@ -11,6 +11,7 @@ class AdminPageFramework_PageLoadInfo_post_type extends AdminPageFramework_PageL
         if (in_array($oProp->sClassName, self::$aClassNames)) return self::$_oInstance;
         self::$aClassNames[] = $oProp->sClassName;
         self::$_oInstance = new AdminPageFramework_PageLoadInfo_post_type($oProp, $oMsg);
+
         return self::$_oInstance;
     }
     public function _replyToSetPageLoadInfoInFooter() {

@@ -25,11 +25,11 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
      * @since       3.3.0       Changed the name from `getjQueryPlugin()`.
      * @param       $oMsg       object      The message object.
      * @return      string      The inline JavaScript script.
-     */        
+     */
     static public function getScript( /* $oMsg */ ) {
         
         $_aParams           = func_get_args() + array( null );
-        $_oMsg              = $_aParams[ 0 ];        
+        $_oMsg              = $_aParams[ 0 ];
         $sCannotAddMore     = $_oMsg->get( 'allowed_maximum_number_of_sections' );
         $sCannotRemoveMore  = $_oMsg->get( 'allowed_minimum_number_of_sections' );
         
@@ -420,23 +420,23 @@ JAVASCRIPTS;
      */
     static public function getEnabler( $sContainerTagID, $iSectionCount, $aSettings, $oMsg ) {
         
-        if ( empty( $aSettings ) ) { 
-            return ''; 
+        if ( empty( $aSettings ) ) {
+            return '';
         }
-        if ( in_array( $sContainerTagID, self::$_aSetContainerIDsForRepeatableSections ) ) { 
-            return ''; 
+        if ( in_array( $sContainerTagID, self::$_aSetContainerIDsForRepeatableSections ) ) {
+            return '';
         }
         self::$_aSetContainerIDsForRepeatableSections[ $sContainerTagID ] = $sContainerTagID;
         
         new self( $oMsg );
-        $aSettings              = self::getAsArray( $aSettings ) + array( 'min' => 0, 'max' => 0 ); 
+        $aSettings              = self::getAsArray( $aSettings ) + array( 'min' => 0, 'max' => 0 );
         $_sAdd                  = $oMsg->get( 'add_section' );
         $_sRemove               = $oMsg->get( 'remove_section' );
-        $_sVisibility           = $iSectionCount <= 1 
-            ? " style='display:none;'" 
+        $_sVisibility           = $iSectionCount <= 1
+            ? " style='display:none;'"
             : "";
         $_sSettingsAttributes   = self::getDataAttributes( $aSettings );
-        $_sButtons              = 
+        $_sButtons              =
             "<div class='admin-page-framework-repeatable-section-buttons' {$_sSettingsAttributes} >"
                 . "<a class='repeatable-section-remove-button button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
                 . "<a class='repeatable-section-add-button button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
@@ -467,9 +467,10 @@ jQuery( document ).ready( function() {
     jQuery( '#{$sContainerTagID}' ).updateAdminPageFrameworkRepeatableSections( $_aJSArray ); 
 });            
 JAVASCRIPTS;
-        return "<script type='text/javascript' class='admin-page-framework-section-repeatable-script'>" 
+
+        return "<script type='text/javascript' class='admin-page-framework-section-repeatable-script'>"
                 . '/* <![CDATA[ */'
-                . $_sScript 
+                . $_sScript
                 . '/* ]]> */'
             . "</script>";
             

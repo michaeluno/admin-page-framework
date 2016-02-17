@@ -14,6 +14,7 @@ class AdminPageFramework_Form_View___Generate_FieldInputName extends AdminPageFr
     }
     public function get() {
         $_sIndex = $this->getAOrB('0' !== $this->sIndex && empty($this->sIndex), '', "[" . $this->sIndex . "]");
+
         return $this->_getFiltered($this->_getFieldName() . $_sIndex);
     }
     protected function _getFiltered($sSubject) {
@@ -23,6 +24,7 @@ class AdminPageFramework_Form_View___Generate_FieldInputName extends AdminPageFr
 class AdminPageFramework_Form_View___Generate_FlatFieldInputName extends AdminPageFramework_Form_View___Generate_FieldInputName {
     public function get() {
         $_sIndex = $this->getAOrB('0' !== $this->sIndex && empty($this->sIndex), '', "|{$this->sIndex}");
+
         return $this->_getFiltered($this->_getFlatFieldName() . $_sIndex);
     }
 }

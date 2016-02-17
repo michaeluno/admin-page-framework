@@ -18,6 +18,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
     protected function getField($aField) {
         $aField['attributes']['name'] = "__import[submit][{$aField['input_id']}]";
         $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->get('import');
+
         return parent::getField($aField);
     }
     protected function _getExtraFieldsBeforeLabel(&$aField) {
@@ -25,6 +26,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
     }
     protected function _getExtraInputFields(&$aField) {
         $aHiddenAttributes = array('type' => 'hidden',);
+
         return "<input " . $this->getAttributes(array('name' => "__import[{$aField['input_id']}][input_id]", 'value' => $aField['input_id'],) + $aHiddenAttributes) . "/>" . "<input " . $this->getAttributes(array('name' => "__import[{$aField['input_id']}][field_id]", 'value' => $aField['field_id'],) + $aHiddenAttributes) . "/>" . "<input " . $this->getAttributes(array('name' => "__import[{$aField['input_id']}][section_id]", 'value' => isset($aField['section_id']) && $aField['section_id'] != '_default' ? $aField['section_id'] : '',) + $aHiddenAttributes) . "/>" . "<input " . $this->getAttributes(array('name' => "__import[{$aField['input_id']}][is_merge]", 'value' => $aField['is_merge'],) + $aHiddenAttributes) . "/>" . "<input " . $this->getAttributes(array('name' => "__import[{$aField['input_id']}][option_key]", 'value' => $aField['option_key'],) + $aHiddenAttributes) . "/>" . "<input " . $this->getAttributes(array('name' => "__import[{$aField['input_id']}][format]", 'value' => $aField['format'],) + $aHiddenAttributes) . "/>";
     }
 }

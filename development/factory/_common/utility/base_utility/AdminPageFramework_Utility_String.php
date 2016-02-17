@@ -27,7 +27,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * @return      string
      */
     static public function sanitizeLength( $sLength, $sUnit='px' ) {
-        return is_numeric( $sLength ) 
+        return is_numeric( $sLength )
             ? $sLength . $sUnit
             : $sLength;
     }
@@ -39,12 +39,12 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * @return      string|null     The sanitized string.
      * @todo        Change the method name as it does not tell for what it will sanitized.
      * @todo        Examine why null needs to be returned.
-     */ 
+     */
     public static function sanitizeSlug( $sSlug ) {
         return is_null( $sSlug )
             ? null
             : preg_replace( '/[^a-zA-Z0-9_\x7f-\xff]/', '_', trim( $sSlug ) );
-    }    
+    }
     
     /**
      * Converts non-alphabetic characters to underscore except hyphen(dash).
@@ -53,12 +53,12 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * @return      string|null      The sanitized string.
      * @todo        Change the method name as it does not tell for what it will sanitized.
      * @todo        Examine why null needs to be returned.
-     */ 
+     */
     public static function sanitizeString( $sString ) {
         return is_null( $sString )
             ? null
             : preg_replace( '/[^a-zA-Z0-9_\x7f-\xff\-]/', '_', $sString );
-    }    
+    }
         
     
     /**
@@ -70,21 +70,22 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * 
      * @since       2.0.0
      * @return      string|integer      A numeric value will be returned. 
-     */ 
+     */
     static public function fixNumber( $nToFix, $nDefault, $nMin='', $nMax='' ) {
 
-        if ( ! is_numeric( trim( $nToFix ) ) ) { 
-            return $nDefault; 
+        if ( ! is_numeric( trim( $nToFix ) ) ) {
+            return $nDefault;
         }
-        if ( $nMin !== '' && $nToFix < $nMin ) { 
-            return $nMin; 
+        if ( $nMin !== '' && $nToFix < $nMin ) {
+            return $nMin;
         }
-        if ( $nMax !== '' && $nToFix > $nMax ) { 
-            return $nMax; 
+        if ( $nMax !== '' && $nToFix > $nMax ) {
+            return $nMax;
         }
+
         return $nToFix;
         
-    }     
+    }
     
     /**
      * Compresses CSS rules.
@@ -94,25 +95,26 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * @return      string
      */
     static public function getCSSMinified( $sCSSRules ) {
-        return str_replace( 
+        return str_replace(
             array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    '),  // remove line breaks, tab, and white sspaces.
-            '', 
+            '',
             preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $sCSSRules ) // remove comments
         );
-    }    
+    }
         /**
          * @deprecated     3.7.10      Use `getCSSMinified()` instead.
          */
         static public function minifyCSS( $sCSSRules ) {
-            trigger_error( 
+            trigger_error(
                 AdminPageFramework_Registry::NAME . ': ' . sprintf(
                     'The method, %1$s, is deprecated. Use %2$s instead.',
                     'minifyCSS()',
                     'getCSSMinified()'
                     
                 ),
-                E_USER_NOTICE 
-            );            
+                E_USER_NOTICE
+            );
+
             return self::getCSSMinified( $sCSSRules );
         }
     
@@ -125,13 +127,13 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
         return function_exists( 'mb_strlen' )
             ? mb_strlen( $sString )
             : strlen( $sString );
-    }    
+    }
         
     /**
      * Returns a number from the given human readable size representation.
      * @since       3.4.6
      * @return      string|integer
-     */     
+     */
     static public function getNumberOfReadableSize( $nSize ) {
         
         $_nReturn     = substr( $nSize, 0, -1 );
@@ -147,20 +149,22 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
             case 'K':
                 $_nReturn *= 1024;
         }
+
         return $_nReturn;
         
-    }   
+    }
     
     /**
      * Returns a human readable size from the given byte number.
      * @since       3.4.6
      * @return      string
-     */     
+     */
     static public function getReadableBytes( $nBytes ) {
         $_aUnits    = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
         $_nLog      = log( $nBytes, 1024 );
         $_iPower    = ( int ) $_nLog;
         $_iSize     = pow( 1024, $_nLog - $_iPower );
+
         return $_iSize . $_aUnits[ $_iPower ];
     }
 
@@ -168,11 +172,11 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * Trims a starting sub-string if exists.
      * @return      string
      * @since       3.7.2
-     */    
+     */
     static public function getPrefixRemoved( $sString, $sPrefix ) {
         return self::hasPrefix( $sPrefix, $sString )
             ? substr( $sString, strlen( $sPrefix ) )
-            : $sStrung;        
+            : $sStrung;
     }
     /**
      * Trims a traling sub-string if exists.
@@ -183,7 +187,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
         return self::hasSuffix( $sSuffix, $sString )
             ? substr( $sString, 0, strlen( $sSuffix ) * - 1 )
             : $sString;
-    }    
+    }
     
     /**
      * Checks if the given string has a certain prefix.
@@ -195,7 +199,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      */
     static public function hasPrefix( $sNeedle, $sHaystack ) {
         return $sNeedle === substr( $sHaystack, 0, strlen( $sNeedle ) );
-    }       
+    }
  
     /**
      * Checks if the given string has a certain suffix.
@@ -211,6 +215,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
         if ( 0 === $_iLength ) {
             return true;
         }
+
         return substr( $sHaystack, - $_iLength ) === $sNeedle;
         
     }

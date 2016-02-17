@@ -18,14 +18,14 @@ class AdminPageFrameworkLoader_AdminPage_Addon extends AdminPageFrameworkLoader_
     
     public function replyToLoadPage( $oFactory ) {
         
-        new AdminPageFrameworkLoader_AdminPage_Addon_Top( 
+        new AdminPageFrameworkLoader_AdminPage_Addon_Top(
             $oFactory,          // factory object
             $this->sPageSlug,   // page slug
             array(              // tab definition
                 'tab_slug'      => 'top',
                 'title'         => __( 'Add Ons', 'admin-page-framework-loader' ),
             )
-        );       
+        );
         
     }
         

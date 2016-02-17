@@ -29,7 +29,7 @@ class AdminPageFramework_Message {
      * @since       2.0.0
      * @since       3.1.3       No item is defined by default but done on the fly per request. The below array structure is kept for backward compatibility.
      * @remark      The user may modify this property directly.
-     */ 
+     */
     public $aMessages = array();
     
     /**
@@ -64,55 +64,55 @@ class AdminPageFramework_Message {
 
         // AdminPageFramework
         'option_updated'                        => 'The options have been updated.',
-        'option_cleared'                        => 'The options have been cleared.', 
-        'export'                                => 'Export', 
-        'export_options'                        => 'Export Options', 
-        'import_options'                        => 'Import', 
-        'import_options'                        => 'Import Options', 
-        'submit'                                => 'Submit', 
-        'import_error'                          => 'An error occurred while uploading the import file.', 
-        'uploaded_file_type_not_supported'      => 'The uploaded file type is not supported: %1$s', 
-        'could_not_load_importing_data'         => 'Could not load the importing data.', 
-        'imported_data'                         => 'The uploaded file has been imported.', 
-        'not_imported_data'                     => 'No data could be imported.', 
-        'upload_image'                          => 'Upload Image', 
-        'use_this_image'                        => 'Use This Image', 
-        'insert_from_url'                       => 'Insert from URL', 
-        'reset_options'                         => 'Are you sure you want to reset the options?', 
-        'confirm_perform_task'                  => 'Please confirm your action.', 
-        'specified_option_been_deleted'         => 'The specified options have been deleted.', 
-        'nonce_verification_failed'             => 'A problem occurred while processing the form data. Please try again.', 
+        'option_cleared'                        => 'The options have been cleared.',
+        'export'                                => 'Export',
+        'export_options'                        => 'Export Options',
+        'import_options'                        => 'Import',
+        'import_options'                        => 'Import Options',
+        'submit'                                => 'Submit',
+        'import_error'                          => 'An error occurred while uploading the import file.',
+        'uploaded_file_type_not_supported'      => 'The uploaded file type is not supported: %1$s',
+        'could_not_load_importing_data'         => 'Could not load the importing data.',
+        'imported_data'                         => 'The uploaded file has been imported.',
+        'not_imported_data'                     => 'No data could be imported.',
+        'upload_image'                          => 'Upload Image',
+        'use_this_image'                        => 'Use This Image',
+        'insert_from_url'                       => 'Insert from URL',
+        'reset_options'                         => 'Are you sure you want to reset the options?',
+        'confirm_perform_task'                  => 'Please confirm your action.',
+        'specified_option_been_deleted'         => 'The specified options have been deleted.',
+        'nonce_verification_failed'             => 'A problem occurred while processing the form data. Please try again.',
         'check_max_input_vars'                  => 'Not all form fields could not be sent. Please check your server settings of PHP <code>max_input_vars</code> and consult the server administrator to increase the value. <code>max input vars</code>: %1$s. <code>$_POST</code> count: %2$s',  // 3.5.11+
         'send_email'                            => 'Is it okay to send the email?',     // 3.3.0+
         'email_sent'                            => 'The email has been sent.',  // 3.3.0+, 3.3.5+ deprecated 
         'email_scheduled'                       => 'The email has been scheduled.', // 3.3.5+
         'email_could_not_send'                  => 'There was a problem sending the email',     // 3.3.0+
-        
+
         // AdminPageFramework_PostType
-        'title'                                 => 'Title',     
-        'author'                                => 'Author',     
-        'categories'                            => 'Categories', 
-        'tags'                                  => 'Tags', 
-        'comments'                              => 'Comments', 
-        'date'                                  => 'Date', 
-        'show_all'                              => 'Show All', 
+        'title'                                 => 'Title',
+        'author'                                => 'Author',
+        'categories'                            => 'Categories',
+        'tags'                                  => 'Tags',
+        'comments'                              => 'Comments',
+        'date'                                  => 'Date',
+        'show_all'                              => 'Show All',
         'show_all_authors'                      => 'Show all Authors', // 3.5.10+
 
         // AdminPageFramework_Link_Base
-        'powered_by'                            => 'Thank you for creating with', 
+        'powered_by'                            => 'Thank you for creating with',
         'and'                                   => 'and',
 
         // AdminPageFramework_Link_admin_page
-        'settings'                              => 'Settings', 
+        'settings'                              => 'Settings',
 
         // AdminPageFramework_Link_post_type
-        'manage'                                => 'Manage', 
+        'manage'                                => 'Manage',
 
         // AdminPageFramework_FieldType_{...}
-        'select_image'                          => 'Select Image', 
-        'upload_file'                           => 'Upload File', 
-        'use_this_file'                         => 'Use This File', 
-        'select_file'                           => 'Select File', 
+        'select_image'                          => 'Select Image',
+        'upload_file'                           => 'Upload File',
+        'use_this_file'                         => 'Use This File',
+        'select_file'                           => 'Select File',
         'remove_value'                          => 'Remove Value',  // 3.2.0+
         'select_all'                            => 'Select All',    // 3.3.0+
         'select_none'                           => 'Select None',   // 3.3.0+                       
@@ -123,43 +123,43 @@ class AdminPageFramework_Message {
         'insert'                                => 'Insert',  // 3.4.2+
         'use_this'                              => 'Use This', // 3.4.2+
         'return_to_library'                     => 'Return to Library', // 3.4.2+
-            
+
         // AdminPageFramework_PageLoadInfo_Base
-        'queries_in_seconds'                    => '%1$s queries in %2$s seconds.', 
-        'out_of_x_memory_used'                  => '%1$s out of %2$s MB (%3$s) memory used.', 
-        'peak_memory_usage'                     => 'Peak memory usage %1$s MB.', 
-        'initial_memory_usage'                  => 'Initial memory usage  %1$s MB.', 
+        'queries_in_seconds'                    => '%1$s queries in %2$s seconds.',
+        'out_of_x_memory_used'                  => '%1$s out of %2$s MB (%3$s) memory used.',
+        'peak_memory_usage'                     => 'Peak memory usage %1$s MB.',
+        'initial_memory_usage'                  => 'Initial memory usage  %1$s MB.',
         
         // AdminPageFramework_FormField
-        'allowed_maximum_number_of_fields'      => 'The allowed maximum number of fields is {0}.', 
-        'allowed_minimum_number_of_fields'      => 'The allowed minimum number of fields is {0}.', 
-        'add'                                   => 'Add', 
-        'remove'                                => 'Remove', 
+        'allowed_maximum_number_of_fields'      => 'The allowed maximum number of fields is {0}.',
+        'allowed_minimum_number_of_fields'      => 'The allowed minimum number of fields is {0}.',
+        'add'                                   => 'Add',
+        'remove'                                => 'Remove',
 
         // AdminPageFramework_FormPart_Table
-        'allowed_maximum_number_of_sections'    => 'The allowed maximum number of sections is {0}', 
-        'allowed_minimum_number_of_sections'    => 'The allowed minimum number of sections is {0}', 
-        'add_section'                           => 'Add Section', 
-        'remove_section'                        => 'Remove Section', 
-        'toggle_all'                            => 'Toggle All', 
-        'toggle_all_collapsible_sections'       => 'Toggle all collapsible sections', 
+        'allowed_maximum_number_of_sections'    => 'The allowed maximum number of sections is {0}',
+        'allowed_minimum_number_of_sections'    => 'The allowed minimum number of sections is {0}',
+        'add_section'                           => 'Add Section',
+        'remove_section'                        => 'Remove Section',
+        'toggle_all'                            => 'Toggle All',
+        'toggle_all_collapsible_sections'       => 'Toggle all collapsible sections',
             
         // AdminPageFramework_FieldType_reset 3.3.0+
-        'reset'                                 => 'Reset', 
+        'reset'                                 => 'Reset',
             
         // AdminPageFramework_FieldType_system 3.5.3+
-        'yes'                                   => 'Yes', 
-        'no'                                    => 'No', 
-        'on'                                    => 'On', 
-        'off'                                   => 'Off', 
-        'enabled'                               => 'Enabled', 
-        'disabled'                              => 'Disabled', 
-        'supported'                             => 'Supported', 
-        'not_supported'                         => 'Not Supported', 
-        'functional'                            => 'Functional', 
-        'not_functional'                        => 'Not Functional', 
-        'too_long'                              => 'Too Long', 
-        'acceptable'                            => 'Acceptable', 
+        'yes'                                   => 'Yes',
+        'no'                                    => 'No',
+        'on'                                    => 'On',
+        'off'                                   => 'Off',
+        'enabled'                               => 'Enabled',
+        'disabled'                              => 'Disabled',
+        'supported'                             => 'Supported',
+        'not_supported'                         => 'Not Supported',
+        'functional'                            => 'Functional',
+        'not_functional'                        => 'Not Functional',
+        'too_long'                              => 'Too Long',
+        'acceptable'                            => 'Acceptable',
         'no_log_found'                          => 'No log found.',
         
         // 3.7.0+ - accessed from `AdminPageFramework_Form`
@@ -173,7 +173,7 @@ class AdminPageFramework_Message {
         
         // 3.7.0+ - displayed while the page laods
         'loading'                               => 'Loading...',
-        'please_enable_javascript'              => 'Please enable JavaScript for better experience.'
+        'please_enable_javascript'              => 'Please enable JavaScript for better experience.',
     );
     
     /**
@@ -203,9 +203,10 @@ class AdminPageFramework_Message {
             ? self::$_aInstancesByTextDomain[ $sTextDomain ]
             : new AdminPageFramework_Message( $sTextDomain );
         self::$_aInstancesByTextDomain[ $sTextDomain ] = $_oInstance;
+
         return self::$_aInstancesByTextDomain[ $sTextDomain ];
         
-    }    
+    }
         /**
          * Ensures that only one instance of this class object exists. ( no multiple instances of this object ) 
          * @deprecated  3.2.0
@@ -219,14 +220,14 @@ class AdminPageFramework_Message {
      */
     public function __construct( $sTextDomain='admin-page-framework' ) {
         
-        $this->_sTextDomain = $sTextDomain;  
+        $this->_sTextDomain = $sTextDomain;
         
         // Fill the $aMessages property with the keys extracted from the $aDefaults property
         // with the value of null.  The null is set to let it trigger the __get() method 
         // so that each translation item gets processed individually.
-        $this->aMessages    = array_fill_keys( 
+        $this->aMessages    = array_fill_keys(
             array_keys( $this->aDefaults ),
-            null        
+            null
         );
         
     }
@@ -262,6 +263,7 @@ class AdminPageFramework_Message {
         if ( ! $sKey ) {
             return $this->_getAllMessages();
         }
+
         return isset( $this->aMessages[ $sKey ] )
             ? __( $this->aMessages[ $sKey ], $this->_sTextDomain )
             : __( $this->{$sKey}, $this->_sTextDomain );     // triggers __get()
@@ -278,6 +280,7 @@ class AdminPageFramework_Message {
             foreach ( $this->aMessages as $_sLabel => $_sTranslation ) {
                 $_aMessages[ $_sLabel ] = $this->get( $_sLabel );
             }
+
             return $_aMessages;
         }
 
@@ -285,10 +288,10 @@ class AdminPageFramework_Message {
      * Echoes the framework system message by key.
      * @remark  An alias of the _e() method.
      * @since   3.2.0
-     */    
+     */
     public function output( $sKey ) {
         echo $this->get( $sKey );
-    }   
+    }
         
         /**
          * Returns the framework system message by key.
@@ -297,12 +300,12 @@ class AdminPageFramework_Message {
          */
         public function __( $sKey ) {
             return $this->get( $sKey );
-        }       
+        }
         /**
          * Echoes the framework system message by key.
          * @since       2.x
          * @deprecated  3.2.0
-         */    
+         */
         public function _e( $sKey ) {
             $this->output( $sKey );
         }
@@ -325,7 +328,7 @@ class AdminPageFramework_Message {
      */
     private function __doDummy() {
 
-        __( 'The options have been updated.', 'admin-page-framework' ); 
+        __( 'The options have been updated.', 'admin-page-framework' );
         __( 'The options have been cleared.', 'admin-page-framework' );
         __( 'Export', 'admin-page-framework' );
         __( 'Export Options', 'admin-page-framework' );
@@ -347,14 +350,14 @@ class AdminPageFramework_Message {
         __( 'Not all form fields could not be sent. Please check your server settings of PHP <code>max_input_vars</code> and consult the server administrator to increase the value. <code>max input vars</code>: %1$s. <code>$_POST</code> count: %2$s', 'admin-page-framework' );
         __( 'Is it okay to send the email?', 'admin-page-framework' );
         __( 'The email has been sent.', 'admin-page-framework' );
-        __( 'The email has been scheduled.', 'admin-page-framework' );                    
+        __( 'The email has been scheduled.', 'admin-page-framework' );
         __( 'There was a problem sending the email', 'admin-page-framework' );
-        __( 'Title', 'admin-page-framework' );    
-        __( 'Author', 'admin-page-framework' );    
+        __( 'Title', 'admin-page-framework' );
+        __( 'Author', 'admin-page-framework' );
         __( 'Categories', 'admin-page-framework' );
         __( 'Tags', 'admin-page-framework' );
         __( 'Comments', 'admin-page-framework' );
-        __( 'Date', 'admin-page-framework' ); 
+        __( 'Date', 'admin-page-framework' );
         __( 'Show All', 'admin-page-framework' );
         __( 'Show All Authors', 'admin-page-framework' );
         __( 'Thank you for creating with', 'admin-page-framework' );
@@ -367,11 +370,11 @@ class AdminPageFramework_Message {
         __( 'Select File', 'admin-page-framework' );
         __( 'Remove Value', 'admin-page-framework' );
         __( 'Select All', 'admin-page-framework' );
-        __( 'Select None', 'admin-page-framework' );          
+        __( 'Select None', 'admin-page-framework' );
         __( 'No term found.', 'admin-page-framework' );
-        __( 'Select', 'admin-page-framework' );          
-        __( 'Insert', 'admin-page-framework' );                              
-        __( 'Use This', 'admin-page-framework' );                   
+        __( 'Select', 'admin-page-framework' );
+        __( 'Insert', 'admin-page-framework' );
+        __( 'Use This', 'admin-page-framework' );
         __( 'Return to Library', 'admin-page-framework' );
         __( '%1$s queries in %2$s seconds.', 'admin-page-framework' );
         __( '%1$s out of %2$s MB (%3$s) memory used.', 'admin-page-framework' );
@@ -400,7 +403,7 @@ class AdminPageFramework_Message {
         __( 'Not Functional', 'admin-page-framework' );
         __( 'Too Long', 'admin-page-framework' );
         __( 'Acceptable', 'admin-page-framework' );
-        __( 'No log found.', 'admin-page-framework' );        
+        __( 'No log found.', 'admin-page-framework' );
         
         __( 'The method is called too early: %1$s', 'admin-page-framework' );
         __( 'Debug Info', 'admin-page-framework' );

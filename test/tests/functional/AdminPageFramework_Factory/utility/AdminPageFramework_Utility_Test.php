@@ -3,7 +3,7 @@
  * Manually include the bootstrap script as Codeception bootstrap runs after loading this file.
  * @see https://github.com/Codeception/Codeception/issues/862
  */
-include_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/_bootstrap.php' );
+include_once dirname( dirname( dirname( __FILE__ ) ) ) . '/_bootstrap.php';
 
 /**
  * @group   factory
@@ -35,7 +35,7 @@ class AdminPageFramework_Utility_Test extends \WP_UnitTestCase {
         $this->assertEquals( '80em', $this->oUtil->sanitizeLength( 80 , 'em' ) );
         $this->assertEquals( '0%', $this->oUtil->sanitizeLength( 0 , '%' ) );
         
-    }   
+    }
     
 
 }

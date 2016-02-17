@@ -34,17 +34,18 @@ abstract class AdminPageFramework_Utility_File extends AdminPageFramework_Utilit
         if ( ! @is_readable( $_sPath ) ) {
             return '';
         }
-        return trim( 
-            implode( 
-                '', 
-                array_slice( 
-                    file( $_sPath ), 
-                    - $iLines 
-                ) 
-            ) 
+
+        return trim(
+            implode(
+                '',
+                array_slice(
+                    file( $_sPath ),
+                    - $iLines
+                )
+            )
         );
         
-    }                 
+    }
         /**
          * Returns a first item of an array. 
          * @since       3.5.4
@@ -53,6 +54,7 @@ abstract class AdminPageFramework_Utility_File extends AdminPageFramework_Utilit
         static private function _getFirstItem( $asItems ) {
             $_aItems  = is_array( $asItems ) ? $asItems : array( $asItems );
             $_aItems  = array_values( $_aItems );
+
             return ( string ) array_shift( $_aItems );
         }
     /**

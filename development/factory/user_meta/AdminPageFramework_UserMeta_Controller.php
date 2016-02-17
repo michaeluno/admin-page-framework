@@ -56,7 +56,7 @@ abstract class AdminPageFramework_UserMeta_Controller extends AdminPageFramework
      * @remark      should be overridden by the user definition class. 
      * @since       3.5.0
      */
-    public function setUp() {}    
+    public function setUp() {}
     
     
     /**
@@ -88,9 +88,9 @@ abstract class AdminPageFramework_UserMeta_Controller extends AdminPageFramework
      * @param       array       (optional) The post type slugs that the stylesheet should be added to. If not set, it applies to all the pages of the post types.
      * @param       array       (optional) The argument array for more advanced parameters.
      * @return      string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
-     */    
+     */
     public function enqueueStyle( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
-        return $this->oResource->_enqueueStyle( $sSRC, $aPostTypes, $aCustomArgs );     
+        return $this->oResource->_enqueueStyle( $sSRC, $aPostTypes, $aCustomArgs );
     }
     /**
      * Enqueues scripts by page slug and tab slug.
@@ -99,7 +99,7 @@ abstract class AdminPageFramework_UserMeta_Controller extends AdminPageFramework
      */
     public function enqueueScripts( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
         return $this->oResource->_enqueueScripts( $aSRCs, $aPostTypes, $aCustomArgs );
-    }    
+    }
     /**
      * Enqueues a script by post type.
      *  
@@ -132,9 +132,9 @@ abstract class AdminPageFramework_UserMeta_Controller extends AdminPageFramework
      * @param       array       (optional) The argument array for more advanced parameters.
      * @return      string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
-    public function enqueueScript( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {    
+    public function enqueueScript( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
         return $this->oResource->_enqueueScript( $sSRC, $aPostTypes, $aCustomArgs );
-    }    
+    }
         
     
 }

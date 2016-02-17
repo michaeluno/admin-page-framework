@@ -27,9 +27,9 @@ class AdminPageFramework_Format_SubMenuLink extends AdminPageFramework_Format_Su
      * @since       3.6.0       Moved from `AdminPageFramework_Menu_Model`.
      * @remark      The scope is public because this is accessed from an extended class.
      * @internal
-     */ 
-    static public $aStructure = array(     
-        'type'                  => 'link',    
+     */
+    static public $aStructure = array(
+        'type'                  => 'link',
         'title'                 => null, // required
         'href'                  => null, // required
         'capability'            => null, // optional
@@ -59,10 +59,10 @@ class AdminPageFramework_Format_SubMenuLink extends AdminPageFramework_Format_Su
      */
     public function __construct( /* $aSubMenuLink, $oFactory, $iParsedIndex */ ) {
      
-        $_aParameters = func_get_args() + array( 
-            $this->aSubMenuLink, 
+        $_aParameters = func_get_args() + array(
+            $this->aSubMenuLink,
             $this->oFactory,
-            $this->iParsedIndex
+            $this->iParsedIndex,
         );
         $this->aSubMenuLink  = $_aParameters[ 0 ];
         $this->oFactory      = $_aParameters[ 1 ];
@@ -92,23 +92,23 @@ class AdminPageFramework_Format_SubMenuLink extends AdminPageFramework_Format_Su
         protected function _getFormattedSubMenuLinkArray( array $aSubMenuLink ) {
             
             // If the set URL is not valid, return.
-            if ( ! filter_var( $aSubMenuLink[ 'href' ], FILTER_VALIDATE_URL ) ) { 
-                return array(); 
+            if ( ! filter_var( $aSubMenuLink[ 'href' ], FILTER_VALIDATE_URL ) ) {
+                return array();
             }
             
-            return array(  
-                    'capability'    => $this->getElement( 
-                        $aSubMenuLink, 
-                        'capability', 
+            return array(
+                    'capability'    => $this->getElement(
+                        $aSubMenuLink,
+                        'capability',
                         $this->oFactory->oProp->sCapability
                     ),
                     'order'         => isset( $aSubMenuLink[ 'order' ] ) && is_numeric( $aSubMenuLink[ 'order' ] )
-                        ? $aSubMenuLink[ 'order' ] 
+                        ? $aSubMenuLink[ 'order' ]
                         : $this->iParsedIndex * 10,
                 )
-                + $aSubMenuLink 
+                + $aSubMenuLink
                 + self::$aStructure;
             
-        }      
+        }
     
 }

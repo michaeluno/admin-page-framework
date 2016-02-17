@@ -41,19 +41,20 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
         foreach( $aAttributes as $_sAttribute => $_mProperty ) {
             if ( is_scalar( $_mProperty ) ) {
                 $_aOutput[] = "{$_sAttribute}={$_sQuoteCharactor}" . esc_attr( $_mProperty ) . "{$_sQuoteCharactor}";
-            }            
-        }     
+            }
+        }
+
         return implode( ' ', $_aOutput );
      
-    }    
+    }
         /**
          * Enhances the parent method getAttributes() by escaping the attribute values.
          * @since       3.0.0
          * @deprecated  3.6.0       Use the `getAttributes()` method instead.
          */
         static public function generateAttributes( array $aAttributes ) {
-            return self::getAttributes( $aAttributes );                
-        }    
+            return self::getAttributes( $aAttributes );
+        }
     /**
      * Generates a string of data attributes from the given associative array.
      * 
@@ -62,7 +63,7 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
      */
     static public function getDataAttributes( array $aArray ) {
         return self::getAttributes( self::getDataAttributeArray( $aArray ) );
-    }    
+    }
         /**
          * Generates a string of data attributes from the given associative array.
          * 
@@ -81,12 +82,13 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
      */
     static public function getHTMLTag( $sTagName, array $aAttributes, $sValue=null ) {
         $_sTag = tag_escape( $sTagName );
+
         return null === $sValue
             ? "<" . $_sTag . " " . self::getAttributes( $aAttributes ) . " />"
             : "<" . $_sTag . " " . self::getAttributes( $aAttributes ) . ">"
                     . $sValue
-                . "</{$_sTag}>";        
-    }    
+                . "</{$_sTag}>";
+    }
         /**
          * Generates an HTML tag.
          * @since       3.5.3

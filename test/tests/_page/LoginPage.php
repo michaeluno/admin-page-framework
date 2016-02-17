@@ -9,7 +9,7 @@ class LoginPage {
      * Declare UI map for this page here. CSS or XPath allowed.
      * public static $usernameField = '#username';
      * public static $formSubmitButton = "#mainForm input[type=submit]";
-     */ 
+     */
     static public $sUserNameField   = 'input[type=text]#user_login';
     static public $sPasswordField   = 'input[name=pwd]#user_pass';
     static public $sLoginButton     = 'input[type=submit]#wp-submit';

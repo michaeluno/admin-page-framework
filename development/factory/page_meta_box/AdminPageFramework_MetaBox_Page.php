@@ -26,14 +26,14 @@ abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_PageMe
      */
     function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
     
-        trigger_error( 
+        trigger_error(
             sprintf(
                 __( 'The class <code>%1$s</code> is deprecated. Use <code>%2$s</code> instead.', 'admin-page-framework' ),
                 __CLASS__, // %1$s
                 'AdminPageFramework_PageMetaBox'    // %2%s
             ),
-            E_USER_NOTICE 
-        );        
+            E_USER_NOTICE
+        );
                 
         parent::__construct( $sMetaBoxID, $sTitle, $asPageSlugs, $sContext, $sPriority, $sCapability, $sTextDomain );
                     

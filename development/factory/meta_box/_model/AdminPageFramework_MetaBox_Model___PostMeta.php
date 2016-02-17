@@ -30,9 +30,9 @@ class AdminPageFramework_MetaBox_Model___PostMeta extends AdminPageFramework_Fra
      */
     public function __construct( /* $iPostID, array $aFieldsets */ ) {
         
-        $_aParameters = func_get_args() + array( 
+        $_aParameters = func_get_args() + array(
             $this->iPostID,
-            $this->aFieldsets, 
+            $this->aFieldsets,
         );
         $this->iPostID          = $_aParameters[ 0 ];
         $this->aFieldsets       = $_aParameters[ 1 ];
@@ -48,6 +48,7 @@ class AdminPageFramework_MetaBox_Model___PostMeta extends AdminPageFramework_Fra
         if ( ! $this->iPostID ) {
             return array();
         }
+
         return $this->_getSavedDataFromFieldsets(
             $this->iPostID,
             $this->aFieldsets
@@ -62,9 +63,9 @@ class AdminPageFramework_MetaBox_Model___PostMeta extends AdminPageFramework_Fra
          */
         private function _getSavedDataFromFieldsets( $iPostID, $aFieldsets ) {
             
-            $_aMetaKeys = $this->getAsArray( 
+            $_aMetaKeys = $this->getAsArray(
                 get_post_custom_keys( $iPostID )  // returns array or null
-            );     
+            );
 
             $_aMetaData = array();
             foreach( $aFieldsets as $_sSectionID => $_aFieldsets ) {
@@ -74,23 +75,24 @@ class AdminPageFramework_MetaBox_Model___PostMeta extends AdminPageFramework_Fra
                         if ( ! in_array( $_aFieldset[ 'field_id' ], $_aMetaKeys ) ) {
                             continue;
                         }
-                        $_aMetaData[ $_aFieldset[ 'field_id' ] ] = get_post_meta( 
-                            $iPostID, 
-                            $_aFieldset[ 'field_id' ], 
-                            true 
-                        );    
+                        $_aMetaData[ $_aFieldset[ 'field_id' ] ] = get_post_meta(
+                            $iPostID,
+                            $_aFieldset[ 'field_id' ],
+                            true
+                        );
                     }
                 }
                 if ( ! in_array( $_sSectionID, $_aMetaKeys ) ) {
                     continue;
-                }                
-                $_aMetaData[ $_sSectionID ] = get_post_meta( 
-                    $iPostID, 
-                    $_sSectionID, 
-                    true 
+                }
+                $_aMetaData[ $_sSectionID ] = get_post_meta(
+                    $iPostID,
+                    $_sSectionID,
+                    true
                 );
                 
-            }            
+            }
+
             return $_aMetaData;
             
         }

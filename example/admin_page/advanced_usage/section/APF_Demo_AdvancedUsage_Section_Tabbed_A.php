@@ -38,7 +38,7 @@ class APF_Demo_AdvancedUsage_Section_Tabbed_A {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
@@ -47,7 +47,7 @@ class APF_Demo_AdvancedUsage_Section_Tabbed_A {
                 'title'             => __( 'Section Tab A', 'admin-page-framework-loader' ),
                 'description'       => __( 'This is the first item of the tabbed section.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -64,7 +64,7 @@ class APF_Demo_AdvancedUsage_Section_Tabbed_A {
                 'type'          => 'text',
                 'repeatable'    => true,
             )
-        );              
+        );
       
     }
 

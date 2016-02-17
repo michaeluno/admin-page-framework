@@ -38,12 +38,12 @@ class AdminPageFrameworkLoader_Option {
     /**
      * stores the option key for this plugin. 
      */
-    protected $sOptionKey = '';    
+    protected $sOptionKey = '';
          
     /**
      * Stores whether the currently loading page is in the network admin area.
      */
-    protected $bIsNetworkAdmin = false;     
+    protected $bIsNetworkAdmin = false;
          
     /**
      * Returns the instance of the class.
@@ -54,7 +54,7 @@ class AdminPageFrameworkLoader_Option {
      */
     static public function getInstance( $sOptionKey='' ) {
         
-        $sOptionKey = $sOptionKey 
+        $sOptionKey = $sOptionKey
             ? $sOptionKey
             : AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ];
         
@@ -66,7 +66,7 @@ class AdminPageFrameworkLoader_Option {
             
         return self::$aInstances[ $sOptionKey ];
         
-    }         
+    }
     
     /**
      * Sets up properties.
@@ -77,7 +77,7 @@ class AdminPageFrameworkLoader_Option {
         $this->sOptionKey       = $sOptionKey;
         $this->aOptions         = $this->_getFormattedOptions( $sOptionKey );
          
-    }    
+    }
     
     /**
      * Returns the formatted options array.
@@ -104,6 +104,7 @@ class AdminPageFrameworkLoader_Option {
         }
         $_sOptionVersion        = $this->_getVersionByDepth( $_sOptionVersion );
         $_sCurrentVersion       = $this->_getVersionByDepth( AdminPageFrameworkLoader_Registry::VERSION );
+
         return version_compare( $_sOptionVersion, $_sCurrentVersion, '<' );
         
     }
@@ -117,8 +118,9 @@ class AdminPageFrameworkLoader_Option {
             }
             $_aParts = explode( '.', $sVersion );
             $_aParts = array_slice( $_aParts, 0, $iDepth );
+
             return implode( '.', $_aParts );
-        }    
+        }
     
     /**
      * Deletes the option from the database.
@@ -135,13 +137,14 @@ class AdminPageFrameworkLoader_Option {
     public function save( $aOptions=null ) {
 
         $_aOptions = $aOptions ? $aOptions : $this->aOptions;
+
         return $this->bIsNetworkAdmin
             ? update_site_option(
-                $this->sOptionKey, 
+                $this->sOptionKey,
                 $_aOptions
             )
-            : update_option( 
-                $this->sOptionKey, 
+            : update_option(
+                $this->sOptionKey,
                 $_aOptions
             );
     }
@@ -161,6 +164,7 @@ class AdminPageFrameworkLoader_Option {
         // string, integer, float, boolean
         if ( ! is_array( $_asKeys ) ) {
             $this->aOptions[ $_asKeys ] = $_mValue;
+
             return;
         }
         
@@ -199,8 +203,8 @@ class AdminPageFrameworkLoader_Option {
                 : null;
         }
         // Now either the section ID or field ID is given. 
-        return AdminPageFramework_WPUtility::getArrayValueByArrayKeys( 
-            $this->aOptions, 
+        return AdminPageFramework_WPUtility::getArrayValueByArrayKeys(
+            $this->aOptions,
             $_aKeys,
             $_mDefault
         );

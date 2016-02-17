@@ -44,15 +44,16 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_FrameworkU
         private function _getTransientKey() {
             $_sPageNow  = $this->getPageNow();
             $_sPageSlug = $this->getElement( $_GET, 'page', '' );
-            $_sTabSlug  = $this->getElement( $_GET, 'tab', '' );            
+            $_sTabSlug  = $this->getElement( $_GET, 'tab', '' );
             $_sUserID   = get_current_user_id();
-            return "apf_fe_" . md5( 
-                $_sPageNow 
+
+            return "apf_fe_" . md5(
+                $_sPageNow
                 . $_sPageSlug
                 . $_sTabSlug
                 . $_sUserID
             );
-        }    
+        }
     
     /**
      * Checks if a field error exists for the caller (factory class).
@@ -90,18 +91,18 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_FrameworkU
         
         // For the first time of calling the method, schedule to set the data in the transient.
         if ( empty( self::$_aErrors ) ) {
-            add_action( 'shutdown', array( $this, '_replyToSave' ) ); 
+            add_action( 'shutdown', array( $this, '_replyToSave' ) );
         }
         
         // Merge with previously set errors.
         self::$_aErrors[ $this->sCallerID ] = isset( self::$_aErrors[ $this->sCallerID ] )
-            ? $this->uniteArrays( 
-                self::$_aErrors[ $this->sCallerID ], 
-                $aErrors 
+            ? $this->uniteArrays(
+                self::$_aErrors[ $this->sCallerID ],
+                $aErrors
             )
-            : $aErrors; 
+            : $aErrors;
 
-    }     
+    }
         /**
          * Saves the field error array into the transient (database options row).
          * 
@@ -110,17 +111,17 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_FrameworkU
          * @internal
          * @callback    action      shutdown
          * @return      void
-         */ 
+         */
         public function _replyToSave() {
-            if ( empty( self::$_aErrors ) ) { 
-                return; 
+            if ( empty( self::$_aErrors ) ) {
+                return;
             }
-            $this->setTransient( 
+            $this->setTransient(
                 $this->sTransientKey, // "apf_field_erros_" . get_current_user_id(),  
-                self::$_aErrors, 
+                self::$_aErrors,
                 300     // for 5 minutes ( 60 seconds * 5 )
-            );    
-        }    
+            );
+        }
     
     /**
      * Returns the saved field errors.
@@ -134,7 +135,7 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_FrameworkU
     public function get() {
         
         // Use a cache if exists.
-        self::$_aFieldErrorCaches[ $this->sTransientKey ]  = isset( self::$_aFieldErrorCaches[ $this->sTransientKey ] ) 
+        self::$_aFieldErrorCaches[ $this->sTransientKey ]  = isset( self::$_aFieldErrorCaches[ $this->sTransientKey ] )
             ? self::$_aFieldErrorCaches[ $this->sTransientKey ]
             : $this->getTransient( $this->sTransientKey );
         
@@ -166,6 +167,6 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_FrameworkU
          */
         public function _replyToDelete() {
             $this->deleteTransient( $this->sTransientKey );
-        }                
+        }
         
 }

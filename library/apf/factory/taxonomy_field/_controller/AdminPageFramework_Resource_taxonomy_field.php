@@ -10,6 +10,7 @@ class AdminPageFramework_Resource_taxonomy_field extends AdminPageFramework_Reso
         foreach (( array )$aSRCs as $_sSRC) {
             $_aHandleIDs[] = $this->_enqueueStyle($_sSRC, $aCustomArgs);
         }
+
         return $_aHandleIDs;
     }
     public function _enqueueStyle($sSRC, $aCustomArgs = array(), $_deprecated = null) {
@@ -24,6 +25,7 @@ class AdminPageFramework_Resource_taxonomy_field extends AdminPageFramework_Reso
         }
         $this->oProp->aEnqueuingStyles[$_sSRCHash] = $this->oUtil->uniteArrays(( array )$aCustomArgs, array('sSRC' => $sSRC, 'sType' => 'style', 'handle_id' => 'style_' . $this->oProp->sClassName . '_' . (++$this->oProp->iEnqueuedStyleIndex),), self::$_aStructure_EnqueuingResources);
         $this->oProp->aResourceAttributes[$this->oProp->aEnqueuingStyles[$_sSRCHash]['handle_id']] = $this->oProp->aEnqueuingStyles[$_sSRCHash]['attributes'];
+
         return $this->oProp->aEnqueuingStyles[$_sSRCHash]['handle_id'];
     }
     public function _enqueueScripts($aSRCs, $aCustomArgs = array(), $_deprecated = null) {
@@ -31,6 +33,7 @@ class AdminPageFramework_Resource_taxonomy_field extends AdminPageFramework_Reso
         foreach (( array )$aSRCs as $_sSRC) {
             $_aHandleIDs[] = $this->_enqueueScript($_sSRC, $aCustomArgs);
         }
+
         return $_aHandleIDs;
     }
     public function _enqueueScript($sSRC, $aCustomArgs = array(), $_deprecated = null) {
@@ -45,6 +48,7 @@ class AdminPageFramework_Resource_taxonomy_field extends AdminPageFramework_Reso
         }
         $this->oProp->aEnqueuingScripts[$_sSRCHash] = $this->oUtil->uniteArrays(( array )$aCustomArgs, array('sSRC' => $sSRC, 'sType' => 'script', 'handle_id' => 'script_' . $this->oProp->sClassName . '_' . (++$this->oProp->iEnqueuedScriptIndex),), self::$_aStructure_EnqueuingResources);
         $this->oProp->aResourceAttributes[$this->oProp->aEnqueuingScripts[$_sSRCHash]['handle_id']] = $this->oProp->aEnqueuingScripts[$_sSRCHash]['attributes'];
+
         return $this->oProp->aEnqueuingScripts[$_sSRCHash]['handle_id'];
     }
     public function _forceToEnqueueStyle($sSRC, $aCustomArgs = array()) {

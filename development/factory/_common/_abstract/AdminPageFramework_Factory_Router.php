@@ -25,8 +25,8 @@ abstract class AdminPageFramework_Factory_Router {
      * 
      * @since       2.0.0
      * @access      public      The AdminPageFramework_Page_MetaBox class accesses it.
-     */     
-    public $oProp;    
+     */
+    public $oProp;
     
     /**
      * The object that provides the debug methods. 
@@ -35,7 +35,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @access      public
      * @since       2.0.0
      * @since       3.1.0   Changed the scope to public from protected.
-     */     
+     */
     public $oDebug;
     /**
      * Provides the utility methods. 
@@ -43,7 +43,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      * @since       2.0.0
      * @since       3.1.0     Changed the scope to public from protected.
-     */         
+     */
     public $oUtil;
     /**
      * Provides the methods for text messages of the framework. 
@@ -52,7 +52,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @since       3.1.0     Changed the scope to public from protected.
      * @access      public
      * @internal
-     */         
+     */
     public $oMsg;
     
     /**
@@ -60,7 +60,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      * @since       3.0.0
      * @since       3.5.2       Changed the scope to public from protected as the widget class needs to initialize this object.
-     */     
+     */
     public $oForm;
     
     /**
@@ -90,7 +90,7 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * Provides the methods for creating HTML link elements. 
      * 
-     */    
+     */
     protected $oLink;
     
     /**
@@ -147,11 +147,11 @@ abstract class AdminPageFramework_Factory_Router {
         $this->aSubClassNames = $this->aSubClassNames + $this->_aSubClassNames;
     
         // Let them overload so that these sub-class objects will not be instantiated until they are required.
-        unset( 
-            $this->oDebug, 
-            $this->oUtil, 
-            $this->oMsg, 
-            $this->oForm, 
+        unset(
+            $this->oDebug,
+            $this->oUtil,
+            $this->oMsg,
+            $this->oForm,
             $this->oPageLoadInfo,
             $this->oResource,
             $this->oHelpPane,
@@ -164,7 +164,7 @@ abstract class AdminPageFramework_Factory_Router {
         if ( $this->oProp->bIsAdmin && ! $this->oProp->bIsAdminAjax ) {
             if ( did_action( 'current_screen' ) ) {
                 $this->_replyToLoadComponents();
-            } else {                
+            } else {
                 add_action( 'current_screen', array( $this, '_replyToLoadComponents' ) );
             }
         }
@@ -173,7 +173,7 @@ abstract class AdminPageFramework_Factory_Router {
         $this->start();     // defined in the controller class.
         $this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName, $this );
         
-    }    
+    }
         
     /**
      * Determines whether the class component classes should be instantiated or not.
@@ -184,8 +184,8 @@ abstract class AdminPageFramework_Factory_Router {
      */
     public function _replyToLoadComponents( /* $oScreen */ ) {
 
-        if ( ! $this->_isInThePage() ) { 
-            return; 
+        if ( ! $this->_isInThePage() ) {
+            return;
         }
                     
         if ( ! isset( $this->oResource ) ) {
@@ -193,7 +193,7 @@ abstract class AdminPageFramework_Factory_Router {
         }
         
         if ( ! isset(  $this->oLink ) ) {
-            $this->oLink = $this->_replyTpSetAndGetInstance_oLink();         
+            $this->oLink = $this->_replyTpSetAndGetInstance_oLink();
         }
         
         if ( $this->oUtil->isDebugMode() ) {
@@ -210,9 +210,9 @@ abstract class AdminPageFramework_Factory_Router {
      * 
      * @since       3.1.0
      * @internal
-     */ 
-    protected function _isInstantiatable() { 
-        return true; 
+     */
+    protected function _isInstantiatable() {
+        return true;
     }
     
     /**
@@ -226,8 +226,8 @@ abstract class AdminPageFramework_Factory_Router {
      * @todo        Change the visibility scope to `protected` as the public version of the method `isInThePage()` has been introduced to make the design consitent.
      * @internal
      */
-    public function _isInThePage() { 
-        return true; 
+    public function _isInThePage() {
+        return true;
     }
          
     /**
@@ -240,8 +240,8 @@ abstract class AdminPageFramework_Factory_Router {
      */
     public function _replyToDetermineToLoad() {
 
-        if ( ! $this->_isInThePage() ) { 
-            return; 
+        if ( ! $this->_isInThePage() ) {
+            return;
         }
 
         // Calls `setUp()` and the user will set up the meta box.
@@ -254,7 +254,7 @@ abstract class AdminPageFramework_Factory_Router {
          */
         $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
                           
-    }          
+    }
          
          
     /**
@@ -268,11 +268,12 @@ abstract class AdminPageFramework_Factory_Router {
     
         $this->oProp->setFormProperties();
         $_sFormClass = $this->aSubClassNames[ 'oForm' ];
+
         return new $_sFormClass(
             $this->oProp->aFormArguments, // Options - for the values that do not need to change through out the script execution. 
             $this->oProp->aFormCallbacks, // Callbacks - for the values which change dynamically depending on conditions such as the loaded page url.
             $this->oMsg
-        );    
+        );
         
     }
      
@@ -311,7 +312,7 @@ abstract class AdminPageFramework_Factory_Router {
             
         // Set and return the sub class object instance.
         if ( isset( $this->aSubClassNames[ $sPropertyName ] ) ) {
-            return call_user_func( 
+            return call_user_func(
                 array( $this, "_replyTpSetAndGetInstance_{$sPropertyName}"  )
             );
         }
@@ -321,7 +322,7 @@ abstract class AdminPageFramework_Factory_Router {
          * @internal
          * @return      object
          * @callback    function    call_user_func
-         */          
+         */
         /**
          * Sets and returns the `oUtil` property.
          * @since       3.5.3
@@ -329,46 +330,51 @@ abstract class AdminPageFramework_Factory_Router {
         public function _replyTpSetAndGetInstance_oUtil() {
             $_sClassName = $this->aSubClassNames[ 'oUtil' ];
             $this->oUtil = new $_sClassName;
+
             return $this->oUtil;
         }
         /**
          * Sets and returns the `oDebug` property.
          * @since       3.5.3
-         */        
+         */
         public function _replyTpSetAndGetInstance_oDebug() {
             $_sClassName = $this->aSubClassNames[ 'oDebug' ];
             $this->oDebug = new $_sClassName;
+
             return $this->oDebug;
         }
         /**
          * Sets and returns the `oMsg` property.
          * @since       3.5.3
-         */              
+         */
         public function _replyTpSetAndGetInstance_oMsg() {
             $this->oMsg = call_user_func_array(
                 array( $this->aSubClassNames[ 'oMsg' ], 'getInstance'),
                 array( $this->oProp->sTextDomain )  // parameters
             );
+
             return $this->oMsg;
         }
         /**
          * Sets and returns the `oForm` property.
          * @since       3.5.3
-         */              
+         */
         public function _replyTpSetAndGetInstance_oForm() {
-            $this->oForm = $this->_getFormObject();           
+            $this->oForm = $this->_getFormObject();
+
             return $this->oForm;
         }
         /**
          * Sets and returns the `oResouce` property.
          * @since       3.5.3
-         */            
+         */
         public function _replyTpSetAndGetInstance_oResource() {
             if ( isset( $this->oResource ) ) {
                 return $this->oResource;
             }
             $_sClassName     = $this->aSubClassNames[ 'oResource' ];
             $this->oResource = new $_sClassName( $this->oProp );
+
             return $this->oResource;
         }
             /**
@@ -377,15 +383,17 @@ abstract class AdminPageFramework_Factory_Router {
              */
             public function _replyTpSetAndGetInstance_oHeadTag() {
                 $this->oHead = $this->_replyTpSetAndGetInstance_oResource();
+
                 return $this->oHead;
-            }        
+            }
         /**
          * Sets and returns the `oHelpPane` property.
          * @since       3.5.3
          */
         public function _replyTpSetAndGetInstance_oHelpPane() {
             $_sClassName     = $this->aSubClassNames[ 'oHelpPane' ];
-            $this->oHelpPane = new $_sClassName( $this->oProp );            
+            $this->oHelpPane = new $_sClassName( $this->oProp );
+
             return $this->oHelpPane;
         }
         /**
@@ -394,14 +402,16 @@ abstract class AdminPageFramework_Factory_Router {
          */
         public function _replyTpSetAndGetInstance_oLink() {
             $this->oLink = $this->_getLinkObject();
+
             return $this->oLink;
         }
         /**
          * Sets and returns the `oPageLoadInfo` property.
          * @since       3.5.3
-         */        
+         */
         public function _replyTpSetAndGetInstance_oPageLoadInfo() {
             $this->oPageLoadInfo = $this->_getPageLoadObject();
+
             return $this->oPageLoadInfo;
         }
         /**#@-*/
@@ -411,7 +421,7 @@ abstract class AdminPageFramework_Factory_Router {
      * 
      * @internal
      */
-    public function __call( $sMethodName, $aArguments=null ) {    
+    public function __call( $sMethodName, $aArguments=null ) {
          
         $_mFirstArg = $this->oUtil->getElement( $aArguments, 0 );
         
@@ -429,7 +439,7 @@ abstract class AdminPageFramework_Factory_Router {
                 
         $this->_triggerUndefinedMethodWarning( $sMethodName );
         
-    }     
+    }
         /**
          * Returns the first parameter value if the method name does not contain a backslash.
          * If it contains a backslash, the user uses a name-spaced class name. In that case,
@@ -447,13 +457,14 @@ abstract class AdminPageFramework_Factory_Router {
             // If the method name contains a backslash, the user may be using a name space. 
             // In that case, convert the backslash to underscore and call the method.
             $_sAutoCallbackMethodName = str_replace( '\\', '_', $sMethodName );
+
             return method_exists( $this, $_sAutoCallbackMethodName )
                 ? call_user_func_array(
                     array( $this, $_sAutoCallbackMethodName ),
                     $aArguments
                 )
                 : $this->oUtil->getElement( $aArguments, 0 );   // the first argument
-            
+
         }
         
         /**
@@ -462,13 +473,13 @@ abstract class AdminPageFramework_Factory_Router {
          */
         private function _triggerUndefinedMethodWarning( $sMethodName ) {
             trigger_error(
-                AdminPageFramework_Registry::NAME . ': ' 
-                    . sprintf( 
+                AdminPageFramework_Registry::NAME . ': '
+                    . sprintf(
                         __( 'The method is not defined: %1$s', $this->oProp->sTextDomain ),
-                        $sMethodName 
-                    ), 
-                E_USER_WARNING 
-            );            
+                        $sMethodName
+                    ),
+                E_USER_WARNING
+            );
         }
             
         
@@ -481,9 +492,9 @@ abstract class AdminPageFramework_Factory_Router {
      * 
      * @remark      Called when the object is called as a string.
      * @since       3.4.4
-     */   
+     */
     public function __toString() {
-        return $this->oUtil->getObjectInfo( $this );        
+        return $this->oUtil->getObjectInfo( $this );
     }
  
     /**
@@ -497,7 +508,7 @@ abstract class AdminPageFramework_Factory_Router {
     /**
      * @remark          This was not functional since 3.1.3
      * @deprecated      3.5.5
-     */    
+     */
     public function setFooterInfoLeft() {}
  
 }

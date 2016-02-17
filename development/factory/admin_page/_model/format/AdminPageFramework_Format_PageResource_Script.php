@@ -22,8 +22,8 @@ class AdminPageFramework_Format_PageResource_Script extends AdminPageFramework_F
      * 
      * @since       3.6.3
      * @static
-     */     
-    static public $aStructure = array(    
+     */
+    static public $aStructure = array(
         'src'           => null,    // (required, string) the source url or path        
         'handle_id'     => null,
         'dependencies'  => array(),
@@ -31,7 +31,7 @@ class AdminPageFramework_Format_PageResource_Script extends AdminPageFramework_F
         'translation'   => array(),     // only for scripts
         'in_footer'     => false,       // only for scripts
         // 'attributes'    => null,    // (optional, array) [3.3.0+] attributes array. `array( 'data-id' => '...' )`
-    );        
+    );
     
     public $asSubject = '';
     
@@ -39,8 +39,8 @@ class AdminPageFramework_Format_PageResource_Script extends AdminPageFramework_F
      * Sets up properties.
      */
     public function __construct( /* $asSubject */ ) {
-        $_aParameters = func_get_args() + array( 
-            $this->asSubject, 
+        $_aParameters = func_get_args() + array(
+            $this->asSubject,
         );
         $this->asSubject             = $_aParameters[ 0 ];
     }
@@ -63,6 +63,7 @@ class AdminPageFramework_Format_PageResource_Script extends AdminPageFramework_F
             if ( is_string( $asSubject ) ) {
                 $_aSubject[ 'src' ] = $asSubject;
             }
+
             return $_aSubject + self::$aStructure;
         }
            

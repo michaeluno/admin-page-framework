@@ -19,6 +19,7 @@ class AdminPageFramework_Form_View___DebugInfo extends AdminPageFramework_Framew
         if (!in_array($this->sStructureType, array('widget', 'post_meta_box', 'page_meta_box', 'user_meta'))) {
             return '';
         }
+
         return "<div class='admin-page-framework-info'>" . $this->oMsg->get('debug_info') . ': ' . AdminPageFramework_Registry::NAME . ' ' . AdminPageFramework_Registry::getVersion() . "</div>";
     }
 }

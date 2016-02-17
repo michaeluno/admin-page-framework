@@ -39,7 +39,7 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
            
         $_aFunctionNameMapByFieldsType = array(
             'post_meta_box'     => 'update_post_meta',
-            'user_meta'         => 'update_user_meta',               
+            'user_meta'         => 'update_user_meta',
         );
         if ( ! in_array( $sStructureType, array_keys( $_aFunctionNameMapByFieldsType ) ) ) {
             return;
@@ -51,16 +51,16 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
         
         // Loop through sections/fields and save the data.
         foreach ( $aInput as $_sSectionOrFieldID => $_vValue ) {
-            $this->_updateMetaDatumByFuncitonName( 
+            $this->_updateMetaDatumByFuncitonName(
                 $iObjectID,
-                $_vValue, 
-                $aSavedMeta, 
-                $_sSectionOrFieldID, 
+                $_vValue,
+                $aSavedMeta,
+                $_sSectionOrFieldID,
                 $_sFunctionName
             );
         }
         
-    }        
+    }
         /**
          * Removes elements whose 'save' argument is false.
          * @since       3.6.0
@@ -87,15 +87,16 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
                      array_shift( $_aDimensionalKeys );
                 }
                 
-                $this->unsetDimensionalArrayElement( 
-                    $aInput, 
+                $this->unsetDimensionalArrayElement(
+                    $aInput,
                     $_aDimensionalKeys
                 );
                 
             }
+
             return $aInput;
             
-        }    
+        }
     
         /**
          * Saves an individual meta datum with the given section or field ID with the given function name.
@@ -107,7 +108,7 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
          */
         private function _updateMetaDatumByFuncitonName( $iObjectID, $_vValue, array $aSavedMeta, $_sSectionOrFieldID, $_sFunctionName ) {
             
-            if ( is_null( $_vValue ) ) { 
+            if ( is_null( $_vValue ) ) {
                 return;
             }
 
@@ -119,13 +120,13 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
                 
             // PHP can compare even array contents with the == operator. See http://www.php.net/manual/en/language.operators.array.php
             // if the input value and the saved meta value are the same, no need to update it.
-            if ( $_vValue == $_vSavedValue ) { 
-                return; 
+            if ( $_vValue == $_vSavedValue ) {
+                return;
             }
             
             // Currently either 'update_post_meta' or 'update_user_meta'
-            $_sFunctionName( $iObjectID, $_sSectionOrFieldID, $_vValue );             
+            $_sFunctionName( $iObjectID, $_sSectionOrFieldID, $_vValue );
             
-        }    
+        }
     
 }

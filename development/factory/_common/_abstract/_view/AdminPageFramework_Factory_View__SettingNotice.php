@@ -60,8 +60,8 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
          */
         private function _shouldProceed() {
             
-            if ( ! $this->oFactory->_isInThePage() ) { 
-                return false; 
+            if ( ! $this->oFactory->_isInThePage() ) {
+                return false;
             }
                 
             // Ensure this method is called only once per a page load.
@@ -72,6 +72,6 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
             // Some factory classes including the page meta box factory can leave the form object uninstantiated.
             return isset( $this->oFactory->oForm );
             
-        }    
+        }
   
 }

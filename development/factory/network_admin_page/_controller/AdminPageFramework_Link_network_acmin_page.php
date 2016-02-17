@@ -30,15 +30,15 @@ class AdminPageFramework_Link_network_admin_page extends AdminPageFramework_Link
         if ( in_array( $this->oProp->sPageNow, array( 'plugins.php' ) ) && 'plugin' === $this->oProp->aScriptInfo['sType'] ) {
             
             // This filter for non-network-admin action links is added in the parent constructor.
-            remove_filter( 
+            remove_filter(
                 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ),
                 array( $this, '_replyToAddSettingsLinkInPluginListingPage' ),
                 20
             );
             // Add the action link filter for the multi-site network admin.
-            add_filter( 
-                'network_admin_plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ), 
-                array( $this, '_replyToAddSettingsLinkInPluginListingPage' ) 
+            add_filter(
+                'network_admin_plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ),
+                array( $this, '_replyToAddSettingsLinkInPluginListingPage' )
             );
         }
    
@@ -49,7 +49,7 @@ class AdminPageFramework_Link_network_admin_page extends AdminPageFramework_Link
      * 
      * @since       3.5.5
      */
-    protected $_sFilterSuffix_PluginActionLinks = 'network_admin_plugin_action_links_';    
+    protected $_sFilterSuffix_PluginActionLinks = 'network_admin_plugin_action_links_';
 
    
 }

@@ -31,7 +31,7 @@ class AdminPageFramework_Property_user_meta extends AdminPageFramework_Property_
      * @since       3.7.0
      * @access      pulbic      Called externally.
      */
-    public $_sFormRegistrationHook = 'admin_enqueue_scripts'; 
+    public $_sFormRegistrationHook = 'admin_enqueue_scripts';
  
     /**
      * Retrieves the option array.
@@ -45,7 +45,7 @@ class AdminPageFramework_Property_user_meta extends AdminPageFramework_Property_
      * So here the method just returns an empty array.
      */
     protected function _getOptions() {
-        return array(); 
+        return array();
     }
  
 }

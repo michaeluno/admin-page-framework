@@ -16,7 +16,7 @@
  * @subpackage      PostType
  * @internal
  */
-abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Factory {    
+abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Factory {
   
     /**
      * Sets up hooks and properties.
@@ -49,10 +49,10 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         }
         
         $this->load();
-        $this->oUtil->addAndDoAction( 
-            $this, 
-            "load_{$this->oProp->sPostType}", 
-            $this 
+        $this->oUtil->addAndDoAction(
+            $this,
+            "load_{$this->oProp->sPostType}",
+            $this
         );
     
     }
@@ -74,13 +74,13 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         $this->_setUp();
         
         // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
-        $this->oUtil->addAndDoAction( 
-            $this, 
-            "set_up_{$this->oProp->sClassName}", 
-            $this 
+        $this->oUtil->addAndDoAction(
+            $this,
+            "set_up_{$this->oProp->sClassName}",
+            $this
         );
     
-    }     
+    }
 
     /**
      * Instantiates a link object based on the type.
@@ -91,8 +91,9 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
      */
     protected function _getLinkObject() {
         $_sClassName = $this->aSubClassNames[ 'oLink' ];
-        return new $_sClassName( $this->oProp, $this->oMsg );        
-    }          
+
+        return new $_sClassName( $this->oProp, $this->oMsg );
+    }
 
     /**
      * Instantiates a link object based on the type.
@@ -100,9 +101,10 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
      * @since       3.7.10
      * @internal
      * @return      null|object
-     */    
+     */
     protected function _getPageLoadObject() {
         $_sClassName = $this->aSubClassNames[ 'oPageLoadInfo' ];
+
         return new $_sClassName( $this->oProp, $this->oMsg );
     }
   
@@ -124,7 +126,7 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         // Post table columns use ajax to update when the user modifies the post meta via quick edit.
         if ( $this->oProp->bIsAdminAjax && $this->oUtil->getElement( $this->oProp->aPostTypeArgs, 'public', true ) ) {
             return true;
-        }        
+        }
         
         if ( ! in_array( $this->oProp->sPageNow, array( 'edit.php', 'edit-tags.php', 'post.php', 'post-new.php' ) ) ) {
             return false;

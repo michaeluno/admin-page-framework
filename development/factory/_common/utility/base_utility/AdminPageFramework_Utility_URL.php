@@ -24,16 +24,17 @@ abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility
      * @since       2.0.0
      * @since       3.5.7       Moved from `AdminPageFramework_Utility`.
      * @return      string|null
-     */ 
+     */
     static public function getQueryValueInURLByKey( $sURL, $sQueryKey ) {
         
         $_aURL = parse_url( $sURL ) + array( 'query' => '' );
-        parse_str( $_aURL[ 'query' ], $aQuery );     
+        parse_str( $_aURL[ 'query' ], $aQuery );
+
         return self::getElement(
             $aQuery, // subject array
             $sQueryKey, // key
             null // default
-        );    
+        );
         
     }
 
@@ -60,10 +61,10 @@ abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility
         
         // Host
         $_sHost             = isset( $_SERVER[ 'HTTP_X_FORWARDED_HOST' ] )
-            ? $_SERVER[ 'HTTP_X_FORWARDED_HOST' ] 
-            : ( isset( $_SERVER[ 'HTTP_HOST' ] ) 
-                ? $_SERVER[ 'HTTP_HOST' ] 
-                : $_SERVER[ 'SERVER_NAME' ] 
+            ? $_SERVER[ 'HTTP_X_FORWARDED_HOST' ]
+            : ( isset( $_SERVER[ 'HTTP_HOST' ] )
+                ? $_SERVER[ 'HTTP_HOST' ]
+                : $_SERVER[ 'SERVER_NAME' ]
             );
             
         return $_sProtocol . '://' . $_sHost . $_sPort . $_SERVER[ 'REQUEST_URI' ];
@@ -83,6 +84,7 @@ abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility
                 1 => '',
             );
             $_bPortSet  = ( ! $_bSSL && '80' === $_sPort ) || ( $_bSSL && '443' === $_sPort );
+
             return $_aPort[ ( int ) $_bPortSet ];
         }
     

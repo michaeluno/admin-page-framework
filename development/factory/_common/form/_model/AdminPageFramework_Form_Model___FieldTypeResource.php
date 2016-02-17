@@ -36,15 +36,15 @@ class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramewo
     /**
      * Sets up properties.
      * @since       3.7.0
-     */    
+     */
     public function __construct( /* array $aFieldTypeDefinition, array $aResources */ ) {
         
-        $_aParameters = func_get_args() + array( 
+        $_aParameters = func_get_args() + array(
             $this->aFieldTypeDefinition,
             $this->aResources,
         );
         $this->aFieldTypeDefinition = $this->getAsArray( $_aParameters[ 0 ] );
-        $this->aResources           = $this->getAsArray( $_aParameters[ 1 ] );        
+        $this->aResources           = $this->getAsArray( $_aParameters[ 1 ] );
         
     }
     
@@ -56,26 +56,27 @@ class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramewo
      */
     public function get() {
 
-        $this->aResources[ 'inline_scripts' ]      = $this->_getUpdatedInlineItemsByCallback( 
-            $this->aResources[ 'inline_scripts' ], 
-            'hfGetScripts' 
+        $this->aResources[ 'inline_scripts' ]      = $this->_getUpdatedInlineItemsByCallback(
+            $this->aResources[ 'inline_scripts' ],
+            'hfGetScripts'
         );
-        $this->aResources[ 'inline_styles' ]       = $this->_getUpdatedInlineItemsByCallback( 
-            $this->aResources[ 'inline_styles' ], 
+        $this->aResources[ 'inline_styles' ]       = $this->_getUpdatedInlineItemsByCallback(
+            $this->aResources[ 'inline_styles' ],
             'hfGetStyles'
         );
-        $this->aResources[ 'inline_styles_ie' ]    = $this->_getUpdatedInlineItemsByCallback( 
-            $this->aResources[ 'inline_styles_ie' ], 
+        $this->aResources[ 'inline_styles_ie' ]    = $this->_getUpdatedInlineItemsByCallback(
+            $this->aResources[ 'inline_styles_ie' ],
             'hfGetIEStyles'
-        );        
-        $this->aResources[ 'src_styles' ]          = $this->_getUpdatedEnqueuingItemsByCallback( 
-            $this->aResources[ 'src_styles' ], 
-            'aEnqueueStyles' 
         );
-        $this->aResources[ 'src_scripts' ]         = $this->_getUpdatedEnqueuingItemsByCallback( 
-            $this->aResources[ 'src_scripts' ], 
-            'aEnqueueScripts' 
+        $this->aResources[ 'src_styles' ]          = $this->_getUpdatedEnqueuingItemsByCallback(
+            $this->aResources[ 'src_styles' ],
+            'aEnqueueStyles'
         );
+        $this->aResources[ 'src_scripts' ]         = $this->_getUpdatedEnqueuingItemsByCallback(
+            $this->aResources[ 'src_scripts' ],
+            'aEnqueueScripts'
+        );
+
         return $this->aResources;
         
     }
@@ -88,19 +89,20 @@ class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramewo
             if ( ! is_callable( $_oCallable ) ) {
                 return $aSubject;
             }
-            $aSubject[] = call_user_func_array( 
-                $_oCallable, 
-                array() 
-            );            
-            return $aSubject;            
+            $aSubject[] = call_user_func_array(
+                $_oCallable,
+                array()
+            );
+
+            return $aSubject;
         }
         /**
          * @return      array
          * @since       3.7.0
          */
         private function _getUpdatedEnqueuingItemsByCallback( $aSubject, $sKey ) {
-            return array_merge( 
-                $aSubject, 
+            return array_merge(
+                $aSubject,
                 $this->getElementAsArray( $this->aFieldTypeDefinition, $sKey )
             );
         }

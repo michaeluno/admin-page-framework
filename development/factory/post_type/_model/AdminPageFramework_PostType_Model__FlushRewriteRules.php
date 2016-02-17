@@ -31,23 +31,23 @@ class AdminPageFramework_PostType_Model__FlushRewriteRules extends AdminPageFram
                 
         if ( ! $this->_shouldProceed( $oFactory ) ) {
             return;
-        }        
+        }
         
         $this->oFactory = $oFactory;
         
-        register_activation_hook( 
-            $this->oFactory->oProp->sCallerPath, 
-            array( $this, '_replyToSetUpPostType' ) 
-        );            
-                
-        add_action( 
-            'registered_post_type', 
-            array( $this, '_replyToScheduleToFlushRewriteRules' ), 
-            10, 
-            2 
+        register_activation_hook(
+            $this->oFactory->oProp->sCallerPath,
+            array( $this, '_replyToSetUpPostType' )
         );
                 
-    }    
+        add_action(
+            'registered_post_type',
+            array( $this, '_replyToScheduleToFlushRewriteRules' ),
+            10,
+            2
+        );
+                
+    }
         /**
          * @return      boolean
          * @since       3.7.6
@@ -56,13 +56,14 @@ class AdminPageFramework_PostType_Model__FlushRewriteRules extends AdminPageFram
 
             if ( ! $oFactory->oProp->bIsAdmin ) {
                 return false;
-            }        
+            }
             if ( ! $oFactory->oProp->sCallerPath ) {
                 return false;
             }
+
             return 'plugin' === $oFactory->oProp->sScriptType;
   
-        }     
+        }
     
     /**
      * Triggers the `setUp()` method so that the post type gets registered on the WordPress site.
@@ -72,9 +73,9 @@ class AdminPageFramework_PostType_Model__FlushRewriteRules extends AdminPageFram
      * @callback    action      activate_{plugin base name}     
      * @since       3.7.6
      */
-    public function _replyToSetUpPostType() {            
+    public function _replyToSetUpPostType() {
         do_action( "set_up_{$this->oFactory->oProp->sClassName}", $this );
-    }        
+    }
     
     /**
      * @since       3.7.6
@@ -109,6 +110,6 @@ class AdminPageFramework_PostType_Model__FlushRewriteRules extends AdminPageFram
             }
             $this->flushRewriteRules();
             
-        }    
+        }
        
 }

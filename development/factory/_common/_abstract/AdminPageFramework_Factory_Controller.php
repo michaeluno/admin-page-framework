@@ -73,7 +73,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @return      array       The array holing the queued items.
      * @internal
      */
-    public function enqueueStyles( $aSRCs, $_vArg2=null ) {} 
+    public function enqueueStyles( $aSRCs, $_vArg2=null ) {}
     
     /**
      * Enqueues a style of the given source.
@@ -113,7 +113,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @param       array       (optional) Ad additional source list array.
      * @return      array        The array holding the queued items.
      * @internal
-     */    
+     */
     public function enqueueScripts( $aSRCs, $_vArg2=null ) {}
     /**
      * Enqueues a script by the given source.
@@ -145,8 +145,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * </ul>
      * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
-     */    
-    public function enqueueScript( $sSRC, $_vArg2=null ) {}    
+     */
+    public function enqueueScript( $sSRC, $_vArg2=null ) {}
     
     /*
      * Help Pane
@@ -163,7 +163,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * );</code></pre>
      * @since       2.1.0
      * @remark      This method just adds the given text into the class property. The actual registration will be performed with the `replyToRegisterHelpTabTextForMetaBox()` method.
-     */ 
+     */
     public function addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) {
         if ( method_exists( $this->oHelpPane, '_addHelpText' ) ) {
             $this->oHelpPane->_addHelpText( $sHTMLContent, $sHTMLSidebarContent );
@@ -197,11 +197,11 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @param       array     (optional) another section array.
      * @param       array     (optional)  add more section array to the next parameters as many as necessary.
      * @return      void
-     */    
+     */
     public function addSettingSections( /* $aSection1, $aSection2=null, $_and_more=null */ ) {
         
-        foreach( func_get_args() as $_asSectionset ) { 
-            $this->addSettingSection( $_asSectionset ); 
+        foreach( func_get_args() as $_asSectionset ) {
+            $this->addSettingSection( $_asSectionset );
         }
         
         // Reset the stored target tab slug and the target section tab slug.
@@ -271,8 +271,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      */
     public function addSettingSection( $aSectionset ) {
         
-        if ( ! is_array( $aSectionset ) ) { 
-            return; 
+        if ( ! is_array( $aSectionset ) ) {
+            return;
         }
         
         $this->_sTargetSectionTabSlug = $this->oUtil->getElement(
@@ -288,7 +288,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
                 
         $this->oForm->addSection( $aSectionset );
             
-    }     
+    }
         
     /**
     * Adds form fields.
@@ -302,12 +302,12 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     * @param        array       (optional) another field array.
     * @param        array       (optional) add more field arrays to the next parameters as many as necessary.
     * @return       void
-    */ 
+    */
     public function addSettingFields( /* $aField1, $aField2=null, $_and_more=null */ ) {
-        foreach( func_get_args() as $_aFieldset ) { 
-            $this->addSettingField( $_aFieldset ); 
+        foreach( func_get_args() as $_aFieldset ) {
+            $this->addSettingField( $_aFieldset );
         }
-    }    
+    }
         
     /**
      * Adds the given field array items into the field array property.
@@ -576,10 +576,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *           </ul>
     *       </li>
     * </ul>    
-     */     
+     */
     public function addSettingField( $asFieldset ) {
         if ( method_exists( $this->oForm, 'addField' ) ) {
-            $this->oForm->addField( $asFieldset );     
+            $this->oForm->addField( $asFieldset );
         }
     }
     
@@ -623,9 +623,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * 
      * @since   3.0.4     
      * @param   array   $aErrors     the field error array. The structure should follow the one contained in the submitted `$_POST` array.
-     */    
+     */
     public function setFieldErrors( $aErrors ) {
-        $this->oForm->setFieldErrors( $aErrors );      
+        $this->oForm->setFieldErrors( $aErrors );
 /*         // The field-errors array will be stored in this global array element.
         $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ] = $this->oUtil->getElement( 
             $GLOBALS,  // subject array
@@ -645,7 +645,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
             )
             : $aErrors;                   
      */
-    }   
+    }
     
     /**
      * Check whether a user has set a field error(s) or not.
@@ -681,14 +681,14 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     * @param        array       $asAttributes   (optional) the tag attribute array applied to the message container HTML element. If a string is given, it is used as the ID attribute value.
     * @param        boolean     $bOverride      (optional) If true, only one message will be shown in the next page load. false: do not override when there is a message of the same id. true: override the previous one.
     * @return       void
-    */      
+    */
     public function setSettingNotice( $sMessage, $sType='error', $asAttributes=array(), $bOverride=true ) {
         $this->oForm->setSubmitNotice(
             $sMessage,
             $sType,
             $asAttributes,
             $bOverride
-        );        
+        );
     }
     
     /**

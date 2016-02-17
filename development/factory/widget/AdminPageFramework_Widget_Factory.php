@@ -29,13 +29,13 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
      */
 	public function __construct( $oCaller, $sWidgetTitle, array $aArguments=array() ) {
 		
-        $aArguments = $aArguments 
-            + array( 
+        $aArguments = $aArguments
+            + array(
                 'classname'     => 'admin_page_framework_widget',
-                'description'   => '',  
+                'description'   => '',
             );
             
-		parent::__construct( 
+		parent::__construct(
             $oCaller->oProp->sClassName,  // base id 
             $sWidgetTitle,      // widget title
             $aArguments         // widget arguments
@@ -56,19 +56,19 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
            
         echo $aArguments[ 'before_widget' ];
         
-        $this->oCaller->oUtil->addAndDoActions( 
-            $this->oCaller, 
-            'do_' . $this->oCaller->oProp->sClassName, 
+        $this->oCaller->oUtil->addAndDoActions(
+            $this->oCaller,
+            'do_' . $this->oCaller->oProp->sClassName,
             $this->oCaller
         );
        
         $_sContent = $this->oCaller->oUtil->addAndApplyFilters(
-            $this->oCaller, 
-            "content_{$this->oCaller->oProp->sClassName}", 
+            $this->oCaller,
+            "content_{$this->oCaller->oProp->sClassName}",
             $this->oCaller->content( '', $aArguments, $aFormData ),
             $aArguments,
             $aFormData
-        );    
+        );
         
         // 3.5.9+ Moved this after the content_{...} filter hook so that the user can decide whether the title shoudl be visible or not.
         echo $this->_getTitle( $aArguments, $aFormData );
@@ -101,14 +101,15 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
                     ''
                 ),
                 $aFormData,
-                $this->id_base 
+                $this->id_base
             );
             if ( ! $_sTitle ) {
                 return '';
             }
-           return $aArguments['before_title'] 
-                . $_sTitle 
-            . $aArguments['after_title'];           
+
+           return $aArguments['before_title']
+                . $_sTitle
+            . $aArguments['after_title'];
             
         }
             
@@ -121,9 +122,9 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
 	public function update( $aSubmittedFormData, $aSavedFormData ) {
                 
         return $this->oCaller->oUtil->addAndApplyFilters(
-            $this->oCaller, 
-            "validation_{$this->oCaller->oProp->sClassName}", 
-            call_user_func_array( 
+            $this->oCaller,
+            "validation_{$this->oCaller->oProp->sClassName}",
+            call_user_func_array(
                 array( $this->oCaller, 'validate' ),    // triggers __call()
                 array( $aSubmittedFormData, $aSavedFormData, $this->oCaller ) // parameters
             ), // 3.5.3+                        
@@ -151,13 +152,13 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * And the factory abstract class has a defined method (_replyToGetSavedFormData()) for it 
          * and it applies a filter (options_{...}) to the form data (options) array.
          */
-        $this->oCaller->oProp->aOptions = $aSavedFormData;     
+        $this->oCaller->oProp->aOptions = $aSavedFormData;
                 
         // The hook (load_{...}) in the method triggers the form registration method.
         $this->_loadFrameworkFactory();
         
         // Render the form 
-        $this->oCaller->_printWidgetForm();            
+        $this->oCaller->_printWidgetForm();
 
         /** 
          * Initialize the form object that stores registered sections and fields
@@ -193,27 +194,28 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             /**
              * Call the load method only once per class. Also the added field registrations in the class also done once.
              * @since       3.7.9
-             */ 
+             */
             if ( $this->oCaller->oUtil->hasBeenCalled( '_widget_load_' . $this->oCaller->oProp->sClassName ) ) {
                 
                 // The saved option callback is done with the below load_... callback so for widget form instances called from the second time
                 // need to call the callback manually.
                 $this->oCaller->oForm->aSavedData = $this->_replyToGetSavedFormData();
+
                 return;
                 
             }
                        
             // Trigger the load() method and load_{...} actions. The user sets up the form.
             $this->oCaller->load( $this->oCaller );
-            $this->oCaller->oUtil->addAndDoActions( 
-                $this->oCaller, 
+            $this->oCaller->oUtil->addAndDoActions(
+                $this->oCaller,
                 array(
-                    'load_' . $this->oCaller->oProp->sClassName, 
+                    'load_' . $this->oCaller->oProp->sClassName,
                 ),
-                $this->oCaller 
-            );            
+                $this->oCaller
+            );
             
-        }    
+        }
                
         /**
          * Returns callbacks for the form.
@@ -221,17 +223,17 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * @since       3.7.9
          */
         private function _getFormCallbacks() {
-            return array( 
+            return array(
                 'hfID'          => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
                 'hfTagID'       => array( $this, 'get_field_id' ),    // defined in the WP_Widget class.  
                 'hfName'        => array( $this, '_replyToGetFieldName' ),  // defined in the WP_Widget class.  
                 'hfInputName'   => array( $this, '_replyToGetFieldInputName' ),
                 
                 'saved_data'    => array( $this, '_replyToGetSavedFormData' ),
-            ) 
+            )
             + $this->oCaller->oProp->getFormCallbacks()
             ;
-        }        
+        }
     
     /**
      * @return      array
@@ -244,8 +246,8 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             'options_' . $this->oCaller->oProp->sClassName,
             $this->oCaller->oProp->aOptions,      // subject value to be filtered
             $this->id   // 3.7.9+
-        );        
-    }    
+        );
+    }
     
     /**
      * 
@@ -258,9 +260,10 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
         
         $_aParams      = func_get_args() + array( null, null, null );
         $aFieldset     = $_aParams[ 1 ];
+
         return $this->_getNameAttributeDimensions( $aFieldset );
     
-    }    
+    }
     
         /**
          * Calculates the name attribute by adding section and field dimensions.
@@ -271,14 +274,15 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * @return      string
          */
         private function _getNameAttributeDimensions( $aFieldset ) {
-            $_sSectionIndex = isset( $aFieldset[ 'section_id' ], $aFieldset[ '_section_index' ] ) 
-                ? "[{$aFieldset[ '_section_index' ]}]" 
-                : "";             
+            $_sSectionIndex = isset( $aFieldset[ 'section_id' ], $aFieldset[ '_section_index' ] )
+                ? "[{$aFieldset[ '_section_index' ]}]"
+                : "";
             $_sDimensions   = $this->oCaller->isSectionSet( $aFieldset )
                 ? $aFieldset[ 'section_id' ] . "]" . $_sSectionIndex . "[" . $aFieldset[ 'field_id' ]
-                : $aFieldset[ 'field_id' ];                
+                : $aFieldset[ 'field_id' ];
+
             return 'widget-' . $this->id_base . '[' . $this->number . '][' . $_sDimensions . ']';
-        }        
+        }
     
     /**
      * 
@@ -295,7 +299,8 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             '0' !== $sIndex && empty( $sIndex ),
             '',
             "[" . $sIndex . "]"
-        );                   
+        );
+
         return $this->_replyToGetFieldName( '', $aFieldset ) . $_sIndex;
 
     }

@@ -50,7 +50,7 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
         
         // Properties
         $this->sClassName   = $sClassName; // will be used in the getTransientIfSet() method.
-        
+
         // Set the file name to download and the format type. Also find whether the exporting data is set in transient.
         $this->sFileName    = $this->getSubmitValueByType( $aPostExport, $this->sInputID, 'file_name' );
         $this->sFormatType  = $this->getSubmitValueByType( $aPostExport, $this->sInputID, 'format' );
@@ -68,6 +68,7 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
                 // as the user may press the button multiple times to get the copies of the file.                
             }
         }
+
         return $vData;
     }
     
@@ -93,11 +94,11 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
      * </code>
      * @since       2.0.0
      * @since       3.5.4       Added the `$aHeader` parameter. Deprecated the `$sFileName` parameter as it is included in the $aHeader definition.
-     */ 
+     */
     public function doExport( $vData, $sFormatType=null, array $aHeader=array() ) {
 
-        $sFormatType    = isset( $sFormatType ) 
-            ? $sFormatType 
+        $sFormatType    = isset( $sFormatType )
+            ? $sFormatType
             : $this->sFormatType;
 
         $this->_outputHTTPHeader( $aHeader );
@@ -133,7 +134,7 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
                 }
                 
                 // If the key is explictly set via the parameter, use it.
-                $_sKey = $this->getAOrB( 
+                $_sKey = $this->getAOrB(
                     $sKey,
                     $sKey,
                     $_sKey
@@ -142,7 +143,7 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
                 // Make sure there is no space before the colon. If there is, it won't work in FireFox.
                 header( "{$_sKey}: {$_asValue}" );
                 
-            }            
+            }
             
         }
         
@@ -161,15 +162,18 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
                         echo AdminPageFramework_Debug::get( $vData, null, false );
                     }
                     echo $vData;
+
                     return;
                 case 'json': // for json.
                     echo json_encode( ( array ) $vData );
+
                     return ;
                 case 'array': // for serialized PHP array.
                 default: // for anything else, 
                     echo serialize( ( array ) $vData );
+
                     return;
-            }        
+            }
             
         }
         

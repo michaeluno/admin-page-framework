@@ -30,5 +30,5 @@ abstract class AdminPageFramework_Model extends AdminPageFramework_Controller_Me
     // public function validate( $aInput, $aOldInput, $oFactory, $aSubmitInfo ) {
         // return $aInput;
     // }         
-    
+
 }

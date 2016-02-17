@@ -17,10 +17,12 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
     }
     protected function _getLinkObject() {
         $_sClassName = $this->aSubClassNames['oLink'];
+
         return new $_sClassName($this->oProp, $this->oMsg);
     }
     protected function _getPageLoadObject() {
         $_sClassName = $this->aSubClassNames['oPageLoadInfo'];
+
         return new $_sClassName($this->oProp, $this->oMsg);
     }
     protected function _isInstantiatable() {
@@ -30,6 +32,7 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
         if (is_network_admin()) {
             return true;
         }
+
         return false;
     }
     static public function getOption($sOptionKey, $asKey = null, $vDefault = null) {

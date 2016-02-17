@@ -18,6 +18,7 @@ abstract class AdminPageFramework_Utility_Deprecated {
         if (isset($vSubject[$sKey])) {
             return $vSubject[$sKey];
         }
+
         return $sDefault;
     }
     static public function isAssociativeArray(array $aArray) {
@@ -31,6 +32,7 @@ abstract class AdminPageFramework_Utility_Deprecated {
             return $asElement;
         }
         $aElements = & $asElement;
+
         return isset($aElements[$sKey]) ? $aElements[$sKey] : $asDefault;
     }
     static public function shiftTillTrue(array $aArray) {
@@ -40,6 +42,7 @@ abstract class AdminPageFramework_Utility_Deprecated {
             }
             unset($vElem);
         }
+
         return array_values($aArray);
     }
     static public function getAttributes(array $aAttributes) {
@@ -51,6 +54,7 @@ abstract class AdminPageFramework_Utility_Deprecated {
             }
             $_aOutput[] = "{$sAttribute}={$_sQuoteCharactor}{$sProperty}{$_sQuoteCharactor}";
         }
+
         return implode(' ', $_aOutput);
     }
 }
@@ -62,6 +66,7 @@ abstract class AdminPageFramework_Utility_VariableType extends AdminPageFramewor
         if (file_exists($sPathOrURL)) {
             return true;
         }
+
         return ( boolean )filter_var($sPathOrURL, FILTER_VALIDATE_URL);
     }
     static public function isNotNull($mValue = null) {
@@ -91,6 +96,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
         if ($nMax !== '' && $nToFix > $nMax) {
             return $nMax;
         }
+
         return $nToFix;
     }
     static public function getCSSMinified($sCSSRules) {
@@ -98,6 +104,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
     }
     static public function minifyCSS($sCSSRules) {
         trigger_error(AdminPageFramework_Registry::NAME . ': ' . sprintf('The method, %1$s, is deprecated. Use %2$s instead.', 'minifyCSS()', 'getCSSMinified()'), E_USER_NOTICE);
+
         return self::getCSSMinified($sCSSRules);
     }
     static public function getStringLength($sString) {
@@ -117,6 +124,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
             case 'K':
                 $_nReturn*= 1024;
         }
+
         return $_nReturn;
     }
     static public function getReadableBytes($nBytes) {
@@ -124,6 +132,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
         $_nLog = log($nBytes, 1024);
         $_iPower = ( int )$_nLog;
         $_iSize = pow(1024, $_nLog - $_iPower);
+
         return $_iSize . $_aUnits[$_iPower];
     }
     static public function getPrefixRemoved($sString, $sPrefix) {
@@ -140,6 +149,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
         if (0 === $_iLength) {
             return true;
         }
+
         return substr($sHaystack, -$_iLength) === $sNeedle;
     }
 }
@@ -148,6 +158,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         if (!isset($aArray[$nIndex])) {
             return $nIndex;
         }
+
         return self::getUnusedNumericIndex($aArray, $nIndex + $iOffset, $iOffset);
     }
     static public function isAssociative(array $aArray) {
@@ -155,10 +166,12 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }
     static public function isLastElement(array $aArray, $sKey) {
         end($aArray);
+
         return $sKey === key($aArray);
     }
     static public function isFirstElement(array $aArray, $sKey) {
         reset($aArray);
+
         return $sKey === key($aArray);
     }
     static public function getReadableListOfArray(array $aArray) {
@@ -166,6 +179,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         foreach ($aArray as $_sKey => $_vValue) {
             $_aOutput[] = self::getReadableArrayContents($_sKey, $_vValue, 32) . PHP_EOL;
         }
+
         return implode(PHP_EOL, $_aOutput);
     }
     static public function getReadableArrayContents($sKey, $vValue, $sLabelCharLengths = 16, $iOffset = 0) {
@@ -173,6 +187,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         $_aOutput[] = ($iOffset ? str_pad(' ', $iOffset) : '') . ($sKey ? '[' . $sKey . ']' : '');
         if (!in_array(gettype($vValue), array('array', 'object'))) {
             $_aOutput[] = $vValue;
+
             return implode(PHP_EOL, $_aOutput);
         }
         foreach ($vValue as $_sTitle => $_asDescription) {
@@ -182,6 +197,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
             }
             $_aOutput[] = str_pad(' ', $iOffset) . $_sTitle . ": {" . self::getReadableArrayContents('', $_asDescription, 16, $iOffset + 4) . PHP_EOL . str_pad(' ', $iOffset) . "}";
         }
+
         return implode(PHP_EOL, $_aOutput);
     }
     static public function getReadableListOfArrayAsHTML(array $aArray) {
@@ -189,6 +205,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         foreach ($aArray as $_sKey => $_vValue) {
             $_aOutput[] = "<ul class='array-contents'>" . self::getReadableArrayContentsHTML($_sKey, $_vValue) . "</ul>" . PHP_EOL;
         }
+
         return implode(PHP_EOL, $_aOutput);
     }
     static public function getReadableArrayContentsHTML($sKey, $vValue) {
@@ -196,11 +213,13 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
         $_aOutput[] = $sKey ? "<h3 class='array-key'>" . $sKey . "</h3>" : "";
         if (!in_array(gettype($vValue), array('array', 'object'))) {
             $_aOutput[] = "<div class='array-value'>" . html_entity_decode(nl2br(str_replace(' ', '&nbsp;', $vValue)), ENT_QUOTES) . "</div>";
+
             return "<li>" . implode(PHP_EOL, $_aOutput) . "</li>";
         }
         foreach ($vValue as $_sKey => $_vValue) {
             $_aOutput[] = "<ul class='array-contents'>" . self::getReadableArrayContentsHTML($_sKey, $_vValue) . "</ul>";
         }
+
         return implode(PHP_EOL, $_aOutput);
     }
 }
@@ -213,6 +232,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
     static public function getElement($aSubject, $aisKey, $mDefault = null, $asToDefault = array(null)) {
         $_aToDefault = is_null($asToDefault) ? array(null) : self::getAsArray($asToDefault, true);
         $_mValue = self::getArrayValueByArrayKeys($aSubject, self::getAsArray($aisKey, true), $mDefault);
+
         return in_array($_mValue, $_aToDefault, true) ? $mDefault : $_mValue;
     }
     static public function getElementAsArray($aSubject, $aisKey, $mDefault = null, $asToDefault = array(null)) {
@@ -229,6 +249,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
                 unset($aParse[$_isKey]);
             }
         }
+
         return $aParse;
     }
     static public function getNonIntegerKeyElements(array $aParse) {
@@ -237,6 +258,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
                 unset($aParse[$_isKey]);
             }
         }
+
         return $aParse;
     }
     static public function getArrayValueByArrayKeys($aArray, $aKeys, $vDefault = null) {
@@ -248,8 +270,10 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
             if (is_array($aArray[$_sKey])) {
                 return self::getArrayValueByArrayKeys($aArray[$_sKey], $aKeys, $vDefault);
             }
+
             return $vDefault;
         }
+
         return $vDefault;
     }
     static public function getAsArray($mValue, $bPreserveEmpty = false) {
@@ -262,6 +286,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
         if (empty($mValue)) {
             return array();
         }
+
         return ( array )$mValue;
     }
     static public function getArrayElementsByKeys(array $aSubject, array $aKeys) {
@@ -278,6 +303,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
             if (isset($mSubject[$_sKey]) && is_array($mSubject[$_sKey])) {
                 self::unsetDimensionalArrayElement($mSubject[$_sKey], $aKeys);
             }
+
             return;
         }
         if (is_array($mSubject)) {
@@ -291,6 +317,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
                 $mSubject[$_sKey] = array();
             }
             self::setMultiDimensionalArray($mSubject[$_sKey], $aKeys, $mValue);
+
             return;
         }
         $mSubject[$_sKey] = $mValue;
@@ -304,6 +331,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
         if (!empty($_aAssociative)) {
             array_unshift($_aNumeric, $_aAssociative);
         }
+
         return $_aNumeric;
     }
     public static function castArrayContents(array $aModel, array $aSubject) {
@@ -311,6 +339,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
         foreach ($aModel as $_isKey => $_v) {
             $_aCast[$_isKey] = self::getElement($aSubject, $_isKey, null);
         }
+
         return $_aCast;
     }
     public static function invertCastArrayContents(array $aModel, array $aSubject) {
@@ -321,6 +350,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
             }
             $_aInvert[$_isKey] = $_v;
         }
+
         return $_aInvert;
     }
     public static function uniteArrays() {
@@ -328,6 +358,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
         foreach (array_reverse(func_get_args()) as $_aArg) {
             $_aArray = self::uniteArraysRecursive(self::getAsArray($_aArg), $_aArray);
         }
+
         return $_aArray;
     }
     public static function uniteArraysRecursive($aPrecedence, $aDefault) {
@@ -346,6 +377,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
                 }
             }
         }
+
         return $aPrecedence;
     }
     static public function dropElementsByType(array $aArray, $aTypes = array('array')) {
@@ -354,6 +386,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
                 unset($aArray[$isKey]);
             }
         }
+
         return $aArray;
     }
     static public function dropElementByValue(array $aArray, $vValue) {
@@ -364,12 +397,14 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
             }
             unset($aArray[$_sKey]);
         }
+
         return $aArray;
     }
     static public function dropElementsByKey(array $aArray, $asKeys) {
         foreach (self::getAsArray($asKeys, true) as $_isKey) {
             unset($aArray[$_isKey]);
         }
+
         return $aArray;
     }
 }
@@ -396,6 +431,7 @@ abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utilit
                 }
             }
         }
+
         return implode('/', $relPath);
     }
     static public function getCallerScriptPath($sRedirectedFile) {
@@ -412,6 +448,7 @@ abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utilit
             break;
         }
         self::$_aCallerScriptPathCaches[$sRedirectedFile] = $_sCallerFilePath;
+
         return $_sCallerFilePath;
     }
     static private $_aCallerScriptPathCaches = array();
@@ -420,6 +457,7 @@ abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility
     static public function getQueryValueInURLByKey($sURL, $sQueryKey) {
         $_aURL = parse_url($sURL) + array('query' => '');
         parse_str($_aURL['query'], $aQuery);
+
         return self::getElement($aQuery, $sQueryKey, null);
     }
     static public function getCurrentURL() {
@@ -429,12 +467,14 @@ abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility
         $_sProtocol = substr($_sServerProtocol, 0, strpos($_sServerProtocol, '/')) . $_aProrocolSuffix[( int )$_bSSL];
         $_sPort = self::_getURLPortSuffix($_bSSL);
         $_sHost = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
+
         return $_sProtocol . '://' . $_sHost . $_sPort . $_SERVER['REQUEST_URI'];
     }
     static private function _getURLPortSuffix($_bSSL) {
         $_sPort = isset($_SERVER['SERVER_PORT']) ? ( string )$_SERVER['SERVER_PORT'] : '';
         $_aPort = array(0 => ':' . $_sPort, 1 => '',);
         $_bPortSet = (!$_bSSL && '80' === $_sPort) || ($_bSSL && '443' === $_sPort);
+
         return $_aPort[( int )$_bPortSet];
     }
     static public function isSSL() {
@@ -447,15 +487,18 @@ abstract class AdminPageFramework_Utility_File extends AdminPageFramework_Utilit
         if (!@is_readable($_sPath)) {
             return '';
         }
+
         return trim(implode('', array_slice(file($_sPath), -$iLines)));
     }
     static private function _getFirstItem($asItems) {
         $_aItems = is_array($asItems) ? $asItems : array($asItems);
         $_aItems = array_values($_aItems);
+
         return ( string )array_shift($_aItems);
     }
     static public function sanitizeFileName($sFileName, $sReplacement = '_') {
         $sFileName = preg_replace("([^\w\s\d\-_~,;:\[\]\(\).])", $sReplacement, $sFileName);
+
         return preg_replace("([\.]{2,})", '', $sFileName);
     }
 }
@@ -483,6 +526,7 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
             }
         }
         self::$_aPHPInfo = $_aOutput;
+
         return self::$_aPHPInfo;
     }
     static public function getDefinedConstants($asCategories = null, $asRemovingCategories = null) {
@@ -494,14 +538,17 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
         if (empty($_aCategories)) {
             return self::dropElementsByKey($_aConstants, $_aRemovingCategories);
         }
+
         return self::dropElementsByKey(array_intersect_key($_aConstants, array_flip($_aCategories)), $_aRemovingCategories);
     }
     static public function getPHPErrorLogPath() {
         $_aPHPInfo = self::getPHPInfo();
+
         return isset($_aPHPInfo['PHP Core']['error_log']) ? $_aPHPInfo['PHP Core']['error_log'] : '';
     }
     static public function getPHPErrorLog($iLines = 1) {
         $_sLog = self::getFileTailContents(self::getPHPErrorLogPath(), $iLines);
+
         return $_sLog ? $_sLog : print_r(@error_get_last(), true);
     }
 }
@@ -511,6 +558,7 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
         foreach ($aCSSRules as $_sProperty => $_sValue) {
             $_aOutput[] = $_sProperty . ': ' . $_sValue;
         }
+
         return implode('; ', $_aOutput);
     }
     static public function generateInlineCSS(array $aCSSRules) {
@@ -532,6 +580,7 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
                 $_aCSSRules[$_aCSSPair[0]] = $_aCSSPair[1];
             }
         }
+
         return self::getInlineCSS(array_unique($_aCSSRules));
     }
     static public function generateStyleAttribute($asInlineCSSes) {
@@ -546,10 +595,12 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
             $_aClasses = array_merge($_aClasses, is_array($_asClasses) ? $_asClasses : explode(' ', $_asClasses));
         }
         $_aClasses = array_unique(array_filter($_aClasses));
+
         return trim(implode(' ', $_aClasses));
     }
     static public function generateClassAttribute() {
         $_aParams = func_get_args();
+
         return call_user_func_array(array(__CLASS__, 'getClassAttribute'), $_aParams);
     }
     static public function getDataAttributeArray(array $aArray) {
@@ -560,6 +611,7 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
             }
             $_aNewArray["data-{$sKey}"] = $v ? $v : '0';
         }
+
         return $_aNewArray;
     }
 }
@@ -570,6 +622,7 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
             return true;
         }
         self::$_aCallStack[$sID] = true;
+
         return false;
     }
     static public function getOutputBuffer($oCallable, array $aParameters = array()) {
@@ -577,11 +630,13 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
         echo call_user_func_array($oCallable, $aParameters);
         $_sContent = ob_get_contents();
         ob_end_clean();
+
         return $_sContent;
     }
     static public function getObjectInfo($oInstance) {
         $_iCount = count(get_object_vars($oInstance));
         $_sClassName = get_class($oInstance);
+
         return '(object) ' . $_sClassName . ': ' . $_iCount . ' properties.';
     }
     static public function getAOrB($mValue, $mTrue = null, $mFalse = null) {

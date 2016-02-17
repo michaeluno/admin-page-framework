@@ -13,20 +13,24 @@ class AdminPageFramework_Parsedown {
         $lines = explode("\n", $text);
         $markup = $this->lines($lines);
         $markup = trim($markup, "\n");
+
         return $markup;
     }
     function setBreaksEnabled($breaksEnabled) {
         $this->breaksEnabled = $breaksEnabled;
+
         return $this;
     }
     protected $breaksEnabled;
     function setMarkupEscaped($markupEscaped) {
         $this->markupEscaped = $markupEscaped;
+
         return $this;
     }
     protected $markupEscaped;
     function setUrlsLinked($urlsLinked) {
         $this->urlsLinked = $urlsLinked;
+
         return $this;
     }
     protected $urlsLinked = true;
@@ -112,6 +116,7 @@ class AdminPageFramework_Parsedown {
             $markup.= isset($Block['markup']) ? $Block['markup'] : $this->element($Block['element']);
         }
         $markup.= "\n";
+
         return $markup;
     }
     protected function blockCode($Line, $Block = null) {
@@ -121,6 +126,7 @@ class AdminPageFramework_Parsedown {
         if ($Line['indent'] >= 4) {
             $text = substr($Line['body'], 4);
             $Block = array('element' => array('name' => 'pre', 'handler' => 'element', 'text' => array('name' => 'code', 'text' => $text,),),);
+
             return $Block;
         }
     }
@@ -133,6 +139,7 @@ class AdminPageFramework_Parsedown {
             $Block['element']['text']['text'].= "\n";
             $text = substr($Line['body'], 4);
             $Block['element']['text']['text'].= $text;
+
             return $Block;
         }
     }
@@ -140,6 +147,7 @@ class AdminPageFramework_Parsedown {
         $text = $Block['element']['text']['text'];
         $text = htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
         $Block['element']['text']['text'] = $text;
+
         return $Block;
     }
     protected function blockComment($Line) {
@@ -151,6 +159,7 @@ class AdminPageFramework_Parsedown {
             if (preg_match('/-->$/', $Line['text'])) {
                 $Block['closed'] = true;
             }
+
             return $Block;
         }
     }
@@ -162,6 +171,7 @@ class AdminPageFramework_Parsedown {
         if (preg_match('/-->$/', $Line['text'])) {
             $Block['closed'] = true;
         }
+
         return $Block;
     }
     protected function blockFencedCode($Line) {
@@ -172,6 +182,7 @@ class AdminPageFramework_Parsedown {
                 $Element['attributes'] = array('class' => $class,);
             }
             $Block = array('char' => $Line['text'][0], 'element' => array('name' => 'pre', 'handler' => 'element', 'text' => $Element,),);
+
             return $Block;
         }
     }
@@ -186,15 +197,18 @@ class AdminPageFramework_Parsedown {
         if (preg_match('/^' . $Block['char'] . '{3,}[ ]*$/', $Line['text'])) {
             $Block['element']['text']['text'] = substr($Block['element']['text']['text'], 1);
             $Block['complete'] = true;
+
             return $Block;
         }
         $Block['element']['text']['text'].= "\n" . $Line['body'];;
+
         return $Block;
     }
     protected function blockFencedCodeComplete($Block) {
         $text = $Block['element']['text']['text'];
         $text = htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
         $Block['element']['text']['text'] = $text;
+
         return $Block;
     }
     protected function blockHeader($Line) {
@@ -208,6 +222,7 @@ class AdminPageFramework_Parsedown {
             }
             $text = trim($Line['text'], '# ');
             $Block = array('element' => array('name' => 'h' . min(6, $level), 'text' => $text, 'handler' => 'line',),);
+
             return $Block;
         }
     }
@@ -217,6 +232,7 @@ class AdminPageFramework_Parsedown {
             $Block = array('indent' => $Line['indent'], 'pattern' => $pattern, 'element' => array('name' => $name, 'handler' => 'elements',),);
             $Block['li'] = array('name' => 'li', 'handler' => 'li', 'text' => array($matches[2],),);
             $Block['element']['text'][] = & $Block['li'];
+
             return $Block;
         }
     }
@@ -230,6 +246,7 @@ class AdminPageFramework_Parsedown {
             $text = isset($matches[1]) ? $matches[1] : '';
             $Block['li'] = array('name' => 'li', 'handler' => 'li', 'text' => array($text,),);
             $Block['element']['text'][] = & $Block['li'];
+
             return $Block;
         }
         if ($Line['text'][0] === '[' and $this->blockReference($Line)) {
@@ -238,6 +255,7 @@ class AdminPageFramework_Parsedown {
         if (!isset($Block['interrupted'])) {
             $text = preg_replace('/^[ ]{0,4}/', '', $Line['body']);
             $Block['li']['text'][] = $text;
+
             return $Block;
         }
         if ($Line['indent'] > 0) {
@@ -245,12 +263,14 @@ class AdminPageFramework_Parsedown {
             $text = preg_replace('/^[ ]{0,4}/', '', $Line['body']);
             $Block['li']['text'][] = $text;
             unset($Block['interrupted']);
+
             return $Block;
         }
     }
     protected function blockQuote($Line) {
         if (preg_match('/^>[ ]?(.*)/', $Line['text'], $matches)) {
             $Block = array('element' => array('name' => 'blockquote', 'handler' => 'lines', 'text' => (array)$matches[1],),);
+
             return $Block;
         }
     }
@@ -261,16 +281,19 @@ class AdminPageFramework_Parsedown {
                 unset($Block['interrupted']);
             }
             $Block['element']['text'][] = $matches[1];
+
             return $Block;
         }
         if (!isset($Block['interrupted'])) {
             $Block['element']['text'][] = $Line['text'];
+
             return $Block;
         }
     }
     protected function blockRule($Line) {
         if (preg_match('/^([' . $Line['text'][0] . '])([ ]*\1){2,}[ ]*$/', $Line['text'])) {
             $Block = array('element' => array('name' => 'hr'),);
+
             return $Block;
         }
     }
@@ -280,6 +303,7 @@ class AdminPageFramework_Parsedown {
         }
         if (chop($Line['text'], $Line['text'][0]) === '') {
             $Block['element']['name'] = $Line['text'][0] === '=' ? 'h1' : 'h2';
+
             return $Block;
         }
     }
@@ -308,6 +332,7 @@ class AdminPageFramework_Parsedown {
                     $Block['closed'] = true;
                 }
             }
+
             return $Block;
         }
     }
@@ -330,6 +355,7 @@ class AdminPageFramework_Parsedown {
             unset($Block['interrupted']);
         }
         $Block['markup'].= "\n" . $Line['body'];
+
         return $Block;
     }
     protected function blockReference($Line) {
@@ -341,6 +367,7 @@ class AdminPageFramework_Parsedown {
             }
             $this->DefinitionData['Reference'][$id] = $Data;
             $Block = array('hidden' => true,);
+
             return $Block;
         }
     }
@@ -386,6 +413,7 @@ class AdminPageFramework_Parsedown {
             $Block['element']['text'][] = array('name' => 'thead', 'handler' => 'elements',);
             $Block['element']['text'][] = array('name' => 'tbody', 'handler' => 'elements', 'text' => array(),);
             $Block['element']['text'][0]['text'][] = array('name' => 'tr', 'handler' => 'elements', 'text' => $HeaderElements,);
+
             return $Block;
         }
     }
@@ -409,11 +437,13 @@ class AdminPageFramework_Parsedown {
             }
             $Element = array('name' => 'tr', 'handler' => 'elements', 'text' => $Elements,);
             $Block['element']['text'][1]['text'][] = $Element;
+
             return $Block;
         }
     }
     protected function paragraph($Line) {
         $Block = array('element' => array('name' => 'p', 'text' => $Line['text'], 'handler' => 'line',),);
+
         return $Block;
     }
     protected $InlineTypes = array('"' => array('SpecialCharacter'), '!' => array('Image'), '&' => array('SpecialCharacter'), '*' => array('Emphasis'), ':' => array('Url'), '<' => array('UrlTag', 'EmailTag', 'Markup', 'SpecialCharacter'), '>' => array('SpecialCharacter'), '[' => array('Link'), '_' => array('Emphasis'), '`' => array('Code'), '~' => array('Strikethrough'), '\\' => array('EscapeSequence'),);
@@ -446,6 +476,7 @@ class AdminPageFramework_Parsedown {
             $text = substr($text, $markerPosition + 1);
         }
         $markup.= $this->unmarkedText($text);
+
         return $markup;
     }
     protected function inlineCode($Excerpt) {
@@ -454,6 +485,7 @@ class AdminPageFramework_Parsedown {
             $text = $matches[2];
             $text = htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
             $text = preg_replace("/[ ]*\n/", ' ', $text);
+
             return array('extent' => strlen($matches[0]), 'element' => array('name' => 'code', 'text' => $text,),);
         }
     }
@@ -463,6 +495,7 @@ class AdminPageFramework_Parsedown {
             if (!isset($matches[2])) {
                 $url = 'mailto:' . $url;
             }
+
             return array('extent' => strlen($matches[0]), 'element' => array('name' => 'a', 'text' => $matches[1], 'attributes' => array('href' => $url,),),);
         }
     }
@@ -478,6 +511,7 @@ class AdminPageFramework_Parsedown {
         } else {
             return;
         }
+
         return array('extent' => strlen($matches[0]), 'element' => array('name' => $emphasis, 'handler' => 'line', 'text' => $matches[1],),);
     }
     protected function inlineEscapeSequence($Excerpt) {
@@ -497,6 +531,7 @@ class AdminPageFramework_Parsedown {
         $Inline = array('extent' => $Link['extent'] + 1, 'element' => array('name' => 'img', 'attributes' => array('src' => $Link['element']['attributes']['href'], 'alt' => $Link['element']['text'],),),);
         $Inline['element']['attributes']+= $Link['element']['attributes'];
         unset($Inline['element']['attributes']['href']);
+
         return $Inline;
     }
     protected function inlineLink($Excerpt) {
@@ -532,6 +567,7 @@ class AdminPageFramework_Parsedown {
             $Element['attributes']['title'] = $Definition['title'];
         }
         $Element['attributes']['href'] = str_replace(array('&', '<'), array('&amp;', '&lt;'), $Element['attributes']['href']);
+
         return array('extent' => $extent, 'element' => $Element,);
     }
     protected function inlineMarkup($Excerpt) {
@@ -571,12 +607,14 @@ class AdminPageFramework_Parsedown {
         }
         if (preg_match('/\bhttps?:[\/]{2}[^\s<]+\b\/*/ui', $Excerpt['context'], $matches, PREG_OFFSET_CAPTURE)) {
             $Inline = array('extent' => strlen($matches[0][0]), 'position' => $matches[0][1], 'element' => array('name' => 'a', 'text' => $matches[0][0], 'attributes' => array('href' => $matches[0][0],),),);
+
             return $Inline;
         }
     }
     protected function inlineUrlTag($Excerpt) {
         if (strpos($Excerpt['text'], '>') !== false and preg_match('/^<(\w+:\/{2}[^ >]+)>/i', $Excerpt['text'], $matches)) {
             $url = str_replace(array('&', '<'), array('&amp;', '&lt;'), $matches[1]);
+
             return array('extent' => strlen($matches[0]), 'element' => array('name' => 'a', 'text' => $url, 'attributes' => array('href' => $url,),),);
         }
     }
@@ -587,6 +625,7 @@ class AdminPageFramework_Parsedown {
             $text = preg_replace('/(?:[ ][ ]+|[ ]*\\\\)\n/', "<br />\n", $text);
             $text = str_replace(" \n", "\n", $text);
         }
+
         return $text;
     }
     protected function element(array $Element) {
@@ -610,6 +649,7 @@ class AdminPageFramework_Parsedown {
         } else {
             $markup.= ' />';
         }
+
         return $markup;
     }
     protected function elements(array $Elements) {
@@ -618,6 +658,7 @@ class AdminPageFramework_Parsedown {
             $markup.= "\n" . $this->element($Element);
         }
         $markup.= "\n";
+
         return $markup;
     }
     protected function li($lines) {
@@ -629,10 +670,12 @@ class AdminPageFramework_Parsedown {
             $position = strpos($markup, "</p>");
             $markup = substr_replace($markup, '', $position, 4);
         }
+
         return $markup;
     }
     function parse($text) {
         $markup = $this->text($text);
+
         return $markup;
     }
     static function instance($name = 'default') {
@@ -642,6 +685,7 @@ class AdminPageFramework_Parsedown {
         $_sClassName = __CLASS__;
         $instance = new $_sClassName();
         self::$instances[$name] = $instance;
+
         return $instance;
     }
     private static $instances = array();

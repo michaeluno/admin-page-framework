@@ -45,9 +45,9 @@ class AdminPageFramework_Model__FormSubmission__Validator_Base extends AdminPage
     }
     
     // public function _replyToCallback() {}
-    
+
     // Shared methods.
-    
+
     /**
      * Confirms the given submit button action and sets a confirmation message as a field error message and admin notice.
      * 
@@ -67,7 +67,7 @@ class AdminPageFramework_Model__FormSubmission__Validator_Base extends AdminPage
             case 'email':
                 $_sFieldErrorMessage = $this->oFactory->oMsg->get( 'send_email' );
                 $_sTransientKey      =  'apf_ec_' . md5( $sPressedInputName . get_current_user_id() );
-                break;                
+                break;
         }
         
         // Retrieve the pressed button's associated submit field ID.
@@ -96,6 +96,6 @@ class AdminPageFramework_Model__FormSubmission__Validator_Base extends AdminPage
         // Their returned options will be saved so returned the saved options not to change anything.
         return $this->oFactory->oProp->aOptions;
         
-    }      
+    }
     
 }

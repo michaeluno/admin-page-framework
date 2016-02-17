@@ -39,7 +39,7 @@ class APF_Demo_CustomFieldType {
     
         $this->_oFactory     = $oFactory;
         
-        $this->_oFactory->addSubMenuItems( 
+        $this->_oFactory->addSubMenuItems(
             array(
                 'title'     => __( 'Custom Field Types', 'admin-page-framework-loader' ),
                 'page_slug' => $this->_sPageSlug,    // page slug
@@ -62,7 +62,7 @@ class APF_Demo_CustomFieldType {
         new APF_Demo_CustomFieldType_ACE(
             $oFactory,    // factory object
             $this->_sPageSlug   // page slug
-        );   
+        );
         new APF_Demo_CustomFieldType_Sample(
             $oFactory,    // factory object
             $this->_sPageSlug   // page slug
@@ -73,7 +73,7 @@ class APF_Demo_CustomFieldType {
         );
         
         // Add a link in tabs
-        $oFactory->addInPageTabs(    
+        $oFactory->addInPageTabs(
             $this->_sPageSlug, // target page slug
             array(
                 'tab_slug'      => 'more',
@@ -81,7 +81,7 @@ class APF_Demo_CustomFieldType {
                 'url'           => 'http://admin-page-framework.michaeluno.jp/add-ons/field-type-pack/',
                 'order'         => 999,
             )
-        );  
+        );
                 
     }
         

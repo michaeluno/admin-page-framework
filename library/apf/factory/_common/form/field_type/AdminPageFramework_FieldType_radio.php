@@ -19,6 +19,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType {
             $_aOutput[] = $this->_getEachRadioButtonOutput($aField, $_sKey, $_sLabel);
         }
         $_aOutput[] = $this->_getUpdateCheckedScript($aField['input_id']);
+
         return implode(PHP_EOL, $_aOutput);
     }
     private function _getEachRadioButtonOutput(array $aField, $sKey, $sLabel) {
@@ -26,6 +27,7 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType {
         $_oRadio = new AdminPageFramework_Input_radio($_aAttributes);
         $_oRadio->setAttributesByKey($sKey);
         $_oRadio->setAttribute('data-default', $aField['default']);
+
         return $this->getElementByLabel($aField['before_label'], $sKey, $aField['label']) . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->sanitizeLength($aField['label_min_width']) . ";'>" . "<label " . $this->getAttributes(array('for' => $_oRadio->getAttribute('id'), 'class' => $_oRadio->getAttribute('disabled') ? 'disabled' : null,)) . ">" . $this->getElementByLabel($aField['before_input'], $sKey, $aField['label']) . $_oRadio->get($sLabel) . $this->getElementByLabel($aField['after_input'], $sKey, $aField['label']) . "</label>" . "</div>" . $this->getElementByLabel($aField['after_label'], $sKey, $aField['label']);
     }
     private function _getUpdateCheckedScript($sInputID) {
@@ -40,6 +42,7 @@ jQuery( document ).ready( function(){
     });
 });                 
 JAVASCRIPTS;
+
         return "<script type='text/javascript' class='radio-button-checked-attribute-updater'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
     }
 }

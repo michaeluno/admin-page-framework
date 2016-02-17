@@ -30,7 +30,7 @@ class APF_Demo_AdvancedUsage_Argument_CustomContent {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'custom_content';        
+    public $sSectionID  = 'custom_content';
         
     /**
      * Sets up a form section.
@@ -38,7 +38,7 @@ class APF_Demo_AdvancedUsage_Argument_CustomContent {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'tab_slug'          => $this->sTabSlug,
@@ -46,7 +46,7 @@ class APF_Demo_AdvancedUsage_Argument_CustomContent {
                 'title'             => __( 'Custom HTML Output', 'admin-page-framework-loader' ),
                 'description'       => __( 'You can insert custom HTML output along with the field output.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -58,9 +58,9 @@ class APF_Demo_AdvancedUsage_Argument_CustomContent {
                 'before_field'      => "<p>This is a custom output inserted with the <code>before_field</code> argument.</p>",
                 'after_field'       => "<p>This is a custom output inserted with the <code>after_field</code> argument.</p>",
                 'before_fields'     => "<p>This is a custom output inserted with the <code>before_fields</code> argument.</p>",
-                'after_fields'      => "<p>This is a custom output inserted with the <code>after_fields</code> argument.</p>",                                
+                'after_fields'      => "<p>This is a custom output inserted with the <code>after_fields</code> argument.</p>",
                 'before_fieldset'   => "<p>This is a custom output inserted with the <code>before_fieldset</code> argument.</p>",
-                'after_fieldset'    => "<p>This is a custom output inserted with the <code>after_fieldset</code> argument.</p>",                
+                'after_fieldset'    => "<p>This is a custom output inserted with the <code>after_fieldset</code> argument.</p>",
             ),
             array(
                 'field_id'          => 'custom_field_content',
@@ -69,7 +69,7 @@ class APF_Demo_AdvancedUsage_Argument_CustomContent {
                 'content'           => "<p>This is a custom content output inserted with the <code>content</code> argument.</p>",
                 'description'       => __( 'The description part is reserved.', 'admin-page-framework-loader' ),
             )
-        );              
+        );
       
     }
 

@@ -32,18 +32,18 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
     static public function deleteTransient( $sTransientKey ) {
     
         // Temporarily disable `$_wp_using_ext_object_cache`.
-        global $_wp_using_ext_object_cache;  
-        $_bWpUsingExtObjectCacheTemp    = $_wp_using_ext_object_cache; 
+        global $_wp_using_ext_object_cache;
+        $_bWpUsingExtObjectCacheTemp    = $_wp_using_ext_object_cache;
         $_wp_using_ext_object_cache     = false;
 
-        self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) 
-            ? self::$_bIsNetworkAdmin 
+        self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin )
+            ? self::$_bIsNetworkAdmin
             : is_network_admin();
 
-        $sTransientKey = self::_getCompatibleTransientKey(  
+        $sTransientKey = self::_getCompatibleTransientKey(
             $sTransientKey,
             // @todo it is said as of WordPess 4.3, it will be 255 since the database table column type becomes VARCHAR(255).
-            self::$_bIsNetworkAdmin 
+            self::$_bIsNetworkAdmin
                 ? 40
                 : 45
         );
@@ -55,7 +55,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         $_vTransient = $_aFunctionNames[ ( integer ) self::$_bIsNetworkAdmin ]( $sTransientKey );
 
         // reset prior value of $_wp_using_ext_object_cache
-        $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp; 
+        $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp;
 
         return $_vTransient;
     }
@@ -64,25 +64,25 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
      * 
      * @since   3.1.3
      * @since   3.1.5   Added the $vDefault parameter.
-     */    
+     */
     static public function getTransient( $sTransientKey, $vDefault=null ) {
 
         // Temporarily disable $_wp_using_ext_object_cache
-        global $_wp_using_ext_object_cache;  
-        $_bWpUsingExtObjectCacheTemp    = $_wp_using_ext_object_cache; 
+        global $_wp_using_ext_object_cache;
+        $_bWpUsingExtObjectCacheTemp    = $_wp_using_ext_object_cache;
         $_wp_using_ext_object_cache     = false;
 
-        self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) 
-            ? self::$_bIsNetworkAdmin 
+        self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin )
+            ? self::$_bIsNetworkAdmin
             : is_network_admin();
 
-        $sTransientKey = self::_getCompatibleTransientKey(  
+        $sTransientKey = self::_getCompatibleTransientKey(
             $sTransientKey,
             // @todo it is said as of WordPess 4.3, it will be 255 since the database table column type becomes VARCHAR(255).
-            self::$_bIsNetworkAdmin 
+            self::$_bIsNetworkAdmin
                 ? 40
                 : 45
-        ); 
+        );
         
         $_aFunctionNames = array(
             0 => 'get_transient',
@@ -91,14 +91,14 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         $_vTransient = $_aFunctionNames[ ( integer ) self::$_bIsNetworkAdmin ]( $sTransientKey );
  
         // Restore the prior value of `$_wp_using_ext_object_cache`.
-        $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp; 
+        $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp;
 
-        return null === $vDefault 
+        return null === $vDefault
             ? $_vTransient
-            : ( false === $_vTransient 
+            : ( false === $_vTransient
                 ? $vDefault
                 : $_vTransient
-            );        
+            );
             
     }
     /**
@@ -110,32 +110,32 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
     static public function setTransient( $sTransientKey, $vValue, $iExpiration=0 ) {
 
         // Temporarily disable `$_wp_using_ext_object_cache`.
-        global $_wp_using_ext_object_cache;  
-        $_bWpUsingExtObjectCacheTemp    = $_wp_using_ext_object_cache; 
+        global $_wp_using_ext_object_cache;
+        $_bWpUsingExtObjectCacheTemp    = $_wp_using_ext_object_cache;
         $_wp_using_ext_object_cache     = false;
 
-        self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin ) 
+        self::$_bIsNetworkAdmin = isset( self::$_bIsNetworkAdmin )
             ? self::$_bIsNetworkAdmin
             : is_network_admin();
 
-        $sTransientKey = self::_getCompatibleTransientKey(  
+        $sTransientKey = self::_getCompatibleTransientKey(
             $sTransientKey,
             // @todo it is said as of WordPess 4.3, it will be 255 since the database table column type becomes VARCHAR(255).
-            self::$_bIsNetworkAdmin 
+            self::$_bIsNetworkAdmin
                 ? 40
                 : 45
-        );  
+        );
         
         $_aFunctionNames = array(
             0 => 'set_transient',
             1 => 'set_site_transient',
         );
-        $_bIsSet = $_aFunctionNames[ ( integer ) self::$_bIsNetworkAdmin ]( $sTransientKey, $vValue, $iExpiration );        
+        $_bIsSet = $_aFunctionNames[ ( integer ) self::$_bIsNetworkAdmin ]( $sTransientKey, $vValue, $iExpiration );
         
         // Restore the prior value of $_wp_using_ext_object_cache
-        $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp; 
+        $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp;
 
-        return $_bIsSet;     
+        return $_bIsSet;
     }
         /**
          * Returns a compatible transient key when it is too long.
@@ -156,14 +156,15 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
             
             // Otherwise, a too long option key is given. 
             $_iPrefixLengthToKeep = $iAllowedCharacterLength - 33; //  _ + {md5 32 characters}
-            $_sPrefixToKeep       = substr( 
-                $sSubject, 
+            $_sPrefixToKeep       = substr(
+                $sSubject,
                 0, // start position
                 $_iPrefixLengthToKeep - 1 // how many characters to extract
             );
+
             return $_sPrefixToKeep . '_' . md5( $sSubject );
          
-        }    
+        }
     
     /**
      * Retrieves the saved option value from the given option key, field ID, and section ID.
@@ -191,8 +192,8 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
      * @return  mixed
      */
     static public function getSiteOption( $sOptionKey, $asKey=null, $vDefault=null, array $aAdditionalOptions=array() ) {
-        return self::_getOptionByFunctionName( $sOptionKey, $asKey, $vDefault, $aAdditionalOptions, 'get_site_option' );        
-    }  
+        return self::_getOptionByFunctionName( $sOptionKey, $asKey, $vDefault, $aAdditionalOptions, 'get_site_option' );
+    }
         /**
          * Retrieves the saved option value from the given option key, field ID, and section ID with a function name.
          * 
@@ -203,13 +204,14 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
 
             // Entire options
             if ( ! isset( $asKey ) ) {
-                $_aOptions = $sFunctionName( 
+                $_aOptions = $sFunctionName(
                     $sOptionKey,
-                    isset( $vDefault ) 
-                        ? $vDefault 
+                    isset( $vDefault )
+                        ? $vDefault
                         : array()
                 );;
-                return empty( $aAdditionalOptions ) 
+
+                return empty( $aAdditionalOptions )
                     ? $_aOptions
                     : self::uniteArrays(
                         $_aOptions,
@@ -218,28 +220,28 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
             }
             
             // Now either the section ID or field ID is given. 
-            return self::getArrayValueByArrayKeys( 
+            return self::getArrayValueByArrayKeys(
                 
                 // subject array
-                self::uniteArrays( 
-                    self::getAsArray( 
+                self::uniteArrays(
+                    self::getAsArray(
                         $sFunctionName( $sOptionKey, array() ), // options data
                         true        // preserve empty
                     ),
-                    $aAdditionalOptions 
-                ), 
+                    $aAdditionalOptions
+                ),
                 
                 // dimensional keys
-                self::getAsArray( 
-                    $asKey, 
+                self::getAsArray(
+                    $asKey,
                     true        // preserve empty. e.g. '0' -> array( 0 )
-                ), 
+                ),
                 
                 // default
                 $vDefault
                 
-            );            
+            );
             
-        }    
+        }
     
 }

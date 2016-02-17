@@ -39,6 +39,7 @@ class AdminPageFramework_HelpPane_admin_page extends AdminPageFramework_HelpPane
         $aHelpTab = ( array )$aHelpTab + self::$_aStructure_HelpTabUserArray;
         if (!isset($this->oProp->aHelpTabs[$aHelpTab['help_tab_id']])) {
             $this->oProp->aHelpTabs[$aHelpTab['help_tab_id']] = array('sID' => $aHelpTab['help_tab_id'], 'sTitle' => $aHelpTab['help_tab_title'], 'aContent' => !empty($aHelpTab['help_tab_content']) ? array($this->_formatHelpDescription($aHelpTab['help_tab_content'])) : array(), 'aSidebar' => !empty($aHelpTab['help_tab_sidebar_content']) ? array($this->_formatHelpDescription($aHelpTab['help_tab_sidebar_content'])) : array(), 'sPageSlug' => $aHelpTab['page_slug'], 'sPageTabSlug' => $aHelpTab['page_tab_slug'],);
+
             return;
         }
         if (!empty($aHelpTab['help_tab_content'])) {

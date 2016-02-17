@@ -35,19 +35,19 @@ class AdminPageFramework_PageLoadInfo_post_type extends AdminPageFramework_PageL
         
         return self::$_oInstance;
         
-    }    
+    }
         
     /**
      * Sets the hook if the current page is one of the framework's added post type pages.
      * @internal
-     */ 
+     */
     public function _replyToSetPageLoadInfoInFooter() {
 
         // Some users sets $_GET['post_type'] element even in regular admin pages. In that case, do not load the style to avoid duplicates.
         if ( isset( $_GET['page'] ) && $_GET['page'] ) { return; }
     
         // For post type pages
-        if ( 
+        if (
             AdminPageFramework_WPUtility::getCurrentPostType() == $this->oProp->sPostType
             || AdminPageFramework_WPUtility::isPostDefinitionPage( $this->oProp->sPostType )
             || AdminPageFramework_WPUtility::isCustomTaxonomyPage( $this->oProp->sPostType )
@@ -55,6 +55,6 @@ class AdminPageFramework_PageLoadInfo_post_type extends AdminPageFramework_PageL
             add_filter( 'update_footer', array( $this, '_replyToGetPageLoadInfo' ), 999 );
         }
         
-    }    
+    }
     
 }

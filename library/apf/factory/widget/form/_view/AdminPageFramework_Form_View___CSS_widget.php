@@ -19,6 +19,7 @@ class AdminPageFramework_Form_View___CSS_widget extends AdminPageFramework_Form_
         if (version_compare($GLOBALS['wp_version'], '3.8', '>=')) {
             $_sCSSRules.= ".widget .admin-page-framework-section .form-table th{font-size: 13px;font-weight: normal;margin-bottom: 0.2em;}.widget .admin-page-framework-section .form-table {margin-top: 1em;}";
         }
+
         return $_sCSSRules;
     }
 }

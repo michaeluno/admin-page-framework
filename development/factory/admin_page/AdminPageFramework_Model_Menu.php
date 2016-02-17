@@ -35,6 +35,6 @@ abstract class AdminPageFramework_Model_Menu extends AdminPageFramework_Controll
 
         new AdminPageFramework_Model_Menu__RegisterMenu( $this );
         
-    }     
+    }
    
 }

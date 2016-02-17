@@ -26,16 +26,16 @@ abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBo
      * @callback    function    add_meta_box()
      * @return      void
      * @internal    
-     */ 
-    public function _replyToPrintMetaBoxContents( $oPost, $vArgs ) {    
+     */
+    public function _replyToPrintMetaBoxContents( $oPost, $vArgs ) {
 
         // Use nonce for verification
         $_aOutput   = array();
         $_aOutput[] = wp_nonce_field(
-            $this->oProp->sMetaBoxID, 
-            $this->oProp->sMetaBoxID, 
-            true, 
-            false 
+            $this->oProp->sMetaBoxID,
+            $this->oProp->sMetaBoxID,
+            true,
+            false
         );
                                  
         // Get the fields output. If no field is added, the form object is not instantiated.
@@ -48,10 +48,10 @@ abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBo
         
         // Render the filtered output.
         echo $this->oUtil->addAndApplyFilters(
-            $this, 
-            "content_{$this->oProp->sClassName}", 
+            $this,
+            "content_{$this->oProp->sClassName}",
             $this->content( implode( PHP_EOL, $_aOutput ) )
-        );            
+        );
         
     }
     
@@ -66,6 +66,6 @@ abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBo
      */
     public function content( $sContent ) {
         return $sContent;
-    }         
+    }
     
 }

@@ -34,7 +34,7 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
      * @remark      Not for the user.
      * @var         array Holds the built-in root menu slugs.
      * @internal
-     */ 
+     */
     protected $_aBuiltInRootMenuSlugs = array(
         // All keys must be lower case to support case insensitive look-ups.
         'dashboard'     => 'index.php',
@@ -44,7 +44,7 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
         'users'         => 'users.php',
         'settings'      => 'settings.php',
         'updates'       => 'update-core.php',   // does not work
-    );     
+    );
         
     /**
      * Registers necessary callbacks ans sets up internal components including properties.
@@ -69,14 +69,14 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
             return;
         }
                     
-        $sCallerPath = $sCallerPath 
-            ? $sCallerPath 
+        $sCallerPath = $sCallerPath
+            ? $sCallerPath
             : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );     // this is important to attempt to find the caller script path here when separating the library into multiple files.
-     
+
         // $_sProprtyClassName = $this->aSubClassNames[ 'oProp' ] 
             // ? $this->aSubClassNames[ 'oProp' ] 
             // : 'AdminPageFramework_Property_' . $this->_sStructureType;
-            
+
         // $this->oProp = new $_sProprtyClassName( 
             // $this, 
             // $sCallerPath, 
@@ -86,12 +86,12 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
             // $sTextDomain,
             // $this->_sStructureType
         // );
-        
+
         parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
         
         new AdminPageFramework_Model_Menu__RegisterMenu( $this, 'network_admin_menu' );
         
-    }    
+    }
     
     /**
      * Instantiates a link object based on the type.
@@ -102,7 +102,8 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
      */
     protected function _getLinkObject() {
         $_sClassName = $this->aSubClassNames[ 'oLink' ];
-        return new $_sClassName( $this->oProp, $this->oMsg );        
+
+        return new $_sClassName( $this->oProp, $this->oMsg );
     }
     
     /**
@@ -111,11 +112,12 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
      * @since       3.7.10
      * @internal
      * @return      null|object
-     */    
+     */
     protected function _getPageLoadObject() {
         $_sClassName = $this->aSubClassNames[ 'oPageLoadInfo' ];
+
         return new $_sClassName( $this->oProp, $this->oMsg );
-    }    
+    }
 
     /**
      * Checks whether the class should be instantiated.
@@ -127,7 +129,7 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
         
         if ( isset( $GLOBALS['pagenow'] ) && 'admin-ajax.php' === $GLOBALS['pagenow'] ) {
             return false;
-        }     
+        }
         
         // Nothing to do in the non-network admin area.
         if ( is_network_admin() ) {

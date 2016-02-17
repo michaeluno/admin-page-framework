@@ -28,8 +28,8 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      * @since       3.6.3       Changed the visibility scope to public as a delegation class needs to access this property.
      * @var         array       Stores field errors.
      * @internal
-     */ 
-    public $aFieldErrors; 
+     */
+    public $aFieldErrors;
         
     /**
      * Stores the target page slug which will be applied when no page slug is specified for the `addSettingSection()` method.
@@ -42,14 +42,14 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      * Stores the target tab slug which will be applied when no tab slug is specified for the `addSettingSection()` method.
      * 
      * @since       3.0.0
-     */    
+     */
     protected $_sTargetTabSlug = null;
 
     /**
      * Stores the target section tab slug which will be applied when no section tab slug is specified for the `addSettingSection()` method.
      * 
      * @since 3.0.0
-     */    
+     */
     protected $_sTargetSectionTabSlug = null;
     
     /**
@@ -70,7 +70,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
             return;
         }
 
-        new AdminPageFramework_Model__FormEmailHandler( $this );                
+        new AdminPageFramework_Model__FormEmailHandler( $this );
         
         // Checking the GET and POST methods.
         if ( isset( $_REQUEST[ 'apf_remote_request_test' ] ) && '_testing' === $_REQUEST[ 'apf_remote_request_test' ] ) {
@@ -87,11 +87,11 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      * @return      void
      */
     public function _replyToHandleSubmittedFormData( $aSavedData, $aArguments, $aSectionsets, $aFieldsets ) {
-        new AdminPageFramework_Model__FormSubmission( 
+        new AdminPageFramework_Model__FormSubmission(
             $this,
-            $aSavedData, 
-            $aArguments, 
-            $aSectionsets, 
+            $aSavedData,
+            $aArguments,
+            $aSectionsets,
             $aFieldsets
         );
     }
@@ -123,21 +123,21 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         // Get the first item of the section path.
         $_sRootSectionID = $this->oUtil->getElement(
             $this->oUtil->getAsArray( $aFieldset[ 'section_id' ] ),
-            0   
+            0
         );
         
-        $this->addHelpTab( 
+        $this->addHelpTab(
             array(
                 'page_slug'                 => $aFieldset[ 'page_slug' ],
                 'page_tab_slug'             => $aFieldset[ 'tab_slug' ],
                 'help_tab_title'            => $aFieldset[ 'section_title' ],
                 'help_tab_id'               => $_sRootSectionID,
-                'help_tab_content'          => "<span class='contextual-help-tab-title'>" 
-                        . $aFieldset[ 'title' ] 
+                'help_tab_content'          => "<span class='contextual-help-tab-title'>"
+                        . $aFieldset[ 'title' ]
                     . "</span> - " . PHP_EOL
                     . $aFieldset[ 'help' ],
-                'help_tab_sidebar_content'  => $aFieldset[ 'help_aside' ] 
-                    ? $aFieldset[ 'help_aside' ] 
+                'help_tab_sidebar_content'  => $aFieldset[ 'help_aside' ]
+                    ? $aFieldset[ 'help_aside' ]
                     : "",
             )
         );
@@ -149,7 +149,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      * @since       3.7.0
      * @remark      Overrides the method of the factory class.
      * @return      array       The modified sectionsets definition array.
-     */    
+     */
     public function _replyToModifySectionsets( $aSectionsets ) {
 
         // Help pane elements must be added before the head tag gets rendered.
@@ -157,7 +157,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         
         return parent::_replyToModifySectionsets( $aSectionsets );
 
-    }    
+    }
         /**
          * Parse the definition array and add help pane items.
          * 
@@ -165,7 +165,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
          * @return      void
          * @since       3.7.0
          */
-        public function _registerHelpPaneItemsOfFormSections( $aSectionsets ) {            
+        public function _registerHelpPaneItemsOfFormSections( $aSectionsets ) {
 // @todo Test if help pane item gets displayed        
 
             foreach( $aSectionsets as $_aSectionset ) {
@@ -182,7 +182,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
                 if ( empty( $_aSectionset[ 'help' ] ) ) {
                     continue;
                 }
-                $this->addHelpTab( 
+                $this->addHelpTab(
                     array(
                         'page_slug'                 => $_aSectionset[ 'page_slug' ],
                         'page_tab_slug'             => $_aSectionset[ 'tab_slug' ],
@@ -191,7 +191,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
                         'help_tab_content'          => $_aSectionset[ 'help' ],
                         'help_tab_sidebar_content'  => $this->getElement( $_aSectionset, 'help_aside', '' ),
                     )
-                );            
+                );
             }
         }
             
@@ -205,12 +205,13 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         if ( ! current_user_can( $aSectionset[ 'capability' ] ) ) {
             return false;
         }
-        if ( ! $aSectionset[ 'if' ] ) { 
+        if ( ! $aSectionset[ 'if' ] ) {
             return false;
         }
-        if ( ! $this->_isSectionOfCurrentPage( $aSectionset ) ) { 
+        if ( ! $this->_isSectionOfCurrentPage( $aSectionset ) ) {
             return false;
         }
+
         return $bVisible;
         
     }
@@ -222,15 +223,15 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
          * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
          * @remark      Assumes the given section definition array is already formatted.
          * @return      boolean     Returns true if the section belongs to the current tab page. Otherwise, false.
-         */     
+         */
         private function _isSectionOfCurrentPage( array $aSectionset ) {
         
             // Make sure the value type is string so that when the page_slug is not set, it won't match.
             $_sCurrentPageSlug  = ( string ) $this->oProp->getCurrentPageSlug();
             
             // Make sure if it's in the loading page.
-            if ( $aSectionset[ 'page_slug' ] !== $_sCurrentPageSlug  ) { 
-                return false; 
+            if ( $aSectionset[ 'page_slug' ] !== $_sCurrentPageSlug  ) {
+                return false;
             }
 
             // If no tag is specified, the user wants to display the section regardless of the tab.
@@ -241,7 +242,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
             // If the checking tab slug and the current loading tab slug is the same, it should be registered.
             return  ( $aSectionset[ 'tab_slug' ] === $this->oProp->getCurrentTabSlug( $_sCurrentPageSlug ) );
             
-        }        
+        }
     
     /**
      * Determines whether the passed field should be visible or not.
@@ -253,9 +254,10 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         $_sCurrentPageSlug  = $this->oProp->getCurrentPageSlug();
         
         // If the specified field does not exist, do nothing.
-        if ( $aFieldset[ 'page_slug' ] !== $_sCurrentPageSlug ) { 
-            return false; 
-        }        
+        if ( $aFieldset[ 'page_slug' ] !== $_sCurrentPageSlug ) {
+            return false;
+        }
+
         return parent::_replyToDetermineFieldsetVisibility( $bVisible, $aFieldset );
         
     }
@@ -266,8 +268,8 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      */
     public function _replyToFormatFieldsetDefinition( $aFieldset, $aSectionsets ) {
         
-        if ( empty( $aFieldset ) ) { 
-            return $aFieldset; 
+        if ( empty( $aFieldset ) ) {
+            return $aFieldset;
         }
         
         $_aSectionPath = $this->oUtil->getAsArray( $aFieldset[ 'section_id' ] );
@@ -275,14 +277,14 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         
         $aFieldset[ 'option_key' ]      = $this->oProp->sOptionKey;
         $aFieldset[ 'class_name' ]      = $this->oProp->sClassName;
-        $aFieldset[ 'page_slug' ]       = $this->oUtil->getElement( 
-            $aSectionsets, 
-            array( $_sSectionPath, 'page_slug' ), 
+        $aFieldset[ 'page_slug' ]       = $this->oUtil->getElement(
+            $aSectionsets,
+            array( $_sSectionPath, 'page_slug' ),
             $this->oProp->getCurrentPageSlugIfAdded()
-        );        
-        $aFieldset[ 'tab_slug' ]        = $this->oUtil->getElement( 
-            $aSectionsets, 
-            array( $_sSectionPath, 'tab_slug' ), 
+        );
+        $aFieldset[ 'tab_slug' ]        = $this->oUtil->getElement(
+            $aSectionsets,
+            array( $_sSectionPath, 'tab_slug' ),
             $this->oProp->getCurrentInPageTabSlugIfAdded()
         );
         
@@ -291,16 +293,16 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
             $aSectionsets,
             $_sSectionPath
         );
-        $aFieldset[ 'section_title' ]   = $this->oUtil->getElement( 
-            $_aSectionset, 
+        $aFieldset[ 'section_title' ]   = $this->oUtil->getElement(
+            $_aSectionset,
             'title'
         );
         $aFieldset[ 'capability' ]   = $aFieldset[ 'capability' ]
             ? $aFieldset[ 'capability' ]
-            : $this->_replyToGetCapabilityForForm( 
+            : $this->_replyToGetCapabilityForForm(
                 $this->oUtil->getElement( $_aSectionset, 'capability' ),
-                $aSectionset[ 'page_slug' ], 
-                $aSectionset[ 'tab_slug' ] 
+                $aSectionset[ 'page_slug' ],
+                $aSectionset[ 'tab_slug' ]
             );
 
         return parent::_replyToFormatFieldsetDefinition( $aFieldset, $aSectionsets );
@@ -356,11 +358,11 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
                 }
             }
             
-            return $this->_replyToGetCapabilityForForm( 
-                $aSectionset[ 'capability' ], 
-                $aSectionset[ 'page_slug' ], 
-                $aSectionset[ 'tab_slug' ] 
-            );            
+            return $this->_replyToGetCapabilityForForm(
+                $aSectionset[ 'capability' ],
+                $aSectionset[ 'page_slug' ],
+                $aSectionset[ 'tab_slug' ]
+            );
             
         }
         /**
@@ -381,7 +383,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
                 
                 $_aSectionPath         = $aSectionset[ '_section_path_array' ];
                 $_sRootSectionID       = $this->oUtil->getFirstElement( $_aSectionPath );
-                $_sRootSectionPageSlug = $this->oUtil->getElement( 
+                $_sRootSectionPageSlug = $this->oUtil->getElement(
                     $this->oForm->aSectionsets,
                     array( $_sRootSectionID, 'page_slug' )
                 );
@@ -389,10 +391,11 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
                     return $_sRootSectionPageSlug;
                 }
             }
+
             return $this->oProp->getCurrentPageSlugIfAdded();
             // @deprecated 3.7.2
             // return $this->oProp->sDefaultPageSlug;
-            
+
         }
         /**
          * @since       3.7.2
@@ -402,7 +405,8 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
             
             if ( $aSectionset[ 'tab_slug' ] ) {
                 return $aSectionset[ 'tab_slug' ];
-            }            
+            }
+
             return $this->oProp->getCurrentInPageTabSlugIfAdded();
             
         }
@@ -412,6 +416,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      */
     public function _replyToDetermineWhetherToProcessFormRegistration( $bAllowed ) {
         $_sPageSlug = $this->oProp->getCurrentPageSlug();
+
         return $this->oProp->isPageAdded( $_sPageSlug );
     }
     /**
@@ -420,7 +425,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      * @since       3.6.0
      * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      string
-     */    
+     */
     public function _replyToGetCapabilityForForm( $sCapability /*, $sPageSlug, $sTabSlug */ ) {
         
         $_aParameters     = func_get_args() + array( '', '', '' );
@@ -432,6 +437,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         $_sPageCapability = $this->_getPageCapability( $_sPageSlug );
         $_aCapabilities   = array_filter( array( $_sTabCapability, $_sPageCapability ) )
             + array( $this->oProp->sCapability );
+
         return $_aCapabilities[ 0 ];
         
     }

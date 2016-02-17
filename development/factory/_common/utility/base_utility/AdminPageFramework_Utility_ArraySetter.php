@@ -33,7 +33,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
      * @remark      a callback method for `uasort()`.
      * @return      integer
      * @internal
-     */        
+     */
     static public function sortArrayByKey( $a, $b, $sKey='order' ) {
         return isset( $a[ $sKey ], $b[ $sKey ] )
             ? $a[ $sKey ] - $b[ $sKey ]
@@ -81,7 +81,8 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
             if ( isset( $mSubject[ $_sKey ] ) && is_array( $mSubject[ $_sKey ] ) ) {
                 self::unsetDimensionalArrayElement( $mSubject[ $_sKey ], $aKeys );
             }
-            return;            
+
+            return;
         }
         if ( is_array( $mSubject ) ) {
             unset( $mSubject[ $_sKey ] );
@@ -103,12 +104,13 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
                 $mSubject[ $_sKey ] = array();
             }
             self::setMultiDimensionalArray( $mSubject[ $_sKey ], $aKeys, $mValue );
+
             return;
             
         }
         $mSubject[ $_sKey ] = $mValue;
 
-    }     
+    }
  
     /**
      * Reconstructs the given array by numerizing the keys. 
@@ -159,6 +161,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
         if ( ! empty( $_aAssociative ) ) {
             array_unshift( $_aNumeric, $_aAssociative ); // insert the main section to the beginning of the array.
         }
+
         return $_aNumeric;
         
     }
@@ -184,8 +187,9 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
                 $aSubject,  // subject array
                 $_isKey,    // key
                 null        // default
-            );                 
+            );
         }
+
         return $_aCast;
         
     }
@@ -204,11 +208,12 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
         
         $_aInvert = array();
         foreach( $aModel as $_isKey => $_v ) {
-            if ( array_key_exists( $_isKey, $aSubject ) ) { 
-                continue; 
+            if ( array_key_exists( $_isKey, $aSubject ) ) {
+                continue;
             }
             $_aInvert[ $_isKey ] = $_v;
         }
+
         return $_aInvert;
         
     }
@@ -230,11 +235,12 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
                 
         $_aArray = array();
         foreach( array_reverse( func_get_args() ) as $_aArg ) {
-            $_aArray = self::uniteArraysRecursive( 
-                self::getAsArray( $_aArg ), 
-                $_aArray 
+            $_aArray = self::uniteArraysRecursive(
+                self::getAsArray( $_aArg ),
+                $_aArray
             );
         }
+
         return $_aArray;
         
     }
@@ -253,15 +259,15 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
      * @param       array     the array that overrides the same keys.
      * @param       array     the array that is going to be overridden.
      * @return      array     the united array.
-     */ 
+     */
     public static function uniteArraysRecursive( $aPrecedence, $aDefault ) {
                 
-        if ( is_null( $aPrecedence ) ) { 
-            $aPrecedence = array(); 
+        if ( is_null( $aPrecedence ) ) {
+            $aPrecedence = array();
         }
         
-        if ( ! is_array( $aDefault ) || ! is_array( $aPrecedence ) ) { 
-            return $aPrecedence; 
+        if ( ! is_array( $aDefault ) || ! is_array( $aPrecedence ) ) {
+            return $aPrecedence;
         }
             
         foreach( $aDefault as $sKey => $v ) {
@@ -273,12 +279,13 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
                 
                 // if the both are arrays, do the recursive process.
                 if ( is_array( $aPrecedence[ $sKey ] ) && is_array( $v ) ) {
-                    $aPrecedence[ $sKey ] = self::uniteArraysRecursive( $aPrecedence[ $sKey ], $v );     
+                    $aPrecedence[ $sKey ] = self::uniteArraysRecursive( $aPrecedence[ $sKey ], $v );
                 }
             
             }
         }
-        return $aPrecedence;     
+
+        return $aPrecedence;
     }
  
     /**
@@ -305,6 +312,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
                 unset( $aArray[ $isKey ] );
             }
         }
+
         return $aArray;
     }
     
@@ -323,6 +331,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
             }
             unset( $aArray[ $_sKey ] );
         }
+
         return $aArray;
         
     }
@@ -341,8 +350,9 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
         foreach( self::getAsArray( $asKeys, true ) as $_isKey ) {
             unset( $aArray[ $_isKey ] );
         }
+
         return $aArray;
         
-    }  
+    }
    
 }

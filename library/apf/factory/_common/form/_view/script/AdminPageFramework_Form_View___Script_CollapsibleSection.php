@@ -13,6 +13,7 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
         $_aParams = func_get_args() + array(null);
         $_oMsg = $_aParams[0];
         $_sToggleAllButtonHTML = '"' . self::_getToggleAllButtonHTML($_oMsg) . '"';
+
         return <<<JAVASCRIPTS
 ( function( $ ) {
 
@@ -175,6 +176,7 @@ JAVASCRIPTS;
         $_sLabelToggleAllSections = $oMsg->get('toggle_all_collapsible_sections');
         $_sDashIconSort = self::getAOrB(version_compare($GLOBALS['wp_version'], '3.8', '<'), '', 'dashicons dashicons-sort');
         $_sText = self::getAOrB($_sDashIconSort, '', $_sLabelToggleAll);
+
         return "<div class='admin-page-framework-collapsible-toggle-all-button-container'>" . "<span class='admin-page-framework-collapsible-toggle-all-button button " . $_sDashIconSort . "'" . " title='" . esc_attr($_sLabelToggleAllSections) . "'>" . $_sText . "</span>" . "</div>";
     }
 }

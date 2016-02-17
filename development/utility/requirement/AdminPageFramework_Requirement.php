@@ -60,7 +60,7 @@ class AdminPageFramework_Requirement {
         ),
         'files'         =>    array(
             // e.g. 'home/my_user_name/my_dir/scripts/my_scripts.php' => 'The required script could not be found.',
-            
+
         ),
     );
         
@@ -75,11 +75,11 @@ class AdminPageFramework_Requirement {
      * )
      * 
      * @since       3.4.6
-     */ 
+     */
     public function __construct( array $aRequirements=array(), $sScriptName='' ) {
         
         // Avoid undefined index warnings.
-        $aRequirements          = $aRequirements + $this->_aDefaultRequirements;    
+        $aRequirements          = $aRequirements + $this->_aDefaultRequirements;
         $aRequirements          = array_filter( $aRequirements, 'is_array' );
         foreach( array( 'php', 'mysql', 'wordpress' ) as $_iIndex => $_sName ) {
             if ( isset( $aRequirements[ $_sName ] ) ) {
@@ -100,7 +100,7 @@ class AdminPageFramework_Requirement {
      * @since       3.4.6
      * @return      integer         The number of warnings.
      */
-    public function check() {      
+    public function check() {
         
         $_aWarnings = array();
         
@@ -129,7 +129,7 @@ class AdminPageFramework_Requirement {
         $this->aWarnings = array_filter( $_aWarnings ); // drop empty elements.
         return count( $this->aWarnings );
         
-    }        
+    }
         /**
          * Returns a php warning if present.
          * @since       3.5.3
@@ -143,11 +143,12 @@ class AdminPageFramework_Requirement {
             if ( $this->_checkPHPVersion( $this->_aRequirements[ $sType ][ 'version' ] ) ) {
                 return '';
             }
+
             return sprintf(
-                $this->_aRequirements[ $sType ][ 'error' ], 
-                $this->_aRequirements[ $sType ][ 'version' ] 
+                $this->_aRequirements[ $sType ][ 'error' ],
+                $this->_aRequirements[ $sType ][ 'version' ]
             );
-        }        
+        }
    
         /**
          * Checks if the given version is greater than or equal to the installed PHP version.
@@ -201,7 +202,7 @@ class AdminPageFramework_Requirement {
             return empty( $aFunctions )
                 ? array()
                 : $this->_getWarningsByFunctionName( 'function_exists', $aFunctions );
-        }    
+        }
         /**
          * Checks if the given constants are defined.
          * @since       3.4.6
@@ -210,7 +211,7 @@ class AdminPageFramework_Requirement {
             return empty( $aConstants )
                 ? array()
                 : $this->_getWarningsByFunctionName( 'defined', $aConstants );
-        }    
+        }
         /**
          * Checks if the given files exist.
          * @since       3.4.6
@@ -235,8 +236,9 @@ class AdminPageFramework_Requirement {
                         $_aWarnings[] = sprintf( $_sWarning, $_sSubject );
                     }
                 }
-                return $_aWarnings;                
-            }    
+
+                return $_aWarnings;
+            }
             
     /**
      * Sets up admin notices to display warnings.
@@ -249,7 +251,7 @@ class AdminPageFramework_Requirement {
         /**
          * Prints warnings.
          * @since       3.4.6
-         */    
+         */
         public function _replyToPrintAdminNotices() {
             
             $_aWarnings     = array_unique( $this->aWarnings );
@@ -257,12 +259,12 @@ class AdminPageFramework_Requirement {
                 return;
             }
             echo "<div class='error notice is-dismissible'>"
-                    . "<p>" 
+                    . "<p>"
                         . $this->_getWarnings()
                     . "</p>"
-                . "</div>";        
+                . "</div>";
             
-        }            
+        }
             /**
              * Returns the warnings.
              * 
@@ -270,13 +272,14 @@ class AdminPageFramework_Requirement {
              */
             private function _getWarnings() {
 
-                $_aWarnings     = array_unique( $this->aWarnings );            
+                $_aWarnings     = array_unique( $this->aWarnings );
                 if ( empty( $_aWarnings ) ) {
                     return '';
-                }        
-                $_sScripTitle   = $this->_sScriptName 
-                    ?  "<strong>" . $this->_sScriptName . "</strong>:&nbsp;" 
-                    : '';            
+                }
+                $_sScripTitle   = $this->_sScriptName
+                    ?  "<strong>" . $this->_sScriptName . "</strong>:&nbsp;"
+                    : '';
+
                 return $_sScripTitle
                    . implode( '<br />', $_aWarnings );
                 
@@ -295,7 +298,7 @@ class AdminPageFramework_Requirement {
                 return;
             }
         }
-        deactivate_plugins( $sPluginFilePath );       
+        deactivate_plugins( $sPluginFilePath );
         
         // If it is in the activation hook, WordPress cannot display or add admin notices. So the script needs to exit.
         // Before that, we can display messages to the user.

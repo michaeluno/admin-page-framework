@@ -34,11 +34,11 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
         
         // this class need be loaded in ajax.php and ajax.php does not trigger current_screen action hook.
         $this->oUtil->registerAction(
-            'wp_loaded', 
+            'wp_loaded',
             array( $this, '_replyToDetermineToLoad' )
         );
         
-        add_action( 
+        add_action(
             'set_up_' . $this->oProp->sClassName,
             array( $this, '_replyToSetUpHooks' )
         );
@@ -57,19 +57,19 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
 
         if ( 'admin-ajax.php' == $this->oProp->sPageNow ) {
             return true;
-        }    
+        }
         
-        if ( 'edit-tags.php' != $this->oProp->sPageNow ) { 
-            return false; 
+        if ( 'edit-tags.php' != $this->oProp->sPageNow ) {
+            return false;
         }
         
         if ( isset( $_GET['taxonomy'] ) && ! in_array( $_GET['taxonomy'], $this->oProp->aTaxonomySlugs ) ) {
             return false;
-        }        
+        }
         
         return true;
   
-    }    
+    }
    
     /**
      * Sets up hooks after calling the `setUp()` method.
@@ -80,7 +80,7 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
      */
     public function _replyToSetUpHooks( $oFactory ) {
         
-        foreach( $this->oProp->aTaxonomySlugs as $_sTaxonomySlug ) {     
+        foreach( $this->oProp->aTaxonomySlugs as $_sTaxonomySlug ) {
             
             // Validation callbacks need to be set regardless of whether the current page is edit-tags.php or not.
             add_action( "created_{$_sTaxonomySlug}", array( $this, '_replyToValidateOptions' ), 10, 2 );
@@ -93,8 +93,8 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
             add_filter( "manage_edit-{$_sTaxonomySlug}_sortable_columns", array( $this, '_replyToSetSortableColumns' ) );
             add_action( "manage_{$_sTaxonomySlug}_custom_column", array( $this, '_replyToPrintColumnCell' ), 10, 3 );
             
-        }  
+        }
                 
-    }    
+    }
   
 }

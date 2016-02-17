@@ -20,6 +20,7 @@ class AdminPageFramework_ErrorReporting {
                 $_aIncluded[] = $_iLevel;
             }
         }
+
         return $_aIncluded;
     }
     private function _getErrorDescription($aIncluded) {
@@ -32,11 +33,13 @@ class AdminPageFramework_ErrorReporting {
                     $_aValues[] = $iLevelText;
                 }
             }
+
             return implode(' & ~', $_aValues);
         }
         foreach ($aIncluded as $_iLevel) {
             $_aValues[] = $this->_aLevels[$_iLevel];
         }
+
         return implode(' | ', $_aValues);
     }
 }

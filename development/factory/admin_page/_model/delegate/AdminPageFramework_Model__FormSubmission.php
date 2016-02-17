@@ -29,7 +29,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
      */
     public function __construct( $oFactory, $aSavedData, $aArguments, $aSectionsets, $aFieldsets ) {
        
-        $this->oFactory         = $oFactory;        
+        $this->oFactory         = $oFactory;
                 
         // add_action
         // @deprecated      3.7.0
@@ -42,7 +42,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
         
         new AdminPageFramework_Model__FormRedirectHandler( $oFactory );
                         
-    }   
+    }
     
     /**
      * Handles the form submitted data.
@@ -69,7 +69,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
      *  )</code>
      * 
      * @callback    action      load_after_{class name}
-     */    
+     */
     public function _handleFormData() {
         
         if ( ! $this->_shouldProceed() ) {
@@ -77,93 +77,93 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
         }
 
         $_sTabSlug   = $this->getElement( $_POST, 'tab_slug', '' );
-        $_sPageSlug  = $this->getElement( $_POST, 'page_slug', '' );        
+        $_sPageSlug  = $this->getElement( $_POST, 'page_slug', '' );
         
         // Apply user validation callbacks to the submitted data.
         // If only page-meta-boxes are used, it's possible that the option key element does not exist.
-        
+
         // Prepare the saved options 
         $_aDefaultOptions   = $this->oFactory->oForm->getDefaultFormValues();
-        $_aOptions          = $this->addAndApplyFilter( 
-            $this->oFactory, 
-            "validation_saved_options_{$this->oFactory->oProp->sClassName}", 
+        $_aOptions          = $this->addAndApplyFilter(
+            $this->oFactory,
+            "validation_saved_options_{$this->oFactory->oProp->sClassName}",
             // @todo    Examine whether recursive merging here is appropriate here or not 
             // for cases of a select field with the multiple options and repeatable fields with user-set default values.
-            $this->uniteArrays( 
-                $this->oFactory->oProp->aOptions, 
-                $_aDefaultOptions 
-            ), 
+            $this->uniteArrays(
+                $this->oFactory->oProp->aOptions,
+                $_aDefaultOptions
+            ),
             $this->oFactory
         );
         
         // Prepare the user submit input data. Copy one for parsing as $aInput will be merged with the default options.
         // Merge the submitted input data with the default options. Now $_aInputs is modified.
         $_aRawInputs  = $this->_getUserInputsFromPOST();
-        $_aInputs     = $this->uniteArrays( 
-            $_aRawInputs, 
-            $this->castArrayContents( 
-                $_aRawInputs, 
+        $_aInputs     = $this->uniteArrays(
+            $_aRawInputs,
+            $this->castArrayContents(
+                $_aRawInputs,
                 // do not include the default values of the submitted page's elements as they merge recursively
                 $this->_removePageElements( $_aDefaultOptions, $_sPageSlug, $_sTabSlug )
-            ) 
-        );                
+            )
+        );
 
         // Execute the submit_{...} actions.
         $_aSubmits          = $this->getElementAsArray( $_POST, '__submit', array() );
         $_sSubmitSectionID  = $this->_getPressedSubmitButtonData( $_aSubmits, 'section_id' );
         $_sPressedFieldID   = $this->_getPressedSubmitButtonData( $_aSubmits, 'field_id' );
-        $_sPressedInputID   = $this->_getPressedSubmitButtonData( $_aSubmits, 'input_id' );        
-        $this->_doActions_submit( 
-            $_aInputs, 
-            $_aOptions, 
-            $_sPageSlug, 
-            $_sTabSlug, 
-            $_sSubmitSectionID, 
-            $_sPressedFieldID, 
-            $_sPressedInputID 
+        $_sPressedInputID   = $this->_getPressedSubmitButtonData( $_aSubmits, 'input_id' );
+        $this->_doActions_submit(
+            $_aInputs,
+            $_aOptions,
+            $_sPageSlug,
+            $_sTabSlug,
+            $_sSubmitSectionID,
+            $_sPressedFieldID,
+            $_sPressedInputID
         );
         
         // Validate the data.
         new AdminPageFramework_Model__FormSubmission__Validator( $this->oFactory );
         
         // [3.6.3+] Apply filters. All the sub-routines of handling form submit data use this filter hook.
-        $_aInputs    = $this->addAndApplyFilters(    
-            $this->oFactory, 
-            "validation_pre_{$this->oFactory->oProp->sClassName}", 
+        $_aInputs    = $this->addAndApplyFilters(
+            $this->oFactory,
+            "validation_pre_{$this->oFactory->oProp->sClassName}",
             $_aInputs,
             $_aRawInputs,
             $_aOptions,
             $this->oFactory
-        ); 
+        );
 
         // Save the data.
         $_bUpdated = false;
-        if ( ! $this->oFactory->oProp->_bDisableSavingOptions ) {  
+        if ( ! $this->oFactory->oProp->_bDisableSavingOptions ) {
             $_bUpdated = $this->oFactory->oProp->updateOption( $_aInputs );
         }
 
         // Trigger the submit_after_{...} action hooks. [3.3.1+]
-        $this->_doActions_submit_after( 
-            $_aInputs, 
-            $_aOptions, 
-            $_sPageSlug, 
-            $_sTabSlug, 
-            $_sSubmitSectionID, 
+        $this->_doActions_submit_after(
+            $_aInputs,
+            $_aOptions,
+            $_sPageSlug,
+            $_sTabSlug,
+            $_sSubmitSectionID,
             $_sPressedFieldID,
             $_bUpdated
         );
        
         // Reload the page with the update notice.
-        $this->goToLocalURL( 
-            $this->_getSettingUpdateURL( 
+        $this->goToLocalURL(
+            $this->_getSettingUpdateURL(
                 // status array - this will be updated with filters.
-                array(  
-                    'settings-updated' => true 
-                ), 
-                $_sPageSlug, 
-                $_sTabSlug 
-            )            
-        );        
+                array(
+                    'settings-updated' => true,
+                ),
+                $_sPageSlug,
+                $_sTabSlug
+            )
+        );
         
     }
         /**
@@ -176,12 +176,12 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
          */
         private function _shouldProceed() {
             
-            if ( 
-                ! isset( 
+            if (
+                ! isset(
                     $_POST[ 'admin_page_framework_start' ], // indicates the framework form is started
                     $_POST[ '_wp_http_referer' ]
-                ) 
-            ) {     
+                )
+            ) {
                 return false;
             }
             
@@ -198,33 +198,35 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
                     // these keys are supposed to be embedded at the end of the form.
                     // if the server truncates the form input values for `max_input_vars`, these will be lost in PHP 5.3.9 or above.
                     $_POST[ '_is_admin_page_framework' ], // holds the form nonce
-                    $_POST[ 'page_slug' ], 
+                    $_POST[ 'page_slug' ],
                     $_POST[ 'tab_slug' ]
                 )
             ) {
-                $this->oFactory->setAdminNotice( 
-                    sprintf( 
+                $this->oFactory->setAdminNotice(
+                    sprintf(
                         $this->oFactory->oMsg->get( 'check_max_input_vars' ),
-                        function_exists( 'ini_get' ) 
+                        function_exists( 'ini_get' )
                             ? ini_get( 'max_input_vars' )
                             : 'unknown',
                         count( $_POST, COUNT_RECURSIVE )
-                    )                    
+                    )
                 );
+
                 return false;
             }
                         
             $_sNonceTransientKey = 'form_' . md5( $this->oFactory->oProp->sClassName . get_current_user_id() );
             if ( $_POST[ '_is_admin_page_framework' ] !== $this->getTransient( $_sNonceTransientKey ) ) {
                 $this->oFactory->setAdminNotice( $this->oFactory->oMsg->get( 'nonce_verification_failed' ) );
+
                 return false;
             }
             // Do not delete the nonce transient to let it vanish by itself. This allows the user to open multiple pages/tabs in their browser and save forms by switching pages/tabs.
             // $this->deleteTransient( $_sNonceTransientKey );            
-            
+
             return true;
             
-        }        
+        }
         
         /**
          * @since       3.6.3
@@ -232,19 +234,20 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
          */
         private function _getUserInputsFromPOST() {
 
-            $_aInputs     = $this->getElementAsArray( 
-                $_POST, 
-                $this->oFactory->oProp->sOptionKey, 
-                array() 
+            $_aInputs     = $this->getElementAsArray(
+                $_POST,
+                $this->oFactory->oProp->sOptionKey,
+                array()
             );
+
             return $this->oFactory->oForm->getSubmittedData(
                 $_aInputs,
                 false   // do not extract from form fieldsets structure
             );
             // $_aInputs     = stripslashes_deep( $_aInputs );  
             // return $this->oFactory->oForm->getSortedInputs( $_aInputs ); // 3.6.0+
-        
-        }        
+
+        }
     
         /**
          * Do the 'submit_...' actions.
@@ -258,28 +261,28 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
          
             // Warnings for deprecated hooks.
             if ( has_action( "submit_{$this->oFactory->oProp->sClassName}_{$_sPressedInputID}" ) ) {
-                trigger_error( 
-                    'Admin Page Framework: ' . ' : ' 
-                        . sprintf( 
-                            __( 'The hook <code>%1$s</code>is deprecated. Use <code>%2$s</code> instead.', $this->oFactory->oProp->sTextDomain ), 
-                            "submit_{instantiated class name}_{pressed input id}", 
+                trigger_error(
+                    'Admin Page Framework: ' . ' : '
+                        . sprintf(
+                            __( 'The hook <code>%1$s</code>is deprecated. Use <code>%2$s</code> instead.', $this->oFactory->oProp->sTextDomain ),
+                            "submit_{instantiated class name}_{pressed input id}",
                             "submit_{instantiated class name}_{pressed field id}"
-                        ), 
-                    E_USER_NOTICE 
+                        ),
+                    E_USER_NOTICE
                 );
             }
             $this->addAndDoActions(
                 $this->oFactory,
-                array( 
+                array(
                     // @todo deprecate the hook with the input ID
                     "submit_{$this->oFactory->oProp->sClassName}_{$_sPressedInputID}",  // will be deprecated in near future release
-                    $_sSubmitSectionID 
-                        ? "submit_{$this->oFactory->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" 
+                    $_sSubmitSectionID
+                        ? "submit_{$this->oFactory->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}"
                         : "submit_{$this->oFactory->oProp->sClassName}_{$_sPressedFieldID}",
-                    $_sSubmitSectionID 
-                        ? "submit_{$this->oFactory->oProp->sClassName}_{$_sSubmitSectionID}" 
+                    $_sSubmitSectionID
+                        ? "submit_{$this->oFactory->oProp->sClassName}_{$_sSubmitSectionID}"
                         : null, // if null given, the method will ignore it
-                    isset( $_POST[ 'tab_slug' ] ) 
+                    isset( $_POST[ 'tab_slug' ] )
                         ? "submit_{$this->oFactory->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}"
                         : null, // if null given, the method will ignore it
                     "submit_{$this->oFactory->oProp->sClassName}_{$_sPageSlug}",
@@ -289,7 +292,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
                 $_aInputs,
                 $_aOptions,
                 $this->oFactory
-            );     
+            );
             
         }
         /**
@@ -304,9 +307,9 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
             
             $this->addAndDoActions(
                 $this->oFactory,
-                array( 
+                array(
                     $this->getAOrB(
-                        $_sSubmitSectionID,                        
+                        $_sSubmitSectionID,
                         "submit_after_{$this->oFactory->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}",
                         "submit_after_{$this->oFactory->oProp->sClassName}_{$_sPressedFieldID}"
                     ),
@@ -324,12 +327,12 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
                     "submit_after_{$this->oFactory->oProp->sClassName}",
                 ),
                 // 3.3.1+ Added parameters to be passed
-                $_bUpdated 
-                    ? $_aInputs 
+                $_bUpdated
+                    ? $_aInputs
                     : array(),
                 $_aOptions,
                 $this->oFactory
-            );                     
+            );
             
         }
         /**
@@ -344,29 +347,29 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
             
             // Apply filters. This allows page-meta-box classes to insert the 'field_errors' key when they have validation errors.
             $aStatus = $this->addAndApplyFilters(    // 3.4.1+
-                $this->oFactory, 
-                array( 
+                $this->oFactory,
+                array(
                     "options_update_status_{$sPageSlug}_{$sTabSlug}",
-                    "options_update_status_{$sPageSlug}", 
-                    "options_update_status_{$this->oFactory->oProp->sClassName}", 
-                ), 
+                    "options_update_status_{$sPageSlug}",
+                    "options_update_status_{$this->oFactory->oProp->sClassName}",
+                ),
                 $aStatus
-            ); 
+            );
             
             // Drop the 'field_errors' key.
             $_aRemoveQueries = array();
             if ( ! isset( $aStatus[ 'field_errors' ] ) || ! $aStatus[ 'field_errors' ] ) {
                 unset( $aStatus[ 'field_errors' ] );
                 $_aRemoveQueries[] = 'field_errors';
-            }        
+            }
          
             return $this->addAndApplyFilters(    // 3.4.4+
-                $this->oFactory, 
-                array( 
-                    "setting_update_url_{$this->oFactory->oProp->sClassName}", 
-                ), 
+                $this->oFactory,
+                array(
+                    "setting_update_url_{$this->oFactory->oProp->sClassName}",
+                ),
                 $this->getQueryURL( $aStatus, $_aRemoveQueries, $_SERVER[ 'REQUEST_URI' ] )
-            ); 
+            );
          
         }
 
@@ -394,6 +397,6 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
             // If only the page is given 
             return $this->oFactory->oForm->getOtherPageOptions( $aOptions, $sPageSlug );
             
-        }        
+        }
         
 }

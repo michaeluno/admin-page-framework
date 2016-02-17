@@ -33,7 +33,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier extends AdminPageFramewor
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Download Minified Version', 'admin-page-framework-loader' ),
                 'description'   => __( 'When you click the Download link below, the minified version of the framework will be generated.', 'admin-page-framework-loader' ),
-            )            
+            )
         );
     
     }

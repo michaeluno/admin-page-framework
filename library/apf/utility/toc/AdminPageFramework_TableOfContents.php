@@ -27,6 +27,7 @@ class AdminPageFramework_TableOfContents {
             $_aOutput[] = $_sMatch;
         }
         $this->sTitle = $this->sTitle ? '<p class="toc-title">' . $this->sTitle . '</p>' : '';
+
         return '<div class="toc">' . $this->sTitle . '<ul>' . implode(PHP_EOL, $_aOutput) . '</ul>' . '</div>';
     }
     protected $_aMatches = array();
@@ -34,6 +35,7 @@ class AdminPageFramework_TableOfContents {
         static $_icount = - 1;
         $_icount++;
         $this->_aMatches[] = $aMatches[0];
+
         return "<span class='toc_header_link' id='toc_{$_icount}'></span>" . PHP_EOL . $aMatches[0];
     }
 }

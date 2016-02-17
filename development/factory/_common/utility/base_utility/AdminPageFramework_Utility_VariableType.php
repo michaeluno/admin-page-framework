@@ -35,7 +35,8 @@ abstract class AdminPageFramework_Utility_VariableType extends AdminPageFramewor
         
         if ( file_exists( $sPathOrURL ) ) {
             return true;
-        } 
+        }
+
         return ( boolean ) filter_var( $sPathOrURL, FILTER_VALIDATE_URL );
         
     }
@@ -47,10 +48,10 @@ abstract class AdminPageFramework_Utility_VariableType extends AdminPageFramewor
      * 
      * @since       3.6.3
      * @return      boolean     If the passed value is not null, true; otherwise, false.
-     */ 
+     */
     static public function isNotNull( $mValue=null ) {
         return ! is_null( $mValue );
-    }    
+    }
  
     /**
      * Checks whether the given value is numeric and can be resolved as an integer.

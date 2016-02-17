@@ -29,16 +29,16 @@ class AdminPageFrameworkLoader_AdminPage_Help_FAQ extends AdminPageFrameworkLoad
             if ( in_array( $_sTitle, array( 'Tutorials' ) ) ) {
                 continue;
             }
-            $oAdminPage->addSettingSections(    
+            $oAdminPage->addSettingSections(
                 $this->sPageSlug, // the target page slug  
                 array(
                     'section_id'        => 'faq_sections_' . $_iIndex,
-                    'tab_slug'          => $this->sTabSlug,                
+                    'tab_slug'          => $this->sTabSlug,
                     'section_tab_slug'  => 'apf_faq',
                     'title'             => $_sTitle,
                     'content'           => $_sContent,
                 )
-            );            
+            );
         }
 
     }
@@ -67,7 +67,7 @@ class AdminPageFrameworkLoader_AdminPage_Help_FAQ extends AdminPageFrameworkLoad
                     'section_id'        => 'faq_item_' . $_iIndex,
                     'title'             => $_aContent[ 0 ],
                     'collapsible'       => array(
-                        'toggle_all_button' => $_iLastIndex === $_iIndex 
+                        'toggle_all_button' => $_iLastIndex === $_iIndex
                             ? array( 'bottom-right' )
                             : ( 0 === $_iIndex
                                 ? array( 'top-right' )
@@ -77,6 +77,7 @@ class AdminPageFrameworkLoader_AdminPage_Help_FAQ extends AdminPageFrameworkLoad
                     'content'           => $_oParser->get(),
                 );
             }
+
             return $_aNestedSections;
             
         }
@@ -86,11 +87,12 @@ class AdminPageFrameworkLoader_AdminPage_Help_FAQ extends AdminPageFrameworkLoad
                 '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
                 '%WP_ADMIN_URL%'    => admin_url(),
             );
-            $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+            $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser(
                 AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt',
                 $_aReplacements
-            );    
-            return $_oWPReadmeParser->getRawSection( 'Frequently asked questions' );                        
+            );
+
+            return $_oWPReadmeParser->getRawSection( 'Frequently asked questions' );
             
         }
     

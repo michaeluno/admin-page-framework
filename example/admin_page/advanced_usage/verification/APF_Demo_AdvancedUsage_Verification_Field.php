@@ -39,7 +39,7 @@ class APF_Demo_AdvancedUsage_Verification_Field {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,       // avoid hyphen(dash), dots, and white spaces
@@ -47,11 +47,11 @@ class APF_Demo_AdvancedUsage_Verification_Field {
                 'title'         => __( 'Verify Submitted Data', 'admin-page-framework-loader' ),
                 'description'   => __( 'Show error messages when the user submits improper option value.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
              
         /*
          * Text area fields.
-         */        
+         */
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section id
             array(
@@ -65,18 +65,18 @@ class APF_Demo_AdvancedUsage_Verification_Field {
                 'title'         => __( 'Other Field', 'admin-page-framework-loader' ),
                 'type'          => 'text',
                 'description'   => __( 'This field will not be validated.', 'admin-page-framework-loader' ),
-            ),    
+            ),
             array(
                 'field_id'      => 'verify_text_field_submit', // this submit field ID can be used in a validation callback method
-                'type'          => 'submit',     
+                'type'          => 'submit',
                 'save'          => false,
                 'value'         => __( 'Verify', 'admin-page-framework-loader' ),
             )
-        );             
+        );
         
-        add_filter( 
-            'validation_' . $oFactory->oProp->sClassName . '_' . 'field_verification' . '_' . 'numeric', 
-            array( $this, 'replyToValidateField' ), 
+        add_filter(
+            'validation_' . $oFactory->oProp->sClassName . '_' . 'field_verification' . '_' . 'numeric',
+            array( $this, 'replyToValidateField' ),
             10, // priority
             4   // number of parameters
         );
@@ -88,7 +88,7 @@ class APF_Demo_AdvancedUsage_Verification_Field {
      *
      * @callback        filter      validation_{instantiated class name}_{section id}_{field id}
      */
-    public function replyToValidateField( $sNewInput, $sOldInput, $oAdmin ) { 
+    public function replyToValidateField( $sNewInput, $sOldInput, $oAdmin ) {
     
         /* 1. Set a flag. */
         $_bVerified = true;
@@ -115,15 +115,15 @@ class APF_Demo_AdvancedUsage_Verification_Field {
         if ( ! $_bVerified ) {
         
             /* 4-1. Set the error array for the input fields. */
-            $oAdmin->setFieldErrors( $_aErrors );     
+            $oAdmin->setFieldErrors( $_aErrors );
             $oAdmin->setSettingNotice( __( 'There was an error in a form field.', 'admin-page-framework-loader' ) );
 
             return $sOldInput;
             
         }
                 
-        return $sNewInput;     
+        return $sNewInput;
         
-    }    
+    }
  
 }

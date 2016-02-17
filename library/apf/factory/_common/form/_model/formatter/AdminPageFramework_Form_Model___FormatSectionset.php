@@ -29,6 +29,7 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
         $_aSectionset['collapsible'] = $_oCollapsibleArgumentFormatter->get();
         $_aSectionset['class'] = $this->getAsArray($_aSectionset['class']);
         $_aSectionset['_caller_object'] = $this->oCaller;
+
         return $_aSectionset;
     }
 }

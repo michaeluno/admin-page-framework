@@ -30,7 +30,7 @@ class APF_Demo_AdvancedUsage_Callback_FieldDefinition {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'field_definitions';        
+    public $sSectionID  = 'field_definitions';
         
     /**
      * Sets up a form section.
@@ -38,7 +38,7 @@ class APF_Demo_AdvancedUsage_Callback_FieldDefinition {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'tab_slug'          => $this->sTabSlug,
@@ -46,7 +46,7 @@ class APF_Demo_AdvancedUsage_Callback_FieldDefinition {
                 'title'             => __( 'Using Callbacks', 'admin-page-framework-loader' ),
                 'description'       => __( 'These fields are (re)defined with callbacks.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
         
         // Fields
         $oFactory->addSettingFields(
@@ -59,20 +59,20 @@ class APF_Demo_AdvancedUsage_Callback_FieldDefinition {
                 'field_id'          => 'apf_post_titles',
                 'type'              => 'checkbox',
                 'label_min_width'   => '100%',
-            )          
-        );              
+            )
+        );
         
-        add_filter( 
-            'field_definition_' . $oFactory->oProp->sClassName . '_' . $this->sSectionID . '_callback_example', 
+        add_filter(
+            'field_definition_' . $oFactory->oProp->sClassName . '_' . $this->sSectionID . '_callback_example',
             array( $this, 'replyToRedefineExampleField' )
         );
             
-        add_filter( 
-            'field_definition_' . $oFactory->oProp->sClassName . '_' . $this->sSectionID . '_apf_post_titles', 
+        add_filter(
+            'field_definition_' . $oFactory->oProp->sClassName . '_' . $this->sSectionID . '_apf_post_titles',
             array( $this, 'replyToRedefinePostTitleField' )
         );
         
-    } 
+    }
 
     /**
      * Field callback methods - for field definitions that require heavy tasks should be defined with the callback methods.
@@ -80,14 +80,15 @@ class APF_Demo_AdvancedUsage_Callback_FieldDefinition {
      * @callback    filter      field_definition_{instantiated class name}_{section id}_{field_id}
      * @return      array
      */
-    public function replyToRedefineExampleField( $aField ) { 
+    public function replyToRedefineExampleField( $aField ) {
         
         $aField[ 'title' ]        = __( 'Post Titles', 'admin-page-framework-loader' );
-        $aField[ 'description' ]  = sprintf( 
-            __( 'This description is inserted with the filter, named: <code>%1$s</code>.', 'admin-page-framework-loader' ), 
-            current_filter() 
+        $aField[ 'description' ]  = sprintf(
+            __( 'This description is inserted with the filter, named: <code>%1$s</code>.', 'admin-page-framework-loader' ),
+            current_filter()
         );
         $aField[ 'label' ]        = $this->_getPostTitles();
+
         return $aField;
         
     }
@@ -97,14 +98,15 @@ class APF_Demo_AdvancedUsage_Callback_FieldDefinition {
      *
      * @callback    filter      field_definition_{instantiated class name}_{section id}_{field_id}
      * @return      array
-     */    
+     */
     public function replyToRedefinePostTitleField( $aField ) { // field_definition_{instantiated class name}_{section id}_{field_id}
-        
+
         $aField[ 'title' ] = __( 'APF Custom Post Titles', 'admin-page-framework-loader' );
         $aField[ 'label' ] = $this->_getPostTitles( AdminPageFrameworkLoader_Registry::$aPostTypes[ 'demo' ] );
+
         return $aField;
         
-    }    
+    }
         /**
          * @return      array
          */
@@ -118,8 +120,9 @@ class APF_Demo_AdvancedUsage_Callback_FieldDefinition {
             foreach( $_oResults->posts as $_iIndex => $_oPost ) {
                 $_aPostTitles[ $_oPost->ID ] = $_oPost->post_title;
             }
+
             return $_aPostTitles;
             
-        }    
+        }
     
 }

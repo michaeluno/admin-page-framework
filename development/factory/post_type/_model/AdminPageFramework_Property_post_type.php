@@ -36,7 +36,7 @@ class AdminPageFramework_Property_post_type extends AdminPageFramework_Property_
      * @since   2.1.0   Moved to AdminPageFramework_Property_post_type.
      * @var     string
      * @access  public
-     */ 
+     */
     public $sPostType = '';
     
     /**
@@ -46,8 +46,8 @@ class AdminPageFramework_Property_post_type extends AdminPageFramework_Property_
      * @since   2.1.0   Moved to AdminPageFramework_Property_post_type.
      * @var     array
      * @access  public
-     */ 
-    public $aPostTypeArgs = array();    
+     */
+    public $aPostTypeArgs = array();
 
     /**
      * Stores the extended class name.
@@ -56,7 +56,7 @@ class AdminPageFramework_Property_post_type extends AdminPageFramework_Property_
      * @since       2.1.0     Moved to AdminPageFramework_Property_post_type.
      * @var         string
      * @access      public
-     */     
+     */
     public $sClassName = '';
 
     /**
@@ -68,25 +68,25 @@ class AdminPageFramework_Property_post_type extends AdminPageFramework_Property_
      * @remark      This should be overriden in the constructor because it includes translated text.
      * @internal
      * @access      public
-     */     
+     */
     public $aColumnHeaders = array(
         'cb'        => '<input type="checkbox" />', // Checkbox for bulk actions. 
         'title'     => 'Title', // Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
         'author'    => 'Author', // Post author.
         'comments'  => '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
         'date'      => 'Date',     // The date and publish status of the post. 
-    );     
+    );
     
     /**
      * Stores the sortable column items.
      * @since       2.0.0
      * @since       2.1.0       Moved to AdminPageFramework_Property_post_type.
      * @internal
-     */         
+     */
     public $aColumnSortable = array(
         'title' => true,
         'date'  => true,
-    );    
+    );
     
     /**
      * Stores the caller script path.
@@ -95,7 +95,7 @@ class AdminPageFramework_Property_post_type extends AdminPageFramework_Property_
      * @since 2.1.0 Moved to AdminPageFramework_Property_post_type.
      * @var string
      * @access public
-     */         
+     */
     public $sCallerPath = '';
         
     // Containers
@@ -105,9 +105,9 @@ class AdminPageFramework_Property_post_type extends AdminPageFramework_Property_
      * @since       2.0.0
      * @since       2.1.0       Moved to AdminPageFramework_Property_post_type.
      * @internal
-     */     
+     */
     public $aTaxonomies; // stores the registering taxonomy info.
-    
+
     /**
      * Stores the object types for the set taxonomies.
      * 
@@ -125,8 +125,8 @@ class AdminPageFramework_Property_post_type extends AdminPageFramework_Property_
      * @since       2.0.0
      * @since       2.1.0       Moved to AdminPageFramework_Property_post_type.
      * @internal
-     */     
-    public $aTaxonomyTableFilters = array();    
+     */
+    public $aTaxonomyTableFilters = array();
     
     /**
      * Stores removing taxonomy menus' info.
@@ -134,16 +134,16 @@ class AdminPageFramework_Property_post_type extends AdminPageFramework_Property_
      * @since       2.0.0
      * @since       2.1.0       Moved to AdminPageFramework_Property_post_type.
      * @internal
-     */     
-    public $aTaxonomyRemoveSubmenuPages = array();    
+     */
+    public $aTaxonomyRemoveSubmenuPages = array();
     
     // Default Values
     /**
      * @since 2.0.0
      * @since 2.1.0 Moved to AdminPageFramework_Property_post_type.
      * @internal
-     */                     
-    public $bEnableAutoSave = true;    
+     */
+    public $bEnableAutoSave = true;
 
     /**
      * Stores the flag value which indicates whether author table filters should be enabled or not.
@@ -151,8 +151,8 @@ class AdminPageFramework_Property_post_type extends AdminPageFramework_Property_
      * @since       2.0.0
      * @since       2.1.0       Moved to AdminPageFramework_Property_post_type.
      * @internal
-     */                     
-    public $bEnableAuthorTableFileter = false;    
+     */
+    public $bEnableAuthorTableFileter = false;
  
     /**
      * Stores key value pairs of sub-menu link and the order.

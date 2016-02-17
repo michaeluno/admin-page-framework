@@ -14,12 +14,12 @@ class AdminPageFrameworkLoader_FeedList {
     /**
      * A container array that stores fetched feed items.
      */
-    protected $_aFeedItems = array();   
+    protected $_aFeedItems = array();
     
     /**
      * Stores the feed object. 
      */
-    protected $_oFeed;    
+    protected $_oFeed;
     
 
     /**
@@ -34,14 +34,14 @@ class AdminPageFrameworkLoader_FeedList {
      */
     public function __construct( $asURLs ) {
         
-        $this->_aURLs = is_array( $asURLs ) 
-            ? $asURLs 
+        $this->_aURLs = is_array( $asURLs )
+            ? $asURLs
             : ( empty( $asURLs )
                 ? array()
                 : ( array ) $asURLs
             );
 
-    }    
+    }
     
     /**
      * 
@@ -58,7 +58,7 @@ class AdminPageFrameworkLoader_FeedList {
                                  
         $_oFeed     = fetch_feed( $_aURLs );
         foreach ( $_oFeed->get_items() as $_oItem ) {
-            $_aOutput[ $_oItem->get_title() ] = array( 
+            $_aOutput[ $_oItem->get_title() ] = array(
                 'content'        => $_oItem->get_content(),
                 'description'    => $_oItem->get_description(),
                 'title'          => $_oItem->get_title(),

@@ -20,7 +20,7 @@
  */
 class AdminPageFramework_Form_taxonomy_field extends AdminPageFramework_Form {
     
-    public $sStructureType = 'taxonomy_field';    
+    public $sStructureType = 'taxonomy_field';
     
     /**
      * Rerieves the form fields output.
@@ -35,14 +35,14 @@ class AdminPageFramework_Form_taxonomy_field extends AdminPageFramework_Form {
         $this->sCapability = $this->callback(
             $this->aCallbacks[ 'capability' ],
             '' // default value
-        );    
+        );
     
         if ( ! $this->canUserView( $this->sCapability ) ) {
             return '';
-        }    
+        }
 
         // Format and update sectionset and fieldset definitions.
-        $this->_formatElementDefinitions( $this->aSavedData ); 
+        $this->_formatElementDefinitions( $this->aSavedData );
 
         $_oFieldsets = new AdminPageFramework_Form_View___FieldsetRows(
             $this->getElementAsArray( $this->aFieldsets, '_default' ),
@@ -52,9 +52,10 @@ class AdminPageFramework_Form_taxonomy_field extends AdminPageFramework_Form {
             $this->aFieldTypeDefinitions,
             $this->aCallbacks,
             $this->oMsg
-        );        
+        );
+
         return $_oFieldsets->get();
         
-    }    
+    }
     
 }

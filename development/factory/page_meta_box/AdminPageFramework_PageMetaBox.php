@@ -27,7 +27,7 @@ abstract class AdminPageFramework_PageMetaBox extends AdminPageFramework_PageMet
      * @since       3.7.12     Moved from `AdminPageFramework_PageMetaBox_Model`.
      * @internal
      */
-    protected $_sStructureType = 'page_meta_box';    
+    protected $_sStructureType = 'page_meta_box';
     
     /**
      * Registers necessary hooks and internal properties.
@@ -79,39 +79,39 @@ abstract class AdminPageFramework_PageMetaBox extends AdminPageFramework_PageMet
      */
     public function __construct( $sMetaBoxID, $sTitle, $asPageSlugs=array(), $sContext='normal', $sPriority='default', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
         
-        if ( empty( $asPageSlugs ) ) { 
-            return; 
+        if ( empty( $asPageSlugs ) ) {
+            return;
         }
         
-        if ( ! $this->_isInstantiatable() ) { 
-            return; 
+        if ( ! $this->_isInstantiatable() ) {
+            return;
         }
                 
         // The property object needs to be done first before the parent constructor.
         $_sProprtyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
             ? $this->aSubClassNames[ 'oProp' ]
-            : 'AdminPageFramework_Property_' . $this->_sStructureType;        
-        $this->oProp             = new $_sProprtyClassName( 
-            $this, 
-            get_class( $this ), 
-            $sCapability, 
-            $sTextDomain, 
-            $this->_sStructureType 
+            : 'AdminPageFramework_Property_' . $this->_sStructureType;
+        $this->oProp             = new $_sProprtyClassName(
+            $this,
+            get_class( $this ),
+            $sCapability,
+            $sTextDomain,
+            $this->_sStructureType
         );
         
         // This property item must be set before the isInThePage() method is used.
-        $this->oProp->aPageSlugs = is_string( $asPageSlugs ) 
-            ? array( $asPageSlugs ) 
-            : $asPageSlugs;                 
+        $this->oProp->aPageSlugs = is_string( $asPageSlugs )
+            ? array( $asPageSlugs )
+            : $asPageSlugs;
                 
-        parent::__construct( 
-            $sMetaBoxID, 
-            $sTitle, 
-            $asPageSlugs, 
-            $sContext, 
-            $sPriority, 
+        parent::__construct(
+            $sMetaBoxID,
+            $sTitle,
+            $asPageSlugs,
+            $sContext,
+            $sPriority,
             $sCapability,
-            $sTextDomain 
+            $sTextDomain
         );
                     
     }

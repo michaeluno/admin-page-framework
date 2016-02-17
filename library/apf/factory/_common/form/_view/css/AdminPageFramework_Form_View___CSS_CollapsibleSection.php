@@ -13,6 +13,7 @@ class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_Framewo
         $_sCSSRules = $this->_get() . PHP_EOL;
         $_sCSSRules.= $this->_getVersionSpecific();
         $_sCSSRules.= implode(PHP_EOL, $this->aAdded);
+
         return $_sCSSRules;
     }
     protected function _get() {
@@ -31,6 +32,7 @@ class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFra
         if (version_compare($GLOBALS['wp_version'], '3.8', '<')) {
             $_sCSSRules.= ".admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after {content: '';top: 18px;}.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title.collapsed:after,.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title.collapsed:after {content: '';} .admin-page-framework-collapsible-toggle-all-button.button {font-size: 1em;}.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons {top: -8px;}";
         }
+
         return $_sCSSRules;
     }
 }

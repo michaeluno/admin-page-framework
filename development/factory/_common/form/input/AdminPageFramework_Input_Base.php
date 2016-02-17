@@ -53,7 +53,7 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_Framewor
         'label_container_tag'          => 'span',
         'label_container_attributes'    => array(
             'class' => 'admin-page-framework-input-label-string',
-        ),         
+        ),
     );
     
     /**
@@ -66,16 +66,16 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_Framewor
      */
     public function __construct( array $aAttributes, array $aOptions=array() ) {
 
-        $this->aAttributes  = $this->getElementAsArray( 
-            $aAttributes, 
-            'attributes', 
+        $this->aAttributes  = $this->getElementAsArray(
+            $aAttributes,
+            'attributes',
             $aAttributes    // if the above key is not set, this will be set
         );
 
         $this->aOptions     = $aOptions + $this->aStructureOptions;
         
         // @deprecated 3.5.3+ use $aAttributes.
-        $this->aField       = $aAttributes;  
+        $this->aField       = $aAttributes;
         
         // User Constructor
         $this->construct();
@@ -116,6 +116,7 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_Framewor
             0 => null,
             1 => null,
         );
+
         return isset( $_aParams[ 0 ] )
             ? $this->getElement( $this->aAttributes, $_aParams[ 0 ], $_aParams[ 1 ] )
             : $this->aAttributes();
@@ -128,12 +129,13 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_Framewor
      * @return      string      The set class selector(s).
      */
     public function addClass( /* $asSelectors1, $asSelectors2 */ ) {
-        foreach( func_get_args() as $_asSelectors ) {            
-            $this->aAttributes['class'] = $this->getClassAttribute( 
+        foreach( func_get_args() as $_asSelectors ) {
+            $this->aAttributes['class'] = $this->getClassAttribute(
                 $this->aAttributes['class'],
                 $_asSelectors
             );
         }
+
         return $this->aAttributes['class'];
     }
     
@@ -158,7 +160,7 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_Framewor
         
         // $this->aAttributes[ $_aParams[ 0 ] ] = $_aParams[ 1 ];
         $this->setMultiDimensionalArray(
-            $this->aAttributes, 
+            $this->aAttributes,
             $this->getElementAsArray( $_aParams, 0 ),   // $asAttributeName
             $_aParams[ 1 ]  // $mValue
         );
@@ -194,8 +196,9 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_Framewor
          */
         public function getAttributeArray( /* $sKey */ ) {
             $_aParams = func_get_args();
+
             return call_user_func_array( array( $this, 'getAttributesByKey' ), $_aParams );
-        }    
+        }
     
  
 }

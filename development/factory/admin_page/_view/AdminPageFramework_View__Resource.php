@@ -36,10 +36,10 @@ class AdminPageFramework_View__Resource extends AdminPageFramework_FrameworkUtil
         $this->sCurrentPageSlug = $oFactory->oProp->getCurrentPageSlug();
         $this->sCurrentTabSlug  = $oFactory->oProp->getCurrentTabSlug( $this->sCurrentPageSlug );
 
-        $this->_parseAssets( $oFactory ); 
+        $this->_parseAssets( $oFactory );
         $this->_setHooks();
         
-    }   
+    }
         /**
          * Sets up hooks.
          * @since       3.6.3
@@ -53,7 +53,7 @@ class AdminPageFramework_View__Resource extends AdminPageFramework_FrameworkUtil
             add_action( "script_{$this->sCurrentPageSlug}", array( $this, '_replyToAddInlineScripts' ) );
             if ( $this->sCurrentTabSlug ) {
                 add_action( "script_{$this->sCurrentPageSlug}_{$this->sCurrentTabSlug}", array( $this, '_replyToAddInlineScripts' ) );
-            }            
+            }
         }
             public function _replyToAddInlineCSSRules( $sCSS ) {
                 return $this->_appendInlineAssets( $sCSS, $this->aCSSRules );
@@ -80,14 +80,14 @@ class AdminPageFramework_View__Resource extends AdminPageFramework_FrameworkUtil
         /**
          * @since       3.6.3
          * @return      void
-         */     
+         */
         private function _parseAssets( $oFactory ) {
             
             // page
             $_aPageStyles      = $this->getElementAsArray(
                 $oFactory->oProp->aPages,
                 array( $this->sCurrentPageSlug, 'style' )
-            );               
+            );
             $this->_enqueuePageAssets( $_aPageStyles, 'style' );
             
             $_aPageScripts     = $this->getElementAsArray(
@@ -99,24 +99,24 @@ class AdminPageFramework_View__Resource extends AdminPageFramework_FrameworkUtil
             // In-page tabs 
             if ( ! $this->sCurrentTabSlug ) {
                 return;
-            }        
+            }
             $_aInPageTabStyles  = $this->getElementAsArray(
                 $oFactory->oProp->aInPageTabs,
                 array( $this->sCurrentPageSlug, $this->sCurrentTabSlug, 'style' )
-            );              
+            );
             $this->_enqueuePageAssets( $_aInPageTabStyles, 'style' );
             
             $_aInPageTabScripts = $this->getElementAsArray(
                 $oFactory->oProp->aInPageTabs,
                 array( $this->sCurrentPageSlug, $this->sCurrentTabSlug, 'script' )
-            );                      
+            );
             $this->_enqueuePageAssets( $_aInPageTabScripts, 'script' );
         
         }
             /**
              * @since       3.6.3
              * @return      void
-             */    
+             */
             private function _enqueuePageAssets( array $aPageAssets, $sType='style' ) {
                 $_sMathodName = "_enqueueAsset_" . $sType;
                 foreach( $aPageAssets as $_asPageAsset ) {
@@ -127,7 +127,7 @@ class AdminPageFramework_View__Resource extends AdminPageFramework_FrameworkUtil
                 /**
                  * @since       3.6.3
                  * @return      void
-                 */        
+                 */
                 private function _enqueueAsset_style( $asPageStyle ) {
 
                     $_oFormatter = new AdminPageFramework_Format_PageResource_Style( $asPageStyle );
@@ -136,23 +136,23 @@ class AdminPageFramework_View__Resource extends AdminPageFramework_FrameworkUtil
                     
                     // At this point, it may be a url/path or a text CSS rules.             
                     if ( file_exists( $_sSRC ) || filter_var( $_sSRC, FILTER_VALIDATE_URL ) ) {
-                        return $this->oFactory->enqueueStyle( 
-                            $_sSRC, 
+                        return $this->oFactory->enqueueStyle(
+                            $_sSRC,
                             $this->sCurrentPageSlug,
                             $this->sCurrentTabSlug, // tab slug
                             $_aPageStyle
-                        );                                             
+                        );
                     }
                     
                     // Insert the CSS rule in the head tag.
                     $this->aCSSRules[] = $_sSRC;
                     
-                }                    
+                }
      
                 /**
                  * @since       3.6.3
                  * @return      void
-                 */               
+                 */
                 private function _enqueueAsset_script( $asPageScript ) {
                     
                     $_oFormatter  = new AdminPageFramework_Format_PageResource_Script( $asPageScript );
@@ -161,17 +161,17 @@ class AdminPageFramework_View__Resource extends AdminPageFramework_FrameworkUtil
                     
                     // At this point, it may be a url/path or a text CSS rules.             
                     if ( $this->isResourcePath( $_sSRC ) ) {
-                        return $this->oFactory->enqueueScript( 
-                            $_sSRC, 
+                        return $this->oFactory->enqueueScript(
+                            $_sSRC,
                             $this->sCurrentPageSlug,
                             $this->sCurrentTabSlug, // tab slug
                             $_aPageScript
-                        );                                             
-                    }                
+                        );
+                    }
                     
                     // Insert the scripts in the head tag.                
                     $this->aScripts[] = $_sSRC;
                     
-                }        
+                }
                 
 }

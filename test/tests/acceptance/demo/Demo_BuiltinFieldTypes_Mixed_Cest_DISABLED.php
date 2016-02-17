@@ -5,7 +5,7 @@ use \AcceptanceTester;
  * Bootstrap does not work for including abstract classes.
  * @see     https://github.com/Codeception/Codeception/issues/862
  */
-require_once( dirname( dirname( __FILE__ ) ) . '/_bootstrap.php' );
+require_once dirname( dirname( __FILE__ ) ) . '/_bootstrap.php';
 
 class Demo_BuiltinFieldTypes_Mixed_Cest extends \Demo_AdminPage_Base {
     
@@ -34,7 +34,7 @@ class Demo_BuiltinFieldTypes_Mixed_Cest extends \Demo_AdminPage_Base {
         $I->seeElement( '//input[contains(@name, "mixed_fields")]' );
    
         // @todo fill the form and confirm that values are stored
-        
-    } 
+
+    }
         
 }

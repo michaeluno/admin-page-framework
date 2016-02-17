@@ -32,5 +32,5 @@ abstract class AdminPageFramework_Form_Model___Format_FormField_Base extends Adm
             // && $aField[ 'section_id' ] 
             // && '_default' !== $aField['section_id'];
     // }
-           
+
 }

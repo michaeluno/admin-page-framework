@@ -38,7 +38,7 @@ abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Pag
      * @return      void
      */
     public function _replyToEnqueuePageAssets() {
-        new AdminPageFramework_View__Resource( $this );        
+        new AdminPageFramework_View__Resource( $this );
     }
        
     /**
@@ -48,9 +48,9 @@ abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Pag
      */
     public function _replyToRenderPage() {
         $_sPageSlug = $this->oProp->getCurrentPageSlug();
-        $this->_renderPage( 
-            $_sPageSlug, 
-            $this->oProp->getCurrentTabSlug( $_sPageSlug ) 
+        $this->_renderPage(
+            $_sPageSlug,
+            $this->oProp->getCurrentTabSlug( $_sPageSlug )
         );
     }
        
@@ -63,7 +63,7 @@ abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Pag
      * @access      protected
      * @return      void
      * @internal
-     */ 
+     */
     protected function _renderPage( $sPageSlug, $sTabSlug=null ) {
         $_oPageRenderer = new AdminPageFramework_View__PageRenderer( $this, $sPageSlug, $sTabSlug );
         $_oPageRenderer->render();

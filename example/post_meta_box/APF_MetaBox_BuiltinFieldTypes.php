@@ -19,8 +19,8 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
         /*
          * ( optional ) Adds a contextual help pane at the top right of the page that the meta box resides.
          */
-        $this->addHelpText( 
-            __( 'This text will appear in the contextual help pane.', 'admin-page-framework-loader' ), 
+        $this->addHelpText(
+            __( 'This text will appear in the contextual help pane.', 'admin-page-framework-loader' ),
             __( 'This description goes to the sidebar of the help pane.', 'admin-page-framework-loader' )
         );
         
@@ -40,7 +40,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
             ),
             array(
                 'section_id'        => '_unsaved',
-                'title'             => __( 'Unsaved Fields', 'admin-page-framework-loader' ),            
+                'title'             => __( 'Unsaved Fields', 'admin-page-framework-loader' ),
                 // 'save'              => false,
             )
         );
@@ -67,7 +67,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                 'title'         => __( 'Text Repeatable & Sortable', 'admin-page-framework-loader' ),
                 'repeatable'    => true,
                 'sortable'      => true,
-            ),     
+            ),
             array(
                 'field_id'      => '_metabox_textarea_field',
                 'type'          => 'textarea',
@@ -76,7 +76,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                 'help'          => __( 'This a <em>text area</em> input field, which is larger than the <em>text</em> input field.', 'admin-page-framework-loader' ),
                 'default'       => __( 'This is a default text value.', 'admin-page-framework-loader' ),
                 'attributes'    => array(
-                    'cols' => 40,     
+                    'cols' => 40,
                 ),
             ),
             array( // Rich Text Editor
@@ -85,7 +85,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                 'title'         => __( 'Rich Text Editor', 'admin-page-framework-loader' ),
                 'rich'          =>    true, // array( 'media_buttons' => false )  <-- a setting array can be passed. For the specification of the array, see http://codex.wordpress.org/Function_Reference/wp_editor
             )
-        );        
+        );
                
         $this->addSettingFields(
             '_selectors',    // section id
@@ -102,19 +102,19 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                 'title'         => __( 'Select Box', 'admin-page-framework-loader' ),
                 'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
                 'default'       => 'one', // 0 means the first item
-                'label'         => array( 
+                'label'         => array(
                     'one'   => __( 'One', 'admin-page-framework-loader' ),
                     'two'   => __( 'Two', 'admin-page-framework-loader' ),
                     'three' => __( 'Three', 'admin-page-framework-loader' ),
                 ),
-            ),     
+            ),
             array (
                 'field_id'      => 'radio_field',
                 'type'          => 'radio',
                 'title'         => __( 'Radio Group', 'admin-page-framework-loader' ),
                 'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
                 'default'       => 'one',
-                'label'         => array( 
+                'label'         => array(
                     'one'   => __( 'This option is the first item of the radio button example field and lets the user choose one from many.', 'admin-page-framework-loader' ),
                     'two'   => __( 'This option is the second item of the radio button example field.', 'admin-page-framework-loader' ),
                     'three' => __( 'This option is the third item of the radio button example field.', 'admin-page-framework-loader' ),
@@ -125,7 +125,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                 'type'          => 'checkbox',
                 'title'         => __( 'Checkbox Group', 'admin-page-framework-loader' ),
                 'description'   => __( 'The description for the field.', 'admin-page-framework-loader' ),
-                'label'         => array( 
+                'label'         => array(
                     'one'   => __( 'This option is the first item of the checkbox button example field.', 'admin-page-framework-loader' ),
                     'two'   => __( 'This option is the second item of the radio button example field.', 'admin-page-framework-loader' ),
                     'three' => __( 'This option is the third item of the radio button example field.', 'admin-page-framework-loader' ),
@@ -136,7 +136,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                     'three' => false,
                 ),
             )
-        );     
+        );
 
         $this->addSettingFields(
             '_misc', // section id
@@ -145,49 +145,49 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
                 'type'              => 'image',
                 'title'             => __( 'Image', 'admin-page-framework-loader' ),
                 'description'       => __( 'The description for the field.', 'admin-page-framework-loader' ),
-            ),      
-            array(  
+            ),
+            array(
                 'field_id'          => 'metabox_password',
                 'type'              => 'password',
                 'title'             => __( 'Password', 'admin-page-framework-loader' ),
-            ),  
-            array ( 
+            ),
+            array (
                 'field_id'          => 'color_field',
                 'type'              => 'color',
                 'title'             => __( 'Color', 'admin-page-framework-loader' ),
-            ),      
-            array ( 
+            ),
+            array (
                 'field_id'          => 'size_field',
                 'type'              => 'size',
                 'title'             => __( 'Size', 'admin-page-framework-loader' ),
                 'default'           => array( 'size' => 5, 'unit' => '%' ),
-            ),      
-            array ( 
+            ),
+            array (
                 'field_id'          => 'sizes_field',
                 'type'              => 'size',
                 'title'             => __( 'Multiple Sizes', 'admin-page-framework-loader' ),
                 'label'             => __( 'Weight', 'admin-page-framework-loader' ),
                 'default'           => array( 'size' => 15, 'unit' => 'g' ),
                 'units'             => array( 'mg'=>'mg', 'g'=>'g', 'kg'=>'kg' ),
-                array(  
+                array(
                     'label'         => __( 'Length', 'admin-page-framework-loader' ),
                     'default'       => array( 'size' => 100, 'unit' => 'mm' ),
                     'units'         => array( 'cm'=>'cm', 'mm'=>'mm', 'm'=>'m' ),
-                ),  
-                array(  
+                ),
+                array(
                     'label'         => __( 'File Size', 'admin-page-framework-loader' ),
                     'default'       => array( 'size' => 30, 'unit' => 'mb' ),
                     'units'         => array( 'b'=>'b', 'kb'=>'kb', 'mb'=>'mb', 'gb' => 'gb', 'tb' => 'tb' ),
-                ),      
+                ),
                 'delimiter'         => '<br />',
-            ),     
+            ),
             array (
                 'field_id'          => 'taxonomy_checklist',
                 'type'              => 'taxonomy',
                 'title'             => __( 'Taxonomy Checklist', 'admin-page-framework-loader' ),
                 'taxonomy_slugs'    => get_taxonomies( '', 'names' ),
             )
-        );     
+        );
         
         $this->addSettingFields(
             '_unsaved', // section id
@@ -225,7 +225,8 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
     public function content( $sContent ) {
         
         $_sInsert = "<p>" . sprintf( __( 'This text is inserted with the <code>%1$s</code> method.', 'admin-page-framework-loader' ), __FUNCTION__ ) . "</p>";
-        return $_sInsert . $sContent;        
+
+        return $_sInsert . $sContent;
         
     }
     
@@ -234,11 +235,11 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
      * 
      * @callback        filter      content_{instantiated class name}
      */
-    public function content_APF_MetaBox_BuiltinFieldTypes( $sContent ) { 
+    public function content_APF_MetaBox_BuiltinFieldTypes( $sContent ) {
        
-        return $sContent 
-            . "<p>" 
-                . sprintf( __( 'This text is inserted with the <code>%1$s</code> hook.', 'admin-page-framework-loader' ), __FUNCTION__ ) 
+        return $sContent
+            . "<p>"
+                . sprintf( __( 'This text is inserted with the <code>%1$s</code> hook.', 'admin-page-framework-loader' ), __FUNCTION__ )
             . "</p>";
         
     }
@@ -255,19 +256,20 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
 
         // You can check the passed values with the log() method of the oDebug object.
         // $this->oDebug->log( $aInput );     
-        
+
         // Validate the submitted data.
         if ( strlen( trim( $aInput[ '_metabox_text_field' ] ) ) < 3 ) {
             
             $_aErrors[ '_metabox_text_field' ] = __( 'The entered text is too short! Type more than 2 characters.', 'admin-page-framework-loader' ) . ': ' . $aInput[ '_metabox_text_field' ];
-            $_bIsValid = false;     
+            $_bIsValid = false;
             
         }
         
         if ( ! $_bIsValid ) {
             
             $this->setFieldErrors( $_aErrors );
-            $this->setSettingNotice( __( 'There was an error in your input in meta box form fields', 'admin-page-framework-loader' ) );    
+            $this->setSettingNotice( __( 'There was an error in your input in meta box form fields', 'admin-page-framework-loader' ) );
+
             return $aOldInput;
             
         }

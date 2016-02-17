@@ -35,11 +35,11 @@ class AdminPageFramework_Format_NavigationTab_InPageTab extends AdminPageFramewo
      */
     public function __construct( /* array $aTab, array $aStructure, array $aTabs, array $aArguments=array(), $oFactory */ ) {
      
-        $_aParameters = func_get_args() + array( 
-            $this->aTab, 
-            self::$aStructure, 
-            $this->aTabs, 
-            $this->aArguments, 
+        $_aParameters = func_get_args() + array(
+            $this->aTab,
+            self::$aStructure,
+            $this->aTabs,
+            $this->aArguments,
             $this->oFactory,
         );
         $this->aTab         = $_aParameters[ 0 ];
@@ -75,16 +75,16 @@ class AdminPageFramework_Format_NavigationTab_InPageTab extends AdminPageFramewo
             'title' => $this->aTabs[ $_sSlug ][ 'title' ],
             'href'  => $_aTab[ 'disabled' ]
                 ? null
-                : esc_url( 
-                    $this->getElement( 
-                        $_aTab, 
+                : esc_url(
+                    $this->getElement(
+                        $_aTab,
                         'url',  // if the 'url' argument is set, use it. Otherwise, use the below gnerated url.
-                        $this->getQueryAdminURL( 
-                            array( 
+                        $this->getQueryAdminURL(
+                            array(
                                 'page'  => $this->aArguments[ 'page_slug' ],
                                 'tab'   => $_sSlug,
-                            ), 
-                            $this->oFactory->oProp->aDisallowedQueryKeys 
+                            ),
+                            $this->oFactory->oProp->aDisallowedQueryKeys
                         )
                     )
                 ),
@@ -93,13 +93,13 @@ class AdminPageFramework_Format_NavigationTab_InPageTab extends AdminPageFramewo
             array(
                 'attributes'    => array(
                     // 3.5.7+ Added for acceptance tests 
-                    'data-tab-slug' => $_sSlug,     
+                    'data-tab-slug' => $_sSlug,
                 ),
             ),
             self::$aStructure
         );
           
-        return $_aTab;       
+        return $_aTab;
         
     }
         
@@ -114,8 +114,8 @@ class AdminPageFramework_Format_NavigationTab_InPageTab extends AdminPageFramewo
                     ( bool ) $aTab[ 'show_in_page_tab' ], // whether it is a hidden tab                    
                     ( bool ) $aTab[ 'if' ],
                 )
-            );  
-        }        
+            );
+        }
         
         /**
          * Determines the in-page tab slug.
@@ -124,8 +124,8 @@ class AdminPageFramework_Format_NavigationTab_InPageTab extends AdminPageFramewo
          */
         private function _getSlug( $aTab ) {
             return isset( $aTab[ 'parent_tab_slug' ], $this->aTabs[ $aTab[ 'parent_tab_slug' ] ] )
-                ? $aTab[ 'parent_tab_slug' ] 
-                : $aTab[ 'tab_slug' ];            
+                ? $aTab[ 'parent_tab_slug' ]
+                : $aTab[ 'tab_slug' ];
         }
         
 }

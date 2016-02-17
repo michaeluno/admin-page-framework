@@ -27,15 +27,15 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
      * @var         array Holds array structure of sub-menu page.
      * @static
      * @internal
-     */ 
+     */
     static public $aStructure = array(
         'page_slug'                 => null, // (required)
         'type'                      => 'page', // this is used to compare with the link type.
-        'title'                     => null, 
+        'title'                     => null,
         'page_title'                => null,    // (optional) 3.3.0+ When the page title is different from the above 'title' argument, set this.
         'menu_title'                => null,    // (optional) 3.3.0+ When the menu title is different from the above 'title' argument, set this.
         'screen_icon'               => null, // this will become either href_icon_32x32 or screen_icon_id
-        'capability'                => null, 
+        'capability'                => null,
         'order'                     => null,
         'show_page_heading_tab'     => true, // if this is false, the page title won't be displayed in the page heading tab.
         'show_in_menu'              => true, // if this is false, the menu label will not be displayed in the sidebar menu.     
@@ -51,7 +51,7 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
         'attributes'                => null, // 3.5.10+ (array) Applied to navigation tab element.
         'style'                     => null, // 3.6.0+ (string|array) The path or url of a stylesheet which gets loaded in the head tag.
         'script'                    => null, // 3.6.3+ (string|array) The path or url of a JavaScript script which gets loaded in the head tag.
-    );    
+    );
     
     /**
      * Stores the ID selector names for screen icons. `generic` is not available in WordPress v3.4.x.
@@ -63,12 +63,12 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
      * @static
      * @access      public
      * @internal
-     */     
+     */
     static public $aScreenIconIDs = array(
-        'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
-        'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
+        'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category',
+        'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile',
         'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',
-    );        
+    );
     
     /**
      * Stores an in-page tab definition.
@@ -90,14 +90,14 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
      */
     public function __construct( /* $aSubMenuPage, $oFactory, $iParsedIndex */ ) {
      
-        $_aParameters = func_get_args() + array( 
-            $this->aSubMenuPage, 
+        $_aParameters = func_get_args() + array(
+            $this->aSubMenuPage,
             $this->oFactory,
-            $this->iParsedIndex
+            $this->iParsedIndex,
         );
         $this->aSubMenuPage  = $_aParameters[ 0 ];
         $this->oFactory      = $_aParameters[ 1 ];
-        $this->iParsedIndex  = $_aParameters[ 2 ]; 
+        $this->iParsedIndex  = $_aParameters[ 2 ];
         
     }
 
@@ -121,7 +121,7 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
          */
         protected function _getFormattedSubMenuPageArray( array $aSubMenuPage ) {
             
-            $aSubMenuPage = $aSubMenuPage 
+            $aSubMenuPage = $aSubMenuPage
                 + array(
                     'show_page_title'           => $this->oFactory->oProp->bShowPageTitle,       // boolean
                     'show_page_heading_tabs'    => $this->oFactory->oProp->bShowPageHeadingTabs, // boolean
@@ -129,25 +129,25 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
                     'in_page_tab_tag'           => $this->oFactory->oProp->sInPageTabTag,        // string
                     'page_heading_tab_tag'      => $this->oFactory->oProp->sPageHeadingTabTag,   // string
                     'capability'                => $this->oFactory->oProp->sCapability,  // 3.6.0+
-                )       
+                )
                 + self::$aStructure;
 
             $aSubMenuPage[ 'page_slug' ]      = $this->sanitizeSlug( $aSubMenuPage[ 'page_slug' ] );
-            $aSubMenuPage[ 'screen_icon_id' ] = trim( 
-                $aSubMenuPage[ 'screen_icon_id' ] 
+            $aSubMenuPage[ 'screen_icon_id' ] = trim(
+                $aSubMenuPage[ 'screen_icon_id' ]
             );
             
-            return array( 
+            return array(
                     'href_icon_32x32'   => $aSubMenuPage[ 'screen_icon' ],
                     'screen_icon_id'    => $this->getAOrB(
                         in_array( $aSubMenuPage[ 'screen_icon' ], self::$aScreenIconIDs ),
                         $aSubMenuPage[ 'screen_icon' ],
-                        'generic'   
-                    ), 
-                    'capability'        => $this->getElement( 
-                        $aSubMenuPage, 
-                        'capability', 
-                        $this->oFactory->oProp->sCapability 
+                        'generic'
+                    ),
+                    'capability'        => $this->getElement(
+                        $aSubMenuPage,
+                        'capability',
+                        $this->oFactory->oProp->sCapability
                     ),
                     'order'             => $this->getAOrB(
                         is_numeric( $aSubMenuPage[ 'order' ] ),
@@ -157,6 +157,6 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
                 )
                 + $aSubMenuPage;
             
-        }    
+        }
     
 }

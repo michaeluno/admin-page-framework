@@ -10,6 +10,7 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
         $_oMsg = $_aParams[0];
         $sCannotAddMore = $_oMsg->get('allowed_maximum_number_of_sections');
         $sCannotRemoveMore = $_oMsg->get('allowed_minimum_number_of_sections');
+
         return <<<JAVASCRIPTS
 ( function( $ ) {
     
@@ -418,6 +419,7 @@ jQuery( document ).ready( function() {
     jQuery( '#{$sContainerTagID}' ).updateAdminPageFrameworkRepeatableSections( $_aJSArray ); 
 });            
 JAVASCRIPTS;
+
         return "<script type='text/javascript' class='admin-page-framework-section-repeatable-script'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
     }
 }

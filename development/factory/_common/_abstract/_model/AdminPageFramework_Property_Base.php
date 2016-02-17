@@ -18,7 +18,7 @@
  * @subpackage  Property
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
- */ 
+ */
 abstract class AdminPageFramework_Property_Base extends AdminPageFramework_FrameworkUtility {
 
     /**
@@ -26,11 +26,11 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @internal
      * @since       2.0.0
      * @since       3.0.0     Moved from the link class.
-     */ 
+     */
     private static $_aStructure_CallerInfo = array(
         'sPath'         => null,
         'sType'         => null,
-        'sName'         => null,     
+        'sName'         => null,
         'sURI'          => null,
         'sVersion'      => null,
         'sThemeURI'     => null,
@@ -38,7 +38,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         'sAuthorURI'    => null,
         'sAuthor'       => null,
         'sDescription'  => null,
-    );    
+    );
     
     /**
      * Stores the library information.
@@ -54,7 +54,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @since       3.3.1   This was defined in each extended classes.
      * @internal
      */
-    public $_sPropertyType = '';    
+    public $_sPropertyType = '';
     
     /**
      * Stores the main (caller) object.
@@ -62,7 +62,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @since       2.1.5
      * @since       3.7.10      Changed the visibility scope to public as accessing the property directly rather than using _getCallerObject() is faster..
      */
-    public $oCaller;    
+    public $oCaller;
     
     /**
      * Stores the caller script file path.
@@ -106,8 +106,8 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @since 2.0.0
      * @since 2.1.5 Moved from each extended property class.
      * @internal
-     */             
-    public $sScript = '';    
+     */
+    public $sScript = '';
 
     /**
      * Stores the CSS rules to be embedded in the head tag.
@@ -116,7 +116,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @since 2.0.0
      * @since 2.1.5 Moved from each extended property class.
      * @internal
-     */         
+     */
     public $sStyle = '';
     
     /**
@@ -125,8 +125,8 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @remark This should be an empty string by default since the related methods uses the append operator.
      * @since 2.0.0 to 2.1.4
      * @internal
-     */ 
-    public $sStyleIE = '';    
+     */
+    public $sStyleIE = '';
 
     /**
      * Stores the field type definitions.
@@ -155,7 +155,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @deprecated  3.2.0
      * @internal    
      */
-    public static $_sDefaultStyle ="";    
+    public static $_sDefaultStyle ="";
         
     /**
      * The default CSS rules for IE loaded in the head tag of the created admin pages.
@@ -176,7 +176,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * Stores enqueuing style URLs and their criteria by md5 hash of the source url.
      * @since       2.1.2
      * @since       2.1.5       Moved to the base class.
-     */    
+     */
     public $aEnqueuingStyles = array();
 
 
@@ -202,8 +202,8 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * 
      * @since       2.1.2
      * @since       2.1.5     Moved to the base class.
-     */    
-    public $iEnqueuedStyleIndex = 0;     
+     */
+    public $iEnqueuedStyleIndex = 0;
     
     /**
      * Stores is_admin() value to be reused. 
@@ -223,7 +223,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * Stores the capability for displayable elements.
      * 
      * @since       2.0.0
-     */     
+     */
     public $sCapability;
     
     /**
@@ -241,7 +241,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * 
      * @since       3.0.4
      * @internal
-     */ 
+     */
     public $sTextDomain;
     
     /**
@@ -276,7 +276,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @since       3.5.5       Moved from `AdminPageFramework_Property_admin_page` as the post type class also access it.
      * @remark      The default value should be `null` as the user may explicitly set an empty value.
      * The `null` value will be replaced with the system default text 'Settings' while an empty string '' will remove the link.
-     */     
+     */
     public $sLabelPluginSettingsLink = null;
     
     /**
@@ -286,11 +286,11 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * 
      * @since       2.0.0
      * @since       3.5.5       Moved from `AdminpageFramework_Property_Page` as this is used by the post type link class and admin page link class.
-     */             
+     */
     public $aFooterInfo = array(
         'sLeft'     => '__SCRIPT_CREDIT__',
         'sRight'    => '__FRAMEWORK_CREDIT__',
-    );    
+    );
 
     /**
      * The utility object.
@@ -351,15 +351,15 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * Stores text to insert into the contextual help tab.
      * @since       2.1.0
      * @since       3.7.10      Moved from `AdminPageFramework_Property_post_meta_box`
-     */ 
+     */
     public $aHelpTabText = array();
     
     /**
      * Stores text to insert into the sidebar of a contextual help tab.
      * @since       2.1.0
      * @since       3.7.10      Moved from `AdminPageFramework_Property_post_meta_box`
-     */ 
-    public $aHelpTabTextSide = array();                  
+     */
+    public $aHelpTabTextSide = array();
                   
     /**
      * Stores the meta box title.
@@ -370,8 +370,8 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @since       2.1.0       Moved from the meta box class.
      * @since       3.7.10      Moved from `AdminPageFramework_Property_post_meta_box`
      * @var string
-     */ 
-    public $sTitle = '';                  
+     */
+    public $sTitle = '';
                   
     /**
      * Sets up necessary property values.
@@ -400,7 +400,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             $this->aOptions,
             $this->sScriptType,
             $this->sClassHash
-        );           
+        );
            
         $this->_setGlobals();
        
@@ -411,11 +411,11 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
          */
         private function _setGlobals() {
             if ( ! isset( $GLOBALS[ 'aAdminPageFramework' ] ) ) {
-                $GLOBALS[ 'aAdminPageFramework' ] = array( 
-                    'aFieldFlags' => array() 
+                $GLOBALS[ 'aAdminPageFramework' ] = array(
+                    'aFieldFlags' => array(),
                 );
             }
-        } 
+        }
         
     /**
      * Sets up properties related to the form object.
@@ -469,7 +469,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             'secitonsets_before_registration'   => array( $this->oCaller, '_replyToModifySectionsets' ),
             'fieldsets_before_registration'     => array( $this->oCaller, '_replyToModifyFieldsets' ),
             
-            'handle_form_data'                  => array( $this->oCaller, '_replyToHandleSubmittedFormData' ),        
+            'handle_form_data'                  => array( $this->oCaller, '_replyToHandleSubmittedFormData' ),
             
             // legacy callbacks
             'hfID'                              => array( $this->oCaller, '_replyToGetInputID' ), // the input id attribute
@@ -480,7 +480,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             'hfInputNameFlat'                   => array( $this->oCaller, '_replyToGetFlatInputName' ),    // 3.6.0+   the flat field input name                 
             'hfClass'                           => array( $this->oCaller, '_replyToGetInputClassAttribute' ), // the class attribute
             'hfSectionName'                     => array( $this->oCaller, '_replyToGetSectionName' ), // 3.6.0+            
-        ) + $this->aFormCallbacks;        
+        ) + $this->aFormCallbacks;
     }
     
     /**
@@ -493,11 +493,11 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @return      object The caller class object.
      * @internal
      * @deprecated  3.7.10          Directly access the $oCaller object for performance.
-     */     
+     */
     // public function _getCallerObject() {
         // return $this->oCaller;
     // }
-    
+
     /**
      * Sets the library information property array.
      * @internal
@@ -524,6 +524,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             'sNetwork'      => '',
             '_sitewide'     => '',
         );
+
         return self::$_aLibraryData;
         
     }
@@ -534,14 +535,14 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @since       3.0.0
      */
     static public function _getLibraryData() {
-        return isset( self::$_aLibraryData ) 
-            ? self::$_aLibraryData 
-            : self::_setLibraryData();     
+        return isset( self::$_aLibraryData )
+            ? self::$_aLibraryData
+            : self::_setLibraryData();
     }
     
     /*
      * Methods for getting script info.
-     */      
+     */
     /**
      * Retrieves the caller script information whether it's a theme or plugin or something else.
      * 
@@ -550,7 +551,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @since       3.7.9       Changed the default value to an empty string. Made it use a cache if set.
      * @remark      The information can be used to embed into the footer etc.
      * @return      array       The information of the script.
-     */  
+     */
     protected function getCallerInfo( $sCallerPath='' ) {
 
         if ( isset( self::$_aScriptDataCaches[ $sCallerPath ] ) ) {
@@ -563,10 +564,12 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
 
         if ( 'unknown' == $_aCallerInfo[ 'sType' ] ) {
             self::$_aScriptDataCaches[ $sCallerPath ] = $_aCallerInfo;
+
             return $_aCallerInfo;
         }
         if ( 'plugin' == $_aCallerInfo[ 'sType' ] ) {
             self::$_aScriptDataCaches[ $sCallerPath ] = $this->getScriptData( $_aCallerInfo[ 'sPath' ], $_aCallerInfo[ 'sType' ] ) + $_aCallerInfo;
+
             return self::$_aScriptDataCaches[ $sCallerPath ];
         }
         if ( 'theme' == $_aCallerInfo[ 'sType' ] ) {
@@ -577,14 +580,16 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
                 'sThemeURI'     => $_oTheme->get( 'ThemeURI' ),
                 'sURI'          => $_oTheme->get( 'ThemeURI' ),
                 'sAuthorURI'    => $_oTheme->get( 'AuthorURI' ),
-                'sAuthor'       => $_oTheme->get( 'Author' ),     
-            ) + $_aCallerInfo;    
+                'sAuthor'       => $_oTheme->get( 'Author' ),
+            ) + $_aCallerInfo;
+
             return self::$_aScriptDataCaches[ $sCallerPath ];
         }
         self::$_aScriptDataCaches[ $sCallerPath ] = array();
+
         return self::$_aScriptDataCaches[ $sCallerPath ];
         
-    }    
+    }
         /** 
          * @since       3.7.9
          */
@@ -599,7 +604,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @since       3.0.0       Moved from the link class.
      * @since       3.1.5       Changed the scope to protected as the post type property class access it.
      * @return      string      Returns either 'theme', 'plugin', or 'unknown'
-     */ 
+     */
     protected function _getCallerType( $sScriptPath ) {
                 
         if ( isset( self::$_aCallerTypeCache[ $sScriptPath ] ) ) {
@@ -609,7 +614,8 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         $sScriptPath = str_replace( '\\', '/', $sScriptPath );
         if ( false !== strpos( $sScriptPath, '/themes/' ) ) {
             self::$_aCallerTypeCache[ $sScriptPath ] = 'theme';
-            return 'theme';            
+
+            return 'theme';
         }
         // if ( preg_match( '/[\/\\\\]themes[\/\\\\]/', $sScriptPath, $m ) ) {
             // self::$_aCallerTypeCache[ $sScriptPath ] = 'theme';
@@ -617,16 +623,18 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         // }
         if ( false !== strpos( $sScriptPath, '/plugins/' ) ) {
             self::$_aCallerTypeCache[ $sScriptPath ] = 'plugin';
+
             return 'plugin';
-        }        
+        }
         // if ( preg_match( '/[\/\\\\]plugins[\/\\\\]/', $sScriptPath, $m ) ) {
             // self::$_aCallerTypeCache[ $sScriptPath ] = 'plugin';
             // return 'plugin';
         // }
         self::$_aCallerTypeCache[ $sScriptPath ] = 'unknown';
+
         return 'unknown';
     
-    }    
+    }
         static private $_aCallerTypeCache = array();
             
     /**
@@ -652,11 +660,12 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
     public function __get( $sName ) {
         
         if ( 'aScriptInfo' === $sName ) {
-            $this->sCallerPath = $this->sCallerPath 
-                ? $this->sCallerPath 
+            $this->sCallerPath = $this->sCallerPath
+                ? $this->sCallerPath
                 : $this->getCallerScriptPath( __FILE__ );
             $this->aScriptInfo = $this->getCallerInfo( $this->sCallerPath );
-            return $this->aScriptInfo;    
+
+            return $this->aScriptInfo;
         }
         
         // 3.4.1+ Moved from `AdminPageFramework_Property_admin_page` as meta box classes also access it.
@@ -664,12 +673,14 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         // Once this is done, calling $this->aOptions will not trigger the __get() magic method any more.
         if ( 'aOptions' === $sName ) {
             $this->aOptions = $this->_getOptions();
-            return $this->aOptions;    
-        }     
+
+            return $this->aOptions;
+        }
 
         // 3.7.9 Moved from the constructor to make it lighter.
         if ( 'sClassHash' === $sName ) {
-            $this->sClassHash       = md5( $this->sClassName );    
+            $this->sClassHash       = md5( $this->sClassName );
+
             return $this->sClassHash;
         }
         if ( 'sScriptType' === $sName ) {
@@ -678,6 +689,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         }
         if ( 'oUtil' === $sName ) {
             $this->oUtil = new AdminPageFramework_WPUtility;
+
             return $this->oUtil;
         }
         

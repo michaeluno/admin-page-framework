@@ -65,6 +65,7 @@ abstract class AdminPageFramework_Factory_Router {
     protected function _getFormObject() {
         $this->oProp->setFormProperties();
         $_sFormClass = $this->aSubClassNames['oForm'];
+
         return new $_sFormClass($this->oProp->aFormArguments, $this->oProp->aFormCallbacks, $this->oMsg);
     }
     protected function _getLinkObject() {
@@ -81,19 +82,23 @@ abstract class AdminPageFramework_Factory_Router {
     public function _replyTpSetAndGetInstance_oUtil() {
         $_sClassName = $this->aSubClassNames['oUtil'];
         $this->oUtil = new $_sClassName;
+
         return $this->oUtil;
     }
     public function _replyTpSetAndGetInstance_oDebug() {
         $_sClassName = $this->aSubClassNames['oDebug'];
         $this->oDebug = new $_sClassName;
+
         return $this->oDebug;
     }
     public function _replyTpSetAndGetInstance_oMsg() {
         $this->oMsg = call_user_func_array(array($this->aSubClassNames['oMsg'], 'getInstance'), array($this->oProp->sTextDomain));
+
         return $this->oMsg;
     }
     public function _replyTpSetAndGetInstance_oForm() {
         $this->oForm = $this->_getFormObject();
+
         return $this->oForm;
     }
     public function _replyTpSetAndGetInstance_oResource() {
@@ -102,23 +107,28 @@ abstract class AdminPageFramework_Factory_Router {
         }
         $_sClassName = $this->aSubClassNames['oResource'];
         $this->oResource = new $_sClassName($this->oProp);
+
         return $this->oResource;
     }
     public function _replyTpSetAndGetInstance_oHeadTag() {
         $this->oHead = $this->_replyTpSetAndGetInstance_oResource();
+
         return $this->oHead;
     }
     public function _replyTpSetAndGetInstance_oHelpPane() {
         $_sClassName = $this->aSubClassNames['oHelpPane'];
         $this->oHelpPane = new $_sClassName($this->oProp);
+
         return $this->oHelpPane;
     }
     public function _replyTpSetAndGetInstance_oLink() {
         $this->oLink = $this->_getLinkObject();
+
         return $this->oLink;
     }
     public function _replyTpSetAndGetInstance_oPageLoadInfo() {
         $this->oPageLoadInfo = $this->_getPageLoadObject();
+
         return $this->oPageLoadInfo;
     }
     public function __call($sMethodName, $aArguments = null) {
@@ -138,6 +148,7 @@ abstract class AdminPageFramework_Factory_Router {
             return $this->oUtil->getElement($aArguments, 0);
         }
         $_sAutoCallbackMethodName = str_replace('\\', '_', $sMethodName);
+
         return method_exists($this, $_sAutoCallbackMethodName) ? call_user_func_array(array($this, $_sAutoCallbackMethodName), $aArguments) : $this->oUtil->getElement($aArguments, 0);
     }
     private function _triggerUndefinedMethodWarning($sMethodName) {
@@ -170,6 +181,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         if (method_exists($this, 'field_types_' . $this->oProp->sClassName)) {
             return call_user_func_array(array($this, 'field_types_' . $this->oProp->sClassName), array($aFieldTypeDefinitions));
         }
+
         return $aFieldTypeDefinitions;
     }
     public function _replyToModifySectionsets($aSectionsets) {
@@ -185,6 +197,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         if (count($aFieldsets)) {
             $this->oProp->bEnableForm = true;
         }
+
         return $aFieldsets;
     }
     public function _replyToModifyFieldsetsDefinitions($aFieldsets) {
@@ -194,6 +207,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         $_sFieldPart = '_' . implode('_', $aFieldset['_field_path_array']);
         $_sSectionPart = implode('_', $aFieldset['_section_path_array']);
         $_sSectionPart = $this->oUtil->getAOrB('_default' === $_sSectionPart, '', '_' . $_sSectionPart);
+
         return $this->oUtil->addAndApplyFilter($this, "field_definition_{$this->oProp->sClassName}{$_sSectionPart}{$_sFieldPart}", $aFieldset, $aFieldset['_subsection_index']);
     }
     public function _replyToHandleSubmittedFormData($aSavedData, $aArguments, $aSectionsets, $aFieldsets) {
@@ -202,6 +216,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         if (empty($aFieldset)) {
             return $aFieldset;
         }
+
         return $aFieldset;
     }
     public function _replyToFormatSectionsetDefinition($aSectionset) {
@@ -209,6 +224,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
             return $aSectionset;
         }
         $aSectionset = $aSectionset + array('_fields_type' => $this->oProp->_sPropertyType, '_structure_type' => $this->oProp->_sPropertyType,);
+
         return $aSectionset;
     }
     public function _replyToDetermineWhetherToProcessFormRegistration($bAllowed) {
@@ -243,34 +259,42 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
     }
     public function _replyToGetSectionName() {
         $_aParams = func_get_args() + array(null, null,);
+
         return $_aParams[0];
     }
     public function _replyToGetInputID() {
         $_aParams = func_get_args() + array(null, null, null, null);
+
         return $_aParams[0];
     }
     public function _replyToGetInputTagIDAttribute() {
         $_aParams = func_get_args() + array(null, null, null, null);
+
         return $_aParams[0];
     }
     public function _replyToGetFieldNameAttribute() {
         $_aParams = func_get_args() + array(null, null,);
+
         return $_aParams[0];
     }
     public function _replyToGetFlatFieldName() {
         $_aParams = func_get_args() + array(null, null,);
+
         return $_aParams[0];
     }
     public function _replyToGetInputNameAttribute() {
         $_aParams = func_get_args() + array(null, null, null);
+
         return $_aParams[0];
     }
     public function _replyToGetFlatInputName() {
         $_aParams = func_get_args() + array(null, null, null);
+
         return $_aParams[0];
     }
     public function _replyToGetInputClassAttribute() {
         $_aParams = func_get_args() + array(null, null, null, null);
+
         return $_aParams[0];
     }
     public function _replyToDetermineSectionsetVisibility($bVisible, $aSectionset) {
@@ -290,10 +314,12 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         if (!current_user_can($aElementDefinition['capability'])) {
             return false;
         }
+
         return $bDefault;
     }
     public function isSectionSet(array $aFieldset) {
         $aFieldset = $aFieldset + array('section_id' => null,);
+
         return $aFieldset['section_id'] && '_default' !== $aFieldset['section_id'];
     }
     public function _replyToGetSectionHeaderOutput($sSectionDescription, $aSectionset) {
@@ -301,6 +327,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
     }
     public function _replyToGetFieldOutput($sFieldOutput, $aFieldset) {
         $_sSectionPart = $this->oUtil->getAOrB(isset($aFieldset['section_id']) && '_default' !== $aFieldset['section_id'], '_' . $aFieldset['section_id'], '');
+
         return $this->oUtil->addAndApplyFilters($this, array('field_' . $this->oProp->sClassName . $_sSectionPart . '_' . $aFieldset['field_id']), $sFieldOutput, $aFieldset);
     }
 }

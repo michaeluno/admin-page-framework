@@ -38,7 +38,7 @@ class APF_Demo_AdvancedUsage_Section_SectionTitleField {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
@@ -46,7 +46,7 @@ class APF_Demo_AdvancedUsage_Section_SectionTitleField {
                 'title'         => __( 'Section Title', 'admin-page-framework-loader' ),
                 'description'   => __( 'The <code>section_title</code> field type will be placed in the position of the section title if set. If not set, the set section title will be placed. Only one <code>section_title</code> field is allowed per section.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -54,14 +54,14 @@ class APF_Demo_AdvancedUsage_Section_SectionTitleField {
             array(
                 'field_id'      => 'section_title_field',
                 'type'          => 'section_title',
-                'label'         => '<h3>' 
+                'label'         => '<h3>'
                         . __( 'Section Name', 'admin-page-framework-loader' )
                     . '</h3>',
                 'attributes'    => array(
                     'size' => 30,
                 ),
             )
-        );              
+        );
       
     }
 

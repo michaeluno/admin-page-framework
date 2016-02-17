@@ -30,13 +30,13 @@ class APF_Widget_WithSection extends AdminPageFramework_Widget {
      */
     public function setUp() {
 
-        $this->setArguments( 
+        $this->setArguments(
             array(
                 'description'   =>  __( 'This is a sample widget with form sections created by Admin Page Framework.', 'admin-page-framework-loader' ),
-            ) 
+            )
         );
     
-    }    
+    }
 
     /**
      * Sets up the form.
@@ -59,7 +59,7 @@ class APF_Widget_WithSection extends AdminPageFramework_Widget {
                 'field_id'      => 'image',
                 'type'          => 'image',
                 'title'         => __( 'Image', 'admin-page-framework-loader' ),
-            ),       
+            ),
             array(
                 'field_id'      => 'bg_color',
                 'type'          => 'color',
@@ -76,9 +76,9 @@ class APF_Widget_WithSection extends AdminPageFramework_Widget {
                     // 'b' => 'B',
                     // 'c' => 'C',
                 // ),
-            ),            
+            ),
             array()
-        );        
+        );
 
         
     }
@@ -92,10 +92,10 @@ class APF_Widget_WithSection extends AdminPageFramework_Widget {
         
         // Uncomment the following line to check the submitted value.
         // AdminPageFramework_Debug::log( $aSubmit );
-        
+
         return $aSubmit;
         
-    }    
+    }
     
     /**
      * Print out the contents in the front-end.
@@ -113,6 +113,7 @@ class APF_Widget_WithSection extends AdminPageFramework_Widget {
         $_aTodaysWord = $this->oUtil->getElementAsArray( $aFormData, array( 'apf_sample_image', 'todays_word' ) );
         shuffle( $_aTodaysWord );
         $_sTodaysWord = $this->oUtil->getElement( $_aTodaysWord, 0 );
+
         return $sContent
             . "<div style='padding: 1em; background-color:{$_sBGColor}; text-align:center;'>"
                 . "<img style='margin-bottom: 0.6em;' src='{$_sImageURL}' alt='{$_sAlt}' />"
@@ -123,6 +124,6 @@ class APF_Widget_WithSection extends AdminPageFramework_Widget {
         
 }
 
-new APF_Widget_WithSection( 
+new APF_Widget_WithSection(
     __( 'Admin Page Framework - With Section', 'admin-page-framework-loader' ) // the widget title
 );

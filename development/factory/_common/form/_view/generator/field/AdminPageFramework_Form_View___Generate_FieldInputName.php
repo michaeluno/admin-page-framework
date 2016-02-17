@@ -25,16 +25,16 @@ class AdminPageFramework_Form_View___Generate_FieldInputName extends AdminPageFr
      */
     public function __construct( /* $aArguments, $isIndex, $hfCallback */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aArguments, 
+        $_aParameters = func_get_args() + array(
+            $this->aArguments,
             $this->sIndex,
             $this->hfCallback,
         );
-        $this->aArguments  = $_aParameters[ 0 ];        
+        $this->aArguments  = $_aParameters[ 0 ];
         $this->sIndex      = ( string ) $_aParameters[ 1 ]; // a 0 value may have been interpreted as false.
         $this->hfCallback  = $_aParameters[ 2 ];
         
-    }    
+    }
     
     /**
      * Returns the input tag name for the name attribute.
@@ -52,7 +52,8 @@ class AdminPageFramework_Form_View___Generate_FieldInputName extends AdminPageFr
             '0' !== $this->sIndex && empty( $this->sIndex ),
             '',
             "[" . $this->sIndex . "]"
-        );        
+        );
+
         return $this->_getFiltered( $this->_getFieldName() . $_sIndex );
         
     }
@@ -63,15 +64,15 @@ class AdminPageFramework_Form_View___Generate_FieldInputName extends AdminPageFr
          */
         protected function _getFiltered( $sSubject ) {
             return is_callable( $this->hfCallback )
-                ? call_user_func_array( 
-                    $this->hfCallback, 
-                    array( 
+                ? call_user_func_array(
+                    $this->hfCallback,
+                    array(
                         $sSubject,
                         $this->aArguments,
-                        $this->sIndex
+                        $this->sIndex,
                     )
                 )
-                : $sSubject;        
-        }    
+                : $sSubject;
+        }
 
 }

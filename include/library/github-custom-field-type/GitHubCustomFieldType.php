@@ -43,8 +43,8 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
             'data-icon'         => null,
             'data-text'         => null,
             'data-count-href'   => null,
-            'data-count-api'    => null,        
-        ),    
+            'data-count-api'    => null,
+        ),
     );
 
     /**
@@ -61,10 +61,10 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
      * Loads the field type necessary components.
      * 
      * This method is triggered when a field definition array that calls this field type is parsed. 
-     */ 
+     */
     protected function setUp() {
         add_action( 'admin_footer', array( $this, '_replyToAddScript' ) );
-    }    
+    }
         static public $_bAddedScriptToFooter;
         public function _replyToAddScript() {
             
@@ -104,7 +104,7 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
      *     ),
      * )</code>
      */
-    protected function getEnqueuingScripts() { 
+    protected function getEnqueuingScripts() {
         return array(
             // array( 
                 // 'src'           => dirname( __FILE__ ) . '/asset/github-buttons/buttons.js',
@@ -139,20 +139,20 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
      *      ),
      *  );</code>
      */
-    protected function getEnqueuingStyles() { 
-        return array(    
+    protected function getEnqueuingStyles() {
+        return array(
             // array( 
                 // 'src'       => dirname( __FILE__ ) . '/asset/github-buttons/assets/css/main.css',
                 // 'handle_id' => 'github_button_css',
             // ),
         );
-    }            
+    }
 
 
     /**
      * Returns the field type specific JavaScript script.
-     */ 
-    protected function getScripts() { 
+     */
+    protected function getScripts() {
 
         $aJSArray = json_encode( $this->aFieldTypeSlugs );
         /*    
@@ -176,7 +176,7 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
 
     /**
      * Returns the field type specific CSS rules.
-     */ 
+     */
     protected function getStyles() {
         return "
             .github-button-container {
@@ -195,11 +195,11 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
     /**
      * Returns the output of the field type.
      */
-    protected function getField( $aField ) { 
+    protected function getField( $aField ) {
 
         $_aAttributes           = $aField['attributes'];
         $_aAttributes['class'] .= ' github github-button';
-        $_aAttributes = $this->uniteArrays( 
+        $_aAttributes = $this->uniteArrays(
             $_aAttributes,
             array(
                 'href'              => $this->_getHrefByType( $aField['button_type'], $aField['user_name'], $aField['repository'] ),
@@ -213,13 +213,13 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
             )
         );
 
-        return 
+        return
             $aField['before_label']
-            . "<div class='admin-page-framework-input-label-container'>"        
+            . "<div class='admin-page-framework-input-label-container'>"
                 . $aField['before_input']
                 . ( $aField['label'] && ! $aField['repeatable']
                     ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
-                    : "" 
+                    : ""
                 )
                 . "<div class='github-button-container'>"
                     . "<a " . $this->generateAttributes( $_aAttributes ) . ">"
@@ -231,16 +231,16 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
             . "</div>"
             . $aField['after_label'];
         
-    }             
+    }
         private function _getHrefByType( $sButtonType, $sUserName, $sRepository ) {
             $sButtonType = strtolower( $sButtonType );
             switch( $sButtonType ) {
-                case 'follow': 
+                case 'follow':
                     return esc_url( 'https://github.com/' . $sUserName );
                 case 'issue':
                     return esc_url( 'https://github.com/' . $sUserName . '/' . $sRepository . '/issues' );
                 default:
-                    return esc_url( 'https://github.com/' . $sUserName . '/' . $sRepository );                    
+                    return esc_url( 'https://github.com/' . $sUserName . '/' . $sRepository );
             }
         }
         private function _getCountHrefByType( $sButtonType, $sUserName, $sRepository )  {
@@ -248,30 +248,30 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
             // e.g. data-count-href="/ntkme/followers" 
             $sButtonType = strtolower( $sButtonType );
             switch( $sButtonType ) {
-                case 'follow': 
+                case 'follow':
                     return esc_url( '/' . $sUserName . '/' . $this->_getGitHubAPISlugByType( $sButtonType ) );
                 case 'issue':
                     return '';
                 default:
                     return esc_url( '/' . $sUserName . '/' . $sRepository . '/' . $this->_getGitHubAPISlugByType( $sButtonType ) );
-            }                        
+            }
         }
         private function _getCountAPIByType( $sButtonType, $sUserName, $sRepository )  {
             
             $sButtonType = strtolower( $sButtonType );
             switch( $sButtonType ) {
-                case 'follow': 
+                case 'follow':
                     // e.g. data-count-api="/users/ntkme#followers">Follow @ntkme</a>            
                     return esc_url( '/users/' . $sUserName . '#' . $this->_getGitHubAPICountSlugByType( $sButtonType ) );
                 default:
                     // e.g. data-count-api="/repos/ntkme/github-buttons#open_issues_count">Issue</a>
                     return esc_url( '/repos/' . $sUserName . '/' . $sRepository . '#' . $this->_getGitHubAPICountSlugByType( $sButtonType ) );
-            }                           
-        }        
+            }
+        }
         private function _getIcontByType( $sButtonType ) {
             $sButtonType = strtolower( $sButtonType );
             switch( $sButtonType ) {
-                case 'follow': 
+                case 'follow':
                     return '';
                 case 'watch':
                     return 'octicon-eye';
@@ -283,7 +283,7 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
                     return 'octicon-issue-opened';
                 default:
                     return '';
-            }                
+            }
         }
         private function _getButtonLabelByType( $sButtonType, $sUserName, $sValue ) {
             
@@ -294,7 +294,7 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
             // At this point, the use does not specify the button text with the 'value' argument.
             $sButtonType = strtolower( $sButtonType );
             switch( $sButtonType ) {
-                case 'follow': 
+                case 'follow':
                     return sprintf( __( 'Follow @%1$s', 'admin-page-framework' ), $sUserName );
                 case 'watch':
                     return __( 'Watch', 'admin-page-framework' );
@@ -306,9 +306,9 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
                     return __( 'Issue', 'admin-page-framework' );
                 default:
                     return '';
-            }                 
+            }
 
-        }        
+        }
         /**
          * Returns the API slug used for the given type.
          * 
@@ -325,9 +325,9 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
             switch( strtolower( $sType ) ) {
                 case 'follow':
                     return 'followers';
-                case 'watch':    
+                case 'watch':
                     return 'watchers';
-                case 'star':    
+                case 'star':
                     return 'stargazers';
                 case 'fork':
                     return 'network';
@@ -337,7 +337,7 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
                     return '';
             }
             
-        }    
+        }
         /**
          * Returns the API count slug used for the given type.
          * 
@@ -353,9 +353,9 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
             switch( strtolower( $sType ) ) {
                 case 'follow':
                     return 'followers';
-                case 'watch':    
+                case 'watch':
                     return 'subscribers_count';
-                case 'star':    
+                case 'star':
                     return 'stargazers_count';
                 case 'fork':
                     return 'forks_count';

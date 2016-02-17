@@ -25,7 +25,7 @@ class APF_Demo_Contact {
      */
     public function __construct() {
         
-        add_action( 
+        add_action(
             'set_up_' . $this->_sClassName,
             array( $this, 'replyToSetUpPages' )
         );
@@ -39,7 +39,7 @@ class APF_Demo_Contact {
      */
     public function replyToSetUpPages( $oFactory ) {
 
-        $oFactory->addSubMenuItems(     
+        $oFactory->addSubMenuItems(
             array(
                 'title'         => __( 'Contact', 'admin-page-framework-loader' ),
                 'page_slug'     => $this->_sPageSlug,
@@ -49,7 +49,7 @@ class APF_Demo_Contact {
             )
         );
        
-        add_action( 
+        add_action(
             'load_' . $this->_sPageSlug,
             array( $this, 'replyToLoadPage' )
         );
@@ -61,16 +61,16 @@ class APF_Demo_Contact {
      * 
      * @callback        action      load_ + {page slug}
      */
-    public function replyToLoadPage( $oFactory ) {   
+    public function replyToLoadPage( $oFactory ) {
         
         // disables the page heading tabs by passing false.
-        $oFactory->setPageHeadingTabsVisibility( false ); 
+        $oFactory->setPageHeadingTabsVisibility( false );
         
         // sets the tag used for in-page tabs.
-        $oFactory->setInPageTabTag( 'h2' ); 
+        $oFactory->setInPageTabTag( 'h2' );
         
         // disable the page title.
-        $oFactory->setPageTitleVisibility( false ); 
+        $oFactory->setPageTitleVisibility( false );
         
         new APF_Demo_Contact_Tab_Feedback( $oFactory, $this->_sPageSlug );
         new APF_Demo_Contact_Tab_Report( $oFactory, $this->_sPageSlug );

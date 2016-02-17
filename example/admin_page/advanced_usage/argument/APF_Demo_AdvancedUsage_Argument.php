@@ -33,17 +33,17 @@ class APF_Demo_AdvancedUsage_Argument {
     public function __construct( $oFactory ) {
                               
         // Tab
-        $oFactory->addInPageTabs(    
+        $oFactory->addInPageTabs(
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'  => $this->sTabSlug,
-                'title'     => __( 'Arguments', 'admin-page-framework-loader' ),    
-            )      
-        );  
+                'title'     => __( 'Arguments', 'admin-page-framework-loader' ),
+            )
+        );
         
-        add_action( 
-            'load_' . $this->sPageSlug . '_' . $this->sTabSlug, 
-            array( $this, 'replyToLoadTab' ) 
+        add_action(
+            'load_' . $this->sPageSlug . '_' . $this->sTabSlug,
+            array( $this, 'replyToLoadTab' )
         );
 
     }
@@ -67,7 +67,7 @@ class APF_Demo_AdvancedUsage_Argument {
                 continue;
             }
             new $_sClassName( $oFactory );
-        }        
+        }
        
     }
     

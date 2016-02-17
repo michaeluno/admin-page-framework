@@ -46,7 +46,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
 
     /**
      * Stores field set definitions.
-     */    
+     */
     public $aFieldsets    = array();
     
     /**
@@ -61,9 +61,9 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
      * 
      * Each secitonset and fieldset has individual capability. If they are not set,
      * This value will be applied.
-     */            
+     */
     public $sCapability = '';       // default - an empty string
-    
+
     /**
      * Stores callback functions.
      * Each value will have a callback.
@@ -126,7 +126,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
          * This will be called when the form gets rendered.
          * @return      boolen
          */
-        'is_sectionset_visible'    => null,        
+        'is_sectionset_visible'    => null,
         /**
          * Decides whether the field is visible or not.
          * This will be called when the form gets rendered.
@@ -168,7 +168,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
          * A caller id
          * 
          * This is used when field types are registered and for field error transient IDs to retrieve field errors.
-         */    
+         */
         'caller_id'                     => '',
         
         /**
@@ -181,7 +181,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
          * to determine the action hook for form element registration and validation.
          * @return     string
          */
-        'action_hook_form_registration' => 'current_screen',    
+        'action_hook_form_registration' => 'current_screen',
         
         /**
          * If `true` and if the form registration (loading resources) action hook is already triggerd,
@@ -197,7 +197,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
     /**
      * A submit notice object.
      */
-    public $oSubmitNotice;    
+    public $oSubmitNotice;
     
     /**
      * A field error object.
@@ -243,12 +243,12 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
          */
         private function _getFormattedArguments( $aArguments ) {
             
-            $aArguments = $this->getAsArray( $aArguments ) 
+            $aArguments = $this->getAsArray( $aArguments )
                 + $this->aArguments;
             $aArguments[ 'caller_id' ] = $aArguments[ 'caller_id' ]
                 ? $aArguments[ 'caller_id' ]
 // @todo determine the caller class name
-                : get_class( $this );   
+                : get_class( $this );
             
             if ( $this->sStructureType ) {
                 $aArguments[ 'structure_type' ] = $this->sStructureType;

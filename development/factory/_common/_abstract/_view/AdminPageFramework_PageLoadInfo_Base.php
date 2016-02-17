@@ -30,7 +30,7 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
         
         if ( $oProp->bIsAdminAjax || ! $oProp->bIsAdmin ) {
             return;
-        }     
+        }
         
         if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
             return;
@@ -41,7 +41,7 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
         $this->_nInitialMemoryUsage = memory_get_usage();
         
         // must be loaded after the sub pages are registered
-        add_action( 'in_admin_footer', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 );    
+        add_action( 'in_admin_footer', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 );
 
     }
     
@@ -53,7 +53,7 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
     /**
      * Indicates whether the page load info is inserted or not.
      */
-    static private $_bLoadedPageLoadInfo = false;    
+    static private $_bLoadedPageLoadInfo = false;
         
     /**
      * Display gathered information.
@@ -63,10 +63,10 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
      */
     public function _replyToGetPageLoadInfo( $sFooterHTML ) {
         
-        if ( self::$_bLoadedPageLoadInfo ) { 
-            return; 
+        if ( self::$_bLoadedPageLoadInfo ) {
+            return;
         }
-        self::$_bLoadedPageLoadInfo = true;     
+        self::$_bLoadedPageLoadInfo = true;
         
         $_nSeconds            = timer_stop( 0 );
         $_nQueryCount         = get_num_queries();
@@ -112,6 +112,7 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
                 case 'K':
                     $_nReturn *= 1024;
             }
+
             return $_nReturn;
             
         }
@@ -129,6 +130,7 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
             $_nLog = log( $nBytes, 1024 );
             $_iPower = ( int ) $_nLog;
             $_iSize = pow( 1024, $_nLog - $_iPower );
+
             return $_iSize . $_aUnits[ $_iPower ];
         }
 

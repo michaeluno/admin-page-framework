@@ -22,14 +22,14 @@ class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
         $this->setCapability( 'read' );
         
         /* ( required ) Set the root page */
-        $this->setRootMenuPageBySlug( 'APF_NetworkAdmin' );    
+        $this->setRootMenuPageBySlug( 'APF_NetworkAdmin' );
         
         /* ( required ) Add sub-menu items (pages or links) */
-        $this->addSubMenuItems(    
+        $this->addSubMenuItems(
             array(
                 'title'         => __( 'Manage Options', 'admin-page-framework-loader' ),
                 'page_slug'     => $this->sPageSlug,
-                'screen_icon'   => 'link-manager',    
+                'screen_icon'   => 'link-manager',
                 'order'         => 20, // ( optional )
             )
         );
@@ -41,14 +41,14 @@ class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
      * The pre-defined callback method that is triggered when the page loads.
      * 
      * @callback        action      load_{page slug}
-     */ 
+     */
     public function load_apf_manage_options( $oAdminPage ) {
    
         /* ( optional ) Determine the page style */
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
         $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs
         // $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
-    
+
         /* 
          * ( optional ) Enqueue styles  
          * $this->enqueueStyle(  'stylesheet url/path' , 'page slug (optional)', 'tab slug (optional)', 'custom argument array(optional)' );
@@ -65,7 +65,7 @@ class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
         new APF_Demo_ManageOptions_Property(
             $this,
             $this->sPageSlug,
-            'properties'        
+            'properties'
         );
         new APF_Demo_ManageOptions_Message(
             $this,
@@ -75,31 +75,31 @@ class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
         new APF_Demo_ManageOptions_Export(
             $this,
             $this->sPageSlug,
-            'export'        
+            'export'
         );
         new APF_Demo_ManageOptions_Import(
             $this,
             $this->sPageSlug,
-            'import'        
+            'import'
         );
         new APF_Demo_ManageOptions_Reset(
             $this,
             $this->sPageSlug,
-            'reset'        
+            'reset'
         );
         new APF_Demo_ManageOptions_ResetConfirm(
             $this,
             $this->sPageSlug,
-            'reset_confirm'                
+            'reset_confirm'
         );
         
     }
 
 }
 
-new APF_NetworkAdmin_ManageOptions( 
-    'APF_NetworkAdmin', 
+new APF_NetworkAdmin_ManageOptions(
+    'APF_NetworkAdmin',
     AdminPageFrameworkLoader_Registry::$sFilePath,               // the caller script path.
     'manage_options',           // the default capability
     'admin-page-framework-loader' // the text domain                    
-);    
+);

@@ -29,6 +29,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Fram
         if (is_scalar($asElement)) {
             return $asElement;
         }
+
         return is_array($asLabel) ? $this->getElement($asElement, $this->getAsArray($asKey, true), '') : $asElement;
     }
     protected function geFieldOutput(array $aFieldset) {
@@ -39,17 +40,20 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Fram
         $aFieldset['_parent_field_object'] = $aFieldset['_field_object'];
         $_oCallerForm = $aFieldset['_caller_object'];
         $_oFieldset = new AdminPageFramework_Form_View___Fieldset($aFieldset, $_oCallerForm->aSavedData, $_oCallerForm->getFieldErrors(), $_oCallerForm->aFieldTypeDefinitions, $_oCallerForm->oMsg, $_oCallerForm->aCallbacks);
+
         return $_oFieldset->get();
     }
     public function _replyToRegisterInputFieldType($aFieldDefinitions) {
         foreach ($this->aFieldTypeSlugs as $sFieldTypeSlug) {
             $aFieldDefinitions[$sFieldTypeSlug] = $this->getDefinitionArray($sFieldTypeSlug);
         }
+
         return $aFieldDefinitions;
     }
     public function getDefinitionArray($sFieldTypeSlug = '') {
         $_aDefaultKeys = $this->aDefaultKeys + self::$_aDefaultKeys;
         $_aDefaultKeys['attributes'] = isset($this->aDefaultKeys['attributes']) && is_array($this->aDefaultKeys['attributes']) ? $this->aDefaultKeys['attributes'] + self::$_aDefaultKeys['attributes'] : self::$_aDefaultKeys['attributes'];
+
         return array('sFieldTypeSlug' => $sFieldTypeSlug, 'aFieldTypeSlugs' => $this->aFieldTypeSlugs, 'hfRenderField' => array($this, "_replyToGetField"), 'hfGetScripts' => array($this, "_replyToGetScripts"), 'hfGetStyles' => array($this, "_replyToGetStyles"), 'hfGetIEStyles' => array($this, "_replyToGetInputIEStyles"), 'hfFieldLoader' => array($this, "_replyToFieldLoader"), 'hfFieldSetTypeSetter' => array($this, "_replyToFieldTypeSetter"), 'hfDoOnRegistration' => array($this, "_replyToDoOnFieldRegistration"), 'aEnqueueScripts' => $this->_replyToGetEnqueuingScripts(), 'aEnqueueStyles' => $this->_replyToGetEnqueuingStyles(), 'aDefaultKeys' => $_aDefaultKeys,);
     }
     public function _replyToGetField($aField) {
@@ -104,6 +108,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Fram
         if (isset($_GET['button_label'])) {
             return $_GET['button_label'];
         }
+
         return $this->oProp->sThickBoxButtonUseThis ? $this->oProp->sThickBoxButtonUseThis : $this->oMsg->get('use_this_image');
     }
     public function _replyToRemovingMediaLibraryTab($aTabs) {
@@ -113,6 +118,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Fram
         if (!$_REQUEST['enable_external_source']) {
             unset($aTabs['type_url']);
         }
+
         return $aTabs;
     }
 }
@@ -186,6 +192,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
     protected function getScripts() {
         $_aJSArray = json_encode($this->aFieldTypeSlugs);
         $_sDoubleQuote = '\"';
+
         return <<<JAVASCRIPTS
 registerAdminPageFrameworkColorPickerField = function( osTragetInput, aOptions ) {
     
@@ -278,6 +285,7 @@ JAVASCRIPTS;
     protected function getField($aField) {
         $aField['value'] = is_null($aField['value']) ? 'transparent' : $aField['value'];
         $aField['attributes'] = $this->_getInputAttributes($aField);
+
         return $aField['before_label'] . "<div class='admin-page-framework-input-label-container'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . ($aField['label'] && !$aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength($aField['label_min_width']) . ";'>" . $aField['label'] . "</span>" : "") . "<input " . $this->getAttributes($aField['attributes']) . " />" . $aField['after_input'] . "<div class='repeatable-field-buttons'></div>" . "</label>" . "<div class='colorpicker' id='color_{$aField['input_id']}'></div>" . $this->_getColorPickerEnablerScript("{$aField['input_id']}") . "</div>" . $aField['after_label'];
     }
     private function _getInputAttributes(array $aField) {
@@ -289,6 +297,7 @@ jQuery( document ).ready( function(){
     registerAdminPageFrameworkColorPickerField( '{$sInputID}' );
 });            
 JAVASCRIPTS;
+
         return "<script type='text/javascript' class='color-picker-enabler-script'>" . '/* <![CDATA[ */' . $_sScript . '/* ]]> */' . "</script>";
     }
 }

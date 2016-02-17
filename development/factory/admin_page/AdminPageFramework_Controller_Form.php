@@ -69,11 +69,11 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
      * @param       array           (optional) another section array.
      * @param       array           (optional) add more section array to the next parameters as many as necessary.
      * @return      void
-     */     
+     */
     public function addSettingSections( /* $aSection1, $aSection2=null, $_and_more=null */ ) {
         
-        foreach( func_get_args() as $asSection ) { 
-            $this->addSettingSection( $asSection ); 
+        foreach( func_get_args() as $asSection ) {
+            $this->addSettingSection( $asSection );
         }
         
         // reset the stored target tab slug and the target section tab slug
@@ -97,10 +97,11 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
                 
         if ( ! is_array( $asSection ) ) {
             $this->_sTargetPageSlug = is_string( $asSection )
-                ? $asSection 
+                ? $asSection
                 : $this->_sTargetPageSlug;
+
             return;
-        } 
+        }
         
         $aSection = $asSection;
         $this->_sTargetPageSlug         = $this->_getTargetPageSlug( $aSection );
@@ -108,20 +109,20 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
         $this->_sTargetSectionTabSlug   = $this->oUtil->getElement( $aSection, 'section_tab_slug', $this->_sTargetSectionTabSlug );
         
         // Pre-format - avoid undefined index warnings.
-        $aSection = $this->oUtil->uniteArrays( 
-            $aSection, 
-            array( 
-                'page_slug'         => $this->_sTargetPageSlug, 
-                'tab_slug'          => $this->_sTargetTabSlug, 
-                'section_tab_slug'  => $this->_sTargetSectionTabSlug, 
+        $aSection = $this->oUtil->uniteArrays(
+            $aSection,
+            array(
+                'page_slug'         => $this->_sTargetPageSlug,
+                'tab_slug'          => $this->_sTargetTabSlug,
+                'section_tab_slug'  => $this->_sTargetSectionTabSlug,
             )
-        ); 
+        );
         
         $aSection[ 'section_tab_slug' ]   = $this->oUtil->sanitizeSlug( $aSection[ 'section_tab_slug' ] );
         
         // A page slug is required.
         if ( ! $aSection[ 'page_slug' ] ) {
-            return; 
+            return;
         }
         $this->oForm->addSection( $aSection );
         
@@ -135,15 +136,16 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
          */
         private function _getTargetPageSlug( $aSection ) {
             
-            $_sTargetPageSlug = $this->oUtil->getElement( 
+            $_sTargetPageSlug = $this->oUtil->getElement(
                 $aSection,      // subject
                 'page_slug',    // key
                 $this->_sTargetPageSlug     // default
             );
          
             $_sTargetPageSlug = $_sTargetPageSlug
-                ? $this->oUtil->sanitizeSlug( $_sTargetPageSlug ) 
+                ? $this->oUtil->sanitizeSlug( $_sTargetPageSlug )
                 : $this->oProp->getCurrentPageSlugIfAdded();
+
             return $_sTargetPageSlug;
             
         }
@@ -156,7 +158,7 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
          * @since       3.7.2
          */
         private function _getTargetTabSlug( $aSection ) {
-            $_sTargetTabSlug = $this->oUtil->getElement( 
+            $_sTargetTabSlug = $this->oUtil->getElement(
                 $aSection,              // subject
                 'tab_slug',             // key
                 $this->_sTargetTabSlug  // default
@@ -164,8 +166,9 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
             $_sTargetTabSlug = $_sTargetTabSlug
                 ? $this->oUtil->sanitizeSlug( $aSection[ 'tab_slug' ] )
                 : $this->oProp->getCurrentInPageTabSlugIfAdded();
+
             return $_sTargetTabSlug;
-        }    
+        }
     
     /**
     * Removes the given section(s) by section ID.
@@ -185,11 +188,11 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
     * @param        string      $sSectionID2        (optional) another section ID to remove.
     * @param        string      $_and_more          (optional) add more section IDs to the next parameters as many as necessary.
     * @return       void
-    */    
-    public function removeSettingSections( /* $sSectionID1=null, $sSectionID2=null, $_and_more=null */ ) {    
+    */
+    public function removeSettingSections( /* $sSectionID1=null, $sSectionID2=null, $_and_more=null */ ) {
         foreach( func_get_args() as $_sSectionID ) {
             $this->oForm->removeSection( $_sSectionID );
-        }        
+        }
     }
     
     /**
@@ -243,10 +246,10 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
      * @access      public
      * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
      * @remark      The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
-     */     
-    public function addSettingFields( /* $aField1, $aField2=null, $_and_more=null */ ) {    
-        foreach( func_get_args() as $aField ) { 
-            $this->addSettingField( $aField ); 
+     */
+    public function addSettingFields( /* $aField1, $aField2=null, $_and_more=null */ ) {
+        foreach( func_get_args() as $aField ) {
+            $this->addSettingField( $aField );
         }
     }
     /**
@@ -259,10 +262,10 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
     * @access       public
     * @param        array|string    $asField        the field array or the target section ID. If the target section ID is set, the section_id key can be omitted from the next passing field array.
     * @return       void
-    */    
+    */
     public function addSettingField( $asField ) {
-        $this->oForm->addField( $asField );    
-    }    
+        $this->oForm->addField( $asField );
+    }
     
     /**
     * Removes the given field(s) by field ID.
@@ -281,12 +284,12 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
     * @param        string      $sFieldID2      (optional) another field ID to remove.
     * @param        string      $_and_more      (optional) add more field IDs to the next parameters as many as necessary.
     * @return void
-    */    
+    */
     public function removeSettingFields( $sFieldID1, $sFieldID2=null, $_and_more ) {
-        foreach( func_get_args() as $_sFieldID ) { 
-            $this->oForm->removeField( $_sFieldID ); 
+        foreach( func_get_args() as $_sFieldID ) {
+            $this->oForm->removeField( $_sFieldID );
         }
-    }    
+    }
             
     /**
      * Retrieves the specified field value stored in the options by field ID.
@@ -326,9 +329,10 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
             $_mDefault         = $_aDimensionalKeys[ 1 ];
             $_aDimensionalKeys = $_aDimensionalKeys[ 0 ];
         }
-        return AdminPageFramework_WPUtility::getOption( 
-            $this->oProp->sOptionKey, 
-            empty( $_aParams ) 
+
+        return AdminPageFramework_WPUtility::getOption(
+            $this->oProp->sOptionKey,
+            empty( $_aParams )
                 ? null                  // will return the entire options array
                 : $_aDimensionalKeys,   // dimensional keys
             $_mDefault, // default
@@ -358,7 +362,7 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
         if ( ! $sSectionID ) {
             if ( array_key_exists( $sFieldID, $_aOptions ) ) {
                 return $_aOptions[ $sFieldID ];
-            }    
+            }
             // loop through section elements
             foreach( $_aOptions as $aOptions ) {
                 if ( array_key_exists( $sFieldID, $aOptions ) ) {
@@ -371,6 +375,7 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
                 return $_aOptions[ $sSectionID ][ $sFieldID ];
             }
         }
+
         return null;
                     
     }

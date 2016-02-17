@@ -47,14 +47,14 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
 
             // When newly installed, the 'welcomed' value is not set.
             $_oOption = AdminPageFrameworkLoader_Option::getInstance();
-            if ( ! $_oOption->get( 'welcomed' ) ) {                
+            if ( ! $_oOption->get( 'welcomed' ) ) {
                 $this->_setInitialOptions( $_oOption, AdminPageFrameworkLoader_Registry::VERSION );
                 $this->_goToWelcomePage(); // will exit
             }
             if ( $_oOption->hasUpgraded() ) {
                 $this->_setInitialOptions( $_oOption, $_oOption->get( 'version_saved' ) );
                 $this->_goToWelcomePage(); // will exit
-            }            
+            }
             
         }
             /**
@@ -66,18 +66,18 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                 $oOption->set( 'welcomed', true );
                 $oOption->set( 'version_upgraded_from', $sVersionUpgradedFrom );
                 $oOption->set( 'version_saved', AdminPageFrameworkLoader_Registry::VERSION );
-                $oOption->save();                
+                $oOption->save();
                 
             }
             
-        private function _goToWelcomePage() {    
+        private function _goToWelcomePage() {
         
             $_sWelcomePageURL = apply_filters(
                 AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_admin_welcome_redirect_url',
-                add_query_arg( 
+                add_query_arg(
                     array( 'page' => AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ] ),
                     admin_url( 'index.php' )   // Dashboard
-                )                
+                )
             );
             
             $this->oUtil->goToLocalURL( $_sWelcomePageURL );
@@ -100,19 +100,19 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
         $this->sPageSlug  = AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ];
         
         // Root page
-        $this->setRootMenuPage( 
+        $this->setRootMenuPage(
             'Dashboard'     // menu slug
-        ); 
+        );
 
         // Sub-pages
-        $this->addSubMenuItems( 
+        $this->addSubMenuItems(
             array(
                 'title'         => AdminPageFrameworkLoader_Registry::SHORTNAME,
                 'page_slug'     => AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ],    // page slug
                 'show_in_menu'  => false,
                 'style'         => array(
-                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/about.css', 
-                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/column.css', 
+                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/about.css',
+                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/column.css',
                     AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/javascript/flip/jquery.m.flip.css',
                     version_compare( $GLOBALS[ 'wp_version' ], '3.8', '<' )
                         ? ".about-wrap .introduction h2 {
@@ -124,7 +124,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                             padding: 6px 16px 8px;
                             font-size: 1.2em;
                             font-weight: 400;
-                        }",     
+                        }",
                 ),
                 'script'        => array(
                     AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/javascript/flip/jquery.m.flip.js',
@@ -136,12 +136,12 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
         );
 
         $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
-        
+
         // Hook
         add_action( "load_" . $this->oProp->sClassName, array( $this, 'replyToLoadClassPages' ) );
         add_action( "load_" . AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ], array( $this, 'replyToLoadPage' ) );
 
-    }   
+    }
     
     /**
      * Set up page settings.
@@ -151,7 +151,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
         $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
         $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs     
         $this->setPageTitleVisibility( false ); // disable the page title of a specific page.
-    
+
     }
         
     /**
@@ -164,7 +164,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
     public function replyToLoadPage( $oFactory ) {
 
         $_sPageSlug = AdminPageFrameworkLoader_Registry::$aAdminPages[ 'about' ];
-        new AdminPageFrameworkLoader_AdminPageWelcome_Welcome( 
+        new AdminPageFrameworkLoader_AdminPageWelcome_Welcome(
             $this,              // factory object
             $_sPageSlug,        // page slug
             array(
@@ -174,8 +174,8 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
                     AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/admin.css',
                     AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
                 ),
-            )                
-        );        
+            )
+        );
 
         $this->_setPreferences( $oFactory );
         
@@ -191,7 +191,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
             
             add_filter( "content_top_{$this->sPageSlug}", array( $this, 'replyToFilterContentTop' ) );
                        
-        } 
+        }
                        
     /**
      * Filters the top part of the page content.
@@ -207,7 +207,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome extends AdminPageFramework {
         $_sBadgeURL     = esc_url( AdminPageFrameworkLoader_Registry::getPluginURL( 'asset/image/icon-128x128.png' ) );
         
         $_aOutput   = array();
-        $_aOutput[] = "<h1>" 
+        $_aOutput[] = "<h1>"
                 . sprintf( __( 'Welcome to %1$s', 'admin-page-framework-loader' ), $_sPluginName )
             . "</h1>";
         $_aOutput[] = "<div class='about-text'>"

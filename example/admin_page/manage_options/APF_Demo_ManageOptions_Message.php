@@ -25,20 +25,20 @@ class APF_Demo_ManageOptions_Message {
 
     /**
      * Sets uo properties, hooks, and in-page tabs.
-     */    
+     */
     public function __construct( $oFactory, $sPageSlug ) {
     
         $this->_oFactory     = $oFactory;
         $this->_sClassName   = $oFactory->oProp->sClassName;
-        $this->_sPageSlug    = $sPageSlug; 
+        $this->_sPageSlug    = $sPageSlug;
         
-        $this->_oFactory->addInPageTabs(    
+        $this->_oFactory->addInPageTabs(
             $this->_sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Messages', 'admin-page-framework-loader' ),
             )
-        );  
+        );
         
         // load + page slug + tab slug
         add_action( 'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug, array( $this, 'replyToLoadTab' ) );
@@ -68,10 +68,10 @@ class APF_Demo_ManageOptions_Message {
         <h4><?php _e( 'Modify a Message', 'admin-page-framework-loader' ); ?></h4>
         <pre class="dump-array"><code>$this-&gt;setMessage( 'option_updated', 'This is a modified message.' );</code></pre>
         <?php 
-            $this->_oFactory->setMessage( 
-                'option_updated', 
-                __( 'This is a modified message', 'admin-page-framework-loader' ) 
-            ); 
+            $this->_oFactory->setMessage(
+                'option_updated',
+                __( 'This is a modified message', 'admin-page-framework-loader' )
+            );
         ?>
         
         <h4><?php _e( 'List All the Messages', 'admin-page-framework-loader' ); ?></h4>

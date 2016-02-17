@@ -26,13 +26,13 @@ class AdminPageFramework_Form_View___Script_SectionTab extends AdminPageFramewor
      * @since       3.3.0       Changed the name from `getjQueryPlugin()`.
      * @param       $oMsg       object      The message object.
      * @return      string      The inline JavaScript script.
-     */        
+     */
     static public function getScript( /* $oMsg */ ) {
         
         // Uncomment these lines when parameters need to be accessed.
         // $_aParams   = func_get_args() + array( null );
         // $_oMsg      = $_aParams[ 0 ];            
-        
+
         return <<<JAVASCRIPTS
 ( function( $ ) {
         
@@ -129,8 +129,8 @@ JAVASCRIPTS;
      */
     static public function getEnabler() {
         
-        if ( self::$_bLoadedTabEnablerScript ) { 
-            return ''; 
+        if ( self::$_bLoadedTabEnablerScript ) {
+            return '';
         }
         self::$_bLoadedTabEnablerScript = true;
         
@@ -142,12 +142,13 @@ jQuery( document ).ready( function() {
 jQuery( '.admin-page-framework-section-tabs-contents' ).createTabs(); 
 });            
 JAVASCRIPTS;
+
         return "<script type='text/javascript' class='admin-page-framework-section-tabs-script'>"
             . '/* <![CDATA[ */'
             . $_sScript
             . '/* ]]> */'
         . "</script>";
         
-    }     
+    }
     
 }

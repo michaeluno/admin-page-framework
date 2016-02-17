@@ -19,15 +19,15 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
      */
     protected function construct( $oFactory ) {
         
-        add_action( 
-            "export_{$oFactory->oProp->sClassName}_{$this->sSectionID}_download", 
-            array( $this, 'replyToDownloadMinifiedVersion' ), 
-            10, 
-            4 
+        add_action(
+            "export_{$oFactory->oProp->sClassName}_{$this->sSectionID}_download",
+            array( $this, 'replyToDownloadMinifiedVersion' ),
+            10,
+            4
         );
-        add_action( 
-            'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug, 
-            array( $this, 'replyToFilterFileName' ), 10, 5 
+        add_action(
+            'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug,
+            array( $this, 'replyToFilterFileName' ), 10, 5
         );
         
     }
@@ -36,7 +36,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
         
         $oFactory->addSettingFields(
             $sSectionID, // the target section id
-            array( 
+            array(
                 'field_id'          => 'class_prefix',
                 'title'             => __( 'Class Prefix', 'admin-page-framework-loader' ),
                 'type'              => 'text',
@@ -49,7 +49,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
                     'placeholder'   => __( 'Type a prefix.', 'admin-page-framework-loader' ),
                 ),
             ),
-            array( 
+            array(
                 'field_id'          => 'minified_script_name',
                 'title'             => __( 'File Name', 'admin-page-framework-loader' ),
                 'type'              => 'text',
@@ -61,8 +61,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
                     // 'required' => 'required',
                     'placeholder'   => __( 'Type a prefix.', 'admin-page-framework-loader' ),
                 ),
-            ),            
-            array( 
+            ),
+            array(
                 'field_id'          => 'download',
                 'title'             => __( 'Download', 'admin-page-framework-loader' ),
                 'type'              => 'export',
@@ -71,8 +71,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
                 'file_name'         => 'admin-page-framework.min.php',  // the default file name. This will be modified by the filter.
                 'format'            => 'text',  // 'json', 'text', 'array'      
                 'description'       => __( 'Download the minified version.', 'admin-page-framework-loader' ),
-            ) 
-        );          
+            )
+        );
         
     }
 
@@ -88,9 +88,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
         $_aErrors   = array();
         
         // Sanitize the file name.
-        $aInput[ 'minified_script_name' ] = $oAdminPage->oUtil->sanitizeFileName( 
-            $aInput[ 'minified_script_name' ], 
-            '-' 
+        $aInput[ 'minified_script_name' ] = $oAdminPage->oUtil->sanitizeFileName(
+            $aInput[ 'minified_script_name' ],
+            '-'
         );
         
         // the class prefix must not contain white spaces and some other characters not supported in PHP class names.
@@ -110,16 +110,16 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
         if ( ! $_bVerified ) {
 
             /* 4-1. Set the error array for the input fields. */
-            $oAdminPage->setFieldErrors( $_aErrors );     
+            $oAdminPage->setFieldErrors( $_aErrors );
             $oAdminPage->setSettingNotice( __( 'There was something wrong with your input.', 'admin-page-framework-loader' ) );
 
             return $aOldInput;
             
         }
                 
-        return $aInput;     
+        return $aInput;
         
-    }    
+    }
     
     /**
      * Lets the user download the minified version of Admin Page Framework.
@@ -132,6 +132,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
         if ( file_exists( $_sMinifiedVersionPath ) ) {
             return $this->_modifyClassNames( file_get_contents( $_sMinifiedVersionPath ) );
         }
+
         return $aSavedData;
         
     }
@@ -144,9 +145,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
 
             $_sPrefix = isset( $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'class_prefix' ] ) && $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'class_prefix' ]
                 ? $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'class_prefix' ]
-                : '';             
+                : '';
             
-            return str_replace( 
+            return str_replace(
                 'AdminPageFramework',         // search 
                 $_sPrefix . 'AdminPageFramework',         // replace
                 $sCode // subject
@@ -168,15 +169,15 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Minifier_Minifier extends AdminPag
      * )      
      * </code>
      */
-    public function replyToFilterFileName( $sFileName, $sFieldID, $sInputID, $vExportingData, $oAdminPage ) { 
+    public function replyToFilterFileName( $sFileName, $sFieldID, $sInputID, $vExportingData, $oAdminPage ) {
 
-        return isset( 
-                $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ] 
-            ) 
+        return isset(
+                $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ]
+            )
             && $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ]
                 ? $_POST[ $this->oFactory->oProp->sOptionKey ][ $this->sSectionID ][ 'minified_script_name' ]
-                : $sFileName;      
+                : $sFileName;
 
-    }       
+    }
     
 }

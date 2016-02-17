@@ -23,6 +23,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
         if (is_array($asContent) && !$this->isAssociative($asContent)) {
             return true;
         }
+
         return false;
     }
     public function get() {
@@ -30,6 +31,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
             return '';
         }
         $_sHref = esc_attr("#{$this->sTitleElementID}");
+
         return '' . "<a href='{$_sHref}' class='admin-page-framework-form-tooltip'>" . $this->_getTipLinkIcon() . "<span class='admin-page-framework-form-tooltip-content'>" . $this->_getTipTitle() . $this->_getDescriptions() . "</a>";
     }
     private function _getTipLinkIcon() {
@@ -39,18 +41,21 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
         if (version_compare($GLOBALS['wp_version'], '3.8', '>=')) {
             return "<span class='dashicons dashicons-editor-help'></span>";
         }
+
         return '[?]';
     }
     private function _getTipTitle() {
         if (isset($this->aArguments['title'])) {
             return "<span class='admin-page-framework-form-tool-tip-title'>" . $this->aArguments['title'] . "</span>";
         }
+
         return '';
     }
     private function _getDescriptions() {
         if (isset($this->aArguments['content'])) {
             return "<span class='admin-page-framework-form-tool-tip-description'>" . implode("</span><span class='admin-page-framework-form-tool-tip-description'>", $this->getAsArray($this->aArguments['content'])) . "</span>";
         }
+
         return '';
     }
 }

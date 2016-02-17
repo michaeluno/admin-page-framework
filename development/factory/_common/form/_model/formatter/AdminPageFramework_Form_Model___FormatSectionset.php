@@ -26,12 +26,12 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
      * @var         array       Represents the array structure of form section.
      * @static
      * @remark      accessed from the `AdminPageFramework_FormDefinition` class as well.
-     */     
-    static public $aStructure = array(    
+     */
+    static public $aStructure = array(
         
         // Required
         'section_id'        => '_default', // 3.0.0+
-        
+
         // Optional
         'page_slug'         => null,
         'tab_slug'          => null,
@@ -39,7 +39,7 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
         'title'             => null,
         'description'       => null,
         'capability'        => null,
-        'if'                => true,    
+        'if'                => true,
         'order'             => null,    // do not set the default number here because incremented numbers will be added when registering the sections.
         'help'              => null,
         'help_aside'        => null,
@@ -56,25 +56,25 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
         'hidden'            => false,    // 3.3.1+
         'collapsible'       => false,    // 3.4.0+ (boolean|array) For the array structure see the $aStructure_CollapsibleArguments property.
         'save'              => true,     // 3.6.0+
-        
+
         'content'           => null,     // 3.6.1+  (string) An overriding section-set output.
-        
+
         'tip'               => null,     // 3.7.0  (string) Tool tip HTML strings. 
-        
+
         // Internal
         '_fields_type'      => null,     // @deprecated 3.7.0+ Use the `_structure_type` instead. 3.0.0+ - same as the one of the field definition array. Used to insert debug info at the bottom of sections.        
         '_structure_type'   => null,     // 3.7.0+
         '_is_first_index'   => false,    // 3.4.0+ (boolean) indicates whether it is the first item of the sub-sections (for repeatable sections).
         '_is_last_index'    => false,    // 3.4.0+ (boolean) indicates whether it is the last item of the sub-sections (for repeatable sections).
-        
+
         '_section_path'         => '',       // 3.7.0+ (string) e.g. my_section|nested_section       
         '_section_path_array'   => '',       // 3.7.0+ (array) an array version of the above section_path argument. Numerically indexed.
         '_nested_depth'         => 0,        // 3.7.0+ (integer) the nested level of the section
-        
+
         // 3.6.0+ - (object) the caller framework factory object. This allows the framework to access the factory property when rendering the section.
         // 3.7.0+  It no longer stores a factory object but a form object.
-        '_caller_object'    => null,     
-    );        
+        '_caller_object'    => null,
+    );
     
     /**
      * Stores the section definition.
@@ -96,11 +96,11 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
      */
     public function __construct( /* array $aSectionset, $sSectionPath, $sStructureType, $sCapability, $iCountOfElements, $oCaller */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aSectionset, 
-            $this->sSectionPath, 
-            $this->sStructureType, 
-            $this->sCapability, 
+        $_aParameters = func_get_args() + array(
+            $this->aSectionset,
+            $this->sSectionPath,
+            $this->sStructureType,
+            $this->sCapability,
             $this->iCountOfElements,
             $this->oCaller,
         );
@@ -123,13 +123,13 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
         // Fill missing argument keys - the `uniteArrays()` method overrides `null` values.
         $_aSectionPath = explode( '|', $this->sSectionPath );
         $_aSectionset  = $this->uniteArrays(
-            array( 
+            array(
                 '_fields_type'          => $this->sStructureType,   // @deprecated  3.7.0+
                 '_structure_type'       => $this->sStructureType,   // 3.7.0+
                 '_section_path'         => $this->sSectionPath,     // 3.7.0+
                 '_section_path_array'   => $_aSectionPath,
                 '_nested_depth'         => count( $_aSectionPath ) - 1,    // 3.7.0+ - zero base
-            ) 
+            )
             + $this->aSectionset
             + array(
                 'capability'    => $this->sCapability,

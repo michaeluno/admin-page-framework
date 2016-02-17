@@ -25,12 +25,12 @@ class APF_Demo extends AdminPageFramework {
                 
         /**
          * ( optional ) Pointer tool boxes
-         */            
+         */
         new AdminPageFramework_PointerToolTip(
-            array( 
+            array(
                 // screen ids
-                'plugins', 
-                'index.php', 
+                'plugins',
+                'index.php',
                 'admin.php',
                 'edit.php?post_type=apf_posts',
                 
@@ -39,21 +39,21 @@ class APF_Demo extends AdminPageFramework {
                 'apfl_contact',
                 'apf_first_page',
                 'apf_second_page',
-                'apfl_tools',   
-            ),     
+                'apfl_tools',
+            ),
             'apf_demo_pointer_tool_box', // unique id for the pointer tool box
             array(    // pointer data
                 'target'    => array(
                     '#menu-posts-apf_posts > a',
                     // '#button-deactivate-demo', // multiple targets can be set with an array
-                ), 
+                ),
                 'options'   => array(
                     'content' => sprintf( '<h3> %1$s </h3> <p> %2$s </p>',
                         __( 'Admin Page Framework Demo' ,'admin-page-framework-loader '),
                         __( 'Check out the functionality of Admin Page Framework.','admin-page-framework-loader' )
                     ),
-                    'position'  => array( 'edge' => 'left', 'align' => 'middle' )
-                )
+                    'position'  => array( 'edge' => 'left', 'align' => 'middle' ),
+                ),
             )
         );
         
@@ -67,7 +67,7 @@ class APF_Demo extends AdminPageFramework {
      * @callback    action      wp_loaded
      * @return      void
      */
-    public function setUp() { 
+    public function setUp() {
 
         // (optional) this can be set via the constructor. For available values, see https://codex.wordpress.org/Roles_and_Capabilities.
         $this->setCapability( 'read' );
@@ -90,7 +90,7 @@ class APF_Demo extends AdminPageFramework {
         */
        
         // Disable the action link in the plugin listing table.
-        $this->setPluginSettingsLinkLabel( '' );    
+        $this->setPluginSettingsLinkLabel( '' );
         
         // Add pages - below classes do not extend the framework factory class but uses the framework hooks to add pages.
         new APF_Demo_BuiltinFieldType;
@@ -108,7 +108,7 @@ class APF_Demo extends AdminPageFramework {
                 'title' => __( 'Documentation', 'admin-page-framework-loader' ),
                 'order' => 60,
             )
-        );       
+        );
         
     }
     
@@ -123,10 +123,10 @@ class APF_Demo extends AdminPageFramework {
     public function load() {
         
         // Disable the page heading tabs by passing false.
-        $this->setPageHeadingTabsVisibility( false ); 
+        $this->setPageHeadingTabsVisibility( false );
         
         // Set the tag used for in-page tabs. 
-        $this->setInPageTabTag( 'h2' );     
+        $this->setInPageTabTag( 'h2' );
                 
     }
           
@@ -135,7 +135,7 @@ class APF_Demo extends AdminPageFramework {
      * 
      * @callback        action      do_{page slug}
      * */
-    public function do_apf_builtin_field_types() { 
+    public function do_apf_builtin_field_types() {
     
         if ( isset( $_GET[ 'tab' ] ) && 'system' === $_GET[ 'tab' ] ) {
             return;
@@ -153,8 +153,8 @@ class APF_Demo extends AdminPageFramework {
         return "<span>" . sprintf(
                     __( 'Custom text inserted with the <code>%1$s</code> filter.', 'admin-page-framework-loader' ),
                     'footer_left_{class name}'
-                ) 
-            . "</span><br />" 
+                )
+            . "</span><br />"
             . $sHTML;
     }
     /**
@@ -166,10 +166,10 @@ class APF_Demo extends AdminPageFramework {
         return "<span>" . sprintf(
                     __( 'Inserted with the <code>%1$s</code> filter.', 'admin-page-framework-loader' ),
                     'footer_right_{class name}'
-                ) 
-            . "</span><br />" 
+                )
+            . "</span><br />"
             . $sHTML;
-    }    
+    }
     
     /**
      * Modifies the left footer text.
@@ -180,8 +180,8 @@ class APF_Demo extends AdminPageFramework {
         return "<span>" . sprintf(
                     __( 'inserted with the <code>%1$s</code> filter.', 'admin-page-framework-loader' ),
                     'footer_left_{page slug}'
-                ) 
-            . "</span><br />" 
+                )
+            . "</span><br />"
             . $sHTML;
     }
     /**
@@ -193,15 +193,15 @@ class APF_Demo extends AdminPageFramework {
         return "<span>" . sprintf(
                     __( 'Inserted with the <code>%1$s</code> filter.', 'admin-page-framework-loader' ),
                     'footer_right_{page slug}'
-                ) 
-            . "</span><br />" 
+                )
+            . "</span><br />"
             . $sHTML;
     }
         
 }
 
 // Add pages and forms in the custom post type root page
-new APF_Demo( 
+new APF_Demo(
     null,                       // the option key - when null is passed the class name in this case 'APF_Demo' will be used
     AdminPageFrameworkLoader_Registry::$sFilePath,               // the caller script path.
     'manage_options',           // the default capability

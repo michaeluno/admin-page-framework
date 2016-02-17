@@ -29,7 +29,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
                 array( $this, '_replyToRegisterFormItems' ),
                 100 // priority - low value is set as meta boxes use the `current_screen` action hook for `setUp()`.
             );
-        } else {                
+        } else {
             add_action(
                 $this->aArguments[ 'action_hook_form_registration' ],
                 array( $this, '_replyToRegisterFormItems' )
@@ -47,14 +47,14 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
                 
         // Extracts the form data from the subject data for parsing
         $_aSubmittedFormData    = $bExtractFromFieldStructure
-            ? $this->castArrayContents( 
+            ? $this->castArrayContents(
                 $this->getDataStructureFromAddedFieldsets(), // form data (options) structure
                 $aDataToParse   // the subject data array, usually $_POST.
             )
             : $aDataToParse;
 
         // 3.6.0 - sorts dynamic eleemnts.        
-        $_aSubmittedFormData    = $this->getSortedInputs( $_aSubmittedFormData ); 
+        $_aSubmittedFormData    = $this->getSortedInputs( $_aSubmittedFormData );
         
         return $bStripSlashes
             ? stripslashes_deep( $_aSubmittedFormData ) // fixes magic quotes
@@ -77,12 +77,12 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         
         $_aDynamicFieldAddressKeys = array_unique(
             array_merge(
-                $this->getElementAsArray( 
+                $this->getElementAsArray(
                     $_POST,
                     '__repeatable_elements_' . $this->aArguments[ 'structure_type' ],
                     array()
                 ),
-                $this->getElementAsArray( 
+                $this->getElementAsArray(
                     $_POST,
                     '__sortable_elements_' . $this->aArguments[ 'structure_type' ],
                     array()
@@ -94,13 +94,14 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             return $aFormInputs;
         }
 
-        $_oInputSorter = new AdminPageFramework_Form_Model___Modifier_SortInput( 
-            $aFormInputs, 
+        $_oInputSorter = new AdminPageFramework_Form_Model___Modifier_SortInput(
+            $aFormInputs,
             $_aDynamicFieldAddressKeys
         );
+
         return $_oInputSorter->get();
         
-    }    
+    }
     
     /**
      * Returns a fields model array that represents the structure of the array of saving data from the given fields definition array.
@@ -152,7 +153,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         $_aFormDataStructure  = array();
         foreach ( $this->getAsArray( $this->aFieldsets ) as $_sSectionID => $_aFieldsets ) {
 
-            if ( $_sSectionID != '_default' ) {                
+            if ( $_sSectionID != '_default' ) {
                 $_aFormDataStructure[ $_sSectionID ] = $_aFieldsets;
                 continue;
             }
@@ -163,9 +164,10 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             }
 
         }
+
         return $_aFormDataStructure;
         
-    }    
+    }
     
     /**
      * Drops repeatable section and field elements from the given array.
@@ -185,16 +187,17 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * @param       array       $aSubject       The subject array to modify. Usually the saved option data.
      * @return      array       The modified options array.
      */
-    public function dropRepeatableElements( array $aSubject ) {        
-        $_oFilterRepeatableElements = new AdminPageFramework_Form_Model___Modifier_FilterRepeatableElements( 
+    public function dropRepeatableElements( array $aSubject ) {
+        $_oFilterRepeatableElements = new AdminPageFramework_Form_Model___Modifier_FilterRepeatableElements(
             $aSubject,
             $this->getElementAsArray(
                 $_POST,
                 '__repeatable_elements_' . $this->aArguments[ 'structure_type' ]
             )
         );
+
         return $_oFilterRepeatableElements->get();
-    }        
+    }
         
     /**
      * @callback    action      variant - 'current_screen' by default but it depends on the factory class.
@@ -210,7 +213,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         // Load field type definitions.
         $this->_setFieldTypeDefinitions( 'admin_page_framework' );      // site-wide
         $this->_setFieldTypeDefinitions( $this->aArguments[ 'caller_id' ] );  // per class 
-        
+
         // Set the options array
         $this->aSavedData = $this->_getSavedData(
             // Merge with the set property and the generated default valus. 
@@ -231,7 +234,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         // if ( empty( $this->aFieldsets ) ) {            
             // return;
         // } 
-        
+
         // Set field resources (assets) such as javascripts and stylesheets.
         $_oFieldResources = new AdminPageFramework_Form_Model___SetFieldResources(
             $this->aArguments,
@@ -259,9 +262,9 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
                 $this->aSectionsets,    // 3rd parameter
                 $this->aFieldsets,      // 4th parameter
             )
-        );        
+        );
 
-    }    
+    }
         /**
          * Triggers callbacks before setting resources.
          */
@@ -316,11 +319,11 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             // Set the class specific field type definitions.
             // Instantiated custom field type classes will trigger their registration method with this callback.
             $this->aFieldTypeDefinitions = apply_filters(
-                "field_types_{$_sCallerID}", 
+                "field_types_{$_sCallerID}",
                 self::$_aFieldTypeDefinitions[ 'admin_page_framework' ]
-            );                
+            );
 
-        }        
+        }
         
             /**
              * Sets Side-wide field type definitions. 
@@ -338,7 +341,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             
                 $_oBuiltInFieldTypeDefinitions = new AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions(
                     'admin_page_framework',
-                    $this->oMsg                 
+                    $this->oMsg
                 );
             
                 /**
@@ -346,11 +349,11 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
                  * The gathered site-wide definitions will be merged with each per-class definitions.
                  */
                 self::$_aFieldTypeDefinitions[ 'admin_page_framework' ] = apply_filters(
-                    'field_types_admin_page_framework',  
+                    'field_types_admin_page_framework',
                     $_oBuiltInFieldTypeDefinitions->get()
                 );
 
-            }     
+            }
             
         /**
          * @return      array
@@ -362,7 +365,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             // such as `select` field type with multiple options.
             $_aSavedData = $this->getAsArray(
                     $this->callBack(
-                        $this->aCallbacks[ 'saved_data' ], 
+                        $this->aCallbacks[ 'saved_data' ],
                         array(
                             $aDefaultValues, // default value
                         )
@@ -372,7 +375,8 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             
             $_aLastInputs = $this->getElement( $_GET, 'field_errors' ) || isset( $_GET[ 'confirmation' ] )
                 ? $this->oLastInputs->get()
-                : array();                    
+                : array();
+
             return $_aLastInputs + $_aSavedData;
             
         }
@@ -392,6 +396,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         $_oDefaultValues = new AdminPageFramework_Form_Model___DefaultValues(
             $this->aFieldsets
         );
+
         return $_oDefaultValues->get();
     }
             
@@ -407,13 +412,13 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
     protected function _formatElementDefinitions( array $aSavedData ) {
                 
         $_oSectionsetsFormatter = new AdminPageFramework_Form_Model___FormatSectionsets(
-            $this->aSectionsets, 
-            $this->aArguments[ 'structure_type' ], 
+            $this->aSectionsets,
+            $this->aArguments[ 'structure_type' ],
             $this->sCapability,
             $this->aCallbacks,
             $this   // caller form object - set to the element definition array
         );
-        $this->aSectionsets = $_oSectionsetsFormatter->get();    
+        $this->aSectionsets = $_oSectionsetsFormatter->get();
 
         // This must be done after the section-sets are formatted.
         $_oFieldsetsFormatter = new AdminPageFramework_Form_Model___FormatFieldsets(
@@ -444,8 +449,9 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
     public function getFieldErrors() {
         $_aErrors = $this->oFieldError->get();
         $this->oFieldError->delete();
+
         return $_aErrors;
-    }   
+    }
   
     /**
      * Saves user last input in the database as a transient.
@@ -461,6 +467,6 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      */
     public function setLastInputs( array $aLastInputs ) {
         $this->oLastInputs->set( $aLastInputs );
-    }  
+    }
   
 }

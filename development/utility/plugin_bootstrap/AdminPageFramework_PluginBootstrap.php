@@ -89,21 +89,22 @@ abstract class AdminPageFramework_PluginBootstrap {
         $this->construct();
         
         
-    }    
+    }
         
         /* 
          * Do not allow multiple instances of the extended class per page load. 
          * 
          * @remark      It does not use a static property but a static local variable so that it takes effect in each extended class.
          * @since       3.5.0
-         */        
+         */
         protected function _hasLoaded() {
             
             static $_bLoaded = false;
-            if ( $_bLoaded ) { 
-                return true; 
+            if ( $_bLoaded ) {
+                return true;
             }
-            $_bLoaded = true;            
+            $_bLoaded = true;
+
             return false;
             
         }
@@ -118,10 +119,10 @@ abstract class AdminPageFramework_PluginBootstrap {
             // This class should be used in the framework bootstrap so disabling the auto-load option for performance.
             if ( ! class_exists( 'AdminPageFramework_RegisterClasses', false ) ) {
                 return;
-            }              
+            }
             
             // Register classes
-            new AdminPageFramework_RegisterClasses( 
+            new AdminPageFramework_RegisterClasses(
                 $this->getScanningDirs(),   // scanning directory paths
                 array(),                    // autoloader options
                 $this->getClasses()         // pre-generated class list
@@ -148,7 +149,7 @@ abstract class AdminPageFramework_PluginBootstrap {
                 do_action( "{$this->sHookPrefix}_action_after_loading_plugin" );
             }
             
-        }        
+        }
         
     /*
      * Shared Methods. Users override these methods in the extended class.
@@ -176,7 +177,7 @@ abstract class AdminPageFramework_PluginBootstrap {
         
         // Example
         // include( dirname( $this->sFilePath ) . '/include/class-list.php' );
-        
+
         return $_aClasses;
     }
     
@@ -187,12 +188,13 @@ abstract class AdminPageFramework_PluginBootstrap {
      */
     public function getScanningDirs() {
         $_aDirs = array();
+
         return $_aDirs;
     }
     
     /**
      * The plugin activation callback method.
-     */    
+     */
     public function replyToPluginActivation() {}
 
     /**
@@ -207,7 +209,7 @@ abstract class AdminPageFramework_PluginBootstrap {
      *
      * @since       3.5.0
      */
-    public function setLocalization() {}        
+    public function setLocalization() {}
     
     /**
      * Loads plugin components.

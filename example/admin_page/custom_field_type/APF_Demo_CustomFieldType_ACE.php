@@ -28,16 +28,16 @@ class APF_Demo_CustomFieldType_ACE {
     
         $this->oFactory     = $oFactory;
         $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug; 
+        $this->sPageSlug    = $sPageSlug;
         $this->sSectionID   = $this->sTabSlug;
                
-        $this->oFactory->addInPageTabs(    
+        $this->oFactory->addInPageTabs(
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'ACE', 'admin-page-framework-loader' ),
             )
-        );  
+        );
         
         // load + page slug + tab slug
         add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
@@ -57,60 +57,60 @@ class APF_Demo_CustomFieldType_ACE {
         add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
         
         // Section
-        $oAdminPage->addSettingSections(    
+        $oAdminPage->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'ACE Code Editors', 'admin-page-framework-loader' ),
-                'description'   => array( 
-                    sprintf( 
+                'description'   => array(
+                    sprintf(
                         __( 'This field type uses the external script located at %1$s.', 'admin-page-framework-loader' ),
                         ( is_ssl() ? 'https:' : 'http:' ) . '//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js'
                     ),
-                    sprintf( 
-                        __( 'For more information about this field type, see <a href="%1$s" target="_blank">this page</a>', 'addmin-page-framework-demo' ), 
+                    sprintf(
+                        __( 'For more information about this field type, see <a href="%1$s" target="_blank">this page</a>', 'addmin-page-framework-demo' ),
                         'https://github.com/soderlind/AceCustomFieldType'
-                    )                    
+                    ),
                 ),
             )
-        );        
+        );
         
         // Fields
         $oAdminPage->addSettingFields(
             $this->sSectionID, // the target section id
             array(
                 'field_id'      => 'ace_css',
-                'type'          => 'ace',     
+                'type'          => 'ace',
                 'title'         => __( 'CSS', 'admin-page-framework-loader' ),
                 'default'       => '.abc { color: #fff; }',
                 'attributes'    =>  array(
                     'cols'        => 60,
                     'rows'        => 4,
-                ),                
+                ),
                 'options'   => array(
                     'language'              => 'css',
                     'theme'                 => 'chrome',
                     'gutter'                => false,
                     'readonly'              => false,
                     'fontsize'              => 12,
-                ),                
+                ),
             ),
             array(
                 'field_id'      => 'ace_php',
-                'type'          => 'ace',     
+                'type'          => 'ace',
                 'title'         => __( 'PHP', 'admin-page-framework-loader' ),
                 'default'       => 'echo "hello world!";',
                 'attributes'    =>  array(
                     'cols'        => 60,
                     'rows'        => 4,
-                ),                
+                ),
                 'options'   => array(
                     'language'              => 'php',
-                ),           
+                ),
                 'repeatable'    => true,
             )
-        );             
+        );
         
     }
     
@@ -118,12 +118,12 @@ class APF_Demo_CustomFieldType_ACE {
          * Registers the field types.
          */
         private function registerFieldTypes( $sClassName ) {
-            new AceCustomFieldType( $sClassName );                             
+            new AceCustomFieldType( $sClassName );
             
-        }    
+        }
             
     
-    public function replyToDoTab() {        
+    public function replyToDoTab() {
         submit_button();
     }
     

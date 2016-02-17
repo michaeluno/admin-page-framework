@@ -42,6 +42,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
         if (!$_bShowAddNew || 10 == $_nSubMenuOrderAddNew) {
             unset($_aLinkSlugs['post-new.php?post_type=' . $this->oFactory->oProp->sPostType]);
         }
+
         return $_aLinkSlugs;
     }
     private function _setSubMenuIndexByLinksSlugs($sSubMenuSlug, array $aLinkSlugs) {
@@ -64,6 +65,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
         unset($GLOBALS['submenu'][$sSubMenuSlug][$nIndex]);
         $_nNewIndex = $this->getUnusedNumericIndex($this->getElementAsArray($GLOBALS, array('submenu', $sSubMenuSlug)), $nOrder);
         $GLOBALS['submenu'][$sSubMenuSlug][$_nNewIndex] = $aSubMenuItem;
+
         return true;
     }
 }

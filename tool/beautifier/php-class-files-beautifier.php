@@ -19,12 +19,12 @@ $sHeaderClassPath            = $sTargetDir . '/cli/AdminPageFramework_Beautified
 /* If accessed from a browser, exit. */
 $bIsCLI                      = php_sapi_name() == 'cli';
 $sCarriageReturn             = $bIsCLI ? PHP_EOL : '<br />';
-if ( ! $bIsCLI ) { 
-    exit; 
+if ( ! $bIsCLI ) {
+    exit;
 }
 
 /* Include necessary files */
-require( dirname( __FILE__ ) . '/class/PHP_Class_Files_Beautifier.php' );
+require dirname( __FILE__ ) . '/class/PHP_Class_Files_Beautifier.php';
 
 /* Check the permission to write. */
 if (  ! is_writable( dirname( $sDestinationDirectoryPath ) ) ) {
@@ -33,19 +33,19 @@ if (  ! is_writable( dirname( $sDestinationDirectoryPath ) ) ) {
 
 /* Create a beautified version of the framework. */
 echo 'Started...' . $sCarriageReturn;
-new PHP_Class_Files_Beautifier( 
-    $sTargetDir, 
-    $sDestinationDirectoryPath, 
+new PHP_Class_Files_Beautifier(
+    $sTargetDir,
+    $sDestinationDirectoryPath,
     array(
     
         'header_class_name'    => $sHeaderClassName,
         'header_class_path'    => $sHeaderClassPath,
         'output_buffer'        => true,
-        'header_type'          => 'CONSTANTS',    
+        'header_type'          => 'CONSTANTS',
         'exclude_classes'      => array(),
         
         'css_heredoc_keys'     => array( 'CSSRULES' ),
-        'js_heredoc_keys'   => array( 'JAVASCRIPTS' ),  
+        'js_heredoc_keys'   => array( 'JAVASCRIPTS' ),
         
         'search'               => array(
             'allowed_extensions'    => array( 'php' ),    // e.g. array( 'php', 'inc' )
@@ -54,12 +54,12 @@ new PHP_Class_Files_Beautifier(
             'exclude_file_names'    => array(
                 'AdminPageFramework_InclusionClassFilesHeader.php',
                 'AdminPageFramework_MinifiedVersionHeader.php',
-                'AdminPageFramework_BeautifiedVersionHeader.php',            
+                'AdminPageFramework_BeautifiedVersionHeader.php',
             ),
             'is_recursive'            => true,
-        ),                
+        ),
         'combine'              => array(
-            'exclude_classes' => array( 
+            'exclude_classes' => array(
                 'AdminPageFramework_Form_Meta',
                 'AdminPageFramework_MetaBox_Page',
             ),
@@ -68,13 +68,13 @@ new PHP_Class_Files_Beautifier(
 );
 
 // Copy the license text.
-@copy( 
+@copy(
     $sLicenseSourceFilePath,  // source
     $sDestinationDirectoryPath . '/' . $sLicenseFileName     // destination
 );
 
 // Generate a inclusion class list.
-include( 'create-list-admin-page-framework-beautified-version.php' );
+include 'create-list-admin-page-framework-beautified-version.php';
 
 echo 'Done!' . $sCarriageReturn;
 echo 'Elapsed Seconds: ' . ( microtime( true ) - $_nStart ) . $sCarriageReturn;

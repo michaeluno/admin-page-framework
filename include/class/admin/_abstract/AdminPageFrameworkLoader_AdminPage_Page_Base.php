@@ -21,7 +21,7 @@ abstract class AdminPageFrameworkLoader_AdminPage_Page_Base extends AdminPageFra
     /**
      * Stores the associated page slug with the adding section.
      */
-    public $sPageSlug;    
+    public $sPageSlug;
 
     /**
      * Sets up hooks and properties.
@@ -43,7 +43,7 @@ abstract class AdminPageFrameworkLoader_AdminPage_Page_Base extends AdminPageFra
                 'page_slug'     => null,
                 'title'         => null,
                 'screen_icon'   => null,
-            )                
+            )
         );
         add_action( "load_{$this->sPageSlug}", array( $this, 'replyToLoadResources' ) );
         add_action( "load_{$this->sPageSlug}", array( $this, 'replyToLoadPage' ) );
@@ -62,10 +62,10 @@ abstract class AdminPageFrameworkLoader_AdminPage_Page_Base extends AdminPageFra
         if ( ! file_exists( $_sCSSPath ) ) {
             return;
         }
-        $this->oFactory->enqueueStyle( 
+        $this->oFactory->enqueueStyle(
             $_sCSSPath,
             $this->sPageSlug
-        );    
+        );
     
     }
     
@@ -78,5 +78,5 @@ abstract class AdminPageFrameworkLoader_AdminPage_Page_Base extends AdminPageFra
     // public function replyToDoPage( $oFactory ) {}
     // public function replyToDoAfterPage( $oFactory ) {}
     // public function validate( $aInput, $aOldInput, $oFactory, $aSubmitInfo ){}
-    
+
 }

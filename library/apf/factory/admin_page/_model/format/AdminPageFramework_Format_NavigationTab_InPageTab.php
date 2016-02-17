@@ -25,6 +25,7 @@ class AdminPageFramework_Format_NavigationTab_InPageTab extends AdminPageFramewo
         }
         $_sSlug = $this->_getSlug($_aTab);
         $_aTab = array('slug' => $_sSlug, 'title' => $this->aTabs[$_sSlug]['title'], 'href' => $_aTab['disabled'] ? null : esc_url($this->getElement($_aTab, 'url', $this->getQueryAdminURL(array('page' => $this->aArguments['page_slug'], 'tab' => $_sSlug,), $this->oFactory->oProp->aDisallowedQueryKeys))),) + $this->uniteArrays($_aTab, array('attributes' => array('data-tab-slug' => $_sSlug,),), self::$aStructure);
+
         return $_aTab;
     }
     private function _isEnabled($aTab) {

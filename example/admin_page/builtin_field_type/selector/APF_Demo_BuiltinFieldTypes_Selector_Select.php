@@ -38,7 +38,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
@@ -46,7 +46,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                 'title'         => __( 'Drop-down Lists', 'admin-page-framework-loader' ),
                 'tip'           => __( 'These are drop-down (pull-down) lists.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
              
         /*
          * Selector type fields - dropdown (pulldown) list, checkbox, radio buttons, size selector
@@ -59,7 +59,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                 'type'          => 'select',
                 'help'          => __( 'This is the <em>select</em> field type.', 'admin-page-framework-loader' ),
                 'default'       => 2, // the index key of the label array below which yields 'Yellow'.
-                'label'         => array( 
+                'label'         => array(
                     0 => __( 'Red', 'admin-page-framework-loader' ),
                     1 => __( 'Blue', 'admin-page-framework-loader' ),
                     2 => __( 'Yellow', 'admin-page-framework-loader' ),
@@ -67,7 +67,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                 ),
                 'tip'           => __( 'The key of the array of the <code>label</code> argument serves as the value of the option tag which will be sent to the form and saved in the database.', 'admin-page-framework-loader' )
                     . ' ' . __( 'So when you specify the default value with the <code>default</code> or <code>value</code> argument, specify the <em>KEY</em>.', 'admin-page-framework-loader' ),
-            ),    
+            ),
             array( // Single Drop-down List with Multiple Options
                 'field_id'      => 'select_multiple_options',
                 // 'section_id' => 'selectors', // <-- this can be omitted since it is set in the previous field array
@@ -83,22 +83,22 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                         'size'  => 10,
                     ),
                 ),
-            ),    
+            ),
             array( // Single Drop-down List with Multiple Options
                 'field_id'      => 'select_multiple_groups',
                 'title'         => __( 'Grouping', 'admin-page-framework-loader' ),
                 'type'          => 'select',
                 'default'       => 'b',
-                'label'         => array(     
+                'label'         => array(
                     'alphabets' => array(     // each key must be unique throughout this 'label' element array.
-                        'a' => 'a',     
-                        'b' => 'b', 
+                        'a' => 'a',
+                        'b' => 'b',
                         'c' => 'c',
                     ),
-                    'numbers' => array( 
+                    'numbers' => array(
                         0 => '0',
                         1 => '1',
-                        2 => '2', 
+                        2 => '2',
                     ),
                 ),
                 'attributes'    => array( // the 'attributes' element of the select field type has three keys: select, 'option', and 'optgroup'.
@@ -113,14 +113,14 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                     ),
                     'optgroup' => array(
                         'style' => 'background-color: #DDD',
-                    )
+                    ),
                 ),
                 'tip'       => array(
                     __( 'To create grouped options, pass arrays with the key of the group label and pass the options as an array inside them.', 'admin-page-framework-loader' ),
-                    __( 'To style the pulldown (dropdown) list, use the <code>attributes</code> argument. For the <code>select</code> field type, it has three major keys, <code>select</code>, <code>option</code>, and <code>optgroup</code>, representing the tag names.', 'admin-page-framework-loader' )
+                    __( 'To style the pulldown (dropdown) list, use the <code>attributes</code> argument. For the <code>select</code> field type, it has three major keys, <code>select</code>, <code>option</code>, and <code>optgroup</code>, representing the tag names.', 'admin-page-framework-loader' ),
                 ),
 
-            ),     
+            ),
             array( // Drop-down Lists with Mixed Types
                 'field_id'      => 'select_multiple_fields',
                 'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
@@ -128,7 +128,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                 'type'          => 'select',
                 'label'         => array( 'dark', 'light' ),
                 'default'       => 1,
-                'attributes'    => array(    
+                'attributes'    => array(
                     'select'    => array(
                         'size' => 1,
                     ),
@@ -148,9 +148,9 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                             'size' => 5,
                             'multiple' => 'multiple', // instead of 'is_multiple' =>    true, it is possible by setting it by the attribute key.
                         ),
-                    )     
+                    ),
                 ),
-            ),     
+            ),
             array( // Repeatable Drop-down List
                 'field_id'      => 'select_repeatable',
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
@@ -158,27 +158,27 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                 'repeatable'    =>    true,
                 'tip'           => __( 'To enable repeatable fields, pass <code>true</code> to the <code>repeatable</code> argument.', 'admin-page-framework-loader' ),
                 'default'       => 'y',
-                'label' => array( 
+                'label' => array(
                     'x' => 'X',
-                    'y' => 'Y',     
-                    'z' => 'Z',     
+                    'y' => 'Y',
+                    'z' => 'Z',
                 ),
-            ),     
+            ),
             array( // Sortable Drop-down List
                 'field_id'      => 'select_sortable',
                 'title'         => __( 'Sortable', 'admin-page-framework-loader' ),
                 'type'          => 'select',
                 'sortable'      => true,
                 'default'       => 'iii',
-                'before_label'  => 
-                    "<span style='vertical-align:baseline; min-width: 140px; display:inline-block; margin-top: 0.5em; padding-bottom: 0.2em;'>" 
-                        . __( 'Sortable Item', 'admin-page-framework-loader' ) 
+                'before_label'  =>
+                    "<span style='vertical-align:baseline; min-width: 140px; display:inline-block; margin-top: 0.5em; padding-bottom: 0.2em;'>"
+                        . __( 'Sortable Item', 'admin-page-framework-loader' )
                     . "</span>",
-                'label'         => array( 
+                'label'         => array(
                     'i'     => 'I',
-                    'ii'    => 'II',    
-                    'iii'   => 'III',     
-                    'iiv'   => 'IIV',     
+                    'ii'    => 'II',
+                    'iii'   => 'III',
+                    'iiv'   => 'IIV',
                 ),
                 array(), // the second item - will inherit the main field's arguments
                 array(), // the third item

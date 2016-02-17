@@ -34,15 +34,15 @@ class AdminPageFramework_Form_View___Attribute_Fieldrow extends AdminPageFramewo
         $_aAttributes = parent::_getFormattedAttributes();
 
         // Set the visibility CSS property for the outermost container element.
-        if ( $this->aArguments[ 'hidden' ] ) { 
-            $_aAttributes[ 'style' ] = $this->getStyleAttribute( 
+        if ( $this->aArguments[ 'hidden' ] ) {
+            $_aAttributes[ 'style' ] = $this->getStyleAttribute(
                 $this->getElement( $_aAttributes, 'style', array() ),
-                'display:none' 
+                'display:none'
             );
-        }        
+        }
         
         return $_aAttributes;
         
-    }    
+    }
   
 }

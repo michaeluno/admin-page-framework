@@ -36,6 +36,7 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
         $_aField['attributes']['class'] = 'widget' === $_aField['_structure_type'] && is_callable($this->aCallbacks['hfClass']) ? call_user_func_array($this->aCallbacks['hfClass'], array($_aField['attributes']['class'])) : $_aField['attributes']['class'];
         $_aField['attributes']['class'] = $this->getClassAttribute($_aField['attributes']['class'], $this->dropElementsByType($_aField['class']));
         $_aField['_field_object'] = new AdminPageFramework_ArrayHandler($_aField);
+
         return $_aField;
     }
 }

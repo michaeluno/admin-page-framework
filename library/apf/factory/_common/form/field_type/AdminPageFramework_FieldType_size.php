@@ -15,6 +15,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType {
         if ($aField['is_multiple']) {
             $_oSelectInput->setAttribute(array('select', 'multiple'), 'multiple');
         }
+
         return $aField['before_label'] . "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength($aField['label_min_width']) . ";'>" . "<label for='{$aField['input_id']}'>" . $aField['before_input'] . $_oSelectInput->get($aField['label']) . $aField['after_input'] . "<div class='repeatable-field-buttons'></div>" . "</label>" . "</div>" . $aField['after_label'];
     }
 }
@@ -31,6 +32,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
         foreach (( array )$aField['label'] as $_isKey => $_sLabel) {
             $_aOutput[] = $this->_getFieldOutputByLabel($_isKey, $_sLabel, $aField);
         }
+
         return implode('', $_aOutput);
     }
     protected function _getFieldOutputByLabel($isKey, $sLabel, array $aField) {
@@ -40,23 +42,27 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
         $_aBaseAttributes = $_bMultiLabels ? array('name' => $aField['attributes']['name'] . "[{$isKey}]", 'id' => $aField['attributes']['id'] . "_{$isKey}", 'value' => $aField['value'],) + $aField['attributes'] : $aField['attributes'];
         unset($_aBaseAttributes['unit'], $_aBaseAttributes['size']);
         $_aOutput = array($this->getElementByLabel($aField['before_label'], $isKey, $aField['label']), "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength($aField['label_min_width']) . ";'>", $this->_getNumberInputPart($aField, $_aBaseAttributes, $isKey, is_array($aField['label'])), $this->_getUnitSelectInput($aField, $_aBaseAttributes, $isKey, is_array($aField['label'])), "</div>", $this->getElementByLabel($aField['after_label'], $isKey, $aField['label']));
+
         return implode('', $_aOutput);
     }
     private function _getNumberInputPart(array $aField, array $aBaseAttributes, $isKey, $bMultiLabels) {
         $_aSizeAttributes = $this->_getSizeAttributes($aField, $aBaseAttributes, $bMultiLabels ? $isKey : '');
         $_aSizeLabelAttributes = array('for' => $_aSizeAttributes['id'], 'class' => $_aSizeAttributes['disabled'] ? 'disabled' : null,);
         $_sLabel = $this->getElementByLabel($aField['label'], $isKey, $aField['label']);
+
         return "<label " . $this->getAttributes($_aSizeLabelAttributes) . ">" . $this->getElement($aField, $bMultiLabels ? array('before_label', $isKey, 'size') : array('before_label', 'size')) . ($aField['label'] && !$aField['repeatable'] ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength($aField['label_min_width']) . ";'>" . $_sLabel . "</span>" : "") . "<input " . $this->getAttributes($_aSizeAttributes) . " />" . $this->getElement($aField, $bMultiLabels ? array('after_input', $isKey, 'size') : array('after_input', 'size')) . "</label>";
     }
     private function _getUnitSelectInput(array $aField, array $aBaseAttributes, $isKey, $bMultiLabels) {
         $_aUnitAttributes = $this->_getUnitAttributes($aField, $aBaseAttributes, $bMultiLabels ? $isKey : '');
         $_oUnitInput = new AdminPageFramework_Input_select($_aUnitAttributes + array('select' => $_aUnitAttributes));
         $_aLabels = $bMultiLabels ? $this->getElement($aField, array('units', $isKey), $aField['units']) : $aField['units'];
+
         return "<label " . $this->getAttributes(array('for' => $_aUnitAttributes['id'], 'class' => $_aUnitAttributes['disabled'] ? 'disabled' : null,)) . ">" . $this->getElement($aField, $bMultiLabels ? array('before_label', $isKey, 'unit') : array('before_label', 'unit')) . $_oUnitInput->get($_aLabels) . $this->getElement($aField, $bMultiLabels ? array('after_input', $isKey, 'unit') : array('after_input', 'unit')) . "<div class='repeatable-field-buttons'></div>" . "</label>";
     }
     private function _getUnitAttributes(array $aField, array $aBaseAttributes, $isLabelKey = '') {
         $_bIsMultiple = $aField['is_multiple'] ? true : $this->getElement($aField, '' === $isLabelKey ? array('attributes', 'unit', 'multiple') : array('attributes', $isLabelKey, 'unit', 'multiple'), false);
         $_aSelectAttributes = array('type' => 'select', 'id' => $aField['input_id'] . ('' === $isLabelKey ? '' : '_' . $isLabelKey) . '_' . 'unit', 'multiple' => $_bIsMultiple ? 'multiple' : null, 'name' => $_bIsMultiple ? "{$aField['_input_name']}" . ('' === $isLabelKey ? '' : '[' . $isLabelKey . ']') . "[unit][]" : "{$aField['_input_name']}" . ('' === $isLabelKey ? '' : '[' . $isLabelKey . ']') . "[unit]", 'value' => $this->getElement($aField, array('value', 'unit'), ''),) + $this->getElement($aField, '' === $isLabelKey ? array('attributes', 'unit') : array('attributes', $isLabelKey, 'unit'), $this->aDefaultKeys['attributes']['unit']) + $aBaseAttributes;
+
         return $_aSelectAttributes;
     }
     private function _getSizeAttributes(array $aField, array $aBaseAttributes, $sLabelKey = '') {

@@ -33,13 +33,13 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
      * @param       string          $sCapability            (optional) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the meta box. Default: `edit_posts`.
      * @param       string          $sTextDomain            (optional) The text domain applied to the displayed text messages. Default: `admin-page-framework`.
      * @return      void
-     */ 
+     */
     public function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
              
         parent::__construct( $this->oProp );
         
-        $this->oProp->sMetaBoxID    = $sMetaBoxID 
-            ? $this->oUtil->sanitizeSlug( $sMetaBoxID ) 
+        $this->oProp->sMetaBoxID    = $sMetaBoxID
+            ? $this->oUtil->sanitizeSlug( $sMetaBoxID )
             : strtolower( $this->oProp->sClassName );
         $this->oProp->sTitle        = $sTitle;
         $this->oProp->sContext      = $sContext;    // 'normal', 'advanced', or 'side' 
@@ -50,9 +50,9 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         }
         
         $this->oUtil->registerAction(
-            'current_screen', 
+            'current_screen',
             array( $this, '_replyToDetermineToLoad' )
-        );                    
+        );
 
     }
   
@@ -70,13 +70,13 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
             return false;
         }
         
-        if ( ! in_array( $this->oUtil->getCurrentPostType(), $this->oProp->aPostTypes ) ) {     
-            return false;    
-        }    
+        if ( ! in_array( $this->oUtil->getCurrentPostType(), $this->oProp->aPostTypes ) ) {
+            return false;
+        }
 
         return true;
         
-    }        
+    }
     
     /**
      * Determines whether the meta box class components should be loaded in the currently loading page.
@@ -89,6 +89,7 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
             return false;
         }
+
         return true;
         
     }

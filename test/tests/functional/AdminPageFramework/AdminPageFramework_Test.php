@@ -3,7 +3,7 @@
  * Manually include the bootstrap script as Codeception bootstrap runs after loading this file.
  * @see https://github.com/Codeception/Codeception/issues/862
  */
-include_once( dirname( dirname( __FILE__ ) ) . '/_bootstrap.php' );
+include_once dirname( dirname( __FILE__ ) ) . '/_bootstrap.php';
 
 /**
  * @group   boot
@@ -18,8 +18,8 @@ class AdminPageFramework_Test extends \WP_UnitTestCase {
     
     public function setUp() {
      
-        codecept_debug( 'Test Dir: ' . $GLOBALS[ '_sTestsDirPath' ] );  
-        codecept_debug( 'WordPress Debug Mode: ' . ( defined( 'WP_DEBUG' ) && WP_DEBUG ) );  
+        codecept_debug( 'Test Dir: ' . $GLOBALS[ '_sTestsDirPath' ] );
+        codecept_debug( 'WordPress Debug Mode: ' . ( defined( 'WP_DEBUG' ) && WP_DEBUG ) );
      
         parent::setUp();
         
@@ -54,7 +54,7 @@ class AdminPageFramework_Test extends \WP_UnitTestCase {
                 // codecept_debug( $_iCount . '. Class ALready Exists: ' . $_sClassName );
             } else {
                 $_iCountDidNotExist++;
-            }        
+            }
         }
         $_iMicrotime2 = microtime( true );
         codecept_debug( 'Classes Already Existed: ' . $_iCount  );
@@ -77,7 +77,7 @@ class AdminPageFramework_Test extends \WP_UnitTestCase {
             if ( ! class_exists( $_sClassName, false ) ) {
                 $_iCount++;
                 // codecept_debug( $_iCount . '. ' . $_sClassName );
-                include( $_sClassPath );
+                include $_sClassPath;
             } else {
                 $_iAlreadyIncluded++;
                 // codecept_debug( 'already included: ' . $_sClassName );
@@ -88,6 +88,6 @@ class AdminPageFramework_Test extends \WP_UnitTestCase {
         codecept_debug( 'Has not Been Included: ' . $_iCount );
         codecept_debug( 'the elapsed time to include un-included ' . $_iCount . ' files: ' . ( $_iMicrotime2 - $_iMicrotime1 ) );
         
-    }   
+    }
     
 }

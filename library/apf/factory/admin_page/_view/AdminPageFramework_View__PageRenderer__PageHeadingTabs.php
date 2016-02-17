@@ -18,6 +18,7 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
         if (!$_aPage['show_page_title']) {
             return "";
         }
+
         return $this->_getOutput($_aPage, $this->sTag);
     }
     private function _getOutput($aPage, $sTag) {
@@ -25,6 +26,7 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
         if (!$aPage['show_page_heading_tabs'] || count($this->oFactory->oProp->aPages) == 1) {
             return "<{$sTag}>" . $aPage['title'] . "</{$sTag}>";
         }
+
         return $this->_getPageHeadingtabNavigationBar($this->oFactory->oProp->aPages, $sTag, $aPage['page_slug']);
     }
     private function _getPageHeadingTabTag($sTag, array $aPage) {
@@ -33,6 +35,7 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
     private function _getPageHeadingtabNavigationBar(array $aPages, $sTag, $sCurrentPageSlug) {
         $_oTabBar = new AdminPageFramework_TabNavigationBar($aPages, $sCurrentPageSlug, $sTag, array(), array('format' => array($this, '_replyToFormatNavigationTabItem_PageHeadingTab'),));
         $_sTabBar = $_oTabBar->get();
+
         return $_sTabBar ? "<div class='admin-page-framework-page-heading-tab'>" . $_sTabBar . "</div>" : '';
     }
     public function _replyToFormatNavigationTabItem_PageHeadingTab($aSubPage, $aStructure, $aPages, $aArguments = array()) {
@@ -42,6 +45,7 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
             default:
                 return $this->_getFormattedPageHeadingtabNavigationBarPageItem($aSubPage, $aStructure);
         }
+
         return $aSubPage + $aStructure;
     }
     private function _getFormattedPageHeadingtabNavigationBarPageItem(array $aSubPage, $aStructure) {
@@ -51,6 +55,7 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
         if (!$aSubPage['show_page_heading_tab']) {
             return array();
         }
+
         return array('slug' => $aSubPage['page_slug'], 'title' => $aSubPage['title'], 'href' => esc_url($this->getQueryAdminURL(array('page' => $aSubPage['page_slug'], 'tab' => false,), $this->oFactory->oProp->aDisallowedQueryKeys)),) + $aSubPage + array('class' => null) + $aStructure;
     }
     private function _getFormattedPageHeadingtabNavigationBarLinkItem(array $aSubPage, $aStructure) {
@@ -62,6 +67,7 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
         }
         $aSubPage = array('slug' => $aSubPage['href'], 'title' => $aSubPage['title'], 'href' => esc_url($aSubPage['href']),) + $aSubPage + array('class' => null) + $aStructure;
         $aSubPage['class'] = trim($aSubPage['class'] . ' link');
+
         return $aSubPage;
     }
 }

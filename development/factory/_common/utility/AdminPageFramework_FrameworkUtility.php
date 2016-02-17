@@ -34,12 +34,12 @@ class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
         foreach( ( array ) $GLOBALS[ '_apf_sub_menus_to_sort' ] as $_sIndex => $_sMenuSlug ) {
             if ( ! isset( $GLOBALS[ 'submenu' ][ $_sMenuSlug ] ) ) {
                 continue;
-            }       
+            }
             ksort( $GLOBALS[ 'submenu' ][ $_sMenuSlug ] );
             unset( $GLOBALS[ '_apf_sub_menus_to_sort' ][ $_sIndex ] );
         }
         
-    }    
+    }
     
     /**
      * Returns the used framework version.
@@ -53,6 +53,7 @@ class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
      */
     static public function getFrameworkVersion( $bTrimDevVer=false ) {
         $_sVersion = AdminPageFramework_Registry::getVersion();
+
         return $bTrimDevVer
             ? self::getSuffixRemoved( $_sVersion, '.dev' )
             : $_sVersion;

@@ -40,7 +40,7 @@ class AdminPageFramework_WPReadmeParser {
     static private $_aStructure_Callbacks = array(
         'code_block'              => null,
         'content_before_parsing'  => null, // 3.6.1
-    ); 
+    );
     
     static private $_aStructure_Replacements = array(
         // '%PLUGIN_DIR_URL%'  => null,
@@ -91,12 +91,12 @@ class AdminPageFramework_WPReadmeParser {
             ? file_get_contents( $sFilePathOrContent )
             : $sFilePathOrContent;
         $this->aReplacements    = $aReplacements + self::$_aStructure_Replacements;
-        $this->aCallbacks       = $aCallbacks + self::$_aStructure_Callbacks;        
+        $this->aCallbacks       = $aCallbacks + self::$_aStructure_Callbacks;
         $this->_aSections       = $this->sText
             ? $this->_getSplitContentsBySection( $this->sText )
-            : array();    
+            : array();
         
-    } 
+    }
     
     /**
      * Sets the text to parse.
@@ -117,12 +117,13 @@ class AdminPageFramework_WPReadmeParser {
          * @return      array
          */
         private function _getSplitContentsBySection( $sText ) {
-            $_aSections = preg_split( 
-                '/^[\s]*==[\s]*(.+?)[\s]*==/m', 
+            $_aSections = preg_split(
+                '/^[\s]*==[\s]*(.+?)[\s]*==/m',
                 $sText,
-                -1, 
-                PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY 
-            );         
+                -1,
+                PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY
+            );
+
             return $_aSections;
         }
             
@@ -148,6 +149,7 @@ class AdminPageFramework_WPReadmeParser {
     public function getSection( $sSectionName ) {
         
         $_sContent = $this->getRawSection( $sSectionName );
+
         return $this->_getParsedText( $_sContent );
         
     }
@@ -162,10 +164,10 @@ class AdminPageFramework_WPReadmeParser {
             // User set callbacks.
             $_sContent = is_callable( $this->aCallbacks[ 'content_before_parsing' ] )
                 ? call_user_func_array( $this->aCallbacks[ 'content_before_parsing' ], array( $sContent ) )
-                : $sContent; 
+                : $sContent;
             
             // inline backticks.
-            $_sContent = preg_replace( '/`(.*?)`/', '<code>\\1</code>', $_sContent );   
+            $_sContent = preg_replace( '/`(.*?)`/', '<code>\\1</code>', $_sContent );
             
             // multi-line backticks - store code blocks in a separate place
             $_sContent = preg_replace_callback( '/`(.*?)`/ms', array( $this, '_replyToReplaceCodeBlocks' ), $_sContent );
@@ -174,17 +176,18 @@ class AdminPageFramework_WPReadmeParser {
             $_sContent = preg_replace( '/= (.*?) =/', '<h4>\\1</h4>', $_sContent );
             
             // Replace user set strings.
-            $_sContent = str_replace( 
+            $_sContent = str_replace(
                 array_keys( $this->aReplacements ), // searches
                 array_values( $this->aReplacements ), // replacements
                 $_sContent // subject
             );
                     
             // Markdown
-            $_oParsedown = new AdminPageFramework_Parsedown();        
+            $_oParsedown = new AdminPageFramework_Parsedown();
+
             return $_oParsedown->text( $_sContent );
             
-        }      
+        }
     
         /**
          * Returns the modified code block.
@@ -199,13 +202,13 @@ class AdminPageFramework_WPReadmeParser {
             }
             
             $_sIntact   = trim( $aMatches[ 1 ] );
-            $_sModified = "<pre><code>" 
+            $_sModified = "<pre><code>"
                 . $this->getSyntaxHighlightedPHPCode( $_sIntact )
-            . "</code></pre>";                       
+            . "</code></pre>";
             
             return is_callable( $this->aCallbacks[ 'code_block' ] )
                 ? call_user_func_array( $this->aCallbacks[ 'code_block' ], array( $_sModified, $_sIntact ) )
-                : $_sModified;       
+                : $_sModified;
             
         }
     
@@ -217,7 +220,8 @@ class AdminPageFramework_WPReadmeParser {
      */
     public function getRawSection( $sSectionName ) {
 
-        $_iIndex   = array_search( $sSectionName, $this->_aSections );  
+        $_iIndex   = array_search( $sSectionName, $this->_aSections );
+
         return false === $_iIndex
             ? ''
             : trim( $this->_aSections[ $_iIndex + 1 ] );
@@ -246,6 +250,6 @@ class AdminPageFramework_WPReadmeParser {
         
         return $sCode;
     
-    }    
+    }
     
 }
