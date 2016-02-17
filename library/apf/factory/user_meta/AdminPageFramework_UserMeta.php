@@ -17,6 +17,7 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
         if (!$this->oProp->bIsAdmin) {
             return false;
         }
+
         return in_array($this->oProp->sPageNow, array('user-new.php', 'user-edit.php', 'profile.php'));
     }
     public function _replyToSetUpHooks($oFactory) {
@@ -33,6 +34,7 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
         $_iUserID = isset($GLOBALS['profileuser']->ID) ? $GLOBALS['profileuser']->ID : 0;
         $_oMetaData = new AdminPageFramework_UserMeta_Model___UserMeta($_iUserID, $this->oForm->aFieldsets);
         $this->oProp->aOptions = $_oMetaData->get();
+
         return parent::_replyToGetSavedFormData();
     }
     public function _replyToSaveFieldValues($iUserID) {

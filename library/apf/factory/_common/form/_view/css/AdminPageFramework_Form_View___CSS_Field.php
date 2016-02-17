@@ -19,6 +19,7 @@ class AdminPageFramework_Form_View___CSS_Field extends AdminPageFramework_Form_V
         if (version_compare($GLOBALS['wp_version'], '3.8', '>=')) {
             $_sCSSRules.= ".admin-page-framework-repeatable-field-buttons {margin: 2px 0 0 0.3em;} @media screen and ( max-width: 782px ) {.admin-page-framework-fieldset {overflow-x: hidden;}}";
         }
+
         return $_sCSSRules;
     }
 }

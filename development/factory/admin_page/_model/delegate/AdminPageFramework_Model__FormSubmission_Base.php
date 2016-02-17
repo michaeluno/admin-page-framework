@@ -46,8 +46,8 @@ abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFr
      * The keys are the input id.
      * @return      null|string     Returns `null` if no value is found and the associated link url if found. 
      * Otherwise, the found value.
-     */ 
-    protected function _getPressedSubmitButtonData( array $aPostElements, $sTargetKey='field_id' ) {    
+     */
+    protected function _getPressedSubmitButtonData( array $aPostElements, $sTargetKey='field_id' ) {
 
         foreach( $aPostElements as $_sInputID => $_aSubElements ) {
             
@@ -55,7 +55,7 @@ abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFr
             if ( ! isset( $_aSubElements[ 'name' ] ) ) {
                 continue;
             }
-            $_aNameKeys = explode( '|', $_aSubElements[ 'name' ] ); 
+            $_aNameKeys = explode( '|', $_aSubElements[ 'name' ] );
             
             // If the element is not found, skip.
             if ( null === $this->getElement( $_POST, $_aNameKeys, null ) ) {
@@ -70,8 +70,9 @@ abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFr
             );
             
         }
+
         return null; // not found
-        
+
     }
     
     /**
@@ -85,20 +86,20 @@ abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFr
      */
     protected function _setSettingNoticeAfterValidation( $bIsInputEmtpy ) {
      
-        if ( $this->oFactory->hasSettingNotice() ) {     
+        if ( $this->oFactory->hasSettingNotice() ) {
             return;
         }
-        $this->oFactory->setSettingNotice(  
-            $this->getAOrB( 
-                $bIsInputEmtpy, 
-                $this->oFactory->oMsg->get( 'option_cleared' ), 
-                $this->oFactory->oMsg->get( 'option_updated' ) 
+        $this->oFactory->setSettingNotice(
+            $this->getAOrB(
+                $bIsInputEmtpy,
+                $this->oFactory->oMsg->get( 'option_cleared' ),
+                $this->oFactory->oMsg->get( 'option_updated' )
             ),
             'updated',
             $this->oFactory->oProp->sOptionKey, // the id
             false // do not override
         );
      
-    }                 
+    }
         
 }

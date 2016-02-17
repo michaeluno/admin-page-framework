@@ -30,7 +30,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
      */
     protected $aDefaultKeys = array(
         'rich'          => false,
-        'attributes'    => array(     
+        'attributes'    => array(
             'autofocus'     => null,
             'cols'          => 60,
             'disabled'      => null,
@@ -40,7 +40,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
             'readonly'      => null,
             'required'      => null,
             'rows'          => 4,
-            'wrap'          => null,     
+            'wrap'          => null,
         ),
     );
 
@@ -49,9 +49,10 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
      * @since       3.1.4
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
      * @internal
-     */ 
+     */
     public function getScripts() {
         $_aJSArray = json_encode( $this->aFieldTypeSlugs );
+
         return <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
     
@@ -387,14 +388,14 @@ jQuery( document ).ready( function(){
 });
 JAVASCRIPTS;
 
-    }    
+    }
     
     /**
      * Returns the field type specific CSS rules.
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     */ 
+     */
     protected function getStyles() {
         return <<<CSSRULES
 /* Textarea Field Type */
@@ -421,7 +422,7 @@ JAVASCRIPTS;
 }
 CSSRULES;
 
-    }    
+    }
         
     /**
      * Returns the output of the 'textarea' input field.
@@ -434,15 +435,16 @@ CSSRULES;
 
         $_aOutput = array();
         foreach( ( array ) $aField[ 'label' ] as $_sKey => $_sLabel ) {
-            $_aOutput[] = $this->_getFieldOutputByLabel( 
-                $_sKey, 
-                $_sLabel, 
+            $_aOutput[] = $this->_getFieldOutputByLabel(
+                $_sKey,
+                $_sLabel,
                 $aField
             );
         }
         
         // the repeatable field buttons will be replaced with this element.
         $_aOutput[] = "<div class='repeatable-field-buttons'></div>";
+
         return implode( '', $_aOutput );
         
     }
@@ -464,7 +466,7 @@ CSSRULES;
                         'name'  => $aField[ 'attributes' ][ 'name' ] . "[{$sKey}]",
                         'id'    => $aField[ 'attributes' ][ 'id' ] . "_{$sKey}",
                         'value' => $aField[ 'value' ],
-                    ) 
+                    )
                     + $aField[ 'attributes' ]
                 : $aField[ 'attributes' ];
             $_aOutput           = array(
@@ -472,8 +474,8 @@ CSSRULES;
                 "<div class='admin-page-framework-input-label-container {$_sClassSelector}'>",
                     "<label for='" . $aField[ 'attributes' ][ 'id' ] . "'>",
                         $this->getElementByLabel( $aField['before_input'], $sKey, $aField[ 'label' ] ),
-                        $_sLabel 
-                            ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" 
+                        $_sLabel
+                            ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
                                     . $_sLabel
                                 . "</span>"
                             : '',
@@ -483,9 +485,10 @@ CSSRULES;
                 "</div>",
                 $this->getElementByLabel( $aField['after_label'], $sKey, $aField[ 'label' ] ),
             );
+
             return implode( '', $_aOutput );
   
-        }       
+        }
     
         /**
          * Returns the output of the editor.
@@ -505,10 +508,10 @@ CSSRULES;
 
             // Rich editor
             ob_start();
-            wp_editor( 
+            wp_editor(
                 $aField['value'],
-                $aField['attributes']['id'],  
-                $this->uniteArrays( 
+                $aField['attributes']['id'],
+                $this->uniteArrays(
                     ( array ) $aField['rich'],
                     array(
                         'wpautop'           => true, // use wpautop?
@@ -522,7 +525,7 @@ CSSRULES;
                         'teeny'             => false, // output the minimal editor config used in Press This
                         'dfw'               => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
                         'tinymce'           => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
-                        'quicktags'         => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()     
+                        'quicktags'         => true, // load Quicktags, can be used to pass settings directly to Quicktags using an array()     
                     )
                 )
             );
@@ -539,7 +542,7 @@ CSSRULES;
          * 
          * @since 2.1.2
          * @since 2.1.5 Moved from AdminPageFramework_FormField.
-         */    
+         */
         private function _getScriptForRichEditor( $sIDSelector ) {
 
             // id: wp-sample_rich_textarea_0-wrap
@@ -563,11 +566,12 @@ jQuery( document ).ready( function() {
 
 })            
 JAVASCRIPTS;
+
             return "<script type='text/javascript' class='admin-page-framework-textarea-enabler'>"
                     . '/* <![CDATA[ */'
                     . $_sScript
                     . '/* ]]> */'
-                . "</script>";            
-        }    
+                . "</script>";
+        }
         
 }

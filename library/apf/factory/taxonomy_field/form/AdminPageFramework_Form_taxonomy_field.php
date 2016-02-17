@@ -13,6 +13,7 @@ class AdminPageFramework_Form_taxonomy_field extends AdminPageFramework_Form {
         }
         $this->_formatElementDefinitions($this->aSavedData);
         $_oFieldsets = new AdminPageFramework_Form_View___FieldsetRows($this->getElementAsArray($this->aFieldsets, '_default'), null, $this->aSavedData, $this->getFieldErrors(), $this->aFieldTypeDefinitions, $this->aCallbacks, $this->oMsg);
+
         return $_oFieldsets->get();
     }
 }

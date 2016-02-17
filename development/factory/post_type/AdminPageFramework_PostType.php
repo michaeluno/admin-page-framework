@@ -15,7 +15,7 @@
  * @package         AdminPageFramework
  * @subpackage      PostType
  */
-abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_Controller {    
+abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_Controller {
       
     /**
      * Defines the class object structure type.
@@ -106,15 +106,15 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
     */
     public function __construct( $sPostType, $aArguments=array(), $sCallerPath=null, $sTextDomain='admin-page-framework' ) {
         
-        if ( empty( $sPostType ) ) { 
-            return; 
+        if ( empty( $sPostType ) ) {
+            return;
         }
 
         $_sProprtyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
             ? $this->aSubClassNames[ 'oProp' ]
-            : 'AdminPageFramework_Property_' . $this->_sStructureType;           
-        $this->oProp = new $_sProprtyClassName( 
-            $this, 
+            : 'AdminPageFramework_Property_' . $this->_sStructureType;
+        $this->oProp = new $_sProprtyClassName(
+            $this,
             $this->_getCallerScriptPath( $sCallerPath ),
             get_class( $this ),     // class name
             'publish_posts',        // capability
@@ -125,7 +125,7 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
         
         // Post type argument array structure
         // @see http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
-        $this->oProp->aPostTypeArgs = $aArguments; 
+        $this->oProp->aPostTypeArgs = $aArguments;
 
         // Let the factory router set up sub-class objects.
         parent::__construct( $this->oProp );
@@ -148,15 +148,16 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
                 return null;
             }
             $_sPageNow = AdminPageFramework_Utility::getElement( $GLOBALS, 'pagenow' );
-            if ( 
-                in_array( 
-                    $_sPageNow, 
+            if (
+                in_array(
+                    $_sPageNow,
                     array( 'edit.php', 'post.php', 'post-new.php', 'plugins.php', 'tags.php', 'edit-tags.php', )
                 )
             ) {
                 return AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );
             }
-            return null;             
+
+            return null;
             
         }
         

@@ -38,7 +38,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Checkbox {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
@@ -46,7 +46,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Checkbox {
                 'title'         => __( 'Check-boxes', 'admin-page-framework-loader' ),
                 'tip'           => __( 'These are check boxes.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -56,24 +56,24 @@ class APF_Demo_BuiltinFieldTypes_Selector_Checkbox {
                 'title'         => __( 'Checkbox', 'admin-page-framework-loader' ),
                 'tip'           => __( 'The <code>description</code> argument can be omitted.', 'admin-page-framework-loader' ),
                 'type'          => 'checkbox',
-                'label'         => __( 'This is a check box.', 'admin-page-framework-loader' ) 
-                    . ' ' . __( 'A string can be passed to the <code>label</code> argument for a single item.', 'admin-page-framework-loader' ), 
+                'label'         => __( 'This is a check box.', 'admin-page-framework-loader' )
+                    . ' ' . __( 'A string can be passed to the <code>label</code> argument for a single item.', 'admin-page-framework-loader' ),
                 'default'   => false,
-            ),    
+            ),
             array( // Multiple checkbox items - for multiple checkbox items, set an array to the 'label' element.
                 'field_id'      => 'checkbox_multiple_items',
                 'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
                 'type'          => 'checkbox',
-                'label'         => array( 
+                'label'         => array(
                     'moon'  => __( 'Moon', 'admin-page-framework-loader' ),
                     'earth' => __( 'Earth', 'admin-page-framework-loader' ) . ' (' . __( 'this option is disabled.', 'admin-page-framework-loader' ) . ')',
                     'sun'   => __( 'Sun', 'admin-page-framework-loader' ),
                     'mars'  => __( 'Mars', 'admin-page-framework-loader' ),
                 ),
-                'default'       => array( 
-                    'moon'  => true, 
-                    'earth' => false, 
-                    'sun'   => true, 
+                'default'       => array(
+                    'moon'  => true,
+                    'earth' => false,
+                    'sun'   => true,
                     'mars'  => false,
                 ),
                 'attributes'    => array(
@@ -91,46 +91,46 @@ class APF_Demo_BuiltinFieldTypes_Selector_Checkbox {
                 'type'                  => 'checkbox',
                 'select_all_button'     => true,        // 3.3.0+   to change the label, set the label here
                 'select_none_button'    => true,        // 3.3.0+   to change the label, set the label here                
-                'label'                 => array( 
+                'label'                 => array(
                     'a' => 'A',
                     'b' => 'B',
-                    'c' => 'C' 
+                    'c' => 'C',
                 ),
-                'default'               => array( 
+                'default'               => array(
                     'a' => false,
                     'b' => true,
-                    'c' => false 
+                    'c' => false,
                 ),
                 'delimiter'             => '<hr />',
                 'attributes'            => array(
                     'field' => array(
                         'style' => 'width: 100%;',
                     ),
-                ),     
+                ),
                 array(
                     'label' => array(
                         'd' => 'D',
                         'e' => 'E',
-                        'f' => 'F' 
+                        'f' => 'F',
                     ),
                     'default' => array(
                         'd' => true,
                         'e' => false,
-                        'f' => false 
+                        'f' => false,
                     ),
                 ),
                 array(
                     'label' => array(
                         'g' => 'G',
                         'h' => 'H',
-                        'i' => 'I'
+                        'i' => 'I',
                     ),
                     'default' => array(
                         'g' => false,
                         'h' => false,
-                        'i' => true 
+                        'i' => true,
                     ),
-                ),     
+                ),
                 'tip'           => __( 'To create multiple fields for one field ID, use the numeric keys in the field definition array.', 'admin-page-framework-loader' ),
             ),
             array( // Repeatable check boxes
@@ -152,7 +152,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Checkbox {
                 array(), // the third item
                 array(), // the fourth item
             )
-        );              
+        );
       
     }
 

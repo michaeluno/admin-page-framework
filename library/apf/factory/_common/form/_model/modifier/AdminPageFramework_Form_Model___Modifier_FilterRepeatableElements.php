@@ -18,6 +18,7 @@ class AdminPageFramework_Form_Model___Modifier_FilterRepeatableElements extends 
         foreach ($this->aDimensionalKeys as $_sFlatFieldAddress) {
             $this->unsetDimensionalArrayElement($this->aSubject, explode('|', $_sFlatFieldAddress));
         }
+
         return $this->aSubject;
     }
 }

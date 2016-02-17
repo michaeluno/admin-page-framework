@@ -45,6 +45,6 @@ tbody.admin-page-framework-collapsible-content > tr > td
 
 CSSRULES;
 
-        }  
+        }
 
 }

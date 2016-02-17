@@ -23,12 +23,14 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         if (!in_array($this->oUtil->getCurrentPostType(), $this->oProp->aPostTypes)) {
             return false;
         }
+
         return true;
     }
     protected function _isInstantiatable() {
         if (isset($GLOBALS['pagenow']) && 'admin-ajax.php' === $GLOBALS['pagenow']) {
             return false;
         }
+
         return true;
     }
 }
@@ -56,6 +58,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
     public function _replyToGetSavedFormData() {
         $_oMetaData = new AdminPageFramework_MetaBox_Model___PostMeta($this->_getPostID(), $this->oForm->aFieldsets);
         $this->oProp->aOptions = $_oMetaData->get();
+
         return parent::_replyToGetSavedFormData();
     }
     private function _getPostID() {
@@ -68,6 +71,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
         if (isset($_POST['post_ID'])) {
             return $_POST['post_ID'];
         }
+
         return 0;
     }
     public function _replyToFilterSavingData($aPostData, $aUnmodified) {
@@ -85,10 +89,12 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             add_filter('redirect_post_location', array($this, '_replyToModifyRedirectPostLocation'));
         }
         $this->oForm->updateMetaDataByType($_iPostID, $_aInputs, $this->oForm->dropRepeatableElements($_aSavedMeta), $this->oForm->sStructureType);
+
         return $aPostData;
     }
     public function _replyToModifyRedirectPostLocation($sLocation) {
         remove_filter('redirect_post_location', array($this, __FUNCTION__));
+
         return add_query_arg(array('message' => 'apf_field_error', 'field_errors' => true), $sLocation);
     }
     private function _shouldProceedValidation(array $aUnmodified) {
@@ -107,6 +113,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
         if (!in_array($aUnmodified['post_type'], $this->oProp->aPostTypes)) {
             return false;
         }
+
         return current_user_can($this->oProp->sCapability, $aUnmodified['ID']);
     }
 }

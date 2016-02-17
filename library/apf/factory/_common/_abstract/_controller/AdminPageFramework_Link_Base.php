@@ -25,6 +25,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
         if ($oProp->bIsAdminAjax) {
             return false;
         }
+
         return !$this->hasBeenCalled('links_' . $oProp->sClassName);
     }
     public function _replyToSetFooterInfo() {
@@ -41,12 +42,14 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
         $_sPluginInfo = $this->getAOrB(empty($aScriptInfo['sURI']), $aScriptInfo['sName'], $this->getHTMLTag('a', array('href' => $aScriptInfo['sURI'], 'target' => '_blank', 'title' => $aScriptInfo['sName'] . $_sVersion . $_sDescription), $aScriptInfo['sName']));
         $_sAuthorInfo = $this->getAOrB(empty($aScriptInfo['sAuthorURI']), '', $this->getHTMLTag('a', array('href' => $aScriptInfo['sAuthorURI'], 'target' => '_blank', 'title' => $aScriptInfo['sAuthor'],), $aScriptInfo['sAuthor']));
         $_sAuthorInfo = $this->getAOrB(empty($aScriptInfo['sAuthor']), $_sAuthorInfo, ' by ' . $_sAuthorInfo);
+
         return "<span class='apf-script-info'>" . $_sPluginInfo . $_sAuthorInfo . "</span>";
     }
     private function _getFooterInfoRight($aScriptInfo) {
         $_sDescription = $this->getAOrB(empty($aScriptInfo['sDescription']), '', "&#13;{$aScriptInfo['sDescription']}");
         $_sVersion = $this->getAOrB(empty($aScriptInfo['sVersion']), '', "&nbsp;{$aScriptInfo['sVersion']}");
         $_sLibraryInfo = $this->getAOrB(empty($aScriptInfo['sURI']), $aScriptInfo['sName'], $this->getHTMLTag('a', array('href' => $aScriptInfo['sURI'], 'target' => '_blank', 'title' => $aScriptInfo['sName'] . $_sVersion . $_sDescription,), $aScriptInfo['sName']));
+
         return "<span class='apf-credit' id='footer-thankyou'>" . $this->oMsg->get('powered_by') . '&nbsp;' . $_sLibraryInfo . ",&nbsp;" . $this->oMsg->get('and') . '&nbsp;' . $this->getHTMLTag('a', array('href' => 'https://wordpress.org', 'target' => '_blank', 'title' => 'WordPress ' . $GLOBALS['wp_version']), 'WordPress') . "</span>";
     }
     protected function _setFooterHooks() {
@@ -55,6 +58,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
     }
     public function _replyToAddInfoInFooterLeft($sLinkHTML = '') {
         $sLinkHTML = empty($this->oProp->aScriptInfo['sName']) ? $sLinkHTML : $this->oProp->aFooterInfo['sLeft'];
+
         return $this->addAndApplyFilters($this->oProp->oCaller, 'footer_left_' . $this->oProp->sClassName, $sLinkHTML);
     }
     public function _replyToAddInfoInFooterRight($sLinkHTML = '') {

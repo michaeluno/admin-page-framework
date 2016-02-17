@@ -5,7 +5,7 @@ use \AcceptanceTester;
  * Bootstrap does not work for including abstract classes.
  * @see     https://github.com/Codeception/Codeception/issues/862
  */
-require_once( dirname( dirname( __FILE__ ) ) . '/_bootstrap.php' );
+require_once dirname( dirname( __FILE__ ) ) . '/_bootstrap.php';
 
 class Demo_CustomFieldTypes_ACE_Cest extends \Demo_AdminPage_Base {
     
@@ -26,8 +26,8 @@ class Demo_CustomFieldTypes_ACE_Cest extends \Demo_AdminPage_Base {
         $I->click( '//li/a[contains(@href, "page=custom_field_type")]' );
                 
         // This is the default tab so check an element first.
-        $this->_checkCommonElements( $I );                
-        $I->seeElement( '//textarea[contains(@name, "ace")]' );                        
+        $this->_checkCommonElements( $I );
+        $I->seeElement( '//textarea[contains(@name, "ace")]' );
                         
         // Click on the 'ACE' tab. 
         $I->click( '//a[@data-tab-slug="ace"]' );
@@ -38,7 +38,7 @@ class Demo_CustomFieldTypes_ACE_Cest extends \Demo_AdminPage_Base {
         $I->seeElement( '//textarea[contains(@name, "ace")]' );
    
         // @todo fill the form and confirm that values are stored
-        
-    } 
+
+    }
         
 }

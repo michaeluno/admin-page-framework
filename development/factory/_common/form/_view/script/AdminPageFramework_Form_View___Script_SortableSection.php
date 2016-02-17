@@ -25,7 +25,7 @@ class AdminPageFramework_Form_View___Script_SortableSection extends AdminPageFra
      * @since       3.6.0
      * @param       $oMsg       object      The message object.
      * @return      string      The inline JavaScript script.
-     */        
+     */
     static public function getScript( /* $oMsg */ ) {
 
         // Uncomment these lines when parameters need to be accessed.
@@ -94,15 +94,15 @@ JAVASCRIPTS;
      */
     static public function getEnabler( $sContainerTagID, $aSettings, $oMsg ) {
         
-        if ( empty( $aSettings ) ) { 
-            return ''; 
+        if ( empty( $aSettings ) ) {
+            return '';
         }
-        if ( in_array( $sContainerTagID, self::$_aSetContainerIDsForSortableSections ) ) { 
-            return ''; 
+        if ( in_array( $sContainerTagID, self::$_aSetContainerIDsForSortableSections ) ) {
+            return '';
         }
-        self::$_aSetContainerIDsForSortableSections[ $sContainerTagID ] = $sContainerTagID;        
+        self::$_aSetContainerIDsForSortableSections[ $sContainerTagID ] = $sContainerTagID;
         
-        new self( $oMsg ); 
+        new self( $oMsg );
         
         // $aSettings              = $this->getAsArray( $aSettings );        
         $_sScript       = <<<JAVASCRIPTS
@@ -110,12 +110,13 @@ jQuery( document ).ready( function() {
     jQuery( '#{$sContainerTagID}' ).enableAdminPageFrameworkSortableSections( '{$sContainerTagID}' ); 
 });            
 JAVASCRIPTS;
-        return "<script type='text/javascript' class='admin-page-framework-section-sortable-script'>" 
+
+        return "<script type='text/javascript' class='admin-page-framework-section-sortable-script'>"
                 . '/* <![CDATA[ */'
-                . $_sScript 
+                . $_sScript
                 . '/* ]]> */'
             . "</script>";
         
-    }    
+    }
     
 }

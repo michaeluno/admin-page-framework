@@ -23,10 +23,12 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
     }
     protected function _getLinkObject() {
         $_sClassName = $this->aSubClassNames['oLink'];
+
         return new $_sClassName($this->oProp, $this->oMsg);
     }
     protected function _getPageLoadObject() {
         $_sClassName = $this->aSubClassNames['oPageLoadInfo'];
+
         return new $_sClassName($this->oProp, $this->oMsg);
     }
     public function _isInThePage() {
@@ -42,6 +44,7 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         if (isset($_GET['page'])) {
             return false;
         }
+
         return $this->oUtil->getCurrentPostType() === $this->oProp->sPostType;
     }
     public function _replyToLoadComponents() {
@@ -156,6 +159,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
         if ($oPost->post_type !== $this->oProp->sPostType) {
             return $aActionLinks;
         }
+
         return $this->oUtil->addAndApplyFilters($this, "action_links_{$this->oProp->sPostType}", $aActionLinks, $oPost);
     }
     public function _replyToAddAuthorTableFilter() {
@@ -206,6 +210,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
                 $sVar = $oTerm->slug;
             }
         }
+
         return $oQuery;
     }
     public function _replyToPrintStyle() {
@@ -223,6 +228,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
     private function _getStylesForPostTypeScreenIcon($sSRC) {
         $sNone = 'none';
         $sSRC = esc_url($this->oUtil->getResolvedSRC($sSRC));
+
         return "#post-body-content {margin-bottom: 10px;}#edit-slug-box {display: {$sNone};}#icon-edit.icon32.icon32-posts-{$this->oProp->sPostType} {background: url('{$sSRC}') no-repeat;background-size: 32px 32px;} ";
     }
     public function content($sContent) {
@@ -239,6 +245,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
         if ($this->oProp->sPostType !== $post->post_type) {
             return $sContent;
         }
+
         return $this->oUtil->addAndApplyFilters($this, "content_{$this->oProp->sClassName}", $this->content($sContent));
     }
 }
@@ -327,6 +334,7 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
         if (in_array($_sPageNow, array('edit.php', 'post.php', 'post-new.php', 'plugins.php', 'tags.php', 'edit-tags.php',))) {
             return AdminPageFramework_Utility::getCallerScriptPath(__FILE__);
         }
+
         return null;
     }
 }

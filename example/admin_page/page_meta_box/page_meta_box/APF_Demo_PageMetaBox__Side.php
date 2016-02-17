@@ -36,7 +36,7 @@ class APF_Demo_PageMetaBox__Side extends AdminPageFramework_PageMetaBox {
                 'type'              => 'checkbox',
                 'title'             => __( 'Check Box', 'admin-page-framework-loader' ),
                 'label'             => __( 'Check me!', 'admin-page-framework-loader' ),
-            ),            
+            ),
             array(
                 'field_id'          => 'submit_in_meta_box',
                 'type'              => 'submit',
@@ -46,7 +46,7 @@ class APF_Demo_PageMetaBox__Side extends AdminPageFramework_PageMetaBox {
                 'attributes'        => array(
                     'field' => array(
                         'style' => 'float:right; width:auto;',
-                    ),                   
+                    ),
                 ),
             ),
             array()
@@ -57,7 +57,7 @@ class APF_Demo_PageMetaBox__Side extends AdminPageFramework_PageMetaBox {
     /**
      * @callback        action      do_{instantiated class name}
      */
-    public function do_APF_MetaBox_For_Pages_Side() { 
+    public function do_APF_MetaBox_For_Pages_Side() {
         ?>
             <p><?php _e( 'This is a side meta box. This is inserted with the <code>do_{instantiated class name}</code> hook.', 'admin-page-framework-loader' ) ?></p>
         <?php
@@ -71,7 +71,7 @@ class APF_Demo_PageMetaBox__Side extends AdminPageFramework_PageMetaBox {
      */
     public function validate( $aNewOptions, $aOldOptions, $oAdminPage, $aSubmitInfo ) {
         return $aNewOptions;
-    }    
+    }
     
     
 }

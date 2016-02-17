@@ -21,7 +21,7 @@ class APF_Demo_PageMetaBox__WithFormSection extends AdminPageFramework_PageMetaB
                'section_id'     => 'meta_box_with_a_form_section',
                'title'          => __( 'Section of a Page Meta-box', 'admin-page-framework-loader' ),
                'description'    => __( 'This meta box form has a section.', 'admin-page-framework-loader' ),
-            )      
+            )
         );
         
         /*
@@ -48,8 +48,7 @@ class APF_Demo_PageMetaBox__WithFormSection extends AdminPageFramework_PageMetaB
      */
     public function validate( $aNewOptions, $aOldOptions, $oAdminPage, $aSubmitInfo ) {
         return $aNewOptions;
-    }    
+    }
     
     
 }
-

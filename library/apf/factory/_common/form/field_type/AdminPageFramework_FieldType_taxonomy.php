@@ -12,6 +12,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
     }
     protected function getScripts() {
         $_aJSArray = json_encode($this->aFieldTypeSlugs);
+
         return parent::getScripts() . <<<JAVASCRIPTS
 /* For tabs */
 var enableAdminPageFrameworkTabbedBox = function( nodeTabBoxContainer ) {
@@ -125,10 +126,12 @@ JAVASCRIPTS;
             $_aTabs[] = $this->_getTaxonomyTab($aField, $sKey, $sTaxonomySlug);
             $_aCheckboxes[] = $this->_getTaxonomyCheckboxes($aField, $sKey, $sTaxonomySlug);
         }
+
         return "<div id='tabbox-{$aField['field_id']}' class='tab-box-container categorydiv' style='max-width:{$aField['max_width']};'>" . "<ul class='tab-box-tabs category-tabs'>" . implode(PHP_EOL, $_aTabs) . "</ul>" . "<div class='tab-box-contents-container'>" . "<div class='tab-box-contents' style='height: {$aField['height']};'>" . implode(PHP_EOL, $_aCheckboxes) . "</div>" . "</div>" . "</div>";
     }
     private function _getTaxonomyCheckboxes(array $aField, $sKey, $sTaxonomySlug) {
         $_aTabBoxContainerArguments = array('id' => "tab_{$aField['input_id']}_{$sKey}", 'class' => 'tab-box-content', 'style' => $this->generateInlineCSS(array('height' => $this->sanitizeLength($aField['height']), 'width' => $this->sanitizeLength($aField['width']),)),);
+
         return "<div " . $this->getAttributes($_aTabBoxContainerArguments) . ">" . $this->getElement($aField, array('before_label', $sKey)) . "<div " . $this->getAttributes($this->_getCheckboxContainerAttributes($aField)) . "></div>" . "<ul class='list:category taxonomychecklist form-no-clear'>" . $this->_getTaxonomyChecklist($aField, $sKey, $sTaxonomySlug) . "</ul>" . "<!--[if IE]><b>.</b><![endif]-->" . $this->getElement($aField, array('after_label', $sKey)) . "</div><!-- tab-box-content -->";
     }
     private function _getTaxonomyChecklist(array $aField, $sKey, $sTaxonomySlug) {
@@ -142,6 +145,7 @@ JAVASCRIPTS;
         if (!is_array($vValue[$sTaxonomySlug])) {
             return array();
         }
+
         return array_keys($vValue[$sTaxonomySlug], true);
     }
     private function _getTaxonomyTab(array $aField, $sKey, $sTaxonomySlug) {
@@ -149,6 +153,7 @@ JAVASCRIPTS;
     }
     private function _getLabelFromTaxonomySlug($sTaxonomySlug) {
         $_oTaxonomy = get_taxonomy($sTaxonomySlug);
+
         return isset($_oTaxonomy->label) ? $_oTaxonomy->label : null;
     }
 }

@@ -36,7 +36,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
             array( $this, '_replyToFilterFieldTypeDefinitions' )
         );
         
-    }       
+    }
     
     /**
      * Calls the setUp() method. 
@@ -46,9 +46,9 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * but it requires to call the setUp() method in the overridden method so it's not that useful.
      * @internal
      */
-    protected function _setUp() { 
+    protected function _setUp() {
         $this->setUp();
-    }    
+    }
     
     /**
      * Called upon fieldset resource registration.
@@ -68,13 +68,13 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         if ( ! $aFieldset[ 'help' ] ) {
             return;
         }
-        $this->oHelpPane->_addHelpTextForFormFields( 
-            $aFieldset[ 'title' ], 
-            $aFieldset[ 'help' ], 
-            $aFieldset[ 'help_aside' ] 
+        $this->oHelpPane->_addHelpTextForFormFields(
+            $aFieldset[ 'title' ],
+            $aFieldset[ 'help' ],
+            $aFieldset[ 'help_aside' ]
         );
                    
-    }    
+    }
     
     /**
      * Filters field type definitions array.
@@ -91,6 +91,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
                 array( $aFieldTypeDefinitions )
             );
         }
+
         return $aFieldTypeDefinitions;
                      
     }
@@ -104,12 +105,12 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @remark      Called prior to field resource registrations.
      * @since       3.7.0
      * @return      array       The modified sectionsets definition array.
-     */    
-    public function _replyToModifySectionsets( $aSectionsets ) {    
+     */
+    public function _replyToModifySectionsets( $aSectionsets ) {
         
-        return $this->oUtil->addAndApplyFilter( 
+        return $this->oUtil->addAndApplyFilter(
             $this,  // caller factory object
-            "sections_{$this->oProp->sClassName}", 
+            "sections_{$this->oProp->sClassName}",
             $aSectionsets
         );
         
@@ -135,13 +136,13 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
                 $this,
                 "fields_{$this->oProp->sClassName}_{$_sFilterSuffix}",
                 $_aFields
-            ); 
+            );
         }
-        $aFieldsets =  $this->oUtil->addAndApplyFilter( 
+        $aFieldsets =  $this->oUtil->addAndApplyFilter(
             $this,
             "fields_{$this->oProp->sClassName}",
             $aFieldsets
-        );         
+        );
         
         // If at lease one filed is added, set the flag to enable the form.
         // Do not set `false` when there is no field because page meta boxes may add form fields.
@@ -163,7 +164,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
             $this,
             "field_definition_{$this->oProp->sClassName}",
             $aFieldsets
-        );    
+        );
     }
     
     /**
@@ -184,14 +185,15 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
             '',
             '_' . $_sSectionPart
         );
+
         return $this->oUtil->addAndApplyFilter(
             $this,
             "field_definition_{$this->oProp->sClassName}{$_sSectionPart}{$_sFieldPart}",
             $aFieldset,
             $aFieldset[ '_subsection_index' ]
-        ); 
+        );
 
-    }    
+    }
                
     /**
      * Gets called after the form element registration is done.
@@ -208,9 +210,10 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      */
     public function _replyToFormatFieldsetDefinition( $aFieldset, $aSectionsets ) {
 
-        if ( empty( $aFieldset ) ) { 
-            return $aFieldset; 
+        if ( empty( $aFieldset ) ) {
+            return $aFieldset;
         }
+
         return $aFieldset;
     
     }
@@ -226,7 +229,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         }
         
         $aSectionset = $aSectionset
-            + array( 
+            + array(
                 '_fields_type'      => $this->oProp->_sPropertyType, // backward compatibility
                 '_structure_type'   => $this->oProp->_sPropertyType,
             );
@@ -248,10 +251,10 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * 
      * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      string
-     */    
+     */
     public function _replyToGetCapabilityForForm( $sCapability ) {
-        return $this->oProp->sCapability;         
-    }    
+        return $this->oProp->sCapability;
+    }
 
     /**
      * Called when the form object tries to set the form data from the database.
@@ -321,8 +324,8 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @deprecated  3.7.0      Use `getFieldErrors()` instead. Kept for backward compatibility.
      */
     protected function _getFieldErrors( /* $sID='deprecated', $bDelete=true */ ) {
-        return $this->oForm->getFieldErrors();        
-    }    
+        return $this->oForm->getFieldErrors();
+    }
 
     /**
      * Saves user last input in the database as a transient.
@@ -344,7 +347,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
          */
         public function _setLastInput( $aLastInputs )  {
             return $this->setLastInputs( $aLastInputs );
-        }    
+        }
 
      
 }

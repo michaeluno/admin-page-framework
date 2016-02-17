@@ -20,6 +20,7 @@ class AdminPageFramework_PageLoadInfo_network_admin_page extends AdminPageFramew
         if (in_array($oProp->sClassName, self::$aClassNames)) return self::$_oInstance;
         self::$aClassNames[] = $oProp->sClassName;
         self::$_oInstance = new AdminPageFramework_PageLoadInfo_network_admin_page($oProp, $oMsg);
+
         return self::$_oInstance;
     }
     public function _replyToSetPageLoadInfoInFooter() {

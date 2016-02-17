@@ -35,7 +35,7 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
             ? $oFactory->oProp->sPageHeadingTabTag
             : 'h2';
         
-    }   
+    }
     
     /**
      * Returns the output.
@@ -46,8 +46,8 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
         $_aPage = $this->oFactory->oProp->aPages[ $this->sPageSlug ];
         
         // If the page title is disabled, return an empty string.
-        if ( ! $_aPage[ 'show_page_title' ] ) { 
-            return ""; 
+        if ( ! $_aPage[ 'show_page_title' ] ) {
+            return "";
         }
 
         return $this->_getOutput( $_aPage, $this->sTag );
@@ -69,16 +69,16 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
             
             // If the page heading tab visibility is disabled, or only one page is registered, return the title.
             if ( ! $aPage[ 'show_page_heading_tabs' ] || count( $this->oFactory->oProp->aPages ) == 1 ) {
-                return "<{$sTag}>" 
-                        . $aPage[ 'title' ]  
-                    . "</{$sTag}>";     
+                return "<{$sTag}>"
+                        . $aPage[ 'title' ]
+                    . "</{$sTag}>";
             }
 
-            return $this->_getPageHeadingtabNavigationBar( 
-                $this->oFactory->oProp->aPages, 
+            return $this->_getPageHeadingtabNavigationBar(
+                $this->oFactory->oProp->aPages,
                 $sTag,
-                $aPage[ 'page_slug' ] 
-            );        
+                $aPage[ 'page_slug' ]
+            );
             
         }
             /**
@@ -89,12 +89,12 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
              * @return      string      the HTML page heading tab tag.
              */
             private function _getPageHeadingTabTag( $sTag, array $aPage ) {
-                return tag_escape( 
+                return tag_escape(
                     $aPage[ 'page_heading_tab_tag' ]
                         ? $aPage[ 'page_heading_tab_tag' ]
                         : $sTag
                 );
-            }            
+            }
             /**
              * Returns the HTML page heading tab navigation bar output.
              * 
@@ -115,13 +115,14 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
                     array(       // callbacks
                         'format'    => array( $this, '_replyToFormatNavigationTabItem_PageHeadingTab' ),
                     )
-                );            
+                );
                 $_sTabBar = $_oTabBar->get();
+
                 return $_sTabBar
                     ? "<div class='admin-page-framework-page-heading-tab'>"
                             . $_sTabBar
                         . "</div>"
-                    : '';                
+                    : '';
             }
                 /**
                  * Formats navigation tab array of page-heading tabs.
@@ -130,14 +131,15 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
                  * @return          array
                  * @since           3.5.10
                  * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
-                 */            
-                public function _replyToFormatNavigationTabItem_PageHeadingTab( $aSubPage, $aStructure, $aPages, $aArguments=array() ) {                    
+                 */
+                public function _replyToFormatNavigationTabItem_PageHeadingTab( $aSubPage, $aStructure, $aPages, $aArguments=array() ) {
                     switch( $aSubPage['type'] ) {
                         case 'link':
                             return $this->_getFormattedPageHeadingtabNavigationBarLinkItem( $aSubPage, $aStructure );
                         default:
                             return $this->_getFormattedPageHeadingtabNavigationBarPageItem( $aSubPage, $aStructure );
-                    }                    
+                    }
+
                     return $aSubPage + $aStructure;
                 }
                     /**
@@ -155,19 +157,20 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
                         if ( ! $aSubPage[ 'show_page_heading_tab' ] ) {
                             return array();
                         }
+
                         return array(
                             'slug'  => $aSubPage[ 'page_slug' ],
                             'title' => $aSubPage[ 'title' ],
-                            'href'  => esc_url( 
-                                $this->getQueryAdminURL( 
-                                    array( 
-                                        'page'  => $aSubPage[ 'page_slug' ], 
-                                        'tab'   => false, 
-                                    ), 
-                                    $this->oFactory->oProp->aDisallowedQueryKeys 
-                                ) 
+                            'href'  => esc_url(
+                                $this->getQueryAdminURL(
+                                    array(
+                                        'page'  => $aSubPage[ 'page_slug' ],
+                                        'tab'   => false,
+                                    ),
+                                    $this->oFactory->oProp->aDisallowedQueryKeys
+                                )
                             ),
-                        ) 
+                        )
                         + $aSubPage
                         + array( 'class' => null )
                         + $aStructure;
@@ -180,7 +183,7 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
                      * @since       
                      * @internal
                      * @return      array      the HTML output of a navigation bar item of a link.
-                     */                    
+                     */
                     private function _getFormattedPageHeadingtabNavigationBarLinkItem( array $aSubPage, $aStructure ) {
                         
                         if ( ! isset( $aSubPage[ 'href' ] ) ) {
@@ -188,18 +191,19 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
                         }
                         if ( ! $aSubPage[ 'show_page_heading_tab' ] ) {
                             return array();
-                        }                        
+                        }
                         $aSubPage = array(
                             'slug'  => $aSubPage[ 'href' ],
                             'title' => $aSubPage[ 'title' ],
                             'href'  => esc_url( $aSubPage[ 'href' ] ),
-                        ) 
+                        )
                             + $aSubPage
                             + array( 'class' => null )
                             + $aStructure;
                             
                         $aSubPage[ 'class' ] = trim( $aSubPage[ 'class' ] . ' link' );
+
                         return $aSubPage;
-                    }                      
+                    }
                 
 }

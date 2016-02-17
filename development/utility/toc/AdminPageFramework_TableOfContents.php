@@ -67,7 +67,7 @@ class AdminPageFramework_TableOfContents {
         $iDepth     = $this->iDepth;
         
         // get the headings down to the specified depth
-        $this->sHTML = preg_replace_callback( 
+        $this->sHTML = preg_replace_callback(
             '/<h[2-' . $iDepth . ']*[^>]*>.*?<\/h[2-' . $iDepth . ']>/i',
             array( $this, '_replyToInsertNamedElement' ),
             $this->sHTML
@@ -82,15 +82,16 @@ class AdminPageFramework_TableOfContents {
         }
 
         // plug the results into appropriate HTML tags
-        $this->sTitle = $this->sTitle 
+        $this->sTitle = $this->sTitle
             ? '<p class="toc-title">' . $this->sTitle . '</p>'
             : '';
+
         return '<div class="toc">'
                 . $this->sTitle
                 . '<ul>'
                     . implode( PHP_EOL, $_aOutput )
                 . '</ul>'
-            . '</div>';        
+            . '</div>';
         
     }
         protected $_aMatches = array();
@@ -98,8 +99,9 @@ class AdminPageFramework_TableOfContents {
             static $_icount = -1;
             $_icount++;
             $this->_aMatches[] = $aMatches[ 0 ];
+
             return "<span class='toc_header_link' id='toc_{$_icount}'></span>" . PHP_EOL
                 . $aMatches[ 0 ];
-        }    
+        }
     
 }

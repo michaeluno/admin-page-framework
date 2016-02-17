@@ -34,7 +34,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
         'width'                 => null,            // 3.5.7.2+ the tab box width
         'max_width'             => '100%',          // for the taxonomy checklist field type, since 2.1.1.     
         'show_post_count'       => true,            // (boolean) 3.2.0+ whether or not the post count associated with the term should be displayed or not.
-        'attributes'            => array(),    
+        'attributes'            => array(),
         'select_all_button'     => true,            // (boolean|string) 3.3.0+ to change the label, set the label here
         'select_none_button'    => true,            // (boolean|string) 3.3.0+ to change the label, set the label here                
         'label_no_term_found'   => null,            // (string) 3.3.2+  The label to display when no term is found. null needs to be set here as the default value will be assigned in the field output method.
@@ -51,14 +51,14 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
             'number'            => '',          // (integer) The maximum number of the terms to show.
             'pad_counts'        => false,       // (boolean) whether to sum up the post counts with the child post counts.
             'exclude'           => array(),     // (string) Comma separated term IDs to exclude from the list. for example `1` will remove the 'Uncategorized' category from the list.
-            'exclude_tree'      => array(), 
+            'exclude_tree'      => array(),
             'include'           => array(),     // (string) Comma separated term IDs to include in the list.
-            'fields'            => 'all', 
-            'slug'              => '', 
-            'get'               => '', 
+            'fields'            => 'all',
+            'slug'              => '',
+            'get'               => '',
             'name__like'        => '',
             'description__like' => '',
-            'offset'            => '', 
+            'offset'            => '',
             'search'            => '',          // (string) The search keyword to get the term with.
             'cache_domain'      => 'core',
         ),
@@ -70,7 +70,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      * 
      * @since       2.1.5  
      * @since       3.3.1       Changed from `_replyToFieldLoader()`.
-     */ 
+     */
     protected function setUp() {
         new AdminPageFramework_Form_View___Script_CheckboxSelector;
     }
@@ -83,12 +83,12 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      * @since       2.1.1
      * @since       2.1.5       Moved from `AdminPageFramework_Property_Base()`.
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
-     */ 
+     */
     protected function getScripts() {
 
         $_aJSArray = json_encode( $this->aFieldTypeSlugs );
         
-        return parent::getScripts() . 
+        return parent::getScripts() .
         // return 
 <<<JAVASCRIPTS
 /* For tabs */
@@ -195,7 +195,7 @@ JAVASCRIPTS;
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     */ 
+     */
     protected function getStyles() {
         return <<<CSSRULES
 /* Taxonomy Field Type */
@@ -296,7 +296,7 @@ CSSRULES;
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetInputIEStyles()`.
-     */ 
+     */
     protected function getIEStyles() {
         return <<<CSSRULES
 .tab-box-content { display: block; }
@@ -304,7 +304,7 @@ CSSRULES;
 b { position: absolute; top: 0px; right: 0px; width:1px; height: 251px; overflow: hidden; text-indent: -9999px; }
 CSSRULES;
 
-    }    
+    }
     
     /**
      * Returns the output of the field type.
@@ -321,30 +321,30 @@ CSSRULES;
     protected function getField( $aField ) {
         
         // Format
-        $aField['label_no_term_found'] = $this->getElement( 
-            $aField, 
-            'label_no_term_found', 
-            $this->oMsg->get( 'no_term_found' ) 
+        $aField['label_no_term_found'] = $this->getElement(
+            $aField,
+            'label_no_term_found',
+            $this->oMsg->get( 'no_term_found' )
         );
         
         // Parse
         $_aTabs         = array();
-        $_aCheckboxes   = array();      
+        $_aCheckboxes   = array();
         foreach( $this->getAsArray( $aField['taxonomy_slugs'] ) as $sKey => $sTaxonomySlug ) {
-            $_aTabs[]        = $this->_getTaxonomyTab( $aField, $sKey, $sTaxonomySlug );    
+            $_aTabs[]        = $this->_getTaxonomyTab( $aField, $sKey, $sTaxonomySlug );
             $_aCheckboxes[]  = $this->_getTaxonomyCheckboxes( $aField, $sKey, $sTaxonomySlug );
         }
 
         // Output
         return "<div id='tabbox-{$aField['field_id']}' class='tab-box-container categorydiv' style='max-width:{$aField['max_width']};'>"
-                . "<ul class='tab-box-tabs category-tabs'>" 
-                    . implode( PHP_EOL, $_aTabs ) 
-                . "</ul>" 
+                . "<ul class='tab-box-tabs category-tabs'>"
+                    . implode( PHP_EOL, $_aTabs )
+                . "</ul>"
                 . "<div class='tab-box-contents-container'>"
                     . "<div class='tab-box-contents' style='height: {$aField['height']};'>"
                         . implode( PHP_EOL, $_aCheckboxes )
                     . "</div>"
-                . "</div>" 
+                . "</div>"
             . "</div>"
             ;
                 
@@ -367,17 +367,18 @@ CSSRULES;
                     )
                 ),
             );
+
             return "<div " . $this->getAttributes( $_aTabBoxContainerArguments ) . ">"
                     . $this->getElement( $aField, array( 'before_label', $sKey ) )
                     . "<div " . $this->getAttributes( $this->_getCheckboxContainerAttributes( $aField ) ) . "></div>"
                     . "<ul class='list:category taxonomychecklist form-no-clear'>"
                         . $this->_getTaxonomyChecklist( $aField, $sKey, $sTaxonomySlug )
-                    . "</ul>"     
+                    . "</ul>"
                     . "<!--[if IE]><b>.</b><![endif]-->"
                     . $this->getElement( $aField, array( 'after_label', $sKey ) )
                 . "</div><!-- tab-box-content -->";
             
-        }    
+        }
             /**
              * 
              * @param       array       $aField         Field definition array,
@@ -385,19 +386,19 @@ CSSRULES;
              * @param       string      $sTaxonomySlug  the taxonomy slug (id) such as category and post_tag 
              */
             private function _getTaxonomyChecklist( array $aField, $sKey, $sTaxonomySlug ) {
-                return wp_list_categories( 
+                return wp_list_categories(
                     array(
                         'walker'                => new AdminPageFramework_WalkerTaxonomyChecklist, // the walker class instance
-                        'taxonomy'              => $sTaxonomySlug, 
-                        '_name_prefix'          => is_array( $aField['taxonomy_slugs'] ) 
-                            ? "{$aField['_input_name']}[{$sTaxonomySlug}]" 
+                        'taxonomy'              => $sTaxonomySlug,
+                        '_name_prefix'          => is_array( $aField['taxonomy_slugs'] )
+                            ? "{$aField['_input_name']}[{$sTaxonomySlug}]"
                             : $aField['_input_name'],   // name prefix of the input
                         '_input_id_prefix'      => $aField['input_id'],
-                        '_attributes'           => $this->getElement( 
-                            $aField, 
-                            array( 'attributes', $sKey ), 
-                            array() 
-                        ) + $aField['attributes'],                 
+                        '_attributes'           => $this->getElement(
+                            $aField,
+                            array( 'attributes', $sKey ),
+                            array()
+                        ) + $aField['attributes'],
                         
                         // checked items ( term IDs ) e.g.  array( 6, 10, 7, 15 ), 
                         '_selected_items'       => $this->_getSelectedKeyArray( $aField['value'], $sTaxonomySlug ),
@@ -406,16 +407,16 @@ CSSRULES;
                         'show_post_count'       => $aField['show_post_count'],      // 3.2.0+
                         'show_option_none'      => $aField['label_no_term_found'],  // 3.3.2+ 
                         'title_li'              => $aField['label_list_title'],     // 3.3.2+
-                    ) 
-                    + $this->getAsArray( 
-                        $this->getElement( 
-                            $aField, 
-                            array( 'queries', $sTaxonomySlug ), 
-                            array() 
-                        ), 
-                        true 
                     )
-                    + $aField['query']                             
+                    + $this->getAsArray(
+                        $this->getElement(
+                            $aField,
+                            array( 'queries', $sTaxonomySlug ),
+                            array()
+                        ),
+                        true
+                    )
+                    + $aField['query']
                 );
             }
      
@@ -428,21 +429,21 @@ CSSRULES;
              * @param   array   $vValue This can be either an one-dimensional array ( for single field ) or a two-dimensional array ( for multiple fields ).
              * @param   string  $sKey     
              * @return  array   Returns an numerically indexed array holding the keys that yield true as the value.
-             */ 
+             */
             private function _getSelectedKeyArray( $vValue, $sTaxonomySlug ) {
 
                 $vValue = ( array ) $vValue; // cast array because the initial value (null) may not be an array.
-                
-                if ( ! isset( $vValue[ $sTaxonomySlug ] ) ) { 
-                    return array(); 
+
+                if ( ! isset( $vValue[ $sTaxonomySlug ] ) ) {
+                    return array();
                 }
-                if ( ! is_array( $vValue[ $sTaxonomySlug ] ) ) { 
-                    return array(); 
+                if ( ! is_array( $vValue[ $sTaxonomySlug ] ) ) {
+                    return array();
                 }
                 
                 return array_keys( $vValue[ $sTaxonomySlug ], true );
             
-            }            
+            }
             
         /**
          * Returns an HTML tab list item output.
@@ -453,12 +454,12 @@ CSSRULES;
         private function _getTaxonomyTab( array $aField, $sKey, $sTaxonomySlug ) {
             return "<li class='tab-box-tab'>"
                     . "<a href='#tab_{$aField['input_id']}_{$sKey}'>"
-                        . "<span class='tab-box-tab-text'>" 
+                        . "<span class='tab-box-tab-text'>"
                             . $this->_getLabelFromTaxonomySlug( $sTaxonomySlug )
                         . "</span>"
                     ."</a>"
                 ."</li>";
-        }    
+        }
             /**
              * Retrieves the label of the given taxonomy by its slug.
              * 
@@ -468,10 +469,11 @@ CSSRULES;
              */
             private function _getLabelFromTaxonomySlug( $sTaxonomySlug ) {
                 $_oTaxonomy = get_taxonomy( $sTaxonomySlug );
+
                 return isset( $_oTaxonomy->label )
                     ? $_oTaxonomy->label
                     : null;
-            }       
+            }
 
         
 }

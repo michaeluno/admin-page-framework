@@ -28,10 +28,10 @@ class AdminPageFramework_Utility_URL_Cest {
         // $_oUtil = new AdminPageFramework_WPUtility;
 
         // $I->seeInCurrentUrl( $_SERVER['REQUEST_URI'] );
-        
+
         // $I->seeCurrentUrlEquals( $_oUtil->getCurrentURL() );
         // $I->seeCurrentUrlEquals( 'aaa' );
-        
+
     }
 
 }

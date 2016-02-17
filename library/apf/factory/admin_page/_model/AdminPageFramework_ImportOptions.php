@@ -12,6 +12,7 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
     }
     private function getElementInFilesArray(array $aFilesImport, $sInputID, $sElementKey = 'error') {
         $sElementKey = strtolower($sElementKey);
+
         return $this->getElement($aFilesImport, array($sElementKey, $sInputID), null);
     }
     public function getError() {
@@ -23,6 +24,7 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
     public function getImportData() {
         $sFilePath = $this->getElementInFilesArray($this->aFilesImport, $this->sInputID, 'tmp_name');
         $vData = file_exists($sFilePath) ? file_get_contents($sFilePath, true) : false;
+
         return $vData;
     }
     public function formatImportData(&$vData, $sFormatType = null) {
@@ -32,15 +34,18 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
                 return;
             case 'json':
                 $vData = json_decode(( string )$vData, true);
+
                 return;
             case 'array':
             default:
                 $vData = maybe_unserialize(trim($vData));
+
                 return;
         }
     }
     public function getFormatType() {
         $this->sFormatType = isset($this->sFormatType) && $this->sFormatType ? $this->sFormatType : $this->getSubmitValueByType($this->aPost, $this->sInputID, 'format');
+
         return $this->sFormatType;
     }
 }

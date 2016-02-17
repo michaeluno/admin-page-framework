@@ -22,9 +22,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator extends AdminPageFramewo
      */
     public function replyToLoadTab( $oAdminPage ) {
         
-        new  AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator( 
+        new  AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator(
             $oAdminPage,
-            $this->sPageSlug, 
+            $this->sPageSlug,
             array(
                 'section_id'    => $this->sTabSlug,       // avoid hyphen(dash), dots, and white spaces
                 'tab_slug'      => $this->sTabSlug,

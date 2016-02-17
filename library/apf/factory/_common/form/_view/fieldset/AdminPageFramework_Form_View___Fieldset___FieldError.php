@@ -23,6 +23,7 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
         if ('_default' === $this->getElement($aSectionPath, 0)) {
             array_shift($aSectionPath);
         }
+
         return $aSectionPath;
     }
     private function _getFieldError($aErrors, $aSectionPath, $aFieldPath, $sHeadingMessage) {
@@ -30,6 +31,7 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
         if ($this->_hasFieldError($aErrors, $_aErrorPath)) {
             return "<span class='field-error'>*&nbsp;" . $sHeadingMessage . $this->getElement($aErrors, $_aErrorPath) . "</span>";
         }
+
         return '';
     }
     private function _hasFieldError($aErrors, array $aFieldAddress) {

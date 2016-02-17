@@ -38,7 +38,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
@@ -46,7 +46,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
                 'title'         => __( 'Radio Buttons', 'admin-page-framework-loader' ),
                 'tip'           => __( 'These are radio buttons.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
       
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID       
@@ -57,7 +57,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
                 'label'         => array(
                     'a' => 'Apple',
                     'b' => 'Banana ( this option is disabled. )',
-                    'c' => 'Cherry' 
+                    'c' => 'Cherry',
                 ),
                 'default'       => 'c', // yields Cherry; its key is specified.
                 'after_label'   => '<br />',
@@ -77,7 +77,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
                 'type'          => 'radio',
                 'delimiter'     => '<hr />',
                 'default'       => 1,
-                'label'         => array( 
+                'label'         => array(
                     1 => 'one',
                     2 => 'two',
                 ),
@@ -88,38 +88,38 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
                 ),
                 array(
                     'default'   => 5,
-                    'label'     => array( 
+                    'label'     => array(
                         3 => 'three',
-                        4 => 'four',    
-                        5 => 'five' 
+                        4 => 'four',
+                        5 => 'five',
                     ),
                 ),
                 array(
                     'default'   => 7,
-                    'label'     => array( 
+                    'label'     => array(
                         6 => 'six',
                         7 => 'seven',
                         8 => 'eight',
-                        9 => 'nine' 
+                        9 => 'nine',
                     ),
                 ),
-            ),    
+            ),
             array( // Repeatable radio buttons
                 'field_id'      => 'radio_repeatable',
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'          => 'radio',
-                'label'         => array( 
-                    1 => 'On', 
-                    0 => 'Off'
+                'label'         => array(
+                    1 => 'On',
+                    0 => 'Off',
                 ),
                 'default' => 0, // set the key of the label array
                 'repeatable' =>    true,
-            ),    
+            ),
             array( // Sortable radio buttons
                 'field_id'      => 'radio_sortable',
                 'title'         => __( 'Sortable', 'admin-page-framework-loader' ),
                 'type'          => 'radio',
-                'label'         => array( 
+                'label'         => array(
                     1 => __( 'One', 'admin-page-framework-loader' ),
                     2 => __( 'Two', 'admin-page-framework-loader' ),
                     3 => __( 'Three', 'admin-page-framework-loader' ),
@@ -130,7 +130,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
                 array(), // the third item
                 array(), // the fourth item
             )
-        );      
+        );
         
     }
 

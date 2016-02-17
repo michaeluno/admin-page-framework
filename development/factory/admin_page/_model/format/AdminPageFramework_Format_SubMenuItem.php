@@ -44,9 +44,9 @@ class AdminPageFramework_Format_SubMenuItem extends AdminPageFramework_Format_Ba
      */
     public function __construct( /* $aSubMenuItem, $oFactory, $iParsedIndex */ ) {
      
-        $_aParameters = func_get_args() + array( 
-            $this->aSubMenuItem, 
-            $this->oFactory, 
+        $_aParameters = func_get_args() + array(
+            $this->aSubMenuItem,
+            $this->oFactory,
             $this->iParsedIndex,
         );
         $this->aSubMenuItem  = $_aParameters[ 0 ];
@@ -69,19 +69,21 @@ class AdminPageFramework_Format_SubMenuItem extends AdminPageFramework_Format_Ba
                 $this->oFactory,
                 $this->iParsedIndex
             );
+
             return $_oFormatter->get();
         }
             
         if ( isset( $_aSubMenuItem[ 'href' ] ) ) {
-            $_oFormatter = new AdminPageFramework_Format_SubMenuLink( 
+            $_oFormatter = new AdminPageFramework_Format_SubMenuLink(
                 $_aSubMenuItem,
                 $this->oFactory,
                 $this->iParsedIndex
             );
-            return $_oFormatter->get();            
+
+            return $_oFormatter->get();
         }
             
-        return array();    
+        return array();
         
     }
     

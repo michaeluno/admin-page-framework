@@ -35,7 +35,7 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
         private function _loadCustomPostType() {
             
             // Custom post type
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/APF_PostType.php' );
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/APF_PostType.php';
                          
         }
         
@@ -44,19 +44,19 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
          */
         private function _loadPostMetaBoxes() {
        
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_BuiltinFieldTypes.php' );
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_BuiltinFieldTypes.php';
             
             // Section Tabs
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_TabbedSections.php' );
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_TabbedSections.php';
 
             // Repeatable Tabbed Sections
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_RepeatableTabbedSections.php' );
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_RepeatableTabbedSections.php';
 
             // Collapsible Sections
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_CollapsibleSections.php' );
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_CollapsibleSections.php';
   
             // Repeatable Collapsible Sections
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_RepeatableCollapsibleSections.php' );
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_RepeatableCollapsibleSections.php';
            
         }
       
@@ -64,39 +64,39 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
          * Taxonomy
          */
         private function _loadTaxonomyFields() {
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/taxonomy_field/APF_TaxonomyField.php' );
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/taxonomy_field/APF_TaxonomyField.php';
             
         }
       
         private function _loadAdminPaeges() {
         
-            if ( ! is_admin() ) { 
-                return; 
+            if ( ! is_admin() ) {
+                return;
             }
                       
             // Basic usage - admin page and page meta boxes
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/APF_BasicUsage.php' );
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/basic_usage/APF_BasicUsage.php';
                
             // Network admin pages
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/network_admin/APF_NetworkAdmin.php' );
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/network_admin/APF_NetworkAdmin.php';
            
             // Admin Pages
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin_page/APF_Demo.php' );
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/admin_page/APF_Demo.php';
 
         }
       
         private function _loadUserMeta() {
             
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/user_meta/APF_MyUserMeta.php' );   
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/user_meta/APF_MyUserMeta.php';
             
         }
         
-        private function _loadWidgets() {   
+        private function _loadWidgets() {
         
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/widget/APF_Widget.php' );
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/widget/APF_Widget_WithSection.php' );
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/widget/APF_Widget.php';
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/widget/APF_Widget_WithSection.php';
             
-        }      
+        }
       
         /**
          * Registers classes to be auto-loaded.
@@ -105,12 +105,12 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
         private function _registerClasses() {
 
             $_aClassFiles = array();
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/class-file-list.php' );
-            new AdminPageFramework_RegisterClasses( 
+            include AdminPageFrameworkLoader_Registry::$sDirPath . '/example/class-file-list.php';
+            new AdminPageFramework_RegisterClasses(
                 array(),              // scanning directory paths
                 array(),              // autoloader options
                 $_aClassFiles         // pre-generated class list
-            );            
+            );
             
         }
  

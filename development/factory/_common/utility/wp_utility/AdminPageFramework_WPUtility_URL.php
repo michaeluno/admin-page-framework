@@ -33,6 +33,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
         } else {
             $sPageURL .= $_SERVER["SERVER_NAME"] . $sRequestURI;
         }
+
         return $sPageURL;
         
     }
@@ -54,8 +55,8 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
             ? network_admin_url( AdminPageFramework_WPUtility_Page::getPageNow() )
             : admin_url( AdminPageFramework_WPUtility_Page::getPageNow() );
         
-        $sSubjectURL = $sSubjectURL 
-            ? $sSubjectURL 
+        $sSubjectURL = $sSubjectURL
+            ? $sSubjectURL
             : add_query_arg( $_GET, $_sAdminURL );
             
         return self::getQueryURL( $aAddingQueries, $aRemovingQueryKeys, $sSubjectURL );
@@ -73,8 +74,8 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
     static public function getQueryURL( $aAddingQueries, $aRemovingQueryKeys, $sSubjectURL ) {
         
         // Remove Queries
-        $sSubjectURL = empty( $aRemovingQueryKeys ) 
-            ? $sSubjectURL 
+        $sSubjectURL = empty( $aRemovingQueryKeys )
+            ? $sSubjectURL
             : remove_query_arg( ( array ) $aRemovingQueryKeys, $sSubjectURL );
             
         // Add Queries
@@ -82,7 +83,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
         
         return $sSubjectURL;
         
-    }    
+    }
 
     /**
      * Calculates the URL from the given path.
@@ -96,13 +97,13 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
     static public function getSRCFromPath( $sFilePath ) {
                         
         $_oWPStyles      = new WP_Styles(); // It doesn't matter whether the file is a style or not. Just use the built-in WordPress class to calculate the SRC URL.
-        $_sRelativePath  = AdminPageFramework_Utility::getRelativePath( ABSPATH, $sFilePath );     
+        $_sRelativePath  = AdminPageFramework_Utility::getRelativePath( ABSPATH, $sFilePath );
         $_sRelativePath  = preg_replace( "/^\.[\/\\\]/", '', $_sRelativePath, 1 ); // removes the heading ./ or .\ 
         $_sHref          = trailingslashit( $_oWPStyles->base_url ) . $_sRelativePath;
         unset( $_oWPStyles ); // for PHP 5.2.x or below
         return $_sHref;
         
-    }    
+    }
 
     /**
      * Resolves the given src and returns the url.
@@ -114,12 +115,12 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
      * @since       3.6.0       Changed the name from `resolveSRC()`.
      * @since       3.7.9       Changed not to escape characters.
      * @return      string|null
-     */    
-    static public function getResolvedSRC( $sSRC, $bReturnNullIfNotExist=false ) {    
+     */
+    static public function getResolvedSRC( $sSRC, $bReturnNullIfNotExist=false ) {
 
         if ( ! self::isResourcePath( $sSRC ) ) {
-            return $bReturnNullIfNotExist 
-                ? null 
+            return $bReturnNullIfNotExist
+                ? null
                 : $sSRC;
         }
             
@@ -140,12 +141,12 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
         // Otherwise, assume the string is a relative path 'to the WordPress installed absolute path'.
         return $sSRC;
         
-    }    
+    }
         /**
          * @deprecated      3.6.0       Use `getResolvedSRC()` instead.
          */
         static public function resolveSRC( $sSRC, $bReturnNullIfNotExist=false ) {
             return self::getResolvedSRC( $sSRC, $bReturnNullIfNotExist );
-        }    
+        }
     
 }

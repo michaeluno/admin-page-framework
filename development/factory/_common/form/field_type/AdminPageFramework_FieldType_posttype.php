@@ -38,13 +38,13 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
         'attributes'            => array(
             'size'      => 30,
             'maxlength' => 400,
-        ),    
+        ),
         'select_all_button'     => true,     // 3.3.0+   to change the label, set the label here
         'select_none_button'    => true,     // 3.3.0+   to change the label, set the label here        
     );
     protected $aDefaultRemovingPostTypeSlugs = array(
-        'revision', 
-        'attachment', 
+        'revision',
+        'attachment',
         'nav_menu_item',
     );
     /**
@@ -52,9 +52,10 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     */ 
+     */
     protected function getStyles() {
         $_sParentStyles = parent::getStyles();
+
         return $_sParentStyles . <<<CSSRULES
 /* Posttype Field Type */
 .admin-page-framework-field input[type='checkbox'] {
@@ -81,16 +82,17 @@ CSSRULES;
     protected function getField( $aField ) {
         
         $this->_sCheckboxClassSelector = '';    // disable the checkbox class selector.
-        $aField['label'] = $this->_getPostTypeArrayForChecklist( 
-            isset( $aField['slugs_to_remove'] ) 
-                ? $this->getAsArray( $aField['slugs_to_remove'] ) 
+        $aField['label'] = $this->_getPostTypeArrayForChecklist(
+            isset( $aField['slugs_to_remove'] )
+                ? $this->getAsArray( $aField['slugs_to_remove'] )
                 : $this->aDefaultRemovingPostTypeSlugs,    // slugs to remove
             $aField['query'],
             $aField['operator']
         );
+
         return parent::getField( $aField );
             
-    }    
+    }
     
         /**
          * A helper function for the above getPosttypeChecklistField method.
@@ -103,7 +105,7 @@ CSSRULES;
          * @param   $asQueryArgs        array   The query argument.
          * @param   $sOperator          array   The query operator.
          * @return  array   The array holding the elements of installed post types' labels and their slugs except the specified expluding post types.
-         */ 
+         */
         private function _getPostTypeArrayForChecklist( $aSlugsToRemove, $asQueryArgs=array(), $sOperator='and' ) {
             
             $_aPostTypes = array();
@@ -112,8 +114,9 @@ CSSRULES;
                     $_aPostTypes[ $_oPostType->name ] = $_oPostType->label;
                 }
             }
-            return array_diff_key( $_aPostTypes, array_flip( $aSlugsToRemove ) );    
 
-        }     
+            return array_diff_key( $_aPostTypes, array_flip( $aSlugsToRemove ) );
+
+        }
     
 }

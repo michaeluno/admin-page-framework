@@ -23,6 +23,7 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
         $_sReturnToLibrary = esc_js($_oMsg->get('return_to_library'));
         $_sSelect = esc_js($_oMsg->get('select'));
         $_sInsert = esc_js($_oMsg->get('insert'));
+
         return <<<JAVASCRIPTS
 (function ( $ ) {
             

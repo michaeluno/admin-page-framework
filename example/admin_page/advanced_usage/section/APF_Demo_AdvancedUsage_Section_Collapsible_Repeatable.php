@@ -38,7 +38,7 @@ class APF_Demo_AdvancedUsage_Section_Collapsible_Repeatable {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'        => $this->sSectionID,
@@ -49,10 +49,10 @@ class APF_Demo_AdvancedUsage_Section_Collapsible_Repeatable {
                     'toggle_all_button' => array( 'top-left', 'bottom-left' ),
                     'container'         => 'section',
                 ),
-                'repeatable'        => true, 
-                'sortable'          => true, 
+                'repeatable'        => true,
+                'sortable'          => true,
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -61,7 +61,7 @@ class APF_Demo_AdvancedUsage_Section_Collapsible_Repeatable {
                 'field_id'      => 'section_title_in_collapsible_repeatable_section',
                 'type'          => 'section_title',
                 'label'         => __( 'Section Name', 'admin-page-framework-loader' ),
-            ),            
+            ),
             array(
                 'field_id'      => 'text_field_in_collapsible_repeatable_section',
                 'title'         => __( 'Text', 'admin-page-framework-loader' ),
@@ -70,7 +70,7 @@ class APF_Demo_AdvancedUsage_Section_Collapsible_Repeatable {
                 'sortable'      => true,
                 'description'   => __( 'This field is repeatable and sortable.', 'admin-page-framework-loader' ),
             )
-        );              
+        );
       
     }
 

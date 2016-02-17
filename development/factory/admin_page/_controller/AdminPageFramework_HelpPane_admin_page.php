@@ -25,7 +25,7 @@ class AdminPageFramework_HelpPane_admin_page extends AdminPageFramework_HelpPane
      * 
      * @since       2.1.0
      * @internal
-     */ 
+     */
     protected static $_aStructure_HelpTabUserArray = array(
         'page_slug'                 => null, // (mandatory)
         'page_tab_slug'             => null, // (optional)
@@ -48,7 +48,7 @@ class AdminPageFramework_HelpPane_admin_page extends AdminPageFramework_HelpPane
             return;
         }
         
-        add_action( 'admin_head', array( $this, '_replyToRegisterHelpTabs' ), 200 );     
+        add_action( 'admin_head', array( $this, '_replyToRegisterHelpTabs' ), 200 );
         
     }
     
@@ -63,7 +63,7 @@ class AdminPageFramework_HelpPane_admin_page extends AdminPageFramework_HelpPane
      * @since       2.1.0
      * @internal
      * @callback    action      admin_head
-     */  
+     */
     public function _replyToRegisterHelpTabs() {
 
         if ( ! $this->_isInThePage() ) {
@@ -73,8 +73,8 @@ class AdminPageFramework_HelpPane_admin_page extends AdminPageFramework_HelpPane
         $_sCurrentPageSlug  = $this->oProp->getCurrentPageSlug();
         $_sCurrentTabSlug   = $this->oProp->getCurrentTabSlug( $_sCurrentPageSlug );
         
-        if ( ! $this->oProp->isPageAdded( $_sCurrentPageSlug ) ) { 
-            return; 
+        if ( ! $this->oProp->isPageAdded( $_sCurrentPageSlug ) ) {
+            return;
         }
 
         foreach( $this->oProp->aHelpTabs as $aHelpTab ) {
@@ -90,19 +90,19 @@ class AdminPageFramework_HelpPane_admin_page extends AdminPageFramework_HelpPane
          */
         private function _registerHelpTab( array $aHelpTab, $sCurrentPageSlug, $sCurrentTabSlug ) {
            
-            if ( $sCurrentPageSlug != $aHelpTab['sPageSlug'] ) { 
+            if ( $sCurrentPageSlug != $aHelpTab['sPageSlug'] ) {
                 return;
             }
             if ( isset( $aHelpTab['sPageTabSlug'] ) && ! empty( $aHelpTab['sPageTabSlug'] ) && $sCurrentTabSlug != $aHelpTab['sPageTabSlug'] ) {
                 return;
             }
 
-            $this->_setHelpTab( 
-                $aHelpTab[ 'sID' ], 
-                $aHelpTab[ 'sTitle' ], 
-                $aHelpTab[ 'aContent' ], 
+            $this->_setHelpTab(
+                $aHelpTab[ 'sID' ],
+                $aHelpTab[ 'sTitle' ],
+                $aHelpTab[ 'aContent' ],
                 $aHelpTab[ 'aSidebar' ]
-            );            
+            );
             
         }
     
@@ -125,7 +125,7 @@ class AdminPageFramework_HelpPane_admin_page extends AdminPageFramework_HelpPane
      * @param       array       $aHelpTab The help tab array. The key structure is detailed in the description part.
      * @return      void
      * @internal
-     */ 
+     */
     public function _addHelpTab( $aHelpTab ) {
         
         // Avoid undefined index warnings.
@@ -141,6 +141,7 @@ class AdminPageFramework_HelpPane_admin_page extends AdminPageFramework_HelpPane
                 'sPageSlug'     => $aHelpTab['page_slug'],
                 'sPageTabSlug'  => $aHelpTab['page_tab_slug'],
             );
+
             return;
         }
 

@@ -23,11 +23,11 @@ class APF_PostType extends AdminPageFramework_PostType {
      * 
      * ALternatevely, you may use the set_up_{instantiated class name} method, which also is called at the end of the constructor.
      */
-    public function setUp() {    
+    public function setUp() {
 
         $this->setArguments(
             // argument - for the array structure, see http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
-            array( 
+            array(
                 'labels'            => $this->_getLabels(),
                 'public'            => true,
                 'menu_position'     => 110,
@@ -35,34 +35,34 @@ class APF_PostType extends AdminPageFramework_PostType {
                 'taxonomies'        => array( '' ),
                 'has_archive'       => true,
                 'show_admin_column' => true, // [3.5+ core] this is for custom taxonomies to automatically add the column in the listing table.
-                'menu_icon'         => $this->oProp->bIsAdmin 
-                    ? ( 
-                        version_compare( $GLOBALS['wp_version'], '3.8', '>=' ) 
-                            ? 'dashicons-wordpress' 
-                            : plugins_url( 'asset/image/wp-logo_16x16.png', AdminPageFrameworkLoader_Registry::$sFilePath ) 
+                'menu_icon'         => $this->oProp->bIsAdmin
+                    ? (
+                        version_compare( $GLOBALS['wp_version'], '3.8', '>=' )
+                            ? 'dashicons-wordpress'
+                            : plugins_url( 'asset/image/wp-logo_16x16.png', AdminPageFrameworkLoader_Registry::$sFilePath )
                     )
                     : null, // do not call the function in the front-end.
-                    
+
                 // (framework specific) this sets the screen icon for the post type for WordPress v3.7.1 or below.
                 // a file path can be passed instead of a url, plugins_url( 'asset/image/wp-logo_32x32.png', APFDEMO_FILE )
-                'screen_icon' => AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/wp-logo_32x32.png', 
+                'screen_icon' => AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/wp-logo_32x32.png',
                 
                 // (framework specific) [3.5.10+] default: true
-                'show_submenu_add_new'  => true, 
+                'show_submenu_add_new'  => true,
                 
                 // (framework specific) [3.7.4+]
                 'submenu_order_manage' => 5,   // default 5
                 'submenu_order_addnew' => 9,   // default 10
-            )    
+            )
         );
         
-        $this->addTaxonomy( 
+        $this->addTaxonomy(
             'apf_sample_taxonomy',  // taxonomy slug
             array(                  // argument - for the argument array keys, refer to : http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments
                 'labels'                => array(
                     'name'          => 'Sample Genre',
                     'add_new_item'  => 'Add New Genre',
-                    'new_item_name' => "New Genre"
+                    'new_item_name' => "New Genre",
                 ),
                 'show_ui'               => true,
                 'show_tagcloud'         => false,
@@ -74,13 +74,13 @@ class APF_PostType extends AdminPageFramework_PostType {
                 'submenu_order'         => 10,      // (framework specific) Default :15
             )
         );
-        $this->addTaxonomy( 
+        $this->addTaxonomy(
             'apf_second_taxonomy',
             array(
                 'labels'                => array(
                     'name'          => 'Non Hierarchical',
                     'add_new_item'  => 'Add New Taxonomy',
-                    'new_item_name' => "New Sample Taxonomy"
+                    'new_item_name' => "New Sample Taxonomy",
                 ),
                 'show_ui'               => true,
                 'show_tagcloud'         => false,
@@ -132,8 +132,8 @@ class APF_PostType extends AdminPageFramework_PostType {
     public function load() {
         
         $this->setAutoSave( false );
-        $this->setAuthorTableFilter( true );     
-        add_filter( 'request', array( $this, 'replyToSortCustomColumn' ) );        
+        $this->setAuthorTableFilter( true );
+        add_filter( 'request', array( $this, 'replyToSortCustomColumn' ) );
         
     }
     
@@ -154,7 +154,7 @@ class APF_PostType extends AdminPageFramework_PostType {
     public function footer_right_APF_PostType( $sHTML ) {
         return __( 'Custom right footer text.', 'admin-page-framework-loader' ) . '<br />'
             . $sHTML;
-    }    
+    }
     
     /*
      * Built-in callback methods
@@ -163,12 +163,13 @@ class APF_PostType extends AdminPageFramework_PostType {
      * @return      array
      */
     public function action_links_apf_posts( $aActionLinks, $oPost ) {
-        $_sMessage = esc_attr( 
+        $_sMessage = esc_attr(
             __( 'You can embed a custom link with the `action_links_{post type slug}` filter hook.', 'admin-page-framework-loader' )
         );
         $aActionLinks[] = "<a href='' title='{$_sMessage}'>"
             . __( 'Sample Link', 'admin-page-framework-loader' )
             . "</a>";
+
         return $aActionLinks;
     }
     
@@ -177,9 +178,9 @@ class APF_PostType extends AdminPageFramework_PostType {
      * 
      * @callback        filter      columns_{post type slug}
      */
-    public function columns_apf_posts( $aHeaderColumns ) { 
+    public function columns_apf_posts( $aHeaderColumns ) {
         
-        return array_merge( 
+        return array_merge(
             $aHeaderColumns,
             array(
                 'cb'                => '<input type="checkbox" />', // Checkbox for bulk actions. 
@@ -190,7 +191,7 @@ class APF_PostType extends AdminPageFramework_PostType {
                 'comments'          => '<div class="comment-grey-bubble"></div>', // Number of pending comments. 
                 'date'              => __( 'Date', 'admin-page-framework' ),     // The date and publish status of the post. 
                 'samplecolumn'      => __( 'Sample Column' ),
-            )     
+            )
         );
         
     }
@@ -199,11 +200,11 @@ class APF_PostType extends AdminPageFramework_PostType {
      * 
      * @callback        filter      sortable_columns_{post type slug}
      */
-    public function sortable_columns_apf_posts( $aSortableHeaderColumns ) { 
+    public function sortable_columns_apf_posts( $aSortableHeaderColumns ) {
         return $aSortableHeaderColumns + array(
             'samplecolumn' => 'samplecolumn',
         );
-    }    
+    }
     
     /**
      * 
@@ -229,16 +230,17 @@ class APF_PostType extends AdminPageFramework_PostType {
     public function replyToSortCustomColumn( $aVars ){
 
         if ( isset( $aVars[ 'orderby' ] ) && 'samplecolumn' == $aVars[ 'orderby' ] ){
-            $aVars = array_merge( 
-                $aVars, 
+            $aVars = array_merge(
+                $aVars,
                 array(
                     'meta_key'  => 'metabox_text_field',
                     'orderby'   => 'meta_value',
                 )
             );
         }
+
         return $aVars;
-    }    
+    }
     
     /**
      * Modifies the output of the post content.
@@ -247,7 +249,7 @@ class APF_PostType extends AdminPageFramework_PostType {
      * 
      * Alternatively, you may use the 'content_{instantiated class name}' method,
      */
-    public function content( $sContent ) { 
+    public function content( $sContent ) {
                     
         // 1. To retrieve the meta box data - get_post_meta( $post->ID ) will return an array of all the meta field values.
         // or if you know the field id of the value you want, you can do $value = get_post_meta( $post->ID, $field_id, true );
@@ -256,29 +258,29 @@ class APF_PostType extends AdminPageFramework_PostType {
 
         foreach( ( array ) get_post_custom_keys( $_iPostID ) as $_sKey ) {    // This way, array will be unserialized; easier to view.
             $_aPostData[ $_sKey ] = get_post_meta( $_iPostID, $_sKey, true );
-        }    
+        }
         
         // Or you may do this but the nested elements will be a serialized array.
         // $_aPostData = get_post_custom( $_iPostID ) ;
-        
+
         // 2. To retrieve the saved options in the setting pages created by the framework - use the get_option() function.
         // The key name is the class name by default. The key can be changed by passing an arbitrary string 
         // to the first parameter of the constructor of the AdminPageFramework class.     
         $_aSavedOptions = get_option( 'APF_Demo' );
             
-        return "<h3>" . __( 'Saved Meta Field Values of the Post', 'admin-page-framework-loader' ) . "</h3>" 
+        return "<h3>" . __( 'Saved Meta Field Values of the Post', 'admin-page-framework-loader' ) . "</h3>"
             . $this->oDebug->get( $_aPostData )
-            . "<h3>" . __( 'Saved Setting Options of The Loader Plugin', 'admin-page-framework-loader' ) . "</h3>" 
+            . "<h3>" . __( 'Saved Setting Options of The Loader Plugin', 'admin-page-framework-loader' ) . "</h3>"
             . $this->oDebug->get( $_aSavedOptions )
             ;
 
-    }    
+    }
     
 }
 
-new APF_PostType( 
+new APF_PostType(
     AdminPageFrameworkLoader_Registry::$aPostTypes[ 'demo' ],                // the post type slug
     array(),                    // the argument array. Here an empty array is passed because it is defined inside the class.
     AdminPageFrameworkLoader_Registry::$sFilePath,               // the caller script path.
     'admin-page-framework-loader' // the text domain.
-);  
+);

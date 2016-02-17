@@ -16,7 +16,7 @@
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_Form_View___Description extends AdminPageFramework_FrameworkUtility {            
+class AdminPageFramework_Form_View___Description extends AdminPageFramework_FrameworkUtility {
 
     public $aDescriptions   = array();
     
@@ -28,8 +28,8 @@ class AdminPageFramework_Form_View___Description extends AdminPageFramework_Fram
      */
     public function __construct( /* $asDescriptions, $sClassAttribute='admin-page-framework-form-element-description' */ ) {
 
-        $_aParameters = func_get_args() + array( 
-            $this->aDescriptions, 
+        $_aParameters = func_get_args() + array(
+            $this->aDescriptions,
             $this->sClassAttribute,
         );
         $this->aDescriptions    = $this->getAsArray( $_aParameters[ 0 ] );
@@ -58,6 +58,7 @@ class AdminPageFramework_Form_View___Description extends AdminPageFramework_Fram
                     . "</span>"
                 . "</p>";
         }
+
         return implode( PHP_EOL, $_aOutput );
         
     }

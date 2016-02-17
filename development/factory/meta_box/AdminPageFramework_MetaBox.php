@@ -53,39 +53,39 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Con
      * @param       string            $sPriority                (optional) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the meta box. Default: `edit_posts`.
      * @param       string            $sTextDomain              (optional) The text domain applied to the displayed text messages. Default: `admin-page-framework`.
      * @return      void
-     */ 
+     */
     public function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
         
-        if ( ! $this->_isInstantiatable() ) { 
-            return; 
+        if ( ! $this->_isInstantiatable() ) {
+            return;
         }
-        if ( empty( $asPostTypeOrScreenID ) ) { 
-            return; 
-        }        
+        if ( empty( $asPostTypeOrScreenID ) ) {
+            return;
+        }
         
         // A property object needs to be done first.
         $_sProprtyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
             ? $this->aSubClassNames[ 'oProp' ]
-            : 'AdminPageFramework_Property_' . $this->_sStructureType;        
-        $this->oProp                = new $_sProprtyClassName( 
-            $this, 
-            get_class( $this ), 
-            $sCapability, 
-            $sTextDomain, 
-            $this->_sStructureType 
+            : 'AdminPageFramework_Property_' . $this->_sStructureType;
+        $this->oProp                = new $_sProprtyClassName(
+            $this,
+            get_class( $this ),
+            $sCapability,
+            $sTextDomain,
+            $this->_sStructureType
         );
-        $this->oProp->aPostTypes    = is_string( $asPostTypeOrScreenID ) 
-            ? array( $asPostTypeOrScreenID ) 
+        $this->oProp->aPostTypes    = is_string( $asPostTypeOrScreenID )
+            ? array( $asPostTypeOrScreenID )
             : $asPostTypeOrScreenID;
         
-        parent::__construct( 
-            $sMetaBoxID, 
-            $sTitle, 
-            $asPostTypeOrScreenID, 
-            $sContext, 
-            $sPriority, 
-            $sCapability, 
-            $sTextDomain 
+        parent::__construct(
+            $sMetaBoxID,
+            $sTitle,
+            $asPostTypeOrScreenID,
+            $sContext,
+            $sPriority,
+            $sCapability,
+            $sTextDomain
         );
         
     }

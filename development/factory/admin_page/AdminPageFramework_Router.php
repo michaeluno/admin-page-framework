@@ -33,27 +33,27 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             ? $this->aSubClassNames[ 'oProp' ]
             : 'AdminPageFramework_Property_' . $this->_sStructureType;
             
-        $this->oProp = new $_sProprtyClassName( 
-            $this, 
-            $sCallerPath, 
-            get_class( $this ), 
-            $sOptionKey, 
-            $sCapability, 
-            $sTextDomain 
+        $this->oProp = new $_sProprtyClassName(
+            $this,
+            $sCallerPath,
+            get_class( $this ),
+            $sOptionKey,
+            $sCapability,
+            $sTextDomain
         );
 
         parent::__construct( $this->oProp );
 
         if ( $this->oProp->bIsAdminAjax ) {
             return;
-        }     
+        }
         if ( ! $this->oProp->bIsAdmin ) {
             return;
         }
         
-        add_action( 'wp_loaded', array( $this, '_replyToDetermineToLoad' ) );        
+        add_action( 'wp_loaded', array( $this, '_replyToDetermineToLoad' ) );
         
-    }   
+    }
     
     /**
      * Instantiates a link object based on the type.
@@ -64,8 +64,9 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      */
     protected function _getLinkObject() {
         $_sClassName = $this->aSubClassNames[ 'oLink' ];
-        return new $_sClassName( $this->oProp, $this->oMsg );        
-    }    
+
+        return new $_sClassName( $this->oProp, $this->oMsg );
+    }
     
     /**
      * Instantiates a link object based on the type.
@@ -73,11 +74,12 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      * @since       3.7.10
      * @internal
      * @return      null|object
-     */    
+     */
     protected function _getPageLoadObject() {
         $_sClassName = $this->aSubClassNames[ 'oPageLoadInfo' ];
+
         return new $_sClassName( $this->oProp, $this->oMsg );
-    }        
+    }
     
     /**
      * Handles undefined function calls.
@@ -93,7 +95,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      * @since       3.3.1       Moved from `AdminPageFramework_Base`.
      * @internal
      */
-    public function __call( $sMethodName, $aArgs=null ) {     
+    public function __call( $sMethodName, $aArgs=null ) {
 
         $_sPageSlug             = $this->oProp->getCurrentPageSlug();
         $_sTabSlug              = $this->oProp->getCurrentTabSlug( $_sPageSlug );
@@ -102,27 +104,27 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             'section_pre_',
             'field_pre_',
             'load_pre_',
-        );        
+        );
         
         switch( $this->_getCallbackName( $sMethodName, $_sPageSlug, $_aKnownMethodPrefixes ) ) {
                 
             // add_settings_section() callback 
             case 'section_pre_':
                 return $this->_renderSectionDescription( $sMethodName );    // defined in AdminPageFramework_Setting
-                
+
             // add_settings_field() callback
             case 'field_pre_':
                 return $this->_renderSettingField( $_mFirstArg, $_sPageSlug );  // defined in AdminPageFramework_Setting
-            
+
             // load-{page} callback            
             case 'load_pre_':
                 return $this->_doPageLoadCall( $sMethodName, $_sPageSlug, $_sTabSlug, $_mFirstArg );
             
             default:
                 return parent::__call( $sMethodName, $aArgs );
-        }        
+        }
         
-    }    
+    }
         /**
          * Attempts to find the factory class callback method for the given method name.
          * 
@@ -137,9 +139,10 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                     return $_sMethodPrefix;
                 }
             }
+
             return '';
             
-        }    
+        }
                 
         /**
          * Redirects the callback of the load-{page} action hook to the framework's callback.
@@ -153,7 +156,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
          * @remark      This method will be triggered before the header gets sent.
          * @return      void
          * @internal
-         */ 
+         */
         protected function _doPageLoadCall( $sMethodName, $sPageSlug, $sTabSlug, $oScreen ) {
             
             if ( ! $this->_isPageLoadCall( $sMethodName, $sPageSlug, $oScreen->id ) ) {
@@ -166,9 +169,9 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         
             // Do actions, class ->  page -> in-page tab
             $this->load();  // 3.7.12+
-            $this->oUtil->addAndDoActions( 
+            $this->oUtil->addAndDoActions(
                 $this, // the caller object
-                array( 
+                array(
                     "load_{$this->oProp->sClassName}",
                     "load_{$sPageSlug}",
                 ),
@@ -176,16 +179,16 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             );
             
             // The in-page tabs handling method `_replyToFinalizeInPageTabs()` is called in the above action hook.
-            
-            $this->oUtil->addAndDoActions( 
+
+            $this->oUtil->addAndDoActions(
                 $this, // the caller object
                 array( "load_{$sPageSlug}_" . $this->oProp->getCurrentTabSlug( $sPageSlug ) ),
                 $this // the admin page object - this lets third-party scripts use the framework methods.
-            );         
+            );
             
-            $this->oUtil->addAndDoActions( 
+            $this->oUtil->addAndDoActions(
                 $this, // the caller object
-                array( 
+                array(
                     "load_after_{$this->oProp->sClassName}",
                     "load_after_{$sPageSlug}", // 3.6.3+
                 ),
@@ -213,9 +216,10 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                 if ( $sScreenID !== $this->oProp->aPageHooks[ $sPageSlug ] ) {
                     return false;
                 }
+
                 return true;
                 
-            }       
+            }
             
     /* Shared methods */
     
@@ -251,11 +255,11 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         // If the setUp method is not loaded yet,
         if ( ! did_action( 'set_up_' . $this->oProp->sClassName ) ) {
             return true;
-        }    
+        }
 
-        if ( ! isset( $_GET[ 'page' ] ) ) { 
-            return false; 
-        }        
+        if ( ! isset( $_GET[ 'page' ] ) ) {
+            return false;
+        }
         
         return $this->oProp->isPageAdded();
         
@@ -276,6 +280,6 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         }
         parent::_replyToLoadComponents();
         
-    }    
+    }
     
 }

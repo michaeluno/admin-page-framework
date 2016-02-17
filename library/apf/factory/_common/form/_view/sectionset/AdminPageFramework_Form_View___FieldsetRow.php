@@ -26,6 +26,7 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
             return '';
         }
         $_oFieldrowAttribute = new AdminPageFramework_Form_View___Attribute_Fieldrow($aFieldset, array('id' => 'fieldrow-' . $aFieldset['tag_id'], 'valign' => 'top', 'class' => 'admin-page-framework-fieldrow',));
+
         return $this->_getFieldByContainer($aFieldset, array('open_container' => "<tr " . $_oFieldrowAttribute->get() . ">", 'close_container' => "</tr>", 'open_title' => "<th>", 'close_title' => "</th>", 'open_main' => "<td " . $this->getAttributes(array('colspan' => $aFieldset['show_title_column'] ? 1 : 2, 'class' => $aFieldset['show_title_column'] ? null : 'admin-page-framework-field-td-no-title',)) . ">", 'close_main' => "</td>",));
     }
     protected function _getFieldByContainer(array $aFieldset, array $aOpenCloseTags) {
@@ -35,14 +36,17 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
             $_aOutput[] = $aOpenCloseTags['open_title'] . $this->_getFieldTitle($aFieldset) . $aOpenCloseTags['close_title'];
         }
         $_aOutput[] = $aOpenCloseTags['open_main'] . $this->getFieldsetOutput($aFieldset) . $aOpenCloseTags['close_main'];
+
         return $aOpenCloseTags['open_container'] . implode(PHP_EOL, $_aOutput) . $aOpenCloseTags['close_container'];
     }
     private function _getFieldTitle(array $aField) {
         $_oInputTagIDGenerator = new AdminPageFramework_Form_View___Generate_FieldInputID($aField, 0);
+
         return "<label for='" . $_oInputTagIDGenerator->get() . "'>" . "<a id='{$aField['field_id']}'></a>" . "<span title='" . esc_attr(strip_tags(is_array($aField['description']) ? implode('&#10;', $aField['description']) : $aField['description'])) . "'>" . $aField['title'] . $this->_getTitleColon($aField) . $this->_getToolTip($aField['tip'], $aField['field_id']) . "</span>" . "</label>";
     }
     private function _getToolTip($asTip, $sElementID) {
         $_oToolTip = new AdminPageFramework_Form_View___ToolTip($asTip, $sElementID);
+
         return $_oToolTip->get();
     }
     private function _getTitleColon($aField) {
@@ -76,6 +80,7 @@ class AdminPageFramework_Form_View___FieldsetRow extends AdminPageFramework_Form
             return '';
         }
         $_oFieldrowAttribute = new AdminPageFramework_Form_View___Attribute_Fieldrow($aFieldset);
+
         return $this->_getFieldByContainer($aFieldset, array('open_main' => "<div " . $_oFieldrowAttribute->get() . ">", 'close_main' => "</div>",));
     }
 }

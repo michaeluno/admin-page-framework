@@ -27,18 +27,18 @@ class APF_Demo_Contact_Tab_Feedback {
         $this->_oFactory    = $oFactory;
         $this->_sPageSlug   = $sPageSlug;
         
-        $this->_oFactory->addInPageTabs(    
+        $this->_oFactory->addInPageTabs(
             $this->_sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Feedback', 'admin-page-framework-loader' ),
             )
-        );  
+        );
         
         // load + page slug + tab slug
-        add_action( 
-            'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug, 
-            array( $this, 'replyToAddFormElements' ) 
+        add_action(
+            'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug,
+            array( $this, 'replyToAddFormElements' )
         );
         
     }
@@ -57,33 +57,33 @@ class APF_Demo_Contact_Tab_Feedback {
          * Use the addSettingSections() method to create sections and use the addSettingFields() method to create fields.
          */
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->_sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->_sSectionID,       // avoid hyphen(dash), dots, and white spaces
                 'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Feedback', 'admin-page-framework-loader' ),
-                'description'   => __( 'Tell the developer how you are using the framework.', 'admin-page-framework-loader' ), 
-            )            
-        );        
+                'description'   => __( 'Tell the developer how you are using the framework.', 'admin-page-framework-loader' ),
+            )
+        );
 
         $_oCurrentUser = wp_get_current_user();
         
         $oFactory->addSettingFields(
             $this->_sSectionID, // the target section id
-            array( 
+            array(
                 'field_id'          => 'name',
                 'title'             => __( 'Your Name', 'admin-page-framework-loader' ),
                 'type'              => 'text',
-                'default'           => $_oCurrentUser->user_firstname || $_oCurrentUser->user_firstname 
-                    ? $_oCurrentUser->user_lastname . ' ' .  $_oCurrentUser->user_lastname 
+                'default'           => $_oCurrentUser->user_firstname || $_oCurrentUser->user_firstname
+                    ? $_oCurrentUser->user_lastname . ' ' .  $_oCurrentUser->user_lastname
                     : '',
                 'attributes'        => array(
                     'required' => 'required',
                     'placeholder'   => __( 'Type your name.', 'admin-page-framewrok-demo' ),
                 ),
-            ),    
-            array( 
+            ),
+            array(
                 'field_id'          => 'from',
                 'title'             => __( 'Your Email Address', 'admin-page-framework-loader' ),
                 'type'              => 'text',
@@ -92,8 +92,8 @@ class APF_Demo_Contact_Tab_Feedback {
                     'required'      => 'required',
                     'placeholder'   =>  __( 'Type your email here.', 'admin-page-framework-loader' ),
                 ),
-            ),     
-            array( 
+            ),
+            array(
                 'field_id'          => 'use_for_commercial_products',
                 'title'             => __( 'I use the framework for', 'admin-page-framework-loader' ),
                 'type'              => 'radio',
@@ -102,8 +102,8 @@ class APF_Demo_Contact_Tab_Feedback {
                     1       => __( 'Commercial Products', 'admin-page-framework-loader' ),
                     0       => __( 'Non-commercial Products', 'admin-page-framework-loader' ),
                 ),
-            ),              
-            array( 
+            ),
+            array(
                 'field_id'          => 'use_for',
                 'title'             => __( 'I use the framework for', 'admin-page-framework-loader' ),
                 'type'              => 'radio',
@@ -113,8 +113,8 @@ class APF_Demo_Contact_Tab_Feedback {
                     'themes'    => __( 'Themes', 'admin-page-framework-loader' ),
                     'others'    => __( 'Others', 'admin-page-framework-loader' ),
                 ),
-            ),                    
-            array( 
+            ),
+            array(
                 'field_id'          => 'subject',
                 'title'             => __( 'Subject', 'admin-page-framework-loader' ),
                 'type'              => 'text',
@@ -122,8 +122,8 @@ class APF_Demo_Contact_Tab_Feedback {
                     'size' => 40,
                     'placeholder'   =>  __( 'Type the title here.', 'admin-page-framework-loader' ),
                 ),
-            ),    
-            array( 
+            ),
+            array(
                 'field_id'          => 'body',
                 'title'             => __( 'Message', 'admin-page-framework-loader' ),
                 'type'              => 'textarea',
@@ -131,13 +131,13 @@ class APF_Demo_Contact_Tab_Feedback {
                 'attributes'        => array(
                     'placeholder'   =>  __( 'Type the message here.', 'admin-page-framework-loader' ),
                 ),
-            ),            
-            array( 
+            ),
+            array(
                 'field_id'          => 'ip',
                 'type'              => 'hidden',
                 'value'             => $_SERVER["REMOTE_ADDR"],
-            ),                        
-            array( 
+            ),
+            array(
                 'field_id'          => 'send',
                 'type'              => 'submit',
                 'label_min_width'   => 0,
@@ -152,7 +152,7 @@ class APF_Demo_Contact_Tab_Feedback {
                     // 'class' => isset( $_GET['confirmation'] ) && 'email' === $_GET['confirmation']
                         // ? null
                         // : 'button-secondary',
-                ),    
+                ),
                 'skip_confirmation' => true,
                 'email'             => array(
                     // Each argument can accept a string or an array representing the dimensional array key.
@@ -165,9 +165,9 @@ class APF_Demo_Contact_Tab_Feedback {
                     'is_html'     => true,  // boolean  Whether the mail should be sent as an html text
                     'from'        => array( $this->_sSectionID, 'from' ),
                     'name'        => array( $this->_sSectionID, 'name' ),
-                ),                
-            )   
-        );        
+                ),
+            )
+        );
         
     }
     

@@ -15,6 +15,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
         $_aInputAttributes = $this->_getInputAttributes($aField);
         $_aLabelAttributes = $this->_getLabelAttributes($aField, $_aInputAttributes);
         $_aLabelContainerAttributes = $this->_getLabelContainerAttributes($aField);
+
         return $aField['before_label'] . "<div " . $this->getAttributes($_aLabelContainerAttributes) . ">" . $this->_getExtraFieldsBeforeLabel($aField) . "<label " . $this->getAttributes($_aLabelAttributes) . ">" . $aField['before_input'] . $this->_getExtraInputFields($aField) . "<input " . $this->getAttributes($_aInputAttributes) . " />" . $aField['after_input'] . "</label>" . "</div>" . $aField['after_label'];
     }
     private function _getFormatedFieldArray(array $aField) {
@@ -22,6 +23,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
         if (isset($aField['attributes']['src'])) {
             $aField['attributes']['src'] = esc_url($this->getResolvedSRC($aField['attributes']['src']));
         }
+
         return $aField;
     }
     private function _getLabelAttributes(array $aField, array $aInputAttributes) {
@@ -33,6 +35,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
     private function _getInputAttributes(array $aField) {
         $_bIsImageButton = isset($aField['attributes']['src']) && filter_var($aField['attributes']['src'], FILTER_VALIDATE_URL);
         $_sValue = $this->_getInputFieldValueFromLabel($aField);
+
         return array('type' => $_bIsImageButton ? 'image' : 'submit', 'value' => $_sValue,) + $aField['attributes'] + array('title' => $_sValue, 'alt' => $_bIsImageButton ? 'submit' : '',);
     }
     protected function _getExtraFieldsBeforeLabel(&$aField) {
@@ -48,6 +51,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
         $_aOutput[] = $this->_getHiddenInputByKey($aField, 'href');
         $_aOutput[] = $this->_getHiddenInput_Reset($aField);
         $_aOutput[] = $this->_getHiddenInput_Email($aField);
+
         return implode(PHP_EOL, array_filter($_aOutput));
     }
     private function _getHiddenInput_SectionID(array $aField) {
@@ -60,6 +64,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
         if (!$aField['reset']) {
             return '';
         }
+
         return !$this->_checkConfirmationDisplayed($aField, $aField['_input_name_flat'], 'reset') ? $this->getHTMLTag('input', array('type' => 'hidden', 'name' => "__submit[{$aField['input_id']}][is_reset]", 'value' => '1',)) : $this->getHTMLTag('input', array('type' => 'hidden', 'name' => "__submit[{$aField['input_id']}][reset_key]", 'value' => is_array($aField['reset']) ? implode('|', $aField['reset']) : $aField['reset'],));
     }
     private function _getHiddenInput_Email(array $aField) {
@@ -67,6 +72,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
             return '';
         }
         $this->setTransient('apf_em_' . md5($aField['_input_name_flat'] . get_current_user_id()), $aField['email']);
+
         return !$this->_checkConfirmationDisplayed($aField, $aField['_input_name_flat'], 'email') ? $this->getHTMLTag('input', array('type' => 'hidden', 'name' => "__submit[{$aField['input_id']}][confirming_sending_email]", 'value' => '1',)) : $this->getHTMLTag('input', array('type' => 'hidden', 'name' => "__submit[{$aField['input_id']}][confirmed_sending_email]", 'value' => '1',));
     }
     private function _checkConfirmationDisplayed($aField, $sFlatFieldName, $sType = 'reset') {
@@ -83,6 +89,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
         if ($_bConfirmed) {
             $this->deleteTransient($_sTransientKey);
         }
+
         return $_bConfirmed;
     }
     protected function _getInputFieldValueFromLabel($aField) {
@@ -115,10 +122,12 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
         $aField['attributes']['name'] = "__export[submit][{$aField['input_id']}]";
         $aField['file_name'] = $aField['file_name'] ? $aField['file_name'] : $this->_generateExportFileName($aField['option_key'] ? $aField['option_key'] : $aField['class_name'], $aField['format']);
         $aField['label'] = $aField['label'] ? $aField['label'] : $this->oMsg->get('export');
+
         return parent::getField($aField);
     }
     protected function _getExtraInputFields(&$aField) {
         $_aAttributes = array('type' => 'hidden');
+
         return "<input " . $this->getAttributes(array('name' => "__export[{$aField['input_id']}][input_id]", 'value' => $aField['input_id'],) + $_aAttributes) . "/>" . "<input " . $this->getAttributes(array('name' => "__export[{$aField['input_id']}][field_id]", 'value' => $aField['field_id'],) + $_aAttributes) . "/>" . "<input " . $this->getAttributes(array('name' => "__export[{$aField['input_id']}][section_id]", 'value' => isset($aField['section_id']) && $aField['section_id'] != '_default' ? $aField['section_id'] : '',) + $_aAttributes) . "/>" . "<input " . $this->getAttributes(array('name' => "__export[{$aField['input_id']}][file_name]", 'value' => $aField['file_name'],) + $_aAttributes) . "/>" . "<input " . $this->getAttributes(array('name' => "__export[{$aField['input_id']}][format]", 'value' => $aField['format'],) + $_aAttributes) . "/>" . "<input " . $this->getAttributes(array('name' => "__export[{$aField['input_id']}][transient]", 'value' => isset($aField['data']),) + $_aAttributes) . "/>";
     }
     private function _generateExportFileName($sOptionKey, $sExportFormat = 'json') {
@@ -134,6 +143,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
                 $sExt = "txt";
             break;
         }
+
         return $sOptionKey . '_' . date("Ymd") . '.' . $sExt;
     }
 }

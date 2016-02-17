@@ -118,7 +118,8 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
          */
         static private function _getClassFilePathList( $sInclusionClassListPath ) {
             $aClassFiles = array();    // this will be updated if the inclusion below is successful.
-            include( $sInclusionClassListPath );
+            include $sInclusionClassListPath;
+
             return $aClassFiles;
         }
 
@@ -132,6 +133,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
 
         if ( ! isset( self::$sAutoLoaderPath ) ) {
             trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is called too early. Perform <code>%2$s</code> earlier.', 'admin-page-framework' ), __METHOD__, 'setUp()' ), E_USER_WARNING );
+
             return self::VERSION;
         }
         $_aMinifiedVesionSuffix     = array(
@@ -142,6 +144,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
             0 => '',
             1 => '.dev',
         );
+
         return self::VERSION
             . $_aMinifiedVesionSuffix[ ( integer ) self::$bIsMinifiedVersion ]
             . $_aDevelopmentVersionSuffix[ ( integer ) self::$bIsDevelopmentVersion ];
@@ -156,6 +159,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
      */
     static public function getInfo() {
         $_oReflection = new ReflectionClass( __CLASS__ );
+
         return $_oReflection->getConstants()
             + $_oReflection->getStaticProperties();
     }
@@ -227,7 +231,7 @@ final class AdminPageFramework_Bootstrap {
          */
         private function _include() {
             
-            include( AdminPageFramework_Registry::$sAutoLoaderPath );
+            include AdminPageFramework_Registry::$sAutoLoaderPath;
             new AdminPageFramework_RegisterClasses(
                 '', // the scanning directory - do not scan anything
                 array(
@@ -238,7 +242,7 @@ final class AdminPageFramework_Bootstrap {
                 ),
                 // a class list array
                 AdminPageFramework_Registry::$aClassFiles
-            );            
+            );
              
             /**
              * Reduce the nesting level of recursive function calls produced by the `spl_autoload_call()` PHP function.
@@ -255,7 +259,7 @@ final class AdminPageFramework_Bootstrap {
             if ( self::$_bXDebug ) {
                 new AdminPageFramework_Utility;
                 new AdminPageFramework_WPUtility;
-            }            
+            }
             
         }
             /**

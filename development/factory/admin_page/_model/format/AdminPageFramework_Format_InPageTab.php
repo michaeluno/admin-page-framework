@@ -55,10 +55,10 @@ class AdminPageFramework_Format_InPageTab extends AdminPageFramework_Format_Base
      */
     public function __construct( /* $aInPageTab, $sPageSlug, $oFactory */ ) {
      
-        $_aParameters = func_get_args() + array( 
-            $this->aInPageTab, 
-            $this->sPageSlug, 
-            $this->oFactory, 
+        $_aParameters = func_get_args() + array(
+            $this->aInPageTab,
+            $this->sPageSlug,
+            $this->oFactory,
         );
         $this->aInPageTab  = $_aParameters[ 0 ];
         $this->sPageSlug   = $_aParameters[ 1 ];
@@ -75,7 +75,7 @@ class AdminPageFramework_Format_InPageTab extends AdminPageFramework_Format_Base
         return array(
             'page_slug'     => $this->sPageSlug,
         ) + $this->aInPageTab + array(
-            'capability'    => $this->_getPageCapability(),        
+            'capability'    => $this->_getPageCapability(),
         ) + self::$aStructure;
         
     }
@@ -89,7 +89,7 @@ class AdminPageFramework_Format_InPageTab extends AdminPageFramework_Format_Base
                 $this->oFactory->oProp->aPages,
                 array( $this->sPageSlug, 'capability' ),
                 $this->oFactory->oProp->sCapability
-            );      
+            );
         }
         
 }

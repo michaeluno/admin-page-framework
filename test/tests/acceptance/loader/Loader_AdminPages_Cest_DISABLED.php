@@ -5,7 +5,7 @@ use \AcceptanceTester;
  * Bootstrap does not work for including abstract classes.
  * @see     https://github.com/Codeception/Codeception/issues/862
  */
-require_once( dirname( dirname( __FILE__ ) ) . '/_common/Loader_AdminPage_Base.php' );
+require_once dirname( dirname( __FILE__ ) ) . '/_common/Loader_AdminPage_Base.php';
 
 class Loader_AdminPages_Cest extends \Loader_AdminPage_Base {
     
@@ -51,12 +51,12 @@ class Loader_AdminPages_Cest extends \Loader_AdminPage_Base {
             // Check the badge (framework large icon)
             // <div class="apf-badge"><span class="label">Version - 3.5.7b01</span></div>            
             // Somehow this does not work: $I->see( '//div[@class="apf-badge"]' );            
-            $I->see( 
+            $I->see(
                 '', // text 
                 'div.apf-badge' // css
-            );            
+            );
             
-        }    
+        }
     
     
     /**
@@ -73,13 +73,13 @@ class Loader_AdminPages_Cest extends \Loader_AdminPage_Base {
         // Generator  - default without and with the tab query key.
         $I->amOnPage( '/wp-admin/admin.php?page=apfl_tools' );
         $this->_checkCommonElements( $I );
-        $I->click( 
+        $I->click(
             '', // the Generator tab 
-            'h2.in-page-tab > a.nav-tab' 
+            'h2.in-page-tab > a.nav-tab'
         );
-        $I->see( 
+        $I->see(
             '', // the Generator tab
-            'h2.in-page-tab > a.nav-tab' 
+            'h2.in-page-tab > a.nav-tab'
         );
     }
     
@@ -94,10 +94,10 @@ class Loader_AdminPages_Cest extends \Loader_AdminPage_Base {
         // <li><a href="admin.php?page=apfl_addons">Add Ons</a></li>
         $I->click( '//a[@href="admin.php?page=apfl_addons"]' );
         $this->_checkCommonElements( $I );
-        $I->see( 
+        $I->see(
             'Demo', // the Demo add-on title. This label is imported from RSS feed so is not applied translation.
-            'h4.apfl_feed_item_title' 
-        );             
+            'h4.apfl_feed_item_title'
+        );
      
     }
     
@@ -130,7 +130,7 @@ class Loader_AdminPages_Cest extends \Loader_AdminPage_Base {
         $I->see(
             '', // text
             '//a[@data-tab-slug="guide"]'   // xpath
-        );                
+        );
         // Click the 'Tips' tab
         $I->click( '//a[@data-tab-slug="tips"]' );
         $this->_checkCommonElements( $I );
@@ -148,15 +148,15 @@ class Loader_AdminPages_Cest extends \Loader_AdminPage_Base {
         $this->_checkCommonElements( $I );
 
         // See the 'About' tab
-        $I->see( 
+        $I->see(
             '',
-            '//a[@data-tab-slug="about"]' 
+            '//a[@data-tab-slug="about"]'
         );
 
         // Click the 'Debug' tab
         $I->click( '//a[@data-tab-slug="debug"]' );
-        $this->_checkCommonElements( $I );        
+        $this->_checkCommonElements( $I );
         
-    }    
+    }
 
 }

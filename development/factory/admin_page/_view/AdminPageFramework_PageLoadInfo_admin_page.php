@@ -36,12 +36,12 @@ class AdminPageFramework_PageLoadInfo_admin_page extends AdminPageFramework_Page
         
         return self::$_oInstance;
         
-    }     
+    }
     
     /**
      * Sets the hook if the current page is one of the framework's added pages.
      * @internal
-     */ 
+     */
     public function _replyToSetPageLoadInfoInFooter() {
         
         // For added pages
@@ -49,6 +49,6 @@ class AdminPageFramework_PageLoadInfo_admin_page extends AdminPageFramework_Page
             add_filter( 'update_footer', array( $this, '_replyToGetPageLoadInfo' ), 999 );
         }
         
-    }     
+    }
     
 }

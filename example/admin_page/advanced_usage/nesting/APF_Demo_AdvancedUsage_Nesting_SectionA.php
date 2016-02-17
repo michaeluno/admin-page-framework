@@ -38,7 +38,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
     public function __construct( $oFactory ) {
     
         // Sections
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'        => $this->sSectionID,
@@ -55,7 +55,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
                         'collapsible'   => array(
                             'toggle_all_button' => 'top-right',
                         ),
-                    ),                                
+                    ),
                     array(
                         'section_id'    => 'ii',
                         'title'         => __( 'A', 'admin-page-framework-loader' )
@@ -69,22 +69,22 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
                                     . ' &raquo; ' . __( 'ii', 'admin-page-framework-loader' )
                                     . ' &raquo; ' . __( 'x', 'admin-page-framework-loader' ),
                                 'description'   => __( 'Nesting two level deep.', 'admin-page-framework-loader' ),
-                            ),                            
+                            ),
                             array(
                                 'section_id'    => 'Y',
                                 'title'         => __( 'A', 'admin-page-framework-loader' )
                                     . ' &raquo; ' . __( 'ii', 'admin-page-framework-loader' )
-                                    . ' &raquo; ' . __( 'y', 'admin-page-framework-loader' ),                                
+                                    . ' &raquo; ' . __( 'y', 'admin-page-framework-loader' ),
                                 'description'   => __( 'Nesting two level deep.', 'admin-page-framework-loader' ),
-                            ),                                                    
+                            ),
                         ),
                     ),
                     array(
                         'section_id'    => 'iii',
                         'title'         => __( 'A', 'admin-page-framework-loader' )
-                            . ' &raquo; ' . __( 'iii', 'admin-page-framework-loader' ),                      
+                            . ' &raquo; ' . __( 'iii', 'admin-page-framework-loader' ),
                         'description'   => array(
-                            __( 'This is a description of the nested section.', 'admin-page-framework-loader' ),                            
+                            __( 'This is a description of the nested section.', 'admin-page-framework-loader' ),
                          ),
                         'collapsible'   => array(
                             'toggle_all_button' => 'bottom-right',
@@ -92,10 +92,10 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
                         'content'       => '<p>'
                             . __( 'An area without any form fields can be used for additional information such as help and contact information etc.', 'admin-page-framework-loader' )
                             . '</p>',
-                    ),                     
+                    ),
                 ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -115,7 +115,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
                 'repeatable'    => true,
                 'sortable'      => true,
             )
-        );              
+        );
         
         $oFactory->addSettingFields(
             array( $this->sSectionID, 'ii', 'X' ), // the target section ID - pass dimensional keys of the section
@@ -130,10 +130,10 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
                 'field_id'      => 'image_in_nested_section',
                 'title'         => __( 'image', 'admin-page-framework-loader' ),
                 'type'          => 'image',
-                'attributes'    => array(                
+                'attributes'    => array(
                     'preview' => array(
                         'style' => 'max-width: 200px;',
-                    ),                
+                    ),
                 ),
                 'repeatable'    => true,
                 'sortable'      => true,
@@ -162,7 +162,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
                 'default'       => array(
                     'b' => true,
                 ),
-            ),            
+            ),
             array(
                 'field_id'      => 'select_in_nested_section',
                 'title'         => __( 'Select', 'admin-page-framework-loader' ),
@@ -186,7 +186,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
                     'yellow'    => __( 'Yellow', 'admin-page-framework-loader' ),
                 ),
                 // 'default'       => array( 'green', 'yellow' ),
-            )            
+            )
         );
      
         // validation_{class name}_{seciton path}

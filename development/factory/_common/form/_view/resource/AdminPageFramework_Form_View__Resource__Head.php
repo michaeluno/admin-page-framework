@@ -34,7 +34,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
     
         $this->oForm = $oForm;
     
-        if ( in_array( $this->oForm->aArguments[ 'structure_type' ], array( 'widget' ) ) ) {       
+        if ( in_array( $this->oForm->aArguments[ 'structure_type' ], array( 'widget' ) ) ) {
             return;
         }
     
@@ -56,17 +56,17 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
          */
         if ( ! $this->oForm->isInThePage() ) {
             return;
-        }    
+        }
     
         // Ensure to load only once per page load
         if ( $this->hasBeenCalled( __METHOD__ ) ) {
             return;
-        }              
-        echo "<script type='text/javascript' class='admin-page-framework-form-script-required-in-head'>" 
+        }
+        echo "<script type='text/javascript' class='admin-page-framework-form-script-required-in-head'>"
                 . '/* <![CDATA[ */ '
-                . $this->_getScripts_RequiredInHead() 
+                . $this->_getScripts_RequiredInHead()
                 . ' /* ]]> */'
-            . "</script>";  
+            . "</script>";
             
     }
 
@@ -90,6 +90,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
             private function _getInlineCSS() {
                 $_oLoadingCSS = new AdminPageFramework_Form_View___CSS_Loading;
                 $_oLoadingCSS->add( $this->_getScriptElementConcealerCSSRules() );
+
                 return $_oLoadingCSS->get();
             }
                 /**
@@ -98,7 +99,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
                  * @return      string
                  * @since       3.7.0
                  */
-                private function _getScriptElementConcealerCSSRules() {                    
+                private function _getScriptElementConcealerCSSRules() {
                     
                     // Avoid hiding framework forms in widgets. In some cases, the user sets a form in any page,
                     // which causes a different structure form type including `admin_page` gets loaded even in widgets.php (or any page builder pages dealing with widgets)

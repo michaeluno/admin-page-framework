@@ -35,6 +35,7 @@ class AdminPageFramework_Resource_widget extends AdminPageFramework_Resource_Bas
         foreach( ( array ) $aSRCs as $_sSRC ) {
             $_aHandleIDs[] = $this->_enqueueStyle( $_sSRC, $aCustomArgs );
         }
+
         return $_aHandleIDs;
         
     }
@@ -47,24 +48,24 @@ class AdminPageFramework_Resource_widget extends AdminPageFramework_Resource_Bas
      * @param       array       $aCustomArgs (optional) The argument array for more advanced parameters.
      * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
-     */    
+     */
     public function _enqueueStyle( $sSRC, $aCustomArgs=array() ) {
         
         $sSRC = trim( $sSRC );
-        if ( empty( $sSRC ) ) { 
-            return ''; 
+        if ( empty( $sSRC ) ) {
+            return '';
         }
         $sSRC       = $this->getResolvedSRC( $sSRC );
         
         // Setting the key based on the url prevents duplicate items
-        $_sSRCHash  = md5( $sSRC ); 
-        if ( isset( $this->oProp->aEnqueuingStyles[ $_sSRCHash ] ) ) { 
-            return ''; 
-        } 
+        $_sSRCHash  = md5( $sSRC );
+        if ( isset( $this->oProp->aEnqueuingStyles[ $_sSRCHash ] ) ) {
+            return '';
+        }
         
-        $this->oProp->aEnqueuingStyles[ $_sSRCHash ] = $this->uniteArrays( 
+        $this->oProp->aEnqueuingStyles[ $_sSRCHash ] = $this->uniteArrays(
             ( array ) $aCustomArgs,
-            array(     
+            array(
                 'sSRC'          => $sSRC,
                 'sType'         => 'style',
                 'handle_id'     => 'style_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedStyleIndex ),
@@ -91,9 +92,10 @@ class AdminPageFramework_Resource_widget extends AdminPageFramework_Resource_Bas
         foreach( ( array ) $aSRCs as $_sSRC ) {
             $_aHandleIDs[] = $this->_enqueueScript( $_sSRC, $aCustomArgs );
         }
+
         return $_aHandleIDs;
         
-    }    
+    }
     /**
      * Enqueues a script by post type slug.
      * 
@@ -111,14 +113,14 @@ class AdminPageFramework_Resource_widget extends AdminPageFramework_Resource_Bas
         $sSRC       = $this->getResolvedSRC( $sSRC );
         
         // Setting the key based on the url prevents duplicate items
-        $_sSRCHash  = md5( $sSRC ); 
-        if ( isset( $this->oProp->aEnqueuingScripts[ $_sSRCHash ] ) ) { 
-            return ''; 
-        } 
+        $_sSRCHash  = md5( $sSRC );
+        if ( isset( $this->oProp->aEnqueuingScripts[ $_sSRCHash ] ) ) {
+            return '';
+        }
         
-        $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->uniteArrays( 
+        $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->uniteArrays(
             ( array ) $aCustomArgs,
-            array(     
+            array(
                 'sSRC'      => $sSRC,
                 'sType'     => 'script',
                 'handle_id' => 'script_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedScriptIndex ),
@@ -150,7 +152,7 @@ class AdminPageFramework_Resource_widget extends AdminPageFramework_Resource_Bas
      * @remark      The widget fields type does not have conditions unlike the meta-box type that requires to check currently loaded post type.
      * @since       3.2.0
      * @internal
-     */    
+     */
     public function _forceToEnqueueScript( $sSRC, $aCustomArgs=array() ) {
         return $this->_enqueueScript( $sSRC, $aCustomArgs );
     }

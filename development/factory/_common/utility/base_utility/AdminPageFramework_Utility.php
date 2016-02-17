@@ -37,6 +37,7 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
             return true;
         }
         self::$_aCallStack[ $sID ] = true;
+
         return false;
     }
        
@@ -47,11 +48,12 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
      */
     static public function getOutputBuffer( $oCallable, array $aParameters=array() ) {
         
-        ob_start(); 
+        ob_start();
         echo call_user_func_array( $oCallable, $aParameters );
-        $_sContent = ob_get_contents(); 
-        ob_end_clean(); 
-        return $_sContent;        
+        $_sContent = ob_get_contents();
+        ob_end_clean();
+
+        return $_sContent;
         
     }
                   
@@ -61,11 +63,12 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
      * @remark      Meant to be used for the `__toString()` method.
      * @since       3.6.0
      * @return      string
-     */   
+     */
     static public function getObjectInfo( $oInstance ) {
         
         $_iCount     = count( get_object_vars( $oInstance ) );
         $_sClassName = get_class( $oInstance );
+
         return '(object) ' . $_sClassName . ': ' . $_iCount . ' properties.';
         
     }
@@ -85,6 +88,6 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
      */
     static public function getAOrB( $mValue, $mTrue=null, $mFalse=null ) {
         return $mValue ? $mTrue : $mFalse;
-    }    
+    }
     
 }

@@ -46,7 +46,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
             'main'          => 'APF_Demo',
             'taxonomy'      => 'APF_TaxonomyField',
             'basic_usage'   => 'APF_BasicUsage',
-        )
+        ),
     );
 
     /**
@@ -71,7 +71,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      * These will be accessed from the bootstrap script.
      */
 	const TEXT_DOMAIN              = 'admin-page-framework-loader';
-	const TEXT_DOMAIN_PATH         = '/language';    
+	const TEXT_DOMAIN_PATH         = '/language';
     	    
 	// These properties will be defined in the setUp() method.
 	static public $sFilePath = '';
@@ -79,7 +79,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
 	
     /**
      * Requirements.
-     */    
+     */
     static public $aRequirements = array(
         'php' => array(
             'version'   => '5.2.4',
@@ -110,7 +110,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
         // array(
             // e.g. 'home/my_user_name/my_dir/scripts/my_scripts.php' => 'The required script could not be found.',
         // ),
-    );    
+    );
     
     /**
      * Used admin pages.
@@ -145,7 +145,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
 		self::$sFilePath = $sPluginFilePath;
 		self::$sDirPath  = dirname( self::$sFilePath );
 	    
-	}    
+	}
 	
 	/**
 	 * Returns the URL with the given relative path to the plugin path.
@@ -162,6 +162,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
             return self::$_sPluginURLCache . $sRelativePath;
         }
         self::$_sPluginURLCache = trailingslashit( plugins_url( '', self::$sFilePath ) );
+
         return self::$_sPluginURLCache . $sRelativePath;
 	}
         /**
@@ -177,10 +178,11 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      */
     static public function getInfo() {
         $_oReflection = new ReflectionClass( __CLASS__ );
+
         return $_oReflection->getConstants()
             + $_oReflection->getStaticProperties()
         ;
-    }    
+    }
     
     /**
      * Stores admin notices.
@@ -191,10 +193,10 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      * Sets an admin notice.
      * @since       3.5.0
      * @return      void
-     */ 
+     */
     static public function setAdminNotice( $sMessage, $sClassAttribute='error' ) {
-        if ( ! is_admin() ) {  
-            return; 
+        if ( ! is_admin() ) {
+            return;
         }
         self::$_aAdminNotices[] = array(
             'message'           => $sMessage,
@@ -208,46 +210,46 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
          * @return      void
          */
         static public function _replyToSetAdminNotice() {
-            foreach( self::$_aAdminNotices as $_aAdminNotice ) {                
+            foreach( self::$_aAdminNotices as $_aAdminNotice ) {
                 echo "<div class='" . esc_attr( $_aAdminNotice['class_attribute'] ) . " notice is-dismissible'>"
-                        ."<p>" 
-                            . sprintf( 
+                        ."<p>"
+                            . sprintf(
                                 '<strong>%1$s</strong>: ' . $_aAdminNotice['message'],
                                 self::NAME . ' ' . self::VERSION
                             )
                         . "</p>"
                     . "</div>";
             }
-        }    
+        }
     
 }
 // Registry set-up.
 AdminPageFrameworkLoader_Registry::setUp( __FILE__ );
 
 // Initial checks. - Do no load if accessed directly, not exiting because the 'uninstall.php' and inclusion list generator will load this file.
-if ( ! defined( 'ABSPATH' ) ) { 
-    return; 
+if ( ! defined( 'ABSPATH' ) ) {
+    return;
 }
-if ( defined( 'DOING_UNINSTALL' ) ) { 
-    return; 
+if ( defined( 'DOING_UNINSTALL' ) ) {
+    return;
 }
 
 // Set warnings.
 function AdminPageFrameworkLoader_Warning() {
     
     $_bFrameworkLoaded = class_exists( 'AdminPageFramework_Registry', false );
-    if ( 
+    if (
         ! $_bFrameworkLoaded
         || ! defined( 'AdminPageFramework_Registry::VERSION' ) // backward compatibility
         || version_compare( AdminPageFramework_Registry::VERSION, AdminPageFrameworkLoader_Registry::VERSION, '<' )
     ) {
         AdminPageFrameworkLoader_Registry::setAdminNotice(
-            sprintf( 
+            sprintf(
                 'The framework has been already loaded and its version is lesser than yours. Your framework will not be loaded to avoid unexpected results. Loaded Version - %1$s. Your Version - %2$s.',
                 $_bFrameworkLoaded && defined( 'AdminPageFramework_Registry::VERSION' )
                     ? AdminPageFramework_Registry::VERSION
                     : 'unknown',
-                AdminPageFrameworkLoader_Registry::VERSION            
+                AdminPageFrameworkLoader_Registry::VERSION
             )
         );
     }
@@ -259,16 +261,14 @@ add_action( 'admin_init', 'AdminPageFrameworkLoader_Warning' );
 $_sDevelopmentVersionPath = AdminPageFrameworkLoader_Registry::$sDirPath . '/development/admin-page-framework.php';
 $_bDebugMode              = defined( 'WP_DEBUG' ) && WP_DEBUG;
 $_bLoadDevelopmentVersion = $_bDebugMode && file_exists( $_sDevelopmentVersionPath );
-include( 
-    $_bLoadDevelopmentVersion
+include $_bLoadDevelopmentVersion
         ? $_sDevelopmentVersionPath
-        : AdminPageFrameworkLoader_Registry::$sDirPath . '/library/apf/admin-page-framework.php'
-);
+        : AdminPageFrameworkLoader_Registry::$sDirPath . '/library/apf/admin-page-framework.php';
 
 // Include the framework loader plugin components.
-include( AdminPageFramework_Registry::$aClassFiles[ 'AdminPageFramework_PluginBootstrap' ] );
-include( AdminPageFrameworkLoader_Registry::$sDirPath . '/include/class/AdminPageFrameworkLoader_Bootstrap.php' );
-new AdminPageFrameworkLoader_Bootstrap( 
+include AdminPageFramework_Registry::$aClassFiles[ 'AdminPageFramework_PluginBootstrap' ];
+include AdminPageFrameworkLoader_Registry::$sDirPath . '/include/class/AdminPageFrameworkLoader_Bootstrap.php';
+new AdminPageFrameworkLoader_Bootstrap(
     AdminPageFrameworkLoader_Registry::$sFilePath,
     AdminPageFrameworkLoader_Registry::HOOK_SLUG    // hook prefix
 );

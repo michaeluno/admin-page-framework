@@ -23,6 +23,7 @@ abstract class AdminPageFramework_Form_View___Generate_Section_Base extends Admi
         foreach ($aParts as $_sPart) {
             $_sName.= '[' . $_sPart . ']';
         }
+
         return $_sName;
     }
 }
@@ -43,6 +44,7 @@ class AdminPageFramework_Form_View___Generate_SectionName extends AdminPageFrame
             $_aNameParts[] = $this->aArguments['_index'];
         }
         $_sResult = $this->_getInputNameConstructed($_aNameParts);
+
         return $_sResult;
     }
 }

@@ -19,12 +19,15 @@ class AdminPageFramework_Format_SubMenuItem extends AdminPageFramework_Format_Ba
         $_aSubMenuItem = $this->getAsArray($this->aSubMenuItem);
         if (isset($_aSubMenuItem['page_slug'])) {
             $_oFormatter = new AdminPageFramework_Format_SubMenuPage($_aSubMenuItem, $this->oFactory, $this->iParsedIndex);
+
             return $_oFormatter->get();
         }
         if (isset($_aSubMenuItem['href'])) {
             $_oFormatter = new AdminPageFramework_Format_SubMenuLink($_aSubMenuItem, $this->oFactory, $this->iParsedIndex);
+
             return $_oFormatter->get();
         }
+
         return array();
     }
 }

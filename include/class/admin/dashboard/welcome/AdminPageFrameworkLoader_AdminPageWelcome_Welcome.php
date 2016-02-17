@@ -22,27 +22,27 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Welcome extends AdminPageFramewo
         
         add_action( "style_{$this->sPageSlug}_{$this->sTabSlug}", array( $this, 'replyToAddInlineCSS' ) );
         
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'tab_slug'          => $this->sTabSlug,
                 'section_id'        => $this->sTabSlug,
                 'section_tab_slug'  => 'welcome',
                 'title'             => __( "What's New", 'admin-page-framework-loader' ),   // '
-                'content'           => $this->_getReadmeContents( 
+                'content'           => $this->_getReadmeContents(
                     AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
                     '', // TOC title
                     array( 'New Features' ) // section
-                )
+                ),
             ),
             array(
                 'tab_slug'          => $this->sTabSlug,
                 'section_tab_slug'  => $this->sTabSlug,
                 'section_id'        => 'getting_started',
                 'title'             => __( "Getting Started", 'admin-page-framework-loader' ),   // '
-                'content'           => $this->_getReadmeContents( 
-                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt', 
-                    "<h3>" . __( 'Contents', 'admin-page-framework-loader' ) . "</h3>", 
+                'content'           => $this->_getReadmeContents(
+                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
+                    "<h3>" . __( 'Contents', 'admin-page-framework-loader' ) . "</h3>",
                     array( 'Getting Started', 'Tutorials' )
                 ),
             ),
@@ -52,12 +52,12 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Welcome extends AdminPageFramewo
                 'section_id'        => 'change_log',
                 'title'             => __( "Change Log", 'admin-page-framework-loader' ),   // '
                 'content'           => $this->_getChangeLog(),
-            )             
+            )
         );
         
-        new GitHubCustomFieldType( 'admin_page_framework' ); 
+        new GitHubCustomFieldType( 'admin_page_framework' );
         
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'        => 'credit',
@@ -66,7 +66,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Welcome extends AdminPageFramewo
                 'title'         => __( 'Credit', 'admin-page-framework-loader' ),
                 // 'description'   => __( 'Admin Page Framework uses GitHub.', 'admin-page-framework-loader' ),
             )
-        );        
+        );
         $oFactory->addSettingFields(
             'credit', // the target section id
             array(
@@ -75,17 +75,17 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Welcome extends AdminPageFramewo
                 'show_title_column' => false,
                 'content'   => "<p class='about-description'>"
                     . __( 'Admin Page Framework is created by the following contributors.', 'admin-page-framework-loader' )
-                . "</p>"
+                . "</p>",
             ),
             array(
                 'field_id'  => '_contributors',
                 'type'      => '_contributors',
                 'show_title_column' => false,
                 'content'   => $this->_getContributors(),
-            ),            
+            ),
             array(
                 'field_id'      => 'github_star',
-                'type'          => 'github',     
+                'type'          => 'github',
                 'user_name'     => 'michaeluno',    // the GitHub account ID
                 'button_type'   => 'star',          // either of the followings: follow, star, watch, fork, issue
                 'count'         => false,
@@ -98,7 +98,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Welcome extends AdminPageFramewo
                 'description'   => __( 'Star the repository and get Involved!', 'admin-page-framework-loader' ),
                 'show_title_column' => false,
             )
-        );        
+        );
         
     }
         /**
@@ -125,7 +125,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Welcome extends AdminPageFramewo
 .admin-page-framework-content ul li {
     margin-left: 0;
 }";
-        }    
+        }
         
         /**
          * Retrieves contents of a change log section of a readme file.
@@ -138,28 +138,29 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Welcome extends AdminPageFramewo
                 '%PLUGIN_DIR_URL%'  => AdminPageFrameworkLoader_Registry::getPluginURL(),
                 '%WP_ADMIN_URL%'    => admin_url(),
             );
-            $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+            $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser(
                 AdminPageFrameworkLoader_Registry::$sDirPath . '/readme.txt',
                 $_aReplacements
-            );    
-            $_sChangeLog = $_oWPReadmeParser->getSection( $sSection );  
-            $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser( 
+            );
+            $_sChangeLog = $_oWPReadmeParser->getSection( $sSection );
+            $_oWPReadmeParser = new AdminPageFramework_WPReadmeParser(
                 AdminPageFrameworkLoader_Registry::$sDirPath . '/changelog.md',
                 $_aReplacements
-            );    
-            $_sChangeLog .= $_oWPReadmeParser->getSection( $sSection );  
+            );
+            $_sChangeLog .= $_oWPReadmeParser->getSection( $sSection );
                
             $_sChangeLog = $_sChangeLog
                 ? $_sChangeLog
                 : '<p>' . __( 'No valid changlog was found.', 'admin-page-framework-loader' ) . '</p>';
+
             return "<div class='changelog'>"
                 . $_sChangeLog
                 . "</div>";
             
-        }        
+        }
 
     // public function replyToDoTab() {
-    
+
         // echo $this->_getReadmeContents( 
             // AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/text/about.txt',
             // '', // TOC title
@@ -167,7 +168,7 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Welcome extends AdminPageFramewo
         // ); 
 
     // }
-    
+
 
         /**
          * Render Contributors List
@@ -231,7 +232,6 @@ class AdminPageFrameworkLoader_AdminPageWelcome_Welcome extends AdminPageFramewo
             set_transient( 'apfl_contributors', $_aContributors, 3600 );
 
             return $_aContributors;
-        }      
+        }
     
 }
-    

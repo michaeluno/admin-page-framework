@@ -45,27 +45,27 @@ abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_Taxon
      * @param       string          The access rights. Default: `manage_options`.
      * @param       string          The text domain. Default: `admin-page-framework`.
      * @return      void
-     */ 
+     */
     function __construct( $asTaxonomySlug, $sOptionKey='', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
         
-        if ( empty( $asTaxonomySlug ) ) { 
-            return; 
+        if ( empty( $asTaxonomySlug ) ) {
+            return;
         }
         
         // Properties 
         $_sProprtyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
             ? $this->aSubClassNames[ 'oProp' ]
-            : 'AdminPageFramework_Property_' . $this->_sStructureType;        
-        $this->oProp        = new $_sProprtyClassName( 
-            $this, 
-            get_class( $this ), 
-            $sCapability, 
-            $sTextDomain, 
-            $this->_sStructureType 
-        );     
+            : 'AdminPageFramework_Property_' . $this->_sStructureType;
+        $this->oProp        = new $_sProprtyClassName(
+            $this,
+            get_class( $this ),
+            $sCapability,
+            $sTextDomain,
+            $this->_sStructureType
+        );
         $this->oProp->aTaxonomySlugs    = ( array ) $asTaxonomySlug;
-        $this->oProp->sOptionKey        = $sOptionKey 
-            ? $sOptionKey 
+        $this->oProp->sOptionKey        = $sOptionKey
+            ? $sOptionKey
             : $this->oProp->sClassName;
         
         parent::__construct( $this->oProp );

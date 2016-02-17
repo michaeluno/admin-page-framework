@@ -36,13 +36,13 @@ class APF_MetaBox_CollapsibleSections extends AdminPageFramework_MetaBox {
                 'section_id'        => '_collapsible_section_c',
                 'title'             => __( 'Collapsible Section C', 'admin-page-framework-loader' ),
                 'collapsible'       => true,
-            )            
+            )
         );
         
         /*
          * Add form fields into the meta box.
-         */ 
-        $this->addSettingFields(     
+         */
+        $this->addSettingFields(
             '_collapsible_section_a',
             array(
                 'field_id'      => 'repeatable_field_in_collapsible_sections',
@@ -52,15 +52,15 @@ class APF_MetaBox_CollapsibleSections extends AdminPageFramework_MetaBox {
                 'sortable'      => true,
             )
         );
-        $this->addSettingFields( 
+        $this->addSettingFields(
             '_collapsible_section_b',
             array(
                 'field_id'      => 'size_in_collapsible_sections',
                 'title'         => __( 'Size', 'admin-page-framework-loader' ),
                 'type'          => 'size',
             )
-        );    
-        $this->addSettingFields(     
+        );
+        $this->addSettingFields(
             '_collapsible_section_c',
             array(
                 'field_id'      => 'select_in_collapsible_sections',
@@ -70,7 +70,7 @@ class APF_MetaBox_CollapsibleSections extends AdminPageFramework_MetaBox {
                 'label' => array(
                     'a' => 'A',
                     'b' => 'B',
-                    'c' => 'C',     
+                    'c' => 'C',
                 ),
             )
         );
@@ -81,7 +81,7 @@ class APF_MetaBox_CollapsibleSections extends AdminPageFramework_MetaBox {
 new APF_MetaBox_CollapsibleSections(
     null,   // meta box id
     __( 'Collapsible Sections', 'admin-page-framework-loader' ),
-    array( 'apf_posts' ),                             
+    array( 'apf_posts' ),
     'normal',
     'low'
 );

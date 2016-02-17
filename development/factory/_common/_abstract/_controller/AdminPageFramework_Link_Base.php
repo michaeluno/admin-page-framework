@@ -25,7 +25,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
      
     /**
      * Sets up hooks and properties.
-     */ 
+     */
     public function __construct( $oProp, $oMsg=null ) {
         
         if ( ! $this->_isLoadable( $oProp ) ) {
@@ -33,18 +33,18 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
         }
                 
         $this->oProp    = $oProp;
-        $this->oMsg     = $oMsg;        
+        $this->oMsg     = $oMsg;
         
         add_action( 'in_admin_footer', array( $this, '_replyToSetFooterInfo' ) );
         
         // Add an action link in the plugin listing page
         if ( 'plugins.php' === $this->oProp->sPageNow && 'plugin' === $this->oProp->aScriptInfo[ 'sType' ] ) {
-            add_filter( 
+            add_filter(
                 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo[ 'sPath' ] ),
-                array( $this, '_replyToAddSettingsLinkInPluginListingPage' ), 
+                array( $this, '_replyToAddSettingsLinkInPluginListingPage' ),
                 20     // set a lower priority so that the link will be embedded at the beginning ( the most left hand side ).
-            );     
-        }        
+            );
+        }
         
     }
         /**
@@ -54,12 +54,13 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
          * @return      boolean
          */
         private function _isLoadable( $oProp ) {
-            if ( ! $oProp->bIsAdmin ) { 
+            if ( ! $oProp->bIsAdmin ) {
                 return false;
             }
             if ( $oProp->bIsAdminAjax ) {
                 return false;
             }
+
             return ! $this->hasBeenCalled( 'links_' . $oProp->sClassName );
         }
         
@@ -74,7 +75,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
         $this->_setDefaultFooterText();
         $this->_setFooterHooks();
            
-    }              
+    }
        
         /**
          * Set the default footer text values.
@@ -84,8 +85,8 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
          */
         protected function _setDefaultFooterText() {
         
-            $this->oProp->aFooterInfo[ 'sLeft' ] = str_replace( 
-                '__SCRIPT_CREDIT__', 
+            $this->oProp->aFooterInfo[ 'sLeft' ] = str_replace(
+                '__SCRIPT_CREDIT__',
                 $this->_getFooterInfoLeft( $this->oProp->aScriptInfo ),
                 $this->oProp->aFooterInfo[ 'sLeft' ]
             );
@@ -118,29 +119,29 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
                 $_sPluginInfo = $this->getAOrB(
                     empty( $aScriptInfo[ 'sURI' ] ),
                     $aScriptInfo[ 'sName' ],
-                    $this->getHTMLTag( 
-                        'a', 
+                    $this->getHTMLTag(
+                        'a',
                         array(
                             'href'      => $aScriptInfo[ 'sURI' ],
                             'target'    => '_blank',
-                            'title'     => $aScriptInfo[ 'sName' ] . $_sVersion . $_sDescription 
-                        ), 
-                        $aScriptInfo[ 'sName' ] 
-                    )    
+                            'title'     => $aScriptInfo[ 'sName' ] . $_sVersion . $_sDescription,
+                        ),
+                        $aScriptInfo[ 'sName' ]
+                    )
                 );
 
                 $_sAuthorInfo = $this->getAOrB(
                     empty( $aScriptInfo[ 'sAuthorURI' ] ),
                     '',
-                    $this->getHTMLTag( 
-                        'a', 
+                    $this->getHTMLTag(
+                        'a',
                         array(
                             'href'      => $aScriptInfo[ 'sAuthorURI' ],
                             'target'    => '_blank',
                             'title'     => $aScriptInfo[ 'sAuthor' ],
-                        ), 
+                        ),
                         $aScriptInfo[ 'sAuthor' ]
-                    )                
+                    )
                 );
                 $_sAuthorInfo = $this->getAOrB(
                     empty( $aScriptInfo[ 'sAuthor' ] ),
@@ -150,7 +151,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
                 
                 // Enclosing the output in a span tag as the outer element is a '<p>' tag. So this cannot be div.
                 // 3.5.7+ Added the class attribute for acceptance testing
-                return "<span class='apf-script-info'>"  
+                return "<span class='apf-script-info'>"
                         . $_sPluginInfo . $_sAuthorInfo
                     . "</span>";
           
@@ -161,7 +162,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
              * @since       2.1.1
              * @since       3.5.5       Changed the name from `_setFooterInfoRight()` and dropped the second parameter.
              * @return      string
-             */    
+             */
             private function _getFooterInfoRight( $aScriptInfo ) {
 
                 $_sDescription = $this->getAOrB(
@@ -177,37 +178,37 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
                 $_sLibraryInfo = $this->getAOrB(
                     empty( $aScriptInfo[ 'sURI' ] ),
                     $aScriptInfo[ 'sName' ],
-                    $this->getHTMLTag( 
-                        'a', 
+                    $this->getHTMLTag(
+                        'a',
                         array(
                             'href'      => $aScriptInfo[ 'sURI' ],
                             'target'    => '_blank',
                             'title'     => $aScriptInfo[ 'sName' ] . $_sVersion . $_sDescription,
-                        ), 
+                        ),
                         $aScriptInfo[ 'sName' ]
-                    )                   
+                    )
                 );
                 
                 // Update the variable
                 // 3.5.7+ added the 'apf-credit' class attribute for acceptance testing
                 // 3.7.0+  added the footer-thankyou id attribute.
-                return "<span class='apf-credit' id='footer-thankyou'>" 
-                    . $this->oMsg->get( 'powered_by' ) . '&nbsp;' 
+                return "<span class='apf-credit' id='footer-thankyou'>"
+                    . $this->oMsg->get( 'powered_by' ) . '&nbsp;'
                     . $_sLibraryInfo
                     . ",&nbsp;"
-                    . $this->oMsg->get( 'and' ) . '&nbsp;' 
-                    . $this->getHTMLTag( 
-                        'a', 
+                    . $this->oMsg->get( 'and' ) . '&nbsp;'
+                    . $this->getHTMLTag(
+                        'a',
                         array(
                             'href'      => 'https://wordpress.org',
                             'target'    => '_blank',
-                            'title'     => 'WordPress ' . $GLOBALS[ 'wp_version' ]
-                        ), 
+                            'title'     => 'WordPress ' . $GLOBALS[ 'wp_version' ],
+                        ),
                         'WordPress'
                     )
                     . "</span>";
                     
-            }        
+            }
         
         /**
          * Sets up hooks to insert admin footer text strings.
@@ -220,7 +221,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
             add_filter( 'admin_footer_text' , array( $this, '_replyToAddInfoInFooterLeft' ) );
             add_filter( 'update_footer', array( $this, '_replyToAddInfoInFooterRight' ), 11 );
             
-        }             
+        }
             /**
              * Inserts the left footer text.
              * @since       2.0.0
@@ -228,16 +229,16 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
              * @remark      The page link class will override this method.
              * @callback    filter      admin_footer_text
              * @internal
-             */ 
+             */
             public function _replyToAddInfoInFooterLeft( $sLinkHTML='' ) {
 
                 $sLinkHTML = empty( $this->oProp->aScriptInfo[ 'sName' ] )
                     ? $sLinkHTML
                     : $this->oProp->aFooterInfo[ 'sLeft' ];
              
-                return $this->addAndApplyFilters( 
-                    $this->oProp->oCaller, 
-                    'footer_left_' . $this->oProp->sClassName, 
+                return $this->addAndApplyFilters(
+                    $this->oProp->oCaller,
+                    'footer_left_' . $this->oProp->sClassName,
                     $sLinkHTML
                 );
              
@@ -249,13 +250,13 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
              * @remark      The page link class will override this method.
              * @callback    filter      admin_footer_text
              * @internal
-             */     
+             */
             public function _replyToAddInfoInFooterRight( $sLinkHTML='' ) {
-                return $this->addAndApplyFilters( 
-                    $this->oProp->oCaller, 
-                    'footer_right_' . $this->oProp->sClassName, 
+                return $this->addAndApplyFilters(
+                    $this->oProp->oCaller,
+                    'footer_right_' . $this->oProp->sClassName,
                     $this->oProp->aFooterInfo[ 'sRight' ]
-                );                
-            }       
+                );
+            }
        
 }

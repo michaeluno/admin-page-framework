@@ -30,7 +30,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
         'label_container_tag'          => 'span',
         'label_container_attributes'    => array(
             'class' => 'admin-page-framework-input-label-string',
-        ),        
+        ),
     );
     
     /**
@@ -42,7 +42,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
     protected function construct() {
         
         // For backward compatibility.
-        
+
         // If the $aField property is set, extract certain elements from it and set them to the attribute array.
         if ( isset( $this->aField[ 'is_multiple' ] ) ) {
             $this->aAttributes[ 'select' ][ 'multiple' ] = $this->aField[ 'is_multiple' ]
@@ -57,7 +57,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
      * 
      * @remark       This method should be overridden in each extended class.
      * @since        3.4.0     
-     */    
+     */
     public function get( /* $aLabels, $aAttributes=array() */ ) {
 
         // Parameters
@@ -65,16 +65,16 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
         $_aLabels       = $_aParams[ 0 ];
         $_aAttributes   = $this->uniteArrays(
             $this->getElementAsArray( $_aParams, 1, array() ),
-            $this->aAttributes 
-        );    
+            $this->aAttributes
+        );
 
-        return  
+        return
             "<{$this->aOptions[ 'input_container_tag' ]} " . $this->getAttributes( $this->aOptions[ 'input_container_attributes' ] ) . ">"
                 . "<select " . $this->getAttributes( $this->_getSelectAttributes( $_aAttributes ) ) . " >"
-                    . $this->_getDropDownList( 
+                    . $this->_getDropDownList(
                         $this->getAttribute( 'id' ),
                         $this->getAsArray(
-                            isset( $_aLabels ) 
+                            isset( $_aLabels )
                                 ? $_aLabels
                                 : $this->aField[ 'label' ],    // backward compatibility
                             true
@@ -95,20 +95,21 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
             $_bIsMultiple = $this->getElement( $aBaseAttributes, 'multiple' )
                 ? true
                 : ( ( bool ) $this->getElement( $aBaseAttributes, array( 'select', 'multiple' ) ) );
+
             return $this->uniteArrays(
                 // allowing the user set attributes override the system set attributes.
                 $this->getElementAsArray( $aBaseAttributes, 'select', array() ),
                 array(
                     'id'        => $this->getAttribute( 'id' ),
-                    'multiple'  => $_bIsMultiple 
-                        ? 'multiple' 
+                    'multiple'  => $_bIsMultiple
+                        ? 'multiple'
                         : null,
-                    'name'      => $_bIsMultiple 
+                    'name'      => $_bIsMultiple
                         ? $this->getAttribute( 'name' ) . '[]'
                         : $this->getAttribute( 'name' ),
                     'data-id'   => $this->getAttribute( 'id' ),       // referenced by the JavaScript scripts such as the revealer script.
                 )
-            );            
+            );
             
         }
         /**
@@ -125,7 +126,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
          * @param       array       $aAttributes        The attribute arrays. Accepts the following arguments.
          * - optgroup
          * - option
-         */     
+         */
         private function _getDropDownList( $sInputID, array $aLabels, array $aBaseAttributes ) {
             
             $_aOutput   = array();
@@ -134,27 +135,28 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
                 // For an optgroup tag,
                 if ( is_array( $__asLabel ) ) {
                     $_aOutput[] = $this->_getOptGroup(
-                        $aBaseAttributes, 
-                        $sInputID, 
-                        $__sKey, 
+                        $aBaseAttributes,
+                        $sInputID,
+                        $__sKey,
                         $__asLabel
                     );
                     continue;
                 }
                 
                 // A normal option tag,
-                $_aOutput[] = $this->_getOptionTag( 
+                $_aOutput[] = $this->_getOptionTag(
                     $__asLabel,   // the text label the user sees to be selected
-                    $this->_getOptionTagAttributes( 
-                        $aBaseAttributes, 
-                        $sInputID, 
+                    $this->_getOptionTagAttributes(
+                        $aBaseAttributes,
+                        $sInputID,
                         $__sKey,
                         $this->getAsArray( $aBaseAttributes[ 'value' ], true )
-                    ) 
+                    )
                 );
                     
             }
-            return implode( PHP_EOL, $_aOutput );    
+
+            return implode( PHP_EOL, $_aOutput );
             
         }
             /**
@@ -170,6 +172,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
                 $_aOptGroupAttributes = array(
                     'label' => $sKey,
                 ) + $_aOptGroupAttributes;
+
                 return "<optgroup " . $this->getAttributes( $_aOptGroupAttributes ) . ">"
                         . $this->_getDropDownList( $sInputID, $asLabel, $aBaseAttributes )
                     . "</optgroup>";
@@ -182,17 +185,18 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
              */
             private function _getOptionTagAttributes( array $aBaseAttributes, $sInputID, $sKey, $aValues ) {
             
-                $aValues = $this->getElementAsArray( 
-                    $aBaseAttributes, 
-                    array( 'option', $sKey, 'value' ), 
-                    $aValues 
+                $aValues = $this->getElementAsArray(
+                    $aBaseAttributes,
+                    array( 'option', $sKey, 'value' ),
+                    $aValues
                 );
-                return array(      
+
+                return array(
                         'id'        => $sInputID . '_' . $sKey,
                         'value'     => $sKey,
-                        'selected'  => in_array( ( string ) $sKey, $aValues ) 
-                            ? 'selected' 
-                            : null,                                        
+                        'selected'  => in_array( ( string ) $sKey, $aValues )
+                            ? 'selected'
+                            : null,
                     ) + ( isset( $aBaseAttributes[ 'option' ][ $sKey ] ) && is_array( $aBaseAttributes[ 'option' ][ $sKey ] )
                         ? $aBaseAttributes[ 'option' ][ $sKey ] + $aBaseAttributes[ 'option' ]
                         : $aBaseAttributes[ 'option' ] );
@@ -205,7 +209,7 @@ class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
              * @return      string      The generated option tag HTML output.
              */
             private function _getOptionTag( $sLabel, array $aOptionTagAttributes=array() ) {
-                return "<option " . $this->getAttributes( $aOptionTagAttributes ) . " >"    
+                return "<option " . $this->getAttributes( $aOptionTagAttributes ) . " >"
                         . $sLabel
                     . "</option>";
             }

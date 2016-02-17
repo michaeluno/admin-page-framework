@@ -21,6 +21,7 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
                 $_aFieldTypeDefinitions[$_sSlug] = $_oFieldType->getDefinitionArray();
             }
         }
+
         return $_aFieldTypeDefinitions;
     }
 }

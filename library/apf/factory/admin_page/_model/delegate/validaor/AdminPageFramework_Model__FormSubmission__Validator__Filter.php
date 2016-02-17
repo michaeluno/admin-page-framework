@@ -55,6 +55,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
             unset($_aDimensionalKeys[0]);
             $this->unsetDimensionalArrayElement($aInputs, $_aDimensionalKeys);
         }
+
         return $aInputs;
     }
     private function _validateEachField(array $aData, array $aInputsToParse) {
@@ -76,6 +77,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
             }
             $aData['aInput'][$_sID] = $this->_getValidatedData("validation_{$this->oFactory->oProp->sClassName}_{$_sID}", $aData['aInput'][$_sID], $this->getElement($aData, array('aStoredData', $_sID), null), $aData['aSubmitInformation']);
         }
+
         return $aData;
     }
     private function _isValidSection($sSectionID, $sPageSlug, $sTabSlug) {
@@ -85,6 +87,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
         if ($sTabSlug && isset($this->oFactory->oForm->aSections[$sSectionID]['tab_slug']) && $sTabSlug !== $this->oFactory->oForm->aSections[$sSectionID]['tab_slug']) {
             return false;
         }
+
         return true;
     }
     private function _validateTabFields(array $aData) {
@@ -102,6 +105,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
         $aData['aInput'] = $this->_getValidatedData("validation_{$aData['sPageSlug']}_{$aData['sTabSlug']}", $aData['aInput'], $aData['aStoredTabData'], $aData['aSubmitInformation']);
         $aData['aEmbeddedDataWODynamicElements'] = $this->_getEmbeddedOptions($aData['aInput'], $aData['aStoredTabDataWODynamicElements'], $_aTabOnlyOptionsWODynamicElements);
         $aData['aInput'] = $aData['aInput'] + $_aOtherTabOptions;
+
         return $aData;
     }
     private function _validatePageFields(array $aData) {
@@ -118,10 +122,12 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
         $_aPageOptions = $aData['sTabSlug'] && !empty($aData['aStoredTabData']) ? $this->invertCastArrayContents($_aPageOptions, $aData['aStoredTabData']) : (!$aData['sTabSlug'] ? array() : $_aPageOptions);
         $_aEmbeddedOptionsWODynamicElements = $aData['aEmbeddedDataWODynamicElements'] + $this->_getEmbeddedOptions($aData['aInput'], $_aPageOptionsWODynamicElements, $_aPageOnlyOptionsWODynamicElements);
         $aData['aInput'] = $aData['aInput'] + $this->uniteArrays($_aPageOptions, $_aOtherPageOptions, $_aEmbeddedOptionsWODynamicElements);
+
         return $aData;
     }
     private function _getEmbeddedOptions(array $aInputs, array $aOptions, array $aPageSpecificOptions) {
         $_aEmbeddedData = $this->invertCastArrayContents($aOptions, $aPageSpecificOptions);
+
         return $this->invertCastArrayContents($_aEmbeddedData, $aInputs);
     }
     private function _getValidatedData($sFilterName, $aInputs, $aStoredData, $aSubmitInfo = array()) {

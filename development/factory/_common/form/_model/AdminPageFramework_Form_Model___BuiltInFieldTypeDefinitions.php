@@ -43,7 +43,7 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
         'size',
         'section_title', // 3.0.0+
         'system',        // 3.3.0+
-    );    
+    );
     
     public $sCallerID = '';
     
@@ -56,7 +56,7 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
      * @param       object      $oMsg       A message object that field types refer to. 
      * Field types will show system messages to the user using the message defined in this object.
      * @since       3.7.0
-     */    
+     */
     public function __construct( $sCallerID, $oMsg ) {
         $this->sCallerID    = $sCallerID;
         $this->oMsg         = $oMsg;
@@ -75,18 +75,19 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
         foreach( self::$_aDefaultFieldTypeSlugs as $_sFieldTypeSlug ) {
             
             $_sFieldTypeClassName = "AdminPageFramework_FieldType_{$_sFieldTypeSlug}";
-            $_oFieldType = new $_sFieldTypeClassName( 
+            $_oFieldType = new $_sFieldTypeClassName(
                 $this->sCallerID,   // usually an instantiated class name
                 null,               // field type slugs - if it is different from the one defined in the class property
-                $this->oMsg, 
+                $this->oMsg,
                 false               // `false` to disable auto-registering.     
-            );    
-            foreach( $_oFieldType->aFieldTypeSlugs as $_sSlug ) {     
+            );
+            foreach( $_oFieldType->aFieldTypeSlugs as $_sSlug ) {
                 $_aFieldTypeDefinitions[ $_sSlug ] = $_oFieldType->getDefinitionArray();
             }
         }
+
         return $_aFieldTypeDefinitions;
 
-    }    
+    }
 
 }

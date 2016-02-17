@@ -30,7 +30,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
      */
     static public function dump( $asArray, $sFilePath=null ) {
         echo self::get( $asArray, $sFilePath );
-    }    
+    }
         /**
          * Prints out the given array contents
          * 
@@ -41,7 +41,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
          */
         static public function dumpArray( $asArray, $sFilePath=null ) {
             self::dump( $asArray, $sFilePath );
-        }    
+        }
         
     /**
      * Retrieves the output of the given array contents.
@@ -53,12 +53,12 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
      */
     static public function get( $asArray, $sFilePath=null, $bEscape=true ) {
 
-        if ( $sFilePath ) self::log( $asArray, $sFilePath );     
+        if ( $sFilePath ) self::log( $asArray, $sFilePath );
         
         return $bEscape
             ? "<pre class='dump-array'>" . htmlspecialchars( self::getAsString( $asArray ) ) . "</pre>" // esc_html() has a bug that breaks with complex HTML code.
             : self::getAsString( $asArray ); // non-escape is used for exporting data into file.    
-        
+
     }
         /**
          * Retrieves the output of the given array contents.
@@ -71,7 +71,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
          */
         static public function getArray( $asArray, $sFilePath=null, $bEscape=true ) {
             return self::get( $asArray, $sFilePath, $bEscape );
-        }      
+        }
             
     /**
      * Logs the given variable output to a file.
@@ -94,29 +94,29 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
             $_oCallerInfo,  // subject array
             array( 1, 'function' ), // key
             ''      // default
-        );                        
+        );
         $_sCallerClass      = self::getElement(
             $_oCallerInfo,  // subject array
             array( 1, 'class' ), // key
             ''      // default
-        );           
+        );
         $_fCurrentTimeStamp = microtime( true );
         
-        file_put_contents( 
-            self::_getLogFilePath( $sFilePath, $_sCallerClass ), 
-            self::_getLogHeadingLine( 
+        file_put_contents(
+            self::_getLogFilePath( $sFilePath, $_sCallerClass ),
+            self::_getLogHeadingLine(
                 $_fCurrentTimeStamp,
                 round( $_fCurrentTimeStamp - $_fPreviousTimeStamp, 3 ),     // elapsed time
                 $_sCallerClass,
                 $_sCallerFunction
             ) . PHP_EOL
             . self::_getLogContents( $mValue ),
-            FILE_APPEND 
-        );     
+            FILE_APPEND
+        );
         
         $_fPreviousTimeStamp = $_fCurrentTimeStamp;
         
-    }   
+    }
         /**
          * Determines the log file path.
          * @sicne        3.5.3 
@@ -131,6 +131,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
             if ( true === $sFilePath ) {
                 return WP_CONTENT_DIR . DIRECTORY_SEPARATOR . get_class() . '_' . date( "Ymd" ) . '.log';
             }
+
             return WP_CONTENT_DIR . DIRECTORY_SEPARATOR . get_class() . '_' . $sCallerClass . '_' . date( "Ymd" ) . '.log';
             
         }
@@ -144,14 +145,15 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
 
             $_sType     = gettype( $mValue );
             $_iLengths  = self::_getValueLength( $mValue, $_sType );
-            return '(' 
+
+            return '('
                 . $_sType
                 . ( null !== $_iLengths ? ', length: ' . $_iLengths : '' )
             . ') '
-            . self::getAsString( $mValue ) 
+            . self::getAsString( $mValue )
             . PHP_EOL . PHP_EOL;
         
-        }      
+        }
             /**
              * Returns a length of a value.
              * @since       3.5.3
@@ -166,6 +168,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
                 if ( 'array' === $sVariableType ) {
                     return count( $mValue );
                 }
+
                 return null;
                 
             }
@@ -180,11 +183,11 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
             static $_iPageLoadID; // identifies the page load.
             static $_nGMTOffset;
             
-            $_nGMTOffset        = isset( $_nGMTOffset ) 
-                ? $_nGMTOffset 
+            $_nGMTOffset        = isset( $_nGMTOffset )
+                ? $_nGMTOffset
                 : get_option( 'gmt_offset' );
-            $_iPageLoadID       = $_iPageLoadID 
-                ? $_iPageLoadID 
+            $_iPageLoadID       = $_iPageLoadID
+                ? $_iPageLoadID
                 : uniqid();
             $_nNow              = $fCurrentTimeStamp + ( $_nGMTOffset * 60 * 60 );
             $_nMicroseconds     = str_pad( round( ( $_nNow - floor( $_nNow ) ) * 10000 ), 4, '0' );
@@ -198,7 +201,8 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
                 current_filter(),
                 self::getCurrentURL(),
             );
-            return implode( ' ', $_aOutput );         
+
+            return implode( ' ', $_aOutput );
             
         }
             /**
@@ -215,18 +219,19 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
                         $_aElapsedParts,  // subject array
                         1, // key
                         0      // default
-                    ),      
-                    3, 
+                    ),
+                    3,
                     '0'
                 );
                 $_sElapsed          = self::getElement(
                     $_aElapsedParts,  // subject array
                     0,  // key
                     0   // default
-                );                                   
-                $_sElapsed          = strlen( $_sElapsed ) > 1 
-                    ? '+' . substr( $_sElapsed, -1, 2 ) 
+                );
+                $_sElapsed          = strlen( $_sElapsed ) > 1
+                    ? '+' . substr( $_sElapsed, -1, 2 )
                     : ' ' . $_sElapsed;
+
                 return $_sElapsed . '.' . $_sElapsedFloat;
             
             }
@@ -238,8 +243,8 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
          * @deprecated  3.1.0 Use the `log()` method instead.
          */
         static public function logArray( $asArray, $sFilePath=null ) {
-            self::log( $asArray, $sFilePath );     
-        }      
+            self::log( $asArray, $sFilePath );
+        }
         
     /**
      * Returns a string representation of the given value.
@@ -249,7 +254,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
     static public function getAsString( $mValue ) {
         
         $mValue = is_object( $mValue )
-            ? ( method_exists( $mValue, '__toString' ) 
+            ? ( method_exists( $mValue, '__toString' )
                 ? ( string ) $mValue          // cast string
                 : ( array ) $mValue           // cast array
             )
@@ -271,7 +276,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
 
         foreach ( $aSubject as $_sKey => $_vValue ) {
             if ( is_object( $_vValue ) ) {
-                $aSubject[ $_sKey ] = method_exists( $_vValue, '__toString' ) 
+                $aSubject[ $_sKey ] = method_exists( $_vValue, '__toString' )
                     ? ( string ) $_vValue           // cast string
                     : get_object_vars( $_vValue );  // convert it to array.
             }
@@ -281,12 +286,13 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
                     $aSubject[ $_sKey ] = self::getSliceByDepth( $_vValue, --$iDepth );
                     $iDepth = $_iDepth;
                     continue;
-                } 
+                }
                 unset( $aSubject[ $_sKey ] );
             }
         }
+
         return $aSubject;
         
-    }        
+    }
     
 }

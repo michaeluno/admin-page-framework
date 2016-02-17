@@ -22,7 +22,8 @@ class AdminPageFramework_Form_View___Generate_FieldName extends AdminPageFramewo
      * @return      string       The generated string value.
      */
     public function get() {
-        $_sResult = $this->_getFiltered( $this->_getFieldName() );    
+        $_sResult = $this->_getFiltered( $this->_getFieldName() );
+
         return $_sResult;
     }
         
@@ -44,7 +45,7 @@ class AdminPageFramework_Form_View___Generate_FieldName extends AdminPageFramewo
             if ( $this->_isSectionSet() && isset( $this->aArguments[ '_section_index' ] ) ) {
                 $_aSectionPath[] = $this->aArguments[ '_section_index' ];
             }
-            $_sFieldName = $this->_getInputNameConstructed( 
+            $_sFieldName = $this->_getInputNameConstructed(
                 array_merge( $_aSectionPath, $_aFieldPath )
             );
 
@@ -55,14 +56,15 @@ class AdminPageFramework_Form_View___Generate_FieldName extends AdminPageFramewo
         // @deprecated
         protected function __getFieldName() {
 
-            $_sSectionIndex = isset( $this->aArguments[ 'section_id' ], $this->aArguments[ '_section_index' ] ) 
-                ? "[{$this->aArguments[ '_section_index' ]}]" 
+            $_sSectionIndex = isset( $this->aArguments[ 'section_id' ], $this->aArguments[ '_section_index' ] )
+                ? "[{$this->aArguments[ '_section_index' ]}]"
                 : "";
             $_sFieldName = $this->getAOrB(
                 $this->_isSectionSet(),
                 $this->aArguments[ 'section_id' ] . $_sSectionIndex . "[" . $this->aArguments[ 'field_id' ] . "]",
                 $this->aArguments[ 'field_id' ]
             );
+
             return $_sFieldName;
             
         }

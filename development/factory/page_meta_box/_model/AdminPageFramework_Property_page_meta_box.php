@@ -57,7 +57,7 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
     /**
      * Sets up hooks and properties.
      */
-    public function __construct( $oCaller, $sClassName, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sStructureType='page_meta_box' ) {     
+    public function __construct( $oCaller, $sClassName, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sStructureType='page_meta_box' ) {
         
         // Let them overload.
         unset(
@@ -65,10 +65,10 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
             $this->aHelpTabs
         );
 
-        parent::__construct( 
-            $oCaller, 
-            $sClassName, 
-            $sCapability, 
+        parent::__construct(
+            $oCaller,
+            $sClassName,
+            $sCapability,
             $sTextDomain,
             $sStructureType
         );
@@ -82,9 +82,9 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
             array( 'aAdminPageFramework', 'aMetaBoxForPagesClasses' )
         );
         // The meta box class for pages needs to access the object.
-        $GLOBALS[ 'aAdminPageFramework' ][ 'aMetaBoxForPagesClasses' ][ $sClassName ] = $oCaller; 
+        $GLOBALS[ 'aAdminPageFramework' ][ 'aMetaBoxForPagesClasses' ][ $sClassName ] = $oCaller;
         
-    }         
+    }
      
     /**
      * Retrusn the saved form options.
@@ -105,10 +105,11 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
      */
     public function _getScreenIDOfPage( $sPageSlug ) {
         $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug );
+
         return $_oAdminPage
             ? $_oAdminPage->oProp->aPages[ $sPageSlug ][ '_page_hook' ] . ( is_network_admin() ? '-network' : '' )
             : '';
-    }    
+    }
     
     /**
      * Checks if the given page slug is one of the pages added by the framework.
@@ -116,8 +117,9 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
      * @since       3.0.0
      * @return      boolean     Returns true if it is of framework's added page; otherwise, false.
      */
-    public function isPageAdded( $sPageSlug='' ) {    
+    public function isPageAdded( $sPageSlug='' ) {
         $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug );
+
         return $_oAdminPage
             ? $_oAdminPage->oProp->isPageAdded( $sPageSlug )
             : false;
@@ -133,14 +135,15 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
     public function isCurrentTab( $sTabSlug ) {
         
         $_sCurrentPageSlug = $this->getElement( $_GET, 'page' );
-        if ( ! $_sCurrentPageSlug ) { 
-            return false; 
+        if ( ! $_sCurrentPageSlug ) {
+            return false;
         }
-        $_sCurrentTabSlug = $this->getElement( 
-            $_GET, 
+        $_sCurrentTabSlug = $this->getElement(
+            $_GET,
             'tab',
             $this->getDefaultInPageTab( $_sCurrentPageSlug )
-        );            
+        );
+
         return ( $sTabSlug === $_sCurrentTabSlug );
 
     }
@@ -150,10 +153,10 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
      * @since       3.5.3
      * @return      string      The found page slug. An empty string if not found.
      * @remark      Do not return `null` when not found as some framework methods check the retuened value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an emtpy string (''). 
-    */     
+    */
     public function getCurrentPageSlug() {
-        return isset( $_GET[ 'page' ] ) 
-            ? $_GET[ 'page' ] 
+        return isset( $_GET[ 'page' ] )
+            ? $_GET[ 'page' ]
             : '';
     }
     
@@ -165,6 +168,7 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
      */
     public function getCurrentTabSlug( $sPageSlug ) {
         $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug );
+
         return $_oAdminPage
             ? $_oAdminPage->oProp->getCurrentTabSlug( $sPageSlug )
             : '';
@@ -183,17 +187,18 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
      * @since       3.0.0
      * @remark      Used in the `__call()` method in the main class.
      * @return      string      The default in-page tab slug if found; otherwise, an empty string.
-     */         
+     */
     public function getDefaultInPageTab( $sPageSlug ) {
     
-        if ( ! $sPageSlug ) { 
-            return ''; 
+        if ( ! $sPageSlug ) {
+            return '';
         }
+
         return ( $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug ) )
             ? $_oAdminPage->oProp->getDefaultInPageTab( $sPageSlug )
-            : '';    
+            : '';
 
-    }    
+    }
     
     /**
      * Returns the option key for the given page slug that is supposed to be one of the added page by the framework.
@@ -201,12 +206,13 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
      */
     public function getOptionKey( $sPageSlug ) {
         
-        if ( ! $sPageSlug ) { 
-            return ''; 
+        if ( ! $sPageSlug ) {
+            return '';
         }
+
         return ( $_oAdminPage = $this->_getOwnerObjectOfPage( $sPageSlug ) )
             ? $_oAdminPage->oProp->sOptionKey
-            : '';     
+            : '';
         
     }
     /**
@@ -227,12 +233,13 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
         $_aPageClasses = $this->getElementAsArray(
             $GLOBALS,
             array( 'aAdminPageFramework', 'aPageClasses' )
-        );                 
+        );
         foreach( $_aPageClasses as $_oAdminPage ) {
             if ( $_oAdminPage->oProp->isPageAdded( $sPageSlug ) ) {
                 return $_oAdminPage;
             }
         }
+
         return null;
         
     }
@@ -248,11 +255,11 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
             $this->oAdminPage = $this->_getOwnerObjectOfPage( $_GET[ 'page' ] );
             
             // Enable the form tag of the admin page that the meta box belongs to.
-            
+
             // @todo This means the form is always get enabled if a page meta box is added. 
             // So find a way not to enable the form if the user does not add a field.
             if ( is_object( $this->oAdminPage ) ) {
-                $this->oAdminPage->oProp->bEnableForm = true;             
+                $this->oAdminPage->oProp->bEnableForm = true;
             }
 
             return $this->oAdminPage;
@@ -260,11 +267,13 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
         
         if ( 'aHelpTabs' == $sName ) {
             
-            $this->aHelpTabs = $this->oAdminPage->oProp->aHelpTabs; 
+            $this->aHelpTabs = $this->oAdminPage->oProp->aHelpTabs;
+
             return $this->aHelpTabs;
         }
+
         return parent::__get( $sName );
         
-    }    
+    }
     
 }

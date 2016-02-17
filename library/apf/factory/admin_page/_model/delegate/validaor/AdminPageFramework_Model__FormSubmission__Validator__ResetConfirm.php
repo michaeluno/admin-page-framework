@@ -31,6 +31,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Reset extends AdminPa
         }
         if (in_array($sKeyToReset, array('1',), true)) {
             delete_option($this->oFactory->oProp->sOptionKey);
+
             return array();
         }
         $_aDimensionalKeys = explode('|', $sKeyToReset);
@@ -38,6 +39,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Reset extends AdminPa
         $this->unsetDimensionalArrayElement($aInputs, $_aDimensionalKeys);
         update_option($this->oFactory->oProp->sOptionKey, $this->oFactory->oProp->aOptions);
         $this->oFactory->setSettingNotice($this->oFactory->oMsg->get('specified_option_been_deleted'), 'updated');
+
         return $aInputs;
     }
     private function _doResetActions($sKeyToReset, $aInputs, $aSubmitInformation) {
@@ -66,6 +68,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__ResetConfirm extends 
         if ($oFactory->hasFieldError()) {
             return false;
         }
+
         return ( bool )$this->_getPressedSubmitButtonData($aSubmits, 'is_reset');
     }
     public function _replyToSetStatus($aStatus) {

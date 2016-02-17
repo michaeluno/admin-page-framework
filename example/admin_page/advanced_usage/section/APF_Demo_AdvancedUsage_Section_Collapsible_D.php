@@ -37,7 +37,7 @@ class APF_Demo_AdvancedUsage_Section_Collapsible_D {
      */
     public function __construct( $oFactory ) {
     
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'        => $this->sSectionID,
@@ -51,7 +51,7 @@ class APF_Demo_AdvancedUsage_Section_Collapsible_D {
                     'toggle_all_button' => 'bottom-right',
                 ),
             )
-        );   
+        );
     }
 
 }

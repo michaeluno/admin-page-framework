@@ -30,20 +30,20 @@ class AdminPageFramework_Form_View___FieldsetRow extends AdminPageFramework_Form
      */
     public function __construct( /* array $aFieldset, $aSavedData, $aFieldErrors, $aFieldTypeDefinitions, $oMsg, $aCallbacks */ ) {
 
-        $_aParameters = func_get_args() + array( 
-            $this->aFieldset, 
+        $_aParameters = func_get_args() + array(
+            $this->aFieldset,
             $this->aSavedData,    // passed by reference. @todo: examine why it needs to be passed by reference.
-            $this->aFieldErrors, 
-            $this->aFieldTypeDefinitions, 
+            $this->aFieldErrors,
+            $this->aFieldTypeDefinitions,
             $this->aCallbacks, // field output element callables.        
             $this->oMsg,
         );
         $this->aFieldset                = $_aParameters[ 0 ];
         $this->aSavedData               = $_aParameters[ 1 ];
-        $this->aFieldErrors             = $_aParameters[ 2 ]; 
+        $this->aFieldErrors             = $_aParameters[ 2 ];
         $this->aFieldTypeDefinitions    = $_aParameters[ 3 ];
         $this->aCallbacks               = $_aParameters[ 4 ];
-        $this->oMsg                     = $_aParameters[ 5 ];     
+        $this->oMsg                     = $_aParameters[ 5 ];
         
     }
 
@@ -60,21 +60,21 @@ class AdminPageFramework_Form_View___FieldsetRow extends AdminPageFramework_Form
         
         $aFieldset = $this->aFieldset;
         
-        if ( 'section_title' === $aFieldset[ 'type' ] ) { 
-            return ''; 
+        if ( 'section_title' === $aFieldset[ 'type' ] ) {
+            return '';
         }
    
-        $_oFieldrowAttribute = new AdminPageFramework_Form_View___Attribute_Fieldrow( 
-            $aFieldset 
+        $_oFieldrowAttribute = new AdminPageFramework_Form_View___Attribute_Fieldrow(
+            $aFieldset
         );
         
-        return $this->_getFieldByContainer( 
-            $aFieldset, 
+        return $this->_getFieldByContainer(
+            $aFieldset,
             array(
                 'open_main'     => "<div " . $_oFieldrowAttribute->get() . ">",
                 'close_main'    => "</div>",
             )
-        ); 
+        );
   
 
     }

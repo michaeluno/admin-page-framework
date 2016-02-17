@@ -30,7 +30,7 @@ class AdminPageFramework_Form_View___Generate_FieldTagID extends AdminPageFramew
      * @since       3.6.0       Moved from `AdminPageFramework_FormField`.
      * @return      string      The generated string value.
      */
-    public function get() {            
+    public function get() {
         return $this->_getFiltered( $this->_getBaseFieldTagID() );
     }
     
@@ -49,10 +49,11 @@ class AdminPageFramework_Form_View___Generate_FieldTagID extends AdminPageFramew
         protected function _getBaseFieldTagID() {
 
             $_sSectionIndex = isset( $this->aArguments[ '_section_index' ] )
-                ? '__' . $this->aArguments[ '_section_index' ] 
+                ? '__' . $this->aArguments[ '_section_index' ]
                 : '';
             $_sSectionPart = implode( '_', $this->aArguments[ '_section_path_array' ] );
             $_sFieldPart   = implode( '_', $this->aArguments[ '_field_path_array' ] );
+
             return $this->_isSectionSet()
                 ? $_sSectionPart . $_sSectionIndex . '_' . $_sFieldPart
                 : $_sFieldPart;
@@ -65,11 +66,11 @@ class AdminPageFramework_Form_View___Generate_FieldTagID extends AdminPageFramew
             // $_sSectionIndex = isset( $this->aArguments[ '_section_index' ] )
                 // ? '__' . $this->aArguments[ '_section_index' ] 
                 // : '';
-                
+
             // return $this->_isSectionSet()
                 // ? $this->aArguments[ 'section_id' ] . $_sSectionIndex . '_' . $this->aArguments[ 'field_id' ]
                 // : $this->aArguments[ 'field_id' ];            
-            
+
         // }         
-    
+
 }

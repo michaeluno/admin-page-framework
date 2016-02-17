@@ -39,7 +39,7 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,       // avoid hyphen(dash), dots, and white spaces
@@ -47,11 +47,11 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
                 'title'         => __( 'Text Areas', 'admin-page-framework-loader' ),
                 'description'   => __( 'Text input with multiple lines.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
              
         /*
          * Text area fields.
-         */        
+         */
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section id
             array( // Text Area
@@ -59,7 +59,7 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
                 'title'         => __( 'Text Area', 'admin-page-framework-loader' ),
                 'description'   => __( 'Type a text string here.', 'admin-page-framework-loader' ),
                 'type'          => 'textarea',
-                'default'       => __( 'Hello world!', 'admin-page-framework-loader' ) 
+                'default'       => __( 'Hello world!', 'admin-page-framework-loader' )
                     . ' ' . __( 'This is set as the default string.', 'admin-page-framework-loader' ),
                 'attributes'    => array(
                     'rows' => 6,
@@ -80,7 +80,7 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
                     'b' => __( 'Banana', 'admin-page-framework-loader' ),
                     'c' => __( 'Cherry', 'admin-page-framework-loader' ),
                 ),
-            ),            
+            ),
             array( // Repeatable Text Areas
                 'field_id'      => 'textarea_repeatable',
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
@@ -93,7 +93,7 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
                     'rows' => 3,
                     'cols' => 60,
                 ),
-            ),     
+            ),
             array( // Sortable Text Areas
                 'field_id'      => 'textarea_sortable',
                 'title'         => __( 'Sortable', 'admin-page-framework-loader' ),
@@ -102,7 +102,7 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
                 'label'         => __( 'Sortable Item', 'admin-page-framework-loader' ),
                 array(), // the second item
                 array(), // the third item
-            ),     
+            ),
             array( // Rich Text Editors
                 'field_id'      => 'rich_textarea',
                 'title'         => __( 'Rich Text Area', 'admin-page-framework-loader' ),
@@ -110,19 +110,19 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
                 'rich'          =>    true, // just pass non empty value to enable the rich editor.
                 'attributes'    => array(
                     'field' => array(
-                        'style' => 'width: 100%;' // since the rich editor does not accept the cols attribute, set the width by inline-style.
+                        'style' => 'width: 100%;', // since the rich editor does not accept the cols attribute, set the width by inline-style.
                     ),
                 ),
                 'description'   =>  __( 'The arguments can be passed to the <code>rich</code> argument.', 'admin-page-framework-loader' )
                     . sprintf( __( 'For more information see the <a href="%1$s">Codex page</a>.', 'admin-page-framework-loader' ), 'http://codex.wordpress.org/Function_Reference/wp_editor#Parameters' ),
                 array(
                     // pass the setting array to customize the editor. For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.
-                    'rich' => array( 
-                        'media_buttons' => false, 
-                        'tinymce'       => false
-                    ),    
+                    'rich' => array(
+                        'media_buttons' => false,
+                        'tinymce'       => false,
+                    ),
                 ),
-            ),     
+            ),
             array( // Multiple text areas
                 'field_id'      => 'textarea_multiple',
                 'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
@@ -141,8 +141,8 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
                     'attributes'    => array(
                         'rows'  => 3,
                         'cols'  => 40,
-                        'style' => 'background-color: #F0F8FA;' // this changes the style of the textarea tag.
-                    ),     
+                        'style' => 'background-color: #F0F8FA;', // this changes the style of the textarea tag.
+                    ),
                 ),
                 array(
                     'label'         => __( 'Third', 'admin-page-framework-loader' ),
@@ -150,11 +150,11 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
                     'attributes'    => array(
                         'rows' => 2,
                         'cols' => 20,
-                    ),     
-                ),    
+                    ),
+                ),
             ),
             array()
-        );             
+        );
         
     }
     

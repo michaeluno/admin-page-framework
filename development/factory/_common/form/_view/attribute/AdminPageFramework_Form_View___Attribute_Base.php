@@ -40,11 +40,11 @@ abstract class AdminPageFramework_Form_View___Attribute_Base extends AdminPageFr
      */
     public function __construct( /* $aArguments, $aAttributes */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aArguments, 
+        $_aParameters = func_get_args() + array(
+            $this->aArguments,
             $this->aAttributes,
         );
-        $this->aArguments   = $_aParameters[ 0 ];        
+        $this->aArguments   = $_aParameters[ 0 ];
         $this->aAttributes  = $_aParameters[ 1 ];
         
     }
@@ -65,7 +65,7 @@ abstract class AdminPageFramework_Form_View___Attribute_Base extends AdminPageFr
          * @return      array       The formatted attributes array.
          */
         protected function _getFormattedAttributes() {
-            return $this->aAttributes + $this->_getAttributes();         
+            return $this->aAttributes + $this->_getAttributes();
         }
 
            
@@ -76,5 +76,5 @@ abstract class AdminPageFramework_Form_View___Attribute_Base extends AdminPageFr
          */
         protected function _getAttributes() {
             return array();
-        }           
+        }
 }

@@ -26,7 +26,7 @@ class AdminPageFramework_Form_View___Script_SortableField extends AdminPageFrame
      * @return      void
      */
     public function construct() {
-        wp_enqueue_script( 'jquery-ui-sortable' ); 
+        wp_enqueue_script( 'jquery-ui-sortable' );
     }
     
     /**
@@ -36,7 +36,7 @@ class AdminPageFramework_Form_View___Script_SortableField extends AdminPageFrame
      * @since       3.3.0       Changed the name from `getjQueryPlugin()`.
      * @param       $oMsg       object      The message object.
      * @return      string      The inline JavaScript script.
-     */        
+     */
     static public function getScript( /* $oMsg */ ) {
 
         // Uncomment these lines when parameters need to be accessed.

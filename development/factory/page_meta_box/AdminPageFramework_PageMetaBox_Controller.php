@@ -37,10 +37,10 @@ abstract class AdminPageFramework_PageMetaBox_Controller extends AdminPageFramew
      * @param string (optional) The tab slug that the stylesheet should be added to. If not set, it applies to all the in-page tabs in the page.
      * @param array (optional) The argument array for more advanced parameters.
      * @return string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
-     */    
+     */
     public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueStyle' ) ) {
-            return $this->oResource->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );     
+            return $this->oResource->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
         }
     }
     /**
@@ -52,7 +52,7 @@ abstract class AdminPageFramework_PageMetaBox_Controller extends AdminPageFramew
         if ( method_exists( $this->oResource, '_enqueueScripts' ) ) {
             return $this->oResource->_enqueueScripts( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
         }
-    }    
+    }
     /**
      * Enqueues a script by page slug and tab slug.
      * 
@@ -64,7 +64,7 @@ abstract class AdminPageFramework_PageMetaBox_Controller extends AdminPageFramew
      * @param             array (optional) The argument array for more advanced parameters.
      * @return string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
-    public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {    
+    public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueScript' ) ) {
             return $this->oResource->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
         }

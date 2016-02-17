@@ -86,15 +86,15 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
         }
 
         // Send mail.
-        $_bSent         = wp_mail( 
+        $_bSent         = wp_mail(
             $this->_getEmailArgument( $aInput, $aEmailOptions, 'to', $sSubmitSectionID ),
             $this->_getEmailArgument( $aInput, $aEmailOptions, 'subject', $sSubmitSectionID ),
-            $_bIsHTML 
+            $_bIsHTML
                 ? $this->getReadableListOfArrayAsHTML( ( array ) $this->_getEmailArgument( $aInput, $aEmailOptions, 'message', $sSubmitSectionID ) )
                 : $this->getReadableListOfArray( ( array ) $this->_getEmailArgument( $aInput, $aEmailOptions, 'message', $sSubmitSectionID ) ),
             $this->_getEmailArgument( $aInput, $aEmailOptions, 'headers', $sSubmitSectionID ),
             $this->_formatAttachements( $this->_getEmailArgument( $aInput, $aEmailOptions, 'attachments', $sSubmitSectionID ) )
-        );         
+        );
         
         remove_filter( 'wp_mail_content_type', array( $this, '_replyToSetMailContentTypeToHTML' ) );
         remove_filter( 'wp_mail_from', array( $this, '_replyToSetEmailSenderAddress' ) );
@@ -121,7 +121,7 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
                 return '';
             }
             
-            $_aAttachments = $this->getAsArray( $asAttachments );          
+            $_aAttachments = $this->getAsArray( $asAttachments );
             foreach( $_aAttachments as $_iIndex => $_sPathORURL ) {
                 
                 // If it is a file path, fine.
@@ -160,8 +160,9 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
                 
                 // Download the file. It returns a string value on success. WP Error object on failure.
                 $_sPath = $this->download( $sURL, 10 );
-                if ( is_string( $_sPath ) ) {                    
+                if ( is_string( $_sPath ) ) {
                     $this->_aPathsToDelete[ $_sPath ] = $_sPath;
+
                     return $_sPath;
                 }
                 
@@ -181,19 +182,19 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
          * 
          * @since       3.3.0
          * @since       3.4.2       Moved from the validation class.
-         */            
+         */
         function _replyToSetEmailSenderAddress( $sEmailSenderAddress ) {
             return $this->_sEmailSenderAddress;
-        }            
+        }
         /**
          * Sets the email sender name.
          * 
          * @since       3.3.0
          * @since       3.4.2       Moved from the validation class.
-         */            
+         */
         function _replyToSetEmailSenderName( $sEmailSenderAddress ) {
             return $this->_sEmailSenderName;
-        }            
+        }
                     
         
         /**

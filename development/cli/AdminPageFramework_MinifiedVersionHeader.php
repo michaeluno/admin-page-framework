@@ -13,7 +13,7 @@
 if ( php_sapi_name() === 'cli' ) {
     $_sFrameworkFilePath = dirname( dirname( __FILE__ ) ) . '/admin-page-framework.php';
     if ( file_exists( $_sFrameworkFilePath ) ) {
-        include_once( $_sFrameworkFilePath );
+        include_once $_sFrameworkFilePath;
     }
 }
 

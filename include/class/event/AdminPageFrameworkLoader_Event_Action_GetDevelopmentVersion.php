@@ -26,11 +26,11 @@ class AdminPageFrameworkLoader_Event_Action_GetDevelopmentVersion {
      * 
      * @since       3.6.2
      */
-    public function __construct( $sActionName ) {  
+    public function __construct( $sActionName ) {
         add_action(
             $sActionName,
             array( $this, 'replyToDoAction' )
-        );                 
+        );
     }
     
     /**
@@ -42,7 +42,7 @@ class AdminPageFrameworkLoader_Event_Action_GetDevelopmentVersion {
             AdminPageFrameworkLoader_Registry::TRANSIENT_PREFIX . 'devver',
             $this->_getVersion(), // data - if an error occurs, an empty string will be given
             604800 // for one week
-        );        
+        );
     }
         /**
          * Extracts the version number from the page contents.
@@ -53,11 +53,12 @@ class AdminPageFrameworkLoader_Event_Action_GetDevelopmentVersion {
             
             $_oUtil     = new AdminPageFramework_WPUtility;
             $_sPageBody = $this->_getPageBody();
-            $_aHeaders  = $_oUtil->getScriptData( 
-                $_sPageBody, 
+            $_aHeaders  = $_oUtil->getScriptData(
+                $_sPageBody,
                 '',  /// context
-                array( 'version' => 'Version' ) 
+                array( 'version' => 'Version' )
             );
+
             return $_oUtil->getElement(
                 $_aHeaders, // subject array
                 'version', // dimensional keys
@@ -69,16 +70,17 @@ class AdminPageFrameworkLoader_Event_Action_GetDevelopmentVersion {
          */
         private function _getPageBody() {
             $_mResponse = wp_remote_get(
-                $this->sVersionTextURL, 
-                array( 
+                $this->sVersionTextURL,
+                array(
                     //  3.7  or later, it should be true
-                    'sslverify'  => version_compare( $GLOBALS[ 'wp_version' ], '3.7', '>=' )
-                ) 
-            );             
+                    'sslverify'  => version_compare( $GLOBALS[ 'wp_version' ], '3.7', '>=' ),
+                )
+            );
             if ( is_wp_error( $_mResponse ) ) {
                 return '';
             }
-            return wp_remote_retrieve_body( $_mResponse );        
+
+            return wp_remote_retrieve_body( $_mResponse );
         }
     
 }

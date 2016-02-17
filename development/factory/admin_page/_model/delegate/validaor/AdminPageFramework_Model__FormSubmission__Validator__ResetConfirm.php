@@ -38,20 +38,20 @@ class AdminPageFramework_Model__FormSubmission__Validator__ResetConfirm extends 
         }
         
         add_filter(
-            "options_update_status_{$this->oFactory->oProp->sClassName}", 
+            "options_update_status_{$this->oFactory->oProp->sClassName}",
             array( $this, '_replyToSetStatus' )
         );
                     
         // Go to the catch clause.
         $_oException = new Exception( 'aReturn' );  // the property name to return from the catch clasue.
-        $_oException->aReturn = $this->_confirmSubmitButtonAction( 
+        $_oException->aReturn = $this->_confirmSubmitButtonAction(
             $this->getElement( $aSubmitInformation, 'input_name' ),
             $this->getElement( $aSubmitInformation, 'section_id' ),
-            'reset' 
+            'reset'
         );
-        throw $_oException;        
+        throw $_oException;
         
-    }      
+    }
         /**
          * @since       3.7.6
          * @return      boolean
@@ -62,10 +62,10 @@ class AdminPageFramework_Model__FormSubmission__Validator__ResetConfirm extends 
                 return false;
             }
             
-            return ( bool ) $this->_getPressedSubmitButtonData( 
-                $aSubmits, 
-                'is_reset' 
-            );  
+            return ( bool ) $this->_getPressedSubmitButtonData(
+                $aSubmits,
+                'is_reset'
+            );
             
         }
         
@@ -75,9 +75,9 @@ class AdminPageFramework_Model__FormSubmission__Validator__ResetConfirm extends 
          * @callback    filter      options_update_status_{class name}
          */
         public function _replyToSetStatus( $aStatus ) {
-            return array( 
-                'confirmation' => 'reset'
+            return array(
+                'confirmation' => 'reset',
             ) + $aStatus;
-        }  
+        }
    
 }

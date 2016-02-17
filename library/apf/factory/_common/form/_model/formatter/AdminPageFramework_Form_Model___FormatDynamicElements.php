@@ -16,6 +16,7 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
     }
     public function get() {
         $this->_setDynamicElements($this->aSavedFormData);
+
         return $this->aFieldsets;
     }
     private function _setDynamicElements($aOptions) {
@@ -43,6 +44,7 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
             unset($_aField);
             $_iPrevIndex = $_iIndex;
         }
+
         return $_aSubSection;
     }
     private function _getSubSectionItemsFromOptions(array $_aSubSection, $_sSectionID, $_iIndex, $_iPrevIndex) {
@@ -50,6 +52,7 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
             return array();
         }
         $_aFields = isset($this->aFieldsets[$_sSectionID][$_iIndex]) ? $this->aFieldsets[$_sSectionID][$_iIndex] : $this->getNonIntegerKeyElements($this->aFieldsets[$_sSectionID]);
+
         return !empty($_aFields) ? $_aFields : $this->getElementAsArray($_aSubSection, $_iPrevIndex, array());
     }
 }

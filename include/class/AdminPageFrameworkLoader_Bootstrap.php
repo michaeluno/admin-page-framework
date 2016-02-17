@@ -32,15 +32,16 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
         
         // Include the include lists. The including file reassigns the list(array) to the $_aClassFiles variable.
         $_aClassFiles   = array();
-        include( dirname( $this->sFilePath ) . '/include/loader-class-list.php' );
+        include dirname( $this->sFilePath ) . '/include/loader-class-list.php';
         $this->_aClassFiles = $_aClassFiles;
+
         return $_aClassFiles;
                 
     }
 
     /**
      * The plugin activation callback method.
-     */    
+     */
     public function replyToPluginActivation() {
 
         $this->_checkRequirements();
@@ -57,15 +58,15 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
                 AdminPageFrameworkLoader_Registry::NAME
             );
             
-            if ( $_oRequirementCheck->check() ) {            
-                $_oRequirementCheck->deactivatePlugin( 
-                    $this->sFilePath, 
+            if ( $_oRequirementCheck->check() ) {
+                $_oRequirementCheck->deactivatePlugin(
+                    $this->sFilePath,
                     __( 'Deactivating the plugin', 'admin-page-framework-loader' ),  // additional message
                     true    // is in the activation hook. This will exit the script.
                 );
-            }        
+            }
              
-        }    
+        }
             
     /**
      * Load localization files.
@@ -75,24 +76,24 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
     public function setLocalization() {
         
         // This plugin does not have messages to be displayed in the front end.
-        if ( ! $this->bIsAdmin ) { 
-            return; 
+        if ( ! $this->bIsAdmin ) {
+            return;
         }
        
         $_sPluginBaseNameDirName = dirname( plugin_basename( $this->sFilePath ) );
-        load_plugin_textdomain( 
-            AdminPageFrameworkLoader_Registry::TEXT_DOMAIN, 
-            false, 
+        load_plugin_textdomain(
+            AdminPageFrameworkLoader_Registry::TEXT_DOMAIN,
+            false,
             $_sPluginBaseNameDirName . '/' . AdminPageFrameworkLoader_Registry::TEXT_DOMAIN_PATH
         );
             
-        load_plugin_textdomain( 
-            'admin-page-framework', 
-            false, 
+        load_plugin_textdomain(
+            'admin-page-framework',
+            false,
             $_sPluginBaseNameDirName . '/' . AdminPageFrameworkLoader_Registry::TEXT_DOMAIN_PATH
-        );        
+        );
         
-    }        
+    }
     
     /**
      * Loads the plugin specific components. 
@@ -105,13 +106,13 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
         if ( $this->_shouldShowAdminPages() ) {
 
             // Dashboard
-            new AdminPageFrameworkLoader_AdminPageWelcome( 
+            new AdminPageFrameworkLoader_AdminPageWelcome(
                 '', // disable saving form data.
                 $this->sFilePath   // caller script path
             );
 
             // Loader plugin admin pages.
-            new AdminPageFrameworkLoader_AdminPage( 
+            new AdminPageFrameworkLoader_AdminPage(
                 AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ],    // the option key
                 $this->sFilePath   // caller script path
             );
@@ -124,7 +125,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
                 );
             }
 
-        }   
+        }
 
         // Demo
         new AdminPageFrameworkLoader_Demo;
@@ -145,6 +146,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
             if ( AdminPageFrameworkLoader_Utility::isSilentMode() ) {
                 return false;
             }
+
             return true;
             
         }

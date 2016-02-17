@@ -37,7 +37,8 @@ class AdminPageFramework_Form_View___Generate_FlatFieldInputName extends AdminPa
             '0' !== $this->sIndex && empty( $this->sIndex ),
             '',
             "|{$this->sIndex}"
-        );                
+        );
+
         return $this->_getFiltered( $this->_getFlatFieldName() . $_sIndex );
         
     }

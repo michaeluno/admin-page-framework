@@ -38,21 +38,21 @@ class APF_Demo_BuiltinFieldTypes_System_Info {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'System Custom Field Type', 'admin-page-framework-loader' ),
-                'description'   => __( 'Displays the system information.', 'admin-page-framework-loader' ),     
+                'description'   => __( 'Displays the system information.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
       
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID       
             array(
                 'field_id'      => 'system_information',
-                'type'          => 'system',     
+                'type'          => 'system',
                 'title'         => __( 'System Information', 'admin-page-framework-loader' ),
                 'data'          => array(
                     __( 'Custom Data', 'admin-page-framework-loader' )    => __( 'Here you can insert your own custom data with the data argument.', 'admin-page-framework-loader' ),
@@ -64,26 +64,26 @@ class APF_Demo_BuiltinFieldTypes_System_Info {
             ),
             array(
                 'field_id'      => 'saved_options',
-                'type'          => 'system',     
+                'type'          => 'system',
                 'title'         => __( 'Saved Options', 'admin-page-framework-loader' ),
                 'data'          => array(
                     // Removes the default data by passing an empty value below.
-                    'Admin Page Framework'  => '', 
-                    'WordPress'             => '', 
-                    'PHP'                   => '', 
+                    'Admin Page Framework'  => '',
+                    'WordPress'             => '',
+                    'PHP'                   => '',
                     'Server'                => '',
                     'PHP Error Log'         => '',
-                    'MySQL'                 => '', 
-                    'MySQL Error Log'       => '',                    
-                    'Browser'               => '',                         
-                ) 
+                    'MySQL'                 => '',
+                    'MySQL Error Log'       => '',
+                    'Browser'               => '',
+                )
                 + $oFactory->oProp->aOptions,
                 'attributes'    => array(
                     'name'  => '',
                     'rows'   => 20,
-                ),        
-            )          
-        );      
+                ),
+            )
+        );
         
     }
 

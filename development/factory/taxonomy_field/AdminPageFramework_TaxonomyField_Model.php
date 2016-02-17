@@ -29,7 +29,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
     // public function validate( $aInput, $aOldInput, $oFactory ) {
         // return $aInput;
     // }      
-   
+
     /**
      * Modifies the columns of the taxonomy term listing table in the edit-tags.php page.
      * 
@@ -51,13 +51,13 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * @return      string
      */
     public function _replyToManageColumns( $aColumns ) {
-        return $this->_getFilteredColumnsByFilterPrefix( 
-            $this->oUtil->getAsArray( $aColumns ), 
-            'columns_', 
+        return $this->_getFilteredColumnsByFilterPrefix(
+            $this->oUtil->getAsArray( $aColumns ),
+            'columns_',
             isset( $_GET['taxonomy'] )  // in ajax, $_GET is not even set.
                 ? $_GET['taxonomy']
                 : ''
-        );        
+        );
     }
     /**
      * Sets the taxonomy term listing table column elements.
@@ -69,14 +69,14 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * @return      string
      */
     public function _replyToSetSortableColumns( $aSortableColumns ) {
-        return $this->_getFilteredColumnsByFilterPrefix( 
-            $this->oUtil->getAsArray( $aSortableColumns ), 
-            'sortable_columns_', 
+        return $this->_getFilteredColumnsByFilterPrefix(
+            $this->oUtil->getAsArray( $aSortableColumns ),
+            'sortable_columns_',
             isset( $_GET['taxonomy'] )  // in ajax, $_GET is not even set.
                 ? $_GET['taxonomy']
                 : ''
         );
-    }   
+    }
         /**
          * Filters columns array by the given filter prefix.
          * @since       3.5.3
@@ -86,13 +86,14 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
             
             if ( $sTaxonomy ) {
                 $aColumns = $this->oUtil->addAndApplyFilter(
-                    $this, 
+                    $this,
                     "{$sFilterPrefix}{$_GET['taxonomy']}",
                     $aColumns
                 );
             }
-            return $this->oUtil->addAndApplyFilter( 
-                $this, 
+
+            return $this->oUtil->addAndApplyFilter(
+                $this,
                 "{$sFilterPrefix}{$this->oProp->sClassName}",
                 $aColumns
             );
@@ -110,7 +111,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * @since       3.7.0
      */
     public function _replyToGetSavedFormData() {
-        return array();    
+        return array();
     }
        
     /**
@@ -125,11 +126,11 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * @internal
      */
     protected function _setOptionArray( $iTermID=null, $sOptionKey ) {
-        $this->oForm->aSavedData = $this->_getSavedFormData( 
-            $iTermID, 
+        $this->oForm->aSavedData = $this->_getSavedFormData(
+            $iTermID,
             $sOptionKey
         );
-    } 
+    }
         /**
          * @remark      The returned values are portion of the entire data set to the options table row
          * as the row stores all the form data associated with the taxonomy slug. And each element with the key of term id holds 
@@ -151,6 +152,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
          */
         private function _getSavedTermFormData( $iTermID, $sOptionKey ) {
             $_aSavedTaxonomyFormData = $this->_getSavedTaxonomyFormData( $sOptionKey );
+
             return $this->oUtil->getElementAsArray(
                 $_aSavedTaxonomyFormData,
                 $iTermID
@@ -176,35 +178,35 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
 
         if ( ! $this->_shouldProceedValidation() ) {
             return;
-        }              
+        }
 
         $_aTaxonomyFormData     = $this->_getSavedTaxonomyFormData( $this->oProp->sOptionKey );
         $_aSavedFormData        = $this->_getSavedTermFormData( $iTermID, $this->oProp->sOptionKey );
-        $_aSubmittedFormData    = $this->oForm->getSubmittedData( $_POST ); 
-        $_aSubmittedFormData    = $this->oUtil->addAndApplyFilters( 
-            $this, 
-            'validation_' . $this->oProp->sClassName, 
-            call_user_func_array( 
+        $_aSubmittedFormData    = $this->oForm->getSubmittedData( $_POST );
+        $_aSubmittedFormData    = $this->oUtil->addAndApplyFilters(
+            $this,
+            'validation_' . $this->oProp->sClassName,
+            call_user_func_array(
                 array( $this, 'validate' ), // triggers __call()
                 array( $_aSubmittedFormData, $_aSavedFormData, $this )
             ), // 3.5.10+
-            $_aSavedFormData, 
-            $this 
+            $_aSavedFormData,
+            $this
         );
         
         // @todo Examine whether it is appropriate to merge recursivly 
         // as some fields will have a problem such as select with multiple options.
-        $_aTaxonomyFormData[ $iTermID ]  = $this->oUtil->uniteArrays( 
-            $_aSubmittedFormData, 
-            $_aSavedFormData 
+        $_aTaxonomyFormData[ $iTermID ]  = $this->oUtil->uniteArrays(
+            $_aSubmittedFormData,
+            $_aSavedFormData
         );
                  
-        update_option( 
-            $this->oProp->sOptionKey, 
-            $_aTaxonomyFormData 
+        update_option(
+            $this->oProp->sOptionKey,
+            $_aTaxonomyFormData
         );
         
-    }        
+    }
         /**
          * Verifies the form submit.
          * 
@@ -212,18 +214,19 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
          * @since       3.7.0      Renamed from `_verifyFormSubmit()`.
          * @internal
          * @return      boolean     True if it is verified; otherwise, false.
-         */        
+         */
         private function _shouldProceedValidation() {
 
-            if ( ! isset( $_POST[ $this->oProp->sClassHash ] ) ) { 
+            if ( ! isset( $_POST[ $this->oProp->sClassHash ] ) ) {
             
                 return false;
             }
             if ( ! wp_verify_nonce( $_POST[ $this->oProp->sClassHash ], $this->oProp->sClassHash ) ) {
                 return false;
-            }        
+            }
+
             return true;
             
-        }    
+        }
     
 }

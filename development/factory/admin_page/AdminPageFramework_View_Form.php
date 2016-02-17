@@ -30,11 +30,11 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
 
         $_aParams            = func_get_args() + array( null, null, );
         $sNameAttribute      = $_aParams[ 0 ];
-        $aSectionset         = $_aParams[ 1 ];        
+        $aSectionset         = $_aParams[ 1 ];
         
         $_aSectionPath       = $aSectionset[ '_section_path_array' ];
         
-        $_aDimensionalKeys   = array( $this->oProp->sOptionKey );   
+        $_aDimensionalKeys   = array( $this->oProp->sOptionKey );
         foreach( $_aSectionPath as $_sDimension ) {
             $_aDimensionalKeys[] = '[' . $_sDimension . ']';
         }
@@ -55,7 +55,7 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
         
         $_aParams           = func_get_args() + array( null, null,  );
         $sNameAttribute     = $_aParams[ 0 ];
-        $aFieldset          = $_aParams[ 1 ];        
+        $aFieldset          = $_aParams[ 1 ];
         
         $_aDimensionalKeys  = array( $aFieldset[ 'option_key' ] );
         if ( $this->isSectionSet( $aFieldset ) ) {
@@ -83,7 +83,7 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
 
         $_aParams           = func_get_args() + array( null, null,  );
         $sNameAttribute     = $_aParams[ 0 ];
-        $aFieldset          = $_aParams[ 1 ];        
+        $aFieldset          = $_aParams[ 1 ];
         
         $_aDimensionalKeys  = array( $aFieldset[ 'option_key' ] );
         if ( $this->isSectionSet( $aFieldset ) ) {
@@ -91,11 +91,12 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
                 $_aDimensionalKeys[] = $_sDimension; // $aFieldset[ 'section_id' ];
             }
             if ( isset( $aFieldset[ '_section_index' ] ) ) {
-                $_aDimensionalKeys[] = $aFieldset[ '_section_index' ];    
+                $_aDimensionalKeys[] = $aFieldset[ '_section_index' ];
             }
         }
         $_aDimensionalKeys[] = $aFieldset[ 'field_id' ];
-        return implode( '|', $_aDimensionalKeys );        
+
+        return implode( '|', $_aDimensionalKeys );
         
     }
     
@@ -104,7 +105,7 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
      * @internal    
      * @since       3.5.7
      * @return      string      the input name attribute
-     */    
+     */
     public function _replyToGetInputNameAttribute( /* $sNameAttribute, $aField, $sKey */ ) {
         
         $_aParams       = func_get_args() + array( null, null, null );
@@ -115,7 +116,7 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
             '0' !== $sKey && empty( $sKey ),
             '',
             "[{$sKey}]"
-        );   
+        );
         
         return $this->_replyToGetFieldNameAttribute( '', $aField ) . $sKey;
         
@@ -126,7 +127,7 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
      * @since       3.5.7
      * @since       3.5.7.1     Fixed a bug that the tailing key element was not delimited properly.
      * @return      string      the flat input name attribute
-     */    
+     */
     public function _replyToGetFlatInputName( /* $sFlatNameAttribute, $aField, $sKey, */ ) {
         $_aParams           = func_get_args() + array( null, null, null );
         $sFlatNameAttribute = $_aParams[ 0 ];
@@ -136,7 +137,7 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
             '0' !== $_sKey && empty( $_sKey ),
             '',
             "|" . $_sKey
-        );        
+        );
         
         return $this->_replyToGetFlatFieldName( '', $aField ) . $_sKey;
 

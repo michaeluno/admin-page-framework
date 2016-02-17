@@ -20,10 +20,10 @@ class AdminPageFramework_Form_Model___FieldTypeRegistration extends AdminPageFra
     /**
      * Initializes the field type.
      * @since       3.7.0
-     */    
+     */
     public function __construct( array $aFieldTypeDefinition, $sStructureType ) {
        
-        $this->_initialize( 
+        $this->_initialize(
             $aFieldTypeDefinition,
             $sStructureType
         );
@@ -40,19 +40,19 @@ class AdminPageFramework_Form_Model___FieldTypeRegistration extends AdminPageFra
         private function _initialize( $aFieldTypeDefinition, $sStructureType ) {
                 
             if ( is_callable( $aFieldTypeDefinition[ 'hfFieldSetTypeSetter' ] ) ) {
-                call_user_func_array( 
-                    $aFieldTypeDefinition[ 'hfFieldSetTypeSetter' ], 
-                    array( $sStructureType ) 
+                call_user_func_array(
+                    $aFieldTypeDefinition[ 'hfFieldSetTypeSetter' ],
+                    array( $sStructureType )
                );
             }
             
             if ( is_callable( $aFieldTypeDefinition[ 'hfFieldLoader' ] ) ) {
-                call_user_func_array( 
-                    $aFieldTypeDefinition[ 'hfFieldLoader' ], 
+                call_user_func_array(
+                    $aFieldTypeDefinition[ 'hfFieldLoader' ],
                     array()
                 );
             }
                        
-        }    
+        }
    
 }

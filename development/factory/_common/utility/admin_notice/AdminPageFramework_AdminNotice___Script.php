@@ -24,7 +24,7 @@ class AdminPageFramework_AdminNotice___Script extends AdminPageFramework_Factory
      * @callback        action       wp_enqueue_scripts
      */
     public function load() {
-        wp_enqueue_script( 'jquery' );        
+        wp_enqueue_script( 'jquery' );
     }
     
     /**
@@ -39,7 +39,7 @@ class AdminPageFramework_AdminNotice___Script extends AdminPageFramework_Factory
         // Uncomment these lines when parameters need to be accessed.
         // $_aParams   = func_get_args() + array( null );
         // $_oMsg      = $_aParams[ 0 ];         
-        
+
         /**
          * Checks checkboxes in siblings.
          */

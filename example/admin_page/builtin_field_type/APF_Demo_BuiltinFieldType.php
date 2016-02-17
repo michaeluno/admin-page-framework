@@ -63,10 +63,10 @@ class APF_Demo_BuiltinFieldType {
                     'edit', 'post', 'index', 'media', 'upload', 'link-manager', 'link', 'link-category', 
                     'edit-pages', 'page', 'edit-comments', 'themes', 'plugins', 'users', 'profile', 
                     'user-edit', 'tools', 'admin', 'options-general', 'ms-admin', 'generic',  
-                */     
+                */
                 'order' => 10, // ( optional ) - if you don't set this, an index will be assigned internally in the added order
             )
-        );        
+        );
            
         add_action( 'load_' . $this->_sPageSlug, array( $this, 'replyToLoadPage' ) );
         
@@ -81,7 +81,7 @@ class APF_Demo_BuiltinFieldType {
         /**
          * (optional) Contextual help pane
          */
-        $oFactory->addHelpTab( 
+        $oFactory->addHelpTab(
             array(
                 'page_slug'                => $this->_sPageSlug, // ( required )
                 'help_tab_id'              => 'admin_page_framework', // ( required )
@@ -90,7 +90,7 @@ class APF_Demo_BuiltinFieldType {
                 'help_tab_content'         => __( 'This contextual help text can be set with the <code>addHelpTab()</code> method.', 'admin-page-framework' ),
                 'help_tab_sidebar_content' => __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
             )
-        );        
+        );
         
         /**
          * (optional) Add in-page tabs - here tabs are defined in the below classes.
@@ -101,12 +101,12 @@ class APF_Demo_BuiltinFieldType {
             'APF_Demo_BuiltinFieldTypes_File',
             'APF_Demo_BuiltinFieldTypes_Checklist',
             'APF_Demo_BuiltinFieldTypes_MISC',
-            'APF_Demo_BuiltinFieldTypes_System', 
+            'APF_Demo_BuiltinFieldTypes_System',
         );
         foreach ( $_aTabClasses as $_sTabClassName ) {
             if ( ! class_exists( $_sTabClassName ) ) {
-                continue;                
-            }        
+                continue;
+            }
             new $_sTabClassName( $oFactory );
         }
         

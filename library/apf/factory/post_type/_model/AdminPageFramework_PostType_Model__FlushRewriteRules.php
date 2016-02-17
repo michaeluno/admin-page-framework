@@ -21,6 +21,7 @@ class AdminPageFramework_PostType_Model__FlushRewriteRules extends AdminPageFram
         if (!$oFactory->oProp->sCallerPath) {
             return false;
         }
+
         return 'plugin' === $oFactory->oProp->sScriptType;
     }
     public function _replyToSetUpPostType() {

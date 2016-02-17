@@ -13,16 +13,19 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
         } else {
             $sPageURL.= $_SERVER["SERVER_NAME"] . $sRequestURI;
         }
+
         return $sPageURL;
     }
     static public function getQueryAdminURL($aAddingQueries = array(), $aRemovingQueryKeys = array(), $sSubjectURL = '') {
         $_sAdminURL = is_network_admin() ? network_admin_url(AdminPageFramework_WPUtility_Page::getPageNow()) : admin_url(AdminPageFramework_WPUtility_Page::getPageNow());
         $sSubjectURL = $sSubjectURL ? $sSubjectURL : add_query_arg($_GET, $_sAdminURL);
+
         return self::getQueryURL($aAddingQueries, $aRemovingQueryKeys, $sSubjectURL);
     }
     static public function getQueryURL($aAddingQueries, $aRemovingQueryKeys, $sSubjectURL) {
         $sSubjectURL = empty($aRemovingQueryKeys) ? $sSubjectURL : remove_query_arg(( array )$aRemovingQueryKeys, $sSubjectURL);
         $sSubjectURL = add_query_arg($aAddingQueries, $sSubjectURL);
+
         return $sSubjectURL;
     }
     static public function getSRCFromPath($sFilePath) {
@@ -31,6 +34,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
         $_sRelativePath = preg_replace("/^\.[\/\\\]/", '', $_sRelativePath, 1);
         $_sHref = trailingslashit($_oWPStyles->base_url) . $_sRelativePath;
         unset($_oWPStyles);
+
         return $_sHref;
     }
     static public function getResolvedSRC($sSRC, $bReturnNullIfNotExist = false) {
@@ -46,6 +50,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
         if ($bReturnNullIfNotExist) {
             return null;
         }
+
         return $sSRC;
     }
     static public function resolveSRC($sSRC, $bReturnNullIfNotExist = false) {
@@ -61,6 +66,7 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
                 $_aOutput[] = "{$_sAttribute}={$_sQuoteCharactor}" . esc_attr($_mProperty) . "{$_sQuoteCharactor}";
             }
         }
+
         return implode(' ', $_aOutput);
     }
     static public function generateAttributes(array $aAttributes) {
@@ -74,6 +80,7 @@ class AdminPageFramework_WPUtility_HTML extends AdminPageFramework_WPUtility_URL
     }
     static public function getHTMLTag($sTagName, array $aAttributes, $sValue = null) {
         $_sTag = tag_escape($sTagName);
+
         return null === $sValue ? "<" . $_sTag . " " . self::getAttributes($aAttributes) . " />" : "<" . $_sTag . " " . self::getAttributes($aAttributes) . ">" . $sValue . "</{$_sTag}>";
     }
     static public function generateHTMLTag($sTagName, array $aAttributes, $sValue = null) {
@@ -86,6 +93,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
             return self::$_sCurrentPostType;
         }
         self::$_sCurrentPostType = self::_getCurrentPostType();
+
         return self::$_sCurrentPostType;
     }
     static private $_sCurrentPostType;
@@ -97,6 +105,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
                 return $_sPostType;
             }
         }
+
         return null;
     }
     static public function getPostTypeByTypeNow() {
@@ -126,12 +135,14 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         if (!in_array(self::getPageNow(), array('tags.php', 'edit-tags.php',))) {
             return false;
         }
+
         return self::isCurrentPostTypeIn($asPostTypes);
     }
     static public function isPostDefinitionPage($asPostTypes = array()) {
         if (!in_array(self::getPageNow(), array('post.php', 'post-new.php',))) {
             return false;
         }
+
         return self::isCurrentPostTypeIn($asPostTypes);
     }
     static public function isCurrentPostTypeIn($asPostTypes) {
@@ -139,6 +150,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         if (empty($_aPostTypes)) {
             return true;
         }
+
         return in_array(self::getCurrentPostType(), $_aPostTypes);
     }
     static public function isPostListingPage($asPostTypes = array()) {
@@ -149,6 +161,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         if (!isset($_GET['post_type'])) {
             return in_array('post', $_aPostTypes);
         }
+
         return in_array($_GET['post_type'], $_aPostTypes);
     }
     static private $_sPageNow;
@@ -158,17 +171,20 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         }
         if (isset($GLOBALS['pagenow'])) {
             self::$_sPageNow = $GLOBALS['pagenow'];
+
             return self::$_sPageNow;
         }
         $_aMethodNames = array(0 => '_getPageNow_FrontEnd', 1 => '_getPageNow_BackEnd',);
         $_sMethodName = $_aMethodNames[( integer )is_admin() ];
         self::$_sPageNow = self::$_sMethodName();
+
         return self::$_sPageNow;
     }
     static private function _getPageNow_FrontEnd() {
         if (preg_match('#([^/]+\.php)([?/].*?)?$#i', $_SERVER['PHP_SELF'], $_aMatches)) {
             return strtolower($_aMatches[1]);
         }
+
         return 'index.php';
     }
     static private function _getPageNow_BackEnd() {
@@ -181,6 +197,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         if ('.php' !== substr($_sPageNow, -4, 4)) {
             $_sPageNow.= '.php';
         }
+
         return $_sPageNow;
     }
     static private function _getPageNowAdminURLBasePath() {
@@ -192,6 +209,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
             $_sNeedle = '#/wp-admin/?(.*?)$#i';
         }
         preg_match($_sNeedle, $_SERVER['PHP_SELF'], $_aMatches);
+
         return preg_replace('#\?.*?$#', '', trim($_aMatches[1], '/'));
     }
     static private function _isInAdminIndex($sPageNow) {
@@ -208,6 +226,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         if (isset($GLBOALS['page_hook'])) {
             return is_network_admin() ? $GLBOALS['page_hook'] . '-network' : $GLBOALS['page_hook'];
         }
+
         return '';
     }
     static public function doesMetaBoxExist($sContext = '') {
@@ -216,6 +235,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
             $_aDimensions[] = $sContext;
         }
         $_aSideMetaBoxes = self::getElementAsArray($GLOBALS, $_aDimensions);
+
         return count($_aSideMetaBoxes) > 0;
     }
     static public function getNumberOfScreenColumns() {
@@ -276,6 +296,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
             $_aArgs[2] = $_vInput;
             $_vInput = call_user_func_array(array(get_class(), 'addAndApplyFilter'), $_aArgs);
         }
+
         return $_vInput;
     }
     static public function addAndApplyFilter() {
@@ -291,6 +312,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
             add_filter($_sFilter, array($_oCallerObject, $_sAutoCallbackMethodName), 10, $_iArgs - 2);
         }
         array_shift($_aArgs);
+
         return call_user_func_array('apply_filters', $_aArgs);
     }
     static public function getFilterArrayByPrefix($sPrefix, $sClassName, $sPageSlug, $sTabSlug, $bReverse = false) {
@@ -304,6 +326,7 @@ class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Pag
         if ($sClassName) {
             $_aFilters[] = "{$sPrefix}{$sClassName}";
         }
+
         return $bReverse ? array_reverse($_aFilters) : $_aFilters;
     }
 }
@@ -330,6 +353,7 @@ class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hoo
             default:
             break;
         }
+
         return $aData;
     }
     static public function getScriptDataFromContents($sContent, $sType = 'plugin', $aDefaultHeaderKeys = array()) {
@@ -346,6 +370,7 @@ class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hoo
             $_bFound = preg_match('/^[ \t\/*#@]*' . preg_quote($_sRegex, '/') . ':(.*)$/mi', $sContent, $_aMatch);
             $_aHeaders[$_sHeaderKey] = $_bFound && $_aMatch[1] ? _cleanup_header_comment($_aMatch[1]) : '';
         }
+
         return $_aHeaders;
     }
     static public function download($sURL, $iTimeOut = 300) {
@@ -359,10 +384,12 @@ class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hoo
         $_aoResponse = wp_safe_remote_get($sURL, array('timeout' => $iTimeOut, 'stream' => true, 'filename' => $_sTmpFileName));
         if (is_wp_error($_aoResponse)) {
             unlink($_sTmpFileName);
+
             return false;
         }
         if (200 != wp_remote_retrieve_response_code($_aoResponse)) {
             unlink($_sTmpFileName);
+
             return false;
         }
         $_sContent_md5 = wp_remote_retrieve_header($_aoResponse, 'content-md5');
@@ -370,9 +397,11 @@ class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hoo
             $_boIsMD5 = verify_file_md5($_sTmpFileName, $_sContent_md5);
             if (is_wp_error($_boIsMD5)) {
                 unlink($_sTmpFileName);
+
                 return false;
             }
         }
+
         return $_sTmpFileName;
     }
     static public function setTempPath($sFilePath = '') {
@@ -383,11 +412,13 @@ class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hoo
         }
         $sFilePath = $_sDir . wp_unique_filename($_sDir, $sFilePath);
         touch($sFilePath);
+
         return $sFilePath;
     }
     static public function getBaseNameOfURL($sURL) {
         $_sPath = parse_url($sURL, PHP_URL_PATH);
         $_sFileBaseName = basename($_sPath);
+
         return $_sFileBaseName;
     }
 }
@@ -402,6 +433,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         $_aFunctionNames = array(0 => 'delete_transient', 1 => 'delete_site_transient',);
         $_vTransient = $_aFunctionNames[( integer )self::$_bIsNetworkAdmin]($sTransientKey);
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp;
+
         return $_vTransient;
     }
     static public function getTransient($sTransientKey, $vDefault = null) {
@@ -413,6 +445,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         $_aFunctionNames = array(0 => 'get_transient', 1 => 'get_site_transient',);
         $_vTransient = $_aFunctionNames[( integer )self::$_bIsNetworkAdmin]($sTransientKey);
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp;
+
         return null === $vDefault ? $_vTransient : (false === $_vTransient ? $vDefault : $_vTransient);
     }
     static public function setTransient($sTransientKey, $vValue, $iExpiration = 0) {
@@ -424,6 +457,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         $_aFunctionNames = array(0 => 'set_transient', 1 => 'set_site_transient',);
         $_bIsSet = $_aFunctionNames[( integer )self::$_bIsNetworkAdmin]($sTransientKey, $vValue, $iExpiration);
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp;
+
         return $_bIsSet;
     }
     static public function _getCompatibleTransientKey($sSubject, $iAllowedCharacterLength = 45) {
@@ -432,6 +466,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         }
         $_iPrefixLengthToKeep = $iAllowedCharacterLength - 33;
         $_sPrefixToKeep = substr($sSubject, 0, $_iPrefixLengthToKeep - 1);
+
         return $_sPrefixToKeep . '_' . md5($sSubject);
     }
     static public function getOption($sOptionKey, $asKey = null, $vDefault = null, array $aAdditionalOptions = array()) {
@@ -443,8 +478,10 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
     static private function _getOptionByFunctionName($sOptionKey, $asKey = null, $vDefault = null, array $aAdditionalOptions = array(), $sFunctionName = 'get_option') {
         if (!isset($asKey)) {
             $_aOptions = $sFunctionName($sOptionKey, isset($vDefault) ? $vDefault : array());;
+
             return empty($aAdditionalOptions) ? $_aOptions : self::uniteArrays($_aOptions, $aAdditionalOptions);
         }
+
         return self::getArrayValueByArrayKeys(self::uniteArrays(self::getAsArray($sFunctionName($sOptionKey, array()), true), $aAdditionalOptions), self::getAsArray($asKey, true), $vDefault);
     }
 }
@@ -465,6 +502,7 @@ class AdminPageFramework_WPUtility_Meta extends AdminPageFramework_WPUtility_Opt
         foreach ($aKeys as $_sKey) {
             $_aSavedMeta[$_sKey] = call_user_func_array($_sFunctionName, array($iObjectID, $_sKey, true));
         }
+
         return $_aSavedMeta;
     }
 }
@@ -497,14 +535,17 @@ class AdminPageFramework_WPUtility_SystemInformation extends AdminPageFramework_
             $_aOutput[$_sKey] = $_sValue;
         }
         self::$_aMySQLInfo = $_aOutput;
+
         return self::$_aMySQLInfo;
     }
     static public function getMySQLErrorLogPath() {
         $_aMySQLInfo = self::getMySQLInfo();
+
         return isset($_aMySQLInfo['log_error']) ? $_aMySQLInfo['log_error'] : '';
     }
     static public function getMySQLErrorLog($iLines = 1) {
         $_sLog = self::getFileTailContents(self::getMySQLErrorLogPath(), $iLines);
+
         return $_sLog ? $_sLog : '';
     }
 }
@@ -514,6 +555,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
         if (is_string($_sCustomMenuSlug)) {
             return $_sCustomMenuSlug;
         }
+
         return 'edit.php?post_type=' . $sPostTypeSlug;
     }
     static public function getShowInMenuPostTypeArgument($aPostTypeArguments) {
@@ -521,6 +563,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
     }
     static public function getWPAdminDirPath() {
         $_sWPAdminPath = str_replace(get_bloginfo('url') . '/', ABSPATH, get_admin_url());
+
         return rtrim($_sWPAdminPath, '/');
     }
     static public function goToLocalURL($sURL, $oCallbackOnError = null) {
@@ -533,6 +576,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
         $_iRedirectError = self::getRedirectPreError($sURL, $iType);
         if ($_iRedirectError && is_callable($oCallbackOnError)) {
             call_user_func_array($oCallbackOnError, array($_iRedirectError, $sURL,));
+
             return;
         }
         $_sFunctionName = array(0 => 'wp_redirect', 1 => 'wp_safe_redirect',);
@@ -545,6 +589,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
         if (headers_sent()) {
             return 2;
         }
+
         return 0;
     }
     static public function isDebugMode() {

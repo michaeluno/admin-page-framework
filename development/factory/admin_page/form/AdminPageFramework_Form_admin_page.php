@@ -33,10 +33,11 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * So rather than storing the page-matching elements, drop the unmatched elements
      * so that the externally injected options will be respected.
      * @return      array     the stored options of the given page slug. If not found, an empty array will be returned.
-     */ 
+     */
     public function getPageOptions( $aOptions, $sPageSlug ) {
         $_aOtherPageOptions = $this->getOtherPageOptions( $aOptions, $sPageSlug );
-        return $this->invertCastArrayContents( $aOptions, $_aOtherPageOptions );   
+
+        return $this->invertCastArrayContents( $aOptions, $_aOtherPageOptions );
     }
     
     /**
@@ -60,16 +61,17 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
             }
 
             // At this point, the element belongs the given page slug as the section is of the given page slug's.
-            $this->_setPageOnlyOptions( 
+            $this->_setPageOnlyOptions(
                 $_aStoredOptionsOfThePage,  // by reference - gets updated in the method.
-                $aOptions, 
-                $_aSubSectionsOrFields, 
+                $aOptions,
+                $_aSubSectionsOrFields,
                 $sPageSlug,
                 $_sSectionID
             );
  
         }
-        return $_aStoredOptionsOfThePage; 
+
+        return $_aStoredOptionsOfThePage;
         
     }
         /**
@@ -86,9 +88,9 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 // If it's a sub-section array,
                 if ( $this->isNumericInteger( $_sFieldID ) ) {
                     
-                    $this->_setOptionValue( 
+                    $this->_setOptionValue(
                         $_aStoredOptionsOfThePage,
-                        $_sSectionID, 
+                        $_sSectionID,
                         $aOptions
                     );
                                         
@@ -97,7 +99,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                         // $_aStoredOptionsOfThePage[ $_sSectionID ] = $aOptions[ $_sSectionID ];
                     // }
                     continue;
-                }    
+                }
                 
                 // At this point, a section is set.
                 $_aFieldset = $_aFieldset + array(
@@ -107,15 +109,15 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 );
                 // @todo Examine whether this check can be removed 
                 // as the section that hods this field is already checked above outside this loop.
-                if ( $sPageSlug !== $_aFieldset[ 'page_slug' ] ) { 
-                    continue; 
-                }        
+                if ( $sPageSlug !== $_aFieldset[ 'page_slug' ] ) {
+                    continue;
+                }
                 
                 if ( '_default' !== $_aFieldset[ 'section_id' ] ) {
                     
-                    $this->_setOptionValue( 
+                    $this->_setOptionValue(
                         $_aStoredOptionsOfThePage,
-                        $_aFieldset[ 'section_id' ], 
+                        $_aFieldset[ 'section_id' ],
                         $aOptions
                     );
 
@@ -127,17 +129,17 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 }
                 
                 // It does not have a section so set the field id as its key.
-                $this->_setOptionValue( 
+                $this->_setOptionValue(
                     $_aStoredOptionsOfThePage,
-                    $_aFieldset[ 'field_id' ], 
+                    $_aFieldset[ 'field_id' ],
                     $aOptions
-                );           
+                );
                 // @deprecated
                 // if ( array_key_exists( $_aFieldset[ 'field_id' ], $aOptions ) ) {
                     // $_aStoredOptionsOfThePage[ $_aFieldset[ 'field_id' ] ] = $aOptions[ $_aFieldset[ 'field_id' ] ];
                 // }
-                    
-            }            
+
+            }
         }
 
     /**
@@ -149,7 +151,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * @since       3.0.0     Moved from the settings class.
      * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      array     An array storing the options excluding the key of the given page slug.
-     */ 
+     */
     public function getOtherPageOptions( $aOptions, $sPageSlug ) {
 
         $_aStoredOptionsNotOfThePage = array();
@@ -161,14 +163,14 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
             }
         
             // At this point, the parsing element does not belong to the given page slug as the section does not ( as it is checked above ).
-            $this->_setOtherPageOptions( 
-                $_aStoredOptionsNotOfThePage, 
-                $aOptions, 
-                $_aSubSectionsOrFields, 
-                $sPageSlug 
+            $this->_setOtherPageOptions(
+                $_aStoredOptionsNotOfThePage,
+                $aOptions,
+                $_aSubSectionsOrFields,
+                $sPageSlug
             );
         
-        }  
+        }
 
         return $_aStoredOptionsNotOfThePage;
         
@@ -186,23 +188,23 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
 
                 // It's a sub-section array. 
                 if ( $this->isNumericInteger( $_sFieldID ) ) {
-                    continue; 
-                } 
+                    continue;
+                }
                 
                 // @todo Examine whether this check can be removed 
                 // as the section that holds this field is already checked above outside the loop.
                 // if ( $sPageSlug === $_aFieldset[ 'page_slug' ] ) { 
                     // continue; 
                 // }
-             
+
                 // If a section is set,
                 if ( '_default' !== $_aFieldset[ 'section_id' ] ) {
                     
-                    $this->_setOptionValue( 
+                    $this->_setOptionValue(
                         $_aStoredOptionsNotOfThePage,
-                        $_aFieldset[ 'section_id' ], 
+                        $_aFieldset[ 'section_id' ],
                         $aOptions
-                    );                             
+                    );
                     
                     // @deprecated
                     // if ( array_key_exists( $_aFieldset[ 'section_id' ], $aOptions ) ) {
@@ -212,17 +214,17 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 }
                 
                 // It does not have a section                
-                $this->_setOptionValue( 
+                $this->_setOptionValue(
                     $_aStoredOptionsNotOfThePage,
-                    $_aFieldset[ 'field_id' ], 
+                    $_aFieldset[ 'field_id' ],
                     $aOptions
-                );                           
+                );
                 // @deprecated
                 // if ( array_key_exists( $_aFieldset[ 'field_id' ], $aOptions ) ) {
                     // $_aStoredOptionsNotOfThePage[ $_aFieldset[ 'field_id' ] ] = $aOptions[ $_aFieldset[ 'field_id' ] ];
                 // }
-                    
-            }            
+
+            }
         }
     /**
      * Returns the options excluding the currently specified tab's sections and their fields.
@@ -241,7 +243,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * @param       string      $sTabSlug      the tab slug to check
      * @return      array       the stored options excluding the currently specified tab's sections and their fields.
      * If not found, an empty array will be returned.
-     */ 
+     */
     public function getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug ) {
 
         $_aStoredOptionsNotOfTheTab = array();
@@ -253,10 +255,10 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
             }
             
             // At this point, the passed element belongs to the other tabs since the section of the given tab is skipped.
-            $this->_setOtherTabOptions( 
+            $this->_setOtherTabOptions(
                 $_aStoredOptionsNotOfTheTab,
-                $aOptions, 
-                $_aSubSectionsOrFields, 
+                $aOptions,
+                $_aSubSectionsOrFields,
                 $_sSectionPath
             );
  
@@ -282,11 +284,11 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 if ( $this->isNumericInteger( $_isSubSectionIndexOrFieldID ) ) {
                             
                     // Store the entire section 
-                    $this->_setOptionValue( 
+                    $this->_setOptionValue(
                         $_aStoredOptionsNotOfTheTab,
-                        $sSectionPath, 
+                        $sSectionPath,
                         $aOptions
-                    );               
+                    );
                     // @deprecated
                     // if ( array_key_exists( $sSectionPath, $aOptions ) ) {
                         // $_aStoredOptionsNotOfTheTab[ $sSectionPath ] = $aOptions[ $sSectionPath ];
@@ -300,9 +302,9 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 
                 // If a section is set,
                 if ( $_aFieldset[ 'section_id' ] !== '_default' ) {
-                    $this->_setOptionValue( 
+                    $this->_setOptionValue(
                         $_aStoredOptionsNotOfTheTab,
-                        $_aFieldset[ 'section_id' ], 
+                        $_aFieldset[ 'section_id' ],
                         $aOptions
                     );
                     // @deprecated
@@ -312,16 +314,16 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                     continue;
                 }
                 // So it's a field
-                $this->_setOptionValue( 
+                $this->_setOptionValue(
                     $_aStoredOptionsNotOfTheTab,
-                    $_aFieldset[ 'field_id' ], 
+                    $_aFieldset[ 'field_id' ],
                     $aOptions
-                );                                           
+                );
                 // if ( array_key_exists( $_aFieldset[ 'field_id' ], $aOptions ) ) {
                     // $_aStoredOptionsNotOfTheTab[ $_aFieldset[ 'field_id' ] ] = $aOptions[ $_aFieldset[ 'field_id' ] ];
                 // }
 
-            }            
+            }
             
         }
     /**
@@ -334,10 +336,11 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
      * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Page`.
      * @return      array
      */
-    public function getTabOptions( $aOptions, $sPageSlug, $sTabSlug='' ) {     
+    public function getTabOptions( $aOptions, $sPageSlug, $sTabSlug='' ) {
                 
         $_aOtherTabOptions = $this->getOtherTabOptions( $aOptions, $sPageSlug, $sTabSlug );
-        $_aTabOptions      = $this->invertCastArrayContents( $aOptions, $_aOtherTabOptions );       
+        $_aTabOptions      = $this->invertCastArrayContents( $aOptions, $_aOtherTabOptions );
+
         return $_aTabOptions;
         
     }
@@ -355,8 +358,8 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
     public function getTabOnlyOptions( array $aOptions, $sPageSlug, $sTabSlug='' ) {
         
         $_aStoredOptionsOfTheTab = array();
-        if ( ! $sTabSlug ) { 
-            return $_aStoredOptionsOfTheTab; 
+        if ( ! $sTabSlug ) {
+            return $_aStoredOptionsOfTheTab;
         }
         
         foreach( $this->aFieldsets as $_sSectionID => $_aSubSectionsOrFields ) {
@@ -367,15 +370,16 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
             }
             
             // At this point, the parsing element is of the given page and the tab.
-            $this->_setTabOnlyOptions( 
+            $this->_setTabOnlyOptions(
                 $_aStoredOptionsOfTheTab, // by reference, gets updated in the method
                 $aOptions,
-                $_aSubSectionsOrFields, 
-                $_sSectionID 
+                $_aSubSectionsOrFields,
+                $_sSectionID
             );
         
-        }     
-        return $_aStoredOptionsOfTheTab; 
+        }
+
+        return $_aStoredOptionsOfTheTab;
         
     }
         /**
@@ -392,9 +396,9 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                                 
                 // if it's a sub-section array.
                 if ( $this->isNumericInteger( $_sFieldID ) ) {
-                    $this->_setOptionValue( 
+                    $this->_setOptionValue(
                         $_aStoredOptionsOfTheTab,
-                        $_sSectionID, 
+                        $_sSectionID,
                         $aOptions
                     );
                     // @deprecated
@@ -402,7 +406,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                         // $_aStoredOptionsOfTheTab[ $_sSectionID ] = $aOptions[ $_sSectionID ];
                     // }
                     continue;
-                }    
+                }
                 
                 // if a section is set,
                 if ( '_default' !== $_aFieldset[ 'section_id' ] ) {
@@ -420,18 +424,18 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
                 }
                 
                 // It does not have a section so set the field id as its key.
-                $this->_setOptionValue( 
+                $this->_setOptionValue(
                     $_aStoredOptionsOfTheTab,
-                    $_aFieldset[ 'field_id' ], 
+                    $_aFieldset[ 'field_id' ],
                     $aOptions
-                );                
+                );
                 // @deprecated      3.7.0
                 // if ( array_key_exists( $_aFieldset[ 'field_id' ], $aOptions ) ) {
                     // $_aStoredOptionsOfTheTab[ $_aFieldset[ 'field_id' ] ] = $aOptions[ $_aFieldset[ 'field_id' ] ];
                     // continue;
                 // }
 
-            }            
+            }
                       
         }
         
@@ -448,7 +452,8 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
         if ( ! isset( $this->aSectionsets[ $sSectionPath ][ 'page_slug' ] ) ) {
             return false;
         }
-        return ( 
+
+        return (
             $sPageSlug === $this->aSectionsets[ $sSectionPath ][ 'page_slug' ]
         );
     }
@@ -469,6 +474,7 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
         if ( ! isset( $this->aSectionsets[ $sSectionPath ][ 'tab_slug' ] ) ) {
             return false;
         }
+
         return (
             $sTabSlug === $this->aSectionsets[ $sSectionPath ][ 'tab_slug' ]
         );
@@ -489,12 +495,12 @@ class AdminPageFramework_Form_admin_page extends AdminPageFramework_Form {
             null
         );
         if ( isset( $_mValue ) ) {
-            $this->setMultiDimensionalArray( 
+            $this->setMultiDimensionalArray(
                 $aSubject,
                 $_aDimensionalPath,
                 $_mValue
             );
-        }                                                       
-    }    
+        }
+    }
     
 }

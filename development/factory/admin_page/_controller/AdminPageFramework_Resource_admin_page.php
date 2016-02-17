@@ -35,30 +35,31 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
         static $_bLoaded = false;
         if ( $_bLoaded ) {
             parent::_printClassSpecificStyles( $sIDPrefix );
+
             return;
-        }        
+        }
         $_bLoaded   = true;
      
-        $_oCaller   = $this->oProp->oCaller;     
+        $_oCaller   = $this->oProp->oCaller;
         $_sPageSlug = $this->_getCurrentPageSlugForFilter();
         $_sTabSlug  = $this->_getCurrentTabSlugForFilter( $_sPageSlug );
         
         // tab 
         if ( $_sPageSlug && $_sTabSlug ) {
-            $this->oProp->sStyle     = $this->addAndApplyFilters( 
-                $_oCaller, 
-                "style_{$_sPageSlug}_{$_sTabSlug}", 
-                $this->oProp->sStyle 
-            );                 
+            $this->oProp->sStyle     = $this->addAndApplyFilters(
+                $_oCaller,
+                "style_{$_sPageSlug}_{$_sTabSlug}",
+                $this->oProp->sStyle
+            );
         }
         
         // page
         if ( $_sPageSlug ) {
-            $this->oProp->sStyle     = $this->addAndApplyFilters( 
-                $_oCaller, 
-                "style_{$_sPageSlug}", 
-                $this->oProp->sStyle 
-            );     
+            $this->oProp->sStyle     = $this->addAndApplyFilters(
+                $_oCaller,
+                "style_{$_sPageSlug}",
+                $this->oProp->sStyle
+            );
         }
         
         // The parent method should be called after updating the $this->oProp->sStyle property above.
@@ -75,9 +76,10 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
          */
         private function _getCurrentPageSlugForFilter() {
             $_sPageSlug = $this->oProp->getCurrentPageSlug();
+
             return $this->oProp->isPageAdded( $_sPageSlug )
                 ? $_sPageSlug
-                : '';            
+                : '';
         }
         /**
          * Returns the currently loaded tab slug to apply resource filters.
@@ -88,10 +90,11 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
          * @return      string      The tab slug if the tab has been added.
          */
         private function _getCurrentTabSlugForFilter( $sPageSlug ) {
-            $_sTabSlug  = $this->oProp->getCurrentTabSlug( $sPageSlug ); 
+            $_sTabSlug  = $this->oProp->getCurrentTabSlug( $sPageSlug );
+
             return isset( $this->oProp->aInPageTabs[ $sPageSlug ][ $_sTabSlug ] )
                 ? $_sTabSlug
-                : '';          
+                : '';
         }
         
     /**
@@ -106,31 +109,32 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
         static $_bLoaded = false;
         if ( $_bLoaded ) {
             parent::_printClassSpecificScripts( $sIDPrefix );
+
             return;
-        }        
+        }
         $_bLoaded   = true;
        
-        $_oCaller   = $this->oProp->oCaller;     
+        $_oCaller   = $this->oProp->oCaller;
         $_sPageSlug = $this->_getCurrentPageSlugForFilter();
         $_sTabSlug  = $this->_getCurrentTabSlugForFilter( $_sPageSlug );
         
         // tab 
         if ( $_sPageSlug && $_sTabSlug ) {
-            $this->oProp->sScript     = $this->addAndApplyFilters( 
-                $_oCaller, 
-                "script_{$_sPageSlug}_{$_sTabSlug}", 
-                $this->oProp->sScript 
-            );                 
+            $this->oProp->sScript     = $this->addAndApplyFilters(
+                $_oCaller,
+                "script_{$_sPageSlug}_{$_sTabSlug}",
+                $this->oProp->sScript
+            );
         }
         
         // page
         if ( $_sPageSlug ) {
-            $this->oProp->sScript     = $this->addAndApplyFilters( 
-                $_oCaller, 
-                "script_{$_sPageSlug}", 
-                $this->oProp->sScript 
-            );     
-        }        
+            $this->oProp->sScript     = $this->addAndApplyFilters(
+                $_oCaller,
+                "script_{$_sPageSlug}",
+                $this->oProp->sScript
+            );
+        }
         
         // The parent method should be called after updating the $this->oProp->sScript property above.
         parent::_printClassSpecificScripts( $sIDPrefix );
@@ -149,6 +153,7 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
         foreach( ( array ) $aSRCs as $_sSRC ) {
             $_aHandleIDs[] = $this->_enqueueStyle( $_sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
         }
+
         return $_aHandleIDs;
         
     }
@@ -172,9 +177,9 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
      * @param       array   $aCustomArgs    (optional) The argument array for more advanced parameters.
      * @return      string  The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
-     */    
+     */
     public function _enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-        return $this->_enqueueResourceByType( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs, 'style' );        
+        return $this->_enqueueResourceByType( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs, 'style' );
     }
     
     /**
@@ -188,9 +193,10 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
         foreach( ( array ) $aSRCs as $_sSRC ) {
             $_aHandleIDs[] = $this->_enqueueScript( $_sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
         }
+
         return $_aHandleIDs;
         
-    }    
+    }
     /**
      * Enqueues a script by page slug and tab slug.
      * 
@@ -229,8 +235,8 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
         private function _enqueueResourceByType( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array(), $sType='style' ) {
             
             $sSRC       = trim( $sSRC );
-            if ( empty( $sSRC ) ) { 
-                return ''; 
+            if ( empty( $sSRC ) ) {
+                return '';
             }
             $sSRC       = $this->getResolvedSRC( $sSRC );
 
@@ -240,12 +246,12 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
             
             // setting the key based on the url prevents duplicate items
             $_sSRCHash  = md5( $sSRC );
-            if ( isset( $this->oProp->{$_sContainerPropertyName}[ $_sSRCHash ] ) ) { 
-                return ''; 
-            } 
+            if ( isset( $this->oProp->{$_sContainerPropertyName}[ $_sSRCHash ] ) ) {
+                return '';
+            }
             
             $this->oProp->{$_sContainerPropertyName}[ $_sSRCHash ] = array_filter( $this->getAsArray( $aCustomArgs ), array( $this, 'isNotNull' ) )
-                + array(     
+                + array(
                     'sPageSlug' => $sPageSlug,
                     'sTabSlug'  => $sTabSlug,
                     'sSRC'      => $sSRC,
@@ -279,7 +285,7 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
              * Returns the property name that contains the added count of resources by type.
              * @since       3.5.3
              * @return      string      the property name that contains the added count of resources by type.
-             */            
+             */
             private function _getEnqueuedIndexPropertyNameByType( $sType ) {
                 switch ( $sType ) {
                     default:
@@ -288,7 +294,7 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
                     case 'script':
                         return 'iEnqueuedScriptIndex';
                 }
-            }            
+            }
     /**
      * Enqueues a style source without conditions.
      * 
@@ -305,7 +311,7 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
      * @remark      Used for inserting the input field head tag elements.
      * @since       3.0.0
      * @internal
-     */    
+     */
     public function _forceToEnqueueScript( $sSRC, $aCustomArgs=array() ) {
         return $this->_enqueueScript( $sSRC, '', '', $aCustomArgs );
     }
@@ -332,7 +338,7 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
         }
                 
         // If both tab and page slugs are specified,
-        if ( 
+        if (
             ( $sPageSlug && $sCurrentPageSlug == $sPageSlug )
             && ( $sTabSlug && $sCurrentTabSlug == $sTabSlug )
         ) {
@@ -341,7 +347,7 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
         
         // If the tab slug is not specified and the page slug is specified, 
         // and if the current loading page slug and the specified one matches,
-        if ( 
+        if (
             ( $sPageSlug && ! $sTabSlug )
             && ( $sCurrentPageSlug == $sPageSlug )
         ) {

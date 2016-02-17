@@ -21,6 +21,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
     public function get() {
         $this->_setCommon();
         $this->_set();
+
         return $this->aResources;
     }
     private static $_bCalled = false;
@@ -88,6 +89,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
             return true;
         }
         self::$_aRegisteredFieldTypes[$sFieldtype . '_' . $sStructureType] = true;
+
         return false;
     }
     static private $_aRegisteredFieldTypes = array();

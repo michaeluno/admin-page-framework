@@ -25,20 +25,20 @@ class APF_Demo_ManageOptions_SavedData {
 
     /**
      * Sets uo properties, hooks, and in-page tabs.
-     */    
+     */
     public function __construct( $oFactory, $sPageSlug ) {
     
         $this->_oFactory     = $oFactory;
         $this->_sClassName   = $oFactory->oProp->sClassName;
-        $this->_sPageSlug    = $sPageSlug; 
+        $this->_sPageSlug    = $sPageSlug;
         
-        $this->_oFactory->addInPageTabs(    
+        $this->_oFactory->addInPageTabs(
             $this->_sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->_sTabSlug,
                 'title'         => __( 'Saved Data', 'admin-page-framework-loader' ),
             )
-        );  
+        );
         
         // load + page slug + tab slug
         add_action( 'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug, array( $this, 'replyToLoadTab' ) );
@@ -69,13 +69,13 @@ class APF_Demo_ManageOptions_SavedData {
         <?php
             echo __( 'Alternatively, there is the <code>AdminPageFramework::getOption()</code> static method. This allows you to retrieve the array element by specifying the option key and the array key (field id or section id).', 'admin-page-framework-loader' );
             echo ' ' . __( 'Pass the option key to the first parameter and an array representing the dimensional keys to the second parameter', 'admin-page-framework-loader' );
-            echo ' ' . __( '<code>$aData = AdminPageFramework::getOption( \'APF_Demo\', array( \'text_fields\', \'text\' ), \'default value\' );</code> will retrieve the option array value of <code>$aArray[\'text_field\'][\'text\']</code>.', 'admin-page-framework-loader' );    
+            echo ' ' . __( '<code>$aData = AdminPageFramework::getOption( \'APF_Demo\', array( \'text_fields\', \'text\' ), \'default value\' );</code> will retrieve the option array value of <code>$aArray[\'text_field\'][\'text\']</code>.', 'admin-page-framework-loader' );
             echo ' ' . __( 'This method is merely to avoid multiple uses of <code>isset()</code> to prevent PHP warnings.', 'admin-page-framework-loader' );
             echo ' ' . __( 'So if you already know how to retrieve a value of an array element, you don\'t have to use it.', 'admin-page-framework-loader' ); // ' syntax fixer
         ?>
         </p>
         <?php
-            echo $this->_oFactory->oDebug->getArray( $this->_oFactory->oProp->aOptions ); 
+            echo $this->_oFactory->oDebug->getArray( $this->_oFactory->oProp->aOptions );
         
     }
     

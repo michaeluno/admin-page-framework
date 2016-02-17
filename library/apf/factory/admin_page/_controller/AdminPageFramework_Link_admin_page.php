@@ -44,6 +44,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
         $sLinkHTML = empty($this->oProp->aScriptInfo['sName']) ? $sLinkHTML : $this->oProp->aFooterInfo['sLeft'];
         $_sPageSlug = $this->oProp->getCurrentPageSlug();
         $_sTabSlug = $this->oProp->getCurrentTabSlug();
+
         return $this->addAndApplyFilters($this->oProp->oCaller, array($this->getAOrB($_sTabSlug, 'footer_left_' . $_sPageSlug . '_' . $_sTabSlug, null), 'footer_left_' . $_sPageSlug, 'footer_left_' . $this->oProp->sClassName), $sLinkHTML);
     }
     public function _replyToAddInfoInFooterRight($sLinkHTML = '') {
@@ -52,12 +53,14 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
         }
         $_sPageSlug = $this->oProp->getCurrentPageSlug();
         $_sTabSlug = $this->oProp->getCurrentTabSlug();
+
         return $this->addAndApplyFilters($this->oProp->oCaller, array($this->getAOrB($_sTabSlug, 'footer_right_' . $_sPageSlug . '_' . $_sTabSlug, null), 'footer_right_' . $_sPageSlug, 'footer_right_' . $this->oProp->sClassName), $this->oProp->aFooterInfo['sRight']);
     }
     private function _isPageAdded() {
         if (!isset($_GET['page'])) {
             return false;
         }
+
         return ( bool )$this->oProp->isPageAdded($_GET['page']);
     }
     public function _replyToAddSettingsLinkInPluginListingPage($aLinks) {
@@ -70,6 +73,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
         }
         $_sLinkURL = preg_match('/^.+\.php/', $this->oProp->aRootMenu['sPageSlug']) ? add_query_arg(array('page' => $this->oProp->sDefaultPageSlug), admin_url($this->oProp->aRootMenu['sPageSlug'])) : "admin.php?page={$this->oProp->sDefaultPageSlug}";
         array_unshift($aLinks, '<a ' . $this->getAttributes(array('href' => esc_url($_sLinkURL), 'class' => 'apf-plugin-title-action-link apf-post-type',)) . '>' . $this->oProp->sLabelPluginSettingsLink . '</a>');
+
         return $aLinks;
     }
     public function _replyToAddLinkToPluginDescription($aLinks, $sFile) {
@@ -87,6 +91,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
             }
             $_aAddingLinks[] = ( string )$_sLLinkHTML;
         }
+
         return array_merge($aLinks, $_aAddingLinks);
     }
     public function _replyToAddPluginActionLinks($aLinks) {
@@ -98,6 +103,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
             }
             $_aAddingLinks[] = ( string )$_sLinkHTML;
         }
+
         return array_merge($aLinks, $_aAddingLinks);
     }
 }

@@ -41,6 +41,7 @@ class AdminPageFramework_View__Resource extends AdminPageFramework_FrameworkUtil
             unset($_aInlines[$_iIndex]);
         }
         $aContainer = $_aInlines;
+
         return $sInline;
     }
     private function _parseAssets($oFactory) {

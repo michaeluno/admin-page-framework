@@ -29,7 +29,7 @@ class AdminPageFramework_Model__FormEmailHandler extends AdminPageFramework_Fram
      */
     public function __construct( $oFactory ) {
        
-        $this->oFactory         = $oFactory;        
+        $this->oFactory         = $oFactory;
 
         // Form emails.
         if ( ! isset( $_GET[ 'apf_action' ], $_GET[ 'transient' ] ) ) {
@@ -45,7 +45,7 @@ class AdminPageFramework_Model__FormEmailHandler extends AdminPageFramework_Fram
         // wp_mail() will be loaded by the time 'after_setup_theme' is loaded.
         $this->registerAction( 'after_setup_theme', array( $this, '_replyToSendFormEmail' ) );
 
-    }   
+    }
     
         /**
          * Indicates whether the email method is triggered or not.
@@ -83,10 +83,10 @@ class AdminPageFramework_Model__FormEmailHandler extends AdminPageFramework_Fram
                 return;
             }
 
-            $_oEmail = new AdminPageFramework_FormEmail( 
-                $_aFormEmail[ 'email_options' ], 
-                $_aFormEmail[ 'input' ], 
-                $_aFormEmail[ 'section_id' ] 
+            $_oEmail = new AdminPageFramework_FormEmail(
+                $_aFormEmail[ 'email_options' ],
+                $_aFormEmail[ 'input' ],
+                $_aFormEmail[ 'section_id' ]
             );
             $_bSent = $_oEmail->send();
 

@@ -59,10 +59,10 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
      */
     public function __construct( /* array $aField, $isIndex, array $aCallbacks, $aFieldTypeDefinition */ ) {
 
-        $_aParameters = func_get_args() + array( 
-            $this->aField, 
-            $this->isIndex, 
-            $this->aCallbacks, 
+        $_aParameters = func_get_args() + array(
+            $this->aField,
+            $this->isIndex,
+            $this->aCallbacks,
             $this->aFieldTypeDefinition,
         );
         $this->aField               = $_aParameters[ 0 ];
@@ -87,21 +87,21 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
         $_aField[ '_index' ]                   = $this->isIndex;
 
         // 'input_id' - something like ({section id}_){field_id}_{index} e.g. my_section_id_my_field_id_0
-        $_oInputTagIDGenerator = new AdminPageFramework_Form_View___Generate_FieldInputID( 
-            $_aField,  
+        $_oInputTagIDGenerator = new AdminPageFramework_Form_View___Generate_FieldInputID(
+            $_aField,
             $this->isIndex,
             $this->aCallbacks[ 'hfID' ]
         );
         $_aField[ 'input_id' ] = $_oInputTagIDGenerator->get();
 
         $_oFieldInputNameGenerator = new AdminPageFramework_Form_View___Generate_FieldInputName(
-            $_aField, 
+            $_aField,
             $this->getAOrB(
                 $_aField[ '_is_multiple_fields' ],
                 $this->isIndex,
                 ''
             ),
-            $this->aCallbacks[ 'hfInputName' ]       
+            $this->aCallbacks[ 'hfInputName' ]
         );
         $_aField[ '_input_name' ] = $_oFieldInputNameGenerator->get();
         
@@ -113,7 +113,7 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
                 $this->isIndex,
                 ''
             ),
-            $this->aCallbacks[ 'hfInputNameFlat' ]        
+            $this->aCallbacks[ 'hfInputNameFlat' ]
         );
         $_aField[ '_input_name_flat' ] = $_oFieldFlatInputName->get();
         // $_aField[ '_input_name_flat' ]         = $this->_getFlatInputName(
@@ -125,7 +125,7 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
             // ),
             // $this->aCallbacks[ 'hfNameFlat' ]
         // ); 
-                            
+
         // used in the attribute below plus it is also used in the sample custom field type.
         $_aField[ '_field_container_id' ]      = "field-{$_aField[ 'input_id' ]}";
 
@@ -150,10 +150,10 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
     // $this->aCallbacks[ 'hfName' ]       
 // );
 // $_aField[ '_input_name_model' ] = $_oFieldInputNameGenerator->get();
-        
+
 // 3.3.1+ referred by the repeatable field script
 // $_aField['_fields_container_id_model'] = "field-{$_aField[ '_input_id_model' ]}"; 
-            
+
         $_aField[ '_fields_container_id' ]     = "fields-{$this->aField[ 'tag_id' ]}";
         $_aField[ '_fieldset_container_id' ]   = "fieldset-{$this->aField[ 'tag_id' ]}";
         $_aField                               = $this->uniteArrays(
@@ -167,7 +167,7 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
                     'disabled'          => null,
                     'data-id_model'     => $_aField[ '_input_id_model' ],    // 3.3.1+
                     'data-name_model'   => $_aField[ '_input_name_model' ],  // 3.3.1+
-                )
+                ),
             ),
             // this allows sub-fields with different field types to set the default key-values for the sub-field.
             ( array ) $this->aFieldTypeDefinition[ 'aDefaultKeys' ]
@@ -177,12 +177,13 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
             ? call_user_func_array( $this->aCallbacks[ 'hfClass' ], array( $_aField[ 'attributes' ][ 'class' ] ) )
             : $_aField[ 'attributes' ][ 'class' ];
         $_aField[ 'attributes' ][ 'class' ] = $this->getClassAttribute(
-            $_aField[ 'attributes' ][ 'class' ],  
+            $_aField[ 'attributes' ][ 'class' ],
             $this->dropElementsByType( $_aField[ 'class' ] )
         );
         
         // 3.6.0+
         $_aField[ '_field_object' ] = new AdminPageFramework_ArrayHandler( $_aField );
+
         return $_aField;
         
     }
@@ -194,8 +195,8 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
      * The repeatable script will check this name to generate incremented name.
      * @since       3.6.0
      * @return      string
-     */    
+     */
     // protected function _getInputNameModel( $aField, $isIndex=0, $hfFilterCallback=null ) {
     // }    
-    
+
 }

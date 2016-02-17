@@ -13,6 +13,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
     }
     static public function get($asArray, $sFilePath = null, $bEscape = true) {
         if ($sFilePath) self::log($asArray, $sFilePath);
+
         return $bEscape ? "<pre class='dump-array'>" . htmlspecialchars(self::getAsString($asArray)) . "</pre>" : self::getAsString($asArray);
     }
     static public function getArray($asArray, $sFilePath = null, $bEscape = true) {
@@ -34,11 +35,13 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
         if (true === $sFilePath) {
             return WP_CONTENT_DIR . DIRECTORY_SEPARATOR . get_class() . '_' . date("Ymd") . '.log';
         }
+
         return WP_CONTENT_DIR . DIRECTORY_SEPARATOR . get_class() . '_' . $sCallerClass . '_' . date("Ymd") . '.log';
     }
     static private function _getLogContents($mValue) {
         $_sType = gettype($mValue);
         $_iLengths = self::_getValueLength($mValue, $_sType);
+
         return '(' . $_sType . (null !== $_iLengths ? ', length: ' . $_iLengths : '') . ') ' . self::getAsString($mValue) . PHP_EOL . PHP_EOL;
     }
     static private function _getValueLength($mValue, $sVariableType) {
@@ -48,6 +51,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
         if ('array' === $sVariableType) {
             return count($mValue);
         }
+
         return null;
     }
     static private function _getLogHeadingLine($fCurrentTimeStamp, $nElapsed, $sCallerClass, $sCallerFunction) {
@@ -58,6 +62,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
         $_nNow = $fCurrentTimeStamp + ($_nGMTOffset * 60 * 60);
         $_nMicroseconds = str_pad(round(($_nNow - floor($_nNow)) * 10000), 4, '0');
         $_aOutput = array(date("Y/m/d H:i:s", $_nNow) . '.' . $_nMicroseconds, self::_getFormattedElapsedTime($nElapsed), $_iPageLoadID, AdminPageFramework_Registry::getVersion(), $sCallerClass . '::' . $sCallerFunction, current_filter(), self::getCurrentURL(),);
+
         return implode(' ', $_aOutput);
     }
     static private function _getFormattedElapsedTime($nElapsed) {
@@ -65,6 +70,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
         $_sElapsedFloat = str_pad(self::getElement($_aElapsedParts, 1, 0), 3, '0');
         $_sElapsed = self::getElement($_aElapsedParts, 0, 0);
         $_sElapsed = strlen($_sElapsed) > 1 ? '+' . substr($_sElapsed, -1, 2) : ' ' . $_sElapsed;
+
         return $_sElapsed . '.' . $_sElapsedFloat;
     }
     static public function logArray($asArray, $sFilePath = null) {
@@ -73,6 +79,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
     static public function getAsString($mValue) {
         $mValue = is_object($mValue) ? (method_exists($mValue, '__toString') ? ( string )$mValue : ( array )$mValue) : $mValue;
         $mValue = is_array($mValue) ? self::getSliceByDepth($mValue, 5) : $mValue;
+
         return print_r($mValue, true);
     }
     static public function getSliceByDepth(array $aSubject, $iDepth = 0) {
@@ -90,6 +97,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
                 unset($aSubject[$_sKey]);
             }
         }
+
         return $aSubject;
     }
 }

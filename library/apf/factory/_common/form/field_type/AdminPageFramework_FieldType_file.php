@@ -16,6 +16,7 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
             $_aOutput[] = $this->_getFieldOutputByLabel($_sKey, $_sLabel, $aField);
         }
         $_aOutput[] = "<div class='repeatable-field-buttons'></div>";
+
         return implode('', $_aOutput);
     }
     private function _getFieldOutputByLabel($sKey, $sLabel, $aField) {
@@ -25,6 +26,7 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
         $aField['value'] = $this->getElementByLabel($aField['value'], $sKey, $aField['label']);
         $_aInputAttributes = $_bIsArray ? array('name' => $aField['attributes']['name'] . "[{$sKey}]", 'id' => $aField['attributes']['id'] . "_{$sKey}", 'value' => $aField['value'],) + $aField['attributes'] : $aField['attributes'];
         $_aOutput = array($this->getElementByLabel($aField['before_label'], $sKey, $aField['label']), "<div class='admin-page-framework-input-label-container {$_sClassSelector}'>", "<label for='" . $_aInputAttributes['id'] . "'>", $this->getElementByLabel($aField['before_input'], $sKey, $aField['label']), $_sLabel ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength($aField['label_min_width']) . ";'>" . $_sLabel . "</span>" : '', "<input " . $this->getAttributes($_aInputAttributes) . " />", $this->getElementByLabel($aField['after_input'], $sKey, $aField['label']), "</label>", "</div>", $this->getElementByLabel($aField['after_label'], $sKey, $aField['label']),);
+
         return implode('', $_aOutput);
     }
 }

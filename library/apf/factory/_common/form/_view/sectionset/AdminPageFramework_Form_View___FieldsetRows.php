@@ -29,14 +29,17 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_Fra
             $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput($_aFieldset, $this->iSectionIndex, $this->aFieldTypeDefinitions);
             $_aOutput[] = call_user_func_array(array($this, $_sMethodName), array($_oFieldsetOutputFormatter->get()));
         }
+
         return implode(PHP_EOL, $_aOutput);
     }
     private function _getFieldsetRow($aFieldset) {
         $_oFieldsetRow = new AdminPageFramework_Form_View___FieldsetTableRow($aFieldset, $this->aSavedData, $this->aFieldErrors, $this->aFieldTypeDefinitions, $this->aCallbacks, $this->oMsg);
+
         return $_oFieldsetRow->get();
     }
     private function _getFieldset($aFieldset) {
         $_oFieldsetRow = new AdminPageFramework_Form_View___FieldsetRow($aFieldset, $this->aSavedData, $this->aFieldErrors, $this->aFieldTypeDefinitions, $this->aCallbacks, $this->oMsg);
+
         return $_oFieldsetRow->get();
     }
 }

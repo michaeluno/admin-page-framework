@@ -19,7 +19,7 @@ class APF_Demo_PageMetaBox__NoField extends AdminPageFramework_PageMetaBox {
      */
     public function content( $sContent ) {
         return $sContent
-            . "<p>" 
+            . "<p>"
                 . __( 'A meta box can be used to just display information', 'admin-page-framework-loader' )
             . "</p>";
     }

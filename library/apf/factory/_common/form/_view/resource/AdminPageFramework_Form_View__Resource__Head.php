@@ -28,6 +28,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
     private function _getInlineCSS() {
         $_oLoadingCSS = new AdminPageFramework_Form_View___CSS_Loading;
         $_oLoadingCSS->add($this->_getScriptElementConcealerCSSRules());
+
         return $_oLoadingCSS->get();
     }
     private function _getScriptElementConcealerCSSRules() {

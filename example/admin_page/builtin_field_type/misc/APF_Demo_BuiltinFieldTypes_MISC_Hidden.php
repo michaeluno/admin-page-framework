@@ -30,7 +30,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Hidden {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'hidden_field';        
+    public $sSectionID  = 'hidden_field';
         
     /**
      * Sets up a form section.
@@ -38,7 +38,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Hidden {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'tab_slug'          => $this->sTabSlug,
@@ -46,7 +46,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Hidden {
                 'title'             => __( 'Hidden Fields', 'admin-page-framework-loader' ),
                 'description'       => __( 'These are hidden fields.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -66,7 +66,7 @@ class APF_Demo_BuiltinFieldTypes_MISC_Hidden {
                 'value'         => 'HIIDDENVALUE',
                 'label'         => __( 'Repeat Me', 'admin-page-framework-loader' ),
                 'repeatable'    => true,
-            ),     
+            ),
             array( // Multiple Hidden Fields
                 'field_id'      => 'hidden_miltiple',
                 'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
@@ -86,12 +86,12 @@ class APF_Demo_BuiltinFieldTypes_MISC_Hidden {
                     // 'label'     => __( 'Third Item', 'admin-page-framework-loader' ),
                     'label'     => $this->_getLabelByValue(
                         $oFactory->getValue( array( 'hidden_field', 'hidden_miltiple', 2 ), 'c' )
-                    ),                    
+                    ),
                     'default'   => 'c',
                 ),
                 'sortable'      => true,
             )
-        );              
+        );
       
     }
     
@@ -103,13 +103,13 @@ class APF_Demo_BuiltinFieldTypes_MISC_Hidden {
             switch( $sValue ) {
                 case 'a':
                     return 'Apple';
-                case 'b':    
+                case 'b':
                     return 'Banana';
-                case 'c':    
+                case 'c':
                     return 'Cherry';
                 default:
                     return $sValue;
             }
-        }    
+        }
 
 }

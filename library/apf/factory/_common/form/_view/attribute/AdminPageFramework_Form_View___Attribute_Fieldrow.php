@@ -11,6 +11,7 @@ class AdminPageFramework_Form_View___Attribute_Fieldrow extends AdminPageFramewo
         if ($this->aArguments['hidden']) {
             $_aAttributes['style'] = $this->getStyleAttribute($this->getElement($_aAttributes, 'style', array()), 'display:none');
         }
+
         return $_aAttributes;
     }
 }

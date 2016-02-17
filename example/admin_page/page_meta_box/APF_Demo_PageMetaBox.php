@@ -20,7 +20,7 @@ class APF_Demo_PageMetaBox {
 
     public function __construct() {
         
-        add_action( 
+        add_action(
             'set_up_' . $this->_sClassName,
             array( $this, 'replyToSetUp' )
         );
@@ -37,15 +37,15 @@ class APF_Demo_PageMetaBox {
     public function replyToSetUp( $oFactory ) {
         
         // Add sub-menu items (pages or links)
-        $oFactory->addSubMenuItems(    
+        $oFactory->addSubMenuItems(
             array(
                 'title'         => __( 'Page Meta Boxes', 'admin-page-framework-loader' ),
                 'page_slug'     => $this->_sPageSlug,
                 'order'         => 35,
             )
-        );     
+        );
 
-        add_action( 
+        add_action(
             'load_' . $this->_sPageSlug,
             array( $this, 'replyToLoadPage' )
         );
@@ -60,7 +60,7 @@ class APF_Demo_PageMetaBox {
      * @callback        action      load_{page slug}
      * @return          void
      */
-    public function replyToLoadPage( $oFactory ) { 
+    public function replyToLoadPage( $oFactory ) {
     
         // Set up the page settings
         $oFactory->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
@@ -74,51 +74,51 @@ class APF_Demo_PageMetaBox {
         new APF_Demo_PageMetaBox__SecondTab( $oFactory, $this->_sPageSlug );
         
         // Page meta boxes
-     
+
         new APF_Demo_PageMetaBox__Normal(
             null,                                           // meta box id - passing null will make it auto generate
             __( 'Normal', 'admin-page-framework-loader' ), // title
             array(
                 $this->_sPageSlug => array(
                     'first',
-                ),            
+                ),
             ),
             'normal',                                       // context
             'default'                                       // priority
         );
              
-        new APF_Demo_PageMetaBox__Advanced(    
+        new APF_Demo_PageMetaBox__Advanced(
             null,                                           // meta box id - passing null will make it auto generate
             __( 'Advanced', 'admin-page-framework-loader' ), // title
             array(
                 $this->_sPageSlug => array(
                     'first',
-                ),            
+                ),
             ),
             'advanced',                                     // context
             'default'                                       // priority
         );
 
-        new APF_Demo_PageMetaBox__Nested(    
+        new APF_Demo_PageMetaBox__Nested(
             null,                                           // meta box id - passing null will make it auto generate
             __( 'Nested Sections', 'admin-page-framework-loader' ), // title
             array(
                 $this->_sPageSlug => array(
                     'second',
-                ),            
+                ),
             ),
             'normal',                                     // context
             'default'                                       // priority
         );
         
-        new APF_Demo_PageMetaBox__Side(    
+        new APF_Demo_PageMetaBox__Side(
             null,                                           // meta box id - passing null will make it auto generate
             __( 'Side', 'admin-page-framework-loader' ), // title
             array(
                 $this->_sPageSlug => array(
                     'first',
                     'second',
-                ),            
+                ),
             ),
             'side',                                         // context
             'default'                                       // priority
@@ -131,11 +131,11 @@ class APF_Demo_PageMetaBox {
                 $this->_sPageSlug => array(
                     'first',
                     'second',
-                ),            
+                ),
             ),
             'side',
             'low'
-        );        
+        );
         
         new APF_Demo_PageMetaBox__NoField(
             null,
@@ -144,7 +144,7 @@ class APF_Demo_PageMetaBox {
                 $this->_sPageSlug => array(
                     'first',
                     'second',
-                ),            
+                ),
             ),
             'side',
             'low'
@@ -152,9 +152,9 @@ class APF_Demo_PageMetaBox {
         
         // Pointer Tool Tips
         new AdminPageFramework_PointerToolTip(
-            array( 
+            array(
                 $this->_sPageSlug,  // page slugs
-            ),     
+            ),
             'apf_demo_page_meta_boxes', // unique id for the pointer tool box
             array(        // pointer data
                 'target'    => '#apf_metabox_for_pages_normal',
@@ -164,10 +164,10 @@ class APF_Demo_PageMetaBox {
                         __( 'Demonstrates the use of meta boxes for admin pages.','admin-page-framework-loader')
                         . ' ' . __( 'Usually meta boxes are displayed in post editing pages but with Admin Page Framework, you can display them in generic admin pages you create with the framework.','admin-page-framework-loader')
                     ),
-                    'position'  => array( 'edge' => 'top', 'align' => 'middle' )
-                )
+                    'position'  => array( 'edge' => 'top', 'align' => 'middle' ),
+                ),
             )
-        );            
+        );
         
     }
 

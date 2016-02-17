@@ -18,13 +18,13 @@ class APF_BasicUsage extends AdminPageFramework {
      */
     public function setUp() {
         
-        $this->setRootMenuPage( 
-            "<span id='apf-demo-2-menu-label'>" 
-                . __( 'Basic Usage', 'admin-page-framework-loader' ) 
+        $this->setRootMenuPage(
+            "<span id='apf-demo-2-menu-label'>"
+                . __( 'Basic Usage', 'admin-page-framework-loader' )
             . "</span>"
             ,
-            version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) 
-                ? 'dashicons-format-audio' 
+            version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' )
+                ? 'dashicons-format-audio'
                 : null // dash-icons are supported since WordPress v3.8
         );
                 
@@ -50,9 +50,9 @@ class APF_BasicUsage extends AdminPageFramework {
         );
                 
         // Disable the plugin action link.
-        $this->setPluginSettingsLinkLabel( '' ); 
+        $this->setPluginSettingsLinkLabel( '' );
         
-    }    
+    }
     
     /**
      * Called when one of the added pages starts loading.
@@ -63,7 +63,7 @@ class APF_BasicUsage extends AdminPageFramework {
     public function load() {
 
         // Disable the page heading tabs by passing false. 
-        $this->setPageHeadingTabsVisibility( true );    
+        $this->setPageHeadingTabsVisibility( true );
         
     }
     
@@ -72,12 +72,12 @@ class APF_BasicUsage extends AdminPageFramework {
      * 
      * @callback        action      load_{page slug}
      */
-    public function load_apf_first_page() { 
+    public function load_apf_first_page() {
         
         $this->addSettingSections(
             array(
                 'section_id'    => 'basic_usage',
-                'title'         => __( 'Setting Form', 'admin-page-framework-loader' )
+                'title'         => __( 'Setting Form', 'admin-page-framework-loader' ),
             )
         );
         
@@ -92,18 +92,18 @@ class APF_BasicUsage extends AdminPageFramework {
             array(
                 'field_id'  => '__submit',
                 'type'      => 'submit',
-                'save'      => false
-            )        
+                'save'      => false,
+            )
         );
         
-    }    
+    }
         
     /**
      * Do render the page contents.
      * 
      * @callback        action      do_ + {page slug}
      */
-    public function do_apf_first_page() { 
+    public function do_apf_first_page() {
         ?>
             <h3><?php _e( 'do_ + {...} Action Hooks', 'admin-page-framework-loader' ); ?></h3>
             <p><?php _e( 'Hi there! This text message is inserted by the <code>do_{page slug}</code> action hook and the callback method.', 'admin-page-framework-loader' ); ?></p>
@@ -116,11 +116,11 @@ class APF_BasicUsage extends AdminPageFramework {
      * 
      * @callback        filter      content_ + {page slug}
      */
-    public function content_apf_second_page( $sContent ) { 
-        return $sContent 
+    public function content_apf_second_page( $sContent ) {
+        return $sContent
             . "<h3>" . __( 'content_ + {...} Filter Hooks', 'admin-page-framework-loader' ) . "</h3>"
-            . "<p>" 
-                . __( 'This message is inserted with the <code>content_{page slug}</code> filter.', 'admin-page-framework-loader' ) 
+            . "<p>"
+                . __( 'This message is inserted with the <code>content_{page slug}</code> filter.', 'admin-page-framework-loader' )
             . "</p>"
             . "<h3>" . __( 'Saved Options', 'admin-page-framework-loader' ) . "</h3>"
             . $this->oDebug->get( $this->getValue() );

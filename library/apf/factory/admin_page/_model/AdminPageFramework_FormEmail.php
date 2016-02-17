@@ -35,6 +35,7 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
         foreach ($this->_aPathsToDelete as $_sPath) {
             unlink($_sPath);
         }
+
         return $_bSent;
     }
     private function _formatAttachements($asAttachments) {
@@ -54,6 +55,7 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
             }
             unset($_aAttachments[$_iIndex]);
         }
+
         return $_aAttachments;
     }
     private function _getPathFromURL($sURL) {
@@ -64,8 +66,10 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
         $_sPath = $this->download($sURL, 10);
         if (is_string($_sPath)) {
             $this->_aPathsToDelete[$_sPath] = $_sPath;
+
             return $_sPath;
         }
+
         return '';
     }
     public function _replyToSetMailContentTypeToHTML($sContentType) {
@@ -84,6 +88,7 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
         if (!$aEmailOptions[$sKey]) {
             return $this->getArrayValueByArrayKeys($aInput, array($sSectionID, $sKey));
         }
+
         return $aEmailOptions[$sKey];
     }
 }

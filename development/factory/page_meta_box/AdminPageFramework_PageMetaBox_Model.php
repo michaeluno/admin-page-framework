@@ -34,7 +34,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
     // public function validate( $aInput, $aOldInput, $oFactory, $aSubmitInfo ) {
         // return $aInput;
     // }              
-        
+
     /**
      * Sets up validation hooks.
      * 
@@ -67,7 +67,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
             
         }
     
-    }        
+    }
                     
     /**
      * Adds the defined meta box.
@@ -78,16 +78,16 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
      * @remark      Before this method is called, the pages and in-page tabs need to be registered already.
      * @return      void
      * @callback    action      add_meta_boxes
-     */ 
+     */
     public function _replyToRegisterMetaBoxes( $sPageHook='' ) {
         foreach( $this->oProp->aPageSlugs as $_sKey => $_asPage ) {
             if ( is_string( $_asPage ) )  {
                 $this->_registerMetaBox( $_asPage );
                 continue;
-            }            
+            }
             $this->_registerMetaBoxes( $_sKey, $_asPage );
         }
-    }    
+    }
         /**
          * Adds meta boxes.
          * 
@@ -98,11 +98,11 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
          */
         private function _registerMetaBoxes( $sPageSlug, $asPage ) {
             foreach( $this->oUtil->getAsArray( $asPage ) as $_sTabSlug ) {
-                if ( ! $this->oProp->isCurrentTab( $_sTabSlug ) ) { 
-                    continue; 
+                if ( ! $this->oProp->isCurrentTab( $_sTabSlug ) ) {
+                    continue;
                 }
                 $this->_registerMetaBox( $sPageSlug );
-            }         
+            }
         }
         /**
          * Adds meta box with the given page slug.
@@ -114,7 +114,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
          * @return      void
          */
         private function _registerMetaBox( $sPageSlug ) {
-            add_meta_box( 
+            add_meta_box(
                 $this->oProp->sMetaBoxID,                       // id
                 $this->oProp->sTitle,                           // title
                 array( $this, '_replyToPrintMetaBoxContents' ), // callback
@@ -167,36 +167,36 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
     public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions, $oAdminPage, $aSubmitInfo ) {
         
         $_aNewMetaBoxInputs      = $this->oForm->getSubmittedData( $_POST );
-        $_aOldMetaBoxInputs      = $this->oUtil->castArrayContents( 
+        $_aOldMetaBoxInputs      = $this->oUtil->castArrayContents(
             $this->oForm->getDataStructureFromAddedFieldsets(),   // model
             $aOldPageOptions        // data source
         );
 
         // Apply filters - third party scripts will have access to the input.
         $_aNewMetaBoxInputsRaw   = $_aNewMetaBoxInputs; // copy one for validation errors.
-        $_aNewMetaBoxInputs      = call_user_func_array( 
+        $_aNewMetaBoxInputs      = call_user_func_array(
             array( $this, 'validate' ),     // triggers __call()
-            array( $_aNewMetaBoxInputs, $_aOldMetaBoxInputs, $this, $aSubmitInfo ) 
+            array( $_aNewMetaBoxInputs, $_aOldMetaBoxInputs, $this, $aSubmitInfo )
         ); // 3.5.3+
-        $_aNewMetaBoxInputs      = $this->oUtil->addAndApplyFilters( 
-            $this, 
-            "validation_{$this->oProp->sClassName}", 
-            $_aNewMetaBoxInputs, 
-            $_aOldMetaBoxInputs, 
+        $_aNewMetaBoxInputs      = $this->oUtil->addAndApplyFilters(
+            $this,
+            "validation_{$this->oProp->sClassName}",
+            $_aNewMetaBoxInputs,
+            $_aOldMetaBoxInputs,
             $this,
             $aSubmitInfo
         );
     
         // If there are validation errors. set the last input.
         if ( $this->hasFieldError() ) {
-            $this->setLastInputs( $_aNewMetaBoxInputsRaw );           
-        }    
+            $this->setLastInputs( $_aNewMetaBoxInputsRaw );
+        }
     
         // Now merge the input values with the passed page options, and plus the old data to cover different in-page tab field options.
-        return $this->oUtil->uniteArrays( 
-            $_aNewMetaBoxInputs, 
+        return $this->oUtil->uniteArrays(
+            $_aNewMetaBoxInputs,
             $aNewPageOptions
-        );       
+        );
                         
     }
 
@@ -216,9 +216,10 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
         if ( ! $this->hasFieldError() ) {
             return $aStatus;
         }
-        return array( 
-                'field_errors' => true 
-            ) 
+
+        return array(
+                'field_errors' => true,
+            )
             + $this->oUtil->getAsArray( $aStatus );
         
     }
@@ -237,13 +238,14 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
         $_aPageOptions = $this->oUtil->addAndApplyFilter(
             $this, // the caller factory object
             'options_' . $this->oProp->sClassName,
-            $this->oProp->oAdminPage->oProp->aOptions  
+            $this->oProp->oAdminPage->oProp->aOptions
         );
-        return $this->oUtil->castArrayContents( 
+
+        return $this->oUtil->castArrayContents(
             $this->oForm->getDataStructureFromAddedFieldsets(),   // model
             $_aPageOptions        // data source
-        );        
-    }    
+        );
+    }
     
        /**
          * Extracts meta box form fields options array from the given options array of an admin page.
@@ -267,7 +269,8 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
                 if ( array_key_exists( $_sSectionID, $aPageOptions ) ) {
                     $_aOptions[ $_sSectionID ] = $aPageOptions[ $_sSectionID ];
                 }
-            }       
+            }
+
             return $_aOptions;
         
         }

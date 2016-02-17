@@ -35,7 +35,7 @@ class AdminPageFramework_ArrayHandler extends AdminPageFramework_FrameworkUtilit
      */
     public function __construct( /* array $aData, array $aDefault */ ) {
         
-        $_aParameters = func_get_args() + array( 
+        $_aParameters = func_get_args() + array(
             $this->aData,
             $this->aDefault,
         );
@@ -69,12 +69,12 @@ class AdminPageFramework_ArrayHandler extends AdminPageFramework_FrameworkUtilit
         }
         
         // Now either the section ID or field ID is given. 
-        return $this->getArrayValueByArrayKeys( 
+        return $this->getArrayValueByArrayKeys(
             $this->aData,   // subject array
             $_aKeys,        // dimensional keys
             $this->_getDefaultValue( // default value
-                $_mDefault, 
-                $_aKeys 
+                $_mDefault,
+                $_aKeys
             )
         );
         
@@ -85,7 +85,7 @@ class AdminPageFramework_ArrayHandler extends AdminPageFramework_FrameworkUtilit
         private function _getDefaultValue( $_mDefault, $_aKeys ) {
             return isset( $_mDefault )
                 ? $_mDefault
-                : $this->getArrayValueByArrayKeys( 
+                : $this->getArrayValueByArrayKeys(
                     $this->aDefault,
                     $_aKeys
                 );
@@ -109,6 +109,7 @@ class AdminPageFramework_ArrayHandler extends AdminPageFramework_FrameworkUtilit
         // string, integer, float, boolean
         if ( is_scalar( $_asKeys ) ) {
             $this->aData[ $_asKeys ] = $_mValue;
+
             return;
         }
         
@@ -134,8 +135,9 @@ class AdminPageFramework_ArrayHandler extends AdminPageFramework_FrameworkUtilit
         // string, integer, float, boolean
         if ( is_scalar( $_asKeys ) ) {
             $this->aData[ $_asKeys ] = $_mValue;
+
             return;
-        }        
+        }
         
         $this->unsetDimensionalArrayElement( $this->aData, $aKeys );
         
@@ -146,9 +148,9 @@ class AdminPageFramework_ArrayHandler extends AdminPageFramework_FrameworkUtilit
      * 
      * @remark      Called when the object is called as a string.
      * @since       3.6.0
-     */   
+     */
     public function __toString() {
-        return $this->getObjectInfo( $this );           
+        return $this->getObjectInfo( $this );
     }
     
 }

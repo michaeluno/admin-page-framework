@@ -29,12 +29,12 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
      */
     public function __construct( /* $aSectionsets, $aFieldsets, $aSavedFormData */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aSectionsets, 
+        $_aParameters = func_get_args() + array(
+            $this->aSectionsets,
             $this->aFieldsets,
             $this->aSavedFormData,
         );
-        $this->aSectionsets   = $_aParameters[ 0 ];                    
+        $this->aSectionsets   = $_aParameters[ 0 ];
         $this->aFieldsets     = $_aParameters[ 1 ];
         $this->aSavedFormData = $_aParameters[ 2 ];
         
@@ -46,6 +46,7 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
      */
     public function get() {
         $this->_setDynamicElements( $this->aSavedFormData );
+
         return $this->aFieldsets;
     }
     
@@ -64,19 +65,19 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
          */
         private function _setDynamicElements( $aOptions ) {
             
-            $aOptions = $this->castArrayContents( 
+            $aOptions = $this->castArrayContents(
                 $this->aSectionsets, // model
                 $aOptions // data source
             );
 
             foreach( $aOptions as $_sSectionID => $_aSubSectionOrFields ) {
                 
-                $_aSubSection = $this->_getSubSectionFromOptions(   
+                $_aSubSection = $this->_getSubSectionFromOptions(
                     $_sSectionID,
                     // Content-cast array elements (done with castArrayContents()) can be null so make sure to have it an array
-                    $this->getAsArray( 
+                    $this->getAsArray(
                         $_aSubSectionOrFields   // a sub-section or fields extracted from the saved options array
-                    )  
+                    )
                 );
 
                 if ( empty( $_aSubSection ) ) {
@@ -109,17 +110,17 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
                 foreach( $_aSubSectionOrFields as $_isIndexOrFieldID => $_aSubSectionOrFieldOptions ) {
                 
                     // If it is not a sub-section array, skip.
-                    if ( ! $this->isNumericInteger( $_isIndexOrFieldID ) ) { 
-                        continue; 
+                    if ( ! $this->isNumericInteger( $_isIndexOrFieldID ) ) {
+                        continue;
                     }
                     
                     $_iIndex = $_isIndexOrFieldID;
                     
                     $_aSubSection[ $_iIndex ] = $this->_getSubSectionItemsFromOptions(
-                        $_aSubSection, 
-                        $_sSectionID, 
-                        $_iIndex, 
-                        $_iPrevIndex 
+                        $_aSubSection,
+                        $_sSectionID,
+                        $_iIndex,
+                        $_iPrevIndex
                     );
        
                     // Update the internal section index key
@@ -127,10 +128,11 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
                         $_aField[ '_section_index' ] = $_iIndex;
                     }
                     unset( $_aField ); // to be safe in PHP
-                    
+
                     $_iPrevIndex = $_iIndex;
                     
                 }
+
                 return $_aSubSection;
                 
             }
@@ -163,7 +165,7 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
                             $_aSubSection,
                             $_iPrevIndex,
                             array()
-                        );                     
+                        );
                     
                 }
    

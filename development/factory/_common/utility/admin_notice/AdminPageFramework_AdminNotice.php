@@ -31,7 +31,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
      */
     static private $_aNotices = array();
     
-    public $sNotice     = '';    
+    public $sNotice     = '';
     public $aAttributes = array();
     public $aCallbacks  = array(
         'should_show'   => null,    // detemines whether the admin notice should be displayed.
@@ -49,7 +49,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
 
         $this->aAttributes            = $aAttributes + array(
             'class' => 'error', // 'updated' etc.
-        );        
+        );
         $this->aAttributes[ 'class' ] = $this->getClassAttribute(
             $this->aAttributes[ 'class' ],
             'admin-page-framework-settings-notice-message',
@@ -71,17 +71,17 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
         $this->sNotice = $sNotice;
         self::$_aNotices[ $sNotice ] = $sNotice;
         
-        $this->registerAction( 
-            'admin_notices', 
-            array( $this, '_replyToDisplayAdminNotice' ) 
+        $this->registerAction(
+            'admin_notices',
+            array( $this, '_replyToDisplayAdminNotice' )
         );
-        $this->registerAction( 
-            'network_admin_notices', 
-            array( $this, '_replyToDisplayAdminNotice' ) 
-        );        
+        $this->registerAction(
+            'network_admin_notices',
+            array( $this, '_replyToDisplayAdminNotice' )
+        );
         
         
-    }                
+    }
             
         /**
          * Displays the set admin notice.
@@ -95,9 +95,9 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
             
             // For a browser that enables JavaScript, hide the admin notice.
             $_aAttributes = $this->aAttributes + array( 'style' => '' );
-            $_aAttributes[ 'style' ] = $this->getStyleAttribute( 
-                $_aAttributes[ 'style' ], 
-                'display: none' 
+            $_aAttributes[ 'style' ] = $this->getStyleAttribute(
+                $_aAttributes[ 'style' ],
+                'display: none'
             );
             
             echo "<div " . $this->getAttributes( $_aAttributes ) . ">"
@@ -108,10 +108,10 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
                 // Insert the same message except it is not hidden.
                 . "<noscript>"
                     . "<div " . $this->getAttributes( $this->aAttributes ) . ">"
-                        . "<p>" 
+                        . "<p>"
                             . self::$_aNotices[ $this->sNotice ]
                         . "</p>"
-                    . "</div>"              
+                    . "</div>"
                 . "</noscript>";
             
             unset( self::$_aNotices[ $this->sNotice ] );
@@ -126,6 +126,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
                 if ( ! is_callable( $this->aCallbacks[ 'should_show' ] ) ) {
                     return true;
                 }
+
                 return call_user_func_array(
                     $this->aCallbacks[ 'should_show' ],
                     array(

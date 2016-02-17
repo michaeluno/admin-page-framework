@@ -29,7 +29,7 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
     // public function validate( $aInput, $aOldInput, $oFactory ) {
         // return $aInput;
     // }   
-       
+
     /**
      * Called when the form object tries to set the form data from the database.
      * 
@@ -40,20 +40,20 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
      */
     public function _replyToGetSavedFormData() {
                 
-        $_iUserID = isset( $GLOBALS[ 'profileuser' ]->ID )  
+        $_iUserID = isset( $GLOBALS[ 'profileuser' ]->ID )
             ? $GLOBALS[ 'profileuser' ]->ID
             : 0;
 
         $_oMetaData = new AdminPageFramework_UserMeta_Model___UserMeta(
             $_iUserID,
             $this->oForm->aFieldsets
-        );        
+        );
         $this->oProp->aOptions = $_oMetaData->get();
         
         // The parent method will handle applying filters with the set property object.
         return parent::_replyToGetSavedFormData();
     
-    }    
+    }
 
     /**
      * Saves the custom user profile field values.
@@ -75,33 +75,33 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
             false       // strip slashes
         );
         $_aInputsRaw    = $_aInputs; // store one for the last input array.
-        
+
         // Prepare the saved data. For a new post, the id is set to 0.
         $_aSavedMeta   = $this->oUtil->getSavedUserMetaArray( $iUserID, array_keys( $_aInputs ) );
         
         // Apply filters to the array of the submitted values.
-        $_aInputs = $this->oUtil->addAndApplyFilters( 
-            $this, 
+        $_aInputs = $this->oUtil->addAndApplyFilters(
+            $this,
             "validation_{$this->oProp->sClassName}",
-            call_user_func_array( 
+            call_user_func_array(
                 array( $this, 'validate' ), // triggers __call()
                 array( $_aInputs, $_aSavedMeta, $this )
             ), // 3.5.3+
-            $_aSavedMeta, 
-            $this 
-        ); 
+            $_aSavedMeta,
+            $this
+        );
  
         // If there are validation errors. Change the post status to 'pending'.
         if ( $this->hasFieldError() ) {
             $this->setLastInputs( $_aInputsRaw );
         }
                             
-        $this->oForm->updateMetaDataByType( 
+        $this->oForm->updateMetaDataByType(
             $iUserID,  // object id
             $_aInputs,  // user submit form data
             $this->oForm->dropRepeatableElements( $_aSavedMeta ), // Drop repeatable section elements from the saved meta array.
             $this->oForm->sStructureType   // fields type
-        );            
+        );
         
     }
      

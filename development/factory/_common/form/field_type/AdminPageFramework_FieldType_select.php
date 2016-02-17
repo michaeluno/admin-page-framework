@@ -34,7 +34,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType {
                 'size'          => 1,
                 'autofocusNew'  => null,
                 'multiple'      => null,    // set 'multiple' for multiple selections. If 'is_multiple' is set, it takes the precedence.
-                'required'      => null,     
+                'required'      => null,
             ),
             'optgroup'  => array(),
             'option'    => array(),
@@ -47,7 +47,7 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType {
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     */ 
+     */
     protected function getStyles() {
         return <<<CSSRULES
 /* Select Field Type */
@@ -72,9 +72,10 @@ CSSRULES;
     protected function getField( $aField ) {
             
         $_oSelectInput = new AdminPageFramework_Input_select( $aField[ 'attributes' ] );
-        if ( $aField[ 'is_multiple' ]  ) {            
+        if ( $aField[ 'is_multiple' ]  ) {
             $_oSelectInput->setAttribute( array( 'select', 'multiple' ), 'multiple' );
         }
+
         return
             $aField[ 'before_label' ]
             . "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>"
@@ -83,9 +84,9 @@ CSSRULES;
                     . $_oSelectInput->get( $aField[ 'label' ] )
                     . $aField[ 'after_input' ]
                     . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
-                . "</label>"     
+                . "</label>"
             . "</div>"
-            . $aField[ 'after_label' ];         
+            . $aField[ 'after_label' ];
         
     }
         

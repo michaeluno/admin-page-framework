@@ -25,13 +25,14 @@ class AdminPageFramework_Form_View___Attribute_SectionTableBody extends AdminPag
      * @since       3.6.0
      * @return      array
      */
-    protected function _getAttributes() {                    
+    protected function _getAttributes() {
         
         $_sCollapsibleType = $this->getElement(
             $this->aArguments,
             array( 'collapsible', 'type' ),
             'box'
         );
+
         return array(
             'class' => $this->getAOrB(
                 $this->aArguments[ '_is_collapsible' ],
@@ -42,6 +43,6 @@ class AdminPageFramework_Form_View___Attribute_SectionTableBody extends AdminPag
                 null
             ),
         );
-    }      
+    }
     
 }

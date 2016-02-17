@@ -56,6 +56,7 @@ abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utilit
                 }
             }
         }
+
         return implode( '/', $relPath );
         
     }
@@ -75,17 +76,18 @@ abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utilit
         
         $_aRedirectedFiles = array( $sRedirectedFile, __FILE__ );
         $_sCallerFilePath  = '';
-        foreach( debug_backtrace() as $aDebugInfo )  {     
+        foreach( debug_backtrace() as $aDebugInfo )  {
             $_sCallerFilePath = $aDebugInfo[ 'file' ];
-            if ( in_array( $_sCallerFilePath, $_aRedirectedFiles ) ) { 
-                continue; 
+            if ( in_array( $_sCallerFilePath, $_aRedirectedFiles ) ) {
+                continue;
             }
             break; // catch the first found item.
         }
         self::$_aCallerScriptPathCaches[ $sRedirectedFile ] = $_sCallerFilePath;
+
         return $_sCallerFilePath;
         
-    }    
+    }
         /**
          * @since       3.7.9
          */

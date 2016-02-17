@@ -35,6 +35,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                 continue;
             }
             $this->oFactory->oProp->sDefaultPageSlug = $_aPage['page_slug'];
+
             return;
         }
     }
@@ -53,6 +54,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
         if ('link' === $aArgs['type']) {
             return $this->_addLinkSubmenuItem($_sRootMenuSlug, $aArgs['title'], $aArgs['capability'], $aArgs['href'], $aArgs['show_in_menu'], $aArgs['order']);
         }
+
         return '';
     }
     private function _getRootMenuSlug($sRootPageSlug) {
@@ -60,6 +62,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
             return self::$_aRootMenuSlugCache[$sRootPageSlug];
         }
         self::$_aRootMenuSlugCache[$sRootPageSlug] = plugin_basename($sRootPageSlug);
+
         return self::$_aRootMenuSlugCache[$sRootPageSlug];
     }
     static private $_aRootMenuSlugCache = array();
@@ -79,6 +82,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
         }
         $this->_setSubMenuPageByIndex($nOrder, $_aRemovedMenuItem, $sMenuSlug);
         $GLOBALS['_apf_sub_menus_to_sort'][$sMenuSlug] = $sMenuSlug;
+
         return $_sPageHook;
     }
     private function _isCurrentPage($sPageSlug) {
@@ -108,18 +112,22 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
             if ($_aA !== $_aB) {
                 continue;
             }
+
             return $_iIndex;
         }
+
         return null;
     }
     private function _removePageSubmenuItem($nSubMenuPageIndex, $sMenuSlug, $sPageSlug, $sMenuTitle) {
         $_aRemovedMenuItem = $this->_removePageSubMenuItemByIndex($nSubMenuPageIndex, $sMenuSlug, $sPageSlug);
         $this->oFactory->oProp->aHiddenPages[$sPageSlug] = $sMenuTitle;
+
         return $_aRemovedMenuItem;
     }
     private function _removePageSubMenuItemByIndex($_iIndex, $sMenuSlug, $sPageSlug) {
         $_aSubMenuItem = $this->getElementAsArray($GLOBALS, array('submenu', $sMenuSlug, $_iIndex));
         unset($GLOBALS['submenu'][$sMenuSlug][$_iIndex]);
+
         return $_aSubMenuItem;
     }
     private function _addLinkSubmenuItem($sMenuSlug, $sTitle, $sCapability, $sHref, $bShowInMenu, $nOrder) {

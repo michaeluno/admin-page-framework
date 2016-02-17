@@ -38,20 +38,20 @@ class APF_Demo_AdvancedUsage_Verification_Section {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,       // avoid hyphen(dash), dots, and white spaces
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Text Areas', 'admin-page-framework-loader' ),
-                'description'   => __( 'These are text area fields.', 'admin-page-framework-loader' ), 
-                'order'         => 20, 
+                'description'   => __( 'These are text area fields.', 'admin-page-framework-loader' ),
+                'order'         => 20,
             )
-        );   
+        );
              
         /*
          * Text area fields.
-         */        
+         */
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section id
             array(
@@ -62,7 +62,7 @@ class APF_Demo_AdvancedUsage_Verification_Section {
                     0       => '--- ' . __( 'Select Item', 'admin-page-framework-loader' ) . ' ---',
                     'one'   => __( 'One', 'admin-page-framework-loader' ),
                     'two'   => __( 'Two', 'admin-page-framework-loader' ),
-                    'three' => __( 'Three', 'admin-page-framework-loader' ),     
+                    'three' => __( 'Three', 'admin-page-framework-loader' ),
                 ),
             ),
             array(
@@ -70,11 +70,11 @@ class APF_Demo_AdvancedUsage_Verification_Section {
                 'type'          => 'text',
                 'description'   => __( 'Select one above or enter text here.', 'admin-page-framework-loader' ),
             )
-        );             
+        );
      
-        add_filter( 
-            'validation_' . $oFactory->oProp->sClassName . '_section_verification', 
-            array( $this, 'replyToValidateSection' ), 
+        add_filter(
+            'validation_' . $oFactory->oProp->sClassName . '_section_verification',
+            array( $this, 'replyToValidateSection' ),
             10, // priority
             4   // number of parameters
         );
@@ -86,7 +86,7 @@ class APF_Demo_AdvancedUsage_Verification_Section {
      * 
      * @callback        filter      validation_{instantiated class name}_{section id}
      */
-    public function replyToValidateSection( $aInput, $aOldInput, $oAdminPage, $aSubmitInfo ) { 
+    public function replyToValidateSection( $aInput, $aOldInput, $oAdminPage, $aSubmitInfo ) {
 
         // Local variables
         $_bIsValid = true;
@@ -99,16 +99,17 @@ class APF_Demo_AdvancedUsage_Verification_Section {
         
         if ( ! $_bIsValid ) {
         
-            $oAdminPage->setFieldErrors( $_aErrors );     
-            $oAdminPage->setSettingNotice( __( 'There was an error setting an option in a form section.', 'admin-page-framework-loader' ) );                     
+            $oAdminPage->setFieldErrors( $_aErrors );
+            $oAdminPage->setSettingNotice( __( 'There was an error setting an option in a form section.', 'admin-page-framework-loader' ) );
+
             return $aOldInput;
             
-        }     
+        }
    
         // Otherwise, process the data.
         return $aInput;
         
-    }      
+    }
     
   
 }

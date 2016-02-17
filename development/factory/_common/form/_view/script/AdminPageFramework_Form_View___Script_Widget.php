@@ -25,18 +25,18 @@ class AdminPageFramework_Form_View___Script_Widget extends AdminPageFramework_Fo
      * @since       3.3.0       Changed the name from `getjQueryPlugin()`.
      * @param       $oMsg       object      The message object.
      * @return      string      The inline JavaScript script.
-     */    
+     */
     static public function getScript( /* $oMsg */ ) {
         
         // Uncomment these lines when parameters need to be accessed.
         // $_aParams   = func_get_args() + array( null );
         // $_oMsg      = $_aParams[ 0 ];            
-        
+
         /**
          * Triggers the 'admin_page_framework_saved_widget' event when a widget is dropped.
          * 
          * @since   3.2.0
-         */     
+         */
         return <<<JAVASCRIPTS
 (function ( $ ) {         
 

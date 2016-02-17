@@ -3,7 +3,7 @@
  * Manually include the bootstrap script as Codeception bootstrap runs after loading this file.
  * @see https://github.com/Codeception/Codeception/issues/862
  */
-include_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/_bootstrap.php' );
+include_once dirname( dirname( dirname( __FILE__ ) ) ) . '/_bootstrap.php';
 
 class AdminPageFramework_Property_FuncitonalTest extends AdminPageFramework_Property_Base {}
 
@@ -23,14 +23,14 @@ class AdminPageFramework_Property_Base_Test extends \WP_UnitTestCase {
         $this->_oProp = AdminPageFramework_ClassTester::getInstance(
             'AdminPageFramework_Property_FuncitonalTest',
             array(  // these parameters are just passed not to fail the object instantiation
-                $this, 
-                __FILE__, 
-                get_class( $this ), 
-                'manage_options', 
-                'admin-page-framework', 
-                'admin_page'
+                $this,
+                __FILE__,
+                get_class( $this ),
+                'manage_options',
+                'admin-page-framework',
+                'admin_page',
             )
-        );        
+        );
         
     }
 
@@ -91,7 +91,7 @@ class AdminPageFramework_Property_Base_Test extends \WP_UnitTestCase {
         );
         $this->assertEquals( 'theme', $_sCallerType );
         
-    }   
+    }
     
     /**
      * array(

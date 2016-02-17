@@ -71,7 +71,7 @@ class AdminPageFramework_Zip {
         $this->aOptions     = $this->_getFormattedOptions( $abOptions );
         $this->aCallbacks   = $aCallbacks + $this->aCallbacks;
         
-    }   
+    }
         /**
          * Formats the option array.
          * 
@@ -80,10 +80,11 @@ class AdminPageFramework_Zip {
          */
         private function _getFormattedOptions( $abOptions ) {
             $_aOptions = is_array( $abOptions )
-                ? $abOptions 
+                ? $abOptions
                 : array(
                     'include_directory' => $abOptions,
                 );
+
             return $_aOptions + $this->aOptions;
         }
 
@@ -119,6 +120,7 @@ class AdminPageFramework_Zip {
             'file'      => '_replyToCompressFile',
         );
         $_sMethodName   = $_aMethods[ $this->_getSourceType( $this->sSource ) ];
+
         return call_user_func_array(
             array( $this, $_sMethodName ),
             array(
@@ -148,11 +150,11 @@ class AdminPageFramework_Zip {
             
             $_sArchiveRootDirName = '';
            
-            if ( $bIncludeDir ) {                
+            if ( $bIncludeDir ) {
                 $_sArchiveRootDirName = $this->_getMainDirectoryName( $sSourceDirPath );
-                $this->_addEmptyDir( 
-                    $oZip, 
-                    $_sArchiveRootDirName, 
+                $this->_addEmptyDir(
+                    $oZip,
+                    $_sArchiveRootDirName,
                     $aCallbacks[ 'directory_name' ]
                 );
             }
@@ -160,8 +162,8 @@ class AdminPageFramework_Zip {
             array_unshift( $aAdditionalSourceDirs, $sSourceDirPath );
             $_aSourceDirPaths = array_unique( $aAdditionalSourceDirs );
             
-            $this->_addArchiveItems( 
-                $oZip, 
+            $this->_addArchiveItems(
+                $oZip,
                 $_aSourceDirPaths,
                 $aCallbacks,
                 $_sArchiveRootDirName
@@ -169,7 +171,7 @@ class AdminPageFramework_Zip {
             
             return $oZip->close();
             
-        }   
+        }
             /**
              * @since       3.6.0
              * @return      void
@@ -191,22 +193,22 @@ class AdminPageFramework_Zip {
                             $oZip,
                             $_sInsideDirPrefix,
                             $aCallbacks[ 'directory_name' ]
-                        );                                          
+                        );
                     }
                     
                     $_oFilesIterator = new RecursiveIteratorIterator(
-                        new RecursiveDirectoryIterator( $_sSourceDirPath ), 
+                        new RecursiveDirectoryIterator( $_sSourceDirPath ),
                         RecursiveIteratorIterator::SELF_FIRST
-                    );            
+                    );
                     foreach ( $_oFilesIterator as $_sIterationItem ) {
-                        $this->_addArchiveItem( 
-                            $oZip, 
+                        $this->_addArchiveItem(
+                            $oZip,
                             $_sSourceDirPath,
-                            $_sIterationItem, 
+                            $_sIterationItem,
                             $aCallbacks,
                             $sRootDirName . $_sInsideDirPrefix
                         );
-                    }                                
+                    }
                 }
                 
             }
@@ -220,13 +222,13 @@ class AdminPageFramework_Zip {
                     $_aDirPath        = array();
                     foreach( $_aPathPartsParse as $_sDirName ) {
                         $_aDirPath[] = $_sDirName;
-                        $this->_addEmptyDir( 
-                            $oZip, 
+                        $this->_addEmptyDir(
+                            $oZip,
                             implode( '/', $_aDirPath ),
                             $oCallable
                         );
                     }
-                }            
+                }
                 /**
                  * Adds an item (directory or file) to the archive.
                  * 
@@ -242,12 +244,12 @@ class AdminPageFramework_Zip {
                     
                     $_sIterationItem   = str_replace( '\\', '/', $_sIterationItem );
                     $sInsidePathPrefix = rtrim( $sInsidePathPrefix, '/' ) . '/'; // add a trailing slash
-                    
+
                     // Ignore "." and ".." folders
-                    if ( 
-                        in_array( 
-                            substr( $_sIterationItem, strrpos( $_sIterationItem, '/' ) + 1 ), 
-                            array( '.', '..' ) 
+                    if (
+                        in_array(
+                            substr( $_sIterationItem, strrpos( $_sIterationItem, '/' ) + 1 ),
+                            array( '.', '..' )
                        )
                     ) {
                         return;
@@ -257,27 +259,27 @@ class AdminPageFramework_Zip {
                     $_sIterationItem = str_replace( '\\', '/', $_sIterationItem );
 
                     if ( true === is_dir( $_sIterationItem ) ) {
-                        $this->_addEmptyDir( 
-                            $oZip, 
-                            $sInsidePathPrefix . str_replace( 
-                                $sSource . '/', 
-                                '', 
-                                $_sIterationItem . '/'
-                            ), 
-                            $aCallbacks[ 'directory_name' ]
-                        );                    
-                    } else if ( true === is_file( $_sIterationItem ) ) {
-                        $this->_addFromString( 
-                            $oZip, 
+                        $this->_addEmptyDir(
+                            $oZip,
                             $sInsidePathPrefix . str_replace(
-                                $sSource . '/', 
-                                '', 
+                                $sSource . '/',
+                                '',
+                                $_sIterationItem . '/'
+                            ),
+                            $aCallbacks[ 'directory_name' ]
+                        );
+                    } else if ( true === is_file( $_sIterationItem ) ) {
+                        $this->_addFromString(
+                            $oZip,
+                            $sInsidePathPrefix . str_replace(
+                                $sSource . '/',
+                                '',
                                 $_sIterationItem
                             ),
                             file_get_contents( $_sIterationItem ),
                             $aCallbacks
                         );
-                    }                
+                    }
                     
                 }
             
@@ -289,6 +291,7 @@ class AdminPageFramework_Zip {
              */
             private function _getMainDirectoryName( $sSource ) {
                 $_aPathParts = explode( "/", $sSource );
+
                 return $_aPathParts[ count( $_aPathParts ) - 1 ];
             }
     
@@ -299,14 +302,15 @@ class AdminPageFramework_Zip {
          * @return      boolean     True on success, false otherwise.
          */
         public function _replyToCompressFile( ZipArchive $oZip, $sSourceFilePath, $aCallbacks=null ) {
-            $this->_addFromString( 
-                $oZip, 
-                basename( $sSourceFilePath ), 
+            $this->_addFromString(
+                $oZip,
+                basename( $sSourceFilePath ),
                 file_get_contents( $sSourceFilePath ),
                 $aCallbacks
             );
-            return $oZip->close();            
-        }        
+
+            return $oZip->close();
+        }
 
     /**
      * 
@@ -320,6 +324,7 @@ class AdminPageFramework_Zip {
         if ( true === is_file( $sSource ) ) {
             return 'file';
         }
+
         return 'unknown';
      
     }
@@ -332,8 +337,9 @@ class AdminPageFramework_Zip {
         if ( ! extension_loaded( 'zip' ) ) {
             return false;
         }
+
         return file_exists( $sSource );
-    }    
+    }
     /**
      * Returns false.
      * @since       3.5.4
@@ -342,7 +348,7 @@ class AdminPageFramework_Zip {
      */
     public function _replyToReturnFalse() {
         return false;
-    }        
+    }
     
     /**
      * Add an empty directory to an archive.
@@ -356,7 +362,7 @@ class AdminPageFramework_Zip {
         if ( ! strlen( $sInsidePath ) ) {
             return;
         }
-        $oZip->addEmptyDir( $sInsidePath );        
+        $oZip->addEmptyDir( $sInsidePath );
     }
     /**
      * Adds a file to an archive by appling a callback to the read file contents.
@@ -372,17 +378,17 @@ class AdminPageFramework_Zip {
             return;
         }
         $oZip->addFromString(
-            $sInsidePath, 
+            $sInsidePath,
             is_callable( $aCallbacks[ 'file_contents' ] )
-                ? call_user_func_array( 
-                    $aCallbacks[ 'file_contents' ], 
-                    array( 
-                        $sSourceContents, 
-                        $sInsidePath
-                    ) 
+                ? call_user_func_array(
+                    $aCallbacks[ 'file_contents' ],
+                    array(
+                        $sSourceContents,
+                        $sInsidePath,
+                    )
                 )
                 : $sSourceContents
-        );        
+        );
         
     }
     
@@ -400,6 +406,6 @@ class AdminPageFramework_Zip {
                 )
             )
             : $sArchivePath;
-    }    
+    }
         
 }

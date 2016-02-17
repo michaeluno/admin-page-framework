@@ -24,16 +24,16 @@ class AdminPageFramework_Form_View___Generate_FieldInputID extends AdminPageFram
      */
     public function __construct( /* $aArguments, $isIndex, $hfCallback */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aArguments, 
+        $_aParameters = func_get_args() + array(
+            $this->aArguments,
             $this->isIndex,
             $this->hfCallback,
         );
-        $this->aArguments  = $_aParameters[ 0 ];        
+        $this->aArguments  = $_aParameters[ 0 ];
         $this->isIndex     = $_aParameters[ 1 ];
         $this->hfCallback  = $_aParameters[ 2 ];
         
-    }    
+    }
     
     /**
      * Returns the input id attribute value.

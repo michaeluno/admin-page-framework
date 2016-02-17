@@ -39,18 +39,18 @@ class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFr
      */
     public function __construct( /* array $aSectionsets, $aFieldsets, $iNestedDepth */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aSectionsets, 
-            $this->aFieldsets, 
+        $_aParameters = func_get_args() + array(
+            $this->aSectionsets,
+            $this->aFieldsets,
             $this->iNestedDepth,
         );
-        $this->aSectionsets     = $_aParameters[ 0 ];                    
+        $this->aSectionsets     = $_aParameters[ 0 ];
         $this->aFieldsets       = $_aParameters[ 1 ];
         $this->iNestedDepth     = $_aParameters[ 2 ];
         
         // Perform formatting
-        $this->_divideElementsBySectionTabs( 
-            $this->aSectionsets, 
+        $this->_divideElementsBySectionTabs(
+            $this->aSectionsets,
             $this->aFieldsets,
             $this->aSectionTabs
         );
@@ -76,7 +76,7 @@ class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFr
         return $this->getElementAsArray(
             $this->aFieldsets,
             $sTabSlug
-        );        
+        );
     }
     /**
      * @return      array       An array holding section tab slugs.
@@ -132,7 +132,7 @@ class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFr
                 // Skip items with a depth below or above the current depth
                 if ( $this->iNestedDepth <> $_aSectionset[ '_nested_depth' ] ) {
                     continue;
-                }                
+                }
 
                 $_sSectionTaqbSlug = $this->getAOrB(
                     $_aSectionset[ 'section_tab_slug' ],
@@ -152,7 +152,7 @@ class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFr
             $aSectionsets  = $_aSectionsBySectionTab;
             $aFieldsets    = $_aFieldsBySectionTab;
 
-        }      
+        }
             /**
              * @since       3.6.1
              * @since       3.7.0      Moved from `AdminPageFramework_FormPart_Table`.
@@ -162,11 +162,11 @@ class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFr
                 return isset( $aSectionset[ 'content' ] );
                 // @deprecated
                 // foreach( $aKeys as $_sKey ) {
-                    
+
                     // if ( ! isset( $aSectionset[ $_sKey ] ) ) {
                         // continue;
                     // }
-                    
+
                     // // For nested sections, the 'content' will hold arrays of child sections. Handle them properly here.
                     // if ( is_scalar( $aSectionset[ $_sKey ] ) ) {
                         // return true;
@@ -174,8 +174,8 @@ class AdminPageFramework_Form_View___Format_SectionsetsByTab extends AdminPageFr
 
                 // }
                 // return false;
-                
-            }       
+
+            }
    
  
 }

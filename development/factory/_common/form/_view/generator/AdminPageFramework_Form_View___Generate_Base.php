@@ -25,10 +25,10 @@ abstract class AdminPageFramework_Form_View___Generate_Base extends AdminPageFra
      */
     public function __construct( /* $aArguments */ ) {
         
-        $_aParameters     = func_get_args() + array( 
-            $this->aArguments, 
+        $_aParameters     = func_get_args() + array(
+            $this->aArguments,
         );
-        $this->aArguments = $_aParameters[ 0 ];                
+        $this->aArguments = $_aParameters[ 0 ];
         
     }
     

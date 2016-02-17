@@ -19,6 +19,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
     private function _setHooks() {
         if (is_admin()) {
             $this->_setAdminHooks();
+
             return;
         }
         add_action('wp_enqueue_scripts', array($this, '_replyToEnqueueScripts'));
@@ -72,6 +73,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
         }
         $_aEnqueueItem['src'] = $this->getResolvedSRC($_aEnqueueItem['src']);
         $_iCallCount++;
+
         return $_aEnqueueItem;
     }
     public function _replyToEnqueueStyles() {
@@ -94,6 +96,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
         }
         $_aEnqueueItem['src'] = $this->getResolvedSRC($_aEnqueueItem['src']);
         $_iCallCount++;
+
         return $_aEnqueueItem;
     }
     public function _replyToAddStyle() {
@@ -114,6 +117,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
     }
     private function _getFormattedInlineStyles(array $aInlineStyles) {
         $_sCSSRules = implode(PHP_EOL, array_unique($aInlineStyles));
+
         return $_sCSSRules;
     }
     public function _replyToAddScript() {

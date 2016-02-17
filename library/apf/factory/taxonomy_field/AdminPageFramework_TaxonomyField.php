@@ -23,6 +23,7 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
         if (isset($_GET['taxonomy']) && !in_array($_GET['taxonomy'], $this->oProp->aTaxonomySlugs)) {
             return false;
         }
+
         return true;
     }
     public function _replyToSetUpHooks($oFactory) {
@@ -48,6 +49,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
         if ($sTaxonomy) {
             $aColumns = $this->oUtil->addAndApplyFilter($this, "{$sFilterPrefix}{$_GET['taxonomy']}", $aColumns);
         }
+
         return $this->oUtil->addAndApplyFilter($this, "{$sFilterPrefix}{$this->oProp->sClassName}", $aColumns);
     }
     public function _replyToGetSavedFormData() {
@@ -61,6 +63,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
     }
     private function _getSavedTermFormData($iTermID, $sOptionKey) {
         $_aSavedTaxonomyFormData = $this->_getSavedTaxonomyFormData($sOptionKey);
+
         return $this->oUtil->getElementAsArray($_aSavedTaxonomyFormData, $iTermID);
     }
     private function _getSavedTaxonomyFormData($sOptionKey) {
@@ -84,6 +87,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
         if (!wp_verify_nonce($_POST[$this->oProp->sClassHash], $this->oProp->sClassHash)) {
             return false;
         }
+
         return true;
     }
 }
@@ -96,6 +100,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
         $_aField = $_aParams[1];
         $_sKey = ( string )$_aParams[2];
         $_sKey = $this->oUtil->getAOrB('0' !== $_sKey && empty($_sKey), '', "[{$_sKey}]");
+
         return $_aField['field_id'] . $_sKey;
     }
     public function _replyToGetFlatInputName() {
@@ -103,6 +108,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
         $_aField = $_aParams[1];
         $_sKey = ( string )$_aParams[2];
         $_sKey = $this->oUtil->getAOrB('0' !== $_sKey && empty($_sKey), '', "|{$_sKey}");
+
         return "{$_aField['field_id']}{$_sKey}";
     }
     public function _replyToPrintFieldsWOTableRows($oTerm) {
@@ -118,6 +124,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
         $_aOutput[] = $this->oForm->get();
         $_sOutput = $this->oUtil->addAndApplyFilters($this, 'content_' . $this->oProp->sClassName, $this->content(implode(PHP_EOL, $_aOutput)));
         $this->oUtil->addAndDoActions($this, 'do_' . $this->oProp->sClassName, $this);
+
         return $_sOutput;
     }
     public function _replyToPrintColumnCell($vValue, $sColumnSlug, $sTermID) {

@@ -19,6 +19,7 @@ class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
     }
     static public function getFrameworkVersion($bTrimDevVer = false) {
         $_sVersion = AdminPageFramework_Registry::getVersion();
+
         return $bTrimDevVer ? self::getSuffixRemoved($_sVersion, '.dev') : $_sVersion;
     }
     static public function getFrameworkName() {
@@ -43,6 +44,7 @@ class AdminPageFramework_ArrayHandler extends AdminPageFramework_FrameworkUtilit
             $_aKeys = $_aKeys[0];
             $_mDefault = $this->getElement($_aKeys, 1);
         }
+
         return $this->getArrayValueByArrayKeys($this->aData, $_aKeys, $this->_getDefaultValue($_mDefault, $_aKeys));
     }
     private function _getDefaultValue($_mDefault, $_aKeys) {
@@ -57,6 +59,7 @@ class AdminPageFramework_ArrayHandler extends AdminPageFramework_FrameworkUtilit
         $_mValue = $_aParameters[1];
         if (is_scalar($_asKeys)) {
             $this->aData[$_asKeys] = $_mValue;
+
             return;
         }
         $this->setMultiDimensionalArray($this->aData, $_asKeys, $_mValue);
@@ -70,6 +73,7 @@ class AdminPageFramework_ArrayHandler extends AdminPageFramework_FrameworkUtilit
         $_mValue = $_aParameters[1];
         if (is_scalar($_asKeys)) {
             $this->aData[$_asKeys] = $_mValue;
+
             return;
         }
         $this->unsetDimensionalArrayElement($this->aData, $aKeys);

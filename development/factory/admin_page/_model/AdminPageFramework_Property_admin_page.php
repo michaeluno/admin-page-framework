@@ -41,8 +41,8 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * Stores framework's instantiated object name.
      * 
      * @since 2.0.0
-     */ 
-    public $sClassName;    
+     */
+    public $sClassName;
     
     /**
      * Stores the md5 hash string of framework's instantiated object name.
@@ -56,33 +56,33 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * When sub pages are added and the capability value is not provided, this will be applied.
      * 
      * @since 2.0.0
-     */     
-    public $sCapability = 'manage_options';    
+     */
+    public $sCapability = 'manage_options';
     
     /**
      * Stores the tag for the page heading navigation bar.
      * @since 2.0.0
-     */ 
+     */
     public $sPageHeadingTabTag = 'h2';
 
     /**
      * Stores the tag for the in-page tab navigation bar.
      * @since 2.0.0
-     */ 
+     */
     public $sInPageTabTag = 'h3';
     
     /**
      * Stores the default page slug.
      * @since 2.0.0
-     */     
+     */
     public $sDefaultPageSlug;
         
     // Container arrays.
     /**
      * A two-dimensional array storing registering sub-menu(page) item information with keys of the page slug.
      * @since 2.0.0
-     */     
-    public $aPages = array(); 
+     */
+    public $aPages = array();
 
     /**
      * Stores the hidden page slugs.
@@ -96,44 +96,44 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * Unlike the above $aPages that holds the pages to be added, this stores the added pages. This is referred when adding a help section.
      * 
      * @since 2.1.0
-     */ 
+     */
     public $aRegisteredSubMenuPages = array();
     
     /**
      * Stores the root menu item information for one set root menu item.
      * @since 2.0.0
-     */         
+     */
     public $aRootMenu = array(
         'sTitle'        => null, // menu label that appears on the menu list
         'sPageSlug'     => null, // menu slug that identifies the menu item
         'sIcon16x16'    => null, // the associated icon that appears beside the label on the list
         'iPosition'     => null, // determines the position of the menu
         'fCreateRoot'   => null, // indicates whether the framework should create the root menu or not.
-    ); 
+    );
     
     /**
      * Stores in-page tabs.
      * @since 2.0.0
-     */     
-    public $aInPageTabs = array();     
+     */
+    public $aInPageTabs = array();
     
     /**
      * Stores the default in-page tab.
      * @since 2.0.0
-     */         
-    public $aDefaultInPageTabs = array();     
+     */
+    public $aDefaultInPageTabs = array();
         
     /**
      * Stores link text that is scheduled to be embedded in the plugin listing table's description column cell.
      * @since 2.0.0
-     */             
-    public $aPluginDescriptionLinks = array(); 
+     */
+    public $aPluginDescriptionLinks = array();
 
     /**
      * Stores link text that is scheduled to be embedded in the plugin listing table's title column cell.
      * @since 2.0.0
-     */             
-    public $aPluginTitleLinks = array();     
+     */
+    public $aPluginTitleLinks = array();
             
     /**
      * Stores the framework's options. 
@@ -147,26 +147,26 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
     /**
      * The instantiated class name will be assigned in the constructor if the first parameter is not set.
      * @since 2.0.0
-     */                 
-    public $sOptionKey = '';     
+     */
+    public $sOptionKey = '';
 
     /**
      * Stores contextual help tabs.
      * @since 2.1.0
-     */     
+     */
     public $aHelpTabs = array();
     
     /**
      * Set one of the followings: application/x-www-form-urlencoded, multipart/form-data, text/plain
      * @since 2.0.0
-     */                     
-    public $sFormEncType = 'multipart/form-data';    
+     */
+    public $sFormEncType = 'multipart/form-data';
     
     /**
      * Stores the label for for the "Insert to Post" button in the media uploader box.
      * @since 2.0.0
      * @internal
-     */     
+     */
     public $sThickBoxButtonUseThis = '';
     
     // Flags    
@@ -175,20 +175,20 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * 
      * This will be enabled when a settings section and a field is added.
      * @since 2.0.0
-     */                         
-    public $bEnableForm = false;     
+     */
+    public $bEnableForm = false;
     
     /**
      * Indicates whether the page title should be displayed.
      * @since 2.0.0
-     */                         
-    public $bShowPageTitle = true;    
+     */
+    public $bShowPageTitle = true;
     
     /**
      * Indicates whether the page heading tabs should be displayed.
      * @since 2.0.0
      * @remark Used by the setPageHeadingTabsVisibility() method.
-     */     
+     */
     public $bShowPageHeadingTabs = true;
 
     /**
@@ -216,10 +216,10 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * @remark Currently this does not take effect on the meta box and post type classes of the framework.
      * @since 2.1.2
      */
-    public $aDisallowedQueryKeys = array( 
-        'settings-updated', 
+    public $aDisallowedQueryKeys = array(
+        'settings-updated',
         'confirmation',     // 3.3.0+
-        'field_errors'      // 3.4.1+
+        'field_errors',      // 3.4.1+
     );
         
         
@@ -233,14 +233,14 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
     /**
      * Indicates whether the form data should be automatically saved in the options table.
      * @since 3.1.0
-     */ 
+     */
     public $_bDisableSavingOptions = false;
      
     /**
      * Stores added page hooks.
      * 
      * @since 3.1.2
-     */ 
+     */
     public $aPageHooks = array();
      
     /**
@@ -249,7 +249,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * This allows users to set own class selector such as "wrap about-wrap" for About pages.
      * 
      * @since       3.5.0
-     */ 
+     */
     public $sWrapperClassAttribute = 'wrap';
     
     /**
@@ -257,14 +257,14 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * 
      * @remark      Currently only accepts 'options_table' or 'transient'
      * @since       3.5.9
-     */ 
+     */
     public $sOptionType = 'options_table';
      
     /**
      * Stores the cache lifetime of the transient used for the form options when the user passes an integer to the option key parameter.
      * @since       3.5.9
      */
-    public $iOptionTransientDuration  = 0; 
+    public $iOptionTransientDuration  = 0;
      
     /**
      * Constructs the instance of AdminPageFramework_Property_admin_page class object.
@@ -272,26 +272,26 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * @remark      Used by the setInPageTabsVisibility() method.
      * @since       2.0.0
      * @since       2.1.5   The $oCaller parameter was added.
-     */ 
+     */
     public function __construct( $oCaller, $sCallerPath, $sClassName, $aisOptionKey, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 
         // 3.7.0+ This must be set before the parent constructor. As the form arguments array uses this value.
         $this->_sFormRegistrationHook = 'load_after_' . $sClassName;
 
-        parent::__construct( 
-            $oCaller, 
-            $sCallerPath, 
-            $sClassName, 
-            $sCapability, 
-            $sTextDomain, 
-            $this->sStructureType 
+        parent::__construct(
+            $oCaller,
+            $sCallerPath,
+            $sClassName,
+            $sCapability,
+            $sTextDomain,
+            $this->sStructureType
         );
         
         $this->sTargetFormPage = $_SERVER[ 'REQUEST_URI' ];
         
-        $this->_setOptionsProperties( 
-            $aisOptionKey, 
-            $sClassName 
+        $this->_setOptionsProperties(
+            $aisOptionKey,
+            $sClassName
         );
                 
         // Store the page class objects in the global storage. 
@@ -301,7 +301,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
             array( 'aAdminPageFramework', 'aPageClasses' )
         );
         // The meta box class for pages needs to access the object.
-        $GLOBALS[ 'aAdminPageFramework' ][ 'aPageClasses' ][ $sClassName ] = $oCaller; 
+        $GLOBALS[ 'aAdminPageFramework' ][ 'aPageClasses' ][ $sClassName ] = $oCaller;
                 
         // The capability for the settings. `$this->sOptionKey` is the part that is set in the settings_fields() function.
         // This prevents the "Cheatin' huh?" message.
@@ -313,22 +313,22 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
          * @since       3.5.9
          * @return      void
          */
-        private function _setOptionsProperties( $aisOptionKey, $sClassName ) {            
+        private function _setOptionsProperties( $aisOptionKey, $sClassName ) {
                         
-            $_aArguments = is_array( $aisOptionKey ) 
+            $_aArguments = is_array( $aisOptionKey )
                 ? $aisOptionKey
                 : array();
             $_aArguments = $_aArguments + array(
-                'type' => $this->_getOptionType( 
-                    $aisOptionKey 
+                'type' => $this->_getOptionType(
+                    $aisOptionKey
                 ),
-                'key' => $this->_getOptionKey( 
+                'key' => $this->_getOptionKey(
                     $aisOptionKey,
                     $sClassName
                 ),
                 'duration' => is_integer( $aisOptionKey )
                     ? $aisOptionKey
-                    : 0
+                    : 0,
             );
             
             $this->sOptionKey               = $_aArguments[ 'key' ];
@@ -336,7 +336,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
             $this->iOptionTransientDuration = $_aArguments[ 'duration' ];
             $this->_bDisableSavingOptions   = '' === $aisOptionKey;
         
-        }    
+        }
             /**
              * Returns a key used for the options table.
              * @since       3.5.9
@@ -382,9 +382,10 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
             if ( ! is_admin() ) {
                 return false;
             }
+
             return isset( $_GET[ 'page' ] );
             
-        }    
+        }
     
     /**
      * Returns the option array.
@@ -403,22 +404,22 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
          * This is to support transient form data which disappears with the set timeout.
          * 
          * @return      array       The retrieved options array.
-         */ 
+         */
         private function _getOptionsByType( $sOptionType ) {
             switch ( $sOptionType ) {
                 default:
                 case 'options_table':
-                    return $this->sOptionKey 
-                        ? $this->getAsArray( 
-                            get_option( 
+                    return $this->sOptionKey
+                        ? $this->getAsArray(
+                            get_option(
                                 $this->sOptionKey, // option key
                                 array() // default
-                            ) 
+                            )
                         )
-                        : array();                       
+                        : array();
                 case 'transient':
                     return $this->getAsArray(
-                        $this->getTransient( 
+                        $this->getTransient(
                             $this->sOptionKey,  // transient key
                             array() // default
                         )
@@ -438,9 +439,10 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
         if ( $this->_bDisableSavingOptions ) {
             return false;
         }
-        return $this->_updateOptionsByType( 
+
+        return $this->_updateOptionsByType(
             null !== $aOptions
-                ? $aOptions 
+                ? $aOptions
                 : $this->aOptions,
             $this->sOptionType
         );
@@ -455,17 +457,17 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
             switch ( $sOptionType ) {
                 default:
                 case 'options_table':
-                    return update_option( 
-                        $this->sOptionKey, 
+                    return update_option(
+                        $this->sOptionKey,
                         $aOptions
                     );
                 case 'transient':
-                    return $this->setTransient( 
+                    return $this->setTransient(
                         $this->sOptionKey,  // transient key
                         $aOptions,
                         $this->iOptionTransientDuration
                     );
-            }            
+            }
             
         }
     
@@ -476,12 +478,13 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * @since       2.1.0       Set the default value to the parameter and if the parameter value is empty, it applies the current $_GET[ 'page' ] value.
      * @return      boolean     Returns true if it is of framework's added page; otherwise, false.
      */
-    public function isPageAdded( $sPageSlug='' ) {    
+    public function isPageAdded( $sPageSlug='' ) {
         
         $sPageSlug = trim( $sPageSlug );
-        $sPageSlug = $sPageSlug 
-            ? $sPageSlug 
+        $sPageSlug = $sPageSlug
+            ? $sPageSlug
             : $this->getCurrentPageSlug();
+
         return isset( $this->aPages[ $sPageSlug ] );
 
     }
@@ -494,11 +497,11 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * @remark      Do not return `null` when not found as some framework methods check the retuened value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an emtpy string ('').
      */
     public function getCurrentPageSlug() {
-        return $this->getElement( 
+        return $this->getElement(
             $_GET,  // subject array
             'page', // key
             ''      // default
-        );            
+        );
     }
 
     /**
@@ -512,29 +515,30 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * @since       3.5.3       Changed the name from 'getCurrentTab()' to be more specific.
      * @return      string      The found tab slug. An empty string if not found.
      * @remark      Do not return `null` when not found as some framework methods check the returned value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an empty string ('').
-     */    
+     */
     public function getCurrentTabSlug( $sCurrentPageSlug='' ) {
         
         // It is possible that the tab slug is not set if it is the default tab.
         $_sTabSlug = $this->getElement( $_GET, 'tab' );
-        if ( $_sTabSlug ) { 
+        if ( $_sTabSlug ) {
             return $_sTabSlug;
         }
         $sCurrentPageSlug = $sCurrentPageSlug
             ? $sCurrentPageSlug
             : $this->getCurrentPageSlug();
+
         return $sCurrentPageSlug
             ? $this->getDefaultInPageTab( $sCurrentPageSlug )
             : '';
             
-    }    
+    }
         /**
          * An alias of getCurrentTabSlug();
          * 
          * @deprecated  3.5.3
          */
         public function getCurrentTab( $sCurrentPageSlug='' ) {
-            return $this->getCurrentTabSlug( $sCurrentPageSlug );            
+            return $this->getCurrentTabSlug( $sCurrentPageSlug );
         }
     
     /**
@@ -545,24 +549,25 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * @internal
      * @remark Used in the __call() method in the main class.
      * @return string The default in-page tab slug if found; otherwise, an empty string.
-     */         
+     */
     public function getDefaultInPageTab( $sPageSlug ) {
     
-        if ( ! $sPageSlug ) { 
-            return ''; 
+        if ( ! $sPageSlug ) {
+            return '';
         }
-        return $this->getElement( 
+
+        return $this->getElement(
             $this->aDefaultInPageTabs,  // subject array
             $sPageSlug, // key
             ''    // default
         );
         
-    }    
+    }
            
     /**
      * Returns the set capability.
      * @callback        option_page_capability_{$this->sOptionKey}
-     */ 
+     */
     public function _replyToGetCapability() {
         return $this->sCapability;
     }
@@ -585,13 +590,14 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
         
         // Extract the slug from the page definition
         $_nsCurrentPageSlug              = $this->getElement( $_GET, 'page', null );
-        $_nsCurrentPageSlugFromAddedOnes = $this->getElement( 
+        $_nsCurrentPageSlugFromAddedOnes = $this->getElement(
             $this->aPages,
             array( $_nsCurrentPageSlug, 'page_slug' )
         );
+
         return $_nsCurrentPageSlugFromAddedOnes;
         
-    }    
+    }
 
     /**
      * Returns the currently loaded tab slug if it is one of the added ones with the class object.
@@ -608,14 +614,15 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
         
         $_nsCurrentTabSlugFromAddedOnes = $this->getElement(
             $this->aInPageTabs,
-            array( 
-                $this->getCurrentPageSlugIfAdded(), 
-                $this->getCurrentTabSlug(), 
-                'tab_slug' 
+            array(
+                $this->getCurrentPageSlugIfAdded(),
+                $this->getCurrentTabSlug(),
+                'tab_slug',
             )
         );
+
         return $_nsCurrentTabSlugFromAddedOnes;
         
-    }    
+    }
         
 }

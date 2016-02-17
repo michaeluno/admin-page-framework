@@ -27,7 +27,7 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
         'inline_scripts'   => array(),
         'src_styles'       => array(),
         'src_scripts'      => array(),
-    );    
+    );
     
     /**
      * Checks if a given array holds fieldsets or not.
@@ -35,8 +35,9 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      */
     public function isFieldsets( array $aItems ) {
         $_aItem = $this->getFirstElement( $aItems );
+
         return isset( $_aItem[ 'type' ], $_aItem[ 'field_id' ], $_aItem[ 'section_id' ] );
-    }    
+    }
     
     /**
      * Determines whether the given ID is of a registered form section.
@@ -57,33 +58,33 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
         }
         
         // If the section ID is not registered, return false.
-        if ( ! array_key_exists( $sID, $this->aSectionsets ) ) { 
-            return false; 
+        if ( ! array_key_exists( $sID, $this->aSectionsets ) ) {
+            return false;
         }
         
         // the fields array's first dimension is also filled with the keys of section ids.
-        if ( ! array_key_exists( $sID, $this->aFieldsets ) ) { 
-            return false; 
+        if ( ! array_key_exists( $sID, $this->aFieldsets ) ) {
+            return false;
         }
         
         // Since numeric IDs are denied at the beginning of the method, the elements will not be sub-sections.
         $_bIsSeciton = false;
-        foreach( $this->aFieldsets as $_sSectionID => $_aFields ) {    
+        foreach( $this->aFieldsets as $_sSectionID => $_aFields ) {
         
-            if ( $_sSectionID == $sID ) { 
-                $_bIsSeciton = true; 
+            if ( $_sSectionID == $sID ) {
+                $_bIsSeciton = true;
             }
             
             // a field using the ID is found, and it precedes a section match.     
-            if ( array_key_exists( $sID, $_aFields ) ) { 
-                return false; 
+            if ( array_key_exists( $sID, $_aFields ) ) {
+                return false;
             }
             
         }
         
         return $_bIsSeciton;
         
-    }        
+    }
     
     /**
      * Decides whether the current user including guests can view the form or not.
@@ -112,10 +113,10 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      */
     public function isInThePage() {
         return $this->callBack(
-            $this->aCallbacks[ 'is_in_the_page' ], 
+            $this->aCallbacks[ 'is_in_the_page' ],
             true
         );
-    }    
+    }
     
     /**
      * Calls back a user defined function
@@ -124,11 +125,12 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      * @since       3.7.0
      */
     public function callBack( $oCallable, $asParameters ) {
-        $_aParameters   = self::getAsArray( 
-            $asParameters, 
+        $_aParameters   = self::getAsArray(
+            $asParameters,
             true // preserve empty
         );
         $_mDefaultValue = self::getElement( $_aParameters, 0 );
+
         return is_callable( $oCallable )
             ? call_user_func_array( $oCallable, $_aParameters )
             : $_mDefaultValue;
@@ -142,9 +144,9 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      * 
      * @remark      Called when the object is called as a string.
      * @since       3.7.0
-     */   
+     */
     public function __toString() {
-        return $this->getObjectInfo( $this );        
+        return $this->getObjectInfo( $this );
     }
     
 }

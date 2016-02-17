@@ -49,7 +49,7 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
                 '#<tr>(?:.*?)" src="(?:.*?)=(.*?)"(?:.*?)Zend Engine (.*?),(?:.*?)</tr>#',
                 "# +#",
                 '#<tr>#',
-                '#</tr>#'
+                '#</tr>#',
             ),
             array(
                 '$1', '', '', '', '</$1>' . "\n", '<', ' ', ' ', ' ', '', ' ',
@@ -59,7 +59,7 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
                 '<tr><td>Zend Engine</td><td>$2</td></tr>' . "\n" . '<tr><td>Zend Egg</td><td>$1</td></tr>',
                 ' ',
                 '%S%',
-                '%E%'
+                '%E%',
             ),
             ob_get_clean()
         );
@@ -72,8 +72,8 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
             $_iIndex = substr( $_sSection, 0, strpos( $_sSection, '</h2>' ) );
             preg_match_all(
                 '#%S%(?:<td>(.*?)</td>)?(?:<td>(.*?)</td>)?(?:<td>(.*?)</td>)?%E%#',
-                $_sSection, 
-                $_aAskApache, 
+                $_sSection,
+                $_aAskApache,
                 PREG_SET_ORDER
             );
             foreach( $_aAskApache as $_aMatches ) {
@@ -82,14 +82,15 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
                     continue;
                 }
                 $_aOutput[ $_iIndex ][ $_aMatches[ 1 ] ] = ! isset( $_aMatches[ 3 ] ) || $_aMatches[ 2 ] == $_aMatches[ 3 ]
-                    ? $_aMatches[ 2 ] 
+                    ? $_aMatches[ 2 ]
                     : array_slice( $_aMatches, 2 );
             }
         }
         self::$_aPHPInfo = $_aOutput;
-        return self::$_aPHPInfo;   
+
+        return self::$_aPHPInfo;
     
-    }  
+    }
             
     /**
      * Returns an array of constants.
@@ -108,12 +109,13 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
         if ( empty( $_aCategories ) ) {
             return self::dropElementsByKey( $_aConstants, $_aRemovingCategories );
         }
-        return self::dropElementsByKey( 
+
+        return self::dropElementsByKey(
             array_intersect_key( $_aConstants, array_flip( $_aCategories ) ),
             $_aRemovingCategories
         );
                 
-    }        
+    }
         
     /**
      * Returns PHP error log path.
@@ -124,7 +126,8 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
     static public function getPHPErrorLogPath() {
                 
         $_aPHPInfo = self::getPHPInfo();
-        return isset( $_aPHPInfo['PHP Core']['error_log'] ) 
+
+        return isset( $_aPHPInfo['PHP Core']['error_log'] )
             ? $_aPHPInfo['PHP Core']['error_log']
             : '';
         
@@ -141,8 +144,8 @@ abstract class AdminPageFramework_Utility_SystemInformation extends AdminPageFra
         // If empty, it could be the log file could not be located. In that case, return the last error.
         return $_sLog
             ? $_sLog
-            : print_r( @error_get_last(), true );   
+            : print_r( @error_get_last(), true );
         
-    }        
+    }
         
 }

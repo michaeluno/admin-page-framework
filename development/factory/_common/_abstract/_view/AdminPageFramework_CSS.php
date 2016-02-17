@@ -122,7 +122,7 @@ CSSRULES;
          * 
          * @since       3.2.0
          * @internal
-         */    
+         */
         static private function _getPageLoadStatsRules() {
             return <<<CSSRULES
 /* Page Load Stats */
@@ -148,7 +148,7 @@ CSSRULES;
          * 
          * @since       3.2.0
          * @internal
-         */    
+         */
         static private function _getVersionSpecificRules() {
             // $GLOBALS['wp_version']
             return '';

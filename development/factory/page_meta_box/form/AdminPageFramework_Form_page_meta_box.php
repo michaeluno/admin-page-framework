@@ -53,7 +53,7 @@ class AdminPageFramework_Form_page_meta_box extends AdminPageFramework_Form_post
     public function _replyToSanitizeSavedFormData( $aSavedFormData ) {
         
         // Extract the meta box field form data (options) from the page form data (options).
-        return $this->castArrayContents( 
+        return $this->castArrayContents(
             $this->getDataStructureFromAddedFieldsets(),    // form data structure generate from fieldsets
             $aSavedFormData
         );

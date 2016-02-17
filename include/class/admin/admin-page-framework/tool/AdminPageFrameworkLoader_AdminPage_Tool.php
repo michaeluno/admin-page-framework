@@ -19,14 +19,14 @@ class AdminPageFrameworkLoader_AdminPage_Tool extends AdminPageFrameworkLoader_A
     public function replyToLoadPage( $oFactory ) {
         
         // Tabs
-        new AdminPageFrameworkLoader_AdminPage_Tool_Generator( 
+        new AdminPageFrameworkLoader_AdminPage_Tool_Generator(
             $this->oFactory,
             $this->sPageSlug,
-            array( 
+            array(
                 'tab_slug'  => 'generator',
                 'title'     => __( 'Generator', 'admin-page-framework-loader' ),
             )
-        );                
+        );
         
     }
         

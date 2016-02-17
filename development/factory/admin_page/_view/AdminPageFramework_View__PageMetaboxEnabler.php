@@ -34,12 +34,12 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_Fra
         $this->oFactory = $oFactory;
         
         // Since the screen object needs to be established, some hooks are too early like admin_init or admin_menu.
-        add_action( 
-            'admin_head', 
+        add_action(
+            'admin_head',
             array( $this, '_replyToEnableMetaBox' )
-        );                 
+        );
                 
-    }   
+    }
         /**
          * Enables meta boxes for the currently loading page 
          * 
@@ -71,9 +71,9 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_Fra
                 1
             );
             add_screen_option(
-                'layout_columns', 
+                'layout_columns',
                 array(
-                    'max'       => $_iColumns, 
+                    'max'       => $_iColumns,
                     'default'   => $_iColumns,
                 )
             );
@@ -84,10 +84,10 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_Fra
                     
             // the network admin adds '-network' in the screen ID and the hooks with that id won't be triggered so use the 'page_hook' global variable.
             if ( isset( $GLOBALS[ 'page_hook' ] ) ) {
-                add_action( 
-                    "admin_footer-{$GLOBALS['page_hook']}", 
-                    array( $this, '_replyToAddMetaboxScript' ) 
-                );    
+                add_action(
+                    "admin_footer-{$GLOBALS['page_hook']}",
+                    array( $this, '_replyToAddMetaboxScript' )
+                );
             }
 
         }
@@ -109,15 +109,16 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_Fra
                 }
                 
                 $_sPageSlug = $this->getElement( $_GET, 'page', '' );
-                if ( ! $_sPageSlug ) {     
+                if ( ! $_sPageSlug ) {
                     return false;
                 }
                 
                 foreach( $_aPageMetaBoxClasses as $_sClassName => $_oMetaBox ) {
-                    if ( $this->_isPageOfMetaBox( $_sPageSlug, $_oMetaBox ) ) { 
-                        return true; 
+                    if ( $this->_isPageOfMetaBox( $_sPageSlug, $_oMetaBox ) ) {
+                        return true;
                     }
                 }
+
                 return false;
                 
             }
@@ -138,12 +139,13 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_Fra
                         return false; // for keys of page slugs, the key does not exist, it means not added.
                     }
                     
-                    /* So the page slug key and its tab array is set. This means the user want to specify the meta box visibility per a tab basis. */     
+                    /* So the page slug key and its tab array is set. This means the user want to specify the meta box visibility per a tab basis. */
                     $_aTabs             = $oMetaBox->oProp->aPageSlugs[ $sPageSlug ];
                     $_sCurrentTabSlug   = $this->oFactory->oProp->getCurrentTabSlug();
+
                     return ( $_sCurrentTabSlug && in_array( $_sCurrentTabSlug, $_aTabs ) );
                         
-                }    
+                }
             
             /**
              * Adds meta box script.
@@ -178,6 +180,6 @@ JAVASCRIPTS;
                         . '/* ]]> */'
                     . '</script>';
 
-            }    
+            }
                 
 }

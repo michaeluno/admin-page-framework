@@ -27,7 +27,7 @@ class AdminPageFrameworkLoader_AdminPage_Help_Report extends AdminPageFrameworkL
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Report Issues', 'admin-page-framework-loader' ),
                 'description'   => __( 'If you find a bug, you can report it from here.', 'admin-page-framework-loader' ),
-            )                 
+            )
         );
 
     }

@@ -28,16 +28,16 @@ class APF_Demo_CustomFieldType_Sample {
     
         $this->oFactory     = $oFactory;
         $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug; 
+        $this->sPageSlug    = $sPageSlug;
         $this->sSectionID   = $this->sTabSlug;
                         
-        $this->oFactory->addInPageTabs(    
+        $this->oFactory->addInPageTabs(
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Sample', 'admin-page-framework-loader' ),
             )
-        );  
+        );
         
         // load + page slug + tab slug
         add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
@@ -56,15 +56,15 @@ class APF_Demo_CustomFieldType_Sample {
         add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
         
          // Section
-        $oAdminPage->addSettingSections(    
+        $oAdminPage->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Sample Custom Field Type', 'admin-page-framework-loader' ),
-                'description'   => __( 'This is just an example of creating a custom field type with Admin Page Framework.', 'admin-page-framework-loader' ),     
-            )            
-        );        
+                'description'   => __( 'This is just an example of creating a custom field type with Admin Page Framework.', 'admin-page-framework-loader' ),
+            )
+        );
                     
         // Fields   
         $oAdminPage->addSettingFields(
@@ -102,8 +102,8 @@ class APF_Demo_CustomFieldType_Sample {
                     'green' => '<p style="color:green;">' . __( 'You selected green!', 'admin-page-framework-loader' ) . '</p>',
                 ),
                 'repeatable' => true,
-            )    
-        );  
+            )
+        );
  
     }
     
@@ -111,12 +111,12 @@ class APF_Demo_CustomFieldType_Sample {
          * Registers the field types.
          */
         private function registerFieldTypes( $sClassName ) {
-            new SampleCustomFieldType( $sClassName );                             
+            new SampleCustomFieldType( $sClassName );
             
-        }    
+        }
             
     
-    public function replyToDoTab() {        
+    public function replyToDoTab() {
         submit_button();
     }
     

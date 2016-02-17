@@ -33,15 +33,15 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
         'file_name'     => null,        // ( string ) for the export field type. Do not set a default value here.    
         'attributes'    => array(
             'class' => 'button button-primary',
-        ),    
-    );    
+        ),
+    );
 
     /**
      * Loads the field type necessary components.
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToFieldLoader()`.
-     */ 
+     */
     protected function setUp() {}
     
     /**
@@ -49,17 +49,17 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
-     */ 
+     */
     protected function getScripts() {
-        return "";     
-    }    
+        return "";
+    }
 
     /**
      * Returns the field type specific CSS rules.
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     */ 
+     */
     protected function getStyles() { return ""; }
     
     /**
@@ -73,7 +73,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
         /* Set the transient data to export - If the value is not an array and the export data is set. */
         if ( isset( $aField['data'] ) ) {
             $this->setTransient( md5( "{$aField['class_name']}_{$aField['input_id']}" ), $aField['data'], 60*2 ); // 2 minutes.
-        } 
+        }
         
         /* Set some required values */
         $aField['attributes']['name']   = "__export[submit][{$aField['input_id']}]";
@@ -92,38 +92,39 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
     protected function _getExtraInputFields( &$aField ) {
 
         $_aAttributes = array( 'type' => 'hidden' );
+
         return
-            "<input " . $this->getAttributes( 
+            "<input " . $this->getAttributes(
                 array(
                     'name' => "__export[{$aField['input_id']}][input_id]",
                     'value' => $aField['input_id'],
                 ) + $_aAttributes
             ) . "/>"
-            . "<input " . $this->getAttributes( 
+            . "<input " . $this->getAttributes(
                 array(
                     'name' => "__export[{$aField['input_id']}][field_id]",
                     'value' => $aField['field_id'],
                 ) + $_aAttributes
             ) . "/>"
-            . "<input " . $this->getAttributes( 
+            . "<input " . $this->getAttributes(
                 array(
                     'name' => "__export[{$aField['input_id']}][section_id]",
                     'value' => isset( $aField['section_id'] ) && $aField['section_id'] != '_default' ? $aField['section_id'] : '',
                 ) + $_aAttributes
             ) . "/>"
-            . "<input " . $this->getAttributes( 
+            . "<input " . $this->getAttributes(
                 array(
                     'name' => "__export[{$aField['input_id']}][file_name]",
                     'value' => $aField['file_name'],
                 ) + $_aAttributes
             ) . "/>"
-            . "<input " . $this->getAttributes( 
+            . "<input " . $this->getAttributes(
                 array(
                     'name' => "__export[{$aField['input_id']}][format]",
                     'value' => $aField['format'],
                 ) + $_aAttributes
             ) . "/>"
-            . "<input " . $this->getAttributes( 
+            . "<input " . $this->getAttributes(
                 array(
                     'name' => "__export[{$aField['input_id']}][transient]",
                     'value' => isset( $aField['data'] ),
@@ -140,7 +141,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
          * @remark Currently only array, text or json is supported.
          * @since 2.0.0
          * @since 2.1.5 Moved from the AdminPageFramework_FormField class.
-         */ 
+         */
         private function _generateExportFileName( $sOptionKey, $sExportFormat='json' ) {
                 
             switch ( trim( strtolower( $sExportFormat ) ) ) {
@@ -154,7 +155,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
                 default: // for anything else, 
                     $sExt = "txt";
                     break;
-            }     
+            }
                 
             return $sOptionKey . '_' . date("Ymd") . '.' . $sExt;
             

@@ -30,7 +30,7 @@ class APF_Demo_BuiltinFieldTypes_Checklist_PostType {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'post_type';        
+    public $sSectionID  = 'post_type';
         
     /**
      * Sets up a form section.
@@ -38,7 +38,7 @@ class APF_Demo_BuiltinFieldTypes_Checklist_PostType {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'tab_slug'          => $this->sTabSlug,
@@ -46,7 +46,7 @@ class APF_Demo_BuiltinFieldTypes_Checklist_PostType {
                 'title'             => __( 'Post Type', 'admin-page-framework-loader' ),
                 'description'       => __( 'Post type check lists (custom checkboxes).', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -72,15 +72,15 @@ class APF_Demo_BuiltinFieldTypes_Checklist_PostType {
                 'slugs_to_remove'       => array(), // if not set, the following slugs will be automatically removed. 'revision',  'attachment',  'nav_menu_item'.
                 'description'           => __( 'With the <code>query</code> argument, you can query post types to retrieve.', 'admin-page-framework-loader' )
                     . ' ' . sprintf( __( 'For the specification, see the <a href="%1$s">Parameter</a> section of codex for the <code>get_post_types()</code> function.', 'admin-page-framework-loader' ), 'http://codex.wordpress.org/Function_Reference/get_post_types#Parameters' ) ,
-            ),    
+            ),
             array(
                 'field_id'              => 'post_type_checklist_repeatable',
                 'title'                 => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'                  => 'posttype',
                 'repeatable'            => true,
                 'delimiter'             => '<hr />',
-            ),      
-            array(  
+            ),
+            array(
                 'field_id'              => 'taxonomy_checklist',
                 'title'                 => __( 'Taxonomy Checklist', 'admin-page-framework-loader' ),
                 'type'                  => 'taxonomy',
@@ -91,7 +91,7 @@ class APF_Demo_BuiltinFieldTypes_Checklist_PostType {
                 'select_all_button'     => false,        // 3.3.0+   to change the label, set the label here
                 'select_none_button'    => false,        // 3.3.0+   to change the label, set the label here        
             )
-        );              
+        );
       
     }
 

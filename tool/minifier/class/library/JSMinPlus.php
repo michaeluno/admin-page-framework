@@ -198,7 +198,7 @@ class JSMinPlus
 		'super', 'synchronized', 'throws', 'transient', 'volatile',
 		// These are not reserved, but should be taken into account
 		// in isValidIdentifier (See jslint source code)
-		'arguments', 'eval', 'true', 'false', 'Infinity', 'NaN', 'null', 'undefined'
+		'arguments', 'eval', 'true', 'false', 'Infinity', 'NaN', 'null', 'undefined',
 	);
 
 	private function __construct()
@@ -222,6 +222,7 @@ class JSMinPlus
 		try
 		{
 			$n = $this->parser->parse($js, $filename, 1);
+
 			return $this->parseTree($n);
 		}
 		catch(Exception $e)
@@ -651,7 +652,7 @@ class JSMinPlus
 					array(
 						JS_ARRAY_INIT, JS_OBJECT_INIT, JS_GROUP,
 						TOKEN_NUMBER, TOKEN_STRING, TOKEN_REGEXP, TOKEN_IDENTIFIER,
-						KEYWORD_NULL, KEYWORD_THIS, KEYWORD_TRUE, KEYWORD_FALSE
+						KEYWORD_NULL, KEYWORD_THIS, KEYWORD_TRUE, KEYWORD_FALSE,
 					)
 				))
 				{
@@ -707,7 +708,7 @@ class JSParser
 		'new' => 16,
 		'.' => 17,
 		JS_NEW_WITH_ARGS => 0, JS_INDEX => 0, JS_CALL => 0,
-		JS_ARRAY_INIT => 0, JS_OBJECT_INIT => 0, JS_GROUP => 0
+		JS_ARRAY_INIT => 0, JS_OBJECT_INIT => 0, JS_GROUP => 0,
 	);
 
 	private $opArity = array(
@@ -731,7 +732,7 @@ class JSParser
 		'.' => 2,
 		JS_NEW_WITH_ARGS => 2, JS_INDEX => 2, JS_CALL => 2,
 		JS_ARRAY_INIT => 1, JS_OBJECT_INIT => 1, JS_GROUP => 1,
-		TOKEN_CONDCOMMENT_START => 1, TOKEN_CONDCOMMENT_END => 1
+		TOKEN_CONDCOMMENT_START => 1, TOKEN_CONDCOMMENT_END => 1,
 	);
 
 	public function __construct($minifier=null)
@@ -818,6 +819,7 @@ class JSParser
 			case OP_LEFT_CURLY:
 				$n = $this->Statements($x);
 				$this->t->mustMatch(OP_RIGHT_CURLY);
+
 			return $n;
 
 			case KEYWORD_IF:
@@ -827,6 +829,7 @@ class JSParser
 				$n->thenPart = $this->Statement($x);
 				$n->elsePart = $this->t->match(KEYWORD_ELSE) ? $this->Statement($x) : null;
 				array_pop($x->stmtStack);
+
 			return $n;
 
 			case KEYWORD_SWITCH:
@@ -869,6 +872,7 @@ class JSParser
 				}
 
 				array_pop($x->stmtStack);
+
 			return $n;
 
 			case KEYWORD_FOR:
@@ -928,6 +932,7 @@ class JSParser
 
 				$this->t->mustMatch(OP_RIGHT_PAREN);
 				$n->body = $this->nest($x, $n);
+
 			return $n;
 
 			case KEYWORD_WHILE:
@@ -935,6 +940,7 @@ class JSParser
 			        $n->isLoop = true;
 			        $n->condition = $this->ParenExpression($x);
 			        $n->body = $this->nest($x, $n);
+
 			return $n;
 
 			case KEYWORD_DO:
@@ -948,6 +954,7 @@ class JSParser
 					// automatic semicolon insertion without a newline after do-while.
 					// See http://bugzilla.mozilla.org/show_bug.cgi?id=238945.
 					$this->t->match(OP_SEMICOLON);
+
 					return $n;
 				}
 			break;
@@ -1023,6 +1030,7 @@ class JSParser
 
 				if (!count($n->catchClauses) && !$n->finallyBlock)
 					throw $this->t->newSyntaxError('Invalid try statement');
+
 			return $n;
 
 			case KEYWORD_CATCH:
@@ -1050,6 +1058,7 @@ class JSParser
 				$n = new JSNode($this->t);
 				$n->object = $this->ParenExpression($x);
 				$n->body = $this->nest($x, $n);
+
 			return $n;
 
 			case KEYWORD_VAR:
@@ -1060,6 +1069,7 @@ class JSParser
 			case TOKEN_CONDCOMMENT_START:
 			case TOKEN_CONDCOMMENT_END:
 				$n = new JSNode($this->t);
+
 			return $n;
 
 			case KEYWORD_DEBUGGER:
@@ -1070,6 +1080,7 @@ class JSParser
 			case OP_SEMICOLON:
 				$n = new JSNode($this->t, OP_SEMICOLON);
 				$n->expression = null;
+
 			return $n;
 
 			default:
@@ -1610,6 +1621,7 @@ class JSParser
 				{
 					$right = array_pop($operands);
 					$left->addNode($right);
+
 					return $left;
 				}
 			}
@@ -1742,7 +1754,7 @@ class JSTokenizer
 		'switch',
 		'this', 'throw', 'true', 'try', 'typeof',
 		'var', 'void',
-		'while', 'with'
+		'while', 'with',
 	);
 
 	private $opTypeNames = array(
@@ -1750,7 +1762,7 @@ class JSTokenizer
 		'&', '===', '==', '=', '!==', '!=', '<<', '<=',
 		'<', '>>>', '>>', '>=', '>', '++', '--', '+',
 		'-', '*', '/', '%', '!', '~', '.', '[',
-		']', '{', '}', '(', ')', '@*/'
+		']', '{', '}', '(', ')', '@*/',
 	);
 
 	private $assignOps = array('|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%');

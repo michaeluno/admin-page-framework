@@ -16,7 +16,7 @@
  * @subpackage  Widget
  * @internal
  */
-abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Factory {    
+abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Factory {
 
     /**
      * Sets up hooks and properties.
@@ -46,7 +46,7 @@ abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Facto
      * @since       3.7.10
      */
     public function _replyToLoadComponents( /* $oScreen */ ) {
-        return;        
-    }    
+        return;
+    }
 
 }

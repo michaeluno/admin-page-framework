@@ -74,18 +74,18 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
             return;
         }
                         
-        parent::__construct( 
-            $isOptionKey, 
-            $sCallerPath 
+        parent::__construct(
+            $isOptionKey,
+            $sCallerPath
                 ? trim( $sCallerPath )
-                : $sCallerPath = ( is_admin() && ( isset( $GLOBALS['pagenow'] ) && in_array( $GLOBALS['pagenow'], array( 'plugins.php', ) ) || isset( $_GET['page'] ) ) 
-                    ? AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ) 
-                    : null 
+                : $sCallerPath = ( is_admin() && ( isset( $GLOBALS['pagenow'] ) && in_array( $GLOBALS['pagenow'], array( 'plugins.php', ) ) || isset( $_GET['page'] ) )
+                    ? AdminPageFramework_Utility::getCallerScriptPath( __FILE__ )
+                    : null
                 ),     // this is important to attempt to find the caller script path here when separating the library into multiple files.    
-            $sCapability, 
-            $sTextDomain 
+            $sCapability,
+            $sTextDomain
         );
 
-    }    
+    }
         
 }

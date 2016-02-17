@@ -5,7 +5,7 @@ use \AcceptanceTester;
  * Bootstrap does not work for including abstract classes.
  * @see     https://github.com/Codeception/Codeception/issues/862
  */
-require_once( dirname( dirname( __FILE__ ) ) . '/_bootstrap.php' );
+require_once dirname( dirname( __FILE__ ) ) . '/_bootstrap.php';
 
 class Demo_SwitchDemo_Cest extends \Loader_AdminPage_Base {
  
@@ -47,7 +47,7 @@ class Demo_SwitchDemo_Cest extends \Loader_AdminPage_Base {
         $I->see(
             '', // text
             '//a[@href="edit.php?post_type=apf_posts"]'
-        );        
+        );
         
         // Click on the 'Disable Demo' link.
         $I->click( '//a[contains(@href, "wp-admin/plugins.php?enable_apfl_demo_pages=0")]' );
@@ -65,12 +65,12 @@ class Demo_SwitchDemo_Cest extends \Loader_AdminPage_Base {
         $I->see(
             '', // text
             '//a[@href="edit.php?post_type=apf_posts"]'
-        ); 
+        );
         $I->click( '//a[contains(@href, "wp-admin/admin.php?enable_apfl_demo_pages=0")]' );
         $I->dontSee(
             '', // text
             '//a[@href="edit.php?post_type=apf_posts"]'
-        ); 
+        );
         
     }
 

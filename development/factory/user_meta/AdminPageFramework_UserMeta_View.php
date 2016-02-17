@@ -28,7 +28,7 @@ abstract class AdminPageFramework_UserMeta_View extends AdminPageFramework_UserM
      */
     public function content( $sContent ) {
         return $sContent;
-    }         
+    }
     
     /**
      * Renders the fields.
@@ -48,17 +48,17 @@ abstract class AdminPageFramework_UserMeta_View extends AdminPageFramework_UserM
         $_aOutput[] = $this->oForm->get();
         
         // Filter the output
-        $_sOutput = $this->oUtil->addAndApplyFilters( 
-            $this, 
-            'content_' . $this->oProp->sClassName, 
+        $_sOutput = $this->oUtil->addAndApplyFilters(
+            $this,
+            'content_' . $this->oProp->sClassName,
             $this->content( implode( PHP_EOL, $_aOutput ) )
         );
 
         // Do action 
-        $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );       
+        $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
 
         // Output
-        echo $_sOutput;    
+        echo $_sOutput;
     
     }
     

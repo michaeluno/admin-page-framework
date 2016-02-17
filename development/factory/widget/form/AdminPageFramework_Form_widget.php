@@ -20,14 +20,14 @@
  */
 class AdminPageFramework_Form_widget extends AdminPageFramework_Form {
     
-    public $sStructureType = 'widget';    
+    public $sStructureType = 'widget';
     
     /**
      * Does set-ups.
      * @since       3.7.0
      * @return      void
      */
-    public function construct() {        
+    public function construct() {
         $this->_addDefaultResources();
     }
 

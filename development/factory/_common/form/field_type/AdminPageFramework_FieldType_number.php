@@ -32,7 +32,7 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_t
         'attributes' => array(
             'size'          => 30,
             'maxlength'     => 400,
-            'class'         => null,    
+            'class'         => null,
             'min'           => null,
             'max'           => null,
             'step'          => null,
@@ -50,9 +50,9 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_t
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     */ 
+     */
     protected function getStyles() {
-        return "";     
+        return "";
     }
     
 }

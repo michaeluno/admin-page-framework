@@ -42,7 +42,7 @@ class AdminPageFramework_Property_widget extends AdminPageFramework_Property_Bas
      * @since       3.2.0
      * @var         string
      * @access      public
-     */     
+     */
     public $sClassName = '';
 
     /**
@@ -51,7 +51,7 @@ class AdminPageFramework_Property_widget extends AdminPageFramework_Property_Bas
      * @since 3.2.0
      * @var string
      * @access public
-     */         
+     */
     public $sCallerPath = '';
 
     /**
@@ -73,7 +73,7 @@ class AdminPageFramework_Property_widget extends AdminPageFramework_Property_Bas
      * 
      * @since       3.2.0
      */
-    public $aWidgetArguments = array();    
+    public $aWidgetArguments = array();
 
     /**
      * Determines whether the widget title should be displayed in the front end.
@@ -89,14 +89,14 @@ class AdminPageFramework_Property_widget extends AdminPageFramework_Property_Bas
      * Stores the widget object.
      * 
      * @since       3.5.9
-     */ 
+     */
     public $oWidget;
 
     /**
      * Indicates the action hook to display setting notices.
      * @since       3.7.9
      */
-    public $sSettingNoticeActionHook = '';    
+    public $sSettingNoticeActionHook = '';
     
     /**
      * Stores the action hook name that gets triggered when the form registration is performed.
@@ -106,7 +106,7 @@ class AdminPageFramework_Property_widget extends AdminPageFramework_Property_Bas
      */
     // public $_sFormRegistrationHook = 'admin_enqueue_scripts'; 
     // public $_sFormRegistrationHook = ''; 
-    
+
     /**
      * Sets up properties.
      * @since       3.7.0
@@ -114,16 +114,16 @@ class AdminPageFramework_Property_widget extends AdminPageFramework_Property_Bas
     public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sStructureType ) {
 
         // 3.7.0+
-        $this->_sFormRegistrationHook   = 'load_' . $sClassName; 
+        $this->_sFormRegistrationHook   = 'load_' . $sClassName;
         
         // 3.7.9+ - setting a custom action hook for admin notices prevents the form object from being instantiated unnecessarily.
-        $this->sSettingNoticeActionHook = 'load_' . $sClassName; 
+        $this->sSettingNoticeActionHook = 'load_' . $sClassName;
 
         parent::__construct(
             $oCaller,
             $sCallerPath,
             $sClassName,
-            $sCapability, 
+            $sCapability,
             $sTextDomain,
             $sStructureType
         );

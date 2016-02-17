@@ -18,7 +18,7 @@
  * @subpackage  Widget
  * @internal
  */
-abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget_Router {    
+abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget_Router {
 
     /**
      * Sets up hooks and properties.
@@ -28,7 +28,7 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
      */
     function __construct( $oProp ) {
         
-        parent::__construct( $oProp );   
+        parent::__construct( $oProp );
 
         $this->oUtil->registerAction(
             "set_up_{$this->oProp->sClassName}",
@@ -36,12 +36,12 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
         );
         
         if ( $this->oProp->bIsAdmin ) {
-            add_filter( 
+            add_filter(
                 'validation_' . $this->oProp->sClassName,
                 array( $this, '_replyToSortInputs' ),
                 1,  // set a high priority 
                 3   // number of parameters
-            );            
+            );
         }
         
     }
@@ -52,9 +52,9 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
          * @return      array
          * @callback    filter      validation_{factory class name}
          */
-        public function _replyToSortInputs( $aSubmittedFormData, $aStoredFormData, $oFactory ) {            
+        public function _replyToSortInputs( $aSubmittedFormData, $aStoredFormData, $oFactory ) {
 // @todo examine whether stripslashes_deep() is necessary or not.
-            return $this->oForm->getSortedInputs( $aSubmittedFormData ); 
+            return $this->oForm->getSortedInputs( $aSubmittedFormData );
         }
         
     /**
@@ -81,7 +81,7 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
     // public function validate( $aSubmit, $aStored, $oAdminWidget ) {
         // return $aSubmit;
     // }
-    
+
     /**
      * Gets called after the form element registration is done.
      * 
@@ -96,8 +96,8 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
             return;
         }
         $this->oResource; // triggers `__get()`.
-        
-    }    
+
+    }
     
     /**
      * Registers the widget.
@@ -110,13 +110,13 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
     public function _replyToRegisterWidget() {
         
         global $wp_widget_factory;
-        if ( ! is_object( $wp_widget_factory ) ) { 
-            return; 
+        if ( ! is_object( $wp_widget_factory ) ) {
+            return;
         }
 
-        $wp_widget_factory->widgets[ $this->oProp->sClassName ] = new AdminPageFramework_Widget_Factory( 
-            $this, 
-            $this->oProp->sWidgetTitle, 
+        $wp_widget_factory->widgets[ $this->oProp->sClassName ] = new AdminPageFramework_Widget_Factory(
+            $this,
+            $this->oProp->sWidgetTitle,
             $this->oUtil->getAsArray( $this->oProp->aWidgetArguments )
         );
         

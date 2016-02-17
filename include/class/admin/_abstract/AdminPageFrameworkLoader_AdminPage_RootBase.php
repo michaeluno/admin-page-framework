@@ -24,7 +24,7 @@ abstract class AdminPageFrameworkLoader_AdminPage_RootBase {
         'replyToDoAfterPage',
         'replyToLoadTab',
         'replyToDoTab',
-        'validate',        
+        'validate',
     );
 
     /**
@@ -35,18 +35,18 @@ abstract class AdminPageFrameworkLoader_AdminPage_RootBase {
     public function __call( $sMethodName, $aArguments ) {
         
         if ( in_array( $sMethodName, $this->aMethods ) ) {
-            return isset( $aArguments[ 0 ] ) 
-                ? $aArguments[ 0 ] 
+            return isset( $aArguments[ 0 ] )
+                ? $aArguments[ 0 ]
                 : null;
-        }       
+        }
         
-        trigger_error( 
-            'Admin Page Framework - Loader: ' . ' : ' . sprintf( 
+        trigger_error(
+            'Admin Page Framework - Loader: ' . ' : ' . sprintf(
                 __( 'The method is not defined: %1$s', 'admin-page-framework-loader' ),
-                $sMethodName 
-            ), 
-            E_USER_WARNING 
-        );        
+                $sMethodName
+            ),
+            E_USER_WARNING
+        );
     }
    
     /**

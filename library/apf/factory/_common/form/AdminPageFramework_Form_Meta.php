@@ -35,6 +35,7 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
             }
             $this->unsetDimensionalArrayElement($aInput, $_aDimensionalKeys);
         }
+
         return $aInput;
     }
     private function _updateMetaDatumByFuncitonName($iObjectID, $_vValue, array $aSavedMeta, $_sSectionOrFieldID, $_sFunctionName) {

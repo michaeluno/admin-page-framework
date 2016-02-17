@@ -21,7 +21,7 @@ class AdminPageFramework_Form_View___CSS_FieldError extends AdminPageFramework_F
      * @since       3.7.0
      * @return      string
      */
-    protected function _get() {        
+    protected function _get() {
         return $this->_getFieldErrorRules();
     }
         /**
@@ -48,7 +48,7 @@ class AdminPageFramework_Form_View___CSS_FieldError extends AdminPageFramework_F
   margin-left: 1em;
 }
 CSSRULES;
-        }        
+        }
         
     
 }

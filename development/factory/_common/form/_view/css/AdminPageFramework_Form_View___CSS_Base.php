@@ -42,13 +42,14 @@ class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_Framewo
         $_sCSSRules  = $this->_get() . PHP_EOL;
         $_sCSSRules .= $this->_getVersionSpecific();
         $_sCSSRules .= implode( PHP_EOL, $this->aAdded );
+
         return $_sCSSRules;
         
         // @deprecated      3.7.10      The beautifier script compresses inline CSS rules.
         // return $this->isDebugMode()
             // ? trim( $_sCSSRules )
             // : $this->getCSSMinified( $_sCSSRules );
-    
+
     }
     
         /**

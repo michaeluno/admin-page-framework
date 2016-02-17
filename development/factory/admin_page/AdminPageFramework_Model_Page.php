@@ -34,17 +34,17 @@ abstract class AdminPageFramework_Model_Page extends AdminPageFramework_Controll
      * @return      void
      * @internal
      * @callback    action      load_{page slug}
-     */         
+     */
     public function _replyToFinalizeInPageTabs() {
 
-        if ( ! $this->oProp->isPageAdded() ) { 
-            return; 
+        if ( ! $this->oProp->isPageAdded() ) {
+            return;
         }
 
         foreach( $this->oProp->aPages as $_sPageSlug => $_aPage ) {
             
-            if ( ! isset( $this->oProp->aInPageTabs[ $_sPageSlug ] ) ) { 
-                continue; 
+            if ( ! isset( $this->oProp->aInPageTabs[ $_sPageSlug ] ) ) {
+                continue;
             }
             
             // Format
@@ -56,14 +56,14 @@ abstract class AdminPageFramework_Model_Page extends AdminPageFramework_Controll
             $this->oProp->aInPageTabs[ $_sPageSlug ] = $_oFormatter->get();
          
             // Set the default tab for the page.
-            $this->oProp->aDefaultInPageTabs[ $_sPageSlug ] = $this->_getDefaultInPageTab( 
+            $this->oProp->aDefaultInPageTabs[ $_sPageSlug ] = $this->_getDefaultInPageTab(
                 $_sPageSlug,
                 $this->oProp->aInPageTabs[ $_sPageSlug ]
             );
          
         }
 
-    }     
+    }
         /**
          * @since           3.3.0
          * @deprecated      3.6.3       Use `_replyToFinalizeInPageTabs()` instead.
@@ -80,14 +80,14 @@ abstract class AdminPageFramework_Model_Page extends AdminPageFramework_Controll
          * @since       3.6.0
          */
         private function _getDefaultInPageTab( $sPageSlug, $aInPageTabs ) {
-            foreach( $aInPageTabs as $_aInPageTab ) {                 
-                if ( ! isset( $_aInPageTab[ 'tab_slug' ] ) ) { 
-                    continue; 
-                }                
+            foreach( $aInPageTabs as $_aInPageTab ) {
+                if ( ! isset( $_aInPageTab[ 'tab_slug' ] ) ) {
+                    continue;
+                }
                 // Regardless of whether it's a hidden tab, it is stored as the default in-page tab.
                 return $_aInPageTab[ 'tab_slug' ];
             }
-        }    
+        }
     
     /**
      * @remark      Accessed from the form definition class to determine the section and field capability.
@@ -112,7 +112,7 @@ abstract class AdminPageFramework_Model_Page extends AdminPageFramework_Controll
         return $this->oUtil->getElement(
             $this->oProp->aInPageTabs,
             array( $sPageSlug, $sTabSlug, 'capability' )
-        );            
-    }        
+        );
+    }
         
 }

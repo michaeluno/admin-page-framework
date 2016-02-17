@@ -30,7 +30,7 @@ class APF_Demo_BuiltinFieldTypes_Checklist_Taxonomy {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'taxonomy';        
+    public $sSectionID  = 'taxonomy';
         
     /**
      * Sets up a form section.
@@ -38,7 +38,7 @@ class APF_Demo_BuiltinFieldTypes_Checklist_Taxonomy {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'tab_slug'          => $this->sTabSlug,
@@ -46,18 +46,18 @@ class APF_Demo_BuiltinFieldTypes_Checklist_Taxonomy {
                 'title'             => __( 'Post Type', 'admin-page-framework-loader' ),
                 'description'       => __( 'Post type check lists (custom checkboxes).', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         $_aTaxnomies = get_taxonomies( '', 'names' );
         
         // Fields
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID        
-            array(  
+            array(
                 'field_id'              => 'taxonomy_custom_queries',
                 'title'                 => __( 'Custom Taxonomy Queries', 'admin-page-framework-loader' ),
                 'type'                  => 'taxonomy',
-                'description'           => 
+                'description'           =>
                     array(
                         __( 'With the <code>query</code> argument array, you can customize how the terms should be retrieved.', 'admin-page-framework-loader' ),
                         sprintf( __( 'For the structure and the array key specifications, refer to the parameter section of the <a href="%1$s" target="_blank">get_term()</a> function.', 'admin-page-framework-loader' ), 'http://codex.wordpress.org/Function_Reference/get_terms#Parameters' ),
@@ -83,16 +83,16 @@ class APF_Demo_BuiltinFieldTypes_Checklist_Taxonomy {
                     // taxonomy slug => query argument array
                     'category'  =>  array(
                         'depth'     => 2,
-                        'orderby'   => 'term_id',  
+                        'orderby'   => 'term_id',
                         'order'     => 'DESC',
-                        'exclude'   => array( 1 ), 
+                        'exclude'   => array( 1 ),
                     ),
                     'post_tag'  => array(
                         'orderby'   => 'name',
                         'order'     => 'ASC',
                         // 'include'   => array( 4, ), // term ids
                     ),
-                ), 
+                ),
             ),
             array(
                 'field_id'              => 'taxonomy_multiple_checklists',
@@ -100,12 +100,12 @@ class APF_Demo_BuiltinFieldTypes_Checklist_Taxonomy {
                 'type'                  => 'taxonomy',
                 'taxonomy_slugs'        => $_aTaxnomies,
                 'before_field'          => '<p style="clear:both; font-weight: bold;">' . __( 'For I', 'admin-page-framework-loader' ) . '</p>',
-                array(  
+                array(
                     'before_field' => '<p style="clear:both; font-weight: bold;">' . __( 'For II', 'admin-page-framework-loader' ) . '</p>',
                 ),
-                array(  
+                array(
                     'before_field' => '<p style="clear:both; font-weight: bold;">' . __( 'For III', 'admin-page-framework-loader' ) . '</p>',
-                ),     
+                ),
             ),
             array(
                 'field_id'              => 'taxonomy_checklist_repeatable',
@@ -114,7 +114,7 @@ class APF_Demo_BuiltinFieldTypes_Checklist_Taxonomy {
                 'repeatable'            => true,
                 'taxonomy_slugs'        => $_aTaxnomies,
             )
-        );              
+        );
       
     }
 

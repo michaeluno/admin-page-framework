@@ -31,7 +31,7 @@ class AdminPageFramework_Form_View___CSS_Field extends AdminPageFramework_Form_V
          * @internal
          * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @return      string
-         */    
+         */
         static private function _getFormFieldRules() {
             return <<<CSSRULES
 /* Form Elements */
@@ -194,7 +194,7 @@ td.admin-page-framework-field-td-no-title {
 
 }
 CSSRULES;
-        }   
+        }
 
         /**
          * @since       3.7.0
@@ -232,10 +232,10 @@ CSSRULES;
 }    
 CSSRULES;
    
-            }            
+            }
             
             return $_sCSSRules;
         
-        }        
+        }
     
 }

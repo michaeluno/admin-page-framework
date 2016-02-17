@@ -26,7 +26,7 @@ class AdminPageFramework_PageLoadInfo_network_admin_page extends AdminPageFramew
         if ( is_network_admin() && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 
             add_action( 'in_admin_footer', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 ); // must be loaded after the sub pages are registered
-            
+
         }
         parent::__construct( $oProp, $oMsg );
         
@@ -40,9 +40,9 @@ class AdminPageFramework_PageLoadInfo_network_admin_page extends AdminPageFramew
      */
     public static function instantiate( $oProp, $oMsg ) {
 
-        if ( ! is_network_admin() ) { 
+        if ( ! is_network_admin() ) {
             return;
-        }     
+        }
         
         if ( in_array( $oProp->sClassName, self::$aClassNames ) )
             return self::$_oInstance;
@@ -52,12 +52,12 @@ class AdminPageFramework_PageLoadInfo_network_admin_page extends AdminPageFramew
         
         return self::$_oInstance;
         
-    }     
+    }
     
     /**
      * Sets the hook if the current page is one of the framework's added pages.
      * @internal
-     */ 
+     */
     public function _replyToSetPageLoadInfoInFooter() {
                 
         // For added pages
@@ -65,6 +65,6 @@ class AdminPageFramework_PageLoadInfo_network_admin_page extends AdminPageFramew
             add_filter( 'update_footer', array( $this, '_replyToGetPageLoadInfo' ), 999 );
         }
         
-    }     
+    }
     
 }

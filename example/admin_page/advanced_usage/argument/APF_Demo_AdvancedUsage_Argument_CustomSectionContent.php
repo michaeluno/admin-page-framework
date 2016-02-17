@@ -37,18 +37,18 @@ class APF_Demo_AdvancedUsage_Argument_CustomSectionContent {
      */
     public function __construct( $oFactory ) {
     
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Custom Section Content', 'admin-page-framework-loader' ),
-                'content'       => "<p>" 
+                'content'       => "<p>"
                         . __( 'This is inserted with the <code>content</code> argument.', 'admin-page-framework-loader' )
                     . "</p>",
                 'description'   => __( 'The description part is reserved.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
     }
 

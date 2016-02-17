@@ -5,7 +5,7 @@ use \AcceptanceTester;
  * Bootstrap does not work for including abstract classes.
  * @see     https://github.com/Codeception/Codeception/issues/862
  */
-require_once( dirname( dirname( __FILE__ ) ) . '/_common/Demo_AdminPage_Base.php' );
+require_once dirname( dirname( __FILE__ ) ) . '/_common/Demo_AdminPage_Base.php';
 
 class Demo_BuiltinFieldTypes_Textarea_Cest extends \Demo_AdminPage_Base {
     
@@ -26,7 +26,7 @@ class Demo_BuiltinFieldTypes_Textarea_Cest extends \Demo_AdminPage_Base {
         
         // Check some field values.
         $I->seeInField(
-            ['id' => 'text_fields_text__0'], 
+            ['id' => 'text_fields_text__0'],
             '123456'
         );
         
@@ -36,13 +36,13 @@ class Demo_BuiltinFieldTypes_Textarea_Cest extends \Demo_AdminPage_Base {
 
         // Check some field values.
         $I->seeInField(
-            ['id' => 'text_fields_text__0'], 
+            ['id' => 'text_fields_text__0'],
             '123456'
-        ); 
+        );
         
         // @todo fill the form and confirm values are stored
+
         
-        
-    } 
+    }
         
 }

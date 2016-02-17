@@ -35,7 +35,7 @@ class AdminPageFramework_Form_View___Attribute_Fieldset extends AdminPageFramewo
             'id'            => $this->sContext . '-' . $this->aArguments[ 'tag_id' ],
             'class'         => 'admin-page-framework-' . $this->sContext,
             'data-field_id' => $this->aArguments[ 'tag_id' ], // <-- not sure what this was for...
-        );                    
+        );
     }
            
 }

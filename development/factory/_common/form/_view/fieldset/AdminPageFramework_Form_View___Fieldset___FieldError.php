@@ -28,9 +28,9 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
      */
     public function __construct( /* $aErrors, $sSectionPath, $sFieldPath */ ) {
       
-        $_aParameters = func_get_args() + array( 
-            $this->aErrors, 
-            $this->aSectionPath, 
+        $_aParameters = func_get_args() + array(
+            $this->aErrors,
+            $this->aSectionPath,
             $this->aFieldPath,
             $this->sHeadingMessage,
         );
@@ -38,7 +38,7 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
         $this->aSectionPath    = $_aParameters[ 1 ];
         $this->aFieldPath      = $_aParameters[ 2 ];
         $this->sHeadingMessage = $_aParameters[ 3 ]; // an error message to put before the main error
-        
+
     }
     
     /**
@@ -68,6 +68,7 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
             if ( '_default' === $this->getElement( $aSectionPath, 0 ) ) {
                 array_shift( $aSectionPath );
             }
+
             return $aSectionPath;
         }
         /**
@@ -86,10 +87,11 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
                         . $sHeadingMessage
                         . $this->getElement( $aErrors, $_aErrorPath )
                     . "</span>";
-            }  
+            }
+
             return '';
             
-        }    
+        }
             /**
              * Checks whether the given field has a field error.
              * @internal
@@ -99,7 +101,7 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
              */
             private function _hasFieldError( $aErrors, array $aFieldAddress ) {
                 return is_scalar( $this->getElement( $aErrors, $aFieldAddress ) );
-            }    
+            }
     
     
 }

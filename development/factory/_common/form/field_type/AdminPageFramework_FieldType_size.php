@@ -45,8 +45,8 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
                 'required'      => null,
             ),
             'optgroup'  => array(),
-            'option'    => array(),     
-        ),    
+            'option'    => array(),
+        ),
     );
     
     /**
@@ -73,7 +73,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     */ 
+     */
     protected function getStyles() {
         return <<<CSSRULES
 /* Size Field Type */
@@ -108,20 +108,21 @@ CSSRULES;
     protected function getField( $aField ) {
                 
         // Set the default units.
-        $aField[ 'units' ] = $this->getElement( 
-            $aField, 
-            'units', 
-            $this->aDefaultUnits 
+        $aField[ 'units' ] = $this->getElement(
+            $aField,
+            'units',
+            $this->aDefaultUnits
         );
 
         $_aOutput = array();
         foreach( ( array ) $aField[ 'label' ] as $_isKey => $_sLabel ) {
-            $_aOutput[] = $this->_getFieldOutputByLabel( 
-                $_isKey, 
+            $_aOutput[] = $this->_getFieldOutputByLabel(
+                $_isKey,
                 $_sLabel,
                 $aField
             );
         }
+
         return implode( '', $_aOutput );
                   
         
@@ -141,13 +142,13 @@ CSSRULES;
                         'name'  => $aField[ 'attributes' ][ 'name' ] . "[{$isKey}]",
                         'id'    => $aField[ 'attributes' ][ 'id' ] . "_{$isKey}",
                         'value' => $aField[ 'value' ],
-                    ) 
+                    )
                     + $aField[ 'attributes' ]
                 : $aField[ 'attributes' ];
-            unset( 
-                $_aBaseAttributes[ 'unit' ], 
-                $_aBaseAttributes[ 'size' ] 
-            );            
+            unset(
+                $_aBaseAttributes[ 'unit' ],
+                $_aBaseAttributes[ 'size' ]
+            );
                      
             $_aOutput = array(
                 $this->getElementByLabel( $aField[ 'before_label' ], $isKey, $aField[ 'label' ] ),
@@ -155,9 +156,10 @@ CSSRULES;
                         $this->_getNumberInputPart( $aField, $_aBaseAttributes, $isKey, is_array( $aField[ 'label' ] ) ),  // The size (number) part
                         $this->_getUnitSelectInput( $aField, $_aBaseAttributes, $isKey, is_array( $aField[ 'label' ] ) ),  // The unit (select) part
                     "</div>",
-                $this->getElementByLabel( $aField[ 'after_label' ], $isKey, $aField[ 'label' ] )
+                $this->getElementByLabel( $aField[ 'after_label' ], $isKey, $aField[ 'label' ] ),
             );
-            return implode( '', $_aOutput );                
+
+            return implode( '', $_aOutput );
                 
         }
             /**
@@ -169,8 +171,8 @@ CSSRULES;
             private function _getNumberInputPart( array $aField, array $aBaseAttributes, $isKey, $bMultiLabels ) {
                 
                 // Size and Size Label
-                $_aSizeAttributes       = $this->_getSizeAttributes( 
-                    $aField, 
+                $_aSizeAttributes       = $this->_getSizeAttributes(
+                    $aField,
                     $aBaseAttributes,
                     $bMultiLabels
                         ? $isKey
@@ -179,37 +181,38 @@ CSSRULES;
 
                 $_aSizeLabelAttributes  = array(
                     'for'   => $_aSizeAttributes[ 'id' ],
-                    'class' => $_aSizeAttributes[ 'disabled' ] 
-                        ? 'disabled' 
+                    'class' => $_aSizeAttributes[ 'disabled' ]
+                        ? 'disabled'
                         : null,
-                );                  
+                );
                 
-                $_sLabel                = $this->getElementByLabel( 
-                    $aField[ 'label' ], 
-                    $isKey, 
+                $_sLabel                = $this->getElementByLabel(
+                    $aField[ 'label' ],
+                    $isKey,
                     $aField[ 'label' ]
                 );
+
                 return "<label " . $this->getAttributes( $_aSizeLabelAttributes ) . ">"
-                    . $this->getElement( 
-                        $aField, 
+                    . $this->getElement(
+                        $aField,
                         $bMultiLabels
-                            ? array( 'before_label', $isKey, 'size' ) 
-                            : array( 'before_label', 'size' ) 
+                            ? array( 'before_label', $isKey, 'size' )
+                            : array( 'before_label', 'size' )
                     )
                     . ( $aField['label'] && ! $aField[ 'repeatable' ]
-                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>" 
-                                . $_sLabel 
+                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>"
+                                . $_sLabel
                             . "</span>"
-                        : "" 
+                        : ""
                     )
-                    . "<input " . $this->getAttributes( $_aSizeAttributes ) . " />" 
-                    . $this->getElement( 
-                        $aField, 
+                    . "<input " . $this->getAttributes( $_aSizeAttributes ) . " />"
+                    . $this->getElement(
+                        $aField,
                         $bMultiLabels
-                            ? array( 'after_input', $isKey, 'size' ) 
+                            ? array( 'after_input', $isKey, 'size' )
                             : array( 'after_input', 'size' )
                     )
-                . "</label>";            
+                . "</label>";
                 
             }
             
@@ -222,54 +225,54 @@ CSSRULES;
             private function _getUnitSelectInput( array $aField, array $aBaseAttributes, $isKey, $bMultiLabels ) {
                 
                 // Unit (select input)
-                $_aUnitAttributes = $this->_getUnitAttributes( 
-                    $aField, 
+                $_aUnitAttributes = $this->_getUnitAttributes(
+                    $aField,
                     $aBaseAttributes,
                     $bMultiLabels
                         ? $isKey
-                        : ''                    
+                        : ''
                 );
             
                 $_oUnitInput = new AdminPageFramework_Input_select(
-                    $_aUnitAttributes + array( 
+                    $_aUnitAttributes + array(
                         // the class will use the 'select' key of the attribute array to construct the select input.
-                        'select' => $_aUnitAttributes  
+                        'select' => $_aUnitAttributes,
                     )
                 );
                 $_aLabels = $bMultiLabels
-                    ? $this->getElement( 
-                        $aField, 
+                    ? $this->getElement(
+                        $aField,
                         array( 'units', $isKey ),
                         $aField[ 'units' ]  // default - if the above keys are not set
                     )
                     : $aField[ 'units' ];
                 
-                return "<label " . $this->getAttributes( 
+                return "<label " . $this->getAttributes(
                         array(
                             'for'       => $_aUnitAttributes[ 'id' ],
-                            'class'     => $_aUnitAttributes[ 'disabled' ] 
-                                ? 'disabled' 
-                                : null, 
-                        ) 
-                    ) 
+                            'class'     => $_aUnitAttributes[ 'disabled' ]
+                                ? 'disabled'
+                                : null,
+                        )
+                    )
                     . ">"
-                    . $this->getElement( 
-                        $aField, 
+                    . $this->getElement(
+                        $aField,
                         $bMultiLabels
-                            ? array( 'before_label', $isKey, 'unit' ) 
-                            : array( 'before_label', 'unit' )                                            
+                            ? array( 'before_label', $isKey, 'unit' )
+                            : array( 'before_label', 'unit' )
                     )
                     . $_oUnitInput->get( $_aLabels )
-                    . $this->getElement( 
-                        $aField, 
+                    . $this->getElement(
+                        $aField,
                         $bMultiLabels
-                            ? array( 'after_input', $isKey, 'unit' ) 
-                            : array( 'after_input', 'unit' )                    
+                            ? array( 'after_input', $isKey, 'unit' )
+                            : array( 'after_input', 'unit' )
                     )
                     . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                 . "</label>";
                 
-            }    
+            }
                 /**
                  * Returns an unit attribute array.
                  * @since       3.5.3    
@@ -277,9 +280,9 @@ CSSRULES;
                  */
                 private function _getUnitAttributes( array $aField, array $aBaseAttributes, $isLabelKey='' ) {
                     
-                    $_bIsMultiple    = $aField[ 'is_multiple' ] 
-                        ? true 
-                        : $this->getElement( 
+                    $_bIsMultiple    = $aField[ 'is_multiple' ]
+                        ? true
+                        : $this->getElement(
                             $aField,
                             '' === $isLabelKey
                                 ? array( 'attributes', 'unit', 'multiple' )
@@ -290,29 +293,30 @@ CSSRULES;
                     $_aSelectAttributes = array(
                         'type'      => 'select',
                         'id'        => $aField[ 'input_id' ] . ( '' === $isLabelKey ? '' : '_' . $isLabelKey ) . '_' . 'unit',
-                        'multiple'  => $_bIsMultiple 
-                            ? 'multiple' 
+                        'multiple'  => $_bIsMultiple
+                            ? 'multiple'
                             : null,
-                        'name'      => $_bIsMultiple 
-                            ? "{$aField['_input_name']}" . ( '' === $isLabelKey ? '' : '[' . $isLabelKey . ']' ) . "[unit][]" 
+                        'name'      => $_bIsMultiple
+                            ? "{$aField['_input_name']}" . ( '' === $isLabelKey ? '' : '[' . $isLabelKey . ']' ) . "[unit][]"
                             : "{$aField['_input_name']}" . ( '' === $isLabelKey ? '' : '[' . $isLabelKey . ']' ) . "[unit]",
-                        'value'     => $this->getElement( 
-                            $aField, 
+                        'value'     => $this->getElement(
+                            $aField,
                             array( 'value', 'unit' ),
                             ''
                         ),
                     )
-                    + $this->getElement( 
-                        $aField, 
+                    + $this->getElement(
+                        $aField,
                         '' === $isLabelKey
                             ? array( 'attributes', 'unit' )
                             : array( 'attributes', $isLabelKey, 'unit' ),
-                        $this->aDefaultKeys['attributes']['unit'] 
+                        $this->aDefaultKeys['attributes']['unit']
                     )
-                    + $aBaseAttributes;       
+                    + $aBaseAttributes;
+
                     return $_aSelectAttributes;
                     
-                }        
+                }
  
         
             /**
@@ -331,17 +335,17 @@ CSSRULES;
                             array( 'value', 'size' ),   // dimensional keys
                             ''  // default
                         ),
-                    ) 
+                    )
                     + $this->getElementAsArray(
-                        $aField, 
+                        $aField,
                         '' === $sLabelKey
                             ? array( 'attributes', 'size' )
                             : array( 'attributes', $sLabelKey, 'size' ),
                         $this->aDefaultKeys[ 'attributes' ][ 'size' ]
                     )
-                    + $aBaseAttributes;        
+                    + $aBaseAttributes;
                     
-            }    
+            }
    
         
 }

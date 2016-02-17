@@ -35,6 +35,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
         if (!is_callable($this->aCallbacks['should_show'])) {
             return true;
         }
+
         return call_user_func_array($this->aCallbacks['should_show'], array(true,));
     }
 }

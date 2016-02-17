@@ -25,14 +25,14 @@ class AdminPageFramework_Form_View___Attribute_SectionTable extends AdminPageFra
      * @since       3.6.0
      * @return      array
      */
-    protected function _getAttributes() {    
-        return array( 
+    protected function _getAttributes() {
+        return array(
             'id'    => 'section_table-' . $this->aArguments[ '_tag_id' ], // 'section-' . $sSectionID . '__' . $iSectionIndex
             'class' =>  $this->getClassAttribute(
                 'form-table',
                 'admin-page-framework-section-table'   // referred by the collapsible section script
             ),
         );
-    }      
+    }
     
 }

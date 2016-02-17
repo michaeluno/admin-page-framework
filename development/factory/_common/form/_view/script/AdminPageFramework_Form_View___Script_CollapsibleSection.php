@@ -28,7 +28,7 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
     public function construct() {
 
         wp_enqueue_script( 'juery' );
-        wp_enqueue_script( 'juery-ui-accordion' );    
+        wp_enqueue_script( 'juery-ui-accordion' );
         
     }
 
@@ -42,8 +42,8 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
     static public function getScript( /* $oMsg */ ) {
         
         $_aParams               = func_get_args() + array( null );
-        $_oMsg                  = $_aParams[ 0 ];        
-        $_sToggleAllButtonHTML  = '"' . self::_getToggleAllButtonHTML( $_oMsg ) . '"';                
+        $_oMsg                  = $_aParams[ 0 ];
+        $_sToggleAllButtonHTML  = '"' . self::_getToggleAllButtonHTML( $_oMsg ) . '"';
            
         return <<<JAVASCRIPTS
 ( function( $ ) {
@@ -211,24 +211,25 @@ JAVASCRIPTS;
             
             $_sLabelToggleAll           = $oMsg->get( 'toggle_all' );
             $_sLabelToggleAllSections   = $oMsg->get( 'toggle_all_collapsible_sections' );
-            $_sDashIconSort             = self::getAOrB( 
+            $_sDashIconSort             = self::getAOrB(
                 version_compare( $GLOBALS['wp_version'], '3.8', '<' ),  // evaluate
                 '', // true
                 'dashicons dashicons-sort' // false
-            );         
-            $_sText                     = self::getAOrB( 
+            );
+            $_sText                     = self::getAOrB(
                 $_sDashIconSort, // evaluate
                 '', // true
                 $_sLabelToggleAll // false
             );
+
             return "<div class='admin-page-framework-collapsible-toggle-all-button-container'>"
                     . "<span class='admin-page-framework-collapsible-toggle-all-button button " . $_sDashIconSort . "'"
-                        . " title='" . esc_attr( $_sLabelToggleAllSections ) 
+                        . " title='" . esc_attr( $_sLabelToggleAllSections )
                     . "'>"
                         . $_sText
                     . "</span>"
                 . "</div>";
         
-        }    
+        }
     
 }

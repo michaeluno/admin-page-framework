@@ -48,10 +48,11 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
             if ( $this->oFactory->hasFieldError() ) {
                 return false;
             }
-            return isset( 
-                $_POST[ '__import' ][ 'submit' ], 
-                $_FILES[ '__import' ] 
-            );                   
+
+            return isset(
+                $_POST[ '__import' ][ 'submit' ],
+                $_FILES[ '__import' ]
+            );
         }
         /**
          * Handles importing options.
@@ -65,14 +66,14 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
             
             // Import data are set.
             $_oException = new Exception( 'aReturn' );
-            $_oException->aReturn = $this->_importOptions( 
-                $this->oFactory->oProp->aOptions, 
-                $sPageSlug, 
-                $sTabSlug 
+            $_oException->aReturn = $this->_importOptions(
+                $this->oFactory->oProp->aOptions,
+                $sPageSlug,
+                $sTabSlug
             );
             throw $_oException;
             
-        }      
+        }
             /**
              * Processes importing data.
              * 
@@ -82,7 +83,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
              */
             private function _importOptions( $aStoredOptions, $sPageSlug, $sTabSlug ) {
                 
-                $_oImport           = new AdminPageFramework_ImportOptions( $_FILES[ '__import' ], $_POST[ '__import' ] );      
+                $_oImport           = new AdminPageFramework_ImportOptions( $_FILES[ '__import' ], $_POST[ '__import' ] );
                 $_aArguments        = array(
                     'class_name'        => $this->oFactory->oProp->sClassName,
                     'page_slug'         => $sPageSlug,
@@ -96,14 +97,16 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
                 // Check if there is an upload error.
                 if ( $_oImport->getError() > 0 ) {
                     $this->oFactory->setSettingNotice( $this->oFactory->oMsg->get( 'import_error' ) );
+
                     return $aStoredOptions; // do not change the framework's options.
                 }
             
                 // Check the uploaded file MIME type.
                 $_aMIMEType = $this->_getImportMIMEType( $_aArguments );
                 $_sType     = $_oImport->getType();
-                if ( ! in_array( $_sType, $_aMIMEType ) ) {        
+                if ( ! in_array( $_sType, $_aMIMEType ) ) {
                     $this->oFactory->setSettingNotice( sprintf( $this->oFactory->oMsg->get( 'uploaded_file_type_not_supported' ), $_sType ) );
+
                     return $aStoredOptions;        // do not change the framework's options.
                 }
 
@@ -111,6 +114,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
                 $_mData = $_oImport->getImportData();
                 if ( false === $_mData ) {
                     $this->oFactory->setSettingNotice( $this->oFactory->oMsg->get( 'could_not_load_importing_data' ) );
+
                     return $aStoredOptions; // do not change the framework's options.
                 }
                 
@@ -131,6 +135,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
                         
                 if ( $_sImportOptionKey != $this->oFactory->oProp->sOptionKey ) {
                     update_option( $_sImportOptionKey, $_mData );
+
                     return $aStoredOptions; // do not change the framework's options.
                 }
             
@@ -146,12 +151,12 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
                  * @return      void
                  */
                 private function _setImportAdminNotice( $bEmpty ) {
-                    $this->oFactory->setSettingNotice(  
-                        $bEmpty 
-                            ? $this->oFactory->oMsg->get( 'not_imported_data' ) 
-                            : $this->oFactory->oMsg->get( 'imported_data' ), 
-                        $bEmpty 
-                            ? 'error' 
+                    $this->oFactory->setSettingNotice(
+                        $bEmpty
+                            ? $this->oFactory->oMsg->get( 'not_imported_data' )
+                            : $this->oFactory->oMsg->get( 'imported_data' ),
+                        $bEmpty
+                            ? 'error'
                             : 'updated',
                         $this->oFactory->oProp->sOptionKey, // message id
                         false // do not override 
@@ -163,19 +168,19 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
                  * @since       3.5.3
                  * @return      array       An array holding processable MIME types.       
                  */
-                private function _getImportMIMEType( array $aArguments ) {  
+                private function _getImportMIMEType( array $aArguments ) {
                     return $this->_getFilteredItemForPortByPrefix(
                         'import_mime_types_',
-                        array( 
-                            'text/plain', 
+                        array(
+                            'text/plain',
                             'application/octet-stream', // .json file is dealt as a binary file.
                             'application/json',         // 3.7.0+ some servers cannot upload json files without this
                             'text/html',                // 3.7.2+
                             'application/txt',          // 3.7.2+
-                        ), 
+                        ),
                         $aArguments
-                    ); 
-                }    
+                    );
+                }
                     
                 /**
                  * Returns the import format type.
@@ -189,18 +194,18 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
                         $sFormatType,
                         $aArguments
                     );
-                }            
+                }
                     
                 /**
                  * Returns the import option key.
                  * @since       3.5.3
                  * @internal   
                  * @return      string      The import option key.
-                 */    
+                 */
                 private function _getImportOptionKey( array $aArguments, $sImportOptionKey ) {
                     return $this->_getFilteredItemForPortByPrefix(
                         'import_option_key_',
-                        $sImportOptionKey,    
+                        $sImportOptionKey,
                         $aArguments
                     );
                 }
@@ -211,7 +216,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
                  * @since       3.6.3       Moved from `AdminPageFramework_Form_Model_Import`.
                  * @internal   
                  * @return      string      The filtered import data.
-                 */    
+                 */
                 private function _getFilteredImportData( array $aArguments, $mData, $aStoredOptions, $sFormatType, $sImportOptionKey ) {
                     return $this->addAndApplyFilters(
                         $this->oFactory,
@@ -243,11 +248,11 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
         return $this->addAndApplyFilters(
             $this->oFactory,
             $this->_getPortFilterHookNames( $sPrefix, $aArguments ),
-            $mFilteringValue,    
+            $mFilteringValue,
             $aArguments[ 'pressed_field_id' ],
             $aArguments[ 'pressed_input_id' ],
             $this->oFactory           // 3.4.6+
-        );                
+        );
     }
     /**
      * Returns an array holding the generated filter names by the given prefix.
@@ -261,20 +266,20 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
         
         return array(
             $sPrefix . $aArguments[ 'class_name' ] . '_' . $aArguments[ 'pressed_input_id' ],
-            $aArguments[ 'section_id' ] 
+            $aArguments[ 'section_id' ]
                 ? $sPrefix . $aArguments[ 'class_name' ] . '_' . $aArguments[ 'section_id' ] .'_' . $aArguments[ 'pressed_field_id' ]
                 : $sPrefix . $aArguments[ 'class_name' ] . '_' . $aArguments[ 'pressed_field_id' ],
-            $aArguments[ 'section_id' ] 
-                ? $sPrefix . $aArguments[ 'class_name' ] . '_' . $aArguments[ 'section_id' ] 
+            $aArguments[ 'section_id' ]
+                ? $sPrefix . $aArguments[ 'class_name' ] . '_' . $aArguments[ 'section_id' ]
                 : null,
-            $aArguments[ 'tab_slug' ] 
+            $aArguments[ 'tab_slug' ]
                 ? $sPrefix . $aArguments[ 'page_slug' ] . '_' . $aArguments[ 'tab_slug' ]
                 : null,
             $sPrefix . $aArguments[ 'page_slug' ],
-            $sPrefix . $aArguments[ 'class_name' ]
-        );            
+            $sPrefix . $aArguments[ 'class_name' ],
+        );
         
-    }        
+    }
 
      
 }

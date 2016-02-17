@@ -21,10 +21,12 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
     }
     public function _getScreenIDOfPage($sPageSlug) {
         $_oAdminPage = $this->_getOwnerObjectOfPage($sPageSlug);
+
         return $_oAdminPage ? $_oAdminPage->oProp->aPages[$sPageSlug]['_page_hook'] . (is_network_admin() ? '-network' : '') : '';
     }
     public function isPageAdded($sPageSlug = '') {
         $_oAdminPage = $this->_getOwnerObjectOfPage($sPageSlug);
+
         return $_oAdminPage ? $_oAdminPage->oProp->isPageAdded($sPageSlug) : false;
     }
     public function isCurrentTab($sTabSlug) {
@@ -33,6 +35,7 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
             return false;
         }
         $_sCurrentTabSlug = $this->getElement($_GET, 'tab', $this->getDefaultInPageTab($_sCurrentPageSlug));
+
         return ($sTabSlug === $_sCurrentTabSlug);
     }
     public function getCurrentPageSlug() {
@@ -40,6 +43,7 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
     }
     public function getCurrentTabSlug($sPageSlug) {
         $_oAdminPage = $this->_getOwnerObjectOfPage($sPageSlug);
+
         return $_oAdminPage ? $_oAdminPage->oProp->getCurrentTabSlug($sPageSlug) : '';
     }
     public function getCurretTab($sPageSlug) {
@@ -49,12 +53,14 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
         if (!$sPageSlug) {
             return '';
         }
+
         return ($_oAdminPage = $this->_getOwnerObjectOfPage($sPageSlug)) ? $_oAdminPage->oProp->getDefaultInPageTab($sPageSlug) : '';
     }
     public function getOptionKey($sPageSlug) {
         if (!$sPageSlug) {
             return '';
         }
+
         return ($_oAdminPage = $this->_getOwnerObjectOfPage($sPageSlug)) ? $_oAdminPage->oProp->sOptionKey : '';
     }
     private function _getOwnerObjectOfPage($sPageSlug) {
@@ -64,6 +70,7 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
                 return $_oAdminPage;
             }
         }
+
         return null;
     }
     public function __get($sName) {
@@ -72,12 +79,15 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
             if (is_object($this->oAdminPage)) {
                 $this->oAdminPage->oProp->bEnableForm = true;
             }
+
             return $this->oAdminPage;
         }
         if ('aHelpTabs' == $sName) {
             $this->aHelpTabs = $this->oAdminPage->oProp->aHelpTabs;
+
             return $this->aHelpTabs;
         }
+
         return parent::__get($sName);
     }
 }

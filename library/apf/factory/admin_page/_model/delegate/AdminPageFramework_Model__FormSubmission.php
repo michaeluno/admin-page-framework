@@ -14,8 +14,10 @@ abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFr
             if (null === $this->getElement($_POST, $_aNameKeys, null)) {
                 continue;
             }
+
             return $this->getElement($_aSubElements, $sTargetKey, null);
         }
+
         return null;
     }
     protected function _setSettingNoticeAfterValidation($bIsInputEmtpy) {
@@ -67,17 +69,21 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
         }
         if (!isset($_POST['_is_admin_page_framework'], $_POST['page_slug'], $_POST['tab_slug'])) {
             $this->oFactory->setAdminNotice(sprintf($this->oFactory->oMsg->get('check_max_input_vars'), function_exists('ini_get') ? ini_get('max_input_vars') : 'unknown', count($_POST, COUNT_RECURSIVE)));
+
             return false;
         }
         $_sNonceTransientKey = 'form_' . md5($this->oFactory->oProp->sClassName . get_current_user_id());
         if ($_POST['_is_admin_page_framework'] !== $this->getTransient($_sNonceTransientKey)) {
             $this->oFactory->setAdminNotice($this->oFactory->oMsg->get('nonce_verification_failed'));
+
             return false;
         }
+
         return true;
     }
     private function _getUserInputsFromPOST() {
         $_aInputs = $this->getElementAsArray($_POST, $this->oFactory->oProp->sOptionKey, array());
+
         return $this->oFactory->oForm->getSubmittedData($_aInputs, false);
     }
     private function _doActions_submit($_aInputs, $_aOptions, $_sPageSlug, $_sTabSlug, $_sSubmitSectionID, $_sPressedFieldID, $_sPressedInputID) {
@@ -96,6 +102,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
             unset($aStatus['field_errors']);
             $_aRemoveQueries[] = 'field_errors';
         }
+
         return $this->addAndApplyFilters($this->oFactory, array("setting_update_url_{$this->oFactory->oProp->sClassName}",), $this->getQueryURL($aStatus, $_aRemoveQueries, $_SERVER['REQUEST_URI']));
     }
     private function _removePageElements($aOptions, $sPageSlug, $sTabSlug) {
@@ -105,6 +112,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
         if ($sTabSlug && $sPageSlug) {
             return $this->oFactory->oForm->getOtherTabOptions($aOptions, $sPageSlug, $sTabSlug);
         }
+
         return $this->oFactory->oForm->getOtherPageOptions($aOptions, $sPageSlug);
     }
 }

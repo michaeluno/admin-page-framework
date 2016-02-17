@@ -20,6 +20,7 @@ class AdminPageFramework_Form_View___Description extends AdminPageFramework_Fram
         foreach ($this->aDescriptions as $_sDescription) {
             $_aOutput[] = "<p class='" . esc_attr($this->sClassAttribute) . "'>" . "<span class='description'>" . $_sDescription . "</span>" . "</p>";
         }
+
         return implode(PHP_EOL, $_aOutput);
     }
 }

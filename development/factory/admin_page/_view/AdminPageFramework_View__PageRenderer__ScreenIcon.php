@@ -33,7 +33,7 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
         $this->sPageSlug        = $sPageSlug;
         $this->sTabSlug         = $sTabSlug;
         
-    }   
+    }
     
     /**
      * Returns the screen icon output.
@@ -44,6 +44,7 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
         if ( ! $this->_isScreenIconVisible() ) {
             return '';
         }
+
         return $this->_getScreenIcon( $this->sPageSlug );
         
     }
@@ -59,12 +60,12 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
             );
             if ( $_bShowPageTitle ) {
                 return true;
-            }          
+            }
             
             $_bShowPageHeadingTabs = $this->getElement(
                 $this->oFactory->oProp->aPages,
                 array( $this->sPageSlug, 'show_page_heading_tabs' )
-            );  
+            );
             if ( $_bShowPageHeadingTabs ) {
                 return true;
             }
@@ -72,23 +73,23 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
             $_bShowInPageTabs = $this->getElement(
                 $this->oFactory->oProp->aPages,
                 array( $this->sPageSlug, 'show_in_page_tabs' )
-            );            
+            );
             if ( $_bShowInPageTabs ) {
                 return true;
-            }            
+            }
             
             $_bShowInPageTab = $this->getElementAsArray(
                 $this->oFactory->oProp->aInPageTabs,
                 array( $this->sPageSlug, $this->sTabSlug, 'show_in_page_tab' ),
                 false
-            );        
+            );
             $_sInPageTabTitle = $this->getElement(
                 $this->oFactory->oProp->aInPageTabs,
                 array( $this->sPageSlug, $this->sTabSlug, 'title' )
-            );            
+            );
             if ( $_bShowInPageTab && $_sInPageTabTitle ) {
                 return true;
-            }            
+            }
                 
         }
 
@@ -100,13 +101,13 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
      * @since       3.3.1       Moved from `AdminPageFramework_Page`.
      * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
      * @return      string      The screen icon HTML output.
-     */     
+     */
     private function _getScreenIcon( $sPageSlug ) {
 
         try {
             $this->_throwScreenIconByURLOrPath( $sPageSlug );
-            $this->_throwScreenIconByID( $sPageSlug );             
-        } 
+            $this->_throwScreenIconByID( $sPageSlug );
+        }
         
         // If the user sets a screen icon, this code block will be triggered 
         // and the exception message contains the custom screen icon output.
@@ -134,21 +135,21 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
             if ( ! $_sScreenIconPath ) {
                 return;
             }
-            $_sScreenIconPath = $this->getResolvedSRC( 
-                $_sScreenIconPath, 
-                true 
+            $_sScreenIconPath = $this->getResolvedSRC(
+                $_sScreenIconPath,
+                true
             );
             $_aAttributes = array(
                 'style'    => $this->generateInlineCSS(
                     array(
-                        'background-image' => "url('" . esc_url( $_sScreenIconPath ) . "')"
+                        'background-image' => "url('" . esc_url( $_sScreenIconPath ) . "')",
                     )
-                )
+                ),
             );
             
             // Go to the catch clause.
-            throw new Exception( 
-                $this->_getScreenIconByAttributes( $_aAttributes ) 
+            throw new Exception(
+                $this->_getScreenIconByAttributes( $_aAttributes )
             );
         
         }
@@ -174,18 +175,18 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
             );
             
             // Go to the catch clause.
-            throw new Exception( 
-                $this->_getScreenIconByAttributes( $_aAttributes ) 
-            );                      
+            throw new Exception(
+                $this->_getScreenIconByAttributes( $_aAttributes )
+            );
         
-        }   
+        }
         /**
          * Throws a default screen icon output.
          * @since       3.5.3
          * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
          * @return      string      
          */
-        private function _getDefaultScreenIcon() {            
+        private function _getDefaultScreenIcon() {
 
             $_oScreen           = get_current_screen();
             $_sIconIDAttribute  = $this->_getScreenIDAttribute( $_oScreen );
@@ -202,26 +203,28 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
                         ''
                     )
                 ),
-                'id'       => "icon-" . $_sIconIDAttribute,                
+                'id'       => "icon-" . $_sIconIDAttribute,
             );
+
             return $this->_getScreenIconByAttributes( $_aAttributes );
         
-        }           
+        }
             /**
              * Retrieves the screen ID attribute from the given screen object.
              * 
              * @since       2.0.0
              * @since       3.3.1       Moved from `AdminPageFramework_Page`.
              * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
-             */     
+             */
             private function _getScreenIDAttribute( $oScreen ) {
                 
                 if ( ! empty( $oScreen->parent_base ) ) {
                     return $oScreen->parent_base;
                 }
                 if ( 'page' === $oScreen->post_type ) {
-                    return 'edit-pages';     
+                    return 'edit-pages';
                 }
+
                 return esc_attr( $oScreen->base );
                 
             }
@@ -236,15 +239,16 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
              */
             private function _getScreenIconByAttributes( array $aAttributes ) {
                 
-                $aAttributes[ 'class' ] = $this->getClassAttribute( 
+                $aAttributes[ 'class' ] = $this->getClassAttribute(
                     'icon32',   // required for a screen icon container element.
                     $this->getElement( $aAttributes, 'class' )
                 );
+
                 return "<div " . $this->getAttributes( $aAttributes ) . ">"
                         . "<br />"
                     . "</div>";
                 
-            }                
+            }
 
 
                 

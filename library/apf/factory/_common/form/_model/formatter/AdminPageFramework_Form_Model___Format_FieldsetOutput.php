@@ -34,6 +34,7 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
         $_aFieldset['_nested_depth'] = count($_aFieldset['_field_path_array']) - 1;
         $_aFieldset['order'] = $this->getAOrB(is_numeric($_aFieldset['order']), $_aFieldset['order'], $this->iCountOfElements + 10);
         $_aFieldset['class'] = $this->getAsArray($_aFieldset['class']);
+
         return $_aFieldset;
     }
 }
@@ -64,6 +65,7 @@ class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFra
         $_aFieldset['_field_address'] = $_oFieldAddressGenerator->get();
         $_aFieldset['_field_address_model'] = $_oFieldAddressGenerator->getModel();
         $_aFieldset = $this->_getMergedFieldTypeDefault($_aFieldset, $this->aFieldTypeDefinitions);
+
         return $_aFieldset;
     }
     private function _getMergedFieldTypeDefault(array $aFieldset, array $aFieldTypeDefinitions) {

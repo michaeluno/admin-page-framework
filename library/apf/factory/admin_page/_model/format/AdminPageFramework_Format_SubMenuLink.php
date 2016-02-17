@@ -23,6 +23,7 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
         $aSubMenuPage = $aSubMenuPage + array('show_page_title' => $this->oFactory->oProp->bShowPageTitle, 'show_page_heading_tabs' => $this->oFactory->oProp->bShowPageHeadingTabs, 'show_in_page_tabs' => $this->oFactory->oProp->bShowInPageTabs, 'in_page_tab_tag' => $this->oFactory->oProp->sInPageTabTag, 'page_heading_tab_tag' => $this->oFactory->oProp->sPageHeadingTabTag, 'capability' => $this->oFactory->oProp->sCapability,) + self::$aStructure;
         $aSubMenuPage['page_slug'] = $this->sanitizeSlug($aSubMenuPage['page_slug']);
         $aSubMenuPage['screen_icon_id'] = trim($aSubMenuPage['screen_icon_id']);
+
         return array('href_icon_32x32' => $aSubMenuPage['screen_icon'], 'screen_icon_id' => $this->getAOrB(in_array($aSubMenuPage['screen_icon'], self::$aScreenIconIDs), $aSubMenuPage['screen_icon'], 'generic'), 'capability' => $this->getElement($aSubMenuPage, 'capability', $this->oFactory->oProp->sCapability), 'order' => $this->getAOrB(is_numeric($aSubMenuPage['order']), $aSubMenuPage['order'], $this->iParsedIndex * 10),) + $aSubMenuPage;
     }
 }
@@ -44,6 +45,7 @@ class AdminPageFramework_Format_SubMenuLink extends AdminPageFramework_Format_Su
         if (!filter_var($aSubMenuLink['href'], FILTER_VALIDATE_URL)) {
             return array();
         }
+
         return array('capability' => $this->getElement($aSubMenuLink, 'capability', $this->oFactory->oProp->sCapability), 'order' => isset($aSubMenuLink['order']) && is_numeric($aSubMenuLink['order']) ? $aSubMenuLink['order'] : $this->iParsedIndex * 10,) + $aSubMenuLink + self::$aStructure;
     }
 }

@@ -27,19 +27,19 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
         // This is important to set the hooks before the parent constructor 
         // as the setUp wil be called in there if the default action hook (current_screen) is already triggered.
         add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToSetUpHooks' ) );
-        add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToSetUpValidationHooks' ) );                
+        add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToSetUpValidationHooks' ) );
                 
-        parent::__construct( 
-            $sMetaBoxID, 
-            $sTitle, 
-            $asPostTypeOrScreenID, 
-            $sContext, 
-            $sPriority, 
-            $sCapability, 
-            $sTextDomain 
+        parent::__construct(
+            $sMetaBoxID,
+            $sTitle,
+            $asPostTypeOrScreenID,
+            $sContext,
+            $sPriority,
+            $sCapability,
+            $sTextDomain
         );
                 
-    }    
+    }
     
     /**
      * Sets up hooks after calling the `setUp()` method.
@@ -66,22 +66,22 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
     public function _replyToSetUpValidationHooks( $oScreen ) {
 
         if ( 'attachment' === $oScreen->post_type && in_array( 'attachment', $this->oProp->aPostTypes ) ) {
-            add_filter( 
-                'wp_insert_attachment_data', 
-                array( $this, '_replyToFilterSavingData' ), 
-                10, 
-                2 
+            add_filter(
+                'wp_insert_attachment_data',
+                array( $this, '_replyToFilterSavingData' ),
+                10,
+                2
             );
         } else {
-            add_filter( 
-                'wp_insert_post_data', 
-                array( $this, '_replyToFilterSavingData' ), 
-                10, 
-                2 
+            add_filter(
+                'wp_insert_post_data',
+                array( $this, '_replyToFilterSavingData' ),
+                10,
+                2
             );
         }
     
-    }    
+    }
     
     /**
      * A validation callback method.
@@ -95,7 +95,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
     // public function validate( $aInput, $aOldInput, $oFactory ) {
         // return $aInput;
     // }         
-        
+
     /**
      * Adds the defined meta box.
      * 
@@ -105,10 +105,10 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * @uses        add_meta_box()
      * @return      void
      * @callback    action      add_meta_boxes
-     */ 
+     */
     public function _replyToRegisterMetaBoxes() {
         foreach( $this->oProp->aPostTypes as $sPostType ) {
-            add_meta_box( 
+            add_meta_box(
                 $this->oProp->sMetaBoxID,                       // id
                 $this->oProp->sTitle,                           // title
                 array( $this, '_replyToPrintMetaBoxContents' ), // callback
@@ -117,8 +117,8 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
                 $this->oProp->sPriority,                        // priority
                 null                                            // argument - deprecated $this->oForm->aFields
             );
-        }      
-    }     
+        }
+    }
 
     /**
      * Called when the form object tries to set the form data from the database.
@@ -133,7 +133,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
         $_oMetaData = new AdminPageFramework_MetaBox_Model___PostMeta(
             $this->_getPostID(),
             $this->oForm->aFieldsets
-        );        
+        );
         $this->oProp->aOptions = $_oMetaData->get();
         
         // The parent method will handle applying filters with the set property object.
@@ -159,6 +159,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             if ( isset( $_POST[ 'post_ID' ] ) ) {
                 return $_POST[ 'post_ID' ];
             }
+
             return 0;
             
         }
@@ -178,8 +179,8 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
     public function _replyToFilterSavingData( $aPostData, $aUnmodified ) {
 
         // Perform initial checks.
-        if ( ! $this->_shouldProceedValidation( $aUnmodified ) ) { 
-            return $aPostData; 
+        if ( ! $this->_shouldProceedValidation( $aUnmodified ) ) {
+            return $aPostData;
         }
                 
         // Retrieve the submitted data. 
@@ -189,42 +190,42 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             false       // strip slashes
         );
         $_aInputsRaw    = $_aInputs; // store one for the last input array.
-        
+
         // Prepare the saved data. For a new post, the id is set to 0.
-        $_iPostID       = $aUnmodified[ 'ID' ];  
-        $_aSavedMeta    = $this->oUtil->getSavedPostMetaArray( 
-            $_iPostID, 
+        $_iPostID       = $aUnmodified[ 'ID' ];
+        $_aSavedMeta    = $this->oUtil->getSavedPostMetaArray(
+            $_iPostID,
             array_keys( $_aInputs )
         );
         
         // Apply filters to the array of the submitted values.
-        $_aInputs = $this->oUtil->addAndApplyFilters( 
-            $this, 
+        $_aInputs = $this->oUtil->addAndApplyFilters(
+            $this,
             "validation_{$this->oProp->sClassName}",
-            call_user_func_array( 
+            call_user_func_array(
                 array( $this, 'validate' ), // triggers __call()
-                array( $_aInputs, $_aSavedMeta, $this ) 
+                array( $_aInputs, $_aSavedMeta, $this )
             ), // 3.5.3+            
-            $_aSavedMeta, 
-            $this 
-        ); 
+            $_aSavedMeta,
+            $this
+        );
  
         // If there are validation errors. Change the post status to 'pending'.
         if ( $this->hasFieldError() ) {
             $this->setLastInputs( $_aInputsRaw );
             $aPostData[ 'post_status' ] = 'pending';
-            add_filter( 
-                'redirect_post_location', 
+            add_filter(
+                'redirect_post_location',
                 array( $this, '_replyToModifyRedirectPostLocation' )
             );
         }
                     
-        $this->oForm->updateMetaDataByType( 
+        $this->oForm->updateMetaDataByType(
             $_iPostID,   // object id
             $_aInputs,   // user submit form data
             $this->oForm->dropRepeatableElements( $_aSavedMeta ), // Drop repeatable section elements from the saved meta array.
             $this->oForm->sStructureType   // fields type
-        );        
+        );
         
         return $aPostData;
         
@@ -243,19 +244,20 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          */
         public function _replyToModifyRedirectPostLocation( $sLocation ) {
 
-            remove_filter( 
-                'redirect_post_location', 
-                array( $this, __FUNCTION__ ) 
+            remove_filter(
+                'redirect_post_location',
+                array( $this, __FUNCTION__ )
             );
+
             return add_query_arg(
-                array( 
-                    'message'       => 'apf_field_error', 
-                    'field_errors'  => true
-                ), 
-                $sLocation 
+                array(
+                    'message'       => 'apf_field_error',
+                    'field_errors'  => true,
+                ),
+                $sLocation
             );
             
-        }        
+        }
             
         /**
          * Checks whether the function call of processing submitted field values is valid or not.
@@ -268,12 +270,12 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          */
         private function _shouldProceedValidation( array $aUnmodified ) {
             
-            if ( 'auto-draft' === $aUnmodified[ 'post_status' ] ) { 
-                return false; 
-            }            
+            if ( 'auto-draft' === $aUnmodified[ 'post_status' ] ) {
+                return false;
+            }
             
             // Bail if we're doing an auto save
-            if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { 
+            if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
                 return false;
             }
      
@@ -287,10 +289,10 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             
             if ( ! in_array( $aUnmodified[ 'post_type' ], $this->oProp->aPostTypes ) ) {
                 return false;
-            }              
+            }
             
             return current_user_can( $this->oProp->sCapability, $aUnmodified[ 'ID' ] );
             
-        }            
+        }
     
 }

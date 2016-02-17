@@ -37,20 +37,24 @@ if (!class_exists('AdminPageFramework_Registry', false)):
         }
         static private function _getClassFilePathList($sInclusionClassListPath) {
             $aClassFiles = array();
-            include ($sInclusionClassListPath);
+            include $sInclusionClassListPath;
+
             return $aClassFiles;
         }
         static public function getVersion() {
             if (!isset(self::$sAutoLoaderPath)) {
                 trigger_error('Admin Page Framework: ' . ' : ' . sprintf(__('The method is called too early. Perform <code>%2$s</code> earlier.', 'admin-page-framework'), __METHOD__, 'setUp()'), E_USER_WARNING);
+
                 return self::VERSION;
             }
             $_aMinifiedVesionSuffix = array(0 => '', 1 => '.min',);
             $_aDevelopmentVersionSuffix = array(0 => '', 1 => '.dev',);
+
             return self::VERSION . $_aMinifiedVesionSuffix[( integer )self::$bIsMinifiedVersion] . $_aDevelopmentVersionSuffix[( integer )self::$bIsDevelopmentVersion];
         }
         static public function getInfo() {
             $_oReflection = new ReflectionClass(__CLASS__);
+
             return $_oReflection->getConstants() + $_oReflection->getStaticProperties();
         }
     }
@@ -73,10 +77,11 @@ if (!class_exists('AdminPageFramework_Bootstrap', false)):
                 return false;
             }
             self::$_bLoaded = true;
+
             return defined('ABSPATH');
         }
         private function _include() {
-            include (AdminPageFramework_Registry::$sAutoLoaderPath);
+            include AdminPageFramework_Registry::$sAutoLoaderPath;
             new AdminPageFramework_RegisterClasses('', array('exclude_class_names' => array('AdminPageFramework_MinifiedVersionHeader', 'AdminPageFramework_BeautifiedVersionHeader',),), AdminPageFramework_Registry::$aClassFiles);
             self::$_bXDebug = isset(self::$_bXDebug) ? self::$_bXDebug : extension_loaded('xdebug');
             if (self::$_bXDebug) {

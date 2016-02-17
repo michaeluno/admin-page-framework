@@ -24,7 +24,7 @@ class AdminPageFramework_Form_View___Attribute_Field extends AdminPageFramework_
      * 
      * @since       3.6.0
      */
-    public $sContext    = 'field'; 
+    public $sContext    = 'field';
 
     /**
      * Returns the field container attribute array.
@@ -54,7 +54,7 @@ class AdminPageFramework_Form_View___Attribute_Field extends AdminPageFramework_
                     $this->aArguments[ '_is_sub_field' ],
                     ' admin-page-framework-subfield',
                     ''
-                ) 
+                ),
         );
         
     }

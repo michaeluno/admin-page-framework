@@ -49,11 +49,11 @@ class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFrame
          * @return      array       Returns the filtered validated inputs to be saved in the options table.
          * @internal
          * @callback        filter      validation_pre_{class name}
-         */ 
+         */
         public function _replyToValiateUserFormInputs( $aInputs, $aRawInputs, $aOptions, $oFactory ) {
             
             // No need to retrieve the default tab slug here because it is an embedded value that is already set in the previous page load. 
-            $_sTabSlug          = $this->getElement( $_POST, 'tab_slug', '' );   
+            $_sTabSlug          = $this->getElement( $_POST, 'tab_slug', '' );
             $_sPageSlug         = $this->getElement( $_POST, 'page_slug', '' );
             
             $_aSubmits          = $this->getElementAsArray( $_POST, '__submit', array() );
@@ -64,7 +64,7 @@ class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFrame
             $_aSubmitsInformation        = array(
                 'page_slug'     => $_sPageSlug,
                 'tab_slug'      => $_sTabSlug,
-                'input_id'      => $this->_getPressedSubmitButtonData( $_aSubmits, 'input_id' ), 
+                'input_id'      => $this->_getPressedSubmitButtonData( $_aSubmits, 'input_id' ),
                 'section_id'    => $_sSubmitSectionID,
                 'field_id'      => $this->_getPressedSubmitButtonData( $_aSubmits, 'field_id' ),
                 'input_name'    => $_sPressedInputName, // 3.6.3+ note that this value may not be accurate for fields with nested input tags.
@@ -100,13 +100,13 @@ class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFrame
                     $_aSubmits,
                     $_aSubmitsInformation,
                     $this->oFactory
-                );                       
+                );
 
                 $_oFormSubmissionFilter = new AdminPageFramework_Model__FormSubmission__Validator__Filter(
                     $this->oFactory,
-                    $aInputs, 
-                    $aRawInputs, 
-                    $aOptions, 
+                    $aInputs,
+                    $aRawInputs,
+                    $aOptions,
                     $_aSubmitsInformation   // 3.5.0+
                 );
                 $aInputs = $_oFormSubmissionFilter->get();
@@ -119,7 +119,7 @@ class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFrame
                     $_aSubmits,
                     $_aSubmitsInformation,
                     $this->oFactory
-                );                
+                );
         
             } catch ( Exception $_oException ) {
                 
@@ -127,18 +127,20 @@ class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFrame
                 $_sPropertyName = $_oException->getMessage();
                 if ( isset( $_oException->$_sPropertyName ) ) {
                     $this->_setSettingNoticeAfterValidation( empty( $_oException->{$_sPropertyName} ) );
+
                     return $_oException->{$_sPropertyName};
                 }
                 
                 // If not set, return an empty array.
                 return array();
 
-            }           
+            }
 
             // Admin Notice & Return     
-            $this->_setSettingNoticeAfterValidation( empty( $aInputs ) );  
+            $this->_setSettingNoticeAfterValidation( empty( $aInputs ) );
+
             return $aInputs;
             
-        }   
+        }
 
 }

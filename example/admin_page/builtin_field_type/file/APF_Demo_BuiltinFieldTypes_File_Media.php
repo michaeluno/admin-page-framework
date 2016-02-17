@@ -38,7 +38,7 @@ class APF_Demo_BuiltinFieldTypes_File_Media {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
@@ -47,17 +47,17 @@ class APF_Demo_BuiltinFieldTypes_File_Media {
                 'tip'           => __( 'If <code>repeatable</code> is set to <code>true</code>, you can select multiple items in the pop up media uploader.', 'admin-page-framework-loader' ),
                 'description'   => __( 'Upload binary files in addition to images.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         // Fields
-        $oFactory->addSettingFields(   
+        $oFactory->addSettingFields(
             $this->sSectionID,
             array( // Media File
                 'field_id'              => 'media_field',
                 'title'                 => __( 'Media File', 'admin-page-framework-loader' ),
                 'type'                  => 'media',
                 'allow_external_source' => false,
-            ),    
+            ),
             array( // Media File with Attributes
                 'field_id'              => 'media_with_attributes',
                 'title'                 => __( 'Media File with Attributes', 'admin-page-framework-loader' ),
@@ -70,14 +70,14 @@ class APF_Demo_BuiltinFieldTypes_File_Media {
                     'remove_button' => array(      // 3.2.0+
                         'data-label' => __( 'Remove', 'admin-page-framework-loader' ), // will set the Remove button label instead of the dashicon
                     ),
-                ),        
-            ),     
+                ),
+            ),
             array( // Repeatable Media Files
                 'field_id'              => 'media_repeatable_fields',
                 'title'                 => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'                  => 'media',
                 'repeatable'            => true,
-            ),     
+            ),
             array( // Sortable Media Files
                 'field_id'              => 'media_sortable_fields',
                 'title'                 => __( 'Sortable', 'admin-page-framework-loader' ),

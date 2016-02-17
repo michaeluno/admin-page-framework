@@ -25,10 +25,10 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
      */
     public function __construct( /* $aFieldsets */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aFieldsets, 
+        $_aParameters = func_get_args() + array(
+            $this->aFieldsets,
         );
-        $this->aFieldsets  = $_aParameters[ 0 ];                    
+        $this->aFieldsets  = $_aParameters[ 0 ];
         
     }
 
@@ -77,10 +77,11 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
         $_aResult = $this->_getDefaultValues(
             $this->aFieldsets,
             array()
-        ); 
+        );
+
         return $_aResult;
         
-    }    
+    }
         /**
          * @return      array
          */
@@ -91,18 +92,19 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
                 $_aSectionPath   = explode( '|', $_sSectionPath );
                 foreach( $_aItems as $_sFieldPath => $_aFieldset ) {
                     $_aFieldPath = explode( '|', $_sFieldPath );
-                    $this->setMultiDimensionalArray( 
+                    $this->setMultiDimensionalArray(
                         $aDefaultOptions,  // by reference
                         '_default' === $_sSectionPath
                             ? array( $_sFieldPath )
                             : array_merge( $_aSectionPath, $_aFieldPath ), // key address
                             // : array( $_sSectionID, $_sFieldPath ), // key address
                         $this->_getDefautValue( $_aFieldset )   // the value to set
-                    );                    
+                    );
                         
-                }                
+                }
                 
             }
+
             return $aDefaultOptions;
         }
 
@@ -162,7 +164,7 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
             $_aDefault = array();
             array_unshift( $_aSubFields, $aFieldset ); // insert the main field into the very first index.
             foreach( $_aSubFields as $_iIndex => $_aField ) {
-                $_aDefault[ $_iIndex ] = $this->getElement( 
+                $_aDefault[ $_iIndex ] = $this->getElement(
                     $_aField,   // subject
                     'value',    // key
                     $this->getElement(   // default value
@@ -170,10 +172,11 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
                         'default',  // key
                         null        // default value
                     )
-                ); 
+                );
             }
+
             return $_aDefault;
             
-        }            
+        }
 
 }

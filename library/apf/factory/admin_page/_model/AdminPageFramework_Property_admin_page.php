@@ -62,6 +62,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
         if (in_array($_sType, array('integer'))) {
             return 'apf_' . $sClassName . '_' . get_current_user_id();
         }
+
         return $aisOptionKey;
     }
     private function _getOptionType($aisOptionKey) {
@@ -71,6 +72,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
         if (!is_admin()) {
             return false;
         }
+
         return isset($_GET['page']);
     }
     protected function _getOptions() {
@@ -89,6 +91,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
         if ($this->_bDisableSavingOptions) {
             return false;
         }
+
         return $this->_updateOptionsByType(null !== $aOptions ? $aOptions : $this->aOptions, $this->sOptionType);
     }
     private function _updateOptionsByType($aOptions, $sOptionType) {
@@ -103,6 +106,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
     public function isPageAdded($sPageSlug = '') {
         $sPageSlug = trim($sPageSlug);
         $sPageSlug = $sPageSlug ? $sPageSlug : $this->getCurrentPageSlug();
+
         return isset($this->aPages[$sPageSlug]);
     }
     public function getCurrentPageSlug() {
@@ -114,6 +118,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
             return $_sTabSlug;
         }
         $sCurrentPageSlug = $sCurrentPageSlug ? $sCurrentPageSlug : $this->getCurrentPageSlug();
+
         return $sCurrentPageSlug ? $this->getDefaultInPageTab($sCurrentPageSlug) : '';
     }
     public function getCurrentTab($sCurrentPageSlug = '') {
@@ -123,6 +128,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
         if (!$sPageSlug) {
             return '';
         }
+
         return $this->getElement($this->aDefaultInPageTabs, $sPageSlug, '');
     }
     public function _replyToGetCapability() {
@@ -135,6 +141,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
         }
         $_nsCurrentPageSlug = $this->getElement($_GET, 'page', null);
         $_nsCurrentPageSlugFromAddedOnes = $this->getElement($this->aPages, array($_nsCurrentPageSlug, 'page_slug'));
+
         return $_nsCurrentPageSlugFromAddedOnes;
     }
     public function getCurrentInPageTabSlugIfAdded() {
@@ -143,6 +150,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
             return $_nsCurrentTabSlugFromAddedOnes;
         }
         $_nsCurrentTabSlugFromAddedOnes = $this->getElement($this->aInPageTabs, array($this->getCurrentPageSlugIfAdded(), $this->getCurrentTabSlug(), 'tab_slug'));
+
         return $_nsCurrentTabSlugFromAddedOnes;
     }
 }

@@ -29,16 +29,16 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         // Store the factory object in a property.
         $this->oFactory = $oFactory;
         
-        add_action( 
-            'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug, 
-            array( $this, 'replyToFilterFileName' ), 
-            10, 
-            5 
+        add_action(
+            'export_name_' . $this->sPageSlug . '_' . $this->sTabSlug,
+            array( $this, 'replyToFilterFileName' ),
+            10,
+            5
         );
-        add_action( 
+        add_action(
             // export_{instantiated clasa name}_{section id}_{field id}
             "export_{$oFactory->oProp->sClassName}_{$this->sSectionID}_download",
-            array( $this, 'replyToDownloadFramework' ), 
+            array( $this, 'replyToDownloadFramework' ),
             10,
             4
         );
@@ -60,7 +60,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         
         $oFactory->addSettingFields(
             $sSectionID, // the target section id
-            array( 
+            array(
                 'field_id'          => 'version',
                 'title'             => __( 'Version', 'admin-page-framework-loader' ),
                 'type'              => 'text',
@@ -69,9 +69,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 'attributes'        => array(
                     'size'          => 20,
                     'readonly'      => 'readonly',
-                ),                
-            ),            
-            array( 
+                ),
+            ),
+            array(
                 'field_id'          => 'class_prefix',
                 'title'             => __( 'Class Prefix', 'admin-page-framework-loader' ),
                 'type'              => 'text',
@@ -86,7 +86,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     'placeholder'   => __( 'Type a prefix.', 'admin-page-framework-loader' ),
                 ),
             ),
-            array( 
+            array(
                 'field_id'          => 'text_domain',
                 'title'             => __( 'Text Domain', 'admin-page-framework-loader' ),
                 'type'              => 'text',
@@ -97,8 +97,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     // 'required' => 'required',
                     'placeholder'   => __( 'Type your text domain.', 'admin-page-framework-loader' ),
                 ),
-            ),              
-            array( 
+            ),
+            array(
                 'field_id'          => 'components',
                 'title'             => __( 'Components', 'admin-page-framework-loader' ),
                 'type'              => 'checkbox',
@@ -107,20 +107,20 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     __( 'If you are not sure what to select, check them all.', 'admin-page-framework-loader' ),
                 ),
                 'label'               => $this->_getComponentLabels(),
-                'default'             => array_fill_keys( 
-                    array_keys( $this->_getComponentLabels() ), 
+                'default'             => array_fill_keys(
+                    array_keys( $this->_getComponentLabels() ),
                     true // all true
-                ),    
-                'select_all_button'     => true,    
+                ),
+                'select_all_button'     => true,
                 'select_none_button'    => true,
-                'label_min_width'       => '100%',                
+                'label_min_width'       => '100%',
                 'attributes'            => array(
                     'core'      => array(
                         'disabled' => 'disabled',
                     ),
                 ),
-            ),                
-            array( 
+            ),
+            array(
                 'field_id'          => 'download',
                 'title'             => __( 'Download', 'admin-page-framework-loader' ),
                 'type'              => 'export',
@@ -141,10 +141,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                         'disabled'
                     ),
                 ),
-            )            
-        );          
+            )
+        );
         
-        new AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes( 
+        new AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes(
             $oFactory,
             $sSectionID
         );
@@ -166,7 +166,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 'widgets'               => __( 'Widgets', 'admin-page-framework-loader' ),
                 'user_meta'             => __( 'User Meta', 'admin-page-framework-loader' ),
                 'utilities'             => __( 'Utilities', 'admin-page-framework-loader' ),
-            );            
+            );
         }
     
     /**
@@ -181,10 +181,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         $aInput     = $this->_sanitizeFieldValues( $aInput, $oAdminPage );
         
         // the class prefix must not contain white spaces and some other characters not supported in PHP class names.
-        preg_match( 
+        preg_match(
             '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/',     // pattern - allowed characters for variables in PHP.
             $aInput[ 'class_prefix' ],     // subject
-            $_aMatches 
+            $_aMatches
         );
         if ( $aInput[ 'class_prefix' ] && empty( $_aMatches ) ) {
             $_aErrors[ $this->sSectionID ][ 'class_prefix' ] = __( 'The prefix must consist of alphanumeric with underscores.', 'admin-page-framework-loader' );
@@ -198,12 +198,13 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 
         // An invalid value is found. Set a field error array and an admin notice and return the old values.
         if ( ! $_bVerified ) {
-            $oAdminPage->setFieldErrors( $_aErrors );     
+            $oAdminPage->setFieldErrors( $_aErrors );
             $oAdminPage->setSettingNotice( __( 'There was something wrong with your input.', 'admin-page-framework-loader' ) );
+
             return $aOldInput;
         }
                 
-        return $aInput;     
+        return $aInput;
         
     }
         /**
@@ -227,9 +228,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     ''
                 )
             );
+
             return $aInput;
         
-        }    
+        }
     
     /**
      * Lets the user download their own version of Admin Page Framework.
@@ -245,12 +247,13 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         }
         
         $_sTempFile = $oAdminPage->oUtil->setTempPath( 'admin-page-framework.zip' );
-        $_sData     = $this->_getDownloadFrameworkZipFile( 
-            $_sFrameworkDirPath, 
+        $_sData     = $this->_getDownloadFrameworkZipFile(
+            $_sFrameworkDirPath,
             $_sTempFile
         );
-        header( "Content-Length: " . strlen( $_sData ) ); 
+        header( "Content-Length: " . strlen( $_sData ) );
         unlink( $_sTempFile );
+
         return $_sData;
         
     }
@@ -262,26 +265,27 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
          */
         private function _getDownloadFrameworkZipFile( $sFrameworkDirPath, $sDestinationPath ) {
             
-            $_oZip = new AdminPageFramework_Zip( 
-                $sFrameworkDirPath, 
-                $sDestinationPath, 
+            $_oZip = new AdminPageFramework_Zip(
+                $sFrameworkDirPath,
+                $sDestinationPath,
                 array(
                     'include_directory'             => false,   // wrap contents in a sub-directory
                     'additional_source_directories' => apply_filters(
                         AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_additional_source_directories',
                         array() // directory paths 
                     ),
-                ),                
+                ),
                 array(  // callbacks
                     'file_name'         => array( $this, '_replyToModifyPathInArchive' ),
                     'directory_name'    => array( $this, '_replyToModifyPathInArchive' ),
                     'file_contents'     => array( $this, '_replyToModifyFileContents' ),
-                ) 
+                )
             );
             $_bSucceed = $_oZip->compress();
             if ( ! $_bSucceed ) {
                 return '';
             }
+
             return file_get_contents( $sDestinationPath );
             
         }
@@ -300,7 +304,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 // Check if it belongs to selected components.
                 if ( false === $this->_isAllowedArchivePath( $sPathInArchive ) ) {
                     return '';  // empty value will drop the entry
-                }                
+                }
+
                 return $sPathInArchive;
                            
             }
@@ -319,7 +324,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 private function _isAllowedArchivePath( $sPath ) {
                     
                     foreach( $this->_getDisallowedArchiveDirectoryPaths() as $_sDisallowedPath ) {
-                        $_bHasPrefix = $this->oFactory->oUtil->hasPrefix( 
+                        $_bHasPrefix = $this->oFactory->oUtil->hasPrefix(
                             ltrim( $_sDisallowedPath, '/' ), // needle
                             ltrim( $sPath, '/' ) // haystack
                         );
@@ -327,7 +332,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                             return false;
                         }
                     }
-                    return true;  
+
+                    return true;
                     
                 }
                 /**
@@ -346,7 +352,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                         'factory/network_admin_page/',
                     ),
                     'post_types'            => array(
-                        'factory/post_type/', 
+                        'factory/post_type/',
                     ),
                     'taxonomies'            => array(
                         'factory/taxonomy_field/',
@@ -366,7 +372,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     ),
                     'utilities'             => array(
                         'utility/',
-                    ),                
+                    ),
                 );
                 /**
                  * Returns an array holding allowed paths set to the archive.
@@ -420,14 +426,15 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                         
                         $_aCheckedComponents = $this->oFactory->oUtil->getElementAsArray(
                             $_POST,
-                            array( 
-                                $this->oFactory->oProp->sOptionKey, 
-                                $this->sSectionID, 
-                                'components' // field id
+                            array(
+                                $this->oFactory->oProp->sOptionKey,
+                                $this->sSectionID,
+                                'components', // field id
                             ),
                             array()
                         );
                         $_aCheckedComponents = array_filter( $_aCheckedComponents );
+
                         return array_keys( $_aCheckedComponents );
                         
                     }
@@ -447,17 +454,17 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 );
                 if ( ! in_array( pathinfo( $sPathInArchive, PATHINFO_EXTENSION ), $_aAllowedExtensions ) ) {
                     return $sFileContents;
-                }            
+                }
                 
                 // Modify the file contents.
                 $sFileContents = apply_filters(
                     AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_file_contents',
-                    $sFileContents, 
+                    $sFileContents,
                     $sPathInArchive,
                     $this->oFactory->oUtil->getElement(
                         $_POST,
-                        array( 
-                            $this->oFactory->oProp->sOptionKey, 
+                        array(
+                            $this->oFactory->oProp->sOptionKey,
                         ),
                         array()
                     ),
@@ -465,9 +472,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 );
                             
                 // At this point, it is a php file.
-                return $this->_modifyClassNameByPath( 
-                    $sFileContents, 
-                    $sPathInArchive 
+                return $this->_modifyClassNameByPath(
+                    $sFileContents,
+                    $sPathInArchive
                 );
                                 
             }
@@ -487,6 +494,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     // Insert a included component note in the header comment.
                     if ( $this->oFactory->oUtil->hasSuffix( 'admin-page-framework.php', $sPathInArchive ) ) {
                         $sFileContents = $this->_modifyFileDockblock( $sFileContents );
+
                         return $this->_modifyClassName( $sFileContents );
                     }
                     
@@ -497,7 +505,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     // if ( ! $this->oFactory->oUtil->hasSuffix( 'AdminPageFramework_Message.php', $sPathInArchive ) ) {
                         // return $sFileContents;
                     // }                
-                    return $this->_modifyTextDomain( $sFileContents );                    
+                    return $this->_modifyTextDomain( $sFileContents );
                     
                 }
                     /**
@@ -507,20 +515,21 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                      */
                     private function _modifyFileDockblock( $sFileContents ) {
                         
-                        $_aCheckedComponents = $this->oFactory->oUtil->getArrayElementsByKeys( 
-                            $this->_getComponentLabels(), 
+                        $_aCheckedComponents = $this->oFactory->oUtil->getArrayElementsByKeys(
+                            $this->_getComponentLabels(),
                             $this->_getCheckedComponents()
                         );
                         $_aInsert = array(
                             'Included Components: ' . implode( ', ', $_aCheckedComponents ),
                             'Generated on ' . date( 'Y-m-d' ),  // today's date
                         );
+
                         return preg_replace(
                             '#\*/#', // needle - matches '*/'
                             implode( PHP_EOL . ' ', $_aInsert ) . ' \0', // replacement \0 is a back-reference to '*/'
                             $sFileContents, // subject
                             1 // replace only the first occurrence
-                        );      
+                        );
                         
                     }
                     /**
@@ -534,13 +543,13 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                             '/(["\'])(.+)\1(?=\s?+=>)/',  // pattern '
                             array( $this, '_replyToModifyPathName' ),   // callable
                             $sFileContents // subject
-                        );     
+                        );
                         // Replace the registry class names.
                         return preg_replace_callback(
                             '/(=>\s?+)(.+)(?=::)/',  // pattern '
                             array( $this, '_replyToModifyPathName' ),   // callable
                             $sFileContents // subject
-                        );     
+                        );
                     }
                         /**
                          * Modifies the regex-matched string.
@@ -549,7 +558,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                          */
                         public function _replyToModifyPathName( $aMatches ) {
                             return $this->_modifyClassName( $aMatches[ 0 ] );
-                        }                  
+                        }
                     
                 /**
                  * Modifies the given class name.
@@ -560,8 +569,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 private function _modifyClassName( $sSubject ) {
                     
                     $_sPrefix = $this->_getFormSubmitValueByFieldIDAsString( 'class_prefix' );
+
                     return strlen( $_sPrefix )
-                        ? str_replace( 
+                        ? str_replace(
                             'AdminPageFramework', // search 
                             $_sPrefix . 'AdminPageFramework', // replace
                             $sSubject // subject
@@ -574,12 +584,13 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                  * 
                  * @since       3.5.4
                  * @return      string
-                 */                
+                 */
                 private function _modifyTextDomain( $sFileContents ) {
                     
                     $_sTextDomain = $this->_getFormSubmitValueByFieldIDAsString( 'text_domain' );
+
                     return strlen( $_sTextDomain )
-                        ? str_replace( 
+                        ? str_replace(
                             'admin-page-framework', // search 
                             $_sTextDomain, // replace
                             $sFileContents // subject
@@ -600,13 +611,14 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                             ? $_aCaches[ $sFieldID ]
                             : $this->oFactory->oUtil->getElement(
                                 $_POST,
-                                array( 
-                                    $this->oFactory->oProp->sOptionKey, 
-                                    $this->sSectionID, 
-                                    $sFieldID
+                                array(
+                                    $this->oFactory->oProp->sOptionKey,
+                                    $this->sSectionID,
+                                    $sFieldID,
                                 ),
                                 ''
-                            );                  
+                            );
+
                         return trim( ( string ) $_aCaches[ $sFieldID ] );
                         
                     }
@@ -621,6 +633,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
     public function replyToModifyExportHTTPHeader( $aHeader, $sFieldID, $sInputID, $mData, $sFileName, $oFactory ) {
             
         $sFileName = $this->_getDownloadFileName();
+
         return array(
             'Pragma'                    => 'public',
             'Expires'                   => 0,
@@ -643,9 +656,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
      * @callback    filter    "export_name_{page slug}_{tab slug}" filter.
      * @return      string
      */
-    public function replyToFilterFileName( $sFileName, $sFieldID, $sInputID, $vExportingData, $oAdminPage ) { 
+    public function replyToFilterFileName( $sFileName, $sFieldID, $sInputID, $vExportingData, $oAdminPage ) {
         return $this->_getDownloadFileName();
-    }        
+    }
     
     /**
      * Returns the user-set file name.
@@ -659,13 +672,14 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
             
         $_sFileNameWOExtension = $this->oFactory->oUtil->getElement(
             $_POST,
-            array( 
-                $this->oFactory->oProp->sOptionKey, 
-                $this->sSectionID, 
-                'text_domain' // field id
+            array(
+                $this->oFactory->oProp->sOptionKey,
+                $this->sSectionID,
+                'text_domain', // field id
             )
-        );    
+        );
         $_sFileNameWOExtension = trim( $_sFileNameWOExtension );
+
         return $this->oFactory->oUtil->getAOrB(
                 $_sFileNameWOExtension,
                 $_sFileNameWOExtension . '-admin-page-framework',

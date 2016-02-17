@@ -41,20 +41,20 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactFormConfirm ex
         $this->oFactory->oProp->_bDisableSavingOptions = true;
 
         add_filter(
-            "options_update_status_{$this->oFactory->oProp->sClassName}", 
+            "options_update_status_{$this->oFactory->oProp->sClassName}",
             array( $this, '_replyToSetStatus' )
-        );            
+        );
         
         // Go to the catch clause.
         $_oException = new Exception( 'aReturn' );  // the property name to return from the catch clasue.
-        $_oException->aReturn = $this->_confirmSubmitButtonAction( 
-            $this->getElement( $aSubmitInformation, 'input_name' ), 
-            $this->getElement( $aSubmitInformation, 'section_id' ), 
+        $_oException->aReturn = $this->_confirmSubmitButtonAction(
+            $this->getElement( $aSubmitInformation, 'input_name' ),
+            $this->getElement( $aSubmitInformation, 'section_id' ),
             'email'  // type
         );
         throw $_oException;
         
-    }   
+    }
         /**
          * @since       3.7.6
          * @return      boolean
@@ -65,12 +65,12 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactFormConfirm ex
                 return false;
             }
             
-            return ( bool ) $this->_getPressedSubmitButtonData( 
-                $aSubmits, 
-                'confirming_sending_email' 
+            return ( bool ) $this->_getPressedSubmitButtonData(
+                $aSubmits,
+                'confirming_sending_email'
             );
             
-        }    
+        }
     
         /**
          * @return      array
@@ -78,8 +78,8 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactFormConfirm ex
          * @callback    filter      options_update_status_{class name}
          */
         public function _replyToSetStatus( $aStatus ) {
-            return array( 
-                'confirmation' => 'email' 
+            return array(
+                'confirmation' => 'email',
             ) + $aStatus;
         }
 }

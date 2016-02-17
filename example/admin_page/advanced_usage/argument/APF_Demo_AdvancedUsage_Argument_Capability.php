@@ -30,7 +30,7 @@ class APF_Demo_AdvancedUsage_Argument_Capability {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'capability';        
+    public $sSectionID  = 'capability';
         
     /**
      * Sets up a form section.
@@ -38,7 +38,7 @@ class APF_Demo_AdvancedUsage_Argument_Capability {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'tab_slug'          => $this->sTabSlug,
@@ -50,7 +50,7 @@ class APF_Demo_AdvancedUsage_Argument_Capability {
                 ),
                 'capability'        => 'edit_pages',
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -68,8 +68,8 @@ class APF_Demo_AdvancedUsage_Argument_Capability {
                 'type'              => 'text',
                 'description'       => __( 'This field is only shown to the users with the <code>edit_pages</code> capability.', 'admin-page-framework-loader' ),
                 // 'capability'        => 'edit_pages', // this should be inherited from the section.
-            )            
-        );              
+            )
+        );
       
     }
 

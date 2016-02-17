@@ -38,7 +38,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionB {
     public function __construct( $oFactory ) {
     
         // Sections
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'        => $this->sSectionID,
@@ -46,7 +46,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionB {
                 'description'       => __( 'This is a second tabbed section.', 'admin-page-framework-loader' ),
                 'section_tab_slug'  => 'root_section_tab',
             )
-        );   
+        );
 
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID - pass dimensional keys of the section
@@ -56,7 +56,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionB {
                 'type'          => 'color',
                 'repeatable'    => true,
                 'sortable'      => true,
-            )          
+            )
         );
         
     }

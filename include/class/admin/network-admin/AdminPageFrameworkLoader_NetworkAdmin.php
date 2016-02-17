@@ -32,11 +32,11 @@ class AdminPageFrameworkLoader_NetworkAdmin extends AdminPageFramework_NetworkAd
             $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys['main'] );
             $_oOption->update( 'enable_demo', $_GET['enable_apfl_demo_pages'] );
             
-            $this->setSettingNotice( 
+            $this->setSettingNotice(
                 __( 'Enabled demo!', 'admin-page-framework-loader' ),
-                'updated' 
+                'updated'
             );
-            $this->oUtil->goToLocalURL( 
+            $this->oUtil->goToLocalURL(
                 remove_query_arg( 'enable_apfl_demo_pages' ),
                 array( 'AdminPageFrameworkLoader_Utility', 'replyToShowRedirectError' )
             );
@@ -68,17 +68,18 @@ class AdminPageFrameworkLoader_NetworkAdmin extends AdminPageFramework_NetworkAd
         private function _getDemoSwitcherLink( $mOptions=array() ) {
             
             $_bEnabled  = isset( $mOptions['enable_demo'] ) && $mOptions['enable_demo'];
-            $_sLink    = esc_url( 
-                add_query_arg( 
-                    array( 
+            $_sLink    = esc_url(
+                add_query_arg(
+                    array(
                         'enable_apfl_demo_pages' => $_bEnabled ? 0 : 1,
                     )
                 )
-            );        
+            );
+
             return $_bEnabled
                 ? "<a href='{$_sLink}'>" . __( 'Disable Demo', 'admin-page-framework-loader' ) . "</a>"
                 : "<a href='{$_sLink}'><strong style='font-size: 1em;'>" . __( 'Enable Demo', 'admin-page-framework-loader' ) . "</strong></a>";
             
-        }            
+        }
 
 }

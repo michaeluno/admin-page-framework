@@ -20,7 +20,7 @@ class APF_Demo_ManageOptions {
 
     public function __construct() {
         
-        add_action( 
+        add_action(
             'set_up_' . $this->_sClassName,
             array( $this, 'replyToSetUp' )
         );
@@ -34,16 +34,16 @@ class APF_Demo_ManageOptions {
     public function replyToSetUp( $oFactory ) {
         
         // Add sub-menu items (pages or links)
-        $oFactory->addSubMenuItems(    
+        $oFactory->addSubMenuItems(
             array(
                 'title'         => __( 'Manage Options', 'admin-page-framework-loader' ),
                 'page_slug'     => $this->_sPageSlug,
-                'screen_icon'   => 'link-manager',    
+                'screen_icon'   => 'link-manager',
                 'order'         => 40,
             )
-        );     
+        );
 
-        add_action( 
+        add_action(
             'load_' . $this->_sPageSlug,
             array( $this, 'replyToLoadPage' )
         );
@@ -56,7 +56,7 @@ class APF_Demo_ManageOptions {
      * @callback        action      load_{page slug}
      * @return          void
      */
-    public function replyToLoadPage( $oFactory ) { 
+    public function replyToLoadPage( $oFactory ) {
     
         // Set up the page settings
         $oFactory->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
@@ -74,7 +74,7 @@ class APF_Demo_ManageOptions {
         new APF_Demo_ManageOptions_Reset( $oFactory, $this->_sPageSlug );
 
         // Disabled tab example
-        $oFactory->addInPageTabs(    
+        $oFactory->addInPageTabs(
             $this->_sPageSlug, // target page slug
             array(
                 'tab_slug'      => 'disabled',
@@ -83,8 +83,8 @@ class APF_Demo_ManageOptions {
                 'attributes'    => array(
                     'title'     => __( ' the disabled argument is true, this tab will be disabled and has no link.', 'admin-page-framework-loader' ),
                 ),
-            )        
-        );          
+            )
+        );
         
     }
 

@@ -641,7 +641,7 @@ class AdminPageFramework_Parsedown
         {
             $Block = array(
                 'element' => array(
-                    'name' => 'hr'
+                    'name' => 'hr',
                 ),
             );
 

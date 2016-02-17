@@ -17,7 +17,7 @@
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
  */
-class AdminPageFramework_Form_View___DebugInfo extends AdminPageFramework_FrameworkUtility {            
+class AdminPageFramework_Form_View___DebugInfo extends AdminPageFramework_FrameworkUtility {
 
     public $sStructureType   = '';
     
@@ -32,8 +32,8 @@ class AdminPageFramework_Form_View___DebugInfo extends AdminPageFramework_Framew
      */
     public function __construct( /* $sStructureType, $oMsg */ ) {
 
-        $_aParameters = func_get_args() + array( 
-            $this->sStructureType, 
+        $_aParameters = func_get_args() + array(
+            $this->sStructureType,
             $this->oMsg,
         );
 
@@ -59,7 +59,7 @@ class AdminPageFramework_Form_View___DebugInfo extends AdminPageFramework_Framew
             return '';
         }
         
-        return "<div class='admin-page-framework-info'>" 
+        return "<div class='admin-page-framework-info'>"
                 . $this->oMsg->get( 'debug_info' ) . ': '
                     . AdminPageFramework_Registry::NAME . ' ' . AdminPageFramework_Registry::getVersion()
             . "</div>";

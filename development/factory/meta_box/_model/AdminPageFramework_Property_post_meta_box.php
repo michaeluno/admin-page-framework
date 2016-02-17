@@ -34,7 +34,7 @@ class AdminPageFramework_Property_post_meta_box extends AdminPageFramework_Prope
      * @since       2.0.0
      * @since       2.1.0       Moved from the meta box class.
      * @var string
-     */     
+     */
     public $sMetaBoxID ='';
     
     /**
@@ -45,7 +45,7 @@ class AdminPageFramework_Property_post_meta_box extends AdminPageFramework_Prope
      * @since       2.0.0
      * @since       2.1.0       Moved from the meta box class.
      * @var array
-     */     
+     */
     public $aPostTypes = array();
     
     /**
@@ -65,7 +65,7 @@ class AdminPageFramework_Property_post_meta_box extends AdminPageFramework_Prope
      * @remark      The value can be either 'normal', 'advanced', or 'side'.
      * @var         string
      * @see         http://codex.wordpress.org/Function_Reference/add_meta_box#Parameters
-     */ 
+     */
     public $sContext = 'normal';
 
     /**
@@ -76,7 +76,7 @@ class AdminPageFramework_Property_post_meta_box extends AdminPageFramework_Prope
      * @remark      The value can be either 'high', 'core', 'default' or 'low'.
      * @var         string
      * @see         http://codex.wordpress.org/Function_Reference/add_meta_box#Parameters
-     */     
+     */
     public $sPriority = 'default';
     
     /**
@@ -84,7 +84,7 @@ class AdminPageFramework_Property_post_meta_box extends AdminPageFramework_Prope
      * 
      * @since       2.0.0
      * @since       2.1.0       Moved from the meta box class.
-     */ 
+     */
     public $sClassName = '';
     
     /**
@@ -92,7 +92,7 @@ class AdminPageFramework_Property_post_meta_box extends AdminPageFramework_Prope
      * 
      * @since       2.0.0
      * @since       2.1.0      Moved from the meta box class.
-     */     
+     */
     public $sCapability = 'edit_posts';
         
     /**
@@ -101,15 +101,15 @@ class AdminPageFramework_Property_post_meta_box extends AdminPageFramework_Prope
      * @since       2.1.0       Moved from the meta box class.
      * @internal
      * @remark      Do not set this here to let the overload method _get() to be triggered when it is called.
-     */  
+     */
     // public $aOptions = array();
-    
+
     /**
      * Stores the media uploader box's title.
      * @since       2.0.0
      * @since       2.1.0       Moved from the meta box class.
      * @internal
-     */ 
+     */
     public $sThickBoxTitle = '';
     
     /**
@@ -117,7 +117,7 @@ class AdminPageFramework_Property_post_meta_box extends AdminPageFramework_Prope
      * @since       2.0.0
      * @since       2.1.0       Moved from the meta box class.
      * @internal
-     */     
+     */
     public $sThickBoxButtonUseThis = '';
         
     /**
@@ -133,21 +133,21 @@ class AdminPageFramework_Property_post_meta_box extends AdminPageFramework_Prope
      * @since       3.7.0
      * @access      public      Called externally.
      */
-    public $_sFormRegistrationHook = 'admin_enqueue_scripts';      
+    public $_sFormRegistrationHook = 'admin_enqueue_scripts';
     
     /**
      * Calls the parent constructor by formatting the parameter values.
      */
     public function __construct( $oCaller, $sClassName, $sCapability='edit_posts', $sTextDomain='admin-page-framework', $sStructureType='post_meta_box' ) {
         
-        parent::__construct( 
+        parent::__construct(
             $oCaller,           // caller object
             null,               // caller script path - meta boxes don't need the caller script path.
             $sClassName,        // class name
             $sCapability,       // capability
             $sTextDomain,       // text domain
             $sStructureType     // structure type
-        ); 
+        );
      
     }
     
@@ -164,6 +164,6 @@ class AdminPageFramework_Property_post_meta_box extends AdminPageFramework_Prope
      */
     protected function _getOptions() {
         return array();
-    }    
+    }
     
 }

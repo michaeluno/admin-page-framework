@@ -19,10 +19,12 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     }
     protected function _getLinkObject() {
         $_sClassName = $this->aSubClassNames['oLink'];
+
         return new $_sClassName($this->oProp, $this->oMsg);
     }
     protected function _getPageLoadObject() {
         $_sClassName = $this->aSubClassNames['oPageLoadInfo'];
+
         return new $_sClassName($this->oProp, $this->oMsg);
     }
     public function __call($sMethodName, $aArgs = null) {
@@ -47,6 +49,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                 return $_sMethodPrefix;
             }
         }
+
         return '';
     }
     protected function _doPageLoadCall($sMethodName, $sPageSlug, $sTabSlug, $oScreen) {
@@ -70,12 +73,14 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         if ($sScreenID !== $this->oProp->aPageHooks[$sPageSlug]) {
             return false;
         }
+
         return true;
     }
     protected function _isInstantiatable() {
         if (isset($GLOBALS['pagenow']) && 'admin-ajax.php' === $GLOBALS['pagenow']) {
             return false;
         }
+
         return !is_network_admin();
     }
     public function _isInThePage() {
@@ -85,6 +90,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         if (!isset($_GET['page'])) {
             return false;
         }
+
         return $this->oProp->isPageAdded();
     }
     public function _replyToLoadComponents() {
@@ -125,6 +131,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
     }
     public function _replyToModifySectionsets($aSectionsets) {
         $this->_registerHelpPaneItemsOfFormSections($aSectionsets);
+
         return parent::_replyToModifySectionsets($aSectionsets);
     }
     public function _registerHelpPaneItemsOfFormSections($aSectionsets) {
@@ -146,6 +153,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         if (!$this->_isSectionOfCurrentPage($aSectionset)) {
             return false;
         }
+
         return $bVisible;
     }
     private function _isSectionOfCurrentPage(array $aSectionset) {
@@ -156,6 +164,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         if (!$aSectionset['tab_slug']) {
             return true;
         }
+
         return ($aSectionset['tab_slug'] === $this->oProp->getCurrentTabSlug($_sCurrentPageSlug));
     }
     public function _replyToDetermineFieldsetVisibility($bVisible, $aFieldset) {
@@ -163,6 +172,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         if ($aFieldset['page_slug'] !== $_sCurrentPageSlug) {
             return false;
         }
+
         return parent::_replyToDetermineFieldsetVisibility($bVisible, $aFieldset);
     }
     public function _replyToFormatFieldsetDefinition($aFieldset, $aSectionsets) {
@@ -178,6 +188,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         $_aSectionset = $this->oUtil->getElementAsArray($aSectionsets, $_sSectionPath);
         $aFieldset['section_title'] = $this->oUtil->getElement($_aSectionset, 'title');
         $aFieldset['capability'] = $aFieldset['capability'] ? $aFieldset['capability'] : $this->_replyToGetCapabilityForForm($this->oUtil->getElement($_aSectionset, 'capability'), $aSectionset['page_slug'], $aSectionset['tab_slug']);
+
         return parent::_replyToFormatFieldsetDefinition($aFieldset, $aSectionsets);
     }
     public function _replyToFormatSectionsetDefinition($aSectionset) {
@@ -188,6 +199,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         $aSectionset['page_slug'] = $this->_getSectionPageSlug($aSectionset);
         $aSectionset['tab_slug'] = $this->_getSectionTabSlug($aSectionset);
         $aSectionset['capability'] = $this->_getSectionCapability($aSectionset);
+
         return parent::_replyToFormatSectionsetDefinition($aSectionset);
     }
     private function _getSectionCapability($aSectionset) {
@@ -202,6 +214,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
                 return $_sParentCapability;
             }
         }
+
         return $this->_replyToGetCapabilityForForm($aSectionset['capability'], $aSectionset['page_slug'], $aSectionset['tab_slug']);
     }
     private function _getSectionPageSlug($aSectionset) {
@@ -216,16 +229,19 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
                 return $_sRootSectionPageSlug;
             }
         }
+
         return $this->oProp->getCurrentPageSlugIfAdded();
     }
     private function _getSectionTabSlug($aSectionset) {
         if ($aSectionset['tab_slug']) {
             return $aSectionset['tab_slug'];
         }
+
         return $this->oProp->getCurrentInPageTabSlugIfAdded();
     }
     public function _replyToDetermineWhetherToProcessFormRegistration($bAllowed) {
         $_sPageSlug = $this->oProp->getCurrentPageSlug();
+
         return $this->oProp->isPageAdded($_sPageSlug);
     }
     public function _replyToGetCapabilityForForm($sCapability) {
@@ -235,6 +251,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         $_sTabCapability = $this->_getInPageTabCapability($_sTabSlug, $_sPageSlug);
         $_sPageCapability = $this->_getPageCapability($_sPageSlug);
         $_aCapabilities = array_filter(array($_sTabCapability, $_sPageCapability)) + array($this->oProp->sCapability);
+
         return $_aCapabilities[0];
     }
 }
@@ -251,6 +268,7 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
         if (isset($aSectionset['_index'])) {
             $_aDimensionalKeys[] = '[' . $aSectionset['_index'] . ']';
         }
+
         return implode('', $_aDimensionalKeys);
     }
     public function _replyToGetFieldNameAttribute() {
@@ -268,6 +286,7 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
             }
         }
         $_aDimensionalKeys[] = '[' . $aFieldset['field_id'] . ']';
+
         return implode('', $_aDimensionalKeys);
     }
     public function _replyToGetFlatFieldName() {
@@ -284,6 +303,7 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
             }
         }
         $_aDimensionalKeys[] = $aFieldset['field_id'];
+
         return implode('|', $_aDimensionalKeys);
     }
     public function _replyToGetInputNameAttribute() {
@@ -292,6 +312,7 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
         $aField = $_aParams[1];
         $sKey = ( string )$_aParams[2];
         $sKey = $this->oUtil->getAOrB('0' !== $sKey && empty($sKey), '', "[{$sKey}]");
+
         return $this->_replyToGetFieldNameAttribute('', $aField) . $sKey;
     }
     public function _replyToGetFlatInputName() {
@@ -300,6 +321,7 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
         $aField = $_aParams[1];
         $_sKey = ( string )$_aParams[2];
         $_sKey = $this->oUtil->getAOrB('0' !== $_sKey && empty($_sKey), '', "|" . $_sKey);
+
         return $this->_replyToGetFlatFieldName('', $aField) . $_sKey;
     }
 }
@@ -314,6 +336,7 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
     public function addSettingSection($asSection) {
         if (!is_array($asSection)) {
             $this->_sTargetPageSlug = is_string($asSection) ? $asSection : $this->_sTargetPageSlug;
+
             return;
         }
         $aSection = $asSection;
@@ -330,11 +353,13 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
     private function _getTargetPageSlug($aSection) {
         $_sTargetPageSlug = $this->oUtil->getElement($aSection, 'page_slug', $this->_sTargetPageSlug);
         $_sTargetPageSlug = $_sTargetPageSlug ? $this->oUtil->sanitizeSlug($_sTargetPageSlug) : $this->oProp->getCurrentPageSlugIfAdded();
+
         return $_sTargetPageSlug;
     }
     private function _getTargetTabSlug($aSection) {
         $_sTargetTabSlug = $this->oUtil->getElement($aSection, 'tab_slug', $this->_sTargetTabSlug);
         $_sTargetTabSlug = $_sTargetTabSlug ? $this->oUtil->sanitizeSlug($aSection['tab_slug']) : $this->oProp->getCurrentInPageTabSlugIfAdded();
+
         return $_sTargetTabSlug;
     }
     public function removeSettingSections() {
@@ -363,6 +388,7 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
             $_mDefault = $_aDimensionalKeys[1];
             $_aDimensionalKeys = $_aDimensionalKeys[0];
         }
+
         return AdminPageFramework_WPUtility::getOption($this->oProp->sOptionKey, empty($_aParams) ? null : $_aDimensionalKeys, $_mDefault, $this->getSavedOptions() + $this->oForm->getDefaultFormValues());
     }
     public function getFieldValue($sFieldID, $sSectionID = '') {
@@ -383,6 +409,7 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
                 return $_aOptions[$sSectionID][$sFieldID];
             }
         }
+
         return null;
     }
 }
@@ -408,6 +435,7 @@ abstract class AdminPageFramework_Model_Page extends AdminPageFramework_Controll
             if (!isset($_aInPageTab['tab_slug'])) {
                 continue;
             }
+
             return $_aInPageTab['tab_slug'];
         }
     }
@@ -444,6 +472,7 @@ abstract class AdminPageFramework_Controller_Page extends AdminPageFramework_Vie
         static $__sTargetPageSlug;
         if (!is_array($asInPageTab)) {
             $__sTargetPageSlug = is_string($asInPageTab) ? $asInPageTab : $__sTargetPageSlug;
+
             return;
         }
         $aInPageTab = $asInPageTab + array('page_slug' => $__sTargetPageSlug, 'tab_slug' => null, 'order' => null,);
@@ -475,6 +504,7 @@ abstract class AdminPageFramework_Controller_Page extends AdminPageFramework_Vie
         $sPageSlug = $this->oUtil->sanitizeSlug($sPageSlug);
         if ($sPageSlug) {
             $this->oProp->aPages[$sPageSlug][$sPropertyKey] = $mValue;
+
             return;
         }
         $this->oProp->{$sPropertyName} = $mValue;
@@ -604,6 +634,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
     public function setDisallowedQueryKeys($asQueryKeys, $bAppend = true) {
         if (!$bAppend) {
             $this->oProp->aDisallowedQueryKeys = ( array )$asQueryKeys;
+
             return;
         }
         $aNewQueryKeys = array_merge(( array )$asQueryKeys, $this->oProp->aDisallowedQueryKeys);

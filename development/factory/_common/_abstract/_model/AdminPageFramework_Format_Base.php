@@ -33,10 +33,10 @@ abstract class AdminPageFramework_Format_Base extends AdminPageFramework_Framewo
      */
     public function __construct( /* $aSubject=array() */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aSubject, 
+        $_aParameters = func_get_args() + array(
+            $this->aSubject,
         );
-        $this->aSubject  = $_aParameters[ 0 ];        
+        $this->aSubject  = $_aParameters[ 0 ];
         
     }
     

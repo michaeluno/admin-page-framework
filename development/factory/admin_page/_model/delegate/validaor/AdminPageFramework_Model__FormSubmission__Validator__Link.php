@@ -37,8 +37,8 @@ class AdminPageFramework_Model__FormSubmission__Validator__Link extends AdminPag
         $_sLinkURL = $this->_getPressedSubmitButtonData( $aSubmits, 'href' );
         if ( ! $_sLinkURL ) {
             return;
-        }        
+        }
         $this->goToURL( $_sLinkURL );
-    }    
+    }
    
 }

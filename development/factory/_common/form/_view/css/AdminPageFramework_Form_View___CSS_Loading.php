@@ -28,6 +28,7 @@ class AdminPageFramework_Form_View___CSS_Loading extends AdminPageFramework_Form
             return '';
         }
         $_sSpinnerURL  = esc_url( admin_url( '/images/wpspin_light-2x.gif' ) );
+
         return <<<CSSRULES
 .admin-page-framework-form-loading {
     position: absolute;

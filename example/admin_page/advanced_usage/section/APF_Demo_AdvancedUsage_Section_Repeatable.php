@@ -38,24 +38,24 @@ class APF_Demo_AdvancedUsage_Section_Repeatable {
     public function __construct( $oFactory ) {
     
         // Section
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'             => __( 'Repeatable Sections', 'admin-page-framework-loader' ),
-                'description'       => array( 
+                'description'       => array(
                     __( 'As of v3, it is possible to repeat sections.', 'admin-page-framework-loader' ) . ' '
                     . __( 'As of v3.6, it is possible to sort sections.', 'admin-page-framework-loader' ),
                 ),
                 // 'repeatable'        => true,     // this makes the section repeatable
-                'repeatable'    => array(   
+                'repeatable'    => array(
                     'max' => 5,
                     // 'min' => 2,
-                ),  
+                ),
                 'sortable'          => true,
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -71,7 +71,7 @@ class APF_Demo_AdvancedUsage_Section_Repeatable {
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'          => 'text',
                 'repeatable'    => true,
-            ),     
+            ),
             array(
                 'field_id'      => 'color_in_repeatable_sections',
                 'title'         => __( 'Color', 'admin-page-framework-loader' ),
@@ -85,10 +85,10 @@ class APF_Demo_AdvancedUsage_Section_Repeatable {
                 'label'         => array(
                     'a' => 'A',
                     'b' => 'B',
-                    'c' => 'c',     
+                    'c' => 'c',
                 ),
             )
-        );              
+        );
       
     }
 

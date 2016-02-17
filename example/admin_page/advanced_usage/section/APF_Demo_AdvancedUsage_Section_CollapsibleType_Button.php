@@ -37,7 +37,7 @@ class APF_Demo_AdvancedUsage_Section_CollapsibleType_Button {
      */
     public function __construct( $oFactory ) {
     
-        $oFactory->addSettingSections(    
+        $oFactory->addSettingSections(
             $this->sPageSlug, // the target page slug                
             array(
                 'section_id'        => $this->sSectionID,
@@ -50,9 +50,9 @@ class APF_Demo_AdvancedUsage_Section_CollapsibleType_Button {
                 ),
                 'tip'               => __( 'When the <code>type</code> argument is <code>button</code>, the toggle button will be used instead of a container box.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
         $oFactory->addSettingFields(
-            $this->sSectionID,   
+            $this->sSectionID,
             array(
                 'field_id'      => 'field_in_button_type_collapsible_seciton_b',
                 'type'          => 'color',

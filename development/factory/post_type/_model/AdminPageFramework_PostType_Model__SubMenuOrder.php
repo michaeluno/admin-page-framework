@@ -15,7 +15,7 @@
  * @subpackage      PostType
  * @internal
  */
-class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework_FrameworkUtility {    
+class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework_FrameworkUtility {
     
     /**
      * Stores a post type factory object.
@@ -35,24 +35,24 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
             return;
         }
         
-        add_action( 
-            'admin_menu', 
-            array( $this, '_replyToSetSubMenuOrder' ), 
+        add_action(
+            'admin_menu',
+            array( $this, '_replyToSetSubMenuOrder' ),
             /**
              * Set a low priority to let WordPress insert sub-menu items of post types with the `show_in_menu` argument.
              * Also Admin Page Framework admin pages will add sub-menu page items before this.
              */
-            200 
+            200
         );
         
         add_action(
             'admin_menu',
             array( $this, 'sortAdminSubMenu' ),  // defined in the framework utility class.
             9999
-        );            
+        );
             
         
-    }    
+    }
     
     /**
      * @since       3.7.4
@@ -78,7 +78,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
         // Set the index to the `submenu` global array.
         $this->_setSubMenuItemIndex( $_sSubMenuSlug );
 
-    }   
+    }
     
         /**
          * @since       3.7.4
@@ -87,7 +87,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
                 
             $GLOBALS[ '_apf_sub_menus_to_sort' ] = isset( $GLOBALS[ '_apf_sub_menus_to_sort' ] )
                 ? $GLOBALS[ '_apf_sub_menus_to_sort' ]
-                : array();        
+                : array();
             $GLOBALS[ '_apf_sub_menus_to_sort' ][ $sSubMenuSlug ] = $sSubMenuSlug;
         
         }
@@ -95,11 +95,11 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
         /**
          * @since       3.7.4
          */
-        private function _setSubMenuItemIndex( $sSubMenuSlug ) {                
+        private function _setSubMenuItemIndex( $sSubMenuSlug ) {
                                         
             // Only if custom values are set, set them.                
-            $this->_setSubMenuIndexByLinksSlugs( 
-                $sSubMenuSlug, 
+            $this->_setSubMenuIndexByLinksSlugs(
+                $sSubMenuSlug,
                 $this->_getPostTypeMenuLinkSlugs()
                 + $this->oFactory->oProp->aTaxonomySubMenuOrder
             );
@@ -112,7 +112,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
              */
             private function _getPostTypeMenuLinkSlugs() {
                 
-                $_nSubMenuOrderManage = $this->getElement( 
+                $_nSubMenuOrderManage = $this->getElement(
                     $this->oFactory->oProp->aPostTypeArgs,
                     'submenu_order_manage',
                     5 // default
@@ -123,7 +123,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
                     'show_submenu_add_new', // dimensional keys
                     true // default
                 );
-                $_nSubMenuOrderAddNew = $this->getElement( 
+                $_nSubMenuOrderAddNew = $this->getElement(
                     $this->oFactory->oProp->aPostTypeArgs,
                     'submenu_order_addnew',
                     10  // default
@@ -146,7 +146,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
                 // If the user does not want to show the Add New sub menu, no need to change the order.
                 if ( ! $_bShowAddNew || 10 == $_nSubMenuOrderAddNew ) {
                     unset( $_aLinkSlugs[ 'post-new.php?post_type=' . $this->oFactory->oProp->sPostType ] );
-                }                   
+                }
                 
                 return $_aLinkSlugs;
                 
@@ -169,7 +169,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
                 
                 foreach( $aLinkSlugs as $_sLinkSlug => $_nOrder ) {
                     
-                    $_bIsSet = $this->_setSubMenuIndexByLinksSlug( $sSubMenuSlug, $_nIndex, $_aSubMenuItem, $_sLinkSlug, $_nOrder ); 
+                    $_bIsSet = $this->_setSubMenuIndexByLinksSlug( $sSubMenuSlug, $_nIndex, $_aSubMenuItem, $_sLinkSlug, $_nOrder );
                     
                     // If set, no longer needed to parse.
                     if ( $_bIsSet ) {
@@ -178,7 +178,7 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
                     
                 }
                 
-            }                
+            }
             
         }
             /**
@@ -193,25 +193,25 @@ class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework
             private function _setSubMenuIndexByLinksSlug( $sSubMenuSlug, $nIndex, $aSubMenuItem, $sLinkSlug, $nOrder ) {
                 
                 // The third item is the link slug.
-                if ( ! isset( $aSubMenuItem[ 2 ] ) ) { 
-                    return false; 
+                if ( ! isset( $aSubMenuItem[ 2 ] ) ) {
+                    return false;
                 }
                 if ( $aSubMenuItem[ 2 ] !== $sLinkSlug ) {
                     return false;
-                }    
+                }
                 
                 // Remove the existent sub-menu item of the index.
                 unset( $GLOBALS[ 'submenu' ][ $sSubMenuSlug ][ $nIndex ] );
 
                 // Get a new index and assign it.
-                $_nNewIndex = $this->getUnusedNumericIndex( 
-                    $this->getElementAsArray( $GLOBALS, array( 'submenu', $sSubMenuSlug ) ), 
+                $_nNewIndex = $this->getUnusedNumericIndex(
+                    $this->getElementAsArray( $GLOBALS, array( 'submenu', $sSubMenuSlug ) ),
                     $nOrder
                 );
                 $GLOBALS[ 'submenu' ][ $sSubMenuSlug ][ $_nNewIndex ] = $aSubMenuItem;
 
                 return true;
                 
-            }                
+            }
    
 }

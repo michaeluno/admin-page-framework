@@ -17,7 +17,7 @@
  * @package     AdminPageFramework
  * @subpackage  PostType
  */
-abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework_PostType_View {    
+abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework_PostType_View {
 
     /**
     * The method for necessary set-ups.
@@ -71,7 +71,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
      * @since       3.0.0
      * @return      array       An array holding the handle IDs of queued items.
      */
-    public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {     
+    public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueStyles' ) ) {
             return $this->oResource->_enqueueStyles( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
         }
@@ -81,10 +81,10 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
      * 
      * {@inheritdoc}
      * 
-     */    
+     */
     public function enqueueStyle( $sSRC, $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueStyle' ) ) {
-            return $this->oResource->_enqueueStyle( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );     
+            return $this->oResource->_enqueueStyle( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
         }
     }
     /**
@@ -98,7 +98,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
         if ( method_exists( $this->oResource, '_enqueueScripts' ) ) {
             return $this->oResource->_enqueueScripts( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
         }
-    }    
+    }
     /**
      * {@inheritdoc}
      * 
@@ -106,11 +106,11 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
      *  
      * @since       3.0.0
      */
-    public function enqueueScript( $sSRC, $aCustomArgs=array() ) {    
+    public function enqueueScript( $sSRC, $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueScript' ) ) {
             return $this->oResource->_enqueueScript( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
         }
-    }     
+    }
     
     /*
      * Front-end methods
@@ -125,9 +125,9 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
     * @since        2.0.0
     * @param        boolean         If true, it enables the auto-save; otherwise, it disables it.
     * return        void
-    */ 
+    */
     protected function setAutoSave( $bEnableAutoSave=True ) {
-        $this->oProp->bEnableAutoSave = $bEnableAutoSave;     
+        $this->oProp->bEnableAutoSave = $bEnableAutoSave;
     }
     
     /**
@@ -158,7 +158,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
     * @param    array       $aArguments                      The taxonomy argument array passed to the second parameter of the <a href="http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments">register_taxonomy()</a> function.
     * @param    array       $aAdditionalObjectTypes     Additional object types (post types) besides the caller post type.
     * @return   void
-    */ 
+    */
     protected function addTaxonomy( $sTaxonomySlug, array $aArguments, array $aAdditionalObjectTypes=array() ) {
 
         $sTaxonomySlug  = $this->oUtil->sanitizeSlug( $sTaxonomySlug );
@@ -187,13 +187,13 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
         $this->oProp->aTaxonomyObjectTypes[ $sTaxonomySlug ] = array_unique( $aAdditionalObjectTypes );
 
         // Set up hooks. If the 'init' hook is already done, register it now.
-        $this->_addTaxonomy_setUpHooks( 
-            $sTaxonomySlug, 
+        $this->_addTaxonomy_setUpHooks(
+            $sTaxonomySlug,
             $aArguments,
             $aAdditionalObjectTypes
         );
 
-    }    
+    }
         /**
          * Sets up hooks for adding taxonomies.
          * 
@@ -208,12 +208,12 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
                 $this->_registerTaxonomy( $sTaxonomySlug, $aAdditionalObjectTypes, $aArguments );
             } else {
                 // the hook should not be admin_init because taxonomies need to be accessed in front-end pages as well.
-                add_action( 'init', array( $this, '_replyToRegisterTaxonomies' ) ); 
+                add_action( 'init', array( $this, '_replyToRegisterTaxonomies' ) );
             }
             
-            $this->oUtil->registerAction( 
+            $this->oUtil->registerAction(
                 'admin_menu',
-                array( $this, '_replyToRemoveTexonomySubmenuPages' ), 
+                array( $this, '_replyToRemoveTexonomySubmenuPages' ),
                 999
             );
             
@@ -229,7 +229,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
     * @since        2.0.0
     * @param        boolean     $bEnableAuthorTableFileter      If true, it enables the author filter; otherwise, it disables it.
     * @return       void
-    */ 
+    */
     protected function setAuthorTableFilter( $bEnableAuthorTableFileter=false ) {
         $this->oProp->bEnableAuthorTableFileter = $bEnableAuthorTableFileter;
     }
@@ -242,7 +242,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
      * @since           2.0.0
      * @deprecated      3.2.0           Use the setArguments() method instead.
      * @return          void
-     */ 
+     */
     protected function setPostTypeArgs( $aArgs ) {
         $this->setArguments( ( array ) $aArgs );
     }

@@ -7,7 +7,7 @@
  * @license		MIT	<http://opensource.org/licenses/MIT>
  */
 if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
-	require( dirname( dirname( dirname( __FILE__ ) ) ) . '/php_class_files_script_generator/PHP_Class_Files_Script_Generator_Base.php' );	
+	require dirname( dirname( dirname( __FILE__ ) ) ) . '/php_class_files_script_generator/PHP_Class_Files_Script_Generator_Base.php';
 }
 
 /**
@@ -25,7 +25,7 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 		'header_class_name'		=>	'',
 		'header_class_path'		=>	'',
 		'output_buffer'			=>	true,
-		'header_type'			=>	'DOCBLOCK',	
+		'header_type'			=>	'DOCBLOCK',
 		'exclude_classes'		=>	array(),
 		'base_dir_var'			=>	'',
 		'output_var_name'		=>	'$aClassFiles',
@@ -88,13 +88,13 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 		}
 		
 		/* Store the file contents into an array. */
-		$_aFilePaths	= $this->_getFileLists( $_aScanDirPaths, $aOptions['search'] );	
+		$_aFilePaths	= $this->_getFileLists( $_aScanDirPaths, $aOptions['search'] );
 		$_aFiles		= $this->_formatFileArray( $_aFilePaths );
 		unset( $_aFiles[ pathinfo( $sOutputFilePath, PATHINFO_FILENAME ) ] );	// it's possible that the minified file also gets loaded but we don't want it.
 
 		if ( $aOptions['output_buffer'] ) {
 			echo sprintf( 'Found %1$s file(s)', count( $_aFiles ) ) . $_sCarriageReturn;
-		}			
+		}
 	
 		/* Generate the output script header comment */
 		$_sHeaderComment = $this->_getHeaderComment( $_aFiles, $aOptions );
@@ -106,8 +106,8 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 		$_aFiles = $this->sort( $_aFiles, $aOptions['exclude_classes'] );
 		
 		if ( $aOptions['output_buffer'] ) {
-			echo sprintf( 'Sorted %1$s file(s)', count( $_aFiles ) ) . $_sCarriageReturn;			
-		}				
+			echo sprintf( 'Sorted %1$s file(s)', count( $_aFiles ) ) . $_sCarriageReturn;
+		}
 		
 		/* Write to a file */
 		$this->write( $_aFiles, $sBaseDirPath, $sOutputFilePath, $_sHeaderComment, $aOptions['output_var_name'], $aOptions['base_dir_var'] );
@@ -132,15 +132,16 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 			$_aAdditionalClasses = array();
 			foreach( $aFiles as $_sClassName => $_aFile ) {
 				foreach( $_aFile['defined_classes'] as $_sAdditionalClass ) {
-					if ( isset( $aFiles[ $_sAdditionalClass ] ) ) { 
-                        continue; 
+					if ( isset( $aFiles[ $_sAdditionalClass ] ) ) {
+                        continue;
                     }
                     if ( in_array( $_sAdditionalClass, $aExcludingClassNames ) ) {
                         continue;
-                    }                    
+                    }
 					$_aAdditionalClasses[ $_sAdditionalClass ] = $_aFile;
 				}
 			}
+
 			return $aFiles + $_aAdditionalClasses;
 			
 		}
@@ -156,10 +157,10 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 		$_aData[]	= $sOutputArrayVar . ' = array( ' . PHP_EOL;
 			
 		// Insert the data
-		foreach( $aFiles as $_sClassName => $_aFile ) {					
+		foreach( $aFiles as $_sClassName => $_aFile ) {
 			$_sPath		= str_replace('\\', '/', $_aFile['path'] );
 			$_sPath		= $this->_getRelativePath( $sBaseDirPath, $_sPath );
-			$_aData[]	= "\t" . '"' . $_sClassName . '"' . "\t" . '=>' 
+			$_aData[]	= "\t" . '"' . $_sClassName . '"' . "\t" . '=>'
 				. "\t" . $sBaseDirVar . ' . "' . $_sPath . '", ' . PHP_EOL;
 		}
 		
@@ -172,9 +173,9 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 		}
 		
 		// Write to a file.
-		file_put_contents( 
-            $sOutputFilePath, 
-            trim( implode( '', $_aData ) ) . PHP_EOL, 
+		file_put_contents(
+            $sOutputFilePath,
+            trim( implode( '', $_aData ) ) . PHP_EOL,
             FILE_APPEND | LOCK_EX
         );
 		
@@ -216,7 +217,8 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 			}
 			
 			$relPath = implode( '/', $relPath );
+
 			return ltrim( $relPath, '.' );
-		}	
+		}
 
 }

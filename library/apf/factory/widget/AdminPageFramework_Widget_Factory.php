@@ -27,6 +27,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
         if (!$_sTitle) {
             return '';
         }
+
         return $aArguments['before_title'] . $_sTitle . $aArguments['after_title'];
     }
     public function update($aSubmittedFormData, $aSavedFormData) {
@@ -48,6 +49,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
     private function _loadFrameworkFactory() {
         if ($this->oCaller->oUtil->hasBeenCalled('_widget_load_' . $this->oCaller->oProp->sClassName)) {
             $this->oCaller->oForm->aSavedData = $this->_replyToGetSavedFormData();
+
             return;
         }
         $this->oCaller->load($this->oCaller);
@@ -62,11 +64,13 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
     public function _replyToGetFieldName() {
         $_aParams = func_get_args() + array(null, null, null);
         $aFieldset = $_aParams[1];
+
         return $this->_getNameAttributeDimensions($aFieldset);
     }
     private function _getNameAttributeDimensions($aFieldset) {
         $_sSectionIndex = isset($aFieldset['section_id'], $aFieldset['_section_index']) ? "[{$aFieldset['_section_index']}]" : "";
         $_sDimensions = $this->oCaller->isSectionSet($aFieldset) ? $aFieldset['section_id'] . "]" . $_sSectionIndex . "[" . $aFieldset['field_id'] : $aFieldset['field_id'];
+
         return 'widget-' . $this->id_base . '[' . $this->number . '][' . $_sDimensions . ']';
     }
     public function _replyToGetFieldInputName() {
@@ -74,6 +78,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
         $aFieldset = $_aParams[1];
         $sIndex = $_aParams[2];
         $_sIndex = $this->oCaller->oUtil->getAOrB('0' !== $sIndex && empty($sIndex), '', "[" . $sIndex . "]");
+
         return $this->_replyToGetFieldName('', $aFieldset) . $_sIndex;
     }
 }

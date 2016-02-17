@@ -11,6 +11,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
         new AdminPageFramework_Form_View___Script_CheckboxSelector;
         $_sClassSelectorSelectAll = $this->_getSelectButtonClassSelectors($this->aFieldTypeSlugs, 'select_all_button');
         $_sClassSelectorSelectNone = $this->_getSelectButtonClassSelectors($this->aFieldTypeSlugs, 'select_none_button');
+
         return <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
     // Add the buttons.
@@ -32,6 +33,7 @@ JAVASCRIPTS;
             }
             $_aClassSelectors[] = '.admin-page-framework-checkbox-container-' . $_sSlug . "[data-{$sDataAttribute}]";
         }
+
         return implode(',', $_aClassSelectors);
     }
     protected function getStyles() {
@@ -44,6 +46,7 @@ JAVASCRIPTS;
         foreach ($this->getAsArray($aField['label'], true) as $_sKey => $_sLabel) {
             $_aOutput[] = $this->_getEachCheckboxOutput($aField, $_bIsMultiple ? $_sKey : '', $_sLabel);
         }
+
         return "<div " . $this->getAttributes($this->_getCheckboxContainerAttributes($aField)) . ">" . "<div class='repeatable-field-buttons'></div>" . implode(PHP_EOL, $_aOutput) . "</div>";
     }
     protected function _getCheckboxContainerAttributes(array $aField) {
@@ -53,6 +56,7 @@ JAVASCRIPTS;
         $_oCheckbox = new AdminPageFramework_Input_checkbox($aField['attributes']);
         $_oCheckbox->setAttributesByKey($sKey);
         $_oCheckbox->addClass($this->_sCheckboxClassSelector);
+
         return $this->getElementByLabel($aField['before_label'], $sKey, $aField['label']) . "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: " . $this->sanitizeLength($aField['label_min_width']) . ";'>" . "<label " . $this->getAttributes(array('for' => $_oCheckbox->getAttribute('id'), 'class' => $_oCheckbox->getAttribute('disabled') ? 'disabled' : null,)) . ">" . $this->getElementByLabel($aField['before_input'], $sKey, $aField['label']) . $_oCheckbox->get($sLabel) . $this->getElementByLabel($aField['after_input'], $sKey, $aField['label']) . "</label>" . "</div>" . $this->getElementByLabel($aField['after_label'], $sKey, $aField['label']);
     }
 }
@@ -62,11 +66,13 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
     protected $aDefaultRemovingPostTypeSlugs = array('revision', 'attachment', 'nav_menu_item',);
     protected function getStyles() {
         $_sParentStyles = parent::getStyles();
+
         return $_sParentStyles . ".admin-page-framework-field input[type='checkbox'] {margin-right: 0.5em;} .admin-page-framework-field-posttype .admin-page-framework-input-label-container {padding-right: 1em;}";
     }
     protected function getField($aField) {
         $this->_sCheckboxClassSelector = '';
         $aField['label'] = $this->_getPostTypeArrayForChecklist(isset($aField['slugs_to_remove']) ? $this->getAsArray($aField['slugs_to_remove']) : $this->aDefaultRemovingPostTypeSlugs, $aField['query'], $aField['operator']);
+
         return parent::getField($aField);
     }
     private function _getPostTypeArrayForChecklist($aSlugsToRemove, $asQueryArgs = array(), $sOperator = 'and') {
@@ -76,6 +82,7 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
                 $_aPostTypes[$_oPostType->name] = $_oPostType->label;
             }
         }
+
         return array_diff_key($_aPostTypes, array_flip($aSlugsToRemove));
     }
 }

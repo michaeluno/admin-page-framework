@@ -37,8 +37,8 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
      */
     public function __construct( /* array $aField, array $aOptions */ ) {
 
-        $_aParameters = func_get_args() + array( 
-            $this->aField, 
+        $_aParameters = func_get_args() + array(
+            $this->aField,
             $this->aOptions,
         );
         $this->aField           = $_aParameters[ 0 ];
@@ -53,22 +53,22 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
     public function get() {
 
         // Get the set value(s)
-        $_mSavedValue    = $this->_getStoredInputFieldValue( 
-            $this->aField, 
-            $this->aOptions 
+        $_mSavedValue    = $this->_getStoredInputFieldValue(
+            $this->aField,
+            $this->aOptions
         );
 
         // Construct fields array.
-        $_aFields = $this->_getFieldsWithSubs( 
-            $this->aField, 
-            $_mSavedValue 
+        $_aFields = $this->_getFieldsWithSubs(
+            $this->aField,
+            $_mSavedValue
         );
              
         // Set the saved values
-        $this->_setSavedFieldsValue( 
-            $_aFields, 
-            $_mSavedValue, 
-            $this->aField 
+        $this->_setSavedFieldsValue(
+            $_aFields,
+            $_mSavedValue,
+            $this->aField
         );
 
         // Determine the value
@@ -102,7 +102,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
             // Put them together
             return array_merge( array( $aFirstField ), $aSubFields );
             
-        }            
+        }
             /**
              * Divide the fields into the main field and sub fields.
              * 
@@ -119,8 +119,8 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
                     } else {
                         $aFirstField[ $_nsIndex ] = $_mFieldElement;
                     }
-                }     
-            }   
+                }
+            }
             /**
              * Fills sub-fields with repeatable fields.
              * 
@@ -139,10 +139,10 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
                 $_aSavedValues = ( array ) $mSavedValue;
                 unset( $_aSavedValues[ 0 ] );
                 foreach( $_aSavedValues as $_iIndex => $vValue ) {
-                    $aSubFields[ $_iIndex - 1 ] = isset( $aSubFields[ $_iIndex - 1 ] ) && is_array( $aSubFields[ $_iIndex - 1 ] ) 
-                        ? $aSubFields[ $_iIndex - 1 ] 
-                        : array();     
-                }       
+                    $aSubFields[ $_iIndex - 1 ] = isset( $aSubFields[ $_iIndex - 1 ] ) && is_array( $aSubFields[ $_iIndex - 1 ] )
+                        ? $aSubFields[ $_iIndex - 1 ]
+                        : array();
+                }
             }
             /**
              * Fills sub-fields.
@@ -156,14 +156,14 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
                 foreach( $aSubFields as &$_aSubField ) {
                     
                     // Evacuate the label element which should not be merged.
-                    $_aLabel = $this->getElement( 
-                        $_aSubField, 
+                    $_aLabel = $this->getElement(
+                        $_aSubField,
                         'label',
                         $this->getElement( $aFirstField, 'label', null )
                     );
                     
                     // Do recursive array merge - the 'attributes' array of some field types have more than one dimensions.
-                    $_aSubField = $this->uniteArrays( $_aSubField, $aFirstField ); 
+                    $_aSubField = $this->uniteArrays( $_aSubField, $aFirstField );
                     
                     // Restore the label element.
                     $_aSubField[ 'label' ] = $_aLabel;
@@ -184,7 +184,8 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
             if ( ! $_bHasSubFields ) {
                 $aFields[ 0 ][ '_saved_value' ] = $mSavedValue;
                 $aFields[ 0 ][ '_is_multiple_fields' ] = false;
-                return;                    
+
+                return;
             }
      
             foreach( $aFields as $_iIndex => &$_aThisField ) {
@@ -192,7 +193,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
                 $_aThisField[ '_is_multiple_fields' ] = true;
             }
     
-        } 
+        }
         
         /**
          * Sets the value to the given fields array.
@@ -223,9 +224,10 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
             if ( isset( $aField[ 'default' ] ) ) {
                 return $aField[ 'default' ];
             }
-            return null;                  
+
+            return null;
             
-        }            
+        }
         /**
          * Returns the stored field value.
          * 
@@ -239,19 +241,19 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
          * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
          * @since       3.7.0      Changed the `_field_type` element to `_structure_type`.
          */
-        private function _getStoredInputFieldValue( $aField, $aOptions ) {    
+        private function _getStoredInputFieldValue( $aField, $aOptions ) {
 
             // If a section is not set, check the first dimension element.
             if ( ! isset( $aField[ 'section_id' ] ) || '_default' === $aField[ 'section_id' ] ) {
-                return $this->getElement( 
-                    $aOptions, 
+                return $this->getElement(
+                    $aOptions,
                     $aField[ 'field_id' ],
                     null
                 );
             }
                 
             // At this point, the section dimension is set.
-            
+
             $_aSectionPath = $aField[ '_section_path_array' ];
             $_aFieldPath   = $aField[ '_field_path_array' ];
             
@@ -272,6 +274,6 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
                 null
             );
                                             
-        }         
+        }
     
 }

@@ -39,8 +39,9 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
         foreach( $aCSSRules as $_sProperty => $_sValue ) {
             $_aOutput[] = $_sProperty . ': ' . $_sValue;
         }
+
         return implode( '; ', $_aOutput );
-    }    
+    }
         /**
          * @since           3.2.0
          * @deprecated      3.6.0       Use `getInlineCSS()` instead.
@@ -87,6 +88,7 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
             }
             
         }
+
         return self::getInlineCSS( array_unique( $_aCSSRules ) );
         
     }
@@ -121,8 +123,8 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
         foreach( func_get_args() as $_asClasses ) {
             if ( ! in_array( gettype( $_asClasses ), array( 'array', 'string' ) ) ) {
                 continue;
-            }            
-            $_aClasses = array_merge( 
+            }
+            $_aClasses = array_merge(
                 $_aClasses,
                 is_array( $_asClasses )
                     ? $_asClasses
@@ -134,7 +136,7 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
         // @todo examine if it is okay to remove the trim() function below.
         return trim( implode( ' ', $_aClasses ) );
         
-    }    
+    }
         /**
          * Generates a string of class selectors from multiple arguments.
          * 
@@ -144,10 +146,11 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
          */
         static public function generateClassAttribute( /* $asClassSelectors1, $asClassSelectors12 ... */ ) {
             $_aParams = func_get_args();
+
             return call_user_func_array(
-                array( __CLASS__ , 'getClassAttribute' ), 
+                array( __CLASS__ , 'getClassAttribute' ),
                 $_aParams
-            );        
+            );
         }
     
     /**
@@ -162,9 +165,10 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
         foreach( $aArray as $sKey => $v ) {
             if ( in_array( gettype( $v ), array( 'array', 'object' ) ) ) {
                 continue;
-            }            
+            }
             $_aNewArray[ "data-{$sKey}" ] = $v ? $v : '0';
         }
+
         return $_aNewArray;
         
     }

@@ -35,15 +35,18 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_F
         $_abCollapsible = $_oArgumentFormater->get();
         $_oCollapsibleSectionTitle = new AdminPageFramework_Form_View___CollapsibleSectionTitle(array('title' => $this->getElement($_abCollapsible, 'title', $aSectionset['title']), 'tag' => 'h3', 'section_index' => $iSectionIndex, 'collapsible' => $_abCollapsible, 'container_type' => 'section', 'sectionset' => $aSectionset,), $aFieldsets, $this->aSavedData, $this->aFieldErrors, $aFieldTypeDefinitions, $oMsg, $aCallbacks);
         $_bShowTitle = empty($_abCollapsible) && !$aSectionset['section_tab_slug'];
+
         return "<caption " . $this->getAttributes(array('class' => 'admin-page-framework-section-caption', 'data-section_tab' => $aSectionset['section_tab_slug'],)) . ">" . $_oCollapsibleSectionTitle->get() . $this->getAOrB($_bShowTitle, $this->_getCaptionTitle($aSectionset, $iSectionIndex, $aFieldsets, $aFieldTypeDefinitions), '') . $this->_getCaptionDescription($aSectionset, $aCallbacks['section_head_output']) . $this->_getSectionError($aSectionset, $aFieldErrors) . "</caption>";
     }
     private function _getSectionError($aSectionset, $aFieldErrors) {
         $_sSectionID = $aSectionset['section_id'];
         $_sSectionError = isset($aFieldErrors[$_sSectionID]) && is_string($aFieldErrors[$_sSectionID]) ? $aFieldErrors[$_sSectionID] : '';
+
         return $_sSectionError ? "<div class='admin-page-framework-error'><span class='section-error'>* " . $_sSectionError . "</span></div>" : '';
     }
     private function _getCaptionTitle($aSectionset, $iSectionIndex, $aFieldsets, $aFieldTypeDefinitions) {
         $_oSectionTitle = new AdminPageFramework_Form_View___SectionTitle(array('title' => $aSectionset['title'], 'tag' => 'h3', 'section_index' => $iSectionIndex, 'sectionset' => $aSectionset,), $aFieldsets, $this->aSavedData, $this->aFieldErrors, $aFieldTypeDefinitions, $this->oMsg, $this->aCallbacks);
+
         return "<div " . $this->getAttributes(array('class' => 'admin-page-framework-section-title', 'style' => $this->getAOrB($this->_shouldShowCaptionTitle($aSectionset, $iSectionIndex), '', 'display: none;'),)) . ">" . $_oSectionTitle->get() . "</div>";
     }
     private function _getCaptionDescription($aSectionset, $hfSectionCallback) {
@@ -54,6 +57,7 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_F
             return '';
         }
         $_oSectionDescription = new AdminPageFramework_Form_View___Description($aSectionset['description'], 'admin-page-framework-section-description');
+
         return "<div class='admin-page-framework-section-description'>" . call_user_func_array($hfSectionCallback, array($_oSectionDescription->get(), $aSectionset)) . "</div>";
     }
     private function _shouldShowCaptionTitle($aSectionset, $iSectionIndex) {
@@ -69,6 +73,7 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_F
         if ($aSectionset['repeatable'] && $iSectionIndex != 0) {
             return false;
         }
+
         return true;
     }
 }

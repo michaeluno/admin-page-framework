@@ -5,7 +5,7 @@ use \AcceptanceTester;
  * Bootstrap does not work for including abstract classes.
  * @see     https://github.com/Codeception/Codeception/issues/862
  */
-require_once( dirname( dirname( __FILE__ ) ) . '/_bootstrap.php' );
+require_once dirname( dirname( __FILE__ ) ) . '/_bootstrap.php';
 
 class Demo_ManageOptions_Reset_Cest extends \Demo_AdminPage_Base {
     
@@ -31,12 +31,12 @@ class Demo_ManageOptions_Reset_Cest extends \Demo_AdminPage_Base {
         $this->_checkCommonElements( $I );
         
         // Check some field elements.
-        
+
         // <input type="submit" value="Delete Options" class="button-secondary" id="reset_submit_manage__0" name="APF_Demo[reset][submit_manage]" data-id_model="reset_submit_manage__-fi-" data-name_model="APF_Demo[reset][submit_manage]" title="Delete Options" alt="">
         $I->seeElement( '//input[contains(@name, "submit_skip_confirmation")]' );
    
         // @todo fill the form and confirm that values are stored
-        
-    } 
+
+    }
         
 }

@@ -40,6 +40,7 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_Fra
                 return true;
             }
         }
+
         return false;
     }
     private function _isPageOfMetaBox($sPageSlug, $oMetaBox) {
@@ -51,6 +52,7 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_Fra
         }
         $_aTabs = $oMetaBox->oProp->aPageSlugs[$sPageSlug];
         $_sCurrentTabSlug = $this->oFactory->oProp->getCurrentTabSlug();
+
         return ($_sCurrentTabSlug && in_array($_sCurrentTabSlug, $_aTabs));
     }
     public function _replyToAddMetaboxScript() {

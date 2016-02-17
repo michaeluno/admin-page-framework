@@ -37,30 +37,30 @@ class APF_Demo_BuiltinFieldTypes_Text {
          * ( optional ) Add in-page tabs - In Admin Page Framework, there are two kinds of tabs: page-heading tabs and in-page tabs.
          * Page-heading tabs show the titles of sub-page items which belong to the set root page. 
          * In-page tabs show tabs that you define to be embedded within an individual page.
-         */        
-        $oFactory->addInPageTabs(    
+         */
+        $oFactory->addInPageTabs(
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Text', 'admin-page-framework-loader' ),
                 'order'         => 1, // ( optional ) - if this is not set, an index will be assigned automatically in the added order
             )
-        );                
+        );
               
-        add_action( 
-            'load_' . $this->sPageSlug . '_' . $this->sTabSlug, 
+        add_action(
+            'load_' . $this->sPageSlug . '_' . $this->sTabSlug,
             array( $this, 'replyToLoadTab' )
-        );      
+        );
 
-        add_filter( 
+        add_filter(
             'footer_left_' . $this->sPageSlug . '_' . $this->sTabSlug,
             array( $this, 'replyToModifyLeftFooterText' )
         );
         
-        add_filter( 
+        add_filter(
             'footer_right_' . $this->sPageSlug . '_' . $this->sTabSlug,
             array( $this, 'replyToModifyRightFooterText' )
-        );  
+        );
      
     }
 
@@ -83,7 +83,7 @@ class APF_Demo_BuiltinFieldTypes_Text {
                     continue;
                 }
                 new $_sClassName( $oFactory );
-            }   
+            }
             
         }
     
@@ -97,9 +97,9 @@ class APF_Demo_BuiltinFieldTypes_Text {
         return "<span>" . sprintf(
                     __( 'Inserted with the <code>%1$s</code> filter.', 'admin-page-framework-loader' ),
                     'footer_left_{page slug}_{tab slug}'
-                ) 
-            . "</span><br />" 
-            . $sHTML;              
+                )
+            . "</span><br />"
+            . $sHTML;
     }
     /**
      * Modifies the right footer text.
@@ -113,7 +113,7 @@ class APF_Demo_BuiltinFieldTypes_Text {
                     'footer_right_{page slug}_{tab slug}'
                 )
             . "</span><br />"
-            . $sHTML;              
+            . $sHTML;
     }
 
 }

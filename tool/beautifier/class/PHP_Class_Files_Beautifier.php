@@ -7,7 +7,7 @@
  * @license     MIT    <http://opensource.org/licenses/MIT>
  */
 if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
-    require( dirname( dirname( dirname( __FILE__ ) ) ) . '/php_class_files_script_generator/PHP_Class_Files_Script_Generator_Base.php' );
+    require dirname( dirname( dirname( __FILE__ ) ) ) . '/php_class_files_script_generator/PHP_Class_Files_Script_Generator_Base.php';
 }
 
 /**
@@ -20,14 +20,14 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
     static protected $_aStructure_Options = array(
     
         'header_class_name' => '',
-        'header_class_path' => '',        
+        'header_class_path' => '',
         'output_buffer'     => true,
-        'character_encode'  => 'UTF-8',     
+        'character_encode'  => 'UTF-8',
 
-        'header_type'       => 'DOCBLOCK',    
+        'header_type'       => 'DOCBLOCK',
         'exclude_classes'   => array(),
-        'css_heredoc_keys'  => array( 'CSSRULES' ),       
-        'js_heredoc_keys'   => array( 'JAVASCRIPTS' ),  
+        'css_heredoc_keys'  => array( 'CSSRULES' ),
+        'js_heredoc_keys'   => array( 'JAVASCRIPTS' ),
         'carriage_return'   => PHP_EOL,
         
         /**
@@ -51,7 +51,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             'exclude_dir_names'  => array(),
             'exclude_file_names' => array(),
             'is_recursive'       => true,
-        ),        
+        ),
         
     );
         
@@ -68,7 +68,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      * Stores the output file path.
      * @since       1.0.0
      */
-    public $sDestinationDirPath;    
+    public $sDestinationDirPath;
     
     /**
      * Stores the header comment to insert at the top of the script.
@@ -79,7 +79,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
     /**
      * Stores the scanned files.
      * @since       1.0.0
-     */    
+     */
     public $aFiles = array();
     
     /**
@@ -131,13 +131,14 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $this->output(
                 'Failed to create a temporary directory: ' . $sSourceDirPath,
                 $aOptions
-            );           
-            return;                        
+            );
+
+            return;
         }
         
         $_bSuccess = $this->xcopy(
-            $sSourceDirPath, 
-            $_sTempDirPath, 
+            $sSourceDirPath,
+            $_sTempDirPath,
             0755,
             $aOptions[ 'search' ]
         );
@@ -145,8 +146,9 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $this->output(
                 'Failed to copy the directory: ' . $sSourceDirPath,
                 $aOptions
-            );           
-            return;            
+            );
+
+            return;
         }
         $this->output(
             'Searching files under the directory: ' . $sSourceDirPath,
@@ -154,8 +156,8 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         );
         
         $_aFiles = $this->_formatFileArray(
-            $this->_getFileLists( 
-                $_sTempDirPath, 
+            $this->_getFileLists(
+                $_sTempDirPath,
                 $aOptions[ 'search' ]
             )
         );
@@ -166,32 +168,32 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
  
         // Generate the output script header comment.
         $aOptions[ 'header_comment' ] = trim( $this->_getHeaderComment( array(), $aOptions ) );
-        $this->output( 'File Header', $aOptions );        
+        $this->output( 'File Header', $aOptions );
         $this->output(
             $aOptions[ 'header_comment' ],
             $aOptions
         );
         
         // Retrieve file contents.
-     
+
         // Minifiy Inline CSS Rules
         $_aFiles = $this->_getInlineCSSMinified( $_aFiles, $aOptions );
 
         // Minifiy Inline JavaScript Scripts
         // Currently not used.
         // $_aFiles = $this->_getInlineJavaScriptMinified( $_aFiles, $aOptions );
-  
+
         // Combine files.
         $_aFiles = $this->_getCombinedFiles( $_aFiles, $aOptions );
   
         // Apply the beautifier 
         $_aFiles = $this->_getBeautifiedFiles( $_aFiles, $aOptions );
       
-        $this->_createFiles( 
+        $this->_createFiles(
             $_aFiles,               // parsing files
             $_sTempDirPath,         // temporary directory path
             $sDestinationDirPath,   // destination directory path
-            $aOptions 
+            $aOptions
         );
         
     }
@@ -204,8 +206,8 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $aOptions                      = $aOptions + self::$_aStructure_Options;
             $aOptions[ 'search' ]          = $aOptions['search'] + self::$_aStructure_Options[ 'search' ];
             $aOptions[ 'search' ][ 'exclude_dir_paths' ] = $this->_formatPaths( $aOptions[ 'search' ][ 'exclude_dir_paths' ] );
-            $aOptions[ 'carriage_return' ] = php_sapi_name() == 'cli' 
-                ? PHP_EOL 
+            $aOptions[ 'carriage_return' ] = php_sapi_name() == 'cli'
+                ? PHP_EOL
                 : '<br />';
             $aOptions[ 'combine' ]         = $aOptions[ 'combine' ] + self::$_aStructure_Options[ 'combine' ];
             $aOptions[ 'combine' ][ 'exclude_classes' ] = is_array( $aOptions[ 'combine' ][ 'exclude_classes' ] )
@@ -221,7 +223,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 : array( $aOptions[ 'js_heredoc_keys' ] );
                 
             return $aOptions;
-        }    
+        }
 
     /**
      * @return      array
@@ -248,7 +250,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             // For parent classes which do not belong to the project,
             if ( ! isset( $aFiles[ $_sParentClassName ] ) ) {
                 $_aNew[ $_sClassName ] = $_aFile;
-                continue;                
+                continue;
             }
             if ( in_array( $_sClassName, $_aCombineOptions[ 'exclude_classes' ] ) ) {
                 $_aNew[ $_sClassName ] = $_aFile;
@@ -257,11 +259,11 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             // If it is a parent of another class, do nothing.
             if ( $this->_isParent( $_sClassName, $aFiles, true, $_aCombineOptions[ 'exclude_classes' ] ) ) {
                 $_aNew[ $_sClassName ] = $_aFile;
-                continue;                                
+                continue;
             }
             
             // At this point, the parsing item is the most extended class in the same directory.
-            
+
             // Combine code
             $_sThisCode = $_aFile[ 'code' ];
             foreach( $this->_getAncestorClassNames( $_sClassName, $aFiles, true ) as $_sAnscestorClassName ) {
@@ -307,6 +309,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                     return true;
                 }
             }
+
             return false;
             
         }
@@ -325,7 +328,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 ? $aFiles[ $sClassName ][ 'dependency' ]
                 : '';
             // Make sure the retrieved parent one also belongs to the project files.
-            $_sParentClass = isset( $aFiles[ $_sParentClass ] ) 
+            $_sParentClass = isset( $aFiles[ $_sParentClass ] )
                 ? $_sParentClass
                 : '';
             if ( ! $_sParentClass ) {
@@ -336,10 +339,10 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             if ( $bOnlyInTheSameDirectory ) {
                 $_sThisDirPath        = dirname( $aFiles[ $sClassName ][ 'path' ] );
                 $_sParentClassDirPath = dirname( $aFiles[ $_sParentClass ][ 'path' ] );
-                if ( $_sThisDirPath !== $_sParentClassDirPath ) {                    
+                if ( $_sThisDirPath !== $_sParentClassDirPath ) {
                     return $_aAncestors;
                 }
-            } 
+            }
             
             $_aAncestors[] = $_sParentClass;
             
@@ -371,7 +374,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         $_aNew   = array();
         $_iCount = 0;
         foreach( $aFiles as $_sClassName => $_aFile  ) {
-            $_aFile[ 'code' ] = $this->_getInlineJavaScriptMinifiedCode( 
+            $_aFile[ 'code' ] = $this->_getInlineJavaScriptMinifiedCode(
                 $_aFile[ 'code' ],
                 $_aFile[ 'path' ],
                 $aOptions[ 'js_heredoc_keys' ]
@@ -380,6 +383,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $this->output( '.', $aOptions );
         }
         $this->output( $_sCR, $aOptions );
+
         return $_aNew;
      
     }
@@ -392,15 +396,16 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             // The JSMinPlus.mod library crashes in PHP 5.2.9 or below.
             if ( version_compare( PHP_VERSION, '5.2.9' ) <= 0 ) {
                 if ( $aOptions[ 'carriage_return' ] ) {
-                    $this->oOutput( 
-                        sprintf( 
-                            'JavaScript scripts are not minified. It requires PHP above 5.2.9 to minify JavaScripts. You are using PHP %1$s.', 
-                            PHP_VERSION 
+                    $this->oOutput(
+                        sprintf(
+                            'JavaScript scripts are not minified. It requires PHP above 5.2.9 to minify JavaScripts. You are using PHP %1$s.',
+                            PHP_VERSION
                         )
                     );
                 }
+
                 return false;
-            }     
+            }
             
             // Include the library
             if ( class_exists( 'JSMinPlus' ) ) {
@@ -408,17 +413,19 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             }
             $_sPathJSMinPlus = dirname( __FILE__ ) . '/library/JSMinPlus.php';
             if ( file_exists( $_sPathJSMinPlus ) ) {
-                include( $_sPathJSMinPlus );                     
+                include $_sPathJSMinPlus;
             }
             if ( ! class_exists( 'JSMinPlus' ) ) {
-                $this->oOutput( 
-                    sprintf( 
+                $this->oOutput(
+                    sprintf(
                         'In order to minify Inline JavaScirpt sciripts, a modified version of JSMinPlus is required. The library could not be located.',
-                        PHP_VERSION 
+                        PHP_VERSION
                     )
-                );      
-                return false;                
+                );
+
+                return false;
             }
+
             return true;
             
         }
@@ -433,37 +440,38 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             // Now minify the script.
             $this->_sCurrentIterationFilePath = $sFilePath;
             foreach( $aHereDocKeys as $_sHereDocKey ) {
-                $sCode = preg_replace_callback( 
+                $sCode = preg_replace_callback(
                     "/\s?+\K(<<<{$_sHereDocKey}[\r\n])(.+?)([\r\n]{$_sHereDocKey};(\s+)?[\r\n])/ms",   // needle
                     array( $this, '_replyToMinifyJavaScripts' ),                               // callback
                     $sCode,                                                         // haystack
                     -1  // limit -1 for no limit
-                );                    
-            }            
+                );
+            }
             $this->_sCurrentIterationFilePath = '';
-            return $sCode;            
+
+            return $sCode;
             
         }
             /**
              * The callback function to minify the JavaScript scripts defined in heredoc variable assignments.
              * 
              * @since       1.2.0
-             */    
+             */
             public function _replyToMinifyJavaScripts( $aMatch ) {
                 
                 if ( ! isset( $aMatch[ 1 ], $aMatch[ 2 ], $aMatch[ 3 ] ) ) {
                     return $aMatch[ 0 ];
-                }                   
+                }
                 $_sJavaScript = $aMatch[ 2 ];
                 
                 // Escape PHP variables enclosed in curly braces such as {$abc}.
-                $_aReplacedPHPVariables = $this->_getPHPVariablesReserved( 
+                $_aReplacedPHPVariables = $this->_getPHPVariablesReserved(
                     $_sJavaScript  // by reference - this gets modified in the method
-                );                
+                );
                 
                 // Minify Script
-                $_sJavaScript = '"' 
-                    . JSMinPlus::minify( 
+                $_sJavaScript = '"'
+                    . JSMinPlus::minify(
                         $_sJavaScript,
                         $this->_sCurrentIterationFilePath
                     )
@@ -474,11 +482,11 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                     array_keys( $_aReplacedPHPVariables ), // search - reserved values
                     array_values( $_aReplacedPHPVariables ), // replace - original values
                     $_sJavaScript
-                ); 
+                );
                 
                 return $_sJavaScript;
                     
-            }                    
+            }
                 /**
                  * Modified the given code by replacing PHP variables enclosed in curly braces.
                  * @return      array       Replaced items.
@@ -496,6 +504,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                         -1,
                         $_iCount
                     );
+
                     return $this->_aReservedPHPVariables;
                     
                 }
@@ -509,8 +518,8 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                     public function _replyToReservePHPVaraiable( $aMatches ) {
                         $_sReplacement = '__RESERVED_PHP_VARIABLE_' . count( $this->_aReservedPHPVariables );
                         $this->_aReservedPHPVariables[ $_sReplacement ] = $aMatches[ 0 ];   // original
-                        return $_sReplacement;                
-                    }             
+                        return $_sReplacement;
+                    }
         
         
     /**
@@ -527,7 +536,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         $_aNew   = array();
         $_iCount = 0;
         foreach( $aFiles as $_sClassName => $_aFile  ) {
-            $_aFile[ 'code' ] = $this->_getInlineCSSMinifiedCode( 
+            $_aFile[ 'code' ] = $this->_getInlineCSSMinifiedCode(
                 $_aFile[ 'code' ],
                 $aOptions[ 'css_heredoc_keys' ]
             );
@@ -535,25 +544,27 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $this->output( '.', $aOptions );
         }
         $this->output( $_sCR, $aOptions );
+
         return $_aNew;
         
-    }    
+    }
         /**
          * Minifies CSS Rules in variables defined with the PHP heredoc syntax. 
          * @since       1.2.0
          * @param       array           $sCode
          * @param       array           $aHereDocKeys
          * @return      string
-         */ 
+         */
         public function _getInlineCSSMinifiedCode( $sCode, array $aHereDocKeys=array() ) {
             foreach( $aHereDocKeys as $_sHereDocKey ) {
-                $sCode = preg_replace_callback( 
+                $sCode = preg_replace_callback(
                     "/\s?+\K(<<<{$_sHereDocKey}[\r\n])(.+?)([\r\n]{$_sHereDocKey};(\s+)?[\r\n])/ms",   // needle
                     array( $this, '_replyToMinifyCSSRules' ),                               // callback
                     $sCode,                                                         // haystack
                     -1  // limit -1 for no limit
                 );
             }
+
             return $sCode;
         }
             /**
@@ -567,18 +578,19 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      
                 if ( ! isset( $aMatch[ 1 ], $aMatch[ 2 ], $aMatch[ 3 ] ) ) {
                     return $aMatch[ 0 ];
-                }                   
+                }
                 $_sCSSRules = $aMatch[ 2 ];
                 
                 // CSS Minify
-                $_sCSSRules = str_replace( 
+                $_sCSSRules = str_replace(
                     array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    '),  // needle - remove tabs, spaces, newlines, etc.
                     '',     // replace
                     preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $_sCSSRules )  // haystack - comments removed
                 );
-                return '"' . $_sCSSRules . '"; '; 
+
+                return '"' . $_sCSSRules . '"; ';
                 
-            }    
+            }
     
     /**
      * @return      array
@@ -597,7 +609,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         $_aNew   = array();
         $_iCount = 0;
         foreach( $aFiles as $_sClassName => $_aFile  ) {
-            $_aFile[ 'code' ] = $this->_getBeautifiedCode( 
+            $_aFile[ 'code' ] = $this->_getBeautifiedCode(
                 $_aFile[ 'code' ],
                 $aOptions[ 'header_comment' ]
             );
@@ -605,6 +617,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $this->output( '.', $aOptions );
         }
         $this->output( $_sCR, $aOptions );
+
         return $_aNew;
         
     }
@@ -618,6 +631,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                     'Warning: The Tokenizer PHP extension needs to be installed to beautify PHP code.',
                     $aOptions
                 );
+
                 return false;
             }
             
@@ -628,11 +642,13 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                     'Warning: The PHP_Beautifier needs to be placed in ./library/PHP_Beautifier directory.',
                     $aOptions
                 );
-                return false;            
+
+                return false;
             }
             
             // Perform beautification.
-            include_once( $_sBeautifierPath );        
+            include_once $_sBeautifierPath;
+
             return true;
         
         }
@@ -647,27 +663,27 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         private function _getBeautifiedCode( $sCode, $sHeaderComment='' ) {
                         
             // Set up a beautified object.
-            $_oBeautifier = new PHP_Beautifier(); 
-            $_oBeautifier->setIndentChar(' ');  
+            $_oBeautifier = new PHP_Beautifier();
+            $_oBeautifier->setIndentChar(' ');
             $_oBeautifier->setIndentNumber( 4 );
             $_oBeautifier->setNewLine( "\n" );
             
             // PHP_Beautifier needs the beginning < ?php notation. The passed code is already formatted and the notation is removed.
-            $sCode = '<?php ' . trim( $sCode );  
+            $sCode = '<?php ' . trim( $sCode );
             $_oBeautifier->setInputString( $sCode );
             $_oBeautifier->process();
             
             $sCode = $_oBeautifier->get();
             
             // $sCode = trim( $sCode );    // remove trailing line-feed.
-            $sCode = preg_replace( 
+            $sCode = preg_replace(
                 '/^<\?php\s+?/',        // search
                 '<?php ' . PHP_EOL . $sHeaderComment . PHP_EOL, // replace
                 $sCode  // subject
             ); // File comment header
             return $sCode;
             
-        }    
+        }
         
     /**
      * Writes contents to files.
@@ -681,13 +697,13 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         $this->output(
             'Deleting: ' . $sDestinationDirPath,
             $aOptions
-        );  
+        );
         
         // Create files.
         foreach( $aFiles as $_sClassName => $_aFile ) {
-            $this->_write( 
+            $this->_write(
                 $this->_getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $_aFile[ 'path' ] ),
-                $_aFile[ 'code' ] 
+                $_aFile[ 'code' ]
             );
         }
         
@@ -699,9 +715,9 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
          * @return      string
          * @since       1.1.0
          */
-        private function _getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $sFilePath ) {           
-            return $this->_getAbsolutePathFromRelative( 
-                $sDestinationDirPath, 
+        private function _getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $sFilePath ) {
+            return $this->_getAbsolutePathFromRelative(
+                $sDestinationDirPath,
                 $this->_getRelativePath( $sTempDirPath, $sFilePath )
             );
         }
@@ -711,12 +727,12 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             private function _getAbsolutePathFromRelative( $sPrefix, $sRelativePath ) {
                 
                 // removes the heading ./ or .\ 
-                $sRelativePath  = preg_replace( "/^\.[\/\\\]/", '', $sRelativePath, 1 );    
+                $sRelativePath  = preg_replace( "/^\.[\/\\\]/", '', $sRelativePath, 1 );
                 
                 // APSPATH has a trailing slash.
-                return rtrim( $sPrefix, '/\\' ) . '/' . ltrim( $sRelativePath,'/\\' );    
+                return rtrim( $sPrefix, '/\\' ) . '/' . ltrim( $sRelativePath,'/\\' );
                 
-            }        
+            }
             /**
              * Calculates the relative path from the given path.
              * 
@@ -755,6 +771,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                         }
                     }
                 }
+
                 return implode('/', $relPath);
                 
             }
@@ -764,20 +781,20 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 // Remove the existing file.
                 if ( file_exists( $sFilePath ) ) {
                     unlink( $sFilePath );
-                }   
+                }
                 
                 // Make sure the parent directory exists.                
                 $_sDirPath = dirname( $sFilePath );
                 if ( ! is_dir( $_sDirPath ) ) {
-                    mkdir( 
-                        $_sDirPath,  
+                    mkdir(
+                        $_sDirPath,
                         0777,       // chmod
                         true        // recursive
                     );
-                }                
+                }
                 
                 // Write to a file.
-                file_put_contents( $sFilePath, $sData, FILE_APPEND | LOCK_EX );                
+                file_put_contents( $sFilePath, $sData, FILE_APPEND | LOCK_EX );
                 
             }
         
@@ -793,21 +810,22 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             }
             
             // Download it.
-            $_bDownloaded = $this->_downloadZip( 
+            $_bDownloaded = $this->_downloadZip(
                 "https://github.com/clbustos/PHP_Beautifier/archive/master.zip",
                 dirname( __FILE__ ) . '/library/PHP_Beautifier/php_beautifier.zip',
                 $aOptions
             );
-            if ( ! $_bDownloaded ) {                
+            if ( ! $_bDownloaded ) {
                 return '';
             }
         
             $this->_unZip(
                 dirname( __FILE__ ) . '/library/PHP_Beautifier/php_beautifier.zip',
-                $aOptions            
-            );            
+                $aOptions
+            );
             
             $_sPath = $this->_findBeautifierPath();
+
             return $_sPath
                 ? $_sPath
                 : '';
@@ -820,15 +838,15 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             private function _findBeautifierPath() {
                 
                 // Scan the 'library' directory and return the script path if found.
-                $_aScannedFiles = $this->_formatFileArray( 
-                    $this->_getFileLists( 
-                        dirname( __FILE__ ) . '/library', 
-                        self::$_aStructure_Options[ 'search' ] 
+                $_aScannedFiles = $this->_formatFileArray(
+                    $this->_getFileLists(
+                        dirname( __FILE__ ) . '/library',
+                        self::$_aStructure_Options[ 'search' ]
                     )
                 );
                 if ( isset( $_aScannedFiles[ 'Beautifier' ][ 'path' ] ) ) {
                     return $_aScannedFiles[ 'Beautifier' ][ 'path' ];
-                } 
+                }
              
             }
             /**
@@ -839,7 +857,8 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 if ( ! class_exists( 'ZipArchive' ) ) {
                     if ( $aOptions[ 'output_buffer' ] ) {
                         echo "The zlib PHP extension is required to extract zip files." . $aOptions['carriage_return'];
-                    }                                        
+                    }
+
                     return;
                 }
                 
@@ -848,12 +867,12 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 if( $_oZip->open( $sFilePath ) != "true" ) {
                     if ( $aOptions['output_buffer'] ) {
                         echo "Error :- Unable to open the Zip File" . $aOptions['carriage_return'];
-                    }                          
-                } 
+                    }
+                }
                 
                 /* Extract Zip File */
                 $_oZip->extractTo( dirname( $sFilePath ) );
-                $_oZip->close();                
+                $_oZip->close();
                 
             }
             /**
@@ -867,7 +886,8 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                     
                     if ( $aOptions['output_buffer'] ) {
                         echo 'To download a file, the cURL PHP extension needs to be installed. You are using PHP ' . PHP_VERSION . '.' . $aOptions['carriage_return'];
-                    }                    
+                    }
+
                     return false;
                 }
                 
@@ -875,19 +895,19 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 $_sDirPath = dirname( $sFilePath );
                 if ( ! is_dir( $_sDirPath ) ) {
                     mkdir( $_sDirPath, 0777, true );
-                }                
+                }
       
                 // Remove the existing file.
                 if ( file_exists( $sFilePath ) ) {
                     unlink( $sFilePath );
-                }   
+                }
                 
                 $sURL = $this->_getRedirectedURL( $sURL );
                 
                 $_hZipResource = fopen( $sFilePath , "w" );
                     if ( $aOptions['output_buffer'] ) {
                         echo 'Downloading PHP Beautifier.' . $aOptions['carriage_return'];
-                    }                          
+                    }
                 // Get The Zip File From Server
                 $ch = curl_init();
                 curl_setopt( $ch, CURLOPT_URL, $sURL );
@@ -898,15 +918,17 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 curl_setopt( $ch, CURLOPT_BINARYTRANSFER,true );
                 curl_setopt( $ch, CURLOPT_TIMEOUT, 10);
                 curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 0 );
-                curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 0 ); 
+                curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 0 );
                 curl_setopt( $ch, CURLOPT_FILE, $_hZipResource );
                 $page = curl_exec( $ch );
                 if( ! $page && $aOptions['output_buffer'] ) {
                     echo "Download Error : " . curl_error( $ch ) . $aOptions['carriage_return'];
-                    curl_close( $ch );            
+                    curl_close( $ch );
+
                     return false;
                 }
-                curl_close( $ch );                
+                curl_close( $ch );
+
                 return true;
             }
             
@@ -919,11 +941,11 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 
                 $ch = curl_init( $sURL );
                 curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true); // follow redirects
-                curl_setopt( $ch, 
-                    CURLOPT_USERAGENT, 
+                curl_setopt( $ch,
+                    CURLOPT_USERAGENT,
                     'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.7 '
                     . '(KHTML, like Gecko) Chrome/7.0.517.41 Safari/534.7'  // imitate chrome
-                ); 
+                );
                 curl_setopt( $ch, CURLOPT_NOBODY, true ); // HEAD request only (faster)
                 curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true ); // don't echo results
                 curl_exec( $ch );
@@ -934,7 +956,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                     ? $_sFinalURL
                     : $sURL;
                 
-            }       
+            }
   
     /**
      * Copy a file, or recursively copy a folder and its contents
@@ -958,7 +980,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         if ( ! is_dir( $dest ) ) {
             if ( ! $this->isInExcludeList( $dest, $aOptions ) ) {
                 mkdir( $dest, $permissions );
-            } 
+            }
         }
         
         // Loop through the folder
@@ -980,9 +1002,10 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
         // Clean up
         $dir->close();
+
         return true;
         
-    }    
+    }
         private function _copyFile( $sSource, $sDestination, array $aOptions=array() ) {
             if ( ! file_exists( $sSource ) ) {
                 return false;
@@ -991,11 +1014,12 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             if ( $this->_isInClassExclusionList( $sSource, $aOptions ) ) {
                 return false;
             }
+
             return copy( $sSource, $sDestination );
-        }    
+        }
             private function _isInClassExclusionList( $sSource, $aOptions ) {
-                return in_array( 
-                    basename( $sSource ), 
+                return in_array(
+                    basename( $sSource ),
                     $aOptions['exclude_file_names']
                 );
             }
@@ -1007,14 +1031,15 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 : array();
             $_aExcludeDirNames = isset( $aOptions[ 'exclude_dir_names' ] )
                 ? ( array ) $aOptions[ 'exclude_dir_names' ]
-                : array();            
+                : array();
             
-            if ( in_array( $sDirPath, $_aExcludeDirPaths ) ) { 
+            if ( in_array( $sDirPath, $_aExcludeDirPaths ) ) {
                 return true;
             }
-            if ( in_array( pathinfo( $sDirPath, PATHINFO_BASENAME ), $_aExcludeDirNames ) ) { 
+            if ( in_array( pathinfo( $sDirPath, PATHINFO_BASENAME ), $_aExcludeDirNames ) ) {
                 return true;
-            }            
+            }
+
             return false;
             
         }
@@ -1027,15 +1052,16 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         
         $_sTempFilePath = tempnam( sys_get_temp_dir(),'' );
         
-        if ( file_exists( $_sTempFilePath ) ) { 
+        if ( file_exists( $_sTempFilePath ) ) {
             unlink( $_sTempFilePath );
         }
         
         mkdir( $_sTempFilePath );
         
         if ( is_dir( $_sTempFilePath ) ) {
-            return $_sTempFilePath; 
+            return $_sTempFilePath;
         }
+
         return '';
         
     }
@@ -1061,7 +1087,8 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 unlink( $file );
             }
         }
+
         return @rmdir( $dirPath );
-    }    
+    }
     
 }

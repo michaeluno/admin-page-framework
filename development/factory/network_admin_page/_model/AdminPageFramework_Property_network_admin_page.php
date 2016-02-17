@@ -47,14 +47,14 @@ class AdminPageFramework_Property_network_admin_page extends AdminPageFramework_
      */
     protected function _getOptions() {
         
-        return $this->addAndApplyFilter( 
+        return $this->addAndApplyFilter(
             $this->getElement( // the caller object
-                $GLOBALS, 
-                array( 'aAdminPageFramework', 'aPageClasses', $this->sClassName ) 
+                $GLOBALS,
+                array( 'aAdminPageFramework', 'aPageClasses', $this->sClassName )
             ),
             'options_' . $this->sClassName, // options_{instantiated class name}
-            $this->sOptionKey 
-                ? get_site_option( $this->sOptionKey, array() ) 
+            $this->sOptionKey
+                ? get_site_option( $this->sOptionKey, array() )
                 : array()
         );
         
@@ -74,14 +74,15 @@ class AdminPageFramework_Property_network_admin_page extends AdminPageFramework_
         
         if ( $this->_bDisableSavingOptions ) {
             return;
-        }        
-        return update_site_option( 
-            $this->sOptionKey, 
-            $aOptions !== null 
-                ? $aOptions 
-                : $this->aOptions 
+        }
+
+        return update_site_option(
+            $this->sOptionKey,
+            $aOptions !== null
+                ? $aOptions
+                : $this->aOptions
             );
         
-    }    
+    }
     
 }

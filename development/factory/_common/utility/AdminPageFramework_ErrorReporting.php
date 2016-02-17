@@ -33,13 +33,13 @@ class AdminPageFramework_ErrorReporting {
         2048    => 'E_STRICT',
         4096    => 'E_RECOVERABLE_ERROR',
         8192    => 'E_DEPRECATED',
-        16384   => 'E_USER_DEPRECATED'
+        16384   => 'E_USER_DEPRECATED',
     );
 
     private $_iLevel;
 
     public function __construct( $iLevel=null ) {
-        $this->_iLevel = null !== $iLevel 
+        $this->_iLevel = null !== $iLevel
             ? $iLeevl
             : error_reporting();
     }
@@ -49,7 +49,7 @@ class AdminPageFramework_ErrorReporting {
      */
     public function getErrorLevel() {
         return $this->_getErrorDescription( $this->_getIncluded() );
-    }    
+    }
         /**
          * 
          * @return  array
@@ -65,6 +65,7 @@ class AdminPageFramework_ErrorReporting {
                 }
                 
             }
+
             return $_aIncluded;
             
         }
@@ -81,11 +82,13 @@ class AdminPageFramework_ErrorReporting {
                         $_aValues[] = $iLevelText;
                     }
                 }
+
                 return implode( ' & ~', $_aValues );
-            } 
+            }
             foreach( $aIncluded as $_iLevel ) {
                 $_aValues[] = $this->_aLevels[ $_iLevel ];
             }
+
             return implode( ' | ', $_aValues );
 
         }

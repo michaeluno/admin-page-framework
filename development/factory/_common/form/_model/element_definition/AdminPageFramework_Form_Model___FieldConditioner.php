@@ -9,7 +9,7 @@
 
 // @todo investigate why this is not used at the moment. 
 // It seems the form works properly without this conditioning routine.
- 
+
 /**
  * Provides methods to build forms.
  * 
@@ -28,11 +28,11 @@ class AdminPageFramework_Form_Model___FieldConditioner extends AdminPageFramewor
      */
     public function __construct( /* $aSectionsets, $aFieldsets */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aSectionsets, 
+        $_aParameters = func_get_args() + array(
+            $this->aSectionsets,
             $this->aFieldsets,
         );
-        $this->aSectionsets  = $_aParameters[ 0 ];                    
+        $this->aSectionsets  = $_aParameters[ 0 ];
         $this->aFieldsets    = $_aParameters[ 1 ];
         
     }
@@ -42,7 +42,7 @@ class AdminPageFramework_Form_Model___FieldConditioner extends AdminPageFramewor
      * @return      array       The conditioned fieldsets array.
      */
     public function get() {
-        return $this->_getFieldsConditioned( 
+        return $this->_getFieldsConditioned(
             $this->aFieldsets,
             $this->aSectionsets
         );
@@ -66,13 +66,13 @@ class AdminPageFramework_Form_Model___FieldConditioner extends AdminPageFramewor
             foreach( $aFields as $_sSectionID => $_aSubSectionOrFields ) {
                 
                 // This type check is important as the parsing field array is content-cast, which can set null value to elements.
-                if ( ! is_array( $_aSubSectionOrFields ) ) { 
-                    continue; 
+                if ( ! is_array( $_aSubSectionOrFields ) ) {
+                    continue;
                 }
                             
-                $this->_setConditionedFields( 
+                $this->_setConditionedFields(
                     $_aNewFields,   // by reference - gets updated in the method.
-                    $_aSubSectionOrFields, 
+                    $_aSubSectionOrFields,
                     $_sSectionID
                 );
           
@@ -80,7 +80,7 @@ class AdminPageFramework_Form_Model___FieldConditioner extends AdminPageFramewor
                     
             return $_aNewFields;
             
-        }     
+        }
             /**
              * Updates the given array of conditioned fields.
              * 
@@ -114,7 +114,7 @@ class AdminPageFramework_Form_Model___FieldConditioner extends AdminPageFramewor
                     }
                     $_aNewFields[ $_sSectionID ][ $_aField[ 'field_id' ] ] = $_aField;
                     
-                }            
+                }
                 
             }
    

@@ -26,10 +26,10 @@ class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramew
      */
     public function __construct( /* $aSectionsets */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aSectionsets, 
+        $_aParameters = func_get_args() + array(
+            $this->aSectionsets,
         );
-        $this->aSectionsets  = $_aParameters[ 0 ];                    
+        $this->aSectionsets  = $_aParameters[ 0 ];
         
     }
 
@@ -38,7 +38,7 @@ class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramew
      * @return      array       The conditioned fieldsets array.
      */
     public function get() {
-        return $this->_getSectionsConditioned( 
+        return $this->_getSectionsConditioned(
             $this->aSectionsets
         );
     }
@@ -56,10 +56,11 @@ class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramew
         $_aNewSections  = array();
         foreach( $aSections as $_sSectionID => $_aSection ) {
             if ( ! $this->_isAllowed( $_aSection ) ) {
-                continue;                
+                continue;
             }
             $_aNewSections[ $_sSectionID ] = $_aSection;
-        }        
+        }
+
         return $_aNewSections;
         
     }
@@ -74,9 +75,10 @@ class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramew
     protected function _isAllowed( array $aDefinition ) {
         
         // Check capability. If the access level is not sufficient, skip.
-        if ( ! current_user_can( $aDefinition[ 'capability' ] ) ) { 
+        if ( ! current_user_can( $aDefinition[ 'capability' ] ) ) {
             return false;
         }
+
         return ( boolean ) $aDefinition[ 'if' ];
     }
 

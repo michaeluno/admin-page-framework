@@ -47,6 +47,7 @@ class AdminPageFramework_Form_View___Generate_SectionName extends AdminPageFrame
                 $_aNameParts[] = $this->aArguments[ '_index' ];
             }
             $_sResult = $this->_getInputNameConstructed( $_aNameParts );
+
             return $_sResult;
             
             // @deprecated
@@ -54,7 +55,7 @@ class AdminPageFramework_Form_View___Generate_SectionName extends AdminPageFrame
                 // ? "[{$this->aArguments[ '_index' ]}]" 
                 // : "";
             // return $this->aArguments[ 'section_id' ] . $_sSectionIndex;   
-            
+
         }
 
 }

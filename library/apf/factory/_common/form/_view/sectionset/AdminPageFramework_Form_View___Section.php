@@ -34,6 +34,7 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_Framewor
         $_aOutput = array();
         $_aOutput[] = "<table " . $_oSectionTableAttributes->get() . ">" . $_oTableCaption->get() . "<tbody " . $_oSectionTableBodyAttributes->get() . ">" . $this->_getSectionContent($_iSectionIndex) . "</tbody>" . "</table>";
         $_oSectionTableContainerAttributes = new AdminPageFramework_Form_View___Attribute_SectionTableContainer($this->aSectionset);
+
         return "<div " . $_oSectionTableContainerAttributes->get() . ">" . implode(PHP_EOL, $_aOutput) . "</div>";
     }
     private function _getSectionContent($_iSectionIndex) {
@@ -41,6 +42,7 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_Framewor
             return $this->_getCustomSectionContent();
         }
         $_oFieldsets = new AdminPageFramework_Form_View___FieldsetRows($this->aFieldsetsPerSection, $_iSectionIndex, $this->aSavedData, $this->aFieldErrors, $this->aFieldTypeDefinitions, $this->aCallbacks, $this->oMsg);
+
         return $_oFieldsets->get();
     }
     private function _getCustomSectionContent() {
@@ -59,6 +61,7 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_Framewor
         $_aStructure['sectionsets'] = $_aSectionsets;
         $_aArguments = array('nested_depth' => $this->getElement($this->aArguments, 'nested_depth', 0) + 1) + $this->aArguments;
         $_oFormTables = new AdminPageFramework_Form_View___Sectionsets($_aArguments, $_aStructure, $this->aSavedData, $this->aFieldErrors, $this->aCallbacks, $this->oMsg);
+
         return "<tr class='admin-page-framework-nested-sectionsets'>" . "<td>" . $_oFormTables->get() . "</td>" . "</tr>";
     }
     private function _getNestedSectionPaths($sSubjectSectionPath, array $aNestedSctionsets, array $aSectionsets) {
@@ -75,6 +78,7 @@ class AdminPageFramework_Form_View___Section extends AdminPageFramework_Framewor
             $_aNestedSectionsets = $this->getElementAsArray($aSectionsets, array($_sNestedSectionPath, 'content'));
             $_aChildSectionPaths = $_aChildSectionPaths + $this->_getNestedSectionPaths($_sNestedSectionPath, $_aNestedSectionsets, $aSectionsets);
         }
+
         return $_aNestedSectionPaths + $_aChildSectionPaths;
     }
 }

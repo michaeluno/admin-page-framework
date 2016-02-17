@@ -12,6 +12,7 @@ class AdminPageFramework_Message {
     public static function getInstance($sTextDomain = 'admin-page-framework') {
         $_oInstance = isset(self::$_aInstancesByTextDomain[$sTextDomain]) && (self::$_aInstancesByTextDomain[$sTextDomain] instanceof AdminPageFramework_Message) ? self::$_aInstancesByTextDomain[$sTextDomain] : new AdminPageFramework_Message($sTextDomain);
         self::$_aInstancesByTextDomain[$sTextDomain] = $_oInstance;
+
         return self::$_aInstancesByTextDomain[$sTextDomain];
     }
     public static function instantiate($sTextDomain = 'admin-page-framework') {
@@ -31,6 +32,7 @@ class AdminPageFramework_Message {
         if (!$sKey) {
             return $this->_getAllMessages();
         }
+
         return isset($this->aMessages[$sKey]) ? __($this->aMessages[$sKey], $this->_sTextDomain) : __($this->{$sKey}, $this->_sTextDomain);
     }
     private function _getAllMessages() {
@@ -38,6 +40,7 @@ class AdminPageFramework_Message {
         foreach ($this->aMessages as $_sLabel => $_sTranslation) {
             $_aMessages[$_sLabel] = $this->get($_sLabel);
         }
+
         return $_aMessages;
     }
     public function output($sKey) {

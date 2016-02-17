@@ -25,9 +25,9 @@ class AdminPageFramework_Form_Model___Modifier_FilterRepeatableElements extends 
      */
     public function __construct( /* $aSubject, $aDimensionalKeys */ ) {
         
-        $_aParameters = func_get_args() + array( 
-            $this->aSubject, 
-            $this->aDimensionalKeys, 
+        $_aParameters = func_get_args() + array(
+            $this->aSubject,
+            $this->aDimensionalKeys,
         );
         $this->aSubject         = $_aParameters[ 0 ];
         $this->aDimensionalKeys = array_unique( $_aParameters[ 1 ] );
@@ -41,12 +41,13 @@ class AdminPageFramework_Form_Model___Modifier_FilterRepeatableElements extends 
      */
     public function get() {
         foreach( $this->aDimensionalKeys as $_sFlatFieldAddress ) {
-            $this->unsetDimensionalArrayElement( 
-                $this->aSubject, 
+            $this->unsetDimensionalArrayElement(
+                $this->aSubject,
                 explode( '|', $_sFlatFieldAddress )
            );
         }
+
         return $this->aSubject;
-    }       
+    }
 
 }

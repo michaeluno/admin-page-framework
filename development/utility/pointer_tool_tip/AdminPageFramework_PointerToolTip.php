@@ -73,55 +73,56 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
     public function __construct( $asScreenIDs, $sPointerID, array $aPointerData ) {
 
         // Bail if the WordPress version is less than 3.3,
-        if ( version_compare( $GLOBALS[ 'wp_version' ], '3.3', '<' ) ) {        
+        if ( version_compare( $GLOBALS[ 'wp_version' ], '3.3', '<' ) ) {
             return false;
-        }       
+        }
     
         // Store the registration data to the property.
         $this->aScreenIDs    = $this->getAsArray( $asScreenIDs );
         $this->sPointerID    = $sPointerID;
         $this->aPointerData  = $aPointerData;
 
-        $this->_setHooks( $this->aScreenIDs );        
+        $this->_setHooks( $this->aScreenIDs );
         
-    }   
+    }
         /**
          * Sets up hooks.
          * @since       3.7.0
          */
         private function _setHooks( $aScreenIDs ) {
             
-            foreach( $aScreenIDs as $_sScreenID ) {            
+            foreach( $aScreenIDs as $_sScreenID ) {
                 if ( ! $_sScreenID ) {
                     continue;
                 }
-                add_filter( 
-                    get_class( $this ) . '-' . $_sScreenID, 
+                add_filter(
+                    get_class( $this ) . '-' . $_sScreenID,
                     array( $this, '_replyToSetPointer' )
                 );
                                 
-            }       
+            }
             
             if ( ! $this->_hasBeenCalled() ) {
                 return;
-            } 
+            }
             
             // Checks the screen id and page slug and add items if they match the current screen
             add_action(
-                'admin_enqueue_scripts', 
+                'admin_enqueue_scripts',
                 array( $this, '_replyToLoadPointers' ),
                 1000
-            );            
+            );
                         
-        }    
+        }
             /**
              * @return      boolean
              */
             private function _hasBeenCalled() {
                 if ( self::$_bResourceLoaded ) {
                     return false;
-                }            
+                }
                 self::$_bResourceLoaded = true;
+
                 return true;
             }
     
@@ -131,9 +132,9 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
          */
         public function _replyToSetPointer( $aPointers ) {
             return array(
-                $this->sPointerID   => $this->aPointerData
+                $this->sPointerID   => $this->aPointerData,
             ) + $aPointers;
-        }    
+        }
     
     /**
      * Checks the screen id and page slug and add items if they match the current screen
@@ -150,7 +151,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
             return;
         }
         
-        $this->_enqueueScripts(); 
+        $this->_enqueueScripts();
         
         self::$aPointers = $_aPointers + self::$aPointers;
         
@@ -163,14 +164,15 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         private function _getPointers() {
             
             $_oScreen   = get_current_screen();
-            $_sScreenID = $_oScreen->id;    
+            $_sScreenID = $_oScreen->id;
             if ( in_array( $_sScreenID, $this->aScreenIDs ) ) {
                 return apply_filters( get_class( $this ) . '-' . $_sScreenID, array() );
-            } 
+            }
             
             if ( isset( $_GET[ 'page' ] ) ) {
                 return apply_filters( get_class( $this ) . '-' . $_GET[ 'page' ], array() );
             }
+
             return array();
             
         }
@@ -182,12 +184,12 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         private function _getValidPointers( $_aPointers ) {
         
             // Get dismissed pointers
-            $_aDismissed      = explode( 
-                ',', 
-                ( string ) get_user_meta( 
-                    get_current_user_id(), 
-                    'dismissed_wp_pointers', 
-                    true 
+            $_aDismissed      = explode(
+                ',',
+                ( string ) get_user_meta(
+                    get_current_user_id(),
+                    'dismissed_wp_pointers',
+                    true
                )
             );
             $_aValidPointers = array();
@@ -212,10 +214,11 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
                 // Add the pointer to $_aValidPointers array
                 $_aValidPointers[] =  $_aPointer;
                 
-            }            
+            }
+
             return $_aValidPointers;
             
-        }        
+        }
             
             /**
              * @return      boolean
@@ -225,7 +228,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
                 
                 if ( in_array( $_iPointerID, $_aDismissed ) ) {
                     return true;
-                }             
+                }
                 if ( empty( $_aPointer ) ) {
                     return true;
                 }
@@ -238,28 +241,29 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
                 if ( empty( $_aPointer[ 'options' ] ) ) {
                     return true;
                 }
+
                 return false;
                 
-            }   
+            }
         
         /**
          * Enqueues scripts.
          */
         private function _enqueueScripts() {
                
-            wp_enqueue_script( 'jquery' );         
+            wp_enqueue_script( 'jquery' );
          
             // Add pointers style to queue.
             wp_enqueue_script( 'wp-pointer' );
             wp_enqueue_style( 'wp-pointer' );
 
             // Embeds the inline script
-            add_action( 
+            add_action(
                 'admin_print_footer_scripts',
                 array( $this, '_replyToInsertInlineScript' )
-            );            
+            );
             
-        }    
+        }
     
     /**
      * @since       3.7.0
@@ -314,6 +318,6 @@ jQuery( document ).ready( function( jQuery ) {
 }( jQuery ));
 JAVASCRIPTS;
         
-        }         
+        }
     
 }

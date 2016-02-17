@@ -30,6 +30,7 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
     static public function getScript() {
         $_aParams = func_get_args() + array(null);
         $_oMsg = $_aParams[0];
+
         return "";
     }
 }

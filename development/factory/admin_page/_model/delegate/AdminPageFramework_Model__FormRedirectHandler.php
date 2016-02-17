@@ -29,7 +29,7 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_F
      */
     public function __construct( $oFactory ) {
        
-        $this->oFactory         = $oFactory;        
+        $this->oFactory         = $oFactory;
         
         // wp_mail() will be loaded by the time 'after_setup_theme' is loaded.
         // @deprecated      3.7.0
@@ -40,7 +40,7 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_F
         // ); 
         $this->_replyToCheckRedirects();
         
-    }   
+    }
     
     /**
      * Check if a redirect transient is set and if so it redirects to the set page.
@@ -58,7 +58,7 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_F
         }
 
         // The redirect transient key.
-        $_sTransient = 'apf_rurl' . md5( 
+        $_sTransient = 'apf_rurl' . md5(
             trim( "redirect_{$this->oFactory->oProp->sClassName}_{$_GET['page']}" )
         );
         
@@ -77,11 +77,11 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_F
         
         // The redirect URL seems to be set.
         $this->deleteTransient( $_sTransient ); // we don't need it any more.
-                    
+
         // Go to the page.
         $this->goToURL( $_sURL );
         
-    }    
+    }
     
         /**
          * @since       3.6.3
@@ -103,7 +103,7 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_F
                 $_GET,
                 'settings-updated',
                 false
-            );            
+            );
             if ( ! $_bsSettingsUpdatedFlag ) {
                 return false;
             }
@@ -114,8 +114,9 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_F
                 'confirmation',
                 ''
             );
+
             return 'redirect' === $_sConfirmationType;
     
-        }    
+        }
     
 }

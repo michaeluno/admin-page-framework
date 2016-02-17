@@ -86,25 +86,25 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
             'hfInputName'       => null,
             'hfInputNameFlat'   => null,
             'hfClass'           => null,    // the class attribute
-        );        
+        );
         
         // 2. Load necessary JavaScript scripts.
         $this->_loadScripts( $this->aField[ '_structure_type' ] );
 
-    }    
+    }
         /**
          * @return      3.6.3
          * @return      array       The formatted fieldset definition array
          */
         private function _getFormatted( $aFieldset, $aFieldTypeDefinitions ) {
-            return $this->uniteArrays( 
-                $aFieldset, 
-                $this->_getFieldTypeDefaultArguments( 
-                    $aFieldset[ 'type' ], 
-                    $aFieldTypeDefinitions 
+            return $this->uniteArrays(
+                $aFieldset,
+                $this->_getFieldTypeDefaultArguments(
+                    $aFieldset[ 'type' ],
+                    $aFieldTypeDefinitions
                 ) + AdminPageFramework_Form_Model___Format_Fieldset::$aStructure
             );
-        }    
+        }
         
         /**
          * 
@@ -126,16 +126,16 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
              * Attributes - the 'attributes' element is dealt separately as it contains some overlapping elements with the regular elements such as 'value'.
              * There are required keys in the attributes array: 'fieldrow', 'fieldset', 'fields', and 'field'; these should not be removed here.
              */
-            $_aDefaultKeys[ 'attributes' ] = array(    
+            $_aDefaultKeys[ 'attributes' ] = array(
                 'fieldrow'  => $_aDefaultKeys[ 'attributes' ][ 'fieldrow' ],
                 'fieldset'  => $_aDefaultKeys[ 'attributes' ][ 'fieldset' ],
                 'fields'    => $_aDefaultKeys[ 'attributes' ][ 'fields' ],
                 'field'     => $_aDefaultKeys[ 'attributes' ][ 'field' ],
-            );                
+            );
             
             return $_aDefaultKeys;
             
-        }    
+        }
     
         /**
          * Flags whether scripts are loaded or not.
@@ -159,8 +159,8 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
                 self::$_bIsLoadedSScripts_Widget = true;
             }
             
-            if ( self::$_bIsLoadedSScripts ) { 
-                return; 
+            if ( self::$_bIsLoadedSScripts ) {
+                return;
             }
             self::$_bIsLoadedSScripts = true;
             
@@ -186,14 +186,14 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
         $_bDashiconSupported    = false;     // version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
         $_sDashiconPlus         = $_bDashiconSupported ? 'dashicons dashicons-plus' : '';
         $_sDashiconMinus        = $_bDashiconSupported ? 'dashicons dashicons-minus' : '';
-        $_sButtons              = 
+        $_sButtons              =
             "<div class='admin-page-framework-repeatable-field-buttons' {$_sSettingsAttributes} >"
                 . "<a class='repeatable-field-remove-button button-secondary repeatable-field-button button button-small {$_sDashiconMinus}' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>"
                   . ( $_bDashiconSupported ? '' : '-' )
                 . "</a>"
-                . "<a class='repeatable-field-add-button button-secondary repeatable-field-button button button-small {$_sDashiconPlus}' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>" 
+                . "<a class='repeatable-field-add-button button-secondary repeatable-field-button button button-small {$_sDashiconPlus}' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>"
                     . ( $_bDashiconSupported ? '' : '+' )
-                . "</a>"                
+                . "</a>"
             . "</div>";
         $_aJSArray              = json_encode( $aSettings );
         $_sButtonsHTML          = '"' . $_sButtons . '"';
@@ -214,9 +214,10 @@ jQuery( document ).ready( function() {
     jQuery( '#{$sFieldsContainerID}' ).updateAdminPageFrameworkRepeatableFields( $_aJSArray ); // Update the fields     
 });
 JAVASCRIPTS;
-        return "<script type='text/javascript'>" 
+
+        return "<script type='text/javascript'>"
                 . '/* <![CDATA[ */'
-                . $_sScript 
+                . $_sScript
                 . '/* ]]> */'
             . "</script>";
         
@@ -226,14 +227,15 @@ JAVASCRIPTS;
      * Returns the sortable fields script.
      * 
      * @since 3.0.0
-     */    
-    protected function _getSortableFieldEnablerScript( $sFieldsContainerID ) {        
+     */
+    protected function _getSortableFieldEnablerScript( $sFieldsContainerID ) {
     
         $_sScript = <<<JAVASCRIPTS
     jQuery( document ).ready( function() {
         jQuery( this ).enableAdminPageFrameworkSortableFields( '$sFieldsContainerID' );
     });
 JAVASCRIPTS;
+
         return "<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>"
                 . '/* <![CDATA[ */'
                 . $_sScript

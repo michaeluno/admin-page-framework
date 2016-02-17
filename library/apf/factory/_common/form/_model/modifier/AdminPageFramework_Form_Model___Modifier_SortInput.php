@@ -21,12 +21,14 @@ class AdminPageFramework_Form_Model___Modifier_SortInput extends AdminPageFramew
             }
             $this->setMultiDimensionalArray($this->aInput, $_aDimensionalKeys, array_values($_aDynamicElements));
         }
+
         return $this->aInput;
     }
     private function _getFormattedDimensionalKeys($aFieldAddresses) {
         $aFieldAddresses = $this->getAsArray($aFieldAddresses);
         $aFieldAddresses = array_unique($aFieldAddresses);
         arsort($aFieldAddresses);
+
         return $aFieldAddresses;
     }
 }

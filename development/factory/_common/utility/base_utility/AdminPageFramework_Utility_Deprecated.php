@@ -32,7 +32,7 @@ abstract class AdminPageFramework_Utility_Deprecated {
      * @since       3.5.3           Moved from `AdminPageFramework_Utility_Array`.
      * @deprecated  3.5.3           Use `getElement()`. 
      */
-    public static function getCorrespondingArrayValue( $vSubject, $sKey, $sDefault='', $bBlankToDefault=false ) {    
+    public static function getCorrespondingArrayValue( $vSubject, $sKey, $sDefault='', $bBlankToDefault=false ) {
                 
         // If $vSubject is null,
         if ( ! isset( $vSubject ) ) { return $sDefault; }
@@ -42,13 +42,13 @@ abstract class AdminPageFramework_Utility_Deprecated {
             
         // If $vSubject is not an array, 
         if ( ! is_array( $vSubject ) ) { return ( string ) $vSubject; } // consider it as string.
-        
+
         // Consider $vSubject as array.
         if ( isset( $vSubject[ $sKey ] ) ) { return $vSubject[ $sKey ]; }
         
         return $sDefault;
         
-    }    
+    }
     
     /**
      * Check if the given array is an associative array.
@@ -58,7 +58,7 @@ abstract class AdminPageFramework_Utility_Deprecated {
      */
     static public function isAssociativeArray( array $aArray ) {
         return ( bool ) count( array_filter( array_keys( $aArray ), 'is_string' ) );
-    }        
+    }
         
     /**
      * Finds the dimension depth of the given array.
@@ -71,10 +71,10 @@ abstract class AdminPageFramework_Utility_Deprecated {
      * @deprecated  3.5.3
      */
     public static function getArrayDimension( $array ) {
-        return ( is_array( reset( $array ) ) ) 
-            ? self::getArrayDimension( reset( $array ) ) + 1 
+        return ( is_array( reset( $array ) ) )
+            ? self::getArrayDimension( reset( $array ) ) + 1
             : 1;
-    }    
+    }
     
     /**
      * Returns the element value of the given field element.
@@ -95,7 +95,7 @@ abstract class AdminPageFramework_Utility_Deprecated {
             ? $aElements[ $sKey ]
             : $asDefault;
         
-    }        
+    }
     
     /**
      * Shift array elements until it gets an element that yields true and re-index with numeric keys.
@@ -113,9 +113,10 @@ abstract class AdminPageFramework_Utility_Deprecated {
             unset( $vElem );
             
         }
+
         return array_values( $aArray );
         
-    }    
+    }
     
     /**
      * Generates a string of attributes to be embedded in an HTML tag from an associative array.
@@ -150,8 +151,9 @@ abstract class AdminPageFramework_Utility_Deprecated {
             $_aOutput[] = "{$sAttribute}={$_sQuoteCharactor}{$sProperty}{$_sQuoteCharactor}";
             
         }
+
         return implode( ' ', $_aOutput );
         
-    }       
+    }
     
 }

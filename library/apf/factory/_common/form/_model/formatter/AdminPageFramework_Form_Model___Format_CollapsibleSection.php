@@ -19,6 +19,7 @@ class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPag
         if (empty($this->abCollapsible)) {
             return $this->abCollapsible;
         }
+
         return $this->_getArguments($this->abCollapsible, $this->sTitle, $this->aSection);
     }
     private function _getArguments($abCollapsible, $sTitle, array $aSection) {
@@ -27,6 +28,7 @@ class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPag
         if (!empty($aSection)) {
             $_aCollapsible['toggle_all_button'] = $this->_getToggleAllButtonArgument($_aCollapsible['toggle_all_button'], $aSection);
         }
+
         return $_aCollapsible;
     }
     private function _getToggleAllButtonArgument($sToggleAll, array $aSection) {
@@ -43,6 +45,7 @@ class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPag
         $_aToggleAll = $this->getAOrB($aSection['_is_first_index'], $this->dropElementByValue($_aToggleAll, array(1, true, 0, false, 'bottom-right', 'bottom-left')), $_aToggleAll);
         $_aToggleAll = $this->getAOrB($aSection['_is_last_index'], $this->dropElementByValue($_aToggleAll, array(1, true, 0, false, 'top-right', 'top-left')), $_aToggleAll);
         $_aToggleAll = $this->getAOrB(empty($_aToggleAll), array(0), $_aToggleAll);
+
         return implode(',', $_aToggleAll);
     }
 }

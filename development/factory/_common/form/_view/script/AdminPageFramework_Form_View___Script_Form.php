@@ -24,13 +24,13 @@ class AdminPageFramework_Form_View___Script_Form extends AdminPageFramework_Form
      * @since       3.3.0       Changed the name from `getjQueryPlugin()`.
      * @param       $oMsg       object      The message object.
      * @return      string      The inline JavaScript script.
-     */        
+     */
     static public function getScript( /* $oMsg */ ) {
         
         // Uncomment these lines when parameters need to be accessed.
         // $_aParams   = func_get_args() + array( null );
         // $_oMsg      = $_aParams[ 0 ];            
-        
+
         return <<<JAVASCRIPTS
 ( function( $ ) {
 

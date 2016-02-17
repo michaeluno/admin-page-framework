@@ -5,7 +5,7 @@ use \AcceptanceTester;
  * Bootstrap does not work for including abstract classes.
  * @see     https://github.com/Codeception/Codeception/issues/862
  */
-require_once( dirname( dirname( __FILE__ ) ) . '/_common/Loader_AdminPage_Base.php' );
+require_once dirname( dirname( __FILE__ ) ) . '/_common/Loader_AdminPage_Base.php';
 
 class Loader_SwitchAdminPages_Cest extends \Loader_AdminPage_Base {
        

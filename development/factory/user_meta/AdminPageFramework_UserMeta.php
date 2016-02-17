@@ -43,14 +43,14 @@ abstract class AdminPageFramework_UserMeta extends AdminPageFramework_UserMeta_C
         
         $_sProprtyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
             ? $this->aSubClassNames[ 'oProp' ]
-            : 'AdminPageFramework_Property_' . $this->_sStructureType;        
-        $this->oProp = new $_sProprtyClassName( 
+            : 'AdminPageFramework_Property_' . $this->_sStructureType;
+        $this->oProp = new $_sProprtyClassName(
             $this,                  // the caller object
             get_class( $this ),     // the caller class name    
             $sCapability,           // the capability level
             $sTextDomain,           // the text domain
             $this->_sStructureType  // the structure type
-        );     
+        );
         
         parent::__construct( $this->oProp );
         

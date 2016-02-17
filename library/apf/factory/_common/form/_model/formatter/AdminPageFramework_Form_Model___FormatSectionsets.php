@@ -23,6 +23,7 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
             return array();
         }
         $_aSectionsets = $this->_getSectionsetsFormatted(array(), $this->aSectionsets, array(), $this->sCapability);
+
         return $_aSectionsets;
     }
     private function _getSectionsetsFormatted($_aNewSectionsets, $aSectionsetsToParse, $aSectionPath, $sCapability) {
@@ -41,12 +42,14 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
             $_aNewSectionsets = $this->_getNestedSections($_aNewSectionsets, $_aSectionset, $_aSectionPath, $_aSectionset['capability']);
         }
         uasort($_aNewSectionsets, array($this, 'sortArrayByKey'));
+
         return $_aNewSectionsets;
     }
     private function _getNestedSections($aSectionsetsToEdit, $aSectionset, $aSectionPath, $sCapability) {
         if (!$this->_hasNestedSections($aSectionset)) {
             return $aSectionsetsToEdit;
         }
+
         return $this->_getSectionsetsFormatted($aSectionsetsToEdit, $aSectionset['content'], $aSectionPath, $sCapability);
     }
     private function _hasNestedSections($aSectionset) {
@@ -56,6 +59,7 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
         }
         $_aContents = $aSectionset['content'];
         $_aFirstItem = $this->getFirstElement($_aContents);
+
         return is_scalar($this->getElement($_aFirstItem, 'section_id', null));
     }
 }

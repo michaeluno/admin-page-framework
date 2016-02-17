@@ -15,7 +15,7 @@ class FileExistence_Test extends \Codeception\TestCase\Test {
      * The utility object to test.
      */
     // protected $oUtil; 
-   
+
     /**
      * @var \UnitTester
      */
@@ -46,7 +46,7 @@ class FileExistence_Test extends \Codeception\TestCase\Test {
     public function testClassExists() {
         
         // Load the framework.
-        include( $GLOBALS['_sProjectDirPath'] . '/development/admin-page-framework.php' );
+        include $GLOBALS['_sProjectDirPath'] . '/development/admin-page-framework.php';
         
         // Output info
         codecept_debug( 'library name: ' . AdminPageFramework_Registry::NAME );

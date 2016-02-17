@@ -9,6 +9,7 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
         static $_bLoaded = false;
         if ($_bLoaded) {
             parent::_printClassSpecificStyles($sIDPrefix);
+
             return;
         }
         $_bLoaded = true;
@@ -25,16 +26,19 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
     }
     private function _getCurrentPageSlugForFilter() {
         $_sPageSlug = $this->oProp->getCurrentPageSlug();
+
         return $this->oProp->isPageAdded($_sPageSlug) ? $_sPageSlug : '';
     }
     private function _getCurrentTabSlugForFilter($sPageSlug) {
         $_sTabSlug = $this->oProp->getCurrentTabSlug($sPageSlug);
+
         return isset($this->oProp->aInPageTabs[$sPageSlug][$_sTabSlug]) ? $_sTabSlug : '';
     }
     protected function _printClassSpecificScripts($sIDPrefix) {
         static $_bLoaded = false;
         if ($_bLoaded) {
             parent::_printClassSpecificScripts($sIDPrefix);
+
             return;
         }
         $_bLoaded = true;
@@ -54,6 +58,7 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
         foreach (( array )$aSRCs as $_sSRC) {
             $_aHandleIDs[] = $this->_enqueueStyle($_sSRC, $sPageSlug, $sTabSlug, $aCustomArgs);
         }
+
         return $_aHandleIDs;
     }
     public function _enqueueStyle($sSRC, $sPageSlug = '', $sTabSlug = '', $aCustomArgs = array()) {
@@ -64,6 +69,7 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
         foreach (( array )$aSRCs as $_sSRC) {
             $_aHandleIDs[] = $this->_enqueueScript($_sSRC, $sPageSlug, $sTabSlug, $aCustomArgs);
         }
+
         return $_aHandleIDs;
     }
     public function _enqueueScript($sSRC, $sPageSlug = '', $sTabSlug = '', $aCustomArgs = array()) {
@@ -83,6 +89,7 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
         }
         $this->oProp->{$_sContainerPropertyName}[$_sSRCHash] = array_filter($this->getAsArray($aCustomArgs), array($this, 'isNotNull')) + array('sPageSlug' => $sPageSlug, 'sTabSlug' => $sTabSlug, 'sSRC' => $sSRC, 'sType' => $sType, 'handle_id' => $sType . '_' . $this->oProp->sClassName . '_' . (++$this->oProp->{$_sEnqueuedIndexPropertyName}),) + self::$_aStructure_EnqueuingResources;
         $this->oProp->aResourceAttributes[$this->oProp->{$_sContainerPropertyName}[$_sSRCHash]['handle_id']] = $this->oProp->{$_sContainerPropertyName}[$_sSRCHash]['attributes'];
+
         return $this->oProp->{$_sContainerPropertyName}[$_sSRCHash]['handle_id'];
     }
     private function _getContainerPropertyNameByType($sType) {

@@ -29,7 +29,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
      */
     public function content( $sContent ) {
         return $sContent;
-    }           
+    }
     
     /**
      * Generates a name attribute value for a form input element.
@@ -37,7 +37,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
      * @since       3.5.7
      * @remark      The taxonomy form fields do not have sections.
      * @return      string      the input name attribute
-     */    
+     */
     public function _replyToGetInputNameAttribute( /* $sNameAttribute, $aField, $sKey */ ) {
         
         $_aParams   = func_get_args() + array( null, null, null );
@@ -47,8 +47,9 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
             '0' !== $_sKey && empty( $_sKey ),
             '',
             "[{$_sKey}]"
-        );        
-        return $_aField['field_id'] . $_sKey; 
+        );
+
+        return $_aField['field_id'] . $_sKey;
         
     }
     /**
@@ -56,7 +57,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
      * @internal    
      * @since       3.5.7
      * @return      string      the flat input name attribute
-     */    
+     */
     public function _replyToGetFlatInputName( /* $sFlatNameAttribute, $aField, $sKey, $sSectionIndex */ ) {
         $_aParams   = func_get_args() + array( null, null, null );
         $_aField    = $_aParams[ 1 ];
@@ -66,6 +67,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
             '',
             "|{$_sKey}"
         );
+
         return "{$_aField['field_id']}{$_sKey}";
     }
 
@@ -76,13 +78,13 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
      * @since       3.0.0
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`. Renamed from '_replyToAddFieldsWOTableRows'.
      * @callback    action      {taxonomy slug}_add_form_fields
-     */    
+     */
     public function _replyToPrintFieldsWOTableRows( $oTerm ) {
-        echo $this->_getFieldsOutput( 
+        echo $this->_getFieldsOutput(
             isset( $oTerm->term_id )
-                ? $oTerm->term_id 
-                : null, 
-            false 
+                ? $oTerm->term_id
+                : null,
+            false
         );
     }
 
@@ -95,13 +97,13 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`. Renamed from '_replyToAddFieldsWithTableRows'.
      */
     public function _replyToPrintFieldsWithTableRows( $oTerm ) {
-        echo $this->_getFieldsOutput( 
+        echo $this->_getFieldsOutput(
             isset( $oTerm->term_id )
-                ? $oTerm->term_id 
-                : null, 
-            true 
+                ? $oTerm->term_id
+                : null,
+            true
         );
-    }    
+    }
         /**
          * Retrieves the fields output.
          * 
@@ -114,11 +116,11 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
             $_aOutput = array();
             
             // Set nonce.           
-            $_aOutput[] = wp_nonce_field( 
-                $this->oProp->sClassHash, 
-                $this->oProp->sClassHash, 
-                true, 
-                false 
+            $_aOutput[] = wp_nonce_field(
+                $this->oProp->sClassHash,
+                $this->oProp->sClassHash,
+                true,
+                false
             );
             
             // Set the form data
@@ -128,9 +130,9 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
             $_aOutput[] = $this->oForm->get();
             
             // Filter the output
-            $_sOutput = $this->oUtil->addAndApplyFilters( 
-                $this, 
-                'content_' . $this->oProp->sClassName, 
+            $_sOutput = $this->oUtil->addAndApplyFilters(
+                $this,
+                'content_' . $this->oProp->sClassName,
                 $this->content( implode( PHP_EOL, $_aOutput ) )
             );
 
@@ -139,7 +141,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
 
             return $_sOutput;
                        
-        }    
+        }
 
     
     /**

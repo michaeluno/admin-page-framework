@@ -26,6 +26,7 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUt
                 unset($aTabs[$_isKey]);
             }
         }
+
         return $aTabs;
     }
     private function _getFormattedTab(array $aTab, array $aTabs) {
@@ -33,6 +34,7 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUt
         if (isset($aTab['attributes'], $this->aTab['attributes'])) {
             $aTab['attributes'] = $aTab['attributes'] + $this->aTab['attributes'];
         }
+
         return $aTab + $this->aTab;
     }
     public function get() {
@@ -49,6 +51,7 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUt
         }
         $_aContainerAttributes = $this->aAttributes + array('class' => null);
         $_aContainerAttributes['class'] = $this->getClassAttribute('nav-tab-wrapper', $_aContainerAttributes['class']);
+
         return empty($_aOutput) ? '' : "<{$this->sTabTag} " . $this->getAttributes($_aContainerAttributes) . ">" . implode('', $_aOutput) . "</{$this->sTabTag}>";
     }
     private function _getTab(array $aTab) {
@@ -58,6 +61,7 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUt
         if ($aTab['disabled']) {
             unset($_aATagAttributes['href']);
         }
+
         return $this->getHTMLTag('a', $_aATagAttributes, $aTab['title']);
     }
 }

@@ -74,6 +74,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
     }
     static public function _setLibraryData() {
         self::$_aLibraryData = array('sName' => AdminPageFramework_Registry::NAME, 'sURI' => AdminPageFramework_Registry::URI, 'sScriptName' => AdminPageFramework_Registry::NAME, 'sLibraryName' => AdminPageFramework_Registry::NAME, 'sLibraryURI' => AdminPageFramework_Registry::URI, 'sPluginName' => '', 'sPluginURI' => '', 'sThemeName' => '', 'sThemeURI' => '', 'sVersion' => AdminPageFramework_Registry::getVersion(), 'sDescription' => AdminPageFramework_Registry::DESCRIPTION, 'sAuthor' => AdminPageFramework_Registry::AUTHOR, 'sAuthorURI' => AdminPageFramework_Registry::AUTHOR_URI, 'sTextDomain' => AdminPageFramework_Registry::TEXT_DOMAIN, 'sDomainPath' => AdminPageFramework_Registry::TEXT_DOMAIN_PATH, 'sNetwork' => '', '_sitewide' => '',);
+
         return self::$_aLibraryData;
     }
     static public function _getLibraryData() {
@@ -88,18 +89,22 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         $_aCallerInfo['sType'] = $this->_getCallerType($_aCallerInfo['sPath']);
         if ('unknown' == $_aCallerInfo['sType']) {
             self::$_aScriptDataCaches[$sCallerPath] = $_aCallerInfo;
+
             return $_aCallerInfo;
         }
         if ('plugin' == $_aCallerInfo['sType']) {
             self::$_aScriptDataCaches[$sCallerPath] = $this->getScriptData($_aCallerInfo['sPath'], $_aCallerInfo['sType']) + $_aCallerInfo;
+
             return self::$_aScriptDataCaches[$sCallerPath];
         }
         if ('theme' == $_aCallerInfo['sType']) {
             $_oTheme = wp_get_theme();
             self::$_aScriptDataCaches[$sCallerPath] = array('sName' => $_oTheme->Name, 'sVersion' => $_oTheme->Version, 'sThemeURI' => $_oTheme->get('ThemeURI'), 'sURI' => $_oTheme->get('ThemeURI'), 'sAuthorURI' => $_oTheme->get('AuthorURI'), 'sAuthor' => $_oTheme->get('Author'),) + $_aCallerInfo;
+
             return self::$_aScriptDataCaches[$sCallerPath];
         }
         self::$_aScriptDataCaches[$sCallerPath] = array();
+
         return self::$_aScriptDataCaches[$sCallerPath];
     }
     static private $_aScriptDataCaches = array();
@@ -110,13 +115,16 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         $sScriptPath = str_replace('\\', '/', $sScriptPath);
         if (false !== strpos($sScriptPath, '/themes/')) {
             self::$_aCallerTypeCache[$sScriptPath] = 'theme';
+
             return 'theme';
         }
         if (false !== strpos($sScriptPath, '/plugins/')) {
             self::$_aCallerTypeCache[$sScriptPath] = 'plugin';
+
             return 'plugin';
         }
         self::$_aCallerTypeCache[$sScriptPath] = 'unknown';
+
         return 'unknown';
     }
     static private $_aCallerTypeCache = array();
@@ -127,22 +135,27 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         if ('aScriptInfo' === $sName) {
             $this->sCallerPath = $this->sCallerPath ? $this->sCallerPath : $this->getCallerScriptPath(__FILE__);
             $this->aScriptInfo = $this->getCallerInfo($this->sCallerPath);
+
             return $this->aScriptInfo;
         }
         if ('aOptions' === $sName) {
             $this->aOptions = $this->_getOptions();
+
             return $this->aOptions;
         }
         if ('sClassHash' === $sName) {
             $this->sClassHash = md5($this->sClassName);
+
             return $this->sClassHash;
         }
         if ('sScriptType' === $sName) {
             $this->sScriptType = $this->_getCallerType($this->sCallerPath);
+
             return $this->sScriptType;
         }
         if ('oUtil' === $sName) {
             $this->oUtil = new AdminPageFramework_WPUtility;
+
             return $this->oUtil;
         }
     }
