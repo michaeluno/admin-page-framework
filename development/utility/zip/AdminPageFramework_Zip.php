@@ -356,10 +356,10 @@ class AdminPageFramework_Zip {
         if ( ! strlen( $sInsidePath ) ) {
             return;
         }
-        $oZip->addEmptyDir( $sInsidePath );        
+        $oZip->addEmptyDir( ltrim( $sInsidePath, '/' ) );        
     }
     /**
-     * Adds a file to an archive by appling a callback to the read file contents.
+     * Adds a file to an archive by applying a callback to the read file contents.
      * 
      * @since       3.5.4
      * @remark      If the path is empty, it will not process.
@@ -372,7 +372,7 @@ class AdminPageFramework_Zip {
             return;
         }
         $oZip->addFromString(
-            $sInsidePath, 
+            ltrim( $sInsidePath, '/' ), 
             is_callable( $aCallbacks[ 'file_contents' ] )
                 ? call_user_func_array( 
                     $aCallbacks[ 'file_contents' ], 
