@@ -315,7 +315,7 @@ installCodeception() {
     cat <<EOM >$FILE
 class_name: AcceptanceTester
 modules:
-    enabled: [PhpBrowser, AcceptanceHelper, Db]
+    enabled: [PhpBrowser, Helper\Acceptance, Db]
     config:
         PhpBrowser:
             url: '$WP_URL'     
