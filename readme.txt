@@ -3,8 +3,8 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
-Tested up to:       4.4.1
-Stable tag:         3.7.11
+Tested up to:       4.4.2
+Stable tag:         3.7.12
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -451,7 +451,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.12 =
+= 3.7.12 - 2016/02/20 =
 - Added the ability to set custom classes for sub-objects.
 - Added an example for page meta boxes for in-page tabs in the demo.
 - Added the `load()` method to the admin page factory class which gets called when one of the added admin pages starts loading.
