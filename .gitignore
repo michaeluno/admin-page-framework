@@ -5,6 +5,7 @@
 
 # Files containing sensitive information
 */settings.cfg
+*.ini
 
 # backup files.
 *.old
