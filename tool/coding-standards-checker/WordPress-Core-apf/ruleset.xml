@@ -85,9 +85,18 @@
 		</properties>
 	</rule>
 
-	<rule ref="WordPress.Arrays.ArrayDeclaration">
+    <!-- Disabled: This has a bug causing a syntax error.
+        'duration' => is_integer( $aisOptionKey )
+            ? $aisOptionKey
+            : 0    
+        becomes
+        'duration' => is_integer( $aisOptionKey ),
+            ? $aisOptionKey
+            : 0                        
+    -->
+    <!-- <rule ref="WordPress.Arrays.ArrayDeclaration">
 		<exclude name="WordPress.Arrays.ArrayDeclaration.SingleLineNotAllowed" />
-	</rule>
+	</rule> -->
     
     <!-- Disabled: This also fixes $array[ 0 ] to $array[0] while $array[ $a ] is not converted to $array[$a] -->
 	<!-- <rule ref="WordPress.Arrays.ArrayKeySpacingRestrictions"/> -->
