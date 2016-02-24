@@ -318,7 +318,9 @@ modules:
     enabled: [PhpBrowser, Helper\Acceptance, Db]
     config:
         PhpBrowser:
-            url: '$WP_URL'     
+            url: '$WP_URL'
+        curl: 
+            CURLOPT_TIMEOUT: 180
 coverage:
     # acceptance tests fail if this value is true
     enabled: false            
