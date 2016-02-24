@@ -24,27 +24,7 @@ class Loader_AdminPages_Cest extends \Loader_AdminPage_Base {
         $I->amOnPage( '/wp-admin/index.php?page=apfl_about' );
         $this->_checkBadge( $I );
         $this->_checkCommonElements( $I );
-
-        
-        $I->click( '//a[@data-tab-slug="welcome"]' );
-        $this->_checkBadge( $I );
-        $this->_checkCommonElements( $I );
-        
-        // <a class="nav-tab nav-tab-active" href="http://localhost/test_wp/test-admin-page-framework/wp-admin/index.php?page=apfl_about&amp;tab=guide" data-tab-slug="guide">Getting Started</a>
-        $I->click( '//a[@data-tab-slug="guide"]' );
-        $this->_checkBadge( $I );
-        $this->_checkCommonElements( $I );
-        
-        // <a class="nav-tab nav-tab-active" href="http://localhost/test_wp/test-admin-page-framework/wp-admin/index.php?page=apfl_about&amp;tab=change_log" data-tab-slug="change_log">Change Log</a>
-        $I->click( '//a[@data-tab-slug="change_log"]' );
-        $this->_checkBadge( $I );
-        $this->_checkCommonElements( $I );
-        
-        // <a class="nav-tab nav-tab-active" href="http://localhost/test_wp/test-admin-page-framework/wp-admin/index.php?page=apfl_about&amp;tab=credit" data-tab-slug="credit">Credit</a>
-        $I->click( '//a[@data-tab-slug="credit"]' );
-        $this->_checkBadge( $I );
-        $this->_checkCommonElements( $I );
-        
+    
     }
         protected function _checkBadge( \AcceptanceTester $I ) {
             

@@ -32,7 +32,7 @@ class Demo_BuiltinFieldTypes_System_Cest extends \Demo_AdminPage_Base {
         
         // Check some field elements.
         // system_system_information__0
-        $I->seeElement( '//textarea[contains(@id, "system_system_information")]' );
+        $I->seeElement( '//textarea[contains(@id, "info_system_information")]' );
    
         // @todo fill the form and confirm that values are stored
         

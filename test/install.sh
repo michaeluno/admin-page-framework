@@ -329,7 +329,7 @@ EOM
     cat <<EOM >$FILE
 class_name: FunctionalTester
 modules:
-    enabled: [Filesystem, FunctionalHelper, Asserts, UnitHelper]
+    enabled: [Filesystem, Helper\Functional, Asserts, Helper\Unit]
 EOM
     
    # Create a Codeception global setting file

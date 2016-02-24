@@ -7,12 +7,12 @@ use \AcceptanceTester;
  */
 require_once( dirname( dirname( __FILE__ ) ) . '/_bootstrap.php' );
 
-class Demo_BuiltinFieldTypes_Sections_Cest extends \Demo_AdminPage_Base {
+class Demo_AdvancedUsage_Sections_Cest extends \Demo_AdminPage_Base {
     
     /**
      * @group   demo
      * @group   form
-     * @group   built-in_field_types
+     * @group   advanced_usage
      * @group   sections
      * @group   admin
      * @group   loader
@@ -22,8 +22,8 @@ class Demo_BuiltinFieldTypes_Sections_Cest extends \Demo_AdminPage_Base {
         $I->wantTo( 'Check the Sections tab of the built-in field type of the demo of the loader plugin.' );
         
         // Click on the 'Built-in Field Types' menu link.
-        // <a href="edit.php?post_type=apf_posts&amp;page=apf_builtin_field_types">Built-in Field Types</a>
-        $I->click( '//li/a[contains(@href, "page=apf_builtin_field_types")]' );
+        // <a href="edit.php?post_type=apf_posts&amp;page=apf_advanced_usage">Built-in Field Types</a>
+        $I->click( '//li/a[contains(@href, "page=apf_advanced_usage")]' );
                         
         // Click on the 'Sections' tab. 
         $I->click( '//a[@data-tab-slug="sections"]' );
