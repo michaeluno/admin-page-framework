@@ -89,7 +89,12 @@ else
 fi
 
 # php "$CODECEPT" run acceptance  --steps -vvv --report --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
-php "$CODECEPT" run acceptance  --steps -vvv --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
+# php "$CODECEPT" run acceptance  --steps -vvv --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
+
+php "$CODECEPT" run acceptance -g loader --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
+php "$CODECEPT" run acceptance -g demo --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
+php "$CODECEPT" run acceptance -g utility --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
+
 php "$CODECEPT" run functional --report --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP $OPTION_COVERAGE
 php "$CODECEPT" run unit --report --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
 

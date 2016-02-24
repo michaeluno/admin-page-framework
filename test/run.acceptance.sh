@@ -91,10 +91,9 @@ fi
 # php "$CODECEPT" run acceptance  --steps -vvv --report --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
 # php "$CODECEPT" run acceptance  --steps -vvv --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
 
-# php "$CODECEPT" run acceptance -g loader --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
-# php "$CODECEPT" run acceptance -g demo --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
-# php "$CODECEPT" run acceptance -g utility --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
-php "$CODECEPT" run acceptance -g system --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
+php "$CODECEPT" run acceptance -g loader --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
+php "$CODECEPT" run acceptance -g demo --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
+php "$CODECEPT" run acceptance -g utility --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
 
 # Copy the coverage file to the specified path
 if [[ ! -z "$COVERAGE_FILE_PATH" ]]; then
