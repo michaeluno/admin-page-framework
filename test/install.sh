@@ -310,7 +310,12 @@ installCodeception() {
             # curl: 
                 # CURLOPT_TIMEOUT: 3000 
                 # CURLOPT_TIMEOUT_MS: 3000
-                # CURLOPT_HTTP_VERSION: CURL_HTTP_VERSION_1_0    
+                # CURLOPT_CONNECTTIMEOUT: 0
+                # CURLOPT_HTTP_VERSION: CURL_HTTP_VERSION_1_0                
+            # @see https://github.com/Codeception/Codeception/issues/1918
+            # PhpBrowser:
+                # timeout: 9999
+                # connection_timeout: 120
     FILE="$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests/acceptance.suite.yml"
     cat <<EOM >$FILE
 class_name: AcceptanceTester
@@ -319,11 +324,8 @@ modules:
     config:
         PhpBrowser:
             url: '$WP_URL'
-        curl: 
-            CURLOPT_TIMEOUT: 0 
-            CURLOPT_TIMEOUT_MS: 0
-            CURLOPT_CONNECTTIMEOUT: 0
-            CURLOPT_HTTP_VERSION: CURL_HTTP_VERSION_1_0
+            timeout: 9999
+            connection_timeout: 120
 coverage:
     # acceptance tests fail if this value is true
     enabled: false            
