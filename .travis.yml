@@ -6,7 +6,11 @@ php:
 # v5.3 is disabled because Codeception v2.x does not support it. Using v1.8 has an issue with log directory permissions.
 # - 5.3
 
-- 5.4
+# v5.4 is disabled because Codeception v2.1.x does not support it. Causing the following error.
+# PHP Fatal error:  Call to undefined function GuzzleHttp\Handler\curl_reset() in CurlFactory.php on line 78
+# See https://github.com/Codeception/Codeception/issues/2124
+# - 5.4
+
 - 5.5
 - 5.6
 
