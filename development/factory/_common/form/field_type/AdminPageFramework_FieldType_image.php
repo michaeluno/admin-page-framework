@@ -608,7 +608,7 @@ CSSRULES;
         /**
          * Returns a base attribute array.
          * @since       3.5.3
-         * @return      array       The generaed base attribute array.
+         * @return      array       The generated base attribute array.
          */
         private function _getBaseAttributes( array $aField ) {
             
@@ -786,7 +786,7 @@ JAVASCRIPTS;
                     
             }         
                 /**
-                 * Returns a formatted upload button attribuets array.
+                 * Returns a formatted upload button attributes array.
                  * @since       3.5.3
                  * @return      array       The formatted upload button attributes array.
                  */
@@ -879,7 +879,7 @@ JAVASCRIPTS;
         }
                 
             /**
-             * Returns a formatted remove button attribuets array.
+             * Returns a formatted remove button attributes array.
              * @since       3.5.3
              * @return      array       The formatted remove button attributes array.
              */
@@ -919,7 +919,7 @@ JAVASCRIPTS;
          * It checks whether the WordPress version is enough to support dash-icons.
          * 
          * @since       3.5.3
-         * @return      string      The generated classs selectors.
+         * @return      string      The generated class selectors.
          */
         private function _getDashIconSelectorsBySlug( $sDashIconSlug ) {
          
