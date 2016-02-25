@@ -388,13 +388,15 @@ CSSRULES;
             // Do not include the escaping character (backslash) in the heredoc variable declaration 
             // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
             // which causes the PHP syntax error.
-            $_sButtonHTML = '"' . $this->_getUploaderButtonHTML_Media( $sInputID, $aButtonAttributes, $bExternalSource ) . '"';
+            $_sButtonHTML       = '"' . $this->_getUploaderButtonHTML_Media( $sInputID, $aButtonAttributes, $bExternalSource ) . '"';
+            $_sRpeatable        = $this->getAOrB( $bRpeatable, 'true', 'false' );
+            $_sExternalSource   = $this->getAOrB( $bExternalSource, 'true', 'false' );
             $_sScript                = <<<JAVASCRIPTS
 if ( jQuery( 'a#select_media_{$sInputID}' ).length == 0 ) {
     jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
 }
 jQuery( document ).ready( function(){     
-    setAdminPageFrameworkMediaUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
+    setAdminPageFrameworkMediaUploader( '{$sInputID}', 'true' === '{$_sRpeatable}', 'true' === '{$_sExternalSource}' );
 });
 JAVASCRIPTS;
                     

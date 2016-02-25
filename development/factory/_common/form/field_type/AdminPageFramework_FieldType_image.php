@@ -262,7 +262,7 @@ JAVASCRIPTS;
  */
 setAdminPageFrameworkImageUploader = function( sInputID, fMultiple, fExternalSource ) {
 
-    var _bEscaped = false; // indicates whether the frame is escaped/canceled.
+    var _bEscaped = false; // indicates whether the frame is escaped/cancelled.
     var _oCustomImageUploader;
 
     // The input element.
@@ -742,13 +742,15 @@ CSSRULES;
             // Do not include the escaping character (backslash) in the heredoc variable declaration 
             // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
             // which causes the PHP syntax error.                
-            $_sButtonHTML = '"' . $this->_getUploaderButtonHTML( $sInputID, $aButtonAttributes, $bRpeatable, $bExternalSource ) . '"';
+            $_sButtonHTML     = '"' . $this->_getUploaderButtonHTML( $sInputID, $aButtonAttributes, $bRpeatable, $bExternalSource ) . '"';
+            $_sRepeatable     = $this->getAOrB( $bRpeatable, 'true', 'false' );
+            $_bExternalSource = $this->getAOrB( $bExternalSource, 'true', 'false' );
             $_sScript = <<<JAVASCRIPTS
 if ( 0 === jQuery( 'a#select_image_{$sInputID}' ).length ) {
     jQuery( 'input#{$sInputID}' ).after( $_sButtonHTML );
 }
 jQuery( document ).ready( function(){     
-    setAdminPageFrameworkImageUploader( '{$sInputID}', '{$bRpeatable}', '{$bExternalSource}' );
+    setAdminPageFrameworkImageUploader( '{$sInputID}', 'true' === '{$_sRepeatable}', 'true' === '{$_bExternalSource}' );
 });
 JAVASCRIPTS;
                     
