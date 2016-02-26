@@ -174,7 +174,7 @@ JAVASCRIPTS;
          * @return      string      The image selector script.
          * @since       2.0.0
          * @since       2.1.5       Moved from the AdminPageFramework_Property_Base class. Changed the name from getImageSelectorScript(). Changed the scope to private and not static anymore.
-         * @since       2.4.2       Remved the second an the thir parameter as additional message items need to be defined.
+         * @since       2.4.2       Removed the second an the their parameter as additional message items need to be defined.
          */     
         private function _getScript_ImageSelector( $sReferrer ) {
                             
@@ -833,7 +833,7 @@ JAVASCRIPTS;
          * Removes the set image values and attributes.
          * 
          * @since       3.2.0
-         * @since       3.5.3       Aded the `$sType` parameter.
+         * @since       3.5.3       Added the `$sType` parameter.
          * @return      string
          */
         protected function _getRemoveButtonScript( $sInputID, array $aButtonAttributes, $sType='image' ) {
