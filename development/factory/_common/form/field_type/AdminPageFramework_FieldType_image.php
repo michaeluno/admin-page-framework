@@ -737,13 +737,15 @@ CSSRULES;
          * @since   3.2.0   Made it use dashicon for the select image button.
          * @remark  This class is extended by the media field type and this method will be overridden. So the scope needs to be protected rather than private.
          */
-        protected function _getUploaderButtonScript( $sInputID, $bRpeatable, $bExternalSource, array $aButtonAttributes ) {
+        protected function _getUploaderButtonScript( $sInputID, $abRepeatable, $bExternalSource, array $aButtonAttributes ) {
+            
+            $_bRepeatable     = ! empty( $abRepeatable );
             
             // Do not include the escaping character (backslash) in the heredoc variable declaration 
             // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
             // which causes the PHP syntax error.                
-            $_sButtonHTML     = '"' . $this->_getUploaderButtonHTML( $sInputID, $aButtonAttributes, $bRpeatable, $bExternalSource ) . '"';
-            $_sRepeatable     = $this->getAOrB( $bRpeatable, 'true', 'false' );
+            $_sButtonHTML     = '"' . $this->_getUploaderButtonHTML( $sInputID, $aButtonAttributes, $_bRepeatable, $bExternalSource ) . '"';
+            $_sRepeatable     = $this->getAOrB( $_bRepeatable, 'true', 'false' );
             $_bExternalSource = $this->getAOrB( $bExternalSource, 'true', 'false' );
             $_sScript = <<<JAVASCRIPTS
 if ( 0 === jQuery( 'a#select_image_{$sInputID}' ).length ) {
@@ -766,14 +768,14 @@ JAVASCRIPTS;
              * @since       3.5.3
              * @return      string      The generated HTML uploader button output.
              */
-            private function _getUploaderButtonHTML( $sInputID, array $aButtonAttributes, $bRpeatable, $bExternalSource ) {
+            private function _getUploaderButtonHTML( $sInputID, array $aButtonAttributes, $bRepeatable, $bExternalSource ) {
                 
                 $_bIsLabelSet = isset( $aButtonAttributes[ 'data-label' ] ) && $aButtonAttributes[ 'data-label' ];      
                 $_aAttributes = $this->_getFormattedUploadButtonAttributes( 
                     $sInputID, 
                     $aButtonAttributes, 
                     $_bIsLabelSet, 
-                    $bRpeatable, 
+                    $bRepeatable, 
                     $bExternalSource 
                 );
                 return "<a " . $this->getAttributes( $_aAttributes ) . ">"
@@ -792,7 +794,7 @@ JAVASCRIPTS;
                  * @since       3.5.3
                  * @return      array       The formatted upload button attributes array.
                  */
-                private function _getFormattedUploadButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bRpeatable, $bExternalSource ) {
+                private function _getFormattedUploadButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bRepeatable, $bExternalSource ) {
                         
                     $_aAttributes           = array(
                             'id'        => "select_image_{$sInputID}",
@@ -816,7 +818,7 @@ JAVASCRIPTS;
                                 $_bIsLabelSet,
                                 '',
                                 $this->getAOrB(
-                                    $bRpeatable,
+                                    $bRepeatable,
                                     $this->_getDashIconSelectorsBySlug( 'images-alt2' ),
                                     $this->_getDashIconSelectorsBySlug( 'format-image' )
                                 )
