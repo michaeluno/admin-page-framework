@@ -1,7 +1,6 @@
 #! /bin/bash
 
-# See https://github.com/GaryJones/wordpress-plugin-git-flow-svn-deploy for instructions and credits.
-# Modified by Michael Uno
+# Written by Michael Uno
 echo
 echo "WordPress Plugins/Theme Coding Standard Checker"
 echo "------------------------------------------------------"
@@ -54,7 +53,6 @@ PHPCS="$TEMP/phpcs.phar"
 PHPCBF="$TEMP/phpcbf.phar"
 WPCSDIR="$TEMP/wpcs"
 
-
 echo current dir: "$(pwd)"
 echo cd "$WORKING_DIR"
 cd "$WORKING_DIR"
@@ -85,13 +83,6 @@ fi
 echo WPCS Directory Path: "$WPCSDIR"
 
 ## Generate dependencies. 
-
-### Determine OS and set the json extension file
-if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
-    PHPFILEEXT="dll"
-else
-    PHPFILEEXT="so"
-fi
 
 if [ -f "$WORKING_DIR/$PHPINI" ]; then
     PHP_OPTION_CUSTOM_INI="-c $WORKING_DIR/$PHPINI"
