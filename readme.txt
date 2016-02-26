@@ -451,6 +451,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.7.13 =
+- Fixed a PHP notice, `Array to string conversion in ...AdminPageFramework_FieldType_media.php` caused when setting an array to the `repeatable` field definition argument of the `image` and `media` field type.
+
 = 3.7.12 - 2016/02/20 =
 - Added the ability to set custom classes for sub-objects.
 - Added an example for page meta boxes for in-page tabs in the demo.
