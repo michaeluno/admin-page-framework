@@ -13,9 +13,8 @@ class Loader_AdminPage_Base {
         
         $this->_checkFooter( $I );
         
-        // Page content ending comment
-        // Fails in v2.1.6
-        // $I->see( '<!-- .admin-page-framework-content -->' );
+        // Page content ending comment        
+        $I->seeInSource( '<!-- .admin-page-framework-content -->' );
         
     }        
     
