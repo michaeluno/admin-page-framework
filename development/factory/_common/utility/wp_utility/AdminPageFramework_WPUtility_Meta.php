@@ -35,6 +35,14 @@ class AdminPageFramework_WPUtility_Meta extends AdminPageFramework_WPUtility_Opt
     }
     
     /**
+     * Retrieves the saved term meta value.
+     * @since       3.8.0
+     */
+    static public function getSavedTermMetaArray( $iTermID, array $aKeys ) {
+        return self::getMetaDataByKeys( $iUserID, $aKeys, 'term' );
+    }
+    
+    /**
      * Retrieves meta data by given keys and type (user or post).
      * @return      array
      */
@@ -49,6 +57,7 @@ class AdminPageFramework_WPUtility_Meta extends AdminPageFramework_WPUtility_Opt
         $_aFunctionNames = array(
             'post'  => 'get_post_meta',
             'user'  => 'get_user_meta',
+            'term'  => 'get_term_meta',
         );
         $_sFunctionName = self::getElement( $_aFunctionNames, $sMetaType, 'get_post_meta' );
         
