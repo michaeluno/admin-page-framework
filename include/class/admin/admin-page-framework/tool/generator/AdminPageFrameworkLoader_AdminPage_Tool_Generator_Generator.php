@@ -161,6 +161,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 'network_admin_pages'   => __( 'Network Admin Pages', 'admin-page-framework-loader' ),
                 'post_types'            => __( 'Custom Post Types', 'admin-page-framework-loader' ),
                 'taxonomies'            => __( 'Taxonomy Fields', 'admin-page-framework-loader' ),
+                'term_meta'             => __( 'Term Meta', 'admin-page-framework-loader' ),
                 'meta_boxes'            => __( 'Post Meta Boxes', 'admin-page-framework-loader' ),
                 'page_meta_boxes'       => __( 'Page Meta Boxes', 'admin-page-framework-loader' ),
                 'widgets'               => __( 'Widgets', 'admin-page-framework-loader' ),
@@ -350,6 +351,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     ),
                     'taxonomies'            => array(
                         'factory/taxonomy_field/',
+                    ),
+                    'term_meta'             => array(
+                        'factory/taxonomy_field/',
+                        'factory/term_meta/',
                     ),
                     'meta_boxes'            => array(
                         'factory/meta_box/',

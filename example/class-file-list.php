@@ -90,6 +90,7 @@ $_aClassFiles = array(
 	"APF_MetaBox_TabbedSections"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/post_meta_box/APF_MetaBox_TabbedSections.php", 
 	"APF_PostType"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/post_type/APF_PostType.php", 
 	"APF_TaxonomyField"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/taxonomy_field/APF_TaxonomyField.php", 
+	"APF_TermMeta"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/term_meta/APF_TermMeta.php", 
 	"APF_MyUserMeta"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/user_meta/APF_MyUserMeta.php", 
 	"APF_Widget"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/widget/APF_Widget.php", 
 	"APF_Widget_WithSection"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/widget/APF_Widget_WithSection.php", 

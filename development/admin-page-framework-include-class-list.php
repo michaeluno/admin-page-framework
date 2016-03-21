@@ -117,6 +117,7 @@ $aClassFiles = array(
 	"AdminPageFramework_TermMeta_Router"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/term_meta/AdminPageFramework_TermMeta_Router.php", 
 	"AdminPageFramework_TermMeta_View"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/term_meta/AdminPageFramework_TermMeta_View.php", 
 	"AdminPageFramework_Form_term_meta"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/term_meta/form/AdminPageFramework_Form_term_meta.php", 
+	"AdminPageFramework_Form_View___CSS_term_meta"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/term_meta/form/_view/AdminPageFramework_Form_View___CSS_term_meta.php", 
 	"AdminPageFramework_HelpPane_term_meta"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/term_meta/_controller/AdminPageFramework_HelpPane_term_meta.php", 
 	"AdminPageFramework_Resource_term_meta"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/term_meta/_controller/AdminPageFramework_Resource_term_meta.php", 
 	"AdminPageFramework_Property_term_meta"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/term_meta/_model/AdminPageFramework_Property_term_meta.php", 

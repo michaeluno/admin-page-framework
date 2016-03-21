@@ -30,7 +30,7 @@ class AdminPageFramework_Form_taxonomy_field extends AdminPageFramework_Form {
      * @remark      For the taxonomy field factory type which does not accept sections.
      * @return      string
      */
-    public function get() {
+    public function get( /* $bEditTerm */ ) {
 
         $this->sCapability = $this->callback(
             $this->aCallbacks[ 'capability' ],

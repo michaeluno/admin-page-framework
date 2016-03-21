@@ -40,6 +40,7 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
         $_aFunctionNameMapByFieldsType = array(
             'post_meta_box'     => 'update_post_meta',
             'user_meta'         => 'update_user_meta',               
+            'term_meta'         => 'update_term_meta',               
         );
         if ( ! in_array( $sStructureType, array_keys( $_aFunctionNameMapByFieldsType ) ) ) {
             return;

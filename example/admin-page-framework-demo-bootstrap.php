@@ -21,8 +21,8 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
         $this->_loadCustomPostType();
         
         $this->_loadPostMetaBoxes();
-        
-        $this->_loadTaxonomyFields();
+                
+        $this->_loadTermMeta();
         
         $this->_loadAdminPaeges();
         
@@ -62,12 +62,20 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
       
         /**
          * Taxonomy
-         */
-        private function _loadTaxonomyFields() {
+         */     
+        private function _loadTermMeta() {
+            
+            if ( version_compare( $GLOBALS[ 'wp_version' ], '4.4', '>=' ) ) {
+                include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/term_meta/APF_TermMeta.php' );
+                return;
+            } 
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/taxonomy_field/APF_TaxonomyField.php' );
             
         }
       
+        /**
+         * Admin Pages
+         */
         private function _loadAdminPaeges() {
         
             if ( ! is_admin() ) { 

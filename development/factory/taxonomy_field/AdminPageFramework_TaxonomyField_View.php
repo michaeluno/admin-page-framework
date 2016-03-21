@@ -93,6 +93,8 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
      * @internal
      * @since       3.0.0
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`. Renamed from '_replyToAddFieldsWithTableRows'.
+     * @callback    action      {taxonomy slug}_edit_form_fields
+     * @return      void
      */
     public function _replyToPrintFieldsWithTableRows( $oTerm ) {
         echo $this->_getFieldsOutput( 
@@ -125,7 +127,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
             $this->_setOptionArray( $iTermID, $this->oProp->sOptionKey );
             
             // Get the field outputs
-            $_aOutput[] = $this->oForm->get();
+            $_aOutput[] = $this->oForm->get( $bRenderTableRow );
             
             // Filter the output
             $_sOutput = $this->oUtil->addAndApplyFilters( 

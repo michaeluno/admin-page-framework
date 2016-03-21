@@ -142,7 +142,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
                 $this, // the caller factory object
                 'options_' . $this->oProp->sClassName,
                 $this->_getSavedTermFormData( $iTermID, $sOptionKey )
-                // @todo maybe pass the term id because the user will not know whihch form data is
+                // @todo maybe pass the term id because the user will not know whihch form data it is
             );
             
         }
@@ -209,11 +209,12 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
          * Verifies the form submit.
          * 
          * @since       3.3.3
-         * @since       3.7.0      Renamed from `_verifyFormSubmit()`.
+         * @since       3.7.0       Renamed from `_verifyFormSubmit()`.
+         * @since       3.8.0       Changed the visibility scope to protected as the TermMeta class uses it.
          * @internal
          * @return      boolean     True if it is verified; otherwise, false.
          */        
-        private function _shouldProceedValidation() {
+        protected function _shouldProceedValidation() {
 
             if ( ! isset( $_POST[ $this->oProp->sClassHash ] ) ) { 
             
