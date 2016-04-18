@@ -8,7 +8,7 @@
  */
 
 /**
- * Provides methods for creating fields in the taxonomy page (edit-tags.php).
+ * Provides methods for creating fields in the taxonomy page (edit-tags.php/term.php).
  * 
  * @abstract
  * @since       3.0.0

@@ -31,7 +31,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
     // }      
    
     /**
-     * Modifies the columns of the taxonomy term listing table in the edit-tags.php page.
+     * Modifies the columns of the taxonomy term listing table in the edit-tags.php/term.php page.
      * 
      * @internal
      * @since       3.0.0

@@ -451,6 +451,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.7.14 =
+- Fixed a compatibility issue with WordPress 4.5 that taxonomy form fields were not displayed in the term editing page.
+
 = 3.7.13 - 2016/03/04 =
 - Fixed a PHP notice, `Array to string conversion in ...AdminPageFramework_FieldType_media.php` caused when setting an array to the `repeatable` field definition argument of the `image` and `media` field type.
 

@@ -59,11 +59,11 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
             return true;
         }    
         
-        if ( 'edit-tags.php' != $this->oProp->sPageNow ) { 
-            return false; 
+        if ( ! in_array( $this->oProp->sPageNow, array( 'edit-tags.php', 'term.php' ) ) ) {
+            return false;
         }
         
-        if ( isset( $_GET['taxonomy'] ) && ! in_array( $_GET['taxonomy'], $this->oProp->aTaxonomySlugs ) ) {
+        if ( isset( $_GET[ 'taxonomy' ] ) && ! in_array( $_GET[ 'taxonomy' ], $this->oProp->aTaxonomySlugs ) ) {
             return false;
         }        
         
@@ -94,7 +94,7 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
             add_action( "manage_{$_sTaxonomySlug}_custom_column", array( $this, '_replyToPrintColumnCell' ), 10, 3 );
             
         }  
-                
+
     }    
   
 }

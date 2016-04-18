@@ -23,7 +23,7 @@ class AdminPageFramework_Form_taxonomy_field extends AdminPageFramework_Form {
     public $sStructureType = 'taxonomy_field';    
     
     /**
-     * Rerieves the form fields output.
+     * Retrieves the form fields output.
      * 
      * This overrides the parent method as taxonomy fields do not support sections.
      * 
