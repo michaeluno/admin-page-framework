@@ -123,17 +123,35 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
          * @internal    
          * @return      string      The path of the file to log the contents.
          */
-        static private function _getLogFilePath( $sFilePath, $sCallerClass ) {
+        static private function _getLogFilePath( $bsFilePath, $sCallerClass ) {
         
-            if ( file_exists( $sFilePath ) ) {
-                return $sFilePath;
+            $_bFileExists = self::_createFile( $bsFilePath );
+            if ( $_bFileExists ) {
+                return $bsFilePath;
             }
-            if ( true === $sFilePath ) {
-                return WP_CONTENT_DIR . DIRECTORY_SEPARATOR . get_class() . '_' . date( "Ymd" ) . '.log';
+            // Return a generated default log path.
+            if ( true === $bsFilePath ) {
+                return WP_CONTENT_DIR . DIRECTORY_SEPARATOR . basename( get_class() ) . '_' . date( "Ymd" ) . '.log';
             }
-            return WP_CONTENT_DIR . DIRECTORY_SEPARATOR . get_class() . '_' . $sCallerClass . '_' . date( "Ymd" ) . '.log';
+            return WP_CONTENT_DIR . DIRECTORY_SEPARATOR . basename( get_class() ) . '_' . basename( $sCallerClass ) . '_' . date( "Ymd" ) . '.log';
             
         }
+            /**
+             * Creates a file.
+             * @return      boolean
+             */
+            static private function _createFile( $sFilePath ) {
+                if ( ! $sFilePath || true === $sFilePath ) {
+                    return false;
+                }
+                if ( file_exists( $sFilePath ) ) {
+                    return true;
+                }
+                // Otherwise, create a file.
+                $_bhResrouce = fopen( $sFilePath, 'w' );
+                return ( boolean ) $_bhResrouce;                
+            }
+            
         /**
          * Returns the log contents.
          * @internal
