@@ -143,7 +143,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
 
     
     /**
-     * Displayes column cell output.
+     * Displays column cell output.
      * 
      * @internal
      * @since       3.0.0
