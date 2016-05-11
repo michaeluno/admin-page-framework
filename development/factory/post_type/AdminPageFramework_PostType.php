@@ -151,7 +151,7 @@ abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_C
             if ( 
                 in_array( 
                     $_sPageNow, 
-                    array( 'edit.php', 'post.php', 'post-new.php', 'plugins.php', 'tags.php', 'edit-tags.php', )
+                    array( 'edit.php', 'post.php', 'post-new.php', 'plugins.php', 'tags.php', 'edit-tags.php', 'term.php' )
                 )
             ) {
                 return AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );

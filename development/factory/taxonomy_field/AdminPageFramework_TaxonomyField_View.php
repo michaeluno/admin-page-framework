@@ -112,7 +112,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
          * @return      string
          */
         private function _getFieldsOutput( $iTermID, $bRenderTableRow ) {
-        
+
             $_aOutput = array();
             
             // Set nonce.           
@@ -145,7 +145,7 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
 
     
     /**
-     * Displayes column cell output.
+     * Displays column cell output.
      * 
      * @internal
      * @since       3.0.0

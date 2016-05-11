@@ -3,8 +3,8 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
-Tested up to:       4.4.2
-Stable tag:         3.7.13
+Tested up to:       4.5
+Stable tag:         3.7.14
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -450,6 +450,9 @@ Alternately, if it is in a framework's generic pages (not post meta box fields) 
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f, 
 
 == Changelog ==
+
+= 3.7.14 - 2016/04/20 =
+- Fixed a compatibility issue with WordPress 4.5 that taxonomy form fields were not displayed in the term editing page.
 
 = 3.7.13 - 2016/03/04 =
 - Fixed a PHP notice, `Array to string conversion in ...AdminPageFramework_FieldType_media.php` caused when setting an array to the `repeatable` field definition argument of the `image` and `media` field type.

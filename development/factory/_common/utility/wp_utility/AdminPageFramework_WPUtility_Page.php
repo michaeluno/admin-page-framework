@@ -123,7 +123,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
      */    
     static public function isCustomTaxonomyPage( $asPostTypes=array() ) {
         
-        if ( ! in_array( self::getPageNow(), array( 'tags.php', 'edit-tags.php', ) ) ) {
+        if ( ! in_array( self::getPageNow(), array( 'tags.php', 'edit-tags.php', 'term.php' ) ) ) {
             return false;
         }
         return self::isCurrentPostTypeIn( $asPostTypes );

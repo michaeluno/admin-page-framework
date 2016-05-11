@@ -126,7 +126,7 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
             return true;
         }        
         
-        if ( ! in_array( $this->oProp->sPageNow, array( 'edit.php', 'edit-tags.php', 'post.php', 'post-new.php' ) ) ) {
+        if ( ! in_array( $this->oProp->sPageNow, array( 'edit.php', 'edit-tags.php', 'term.php', 'post.php', 'post-new.php' ) ) ) {
             return false;
         }
                 
