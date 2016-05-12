@@ -142,8 +142,8 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
          * 
          * @since   3.2.0
          */
-        static private $_bIsLoadedSScripts          = false;
-        static private $_bIsLoadedSScripts_Widget   = false;
+        static private $_bIsLoadedJSScripts          = false;
+        static private $_bIsLoadedJSScripts_Widget   = false;
         
         /**
          * Inserts necessary JavaScript scripts for fields.
@@ -154,15 +154,15 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
          */
         private function _loadScripts( $sStructureType='' ) {
 
-            if ( 'widget' === $sStructureType && ! self::$_bIsLoadedSScripts_Widget ) {
+            if ( 'widget' === $sStructureType && ! self::$_bIsLoadedJSScripts_Widget ) {
                 new AdminPageFramework_Form_View___Script_Widget;
-                self::$_bIsLoadedSScripts_Widget = true;
+                self::$_bIsLoadedJSScripts_Widget = true;
             }
             
-            if ( self::$_bIsLoadedSScripts ) { 
+            if ( self::$_bIsLoadedJSScripts ) { 
                 return; 
             }
-            self::$_bIsLoadedSScripts = true;
+            self::$_bIsLoadedJSScripts = true;
             
             new AdminPageFramework_Form_View___Script_Utility;
             new AdminPageFramework_Form_View___Script_OptionStorage;
