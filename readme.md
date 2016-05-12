@@ -202,18 +202,23 @@ See more code examples in `Dashboard` -> `AdminPageFramework` -> `Help` -> `Exam
 You would need to access the code of the core files to add modifications. The downloadable zip file does not include core files but the complied library files only.
 
 ### Getting Core Files 
-In order to modify the framework development files, clone the repository files. Simply clone the repository from either of the following addresses.
+In order to modify the framework development files, clone the repository files. 
 
-ssh: 
+#### Git
+With Git, simply clone the repository from either of the following addresses.
+
+##### ssh
 ```
 git@github.com:michaeluno/admin-page-framework.git
 ```
-https: 
+
+##### https
 ```
 https://github.com/michaeluno/admin-page-framework.git
 ```
-
-With [Composer](https://getcomposer.org/), create a `composer.json` file with the following contents and perform `php composer.phar install`.
+    
+#### [Composer](https://getcomposer.org/)
+With Composer, create a `composer.json` file with the following contents and perform `php composer.phar install`.
 
 ```
 {
