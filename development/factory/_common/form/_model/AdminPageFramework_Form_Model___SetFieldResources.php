@@ -8,7 +8,7 @@
  */
 
 /**
- * Provides methods to build forms.
+ * Provides methods to load field resources such as stylesheets and JavaScript scripts.
  * 
  * @package     AdminPageFramework
  * @subpackage  Form
@@ -151,7 +151,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
              * Registers a field.
              * 
              * @since       3.0.4
-             * @since       3.5.0       Changed the scope to protected as the admin page factory class overrides it.
+             * @since       3.5.0      Changed the scope to protected as the admin page factory class overrides it.
              * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`. Changed the name from `_registerField()`.
              * @internal
              * @return      void
@@ -161,7 +161,14 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 // Check the field conditions here.
                 if ( ! $this->_isFieldsetAllowed( $aFieldset ) ) {
                     return;
-                }
+                }               
+                
+                // 3.8.0+ Support nested fields.
+                if ( $this->hasNestedFields( $aFieldset ) ) {
+                    foreach( $aFieldset[ 'content' ] as $_aNestedFieldset ) {
+                        $this->_setFieldResources( $_aNestedFieldset );
+                    }
+                }                
                 
                 $_sFieldtype            = $this->getElement( $aFieldset, 'type' );
                 $_aFieldTypeDefinition  = $this->getElementAsArray(
@@ -175,7 +182,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 }                
                 
                 // Call the callback method to let the field type know a fieldset of the field type is registered.
-                // This is supposed to be done before form validations so taht custom filed types add own routines for the validation.
+                // This is supposed to be done before form validations so that custom filed types add own routines for the validation.
                 if ( is_callable( $_aFieldTypeDefinition[ 'hfDoOnRegistration' ] ) ) {
                     call_user_func_array( 
                         $_aFieldTypeDefinition[ 'hfDoOnRegistration' ], 
@@ -211,7 +218,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                     $this->aResources
                 );
                 $this->aResources = $_oFieldTypeResources->get();
-                
+                                                  
             }     
                 
                 /**

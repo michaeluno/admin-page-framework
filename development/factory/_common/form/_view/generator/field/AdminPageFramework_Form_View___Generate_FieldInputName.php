@@ -8,7 +8,11 @@
  */
 
 /**
- * Provides methods that generates field input name.
+ * Provides methods that generates field input name HTML attribute values.
+ * 
+ * `
+ * <input name='THIS VALUE' ... />
+ * `
  * 
  * @package     AdminPageFramework
  * @subpackage  Format
@@ -44,7 +48,7 @@ class AdminPageFramework_Form_View___Generate_FieldInputName extends AdminPageFr
      * @since       3.2.0       Added the $hfFilterCallback parameter.
      * @since       3.5.3       Added a type hint to the first parameter and dropped the default value to only accept an array.
      * @since       3.6.0       Moved from `AdminPageFramework_FormatField`.
-     * @return      string       The generated string value.
+     * @return      string      The generated string value.
      */
     public function get() {
         

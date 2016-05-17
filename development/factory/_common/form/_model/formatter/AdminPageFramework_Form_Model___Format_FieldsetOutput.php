@@ -45,8 +45,10 @@ class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFra
                 
         '_field_address'            => '',      // 3.6.0+
         '_field_address_model'      => '',      // 3.6.0+
-                
+               
         '_parent_field_object'      => null,    // 3.6.0+   Assigned when a field creates a nested field.
+        
+        '_parent_tag_id'            => null,    // 3.8.0+   Set outside the class.
         
     );        
     
@@ -90,14 +92,13 @@ class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFra
 
         // The section index must be set before generating a field tag id as it uses a section index.
         $_aFieldset[ '_section_index' ]   = $this->iSectionIndex;
-
         $_oFieldTagIDGenerator = new AdminPageFramework_Form_View___Generate_FieldTagID( 
             $_aFieldset,
             $_aFieldset[ '_caller_object' ]->aCallbacks[ 'hfTagID' ]
         );
         $_aFieldset[ 'tag_id' ]        = $_oFieldTagIDGenerator->get();
         $_aFieldset[ '_tag_id_model' ] = $_oFieldTagIDGenerator->getModel();
-        
+
         $_oFieldNameGenerator = new AdminPageFramework_Form_View___Generate_FieldName( 
             $_aFieldset,
             $_aFieldset[ '_caller_object' ]->aCallbacks[ 'hfName' ]        
@@ -121,6 +122,19 @@ class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFra
             $_aFieldset,
             $this->aFieldTypeDefinitions
         );
+        
+        // 3.8.0+ Format nested fieldsets.
+        if ( $this->hasNestedFields( $_aFieldset ) ) {
+            foreach( $_aFieldset[ 'content' ] as &$_aNestedFieldset ) {
+                $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput( 
+                    $_aNestedFieldset, 
+                    $this->iSectionIndex,
+                    $this->aFieldTypeDefinitions
+                );                                    
+                $_aNestedFieldset = $_oFieldsetOutputFormatter->get();
+            }
+        }
+        
         return $_aFieldset;
         
     }

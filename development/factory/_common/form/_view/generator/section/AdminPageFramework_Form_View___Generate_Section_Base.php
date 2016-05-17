@@ -17,6 +17,10 @@
  */
 abstract class AdminPageFramework_Form_View___Generate_Section_Base extends AdminPageFramework_Form_View___Generate_Base {
     
+    /**
+     * A section-set definition array will be set.
+     */
+    public $aArguments = array();
     
     /**
      * A callback function to filter the generated id.
@@ -35,7 +39,7 @@ abstract class AdminPageFramework_Form_View___Generate_Section_Base extends Admi
             $this->hfCallback,
         );
         $this->aArguments = $_aParameters[ 0 ];        
-        $this->hfCallback  = $_aParameters[ 1 ];
+        $this->hfCallback = $_aParameters[ 1 ];
 
     }    
     
@@ -65,7 +69,7 @@ abstract class AdminPageFramework_Form_View___Generate_Section_Base extends Admi
     }
 
     /**
-     * Converts an array to a input name
+     * Converts an array to an input name for the name attribute.
      * 
      * `
      * array( 'apple', 'banana', 'cherry' )
@@ -75,6 +79,12 @@ abstract class AdminPageFramework_Form_View___Generate_Section_Base extends Admi
      * apple[banana][cherry]
      * `
      * The first item will not have braces.
+     * 
+     * Used for the input `name` attribute.
+     * 
+     * `
+     * <input name="THIS PART" id=... />
+     * `
      * 
      * @return      string
      * @since       3.7.0

@@ -16,7 +16,12 @@
  * @internal
  */
 abstract class AdminPageFramework_Form_View___Generate_Field_Base extends AdminPageFramework_Form_View___Generate_Section_Base {
-            
+       
+    /**
+     * A field definition array will be set.
+     */
+    public $aArguments = array();
+       
     /**
      * Checks whether a section is set.
      * 

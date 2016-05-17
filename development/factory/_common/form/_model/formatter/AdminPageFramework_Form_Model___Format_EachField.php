@@ -23,7 +23,7 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
      * Represents the structure of the sub-field definition array.
      */
     static public $aStructure = array(
-        '_is_sub_field'                 => false, // @todo change this key name as all the parsed field is technically a sub-field.
+        '_is_sub_field'                 => false,   // @todo change this key name as all the parsed field is technically a sub-field.
         '_index'                        => 0,       // indicates the field index
         '_is_multiple_fields'           => false,
         '_saved_value'                  => null,
@@ -35,7 +35,6 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
         
         '_input_name_flat'              => '',
         
-        // '_fields_container_id_model'    => '',
         '_fields_container_id'          => '',
         '_fieldset_container_id'        => '',
         
@@ -52,7 +51,9 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
     
     public $aCallbacks              = array();
     
-    public $aFieldTypeDefinition    = array();
+    public $aFieldTypeDefinition    = array(
+        'aDefaultKeys'  => array(),
+    );
     
     /**
      * Sets up properties.
@@ -86,7 +87,7 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
         $_aField[ '_is_sub_field' ]            = is_numeric( $this->isIndex ) && 0 < $this->isIndex;      // 3.5.3+
         $_aField[ '_index' ]                   = $this->isIndex;
 
-        // 'input_id' - something like ({section id}_){field_id}_{index} e.g. my_section_id_my_field_id_0
+        // 'input_id' - something like ({section id}_){field_id}__{index} e.g. my_section_id_my_field_id__0
         $_oInputTagIDGenerator = new AdminPageFramework_Form_View___Generate_FieldInputID( 
             $_aField,  
             $this->isIndex,
@@ -116,44 +117,9 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
             $this->aCallbacks[ 'hfInputNameFlat' ]        
         );
         $_aField[ '_input_name_flat' ] = $_oFieldFlatInputName->get();
-        // $_aField[ '_input_name_flat' ]         = $this->_getFlatInputName(
-            // $_aField,
-            // $this->getAOrB(
-                // $_aField[ '_is_multiple_fields' ],
-                // $this->isIndex,
-                // ''
-            // ),
-            // $this->aCallbacks[ 'hfNameFlat' ]
-        // ); 
                             
         // used in the attribute below plus it is also used in the sample custom field type.
-        $_aField[ '_field_container_id' ]      = "field-{$_aField[ 'input_id' ]}";
-
-// @todo for issue #158 https://github.com/michaeluno/admin-page-framework/issues/158               
-// These models are for generating ids and names dynamically.
-// 3.3.1+ referred by the repeatable field script
-// $_oInputTagIDGenerator = new AdminPageFramework_Form_View___Generate_FieldInputID( 
-    // $_aField,  
-    // '-fi-',
-    // $this->aCallbacks[ 'hfID' ]
-// );
-// $_aField[ '_input_id_model' ] = $_oInputTagIDGenerator->get();
-
-// 3.3.1+ referred by the repeatable field script
-// $_oFieldInputNameGenerator = AdminPageFramework_Form_View___Generate_FieldInputName(
-    // $_aField, 
-    // $this->getAOrB(
-        // $_aField[ '_is_multiple_fields' ],
-        // '-fi-',
-        // ''
-    // ),
-    // $this->aCallbacks[ 'hfName' ]       
-// );
-// $_aField[ '_input_name_model' ] = $_oFieldInputNameGenerator->get();
-        
-// 3.3.1+ referred by the repeatable field script
-// $_aField['_fields_container_id_model'] = "field-{$_aField[ '_input_id_model' ]}"; 
-            
+        $_aField[ '_field_container_id' ]      = "field-{$_aField[ 'input_id' ]}";            
         $_aField[ '_fields_container_id' ]     = "fields-{$this->aField[ 'tag_id' ]}";
         $_aField[ '_fieldset_container_id' ]   = "fieldset-{$this->aField[ 'tag_id' ]}";
         $_aField                               = $this->uniteArrays(
@@ -189,7 +155,7 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
 
 
     /**
-     * Generates an name attribute model for dynamic fields such as repeatable and sortable fields.
+     * Generates a name attribute model for dynamic fields such as repeatable and sortable fields.
      * 
      * The repeatable script will check this name to generate incremented name.
      * @since       3.6.0

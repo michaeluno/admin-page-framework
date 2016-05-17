@@ -69,7 +69,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          * @since       3.6.0
          * @return      string
          */
-        public function _replyToGetFieldNameAttribute( /* $sFieldName, $aFieldset */ )  {
+        public function _replyToGetFieldNameAttribute( /* $sFieldName, $aFieldset */ )  {            
             $_aParams = func_get_args() + array( null, null, );
             return $_aParams[ 0 ];                        
         }
@@ -79,7 +79,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          * @since       3.6.0
          * @return      string
          */        
-        public function _replyToGetFlatFieldName( /* $sFieldName, $aFieldset */ ) {
+        public function _replyToGetFlatFieldName( /* $sFieldName, $aFieldset */ ) {            
             $_aParams = func_get_args() + array( null, null, );
             return $_aParams[ 0 ];            
         }

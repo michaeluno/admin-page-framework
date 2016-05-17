@@ -20,12 +20,12 @@
  * @subpackage  Form
  * @internal
  */
-abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFramework_FrameworkUtility {
+abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFramework_Form_Utility {
 
     /**
      * Stores the field definition array.
      */
-    public $aField = array();
+    public $aFieldset = array();
     
     /**
      * Stores field type definitions.
@@ -61,19 +61,17 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
      * @since       3.0.0
      * @since       3.2.0       Added the $aCallbacks parameter.
      * @since       3.4.1       Removed the reference (&) of the second parameter to let a function call being passed.
-     * @param       array       $aField                 An array storing the field definition array.
+     * @param       array       $aFieldset              An array storing the field definition array.
      * @param       array       $aOptions               An array storing the stored data in the database.
      * @param       array       $aErrors                An array storing the field errors.
      * @param       array       $aFieldTypeDefinitions  An array storing registered field type definitions.
      * @param       object      $oMsg                   An object storing the system messages.
      * @param       array       $aCallbacks             An array storing the form-field specific callbacks.     
      */
-    public function __construct( &$aField, $aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg, array $aCallbacks=array() ) {
-
-        // @todo Investigate why the first parameter is passed by reference. 
+    public function __construct( $aFieldset, $aOptions, $aErrors, &$aFieldTypeDefinitions, &$oMsg, array $aCallbacks=array() ) {
 
         // Set up the properties that will be accessed later in the methods.
-        $this->aField                   = $this->_getFormatted( $aField, $aFieldTypeDefinitions );
+        $this->aFieldset                = $this->_getFormatted( $aFieldset, $aFieldTypeDefinitions );
         $this->aFieldTypeDefinitions    = $aFieldTypeDefinitions;
         $this->aOptions                 = $aOptions;
         $this->aErrors                  = $this->getAsArray( $aErrors );
@@ -89,7 +87,7 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
         );        
         
         // 2. Load necessary JavaScript scripts.
-        $this->_loadScripts( $this->aField[ '_structure_type' ] );
+        $this->_loadScripts( $this->aFieldset[ '_structure_type' ] );
 
     }    
         /**
@@ -178,38 +176,33 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
      * @since 2.1.3
      */
     protected function _getRepeaterFieldEnablerScript( $sFieldsContainerID, $iFieldCount, $aSettings ) {
-
-        $_sAdd                  = $this->oMsg->get( 'add' );
-        $_sRemove               = $this->oMsg->get( 'remove' );
-        $_sVisibility           = $iFieldCount <= 1 ? " style='visibility: hidden;'" : "";
-        $_sSettingsAttributes   = $this->generateDataAttributes( ( array ) $aSettings );
-        $_bDashiconSupported    = false;     // version_compare( $GLOBALS['wp_version'], '3.8', '>=' );
-        $_sDashiconPlus         = $_bDashiconSupported ? 'dashicons dashicons-plus' : '';
-        $_sDashiconMinus        = $_bDashiconSupported ? 'dashicons dashicons-minus' : '';
-        $_sButtons              = 
-            "<div class='admin-page-framework-repeatable-field-buttons' {$_sSettingsAttributes} >"
-                . "<a class='repeatable-field-remove-button button-secondary repeatable-field-button button button-small {$_sDashiconMinus}' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>"
-                  . ( $_bDashiconSupported ? '' : '-' )
-                . "</a>"
-                . "<a class='repeatable-field-add-button button-secondary repeatable-field-button button button-small {$_sDashiconPlus}' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>" 
-                    . ( $_bDashiconSupported ? '' : '+' )
-                . "</a>"                
-            . "</div>";
+        
+        $_sSmallButtons         = '"' . $this->_getRepeatableButtonHTML( $sFieldsContainerID, ( array ) $aSettings, $iFieldCount, true ) . '"';
+        $_sNestedFieldsButtons  = '"' . $this->_getRepeatableButtonHTML( $sFieldsContainerID, ( array ) $aSettings, $iFieldCount, false ) . '"';
         $_aJSArray              = json_encode( $aSettings );
-        $_sButtonsHTML          = '"' . $_sButtons . '"';
         $_sScript               = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
-    var _nodePositionIndicators = jQuery( '#{$sFieldsContainerID} .admin-page-framework-field .repeatable-field-buttons' );
-    /* If the position of inserting the buttons is specified in the field type definition, replace the pointer element with the created output */
-    if ( _nodePositionIndicators.length > 0 ) {
-        _nodePositionIndicators.replaceWith( $_sButtonsHTML );
-    } else { 
+    var _oButtonPlaceHolders = jQuery( '#{$sFieldsContainerID} > .admin-page-framework-field.without-nested-fields .repeatable-field-buttons' );
+    /* If the button place-holder is set in the field type definition, replace it with the created output */
+    if ( _oButtonPlaceHolders.length > 0 ) {
+        _oButtonPlaceHolders.replaceWith( $_sSmallButtons );
+    } 
     /* Otherwise, insert the button element at the beginning of the field tag */
-        // check the button container already exists for WordPress 3.5.1 or below
+    else { 
+        /**
+         * Adds the buttons
+         * Check whether the button container already exists for WordPress 3.5.1 or below.
+         * @todo 3.8.0 Examine the below conditional line whether the behavior does not break for nested fields.
+         */
         if ( ! jQuery( '#{$sFieldsContainerID} .admin-page-framework-repeatable-field-buttons' ).length ) { 
-            // Adds the buttons
-            jQuery( '#{$sFieldsContainerID} .admin-page-framework-field' ).prepend( $_sButtonsHTML ); 
+            jQuery( '#{$sFieldsContainerID} > .admin-page-framework-field.without-nested-fields' ).prepend( $_sSmallButtons );
         }
+        /**
+         * Support for nested fields.
+         * For nested fields, add the buttons to the fields tag.
+         */
+        jQuery( '#{$sFieldsContainerID} > .admin-page-framework-field.with-nested-fields' ).prepend( $_sNestedFieldsButtons );
+        
     }     
     jQuery( '#{$sFieldsContainerID}' ).updateAdminPageFrameworkRepeatableFields( $_aJSArray ); // Update the fields     
 });
@@ -221,6 +214,36 @@ JAVASCRIPTS;
             . "</script>";
         
     }
+        /**
+         * Creates an HTML button output for repeatable field buttons.
+         * @since       3.8.0
+         * @return      string
+         */
+        private function _getRepeatableButtonHTML( $sFieldsContainerID, array $aSettings, $iFieldCount, $bSmall=true ) {
+            
+            $_sAdd                  = $this->oMsg->get( 'add' );
+            $_sRemove               = $this->oMsg->get( 'remove' );            
+            $_sVisibility           = $iFieldCount <= 1 ? " style='visibility: hidden;'" : "";
+            $_sSettingsAttributes   = $this->generateDataAttributes( $aSettings );
+            $_sSmallButtonSelector  = $bSmall ? ' button-small' : '';
+                
+            // Not using dash-icons at the moment.
+            $_bDashiconSupported    = false;    // version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' );
+            $_sDashiconPlus         = '';       // $_bDashiconSupported ? 'dashicons dashicons-plus' : '';
+            $_sDashiconMinus        = '';       // $_bDashiconSupported ? 'dashicons dashicons-minus' : '';            
+            
+            return "<div class='admin-page-framework-repeatable-field-buttons' {$_sSettingsAttributes} >"
+                . "<a class='repeatable-field-remove-button button-secondary repeatable-field-button button {$_sSmallButtonSelector}{$_sDashiconMinus}' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>"
+                  . '-' // ( $_bDashiconSupported ? '' : '-' )
+                . "</a>"
+                . "<a class='repeatable-field-add-button button-secondary repeatable-field-button button {$_sSmallButtonSelector}{$_sDashiconPlus}' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>" 
+                    . '+' // ( $_bDashiconSupported ? '' : '+' )
+                . "</a>"                
+            . "</div>";        
+
+        
+        }
+        
     
     /**
      * Returns the sortable fields script.

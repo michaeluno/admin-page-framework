@@ -153,6 +153,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
         var aFieldTypeSlugs = 'undefined' === typeof aFieldTypeSlugs 
             ? []
             : aFieldTypeSlugs;
+        aFieldTypeSlugs.push( '_nested', '_mixed' );    // 3.8.0+
 
         // Store the callback functions
         $.fn.aAdminPageFrameworkAddRepeatableFieldCallbacks.push( 

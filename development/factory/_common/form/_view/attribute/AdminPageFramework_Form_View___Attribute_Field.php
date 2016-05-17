@@ -29,7 +29,7 @@ class AdminPageFramework_Form_View___Attribute_Field extends AdminPageFramework_
     /**
      * Returns the field container attribute array.
      * 
-     * @remark      Formatting each sub-field should be performed prior to callign this method.
+     * @remark      Formatting each sub-field should be performed prior to calling this method.
      * @param       array       $aField     The (sub-)field definition array. This should have been formatted already.
      * @return      array       The generated field container attribute array.
      * @internal   
@@ -38,13 +38,20 @@ class AdminPageFramework_Form_View___Attribute_Field extends AdminPageFramework_
      * @return      array
      */
     protected function _getAttributes() {
-
+        
+        // 3.8.0+ Supports omitting the `type` argument.
+        $_sFieldTypeSelector   = $this->aArguments[ 'type' ]
+            ? " admin-page-framework-field-{$this->aArguments[ 'type' ]}"
+            : '';
+        
+        $_sNestedFieldSelector = $this->hasNestedFields( $this->aArguments )
+            ? ' with-nested-fields'
+            : ' without-nested-fields';
+        
         return array(
             'id'            => $this->aArguments[ '_field_container_id' ],
             'data-type'     => $this->aArguments[ 'type' ],   // referred by the repeatable field JavaScript script.
-            // @deprecated 3.6.0 
-            // 'data-id_model' => $this->aArguments[ '_fields_container_id_model' ], // 3.3.1+
-            'class'         => "admin-page-framework-field admin-page-framework-field-" . $this->aArguments[ 'type' ]
+            'class'         => "admin-page-framework-field{$_sFieldTypeSelector}{$_sNestedFieldSelector}"
                 . $this->getAOrB(
                     $this->aArguments[ 'attributes' ][ 'disabled' ],
                     ' disabled',

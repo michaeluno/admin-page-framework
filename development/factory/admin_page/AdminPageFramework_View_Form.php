@@ -31,14 +31,12 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
         $_aParams            = func_get_args() + array( null, null, );
         $sNameAttribute      = $_aParams[ 0 ];
         $aSectionset         = $_aParams[ 1 ];        
-        
         $_aSectionPath       = $aSectionset[ '_section_path_array' ];
-        
         $_aDimensionalKeys   = array( $this->oProp->sOptionKey );   
         foreach( $_aSectionPath as $_sDimension ) {
             $_aDimensionalKeys[] = '[' . $_sDimension . ']';
         }
-        // $_aDimensionalKeys[] = '[' . $aSectionset[ 'section_id' ] . ']';
+        
         if ( isset( $aSectionset[ '_index' ] ) ) {
             $_aDimensionalKeys[] = '[' . $aSectionset[ '_index' ] . ']';
         }
@@ -55,21 +53,24 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
         
         $_aParams           = func_get_args() + array( null, null,  );
         $sNameAttribute     = $_aParams[ 0 ];
-        $aFieldset          = $_aParams[ 1 ];        
-        
-        $_aDimensionalKeys  = array( $aFieldset[ 'option_key' ] );
+        $aFieldset          = $_aParams[ 1 ];
+        $_aDimensionalKeys  = array( 
+            $this->oProp->sOptionKey    // Use `$this->oProp->sOptionKey` instead of `$aFieldset[ 'option_key' ]` which is not set for nested items.
+        );        
         if ( $this->isSectionSet( $aFieldset ) ) {
             $_aSectionPath       = $aFieldset[ '_section_path_array' ];
             foreach( $_aSectionPath as $_sDimension ) {
                 $_aDimensionalKeys[] = '[' . $_sDimension . ']';
             }
-            // $_aDimensionalKeys[] = '[' . $aFieldset[ 'section_id' ] . ']';
             if ( isset( $aFieldset[ '_section_index' ] ) ) {
                 $_aDimensionalKeys[] = '[' . $aFieldset[ '_section_index' ] . ']';
             }
         }
         
-        $_aDimensionalKeys[] = '[' . $aFieldset[ 'field_id' ] . ']';
+        // 3.8.0+ Support for nested fields.
+        foreach( $aFieldset[ '_field_path_array' ] as $_sPathPart ) {
+            $_aDimensionalKeys[] = '[' . $_sPathPart . ']';
+        }
 
         return implode( '', $_aDimensionalKeys );
         
@@ -85,7 +86,9 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
         $sNameAttribute     = $_aParams[ 0 ];
         $aFieldset          = $_aParams[ 1 ];        
         
-        $_aDimensionalKeys  = array( $aFieldset[ 'option_key' ] );
+        $_aDimensionalKeys  = array( 
+            $this->oProp->sOptionKey    // Use `$this->oProp->sOptionKey` instead of `$aFieldset[ 'option_key' ]` which is not set for nested items.
+        );
         if ( $this->isSectionSet( $aFieldset ) ) {
             foreach( $aFieldset[ '_section_path_array' ] as $_sDimension ) {
                 $_aDimensionalKeys[] = $_sDimension; // $aFieldset[ 'section_id' ];
@@ -94,7 +97,10 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
                 $_aDimensionalKeys[] = $aFieldset[ '_section_index' ];    
             }
         }
-        $_aDimensionalKeys[] = $aFieldset[ 'field_id' ];
+
+        // 3.8.0 Changed it to use the field path instead of field id to support nested fields.
+        $_aDimensionalKeys = array_merge( $_aDimensionalKeys, $aFieldset[ '_field_path_array' ] );
+
         return implode( '|', $_aDimensionalKeys );        
         
     }

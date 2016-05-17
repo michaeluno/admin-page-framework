@@ -193,6 +193,20 @@ td.admin-page-framework-field-td-no-title {
     padding-right: 0.22em;
 
 }
+
+/* Nested fieldsets 3.8.0+ */
+.admin-page-framework-fieldset > .admin-page-framework-fields > .admin-page-framework-field > .admin-page-framework-fieldset.multiple-nesting {
+    margin-left: 2em;
+}
+.admin-page-framework-fieldset > .admin-page-framework-fields > .admin-page-framework-field > .admin-page-framework-fieldset {
+    margin-bottom: 1em;
+}
+.admin-page-framework-fieldset.nested-fieldset > .admin-page-framework-nested-field-title {
+    font-weight: 600;
+    display: inline-block;
+    padding: 0 0 0.4em 0;
+}
+
 CSSRULES;
         }   
 

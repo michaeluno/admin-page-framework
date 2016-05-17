@@ -8,7 +8,7 @@
  */
 
 /**
- * Provides JavaScript scripts for repeatable fields.
+ * Provides JavaScript scripts for repeatable individual fields.
  * 
  * @since       3.0.0     
  * @since       3.3.0       Extends `AdminPageFramework_Form_View___Script_Base`.
@@ -37,7 +37,7 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
 (function ( $ ) {
         
     /**
-     * 
+     * Bind field-repeating events to repeatable buttons for individual fields.
      * @remark      This method can be called from a fields container or a cloned field container.
      */
     $.fn.updateAdminPageFrameworkRepeatableFields = function( aSettings ) {
@@ -60,26 +60,29 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
         var _aOptions = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ];
 
         /* Set the option values in the data attributes so that when a section is repeated and creates a brand new field container, it can refer to the options */
+// @todo For nested fields, the `find()` method should be avoided.
         $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-max', _aOptions[ 'max' ] );
         $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-min', _aOptions[ 'min' ] );
         $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-fadein', _aOptions[ 'fadein' ] );
         $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-fadeout', _aOptions[ 'fadeout' ] );
         
         /* The Add button behavior - if the tag id is given, multiple buttons will be selected. 
-         * Otherwise, a field node is given and single button will be selected. */
+         * Otherwise, a field node is given and a single button will be selected. */
+// @todo For nested fields, the `find()` method should be avoided.         
         $( nodeThis ).find( '.repeatable-field-add-button' ).unbind( 'click' );
         $( nodeThis ).find( '.repeatable-field-add-button' ).click( function() {
             $( this ).addAdminPageFrameworkRepeatableField();
             return false; // will not click after that
         });
-        
+
         /* The Remove button behavior */
+// @todo For nested fields, the `find()` method should be avoided.        
         $( nodeThis ).find( '.repeatable-field-remove-button' ).unbind( 'click' );
         $( nodeThis ).find( '.repeatable-field-remove-button' ).click( function() {
             $( this ).removeAdminPageFrameworkRepeatableField();
             return false; // will not click after that
-        });     
-        
+        });
+
         /* If the number of fields is less than the set minimum value, add fields. */
         var _sFieldID           = nodeThis.find( '.repeatable-field-add-button' ).first().closest( '.admin-page-framework-field' ).attr( 'id' );
         var _nCurrentFieldCount = jQuery( '#' + sFieldsContainerID ).find( '.admin-page-framework-field' ).length;
@@ -93,11 +96,13 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
     
     /**
      * Adds a repeatable field.
+     * 
+     * This method is called when the user presses the + repeatable button.
      */
     $.fn.addAdminPageFrameworkRepeatableField = function( sFieldContainerID ) {
         
         if ( 'undefined' === typeof sFieldContainerID ) {
-            var sFieldContainerID = $( this ).closest( '.admin-page-framework-field' ).attr( 'id' );    
+            var sFieldContainerID = $( this ).closest( '.admin-page-framework-field' ).attr( 'id' );
         }
 
         var nodeFieldContainer  = $( '#' + sFieldContainerID );
@@ -150,85 +155,37 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
             nodeNewField.insertAfter( nodeFieldContainer );    
         }
 
-        /* Increment the names and ids of the next following siblings. */
-        // @deprecated 3.6.0
-        // nodeFieldContainer.nextAll().each( function() {
-            // $( this ).incrementIDAttribute( 'id' );
-            // $( this ).find( 'label' ).incrementIDAttribute( 'for' );
-            // $( this ).find( 'input,textarea,select' ).incrementIDAttribute( 'id' );
-            // $( this ).find( 'input:not(.apf_checkbox),textarea,select' ).incrementNameAttribute( 'name' );
-            // $( this ).find( 'input.apf_checkbox' ).incrementNameAttribute( 'name', -2 ); // for checkboxes, increment the second found digit from the end 
-        // }); 
-
         // 3.6.0+ Increment name and id attributes of the newly cloned field.
-        // Increment the count
-        var _iFieldCount            = Number( nodeFieldsContainer.attr( 'data-largest_index' ) );
-        var _iIncrementedFieldCount = _iFieldCount + 1;
-        nodeFieldsContainer.attr( 'data-largest_index', _iIncrementedFieldCount );
-     
-        var _sFieldTagIDModel    = nodeFieldsContainer.attr( 'data-field_tag_id_model' );
-        var _sFieldNameModel     = nodeFieldsContainer.attr( 'data-field_name_model' );
-        var _sFieldFlatNameModel = nodeFieldsContainer.attr( 'data-field_name_flat_model' );
-        var _sFieldAddressModel  = nodeFieldsContainer.attr( 'data-field_address_model' );
-        
-        // nodeNewField.incrementIDAttribute( 'id' ); // @deprecated 3.6.0
-        nodeNewField.incrementAttribute(
-            'id', // attribute name
-            _iFieldCount, // increment from
-            _sFieldTagIDModel // digit model
-        );
-        // nodeNewField.find( 'label' ).incrementIDAttribute( 'for' ); // @deprecated 3.6.0
-        nodeNewField.find( 'label' ).incrementAttribute(
-            'for', // attribute name
-            _iFieldCount, // increment from
-            _sFieldTagIDModel // digit model
-        );
-        // nodeNewField.find( 'input,textarea,select' ).incrementIDAttribute( 'id' ); // @deprecated 3.6.0
-        nodeNewField.find( 'input,textarea,select' ).incrementAttribute(
-            'id', // attribute name
-            _iFieldCount, // increment from
-            _sFieldTagIDModel // digit model
-        );       
-        // nodeNewField.find( 'input:not(.apf_checkbox),textarea,select' ).incrementNameAttribute( 'name' );
-        nodeNewField.find( 'input,textarea,select' ).incrementAttribute(
-            'name', // attribute name
-            _iFieldCount, // increment from
-            _sFieldNameModel // digit model
-        );
-        
-        // Update the hidden input elements that contain field names for nested elements.
-        nodeNewField.find( 'input[type=hidden].element-address' ).incrementAttributes(
-            [ 'name', 'value' ], // attribute names - this elements contains id values in the 'name' attribute.
-            _iFieldCount,
-            _sFieldAddressModel // digit model - this is
-        );  
+        _incrementFieldAttributes( nodeNewField, nodeFieldsContainer );
                
-        /* Rebind the click event to the + and - buttons - important to update AFTER inserting the clone to the document node since the update method needs to count the fields. 
+        /** 
+         * Rebind the click event to the + and - buttons - important to update AFTER inserting the clone to the document node since the update method needs to count the fields. 
          * Also do this after updating the attributes since the script needs to check the last added id for repeatable field options such as 'min'.
-         * */
+         */
         nodeNewField.updateAdminPageFrameworkRepeatableFields();
         
         // It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone.
-        nodeFieldContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );
+        nodeFieldContainer.find( 'input[type=radio][checked=checked]' ).prop( 'checked', 'checked' );
         
         // Call back the registered functions.
-        // nodeNewField.callBackAddRepeatableField( nodeNewField.data( 'type' ), nodeNewField.attr( 'id' ), 0, 0, 0 );
         nodeNewField.trigger( 
             'admin_page_framework_repeated_field', 
             [ 
                 nodeNewField.data( 'type' ), // field type slug
                 nodeNewField.attr( 'id' ),   // element tag id
-                0, // call type 
+                0, // call type // call type, 0 : repeatable fields, 1: repeatable sections, 2: nested repeatable fields.
                 0, // section index - @todo find the section index
                 0  // field index - @todo find the field index
             ]
         );
         
+        
+        // @deprecated 3.8.0 For the _nested field type, the above repeatable fields callback handles it.
         // For nested fields,
-        $( nodeNewField ).find( '.admin-page-framework-field' ).each( function( iIterationIndex ) {    
+/*         $( nodeNewField ).find( '.admin-page-framework-field' ).each( function( iIterationIndex ) {    
         
             // Rebind the click event to the repeatable field buttons - important to update AFTER inserting the clone to the document node 
-            // since the update method need to count fields.
+            // since the update method needs to count fields.
             // @todo examine if this is needed any longer.
             $( this ).updateAdminPageFrameworkRepeatableFields();
                                         
@@ -244,7 +201,7 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
                 ]
             );            
             
-        });    
+        });  */   
         
         // If more than one fields are created, show the Remove button.
         var nodeRemoveButtons = nodeFieldsContainer.find( '.repeatable-field-remove-button' );
@@ -256,7 +213,88 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
         return nodeNewField; 
         
     };
+    
+        /**
+         * Increments digits in field attributes.
+         * @since       3.8.0
+         */
+        var _incrementFieldAttributes = function( oElement, oFieldsContainer ) {
+                
+            var _iFieldCount            = Number( oFieldsContainer.attr( 'data-largest_index' ) );
+            var _iIncrementedFieldCount = _iFieldCount + 1;
+            oFieldsContainer.attr( 'data-largest_index', _iIncrementedFieldCount );
+         
+            var _sFieldTagIDModel    = oFieldsContainer.attr( 'data-field_tag_id_model' );
+            var _sFieldNameModel     = oFieldsContainer.attr( 'data-field_name_model' );
+            var _sFieldFlatNameModel = oFieldsContainer.attr( 'data-field_name_flat_model' );
+            var _sFieldAddressModel  = oFieldsContainer.attr( 'data-field_address_model' );
+
+            oElement.incrementAttribute(
+                'id', // attribute name
+                _iFieldCount, // increment from
+                _sFieldTagIDModel // digit model
+            );
+            oElement.find( 'label' ).incrementAttribute(
+                'for', // attribute name
+                _iFieldCount, // increment from
+                _sFieldTagIDModel // digit model
+            );
+            oElement.find( 'input,textarea,select' ).incrementAttribute(
+                'id', // attribute name
+                _iFieldCount, // increment from
+                _sFieldTagIDModel // digit model
+            );       
+            oElement.find( 'input,textarea,select' ).incrementAttribute(
+                'name', // attribute name
+                _iFieldCount, // increment from
+                _sFieldNameModel // digit model
+            );
+            
+            // Update the hidden input elements that contain field names for nested elements.
+            oElement.find( 'input[type=hidden].element-address' ).incrementAttributes(
+                [ 'name', 'value', 'data-field_address_model' ], // attribute names - these elements contain id values in the 'name' attribute.
+                _iFieldCount,
+                _sFieldAddressModel // digit model - this is
+            );              
+            
+            // 3.8 For nested repeatable fields
+            oElement.find( '.admin-page-framework-field,.admin-page-framework-fields,.admin-page-framework-fieldset' ).incrementAttributes(
+                [ 'id', 'data-field_tag_id_model', 'data-field_id' ],
+                _iFieldCount,
+                _sFieldTagIDModel
+            );
+            oElement.find( '.admin-page-framework-fields' ).incrementAttributes(
+                [ 'data-field_name_model' ],
+                _iFieldCount,
+                _sFieldNameModel
+            );            
+            oElement.find( '.admin-page-framework-fields' ).incrementAttributes(
+                [ 'data-field_name_flat', 'data-field_name_flat_model' ],
+                _iFieldCount,
+                _sFieldFlatNameModel
+            );                 
+            oElement.find( '.admin-page-framework-fields' ).incrementAttributes(
+                [ 'data-field_address', 'data-field_address_model' ],
+                _iFieldCount,
+                _sFieldAddressModel
+            );            
+// console.log( _sFieldTagIDModel );
+// console.log( oElement.find( 'fieldset.admin-page-framework-fieldset' ).length );
+// console.log( oElement.find( 'fieldset.admin-page-framework-fieldset' ).first().attr( 'id' ) );
+            // oElement.find( 'fieldset.admin-page-framework-fieldset' ).incrementAttributes(
+                // [ 'id', 'data-field_id' ],           // attribute name
+                // _iFieldCount,   // increment from
+                // _sFieldTagIDModel
+            // );
+// console.log( oElement.find( 'fieldset.admin-page-framework-fieldset' ).first().attr( 'id' ) );
+            
+        }    
         
+    
+    /**
+     * Removes a repeatable field.
+      This method is called when the user presses the - repeatable button.
+     */
     $.fn.removeAdminPageFrameworkRepeatableField = function() {
         
         /* Need to remove the element: the field container */
@@ -282,22 +320,7 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
             return;     
         }     
         
-        /* Decrement the names and ids of the next following siblings. */
-        // @deprecated      3.6.0
-        // nodeFieldContainer.nextAll().each( function() {
-            // $( this ).decrementIDAttribute( 'id' );
-            // $( this ).find( 'label' ).decrementIDAttribute( 'for' );
-            // $( this ).find( 'input,textarea,select' ).decrementIDAttribute( 'id' );
-            // $( this ).find( 'input:not(.apf_checkbox),textarea,select' ).decrementNameAttribute( 'name' );     
-            // $( this ).find( 'input.apf_checkbox' ).decrementNameAttribute( 'name', -2 ); // for checkboxes, increment the second found digit from the end                     
-        // });
-
-        /* The next field */
-        // @deprecated 3.6.0
-        // var _oNextFieldoNextField = nodeFieldContainer.next();
-
         /* Remove the field */
-        // nodeFieldContainer.remove(); // @deprecated  3.6.0
         var _iFadeout = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadeout' ]
             ? $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ sFieldsContainerID ][ 'fadeout' ]
             : 500;        
@@ -308,28 +331,6 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
                 nodeRemoveButtons.css( 'visibility', 'hidden' ); 
             }            
         } );
-        
-        /** 
-         * Call the registered callback functions
-         * 
-         * @since           3.0.0
-         * @since           3.1.0 Changed it to do after removing the element and passing the next field element to the first parameter of the callback.
-         * @deprecated      3.6.0
-         */
-        // _oNextField.callBackRemoveRepeatableField( 
-            // nodeFieldContainer.data( 'type' ), 
-            // nodeFieldContainer.attr( 'id' ), 
-            // 0,  // call type 0: fields, 1: sections
-            // 0,  // section index
-            // 0   // field index
-        // );    
-        
-        /* Count the remaining Remove buttons and if it is one, disable the visibility of it */
-        // @deprecated  3.6.0   Moved to the above fadeOut method.
-        // var nodeRemoveButtons = nodeFieldsContainer.find( '.repeatable-field-remove-button' );
-        // if ( 1 === nodeRemoveButtons.length ) { 
-            // nodeRemoveButtons.css( 'visibility', 'hidden' ); 
-        // }
             
     };
         

@@ -452,6 +452,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.0 =
+- Added the ability to nest fields.
 - Added a new factory class to build forms for taxonomy terms.
 
 = 3.7.14 - 2016/04/20 =

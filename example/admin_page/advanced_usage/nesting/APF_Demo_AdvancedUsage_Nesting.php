@@ -59,6 +59,7 @@ class APF_Demo_AdvancedUsage_Nesting {
         $_aClasses = array(
              'APF_Demo_AdvancedUsage_Nesting_SectionA',
              'APF_Demo_AdvancedUsage_Nesting_SectionB',
+             'APF_Demo_AdvancedUsage_Nesting_Fields',
         );
         foreach ( $_aClasses as $_sClassName ) {
             if ( ! class_exists( $_sClassName ) ) {

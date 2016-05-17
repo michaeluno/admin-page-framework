@@ -273,7 +273,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
             )
             : $mValue;
         $mValue = is_array( $mValue )
-            ? self::getSliceByDepth( $mValue, 5 )
+            ? self::getSliceByDepth( $mValue, 10 )
             : $mValue;
             
         return print_r( $mValue, true );

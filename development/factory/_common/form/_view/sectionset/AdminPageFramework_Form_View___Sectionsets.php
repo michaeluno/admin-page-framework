@@ -305,7 +305,6 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
             private function _getSectionsetTable( $_aOutputs, $_sSectionsID, array $_aSection, array $aFieldsInSections ) {
             
                 if ( ! $this->isSectionsetVisible( $_aSection ) ) {
-// var_dump( 'not visible: ' . $_aSection[ '_section_path' ] );
                     return $_aOutputs;
                 }
 

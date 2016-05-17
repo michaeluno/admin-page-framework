@@ -213,7 +213,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         
         // Set the options array
         $this->aSavedData = $this->_getSavedData(
-            // Merge with the set property and the generated default valus. 
+            // Merge with the set property and the generated default values. 
             // This allows external routines to set custom default values prior to the field registration.
             $this->aSavedData + $this->getDefaultFormValues()
         );

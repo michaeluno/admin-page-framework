@@ -182,7 +182,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
                             $_aFieldset, 
                             $aSectionsets,
                             $sCapability, 
-                            count( $_aNewItems ), // count of elements - zero based
+                            count( $_aNewItems ), // index of elements - zero based
                             null,   // sub-section index
                             $_abSectionRepeatable,
                             $this->oCallerForm
@@ -274,10 +274,11 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
              */
             private function _getFieldsetFormatted( $aFieldset, $aSectionsets, $sCapability, $iCountOfElements, $iSubSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {
 
-                if ( ! isset( $aFieldset[ 'field_id' ], $aFieldset[ 'type' ] ) ) { 
+                // 3.8.0+ Dropped the check for $aFieldset[ 'type' ] to allow it to be omitted.
+                if ( ! isset( $aFieldset[ 'field_id' ] ) ) { 
                     return; 
                 }
-
+                
                 $_oFieldsetFormatter = new AdminPageFramework_Form_Model___Format_Fieldset(
                     $aFieldset, 
                     $this->sStructureType,
@@ -303,6 +304,6 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
                 );
                 return $_aFieldset; 
                 
-            }    
+            }     
  
 }

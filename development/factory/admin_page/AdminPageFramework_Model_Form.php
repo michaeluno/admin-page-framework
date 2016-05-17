@@ -8,11 +8,11 @@
  */
 
 /**
- * Interact with the database for the forms.
+ * Interacts with the database for the forms.
  *
  * @abstract
  * @since           3.3.1
- * @since           3.6.3       Chagned the name from `AdminPageFramework_Form_Model`.
+ * @since           3.6.3       Changed the name from `AdminPageFramework_Form_Model`.
  * @extends         AdminPageFramework_Router
  * @package         AdminPageFramework
  * @subpackage      AdminPage
@@ -433,8 +433,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         $_aCapabilities   = array_filter( array( $_sTabCapability, $_sPageCapability ) )
             + array( $this->oProp->sCapability );
         return $_aCapabilities[ 0 ];
-        
-    }
 
-         
+    }
+    
 }

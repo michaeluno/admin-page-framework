@@ -13,10 +13,11 @@
  * @package     AdminPageFramework
  * @subpackage  Attribute
  * @since       3.6.0
+ * @since       3.8.0       Changed the extending class from `AdminPageFramework_FrameworkUtility` as some extended classes use form specific common methods.
  * @internal
- * @extends     AdminPageFramework_FrameworkUtility
+ * @extends     AdminPageFramework_Form_Utility
  */
-abstract class AdminPageFramework_Form_View___Attribute_Base extends AdminPageFramework_FrameworkUtility {
+abstract class AdminPageFramework_Form_View___Attribute_Base extends AdminPageFramework_Form_Utility {
  
     /**
      * Indicates the context of the attribute.

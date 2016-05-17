@@ -87,7 +87,7 @@ jQuery( document ).ready( function(){
          * @param integer   iCallerType     the caller type. 1 : repeatable sections. 0 : repeatable fields.
          */
         added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType, iSectionIndex, iFieldIndex ) {
-            
+
             // If it is not the type, do nothing.
             if ( oCloned.find( '.select_image' ).length <= 0 ) { 
                 return; 
@@ -121,6 +121,8 @@ jQuery( document ).ready( function(){
                 // Repeatable fields
                 default:
                 case 0:
+                // Parent repeatable fields (calling a nested field)
+                case 2:
                 
                     var _oFieldsContainer   = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
                     var _iFieldIndex        = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
@@ -130,13 +132,7 @@ jQuery( document ).ready( function(){
                         _iFieldIndex, // increment from
                         _sFieldTagIDModel // digit model
                     );                    
-
-                    break;
-                
-                // Parent repeatable fields (calling a nested field)
-                case 2:
-                
-                    break;
+                    break;                                
 
             }
             

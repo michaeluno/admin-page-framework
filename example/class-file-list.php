@@ -13,6 +13,7 @@ $_aClassFiles = array(
 	"APF_Demo_AdvancedUsage_Mixed"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/mixed/APF_Demo_AdvancedUsage_Mixed.php", 
 	"APF_Demo_AdvancedUsage_Mixed_Subfield"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/mixed/APF_Demo_AdvancedUsage_Mixed_Subfield.php", 
 	"APF_Demo_AdvancedUsage_Nesting"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/nesting/APF_Demo_AdvancedUsage_Nesting.php", 
+	"APF_Demo_AdvancedUsage_Nesting_Fields"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/nesting/APF_Demo_AdvancedUsage_Nesting_Fields.php", 
 	"APF_Demo_AdvancedUsage_Nesting_SectionA"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/nesting/APF_Demo_AdvancedUsage_Nesting_SectionA.php", 
 	"APF_Demo_AdvancedUsage_Nesting_SectionB"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/nesting/APF_Demo_AdvancedUsage_Nesting_SectionB.php", 
 	"APF_Demo_AdvancedUsage_Section"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/section/APF_Demo_AdvancedUsage_Section.php", 
