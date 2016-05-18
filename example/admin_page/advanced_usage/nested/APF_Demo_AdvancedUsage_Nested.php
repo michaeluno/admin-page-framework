@@ -15,7 +15,7 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_AdvancedUsage_Nesting {
+class APF_Demo_AdvancedUsage_Nested {
        
     /**
      * The page slug to add the tab and form elements.
@@ -25,7 +25,7 @@ class APF_Demo_AdvancedUsage_Nesting {
     /**
      * The tab slug to add to the page.
      */
-    public $sTabSlug    = 'nesting';
+    public $sTabSlug    = 'nested';
     
     /**
      * Sets up hooks.
@@ -37,7 +37,7 @@ class APF_Demo_AdvancedUsage_Nesting {
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'  => $this->sTabSlug,
-                'title'     => __( 'Nesting', 'admin-page-framework-loader' ),    
+                'title'     => __( 'Nested', 'admin-page-framework-loader' ),    
             )    
         );  
         
@@ -57,9 +57,9 @@ class APF_Demo_AdvancedUsage_Nesting {
     public function replyToLoadTab( $oFactory ) {
         
         $_aClasses = array(
-             'APF_Demo_AdvancedUsage_Nesting_SectionA',
-             'APF_Demo_AdvancedUsage_Nesting_SectionB',
-             'APF_Demo_AdvancedUsage_Nesting_Fields',
+             'APF_Demo_AdvancedUsage_Nested_SectionA',
+             'APF_Demo_AdvancedUsage_Nested_SectionB',
+             'APF_Demo_AdvancedUsage_Nested_Fields',
         );
         foreach ( $_aClasses as $_sClassName ) {
             if ( ! class_exists( $_sClassName ) ) {

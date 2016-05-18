@@ -109,11 +109,11 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'          => 'radio',
                 'label'         => array( 
-                    1 => 'On', 
-                    0 => 'Off'
+                    1 => __( 'On', 'admin-page-framework-loader' ),
+                    0 => __( 'Off', 'admin-page-framework-loader' ),
                 ),
-                'default' => 0, // set the key of the label array
-                'repeatable' =>    true,
+                'default'       => 0, // set the key of the label array
+                'repeatable'    => true,
             ),    
             array( // Sortable radio buttons
                 'field_id'      => 'radio_sortable',
@@ -125,7 +125,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
                     3 => __( 'Three', 'admin-page-framework-loader' ),
                 ),
                 'default'       => 2, // set the key of the label array
-                'sortable'      =>    true,
+                'sortable'      => true,
                 array(), // the second item
                 array(), // the third item
                 array(), // the fourth item

@@ -15,7 +15,7 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_AdvancedUsage_Nesting_SectionA {
+class APF_Demo_AdvancedUsage_Nested_SectionA {
     
     /**
      * The page slug to add the tab and form elements.
@@ -25,7 +25,7 @@ class APF_Demo_AdvancedUsage_Nesting_SectionA {
     /**
      * The tab slug to add to the page.
      */
-    public $sTabSlug    = 'nesting';
+    public $sTabSlug    = 'nested';
     
     /**
      * The section slug to add to the tab.

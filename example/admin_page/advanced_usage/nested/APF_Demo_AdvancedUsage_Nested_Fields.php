@@ -15,7 +15,7 @@
  * @package     AdminPageFramework
  * @subpackage  Example
  */
-class APF_Demo_AdvancedUsage_Nesting_Fields {
+class APF_Demo_AdvancedUsage_Nested_Fields {
     
     /**
      * The page slug to add the tab and form elements.
@@ -25,7 +25,7 @@ class APF_Demo_AdvancedUsage_Nesting_Fields {
     /**
      * The tab slug to add to the page.
      */
-    public $sTabSlug    = 'nesting';
+    public $sTabSlug    = 'nested';
     
     /**
      * The section slug to add to the tab.
@@ -62,14 +62,14 @@ class APF_Demo_AdvancedUsage_Nesting_Fields {
             array(
                 'field_id'      => 'Y',
                 'title'         => __( 'Y', 'admin-page-framework-loader' ),
-                'description'   => __( 'By passing an array of field definition to the <code>content</code> argument, you can nest fields.', 'admin-page-framework-loader' ),
-'type'          => 'textarea',  // @todo make it possible to be omitted
+                'description'   => __( 'By passing an array of field definition to the <code>content</code> argument, you can nest fields.', 'admin-page-framework-loader' )
+                    . ' ' . __( 'Also the <code>type</code> argument can be omitted.', 'admin-page-framework-loader' ),
                 'content'       => array(
-                    // array(
-                        // 'field_id'      => 'i',
-                        // 'title'         => __( 'i', 'admin-page-framework-loader' ),                    
-                        // 'type'          => 'textarea',
-                    // ),
+                    array(
+                        'field_id'      => 'i',
+                        'title'         => __( 'i', 'admin-page-framework-loader' ),                    
+                        'type'          => 'textarea',
+                    ),
                     array(
                         'field_id'      => 'ii',
                         'title'         => __( 'ii', 'admin-page-framework-loader' ),                    
@@ -77,10 +77,9 @@ class APF_Demo_AdvancedUsage_Nesting_Fields {
                     ),
                     array(
                         'field_id'      => 'iii',
-                        'title'         => __( 'iii', 'admin-page-framework-loader' ),                    
-'type'          => 'color',      
+                        'title'         => __( 'iii', 'admin-page-framework-loader' ),
                         'repeatable'    => true,
-                        // 'sortable'      => true,
+                        'sortable'      => true,
                         'content'       => array(
                             array(
                                 'field_id'      => 'a',
@@ -94,13 +93,12 @@ class APF_Demo_AdvancedUsage_Nesting_Fields {
                             ),
                             array(
                                 'field_id'      => 'b',
-                                'title'         => __( 'b', 'admin-page-framework-loader' ),                    
-'type'          => 'text',
+                                'title'         => __( 'b', 'admin-page-framework-loader' ),
                                 'content'       => array(
                                     array(
                                         'field_id'      => 'first',
                                         'title'         => __( '1st', 'admin-page-framework-loader' ),                    
-                                        'type'          => 'text',
+                                        'type'          => 'color',
                                         'repeatable'    => true,
                                         'sortable'      => true,
                                     ),                                
@@ -136,14 +134,15 @@ class APF_Demo_AdvancedUsage_Nesting_Fields {
                         )
                     ),                    
                 ),
-// 'content'       => '<p>This is still a test.</p>',
             ),     
-            // array(
-                // 'field_id'      => 'Z',
-                // 'title'         => __( 'Z', 'admin-page-framework-loader' ),
-                // 'type'          => 'checkbox',
-                // 'label'         => __( 'Check me.', 'admin-page-framework-loader' ),
-            // ),
+            array(
+                'field_id'      => 'Z',
+                'title'         => __( 'Z', 'admin-page-framework-loader' ),
+                'content'       => '<p>'
+                        . __( 'This message is inserted with the <code>content</code> argument.', 'admin-page-framework-loader' )
+                        . ' ' . __( 'The <code>type</code> argument can be omitted.', 'admin-page-framework-loader' )
+                    . '</p>',
+            ),
             array()
         );
         
