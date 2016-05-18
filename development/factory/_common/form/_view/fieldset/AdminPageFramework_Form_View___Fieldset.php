@@ -178,7 +178,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                     return $_aParentFieldset[ 'before_field' ]
                         . "<div " . $_oFieldAttribute->get() . ">"
                             . $_sNestedFieldsetsOutput
-                            // . $this->_getUnsetFlagFieldInputTag( $_aParentFieldset )
+                            . $this->_getUnsetFlagFieldInputTag( $_aParentFieldset )
                             . $this->_getDelimiter( $_aParentFieldset, $bIsLastElement )
                         . "</div>"
                         . $_aParentFieldset[ 'after_field' ];
