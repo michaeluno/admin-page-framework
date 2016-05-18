@@ -145,7 +145,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                         $aParentFieldset, 
                         $iIndex,  // zero-based sub-field index
                         $this->aCallbacks,
-                        $bIsLastElement
+                        $this->_getFieldTypeDefinition( $aField[ 'type' ] )
                     );
                     $_aParentFieldset   = $_oSubFieldFormatter->get();
                     
@@ -239,6 +239,8 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                 
                 // Field type definition - allows mixed field types in sub-fields 
                 $_aFieldTypeDefinition = $this->_getFieldTypeDefinition( $aField[ 'type' ] );
+                
+// @todo 3.8.0 Now the type argument can be omitted. So examine whether this check and return is necessary.
                 if ( ! is_callable( $_aFieldTypeDefinition[ 'hfRenderField' ] ) ) {
                     return '';
                 }     

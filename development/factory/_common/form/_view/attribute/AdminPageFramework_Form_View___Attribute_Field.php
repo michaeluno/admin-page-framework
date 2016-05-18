@@ -40,13 +40,17 @@ class AdminPageFramework_Form_View___Attribute_Field extends AdminPageFramework_
     protected function _getAttributes() {
         
         // 3.8.0+ Supports omitting the `type` argument.
-        $_sFieldTypeSelector   = $this->aArguments[ 'type' ]
-            ? " admin-page-framework-field-{$this->aArguments[ 'type' ]}"
-            : '';
+        $_sFieldTypeSelector   = $this->getAOrB(
+            $this->aArguments[ 'type' ],
+            " admin-page-framework-field-{$this->aArguments[ 'type' ]}",
+            ''
+        );
         
-        $_sNestedFieldSelector = $this->hasNestedFields( $this->aArguments )
-            ? ' with-nested-fields'
-            : ' without-nested-fields';
+        $_sNestedFieldSelector = $this->getAOrB(
+            $this->hasNestedFields( $this->aArguments ),
+            ' with-nested-fields',
+            ' without-nested-fields'
+        );
         
         return array(
             'id'            => $this->aArguments[ '_field_container_id' ],

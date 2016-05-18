@@ -30,10 +30,10 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
     
         // Required Keys
         'field_id'                  => null,    // (string)
-        'type'                      => null,    // (string)
         'section_id'                => null,    // (string)
 
         // Optional Keys        
+        'type'                      => null,    // (string) (3.8.0+ Became okay to omit.)
         'section_title'             => null,    // This will be assigned automatically in the formatting method.
         'page_slug'                 => null,    // This will be assigned automatically in the formatting method.
         'tab_slug'                  => null,    // This will be assigned automatically in the formatting method.

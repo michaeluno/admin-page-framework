@@ -31,12 +31,14 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
     
     /**
      * Checks if a given array holds fieldsets or not.
+     * 
+     * @todo        It seems this method is not used. If so deprecate it.
      * @return      boolean
      */
-    public function isFieldsets( array $aItems ) {
-        $_aItem = $this->getFirstElement( $aItems );
-        return isset( $_aItem[ 'type' ], $_aItem[ 'field_id' ], $_aItem[ 'section_id' ] );
-    }    
+    // public function isFieldsets( array $aItems ) {
+        // $_aItem = $this->getFirstElement( $aItems );
+        // return isset( $_aItem[ 'field_id' ], $_aItem[ 'section_id' ] );
+    // }
     
     /**
      * Determines whether the given ID is of a registered form section.

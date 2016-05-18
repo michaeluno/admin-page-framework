@@ -179,8 +179,8 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
             $this->_asTargetSectionID // default
         );                               
 
-        // Required Keys
-        if ( ! isset( $_aFieldset[ 'field_id' ], $_aFieldset[ 'type' ] ) ) { 
+        // Required Keys - 3.8.0+ Now 'type' can be omitted.
+        if ( ! isset( $_aFieldset[ 'field_id' ] ) ) { 
             return null; 
         }         
                 

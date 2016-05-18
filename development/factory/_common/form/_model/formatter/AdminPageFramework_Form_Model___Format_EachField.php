@@ -52,7 +52,9 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
     public $aCallbacks              = array();
     
     public $aFieldTypeDefinition    = array(
-        'aDefaultKeys'  => array(),
+        'aDefaultKeys'  => array(
+            'class' => null,
+        ),
     );
     
     /**
@@ -69,7 +71,7 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
         $this->aField               = $_aParameters[ 0 ];
         $this->isIndex              = $_aParameters[ 1 ];
         $this->aCallbacks           = $_aParameters[ 2 ];
-        $this->aFieldTypeDefinition = $_aParameters[ 3 ];
+        $this->aFieldTypeDefinition = $this->getAsArray( $_aParameters[ 3 ] );
     
     }
     
