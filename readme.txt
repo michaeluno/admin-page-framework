@@ -13,7 +13,7 @@ Facilitates WordPress plugin and theme development.
 == Description ==
 
 <h4>Reduce Time for Plugin and Theme Development</h4>
-One of the time-consuming part of developing WordPress plugins and themes is creating setting pages. As you more and more write plugins and themes, you will ll soon realize major part of code can be reused. Admin Page Framework aims to provide reusable code that eliminates the necessity of writing repeated code over and over again.
+One of the time-consuming part of developing WordPress plugins and themes is creating setting pages. As you more and more write plugins and themes, you will soon realize major part of code can be reused. Admin Page Framework aims to provide reusable code that eliminates the necessity of writing repeated code over and over again.
 
 You will have more organized means of building option pages with the framework. Extend the library class and pass your arrays defining the form elements to the predefined class methods. The library handles all the complex coding behind the scene and creates the pages and the forms for you.
 
@@ -31,7 +31,7 @@ You will have more organized means of building option pages with the framework. 
 - **Collapsible Sections** - form sections can be collapsed and expanded.
 - **Repeatable Sections and Fields** - dynamically add/remove form sections and fields.
 - **Sortable Sections and Fields** - drag and drop form sections and fields to change the order.
-- **Nested Sections** - nest sections to construct complex forms.
+- **Nested Sections and Fields** - nest sections and fields to construct complex forms.
 - **Import and Export Options** - buttons that the user can import and export settings by uploading and downloading text files.
 - **Reset Button** - let your users to initialize the saved options.
 - **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting form data can be verified. Furthermore, by setting the error array, you can display the error message to the user.
