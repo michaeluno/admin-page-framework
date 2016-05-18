@@ -454,6 +454,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 = 3.8.0 =
 - Added the ability to nest fields.
 - Added a new factory class to build forms for taxonomy terms.
+- Fixed a bug that delimiter elements were not displayed when a last repeatable field is duplicated.
 
 = 3.7.14 - 2016/04/20 =
 - Fixed a compatibility issue with WordPress 4.5 that taxonomy form fields were not displayed in the term editing page.

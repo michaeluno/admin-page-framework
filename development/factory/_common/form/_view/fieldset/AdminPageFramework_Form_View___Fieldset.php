@@ -136,7 +136,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                  * @since       3.8.0
                  * @return      string
                  */
-                private function _getNestedFieldsetsBySubFieldIndex( $iIndex, array $aField, array $aParentFieldset, $bLastElement=false, $bHasSubFields=false ) {
+                private function _getNestedFieldsetsBySubFieldIndex( $iIndex, array $aField, array $aParentFieldset, $bIsLastElement=false, $bHasSubFields=false ) {
 
                     // Treat the nested field-set as an individual field. The output of `<fieldset>` tag will be enclosed in the `<div class="admin-page-framework-field">` tag.
                     $aParentFieldset[ '_is_multiple_fields' ] = $bHasSubFields;
@@ -145,7 +145,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                         $aParentFieldset, 
                         $iIndex,  // zero-based sub-field index
                         $this->aCallbacks,
-                        $bLastElement
+                        $bIsLastElement
                     );
                     $_aParentFieldset   = $_oSubFieldFormatter->get();
                     
@@ -175,12 +175,13 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                     }
                     
                     $_oFieldAttribute    = new AdminPageFramework_Form_View___Attribute_Field( $_aParentFieldset );
-                    return $aParentFieldset[ 'before_field' ]
+                    return $_aParentFieldset[ 'before_field' ]
                         . "<div " . $_oFieldAttribute->get() . ">"
                             . $_sNestedFieldsetsOutput
-                            // . $this->_getUnsetFlagFieldInputTag( $aParentFieldset )
+                            // . $this->_getUnsetFlagFieldInputTag( $_aParentFieldset )
+                            . $this->_getDelimiter( $_aParentFieldset, $bIsLastElement )
                         . "</div>"
-                        . $aParentFieldset[ 'after_field' ];
+                        . $_aParentFieldset[ 'after_field' ];
                 
                 }   
                     /**
@@ -314,7 +315,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                         ? "<div " . $this->getAttributes( 
                                 array(
                                     'class' => 'delimiter',
-                                    'id'    => "delimiter-{$aField['input_id']}",
+                                    'id'    => "delimiter-{$aField[ 'input_id' ]}",
                                     'style' => $this->getAOrB(
                                         $bIsLastElement,
                                         "display:none;",
