@@ -143,7 +143,7 @@ td.admin-page-framework-field-td-no-title {
 
 /* Sortable Section and Fields */
 .admin-page-framework-sections.sortable-section > .admin-page-framework-section,
-.sortable .admin-page-framework-field {
+.sortable > .admin-page-framework-field {
     clear: both;
     float: left;
     display: inline-block;
