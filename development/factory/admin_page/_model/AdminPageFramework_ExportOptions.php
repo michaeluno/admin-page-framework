@@ -132,7 +132,7 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
                     continue;
                 }
                 
-                // If the key is explictly set via the parameter, use it.
+                // If the key is explicitly set via the parameter, use it.
                 $_sKey = $this->getAOrB( 
                     $sKey,
                     $sKey,
