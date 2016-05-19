@@ -132,7 +132,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 'description'       => $oFactory->oUtil->getAOrB(
                     class_exists( 'ZipArchive' ),
                     __( 'Download the compiled framework files as a zip file.', 'admin-page-framework-loader' ),
-                    __( 'The zip extension needs to be enabled to use thi feature.', 'admin-page-framework-loader' )
+                    __( 'The zip extension needs to be enabled to use this feature.', 'admin-page-framework-loader' )
                 ),
                 'attributes'        => array(
                     'disabled'  => $oFactory->oUtil->getAOrB(
