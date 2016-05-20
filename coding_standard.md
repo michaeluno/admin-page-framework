@@ -1,10 +1,10 @@
-# Admin Page Framework Coding Standard #
+# Admin Page Framework Coding Standard
 
-## Variable Naming ##
+## Variable Naming
 
 Admin Page Framework employs [PHP Alternative Hungarian Notation](http://en.wikibooks.org/wiki/PHP_Programming/Alternative_Hungarian_Notation) for variable naming used in the source code to help better code readability.
 
-### Scope Based Prefix ###
+### Scope Based Prefix
 
 These should be prefixed before any other prefix character.
 
@@ -39,7 +39,7 @@ function doMyfunc( $sPrameter ) {
 }
 ```
 
-### Data Type Based Prefix ###
+### Data Type Based Prefix
 
 When the used types are mixed place them in alphabetical order.
 
@@ -66,7 +66,7 @@ $aMyArray	= array();
 $asValue	= $bIsString ? 'My String' : array( 'My Array' );
 ```	
 
-## Array Key Naming ##
+## Array Key Naming
 
 Use lower case characters with underscores. 
 
@@ -95,15 +95,107 @@ private $_aLibraryInfo = array(
 );
 ```
 
-## Function and Method Naming ##
+## Class Naming
 
-Add the underscore prefix for _internal_ methods regardless of the scope. *Internal* here means that the end-users will not need to use therefore they don't need to pay attention to it.
+Use nouns for class names. 
+
+Use a single underscore (`_`) for hierarchical relationships.
+
+```php
+    
+    class MyClass_Base {}
+    
+    class MyClass extends MyClass_Base {}
+
+```
+
+This way it is easy to see `MyClass_Base`, `MyClass_View`, `MyClass_Model`, `MyClass_Controller` are all associated with `MyClass`.
+```php
+    
+    abstract class MyClass_Base {}
+    abstract class MyClass_View extends MyClass_Base {}
+    abstract class MyClass_Model extends MyClass_View {}
+    abstract class MyClass_Controller extends MyClass_Model {}    
+    final class MyClass extends MyClass_Controller {}
+
+```
+
+For delegation classes use either double underscores (`__`) or triple underscores (`___`). 
+
+Use double underscores (`__`) for classes that undertake the task and have to receive the delegating class object.
+
+```php
+
+    class MyClass {
+   
+        public function do( $bValue ) {
+        
+            if ( $bValue ) {
+                $_oConditionX = new MyClass__ConditionX( $this );
+                return $_oConditionX->get();
+            }
+        
+        }
+        
+        public function doTaskA( $sVar ) {}
+        public function doTaskB( $sVar ) {}
+   
+    }
+
+    // Use double underscores for classes that cannot do anything without the caller object.
+    class MyClass__ConditionX {
+    
+        public function __construct( $oCaller ) {
+            
+            $oCaller->doTaskA( ... );
+            $oCaller->doTaskB( ... );
+        
+        }
+        
+        public function get() {}
+    
+    }
+
+```
+
+Use triple underscores (`___`) for sub classes that only used by the caller class but does not use the caller class object and complete the task by itself.
+
+```php
+
+    class MyClass {
+   
+        public function do() {
+        
+            if ( $bValue ) {
+                $_oConditionX = new MyClass___ConditionX;
+                return $_oConditionX->get();
+            }
+        
+        }
+        
+    }
+
+    // Use triple underscores for sub-classes that does not require the caller object.
+    class MyClass___ConditionX {
+            
+        public function get() {
+            return 'something';
+        }
+    
+    }
+
+```
+
+
+## Function and Method Naming
+
+Add the underscore prefix (`_`) for _internal_ functions or class methods regardless of the scope. *Internal* here means that the end-users (developers) will not need to use them therefore they do not have to pay attention to them.
 
 ```php
 _fomrmatData();
 ```
 
-Start from always a verb. 
+Always start with a verb. 
 
 ```php
 run();
