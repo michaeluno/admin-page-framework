@@ -43,7 +43,7 @@ class APF_Demo_AdvancedUsage_Mixed_Subfield {
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Mixed Field Types', 'admin-page-framework-loader' ),
+                'title'         => __( 'Mixed Field Types with Sub-fields', 'admin-page-framework-loader' ),
                 'description'   => __( 'As of v3, it is possible to mix field types in one field on a per-ID basis.', 'admin-page-framework-loader' ),
             )
         );   

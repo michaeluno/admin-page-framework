@@ -11,6 +11,7 @@ $_aClassFiles = array(
 	"APF_Demo_AdvancedUsage_Callback"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/callback/APF_Demo_AdvancedUsage_Callback.php", 
 	"APF_Demo_AdvancedUsage_Callback_FieldDefinition"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/callback/APF_Demo_AdvancedUsage_Callback_FieldDefinition.php", 
 	"APF_Demo_AdvancedUsage_Mixed"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/mixed/APF_Demo_AdvancedUsage_Mixed.php", 
+	"APF_Demo_AdvancedUsage_Mixed_Inline"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/mixed/APF_Demo_AdvancedUsage_Mixed_Inline.php", 
 	"APF_Demo_AdvancedUsage_Mixed_Subfield"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/mixed/APF_Demo_AdvancedUsage_Mixed_Subfield.php", 
 	"APF_Demo_AdvancedUsage_Nested"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/nested/APF_Demo_AdvancedUsage_Nested.php", 
 	"APF_Demo_AdvancedUsage_Nested_Fields"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/nested/APF_Demo_AdvancedUsage_Nested_Fields.php", 

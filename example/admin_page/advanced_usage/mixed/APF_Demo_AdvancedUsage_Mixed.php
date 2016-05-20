@@ -58,6 +58,7 @@ class APF_Demo_AdvancedUsage_Mixed {
         
         $_aClasses = array(
             'APF_Demo_AdvancedUsage_Mixed_Subfield',
+            'APF_Demo_AdvancedUsage_Mixed_Inline',
         );
         foreach ( $_aClasses as $_sClassName ) {
             if ( ! class_exists( $_sClassName ) ) {
