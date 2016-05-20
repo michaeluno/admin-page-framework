@@ -37,7 +37,7 @@ class AdminPageFramework_Form_View___Attribute_Fieldset extends AdminPageFramewo
                 ' ', 
                 array(
                     'admin-page-framework-' . $this->sContext,
-                    $this->_getSelectorForNestedFieldset()
+                    $this->_getSelectorForChildFieldset()
                 )
             ),
             'data-field_id' => $this->aArguments[ 'tag_id' ], // <-- not sure what this was for...
@@ -49,14 +49,16 @@ class AdminPageFramework_Form_View___Attribute_Fieldset extends AdminPageFramewo
          * @return      string
          * @since       3.8.0
          */
-        private function _getSelectorForNestedFieldset() {
+        private function _getSelectorForChildFieldset() {
+            
             if ( $this->aArguments[ '_nested_depth' ] == 0 ) {
                 return '';
             }            
             if ( $this->aArguments[ '_nested_depth' ] == 1 ) {
-                return 'nested-fieldset nested-depth-' . $this->aArguments[ '_nested_depth' ];
+                return 'child-fieldset nested-depth-' . $this->aArguments[ '_nested_depth' ];
             }
-            return 'nested-fieldset multiple-nesting nested-depth-' . $this->aArguments[ '_nested_depth' ];
+            return 'child-fieldset multiple-nesting nested-depth-' . $this->aArguments[ '_nested_depth' ];
+            
         }
            
 }

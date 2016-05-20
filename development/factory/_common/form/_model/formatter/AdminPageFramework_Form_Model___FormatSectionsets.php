@@ -132,7 +132,7 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
                     return $aSectionsetsToEdit;
                 }
 
-                // Reccursive call
+                // Recursive call
                 return $this->_getSectionsetsFormatted(
                         $aSectionsetsToEdit,          // sectionsets array to modify - new formatted items will be stored here
                         $aSectionset[ 'content' ],    // parsing sectionsets

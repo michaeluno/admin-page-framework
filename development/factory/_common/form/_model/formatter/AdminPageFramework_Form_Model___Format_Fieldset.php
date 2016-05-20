@@ -86,10 +86,6 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
         '_parent_field_path'        => '',      // 3.8.0 (string)
         '_parent_field_path_array'  => array(), // 3.8.0 (array)
         
-// @deprecated temporarily        
-        // '_is_parent_dynamic'        => false,   // 3.8.0 (boolean) indicates whether the parent field is repeatable or sortable (if the field is a nested field).
-        // '_field_index'              => 0,       // 3.8.0 (integer) holds the index of the field in sub-fields if it is repeatable or sortable. 
-        // '_parent_field_index'       => 0,       // 3.8.0 (integer) holds the index of the parent field. Used to construct a field path.
     );        
     
     /**
@@ -193,8 +189,8 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
         $_aFieldset[ 'class' ] = $this->getAsArray( $_aFieldset[ 'class' ] );
 
         // 3.8.0+ Support nested fields.
-        if ( $this->hasNestedFields( $_aFieldset ) ) {            
-            $_aFieldset[ 'content' ] = $this->_getNestedFieldsetsFormatted( $_aFieldset[ 'content' ], $_aFieldset );
+        if ( $this->hasFieldDefinitionsInContent( $_aFieldset ) ) {            
+            $_aFieldset[ 'content' ] = $this->_getChildFieldsetsFormatted( $_aFieldset[ 'content' ], $_aFieldset );
         }        
         
         return $_aFieldset;
@@ -207,30 +203,17 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
          * @return      string
          */
         private function _getFieldPath( array $aFieldset ) {
-
-            // $_bHasNestedFields = $this->hasNestedFields( $aFieldset );
-            $_sFieldPath       = $this->getTrailingPipeCharacterAppended( $aFieldset[ '_parent_field_path' ] )
-                // @todo for dynamic nested fields, the field-set is re-formatted so omit the sub-field dimension here.
-                // . ( $aFieldset[ '_is_parent_dynamic' ] 
-                    // ? max( $this->iCountOfElements - 1, 0 ) . '|'  
-                    // : '' 
-                // )
+            return $this->getTrailingPipeCharacterAppended( $aFieldset[ '_parent_field_path' ] )
                 . $this->getFormElementPath( $aFieldset[ 'field_id' ] );
-
-// return $_bHasNestedFields && ( $aFieldset[ 'repeatable' ] || $aFieldset[ 'sortable' ] )
-    // ? $this->getTrailingPipeCharacterAppended( $_sFieldPath ) . max( $this->iCountOfElements - 1, 0 )
-    // : $_sFieldPath;
-            return $_sFieldPath;        
-
         }
         
         /**
-         * Formats the nested fieldsets definition arrays.
+         * Formats the child fieldsets definition arrays.
          * 
          * @since       3.8.0
          * @return      array
          */
-        private function _getNestedFieldsetsFormatted( array $aNestedFieldsets, array $aParentFieldset ) {
+        private function _getChildFieldsetsFormatted( array $aNestedFieldsets, array $aParentFieldset ) {
                     
             $_aInheritingFieldsetValues = array(
                 'section_id'                => $aParentFieldset[ 'section_id' ], 
@@ -246,11 +229,15 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
                 '_section_path_array'       => $aParentFieldset[ '_section_path_array' ],
                 '_subsection_index'         => $aParentFieldset[ '_subsection_index' ],
           
-// @todo        temporarily deprecated          
-                // '_is_parent_dynamic'        => $aParentFieldset[ 'repeatable' ] || $aParentFieldset[ 'sortable' ],
             );
 
             foreach( $aNestedFieldsets as $_isIndex => &$_aNestedFieldset ) {
+                
+                // The inline-mixed type has a string element.
+                if ( is_scalar( $_aNestedFieldset ) ) {
+                    continue;
+                }
+                
                 $_aNestedFieldset[ '_parent_field_path' ]       = $aParentFieldset[ '_field_path' ];
                 $_aNestedFieldset[ '_parent_field_path_array' ] = explode( '|', $aParentFieldset[ '_parent_field_path' ] );
                 $_aNestedFieldset[ '_nested_depth' ]            = $aParentFieldset[ '_nested_depth' ] + 1;

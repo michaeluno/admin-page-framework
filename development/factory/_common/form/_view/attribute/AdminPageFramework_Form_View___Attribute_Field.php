@@ -45,17 +45,28 @@ class AdminPageFramework_Form_View___Attribute_Field extends AdminPageFramework_
             " admin-page-framework-field-{$this->aArguments[ 'type' ]}",
             ''
         );
-        
+
+        // 3.8.0+
+        $_sChildFieldSelector = $this->getAOrB(
+            $this->hasFieldDefinitionsInContent( $this->aArguments ),
+            ' with-child-fields',
+            ' without-child-fields'
+        );
         $_sNestedFieldSelector = $this->getAOrB(
             $this->hasNestedFields( $this->aArguments ),
             ' with-nested-fields',
             ' without-nested-fields'
+        );        
+        $_sMixedFieldSelector = $this->getAOrB(
+            $this->hasInlineMixedFields( $this->aArguments ),
+            ' with-mixed-fields',
+            ' without-mixed-fields'
         );
         
         return array(
             'id'            => $this->aArguments[ '_field_container_id' ],
             'data-type'     => $this->aArguments[ 'type' ],   // referred by the repeatable field JavaScript script.
-            'class'         => "admin-page-framework-field{$_sFieldTypeSelector}{$_sNestedFieldSelector}"
+            'class'         => "admin-page-framework-field{$_sFieldTypeSelector}{$_sNestedFieldSelector}{$_sMixedFieldSelector}{$_sChildFieldSelector}"
                 . $this->getAOrB(
                     $this->aArguments[ 'attributes' ][ 'disabled' ],
                     ' disabled',

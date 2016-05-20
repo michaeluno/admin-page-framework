@@ -52,19 +52,13 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
     }
     
     /**
-     * Checks whether the given fieldset definition has nested field items.
+     * Checks whether the given field-set definition has nested field items.
      * @since       3.8.0
      * @return      boolean
      */
-    static public function hasNestedFields( $aFieldset ) {
+    static public function hasNestedFields( array $aFieldset ) {
         
-        if ( ! isset( $aFieldset[ 'content' ] ) ) {
-            return false;
-        }
-        if ( empty( $aFieldset[ 'content' ] ) ) {
-            return false;
-        }
-        if ( ! is_array( $aFieldset[ 'content' ] ) ) {
+        if ( ! self::hasFieldDefinitionsInContent( $aFieldset ) ) {
             return false;
         }
         // At this point, the `content` argument contains either the definition of nested fields or inline-mixed fields.
@@ -72,7 +66,42 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
         // If the first element is a string, it is a inline mixed field definition.
        return is_array( self::getElement( $aFieldset[ 'content' ], 0 ) );
        
-    }    
+    }  
+
+    /**
+     * Checks whether the given field-set definition has inline mixed items.
+     * 
+     * The first element is a string defining place holders and the rest should be field definition arrays.
+     * 
+     * @since       3.8.0
+     * @return      boolean
+     */
+    static public function hasInlineMixedFields( array $aFieldset ) {
+        
+        if ( ! self::hasFieldDefinitionsInContent( $aFieldset ) ) {
+            return false;
+        }
+        return is_string( self::getElement( $aFieldset[ 'content' ], 0 ) )
+            && is_array( self::getElement( $aFieldset[ 'content' ], 1 ) );
+        
+    }
+    
+    /**
+     * Checks whether the given field-set definition has field-set definitions in the `content` argument.
+     * @since       3.8.0
+     * @return      boolean
+     */
+    static public function hasFieldDefinitionsInContent( array $aFieldset ) {
+        
+        if ( ! isset( $aFieldset[ 'content' ] ) ) {
+            return false;
+        }
+        if ( empty( $aFieldset[ 'content' ] ) ) {
+            return false;
+        }
+        return is_array( $aFieldset[ 'content' ] );            
+        
+    }
     
     /**
      * Checks whether the given field has a sub-field.

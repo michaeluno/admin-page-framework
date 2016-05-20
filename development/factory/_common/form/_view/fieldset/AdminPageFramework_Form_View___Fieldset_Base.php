@@ -182,7 +182,7 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
         $_aJSArray              = json_encode( $aSettings );
         $_sScript               = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
-    var _oButtonPlaceHolders = jQuery( '#{$sFieldsContainerID} > .admin-page-framework-field.without-nested-fields .repeatable-field-buttons' );
+    var _oButtonPlaceHolders = jQuery( '#{$sFieldsContainerID} > .admin-page-framework-field.without-child-fields .repeatable-field-buttons' );
     /* If the button place-holder is set in the field type definition, replace it with the created output */
     if ( _oButtonPlaceHolders.length > 0 ) {
         _oButtonPlaceHolders.replaceWith( $_sSmallButtons );
@@ -202,6 +202,11 @@ jQuery( document ).ready( function() {
          * For nested fields, add the buttons to the fields tag.
          */
         jQuery( '#{$sFieldsContainerID} > .admin-page-framework-field.with-nested-fields' ).prepend( $_sNestedFieldsButtons );
+        
+        /**
+         * Support for inline mixed fields.
+         */
+        // jQuery( '#{$sFieldsContainerID} > .admin-page-framework-field.with-mixed-fields' ).prepend( $_sNestedFieldsButtons );
         
     }     
     jQuery( '#{$sFieldsContainerID}' ).updateAdminPageFrameworkRepeatableFields( $_aJSArray ); // Update the fields     

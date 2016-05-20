@@ -164,9 +164,12 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 }               
                 
                 // 3.8.0+ Support nested fields.
-                if ( $this->hasNestedFields( $aFieldset ) ) {
-                    foreach( $aFieldset[ 'content' ] as $_aNestedFieldset ) {
-                        $this->_setFieldResources( $_aNestedFieldset );
+                if ( $this->hasFieldDefinitionsInContent( $aFieldset ) ) {
+                    foreach( $aFieldset[ 'content' ] as $_asNestedFieldset ) {
+                        if ( is_scalar( $_asNestedFieldset ) ) {
+                            continue;
+                        }
+                        $this->_setFieldResources( $_asNestedFieldset );
                     }
                 }                
                 

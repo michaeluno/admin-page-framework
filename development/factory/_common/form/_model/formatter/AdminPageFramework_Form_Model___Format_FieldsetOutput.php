@@ -124,8 +124,12 @@ class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFra
         );
         
         // 3.8.0+ Format nested fieldsets.
-        if ( $this->hasNestedFields( $_aFieldset ) ) {
+        if ( $this->hasFieldDefinitionsInContent( $_aFieldset ) ) {
             foreach( $_aFieldset[ 'content' ] as &$_aNestedFieldset ) {
+                // The inline-mixed type has a string element.
+                if ( is_scalar( $_aNestedFieldset ) ) {
+                    continue;
+                }                
                 $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput( 
                     $_aNestedFieldset, 
                     $this->iSectionIndex,
