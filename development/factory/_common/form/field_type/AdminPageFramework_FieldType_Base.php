@@ -172,7 +172,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Fram
      * @since       3.4.0
      * @return      string      The fieldset output.
      */
-    protected function geFieldOutput( array $aFieldset ) {
+    protected function getFieldOutput( array $aFieldset ) {
         
         if ( ! is_object( $aFieldset[ '_caller_object' ] ) ) {
             return '';
@@ -195,6 +195,12 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Fram
         return $_oFieldset->get();
         
     }
+        /**
+         * @deprecated  Kept for backward compatibility.
+         */
+        protected function geFieldOutput( array $aFieldset ) {
+            return getFieldOutput( $aFieldset );
+        }
     
     /**
      * Registers the field type.
