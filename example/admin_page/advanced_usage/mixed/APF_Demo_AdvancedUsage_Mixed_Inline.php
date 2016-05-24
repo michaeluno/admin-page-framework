@@ -51,23 +51,24 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID       
             array(
-                'field_id'      => 'inline_mixed',
-                'title'         => __( 'Inline Mixed', 'admin-page-framework-loader' ),            
+                'field_id'      => 'checkbox_number_select',
+                'type'          => 'inline_mixed',
+                'title'         => __( 'Checkbox, Number & Select', 'admin-page-framework-loader' ),            
                 'content'       => array(
-                    '%1$s %2$s %3$s %4$s',
                     array(
                         'field_id'        => 'enable',
                         'type'            => 'checkbox',
-                        'label'           => __( 'Do something in', 'admin-page-framework-loader' ),
-                    ),                
+                        'label_min_width' => '',
+                        'label'           => __( 'Do something in', 'admin-page-framework-loader' ),        
+                    ),                                
                     array(
                         'field_id'        => 'interval',
                         'type'            => 'number',
                         'label_min_width' => '',
                         'default'         => 3,
                         'attributes'      => array(
-                            'style' => 'width: 80px;',
-                        ),
+                            'style'     => 'width: 80px',
+                        ),    
                     ),    
                     array(
                         'field_id'        => 'interval_unit',
@@ -87,19 +88,49 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                 ),
             ),
             array(
+                'field_id'      => 'text_number',
+                'type'          => 'inline_mixed',
+                'title'         => __( 'Text & Number', 'admin-page-framework-loader' ),            
+                'repeatable'    => true,
+                'content'       => array(                             
+                    __( 'Server', 'admin-page-framework-loader' ), 
+                    array(
+                        'field_id'        => 'server',
+                        'type'            => 'text',
+                        'default'         => 'www.wordpress.org',
+                        'attributes'      => array(
+                            'fieldset'  => array(
+                                'style'     => 'min-width: 400px;',
+                            )
+                        ),                            
+                    ),                
+                    __( 'Port', 'admin-page-framework-loader' ),
+                    array(
+                        'field_id'        => 'port',
+                        'type'            => 'number',
+                        'label_min_width' => '',
+                        'default'         => 3,
+                        'attributes'      => array(
+                            // 'style'     => 'width: 80px',
+                        ),    
+                    ),
+
+                ),
+            ),            
+            array(
                 'field_id'      => 'shipping_address',
                 'title'         => __( 'Shipping Information', 'admin-page-framework-loader' ),
+                'type'          => 'inline_mixed',
                 'repeatable'    => true,
                 'sortable'      => true,
                 'content'       => array(
-                    '%1$s%2$s%3$s%4$s%5$s%6$s%7$s%8$s%9$s',
                     array(
                         'field_id'      => 'first_name',
                         'type'          => 'text',
                         'title'         => __( 'First Name', 'admin-page-framework-loader' ),
                         'attributes'    => array(
                             'fieldset'  => array(
-                                'style'  => 'width: 50%',
+                                'style'  => 'width: 48%; padding-right: 2%;',
                             ),
                         ),                        
                     ),
@@ -109,7 +140,7 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                         'title'         => __( 'Last Name', 'admin-page-framework-loader' ),
                         'attributes'    => array(
                             'fieldset'  => array(
-                                'style'  => 'width: 50%',
+                                'style'  => 'width: 48%; padding-right: 2%;',
                             ),
                       
                         ),
@@ -120,7 +151,7 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                         'title'         => __( 'Street Address', 'admin-page-framework-loader' ),
                         'attributes'    => array(
                             'fieldset'  => array(
-                                'style'  => 'width: 100%'
+                                'style'  => 'width: 98%; padding-right: 2%;',
                             ),
                         ),                                        
                     ),
@@ -130,7 +161,7 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                         'title'         => __( 'City/Town', 'admin-page-framework-loader' ),
                         'attributes'    => array(
                             'fieldset'  => array(
-                                'style'  => 'width: 38%'
+                                'style'  => 'width: 36%; padding-right: 2%;',
                             ),
                         ),
                     ),
@@ -140,7 +171,7 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                         'title'         => __( 'State/Province', 'admin-page-framework-loader' ),
                         'attributes'    => array(
                             'fieldset'  => array(
-                                'style'  => 'width: 38%'
+                                'style'  => 'width: 36%; padding-right: 2%;',
                             ),
                         ),                
                     ),
@@ -150,7 +181,7 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                         'title'         => __( 'Zip/Postal Code', 'admin-page-framework-loader' ),
                         'attributes'    => array(
                             'fieldset'  => array(
-                                'style'  => 'width: 24%; clear:right;'
+                                'style'  => 'width: 22%; padding-right: 2%;',
                             ),
                         ),  
                     ),                    
@@ -159,8 +190,8 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                         'type'          => 'text',
                         'title'         => __( 'Tel. No.', 'admin-page-framework-loader' ),
                         'attributes'    => array(
-                            'fieldset'  => array(
-                                'style'  => 'width: 33%'
+                            'fieldset'  => array(                               
+                                'style'  => 'width: 31%; padding-right: 2%;',
                             ),
                         ),
                     ),
@@ -170,7 +201,7 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                         'title'         => __( 'Fax No.', 'admin-page-framework-loader' ),
                         'attributes'    => array(
                             'fieldset'  => array(
-                                'style'  => 'width: 33%'
+                                'style'  => 'width: 31%; padding-right: 2%;',
                             ),
                         ),            
                     ),
@@ -180,7 +211,7 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                         'title'         => __( 'Email', 'admin-page-framework-loader' ),
                         'attributes'    => array(
                             'fieldset'  => array(
-                                'style'  => 'width: 34%'
+                                'style'  => 'width: 32%; padding-right: 2%;',
                             ),
                         ),                  
                     ),                         
