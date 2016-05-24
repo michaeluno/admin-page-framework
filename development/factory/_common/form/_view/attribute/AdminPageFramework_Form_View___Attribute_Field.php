@@ -58,7 +58,7 @@ class AdminPageFramework_Form_View___Attribute_Field extends AdminPageFramework_
             ' without-nested-fields'
         );        
         $_sMixedFieldSelector = $this->getAOrB(
-            $this->hasInlineMixedFields( $this->aArguments ),
+            'inline_mixed' === $this->aArguments[ 'type' ],
             ' with-mixed-fields',
             ' without-mixed-fields'
         );

@@ -188,10 +188,15 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
         
         $_aFieldset[ 'class' ] = $this->getAsArray( $_aFieldset[ 'class' ] );
 
-        // 3.8.0+ Support nested fields.
-        if ( $this->hasFieldDefinitionsInContent( $_aFieldset ) ) {            
+        // 3.8.0+ Support nested fields and inline_mized field type.
+        if ( $this->hasFieldDefinitionsInContent( $_aFieldset ) ) {        
             $_aFieldset[ 'content' ] = $this->_getChildFieldsetsFormatted( $_aFieldset[ 'content' ], $_aFieldset );
         }        
+        
+        // 3.8.0+ Set the internal field type slug as the user can omit the field type slug.
+        if ( $this->hasNestedFields( $_aFieldset ) ) {
+            $_aFieldset[ 'type' ] = '_nested';
+        }
         
         return $_aFieldset;
         
@@ -234,8 +239,11 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
             foreach( $aNestedFieldsets as $_isIndex => &$_aNestedFieldset ) {
                 
                 // The inline-mixed type has a string element.
-                if ( is_scalar( $_aNestedFieldset ) ) {
-                    continue;
+                if ( is_scalar( $_aNestedFieldset ) ) {                    
+                    $_aNestedFieldset = array( 
+                        'field_id'              => $aParentFieldset[ 'field_id' ] . '_' . uniqid(),
+                        'content'               => $_aNestedFieldset,
+                    );                    
                 }
                 
                 $_aNestedFieldset[ '_parent_field_path' ]       = $aParentFieldset[ '_field_path' ];

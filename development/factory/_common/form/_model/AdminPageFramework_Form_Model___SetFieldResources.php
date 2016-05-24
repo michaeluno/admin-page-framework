@@ -119,7 +119,6 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
         protected function _set( ) {
 
             // Parse all added fieldsets and check associated resources.
-// @todo Find a way to retrieve the section id for nested sections and fields.            
             foreach( $this->aFieldsets as $_sSecitonID => $_aFieldsets ) {
                 
                 $_bIsSubSectionLoaded = false;
@@ -172,6 +171,11 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                         $this->_setFieldResources( $_asNestedFieldset );
                     }
                 }                
+                
+                // 3.8.0+ Set the internal field type.
+                if ( $this->hasNestedFields( $aFieldset ) ) {
+                    $aFieldset[ 'type' ] = '_nested';
+                }
                 
                 $_sFieldtype            = $this->getElement( $aFieldset, 'type' );
                 $_aFieldTypeDefinition  = $this->getElementAsArray(

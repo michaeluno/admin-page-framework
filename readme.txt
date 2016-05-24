@@ -3,7 +3,7 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
-Tested up to:       4.5
+Tested up to:       4.5.2
 Stable tag:         3.7.14
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
@@ -65,6 +65,7 @@ Also, use the framework as a library and your plugin or theme does not have to r
 - `size` - a combination field of the text and the select fields that let the user set sizes with a selectable unit.
 - `section_title` - a text field type that will be placed in the section title so that it lets the user set the section title.
 - `system` - displays the site system information.
+- `inline_mixed` - consists of inline elements of fields with different field types.
 
 <h4>Bundled Custom Field Types</h4>
 With custom field types, you can create more detailed customized field outputs. The demo component includes the following example custom field types.
@@ -452,7 +453,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.0 =
-- Added the ability to create inline mixed fields with the `content` field definition argument.
+- Added the `inline_mixed` built-in field type which introduces the ability to create inline mixed fields with the `content` field definition argument.
 - Added the ability to nest fields with the `content` field definition argument.
 - Added a new factory class to build forms for taxonomy terms.
 - Changed the `type` argument in the field definition to be able to be omitted.

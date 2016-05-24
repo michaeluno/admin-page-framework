@@ -43,6 +43,8 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
         'size',
         'section_title', // 3.0.0+
         'system',        // 3.3.0+
+        'inline_mixed',  // 3.8.0+
+        '_nested',       // 3.8.0+
     );    
     
     public $sCallerID = '';

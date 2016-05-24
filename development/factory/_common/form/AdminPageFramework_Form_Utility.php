@@ -63,6 +63,11 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
         }
         // At this point, the `content` argument contains either the definition of nested fields or inline-mixed fields.
         
+        // If it is the `inline_mixed` field type, yield false.
+        if ( 'inline_mixed' === self::getElement( $aFieldset, 'type' ) ) {
+            return false;
+        }
+        
         // If the first element is a string, it is a inline mixed field definition.
        return is_array( self::getElement( $aFieldset[ 'content' ], 0 ) );
        
@@ -75,16 +80,20 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
      * 
      * @since       3.8.0
      * @return      boolean
+     * @deprecated  3.8.0
      */
-    static public function hasInlineMixedFields( array $aFieldset ) {
+/*     static public function hasInlineMixedFields( array $aFieldset ) {
         
-        if ( ! self::hasFieldDefinitionsInContent( $aFieldset ) ) {
-            return false;
-        }
-        return is_string( self::getElement( $aFieldset[ 'content' ], 0 ) )
-            && is_array( self::getElement( $aFieldset[ 'content' ], 1 ) );
+        return 'inline_mixed' === $aFieldset[ 'type' ];
+
+        // @deprecated 3.8.0
+        // if ( ! self::hasFieldDefinitionsInContent( $aFieldset ) ) {
+            // return false;
+        // }
+        // return is_string( self::getElement( $aFieldset[ 'content' ], 0 ) )
+            // && is_array( self::getElement( $aFieldset[ 'content' ], 1 ) );
         
-    }
+    } */
     
     /**
      * Checks whether the given field-set definition has field-set definitions in the `content` argument.
@@ -147,5 +156,54 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
         }
         return $sString . '|';
     }    
+    
+    /**
+     * Re-formats the field-set definition with the passed sub-field index. The field path and other internal keys need to be updated to insert a sub-field index.
+     * 
+     * It is assumed that the passed field-set definition array is already formatted as this is for sub-fields of nested field-sets.
+     * 
+     * This is used for nested and inline-mixed field types.
+     * 
+     * @internal
+     * @since       3.8.0
+     * @return      array
+     */
+    static public function getFieldsetReformattedBySubFieldIndex( array $aFieldset, $iSubFieldIndex, $bHasSubFields, array $aParentFieldset ) {
+        
+        $_oCallerForm   = $aFieldset[ '_caller_object' ];
+        
+        // Add sub-field index to the parent field path for repeated nested items.
+        $aFieldset[ '_parent_field_path' ]   = self::getAOrB(
+            $bHasSubFields,
+            $aFieldset[ '_parent_field_path' ] . '|' . $iSubFieldIndex,
+            $aFieldset[ '_parent_field_path' ]
+        );
+        $aFieldset[ '_parent_tag_id' ]       = self::getAOrB(
+            $bHasSubFields,
+            $aParentFieldset[ 'tag_id' ] . '__' . $iSubFieldIndex,
+            $aParentFieldset[ 'tag_id' ]
+        );
+        
+        // Re-format the field-set definition array to re-construct field path and relevant attribute IDs and names.
+        $_oFieldsetFormatter = new AdminPageFramework_Form_Model___Format_Fieldset(
+            $aFieldset, 
+            $aFieldset[ '_structure_type' ],
+            $aFieldset[ 'capability' ], 
+            ( integer ) $iSubFieldIndex + 1,   // 1-based count (not index)
+            $aFieldset[ '_subsection_index' ], 
+            $aFieldset[ '_is_section_repeatable' ],
+            $aFieldset[ '_caller_object' ]
+        );                        
+        $aFieldset = $_oFieldsetFormatter->get();
+        
+        $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput(
+            $aFieldset,
+            $aFieldset[ '_section_index' ],    // `_section_index` is defined in the ...FieldsetOutput class. Since this is a nested item, it should be already set.
+            $_oCallerForm->aFieldTypeDefinitions
+        );         
+        return $_oFieldsetOutputFormatter->get();
+    
+    }    
+    
     
 }

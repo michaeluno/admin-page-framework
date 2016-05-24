@@ -13,10 +13,11 @@
  * @package     AdminPageFramework
  * @subpackage  FieldType
  * @since       2.1.5
+ * @since       3.8.0       Changed it to extend the `AdminPageFramework_Form_Utility`.
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
  */
-abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_FrameworkUtility {
+abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form_Utility {
     
     /**
      * Stores the field set type indicating what this field is for such as for meta boxes, taxonomy fields or page fields.
