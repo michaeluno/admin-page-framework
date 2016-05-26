@@ -1,0 +1,123 @@
+{* Start - Subpackage summary block *}
+{define #subpackage_summary}
+{foreach $elements as $element}
+
+    {ifset $element->annotations['heading']}
+    {ifset $element->annotations['subpackage']}
+    <div class="subpackage-summary">
+        
+        {* Summary Title *}
+        {ifset $element->annotations['heading']}
+            <h1>{$element->annotations['heading'][0]}</h1>
+            {var $_sSummaryTitle = $element->annotations['heading'][0]}
+        {else}
+            <h1>{$element->shortName}</h1>
+            {var $_sSummaryTitle = $element->shortName}
+        {/ifset}   
+        
+        {* Screenshots *}
+        {ifset $element->annotations['image']}
+            {default $_iImageCount = 0}
+            {foreach $element->annotations['image'] as $_iImageURL}
+                {var $_iImageCount = $_iImageCount + 1}
+                <p class="summary-image {if $_iImageCount === 1} main-image{/if}">
+                    <a href="{$_iImageURL}"><img alt="{$_sSummaryTitle}" src="{$_iImageURL}" /></a>
+                </p>
+            {/foreach}
+        {/ifset}
+
+        <p>{!$element|longDescription}</p>
+
+    </div>
+    {/ifset}{* subpackage *}
+    {/ifset}{* heading *}
+{/foreach}
+
+{/define}
+{* End - Subpackage summary block *}
+
+{define #elements}
+<tr n:foreach="$elements as $element">
+    
+    {* Skip heading information elements *}
+    {ifset $element->annotations['heading']}
+        {continueIf true}
+    {/ifset}
+
+    <td class="name"><a href="{$element|elementUrl}" n:class="$element->deprecated ? deprecated, !$element->valid ? invalid">{if $namespace}{$element->shortName}{else}{$element->name}{/if}</a></td>
+    <td>{!$element|shortDescription}</td>
+    <td>{if $element->annotations['image'][0] }<img class="element-thumbnail" src="{$element->annotations['image'][0]}" />{/if}</td>
+</tr>
+{/define}
+    
+    {* Start element layout *}
+
+    {include #subpackage_summary, elements => $classes}
+    
+	{if $subpackages}
+	<h2>Sub-packages</h2>
+    
+	<table class="summary table table-bordered table-striped" id="packages">
+	<tr n:foreach="$subpackages as $subpackage">
+		<td class="name">
+            <a href="{$subpackage|packageUrl}">{$subpackage}</a>
+        </td>
+	</tr>
+	</table>
+	{/if}       
+    
+    {* List classes *}
+    {if $classes}
+        
+        {* Count the normal classes without @heading first *}
+        {var $iNormalClassCount = 0}
+        {foreach $classes as $class}
+            {var $iNormalClassCount = $iNormalClassCount + 1}
+            {ifset $class->annotations['heading']}
+                {var $iNormalClassCount = $iNormalClassCount - 1}
+            {/ifset}
+        {/foreach}
+        
+        {if $iNormalClassCount}
+            <h2 class="classes-summary">Classes</h2>
+            <table class="summary table table-bordered table-striped" id="classes">
+                {include #elements, elements => $classes}
+            </table>
+        {/if}
+        
+    {/if}
+
+    {if $interfaces}
+    <h2>Interfaces summary</h2>
+    <table class="summary table table-bordered table-striped" id="interfaces">
+    {include #elements, elements => $interfaces}
+    </table>
+    {/if}
+
+    {if $traits}
+    <h2>Traits summary</h2>
+    <table class="summary table table-bordered table-striped" id="traits">
+    {include #elements, elements => $traits}
+    </table>
+    {/if}
+
+    {if $exceptions}
+    <h2>Exceptions summary</h2>
+    <table class="summary table table-bordered table-striped" id="exceptions">
+    {include #elements, elements => $exceptions}
+    </table>
+    {/if}
+
+    {if $constants}
+    <h2>Constants summary</h2>
+    <table class="summary table table-bordered table-striped" id="constants">
+    {include #elements, elements => $constants}
+    </table>
+    {/if}
+
+    {if $functions}
+    <h2>Functions summary</h2>
+    <table class="summary table table-bordered table-striped" id="functions">
+    {include #elements, elements => $functions}
+    </table>
+    {/if}

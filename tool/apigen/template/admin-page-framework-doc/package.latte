@@ -1,0 +1,128 @@
+{layout '@layout.latte'}
+{var $active = 'package'}
+
+{block #title}{if $package != 'None'}Package {$package}{else}No package{/if}{/block}
+
+{* Start - Package summary block *}
+{define #package_summary}
+    
+    <div class="package-summary">
+                
+        {foreach $classes as $class}
+
+            {ifset $class->annotations['heading']}
+            {ifset $class->annotations['subpackage']}
+            {else}
+                
+                {* Download Buttons *}
+                {ifset $class->annotations['download_latest']}
+                <div class="download-button">
+                    <span class="annotation-label">Development Version:</span><a href="{$class->annotations['download_latest'][0]}" class="btn btn-primary btn-info">Download</a>
+                </div>
+                {/ifset}
+                {ifset $class->annotations['download_stable']}
+                <div class="download-button">
+                    <span class="annotation-label">Latest Stable Version:</span><a href="{$class->annotations['download_stable'][0]}" class="btn btn-primary btn-info">Download</a>
+                </div>
+                {/ifset}            
+                
+                {* Package Title and Version *}
+                {ifset $class->annotations['heading']}
+                <h1>
+                    {$class->annotations['heading'][ 0 ]}
+                    {ifset $class->annotations['version']}
+                        &nbsp;{$class->annotations['version'][ 0 ]}
+                    {/ifset}
+                </h1>           
+                {/ifset}
+                
+                {* Catch-copy *}
+                {ifset $class->annotations['catchcopy']}
+                <h2 class="catchcopy"> - {$class->annotations['catchcopy'][0]}</h2>
+                {/ifset}
+                
+                {* Screenshots *}
+                {ifset $class->annotations['image']}
+                    {default $_iImageCount = 0}
+                    {foreach $class->annotations['image'] as $_iImageURL}
+                        {var $_iImageCount = $_iImageCount + 1}
+                        <p class="summary-image {if $_iImageCount === 1} main-image{/if}">
+                            <a href="{$_iImageURL}"><img alt="{$_sSummaryTitle}" src="{$_iImageURL}" /></a>
+                        </p>
+                    {/foreach}
+                {/ifset}
+                
+                
+                <div class="headline-description">{!$class|longDescription}</div>
+                
+                {* Start annotation block *}
+                {ifset $class->annotations}
+{* <pre>{? var_dump( $class->annotations )}</pre> *}
+                <div class="alert alert-info">
+                    {* Disabled
+                    {if !$class->interface && !$class->trait && ($class->abstract || $class->final)}
+                        <span class="annotation-label">{if $class->abstract}Abstract{else}Final{/if}</span><br>
+                    {/if}
+                    *}
+                    {if $class->internal}
+                        <span class="annotation-label">PHP Extension:</span> <a href="{$class->extension|manualUrl}" title="Go to PHP documentation">{$class->extension->name|firstUpper}</a><br>
+                    {/if}
+                    {if $class->inNamespace()}
+                        <span class="annotation-label">Namespace:</span> {!$class->namespaceName|namespaceLinks}<br>
+                    {/if}
+                    {* Disabled
+                    {if $class->inPackage()}
+                        <span class="annotation-label">Package:</span> {!$class->packageName|packageLinks}<br>
+                    {/if}
+                    *}
+                    
+                    {foreach $template->annotationSort($template->annotationFilter($class->annotations)) as $annotation => $values}
+                    
+                        {* skip some annotations *}
+                        {continueIf in_array( $annotation, array( 'abstract', 'since', 'heading', 'package', 'remark', 'version', 'download_latest', 'download_stable', 'catchcopy' ) ) }
+                        
+                        {* list annotations *}
+                        {foreach $values as $value}
+                            <span class="annotation-label">{$annotation|annotationBeautify}{if $value}:{/if}</span>
+                            {!$value|annotation:$annotation:$class}<br>
+                        {/foreach}
+                    {/foreach}
+                    {if $class->internal}
+                        <span class="annotation-label">Documented at</span> <a href="{$class|manualUrl}" title="Go to PHP documentation">php.net</a>
+                    {else}
+                        {* Disabled
+                        <span class="annotation-label">Located at</span> <a n:tag-if="$config->sourceCode" href="{$class|sourceUrl}" title="Go to source code">{$class->fileName|relativePath}</a>
+                        *}
+                    {/if}{* <br /> *}
+                </div>                                
+                {/ifset}
+                {* End annotation block *}     
+            
+            {/ifset}{* sub-package *}               
+            {/ifset}{* heading *}
+        {/foreach}        
+        
+    </div><!-- .package-summary -->
+    
+{/define}
+{* End - Package summary block *}
+
+{block #content}
+<div id="content" class="package">
+    
+    {* Disabled
+	<h1>{if $package != 'None'}Package {!$package|packageLinks:false}{else}No package{/if}</h1>
+    *}
+    
+{* <pre>{? var_dump( $package )}</pre> *}
+
+    {if $package == 'AdminPageFramework'}{* or count the number of backslashes and if zero, include the package summary *}
+    {include #package_summary, $classes}
+    {/if}
+    
+	{include '@elementlist.latte'}
+    
+ 
+    
+</div>
+{/block}
