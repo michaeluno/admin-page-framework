@@ -6,6 +6,7 @@
 # Files containing sensitive information
 */settings.cfg
 *.ini
+*/config.neon
 
 # backup files.
 *.old
