@@ -60,7 +60,7 @@ class APF_Demo_AdvancedUsage_Section_Repeatable {
         // Fields
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID        
-                        array(
+           array(
                 'field_id'      => 'text_field_in_repeatable_sections',
                 'title'         => __( 'Text', 'admin-page-framework-loader' ),
                 'type'          => 'text',
