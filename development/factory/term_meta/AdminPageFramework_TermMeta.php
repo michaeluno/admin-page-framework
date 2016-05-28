@@ -13,7 +13,7 @@
  * @abstract
  * @since       3.8.0
  * @package     AdminPageFramework
- * @subpackage  TermMeta
+ * @subpackage  Factory/TermMeta
  * @extends     AdminPageFramework_TermMeta_Controller
  */
 abstract class AdminPageFramework_TermMeta extends AdminPageFramework_TermMeta_Controller {
@@ -35,17 +35,18 @@ abstract class AdminPageFramework_TermMeta extends AdminPageFramework_TermMeta_C
      * 
      * <h4>Examples</h4>
      * <code>
-     * new APF_TermMeta( 'apf_sample_taxonomy' ); // taxonomy slug
+     * new APF_TermMeta( 
+     *  'apf_sample_taxonomy'   // taxonomy slug
+     * ); 
      * </code>
      * 
      * @since       3.8.0
      * @param       array|string    The taxonomy slug(s). If multiple slugs need to be passed, enclose them in an array and pass the array.
-     * @param       string          The option key used for the options table to save the data. By default, the instantiated class name will be applied.
      * @param       string          The access rights. Default: `manage_options`.
      * @param       string          The text domain. Default: `admin-page-framework`.
      * @return      void
      */ 
-    public function __construct( $asTaxonomySlug, $sOptionKey='', $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
+    public function __construct( $asTaxonomySlug, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
         
         if ( empty( $asTaxonomySlug ) ) { 
             return; 
