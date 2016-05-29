@@ -77,6 +77,7 @@ class APF_Demo_BuiltinFieldTypes_Text_Text {
                 'default'           => 123456,
                 'attributes'        => array(
                     'size' => 40,
+                    'placeholder' => __( 'Type something here.', 'admin-page-framework-loader' ),
                 ),
             ),    
             array( // Password Field
