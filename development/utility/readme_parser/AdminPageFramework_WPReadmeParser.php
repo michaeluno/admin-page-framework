@@ -9,9 +9,15 @@
  */
 
 /**
- * Parses WordPress readme files.
+ * Parses WordPress readme files and generates HTML outputs.
  * 
- * <h3>Examples</h3>
+ * This helps when creating a help page with some readme file contents.
+ * 
+ * <h3>Usage</h3>
+ * Set a file path or a text content of WordPress formatted readme and instantiate the class.
+ * Then perform the `get()` method by passing a section name. If a section name is omitted, the entire contents will be returned.
+ * 
+ * <h3>Example</h3>
  * <code>
  * $_sText   = '...';
  * $_oParser = new AdminPageFramework_WPReadmeParser;
@@ -32,6 +38,9 @@
  */
 class AdminPageFramework_WPReadmeParser {
     
+    /**#@+
+     * @internal
+     */        
     /**
      * Represents the structure of the array storing callbacks.
      * @since       3.5.0
@@ -46,7 +55,7 @@ class AdminPageFramework_WPReadmeParser {
         // '%PLUGIN_DIR_URL%'  => null,
         // '%WP_ADMIN_URL%'    => null,    
     );
-        
+           
     /**
      * Stores the parsing text.
      */
@@ -63,8 +72,8 @@ class AdminPageFramework_WPReadmeParser {
      * Callback definitions.
      */
     public $aCallbacks = array();
-
-    
+    /**#@-*/ 
+        
     /**
      * Sets up properties.
      * 
@@ -72,15 +81,18 @@ class AdminPageFramework_WPReadmeParser {
      * 
      * @param       string      $sFilePathOrContent     The WordPress readme text file path or the text string.
      * @param       array       $aReplacements          An array holding replacements.
+     * <code>
      *  array(
      *      '%PLUGIN_DIR_URL%'  =>  plugin_directory_path,
-     *      '%WP_ADMIN_URL%'  =>  admin_url()
+     *      '%WP_ADMIN_URL%'    =>  admin_url()
      *  )
+     * </code>
      * @param       array       $aCallbacks       Callbacks. The supported items are the followings:
-     * `array(
+     * <code>
+     * array(
      *      'code_block'        =>  ...,
      *      
-     * )`
+     * )</code>
      * @param       array       $aOptions           The options array which determines the behaviour of the class.
      * @since       3.5.0
      * @since       3.6.0       Made it accept string content to be passed to the first parameter.

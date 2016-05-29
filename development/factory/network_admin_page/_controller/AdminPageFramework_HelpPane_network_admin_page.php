@@ -12,7 +12,7 @@
  * 
  * @since       3.7.10
  * @package     AdminPageFramework
- * @subpackage  HelpPane
+ * @subpackage  Factory/NetworkAdmin/HelpPane
  * @extends     AdminPageFramework_HelpPane_admin_page
  * @internal
  */

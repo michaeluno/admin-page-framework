@@ -8,25 +8,123 @@
  */
 
 /**
- * Defines the taxonomy field type.
+ * A taxonomy field can list terms of specified taxonomies.
  * 
+ * This class defines the `taxonomy` field type.
+ * 
+ * <h2>Field Definition Arguments</h2>
+ * <h3>Field Type Specific Arguments</h3>
+ *  <ul>
+ *      <li>**taxonomy_slugs** - (optional, array) the taxonomy slug to list. Default: `category`</li>
+ *      <li>**max_width** - (optional, string) the inline style property value of `max-width` of this element. Include the unit such as px, %. Default: 100%</li>
+ *      <li>**height** - (optional, string) the inline style property value of `height` of this element. Include the unit such as px, %. Default: 250px</li>
+ *      <li>**select_all_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select All` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+ *      <li>**select_none_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+ *      <li>**label_no_term_found** - [3.3.2+] (optional, string) The label to display when no term is found. Default: `No Term Found`.</li>
+ *      <li>**label_list_title** - [3.3.2+] (optional, string) The heading title string for a term list. Default: `''`. Insert an HTML custom string right before the list starts.</li>
+ *      <li>**query** - [3.3.2+] (optional, array) an query argument array to search terms. For more details, see the argument of the [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters) function.
+ *          <ul>
+ *              <li>child_of - (integer) The parent term ID. All the descendant terms such as child's child term will be listed. default: `0`</li>
+ *              <li>parent   - (integer) The direct parent term ID. Only the first level children will be listed. </li>
+ *              <li>orderby - (string) The type of how the term list should be ordered by. Either `ID`, `term_id`, or `name` can be accepted. Default: `name`.</li>
+ *              <li>order - (string) The order of the list. `ASC` or `DESC`. Default: `ASC`.</li>
+ *              <li>hide_empty - (boolean) whether to show the terms with no post associated. Default: `false`.</li>
+ *              <li>hierarchical - (boolean) whether to show the terms as a hierarchical tree. Default: `true`</li>
+ *              <li>number - (integer) The maximum number of the terms to show. 0 for no limit. Default: `0`.</li>
+ *              <li>pad_counts - (boolean) whether to sum up the post counts with the child post counts. Default: `false`</li>
+ *              <li>exclude - (string|array) Comma separated term IDs or an array to exclude from the list. for example `1` will remove the 'Uncategorized' category from the list. </li>
+ *              <li>exclude_tree - (integer) For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters)..</li>
+ *              <li>include - (string|array) Comma separated term IDs to include in the list.</li>
+ *              <li>fields - (string) Default: `all`. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+ *              <li>slug - (string) For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+ *              <li>get - (string) For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+ *              <li>name__like - (string) For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+ *              <li>description__like - (string) For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+ *              <li>offset - (integer) For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+ *              <li>search - (string) The search keyword to get the term with. Default ``.</li>
+ *              <li>cache_domain - (string) Default:`core`. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
+ *          </ul>
+ *      </li>
+ *      <li>**queries** - [3.3.2+] (optional, array) Allows to set a query argument for each taxonomy. The array key must be the taxonomy slug and the value is the query argument array.</li>
+ *  </ul>
+ * 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * <code>
+ *  array(  
+ *      'field_id'              => 'taxonomy_checklist',
+ *      'title'                 => __( 'Taxonomy Checklist', 'admin-page-framework-loader' ),
+ *      'type'                  => 'taxonomy',
+ *      'height'                => '200px', // (optional)
+ *      'width'                 => '400px', // (optional)
+ *      'show_post_count'       => true,    // (optional) whether to show the post count. Default: false.
+ *      'taxonomy_slugs'        => array( 'category', 'post_tag', ),
+ *      'select_all_button'     => false,        // 3.3.0+   to change the label, set the label here
+ *      'select_none_button'    => false,        // 3.3.0+   to change the label, set the label here        
+ *  )
+ * </code>
+ * 
+ * <h3>List Taxonomies with a Custom Query</h3>
+ * <code>
+ * array(  
+ *     'field_id'              => 'taxonomy_custom_queries',
+ *     'title'                 => __( 'Custom Taxonomy Queries', 'admin-page-framework-demo' ),
+ *     'type'                  => 'taxonomy',
+ *     
+ *     // (required)   Determines which taxonomies should be listed
+ *     'taxonomy_slugs'        => $aTaxnomies = get_taxonomies( '', 'names' ),    
+ *         
+ *     // (optional) This defines the default query argument. For the structure and supported arguments, see http://codex.wordpress.org/Function_Reference/get_terms#Parameters
+ *     'query'                 => array(
+ *         'depth'     => 2,
+ *         'orderby'   => 'term_id',       // accepts 'ID', 'term_id', or 'name'
+ *         'order'     => 'DESC',
+ *         // 'exclude'   => '1', // removes the 'Uncategorized' category.
+ *         // 'search' => 'PHP',   // the search keyward
+ *         // 'parent'    => 9,    // only show terms whose direct parent ID is 9.
+ *         // 'child_of'  => 8,    // only show child terms of the term ID of 8.
+ *     ),
+ *     // (optional) This allows the user to set a query argument for each taxonomy. 
+ *     // Note that each element will be merged with the above default 'query' argument array. 
+ *     // So unset keys here will be overridden by the default argument array above. 
+ *     'queries'               => array(
+ *         // taxonomy slug => query argument array
+ *         'category'  =>  array(
+ *             'depth'     => 2,
+ *             'orderby'   => 'term_id',  
+ *             'order'     => 'DESC',
+ *             'exclude'   => array( 1 ), 
+ *         ),
+ *         'post_tag'  => array(
+ *             'orderby'   => 'name',
+ *             'order'     => 'ASC',
+ *             // 'include'   => array( 4, ), // term ids
+ *         ),
+ *     ), 
+ * ),
+ * </code>
+ *  
+ * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/taxonomy.png
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @since           2.1.5
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
- * @internal
  */
 class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType_checkbox {
     
     /**
      * Defines the field type slugs used for this field type.
+     * @var     array
      */
     public $aFieldTypeSlugs = array( 'taxonomy', );
     
     /**
      * Defines the default key-values of this field type. 
      * 
-     * @remark  $_aDefaultKeys holds shared default key-values defined in the base class.
+     * @remark  `$_aDefaultKeys` holds shared default key-values defined in the base class.
+     * @var     array
      */
     protected $aDefaultKeys = array(
         'taxonomy_slugs'        => 'category',      // (array|string) This is for the taxonomy field type.
@@ -70,6 +168,8 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      * 
      * @since       2.1.5  
      * @since       3.3.1       Changed from `_replyToFieldLoader()`.
+     * @internal
+     * @return      void
      */ 
     protected function setUp() {
         new AdminPageFramework_Form_View___Script_CheckboxSelector;
@@ -83,6 +183,8 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      * @since       2.1.1
      * @since       2.1.5       Moved from `AdminPageFramework_Property_Base()`.
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
+     * @internal
+     * @return      string
      */ 
     protected function getScripts() {
 
@@ -195,6 +297,8 @@ JAVASCRIPTS;
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
+     * @internal
+     * @return      string
      */ 
     protected function getStyles() {
         return <<<CSSRULES
@@ -296,6 +400,8 @@ CSSRULES;
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetInputIEStyles()`.
+     * @internal
+     * @return      string
      */ 
     protected function getIEStyles() {
         return <<<CSSRULES
@@ -317,6 +423,8 @@ CSSRULES;
      * @since       2.1.1       The checklist boxes are rendered in a tabbed single box.
      * @since       2.1.5       Moved from AdminPageFramework_FormField.
      * @since       3.3.1       Changed from `_replyToGetField()`.
+     * @internal
+     * @return      string
      */
     protected function getField( $aField ) {
         
@@ -354,6 +462,7 @@ CSSRULES;
          * 
          * @since       3.5.3
          * @return      string      the generated HTML output of taxonomy checkboxes.
+         * @internal
          */
         private function _getTaxonomyCheckboxes( array $aField, $sKey, $sTaxonomySlug ) {
             
@@ -383,6 +492,8 @@ CSSRULES;
              * @param       array       $aField         Field definition array,
              * @param       string      $sKey           The array key of the 'taxonomy_slugs' argument array.
              * @param       string      $sTaxonomySlug  the taxonomy slug (id) such as category and post_tag 
+             * @internal
+             * @return      string
              */
             private function _getTaxonomyChecklist( array $aField, $sKey, $sTaxonomySlug ) {
                 return wp_list_categories( 
@@ -428,6 +539,7 @@ CSSRULES;
              * @param   array   $vValue This can be either an one-dimensional array ( for single field ) or a two-dimensional array ( for multiple fields ).
              * @param   string  $sKey     
              * @return  array   Returns an numerically indexed array holding the keys that yield true as the value.
+             * @internal
              */ 
             private function _getSelectedKeyArray( $vValue, $sTaxonomySlug ) {
 
@@ -449,6 +561,7 @@ CSSRULES;
          * 
          * @since       3.5.3
          * @return      string      The generated HTML tab list item output.
+         * @internal
          */
         private function _getTaxonomyTab( array $aField, $sKey, $sTaxonomySlug ) {
             return "<li class='tab-box-tab'>"

@@ -240,7 +240,7 @@ function AdminPageFrameworkLoader_Warning() {
     ) {
         AdminPageFrameworkLoader_Registry::setAdminNotice(
             sprintf(
-                'The framework has been already loaded and its version is lesser than yours. Your framework will not be loaded to avoid unexpected results. Loaded Version - %1$s. Your Version - %2$s.',
+                'The framework has been already loaded and its version is lower than yours. Your framework will not be loaded to avoid unexpected results. Loaded Version - %1$s. Your Version - %2$s.',
                 $_bFrameworkLoaded && defined( 'AdminPageFramework_Registry::VERSION' )
                     ? AdminPageFramework_Registry::VERSION
                     : 'unknown',

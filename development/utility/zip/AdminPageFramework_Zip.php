@@ -11,18 +11,24 @@
  * Compresses files into a zip file.
  * 
  * <h3>Usage</h3>
+ * Pass a source directory/file path to the first parameter and a destination directory path to the second parameter.
+ * Then use the `compress()` method to perform archiving.
+ * 
+ * <h3>Example</h3>
  * <code>
- * $_oZip = new AdminPageFramework_Zip( $sSourcePath, $sDestinationPath );
+ * $_oZip     = new AdminPageFramework_Zip( $sSourcePath, $sDestinationPath );
  * $_bSucceed = $_oZip->compress();
  * </code>
  * 
  * @since       3.5.4
  * @package     AdminPageFramework
  * @subpackage  Utility
- * @internal    
  */
 class AdminPageFramework_Zip {
     
+    /**#@+
+     * @internal
+     */      
     /**
      * Stores a source directory/file path.
      */
@@ -55,7 +61,8 @@ class AdminPageFramework_Zip {
         'additional_source_directories' => array(),
         // 'ignoring_file_extensions'      => array(), // not implemented yet.
     );
-              
+    /**#@-*/
+        
     /**
      * Sets up properties.
      * 
@@ -77,6 +84,7 @@ class AdminPageFramework_Zip {
          * 
          * @remark      if a boolean value is passed to the first parameter, it will be assigned to the `include_directory` element.
          * @return      array       The formatted option array.
+         * @internal
          */
         private function _getFormattedOptions( $abOptions ) {
             $_aOptions = is_array( $abOptions )
@@ -86,7 +94,7 @@ class AdminPageFramework_Zip {
                 );
             return $_aOptions + $this->aOptions;
         }
-
+        
     /**
      * Performs zip file compression.
      * 
@@ -134,6 +142,7 @@ class AdminPageFramework_Zip {
         /**
          * @since       3.6.0
          * @return      string
+         * @internal
          */
         private function _getSanitizedSourcePath( $sPath ) {
             return str_replace( '\\', '/', realpath( $sPath ) );
@@ -143,6 +152,7 @@ class AdminPageFramework_Zip {
          * @since       3.5.4   
          * @since       3.6.0       Changed the name from `_compressDirectory`. Changed the scope to public to allow overriding the method in an extended class.
          * @return      boolean     True on success, false otherwise.
+         * @internal
          */
         public function _replyToCompressDirectory( ZipArchive $oZip, $sSourceDirPath, array $aCallbacks=array(), $bIncludeDir=false, array $aAdditionalSourceDirs=array() ) {
             
@@ -173,6 +183,7 @@ class AdminPageFramework_Zip {
             /**
              * @since       3.6.0
              * @return      void
+             * @internal
              */
             private function _addArchiveItems( $oZip, $aSourceDirPaths, $aCallbacks, $sRootDirName='' ) {
                 
@@ -213,6 +224,7 @@ class AdminPageFramework_Zip {
                 /**
                  * @since       3.6.0
                  * @return      void
+                 * @internal
                  */
                 private function _addRelativeDir( $oZip, $sRelativeDirPath, $oCallable ) {
                     $sRelativeDirPath = str_replace( '\\', '/', $sRelativeDirPath );
@@ -237,6 +249,7 @@ class AdminPageFramework_Zip {
                  * @param       array           $aCallbacks             An array holding callbacks.
                  * @param       string          $sInsidePathPrefix      The prefix to add to the inside archive directory structure. 
                  * @return      void
+                 * @internal
                  */
                 private function _addArchiveItem( ZipArchive $oZip, $sSource, $_sIterationItem, array $aCallbacks, $sInsidePathPrefix='' ) {
                     
@@ -286,6 +299,7 @@ class AdminPageFramework_Zip {
              * @since       3.5.4
              * @remark      Assumes the path is sanitized.
              * @return      string      The main directory base name.
+             * @internal
              */
             private function _getMainDirectoryName( $sSource ) {
                 $_aPathParts = explode( "/", $sSource );
@@ -297,6 +311,7 @@ class AdminPageFramework_Zip {
          * @since       3.5.4
          * @since       3.6.0       Changed the name from `_compressFile`. Changed the scope from `private` to allow overriding in an extended class.
          * @return      boolean     True on success, false otherwise.
+         * @internal
          */
         public function _replyToCompressFile( ZipArchive $oZip, $sSourceFilePath, $aCallbacks=null ) {
             $this->_addFromString( 
@@ -311,6 +326,7 @@ class AdminPageFramework_Zip {
     /**
      * 
      * @return      string      'directory' or 'file' or 'unknown'
+     * @internal
      */
     private function _getSourceType( $sSource ) {
      
@@ -327,6 +343,7 @@ class AdminPageFramework_Zip {
      * Checks if the action of compressing files is feasible.
      * @since       3.5.4
      * @return      boolean
+     * @internal
      */
     private function isFeasible( $sSource ) {
         if ( ! extension_loaded( 'zip' ) ) {
@@ -339,6 +356,7 @@ class AdminPageFramework_Zip {
      * @since       3.5.4
      * @since       3.6.0       Changed the name from `_returnFalse()`. Changed the scope from `private` to allow overriding the method in an extended class.
      * @return      boolean     Always false
+     * @internal
      */
     public function _replyToReturnFalse() {
         return false;
@@ -350,6 +368,7 @@ class AdminPageFramework_Zip {
      * @since       3.5.4
      * @remark      If the path is empty, it will not process.
      * @return      void
+     * @internal
      */
     private function _addEmptyDir( ZipArchive $oZip, $sInsidePath, $oCallable ) {
         $sInsidePath = $this->_getFilteredArchivePath( $sInsidePath, $oCallable );
@@ -364,6 +383,7 @@ class AdminPageFramework_Zip {
      * @since       3.5.4
      * @remark      If the path is empty, it will not process.
      * @return      void
+     * @internal
      */
     private function _addFromString( ZipArchive $oZip, $sInsidePath, $sSourceContents='', array $aCallbacks=array() ) {
         
@@ -390,6 +410,7 @@ class AdminPageFramework_Zip {
      * Retrieves a filtered archive path.
      * @since       3.5.4
      * @return      string
+     * @internal
      */
     private function _getFilteredArchivePath( $sArchivePath, $oCallable ) {
         return is_callable( $oCallable )

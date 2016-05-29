@@ -15,7 +15,7 @@
  * @abstract
  * @since       3.2.0
  * @package     AdminPageFramework
- * @subpackage  Widget
+ * @subpackage  Factory/Widget
  */
 abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_Model {    
  
@@ -38,6 +38,7 @@ abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_
      * 
      * @remark  This class should be overridden in the extended class so that the user can display own contents.
      * @since   3.2.0
+     * @return  string
      */
     public function content( $sContent, $aArguments, $aFormData ) { 
         return $sContent; 

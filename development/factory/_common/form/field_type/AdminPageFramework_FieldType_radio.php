@@ -8,13 +8,39 @@
  */
 
 /**
- * Defines the radio field type.
+ * A set of radio buttons that lets the user pick an option.
  * 
+ * This class defines the radio field type.
+ *  
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * <code>
+ *  array( 
+ *      'field_id'      => 'radio',
+ *      'title'         => __( 'Radio Button', 'admin-page-framework-loader' ),
+ *      'type'          => 'radio',
+ *      'label'         => array(
+ *          'a' => 'Apple',
+ *          'b' => 'Banana ( this option is disabled. )',
+ *          'c' => 'Cherry' 
+ *      ),
+ *      'default'       => 'c', // yields Cherry; its key is specified.
+ *      'after_label'   => '<br />',
+ *      'attributes'    => array(
+ *          'b' => array(
+ *              'disabled' => 'disabled',
+ *          ),
+ *      ),
+ *  )
+ * </code>
+ * 
+ * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/radio.png
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @since           2.1.5
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
- * @internal
  */
 class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType {
     
@@ -36,6 +62,8 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType {
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
+     * @internal
+     * @return      string
      */ 
     protected function getStyles() {
         return <<<CSSRULES
@@ -61,6 +89,8 @@ CSSRULES;
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
      * @since       3.6.0       Removed the script as the repeatable field mechanism has changed.
+     * @internal
+     * @return      string
      */ 
     protected function getScripts() {
         return '';
@@ -72,6 +102,8 @@ CSSRULES;
      * @since       2.1.5
      * @since       3.0.0     Removed unnecessary parameters.
      * @since       3.3.1     Changed from `_replyToGetField()`.
+     * @internal
+     * @return      string
      */
     protected function getField( $aField ) {
         
@@ -85,7 +117,9 @@ CSSRULES;
     }
         /**
          * Returns an HTML output of a single radio button.
+         * 
          * @since       3.5.3
+         * @internal
          * @return      string      The generated HTML output of the radio button.
          */
         private function _getEachRadioButtonOutput( array $aField, $sKey, $sLabel ) {
@@ -120,8 +154,10 @@ CSSRULES;
         /**
          * Returns the JavaScript script that updates the checked attribute of radio buttons when the user select one.
          * This helps repeatable field script that duplicate the last checked item.
+         * 
          * @since       3.0.0
          * @since       3.4.0       Changed the parameter to accept input id from the container tag id to prepare for the support of nested fields.
+         * @internal
          */
         private function _getUpdateCheckedScript( $sInputID ) {
 

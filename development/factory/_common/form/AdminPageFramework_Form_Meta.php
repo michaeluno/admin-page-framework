@@ -11,7 +11,7 @@
  * Provides methods to build forms for the user meta and post meta structure type.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form
  * @since       3.7.0      
  * @extends     AdminPageFramework_Form
  * @internal

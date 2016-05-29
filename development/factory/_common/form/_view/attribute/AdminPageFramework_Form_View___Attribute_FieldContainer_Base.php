@@ -8,11 +8,12 @@
  */
 
 /**
- * Provides abstract methods to format format field container HTML attributes.
+ * Provides abstract methods to format and generate field container HTML attributes.
  * 
  * @package     AdminPageFramework
- * @subpackage  Attribute
+ * @subpackage  Common/Form/View/Attribute
  * @since       3.6.0
+ * @extends     AdminPageFramework_Form_View___Attribute_Base
  * @internal
  */
 abstract class AdminPageFramework_Form_View___Attribute_FieldContainer_Base extends AdminPageFramework_Form_View___Attribute_Base {

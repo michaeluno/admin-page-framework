@@ -8,13 +8,13 @@
  */
 
 /**
- * Provides methods to format form sub-field definition arrays.
+ * Provides methods to format collapsible section argument arrays.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Common/Form/Model/Format
  * @since       3.6.0
- * @internal
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPageFramework_FrameworkUtility {
     

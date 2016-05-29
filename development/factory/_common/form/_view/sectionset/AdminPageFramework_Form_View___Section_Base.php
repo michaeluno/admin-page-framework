@@ -11,7 +11,7 @@
  * Provides shared methods for rendering forms.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/View/Section
  * @since       3.7.0      
  * @internal
  */

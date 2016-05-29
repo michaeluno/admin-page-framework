@@ -14,7 +14,7 @@
  * @since       3.5.3       Extends `AdminPageFramework_WPUtility`.
  * @since       3.7.0      Ranamed from `AdminPageFramework_Script_Base`.
  * @package     AdminPageFramework
- * @subpackage  JavaScript
+ * @subpackage  Common/Factory/JavaScript
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
  */

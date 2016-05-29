@@ -10,10 +10,31 @@
 /**
  * Defines the import field type.
  * 
+ * <h2>Field Definition Arguments</h2>
+ * <h3>Field Type Specific Arguments</h3>
+ *  <ul>
+ *      <li>**option_key** - (optional, string) the option table key to save the importing data.</li>
+ *      <li>**format** - (optional, string) the import format. json, or array is supported. Default: array</li>
+ *      <li>**is_merge** - (optional, boolean) [2.0.5+] determines whether the imported data should be merged with the existing options.</li>
+ *  </ul>
+ * 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * <code>
+ *  array(
+ *      'field_id'      => 'import_single',
+ *      'title'         => __( 'Import Field', 'admin-page-framework-loader' ),
+ *      'type'          => 'import',
+ *      'label'         => __( 'Import Options', 'admin-page-framework-loader' ),
+ *  )
+ * </code>
+ * 
+ * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/import.png
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @since           2.1.5
- * @internal
  */
 class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_submit {
     
@@ -50,6 +71,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToFieldLoader()`.
+     * @internal
      */ 
     protected function setUp() {}
     
@@ -58,6 +80,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
+     * @internal
      */ 
     protected function getScripts() {
         return "";     
@@ -68,6 +91,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
+     * @internal
      */ 
     protected function getStyles() { 
         return <<<CSSRULES
@@ -87,6 +111,8 @@ CSSRULES;
      * 
      * @since       2.1.5       Moved from the AdminPageFramework_FormField class. The name was changed from getHiddenField().
      * @since       3.3.1       Changed from `_replyToGetField()`.
+     * @internal
+     * @return      string
      */
     protected function getField( $aField ) {
         
@@ -103,7 +129,9 @@ CSSRULES;
      * 
      * This is for the import field type that extends this class. The import field type cannot place the file input tag inside the label tag that causes a problem in FireFox.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
+     * @internal
+     * @return      string
      */    
     protected function _getExtraFieldsBeforeLabel( &$aField ) {
         return "<input " . $this->getAttributes( 
@@ -117,7 +145,9 @@ CSSRULES;
     
     /**
      * Returns the output of hidden fields for this field type that enables custom submit buttons.
-     * @since 3.0.0
+     * @since       3.0.0
+     * @internal
+     * @return      string
      */
     protected function _getExtraInputFields( &$aField ) {
 

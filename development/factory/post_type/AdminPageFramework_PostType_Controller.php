@@ -15,7 +15,7 @@
  * @abstract
  * @since       3.0.4
  * @package     AdminPageFramework
- * @subpackage  PostType
+ * @subpackage  Factory/PostType
  */
 abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework_PostType_View {    
 
@@ -254,6 +254,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
      * @see         http://codex.wordpress.org/Function_Reference/register_post_type#Arguments
      * @param       array       $aArguments     The <a href="http://codex.wordpress.org/Function_Reference/register_post_type#Arguments">array of arguments</a> to be passed to the second parameter of the `register_post_type()` function.
      * @since       3.2.0
+     * @return      void
      */
     protected function setArguments( array $aArguments=array() ) {
         $this->oProp->aPostTypeArgs = $aArguments;

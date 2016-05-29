@@ -16,7 +16,7 @@
  * 
  * @since       3.5.0      
  * @package     Admin Page Framework
- * @subpackage  Resource
+ * @subpackage  Factory/UserMeta/Resource
  * @extends     AdminPageFramework_Resource_post_meta_box
  * @internal
  */

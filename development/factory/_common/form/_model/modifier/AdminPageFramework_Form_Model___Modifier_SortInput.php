@@ -11,8 +11,9 @@
  * Provides methods that deal with sorting form input array.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Common/Form/Model/Modifier
  * @since       3.6.0
+ * @extends     AdminPageFramework_Form_Model___Modifier_Base
  * @internal
  */
 class AdminPageFramework_Form_Model___Modifier_SortInput extends AdminPageFramework_Form_Model___Modifier_Base {

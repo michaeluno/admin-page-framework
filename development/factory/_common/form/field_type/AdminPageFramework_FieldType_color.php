@@ -8,13 +8,29 @@
  */
 
 /**
- * Defines the color field type.
+ * A text field with a color picker.
  * 
+ * This class defines the color field type.
+ * 
+ * <h2>Field Definition Arguments</h2>
+ * 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * <code>
+ *  array( 
+ *      'field_id'      => 'color_picker_field',
+ *      'title'         => __( 'Color Picker', 'admin-page-framework-loader' ),
+ *      'type'          => 'color',
+ *  ),
+ * </code>
+ * 
+ * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/color.png
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @since           2.1.5
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
- * @internal
  */
 class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
     
@@ -42,6 +58,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
      * @since       2.1.5       Moved from AdminPageFramework_MetaBox. Changed the name from enqueueColorFieldScript().
      * @since       3.3.1       Changed from `_replyToFieldLoader()`.
      * @see         http://www.sitepoint.com/upgrading-to-the-new-wordpress-color-picker/
+     * @internal
      */ 
     protected function setUp() {
         
@@ -65,6 +82,7 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
+     * @internal
      */ 
     protected function getStyles() {
         return <<<CSSRULES
@@ -202,6 +220,7 @@ JAVASCRIPTS;
      * @since       2.1.5
      * @since       3.0.0     Removed unnecessary parameters.
      * @since       3.3.1     Changed from `_replyToGetField()`.
+     * @internal
      */
     protected function getField( $aField ) {
 
@@ -235,6 +254,7 @@ JAVASCRIPTS;
          * 
          * @return      array
          * @since       3.5.10
+         * @internal
          */
         private function _getInputAttributes( array $aField ) {
                                
@@ -252,6 +272,7 @@ JAVASCRIPTS;
         /**
          * A helper function for the above getColorField() method to add a script to enable the color picker.
          * @return      string
+         * @internal
          */
         private function _getColorPickerEnablerScript( $sInputID ) {
             $_sScript = <<<JAVASCRIPTS

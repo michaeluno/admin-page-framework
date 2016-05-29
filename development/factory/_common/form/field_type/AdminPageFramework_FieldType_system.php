@@ -8,12 +8,52 @@
  */
 
 /**
- * Defines the 'system' field type.
+ * Defines the `system` field type.
  * 
+ * <h2>Field Definition Arguments</h2>
+ * <h3>Field Type Specific Arguments</h3>
+ * <ul>
+ *     <li>**data** - (optional, array) an associative array that holds the data to display. The following items are embedded by default. To remove an item, pass an empty value with the key.
+ *          <ul>
+ *              <li>`Current Time` - the current time</li>
+ *              <li>`Admin Page Framework` - information of used Admin Page Framework</li>
+ *              <li>`WordPress` - information of installed WordPress</li>
+ *              <li>`PHP` - information of installed PHP</li>
+ *              <li>`Server` - information of the server</li>
+ *              <li>`PHP Error Log` - PHP error log</li>
+ *              <li>`MySQL` - MySQL</li>
+ *              <li>`MySQL Error Log` - MySQL error log</li>
+ *              <li>`Browser` - Browser</li>
+ *          </ul>
+ *     </li>
+ *     <li>**print_type** - [3.3.6+] (optional, integer) Indicates how the data array should be displayed. 1: readable array representation. 2. the output of the print_r() function. Default: `1`.</li>
+ * </ul>
+ * 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * <code>
+ *  array(
+ *      'field_id'      => 'system_information',
+ *      'type'          => 'system',     
+ *      'title'         => __( 'System Information', 'admin-page-framework-loader' ),
+ *      'data'          => array(
+ *          'Custom Data'           => __( 'Here you can insert your own custom data with the data argument.', 'admin-page-framework-loader' ),
+ *          
+ *          // To remove items, set empty values
+ *          'Current Time'          => '', 
+ *          'Admin Page Framework'  => '', 
+ *      ),
+ *      'save'          => false,
+ *  ),
+ * </code>
+ * 
+ * 
+ * @image       http://admin-page-framework.michaeluno.jp/image/common/form/field_type/system.png
  * @package     AdminPageFramework
- * @subpackage  FieldType
+ * @subpackage  Common/Form/FieldType
  * @since       3.3.0
- * @internal
  */
 class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
     
@@ -21,7 +61,8 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      * Defines the field type slugs used for this field type.
      * 
      * The slug is used for the type key in a field definition array.
-     *     $this->addSettingFields(
+     * <code>
+     * $this->addSettingFields(
      *      array(
      *          'section_id'    => '...',
      *          'type'          => 'system',        // <--- THIS PART
@@ -29,6 +70,8 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      *          'title'         => '...',
      *      )
      *  );
+     * </code>
+     * @var         array
      */
     public $aFieldTypeSlugs = array( 'system', );
     
@@ -36,6 +79,7 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      * Defines the default key-values of this field type. 
      * 
      * The keys are used for the field definition array.
+     * <code>
      *     $this->addSettingFields(
      *      array(
      *          'section_id'    => '...',    
@@ -44,7 +88,9 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      *          'my_custom_key' => '...',    // <-- THIS PART
      *      )
      *  );
-     * @remark            $_aDefaultKeys holds shared default key-values defined in the base class.
+     * </code>
+     * @var             array
+     * @remark          `$_aDefaultKeys` holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
         'data'          =>  array(),        // [3.2.0+] Stores the data to be displayed
@@ -68,6 +114,7 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      * The user constructor.
      * 
      * Loaded at the end of the constructor.
+     * @internal
      */
     protected function construct() {}
         
@@ -75,6 +122,7 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      * Loads the field type necessary components.
      * 
      * This method is triggered when a field definition array that calls this field type is parsed. 
+     * @internal
      */ 
     protected function setUp() {}    
 
@@ -93,6 +141,8 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      *     <li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
      *     <li>**attributes** - (optional, array) [3.3.0+] attribute argument array. `array( 'async' => '', 'data-id' => '...' )`</li>
      * </ul>     
+     * @internal
+     * @return      array
      */
     protected function getEnqueuingScripts() { 
         return array();
@@ -109,6 +159,8 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      *     <li><strong>version</strong> - ( optional, string ) The stylesheet version number.</li>
      *     <li><strong>media</strong> - ( optional, string ) the description of the field which is inserted into the after the input field tag.</li>
      * </ul>
+     * @return      array
+     * @internal
      */
     protected function getEnqueuingStyles() { 
         return array();
@@ -117,6 +169,8 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
 
     /**
      * Returns the field type specific JavaScript script.
+     * @internal
+     * @return      string
      */ 
     protected function getScripts() { 
         return '';
@@ -124,11 +178,19 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
 
     /**
      * Returns IE specific CSS rules.
+     * 
+     * @internal
+     * @return      string
      */
-    protected function getIEStyles() { return ''; }
+    protected function getIEStyles() { 
+        return ''; 
+    }
 
     /**
      * Returns the field type specific CSS rules.
+     * 
+     * @internal
+     * @return      string
      */ 
     protected function getStyles() {
         return <<<CSSRULES
@@ -154,10 +216,12 @@ CSSRULES;
     
     /**
      * Returns the output of the geometry custom field type.
-     * 
      */
     /**
      * Returns the output of the field type.
+     * 
+     * @internal
+     * @return      string
      */
     protected function getField( $aField ) { 
 
@@ -186,6 +250,7 @@ CSSRULES;
          * Returns the system information value for a textarea tag.
          * 
          * @return      string      The human readable system information.
+         * @internal
          */
         private function _getSystemInfomation( $asValue=null, $asCustomData=null, $iPrintType=1 ) {
 
@@ -232,6 +297,7 @@ CSSRULES;
              * Returns the system information by section.
              * @since       3.5.3
              * @return      string      The system information by section.
+             * @internal
              */
             private function _getSystemInfoBySection( $sSectionName, $aData, $iPrintType ) {
                 switch ( $iPrintType ) {
@@ -246,6 +312,7 @@ CSSRULES;
             /**
              * Returns a client information
              * 
+             * @internal
              * @since       3.4.6
              * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
              */
@@ -269,6 +336,7 @@ CSSRULES;
             /**
              * Returns a error log by type.
              * 
+             * @internal
              * @since       3.5.3
              * @return      string      The found error log.
              * @param       string      $sType          The error log type. Either 'php' or 'mysql' is accepted.
@@ -303,6 +371,7 @@ CSSRULES;
              * 
              * Uses a cache if stored in a previous call.
              * 
+             * @internal
              * @since       3.4.6
              * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
              * @return      array      The generated site information array.
@@ -318,6 +387,7 @@ CSSRULES;
             }
                 /**
                  * Returns the WordPress site information.
+                 * 
                  * @internal
                  * @since       3.5.3
                  * @return      array       The WordPress site information.
@@ -350,7 +420,8 @@ CSSRULES;
                     /**
                      * 
                      * @since       3.5.12
-                     * @return      stirng|array
+                     * @return      string|array
+                     * @internal
                      */
                     private function _getDefinedConstants( $asCategories=null, $asRemovingCategories=null ) {
                         $_asConstants = $this->getDefinedConstants( $asCategories, $asRemovingCategories );
@@ -384,6 +455,8 @@ CSSRULES;
                 
                 /**
                  * Returns the active theme name.
+                 * @internal
+                 * @return      string
                  */
                 private function _getActiveThemeName() {
                     
@@ -401,6 +474,7 @@ CSSRULES;
                  * Returns a list of active plugins.
                  * 
                  * @return      string
+                 * @internal
                  */
                 private function _getActivePlugins() {
                 
@@ -418,6 +492,7 @@ CSSRULES;
                 /**
                  * Returns a list of network-activated plugins.
                  * @return      string
+                 * @internal
                  */
                 private function _getNetworkActivePlugins() {
                     
@@ -441,6 +516,7 @@ CSSRULES;
                  * Checks if the wp_remote_post() function is functioning.
                  * 
                  * @return      string
+                 * @internal
                  */
                 private function _getWPRemotePostStatus() {
                     
@@ -464,6 +540,7 @@ CSSRULES;
                  * Checks if the wp_remote_post() function is functioning.
                  * 
                  * @return      string
+                 * @internal
                  */
                 private function _getWPRemoteGetStatus() {
                     
@@ -484,7 +561,8 @@ CSSRULES;
                     /**
                      * Checks the HTTP request response has an error.
                      * @since       3.5.3
-                     * @return      bool
+                     * @return      boolean
+                     * @internal
                      */
                     private function _isHttpRequestError( $mResponse ) {
                         
@@ -494,10 +572,10 @@ CSSRULES;
                         if ( is_wp_error( $mResponse ) ) {
                             return true;
                         }
-                        if ( $mResponse['response']['code'] < 200 ) {
+                        if ( $mResponse[ 'response'][ 'code' ] < 200 ) {
                             return true;
                         }
-                        if ( $mResponse['response']['code'] >= 300 ) {
+                        if ( $mResponse[ 'response' ][ 'code' ] >= 300 ) {
                             return true;
                         }
                         return false;
@@ -506,13 +584,16 @@ CSSRULES;
             /**
              * Caches the php information.
              * @since       3.4.6
+             * @internal
              */
             static private $_aPHPInfo;
             
             /**
              * Returns the PHP information.
+             * 
+             * @internal
              * @since       3.4.6
-             * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
+             * @since       3.5.3       Added the $bGenerateInfo parameter. This is to reduce conditional statement in the caller method.
              */
             private function _getPHPInfo( $bGenerateInfo=true ) {
                 
@@ -554,8 +635,10 @@ CSSRULES;
                       
             /**
              * Returns the web server information.
+             * @internal
              * @since       3.4.6
              * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
+             * @return      array|string
              */                      
             private function _getWebServerInfo( $bGenerateInfo=true ) {
                         
@@ -574,5 +657,4 @@ CSSRULES;
                 
             }
     
- 
 }

@@ -11,8 +11,10 @@
  * Provides methods to format an array holding section-sets definitions.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/Model/Format
  * @since       3.7.0
+ * @extends     AdminPageFramework_Form_Base
+ * @internal
  */
 class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramework_Form_Base {
     

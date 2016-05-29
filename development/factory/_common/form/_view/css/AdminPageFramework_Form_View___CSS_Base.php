@@ -8,15 +8,16 @@
  */
 
 /**
- * Provides methods to return CSS rules for form outputs.
+ * Provides common methods to return CSS rules for form outputs.
  *
  * @since       3.7.0
+ * @since       3.8.0       Changed the visibility scope to `abstract` to make it clear it is an abstract class.
  * @package     AdminPageFramework
- * @subpackage  Form
- * @internal
+ * @subpackage  Common/Form/View/CSS
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
-class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_FrameworkUtility {
+abstract class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_FrameworkUtility {
     
     /**
      * Stores additional CSS rules.
@@ -25,7 +26,7 @@ class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_Framewo
     
     /**
      * Adds css rules in a property. When the `get()` method is performed, 
-     * the added ones will be returned togethere.
+     * the added ones will be returned together.
      * @return  void
      * @since   3.7.0
      */
@@ -43,11 +44,6 @@ class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_Framewo
         $_sCSSRules .= $this->_getVersionSpecific();
         $_sCSSRules .= implode( PHP_EOL, $this->aAdded );
         return $_sCSSRules;
-        
-        // @deprecated      3.7.10      The beautifier script compresses inline CSS rules.
-        // return $this->isDebugMode()
-            // ? trim( $_sCSSRules )
-            // : $this->getCSSMinified( $_sCSSRules );
     
     }
     
@@ -67,4 +63,5 @@ class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_Framewo
         protected function _getVersionSpecific() {
             return '';
         }
+        
 }

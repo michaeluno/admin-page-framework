@@ -10,10 +10,13 @@
 /**
  * Provides methods to test class methods including protected and private ones.
  * 
- * This is meant to be used in test cases.
+ * This is for test cases.
  * 
- * Usage:
- * `
+ * <h2>Usage</h2>
+ * Retrieve a class instance with the `getInstance()` method. And with it call methods to test using the `call()` method.
+ * 
+ * <h2>Example</h2>
+ * <code>
  *  $_oClass = AdminPageFramework_ClassTester::getInstance( 'One' );
  *  $_mValue = AdminPageFramework_ClassTester::call( 
  *      $_oClass,           // subject class object
@@ -29,18 +32,22 @@
  *      }    
  *      
  *  }
- * `
+ * </code>
  * 
  * @remark      Requires PHP 5.3.0 or above.
  * @since       3.7.10
  * @package     AdminPageFramework
  * @subpackage  Utility
- * @internal    
  */
 class AdminPageFramework_ClassTester {
         
     /**
      * Creates an object instance with dynamic parameters.
+     * 
+     * @since       3.7.10
+     * @param       string      $sCalssName     The class name for testing.
+     * @param       array       $aParameters    The parameters to pass to the constructor of the class set in the first parameter.
+     * @return      object      An object instance of the class specified in the first parameter.
      */
     static public function getInstance( $sClassName, array $aParameters=array() ) {
         
@@ -50,7 +57,12 @@ class AdminPageFramework_ClassTester {
     }
     
     /**
+     * Performs the method specified in the second parameter.
      * 
+     * @since       3.7.10
+     * @param       object      $oClass         The subject class object.
+     * @param       string      $sMathodName    The subject method name.
+     * @param       array       $aParameters    The parameters to pass to the method set in the second parameter.    
      * @remark      This supports private methods to be executed.
      */
     static public function call( $oClass, $sMethodName, $aParameters ) {
@@ -74,7 +86,9 @@ class AdminPageFramework_ClassTester {
         
     }
         /**
+         * @since       3.7.10
          * @return      object
+         * @internal
          */
         static private function _getMethod( $sClassName, $sMethodName ) {
             

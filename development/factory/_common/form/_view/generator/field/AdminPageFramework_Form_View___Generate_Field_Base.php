@@ -11,7 +11,7 @@
  * Provides methods that generates field related strings.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Common/Form/View/Generator
  * @since       3.6.0
  * @internal
  */

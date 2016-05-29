@@ -13,7 +13,7 @@
  * @since       2.1.0
  * @since       3.0.0       Become not abstract.
  * @package     AdminPageFramework
- * @subpackage  HelpPane
+ * @subpackage  Factory/AdminPage/HelpPane
  * @extends     AdminPageFramework_HelpPane_Base
  * @staticvar   array       $_aStructure_HelpTabUserArray       stores the array structure of the help tab array.
  * @internal

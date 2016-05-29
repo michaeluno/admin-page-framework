@@ -7,12 +7,12 @@
  */
 
 /**
- * The model class of the user factory class.
+ * The model class of the user meta factory class.
  *
  * @abstract
  * @since           3.5.0
  * @package         AdminPageFramework
- * @subpackage      UserMeta
+ * @subpackage      Factory/UserMeta
  * @internal
  */
 abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_UserMeta_Router {
@@ -37,6 +37,7 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
      * @remark      The `oOptions` property will be automatically set with the overload method.
      * @return      array       The saved form data.
      * @since       3.7.0
+     * @internal
      */
     public function _replyToGetSavedFormData() {
                 

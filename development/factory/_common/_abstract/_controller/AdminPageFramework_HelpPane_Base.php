@@ -11,7 +11,7 @@
  * Provides base methods and properties for manipulating the contextual help tabs.
  * 
  * @package     AdminPageFramework
- * @subpackage  HelpPane
+ * @subpackage  Common/Factory/HelpPane
  * @since       2.1.0
  * @abstract
  * @internal

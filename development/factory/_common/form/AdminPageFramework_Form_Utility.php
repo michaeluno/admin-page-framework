@@ -11,9 +11,10 @@
  * Provides shared methods for the form classes.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/Utility
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_FrameworkUtility {
     

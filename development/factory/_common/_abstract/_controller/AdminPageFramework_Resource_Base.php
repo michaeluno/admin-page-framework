@@ -18,7 +18,7 @@
  * @since       3.6.3       Changed it to extend `AdminPageFramework_WPUtility`.
  * @extends     AdminPageFramework_FrameworkUtility
  * @package     AdminPageFramework
- * @subpackage  Resource
+ * @subpackage  Common/Factory/Resource
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
  */

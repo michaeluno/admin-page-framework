@@ -11,7 +11,7 @@
  * Provides methods that deal with field and section definition arrays.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Common/Factory/Format
  * @since       3.6.0
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility

@@ -11,7 +11,7 @@
  * Provides methods to format page resource definition array for styles.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Factory/AdminPage/Format
  * @since       3.6.3
  * @internal
  */

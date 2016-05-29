@@ -8,12 +8,13 @@
  */
 
 /**
- * Provides methods to handle last inputs of form data.
+ * Provides methods to handle last user inputs of form data.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/Model
  * @since       3.7.8
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 class AdminPageFramework_Form_Model___LastInput extends AdminPageFramework_FrameworkUtility {
     

@@ -13,7 +13,7 @@
  * @since           2.0.0
  * @extends         AdminPageFramework_CustomSubmitFields
  * @package         AdminPageFramework
- * @subpackage      Setting
+ * @subpackage      Factory/AdminPage/Form
  * @internal
  */
 class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFields {

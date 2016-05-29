@@ -11,10 +11,10 @@
  * The base class of form input classes that return outputs of input form elements.
  * 
  * @package     AdminPageFramework
- * @subpackage  FormInput
+ * @subpackage  Common/Form/Input
  * @since       3.4.0
- * @internal
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 abstract class AdminPageFramework_Input_Base extends AdminPageFramework_FrameworkUtility {
     
@@ -62,7 +62,7 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_Framewor
      * @since       3.4.0
      * @since       3.5.3       
      * @param       array       $aAttributes    The attribute array. A field definition array is deprecated.
-     * @param       array       $aOptions       options that allows to set custom container tags and class selctors.
+     * @param       array       $aOptions       options that allows the user to set custom container tags and class selectors.
      */
     public function __construct( array $aAttributes, array $aOptions=array() ) {
 

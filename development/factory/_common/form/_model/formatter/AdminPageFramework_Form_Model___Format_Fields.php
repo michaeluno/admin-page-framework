@@ -11,11 +11,12 @@
  * Provides methods to format form sub-fields definition arrays.
  * 
  * The user defines a field with a field definition array. Sub-fields will be created from the field definition array 
- * when it has a numerically index field definition elements or the `repeatable` argument is set to `true`.
+ * when it has numerically index field definition elements or the `repeatable` argument is set to `true`.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Common/Form/Model/Format
  * @since       3.6.0
+ * @extends     AdminPageFramework_Form_Model___Format_FormField_Base
  * @internal
  */
 class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_Form_Model___Format_FormField_Base {

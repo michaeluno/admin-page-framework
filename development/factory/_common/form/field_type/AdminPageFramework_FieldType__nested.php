@@ -12,7 +12,7 @@
  * 
  * 
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @since           3.8.0
  * @internal
  */

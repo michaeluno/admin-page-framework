@@ -8,12 +8,12 @@
  */
 
 /**
- * Provides methods for creating meta boxes for post types.
+ * Provides methods to add form fields in user profile pages.
  * 
  * @abstract
  * @since           3.5.0
  * @package         AdminPageFramework
- * @subpackage      UserMeta
+ * @subpackage      Factory/UserMeta
  */
 abstract class AdminPageFramework_UserMeta extends AdminPageFramework_UserMeta_Controller {
     

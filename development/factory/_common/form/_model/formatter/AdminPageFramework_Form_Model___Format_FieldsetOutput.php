@@ -13,12 +13,13 @@
  * This class should be called during the form rendering routine.
  * 
  * This constructs attributes array and some other internal keys crucial to form field outputs 
- * such as input name and id. Without them the form data will not be sent 
- * and repeatable and sortable will not be able to bind events.
+ * such as input name and id. Without them, the form data will not be sent 
+ * and repeatable and sortable JavaScirpt scripts will not be able to bind events.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/Model/Format
  * @since       3.6.0
+ * @extends     AdminPageFramework_Form_Model___Format_Fieldset
  * @internal
  */
 class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFramework_Form_Model___Format_Fieldset {

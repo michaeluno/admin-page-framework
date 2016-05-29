@@ -8,13 +8,87 @@
  */
 
 /**
- * Defines the 'textarea' field type.
+ * A text area field that lets the user set text values with multiple lines.
  * 
+ * This class defines the `textarea` field type. With the `rich` argument, the TinyMCE editor is available.
+ * 
+ * <h3>Example</h3>
+ * <code>
+ *  array( 
+ *      'field_id'      => 'textarea',
+ *      'title'         => 'Text Area', 
+ *      'type'          => 'textarea',
+ *      'default'       => 'This is a default string value.',
+ *      'attributes'    => array(
+ *          'rows' => 6,
+ *          'cols' => 60,
+ *      ),
+ *  ),            
+ * </code>
+ * <code>
+ *  array( 
+ *      'field_id'      => 'rich_textarea',
+ *      'title'         => 'Rich Text Area',
+ *      'type'          => 'textarea',
+ *      'rich'          => true, 
+ *      'attributes'    => array(
+ *          'field' => array(
+ *              'style' => 'width: 100%;' // since the rich editor does not accept the cols attribute, set the width by inline-style.
+ *          ),
+ *      ),
+ *  ),
+ * </code>
+ * <code>
+ *  array( 
+ *      'field_id'      => 'rich_textarea',
+ *      'title'         => 'Rich Text Area',
+ *      'type'          => 'textarea',
+ *      // pass the setting array to customize the editor. For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.
+ *      'rich' => array( 
+ *          'media_buttons' => false, 
+ *          'tinymce'       => false
+ *      ),
+ *      'attributes'    => array(
+ *          'field' => array(
+ *              'style' => 'width: 100%;' // since the rich editor does not accept the cols attribute, set the width by inline-style.
+ *          ),
+ *      ),
+ *  ),    
+ * </code>
+ * 
+ * <h2>Field Definition Arguments</h2>
+ * <h3>Field Type Specific Arguments</h3>
+ * <ul>
+ *     <li>**rich** - [2.1.2+] (optional, boolean|array) to make it a rich text editor, set it `true`. It accepts a setting array of the `_WP_Editors` class defined in the core with the following arguments.
+ *     <blockquote>
+ *      <ul>
+ *         <li>wpautop (boolean) (optional) Whether to use wpautop for adding in paragraphs. Note that the paragraphs are added automatically when wpautop is false. Default: true </li>
+ *         <li>media_buttons (boolean) (optional) Whether to display media insert/upload buttons. Default: true </li>
+ *         <li>textarea_name (string) (optional) The name assigned to the generated textarea and passed parameter when the form is submitted. (may include [] to pass data as array). Default: $editor_id </li>
+ *         <li>textarea_rows (integer) (optional) The number of rows to display for the textarea. Default: get_option('default_post_edit_rows', 10) </li>
+ *         <li>tabindex (integer) (optional) The tabindex value used for the form field. Default: None </li>
+ *         <li>editor_css (string) (optional) Additional CSS styling applied for both visual and HTML editors buttons, needs to include <style> tags, can use "scoped". Default: None </li>
+ *         <li>editor_class (string) (optional) Any extra CSS Classes to append to the Editor textarea. Default: Empty string </li>
+ *         <li>editor_height (integer) (optional) The height to set the editor in pixels. If set, will be used instead of textarea_rows. (since WordPress 3.5). Default: None </li>
+ *         <li>teeny (boolean) (optional) Whether to output the minimal editor configuration used in PressThis. Default: false </li>
+ *         <li>dfw (boolean) (optional) Whether to replace the default fullscreen editor with DFW (needs specific DOM elements and CSS). Default: false </li>
+ *         <li>tinymce (array) (optional) Load TinyMCE, can be used to pass settings directly to TinyMCE using an array. Default: true </li>
+ *         <li>quicktags (array) (optional) Load Quicktags, can be used to pass settings directly to Quicktags using an array. Set to false to remove your editor's Visual and Text tabs. Default: true</li>
+ *         <li>drag_drop_upload (boolean) (optional) Enable Drag & Drop Upload Support (since WordPress 3.9). Default: false </li>
+ *      </ul>
+ *     </blockquote>
+ *     (source, [wp_editor](http://codex.wordpress.org/Function_Reference/wp_editor))
+ *     </li>
+ * </ul>
+ * 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/textarea.png
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @since           2.1.5
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
- * @internal
  */
 class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType {
     
@@ -45,10 +119,11 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
     );
 
     /**
-     * Returns the color picker JavaScript script loaded in the head tag of the created admin pages.
+     * Returns a JavaScript script.
      * @since       3.1.4
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
      * @internal
+     * @return      string
      */ 
     public function getScripts() {
         $_aJSArray = json_encode( $this->aFieldTypeSlugs );
@@ -394,6 +469,8 @@ JAVASCRIPTS;
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
+     * @internal
+     * @return      string
      */ 
     protected function getStyles() {
         return <<<CSSRULES
@@ -429,6 +506,8 @@ CSSRULES;
      * @since       2.1.5
      * @since       3.0.0       Removed redundant elements including parameters.
      * @since       3.3.1       Changed from `_replyToGetField()`.
+     * @internal
+     * @return      string
      */
     protected function getField( $aField ) {
 
@@ -448,7 +527,9 @@ CSSRULES;
     }
         /**
          * 
+         * @internal
          * @since       3.5.8
+         * @return      string
          */
         private function _getFieldOutputByLabel( $sKey, $sLabel, $aField ) {
 
@@ -490,7 +571,9 @@ CSSRULES;
         /**
          * Returns the output of the editor.
          * 
-         * @since 3.0.7
+         * @since       3.0.7
+         * @internal
+         * @return      string
          */
         private function _getEditor( $aField ) {
                         
@@ -537,8 +620,10 @@ CSSRULES;
         /**
          * Provides the JavaScript script that stores quick tags and tinymce settings.
          * 
-         * @since 2.1.2
-         * @since 2.1.5 Moved from AdminPageFramework_FormField.
+         * @since       2.1.2
+         * @since       2.1.5       Moved from AdminPageFramework_FormField.
+         * @internal
+         * @return      string
          */    
         private function _getScriptForRichEditor( $sIDSelector ) {
 

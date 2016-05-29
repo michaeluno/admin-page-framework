@@ -11,10 +11,11 @@
  * Provides methods to build forms.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/Model
  * @since       3.7.0
  * @deprecated
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 class AdminPageFramework_Form_Model___SectionConditioner extends AdminPageFramework_FrameworkUtility {
     

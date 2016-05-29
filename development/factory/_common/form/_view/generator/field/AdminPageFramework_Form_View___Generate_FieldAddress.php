@@ -13,7 +13,7 @@
  * This is similar to flat field names but this does not include an option key dimension 
  * so can be used by different fields types.
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Common/Form/View/Generator
  * @since       3.6.0
  * @internal
  */

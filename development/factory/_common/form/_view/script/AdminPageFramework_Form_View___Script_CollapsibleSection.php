@@ -12,7 +12,7 @@
  * 
  * @since       3.4.0
  * @package     AdminPageFramework
- * @subpackage  JavaScript
+ * @subpackage  Common/Form/View/JavaScript
  * @internal
  */
 class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPageFramework_Form_View___Script_Base {

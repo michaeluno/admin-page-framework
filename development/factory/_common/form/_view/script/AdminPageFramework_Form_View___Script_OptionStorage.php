@@ -13,7 +13,7 @@
  * @since       3.1.6
  * @sicne       3.3.0       Extends `AdminPageFramework_Form_View___Script_Base`.
  * @package     AdminPageFramework
- * @subpackage  JavaScript
+ * @subpackage  Common/Form/View/JavaScript
  * @internal
  */
 class AdminPageFramework_Form_View___Script_OptionStorage extends  AdminPageFramework_Form_View___Script_Base {

@@ -16,7 +16,7 @@
  * 
  * @since       3.8.0
  * @package     AdminPageFramework
- * @subpackage  Resource
+ * @subpackage  Factory/TermMeta/Resource
  * @extends     AdminPageFramework_Resource_taxonomy_field
  * @internal
  */

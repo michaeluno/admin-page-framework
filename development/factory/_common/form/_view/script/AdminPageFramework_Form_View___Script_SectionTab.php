@@ -14,7 +14,7 @@
  * @since       3.3.0       Extends `AdminPageFramework_Form_View___Script_Base`.
  * @since       3.7.0      Renamed from `AdminPageFramework_Form_View___Script_Tab`.
  * @package     AdminPageFramework
- * @subpackage  JavaScript
+ * @subpackage  Common/Form/View/JavaScript
  * @internal
  */
 class AdminPageFramework_Form_View___Script_SectionTab extends AdminPageFramework_Form_View___Script_Base {

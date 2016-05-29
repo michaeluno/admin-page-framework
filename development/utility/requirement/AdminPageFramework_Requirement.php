@@ -8,12 +8,43 @@
  */
 
 /**
- * Checks if the site has given requirements.
+ * Performs checks for given requirements whether the site can satisfy them.
+ * 
+ * <h2>Usage</h2>
+ * Set requirements to the first parameter and perform the `check()` method to get the number of warnings.
+ *  
+ * <h2>Example</h2>
+ * <code>
+ *  $_oRequirementCheck = new AdminPageFramework_Requirement(
+ *      array(
+ *          'php' => array(
+ *              'version'   => '5.2.4',
+ *              'error'     => 'The plugin requires the PHP version %1$s or higher.',
+ *          ),
+ *          'wordpress'         => array(
+ *              'version'   => '3.4',
+ *              'error'     => 'The plugin requires the WordPress version %1$s or higher.',
+ *          ),
+ *          'mysql'             => array(
+ *              'version'   => '5.0',
+ *              'error'     => 'The plugin requires the MySQL version %1$s or higher.',
+ *          ),
+ *      ),
+ *      'My Plugin Name'
+ *  );
+ *  
+ *  if ( $_oRequirementCheck->check() ) {            
+ *      $_oRequirementCheck->deactivatePlugin( 
+ *          $this->sFilePath,   // the plugin main file path
+ *          __( 'Deactivating the plugin', 'admin-page-framework-loader' ),  // additional message
+ *          true    // is in the activation hook. This will exit the script.
+ *      );
+ *  }   
+ * </code>
  * 
  * @since       3.4.6
  * @package     AdminPageFramework
- * @subpackage  Utility
- * @internal    
+ * @subpackage  Utility   
  */
 class AdminPageFramework_Requirement {
 
@@ -67,14 +98,43 @@ class AdminPageFramework_Requirement {
     /**
      * Sets up properties.
      * 
-     * To disable checking on particular item, sent non-array value to the element.
+     * To disable checking on particular item, set an empty value to the element or simply omit it.
      * 
+     * <code>
      * $aRequirement = array(
      *  'mysql' => '',  // <-- mysql will be skipped.
      *  'php' ...
+     *  // 'wordpress' will be omitted
      * )
+     * </code>
      * 
      * @since       3.4.6
+     * @param       array       $aRequirements      An array holding a requirement definition.
+     * <ul>
+     *      <li>`php` - (array) An array holding requirement information.
+     *           <ul>
+     *               <li><code>version</code> - (string) a version number to be required. e.g. `1.5.0`, `15.6RC01`</li>
+     *               <li><code>error</code> - (string) an error message to display to the user. Use a placeholder (`%1$s`) for the version set with the `version` argument to be embedded. e.g. `The plugin requires the PHP version %1$s or higher.`</li>
+     *           </ul>
+     *      </li>
+     *      <li>`wordpress` - (array) An array holding requirement information.
+     *           <ul>
+     *               <li><code>version</code> - (string) a version number to be required. e.g. `1.5.0`, `15.6RC01`</li>
+     *               <li><code>error</code> - (string) an error message to display to the user. Use a placeholder (`%1$s`) for the version set with the `version` argument to be embedded. e.g. `The plugin requires the WordPress version %1$s or higher.`</li>
+     *           </ul>
+     *      </li>
+     *      <li>`mysql` - (array) An array holding requirement information.
+     *           <ul>
+     *               <li><code>version</code> - (string) a version number to be required. e.g. `1.5.0`, `15.6RC01`</li>
+     *               <li><code>error</code> - (string) an error message to display to the user. Use a placeholder (`%1$s`) for the version set with the `version` argument to be embedded. e.g. `The plugin requires the MySQL version %1$s or higher.`</li>
+     *           </ul>
+     *      </li>
+     *      <li><code>functions</code> - (array) An array holding required function names in the keys and the message in the values. e.g. `array( 'my_custom_func_in_other_script' => 'The function %1$s is missing. Please install the other script.' )`</li>
+     *      <li><code>classes</code> - (array) An array holding required class names in the keys and the message in the values. e.g. `array( 'DOMDocument' => 'The plugin requires the DOMXML extension.' )`</li>
+     *      <li><code>constants</code> - (array) An array holding required constants in the keys and the message in the values. e.g. `array( 'APSPATH' => 'The script cannot be loaded directly.' )`</li>
+     *      <li><code>files</code> - (array) An array holding required file paths in the keys and the message in the values. e.g. `array( 'home/my_user_name/my_dir/scripts/my_scripts.php' => 'The required script could not be found.' )`</li>
+     * </ul>
+     * @param       string      $sScriptName        The script name.      
      */ 
     public function __construct( array $aRequirements=array(), $sScriptName='' ) {
         
@@ -97,6 +157,7 @@ class AdminPageFramework_Requirement {
      * Performs checks.
      * 
      * If it is not empty, it means there is a missing requirement.
+     * 
      * @since       3.4.6
      * @return      integer         The number of warnings.
      */
@@ -154,6 +215,7 @@ class AdminPageFramework_Requirement {
          * 
          * @return      boolean     True if the given version is greater or equal to the current version. Otherwise, false.
          * @since       3.4.6
+         * @internal
          */
         private function _checkPHPVersion( $sPHPVersion ) {
             return version_compare( phpversion(), $sPHPVersion, ">=" );
@@ -162,6 +224,7 @@ class AdminPageFramework_Requirement {
         /**
          * Checks if the given version is greater than or equal to the installed WordPress verison.
          * @since       3.4.6
+         * @internal
          */
         private function _checkWordPressVersion( $sWordPressVersion ) {
             return version_compare( $GLOBALS['wp_version'], $sWordPressVersion, ">=" );
@@ -170,6 +233,7 @@ class AdminPageFramework_Requirement {
         /**
          * Checks if the given version is greater than or equal to the installed MySQL version.
          * @since       3.4.6
+         * @internal
          */
         private function _checkMySQLVersion( $sMySQLVersion ) {
             
@@ -187,6 +251,7 @@ class AdminPageFramework_Requirement {
         /**
          * Checks if the given classes exists.
          * @since       3.4.6
+         * @internal
          */
         private function _checkClasses( $aClasses ) {
             return empty( $aClasses )
@@ -196,6 +261,7 @@ class AdminPageFramework_Requirement {
         /**
          * Checks if the given functions exists
          * @since       3.4.6
+         * @internal
          */
         private function _checkFunctions( $aFunctions ) {
             return empty( $aFunctions )
@@ -205,6 +271,7 @@ class AdminPageFramework_Requirement {
         /**
          * Checks if the given constants are defined.
          * @since       3.4.6
+         * @internal
          */
         private function _checkConstants( $aConstants ) {
             return empty( $aConstants )
@@ -214,6 +281,7 @@ class AdminPageFramework_Requirement {
         /**
          * Checks if the given files exist.
          * @since       3.4.6
+         * @internal
          */
         private function _checkFiles( $aFilePaths ) {
             return empty( $aFilePaths )
@@ -227,6 +295,7 @@ class AdminPageFramework_Requirement {
              * 
              * @since       3.4.6
              * @return      array           The warning array.
+             * @internal
              */
             private function _getWarningsByFunctionName( $sFuncName, $aSubjects ) {
                 $_aWarnings = array();
@@ -242,6 +311,7 @@ class AdminPageFramework_Requirement {
      * Sets up admin notices to display warnings.
      * 
      * @since       3.4.6
+     * @internal
      */
     public function setAdminNotices() {
         add_action( 'admin_notices', array( $this, '_replyToPrintAdminNotices' ) );
@@ -249,6 +319,7 @@ class AdminPageFramework_Requirement {
         /**
          * Prints warnings.
          * @since       3.4.6
+         * @internal
          */    
         public function _replyToPrintAdminNotices() {
             
@@ -267,6 +338,7 @@ class AdminPageFramework_Requirement {
              * Returns the warnings.
              * 
              * @since        3.4.6
+             * @internal
              */
             private function _getWarnings() {
 
@@ -285,6 +357,10 @@ class AdminPageFramework_Requirement {
     /**
      * Deactivates the plugin.
      * @since       3.4.6
+     * @param       string      $sPluginFilePath    A plugin main file path.
+     * @param       string      $sMessage           A message to be displayed to the user.
+     * @param       boolean     $bIsOnActivation    Whether it is called upon plugin activation hook. 
+     * @return      void
      */
     public function deactivatePlugin( $sPluginFilePath, $sMessage='', $bIsOnActivation=false ) {
         

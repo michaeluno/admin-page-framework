@@ -13,7 +13,7 @@
  * @since           3.7.1
  * @extends         AdminPageFramework_WPUtility
  * @package         AdminPageFramework
- * @subpackage      Utility
+ * @subpackage      Common/Utility
  * @internal
  */
 class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
@@ -23,6 +23,7 @@ class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
      * 
      * @since       3.7.4
      * @return      void
+     * @internal
      */
     static public function sortAdminSubMenu() {
         
@@ -46,6 +47,12 @@ class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
      * 
      * This is used by field type definition classes to determine whether their required framework version is used or not.
      * 
+     * <h3>Example</h3>
+     * <code>
+     * $oUtil    = AdminPageFramework_FrameworkUtility;
+     * $sVersion = $oUtil->getFrameworkVersion();
+     * </code>
+     * 
      * @since       3.7.1
      * @since       3.7.2       Added the `$bTrimDevVer` parameter.
      * @param       boolean     $bTrimDevVer           Whether the `.dev` suffix should be removed or not.
@@ -60,6 +67,13 @@ class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
     
     /**
      * Return the framework name.
+     * 
+     * <h3>Example</h3>
+     * <code>
+     * $oUtil    = AdminPageFramework_FrameworkUtility;
+     * $sVersion = $oUtil->getFrameworkName();
+     * </code>
+     * 
      * @since       3.7.1
      * @return      string
      */

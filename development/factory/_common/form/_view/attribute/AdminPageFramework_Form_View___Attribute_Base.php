@@ -8,14 +8,14 @@
  */
 
 /**
- * Provides abstract methods to format HTML attributes.
+ * Provides abstract methods to format and generate HTML attributes.
  * 
  * @package     AdminPageFramework
- * @subpackage  Attribute
+ * @subpackage  Common/Form/View/Attribute
  * @since       3.6.0
  * @since       3.8.0       Changed the extending class from `AdminPageFramework_FrameworkUtility` as some extended classes use form specific common methods.
- * @internal
  * @extends     AdminPageFramework_Form_Utility
+ * @internal
  */
 abstract class AdminPageFramework_Form_View___Attribute_Base extends AdminPageFramework_Form_Utility {
  

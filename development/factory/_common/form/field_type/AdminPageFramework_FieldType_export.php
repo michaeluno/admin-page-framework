@@ -10,10 +10,42 @@
 /**
  * Defines the export field type.
  * 
+ * <h2>Field Definition Arguments</h2>
+ * <h3>Field Type Specific Arguments</h3>
+ *  <ul>
+ *      <li>**file_name** - (optional, string) the file name to download.</li>
+ *      <li>**format** - (optional, string) the format type. `array`, `json`, or `text` is supported. Default: `array`.</li>
+ *      <li>**data** - (optional, string|array|object ) the data to export.</li>
+ *  </ul>
+ * 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * <code>
+ *  array(
+ *      'field_id'      => 'export_single',
+ *      'type'          => 'export',
+ *      'description'   => __( 'Download the saved option data.', 'admin-page-framework-loader' ),
+ *  )
+ * </code>
+ * <h3>Export Custom Data</h3>
+ * <code>
+ *  array( 
+ *      'field_id'      => 'export_custom_data',
+ *      'title'         => __( 'Custom Exporting Data', 'admin-page-framework-loader' ),
+ *      'type'          => 'export',
+ *      'data'          => __( 'Hello World! This is custom export data.', 'admin-page-framework-loader' ),
+ *      'file_name'     => 'hello_world.txt',
+ *      'label'         => __( 'Export Custom Data', 'admin-page-framework-loader' ),
+ *      'description'   => __( 'It is possible to set custom data to be downloaded. For that, use the <code>data</code> argument in the field definition array.', 'admin-page-framework-loader' ),    
+ *  )
+ * </code>
+ *
+ * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/export.png
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @since           2.1.5
- * @internal
  */
 class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_submit {
     
@@ -41,6 +73,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToFieldLoader()`.
+     * @internal
      */ 
     protected function setUp() {}
     
@@ -49,6 +82,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
+     * @internal
      */ 
     protected function getScripts() {
         return "";     
@@ -59,6 +93,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
+     * @internal
      */ 
     protected function getStyles() { return ""; }
     
@@ -67,6 +102,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
      * 
      * @since       2.1.5       Moved from the AdminPageFramework_FormField class. The name was changed from getHiddenField().
      * @since       3.3.1       Changed from `_replyToGetField()`.
+     * @internal
      */
     protected function getField( $aField ) {
             
@@ -88,6 +124,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
      * Returns the output of hidden fields for this field type that enables custom submit buttons.
      * 
      * @since 3.0.0
+     * @internal
      */
     protected function _getExtraInputFields( &$aField ) {
 
@@ -140,6 +177,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
          * @remark Currently only array, text or json is supported.
          * @since 2.0.0
          * @since 2.1.5 Moved from the AdminPageFramework_FormField class.
+         * @internal
          */ 
         private function _generateExportFileName( $sOptionKey, $sExportFormat='json' ) {
                 

@@ -8,15 +8,31 @@
  */
 
 /**
- * Defines the text field type.
+ * A text field that lets the user set short text values. 
  * 
- * Also the field types of 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', and 'week' are defeined.
+ * This class defines the `text` field type. Also the field types of 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', and 'week' are defined.
  * 
+ * <h3>Example</h3>
+ * <code>
+ *  array( 
+ *      'field_id'          => 'text',
+ *      'title'             => __( 'Text', 'admin-page-framework-loader' ),
+ *      'type'              => 'text',
+ *      'default'           => 123456,
+ *      'attributes'        => array(
+ *          'size' => 40,
+ *          'placeholder' => __( 'Type something here.', 'admin-page-framework-loader' ),
+ *      ),
+ *  )
+ * </code>
+ * 
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/text_field_type.png
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @since           2.1.5
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
- * @internal
  */
 class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
     
@@ -28,7 +44,7 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
     /**
      * Defines the default key-values of this field type. 
      * 
-     * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
+     * @remark `$_aDefaultKeys` holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
     );
@@ -62,6 +78,7 @@ CSSRULES;
      * @since       2.1.5
      * @since       3.0.0       Removed unnecessary parameters.
      * @since       3.3.1       Changed from `_replyToGetField()`.
+     * @internal
      */
     protected function getField( $aField ) {
 
@@ -81,8 +98,9 @@ CSSRULES;
     }
 
         /**
-         * 
+         * @internal
          * @since       3.5.8
+         * @return      string
          */
         private function _getFieldOutputByLabel( $sKey, $sLabel, $aField ) {
 

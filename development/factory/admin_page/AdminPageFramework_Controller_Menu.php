@@ -16,7 +16,7 @@
  * @since           3.6.3       Changed the name from `AdminPageFramework_Menu_Controller`.
  * @extends         AdminPageFramework_View_Menu
  * @package         AdminPageFramework
- * @subpackage      AdminPage
+ * @subpackage      Factory/AdminPage
  */
 abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_View_Menu {
        
@@ -58,7 +58,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      *     plugins_url( 'image/screen_icon32x32.jpg', __FILE__ )
      * );</code>
      * 
-     * @acecss      public
+     * @access      public
      * @since       2.0.0
      * @since       2.1.6       The $sIcon16x16 parameter accepts a file path.
      * @since       3.0.0       The scope was changed to public from protected.
@@ -136,7 +136,8 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
     * It supports pages and links. Each of them has the specific array structure.
     * 
     * <h4>Example</h4>
-    * <code>$this->addSubMenuItems(
+    * <code>
+    * $this->addSubMenuItems(
     *       array(
     *           'title'         => 'Various Form Fields',
     *           'page_slug'     => 'first_page',
@@ -152,7 +153,8 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
     *           'href'          => 'http://www.google.com',    
     *           'show_page_heading_tab' => false, // this removes the title from the page heading tabs.
     *       )
-    * );</code>
+    * );
+    * </code>
     * 
     * @since        2.0.0
     * @since        3.0.0       Changed the scope to public.
@@ -176,13 +178,15 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
     * It supports pages and links. Each of them has the specific array structure.
     * 
     * <h4>Example</h4>
-    * <code>$this->addSubMenuItem(
+    * <code>
+    * $this->addSubMenuItem(
     *       array(
     *           'title'         => 'Read Me',
     *           'menu_title'    => 'About'
     *           'page_slug'     => 'my_plugin_readme',
     *       )
-    * );</code>
+    * );
+    * </code>
     * 
     * @since        2.0.0
     * @since        3.0.0       Changed the scope to public.
@@ -263,7 +267,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
     /**
      * Adds sub-menu pages.
      * 
-     * It is recommended to use addSubMenuItems() instead, which supports external links.
+     * It is recommended using {@link addSubMenuItems()} instead, which supports external links.
      * 
      * @since       2.0.0
      * @since       3.0.0       The scope was changed to public from protected.

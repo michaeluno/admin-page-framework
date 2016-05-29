@@ -12,7 +12,7 @@
  *  
  * @since       3.0.0
  * @package     AdminPageFramework
- * @subpackage  Property
+ * @subpackage  Factory/TaxonomyField/Property
  * @extends     AdminPageFramework_Property_post_meta_box
  * @internal
  */

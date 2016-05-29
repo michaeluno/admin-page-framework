@@ -8,7 +8,7 @@
  */
 
 /**
- * Provides methods for rendering form input fields.
+ * Provides methods for rendering form input field-sets.
  *
  * @since       2.0.0
  * @since       2.0.1       Added the <em>size</em> type.
@@ -16,7 +16,7 @@
  * @since       3.6.0       Changed the name from `AdminPageFramework_FormField`.
  * @extends     AdminPageFramework_FormField_Base
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/View/Field
  * @internal
  */
 class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_View___Fieldset_Base {

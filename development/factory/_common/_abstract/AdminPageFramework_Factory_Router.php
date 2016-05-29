@@ -15,7 +15,7 @@
  * @abstract
  * @since       3.0.4
  * @package     AdminPageFramework
- * @subpackage  Factory
+ * @subpackage  Common/Factory
  * @internal
  */
 abstract class AdminPageFramework_Factory_Router {

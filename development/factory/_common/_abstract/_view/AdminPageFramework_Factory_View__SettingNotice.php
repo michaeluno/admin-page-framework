@@ -12,7 +12,7 @@
  * 
  * @since       3.7.0
  * @package     AdminPageFramework
- * @subpackage  Factory
+ * @subpackage  Common/Factory
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
  */

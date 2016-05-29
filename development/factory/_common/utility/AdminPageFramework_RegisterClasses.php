@@ -12,26 +12,55 @@
 /**
  * Registers classes in the given directory to be auto-loaded.
  * 
+ * <h2>Usage</h2>
+ * Pass the scanning directory path or a list of class files to the class constructor and it will register the classes to be auto-loaded.
+ * To set a class file path array, the structure must be consist of elements of a key-value pair of a file path and the key of the class name.
+ * 
+ * <code>
+ * new RegisterClasses( array( $sMyDirPath, $sAnotherDirPath ), $aOptions=array(), $aFlassFilePaths=array() );
+ * </code>
+ * 
+ * <h2>Example</h2>
+ * <code>
+ * $aClassFiles = array( 
+ *     "AdminPageFramework"	=> $sDirPath . "/factory/admin_page/AdminPageFramework.php",
+ *     "AdminPageFramework_Controller" => $sDirPath . "/factory/admin_page/AdminPageFramework_Controller.php",
+ *     "AdminPageFramework_Controller_Form"	=> $sDirPath . "/factory/admin_page/AdminPageFramework_Controller_Form.php",
+ *     "AdminPageFramework_Controller_Menu"	=> $sDirPath . "/factory/admin_page/AdminPageFramework_Controller_Menu.php",
+ *     "AdminPageFramework_Controller_Page"	=> $sDirPath . "/factory/admin_page/AdminPageFramework_Controller_Page.php",
+ *  );
+ * new AdminPageFramework_RegisterClasses(
+ *     '', // the scanning directory - do not scan anything
+ *     array(
+ *         'exclude_class_names'   => array(
+ *             'AdminPageFramework_MinifiedVersionHeader',
+ *             'AdminPageFramework_BeautifiedVersionHeader',
+ *         ),
+ *     ),
+ *     $aClassFiles    // a class list array
+ * );       
+ * // Then the registered classes can be instantiated without including them as they are all handled by the auto-loader.
+ * $_oAdminPage = new AdminPageFramework( ... );  
+ * </code>
+ * 
+ * See the `__construct()` method below for the details of arguments.
+ * 
  * @since       3.0.0
  * @package     AdminPageFramework
- * @subpackage  Utility
- * @internal
+ * @subpackage  Common/Utility
  * @version     1.0.0
- * @example
- * `
- * new RegisterClasses( array( $sMyDirPath, $sAnotherDirPath ) );
- * `
  */
 class AdminPageFramework_RegisterClasses {
     
     /**
      * Stores the registered classes with the key of the class name and the value of the file path.
+     * @var     array
      */
     public $_aClasses = array();
     
     /**
      * Represents the structure of the recursive option array.
-     * 
+     * @var     array
      */
     static protected $_aStructure_Options = array(
         'is_recursive'          => true,
@@ -44,28 +73,39 @@ class AdminPageFramework_RegisterClasses {
     
     /**
      * Sets up properties and performs registering classes.
+     *
      * 
-     * param    array|string       $asScanDirPath       the target directory path to scan
-     * param    array              $aOptions            The recursive settings
+     * @param    array|string       $asScanDirPath       the target directory path to scan
+     * @param    array              $aOptions            The recursive settings.
+     * <ul>
+     *      <li><code>is_recursive</code> - (boolean) determines whether the scan should be performed recursively.</li>
+     *      <li><code>exclude_dir_paths</code> - (array) An array holding excluding directory paths without an ending slash.</li>
+     *      <li><code>exclude_dir_names</code> - (array) An array holding excluding directory names.</li>
+     *      <li><code>allowed_extensions</code> - (array) An array holding allowed file extensions without a starting dot. e.g. array( 'php', 'inc' )</li>
+     * </ul>
+     * 
      * <code>
      *  array(
-     *      'is_recursive'       => true, // determines whether the scan should be performed recursively.
-     *      'exclude_dir_paths'  => array(), // set excluding directory paths without ending slash with numeric keys.
-     *      'exclude_dir_names'  => array(), // set excluding directory names.
+     *      'is_recursive'       => true, 
+     *      'exclude_dir_paths'  => array(), 
+     *      'exclude_dir_names'  => array(), 
      *      'allowed_extensions' => array(),
      *  )
      * </code>
-     * param    array              $aClasses            the link to the array storing registered classes outside this object.
-     * The structure of %aClasses must be consist of elements of a key-value pair of a file path and the key of the class name.
+     * 
+     * @param    array              $aClasses            the link to the array storing registered classes outside this object.
+     * The structure of `$aClasses` must be consist of elements of a key-value pair of a file path and the key of the class name.
+     * 
      * <code>
      * array(
-     *     'MyClassName' => 'MyClassName.php',
+     *     'MyClassName'  => 'MyClassName.php',
      *     'MyClassName2' => 'MyClassName2.php',
      * )
      * </code>
+     * 
      * @remark The directory paths set for the 'exclude_dir_paths' option should use the system directory separator.
      */
-    function __construct( $asScanDirPaths, array $aOptions=array(), array $aClasses=array() ) {
+    public function __construct( $asScanDirPaths, array $aOptions=array(), array $aClasses=array() ) {
         
         $_aOptions = $aOptions + self::$_aStructure_Options;
         $this->_aClasses   = $aClasses + $this->_getClassArray( $asScanDirPaths, $_aOptions );
@@ -86,6 +126,7 @@ class AdminPageFramework_RegisterClasses {
      *      ... 
      * )
      * `
+     * @internal
      */
     private function _getClassArray( $asScanDirPaths, array $aSearchOptions ) {
         
@@ -131,6 +172,7 @@ class AdminPageFramework_RegisterClasses {
          *    2 => string '.../class/MyClass3.php'
          *    ...
          * 
+         * @internal
          */
         protected function getFilePaths( $sClassDirPath, array $aSearchOptions ) {
             
@@ -164,6 +206,7 @@ class AdminPageFramework_RegisterClasses {
     
         /**
          * Constructs the file pattern of the file extension part used for the glob() function with the given file extensions.
+         * @internal
          */
         protected function _getGlobPatternExtensionPart( array $aExtensions=array( 'php', 'inc' ) ) {
             return empty( $aExtensions ) 
@@ -173,6 +216,7 @@ class AdminPageFramework_RegisterClasses {
         
         /**
          * The recursive version of the glob() function.
+         * @internal
          */
         protected function doRecursiveGlob( $sPathPatten, $nFlags=0, array $aExcludeDirs=array(), array $aExcludeDirNames=array() ) {
 
@@ -196,14 +240,17 @@ class AdminPageFramework_RegisterClasses {
      * Performs registration of the callback.
      * 
      * This registers the method to be triggered when an unknown class is instantiated. 
-     * 
+     * @internal
+     * @return      void
      */
     protected function _registerClasses( $sIncludeFunction ) {
         spl_autoload_register( array( $this, '_replyToAutoLoad_' . $sIncludeFunction ) );
     }    
-        /**
+        /**#@+
          * Responds to the PHP auto-loader and includes the passed class based on the previously stored path associated with the class name in the constructor.
-         */
+         * @internal
+         * @return      void
+         */        
         public function _replyToAutoLoad_include( $sCalledUnknownClassName ) {            
             if ( ! isset( $this->_aClasses[ $sCalledUnknownClassName ] ) ) { 
                 return; 
@@ -228,5 +275,5 @@ class AdminPageFramework_RegisterClasses {
             }
             require_once( $this->_aClasses[ $sCalledUnknownClassName ] );
         } 
-    
+        /**#@-*/
 }

@@ -11,7 +11,7 @@
  * Provides methods that generates flat field input name.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Common/Form/View/Generator
  * @since       3.6.0
  * @internal
  */

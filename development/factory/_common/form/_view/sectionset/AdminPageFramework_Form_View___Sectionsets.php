@@ -11,8 +11,9 @@
  * Provides methods to render forms.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/View/Section
  * @since       3.7.0
+ * @internal
  */
 class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form_View___Section_Base {
 

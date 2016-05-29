@@ -11,26 +11,30 @@
 /**
  * Displays pointer tool boxes in the admin area.
  * 
- * Usage:
+ * This is useful when you want to direct users' attentions to a certain part of a page.
+ *
+ * <h2>Usage</h2>
+ * Instantiate this class by passing arguments to the constructor. For arguments, see the `__construct()` method below.
  * 
- * `
+ * <h2>Example</h2>
+ * <code>
  * new AdminPageFramework_PointerToolTip(
- *     'post',  // screen id or page slug
+ *     'post',   // screen id or page slug
  *     'xyz140', // unique id for the pointer tool box
- *     array(  // pointer data
+ *     array(    // pointer data
  *         'target'    => '#change-permalinks',
  *         'options'   => array(
  *             'content' => sprintf( '<h3> %s </h3> <p> %s </p>',
  *                 __( 'Title' ,'plugindomain'), 
- *                 __( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.','plugindomain')
+ *                 __( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'plugindomain' )
  *             ),
  *             'position'  => array( 'edge' => 'top', 'align' => 'middle' )
  *         )
  *     )
  * );  
- *  
- * `
+ * </code>
  * 
+ * @image       http://admin-page-framework.michaeluno.jp/image/utility/pointer_tool_tip.png
  * @since       3.7.0
  * @package     AdminPageFramework
  * @subpackage  Utility
@@ -51,7 +55,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
     public $sPointerID;
     
     /**
-     * Stores the pointer tool box defintion for the class instance.
+     * Stores the pointer tool box definition for the class instance.
      */
     public $aPointerData;
     
@@ -68,7 +72,22 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
      * @see         https://codex.wordpress.org/Plugin_API/Admin_Screen_Reference
      * @param       array|strin     $asScreenIDs        Screen IDs or page slug.
      * @param       string          $sPointerID         A unique pointer ID.
-     * @Param       array           $aPointerData       The pointer data.
+     * @param       array           $aPointerData       The pointer data.
+     * <h4>Arguments</h4>
+     * <ul>
+     *      <li><code>target</code> - (string) a selector for the target element that the pointer tooltip points to. e.g. `#my-selector-id`, `.my-selector-class`</li>
+     *      <li><code>options</code> - (array) an array holding additional option arguments.
+     *          <ul>
+     *              <li><code>content</code> - (string) The contents of the pointer tooltip box.</li>
+     *              <li><code>position</code> - (array) An array holding the position information with the following arguments. e.g. `array( 'edge' => 'top', 'align' => 'middle' )`
+     *                  <ul>
+     *                      <li><code>edge</code> - the edge position the target element is attached to. Accepts `left`, `right`, `top`, or `bottom`.</li>
+     *                      <li><code>align</code> - the alignment position that the target element is attacked to. Accepts `top`, `bottom`, `left`, `right`, or `middle`.</li>
+     *                  </ul>
+     *              </li>
+     *          </ul>
+     *      </li>
+     * </ul>
      */
     public function __construct( $asScreenIDs, $sPointerID, array $aPointerData ) {
 
@@ -88,6 +107,8 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         /**
          * Sets up hooks.
          * @since       3.7.0
+         * @internal
+         * @return      void
          */
         private function _setHooks( $aScreenIDs ) {
             
@@ -116,6 +137,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         }    
             /**
              * @return      boolean
+             * @internal
              */
             private function _hasBeenCalled() {
                 if ( self::$_bResourceLoaded ) {
@@ -128,6 +150,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         /**
          * @callback    filter      {class name}-{screen id}
          * @return      array
+         * @internal
          */
         public function _replyToSetPointer( $aPointers ) {
             return array(
@@ -141,6 +164,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
      * @callback    action      admin_enqueue_scripts
      * @since       3.7.0
      * @return      void
+     * @internal
      */
     public function _replyToLoadPointers( /* $hook_suffix */ ) {
     
@@ -159,6 +183,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
          * Get pointers for this screen.
          * @since       3.7.0
          * @return      array
+         * @internal
          */
         private function _getPointers() {
             
@@ -178,6 +203,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         /**
          * @return      array
          * @since       3.7.0
+         * @internal
          */
         private function _getValidPointers( $_aPointers ) {
         
@@ -220,6 +246,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
             /**
              * @return      boolean
              * @since       3.7.0
+             * @internal
              */
             private function _shouldSkip( $_iPointerID, $_aDismissed, $_aPointer ) {
                 
@@ -244,6 +271,8 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         
         /**
          * Enqueues scripts.
+         * @internal
+         * @return      void
          */
         private function _enqueueScripts() {
                
@@ -264,6 +293,8 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
     /**
      * @since       3.7.0
      * @callback    action      admin_print_footer_scripts
+     * @return      void
+     * @internal
      */
     public function _replyToInsertInlineScript() {
    
@@ -278,14 +309,15 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
          * Returns an inline JavaScript script.
          * 
          * @since       3.7.0
-         * @return      string     
+         * @return      string  
+         * @internal
          */
         public function _getInlineScript( $aPointers=array() ) {
 
             $_aJSArray      = json_encode( $aPointers );
 
             /**
-             * Checks checkboxes in siblings.
+             * Checks check-boxes in siblings.
              */
             return <<<JAVASCRIPTS
 ( function( jQuery ) {

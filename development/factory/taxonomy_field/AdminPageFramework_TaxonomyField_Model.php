@@ -13,7 +13,7 @@
  * @abstract
  * @since           3.5.0
  * @package         AdminPageFramework
- * @subpackage      TaxonomyField
+ * @subpackage      Factory/TaxonomyField
  */
 abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework_TaxonomyField_Router {
 

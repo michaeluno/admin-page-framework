@@ -12,7 +12,7 @@
  *  
  * @since       3.5.0
  * @package     AdminPageFramework
- * @subpackage  Property
+ * @subpackage  Factory/UserMeta/Property
  * @extends     AdminPageFramework_Property_post_meta_box
  * @internal
  */

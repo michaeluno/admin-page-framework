@@ -15,7 +15,7 @@
  * @abstract
  * @since           3.0.4
  * @package         AdminPageFramework
- * @subpackage      PostType
+ * @subpackage      Factory/PostType
  * @internal
  */
 abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_PostType_Router {    

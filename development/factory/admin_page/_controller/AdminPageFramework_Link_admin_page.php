@@ -13,10 +13,10 @@
  * Embeds links in the footer and plugin's listing table etc.
  * 
  * @since           2.0.0
- * @since           3.0.0       Changed the name to `AdminPageFramework_Link_admin_page_Page` from `AdminPageFramework_Link_admin_page`.
+ * @since           3.0.0       Renamed.
  * @extends         AdminPageFramework_Link_Base
  * @package         AdminPageFramework
- * @subpackage      Link
+ * @subpackage      Factory/AdminPage/Link
  * @internal
  */
 class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
@@ -33,6 +33,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
      * 
      * @since           3.1.3
      * @callback        action      in_admin_footer
+     * @return          void
      */
     public function _replyToSetFooterInfo() {
 
@@ -52,6 +53,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
      * 
      * Used by the user to add action links to the plugin description column of the plugin listing table.
      * @internal
+     * @return      void
      */
     public function _addLinkToPluginDescription( $asLinks ) {
         
@@ -78,6 +80,8 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
      * 
      * Used by the user to add custom action links to the title column of plugin listing table.
      * 
+     * @internal
+     * @return      void
      */    
     public function _addLinkToPluginTitle( $asLinks ) {
         
@@ -98,6 +102,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
          * 
          * @remark      The network admin uses a different one and the network admin class will override this value.
          * @since       3.5.5
+         * @internal
          */
         protected $_sFilterSuffix_PluginActionLinks = 'plugin_action_links_';
     
@@ -127,6 +132,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
      * @since       2.0.0
      * @callback    filter      admin_footer_text
      * @return      string
+     * @internal
      */ 
     public function _replyToAddInfoInFooterLeft( $sLinkHTML='' ) {
 
@@ -162,6 +168,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
      * @since       2.0.0
      * @callback    filter      update_footer
      * @return      string
+     * @internal
      */
     public function _replyToAddInfoInFooterRight( $sLinkHTML='' ) {
 
@@ -193,6 +200,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
          * 
          * @since       3.5.5
          * @return      boolean
+         * @internal
          */
         private function _isPageAdded() {
             
@@ -207,6 +215,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
      * 
      * @callback    filter      plugin_action_links_{plugin base name}
      * @return      array
+     * @internal
      */
     public function _replyToAddSettingsLinkInPluginListingPage( $aLinks ) {
          
@@ -257,6 +266,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
      * 
      * @callback    filter      plugin_row_meta
      * @return      array
+     * @internal
      */
     public function _replyToAddLinkToPluginDescription( $aLinks, $sFile ) {
 
@@ -287,6 +297,7 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
      * @callback    filter      plugin_action_links_{plugin base name}
      * @since       unknown
      * @since       3.7.11      Renamed from `_replyToAddLinkToPluginTitle`.
+     * @internal
      */
     public function _replyToAddPluginActionLinks( $aLinks ) {
 

@@ -8,13 +8,31 @@
  */
 
 /**
- * Defines the hidden field type.
+ * A field with invisible input values.
  * 
+ * This defines the hidden field type.
+ * 
+ * <h2>Field Definition Arguments</h2>
+ * 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * <code>
+ *  array( 
+ *      'field_id'      => 'hidden_single',
+ *      'title'         => __( 'Hidden Field', 'admin-page-framework-loader' ),
+ *      'type'          => 'hidden',
+ *      'default'       => __( 'Test value', 'admin-page-framework-loader' ),
+ *      'label'         => __( 'Test label', 'admin-page-framework-loader' ),
+ *  ),
+ * </code>
+ * 
+ * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/hidden.png
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @since           2.1.5
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
- * @internal
  */
 class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType {
     
@@ -36,7 +54,8 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType {
      * @since       2.0.0
      * @since       2.1.5       Moved from the AdminPageFramework_FormField class. The name was changed from getHiddenField().
      * @since       3.0.0       Removed unnecessary elements including the parameters.
-     * @sicne       3.3.1       Changed from `_replyToGetField`.
+     * @since       3.3.1       Changed from `_replyToGetField`.
+     * @internal
      */
     protected function getField( $aField ) {
 

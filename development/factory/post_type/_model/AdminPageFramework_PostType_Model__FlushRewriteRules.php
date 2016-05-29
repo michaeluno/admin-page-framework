@@ -12,7 +12,7 @@
  * 
  * @since           3.7.6
  * @package         AdminPageFramework
- * @subpackage      PostType
+ * @subpackage      Factory/PostType
  * @internal
  */
 class AdminPageFramework_PostType_Model__FlushRewriteRules extends AdminPageFramework_FrameworkUtility {

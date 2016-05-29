@@ -8,12 +8,29 @@
  */
 
 /**
- * Defines the file field type.
+ * A file uploader that lets the user upload files.
  * 
+ * This class defines the file field type.
+ * 
+ * <h2>Field Definition Arguments</h2>
+ * 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * <code>
+ *  array( 
+ *      'field_id'              => 'file_single',
+ *      'title'                 => __( 'File', 'admin-page-framework-loader' ),
+ *      'type'                  => 'file',
+ *      'label'                 => __( 'Select the file', 'admin-page-framework-loader' ) . ": ",
+ *  ),     
+ * </code>
+ * 
+ * @image       http://admin-page-framework.michaeluno.jp/image/common/form/field_type/file.png
  * @package     AdminPageFramework
- * @subpackage  FieldType
+ * @subpackage  Common/Form/FieldType
  * @since       2.1.5
- * @internal
  */
 class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_text {
     
@@ -38,6 +55,7 @@ class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_tex
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToFieldLoader()`.
+     * @internal
      */ 
     protected function setUp() {}
     
@@ -46,6 +64,7 @@ class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_tex
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
+     * @internal
      */ 
     protected function getScripts() { return ""; }    
 
@@ -54,6 +73,7 @@ class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_tex
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
+     * @internal
      */ 
     protected function getStyles() { return ""; }
     
@@ -63,6 +83,7 @@ class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_tex
      * @since       2.0.0
      * @since       3.0.0     Reconstructed entirely.
      * @since       3.3.1     Changed from `_replyToGetField()`.
+     * @internal
      */
     protected function getField( $aField ) {
             

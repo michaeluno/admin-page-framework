@@ -8,13 +8,179 @@
  */
 
 /**
- * Defines the submit field type.
+ * Defines the `submit` field type.
  * 
+ * <h2>Field Definition Arguments</h2>
+ * <h3>Field Type Specific Arguments</h3>
+ * <ul>
+ *     <li>**href** - (optional, string) the url(s) linked to the submit button.</li>
+ *     <li>**redirect_url** - (optional, string) the url(s) redirected to after submitting the input form.</li>
+ *     <li>**reset** - [2.1.2+] (optional, boolean|string|array) the option key to delete. Set 1 for the entire option. [3.5.3+] In order to reset a particular field that belongs to a section, set an array representing the dimensional keys such as `array( 'my_sectio_id', 'my_field_id' )`.
+ *      </li>
+ *     <li>**skip_confirmation** - [3.7.6+] (optional, boolean) Whether to skip confirmation. Default: `false`.</li>
+ *     <li>**email** - [3.3.0+] (optional, array) Coming soon...
+ *         <ul>
+ *             <li>**to** - (string|array) the email address to send the email to. For multiple email addressed, set comma delimited items.</li>
+ *             <li>**subject** - (string|array) the email title.</li>
+ *             <li>**message** - (string|array) the email body text.</li>
+ *             <li>**attachments** - (string|array) the file path.</li>
+ *             <li>**name** - (string|array) the sender name.</li>
+ *             <li>**from** - (string|array) the sender email.</li>
+ *             <li>**is_html** - (boolean|array) indicates whether the message should be sent as an html or plain text.</li>
+ *         </ul>
+ *     </li>
+ * </ul>
+ * 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * <code>
+ *  array( 
+ *      'field_id'          => 'submit_button_field',
+ *      'title'             => __( 'Submit Button', 'admin-page-framework-loader' ),
+ *      'type'              => 'submit',
+ *      'save'              => false,
+ *  )
+ * </code>
+ * <h3>Submit Button as a Link</h3>
+ * <code>
+ *  array( 
+ *      'field_id'          => 'submit_button_link',
+ *      'type'              => 'submit',
+ *      'title'             => __( 'Link Button', 'admin-page-framework-loader' ),
+ *      'label'             => 'WordPress',
+ *      'href'              => 'https://wordpress.org',
+ *      'attributes'        => array(
+ *          'class'     => 'button button-secondary',     
+ *          'title'     => __( 'Go to Google!', 'admin-page-framework-loader' ),
+ *          'style'     => 'background-color: #C1DCFA;',
+ *          'field'     => array(
+ *              'style' => 'display: inline; clear: none;',
+ *          ),
+ *      ), 
+ *  )
+ * </code>
+ * <h3>Download Button</h3>
+ * <code>
+ *  array( 
+ *      'field_id'      => 'submit_button_download',
+ *      'title'         => __( 'Download Button', 'admin-page-framework-loader' ),
+ *      'type'          => 'submit',
+ *      'label'         => __( 'Admin Page Framework', 'admin-page-framework-loader' ),
+ *      'href'          => 'http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip',
+ *  ) 
+ * </code>
+ * 
+ * <h3>Redirect Button</h3>
+ * Unlike the `href` argument, with the `redirect` argument, the form data will be saved and the user gets redirected.
+ * <code>
+ *  array( 
+ *      'field_id'      => 'submit_button_redirect',
+ *      'title'         => __( 'Redirect Button', 'admin-page-framework-loader' ),
+ *      'type'          => 'submit',
+ *      'label'         => __( 'Dashboard', 'admin-page-framework-loader' ),
+ *      'redirect_url'  => admin_url(),
+ *      'attributes'    => array(
+ *          'class' => 'button button-secondary',
+ *      ),
+ *  )
+ * </code>
+ *  
+ * <h3>Submit Button with an Image</h3>
+ * Instead of a text label, an image can be used for the button.
+ * <code>
+ *  array( 
+ *      'field_id'          => 'image_submit_button',
+ *      'title'             => __( 'Image Submit Button', 'admin-page-framework-loader' ),
+ *      'type'              => 'submit',
+ *      'href'              => 'http://en.michaeluno.jp/donate',
+ *      'attributes'        =>  array(
+ *         'src'    => AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/image/donation.gif',
+ *         'alt'    => __( 'Submit', 'admin-page-framework-loader' ),
+ *         'class'  => '',
+ *      ),
+ *  )
+ * </code>
+ *
+ * <h3>Reset Button</h3>
+ * With the `reset` argument, the user can reset stored form data.
+ * <code>
+ *  array( 
+ *      'field_id'      => 'submit_button_reset',
+ *      'title'         => __( 'Reset Button', 'admin-page-framework-loader' ),
+ *      'type'          => 'submit',
+ *      'label'         => __( 'Reset', 'admin-page-framework-loader' ),
+ *      'reset'         => true,
+ *      'attributes'    => array(
+ *          'class' => 'button button-secondary',
+ *      ),
+ *  )
+ * </code>
+ *
+ * <h3>Email</h3>
+ * With the `email` argument, the user can send form data as an email.
+ * <code>
+ *  $this->addSettingFields(
+ *      'report',   // section ID
+ *      array( 
+ *          'field_id'          => 'name',
+ *          'title'             => __( 'Your Name', 'admin-page-framework-loader' ),
+ *          'type'              => 'text',
+ *          'attributes'        => array(
+ *              'required'      => 'required',
+ *              'placeholder'   => __( 'Type your name.', 'admin-page-framewrok-demo' ),
+ *          ),
+ *      ),    
+ *      array( 
+ *          'field_id'          => 'from',
+ *          'title'             => __( 'Your Email Address', 'admin-page-framework-loader' ),
+ *          'type'              => 'text',
+ *          'default'           => $_oCurrentUser->user_email,
+ *          'attributes'        => array(
+ *              'required'      => 'required',
+ *              'placeholder'   =>  __( 'Type your email that the developer replies backt to.', 'admin-page-framework-loader' )
+ *          ),
+ *      ),                
+ *      array( 
+ *          'field_id'          => 'message',
+ *          'title'             => __( 'Message', 'admin-page-framework-loader' ),
+ *          'type'              => 'textarea',
+ *          'attributes'        => array(
+ *              'required'  => 'required',
+ *          ),
+ *      ),  
+ *
+ *      array( 
+ *          'field_id'          => 'send',
+ *          'type'              => 'submit',
+ *          'label_min_width'   => 0,
+ *          'value'             => $oFactory->oUtil->getAOrB(
+ *              'email' === $oFactory->oUtil->getElement( $_GET, 'confirmation' ),
+ *              __( 'Send', 'admin-page-framework-demo' ),
+ *              __( 'Preview', 'admin-page-framework-demo' )
+ *          ), 
+ *          'email'             => array(
+ *              // Each argument can accept a string or an array representing the dimensional array key.
+ *              // For example, if there is a field for the email title, and its section id is 'my_section'  and  the field id is 'my_field', pass an array, array( 'my_section', 'my_field' )
+ *              'to'            => 'email-address@your.domain',
+ *              'subject'       => 'Reporting Issue',
+ *              'message'       => array( 'report', 'message' ), // the section name enclosed in an array. If it is a field, set it to the second element like array( 'seciton id', 'field id' ).
+ *              'headers'       => '',
+ *              'attachments'   => '', // the file path(s)
+ *              'name'          => '', // The email sender name. If the 'name' argument is empty, the field named 'name' in this section will be applied
+ *              'from'          => '', // The sender email address. If the 'from' argument is empty, the field named 'from' in this section will be applied.
+ *              // 'is_html'       => true,
+ *          ),
+ *      )
+ *  );  
+ * </code>
+ * 
+ * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/submit.png
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @since           2.1.5
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
- * @internal
  */
 class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
     
@@ -53,6 +219,8 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
      * 
      * @since           2.1.5
      * @since           3.3.1           Changed from `_replyToGetStyles()`.
+     * @internal
+     * @return          string
      */ 
     protected function getStyles() {
         return <<<CSSRULES
@@ -68,6 +236,8 @@ CSSRULES;
      * 
      * @since       2.1.5       Moved from `AdminPageFramework_FormField`.
      * @since       3.3.1       Changed from `_replyToGetField()`.
+     * @internal
+     * @return      string
      */
     protected function getField( $aField ) {
         
@@ -92,8 +262,10 @@ CSSRULES;
     }
         /**
          * Returns the formatted field definition array.
+         * 
          * @since       3.5.3
-         * @return      array       The formatted field definitnion array.
+         * @return      array       The formatted field definition array.
+         * @internal
          */
         private function _getFormatedFieldArray( array $aField ) {
             
@@ -109,8 +281,10 @@ CSSRULES;
         }    
         /**
          * Returns the label attribute array.
+         * 
          * @since       3.5.3
          * @return      array       The label attribute array.
+         * @internal
          */            
         private function _getLabelAttributes( array $aField, array $aInputAttributes ) {
             return array(
@@ -125,8 +299,10 @@ CSSRULES;
         }
         /**
          * Returns the label container attribute array.
+         * 
          * @since       3.5.3
          * @return      array       The label container attribute array.
+         * @internal
          */        
         private function _getLabelContainerAttributes( array $aField ) {           
             return array(
@@ -140,8 +316,10 @@ CSSRULES;
         }    
         /**
          * Returns the input attribute array.
+         * 
          * @since       3.5.3
          * @return      array       The input attribute array.
+         * @internal
          */
         private function _getInputAttributes( array $aField ) {
             $_bIsImageButton    = isset( $aField[ 'attributes' ][ 'src' ] ) && filter_var( $aField[ 'attributes' ][ 'src' ], FILTER_VALIDATE_URL );
@@ -163,7 +341,9 @@ CSSRULES;
      * 
      * This is for the import field type that extends this class. The import field type cannot place the file input tag inside the label tag that causes a problem in FireFox.
      * 
-     * @since 3.0.0
+     * @since       3.0.0
+     * @return      string
+     * @internal
      */
     protected function _getExtraFieldsBeforeLabel( &$aField ) {
         return '';     
@@ -171,7 +351,9 @@ CSSRULES;
     
     /**
      * Returns the output of hidden fields for this field type that enables custom submit buttons.
-     * @since 3.0.0
+     * @since       3.0.0
+     * @internal
+     * @return      string
      */
     protected function _getExtraInputFields( &$aField ) {
         
@@ -313,8 +495,10 @@ CSSRULES;
         }
     
         /**
-         * A helper function for the above getSubmitField() that checks if a reset confirmation message has been displayed or not when the 'reset' key is set.
+         * A helper function for the above `getSubmitField()` that checks if a reset confirmation message has been displayed or not when the `reset` key is set.
          * 
+         * @return      boolean
+         * @internal
          */
         private function _checkConfirmationDisplayed( $aField, $sFlatFieldName, $sType='reset' ) {
                             
@@ -351,19 +535,26 @@ CSSRULES;
      * It uses the value set to the <var>label</var> key. 
      * This is for submit buttons including export custom field type that the label should serve as the value.
      * 
-     * @remark  The submit, import, and export field types use this method.
-     * @since   2.0.0
-     * @since   2.1.5 Moved from AdminPageFramwrork_InputField. Changed the scope to protected from private. Removed the second parameter.
+     * @remark      The `submit`, `import`, and `export` field types use this method.
+     * @since       2.0.0
+     * @since       2.1.5       Moved from `AdminPageFramwrork_InputField`. Changed the scope to protected from private. Removed the second parameter.
+     * @internal
      */ 
     protected function _getInputFieldValueFromLabel( $aField ) {    
         
         // If the value key is explicitly set, use it. But the empty string will be ignored.
-        if ( isset( $aField['value'] ) && $aField['value'] != '' ) { return $aField['value']; }
+        if ( isset( $aField[ 'value' ] ) && $aField[ 'value' ] != '' ) { 
+            return $aField[ 'value' ]; 
+        }
         
-        if ( isset( $aField['label'] ) ) { return $aField['label']; }
+        if ( isset( $aField[ 'label' ] ) ) { 
+            return $aField[ 'label' ]; 
+        }
         
         // If the default value is set,
-        if ( isset( $aField['default'] ) ) { return $aField['default']; }
+        if ( isset( $aField[ 'default' ] ) ) { 
+            return $aField[ 'default' ]; 
+        }
         
     }
     

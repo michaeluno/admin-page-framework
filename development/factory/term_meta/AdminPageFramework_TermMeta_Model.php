@@ -13,7 +13,8 @@
  * @abstract
  * @since           3.8.0
  * @package         AdminPageFramework
- * @subpackage      TermMeta
+ * @subpackage      Factory/TermMeta
+ * @internal
  */
 abstract class AdminPageFramework_TermMeta_Model extends AdminPageFramework_TermMeta_Router {
 
@@ -39,6 +40,7 @@ abstract class AdminPageFramework_TermMeta_Model extends AdminPageFramework_Term
      * This class will set the data right before rendering the form fields as there is no way to find the term id.
      * @return      array       The saved form data.
      * @since       3.8.0
+     * @internal
      */
     public function _replyToGetSavedFormData() {
         
@@ -63,9 +65,10 @@ abstract class AdminPageFramework_TermMeta_Model extends AdminPageFramework_Term
         );        
     } 
         /**
-         * Retrieves the term metas with the fieldset keys.
+         * Retrieves the term metas with the field-set keys.
          * @since       3.8.0
          * @return      array
+         * @internal
          */
         private function _getSavedTermMetas( $iTermID, array $aFieldsets ) {
 

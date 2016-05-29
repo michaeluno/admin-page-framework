@@ -14,7 +14,7 @@
  * @since           3.3.1
  * @extends         AdminPageFramework_Controller_Menu
  * @package         AdminPageFramework
- * @subpackage      AdminPage
+ * @subpackage      Factory/AdminPage/Model
  * @internal
  */
 abstract class AdminPageFramework_Model extends AdminPageFramework_Controller_Menu {

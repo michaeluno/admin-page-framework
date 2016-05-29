@@ -11,7 +11,7 @@
  * Provides methods to go to a specified page with a form submit button.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Factory/AdminPage/Model
  * @since       3.6.3
  * @internal
  */

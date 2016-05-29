@@ -75,7 +75,7 @@ $aClassFiles = array(
 	"AdminPageFramework_NetworkAdmin"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/AdminPageFramework_NetworkAdmin.php", 
 	"AdminPageFramework_Form_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/form/AdminPageFramework_Form_network_admin_page.php", 
 	"AdminPageFramework_HelpPane_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/_controller/AdminPageFramework_HelpPane_network_admin_page.php", 
-	"AdminPageFramework_Link_network_acmin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/_controller/AdminPageFramework_Link_network_acmin_page.php", 
+	"AdminPageFramework_Link_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/_controller/AdminPageFramework_Link_network_admin_page.php", 
 	"AdminPageFramework_Resource_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/_controller/AdminPageFramework_Resource_network_admin_page.php", 
 	"AdminPageFramework_Property_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/_model/AdminPageFramework_Property_network_admin_page.php", 
 	"AdminPageFramework_PageLoadInfo_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/_view/AdminPageFramework_PageLoadInfo_network_admin_page.php", 
@@ -321,5 +321,5 @@ $aClassFiles = array(
 	"AdminPageFramework_Requirement"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/requirement/AdminPageFramework_Requirement.php", 
 	"AdminPageFramework_TableOfContents"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/toc/AdminPageFramework_TableOfContents.php", 
 	"AdminPageFramework_Zip"	=>	AdminPageFramework_Registry::$sDirPath . "/utility/zip/AdminPageFramework_Zip.php", 
-	"AdminPageFramework_Link_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/_controller/AdminPageFramework_Link_network_acmin_page.php", 
+	"AdminPageFramework_Link_network_admin_page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/network_admin_page/_controller/AdminPageFramework_Link_network_admin_page.php", 
 );

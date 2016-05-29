@@ -15,7 +15,7 @@
  * @since           3.6.3       Changed the name from `AdminPageFramework_Menu_View`.
  * @extends         AdminPageFramework_Model_Menu
  * @package         AdminPageFramework
- * @subpackage      AdminPage
+ * @subpackage      Factory/AdminPage/View
  * @internal
  */
 abstract class AdminPageFramework_View_Menu extends AdminPageFramework_Model_Menu {}

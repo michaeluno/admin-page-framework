@@ -9,6 +9,82 @@
 /**
  * Provides an abstract base to create a bootstrap class for Wordpress plugins.
  * 
+ * <h3>Usage</h3>
+ * Extend the class and insert your own plugin routine in the `setUp()` method. 
+ * If you have classes you want them to be auto-loaded, override the `getClasses()` method and return an array holding a list of class files. The array should consist of keys of class names and the values of class file paths.
+ * By overriding the `replyToPluginActivation()` method, you can write a handing routine for when the plugin gets activated.
+ * To set localization files, override the `setLocalization()` method and insert your code in the method to set up translation files.
+ * 
+ * There are other methods you can override. All the public methods are meant to be overridden. Check out the public methods below.
+ * 
+ * <h3>Example</h3>
+ * <code>
+ *  final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_PluginBootstrap {
+ *     
+ *      
+ *      // Register classes to be auto-loaded.
+ *      public function getClasses() {
+ *          
+ *          // Include the include lists. The including file reassigns the list(array) to the $_aClassFiles variable.
+ *          $_aClassFiles   = array();
+ *          include( dirname( $this->sFilePath ) . '/include/loader-class-list.php' );
+ *          $this->_aClassFiles = $_aClassFiles;
+ *          return $_aClassFiles;
+ *                  
+ *      }
+ *
+ *      // The plugin activation callback method.
+ *      public function replyToPluginActivation() {
+ *
+ *          // Do plugin requirement checks and deactivate the plugin if necessary.
+ *          $_oRequirementCheck = new AdminPageFramework_Requirement(
+ *              AdminPageFrameworkLoader_Registry::$aRequirements,
+ *              AdminPageFrameworkLoader_Registry::NAME
+ *          );
+ *          
+ *          if ( $_oRequirementCheck->check() ) {            
+ *              $_oRequirementCheck->deactivatePlugin( 
+ *                  $this->sFilePath, 
+ *                  __( 'Deactivating the plugin', 'admin-page-framework-loader' ),  // additional message
+ *                  true    // is in the activation hook. This will exit the script.
+ *              );
+ *          }            
+ *          
+ *      }
+ *                
+ *      // Set localization
+ *      public function setLocalization() {
+ *          
+ *          // This plugin does not have messages to be displayed in the front end.
+ *          if ( ! $this->bIsAdmin ) { 
+ *              return; 
+ *          }
+ *         
+ *          $_sPluginBaseNameDirName = dirname( plugin_basename( $this->sFilePath ) );
+ *          load_plugin_textdomain( 
+ *              AdminPageFrameworkLoader_Registry::TEXT_DOMAIN, 
+ *              false, 
+ *              $_sPluginBaseNameDirName . '/' . AdminPageFrameworkLoader_Registry::TEXT_DOMAIN_PATH
+ *          );
+ *              
+ *          load_plugin_textdomain( 
+ *              'admin-page-framework', 
+ *              false, 
+ *              $_sPluginBaseNameDirName . '/' . AdminPageFrameworkLoader_Registry::TEXT_DOMAIN_PATH
+ *          );        
+ *          
+ *      }        
+ *      
+ *      public function setUp() {
+ *          
+ *          // Do the plugin task
+ *
+ *      }
+ *          
+ *  }
+ *  new AdminPageFrameworkLoader_Bootstrap( PLUGIN_MAIN_FILE_PATH );
+ * </code>
+ * 
  * @action      do      {hook prefix}_action_before_loading_plugin
  * @action      do      {hook prefix}_action_after_loading_plugin
  * @since       3.5.0
@@ -17,21 +93,28 @@
  */
 abstract class AdminPageFramework_PluginBootstrap {
     
+    /**#@+
+     * @internal
+     */    
     /**
      * Stores the caller file path.
+     * @var     string
      */
     public $sFilePath;
     
     /**
      * Stores whether the script is loaded in the admin area.
+     * @var     boolean
      */
     public $bIsAdmin;
     
     /**
      * Stores the hook prefix.
+     * @var     string
      */
     public $sHookPrefix;
-            
+    /**#@-*/
+    
     /**
      * Sets up properties and hooks.
      * 
@@ -96,6 +179,7 @@ abstract class AdminPageFramework_PluginBootstrap {
          * 
          * @remark      It does not use a static property but a static local variable so that it takes effect in each extended class.
          * @since       3.5.0
+         * @internal
          */        
         protected function _hasLoaded() {
             
@@ -112,6 +196,7 @@ abstract class AdminPageFramework_PluginBootstrap {
          * Register classes to be auto-loaded.
          * 
          * @since       3.5.0
+         * @internal
          */
         protected function _registerClasses() {
             
@@ -134,6 +219,7 @@ abstract class AdminPageFramework_PluginBootstrap {
          * 
          * @remark      All the necessary classes should have been already loaded.
          * @since       3.5.0
+         * @internal
          */
         public function _replyToLoadPluginComponents() {
 
@@ -156,11 +242,15 @@ abstract class AdminPageFramework_PluginBootstrap {
     
     /**
      * Sets up constants.
+     * 
+     * @return      void
      */
     public function setConstants() {}
     
     /**
      * Sets up global variables.
+     * 
+     * @return      void
      */
     public function setGlobals() {}
     
@@ -168,7 +258,7 @@ abstract class AdminPageFramework_PluginBootstrap {
      * Returns an array holding class names in the key and the file path to the value.
      * The returned array will be passed to the autoloader class.
      * @since       3.5.0
-     * @return      array       An array holding PHP classes.
+     * @return      array       An array holding PHP classes. The array must consist of keys of class names and values of the class file paths.
      */
     public function getClasses() {
         
@@ -192,6 +282,9 @@ abstract class AdminPageFramework_PluginBootstrap {
     
     /**
      * The plugin activation callback method.
+     * 
+     * @since       3.5.0
+     * @return      void
      */    
     public function replyToPluginActivation() {}
 
@@ -199,6 +292,7 @@ abstract class AdminPageFramework_PluginBootstrap {
      * The plugin deactivation callback method.
      * 
      * @since       3.5.0
+     * @return      void
      */
     public function replyToPluginDeactivation() {}
         
@@ -206,6 +300,8 @@ abstract class AdminPageFramework_PluginBootstrap {
      * Load localization files.
      *
      * @since       3.5.0
+     * @return      void
+     * @callback    action      init
      */
     public function setLocalization() {}        
     
@@ -216,19 +312,21 @@ abstract class AdminPageFramework_PluginBootstrap {
      * as this method is triggered with the 'plugins_loaded' hook which is triggered after all the plugins are loaded.
      * 
      * On the other hand, for extension plugins, use the construct() method below and hook into the "{$this->sHookPrefix}_action_after_loading_plugin" action hook.
-     * This way, extension plugin can load their components after the main plugin components get loaded.
+     * This way, the extension plugin can load their components after the main plugin components get loaded.
      * 
      * @since       3.5.0
+     * @return      void
      */
     public function setUp() {}
         
     /**
-     * The protected user constructor method.
+     * The protected user constructor method which is automatically called when the class is instantiated.
      * 
      * For extension plugins, use this method to hook into the "{$this->sHookPrefix}_action_after_loading_plugin" action hook.
      * 
      * @since       3.5.0
      * @access      protected       This is meant to be called within the class definition. For public access use the `start()` method.
+     * @return      void
      */
     protected function construct() {}
  

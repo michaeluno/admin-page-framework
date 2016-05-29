@@ -251,7 +251,7 @@ Please keep in mind that these are just a few of many possibilities. If you enco
 
 <h5><strong>I cannot find what I'd like to do in tutorials and documentation. Where else should I look for more information?</strong></h5>
 
-- You may directly read the code of the demo plugin. The demo plugin code is located in the `example` directory.
+- You may directly read the code of the demo plugin. The demo plugin code is located in the [example](https://github.com/michaeluno/admin-page-framework/tree/master/example) directory.
 - Ask questions in the [support forum](https://wordpress.org/support/plugin/admin-page-framework).
 
 <h4>Getting Involved</h4>
@@ -356,7 +356,7 @@ array(
 )    
 `
 
-For meta box and widget form fields (as they have a slightly different styling than generic admin pages),
+For meta box and widget form fields (as they have slightly different styling than generic admin pages),
 `
 array(
     'field_id'          => 'submit_in_meta_box',
@@ -429,7 +429,7 @@ array(
 ),
 `
 
-If it is a repeatable field, set the value in the sub-fields.
+If it is a repeatable field, set values in numerically indexed sub-elements.
 
 `
 array(
@@ -447,7 +447,7 @@ array(
 ),
 `
 
-Alternately, if it is in a framework's generic pages (not post meta box fields) you may use the `options_{instantiated class name}` filter to suppress the options so that setting the value argument is not necessary.
+Alternately, you may use the `options_{instantiated class name}` filter to suppress the options so that setting the value argument is not necessary.
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f, 
 
 == Changelog ==
@@ -457,6 +457,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Added the ability to nest fields with the `content` field definition argument.
 - Added a new factory class to build forms for taxonomy terms.
 - Changed the `type` argument in the field definition to be able to be omitted.
+- Fixed a bug in the network admin area showing a warning message accessing a non-object property.
 - Fixed a bug that delimiter elements were not displayed when a last repeatable field is duplicated.
 
 = 3.7.14 - 2016/04/20 =

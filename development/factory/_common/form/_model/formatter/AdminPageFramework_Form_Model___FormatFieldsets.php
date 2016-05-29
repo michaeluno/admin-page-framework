@@ -8,13 +8,15 @@
  */
 
 /**
- * Provides methods to format an array holding section-sets definitions.
+ * Provides methods to format an array holding field-sets definitions.
  * 
  * It is assumed that this class gets instantiated before section-sets definition array is formatted.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/Model/Format
  * @since       3.7.0
+ * @extends     AdminPageFramework_Form_Base
+ * @internal
  */
 class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework_Form_Base {
     

@@ -13,7 +13,7 @@
  * @abstract
  * @since       3.2.0
  * @package     AdminPageFramework
- * @subpackage  Widget
+ * @subpackage  Factory/Widget
  * @extends     WP_Widget
  * @internal
  */

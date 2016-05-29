@@ -15,7 +15,7 @@
  * @abstract
  * @since       3.2.0
  * @package     AdminPageFramework
- * @subpackage  Widget
+ * @subpackage  Factory/Widget
  */
 abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_Widget_View {    
 
@@ -112,6 +112,7 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      *  }
      * </code>
      * @since       3.2.0
+     * @todo        Write the difference between this method and `setUp()` and why the user should use this method to regeister form elements.
      */
     public function load( $oAdminWidget ) {}
       
@@ -177,6 +178,13 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * This is only necessary if it is not set in the constructor.
      * 
      * @since       3.2.0
+     * @param       array       $aArguments     Widget arguments same as the one passed to the 4th parameter of the `wp_register_sidebar_widget()` function.
+     * <h4>Arguments<h4>
+     * <ul>
+     *      <li>`classname` - (string) A class selector name for the widget's HTML container element.</li>
+     *      <li>`description` - (string) A widget description displayed in the widget administration and theme panel.</li>
+     * </ul>
+     * @see         https://codex.wordpress.org/Function_Reference/wp_register_sidebar_widget
      * @return      void
      */ 
     protected function setArguments( array $aArguments=array() ) {

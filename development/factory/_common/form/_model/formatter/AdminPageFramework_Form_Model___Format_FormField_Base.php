@@ -8,11 +8,12 @@
  */
 
 /**
- * Provides common methods that deal with field definition arrays.
+ * Provides common methods that deal with formatting field definition arrays.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Common/Form/Model/Format
  * @since       3.6.0
+ * @extends     AdminPageFramework_Form_Utility
  * @internal
  */
 abstract class AdminPageFramework_Form_Model___Format_FormField_Base extends AdminPageFramework_Form_Utility {

@@ -12,7 +12,7 @@
  *
  * @since       2.1.7
  * @package     AdminPageFramework
- * @subpackage  Debug
+ * @subpackage  Common/Factory/Debug
  * @internal
  */
 abstract class AdminPageFramework_PageLoadInfo_Base {

@@ -8,12 +8,12 @@
  */
 
 /**
- * Provides UI related methods.
+ * Provides methods to manipulate the factory behaviour.
  *
  * @abstract
  * @since           3.5.0
  * @package         AdminPageFramework
- * @subpackage      UserMeta
+ * @subpackage      Factory/UserMeta
  */
 abstract class AdminPageFramework_UserMeta_Controller extends AdminPageFramework_UserMeta_View {
     
@@ -136,5 +136,4 @@ abstract class AdminPageFramework_UserMeta_Controller extends AdminPageFramework
         return $this->oResource->_enqueueScript( $sSRC, $aPostTypes, $aCustomArgs );
     }    
         
-    
 }

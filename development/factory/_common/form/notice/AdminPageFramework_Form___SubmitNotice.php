@@ -14,6 +14,7 @@
  * @subpackage  Form
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_FrameworkUtility {
     

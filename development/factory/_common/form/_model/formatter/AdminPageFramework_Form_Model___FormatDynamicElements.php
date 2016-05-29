@@ -10,12 +10,13 @@
 /**
  * Provides methods to set dynamic form elements such as repeatable sections.
  * 
- * It adds fields of repeated sections to the fieldsets definition array.
+ * It adds fields of repeated sections to the field-sets definition array.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/Model/Format
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFramework_FrameworkUtility {
 

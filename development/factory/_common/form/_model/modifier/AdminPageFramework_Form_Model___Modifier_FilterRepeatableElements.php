@@ -8,11 +8,12 @@
  */
 
 /**
- * Provides methods that deal with dropping repeatable form elements from an input array.
+ * Provides methods that deal with dropping repeatable form elements from a form input array.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Common/Form/Model/Modifier
  * @since       3.6.2
+ * @extends     AdminPageFramework_Form_Model___Modifier_Base
  * @internal
  */
 class AdminPageFramework_Form_Model___Modifier_FilterRepeatableElements extends AdminPageFramework_Form_Model___Modifier_Base {

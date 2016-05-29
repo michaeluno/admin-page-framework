@@ -11,7 +11,7 @@
  * Provides methods to manipulate the contextual help tab .
  *
  * @package     AdminPageFramework
- * @subpackage  HelpPane
+ * @subpackage  Factory/PageMetaBox/HelpPane
  * @since       3.0.4    
  * @extends     AdminPageFramework_HelpPane_Base
  * @internal

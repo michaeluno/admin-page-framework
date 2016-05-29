@@ -9,10 +9,10 @@
 
 /**
  * Collects data of page loads of the added post type pages. 
- * @since 2.1.7
- * @extends AdminPageFramework_PageLoadInfo_Base
- * @package AdminPageFramework
- * @subpackage Debug
+ * @since       2.1.7
+ * @extends     AdminPageFramework_PageLoadInfo_Base
+ * @package     AdminPageFramework
+ * @subpackage  Factory/PostType/Debug
  * @internal
  */
 class AdminPageFramework_PageLoadInfo_post_type extends AdminPageFramework_PageLoadInfo_Base {

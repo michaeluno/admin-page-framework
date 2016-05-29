@@ -8,12 +8,72 @@
  */
 
 /**
- * Defines the posttype field type.
+ * A post type field can list available post types on the site.
  * 
+ * This class defines the posttype field type. By default, the `revision`, `attachment`, and `nav_menu_item` post type are not displayed.
+ * 
+ * <h2>Field Definition Arguments</h2>
+ * <h3>Field Type Specific Arguments</h3>
+ * <ul>
+ *     <li>**slugs_to_remove** - (optional, array) the post type slugs not to be listed. e.g.`array( 'revision', 'attachment', 'nav_menu_item' )`</li>
+ *     <li>**select_all_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select All` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+ *     <li>**select_none_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+ *     <li>**query** - [3.2.1+] (optional, array) an query argument array to perform custom query to search post types. For the argument specification, see the `arg` parameter of [get_post_types()](http://codex.wordpress.org/Function_Reference/get_post_types#Parameters) function.
+ *          <blockquote>
+ *              <ul>
+ *                  <li>`public` - Boolean. If true, only public post types will be returned.</li>
+ *                  <li>`publicly_queryable` - Boolean</li>
+ *                  <li>`exclude_from_search` - Boolean</li>
+ *                  <li>`show_ui` - Boolean</li>
+ *                  <li>`capability_type`</li>
+ *                  <li>`hierarchical`</li>
+ *                  <li>`menu_position`</li>
+ *                  <li>`menu_icon`</li>
+ *                  <li>`permalink_epmask`</li>
+ *                  <li>`rewrite`</li>
+ *                  <li>`query_var`</li>
+ *                  <li>`_builtin` - Boolean. If true, will return WordPress default post types. Use false to return only custom post types.</li>
+ *              </ul>
+ *          </blockquote>
+ *     </li>
+ *     <li>**operator** - [3.2.1+] (optional, string) An operator to use with multiple arguments. Either `and` or `or` can be used. Default: `and`.</li>
+ * 
+ * </ul>
+ *
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * <h3>List All Post Types</h3>
+ * <code>
+ * array(
+ *     'field_id'              => 'post_type_checklist',
+ *     'title'                 => __( 'Post Types', 'admin-page-framework-loader' ),
+ *     'type'                  => 'posttype',
+ * )
+ * </code>
+ *  
+ * <h3>Perform Custom Query</h3>
+ * <code>
+ *  array(
+ *      'field_id'              => 'post_type_checklist_custom_query',
+ *      'title'                 => __( 'Custom Query', 'admin-page-framework-loader' ),
+ *      'type'                  => 'posttype',
+ *      'query'                 => array(
+ *          'public'   => true,
+ *          '_builtin' => false,
+ *      ),
+ *      'select_all_button'     => false, 
+ *      'select_none_button'    => false, 
+ *      'operator'              => 'and', 
+ *      'slugs_to_remove'       => array(), 
+ *  )
+ * </code>
+ * 
+ * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/posttype.png
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @since           2.1.5
- * @internal
  */
 class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType_checkbox {
 
@@ -30,7 +90,7 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
     protected $aDefaultKeys = array(
         'slugs_to_remove'       => null,    // the default array will be assigned in the rendering method.
         /** 
-         * Accepts query arguments. For the specification, see the arg parameter of get_post_types() function.
+         * Accepts query arguments. For the argument specification, see the arg parameter of get_post_types() function.
          * See: http://codex.wordpress.org/Function_Reference/get_post_types#Parameters
          */
         'query'                 => array(),  // 3.2.1+
@@ -52,6 +112,8 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
+     * @internal
+     * @return
      */ 
     protected function getStyles() {
         $_sParentStyles = parent::getStyles();
@@ -77,6 +139,8 @@ CSSRULES;
      * @since       2.1.5       Moved from AdminPageFramework_FormField.
      * @since       3.0.0       Reconstructed entirely.
      * @since       3.3.1       Changed from `_replyToGetField()`.
+     * @internal
+     * @return      string
      */
     protected function getField( $aField ) {
         
@@ -103,6 +167,7 @@ CSSRULES;
          * @param   $asQueryArgs        array   The query argument.
          * @param   $sOperator          array   The query operator.
          * @return  array   The array holding the elements of installed post types' labels and their slugs except the specified expluding post types.
+         * @internal
          */ 
         private function _getPostTypeArrayForChecklist( $aSlugsToRemove, $asQueryArgs=array(), $sOperator='and' ) {
             

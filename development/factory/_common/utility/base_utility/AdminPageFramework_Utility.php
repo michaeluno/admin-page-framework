@@ -21,6 +21,7 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
        
     /**
      * Stores calls.
+     * @internal
      */
     static private $_aCallStack = array();
     

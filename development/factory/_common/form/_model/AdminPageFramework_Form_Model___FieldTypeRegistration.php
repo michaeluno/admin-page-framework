@@ -8,12 +8,13 @@
  */
 
 /**
- * Provides methods to retrieve field type resources.
- 
+ * Provides methods to register field types.
+ *
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/Model
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 class AdminPageFramework_Form_Model___FieldTypeRegistration extends AdminPageFramework_FrameworkUtility {
     

@@ -12,7 +12,7 @@
  * @abstract
  * @since           3.0.4
  * @package         AdminPageFramework
- * @subpackage      PageMetaBox
+ * @subpackage      Factory/PageMetaBox
  * @internal
  */
 abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_PageMetaBox_Router {

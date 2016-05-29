@@ -19,7 +19,7 @@
  * @use         AdminPageFramework_Utility
  * @package     AdminPageFramework
  * @extends     AdminPageFramework_Resource_Base
- * @subpackage  Resource
+ * @subpackage  Factory/MetaBox/Resource
  * @internal
  */
 class AdminPageFramework_Resource_post_meta_box extends AdminPageFramework_Resource_Base {

@@ -13,7 +13,7 @@
  * @abstract
  * @since       3.0.4
  * @package     AdminPageFramework
- * @subpackage  Factory
+ * @subpackage  Common/Factory
  */
 abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_Factory_View {
             
@@ -109,7 +109,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * </code>
      *
      * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
-     * @param       array       The sources of the stylesheets to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param       array       The sources of the style-sheets to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
      * @param       array       (optional) Ad additional source list array.
      * @return      array        The array holding the queued items.
      * @internal
@@ -335,30 +335,31 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @param        array|string       $asField        A field definition array or a string of the target section id.
     * <h4>Built-in Field Types</h4>
     * <ul>
-    *       <li>**text** - a normal field to enter text input.</li>
-    *       <li>**password** - a masked text input field.</li>
-    *       <li>**textarea** - a text input field with multiple lines. It supports rich text editor.</li>
-    *       <li>**radio** - a set of radio buttons that lets the user pick an option.</li>
-    *       <li>**checkbox** - a check box that lets the user enable/disable an item.</li>
-    *       <li>**select** - a drop-down list that lest the user pick one or more item(s) from a list.</li>
-    *       <li>**hidden** - a hidden field that will be useful to insert invisible values.</li>
-    *       <li>**file** - a file uploader that lets the user upload files.</li>
-    *       <li>**image** - a custom text field with the image uploader script that lets the user set the image URL.</li>
-    *       <li>**media** - a custom text field with the media uploader script that lets the user set the file URL.</li>
-    *       <li>**color** - a custom text field with the color picker script.</li>
-    *       <li>**submit** - a submit button that lets the user send the form.</li>
-    *       <li>**export** - a custom submit field that lets the user export the stored data.</li>
-    *       <li>**import** - a custom combination field of the file and the submit fields that let the user import data.</li>
-    *       <li>**posttype** - a check-list of post types enabled on the site.</li>
-    *       <li>**taxonomy** - a set of check-lists of taxonomies enabled on the site in a tabbed box.</li>
-    *       <li>**size** - a combination field of the text and the select fields that let the user set sizes with a selectable unit.</li>
-    *       <li>**section_title** - [3.0.0+] a text field type that will be placed in the section title so that it lets the user set the section title. Note that only one field with this field type is allowed per a section.</li>
-    *       <li>**system** - [3.3.0+] a custom textara field that displays the system information including the PHP settings, the framework version, MySQL version etc.</li>
+    *       <li>[text](./class-AdminPageFramework_FieldType_text.html) - a normal field to enter short text input.</li>
+    *       <li>[password](./class-AdminPageFramework_FieldType_text.html) - a masked text input field.</li>
+    *       <li>[textarea](./class-AdminPageFramework_FieldType_textarea.html) - a text input field with multiple lines. It supports rich text editors.</li>
+    *       <li>[radio](./class-AdminPageFramework_FieldType_radio.html) - a set of radio buttons that lets the user pick an option.</li>
+    *       <li>[checkbox](./class-AdminPageFramework_FieldType_checkbox.html) - a check box that lets the user enable/disable an item.</li>
+    *       <li>[select](./class-AdminPageFramework_FieldType_select.html) - a drop-down list that lest the user pick one or more item(s) from a list.</li>
+    *       <li>[hidden](./class-AdminPageFramework_FieldType_hidden.html) - a field with invisible input values.</li>
+    *       <li>[file](./class-AdminPageFramework_FieldType_file.html) - a file uploader that lets the user upload files.</li>
+    *       <li>[image](./class-AdminPageFramework_FieldType_image.html) - a text field with an image uploader that lets the user set the image URL.</li>
+    *       <li>[media](./class-AdminPageFramework_FieldType_media.html) - a text field with a media uploader that lets the user set the file URL.</li>
+    *       <li>[color](./class-AdminPageFramework_FieldType_color.html) - a text field with a color picker.</li>
+    *       <li>[submit](./class-AdminPageFramework_FieldType_submit.html) - a submit button that lets the user send the form.</li>
+    *       <li>[export](./class-AdminPageFramework_FieldType_export.html) - a custom submit field that lets the user export stored data.</li>
+    *       <li>[import](./class-AdminPageFramework_FieldType_import.html) - a custom combination field of file and submit fields that let the user import data.</li>
+    *       <li>[posttype](./class-AdminPageFramework_FieldType_posttype.html) - a check-list of post types enabled on the site.</li>
+    *       <li>[taxonomy](./class-AdminPageFramework_FieldType_taxonomy.html) - a set of check-lists of taxonomies enabled on the site in a tabbed box.</li>
+    *       <li>[size](./class-AdminPageFramework_FieldType_size.html) - a combination field of the text and the select fields that let the user set sizes with a selectable unit.</li>
+    *       <li>[section_title](./class-AdminPageFramework_FieldType_section_title.html) - [3.0.0+] a text field type that will be placed in the section title so that it lets the user set the section title. Note that only one field with this field type is allowed per a section.</li>
+    *       <li>[system](./class-AdminPageFramework_FieldType_system.html) - [3.3.0+] a custom text area field that displays the system information including the PHP settings, the framework version, MySQL version etc.</li>
+    *       <li>[inline_mixed](./class-AdminPageFramework_FieldType_inline_mixed.html) - [3.8.0+] a field that include inner fields with different field types. </li>
     * </ul>
     * <h4>Field Definition Array</h4>
     * <ul>
-    *       <li>**field_id** - ( required, string) the field ID. Avoid using non-alphabetic characters except underscore and numbers.</li>
-    *       <li>**type** - ( required, string) the type of the field. The supported types are listed below.</li>
+    *       <li>**field_id** - (required, string) the field ID. Avoid using non-alphabetic characters except underscore and numbers.</li>
+    *       <li>**type** - (optional, string) the type of the field. The supported types are listed below. When creating nested fields, this argument can be omitted.</li>
     *       <li>**section_id** - (optional, string) the section ID that the field belongs to. If not set, the internal `_default` section ID will be assigned.</li>
     *       <li>**title** - (optional, string) the title of the section.</li>
     *       <li>**description** - (optional, string) the description of the field which is inserted into the after the input field tag.</li>
@@ -397,186 +398,92 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *       <li>**show_title_column** - [3.0.0+] (optional, boolean) If true, the field title column will be omitted from the output.</li>
     *       <li>**hidden** - [3.0.0+] (optional, boolean) If true, the entire field row output will be invisible with the inline style attribute of `style="display:none"`.</li>
     *       <li>**save** - [3.6.0+] (optional, boolean) If `false`, the field value will not be saved. Default: `true`</li>
-    *       <li>**content** - (optional, string) [3.6.1+] a custom section output.</li>
-    * </ul>
-    * 
-    * <h4>Field Type Specific Arguments</h4>
-    * <p>Each field type uses specific array arguments.</p>
-    * <ul>
-    *       <li>**text** - a text input field which allows the user to type text.</li>
-    *       <li>**password** - a password input field which allows the user to type text.</li>
-    *       <li>**number, range** - HTML5 input field types. Some browsers do not support these.</li>
-    *       <li>**textarea** - a textarea input field. The following array keys are supported.
-    *           <ul>
-    *               <li>**rich** - [2.1.2+] (optional, array) to make it a rich text editor pass a non-empty value. It accept a setting array of the <code>_WP_Editors</code> class defined in the core.
-    * For more information, see the argument section of <a href="http://codex.wordpress.org/Function_Reference/wp_editor" target="_blank">this page</a>.
-    *               </li>
-    *           </ul>
-    *       </li>
-    *       <li>**radio** - a radio button input field.</li>
-    *       <li>**checkbox** - a check box input field.</li>
-    *           <ul>
-    *               <li>**select_all_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select All` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
-    *               <li>**select_none_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
-    *           </ul>
-    *       <li>**select** - a drop-down input field.
-    *           <ul>
-    *               <li>**is_multiple** - (optional, boolean) if this is set to true, the `multiple` attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
-    *           </ul>
-    *       </li>
-    *       <li>**size** - a size input field. This is a combination of number and select fields.
-    *           <ul>
-    *               <li>
-    *                   **units** - (optional, array) defines the units to show. e.g. `array( 'px' => 'px', '%' => '%', 'em' => 'em'  )` 
-    *                   Default: `array( 'px' => 'px', '%' => '%', 'em' => 'em', 'ex' => 'ex', 'in' => 'in', 'cm' => 'cm', 'mm' => 'mm', 'pt' => 'pt', 'pc' => 'pc' )`
-    *               </li>
-    *               <li>**is_multiple** - (optional, boolean) if this is set to true, the `multiple` attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
-    *               <li>**attributes** - [3.0.0+] (optional, array) The attributes array of this field type has four initial keys: size, unit, optgroup, and option and they have a regular attribute array in each.</li>
-    *           </ul>
-    *       </li>
-    *       <li>**hidden** - a hidden input field.</li>
-    *       <li>**file** - a file upload input field.</li>
-    *       <li>**submit** - a submit button input field.
-    *           <ul>
-    *               <li>**href** - (optional, string) the url(s) linked to the submit button.</li>
-    *               <li>**redirect_url** - (optional, string) the url(s) redirected to after submitting the input form.</li>
-    *               <li>**reset** - [2.1.2+] (optional, boolean|string|array) the option key to delete. Set 1 for the entire option. [3.5.3+] In order to reset a particular field that belongs to a section, set an array representing the dimensional keys such as `array( 'my_sectio_id', 'my_field_id' )`.</li>
-    *               <li>**skip_confirmation** - [3.7.6+] (optional, boolean) Whether to skip confirmation. Default: `false`.</li>
-    *               <li>**email** - [3.3.0+] (optional, array) Coming soon...
-    *                   <ul>
-    *                       <li>**to** - (string|array) the email address to send the email to. For multiple email addressed, set comma delimited items.</li>
-    *                       <li>**subject** - (string|array) the email title.</li>
-    *                       <li>**message** - (string|array) the email body text.</li>
-    *                       <li>**attachments** - (string|array) the file path.</li>
-    *                       <li>**name** - (string|array) the sender name.</li>
-    *                       <li>**from** - (string|array) the sender email.</li>
-    *                       <li>**is_html** - (boolean|array) indicates whether the message should be sent as an html or plain text.</li>
-    *                   </ul>
-    *               </li>
-    *           </ul>
-    *       </li>
-    *       <li>**import** - an import input field. This is a custom file and submit field.
-    *           <ul>
-    *               <li>**option_key** - (optional, string) the option table key to save the importing data.</li>
-    *               <li>**format** - (optional, string) the import format. json, or array is supported. Default: array</li>
-    *               <li>**is_merge** - (optional, boolean) [2.0.5+] determines whether the imported data should be merged with the existing options.</li>
-    *           </ul>
-    *       </li>
-    *       <li>**export** - an export input field. This is a custom submit field.
-    *           <ul>
-    *               <li>**file_name** - (optional, string) the file name to download.</li>
-    *               <li>**format** - (optional, string) the format type. array, json, or text is supported. Default: array.</li>
-    *               <li>**data** - (optional, string|array|object ) the data to export.</li>
-    *           </ul>
-    *       </li>
-    *       <li>**image** - an image input field. This is a custom text field with an attached JavaScript script.
-    *           <ul>
-    *               <li>**show_preview** - (optional, boolean) if this is set to false, the image preview will be disabled.</li>
-    *               <li>**attributes_to_store** - [2.1.3+] (optional, array) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for external URLs, ID will not be captured. e.g. `'attributes_to_store' => array( 'id', 'caption', 'description' )`</li>
-    *               <li>**allow_external_source** - [2.1.3+] (optional, boolean) whether external URL can be set via the uploader.</li>
-    *               <li>**attributes** - [3.0.0+] (optional, array) The attributes array of this field type has three keys: input, button, and preview and they have a regular attribute array in each.</li>
-    *           </ul>
-    *       </li>
-    *       <li>**media** - [2.1.3+] a media input field. This is a custom text field with an attached JavaScript script.
-    *           <ul>
-    *               <li>**attributes_to_store** - [2.1.3+] (optional, array) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'id', 'caption', and 'description'. Note that for external URLs, ID will not be captured. e.g. `'attributes_to_store' => array( 'id', 'caption', 'description' )`</li>
-    *               <li>**allow_external_source** - [2.1.3+] (optional, boolean) whether external URL can be set via the uploader.</li>
-    *           </ul>
-    *       </li>
-    *       <li>**color** - a color picker input field. This is a custom text field with a JavaScript script.</li>
-    *       <li>**taxonomy** - a taxonomy check list. This is a set of check boxes listing a specified taxonomy. This does not accept to create multiple fields by passing an array of labels.
-    *           <ul>
-    *               <li>**taxonomy_slugs** - (optional, array) the taxonomy slug to list.</li>
-    *               <li>**max_width** - (optional, string) the inline style property value of `max-width` of this element. Include the unit such as px, %. Default: 100%</li>
-    *               <li>**height** - (optional, string) the inline style property value of `height` of this element. Include the unit such as px, %. Default: 250px</li>
-    *               <li>**select_all_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select All` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
-    *               <li>**select_none_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
-    *               <li>**label_no_term_found** - [3.3.2+] (optional, string) The label to display when no term is found. Default: `No Term Found`.</li>
-    *               <li>**label_list_title** - [3.3.2+] (optional, string) The heading title string for a term list. Default: `''`. Insert an HTML custom string right before the list starts.</li>
-    *               <li>**query** - [3.3.2+] (optional, array) the query array to search terms. For more details, see the argument of the [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters) function.
-    *                   <ul>
-    *                       <li>child_of - (integer) The parent term ID. All the descendant terms such as child's child term will be listed. default: `0`</li>
-    *                       <li>parent   - (integer) The direct parent term ID. Only the first level children will be listed. default: ``</li>
-    *                       <li>orderby - (string) The type of how the term list should be ordered by. Either `ID`, `term_id`, or `name` can be accepted. Default: `name`.</li>
-    *                       <li>order - (string) The order of the list. `ASC` or `DESC`. Default: `ASC`.</li>
-    *                       <li>hide_empty - (boolean) whether to show the terms with no post associated. Default: `false`.</li>
-    *                       <li>hierarchical - (boolean) whether to show the terms as a hierarchical tree. Default: `true`</li>
-    *                       <li>number - (integer) The maximum number of the terms to show. 0 for no limit. Default: `0`.</li>
-    *                       <li>pad_counts - (boolean) whether to sum up the post counts with the child post counts. Default: `false`</li>
-    *                       <li>exclude - (string|array) Comma separated term IDs or an array to exclude from the list. for example `1` will remove the 'Uncategorized' category from the list. </li>
-    *                       <li>exclude_tree - (integer) For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters)..</li>
-    *                       <li>include - (string|array) Comma separated term IDs to include in the list.</li>
-    *                       <li>fields - (string) Default: `all`. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
-    *                       <li>slug - (string) Default: ``. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
-    *                       <li>get - (string) Default ``. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
-    *                       <li>name__like - (string) Default ``. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
-    *                       <li>description__like - (string) Default ``. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
-    *                       <li>offset - (integer) Default ``. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
-    *                       <li>search - (string) The search keyword to get the term with. Default ``.</li>
-    *                       <li>cache_domain - (string) Default:`core`. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
-    *                   </ul>
-    *               </li>
-    *               <li>**queries** - [3.3.2+] (optional, array) Allows to set a query argument for each taxonomy. The array key must be the taxonomy slug and the value is the query argument array.</li>
-    *           </ul>
+    *       <li>**content** - (optional, string|array) [3.6.1+] a custom section output. [3.8.0+] Supports an array to be passed for nested and inline-mixed fields. If an array holding field definitions is set, those fields will be nested.
     *           <h4>Example</h4>
-    * <pre><code>array(  
-    *     'field_id'              => 'taxonomy_custom_queries',
-    *     'title'                 => __( 'Custom Taxonomy Queries', 'admin-page-framework-demo' ),
-    *     'type'                  => 'taxonomy',
-    *     'description'           => 
-    *         array(
-    *             __( 'With the <code>query</code> argument array, you can customize how the terms should be retrieved.', 'admin-page-framework-demo' ),
-    *             sprintf( __( 'For the structure and the array key specifications, refer to the parameter section of the <a href="%1$s" target="_blank">get_term()</a> function.', 'admin-page-framework-demo' ), 'http://codex.wordpress.org/Function_Reference/get_terms#Parameters' ),
-    *         ),
-    *     
-    *     // (required)   Determines which taxonomies should be listed
-    *     'taxonomy_slugs'        => $aTaxnomies = get_taxonomies( '', 'names' ),    
-    *         
-    *     // (optional) This defines the default query argument. For the structure and supported arguments, see http://codex.wordpress.org/Function_Reference/get_terms#Parameters
-    *     'query'                 => array(
-    *         'depth'     => 2,
-    *         'orderby'   => 'term_id',       // accepts 'ID', 'term_id', or 'name'
-    *         'order'     => 'DESC',
-    *         // 'exclude'   => '1', // removes the 'Uncategorized' category.
-    *         // 'search' => 'PHP',   // the search keyward
-    *         // 'parent'    => 9,    // only show terms whose direct parent ID is 9.
-    *         // 'child_of'  => 8,    // only show child terms of the term ID of 8.
-    *     ),
-    *     // (optional) This allows to set a query argument for each taxonomy. 
-    *     // Note that each element will be merged with the above default 'query' argument array. 
-    *     // So unset keys here will be overridden by the default argument array above. 
-    *     'queries'               => array(
-    *         // taxonomy slug => query argument array
-    *         'category'  =>  array(
-    *             'depth'     => 2,
-    *             'orderby'   => 'term_id',  
-    *             'order'     => 'DESC',
-    *             'exclude'   => array( 1 ), 
-    *         ),
-    *         'post_tag'  => array(
-    *             'orderby'   => 'name',
-    *             'order'     => 'ASC',
-    *             // 'include'   => array( 4, ), // term ids
-    *         ),
-    *     ), 
-    * ),
+    * <pre><code>
+    *   $this->addSettingFields(
+    *       'my_section_id', // the target section ID - pass dimensional keys of the section
+    *       array(
+    *           'field_id'      => 'Y',
+    *           'title'         => __( 'Y', 'admin-page-framework-loader' ),
+    *           'description'   => __( 'By passing an array of field definition to the <code>content</code> argument, you can nest fields.', 'admin-page-framework-loader' )
+    *               . ' ' . __( 'Also the <code>type</code> argument can be omitted.', 'admin-page-framework-loader' ),
+    *           'content'       => array(
+    *               array(
+    *                   'field_id'      => 'i',
+    *                   'title'         => __( 'i', 'admin-page-framework-loader' ),                    
+    *                   'type'          => 'textarea',
+    *               ),
+    *               array(
+    *                   'field_id'      => 'ii',
+    *                   'title'         => __( 'ii', 'admin-page-framework-loader' ),                    
+    *                   'type'          => 'color',                    
+    *               ),
+    *               array(
+    *                   'field_id'      => 'iii',
+    *                   'title'         => __( 'iii', 'admin-page-framework-loader' ),
+    *                   'repeatable'    => true,
+    *                   'sortable'      => true,
+    *                   'content'       => array(
+    *                       array(
+    *                           'field_id'      => 'a',
+    *                           'title'         => __( 'a', 'admin-page-framework-loader' ),                    
+    *                           'type'          => 'image',
+    *                           'attributes'    => array(
+    *                               'preview' => array(
+    *                                   'style' => 'max-width: 200px;',
+    *                               ),
+    *                           ),                                
+    *                       ),
+    *                       array(
+    *                           'field_id'      => 'b',
+    *                           'title'         => __( 'b', 'admin-page-framework-loader' ),
+    *                           'content'       => array(
+    *                               array(
+    *                                   'field_id'      => 'first',
+    *                                   'title'         => __( '1st', 'admin-page-framework-loader' ),                    
+    *                                   'type'          => 'color',
+    *                                   'repeatable'    => true,
+    *                                   'sortable'      => true,
+    *                               ),                                
+    *                               array(
+    *                                   'field_id'      => 'second',
+    *                                   'title'         => __( '2nd', 'admin-page-framework-loader' ),                    
+    *                                   'type'          => 'size',
+    *                               ),
+    *                               array(
+    *                                   'field_id'      => 'third',
+    *                                   'title'         => __( '3rd', 'admin-page-framework-loader' ),                    
+    *                                   'type'          => 'select',
+    *                                   'label'         => array(
+    *                                       'x' => 'X',
+    *                                       'y' => 'Y',
+    *                                       'z' => 'Z',                                        
+    *                                   ),
+    *                               ),                                    
+    *                           ),
+    *                           // 'description'   => '',
+    *                       ),                            
+    *                       array(
+    *                           'field_id'      => 'c',
+    *                           'title'         => __( 'c', 'admin-page-framework-loader' ),                    
+    *                           'type'          => 'radio',                    
+    *                           'label'         => array(
+    *                               'a' => __( 'Apple', 'admin-page-framework-loader' ),
+    *                               'b' => __( 'Banana', 'admin-page-framework-loader' ),
+    *                               'c' => __( 'Cherry', 'admin-page-framework-loader' ),
+    *                           ),
+    *                           'default'       => 'b',
+    *                       ),                        
+    *                   )
+    *               ),                    
+    *           ),
+    *       )
+    *   );
     * </code></pre>
     *       </li>
-    *       <li>**posttype** - a post-type check list. This is a set of check boxes listing post type slugs.
-    *           <ul>
-    *               <li>**slugs_to_remove** - (optional, array) the post type slugs not to be listed. e.g.`array( 'revision', 'attachment', 'nav_menu_item' )`</li>
-    *               <li>**select_all_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select All` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
-    *               <li>**select_none_button** - [3.3.0+] (optional, array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
-    *           </ul>
-    *       </li>
-    *       <li>**system** - [3.3.0+] a custom textara field that displays system information.
-    *           <ul>
-    *               <li>**data** - (optional, array) an associative array ta that holds the data to display.</li>
-    *               <li>**print_type** - [3.3.6+] (optional, integer) Indicates how the data array should be displayed. 1: readable array representation. 2. the output of the print_r() function. Default: `1`.</li>
-    *           </ul>
-    *       </li>
-    * </ul>    
-     */     
+    * </ul>
+    */
     public function addSettingField( $asFieldset ) {
         if ( method_exists( $this->oForm, 'addField' ) ) {
             $this->oForm->addField( $asFieldset );     
@@ -623,28 +530,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * 
      * @since   3.0.4     
      * @param   array   $aErrors     the field error array. The structure should follow the one contained in the submitted `$_POST` array.
+     * @return  void
      */    
     public function setFieldErrors( $aErrors ) {
         $this->oForm->setFieldErrors( $aErrors );      
-/*         // The field-errors array will be stored in this global array element.
-        $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ] = $this->oUtil->getElement( 
-            $GLOBALS,  // subject array
-            array( 'aAdminPageFramework', 'aFieldErrors' ), // key
-            array()      // default
-        );                    
-
-        if ( empty( $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ] ) ) {
-            add_action( 'shutdown', array( $this, '_replyToSaveFieldErrors' ) ); // the method is defined in the controller class.
-        }
-        
-        $_sID = md5( $this->oProp->sClassName );
-        $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ][ $_sID ] = isset( $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ][ $_sID ] )
-            ? $this->oUtil->uniteArrays( 
-                $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ][ $_sID ], 
-                $aErrors 
-            )
-            : $aErrors;                   
-     */
     }   
     
     /**
@@ -655,8 +544,6 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      */
     public function hasFieldError() {
         return $this->oForm->hasFieldError();
-        // @deprecated  3.7.0
-        // return isset( $GLOBALS[ 'aAdminPageFramework' ][ 'aFieldErrors' ][ md5( $this->oProp->sClassName ) ] );
     }
     
     /**

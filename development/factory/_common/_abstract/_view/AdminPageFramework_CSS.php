@@ -12,7 +12,7 @@
  *
  * @since       3.2.0
  * @package     AdminPageFramework
- * @subpackage  CSS
+ * @subpackage  Common/Factory/CSS
  * @internal
  */
 class AdminPageFramework_CSS {

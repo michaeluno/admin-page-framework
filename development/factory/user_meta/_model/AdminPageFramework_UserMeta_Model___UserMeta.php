@@ -12,7 +12,7 @@
  * 
  * @since       3.7.0
  * @package     AdminPageFramework
- * @subpackage  UserMeta
+ * @subpackage  Factory/UserMeta
  * @internal
  * @extends     AdminPageFramework_Factory_Model___Meta_Base
  */

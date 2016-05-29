@@ -16,7 +16,7 @@
  * 
  * @since       3.7.10
  * @package     AdminPageFramework
- * @subpackage  NetworkAdmin
+ * @subpackage  Factory/NetworkAdmin/Resource
  * @extends     AdminPageFramework_Resource_admin_page
  * @internal
  */

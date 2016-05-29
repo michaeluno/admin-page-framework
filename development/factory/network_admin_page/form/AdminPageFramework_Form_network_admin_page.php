@@ -13,7 +13,7 @@
  * The suffix represents the structure type of the form.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Factory/NetworkAdmin/Form
  * @since       3.7.0      
  * @extends     AdminPageFramework_Form
  * @internal

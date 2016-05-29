@@ -18,7 +18,7 @@
  * @since           2.1.5     Added the tag_id key to the argument array. Changed the format of 'id' and 'for' attribute of the input and label tags.
  * @extends         Walker_Category
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @internal
  */
 class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {

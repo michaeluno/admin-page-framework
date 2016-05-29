@@ -9,11 +9,14 @@
 
 /**
  * Provides methods to retrieve field type resources.
+ * 
  * Resources in this context means scripts and styles.
+ * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/Model
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramework_FrameworkUtility {
     

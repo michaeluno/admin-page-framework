@@ -8,12 +8,13 @@
  */
 
 /**
- * Provides UI related methods.
+ * Provides methods to manipulate the class behavior.
  *
  * @abstract
  * @since           3.8.0
  * @package         AdminPageFramework
- * @subpackage      TermMeta
+ * @subpackage      Factory/TermMeta
+ * @internal
  */
 abstract class AdminPageFramework_TermMeta_Controller extends AdminPageFramework_TermMeta_View {
 }

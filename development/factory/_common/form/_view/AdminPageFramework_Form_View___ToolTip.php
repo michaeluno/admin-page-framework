@@ -11,8 +11,9 @@
  * Provides methods to generate tool tip outputs.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/View
  * @since       3.7.0
+ * @extends     AdminPageFramework_Form_View___Section_Base
  * @internal
  */
 class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_View___Section_Base {            

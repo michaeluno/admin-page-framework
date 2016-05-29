@@ -13,7 +13,7 @@
  * @abstract
  * @since           3.3.0
  * @package         AdminPageFramework
- * @subpackage      MetaBox
+ * @subpackage      Factory/MetaBox
  * @internal
  */
 abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaBox_Router {

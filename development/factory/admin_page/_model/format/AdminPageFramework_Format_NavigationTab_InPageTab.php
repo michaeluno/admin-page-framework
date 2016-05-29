@@ -11,7 +11,7 @@
  * Provides methods to format definition arrays.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Factory/AdminPage/Format
  * @since       3.6.0
  * @internal
  */

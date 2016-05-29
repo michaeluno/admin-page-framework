@@ -11,11 +11,11 @@
  * Provides methods to render debug information in a form table.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/View
  * @since       3.6.0
  * @since       3.7.0      Renamed from `AdminPageFramework_FormPart_DebugInfo`.
- * @internal
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 class AdminPageFramework_Form_View___DebugInfo extends AdminPageFramework_FrameworkUtility {            
 

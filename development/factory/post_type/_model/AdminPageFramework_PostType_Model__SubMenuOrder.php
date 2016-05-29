@@ -12,7 +12,7 @@
  * 
  * @since           3.7.4
  * @package         AdminPageFramework
- * @subpackage      PostType
+ * @subpackage      Factory/PostType
  * @internal
  */
 class AdminPageFramework_PostType_Model__SubMenuOrder extends AdminPageFramework_FrameworkUtility {    

@@ -16,7 +16,7 @@
  * @since           3.6.3       Changed the name from `AdminPageFramework_Form_Controller`.
  * @extends         AdminPageFramework_View_Form
  * @package         AdminPageFramework
- * @subpackage      AdminPage
+ * @subpackage      Factory/AdminPage
  */
 abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_View_Form {
                                     

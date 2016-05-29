@@ -9,21 +9,198 @@
 /**
  * Handles creation of admin pages and setting forms.
  * 
- * This class should be extended and the `setUp()` method should be overridden to define how pages are composed.
- * Most of the internal methods are prefixed with the underscore like `_getSomething()` and callback methods are prefixed with <code>_reply</code>.
- * The methods for the users are public and do not have those prefixes.
+ * This class is an abstract class that provides shared methods and should be extended. 
+ * Override the {@link AdminPageFramework_Controller::setUp()} method to add pages.
+ * 
+ * <h2>Creating Admin Pages</h2>
+ * 
+ * 1. Define your own class by extending the {@link AdminPageFramework} class.
+ * 2. Set a top-level menu with the {@link AdminPageFramework_Controller_Menu::setRootMenuPage()} method.
+ * 3. Add page items with the {@link AdminPageFramework_Controller_Menu::addSubMenuItems()} method.
+ * 4. To insert contents, use the {@link AdminPageFramework::content()} method and return custom outputs.
+ * 
+ * For details of method parameters, see the links of the methods.
+ * 
+ * <h3>Example</h3>
+ * <code>
+ *  class APFDoc_Create extends AdminPageFramework {
+ *      
+ *      public function setUp() {
+ *                     
+ *          // Create a top-level menu.
+ *          $this->setRootMenuPage( 'My Admin Pages' );
+ *                             
+ *          // Add sub menu items.
+ *          $this->addSubMenuItems(   
+ *              array(
+ *                  'title'         => 'My Page A',    // page title
+ *                  'page_slug'     => 'my_page_a',    // page slug
+ *              ),        
+ *              array(
+ *                  'title'         => 'My Page B',    // page title
+ *                  'page_slug'     => 'my_page_b',    // page slug
+ *              )
+ *          );  
+ *
+ *      }
+ * 
+ *      public function content( $sHTML ) {
+ *          return $sHTML . "<p>Hello world!</p>";
+ *      }
+ *
+ *  }
+ *  new APFDoc_Create;
+ * </code>
+ * 
+ * To add pages to existent built-in menus, pass the value from the followings.
+ * 
+ * <blockquote>Dashboard, Posts, Media, Links, Pages, Comments, Appearance, Plugins, Users, Tools, Settings, Network Admin</blockquote>
+ * 
+ * e.g. `$this->setRootMenuPage( 'Appearance' );`
+ * 
+ * <h2>Adding In-page Tabs in Admin Pages</h2>
+ * 
+ * To add in-page tabs to created admin pages. use the {@link AdminPageFramework_Controller_Page::addInPageTabs()} method.
+ * Set the target page slug to the first parameter and tab definition arrays to the rest. For details of arguments, see the link of the method.
+ * 
+ * To insert custom contents, define a method with a name made up of `content_` + `page slug` + `tab slug`. For example, if your page slug is `my_page` and the tab slug is `my_tab`,
+ * then the method name would be `content_my_page_my_tab()`. Then return custom outputs from the method.
+ * 
+ * <h3>Example</h3>
+ * <code>
+ *  class APFDoc_AddInPageTabs extends AdminPageFramework {
+ *      
+ *      public function setUp() {
+ *                     
+ *          // Create a top-level menu.
+ *          $this->setRootMenuPage( 'My Admin Pages' );
+ *                             
+ *          // Add sub menu items.
+ *          $this->addSubMenuItems(   
+ *              array(
+ *                  'title'         => 'My Page',    // page title
+ *                  'page_slug'     => 'my_page',    // page slug
+ *              )
+ *          );
+ *
+ *          // Add in-page tabs
+ *          $this->addInPageTabs(   
+ *              'my_page',    // target page slug
+ *              array(
+ *                  'title'         => 'My Tab A',    // tab title
+ *                  'tab_slug'      => 'my_tab_a',    // tab slug
+ *              ),
+ *              array(
+ *                  'title'         => 'My Tab B',    // tab title
+ *                  'tab_slug'      => 'my_tab_b',    // tab slug
+ *              )            
+ *          );
+ *          
+ *      }
+ *      
+ *      public function content_my_page_my_tab_a( $sHTML ) {
+ *          return $sHTML . "<p>This message is shown in My Tab A.</p>";
+ *      }
+ *
+ *  }
+ *  new APFDoc_AddInPageTabs;
+ * </code>
+ * 
+ * <h2>Creating Forms in Admin Pages</h2>
+ * <p>To create a form, you need to add form fields as required and form sections as optional. 
+ * Use the {@link AdminPageFramework_Factory_Controller::addSettingField()} method to add form fields.</p>
+ * 
+ * <p>It is recommended you build forms in the `load()` method which gets triggered when the page starts loading before the HTTP header is sent. 
+ * The `setUp()` method is called throughout the admin area to build menus which is displayed in almost all the admin area.</p>
+ * 
+ * For details of field arguments, see the {@link AdminPageFramework_Factory_Controller::addSettingField()} method.
+ * 
+ * <h3>Example</h3>
+ * <code>
+ *  class APFDoc_CreateForm extends AdminPageFramework {
+ *      
+ *      public function setUp() {
+ *                     
+ *          // Create a top-level menu.
+ *          $this->setRootMenuPage( 'My Form' );
+ * 
+ *          // Add sub menu items.
+ *          $this->addSubMenuItems(   
+ *              array(
+ *                  'title'         => 'My Form',    // page title
+ *                  'page_slug'     => 'my_form',    // page slug
+ *              )
+ *          );  
+ *          
+ *      }
+ *      
+ *      public function load() {
+ *          
+ *          $this->addSettingSections(
+ *              array(
+ *                  'section_id'        => 'my_section',
+ *                  'title'             => 'My Section',
+ *              )
+ *          );
+ * 
+ *          $this->addSettingFields(
+ *              'my_section',   // target section ID
+ *              array(
+ *                  'field_id'  => 'my_field_a',
+ *                  'title'     => 'Field A',
+ *                  'type'      => 'text',
+ *              ),
+ *              array(
+ *                  'field_id'  => 'my_field_b',
+ *                  'title'     => 'Field B',
+ *                  'type'      => 'text',
+ *              ),        
+ *              array(
+ *                  'field_id'  => '_submit',
+ *                  'type'      => 'submit',
+ *                  'save'      => false,
+ *              )
+ *          );
+ *      
+ *      }
+ *
+ *  }
+ *  new APFDoc_CreateForm;
+ * </code>
+ * 
+ * <h2>Retrieving Form Data</h2>
+ * 
+ * By default, the form data are saved in the [options](https://codex.wordpress.org/Database_Description#Table:_wp_options) table in a single row with the key of the extended class name.
+ * A custom option key can be set via the first parameter of the constructor. e.g. `APFDoc_CreateForm( 'my_option_key' )`
+ *
+ * So use the [get_option()](https://codex.wordpress.org/Function_Reference/get_option) function to retrieve the data.
+ * The data comes as a multi-dimensional array. To extract values from it, you may want to use the `AdminPageFramework_Utility::getElement()` method.
+ * 
+ * <h3>Example</h3>
+ * <code>
+ * $_aData         = get_option( 'APFDoc_CreateForm', array() );
+ * $_oUtil         = new AdminPageFramework_Utility;
+ * $_sMyFieldValue = $_oUtil->getElement( 
+ *      $_aData,    // subject array
+ *      array( 'my_section_id', 'my_field_id' ),    // dimensional path
+ *      'my default value'         // default value
+ * );
+ * </code>
+ * <code>
+ * new APFDoc_CreateForm( 'my_custom_option_key' );
+ * $_aData  = get_option( 'my_custom_option_key' );
+ * </code>
  * 
  * <h2>Hooks</h2>
- * <p>The class automatically creates WordPress action and filter hooks associated with the class methods.
- * The class methods corresponding to the name of the below actions and filters can be extended to modify the page output. Those methods are the callbacks of the filters and the actions.</p>
- * <h3>Methods and Action Hooks</h3>
+ * <h3>Common Hooks</h3>
+ * For common hooks throughout the other factory components, see [Base Factory](./package-AdminPageFramework.Common.Factory.html).
+ * 
+ * <h3>Factory Specific Hooks</h3>
+
+ * <h4> Action Hooks</h4>
  * <ul>
- *     <li>**start_{instantiated class name}** – triggered at the end of the class constructor. This will be triggered in any admin page except admin-ajax.php. The class object will be passed to the first parameter [3.1.3+].</li>
- *     <li>**set_up_{instantiated class name}** – [3.1.3+] triggered after the setUp() method is called. The class object will be passed to the first parameter.</li>
- *     <li>**load_{instantiated class name}** – [2.1.0+] triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework. The first parameter: class object [3.1.2+].</li>
  *     <li>**load_{page slug}** – [2.1.0+] triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework. The first parameter: class object [3.1.2+].</li>
  *     <li>**load_{page slug}_{tab slug}** – [2.1.0+] triggered when the framework's page is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework. The first parameter: class object [3.1.2+].</li>
- *     <li>**load_after_{instantiated class name}** – [3.1.3+] triggered when one of the framework's pages is loaded before the header gets sent. This will not be triggered in the admin pages that are not registered by the framework. The first parameter: class object.</li>
  *     <li>**do_before_{instantiated class name}** – triggered before rendering the page. It applies to all the pages created by the instantiated class object. The class object will be passed to the first parameter [3.1.3+].</li>
  *     <li>**do_before_{page slug}** – triggered before rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
  *     <li>**do_before_{page slug}_{tab slug}** – triggered before rendering the page. The class object will be passed to the first parameter [3.1.3+].</li>
@@ -50,7 +227,8 @@
  *     <li>**reset_{instantiated class name}_{submit section id}** – [3.5.9+] triggered when resetting option with the `reset` argument of the `submit` field type of the specified section.</li>
  *     <li>**reset_{instantiated class name}** – [3.5.9+] triggered when resetting option with the `reset` argument of the `submit` field type..</li>
  * </ul>
- * <h3>Methods and Filter Hooks</h3>
+ * 
+ * <h4>Filter Hooks</h4>
  * <ul>
  *     <li>**content_top_{page slug}_{tab slug}** – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.</li>
  *     <li>**content_top_{page slug}** – receives the output of the top part of the page. [3.0.0+] Changed the name from head_{...}.</li>
@@ -61,41 +239,23 @@
  *     <li>**content_bottom_{page slug}_{tab slug}** – receives the output of the bottom part of the page. [3.0.0+] Changed the name from foot_{...}.</li>
  *     <li>**content_bottom_{page slug}** – receives the output of the bottom part of the page. [3.0.0+] Changed the name from foot_{...}.</li>
  *     <li>**content_bottom_{instantiated class name}** – receives the output of the bottom part of the page, applied to all pages created by the instantiated class object. [3.0.0+] Changed the name from foot_{...}.</li>
- *     <li>**section_head_{instantiated class name}_{section ID}** – receives the title and the description output of the given form section ID. The first parameter: the output string.</li> 
- *     <li>**field_{instantiated class name}_{field ID}** – receives the form input field output of the given input field ID that does not have a section. The first parameter: output string. The second parameter: the array of option.</li>
- *     <li>**field_{instantiated class name}_{section id}_{field ID}** – [3.0.0+] receives the form input field output of the given input field ID that has a section. The first parameter: output string. The second parameter: the array of option.</li>
- *     <li>**sections_{instantiated class name}** – receives the registered section arrays. The first parameter: sections container array.</li> 
- *     <li>**fields_{instantiated class name}** – receives the registered field arrays. The first parameter: fields container array.</li> 
- *     <li>**fields_{instantiated class name}_{section id}** – [3.0.0+] receives the registered field arrays which belong to the specified section. The first parameter: fields container array.</li> 
- *     <li>**field_types_admin_page_framework** – [3.5.0+] receives a field type definitions array. The first parameter: a field type definitions array.</li>
- *     <li>**field_types_{instantiated class name}** – receives a field type definitions array. The first parameter: a field type definitions array.</li>
- *     <li>**field_definition_{instantiated class name}** – [3.1.0+] receives all the form field definition arrays of set in the class. The first parameter: the field definition arrays.</li>
- *     <li>**field_definition_{instantiated class name}_{field ID}** – [3.0.2+] receives the form field definition array of the given input field ID that does not have a section. The first parameter: the field definition array.</li>
- *     <li>**field_definition_{instantiated class name}_{section id}_{field ID}** – [3.0.2+] receives the form field definition array of the given input field ID that has a section. The first parameter: the field definition array. The second parameter: the integer representing sub-section index if the field belongs to a sub-section.</li>
  *     <li>**pages_{instantiated class name}** – receives the registered page arrays. The first parameter: pages container array.</li> 
  *     <li>**tabs_{instantiated class name}_{page slug}** – receives the registered in-page tab arrays. The first parameter: tabs container array.</li> 
  *     <li>**options_update_status_{instantiated class name}** – [3.4.1+] receives an array of options update status. First parameter: (array) an array of options update status.</li>
  *     <li>**options_update_status_{page slug}** – [3.4.1+] receives an array of options update status. First parameter: (array) an array of options update status.</li>
  *     <li>**options_update_status_{page slug}_{tab slug}** – [3.4.1+] receives an array of options update status. First parameter: (array) an array of options update status.</li>
  *     <li>**setting_update_url_{instantiated class name}** – [3.4.5+] receives the url that is used after the form is submitted.</li>
- *     <li>**validation_{instantiated class name}_{field id}** – [3.0.0+] receives the form submission value of the field that does not have a section. The first parameter: ( string|array ) submitted input value. The second parameter: ( string|array ) the old value stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
- *     <li>**validation_{instantiated class name}_{section_id}_{field id}** – [3.0.0+] receives the form submission value of the field that has a section. The first parameter: ( string|array ) submitted input value. The second parameter: ( string|array ) the old value stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
- *     <li>**validation_{instantiated class name}_{section id}** – [3.0.0+] receives the form submission values that belongs to the section.. The first parameter: ( array ) the array of submitted input values that belong to the section. The second parameter: ( array ) the array of the old values stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
  *     <li>**validation_{page slug}_{tab slug}** – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
  *     <li>**validation_{page slug}** – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
  *     <li>**validation_{instantiated class name}** – receives the form submission values as array. The first parameter: submitted input array. The second parameter: the original array stored in the database. The third parameter: ( object ) [3.1.0+] the caller object.</li>
- *     <li>**validation_saved_options_{instantiated class name}** – [3.1.2+] receives the saved form options as an array. The first parameter: the stored options array. The second parameter: the caller object.</li>
  *     <li>**validation_saved_options_{page slug}** – [3.0.0+] receives the saved form options as an array of the page. The first parameter: the stored options array of the page. The second parameter: the caller object.</li>
  *     <li>**validation_saved_options_{page slug}_{tab slug}** – [3.0.0+] receives the saved form options as an array of the tab. The first parameter: the stored options array of the tab. The second parameter: the caller object.</li>
- *     <li>**validation_saved_options_without_dynamic_elements_{instantiated class name}** – [3.4.1+] receives the saved form options as an array without dynamic elements such as repeatable and sortable fields. The first parameter: the stored options array. The second parameter: the caller object.</li>
  *     <li>**validation_saved_options_without_dynamic_elements_{page slug}** – [3.4.1+] receives the saved form options as an array of the page without dynamic elements such as repeatable and sortable fields. The first parameter: the stored options array of the page. The second parameter: the caller object.</li>
  *     <li>**validation_saved_options_without_dynamic_elements_{page slug}_{tab slug}** – [3.4.1+] receives the saved form options as an array of the tab without dynamic elements such as repeatable and sortable fields. The first parameter: the stored options array of the tab. The second parameter: the caller object.</li>
  *     <li>**style_{page slug}_{tab slug}** – receives the output of the CSS rules applied to the tab page of the slug.</li>
  *     <li>**style_{page slug}** – receives the output of the CSS rules applied to the page of the slug.</li>
- *     <li>**style_{instantiated class name}** – receives the output of the CSS rules applied to the pages added by the instantiated class object.</li>
  *     <li>**script_{page slug}_{tab slug}** – receives the output of the JavaScript script applied to the tab page of the slug.</li>
  *     <li>**script_{page slug}** – receives the output of the JavaScript script applied to the page of the slug.</li>
- *     <li>**script_{instantiated class name}** – receives the output of the JavaScript script applied to the pages added by the instantiated class object.</li>
  *     <li>**export_{instantiated class name}_{input id}** – [2.1.5+] **Deprecated**[3.3.1+]  receives the exporting array submitted from the specific export button.</li>
  *     <li>**export_{instantiated class name}_{field id}** – [2.1.5+] receives the exporting array submitted from the specific field that does not have a section.</li>
  *     <li>**export_{instantiated class name}_{section id}_{field id}** – [3.0.0+] receives the exporting array submitted from the specific field that has a section.</li>
@@ -143,7 +303,6 @@
  *     <li>**import_option_key_{page slug}_{tab slug}** – receives the option array key of the importing array submitted from the tab page.</li>
  *     <li>**import_option_key_{page slug}** – receives the option array key of the importing array submitted from the page.</li>
  *     <li>**import_option_key_{instantiated class name}** – receives the option array key of the importing array submitted from the plugin.</li> 
- *     <li>**options_{instantiated class name}** – [3.1.0+] receives the option array.</li> 
  *     <li>**footer_left_{instantiated class name}** – [3.5.5+] receives an HTML output for the left footer.</li> 
  *     <li>**footer_left_{instantiated class name}_{page slug}** – [3.5.5+] receives an HTML output for the left footer.</li> 
  *     <li>**footer_left_{instantiated class name}_{page slug}_{tab slug}** – [3.5.5+] receives an HTML output for the left footer.</li>
@@ -151,28 +310,36 @@
  *     <li>**footer_right_{instantiated class name}_{page slug}** – [3.5.5+] receives an HTML output for the right footer.</li> 
  *     <li>**footer_right_{instantiated class name}_{page slug}_{tab slug}** – [3.5.5+] receives an HTML output for the right footer.</li>
  * </ul>
- * <h3>Remarks</h3>
+ * 
+ * <h4>Remark</h4>
  * <p>The slugs must not contain a dot(.) or a hyphen(-) since it is used in the callback method name.</p>
- * <h3>Examples</h3>
+ * 
+ * <h4>Example</h4>
  * <p>If the instantiated class name is Sample_Admin_Pages, defining the following class method will embed a banner image in all pages created by the class.</p>
- * <code>class Sample_Admin_Pages extends AdminPageFramework {
+ * <code>
+ * class Sample_Admin_Pages extends AdminPageFramework {
  * ...
  *     function content_top_Sample_Admin_Pages( $sContent ) {
  *         return '<div style="float:right;"><img src="' . plugins_url( 'img/banner468x60.gif', __FILE__ ) . '" /></div>' 
  *             . $sContent;
  *     }
  * ...
- * }</code>
+ * }
+ * </code>
+ * 
  * <p>If the created page slug is my_first_setting_page, defining the following class method will filter the middle part of the page output.</p>
- * <code>class Sample_Admin_Pages extends AdminPageFramework {
+ * <code>
+ * class Sample_Admin_Pages extends AdminPageFramework {
  * ...
  *     function content_my_first_setting_page( $sContent ) {
  *         return $sContent . '<p>Hello world!</p>';
  *     }
  * ...
  * }</code>
- * <h3>Timing of Hooks</h3>
- * <code>------ After the class is instantiated ------
+ * 
+ * <h4>Timing of Hooks</h4>
+ * <code>
+ * ------ After the class is instantiated ------
  *  
  *  start_{instantiated class name}
  * 
@@ -275,9 +442,12 @@
  *  
  * </code>
  * 
+ * @image       http://admin-page-framework.michaeluno.jp/image/factory/admin_page.png
  * @since       3.3.0
  * @package     AdminPageFramework
- * @subpackage  AdminPage
+ * @subpackage  Factory/AdminPage
  * @heading     Admin Page
+ * @remark      When you view the code of the code, most of the internal methods are prefixed with the underscore like `_getSomething()` and callback methods are prefixed with <code>_reply</code>.
+ * The methods for the users are public and do not have those prefixes.
  */
 class AdminPageFramework_Documentaiton {}

@@ -13,8 +13,7 @@
  * @abstract
  * @since           3.3.1
  * @package         AdminPageFramework
- * @subpackage      AdminPage
- * @internal
+ * @subpackage      Factory/AdminPage
  */
 abstract class AdminPageFramework_View extends AdminPageFramework_Model {
       

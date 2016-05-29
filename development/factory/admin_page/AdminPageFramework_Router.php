@@ -14,7 +14,7 @@
  * @since           3.0.0     
  * @since           3.3.1       Changed from `AdminPageFramework_Base`.
  * @package         AdminPageFramework
- * @subpackage      AdminPage
+ * @subpackage      Factory/AdminPage
  * @internal
  * @method          _renderSectionDescription( $sMethodName )           defined in AdminPageFramework_Setting
  * @method          _renderSettingField( $_mFirstArg, $_sPageSlug )     defined in AdminPageFramework_Setting

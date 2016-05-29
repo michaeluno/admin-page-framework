@@ -8,17 +8,40 @@
  */
 
 /**
- * Defines the section_tab field type.
+ * Defines the `section_title` field type.
  * 
  * When a field is defined with this field type, the section title will be replaced with this field. This is used for repeatable tabbed sections.
  * 
+ * <h2>Field Definition Arguments</h2>
+ * 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * Set a field definition normally. Only the first item with the type `section_title` can be displayed.
+ * <code>
+ * $this->addSettingFields(
+ *     'my_section', // the target section ID        
+ *     array(
+ *         'field_id'      => 'section_title_field',
+ *         'type'          => 'section_title',
+ *         'label'         => '<h3>' 
+ *                 . __( 'Section Name', 'admin-page-framework-loader' )
+ *             . '</h3>',
+ *         'attributes'    => array(
+ *             'size' => 30,
+ *         ),
+ *     )
+ * );   
+ * </code>
+ * 
+ * @image       http://admin-page-framework.michaeluno.jp/image/common/form/field_type/section_title.png
  * @package     AdminPageFramework
- * @subpackage  FieldType
+ * @subpackage  Common/Form/FieldType
  * @since       3.0.0
  * @since       3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  * @since       3.5.3       Changed to extend `AdminPageFramework_FieldType_text` from `AdminPageFramework_FieldType`.
  * @extends     AdminPageFramework_FieldType_text
- * @internal
  */
 class AdminPageFramework_FieldType_section_title extends AdminPageFramework_FieldType_text {
     
@@ -45,6 +68,7 @@ class AdminPageFramework_FieldType_section_title extends AdminPageFramework_Fiel
      * 
      * @since       3.0.0
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
+     * @internal
      */ 
     protected function getStyles() {
         return <<<CSSRULES
@@ -83,6 +107,8 @@ CSSRULES;
      * @since       2.1.5
      * @since       3.0.0     Removed unnecessary parameters.
      * @since       3.3.1     Changed from `_replyToGetField()`.
+     * @internal
+     * @return      string
      */
     protected function getField( $aField ) {
         

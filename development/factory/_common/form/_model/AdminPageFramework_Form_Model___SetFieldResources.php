@@ -8,11 +8,12 @@
  */
 
 /**
- * Provides methods to load field resources such as stylesheets and JavaScript scripts.
+ * Provides methods to load field resources such as style-sheets and JavaScript scripts.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/Model
  * @since       3.7.0
+ * @internal
  */
 class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramework_Form_Base {
     

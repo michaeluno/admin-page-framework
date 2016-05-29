@@ -10,22 +10,34 @@
 
 /**
  * Displays notification in the administration area.
+ *
+ * <h2>Usage</h2>
+ * <code>
+ * new AdminPageFramework_AdminNotice( 'There was an error while doing something...' );
+ * </code>
  * 
- * Usage: new AdminPageFramework_AdminNotice( 'There was an error while doing something...' );
- * `
+ * <h2>Example</h2>
+ * <code>
  * new AdminPageFramework_AdminNotice( 'Error occurred', array( 'class' => 'error' ) );    
- * `
- * `
- * new AdminPageFramework_AdminNotice( 'Setting Updated', array( 'class' => 'updated' ) );
- * `
+ * </code>
  * 
+ * <code>
+ * new AdminPageFramework_AdminNotice( 'Setting Updated', array( 'class' => 'updated' ) );
+ * </code>
+ * 
+ * For details of arguments, see the <code>__construct()</code> method below.
+ * 
+ * @image       http://admin-page-framework.michaeluno.jp/image/common/utility/admin_notice.png
  * @since       3.5.0
  * @package     AdminPageFramework
- * @subpackage  Utility
+ * @subpackage  Common/Utility
  * @extends     AdminPageFramework_FrameworkUtility
  */
 class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility {
 
+    /**#@+
+     * @internal
+     */
     /**
      * Stores all the registered notification messages.
      */
@@ -34,15 +46,20 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
     public $sNotice     = '';    
     public $aAttributes = array();
     public $aCallbacks  = array(
-        'should_show'   => null,    // detemines whether the admin notice should be displayed.
+        'should_show'   => null,    // determines whether the admin notice should be displayed.
     );
+    /**#@-*/     
      
     /**
      * Sets up hooks and properties.
      * 
      * @param       string      $sNotice        The message to display.
      * @param       array       $aAttributes    An attribute array. Set 'updated' to the 'class' element to display it in a green box.
-     * @param       array       $aCallbacks     3.7.0+ Stores callbacks.
+     * @param       array       $aCallbacks     [3.7.0+] An array storing callbacks.
+     * <h4>Arguments</h4>
+     * <ul>
+     *      <li>`shouold_show` - (callable) Determines whether the admin notice should be displayed or not.</li>
+     * </ul>
      * @since       3.5.0
      */
     public function __construct( $sNotice, array $aAttributes=array( 'class' => 'error' ), array $aCallbacks=array() ) {
@@ -86,6 +103,8 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
         /**
          * Displays the set admin notice.
          * @since       3.5.0
+         * @internal
+         * @return      void
          */
         public function _replyToDisplayAdminNotice() {
             
@@ -118,8 +137,10 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
             
         }
             /**
+             * Decides whether the notification should be displayed or not.
              * @return      boolean
              * @since       3.7.0
+             * @internal
              */
             private function _shouldProceed() {
                 

@@ -8,15 +8,15 @@
  */
 
 /**
- * Provides methods to format form each section definition arrays.
+ * Provides methods to format each form section definition array.
  * 
- * @remark      It is assumed the passed section definition array is already formatted with the .AdminPageFramework_Form_Model___FormatSectionset.
+ * @remark      It is assumed that the passed section definition array is already formatted with the `AdminPageFramework_Form_Model___FormatSectionset`.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Common/Form/Model/Format
  * @since       3.6.0
- * @internal
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 class AdminPageFramework_Form_Model___Format_EachSection extends AdminPageFramework_FrameworkUtility {
     

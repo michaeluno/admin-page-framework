@@ -14,7 +14,7 @@
  * @since       3.0.0      
  * @extends     AdminPageFramework_PageMetaBox
  * @package     AdminPageFramework
- * @subpackage  PageMetaBox
+ * @subpackage  Factory/PageMetaBox
  * @deprecated  3.7.0
  */
 abstract class AdminPageFramework_MetaBox_Page extends AdminPageFramework_PageMetaBox {

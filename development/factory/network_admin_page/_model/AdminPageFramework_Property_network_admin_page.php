@@ -12,7 +12,7 @@
  * 
  * @since       3.1.0
  * @package     AdminPageFramework
- * @subpackage  Property
+ * @subpackage  Factory/NetworkAdmin/Property
  * @extends     AdminPageFramework_Property_admin_page
  * @internal
  */

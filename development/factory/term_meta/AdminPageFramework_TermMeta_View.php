@@ -13,7 +13,7 @@
  * @abstract
  * @since           3.8.0
  * @package         AdminPageFramework
- * @subpackage      TermMeta
+ * @subpackage      Factory/TermMeta
  * @internal
  */
 abstract class AdminPageFramework_TermMeta_View extends AdminPageFramework_TermMeta_Model {

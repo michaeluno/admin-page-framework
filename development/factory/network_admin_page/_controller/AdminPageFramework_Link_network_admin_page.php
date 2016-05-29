@@ -15,7 +15,7 @@
  * @since           3.5.0
  * @extends         AdminPageFramework_Link_admin_page
  * @package         AdminPageFramework
- * @subpackage      Link
+ * @subpackage      Factory/NetworkAdmin/Link
  * @internal
  */
 class AdminPageFramework_Link_network_admin_page extends AdminPageFramework_Link_admin_page {
@@ -27,7 +27,7 @@ class AdminPageFramework_Link_network_admin_page extends AdminPageFramework_Link
     
         parent::__construct( $oProp, $oMsg );
         
-        if ( in_array( $this->oProp->sPageNow, array( 'plugins.php' ) ) && 'plugin' === $this->oProp->aScriptInfo['sType'] ) {
+        if ( $this->_shouldSetPluginActionLinks() ) {
             
             // This filter for non-network-admin action links is added in the parent constructor.
             remove_filter( 
@@ -40,6 +40,7 @@ class AdminPageFramework_Link_network_admin_page extends AdminPageFramework_Link
                 'network_admin_plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo['sPath'] ), 
                 array( $this, '_replyToAddSettingsLinkInPluginListingPage' ) 
             );
+            
         }
    
     }

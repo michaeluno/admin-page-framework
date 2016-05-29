@@ -8,11 +8,12 @@
  */
 
 /**
- * Provides methods to format fieldset container HTML attributes.
+ * Provides methods to format and generate <em>fieldset</em> container HTML attributes.
  * 
  * @package     AdminPageFramework
- * @subpackage  Attribute
+ * @subpackage  Common/Form/View/Attribute
  * @since       3.6.0
+ * @extends     AdminPageFramework_Form_View___Attribute_FieldContainer_Base
  * @internal
  */
 class AdminPageFramework_Form_View___Attribute_Fieldset extends AdminPageFramework_Form_View___Attribute_FieldContainer_Base {

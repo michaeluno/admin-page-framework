@@ -11,7 +11,7 @@
  * Provides methods to handle importing options.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Factory/AdminPage/Model
  * @since       3.6.3
  * @internal
  */

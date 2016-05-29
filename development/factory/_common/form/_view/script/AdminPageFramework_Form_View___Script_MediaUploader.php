@@ -12,7 +12,7 @@
  * 
  * @since       3.2.0
  * @package     AdminPageFramework
- * @subpackage  JavaScript
+ * @subpackage  Common/Form/View/JavaScript
  * @internal
  */
 class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFramework_Form_View___Script_Base {

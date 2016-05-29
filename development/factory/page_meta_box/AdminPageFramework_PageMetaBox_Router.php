@@ -13,7 +13,7 @@
  * @abstract
  * @since           3.0.4
  * @package         AdminPageFramework
- * @subpackage      PageMetaBox
+ * @subpackage      Factory/PageMetaBox
  * @internal
  * @extends         AdminPageFramework_MetaBox_View
  */

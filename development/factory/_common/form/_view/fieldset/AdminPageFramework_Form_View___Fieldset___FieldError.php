@@ -8,12 +8,13 @@
  */
 
 /**
- * Provides methods to render field error messages for a fieldset.
+ * Provides methods to render field error messages for a field-set.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/View/Field
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFramework_FrameworkUtility {
 

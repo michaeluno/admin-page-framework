@@ -8,14 +8,16 @@
  */
 
 /**
- * The factory class that creates network admin pages.
+ * The factory class to be extended to creates network admin pages.
  *
+ * {@inheritdoc}
+ * 
  * @abstract
  * @since       3.1.0
  * @remark      This class stems from several abstract classes.
  * @extends     AdminPageFramework
  * @package     AdminPageFramework
- * @subpackage  NetworkAdmin
+ * @subpackage  Factory/NetworkAdmin
  */
 abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
        
@@ -50,8 +52,9 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
      * Registers necessary callbacks ans sets up internal components including properties.
      * 
      * <h4>Example</h4>
-     * <code>if ( is_admin() )
-     *     new MyAdminPageClass( 'my_custom_option_key', __FILE__ );</code>
+     * <code>
+     * new MyNetworkAdminPageClass( 'my_custom_option_key', __FILE__ );
+     * </code>
      * 
      * @access      public
      * @since       3.1.0
@@ -72,21 +75,7 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
         $sCallerPath = $sCallerPath 
             ? $sCallerPath 
             : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );     // this is important to attempt to find the caller script path here when separating the library into multiple files.
-     
-        // $_sProprtyClassName = $this->aSubClassNames[ 'oProp' ] 
-            // ? $this->aSubClassNames[ 'oProp' ] 
-            // : 'AdminPageFramework_Property_' . $this->_sStructureType;
-            
-        // $this->oProp = new $_sProprtyClassName( 
-            // $this, 
-            // $sCallerPath, 
-            // get_class( $this ), 
-            // $sOptionKey, 
-            // $sCapability,
-            // $sTextDomain,
-            // $this->_sStructureType
-        // );
-        
+             
         parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
         
         new AdminPageFramework_Model_Menu__RegisterMenu( $this, 'network_admin_menu' );
@@ -125,7 +114,7 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
      */
     protected function _isInstantiatable() {
         
-        if ( isset( $GLOBALS['pagenow'] ) && 'admin-ajax.php' === $GLOBALS['pagenow'] ) {
+        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
             return false;
         }     
         

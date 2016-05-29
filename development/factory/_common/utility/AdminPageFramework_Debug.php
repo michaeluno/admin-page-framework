@@ -9,30 +9,35 @@
 
 /**
  * Provides debugging methods.
+ * 
+ * Use the methods of this class to check variable contents. 
  *
+ * @image           http://admin-page-framework.michaeluno.jp/image/common/utility/debug.png
  * @since           2.0.0
  * @since           3.1.3       Extends AdminPageFramework_WPUtility
  * @since           3.7.1       Extends AdminPageFramework_FrameworkUtility
  * @extends         AdminPageFramework_FrameworkUtility
  * @package         AdminPageFramework
- * @subpackage      Debug
- * @internal
+ * @subpackage      Common/Utility
  */
 class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
             
     /**
-     * Prints out the given array contents
+     * Prints out the given variable contents
      * 
-     * If a file pass is given, it saves the output in the file.
+     * If a file pass is given to the second parameter, it saves the output in the file.
      * 
-     * @remark      An alias of the dumpArray() method.
      * @since       3.2.0
+     * @remark      An alias of the dumpArray() method.
+     * @param       array|string    $asArray        The variable to check its contents.
+     * @param       string          $sFilePath      The file path for a log file.
+     * @return      void
      */
     static public function dump( $asArray, $sFilePath=null ) {
         echo self::get( $asArray, $sFilePath );
     }    
         /**
-         * Prints out the given array contents
+         * Prints out the given variable contents.
          * 
          * If a file pass is given, it saves the output in the file.
          * 
@@ -44,12 +49,15 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
         }    
         
     /**
-     * Retrieves the output of the given array contents.
+     * Retrieves the output of the given variable contents.
      * 
-     * If a file pass is given, it saves the output in the file.
+     * If a file pass is given to the second parameter, it saves the output in the file.
      * 
      * @remark      An alias of getArray() method.
      * @since       3.2.0
+     * @param       array|string    $asArray        The variable to check its contents.
+     * @param       string          $sFilePath      The file path for a log file.
+     * @param       boolean         $bEscape        Whether to escape characters.
      */
     static public function get( $asArray, $sFilePath=null, $bEscape=true ) {
 
@@ -67,7 +75,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
          * 
          * @since       2.1.6 The $bEncloseInTag parameter is added.
          * @since       3.0.0 Changed the $bEncloseInTag parameter to bEscape.
-         * @deprecated` 3.2.0
+         * @deprecated  3.2.0
          */
         static public function getArray( $asArray, $sFilePath=null, $bEscape=true ) {
             return self::get( $asArray, $sFilePath, $bEscape );
@@ -75,6 +83,12 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
             
     /**
      * Logs the given variable output to a file.
+     * 
+     * <h4>Example</h4>
+     * <code>
+     * $_aValues = array( 'foo', 'bar' );
+     * AdminPageFramework_Debug::log( $aValues );
+     * </code>
      * 
      * @remark      The alias of the `logArray()` method.
      * @since       3.1.0
@@ -119,7 +133,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
     }   
         /**
          * Determines the log file path.
-         * @sicne        3.5.3 
+         * @since        3.5.3 
          * @internal    
          * @return      string      The path of the file to log the contents.
          */
@@ -139,6 +153,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
             /**
              * Creates a file.
              * @return      boolean
+             * @internal
              */
             static private function _createFile( $sFilePath ) {
                 if ( ! $sFilePath || true === $sFilePath ) {
@@ -252,8 +267,8 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
          * Logs the given array output into the given file.
          * 
          * @since       2.1.1
-         * @since       3.0.3 Changed the default log location and file name.
-         * @deprecated  3.1.0 Use the `log()` method instead.
+         * @since       3.0.3   Changed the default log location and file name.
+         * @deprecated  3.1.0   Use the `log()` method instead.
          */
         static public function logArray( $asArray, $sFilePath=null ) {
             self::log( $asArray, $sFilePath );     
@@ -263,6 +278,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
      * Returns a string representation of the given value.
      * @since       3.5.0
      * @param       mized       $mValue     The value to get as a string
+     * @internal
      */
     static public function getAsString( $mValue ) {
         
@@ -284,6 +300,8 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
      * Slices the given array by depth.
      * 
      * @since       3.4.4
+     * @return      array
+     * @internal
      */
     static public function getSliceByDepth( array $aSubject, $iDepth=0 ) {
 

@@ -11,7 +11,7 @@
  * Provides methods to render collapsible section title.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/View/Section
  * @since       3.6.0
  * @since       3.7.0      Renamed from `AdminPageFramework_FormPart_CollapsibleSectionTitle`.
  * @internal

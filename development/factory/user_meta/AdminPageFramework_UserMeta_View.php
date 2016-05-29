@@ -13,7 +13,7 @@
  * @abstract
  * @since           3.5.0
  * @package         AdminPageFramework
- * @subpackage      UserMeta
+ * @subpackage      Factory/UserMeta
  */
 abstract class AdminPageFramework_UserMeta_View extends AdminPageFramework_UserMeta_Model {
         

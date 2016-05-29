@@ -7,15 +7,16 @@
  * 
  */
 
-// @todo investigate why this is not used at the moment. 
-// It seems the form works properly without this conditioning routine.
  
 /**
  * Provides methods to build forms.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/Model
  * @since       3.7.0
+ * @internal
+ * @todo        This may be deprecated. Investigate what this was for and why this is not used at the moment. 
+ * It seems the form works properly without this conditioning routine.
  */
 class AdminPageFramework_Form_Model___FieldConditioner extends AdminPageFramework_Form_Model___SectionConditioner {
     

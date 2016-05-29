@@ -11,9 +11,10 @@
  * Provides methods to handle field errors.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 class AdminPageFramework_Form___FieldError extends AdminPageFramework_FrameworkUtility {
     

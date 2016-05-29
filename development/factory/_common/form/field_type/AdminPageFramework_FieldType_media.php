@@ -8,12 +8,49 @@
  */
 
 /**
- * Defines the media field type.
+ * A text field with a media uploader lets the user set a file URL.
  * 
+ * This class defines the media field type.
+ * 
+ * <h2>Field Definition Arguments</h2>
+ * <h3>Field Type Specific Arguments</h3>
+ * <ul>
+ *     <li>**attributes_to_store** - [2.1.3+] (optional, array) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'id', 'caption', and 'description'. Note that for external URLs, ID will not be captured. e.g. `'attributes_to_store' => array( 'id', 'caption', 'description' )`</li>
+ *     <li>**allow_external_source** - [2.1.3+] (optional, boolean) whether external URL can be set via the uploader.</li>
+ *     <li>**attributes** - [3.2.0+] (optional, boolean) there are additional nested attribute arguments.
+ *         <ul>
+ *             <li>`button` - (array) applies to the Select File button.</li>
+ *             <li>`remove_button` - (array) applies to the Remove button.</li>
+ *         </ul>
+ *     </li>
+ * 
+ * </ul>
+ * 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ ** <code>
+ *   array( 
+ *       'field_id'              => 'media_with_attributes',
+ *       'title'                 => __( 'Media File with Attributes', 'admin-page-framework-loader' ),
+ *       'type'                  => 'media',
+ *       'attributes_to_store'   => array( 'id', 'caption', 'description' ),
+ *       'attributes'            => array(
+ *           'button'        => array(
+ *               'data-label' => __( 'Select File', 'admin-page-framework-loader' ),
+ *           ),
+ *           'remove_button' => array(      // 3.2.0+
+ *               'data-label' => __( 'Remove', 'admin-page-framework-loader' ), // will set the Remove button label instead of the dashicon
+ *           ),
+ *       ),        
+ *   )
+ ** </code>
+ * 
+ * @image       http://admin-page-framework.michaeluno.jp/image/common/form/field_type/media.png
  * @package     AdminPageFramework
- * @subpackage  FieldType
+ * @subpackage  Common/Form/FieldType
  * @since       2.1.5
- * @internal
  * @extends     AdminPageFramework_FieldType_image
  */
 class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_image {
@@ -48,6 +85,8 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
         
     /**
      * Returns the field type specific JavaScript script.
+     * @internal
+     * @return      string
      */ 
     protected function getScripts() {
         return 
@@ -62,6 +101,7 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
          * 
          * @since       3.0.0
          * @return      string
+         * @internal
          */
         protected function _getScript_RegisterCallbacks() {
 
@@ -138,8 +178,10 @@ JAVASCRIPTS;
          * Returns the media uploader JavaScript script to be loaded in the head tag of the created admin pages.
          * 
          * @since       2.1.3
-         * @since       2.1.5       Moved from ... Chaned the name from getMediaUploaderScript().
-         * @since       2.4.2       Remved the second an the thir parameter as additional message items need to be defined.
+         * @since       2.1.5       Moved from ... Changed the name from `getMediaUploaderScript()`.
+         * @since       2.4.2       Removed the second an the their parameter as additional message items need to be defined.
+         * @internal
+         * @return      string
          */
         private function _getScript_MediaUploader( $sReferrer ) {
 
@@ -382,6 +424,7 @@ CSSRULES;
          * @since       2.1.5   Moved from AdminPageFramework_FormField.
          * @since       3.2.0   Made it use dashicon for the select button.
          * @return      string
+         * @internal
          */     
         protected function _getUploaderButtonScript( $sInputID, $abRepeatable, $bExternalSource, array $aButtonAttributes ) {
       
@@ -411,6 +454,7 @@ JAVASCRIPTS;
              * Returns an HTML output of an uploader button.
              * @since       3.5.3
              * @return      string      The generated HTML uploader button output.
+             * @internal
              */
             private function _getUploaderButtonHTML_Media( $sInputID, array $aButtonAttributes, $bExternalSource ) {
                     
@@ -438,6 +482,7 @@ JAVASCRIPTS;
                  * Returns a formatted upload button attributes array.
                  * @since       3.5.3
                  * @return      array       The formatted upload button attributes array.
+                 * @internal
                  */
                 private function _getFormattedUploadButtonAttributes_Media( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bExternalSource ) {
                    

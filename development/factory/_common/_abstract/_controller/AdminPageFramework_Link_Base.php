@@ -14,7 +14,7 @@
  * @since       2.0.0
  * @extends     AdminPageFramework_FrameworkUtility
  * @package     AdminPageFramework
- * @subpackage  Link
+ * @subpackage  Common/Factory/Link
  * @internal
  */
 abstract class AdminPageFramework_Link_Base extends AdminPageFramework_FrameworkUtility {
@@ -38,7 +38,7 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
         add_action( 'in_admin_footer', array( $this, '_replyToSetFooterInfo' ) );
         
         // Add an action link in the plugin listing page
-        if ( 'plugins.php' === $this->oProp->sPageNow && 'plugin' === $this->oProp->aScriptInfo[ 'sType' ] ) {
+        if ( $this->_shouldSetPluginActionLinks() ) {            
             add_filter( 
                 'plugin_action_links_' . plugin_basename( $this->oProp->aScriptInfo[ 'sPath' ] ),
                 array( $this, '_replyToAddSettingsLinkInPluginListingPage' ), 
@@ -47,8 +47,9 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
         }        
         
     }
+        
         /**
-         * Determines if construction the object should be performed or not.
+         * Determines if instantiating the class should be performed or not.
          * 
          * @since       3.5.5
          * @return      boolean
@@ -62,6 +63,25 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
             }
             return ! $this->hasBeenCalled( 'links_' . $oProp->sClassName );
         }
+        
+    /**
+     * Checks whether it is okay to set up action links in the plugin listing page (plugins.php).
+     * @since       3.8.0
+     * @return      boolean
+     */
+    protected function _shouldSetPluginActionLinks() {
+        
+        // It is possible that the sub-objects are not set when the class is considered not loadable.
+        if ( ! isset( $this->oProp ) ) {
+            return false;
+        }
+        
+        if ( ! in_array( $this->oProp->sPageNow, array( 'plugins.php' ) ) ) {
+            return false;
+        }
+        return 'plugin' === $this->oProp->aScriptInfo[ 'sType' ];
+        
+    }        
         
     /**
      * Sets up footer information.

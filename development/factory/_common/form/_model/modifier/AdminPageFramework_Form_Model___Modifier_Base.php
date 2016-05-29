@@ -8,13 +8,15 @@
  */
 
 /**
- * Provides methods that deal with modifing data.
+ * Provides common methods that deal with modifying data.
+ * 
+ * Modifying here refers to sanitizing, formatting, and sorting etc.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Common/Form/Model/Modifier
  * @since       3.6.0
- * @internal
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 abstract class AdminPageFramework_Form_Model___Modifier_Base extends AdminPageFramework_FrameworkUtility {
       

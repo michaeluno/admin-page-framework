@@ -14,7 +14,7 @@
  * 
  * @since       2.1.0
  * @package     AdminPageFramework
- * @subpackage  Property
+ * @subpackage  Factory/MetaBox/Property
  * @extends     AdminPageFramework_Property_Base
  * @internal
  */

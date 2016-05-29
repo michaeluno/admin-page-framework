@@ -13,7 +13,7 @@
  * If the key to reset is not specified, it does nothing.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Factory/AdminPage/Model
  * @since       3.6.3
  * @internal
  */

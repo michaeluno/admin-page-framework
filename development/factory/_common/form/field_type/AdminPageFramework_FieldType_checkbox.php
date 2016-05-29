@@ -8,13 +8,62 @@
  */
 
 /**
- * Defines the checkbox field type.
+ * A check box that lets the user enable/disable an option item.
  * 
+ * This class defines the checkbox field type.
+ * 
+ * <h2>Field Definition Arguments</h2>
+ * <h3>Field Type Specific Arguments</h3>
+ * <ul>
+ *     <li>**select_all_button** - [3.3.0+] (optional, boolean|array) pass `true` to enable the `Select All` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+ *     <li>**select_none_button** - [3.3.0+] (optional, boolean|array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+ * </ul>
+ * 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * <code>
+ *  array( 
+ *      'field_id'      => 'checkbox',
+ *      'title'         => __( 'Checkbox', 'admin-page-framework-loader' ),
+ *      'type'          => 'checkbox',
+ *      'label'         => __( 'This is a check box.', 'admin-page-framework-loader' ) 
+ *          . ' ' . __( 'A string can be passed to the label argument for a single item.', 'admin-page-framework-loader' ),
+ *      'default'   => false,
+ *  )
+ * </code>
+ * <code>
+ *  array( 
+ *      'field_id'      => 'checkbox_multiple_items',
+ *      'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
+ *      'type'          => 'checkbox',
+ *      'label'         => array( 
+ *          'moon'  => __( 'Moon', 'admin-page-framework-loader' ),
+ *          'earth' => __( 'Earth', 'admin-page-framework-loader' ) . ' (' . __( 'this option is disabled.', 'admin-page-framework-loader' ) . ')',
+ *          'sun'   => __( 'Sun', 'admin-page-framework-loader' ),
+ *          'mars'  => __( 'Mars', 'admin-page-framework-loader' ),
+ *      ),
+ *      'default'       => array( 
+ *          'moon'  => true, 
+ *          'earth' => false, 
+ *          'sun'   => true, 
+ *          'mars'  => false,
+ *      ),
+ *      'attributes'    => array(
+ *          'earth' => array(
+ *              'disabled' => 'disabled',
+ *          ),
+ *      ),
+ *      'after_label'   => '<br />',
+ *  )
+ * </code>
+ * 
+ * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/checkbox.png
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @since           2.1.5
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
- * @internal
  */
 class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType {
     
@@ -36,6 +85,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
+     * @internal
      */ 
     protected function getScripts() {
         new AdminPageFramework_Form_View___Script_CheckboxSelector;
@@ -64,6 +114,7 @@ JAVASCRIPTS;
          * 
          * @since       3.5.12
          * @return      string
+         * @internal
          */
         private function _getSelectButtonClassSelectors( array $aFieldTypeSlugs, $sDataAttribute='select_all_button' ) {
             
@@ -83,6 +134,8 @@ JAVASCRIPTS;
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
+     * @internal
+     * @return      string
      */ 
     protected function getStyles() {
         return <<<CSSRULES
@@ -114,6 +167,8 @@ CSSRULES;
      * 
      * This selector is used for the repeatable and sortable field scripts.
      * @since   3.1.7
+     * @internal
+     * @var     string
      */
     protected $_sCheckboxClassSelector = 'apf_checkbox';
     
@@ -123,6 +178,7 @@ CSSRULES;
      * @since       2.1.5
      * @since       3.0.0     Removed unnecessary parameters.
      * @since       3.3.0     Changed from `_replyToGetField()`.
+     * @internal
      */
     protected function getField( $aField ) {
 
@@ -147,7 +203,7 @@ CSSRULES;
          * Returns the checkbox container element attributes array.
          * @internal
          * @access      protected   The taxonomy field type class accesses this method.
-         * @sinec       3.5.3
+         * @since       3.5.3
          * @return      array       The generated attributes array.
          */
         protected function _getCheckboxContainerAttributes( array $aField ) {
@@ -167,6 +223,7 @@ CSSRULES;
          * 
          * @since       3.5.3
          * @return      string      The generated checkbox output.
+         * @internal
          */
         private function _getEachCheckboxOutput( array $aField, $sKey, $sLabel ) {
 

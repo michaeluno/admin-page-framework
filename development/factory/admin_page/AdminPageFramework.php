@@ -8,17 +8,17 @@
  */
 
 /**
- * The main class of the framework to create admin pages and forms.
+ * The main class of the framework to be extended to create admin pages and forms.
  * 
- * This class should be extended and the `setUp()` method should be overridden to define how pages are composed.
- * Most of the internal methods are prefixed with the underscore like `_getSomething()` and callback methods are prefixed with `_reply`.
- * The methods for the users are public and do not have those prefixes.
+ * <p>The user defines their own class by extending this class with the `setUp()` method overridden to define admin pages.</p>
  * 
  * @abstract
  * @since       2.0.0
  * @extends     AdminPageFramework_Controller
  * @package     AdminPageFramework
- * @subpackage  AdminPage
+ * @subpackage  Factory/AdminPage
+ * @remark      Most of the internal methods are prefixed with the underscore like `_getSomething()` and callback methods are prefixed with `_reply`.
+ * The methods for the users are public and do not have those prefixes.
  */
 abstract class AdminPageFramework extends AdminPageFramework_Controller {
      
@@ -29,18 +29,18 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
      * 
      * @since       3.0.0
      * @since       3.7.0       Changed the name from `$_sFieldsType`.
-     * @since       3.7.12      Moved from `AdminPageFrmework_Model_Form`. Remvoed the static scope.
+     * @since       3.7.12      Moved from `AdminPageFrmework_Model_Form`. Removed the static scope.
      * @internal
      */
     protected $_sStructureType = 'admin_page';
      
     /**
-     * Registers necessary callbacks ans sets up internal components including properties.
+     * Registers necessary callbacks and sets up internal components including properties.
      * 
      * <h4>Example</h4>
-     * <code>if ( is_admin() ) {
-     *     new MyAdminPageClass( 'my_custom_option_key', __FILE__ );
-     * }</code>
+     * <code>
+     * new MyAdminPageClass( 'my_custom_option_key', __FILE__ );
+     * </code>
      * 
      * @access      public
      * @since       2.0.0
@@ -86,6 +86,6 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
             $sTextDomain 
         );
 
-    }    
-        
+    }   
+    
 }

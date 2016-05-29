@@ -11,8 +11,9 @@
  * Provides methods to build forms.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form
  * @since       3.7.0
+ * @internal
  */
 class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
         

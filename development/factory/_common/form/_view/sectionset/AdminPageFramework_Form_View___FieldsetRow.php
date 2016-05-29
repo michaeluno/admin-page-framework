@@ -11,7 +11,7 @@
  * Provides methods to render a fieldset.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/View/Field
  * @since       3.6.0 
  * @internal
  */

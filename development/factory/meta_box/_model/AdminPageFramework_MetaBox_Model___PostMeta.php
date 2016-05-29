@@ -12,7 +12,7 @@
  * 
  * @since       3.7.0
  * @package     AdminPageFramework
- * @subpackage  MetaBox
+ * @subpackage  Factory/MetaBox
  * @internal
  * @extends     AdminPageFramework_Factory_Model___Meta_Base
  */

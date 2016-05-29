@@ -11,7 +11,7 @@
  * Provides methods to output form input element of radio buttons.
  * 
  * @package         AdminPageFramework
- * @subpackage      FormInput
+ * @subpackage      Common/Form/Input
  * @since           3.4.0       
  * @internal
  */

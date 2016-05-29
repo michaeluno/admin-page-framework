@@ -11,7 +11,7 @@
  * Provides methods to manipulate the contextual help tab for the user field class.
  *
  * @package     AdminPageFramework
- * @subpackage  HelpPane
+ * @subpackage  Factory/UserMeta/HelpPane
  * @since       3.5.0
  * @extends     AdminPageFramework_HelpPane_post_meta_box
  * @internal

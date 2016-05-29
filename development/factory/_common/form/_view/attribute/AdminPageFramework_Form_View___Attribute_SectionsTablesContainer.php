@@ -8,11 +8,12 @@
  */
 
 /**
- * Provides methods to format HTML attributes.
+ * Provides methods to format and generate <em>sections tables</em> HTML attributes.
  * 
  * @package     AdminPageFramework
- * @subpackage  Attribute
+ * @subpackage  Common/Form/View/Attribute
  * @since       3.6.0
+ * @extends     AdminPageFramework_Form_View___Attribute_Base
  * @internal
  */
 class AdminPageFramework_Form_View___Attribute_SectionsTablesContainer extends AdminPageFramework_Form_View___Attribute_Base {
@@ -101,20 +102,20 @@ class AdminPageFramework_Form_View___Attribute_SectionsTablesContainer extends A
                 return array();
             }
             
-/* 
- * repeatable fields
- id="fields-repeatable_sections__0_repeatable_field_in_repeatable_sections"
- class="admin-page-framework-fields repeatable dynamic-fields" 
- data-type="text" 
- data-largest_index="0" 
- data-field_name_model="APF_Demo[repeatable_sections][0][repeatable_field_in_repeatable_sections][___i___]" 
- data-field_name_flat="APF_Demo|repeatable_sections|0|repeatable_field_in_repeatable_sections" 
- data-field_name_flat_model="APF_Demo|repeatable_sections|0|repeatable_field_in_repeatable_sections|___i___" 
- data-field_tag_id_model="repeatable_sections__0_repeatable_field_in_repeatable_sections_____i___" 
- data-field_address="repeatable_sections|0|repeatable_field_in_repeatable_sections" 
- data-field_address_model="repeatable_sections|0|repeatable_field_in_repeatable_sections|___i___">
-   */          
-  
+            /**
+             * Repeatable fields example
+             *   id="fields-repeatable_sections__0_repeatable_field_in_repeatable_sections"
+             *   class="admin-page-framework-fields repeatable dynamic-fields" 
+             *   data-type="text" 
+             *   data-largest_index="0" 
+             *   data-field_name_model="APF_Demo[repeatable_sections][0][repeatable_field_in_repeatable_sections][___i___]" 
+             *   data-field_name_flat="APF_Demo|repeatable_sections|0|repeatable_field_in_repeatable_sections" 
+             *   data-field_name_flat_model="APF_Demo|repeatable_sections|0|repeatable_field_in_repeatable_sections|___i___" 
+             *   data-field_tag_id_model="repeatable_sections__0_repeatable_field_in_repeatable_sections_____i___" 
+             *   data-field_address="repeatable_sections|0|repeatable_field_in_repeatable_sections" 
+             *   data-field_address_model="repeatable_sections|0|repeatable_field_in_repeatable_sections|___i___">
+             */          
+              
             $aSectionset[ '_index' ] = null; // generate id and names without sub-sections.
             $_oSectionNameGenerator = new AdminPageFramework_Form_View___Generate_SectionName( 
                 $aSectionset,

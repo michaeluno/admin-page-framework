@@ -8,10 +8,10 @@
  */
 
 /**
- * Provides methods to format form section definition arrays.
+ * Provides methods to format each form section-set definition arrays.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Common/Form/Model/Format
  * @since       3.6.0
  * @internal
  */

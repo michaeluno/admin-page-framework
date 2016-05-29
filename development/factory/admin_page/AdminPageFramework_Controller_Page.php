@@ -8,14 +8,14 @@
  */
 
 /**
- * Provides methods to manipulate how admin pages are displayed.
+ * Provides methods to manipulate the way admin pages are displayed.
  *
  * @abstract
  * @since           3.3.1
  * @since           3.6.3       Changed the name from `AdminPageFramework_Page_Controller`.
  * @extends         AdminPageFramework_View_Page
  * @package         AdminPageFramework
- * @subpackage      AdminPage
+ * @subpackage      Factory/AdminPage
  */
 abstract class AdminPageFramework_Controller_Page extends AdminPageFramework_View_Page {
     

@@ -12,7 +12,7 @@
  *
  * @since       3.7.0
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Factory/MetaBox/Form
  * @internal
  */
 class AdminPageFramework_Form_View___CSS_meta_box extends AdminPageFramework_Form_View___CSS_Base {

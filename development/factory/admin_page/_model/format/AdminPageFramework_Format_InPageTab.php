@@ -11,7 +11,7 @@
  * Provides methods to format form in-page tabs definition arrays.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Factory/AdminPage/Format
  * @since       3.6.0
  * @internal
  */

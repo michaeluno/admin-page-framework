@@ -8,12 +8,12 @@
  */
 
 /**
- * Provides methods to get default form values from given fieldsets.
+ * Provides methods to get default form values from given field-sets.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/Model
  * @since       3.7.0
- * @deprecated
+ * @internal
  */
 class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_Form_Base {
     
@@ -70,10 +70,10 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
      * 
      * @since       3.7.0
      * @return      array       
+     * @todo Test the result completely, especially for repeated sections.     
      */
     public function get() {
 
-// @todo Test the result completely, especially for repeated sections.     
         $_aResult = $this->_getDefaultValues(
             $this->aFieldsets,
             array()
@@ -105,32 +105,6 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
             }
             return $aDefaultOptions;
         }
-
-    /**
-     * @deprecated
-     */
-  /*   public function _get() {
-        
-        $_aDefaultOptions = array();
-        foreach( $this->aFieldsets as $_sSectionID => $_aFieldsetsPerSection ) {
-            
-// @todo Think of a new way when there are nested fieldsets and sectionsets.                
-            foreach( $_aFieldsetsPerSection as $_sFieldID => $_aFieldset ) {
-                
-                $_vDefault = $this->_getDefautValue( $_aFieldset );
-                
-                if ( isset( $_aFieldset[ 'section_id' ] ) && $_aFieldset[ 'section_id' ] != '_default' ) {
-                    $_aDefaultOptions[ $_aFieldset[ 'section_id' ] ][ $_sFieldID ] = $_vDefault;
-                } else {
-                    $_aDefaultOptions[ $_sFieldID ] = $_vDefault;
-                }
-                    
-            }
-                
-        }     
-        return $_aDefaultOptions;   
-        
-    } */
  
         /**
          * Returns the default value from the given field definition array.

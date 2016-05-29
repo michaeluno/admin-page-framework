@@ -17,7 +17,7 @@
  * @since       2.1.5
  * @since       3.3.0       Changed the name from AdminPageFramework_HeadTag_Page.
  * @package     AdminPageFramework
- * @subpackage  Resource
+ * @subpackage  Factory/AdminPage/Resource
  * @extends     AdminPageFramework_Resource_Base
  * @internal
  */

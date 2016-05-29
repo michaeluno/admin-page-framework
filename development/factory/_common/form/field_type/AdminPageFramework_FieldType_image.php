@@ -8,13 +8,50 @@
  */
 
 /**
- * Defines the image field type.
+ * A text field with an image uploader.
  * 
+ * This class defines the image field type.
+ * 
+ * <h2>Field Definition Arguments</h2>
+ * <h3>Field Type Specific Arguments</h3>
+ * <ul>
+ *      <li>**show_preview** - (optional, boolean) if this is set to false, the image preview will be disabled.</li>
+ *      <li>**attributes_to_store** - [2.1.3+] (optional, array) the array of the attribute names of the image to save. If this is set, the field will be an array with the specified attributes. The supported attributes are, 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', and 'link'. Note that for external URLs, ID will not be captured. e.g. `'attributes_to_store' => array( 'id', 'caption', 'description' )`</li>
+ *      <li>**allow_external_source** - [2.1.3+] (optional, boolean) whether external URL can be set via the uploader.</li>
+ *      <li>**attributes** - [3.0.0+] (optional, array) there are additional nested arguments.
+ *          <ul>
+ *              <li>`input` - (array) applies to the input tag element.</li>
+ *              <li>`preview` - (array) applies to the preview container element.</li>
+ *              <li>`button` - (array) applies to the image select (uploader) button. To set a custom text label instead on of an image icon, set it to the `data-label` attribute. e.g. `'button' => array( 'data-label' => 'Select Image' )`</li>
+ *              <li>`remove_button` - (array) [3.2.0+] applies to the remove-image button. To set a custom text label instead on of an image icon, set it to the `data-label` attribute. e.g. `'remove_button' => array( 'data-label' => 'Remove Image' )`</li>
+ *          </ul>
+ *      </li>
+ * </ul> 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * <code>
+ *  array( 
+ *      'field_id'      => 'image_select_field',
+ *      'title'         => __( 'Select an Image', 'admin-page-framework-loader' ),
+ *      'type'          => 'image',
+ *      'label'         => __( 'First', 'admin-page-framework-loader' ),
+ *      'default'       =>  plugins_url( 'asset/image/demo/wordpress-logo-2x.png', AdminPageFrameworkLoader_Registry::$sFilePath ),
+ *      'allow_external_source' => false,
+ *      'attributes'    => array(
+ *          'preview' => array(
+ *              'style' => 'max-width:300px;' // the size of the preview image.
+ *          ),
+ *      )
+ *  )
+ * </code>
+ * 
+ * @image       http://admin-page-framework.michaeluno.jp/image/common/form/field_type/image.png
  * @package     AdminPageFramework
- * @subpackage  FieldType
+ * @subpackage  Common/Form/FieldType
  * @since       2.1.5
  * @since       3.5.3       Changed it to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
- * @internal
  * @extends     AdminPageFramework_FieldType
  */
 class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
@@ -48,6 +85,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
 
     /**
      * Loads the field type necessary components.
+     * @internal
      */ 
     protected function setUp() {
         $this->enqueueMediaUploader();
@@ -55,6 +93,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
     
     /**
      * Returns the field type specific JavaScript script.
+     * @internal
      */ 
     protected function getScripts() {
         return // $this->_getScript_CustomMediaUploaderObject() . PHP_EOL    
@@ -68,6 +107,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
          * 
          * @since       3.0.0
          * @return      string
+         * @internal
          */
         protected function _getScript_RegisterCallbacks() {
 
@@ -166,11 +206,11 @@ JAVASCRIPTS;
          * @remark      It is accessed from the main class and meta box class.
          * @remark      Moved to the base class since 2.1.0.
          * @access      private    
-         * @internal
          * @return      string      The image selector script.
          * @since       2.0.0
          * @since       2.1.5       Moved from the AdminPageFramework_Property_Base class. Changed the name from getImageSelectorScript(). Changed the scope to private and not static anymore.
          * @since       2.4.2       Removed the second an the their parameter as additional message items need to be defined.
+         * @internal
          */     
         private function _getScript_ImageSelector( $sReferrer ) {
                             
@@ -473,6 +513,7 @@ JAVASCRIPTS;
     
     /**
      * Returns the field type specific CSS rules.
+     * @internal
      */ 
     protected function getStyles() { 
         return <<<CSSRULES
@@ -550,6 +591,7 @@ CSSRULES;
      * @since   2.1.5
      * @since   3.0.0   Reconstructed entirely.
      * @since   3.5.3   Changed the name from `_replyToGetField()`.
+     * @internal
      */
     protected function getField( $aField ) {
 
@@ -605,6 +647,7 @@ CSSRULES;
          * Returns a base attribute array.
          * @since       3.5.3
          * @return      array       The generated base attribute array.
+         * @internal
          */
         private function _getBaseAttributes( array $aField ) {
             
@@ -631,6 +674,7 @@ CSSRULES;
          * 
          * @since       3.5.3
          * @return      string      The found image url.
+         * @internal
          */
         private function _getTheSetImageURL( array $aField, $iCountAttributes ) {
 
@@ -645,6 +689,7 @@ CSSRULES;
          * Returns an image field input attribute for the url input tag.
          * @since       3.5.3
          * @return      array
+         * @internal
          */
         private function _getImageInputAttributes( array $aField, $iCountAttributes, $sImageURL, array $aBaseAttributes ) {
             
@@ -670,6 +715,7 @@ CSSRULES;
          * 
          * @since       3.0.0
          * @return      string
+         * @internal
          */
         protected function getExtraInputFields( array $aField ) {
             
@@ -699,7 +745,8 @@ CSSRULES;
         
         /**
          * Returns the output of the preview box.
-         * @since 3.0.0
+         * @since   3.0.0
+         * @internal
          */
         protected function _getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) {
 
@@ -728,10 +775,11 @@ CSSRULES;
         /**
          * A helper function for the above getImageInputTags() method to add a image button script.
          * 
-         * @since   2.1.3
-         * @since   2.1.5   Moved from AdminPageFramework_FormField.
-         * @since   3.2.0   Made it use dashicon for the select image button.
-         * @remark  This class is extended by the media field type and this method will be overridden. So the scope needs to be protected rather than private.
+         * @since       2.1.3
+         * @since       2.1.5   Moved from AdminPageFramework_FormField.
+         * @since       3.2.0   Made it use dashicon for the select image button.
+         * @remark      This class is extended by the media field type and this method will be overridden. So the scope needs to be protected rather than private.
+         * @internal
          */
         protected function _getUploaderButtonScript( $sInputID, $abRepeatable, $bExternalSource, array $aButtonAttributes ) {
             
@@ -763,6 +811,7 @@ JAVASCRIPTS;
              * Returns an HTML output of an uploader button.
              * @since       3.5.3
              * @return      string      The generated HTML uploader button output.
+             * @internal
              */
             private function _getUploaderButtonHTML( $sInputID, array $aButtonAttributes, $bRepeatable, $bExternalSource ) {
                 
@@ -789,6 +838,7 @@ JAVASCRIPTS;
                  * Returns a formatted upload button attributes array.
                  * @since       3.5.3
                  * @return      array       The formatted upload button attributes array.
+                 * @internal
                  */
                 private function _getFormattedUploadButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bRepeatable, $bExternalSource ) {
                         
@@ -831,6 +881,7 @@ JAVASCRIPTS;
          * @since       3.2.0
          * @since       3.5.3       Added the `$sType` parameter.
          * @return      string
+         * @internal
          */
         protected function _getRemoveButtonScript( $sInputID, array $aButtonAttributes, $sType='image' ) {
            
@@ -860,6 +911,7 @@ JAVASCRIPTS;
          * Returns an HTML output of a remove button.
          * @since       3.5.3
          * @return      string      The generated HTML remove button output.
+         * @internal
          */
         protected function _getRemoveButtonHTMLByType( $sInputID, array $aButtonAttributes, $sType='image' ) {
         
@@ -882,6 +934,7 @@ JAVASCRIPTS;
              * Returns a formatted remove button attributes array.
              * @since       3.5.3
              * @return      array       The formatted remove button attributes array.
+             * @internal
              */
             protected function _getFormattedRemoveButtonAttributesByType( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $sType='image' ) {
 
@@ -920,6 +973,7 @@ JAVASCRIPTS;
          * 
          * @since       3.5.3
          * @return      string      The generated class selectors.
+         * @internal
          */
         private function _getDashIconSelectorsBySlug( $sDashIconSlug ) {
          

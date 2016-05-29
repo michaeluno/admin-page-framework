@@ -16,7 +16,7 @@
  * Custom post type factory type does not have the ability to render forms however.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Factory/PostType/Form
  * @since       3.7.0      
  * @extends     AdminPageFramework_Form
  * @internal

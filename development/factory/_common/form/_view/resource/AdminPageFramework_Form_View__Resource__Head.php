@@ -14,9 +14,10 @@
  * such as the ones that hides the form and shows a loading message.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/View/Resource
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_FrameworkUtility {
     

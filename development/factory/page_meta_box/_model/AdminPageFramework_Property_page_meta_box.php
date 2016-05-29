@@ -15,7 +15,7 @@
  * @since       3.0.0
  * @since       3.7.9       Renamed from `AdminPageFramework_Property_post_meta_box_Page`.
  * @package     AdminPageFramework
- * @subpackage  PageMetaBox
+ * @subpackage  Factory/PageMetaBox/Property
  * @extends     AdminPageFramework_Property_Base
  * @internal
  */

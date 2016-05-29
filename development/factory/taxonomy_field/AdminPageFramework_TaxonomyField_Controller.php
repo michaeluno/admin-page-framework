@@ -8,12 +8,12 @@
  */
 
 /**
- * Provides UI related methods.
+ * Provides methods to manipulate the class behavior.
  *
  * @abstract
  * @since           3.5.0
  * @package         AdminPageFramework
- * @subpackage      TaxonomyField
+ * @subpackage      Factory/TaxonomyField
  */
 abstract class AdminPageFramework_TaxonomyField_Controller extends AdminPageFramework_TaxonomyField_View {
     
@@ -23,6 +23,7 @@ abstract class AdminPageFramework_TaxonomyField_Controller extends AdminPageFram
      * @remark      should be overridden by the user definition class.
      * @since       3.0.0
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
+     * @return      void
      */
     public function setUp() {}    
         

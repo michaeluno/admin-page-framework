@@ -8,13 +8,14 @@
  */
 
 /**
- * Provides methods to format form sub-field definition arrays.
+ * Provides methods to format each item of sub-fields definition arrays.
  * 
  * A sub-field is an each individual field and its definition contains some internal keys.
  * 
  * @package     AdminPageFramework
- * @subpackage  Format
+ * @subpackage  Common/Form/Model/Format
  * @since       3.6.0
+ * @extends     AdminPageFramework_Form_Model___Format_FormField_Base
  * @internal
  */
 class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramework_Form_Model___Format_FormField_Base {

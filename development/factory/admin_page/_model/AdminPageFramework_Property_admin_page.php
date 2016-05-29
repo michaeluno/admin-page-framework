@@ -14,7 +14,7 @@
  * 
  * @since       2.0.0
  * @package     AdminPageFramework
- * @subpackage  AdminPage
+ * @subpackage  Factory/AdminPage/Property
  * @extends     AdminPageFramework_Property_Base
  * @internal
  */

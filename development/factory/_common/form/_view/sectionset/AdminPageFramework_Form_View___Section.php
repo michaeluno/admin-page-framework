@@ -11,9 +11,10 @@
  * Provides methods to render individual form section.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Common/Form/View/Section
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
+ * @internal
  */
 class AdminPageFramework_Form_View___Section extends AdminPageFramework_FrameworkUtility {
     

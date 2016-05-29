@@ -8,13 +8,57 @@
  */
 
 /**
- * Defines the size field type.
+ * A combination field of a number and a select inputs that let the user set sizes.
  * 
+ * This class defines the `size` field type. By setting the `unit` argument, a custom unit can be set.
+ * 
+ * <h2>Field Definition Arguments</h2>
+ * <h3>Field Type Specific Arguments</h3>
+ * <ul>
+ *     <li>
+ *         **units** - (optional, array) defines the units to show. e.g. `array( 'px' => 'px', '%' => '%', 'em' => 'em'  )` 
+ *         Default: `array( 'px' => 'px', '%' => '%', 'em' => 'em', 'ex' => 'ex', 'in' => 'in', 'cm' => 'cm', 'mm' => 'mm', 'pt' => 'pt', 'pc' => 'pc' )`
+ *     </li>
+ *     <li>**is_multiple** - (optional, boolean) if this is set to true, the `multiple` attribute will be inserted into the field input tag, which enables the multiple selections for the user.</li>
+ *     <li>**attributes** - [3.0.0+] (optional, array) There are additional nested arguments.
+ *          <ul>
+ *              <li>`size` - (array) applies to the number input element that represents its size.</li>
+ *              <li>`unit` - (array) applies to the select input element that represents its unit.</li>
+ *              <li>`optgroup` - (array)applies to the `optgroup` tag element which gets created when grouping select items.</li>
+ *              <li>`option` - (array) applies to the `option` tag element.</li>
+ *          </ul>
+ *     </li>
+ * 
+ * </ul>
+ * 
+ * <h3>Common Field Definition Arguments</h3>
+ * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
+ * 
+ * <h2>Example</h2>
+ * <code>
+ *  array( 
+ *      'field_id'      => 'size_custom_unit_field',
+ *      'title'         => __( 'Size with Custom Units', 'admin-page-framework-loader' ),
+ *      'type'          => 'size',
+ *      'units'         => array(
+ *          'grain'     => __( 'grains', 'admin-page-framework-loader' ),
+ *          'dram'      => __( 'drams', 'admin-page-framework-loader' ),
+ *          'ounce'     => __( 'ounces', 'admin-page-framework-loader' ),
+ *          'pounds'    => __( 'pounds', 'admin-page-framework-loader' ),
+ *      ),
+ *      'default' => array( 
+ *          'size'      => 200,
+ *          'unit'      => 'ounce' 
+ *      ),
+ *  )
+ * </code>
+ * 
+ * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/size.png
  * @package         AdminPageFramework
- * @subpackage      FieldType
+ * @subpackage      Common/Form/FieldType
  * @since           2.1.5
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
- * @internal
+ * @extends         AdminPageFramework_FieldType_select
  */
 class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_select {
     
@@ -73,6 +117,8 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
      * 
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
+     * @internal
+     * @return      string
      */ 
     protected function getStyles() {
         return <<<CSSRULES
@@ -104,6 +150,7 @@ CSSRULES;
      * @since       3.3.1       Changed from `_replyToGetField()`.
      * @since       3.5.9       Supports multiple labels.
      * @return      string
+     * @internal
      */
     protected function getField( $aField ) {
                 
@@ -129,6 +176,7 @@ CSSRULES;
         /**
          * @since       3.5.9
          * @return      string
+         * @internal
          */
         protected function _getFieldOutputByLabel( $isKey, $sLabel, array $aField ) {
             
@@ -165,6 +213,7 @@ CSSRULES;
              * 
              * @since       3.5.3
              * @return      string      The number input output.
+             * @internal
              */
             private function _getNumberInputPart( array $aField, array $aBaseAttributes, $isKey, $bMultiLabels ) {
                 
@@ -218,6 +267,7 @@ CSSRULES;
              * 
              * @since       3.5.3
              * @return      string      The unit select input output.
+             * @internal
              */
             private function _getUnitSelectInput( array $aField, array $aBaseAttributes, $isKey, $bMultiLabels ) {
                 
@@ -274,6 +324,7 @@ CSSRULES;
                  * Returns an unit attribute array.
                  * @since       3.5.3    
                  * @return      array       an unit attribute array
+                 * @internal
                  */
                 private function _getUnitAttributes( array $aField, array $aBaseAttributes, $isLabelKey='' ) {
                     
@@ -319,6 +370,7 @@ CSSRULES;
              * Returns an size attribute array.
              * @since       3.5.3    
              * @return      array       an size attribute array
+             * @internal
              */
             private function _getSizeAttributes( array $aField, array $aBaseAttributes, $sLabelKey='' ) {
 

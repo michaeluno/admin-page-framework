@@ -13,7 +13,7 @@
  * The suffix represents the structure type of the form.
  * 
  * @package     AdminPageFramework
- * @subpackage  Form
+ * @subpackage  Factory/MetaBox/Form
  * @since       3.7.0      
  * @extends     AdminPageFramework_Form_Meta       There are some methods defined in the post_meta_box class and are used in this class.
  * @internal
