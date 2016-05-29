@@ -216,8 +216,7 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                         ),                  
                     ),                         
                 ),
-                
-                                
+                          
             )
         );
 
