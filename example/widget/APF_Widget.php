@@ -107,11 +107,9 @@ class APF_Widget extends AdminPageFramework_Widget {
                 'field_id'      => 'color',
                 'type'          => 'color',
                 'title'         => __( 'Color', 'admin-page-framework-loader' ),
-            ),
-            array()
+            )
         );        
 
-        
     }
     
     /**
