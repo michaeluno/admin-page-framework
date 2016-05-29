@@ -53,36 +53,8 @@
 		</p>
 	{/define}
 
-	<div n:if="$directSubClasses">
-		<h3>Direct known subclasses</h3>
-		{include #children, children => $directSubClasses}
-	</div>
-
-	<div n:if="$indirectSubClasses">
-		<h3>Indirect known subclasses</h3>
-		{include #children, children => $indirectSubClasses}
-	</div>
-
-	<div n:if="$directImplementers">
-		<h3>Direct known implementers</h3>
-		{include #children, children => $directImplementers}
-	</div>
-
-	<div n:if="$indirectImplementers">
-		<h3>Indirect known implementers</h3>
-		{include #children, children => $indirectImplementers}
-	</div>
-
-	<div n:if="$directUsers">
-		<h3>Direct Known Users</h3>
-		{include #children, children => $directUsers}
-	</div>
-
-	<div n:if="$indirectUsers">
-		<h3>Indirect Known Users</h3>
-		{include #children, children => $indirectUsers}
-	</div>
-
+    {* The .element-relationships element was originally placed here*}
+    
 	<div class="alert alert-info">
 		{if !$class->interface && !$class->trait && ($class->abstract || $class->final)}<b>{if $class->abstract}Abstract{else}Final{/if}</b><br>{/if}
 		{if $class->internal}<b>PHP Extension:</b> <a href="{$class->extension|manualUrl}" title="Go to PHP documentation">{$class->extension->name|firstUpper}</a><br>{/if}
@@ -267,7 +239,6 @@
          
 	{/if}
 
-
 	{var $ownConstants = $class->ownConstants}
 	{var $inheritedConstants = $class->inheritedConstants}
 
@@ -443,5 +414,39 @@
 			</ul>
 		</div>
 	{/if}
+    
+    <div class="element-relationships">
+        <h2>Related</h2>
+        <div n:if="$directSubClasses">
+            <h3>Direct known subclasses</h3>
+            {include #children, children => $directSubClasses}
+        </div>
+
+        <div n:if="$indirectSubClasses">
+            <h3>Indirect known subclasses</h3>
+            {include #children, children => $indirectSubClasses}
+        </div>
+
+        <div n:if="$directImplementers">
+            <h3>Direct known implementers</h3>
+            {include #children, children => $directImplementers}
+        </div>
+
+        <div n:if="$indirectImplementers">
+            <h3>Indirect known implementers</h3>
+            {include #children, children => $indirectImplementers}
+        </div>
+
+        <div n:if="$directUsers">
+            <h3>Direct Known Users</h3>
+            {include #children, children => $directUsers}
+        </div>
+
+        <div n:if="$indirectUsers">
+            <h3>Indirect Known Users</h3>
+            {include #children, children => $indirectUsers}
+        </div>
+    </div><!-- .element-relationships -->
+    
 </div>
 {/block}

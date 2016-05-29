@@ -31,8 +31,9 @@ h3 {
 
 h4 {
 	font-size: 100%;
-	margin: 0;
+	/*margin: 0;*/
 	padding: 0;
+	margin: 0.8em 0 0.4em;
 }
 
 ul, ol {
@@ -181,6 +182,17 @@ pre > * {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+}
+.search {
+    padding: 0.5em;
+    float: right;
+}
+.search form {
+    margin: 0;
+}
+.search .search-query {
+    width: 30%;
+    min-width: 480px;
 }
 
 /* Autocomplete */
