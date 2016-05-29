@@ -81,9 +81,9 @@ class APF_Demo_BuiltinFieldTypes_Selector_Checkbox {
                         'disabled' => 'disabled',
                     ),
                 ),
-                'tip'           => __( 'With the <code>attributes</code> argument, check box items can be disabled.', 'admin-page-framework-loader' ),
-                'description'   => __( 'It is possible to disable checkbox items on an individual basis.', 'admin-page-framework-loader' ),
-                'after_label'   => '<br />',
+                'label_min_width' => '100%',
+                'tip'             => __( 'With the <code>attributes</code> argument, check box items can be disabled.', 'admin-page-framework-loader' ),
+                'description'     => __( 'It is possible to disable checkbox items on an individual basis.', 'admin-page-framework-loader' ),
             ),
             array( // Multiple sets of checkbox fields
                 'field_id'              => 'checkbox_multiple_fields',
