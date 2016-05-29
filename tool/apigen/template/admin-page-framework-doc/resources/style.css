@@ -412,9 +412,21 @@ td.name, td.attributes {
 	border-top: 1px solid #e5e5e5;
 	clear: both;
 	color: #808080;
-	text-align: right;
 	padding: 2em 1em;
 	margin: 3em 0 40px 0;
+	
+}
+#footer .footer-left {
+    display: inline-block;
+    width: 66%;
+    float: left;
+}
+#footer .footer-right {
+    display: inline-block;
+    width: 30%;
+    text-align: right;
+    float: right;
+    
 }
 
 /* Tree */
