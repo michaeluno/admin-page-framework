@@ -27,7 +27,7 @@ class AdminPageFramework_Link_network_admin_page extends AdminPageFramework_Link
     
         parent::__construct( $oProp, $oMsg );
         
-        if ( in_array( $this->oProp->sPageNow, array( 'plugins.php' ) ) && 'plugin' === $this->oProp->aScriptInfo['sType'] ) {
+        if ( $this->_shouldSetPluginActionLinks() ) {
             
             // This filter for non-network-admin action links is added in the parent constructor.
             remove_filter( 

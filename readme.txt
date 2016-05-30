@@ -451,6 +451,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.7.15 - 2016/05/30 =
+- Fixed a bug that caused a warning saying accessing an undefined object property in the network admin area.
+
 = 3.7.14 - 2016/04/20 =
 - Fixed a compatibility issue with WordPress 4.5 that taxonomy form fields were not displayed in the term editing page.
 
