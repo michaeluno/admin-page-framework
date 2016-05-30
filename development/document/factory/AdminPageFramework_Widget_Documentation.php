@@ -12,7 +12,7 @@
  * 
  * This factory class lets the user create a widget and define the outputs based on the form field inputs. 
  * 
- * <h2>Creating an Widget and Form Fields</h2>
+ * <h2>Creating a Widget and Form Fields</h2>
  * 1. Extend the {@link AdminPageFramework_Widget} factory class.
  * 2. Define the form in {@link AdminPageFramework_Widget_Controller::load()} method. By adding a `text` field with the field ID of `title`, a title output will be inserted above the widget output in the front end defined in the `content()` method.
  * 

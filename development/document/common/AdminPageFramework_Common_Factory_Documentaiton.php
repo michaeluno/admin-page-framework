@@ -12,7 +12,7 @@
  * The framework abstract classes extend the `AdminPageFramework_Factory` class to create their own. 
  * So some common public methods are defined in this base component.
  * 
- * For form related hooks, see {@link ./package-AdminPageFramework_Common_Form_Documentation}.
+ * For form related hooks, see [Form](./package-AdminPageFramework_Form_Documentation).
  * 
  * <h2>Common Hooks</h2>
  * 
@@ -42,7 +42,7 @@
  * </ul>
  * 
  * <h3>Callback Methods</h3>
- * To register callbacks to those hooks, simply use The [add_action()](https://developer.wordpress.org/reference/functions/add_action/) or [add_filter](https://developer.wordpress.org/reference/functions/add_filter/) functions.
+ * To register callbacks to those hooks, simply use the [add_action()](https://developer.wordpress.org/reference/functions/add_action/) or [add_filter](https://developer.wordpress.org/reference/functions/add_filter/) functions.
  * 
  * <h4>Action Hooks</h4>
  * For action hooks, use [add_action()](https://developer.wordpress.org/reference/functions/add_action/).
@@ -95,9 +95,7 @@
  * </code>
  * 
  * <h3>Remark</h3>
- * - If the class name contains backslashes (\) using a name space, in the callback method name, the backslashes will be converted to an underscore (_). 
- * e.g. `Foo\Bar\MyClass` becomes `Foo_Bar_MyClass` so the method name will be `validation_Foo_Bar_MyClass()`. This does not apply to the action and filter names.
- * 
+ * - If the class name contains backslashes (`\`) such as `Foo\Bar\MyClass` using a name space, in the callback method name, the backslashes will be converted to an underscore (`_`). e.g. `Foo\Bar\MyClass` becomes `Foo_Bar_MyClass`. So the method name will be `validation_Foo_Bar_MyClass()`. This does not apply to the action and filter names.
  * - The post type factory class does not have the ability to create forms. Therefore, some common hooks such as `validation_{...}` and `options_{...}` are not available.
  * 
  * @since       3.8.0

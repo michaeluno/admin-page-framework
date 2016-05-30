@@ -15,12 +15,12 @@ if ( ! class_exists( 'AdminPageFramework_Registry', false ) ) :
  * Facilitates WordPress plugin and theme development.
  *
  * One of the most time consuming part of developing WordPress plugins and themes is building setting pages.
- * Admin Page Framework provides means of building pages and forms that the users save setting in the administration area of WordPess.
+ * Admin Page Framework provides means of building pages and forms that the users save settings in the administration area of WordPess.
  * By extending the abstract classes the framework provides, you can build your own functionality.
  * 
  * @image               http://admin-page-framework.michaeluno.jp/image/icon-256x256.png
  * @heading             Admin Page Framework
- * @author              Michael Uno <michael@michaeluno.jp>
+ * @author              Michael Uno
  * @copyright           2013-2016 (c) Michael Uno
  * @license             http://opensource.org/licenses/MIT  MIT
  * @since               3.1.3
