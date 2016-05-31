@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
 Tested up to:       4.5.2
-Stable tag:         3.7.14
+Stable tag:         3.7.15
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -457,8 +457,10 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Added the ability to nest fields with the `content` field definition argument.
 - Added a new factory class to build forms for taxonomy terms.
 - Changed the `type` argument in the field definition to be able to be omitted.
-- Fixed a bug in the network admin area showing a warning message accessing a non-object property.
 - Fixed a bug that delimiter elements were not displayed when a last repeatable field is duplicated.
+
+= 3.7.15 - 2016/05/31 =
+- Fixed a bug that caused a warning saying accessing an undefined object property in the network admin area.
 
 = 3.7.14 - 2016/04/20 =
 - Fixed a compatibility issue with WordPress 4.5 that taxonomy form fields were not displayed in the term editing page.
