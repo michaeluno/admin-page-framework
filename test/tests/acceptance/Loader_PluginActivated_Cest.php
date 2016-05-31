@@ -15,7 +15,8 @@ class Loader_PluginActivated_Cest {
         UserLoginPage::of( $I )->login( 'admin', 'admin' );
         
         $I->amOnPage( '/wp-admin/plugins.php' );
-        $I->see( 'Admin Page Framework - Loader', 'tr#admin-page-framework-loader.active' );
+        
+        $I->see( 'Admin Page Framework - Loader', 'tr.active' );
 
     }
 
