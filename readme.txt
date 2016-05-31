@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
 Tested up to:       4.5
-Stable tag:         3.7.14
+Stable tag:         3.7.15
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -451,7 +451,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.7.15 - 2016/05/30 =
+= 3.7.15 - 2016/05/31 =
 - Fixed a bug that caused a warning saying accessing an undefined object property in the network admin area.
 
 = 3.7.14 - 2016/04/20 =
