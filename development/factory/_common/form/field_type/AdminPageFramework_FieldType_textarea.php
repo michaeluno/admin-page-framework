@@ -215,15 +215,15 @@ jQuery( document ).ready( function(){
             }
         );   
         var aQTSettings     = jQuery.extend( {}, oQickTagSettings, { id : sTextAreaID } );    
-        
+
         // Store the settings.
         tinyMCEPreInit.mceInit[ sTextAreaID ]   = aTMCSettings;
         tinyMCEPreInit.qtInit[ sTextAreaID ]    = aQTSettings;
         QTags.instances[ aQTSettings.id ]       = aQTSettings;
-        
+ 
          // Enable quick tags
         quicktags( aQTSettings );   // does not work... See https://core.trac.wordpress.org/ticket/26183
-        QTags._buttonsInit();                     
+        QTags._buttonsInit();
         
         window.tinymce.dom.Event.domLoaded = true;   
         tinyMCE.init( aTMCSettings );
@@ -291,7 +291,7 @@ jQuery( document ).ready( function(){
                 .removeAttr( 'aria-hidden' );
             var _oEditorContainer    = _oField.find( '.wp-editor-container' ).first().clone().empty();
             var _oToolBar            = _oField.find( '.wp-editor-tools' ).first().clone();
-                        
+            
             // Clean values
             _oTextArea.val( '' );    // only delete the value of the directly copied one
             _oTextArea.empty();      // the above use of val( '' ) does not erase the value completely.
@@ -300,7 +300,7 @@ jQuery( document ).ready( function(){
             _oWrap.empty()
                 .prepend( _oEditorContainer.prepend( _oTextArea.show() ) )
                 .prepend( _oToolBar );   
-                
+
             // Update the editor. For repeatable sections, remove the previously assigned editor.                        
             updateEditor( 
                 _oTextArea.attr( 'id' ), 
@@ -324,11 +324,12 @@ jQuery( document ).ready( function(){
                     var _oFieldsContainer   = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
                     var _iFieldIndex        = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
                     var _sFieldTagIDModel   = _oFieldsContainer.attr( 'data-field_tag_id_model' );
-                    _oToolBar.find( 'a,div' ).incrementAttribute(
-                        'id', // attribute name
+                    _oToolBar.find( 'a,div,button' ).incrementAttributes(
+                        [ 'id', 'data-wp-editor-id', 'data-editor' ], // attribute name
                         _iFieldIndex, // increment from
                         _sFieldTagIDModel // digit model
                     );
+
                     _oField.find( '.wp-editor-wrap a' ).incrementAttribute(
                         'data-editor',
                         _iFieldIndex, // increment from
