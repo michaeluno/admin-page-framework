@@ -200,7 +200,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
          * @deprecated  Kept for backward compatibility.
          */
         protected function geFieldOutput( array $aFieldset ) {
-            return getFieldOutput( $aFieldset );
+            return $this->getFieldOutput( $aFieldset );
         }
     
     /**
