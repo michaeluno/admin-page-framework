@@ -457,7 +457,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Added the ability to nest fields with the `content` field definition argument.
 - Added a new factory class to build forms for taxonomy terms.
 - Changed the `type` argument in the field definition to be able to be omitted.
-- Fixed a bug that the toolbar of repeatable rich text area fields did not insert media into the correct field and the tabs of Visual and Text did not switch the current tab.
+- Fixed a bug that the tool bar of repeatable rich text area fields did not get updated when the field or section was repeatable.
 - Fixed a bug that delimiter elements were not displayed when a last repeatable field is duplicated.
 
 = 3.7.15 - 2016/05/31 =
