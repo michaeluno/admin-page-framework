@@ -313,7 +313,26 @@ jQuery( document ).ready( function(){
                 
                 // Repeatable sections (calling a belonging field)
                 case 1: 
-                    // It works without doing anything here.
+
+                    var _oSectionsContainer     = jQuery( oCloned ).closest( '.admin-page-framework-sections' );
+                    var _iSectionIndex          = _oSectionsContainer.attr( 'data-largest_index' );
+                    var _sSectionIDModel        = _oSectionsContainer.attr( 'data-section_id_model' );       
+                    _oToolBar.find( 'a,div,button' ).incrementAttributes(
+                        [ 'id', 'data-wp-editor-id', 'data-editor' ], // attribute name
+                        _iSectionIndex, // increment from
+                        _sSectionIDModel // digit model
+                    );
+                    _oField.find( '.wp-editor-wrap a' ).incrementAttribute(
+                        'data-editor',
+                        _iSectionIndex, // increment from
+                        _sSectionIDModel // digit model                        
+                    );
+                    _oField.find( '.wp-editor-wrap,.wp-editor-tools,.wp-editor-container' ).incrementAttribute(
+                        'id',
+                        _iSectionIndex, // increment from
+                        _sSectionIDModel // digit model                                                
+                    );                    
+                
                     break;
                     
                 // Repeatable fields
@@ -329,7 +348,6 @@ jQuery( document ).ready( function(){
                         _iFieldIndex, // increment from
                         _sFieldTagIDModel // digit model
                     );
-
                     _oField.find( '.wp-editor-wrap a' ).incrementAttribute(
                         'data-editor',
                         _iFieldIndex, // increment from
@@ -340,11 +358,6 @@ jQuery( document ).ready( function(){
                         _iFieldIndex, // increment from
                         _sFieldTagIDModel // digit model                                                
                     );
-                    break;
-                
-                // Parent repeatable fields (calling a nested field)
-                case 2:
-                
                     break;
 
             }  
