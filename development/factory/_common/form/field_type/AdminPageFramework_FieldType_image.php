@@ -149,13 +149,11 @@ jQuery( document ).ready( function(){
                     var _oSectionsContainer     = jQuery( oCloned ).closest( '.admin-page-framework-sections' );
                     var _iSectionIndex          = _oSectionsContainer.attr( 'data-largest_index' );
                     var _sSectionIDModel        = _oSectionsContainer.attr( 'data-section_id_model' );
-                    // var _sSectionNameModel      = _oSectionsContainer.attr( 'data-section_name_model' );
-                    // var _sSectionFlatNameModel  = _oSectionsContainer.attr( 'data-flat_section_name_model' );                
                     jQuery( oCloned ).find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
                         'id', // attribute name
                         _iSectionIndex, // increment from
                         _sSectionIDModel // digit model
-                    );                  
+                    );
                     break;
                     
                 // Repeatable fields
