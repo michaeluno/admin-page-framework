@@ -202,6 +202,12 @@ td.admin-page-framework-field-td-no-title {
     margin-right: 1em;
 }
 
+/* Font-weight */
+.admin-page-framework-fieldset {
+    /* This needs to be explicitly defined for the fields placed in the field title area. */
+    font-weight: normal;
+}
+
 CSSRULES;
         }   
 

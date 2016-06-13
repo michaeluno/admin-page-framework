@@ -61,10 +61,10 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
         
         $aFieldset = $this->aFieldset;
 
-        if ( ! $this->_isNormalPlacement( $aFieldset ) ) {
+        if ( ! $this->isNormalPlacement( $aFieldset ) ) {
             return '';
         }
-        
+
         $_oFieldrowAttribute   = new AdminPageFramework_Form_View___Attribute_Fieldrow( 
             $aFieldset,
             array( 
@@ -117,7 +117,15 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
                 'close_main'        => '',
             );
             
-            $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle( $aFieldset );
+            $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle( 
+                $aFieldset, 
+                '', 
+                $this->aSavedData,   
+                $this->aFieldErrors, 
+                $this->aFieldTypeDefinitions, 
+                $this->aCallbacks,
+                $this->oMsg
+            );
             $_aOutput   = array();
             if ( $aFieldset[ 'show_title_column' ] ) {
                 $_aOutput[] = $aOpenCloseTags[ 'open_title' ]
@@ -199,20 +207,5 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
                     }                                                 
                     
                 }
-                
-    /**
-     * Checks whether the field placement is normal.
-     * @since       3.8.0
-     * @internal
-     * @return      boolean
-     */
-    protected function _isNormalPlacement( array $aFieldset ) {
-        
-        if ( 'section_title' === $aFieldset[ 'type' ] ) { 
-            return false;
-        }
-        return 'normal' === $aFieldset[ 'placement' ];  
-        
-    }
-    
+                    
 }

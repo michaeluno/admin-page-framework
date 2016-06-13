@@ -73,17 +73,6 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
          */ 
         private function _getFieldsOutput( array $aFieldset, array $aFields, array $aCallbacks=array() ) {
 
-            // 3.8.0+ Check the `content` argument and if it is an array holding field definitions, the user wants them to be nested.
-            // @deprecated  3.8.0
-            // if ( $this->hasFieldDefinitionsInContent( $aFieldset ) ) {   // @deprecated
-/*             if ( $this->hasNestedFields( $aFieldset ) ) {
-                return $this->_getChildFieldsets( 
-                    $aFieldset, // parent field-set holding the nested field-sets.
-                    $aFields
-                );
-            }  */
-            // At this point, the field does not have nested/inline-mixed field items.
-            
             $_aOutput = array();
             foreach( $aFields as $_isIndex => $_aField ) {
                 $_aOutput[] = $this->_getEachFieldOutput( 
@@ -97,88 +86,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
             
         }
         
-            /**
-             * Returns nested field outputs.
-             * 
-             * Iterate the fields array which can contain multiple sub-fields for repeatable and sortable items.
-             * 
-             * @since       3.8.0
-             * @param       array       $aParentFieldset        The parent field-set definition that holds the nested field-sets.
-             * @param       array       $aFields                An array holding the main and sub fields for dynamic (repeatable/sortable) fields.
-             * @return      string
-             */
-            private function _getChildFieldsets( array $aParentFieldset, array $aFields ) {
-
-                // $_aMethodNames = array(
-                    // 0 => '_getNestedFieldsetsBySubFieldIndex',
-                    // 1 => '_getInlineMixedFieldsetsBySubFieldIndex',  // @deprecated 3.8.0
-                // );
-                // $_sMethodName      = $_aMethodNames[ ( integer ) ( 'inline_mixed' === $aParentFieldset[ 'type' ] ) ];
-                
-                $_sNestedFieldsets = '';
-                foreach( $aFields as $_isIndex => $_aField ) {
-                    
-                    $_sNestedFieldsets .= $this->_getNestedFieldsetsBySubFieldIndex( 
-                        $_isIndex, 
-                        $_aField,
-                        $aParentFieldset,
-                        $this->isLastElement( $aFields, $_isIndex ),
-                        $this->hasSubFields( $aFields, $_aField )   // has sub-fields
-                    );                    
-                }
-                return $_sNestedFieldsets;
-                                                            
-            }
-                
-                /**
-                 * Returns nested field outputs by sub-field index.
-                 * 
-                 * @since       3.8.0
-                 * @return      string
-                 */
-                private function _getNestedFieldsetsBySubFieldIndex( $iIndex, array $aField, array $aParentFieldset, $bIsLastElement=false, $bHasSubFields=false ) {
-
-                    // Treat the nested field-set as an individual field. The output of `<fieldset>` tag will be enclosed in the `<div class="admin-page-framework-field">` tag.
-                    $aParentFieldset[ '_is_multiple_fields' ] = $bHasSubFields;
-                    $aParentFieldset[ 'type' ] = '_nested'; // set an internal type which is not defined with a field type class.
-                    $_oSubFieldFormatter = new AdminPageFramework_Form_Model___Format_EachField(
-                        $aParentFieldset, 
-                        $iIndex,  // zero-based sub-field index
-                        $this->aCallbacks,
-                        $this->_getFieldTypeDefinition( $aField[ 'type' ] )
-                    );
-                    $_aParentFieldset   = $_oSubFieldFormatter->get();
-                    
-                    $_sNestedFieldsetsOutput = '';
-                    foreach( $_aParentFieldset[ 'content' ] as $_aNestedFieldset ) {      
-
-                        // Now re-format it so that the field path will be re-generated with the sub-field index.
-                        $_aNestedFieldset = $this->getFieldsetReformattedBySubFieldIndex( 
-                            $_aNestedFieldset, 
-                            ( integer ) $iIndex,
-                            $bHasSubFields,
-                            $_aParentFieldset
-                        );
-                 
-                        // Generate the output.
-                        $_oFieldset = new AdminPageFramework_Form_View___Fieldset(
-                            $_aNestedFieldset,  
-                            $this->aOptions,
-                            array(),    // @todo Generate field errors. $this->aErrors, 
-                            $this->aFieldTypeDefinitions, 
-                            $this->oMsg,
-                            $this->aCallbacks // field output element callables.
-                        );
-                        $_sNestedFieldsetsOutput .= $_oFieldset->get(); // field output
-                        
-                    }
-                    return $this->_getFieldOutput( 
-                        $_sNestedFieldsetsOutput, // content
-                        $_aParentFieldset,        // field definition array
-                        $bIsLastElement           // whether the sub-field is the last element 
-                    );
-                
-                }   
+           
                
             /**
              * Returns the HTML output of the given field.
@@ -324,7 +232,15 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                     return false;
                 }
 
-                $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle( $aFieldset );
+                $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle( 
+                    $aFieldset, 
+                    '', 
+                    $this->aOptions,   
+                    $this->aErrors, 
+                    $this->aFieldTypeDefinitions, 
+                    $this->aCallbacks,
+                    $this->oMsg
+                );
                 return $_oFieldTitle->get();
     
                 // return "<label class='admin-page-framework-field-title' for=''>"
@@ -344,7 +260,15 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                 if ( ! $aFieldset[ '_nested_depth' ] ) {
                     return '';
                 }
-                $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle( $aFieldset, array( 'admin-page-framework-child-field-title' ) );
+                $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle( 
+                    $aFieldset, 
+                    array( 'admin-page-framework-child-field-title' ), 
+                    $this->aOptions,   
+                    $this->aErrors, 
+                    $this->aFieldTypeDefinitions, 
+                    $this->aCallbacks,
+                    $this->oMsg
+                );
                 return $_oFieldTitle->get();
                 
             }

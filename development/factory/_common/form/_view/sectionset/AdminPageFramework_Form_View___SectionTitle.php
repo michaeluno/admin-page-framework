@@ -171,7 +171,7 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
                             $_aFieldset, 
                             $iSectionIndex,
                             $aFieldTypeDefinitions
-                        );                    
+                        );         
                         $_aFieldsetsInSectionTitle[] = $_oFieldsetOutputFormatter->get();
                         
                     }

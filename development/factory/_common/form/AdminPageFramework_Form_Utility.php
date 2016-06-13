@@ -206,5 +206,22 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
     
     }    
     
+    /**
+     * Checks whether the field placement is normal.
+     * 
+     * @since       3.8.0
+     * @internal
+     * @return      boolean
+     */
+    static public function isNormalPlacement( array $aFieldset ) {
+        
+        if ( 'section_title' === $aFieldset[ 'type' ] ) { 
+            return false;
+        }
+        
+        return 'normal' === $aFieldset[ 'placement' ];  
+        
+    }    
+    
     
 }

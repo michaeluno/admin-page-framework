@@ -60,7 +60,7 @@ class AdminPageFramework_Form_View___FieldsetRow extends AdminPageFramework_Form
         
         $aFieldset = $this->aFieldset;
         
-        if ( ! $this->_isNormalPlacement( $aFieldset ) ) {
+        if ( ! $this->isNormalPlacement( $aFieldset ) ) {
             return '';
         }
    

@@ -76,6 +76,10 @@ CSSRULES;
                 continue;
             }
             
+            if ( ! $this->isNormalPlacement( $_aChildFieldset ) ) {
+                continue;
+            }
+            
             // Now re-format it so that the field path will be re-generated with the sub-field index.
             $_aChildFieldset = $this->getFieldsetReformattedBySubFieldIndex( 
                 $_aChildFieldset, 
