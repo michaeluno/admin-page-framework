@@ -41,6 +41,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
     $.fn.aAdminPageFrameworkSortedFieldsCallbacks              = [];            
     $.fn.aAdminPageFrameworkStoppedSortingFieldsCallbacks      = [];
     $.fn.aAdminPageFrameworkAddedWidgetCallbacks               = [];
+    $.fn.aAdminPageFrameworkStoppedSortingSectionsCallbacks    = [];    // 3.8.0+
     
     /**
      * Gets triggered when a repeatable field add button is pressed.
@@ -59,6 +60,24 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
             }   
             _hfCallback( _oThisNode, sFieldType, sID, iCallType, iSectionIndex, iFieldIndex );
         });
+    });  
+  
+    /**
+     * Gets triggered when sorting sections stops.
+     * @since       3.8.0
+     */
+    $( document ).bind( 'admin_page_framework_stopped_sorting_sections', function( oEvent ){  
+
+        var _oThisNode = jQuery( oEvent.target );
+        $.each( $.fn.aAdminPageFrameworkStoppedSortingSectionsCallbacks, function( iIndex, aCallback ) {
+            var _hfCallback  = aCallback[ 0 ];
+            var _aFieldTypes = aCallback[ 1 ];       
+            if ( ! $.isFunction( _hfCallback ) ) { 
+                return true;    // continue
+            }               
+            _hfCallback( _oThisNode );
+        });
+        
     });  
   
     /**
@@ -147,6 +166,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
                 sorted_fields               : null,
                 stopped_sorting_fields      : null,
                 saved_widget                : null,
+                stopped_sorting_sections    : null, // 3.8.0+
             }, 
             oCallbacks 
         );
@@ -171,6 +191,11 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
         $.fn.aAdminPageFrameworkAddedWidgetCallbacks.push( 
             [ oCallbacks.saved_widget, aFieldTypeSlugs ]
         );
+
+        // 3.8.0
+        $.fn.aAdminPageFrameworkStoppedSortingSectionsCallbacks.push( 
+            [ oCallbacks.stopped_sorting_sections, aFieldTypeSlugs ]
+        );        
 
     };
     /**
