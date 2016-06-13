@@ -482,6 +482,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *   );
     * </code></pre>
     *       </li>
+    *       <li>**placement** - [3.8.0+] (optional, string) Specifies where the field is rendered. Either `normal` `section_title` or `field_title` is accepted. `field_title` can only be used by nested fields defined in the `content` argument.  Default: `normal`</li>
     * </ul>
     */
     public function addSettingField( $asFieldset ) {
