@@ -153,7 +153,13 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
         jQuery( this ).unbind( 'click' );   
         
         jQuery( this ).click( function( event, sContext ){
-
+        
+            // If a field element is clicked, do not collapse or expand the container box.
+            var _sClickedTag = jQuery( event. target ).prop( 'tagName' ).toLowerCase();
+            if ( -1 !== jQuery.inArray( _sClickedTag, [ 'input', 'span', 'label', 'fieldset' ] ) ) {
+                return true;
+            }
+            
             // Expand or collapse this panel
             var _oThis = jQuery( this );
             var _sContainerType = jQuery( this ).hasClass( 'admin-page-framework-collapsible-sections-title' )
