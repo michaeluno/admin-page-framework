@@ -129,67 +129,6 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                 return $_sNestedFieldsets;
                                                             
             }
-            
-                /**
-                 * Returns inline-mixed field outputs by sub-field index.
-                 * 
-                 * @since       3.8.0
-                 * @return      string
-                 * @deprecated  3.8.0
-                 */
-/*                 private function _getInlineMixedFieldsetsBySubFieldIndex( $iIndex, $aField, array $aParentFieldset, $bIsLastElement=false, $bHasSubFields=false ) {
-                    
-                    // Treat the nested field-set as an individual field. The output of `<fieldset>` tag will be enclosed in the `<div class="admin-page-framework-field">` tag.
-                    $aParentFieldset[ '_is_multiple_fields' ] = $bHasSubFields;
-                    $aParentFieldset[ 'type' ] = 'inline_mixed'; // set an internal type which is not defined with a field type class.
-                    $_oSubFieldFormatter = new AdminPageFramework_Form_Model___Format_EachField(
-                        $aParentFieldset, 
-                        $iIndex,  // zero-based sub-field index
-                        $this->aCallbacks,
-                        $this->_getFieldTypeDefinition( $aField[ 'type' ] )
-                    );
-                    $_aParentFieldset    = $_oSubFieldFormatter->get();
-                    
-                    $_aInlineMixedOutput = array();
-                    foreach( $_aParentFieldset[ 'content' ] as $_aChildFieldset ) {
-                    
-                        if ( is_scalar( $_aChildFieldset ) ) {
-                            // $_aInlineMixedOutput[] = array( 
-                                // 'field_id' => uniqid(),
-                                // 'content'  => $_aChildFieldset,
-                            // );
-                            continue;
-                        }
-                    
-                        // Now re-format it so that the field path will be re-generated with the sub-field index.
-                        $_aChildFieldset = $this->_getFieldsetReformattedBySubFieldIndex( 
-                            $_aChildFieldset, 
-                            ( integer ) $iIndex,
-                            $bHasSubFields,
-                            $_aParentFieldset
-                        );
-                 
-                        // Generate the output.
-                        $_oFieldset = new AdminPageFramework_Form_View___Fieldset(
-                            $_aChildFieldset,  
-                            $this->aOptions,
-                            array(),    // @todo Generate field errors. $this->aErrors, 
-                            $this->aFieldTypeDefinitions, 
-                            $this->oMsg,
-                            $this->aCallbacks // field output element callables.
-                        );
-                        $_aInlineMixedOutput[] = $_oFieldset->get(); // field output
-                        
-                    }
-                    
-                    return $this->_getFieldOutput( 
-                        // call_user_func_array( 'sprintf', $_aInlineMixedOutput ),  // content
-                        implode( '', $_aInlineMixedOutput ),
-                        $_aParentFieldset,        // field definition array
-                        $bIsLastElement           // whether the sub-field is the last element 
-                    );
-                    
-                } */
                 
                 /**
                  * Returns nested field outputs by sub-field index.
@@ -240,51 +179,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                     );
                 
                 }   
-                    /**
-                     * Re-formats the field-set definition with the passed sub-field index. The field path and other internal keys need to be updated to insert a sub-field index.
-                     * 
-                     * It is assumed that the passed field-set definition array is already formatted as this is for sub-fields of nested field-sets.
-                     * 
-                     * @internal
-                     * @since       3.8.0
-                     * @return      array
-                     * @deprecated  3.8.0
-                     */
-/*                     private function _getFieldsetReformattedBySubFieldIndex( array $aFieldset, $iSubFieldIndex, $bHasSubFields, array $aParentFieldset ) {
-                        
-                        // Add sub-field index to the parent field path for repeated nested items.
-                        $aFieldset[ '_parent_field_path' ]   = $this->getAOrB(
-                            $bHasSubFields,
-                            $aFieldset[ '_parent_field_path' ] . '|' . $iSubFieldIndex,
-                            $aFieldset[ '_parent_field_path' ]
-                        );
-                        $aFieldset[ '_parent_tag_id' ]       = $this->getAOrB(
-                            $bHasSubFields,
-                            $aParentFieldset[ 'tag_id' ] . '__' . $iSubFieldIndex,
-                            $aParentFieldset[ 'tag_id' ]
-                        );
-                        
-                        // Re-format the field-set definition array to re-construct field path and relevant attribute IDs and names.
-                        $_oFieldsetFormatter = new AdminPageFramework_Form_Model___Format_Fieldset(
-                            $aFieldset, 
-                            $aFieldset[ '_structure_type' ],
-                            $aFieldset[ 'capability' ], 
-                            ( integer ) $iSubFieldIndex + 1,   // 1-based count (not index)
-                            $aFieldset[ '_subsection_index' ], 
-                            $aFieldset[ '_is_section_repeatable' ],
-                            $aFieldset[ '_caller_object' ]
-                        );                        
-                        $aFieldset = $_oFieldsetFormatter->get();
-                        
-                        $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput(
-                            $aFieldset,
-                            $aFieldset[ '_section_index' ],    // `_section_index` is defined in the ...FieldsetOutput class. Since this is a nested item, it should be already set.
-                            $this->aFieldTypeDefinitions
-                        );         
-                        return $_oFieldsetOutputFormatter->get();
-                    
-                    } */
-                    
+               
             /**
              * Returns the HTML output of the given field.
              * @internal
