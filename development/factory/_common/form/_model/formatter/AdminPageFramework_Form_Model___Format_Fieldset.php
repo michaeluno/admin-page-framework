@@ -56,7 +56,9 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
         'sortable'                  => null,    // 2.1.3
         'show_title_column'         => true,    // 3.0.0
         'hidden'                    => null,    // 3.0.0
-
+        
+        'placement'                 => 'normal',    // 3.8.0 (string) accepts either 'section_title', 'field_title', or 'normal'
+        
         // @todo    Examine why an array is not set but null here for the attributes argument.
         'attributes'                => null,    // 3.0.0 - the array represents the attributes of input tag
         'class'                     => array(   // 3.3.1
@@ -85,6 +87,8 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
         '_field_path_array'         => array(), // 3.7.0 (array) An array version of the above field path.
         '_parent_field_path'        => '',      // 3.8.0 (string)
         '_parent_field_path_array'  => array(), // 3.8.0 (array)
+        
+        '_is_title_embedded'        => false,   // 3.8.0 (boolean) whether the field title is in the fieldset element, not in the table th element. This becomes `true` for `section_title` fields and fields with the `placement` argument with the value of `section_title` or `field_title`.
         
     );        
     
@@ -198,9 +202,33 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
             $_aFieldset[ 'type' ] = '_nested';
         }
         
+        // 3.8.0+
+        $_aFieldset[ '_is_title_embedded' ] = $this->_isTitleEmbedded( $_aFieldset );
+        
         return $_aFieldset;
         
     }     
+        /**
+         * Checks whether the field title is supposed to be embedded in the field-set element.
+         * 
+         * @since       3.8.0
+         * @return      boolean
+         * @internal
+         */
+        private function _isTitleEmbedded( array $aFieldset ) {
+            
+            if ( 'section_title' === $aFieldset[ 'type' ] ) {
+                return true;
+            }
+            
+            // Can be either `section_title` or `field_title`.
+            if ( 'normal' !== $aFieldset[ 'placement' ] ) {
+                return true;
+            }
+            
+            return false;
+            
+        }
     
         /**
          * Calculates a field path.
@@ -223,6 +251,7 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
             $_aInheritingFieldsetValues = array(
                 'section_id'                => $aParentFieldset[ 'section_id' ], 
                 'section_title'             => $aParentFieldset[ 'section_title' ], 
+'placement'                 => $aParentFieldset[ 'placement' ], 
                 'page_slug'                 => $aParentFieldset[ 'page_slug' ],
                 'tab_slug'                  => $aParentFieldset[ 'tab_slug' ],
                 'option_key'                => $aParentFieldset[ 'option_key' ],

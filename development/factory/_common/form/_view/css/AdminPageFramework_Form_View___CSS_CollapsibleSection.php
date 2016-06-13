@@ -169,7 +169,20 @@ tbody.admin-page-framework-collapsible-content.table-caption {
 .collapsed > * > .admin-page-framework-collapsible-button-expand {
     display: inline;
 }
+
+/* 3.8.0+ In the collapsible section title, the space is too limited so the fields be displayed inline. */
+.admin-page-framework-collapsible-section-title .admin-page-framework-fields {
+    display: inline;
+}
+.admin-page-framework-collapsible-section-title .admin-page-framework-field {
+    float: none;
+}
+.admin-page-framework-collapsible-section-title .admin-page-framework-fieldset {
+    display: inline;
+    margin-right: 1em;
+}
 CSSRULES;
+
             if ( version_compare( $GLOBALS['wp_version'], '3.8', '<' ) ) {
                 $_sCSSRules .= <<<CSSRULES
 .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,

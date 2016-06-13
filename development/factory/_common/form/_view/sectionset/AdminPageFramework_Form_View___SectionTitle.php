@@ -104,9 +104,9 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
          */
         protected function _getSectionTitle( $sTitle, $sTag, $aFieldsets, $iSectionIndex=null, $aFieldTypeDefinitions=array(), $aCollapsible=array() ) {
        
-            $_aSectionTitleField = $this->_getSectionTitleField( $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions );
-            return $_aSectionTitleField
-                ? $this->getFieldsetOutput( $_aSectionTitleField )
+            $_sFieldsetsInSectionTitle = $this->_getFieldsetsOutputInSectionTitleArea( $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions );
+            return $_sFieldsetsInSectionTitle
+                ? $_sFieldsetsInSectionTitle
                 : "<{$sTag}>" 
                         . $this->_getCollapseButton( $aCollapsible )
                         . $sTitle 
@@ -129,31 +129,84 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
                     ''
                 );                
             }
-            /**
-             * Returns the first found `section_title` field.
-             * 
-             * @since       3.0.0
-             * @since       3.4.0       Moved from `AdminPageFramework_FormPart_Table`.
-             * @since       3.6.0       Added the `$iSectionIndex` parameter. Added the `$aFieldTypeDefinitions` parameter.
-             * @since       3.7.0      Moved from `AdminPageFramework_FormPart_SectionTitle`.
-             */
-            private function _getSectionTitleField( array $aFieldsetsets, $iSectionIndex, $aFieldTypeDefinitions ) {   
             
-                foreach( $aFieldsetsets as $_aFieldsetset ) {
-                    
-                    if ( 'section_title' !== $_aFieldsetset[ 'type' ] ) {
+            /**
+             * @return      string
+             * @since       3.8.0
+             * @internal
+             */
+            private function _getFieldsetsOutputInSectionTitleArea( array $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions ) {   
+            
+                $_aFieldsetsInSectionTitle   = array();
+                $_aFieldsetsInSectionTitle[] = $this->_getSectionTitleField( $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions );
+                $_aFieldsetsInSectionTitle   = array_merge(
+                    $_aFieldsetsInSectionTitle,
+                    $this->_getFieldsetsInSectionTitleArea( $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions )
+                );
+                $_sOutput = '';
+                foreach( $_aFieldsetsInSectionTitle as $_aFieldset ) {
+                    if ( empty( $_aFieldset ) )  {
                         continue;
                     }
+                    $_sOutput .= $this->getFieldsetOutput( $_aFieldset );
+                }
+                return $_sOutput;
+                
+            }
+                /**
+                 * @internal
+                 * @since       3.8.0
+                 * @return      array       field-set definition arrays
+                 */
+                private function _getFieldsetsInSectionTitleArea( array $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions ) {
                     
-                    // Return the first found one.    
-                    $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput( 
-                        $_aFieldsetset, 
-                        $iSectionIndex,
-                        $aFieldTypeDefinitions
-                    );                    
-                    return $_oFieldsetOutputFormatter->get(); 
+                    $_aFieldsetsInSectionTitle = array();
+                    foreach( $aFieldsets as $_aFieldset ) {
+                        
+                        if ( 'section_title' !== $_aFieldset[ 'placement' ] ) {
+                            continue;
+                        }
+                        
+                        $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput( 
+                            $_aFieldset, 
+                            $iSectionIndex,
+                            $aFieldTypeDefinitions
+                        );                    
+                        $_aFieldsetsInSectionTitle[] = $_oFieldsetOutputFormatter->get();
+                        
+                    }
+                    return $_aFieldsetsInSectionTitle;
                     
                 }
-            }
+            
+                /**
+                 * Returns the first found `section_title` field.
+                 * 
+                 * @internal
+                 * @since       3.0.0
+                 * @since       3.4.0       Moved from `AdminPageFramework_FormPart_Table`.
+                 * @since       3.6.0       Added the `$iSectionIndex` parameter. Added the `$aFieldTypeDefinitions` parameter.
+                 * @since       3.7.0       Moved from `AdminPageFramework_FormPart_SectionTitle`.
+                 * @return      array|void
+                 */
+                private function _getSectionTitleField( array $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions ) {   
+                
+                    foreach( $aFieldsets as $_aFieldset ) {
+                        
+                        if ( 'section_title' !== $_aFieldset[ 'type' ] ) {
+                            continue;
+                        }
+                        
+                        // Return the first found one.    
+                        $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput( 
+                            $_aFieldset, 
+                            $iSectionIndex,
+                            $aFieldTypeDefinitions
+                        );                    
+                        return $_oFieldsetOutputFormatter->get(); 
+                        
+                    }
+                    
+                }
 
 }

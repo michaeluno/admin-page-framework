@@ -61,8 +61,8 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
         
         $aFieldset = $this->aFieldset;
 
-        if ( 'section_title' === $aFieldset[ 'type' ] ) { 
-            return ''; 
+        if ( ! $this->_isNormalPlacement( $aFieldset ) ) {
+            return '';
         }
         
         $_oFieldrowAttribute   = new AdminPageFramework_Form_View___Attribute_Fieldrow( 
@@ -103,7 +103,7 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
          * 
          * @since       3.4.0
          * @since       3.6.0       Removed the `$aFieldFinal` parameter. Changed the first parameter name from `$aField`.
-         * @since       3.7.0      Moved from `AdminPageFramework_FormPart_TableRow`.
+         * @since       3.7.0       Moved from `AdminPageFramework_FormPart_TableRow`.
          * @param       array       $aFieldset         The passed intact field definition array. The field rendering class needs non-finalized field array to construct the field array. 
          */
         protected function _getFieldByContainer( array $aFieldset, array $aOpenCloseTags ) {
@@ -117,10 +117,12 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
                 'close_main'        => '',
             );
             
+            $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle( $aFieldset );
             $_aOutput   = array();
             if ( $aFieldset[ 'show_title_column' ] ) {
                 $_aOutput[] = $aOpenCloseTags[ 'open_title' ]
-                        . $this->_getFieldTitle( $aFieldset )
+                        // . $this->_getFieldTitle( $aFieldset )
+                        . $_oFieldTitle->get()
                     . $aOpenCloseTags[ 'close_title' ];
             }
             $_aOutput[] = $aOpenCloseTags[ 'open_main' ]
@@ -148,7 +150,7 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
                     0   // the first item
                 );
                 
-                return "<label for='" . $_oInputTagIDGenerator->get() . "'>"
+                return "<label class='admin-page-framework-field-title' for='" . $_oInputTagIDGenerator->get() . "'>"
                         . "<a id='{$aField[ 'field_id' ]}'></a>"  // to allow the browser to link to the element.
                         . "<span title='" 
                                 . esc_attr( 
@@ -197,5 +199,20 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
                     }                                                 
                     
                 }
+                
+    /**
+     * Checks whether the field placement is normal.
+     * @since       3.8.0
+     * @internal
+     * @return      boolean
+     */
+    protected function _isNormalPlacement( array $aFieldset ) {
+        
+        if ( 'section_title' === $aFieldset[ 'type' ] ) { 
+            return false;
+        }
+        return 'normal' === $aFieldset[ 'placement' ];  
+        
+    }
     
 }

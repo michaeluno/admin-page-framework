@@ -195,6 +195,13 @@ td.admin-page-framework-field-td-no-title {
 
 }
 
+/* Field TItle */
+.admin-page-framework-field-title {
+    font-weight: 600;
+    min-width: 80px;
+    margin-right: 1em;
+}
+
 CSSRULES;
         }   
 

@@ -304,6 +304,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
             $_oFieldsetAttributes   = new AdminPageFramework_Form_View___Attribute_Fieldset( $aFieldset );
             return $aFieldset[ 'before_fieldset' ]
                 . "<fieldset " . $_oFieldsetAttributes->get() . ">"
+                    . $this->_getEmbeddedFieldTitle( $aFieldset )
                     . $this->_getChildFieldTitle( $aFieldset )                
                     . $this->_getFieldsetContent( $aFieldset, $aFieldsOutput, $iFieldsCount )
                     . $this->_getExtras( $aFieldset, $iFieldsCount )
@@ -311,6 +312,27 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                 . $aFieldset[ 'after_fieldset' ];
                         
         }
+            /**
+             * 
+             * @remark      For `section_title` fields and fields with the `placement` argument of the value of `section_title` or `field_title`.
+             * @return      string
+             * @since       3.8.0
+             */
+            private function _getEmbeddedFieldTitle( array $aFieldset ) {
+                
+                if ( ! $aFieldset[ '_is_title_embedded' ] ) {
+                    return false;
+                }
+
+                $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle( $aFieldset );
+                return $_oFieldTitle->get();
+    
+                // return "<label class='admin-page-framework-field-title' for=''>"
+                        // . $aFieldset[ 'title' ]
+                    // . "</label>";                
+                
+            }
+        
             /**
              * 
              * @remark      Used by inline-mixed fields and nested fields.
@@ -322,18 +344,8 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                 if ( ! $aFieldset[ '_nested_depth' ] ) {
                     return '';
                 }
-            
-                if ( ! $aFieldset[ 'show_title_column' ] ) {
-                    return '';
-                }
-                
-                if ( ! $aFieldset[ 'title' ] ) {
-                    return '';
-                }
-// @todo set the for attribute value.                
-                return "<label class='admin-page-framework-child-field-title' for=''>"
-                        . $aFieldset[ 'title' ]
-                    . "</label>";
+                $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle( $aFieldset, array( 'admin-page-framework-child-field-title' ) );
+                return $_oFieldTitle->get();
                 
             }
         

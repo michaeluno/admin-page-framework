@@ -47,7 +47,6 @@ class AdminPageFramework_FieldType__nested extends AdminPageFramework_FieldType 
     margin-bottom: 1em;
 }
 .with-nested-fields > .admin-page-framework-fieldset.child-fieldset > .admin-page-framework-child-field-title {
-    font-weight: 600;
     display: inline-block;
     padding: 0 0 0.4em 0;
 }

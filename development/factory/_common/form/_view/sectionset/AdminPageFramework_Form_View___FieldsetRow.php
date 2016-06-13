@@ -60,8 +60,8 @@ class AdminPageFramework_Form_View___FieldsetRow extends AdminPageFramework_Form
         
         $aFieldset = $this->aFieldset;
         
-        if ( 'section_title' === $aFieldset[ 'type' ] ) { 
-            return ''; 
+        if ( ! $this->_isNormalPlacement( $aFieldset ) ) {
+            return '';
         }
    
         $_oFieldrowAttribute = new AdminPageFramework_Form_View___Attribute_Fieldrow( 
