@@ -59,45 +59,51 @@ class APF_Demo_AdvancedUsage_Complex_Collapsible {
             array(
                 'field_id'         => 'name',
                 'type'             => 'section_title',
-                'before_input'     => "<strong>"
-                    . __( 'Name', 'fine-ad' ) 
-                    . "</strong>:&nbsp; ",
+                'title' => __( 'Name', 'admin-page-framework-loader' ),
                 'attributes'       => array(              
-                    'size'          => 80,
-                    'style'         => 'width: 92%;',
-                    'placeholder'   => __( 'Enter a name', 'fine-ad' ),
+                    'placeholder'   => __( 'Enter a name', 'admin-page-framework-loader' ),
                 ),
             ), 
             array(
                 'field_id'         => 'status',
                 'type'             => 'radio',
-                'title'            => __( 'Status', 'fine-ad' ),
+                'title'            => __( 'Status', 'admin-page-framework-loader' ),
                 'placement'        => 'section_title',
                 'label'            => array(
-                    1   => __( 'On', 'fine-ad' ),
-                    0   => __( 'Off', 'fine-ad' ),
+                    1   => __( 'On', 'admin-page-framework-loader' ),
+                    0   => __( 'Off', 'admin-page-framework-loader' ),
                 ),
+                'label_min_width'  => '40px',
                 'default' => 1,
-            ),
+            ),  
             array(
                 'field_id'         => 'text',
                 'type'             => 'textarea',
-                'title'            => __( 'Content', 'fine-ad' ),
+                'title'            => __( 'Content', 'admin-page-framework-loader' ),
                 'rich'             => true,
             ),            
             array(
                 'field_id'         => 'field_title',
-                'title'            => __( 'Field Title Fields', 'fine-ad' ),
                 'content'          => array(
                     array(
                         'field_id'  => 'field_title_checkbox',
                         'type'      => 'checkbox',
                         'placement' => 'field_title',
-                        'label'     => __( 'Toggle', 'fine-ad' ),
+                        'label'     => '<strong>' . __( 'Field Title Fields', 'admin-page-framework-loader' ) . '</strong>',
                     ),
+                    array(
+                        'field_id'      => 'field_title_textarea',
+                        'type'          => 'textarea',
+                        'before_input'  => __( 'Memo', 'admin-page-framework-loader' ),
+                        'placement'     => 'field_title',
+                        'attributes'    => array(
+                            'cols' => '',
+                        ),
+                    ),                    
                     array(
                         'field_id'   => 'text',
                         'type'       => 'text',
+                        'title'      => __( 'Normal Nested Field', 'admin-page-framework-loader' ),
                         'repeatable' => true,
                         'sortable'   => true,
                     ),                    
