@@ -229,7 +229,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
             private function _getEmbeddedFieldTitle( array $aFieldset ) {
                 
                 if ( ! $aFieldset[ '_is_title_embedded' ] ) {
-                    return false;
+                    return '';
                 }
 
                 $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle( 
@@ -243,10 +243,6 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                 );
                 return $_oFieldTitle->get();
     
-                // return "<label class='admin-page-framework-field-title' for=''>"
-                        // . $aFieldset[ 'title' ]
-                    // . "</label>";                
-                
             }
         
             /**
@@ -260,6 +256,9 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                 if ( ! $aFieldset[ '_nested_depth' ] ) {
                     return '';
                 }
+                if ( $aFieldset[ '_is_title_embedded' ] ) {
+                    return '';
+                }                
                 $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle( 
                     $aFieldset, 
                     array( 'admin-page-framework-child-field-title' ), 
