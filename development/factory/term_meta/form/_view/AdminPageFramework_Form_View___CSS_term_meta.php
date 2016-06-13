@@ -64,7 +64,7 @@ class AdminPageFramework_Form_View___CSS_term_meta extends AdminPageFramework_Fo
     padding: 0;
     /* 3.4.0+ In IE inline-block does not take effect for td and th so make them float */
     float: right;
-    clear: right; 
+    clear: right;
 }
 
 .admin-page-framework-form-table-term_meta.add-new-term .admin-page-framework-field {
@@ -90,7 +90,8 @@ class AdminPageFramework_Form_View___CSS_term_meta extends AdminPageFramework_Fo
 .admin-page-framework-form-table-term_meta.add-new-term .admin-page-framework-section .form-table > tbody > tr > th {
     font-size: 13px;
     line-height: 1.5;
-    margin: 1em 0px;    
+    /* margin: 1em 0px;     */
+    margin: 0;
     font-weight: 700;
 }
 
