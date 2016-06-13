@@ -66,6 +66,7 @@ class APF_Demo_AdvancedUsage {
             'APF_Demo_AdvancedUsage_Verification',
             'APF_Demo_AdvancedUsage_Mixed',
             'APF_Demo_AdvancedUsage_Callback',
+            'APF_Demo_AdvancedUsage_Complex',
         );
         foreach ( $_aTabClasses as $_sTabClassName ) {
             if ( ! class_exists( $_sTabClassName ) ) {
