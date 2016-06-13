@@ -173,6 +173,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Form_View___Script_Utility"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/script/AdminPageFramework_Form_View___Script_Utility.php", 
 	"AdminPageFramework_Form_View___Script_Widget"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/script/AdminPageFramework_Form_View___Script_Widget.php", 
 	"AdminPageFramework_Form_View___CollapsibleSectionTitle"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/sectionset/AdminPageFramework_Form_View___CollapsibleSectionTitle.php", 
+	"AdminPageFramework_Form_View___FieldTitle"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/sectionset/AdminPageFramework_Form_View___FieldTitle.php", 
 	"AdminPageFramework_Form_View___FieldsetRow"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/sectionset/AdminPageFramework_Form_View___FieldsetRow.php", 
 	"AdminPageFramework_Form_View___FieldsetRows"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/sectionset/AdminPageFramework_Form_View___FieldsetRows.php", 
 	"AdminPageFramework_Form_View___Section"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/sectionset/AdminPageFramework_Form_View___Section.php", 
