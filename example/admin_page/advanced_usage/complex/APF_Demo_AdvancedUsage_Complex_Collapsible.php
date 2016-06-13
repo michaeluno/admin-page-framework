@@ -81,6 +81,8 @@ class APF_Demo_AdvancedUsage_Complex_Collapsible {
                 'type'             => 'textarea',
                 'title'            => __( 'Content', 'admin-page-framework-loader' ),
                 'rich'             => true,
+                'repeatable'       => true,
+                'sortable'         => true,                
             ),            
             array(
                 'field_id'         => 'field_title',
