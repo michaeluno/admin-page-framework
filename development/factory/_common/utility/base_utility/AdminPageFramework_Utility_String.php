@@ -24,13 +24,20 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * When a value misses a unit like '60', it returns with the unit such as '60%'.
      * 
      * @since       3.1.1
+     * @since       3.8.0   Renamed from `sanitizeLength()`.
      * @return      string
      */
-    static public function sanitizeLength( $sLength, $sUnit='px' ) {
+    static public function getLengthSanitized( $sLength, $sUnit='px' ) {
         return is_numeric( $sLength ) 
             ? $sLength . $sUnit
             : $sLength;
-    }
+    }    
+        /**
+         * @deprecated  3.8.0       Use `getLengthSanitized()` instead.
+         */
+        static public function sanitizeLength( $sLength, $sUnit='px' ) {
+            return self::getLengthSanitized( $sLength, $sUnit );
+        }
   
     /**
      * Converts non-alphabetic characters to underscore.

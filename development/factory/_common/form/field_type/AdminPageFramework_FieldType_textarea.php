@@ -596,7 +596,7 @@ CSSRULES;
                     "<label for='" . $aField[ 'attributes' ][ 'id' ] . "'>",
                         $this->getElementByLabel( $aField['before_input'], $sKey, $aField[ 'label' ] ),
                         $_sLabel 
-                            ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" 
+                            ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getLengthSanitized( $aField['label_min_width'] ) . ";'>" 
                                     . $_sLabel
                                 . "</span>"
                             : '',

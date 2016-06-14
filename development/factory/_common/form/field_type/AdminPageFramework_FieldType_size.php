@@ -199,7 +199,7 @@ CSSRULES;
                      
             $_aOutput = array(
                 $this->getElementByLabel( $aField[ 'before_label' ], $isKey, $aField[ 'label' ] ),
-                    "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>",
+                    "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->getLengthSanitized( $aField[ 'label_min_width' ] ) . ";'>",
                         $this->_getNumberInputPart( $aField, $_aBaseAttributes, $isKey, is_array( $aField[ 'label' ] ) ),  // The size (number) part
                         $this->_getUnitSelectInput( $aField, $_aBaseAttributes, $isKey, is_array( $aField[ 'label' ] ) ),  // The unit (select) part
                     "</div>",
@@ -246,7 +246,7 @@ CSSRULES;
                             : array( 'before_label', 'size' ) 
                     )
                     . ( $aField['label'] && ! $aField[ 'repeatable' ]
-                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>" 
+                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getLengthSanitized( $aField[ 'label_min_width' ] ) . ";'>" 
                                 . $_sLabel 
                             . "</span>"
                         : "" 

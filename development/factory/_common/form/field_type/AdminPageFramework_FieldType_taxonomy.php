@@ -471,8 +471,8 @@ CSSRULES;
                 'class' => 'tab-box-content',
                 'style' => $this->generateInlineCSS(
                     array(
-                        'height' => $this->sanitizeLength( $aField[ 'height' ] ),
-                        'width'  => $this->sanitizeLength( $aField[ 'width' ] ),
+                        'height' => $this->getLengthSanitized( $aField[ 'height' ] ),
+                        'width'  => $this->getLengthSanitized( $aField[ 'width' ] ),
                     )
                 ),
             );

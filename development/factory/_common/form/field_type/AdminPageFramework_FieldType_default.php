@@ -42,7 +42,7 @@ class AdminPageFramework_FieldType_default extends AdminPageFramework_FieldType 
                 . "<label for='{$aField['input_id']}'>"
                     . $aField['before_input']
                     . ( $aField['label'] && ! $aField['repeatable']
-                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
+                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" .  $this->getLengthSanitized( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
                         : "" 
                     )
                     . $aField['value']

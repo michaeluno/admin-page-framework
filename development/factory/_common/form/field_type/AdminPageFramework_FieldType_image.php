@@ -606,7 +606,7 @@ CSSRULES;
                     . $aField[ 'before_input' ]
                     . $this->getAOrB(
                         $aField[ 'label' ] && ! $aField[ 'repeatable' ],
-                        "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>" . $aField[ 'label' ] . "</span>",
+                        "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getLengthSanitized( $aField[ 'label_min_width' ] ) . ";'>" . $aField[ 'label' ] . "</span>",
                         ''                        
                     )
                     . "<input " . $this->getAttributes( $this->_getImageInputAttributes( $aField, $_iCountAttributes, $_sImageURL, $_aBaseAttributes ) ) . " />" 

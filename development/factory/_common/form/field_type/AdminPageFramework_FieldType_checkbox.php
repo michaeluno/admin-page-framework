@@ -231,7 +231,7 @@ CSSRULES;
             $_oCheckbox->setAttributesByKey( $sKey );
             $_oCheckbox->addClass( $this->_sCheckboxClassSelector );                        
             return $this->getElementByLabel( $aField[ 'before_label' ], $sKey, $aField[ 'label' ] )
-                . "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: " . $this->sanitizeLength( $aField[ 'label_min_width' ] ) . ";'>"
+                . "<div class='admin-page-framework-input-label-container admin-page-framework-checkbox-label' style='min-width: " . $this->getLengthSanitized( $aField[ 'label_min_width' ] ) . ";'>"
                     . "<label " . $this->getAttributes( 
                         array(
                             'for'   => $_oCheckbox->getAttribute( 'id' ),
