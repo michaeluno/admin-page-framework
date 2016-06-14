@@ -288,11 +288,11 @@ CSSRULES;
          */            
         private function _getLabelAttributes( array $aField, array $aInputAttributes ) {
             return array(
-                'style' => $aField['label_min_width'] 
-                    ? "min-width:" . $this->getLengthSanitized( $aField['label_min_width'] ) . ";" 
+                'style' => $aField[ 'label_min_width' ] 
+                    ? "min-width:" . $this->getLengthSanitized( $aField[ 'label_min_width' ] ) . ";" 
                     : null,
-                'for'   => $aInputAttributes['id'],
-                'class' => $aInputAttributes['disabled'] 
+                'for'   => $aInputAttributes[ 'id' ],
+                'class' => $aInputAttributes[ 'disabled' ] 
                     ? 'disabled' 
                     : null,
             );
@@ -306,8 +306,8 @@ CSSRULES;
          */        
         private function _getLabelContainerAttributes( array $aField ) {           
             return array(
-                'style' => $aField['label_min_width'] 
-                    ? "min-width:" . $this->getLengthSanitized( $aField['label_min_width'] ) . ";" 
+                'style' => $aField[ 'label_min_width' ] 
+                    ? "min-width:" . $this->getLengthSanitized( $aField[ 'label_min_width' ] ) . ";" 
                     : null,
                 'class' => 'admin-page-framework-input-label-container'
                     . ' admin-page-framework-input-button-container'

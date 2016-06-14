@@ -195,18 +195,26 @@ td.admin-page-framework-field-td-no-title {
 
 }
 
-/* Field TItle */
+/* Field TItle 3.8.0+ */
 .admin-page-framework-field-title {
     font-weight: 600;
     min-width: 80px;
     margin-right: 1em;
 }
 
-/* Font-weight */
+/* Font-weight 3.8.0+ */
 .admin-page-framework-fieldset {
     /* This needs to be explicitly defined for the fields placed in the field title area. */
     font-weight: normal;
 }
+
+/* Input container label 3.8.0+ */
+.admin-page-framework-input-label-container,
+.admin-page-framework-input-label-string
+{
+    min-width: 140px;
+}
+
 
 CSSRULES;
         }   

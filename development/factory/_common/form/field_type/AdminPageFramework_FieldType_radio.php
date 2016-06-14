@@ -131,7 +131,7 @@ CSSRULES;
            
             // Output
             return $this->getElementByLabel( $aField[ 'before_label' ], $sKey, $aField[ 'label' ] )
-                . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->getLengthSanitized( $aField['label_min_width'] ) . ";'>"
+                . "<div " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-container admin-page-framework-radio-label' ) . ">" 
                     . "<label " . $this->getAttributes( 
                             array(
                                 'for'   => $_oRadio->getAttribute( 'id' ),

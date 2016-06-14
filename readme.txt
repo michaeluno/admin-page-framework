@@ -453,10 +453,13 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.0 =
+- Added the `placement` field argument that allows the user to place field in the areas of section title and field title.
 - Added the `inline_mixed` built-in field type which introduces the ability to create inline mixed fields with the `content` field definition argument.
 - Added the ability to nest fields with the `content` field definition argument.
 - Added a new factory class to build forms for taxonomy terms.
 - Changed the `type` argument in the field definition to be able to be omitted.
+- Changed the default value of the `label_min_width` field argument to `0` from `140` and its `min-width` CSS property value set to elements are handled with embedded CSS.
+- Changed the behabiour of collapsible seciton bars that expanded/collapised when a field in the bar was clicked.
 - Fixed a bug that the tool bar of repeatable rich text area fields did not get updated when the field or section was repeatable.
 - Fixed a bug that delimiter elements were not displayed when a last repeatable field is duplicated.
 

@@ -225,25 +225,27 @@ CSSRULES;
      */
     protected function getField( $aField ) { 
 
-        $_aInputAttributes           = $aField['attributes'];
-        $_aInputAttributes['class'] .= ' system';
-        unset( $_aInputAttributes['value'] );
+        $_aInputAttributes             = $aField[ 'attributes' ];
+        $_aInputAttributes[ 'class' ] .= ' system';
+        unset( $_aInputAttributes[ 'value' ] );
         return 
-            $aField['before_label']
+            $aField[ 'before_label' ]
             . "<div class='admin-page-framework-input-label-container'>"
-                . "<label for='{$aField['input_id']}'>"
-                    . $aField['before_input']
-                    . ( $aField['label'] && ! $aField['repeatable']
-                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getLengthSanitized( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
+                . "<label for='{$aField[ 'input_id' ]}'>"
+                    . $aField[ 'before_input' ]
+                    . ( $aField[ 'label' ] && ! $aField[ 'repeatable' ]
+                        ? "<span " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-string' ) . ">" 
+                                . $aField[ 'label' ] 
+                            . "</span>"
                         : "" 
                     )
                     . "<textarea " . $this->getAttributes( $_aInputAttributes ) . " >"    
-                        . esc_textarea( $this->_getSystemInfomation( $aField['value'], $aField['data'], $aField['print_type'] ) )
+                        . esc_textarea( $this->_getSystemInfomation( $aField[ 'value' ], $aField[ 'data' ], $aField[ 'print_type' ] ) )
                     . "</textarea>"
-                    . $aField['after_input']
+                    . $aField[ 'after_input' ]
                 . "</label>"
             . "</div>"
-            . $aField['after_label'];
+            . $aField[ 'after_label' ];
         
     }    
         /**

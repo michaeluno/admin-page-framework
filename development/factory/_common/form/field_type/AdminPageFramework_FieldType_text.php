@@ -117,14 +117,14 @@ CSSRULES;
                         'value' => $aField[ 'value' ],
                     ) 
                     + $aField[ 'attributes' ]
-                : $aField[ 'attributes' ];
+                : $aField[ 'attributes' ];          
             $_aOutput           = array(
                 $this->getElementByLabel( $aField[ 'before_label' ], $sKey, $aField[ 'label' ] ),
                 "<div class='admin-page-framework-input-label-container {$_sClassSelector}'>",
                     "<label for='" . $_aInputAttributes[ 'id' ] . "'>",
                         $this->getElementByLabel( $aField[ 'before_input' ], $sKey, $aField[ 'label' ] ),
                         $_sLabel 
-                            ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getLengthSanitized( $aField['label_min_width'] ) . ";'>" 
+                            ? "<span " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-string' ) . ">" 
                                     . $_sLabel
                                 . "</span>"
                             : '',

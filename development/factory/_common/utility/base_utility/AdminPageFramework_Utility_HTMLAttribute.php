@@ -37,6 +37,9 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
     static public function getInlineCSS( array $aCSSRules ) {
         $_aOutput = array();
         foreach( $aCSSRules as $_sProperty => $_sValue ) {
+            if ( is_null( $_sValue ) ) {
+                continue;
+            }
             $_aOutput[] = $_sProperty . ': ' . $_sValue;
         }
         return implode( '; ', $_aOutput );

@@ -289,6 +289,13 @@ class AdminPageFramework_FieldType_inline_mixed extends AdminPageFramework_Field
     margin-left: auto;
 }
 
+/* Input container label 3.8.0+ */
+.admin-page-framework-field-inline_mixed .admin-page-framework-input-label-container,
+.admin-page-framework-field-inline_mixed .admin-page-framework-input-label-string
+{
+    min-width: 0;
+}
+
 CSSRULES;
 
     }    

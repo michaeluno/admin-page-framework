@@ -160,7 +160,7 @@ CSSRULES;
         }
         return
             $aField[ 'before_label' ]
-            . "<div class='admin-page-framework-input-label-container admin-page-framework-select-label' style='min-width: " . $this->getLengthSanitized( $aField[ 'label_min_width' ] ) . ";'>"
+            . "<div " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-container admin-page-framework-select-label' ) . ">" 
                 . "<label for='{$aField[ 'input_id' ]}'>"
                     . $aField[ 'before_input' ]
                     . $_oSelectInput->get( $aField[ 'label' ] )

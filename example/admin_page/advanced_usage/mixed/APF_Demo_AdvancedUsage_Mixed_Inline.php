@@ -58,13 +58,11 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                     array(
                         'field_id'        => 'enable',
                         'type'            => 'checkbox',
-                        'label_min_width' => '',
                         'label'           => __( 'Do something in', 'admin-page-framework-loader' ),        
                     ),                                
                     array(
                         'field_id'        => 'interval',
                         'type'            => 'number',
-                        'label_min_width' => '',
                         'default'         => 3,
                         'attributes'      => array(
                             'style'     => 'width: 80px',
@@ -73,7 +71,6 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                     array(
                         'field_id'        => 'interval_unit',
                         'type'            => 'select',
-                        'label_min_width' => '',
                         'label'           => array(
                             'hour'    => __( 'hours', 'admin-page-framework-loader' ),
                             'day'     => __( 'days', 'admin-page-framework-loader' ),
@@ -108,7 +105,6 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                     array(
                         'field_id'        => 'port',
                         'type'            => 'number',
-                        'label_min_width' => '',
                         'default'         => 3,
                         'attributes'      => array(
                             // 'style'     => 'width: 80px',

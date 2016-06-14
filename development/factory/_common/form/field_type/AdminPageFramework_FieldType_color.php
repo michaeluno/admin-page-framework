@@ -232,20 +232,22 @@ JAVASCRIPTS;
         $aField[ 'attributes' ] = $this->_getInputAttributes( $aField );
         
         return 
-            $aField['before_label']
+            $aField[ 'before_label' ]
             . "<div class='admin-page-framework-input-label-container'>"
-                . "<label for='{$aField['input_id']}'>"
+                . "<label for='{$aField[ 'input_id' ]}'>"
                     . $aField[ 'before_input' ]
-                    . ( $aField['label'] && ! $aField['repeatable']
-                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getLengthSanitized( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
+                    . ( $aField[ 'label' ] && ! $aField[ 'repeatable' ]
+                        ? "<span " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-string' ) . ">" 
+                                . $aField['label'] 
+                            . "</span>"
                         : "" 
                     )
                     . "<input " . $this->getAttributes( $aField[ 'attributes' ] ) . " />" 
                     . $aField[ 'after_input' ]
                     . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                 . "</label>"
-                . "<div class='colorpicker' id='color_{$aField['input_id']}'></div>" // this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x ) // rel='{$aField['input_id']}'
-                . $this->_getColorPickerEnablerScript( "{$aField['input_id']}" )
+                . "<div class='colorpicker' id='color_{$aField[ 'input_id' ]}'></div>" // this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x ) // rel='{$aField['input_id']}'
+                . $this->_getColorPickerEnablerScript( "{$aField[ 'input_id' ]}" )
             . "</div>"
             . $aField['after_label'];
         

@@ -62,13 +62,15 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType {
         return 
             $aField['before_label']
             . "<div class='admin-page-framework-input-label-container'>"
-                . "<label for='{$aField['input_id']}'>"
-                    . $aField['before_input']
-                    . ( $aField['label']
-                        ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getLengthSanitized( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
+                . "<label for='{$aField[ 'input_id' ]}'>"
+                    . $aField[ 'before_input' ]
+                    . ( $aField[ 'label' ]
+                        ? "<span " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-string' ) . ">" 
+                            . $aField[ 'label' ]
+                          . "</span>"
                         : "" 
                     )
-                    . "<input " . $this->getAttributes( $aField['attributes'] ) . " />" 
+                    . "<input " . $this->getAttributes( $aField[ 'attributes' ] ) . " />" 
                     . $aField['after_input']
                 . "</label>"
             . "</div>"
