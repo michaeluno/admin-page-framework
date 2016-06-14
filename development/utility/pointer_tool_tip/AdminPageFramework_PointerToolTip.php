@@ -285,7 +285,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
             // Embeds the inline script
             add_action( 
                 'admin_print_footer_scripts',
-                array( $this, '_replyToInsertInlineScript' )
+                array( $this, '_replyToInsertInternalScript' )
             );            
             
         }    
@@ -296,11 +296,11 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
      * @return      void
      * @internal
      */
-    public function _replyToInsertInlineScript() {
+    public function _replyToInsertInternalScript() {
    
         echo "<script type='text/javascript' class='admin-page-framework-pointer-tool-tip'>"
             . '/* <![CDATA[ */'
-            . $this->_getInlineScript( self::$aPointers )
+            . $this->_getInternalScript( self::$aPointers )
             . '/* ]]> */'
         . "</script>";
         
@@ -312,7 +312,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
          * @return      string  
          * @internal
          */
-        public function _getInlineScript( $aPointers=array() ) {
+        public function _getInternalScript( $aPointers=array() ) {
 
             $_aJSArray      = json_encode( $aPointers );
 

@@ -37,7 +37,7 @@ class AdminPageFramework_Form_widget extends AdminPageFramework_Form {
          */
         private function _addDefaultResources() {
             $_oCSS = new AdminPageFramework_Form_View___CSS_widget;
-            $this->addResource( 'inline_styles', $_oCSS->get() );
+            $this->addResource( 'internal_styles', $_oCSS->get() );
         }
         
     

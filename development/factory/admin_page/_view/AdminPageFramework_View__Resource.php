@@ -46,35 +46,35 @@ class AdminPageFramework_View__Resource extends AdminPageFramework_FrameworkUtil
          * @return      void
          */
         private function _setHooks() {
-            add_action( "style_{$this->sCurrentPageSlug}", array( $this, '_replyToAddInlineCSSRules' ) );
+            add_action( "style_{$this->sCurrentPageSlug}", array( $this, '_replyToAddInternalCSSRules' ) );
             if ( $this->sCurrentTabSlug ) {
-                add_action( "style_{$this->sCurrentPageSlug}_{$this->sCurrentTabSlug}", array( $this, '_replyToAddInlineCSSRules' ) );
+                add_action( "style_{$this->sCurrentPageSlug}_{$this->sCurrentTabSlug}", array( $this, '_replyToAddInternalCSSRules' ) );
             }
-            add_action( "script_{$this->sCurrentPageSlug}", array( $this, '_replyToAddInlineScripts' ) );
+            add_action( "script_{$this->sCurrentPageSlug}", array( $this, '_replyToAddInternalScripts' ) );
             if ( $this->sCurrentTabSlug ) {
-                add_action( "script_{$this->sCurrentPageSlug}_{$this->sCurrentTabSlug}", array( $this, '_replyToAddInlineScripts' ) );
+                add_action( "script_{$this->sCurrentPageSlug}_{$this->sCurrentTabSlug}", array( $this, '_replyToAddInternalScripts' ) );
             }            
         }
-            public function _replyToAddInlineCSSRules( $sCSS ) {
-                return $this->_appendInlineAssets( $sCSS, $this->aCSSRules );
+            public function _replyToAddInternalCSSRules( $sCSS ) {
+                return $this->_appendInternalAssets( $sCSS, $this->aCSSRules );
             }
-            public function _replyToAddInlineScripts( $sScript ) {
-                return $this->_appendInlineAssets( $sScript, $this->aScripts );
+            public function _replyToAddInternalScripts( $sScript ) {
+                return $this->_appendInternalAssets( $sScript, $this->aScripts );
             }
                 /**
-                 * Appends inline contents (script/CSS) to the given value and updates the container array.
+                 * Appends internal contents (script/CSS) to the given value and updates the container array.
                  * @return      string
                  * @since       3.6.3
                  */
-                public function _appendInlineAssets( $sInline, &$aContainer ) {
-                    $_aInlines = array_unique( $aContainer );
-                    $sInline   = PHP_EOL . $sInline;
-                    foreach( $_aInlines as $_iIndex => $_sInline ) {
-                        $sInline .= $_sInline . PHP_EOL;
-                        unset( $_aInlines[ $_iIndex ] );
+                public function _appendInternalAssets( $sInternal, &$aContainer ) {
+                    $_aInternals = array_unique( $aContainer );
+                    $sInternal   = PHP_EOL . $sInternal;
+                    foreach( $_aInternals as $_iIndex => $_sInternal ) {
+                        $sInternal .= $_sInternal . PHP_EOL;
+                        unset( $_aInternals[ $_iIndex ] );
                     }
-                    $aContainer = $_aInlines; // update the container array.
-                    return $sInline;
+                    $aContainer = $_aInternals; // update the container array.
+                    return $sInternal;
                 }
             
         /**

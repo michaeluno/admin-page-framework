@@ -238,41 +238,36 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
         if ( ! $this->oForm->isInThePage() ) {
             return;
         }   
-        $_sCSSRules = $this->_getFormattedInlineStyles( 
-            $this->oForm->getResources( 'inline_styles' )
+        $_sCSSRules = $this->_getFormattedInternalStyles( 
+            $this->oForm->getResources( 'internal_styles' )
         );
         
         $_sID = $this->sanitizeSlug( strtolower( $this->oForm->aArguments[ 'caller_id' ] ) );
         if ( $_sCSSRules ) {            
-            echo "<style type='text/css' id='inline-style-{$_sID}' class='admin-page-framework-form-style'>"
+            echo "<style type='text/css' id='internal-style-{$_sID}' class='admin-page-framework-form-style'>"
                     . $_sCSSRules
                 . "</style>";
         }        
-        $_sIECSSRules = $this->_getFormattedInlineStyles( 
-            $this->oForm->getResources( 'inline_styles_ie' )
+        $_sIECSSRules = $this->_getFormattedInternalStyles( 
+            $this->oForm->getResources( 'internal_styles_ie' )
         );        
         if ( $_sIECSSRules ) {
-            echo "<!--[if IE]><style type='text/css' id='inline-style-ie-{$_sID}' class='admin-page-framework-form-ie-style'>"
+            echo "<!--[if IE]><style type='text/css' id='internal-style-ie-{$_sID}' class='admin-page-framework-form-ie-style'>"
                     . $_sIECSSRules
                 . "</style><![endif]-->";
         } 
         
         // Empty the values as this method can be called multiple times, in the head tag and the footer.
-        $this->oForm->setResources( 'inline_styles', array() );
-        $this->oForm->setResources( 'inline_styles_ie', array() );
+        $this->oForm->setResources( 'internal_styles', array() );
+        $this->oForm->setResources( 'internal_styles_ie', array() );
         
     }
         /**
          * @since       3.7.0
          * @string
          */
-        private function _getFormattedInlineStyles( array $aInlineStyles ) {
-            $_sCSSRules = implode( PHP_EOL, array_unique( $aInlineStyles ) );
-            return $_sCSSRules;
-            // @deprecated      3.7.10      The beautifier script compresses inline CSS rules.
-            // return $this->isDebugMode()
-                // ? $_sCSSRules
-                // : $this->getCSSMinified( $_sCSSRules );
+        private function _getFormattedInternalStyles( array $aInternalStyles ) {
+            return implode( PHP_EOL, array_unique( $aInternalStyles ) );
         }
     
     /**
@@ -286,16 +281,16 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             return;
         }        
         
-        $_sScript = implode( PHP_EOL, array_unique( $this->oForm->getResources( 'inline_scripts' ) ) );
+        $_sScript = implode( PHP_EOL, array_unique( $this->oForm->getResources( 'internal_scripts' ) ) );
         if ( $_sScript ) {
             $_sID = $this->sanitizeSlug( strtolower( $this->oForm->aArguments[ 'caller_id' ] ) );
-            echo "<script type='text/javascript' id='inline-script-{$_sID}' class='admin-page-framework-form-script'>" 
+            echo "<script type='text/javascript' id='internal-script-{$_sID}' class='admin-page-framework-form-script'>" 
                     . '/* <![CDATA[ */'
                     . $_sScript
                     . '/* ]]> */'
                 . "</script>"; 
         }        
-        $this->oForm->setResources( 'inline_scripts', array() );
+        $this->oForm->setResources( 'internal_scripts', array() );
         
     }
    

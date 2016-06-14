@@ -36,7 +36,7 @@ class AdminPageFramework_Form_term_meta extends AdminPageFramework_Form_Meta {
          */
         private function _addDefaultResources() {
             $_oCSS = new AdminPageFramework_Form_View___CSS_term_meta;
-            $this->addResource( 'inline_styles', $_oCSS->get() );
+            $this->addResource( 'internal_styles', $_oCSS->get() );
         }        
     
     /**

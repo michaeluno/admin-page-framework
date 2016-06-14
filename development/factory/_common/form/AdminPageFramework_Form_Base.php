@@ -23,11 +23,11 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      * @internal
      */
     static public $_aResources = array(
-        'inline_styles'    => array(),
-        'inline_styles_ie' => array(),
-        'inline_scripts'   => array(),
-        'src_styles'       => array(),
-        'src_scripts'      => array(),
+        'internal_styles'    => array(),
+        'internal_styles_ie' => array(),
+        'internal_scripts'   => array(),
+        'src_styles'         => array(),
+        'src_scripts'        => array(),
     );    
     
     /**

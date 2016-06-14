@@ -39,7 +39,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
             return;
         }
     
-        add_action( $sHeadActionHook, array( $this, '_replyToInsertRequiredInlineScripts' ) );
+        add_action( $sHeadActionHook, array( $this, '_replyToInsertRequiredInternalScripts' ) );
     
     }
 
@@ -48,7 +48,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
      * @since       3.7.0
      * @return      string
      */
-    public function _replyToInsertRequiredInlineScripts() {
+    public function _replyToInsertRequiredInternalScripts() {
 
         /**
          * Make sure to perform this check prior to the below `hasBeenCalled()` method
@@ -76,11 +76,11 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
          * @return      string
          */
         private function _getScripts_RequiredInHead() {
-            return 'document.write( "<style class=\'admin-page-framework-js-embedded-inline-style\'>'
+            return 'document.write( "<style class=\'admin-page-framework-js-embedded-internal-style\'>'
                     . str_replace(
                         '\\n',   // search
                         '',     // replace
-                        esc_js( $this->_getInlineCSS() )    // subject
+                        esc_js( $this->_getInternalCSS() )    // subject
                     )
                 . '</style>" );';
         }
@@ -88,7 +88,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
              * @return      string
              * @since       3.7.0
              */
-            private function _getInlineCSS() {
+            private function _getInternalCSS() {
                 $_oLoadingCSS = new AdminPageFramework_Form_View___CSS_Loading;
                 $_oLoadingCSS->add( $this->_getScriptElementConcealerCSSRules() );
                 return $_oLoadingCSS->get();

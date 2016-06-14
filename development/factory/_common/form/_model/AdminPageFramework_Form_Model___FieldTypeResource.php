@@ -29,11 +29,11 @@ class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramewo
      * Represents the resource array structure.
      */
     public $aResources = array(
-        'inline_styles'    => array(),
-        'inline_styles_ie' => array(),
-        'inline_scripts'   => array(),
-        'src_styles'       => array(),
-        'src_scripts'      => array(),
+        'internal_styles'    => array(),
+        'internal_styles_ie' => array(),
+        'internal_scripts'   => array(),
+        'src_styles'         => array(),
+        'src_scripts'        => array(),
     );
     
     /**
@@ -59,16 +59,16 @@ class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramewo
      */
     public function get() {
 
-        $this->aResources[ 'inline_scripts' ]      = $this->_getUpdatedInlineItemsByCallback( 
-            $this->aResources[ 'inline_scripts' ], 
+        $this->aResources[ 'internal_scripts' ]      = $this->_getUpdatedInternalItemsByCallback( 
+            $this->aResources[ 'internal_scripts' ], 
             'hfGetScripts' 
         );
-        $this->aResources[ 'inline_styles' ]       = $this->_getUpdatedInlineItemsByCallback( 
-            $this->aResources[ 'inline_styles' ], 
+        $this->aResources[ 'internal_styles' ]       = $this->_getUpdatedInternalItemsByCallback( 
+            $this->aResources[ 'internal_styles' ], 
             'hfGetStyles'
         );
-        $this->aResources[ 'inline_styles_ie' ]    = $this->_getUpdatedInlineItemsByCallback( 
-            $this->aResources[ 'inline_styles_ie' ], 
+        $this->aResources[ 'internal_styles_ie' ]    = $this->_getUpdatedInternalItemsByCallback( 
+            $this->aResources[ 'internal_styles_ie' ], 
             'hfGetIEStyles'
         );        
         $this->aResources[ 'src_styles' ]          = $this->_getUpdatedEnqueuingItemsByCallback( 
@@ -85,8 +85,9 @@ class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramewo
         /**
          * @retuen      array
          * @since       3.7.0
+         * @since       3.8.0
          */
-        private function _getUpdatedInlineItemsByCallback( array $aSubject, $sKey ) {
+        private function _getUpdatedInternalItemsByCallback( array $aSubject, $sKey ) {
             $_oCallable = $this->getElement( $this->aFieldTypeDefinition, $sKey );
             if ( ! is_callable( $_oCallable ) ) {
                 return $aSubject;

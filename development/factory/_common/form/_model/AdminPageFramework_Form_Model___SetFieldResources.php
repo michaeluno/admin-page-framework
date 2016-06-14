@@ -20,11 +20,11 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
     public $aArguments              = array();
     public $aFieldsets              = array();
     public $aResources              = array(
-        'inline_styles'    => array(),
-        'inline_styles_ie' => array(),
-        'inline_scripts'   => array(),
-        'src_styles'       => array(),
-        'src_scripts'      => array(),
+        'internal_styles'    => array(),
+        'internal_styles_ie' => array(),
+        'internal_scripts'   => array(),
+        'src_styles'         => array(),
+        'src_scripts'        => array(),
     );
     public $aFieldTypeDefinitions   = array();
     public $aCallbacks              = array(
@@ -75,14 +75,14 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
             
             new AdminPageFramework_Form_View___Script_RegisterCallback;
             
-            $this->_setCommonFormInlineCSSRules();
+            $this->_setCommonFormInternalCSSRules();
             
         }
         /**
          * 
          * 
          */
-        private function _setCommonFormInlineCSSRules() {
+        private function _setCommonFormInternalCSSRules() {
             
             $_aClassNames = array(
                 'AdminPageFramework_Form_View___CSS_Form',
@@ -94,14 +94,14 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
             );
             foreach( $_aClassNames as $_sClassName ) {
                 $_oCSS = new $_sClassName;
-                $this->aResources[ 'inline_styles' ][] = $_oCSS->get();
+                $this->aResources[ 'internal_styles' ][] = $_oCSS->get();
             }
             $_aClassNamesForIE = array(
                 'AdminPageFramework_Form_View___CSS_CollapsibleSectionIE',
             );
             foreach( $_aClassNames as $_sClassName ) {
                 $_oCSS = new $_sClassName;
-                $this->aResources[ 'inline_styles_ie' ][] = $_oCSS->get();
+                $this->aResources[ 'internal_styles_ie' ][] = $_oCSS->get();
             }
             
         }
