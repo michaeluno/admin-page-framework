@@ -261,6 +261,13 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
                 _sFieldAddressModel // digit model - this is
             );              
             
+            // For checkbox, select, and radio input types
+            oElement.find( 'input[type=radio][data-id],input[type=checkbox][data-id],select[data-id]' ).incrementAttribute(
+                'data-id', // attribute name
+                _iFieldCount, // increment from
+                _sFieldTagIDModel // digit model
+            );                
+            
             // 3.8 For nested repeatable fields
             oElement.find( '.admin-page-framework-field,.admin-page-framework-fields,.admin-page-framework-fieldset' ).incrementAttributes(
                 [ 'id', 'data-field_tag_id_model', 'data-field_id' ],

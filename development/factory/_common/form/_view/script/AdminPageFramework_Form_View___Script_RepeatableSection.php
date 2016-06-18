@@ -254,6 +254,13 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
                 _sSectionFlatNameModel
             );            
             
+            // For checkbox, select, and radio input types
+            $( oElement ).find( 'input[type=radio][data-id],input[type=checkbox][data-id],select[data-id]' ).incrementAttribute(
+                'data-id', // attribute name
+                iSectionsCount, // increment from
+                _sSectionIDModel // digit model
+            );              
+            
         // @todo this may be able to be removed
             $( oElement ).find( '.admin-page-framework-fieldset' ).incrementAttribute( 
                 'data-field_id',
