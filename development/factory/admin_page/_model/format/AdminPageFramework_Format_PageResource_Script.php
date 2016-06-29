@@ -59,11 +59,17 @@ class AdminPageFramework_Format_PageResource_Script extends AdminPageFramework_F
          * @return      array
          */
         private function _getFormatted( $asSubject ) {
+            
+            if ( is_array( $asSubject ) ) {
+                return $asSubject + self::$aStructure;
+            }
+            
             $_aSubject = array();
             if ( is_string( $asSubject ) ) {
                 $_aSubject[ 'src' ] = $asSubject;
-            }
+            } 
             return $_aSubject + self::$aStructure;
+            
         }
            
 }
