@@ -149,9 +149,9 @@ registerAdminPageFrameworkColorPickerField = function( osTragetInput, aOptions )
             ); 
         }, // a callback to fire whenever the color changes to a valid color. reference : http://automattic.github.io/Iris/     
         clear: function( event, ui ) {
-            jQuery( this ).trigger( 
-                'admin_page_framework_field_type_color_cleared', 
-                [ jQuery( this ), sInputID ]
+            jQuery( this ).trigger(
+                'admin_page_framework_field_type_color_cleared',
+                [ jQuery( '#' + sInputID ), sInputID ]
             );            
         }, // a callback to fire when the input is emptied or an invalid color
         hide: true, // hide the color picker controls on load
