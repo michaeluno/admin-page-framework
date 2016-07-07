@@ -158,7 +158,7 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
                                         
             // Callback the registered callback functions.
             $( this ).trigger( 
-                'admin_page_framework_repeated_field', 
+                'admin-page-framework_repeated_field', 
                 [
                     $( this ).data( 'type' ), // field type slug
                     $( this ).attr( 'id' ), // element tag id

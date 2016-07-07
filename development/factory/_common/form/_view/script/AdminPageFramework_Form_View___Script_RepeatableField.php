@@ -169,7 +169,7 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
         
         // Call back the registered functions.
         nodeNewField.trigger( 
-            'admin_page_framework_repeated_field', 
+            'admin-page-framework_repeated_field', 
             [ 
                 nodeNewField.data( 'type' ), // field type slug
                 nodeNewField.attr( 'id' ),   // element tag id
@@ -191,7 +191,7 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
                                         
             // Call back the registered functions.
             $( this ).trigger( 
-                'admin_page_framework_repeated_field', 
+                'admin-page-framework_repeated_field', 
                 [ 
                     $( this ).data( 'type' ), 
                     nodeNewField.attr( 'id' ), // pass the parent field id

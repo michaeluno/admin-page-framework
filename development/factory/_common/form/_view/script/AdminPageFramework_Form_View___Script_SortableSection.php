@@ -63,7 +63,7 @@ class AdminPageFramework_Form_View___Script_SortableSection extends AdminPageFra
 
                     // Callback the registered callback functions.
                     jQuery( this ).trigger( 
-                        'admin_page_framework_stopped_sorting_sections', 
+                        'admin-page-framework_stopped_sorting_sections', 
                         []  // parameters for the callbacks 
                     );                    
 

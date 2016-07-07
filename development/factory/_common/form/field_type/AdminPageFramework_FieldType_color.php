@@ -144,13 +144,13 @@ registerAdminPageFrameworkColorPickerField = function( osTragetInput, aOptions )
         defaultColor: false, // you can declare a default color here, or in the data-default-color attribute on the input     
         change: function( event, ui ){
             jQuery( this ).trigger( 
-                'admin_page_framework_field_type_color_changed',
+                'admin-page-framework_field_type_color_changed',
                 [ jQuery( this ), sInputID ]
             ); 
         }, // a callback to fire whenever the color changes to a valid color. reference : http://automattic.github.io/Iris/     
         clear: function( event, ui ) {
             jQuery( this ).trigger(
-                'admin_page_framework_field_type_color_cleared',
+                'admin-page-framework_field_type_color_cleared',
                 [ jQuery( '#' + sInputID ), sInputID ]
             );            
         }, // a callback to fire when the input is emptied or an invalid color
