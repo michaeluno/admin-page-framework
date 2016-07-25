@@ -51,8 +51,8 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
         var _oThisNode = jQuery( oEvent.target );
         $.each( $.fn.aAdminPageFrameworkAddRepeatableFieldCallbacks, function( iIndex, aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
-            var _aFieldTypes = aCallback[ 1 ];       
-            if ( 0 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
+            var _aFieldTypes = aCallback[ 1 ]; // '_nested', 'inline_mixed' are bult-in
+            if ( 2 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
                 return true; // continue
             }            
             if ( ! $.isFunction( _hfCallback ) ) { 
@@ -89,7 +89,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
         $.each( $.fn.aAdminPageFrameworkRemoveRepeatableFieldCallbacks, function( iIndex, aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
             var _aFieldTypes = aCallback[ 1 ];       
-            if ( 0 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
+            if ( 2 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
                 return true; // continue
             }            
             if ( ! $.isFunction( _hfCallback ) ) { 
@@ -106,8 +106,8 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
         var oThisNode = this;
         $.fn.aAdminPageFrameworkSortedFieldsCallbacks.forEach( function( aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
-            var _aFieldTypes = aCallback[ 1 ];            
-            if ( 0 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
+            var _aFieldTypes = aCallback[ 1 ]; // '_nested', 'inline_mixed' are bult-in
+            if ( 2 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
                 return true; // continue
             }            
             if ( jQuery.isFunction( _hfCallback ) ) { 
@@ -124,8 +124,8 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
         var oThisNode = this;
         $.fn.aAdminPageFrameworkStoppedSortingFieldsCallbacks.forEach( function( aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
-            var _aFieldTypes = aCallback[ 1 ];            
-            if ( 0 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
+            var _aFieldTypes = aCallback[ 1 ]; // '_nested', 'inline_mixed' are bult-in
+            if ( 2 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
                 return true; // continue
             }
             if ( jQuery.isFunction( _hfCallback ) ) { 
