@@ -1,35 +1,27 @@
 == New Features ==
-<h3>Nested Sections</h3>
+<h3>Nested Fields</h3>
 
-Finally, we can nest form sections. This allows you to construct complex forms with combinations of sections such as collapsible sections inside tabbed sections.
-
-<div class='main-image'>
-    <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/nested_sections.jpg" alt="Nested Sections">
-</div>
-
-<h3>Pointer Tool Tips</h3>
-
-With the newly introduced class, `AdminPageFramework_PointerToolTip`, you can now easily show small instructions to your users by adding a pointer tool tip which pops up in your desired screen at the targeted element. It will not be displayed once the user dismisses it.
+The new feature of nested fields allows you to repeat a set of fields with different field types.
 
 <div class='main-image'>
-    <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/pointer_tool_tips.jpg" alt="Pointer Tool Tip">
+    <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/nested_fields.jpg" alt="Nested Fields">
 </div>
 
 <div class='apfl_columns_row'>
 
     <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_2'>
         <div class='apfl_cell'>
-            <h3>Tool Tips</h3>
-            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/tool_tip.jpg" alt="Tool Tips">
-            <p>With the <code>tip</code> argument of sections and fields, now a tool tip box will appear by hovering the cursor over the question mark inserted beside the title.</p>
+            <h3>Inline Mixed Field Type</h3>
+            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/inline_mixed.jpg" alt="Inline Mixed">
+            <p>The new built-in `inline_mixed` field type allows you to mix different field types in a single field with more flexible layouts.</p>
         </div> 
     </div>
 
     <div class='apfl_columns_col apfl_col_element_of_2'>
         <div class='apfl_cell'>
-            <h3>Collapsible Button</h3>
-            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/collapsible_button.jpg" alt="Collapsible Button">
-            <p>Besides the existent collapsible section style, a new style has been added and you can now fold/unfold seciton contents with a button.</p>
+            <h3>Placement Argument</h3>
+            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/placement_argument.jpg" alt="Placement Argument">
+            <p>The new `placement` argument lets you place a chosen field in the field/section title area.</p>
         </div>
     </div>
 
@@ -40,30 +32,12 @@ With the newly introduced class, `AdminPageFramework_PointerToolTip`, you can no
 
     <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>    
-            <h3>Better Form Appearing</h3>
-            <p>If you create a form with lots of elements, unformatted tabbed sections used to be displayed until the document was completely loaded.</p>
-            <p>The newly introduced mechanism to render forms makes it visually comfortable and we have no more buggy look during the page load.</p>
+            <h3>Term Meta Factory</h3>
+            <p>The new `AdminPageFramework_TermMeta` class lets you add form fields in the term definition screens. This is similar to the existent `AdminPageFramework_TaxonomyFields` factory class but it supports the Term Meta API introduced in WordPress 4.4.</p>
         </div>
     </div>
 
     <div class='apfl_columns_col apfl_col_element_of_3'>
-        <div class='apfl_cell'>    
-            <h3>Better Admin Notice Appearing</h3>
-            <p>Smilar to the entire form outputs, the system notification boxes at the top of the screen also used appear jumpy.</p>
-            <p>This behavior also has been improved and now it renders somoothly.</p>
-        </div>
-    </div>
-
-    <div class='apfl_columns_col apfl_col_element_of_3'>
-        <div class='apfl_cell'>
-            <h3>Under the Hood</h3>
-            <p>The form class has been overhauled and now it serves as an indivitual component. This is a preparation change to support front-end forms.</p>
-        </div> 
-    </div>
-</div>
-
-<div class='apfl_columns_row'>    
-    <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
             <h3>Fixes and Clean-ups</h3>
             <p>Several bugs have been patched and the directory structure has been restructured to shorten overall file paths.</p>
@@ -75,13 +49,7 @@ With the newly introduced class, `AdminPageFramework_PointerToolTip`, you can no
             <h3>More Changes</h3>
             <p>Find out the more details of new changes <a href="%WP_ADMIN_URL%?page=apfl_about#section-change_log__">here</a>.</p>
         </div> 
-    </div>    
-    
-    <div class='apfl_columns_col apfl_col_element_of_3'>
-         <div class='apfl_cell'>
-        </div> 
-    </div>    
-    
+    </div>
 </div>
 
 == Getting Started ==
