@@ -185,8 +185,8 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
 
             // A sectionset is a set of sections.
             $_sSectionSet = $this->_getSectionsetsTables( 
-                $aSectionsets,  // sectionset definition (already devided by section tab)
-                $aFieldsets,    // fieldset definitions (already devided by section tab)
+                $aSectionsets,  // section-set definition (already divided by section tab)
+                $aFieldsets,    // field-set definitions (already divided by section tab)
                 $aCallbacks
             );
             return $_sSectionSet
@@ -224,36 +224,33 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
             } 
             
             /**
-             * If no fields belonging to the section, return empty.
+             * If there is no field overall to the section and its section tab, return an empty string.
              * Otherwise, the sectionsets container gets rendered and its CSS rules such as margins give unwanted results.
              */
             if ( ! count( $aFieldsets ) ) {
                 return ''; 
-            }           
+            }
 
             $_aFirstSectionset  = $this->getFirstElement( $aSectionsets );
-            $_sSectionTabSlug   = '';
             $_aOutputs          = array(
                 'section_tab_list'  => array(),
                 'section_contents'  => array(),
                 'count_subsections' => 0,
             );
+            $_sSectionTabSlug   = $_aFirstSectionset[ 'section_tab_slug' ];
             $_sThisSectionID    = $_aFirstSectionset[ 'section_id' ];
             $_sSectionsID       = 'sections-' . $_sThisSectionID;
             $_aCollapsible      = $this->_getCollapsibleArgumentForSections( 
                 $_aFirstSectionset 
             );
-
+                        
             foreach( $aSectionsets as $_aSectionset ) {
-           
-                $_sSectionTabSlug   = $_aSectionset[ 'section_tab_slug' ]; // needed outside the loop
                 $_aOutputs          = $this->_getSectionsetTable(
                     $_aOutputs,
                     $_sSectionsID,
                     $_aSectionset,
                     $aFieldsets
                 );
-                
             } 
 
             $_aOutputs[ 'section_contents' ] = array_filter( $_aOutputs[ 'section_contents' ] );
@@ -316,8 +313,8 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                 // not section definition arrays.
                 $_aSubSections      = $this->getIntegerKeyElements( 
                     $this->getElementAsArray(
-                        $aFieldsInSections, // subject
-                        $_aSection[ '_section_path' ], // $_aSection[ 'section_id' ],   // dimensional key
+                        $aFieldsInSections, // subject array
+                        $_aSection[ '_section_path' ],  // dimensional path
                         array() // default
                     )
                 );
@@ -356,7 +353,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                  * @return      array
                  */
                 private function _getSubSections( $_aOutputs, $_sSectionsID, $_aSection, $_aSubSections ) {
-                    
+
                     // Add the repeatable sections enabler script.
                     if ( ! empty( $_aSection[ 'repeatable' ] ) ) {
                         $_aOutputs[ 'section_contents' ][] = AdminPageFramework_Form_View___Script_RepeatableSection::getEnabler( 
