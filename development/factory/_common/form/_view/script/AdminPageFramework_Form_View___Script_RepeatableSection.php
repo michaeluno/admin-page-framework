@@ -40,22 +40,28 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
      * 
      * @remark      This method can be from a sections container or a cloned section container.
      * @since       unknown
-     * @sinec       3.6.0       Changed the name from `updateAPFRepeatableSections`.
+     * @since       3.6.0       Changed the name from `updateAPFRepeatableSections`.
+     * @todo        Change the selector name 'repeatable-section-add-button' to something else to avoid apf version conflict.
      */
     $.fn.updateAdminPageFrameworkRepeatableSections = function( aSettings ) {
-// @todo Change the selector name 'repeatable-section-add-button' to something else to avoid apf version conflict.
+
         var _oThis                = this; 
         var _sSectionsContainerID = _oThis.find( '.repeatable-section-add-button' ).first().closest( '.admin-page-framework-sections' ).attr( 'id' );
 
         // Store the sections specific options in an array.
-        if ( ! $.fn.aAdminPageFrameworkRepeatableSectionsOptions ) $.fn.aAdminPageFrameworkRepeatableSectionsOptions = [];
-        if ( ! $.fn.aAdminPageFrameworkRepeatableSectionsOptions.hasOwnProperty( _sSectionsContainerID ) ) {     
-            $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ _sSectionsContainerID ] = $.extend({    
-                max: 0, // These are the defaults.
-                min: 0,
-                fadein: 500,
-                fadeout: 500,                
-                }, aSettings );
+        if ( ! $.fn.aAdminPageFrameworkRepeatableSectionsOptions ) {
+            $.fn.aAdminPageFrameworkRepeatableSectionsOptions = [];
+        }
+        if ( ! $.fn.aAdminPageFrameworkRepeatableSectionsOptions.hasOwnProperty( _sSectionsContainerID ) ) {
+            $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ _sSectionsContainerID ] = $.extend(
+                {    
+                    max: 0, // These are the defaults.
+                    min: 0,
+                    fadein: 500,
+                    fadeout: 500,                
+                }, 
+                aSettings 
+            );
         }
         var _aOptions = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ _sSectionsContainerID ];
 
@@ -390,14 +396,12 @@ var _iSectionIndex = _iIterationIndex;
                 nodeSelectionTab.next().addClass( 'active' );
             }
                 
-            // nodeSelectionTab.delay( 1000 ).fadeOut( 1000 ).remove();
             nodeSelectionTab.fadeOut( _iFadeout, function() {
                 $( this ).delay( 100 ).remove();
             } );
             nodeTabsContainer.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
             
-        }     
-       
+        }
             
     };
        
@@ -407,10 +411,7 @@ JAVASCRIPTS;
     }
     
     
-        
-    
-    
-        /**
+    /**
      * Stores the set container IDs to prevent multiple calls.
      * 
      * Collapsible and tabbed sections can call this method multiple times with the same container ID.
@@ -452,6 +453,7 @@ JAVASCRIPTS;
         $_aJSArray      = json_encode( $aSettings );
         $_sScript       = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
+console.log( 'enabling: ' + '{$sContainerTagID}' );
     // Adds the buttons
     jQuery( '#{$sContainerTagID} .admin-page-framework-section-caption' ).each( function(){
         
