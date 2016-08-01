@@ -280,8 +280,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                     $aSectionset[ 'title' ],
                     $aSectionset    
                 );
-                $_aCollapsible = $this->getAsArray( $_oArgumentFormater->get() );
-// @todo reduce the conditional statements by using getElement()                
+                $_aCollapsible = $this->getAsArray( $_oArgumentFormater->get() );               
                 return isset( $_aCollapsible[ 'container' ] ) && 'sections' === $_aCollapsible[ 'container' ] 
                     ? $_aCollapsible 
                     : array();    
@@ -292,10 +291,10 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
              * Returns an updated sections table output array.
              * @since       3.5.3
              * @since       3.6.0       Removed the `$_sSectionID` parameter.\
-             * @since       3.7.0      Moved from `AdminPageFramework_FormPart_Table`.
-             * Renamed from `_getSectionsTable()`.
-             * @param       array       $_aOutputs      Holds output elements - contents, section tab list, count of subsections
-             * @param       string      $_sSectionsID   The container id of secitons.
+             * @since       3.7.0       Moved from `AdminPageFramework_FormPart_Table`.
+             * @since       3.7.0       Renamed from `_getSectionsTable()`.
+             * @param       array       $_aOutputs      Holds output elements - contents, section tab list, count of subsections.
+             * @param       string      $_sSectionsID   The container id of sections.
              * @param       array       $_aSection
              * @param       array       $_aFieldsInSections     A fieldsets array already divided by section tab.
              * @return      array       The updated sections table output array.
@@ -349,6 +348,8 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
               
             }
                 /**
+                 * Returns the output of sub-sections for repeatable and sortable sections.
+                 * 
                  * @since       3.7.0
                  * @return      array
                  */
@@ -366,7 +367,6 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                     }
                     // Add the sortable sections enabler script. 3.6.0+
                     if ( ! empty( $_aSection[ 'sortable' ] ) ) {
-// @todo Change the name of the class to AdminPageFramework_Form_Script_...
                         $_aOutputs[ 'section_contents' ][] = AdminPageFramework_Form_View___Script_SortableSection::getEnabler( 
                             $_sSectionsID, 
                             $_aSection[ 'sortable' ],
