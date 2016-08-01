@@ -143,11 +143,11 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
         }
                         
         // Add the cloned new field element.  
-        nodeNewSection
-            .hide()
-            .insertAfter( nodeSectionContainer )
-            .delay( 100 )
-            .fadeIn( _iFadein );        
+        nodeNewSection.hide().insertAfter( nodeSectionContainer );
+        /// For non tabbed sections, show it.
+        if ( ! nodeTabsContainer.length || nodeSectionContainer.hasClass( 'is_subsection_collapsible' ) ) {
+            nodeNewSection.delay( 100 ).fadeIn( _iFadein );
+        }
          
         // 3.6.0+ Increment the id and name attributes of the newly cloned section.
         _incrementAttributes( nodeNewSection, _iSectionIndex, nodeSectionsContainer );
@@ -195,8 +195,7 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
             nodeNewTab.removeClass( 'active' );
             nodeNewTab.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' ); // empty the value
         
-            // Add the cloned new field tab.
-            // nodeNewTab.insertAfter( nodeTab );    
+            // Add the cloned new field tab.           
             nodeNewTab
                 .hide()
                 .insertAfter( nodeTab )
@@ -388,15 +387,15 @@ var _iSectionIndex = _iIterationIndex;
         
         // For tabbed sections - remove the title tab list.
         if ( nodeTabsContainer.length > 0 && nodeTabs.length > 1 && ! _bIsSubsectionCollapsible ) {
-            var nodeSelectionTab = nodeTabsContainer.find( '#section_tab-' + sSectionConteinrID );
+            var _oSelectionTab = nodeTabsContainer.find( '#section_tab-' + sSectionConteinrID );
             
-            if ( nodeSelectionTab.prev().length ) {                
-                nodeSelectionTab.prev().addClass( 'active' );
+            if ( _oSelectionTab.prev().length ) {                
+                _oSelectionTab.prev().addClass( 'active' );
             } else {
-                nodeSelectionTab.next().addClass( 'active' );
+                _oSelectionTab.next().addClass( 'active' );
             }
                 
-            nodeSelectionTab.fadeOut( _iFadeout, function() {
+            _oSelectionTab.fadeOut( _iFadeout, function() {
                 $( this ).delay( 100 ).remove();
             } );
             nodeTabsContainer.closest( '.admin-page-framework-section-tabs-contents' ).createTabs( 'refresh' );
@@ -453,7 +452,7 @@ JAVASCRIPTS;
         $_aJSArray      = json_encode( $aSettings );
         $_sScript       = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
-console.log( 'enabling: ' + '{$sContainerTagID}' );
+
     // Adds the buttons
     jQuery( '#{$sContainerTagID} .admin-page-framework-section-caption' ).each( function(){
         

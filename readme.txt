@@ -452,6 +452,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.1 =
+- Fixed a bug that repeatable tabbed sections were not displayed properly until a tab is clicked when it is repeated.
+
 = 3.8.0 - 2016/07/26 =
 - Added the `placement` field argument that allows the user to place field in the areas of section title and field title.
 - Added the `inline_mixed` built-in field type which introduces the ability to create inline mixed fields with the `content` field definition argument.
