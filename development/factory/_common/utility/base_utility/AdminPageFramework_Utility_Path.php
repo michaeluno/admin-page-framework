@@ -65,30 +65,31 @@ abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utilit
      * 
      * @since       3.0.0
      * @since       3.7.9       Made the first parameter only accepts a string.
-     * @return      string
+     * @since       3.8.2       deprecated caching results as it caused wrong path as the passed path can be the same for different scripts.
+     * @return      string      The found caller file path.
      */
-    static public function getCallerScriptPath( $sRedirectedFile ) {
+    static public function getCallerScriptPath( $sRedirectedFilePath ) {
 
-        if ( isset( self::$_aCallerScriptPathCaches[ $sRedirectedFile ] ) ) {
-            return self::$_aCallerScriptPathCaches[ $sRedirectedFile ];
-        }
-        
-        $_aRedirectedFiles = array( $sRedirectedFile, __FILE__ );
-        $_sCallerFilePath  = '';
-        foreach( debug_backtrace() as $aDebugInfo )  {     
-            $_sCallerFilePath = $aDebugInfo[ 'file' ];
-            if ( in_array( $_sCallerFilePath, $_aRedirectedFiles ) ) { 
+        $_aRedirectedFilePaths = array( $sRedirectedFilePath, __FILE__ );
+        $_sCallerFilePath      = '';
+        $_aBackTrace           = call_user_func_array(
+            'debug_backtrace',
+            array(
+                defined( 'DEBUG_BACKTRACE_IGNORE_ARGS' )
+                    ? DEBUG_BACKTRACE_IGNORE_ARGS
+                    : false, // DEBUG_BACKTRACE_PROVIDE_OBJECT for PHP 5.3.6+
+                6, // the second parameter: limit
+            )
+        );
+        foreach( $_aBackTrace as $_aDebugInfo )  {     
+            $_sCallerFilePath = $_aDebugInfo[ 'file' ];
+            if ( in_array( $_sCallerFilePath, $_aRedirectedFilePaths ) ) { 
                 continue; 
             }
             break; // catch the first found item.
         }
-        self::$_aCallerScriptPathCaches[ $sRedirectedFile ] = $_sCallerFilePath;
         return $_sCallerFilePath;
         
-    }    
-        /**
-         * @since       3.7.9
-         */
-        static private $_aCallerScriptPathCaches = array();
+    } 
         
 }

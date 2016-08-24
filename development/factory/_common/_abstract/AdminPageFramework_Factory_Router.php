@@ -480,10 +480,12 @@ abstract class AdminPageFramework_Factory_Router {
      * So shorten it here.
      * 
      * @remark      Called when the object is called as a string.
+     * @remark      This method can be called statically with `AdminPageFramework_FrameworkUtility::getCallerScriptPath()` and the self instance is not instantiated.
+     * In that case somehow `__get()` does not get triggered so here not using `$oUtil` and accessing the static method directly.
      * @since       3.4.4
      */   
     public function __toString() {
-        return $this->oUtil->getObjectInfo( $this );        
+        return AdminPageFramework_FrameworkUtility::getObjectInfo( $this );        
     }
  
     /**

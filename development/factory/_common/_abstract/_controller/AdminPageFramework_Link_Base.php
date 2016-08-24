@@ -65,6 +65,19 @@ abstract class AdminPageFramework_Link_Base extends AdminPageFramework_Framework
         }
         
     /**
+     * Modifies the action link of the plugin title column in the plugin listing page (plugins.php).
+     * 
+     * @remark      This method should be overridden by the extended class.
+     * @callback    filter      plugin_action_links_{plugin base name}
+     * @return      array
+     * @since       3.8.2
+     * @internal
+     */
+    public function _replyToAddSettingsLinkInPluginListingPage( $aLinks ) {
+        return $aLinks;
+    }
+        
+    /**
      * Checks whether it is okay to set up action links in the plugin listing page (plugins.php).
      * @since       3.8.0
      * @return      boolean

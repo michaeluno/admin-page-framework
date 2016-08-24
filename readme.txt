@@ -3,7 +3,7 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
-Tested up to:       4.5.3
+Tested up to:       4.6.0
 Stable tag:         3.8.1
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
@@ -451,6 +451,9 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f, 
 
 == Changelog ==
+
+= 3.8.2 =
+- Fixed a bug that automatically generated script paths were not accurate when multiple scripts shared the same library file.
 
 = 3.8.1 - 2016/08/12 =
 - Fixed a bug that repeatable tabbed sections were not displayed properly until a tab is clicked when it is repeated.
