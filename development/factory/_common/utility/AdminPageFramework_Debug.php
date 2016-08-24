@@ -310,6 +310,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
                 $aSubject[ $_sKey ] = method_exists( $_vValue, '__toString' ) 
                     ? ( string ) $_vValue           // cast string
                     : get_object_vars( $_vValue );  // convert it to array.
+                continue;
             }
             if ( is_array( $_vValue ) ) {
                 $_iDepth = $iDepth;
