@@ -197,45 +197,6 @@ See more code examples in `Dashboard` -> `AdminPageFramework` -> `Help` -> `Exam
 
 - [Support Forum](http://wordpress.org/support/plugin/admin-page-framework)
 
-## Framework Core Development
-
-You would need to access the code of the core files to add modifications. The downloadable zip file does not include core files but the complied library files only.
-
-### Getting Core Files 
-In order to modify the framework development files, clone the repository files. 
-
-#### Git
-With Git, simply clone the repository from either of the following addresses.
-
-##### ssh
-```
-git@github.com:michaeluno/admin-page-framework.git
-```
-
-##### https
-```
-https://github.com/michaeluno/admin-page-framework.git
-```
-    
-#### [Composer](https://getcomposer.org/)
-With Composer, create a `composer.json` file with the following contents and perform `php composer.phar install`.
-
-```
-{
-    "require": {
-        "michaeluno/admin-page-framework": "dev-master"
-    }
-}
-```
-
-### Adding Modifications to the Framework Core
-The core files are located in the `development` directory. 
-
-1. Make sure the constant `WP_DEBUG` is set to `true` in the `wp-config.php` file of your development site. If this is `false`, the loader plugin will load the complied files in the `library` directory.
-2. Modify the core files and make sure your changes take effect. 
-3. If you add class files, make sure to run `run.sh` in `tool/inclusion_class_list` to generate inclusion file lists.
-4. After all the modifications are done, run `run.sh` in `tool/beautifier` to compile the files.
-
 ## Contributions
 
 Anyone is welcome to contribute to *Admin Page Framework*. There are various ways you can contribute:
@@ -249,6 +210,10 @@ Anyone is welcome to contribute to *Admin Page Framework*. There are various way
 - Tweak the styling of the framework page elements.
 - Translate the language files in the [language](https://github.com/michaeluno/admin-page-framework/tree/master/language) directory to your native language.
 - Possibly more.
+
+### Framework Core Development
+
+See the [contribution guideline](./contributing.md).
 
 ### Supporting Future Development 
 
