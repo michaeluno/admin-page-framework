@@ -83,8 +83,8 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
         $this->oProp->aRootMenu = array(
             'sTitle'        => $sRootMenuLabel,
             'sPageSlug'     => $_sSlug 
-                ? $_sSlug 
-                : str_replace( '\\', '_', $this->oProp->sClassName ),
+                ? $_sSlug
+                : $this->oProp->sClassName,
             'sIcon16x16'    => $this->oUtil->getResolvedSRC( $sIcon16x16 ),
             'iPosition'     => $iMenuPosition,
             'fCreateRoot'   => empty( $_sSlug ),
@@ -125,47 +125,47 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      */ 
     public function setRootMenuPageBySlug( $sRootMenuSlug ) {
         
-        $this->oProp->aRootMenu['sPageSlug']    = $sRootMenuSlug; // do not sanitize the slug here because post types includes a question mark.
-        $this->oProp->aRootMenu['fCreateRoot']  = false; // indicates to use an existing menu item. 
+        $this->oProp->aRootMenu[ 'sPageSlug' ]    = $sRootMenuSlug; // do not sanitize the slug here because post types includes a question mark.
+        $this->oProp->aRootMenu[ 'fCreateRoot' ]  = false; // indicates whether to use an existing menu item.
         
     }
     
     /**
-    * Adds sub-menu items on the left sidebar menu of the administration panel. 
-    * 
-    * It supports pages and links. Each of them has the specific array structure.
-    * 
-    * <h4>Example</h4>
-    * <code>
-    * $this->addSubMenuItems(
-    *       array(
-    *           'title'         => 'Various Form Fields',
-    *           'page_slug'     => 'first_page',
-    *           'screen_icon'   => 'options-general',
-    *       ),
-    *       array(
-    *           'title'         => 'Manage Options',
-    *           'page_slug'     => 'second_page',
-    *           'screen_icon'   => 'link-manager',
-    *       ),
-    *       array(
-    *           'title'         => 'Google',
-    *           'href'          => 'http://www.google.com',    
-    *           'show_page_heading_tab' => false, // this removes the title from the page heading tabs.
-    *       )
-    * );
-    * </code>
-    * 
-    * @since        2.0.0
-    * @since        3.0.0       Changed the scope to public.
-    * @remark       The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
-    * @remark       Accepts variadic parameters; the number of accepted parameters are not limited to three.
-    * @param        array       $aSubMenuItem1      a first sub-menu array. A sub-menu array can be a link or a page. For the specifications of the array structures and its arguments, refer to the parameter section of the `addSubMenuItem()` method.
-    * @param        array       $aSubMenuItem2      (optional) a second sub-menu array.
-    * @param        array       $_and_more          (optional) a third and add items as many as necessary with next parameters.
-    * @access       public
-    * @return       void
-    */     
+     * Adds sub-menu items on the left sidebar menu of the administration panel. 
+     * 
+     * It supports pages and links. Each of them has the specific array structure.
+     * 
+     * <h4>Example</h4>
+     * <code>
+     * $this->addSubMenuItems(
+     *       array(
+     *           'title'         => 'Various Form Fields',
+     *           'page_slug'     => 'first_page',
+     *           'screen_icon'   => 'options-general',
+     *       ),
+     *       array(
+     *           'title'         => 'Manage Options',
+     *           'page_slug'     => 'second_page',
+     *           'screen_icon'   => 'link-manager',
+     *       ),
+     *       array(
+     *           'title'         => 'Google',
+     *           'href'          => 'http://www.google.com',    
+     *           'show_page_heading_tab' => false, // this removes the title from the page heading tabs.
+     *       )
+     * );
+     * </code>
+     * 
+     * @since        2.0.0
+     * @since        3.0.0       Changed the scope to public.
+     * @remark       The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
+     * @remark       Accepts variadic parameters; the number of accepted parameters are not limited to three.
+     * @param        array       $aSubMenuItem1      a first sub-menu array. A sub-menu array can be a link or a page. For the specifications of the array structures and its arguments, refer to the parameter section of the `addSubMenuItem()` method.
+     * @param        array       $aSubMenuItem2      (optional) a second sub-menu array.
+     * @param        array       $_and_more          (optional) a third and add items as many as necessary with next parameters.
+     * @access       public
+     * @return       void
+     */     
     public function addSubMenuItems( $aSubMenuItem1, $aSubMenuItem2=null, $_and_more=null ) {
         foreach ( func_get_args() as $_aSubMenuItem ) {
             $this->addSubMenuItem( $_aSubMenuItem );     
