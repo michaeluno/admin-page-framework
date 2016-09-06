@@ -8,7 +8,7 @@ In order to run the tests, configure the setting file (`settings.cfg`) and run t
 
 ## Requirements
 
-- PHP 5.4 or above - Codeception v2+ requires this version.
+- PHP 5.4 or above - [Codeception](http://codeception.com/) v2+ requires this version.
 - MySQL - the `mysql` command needs to be available.
 - MySQLAdmin - the `mysqladmin` command needs to be available.
 - SVN - the `svn` command needs to be available.
