@@ -119,18 +119,19 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
     public function _replyToRegisterSubMenuItems() {
         
         // Let external scripts add sub-menu pages.
-        $this->oFactory->oProp->aPages = $this->addAndApplyFilter( 
+        $_aPages = $this->addAndApplyFilter( 
             $this->oFactory,    // caller object
             "pages_{$this->oFactory->oProp->sClassName}",   // filter
             $this->oFactory->oProp->aPages  // arguments
         );
         
         // Set the default page, the first element.
-        $this->_setDefaultPage();
+        $this->oFactory->oProp->sDefaultPageSlug = $this->_getDefaultPageSlug( $_aPages );
     
-        // Register them.
-        $_iParsedIndex = 0;
-        foreach ( $this->oFactory->oProp->aPages as &$_aSubMenuItem ) {
+        // Format the `$aPages` property and register the pages.
+        $_iParsedIndex    = 0;
+        $_aFormattedPages = array();
+        foreach( $_aPages as $_aSubMenuItem ) {
             
             // needs to be sanitized because there are hook filters applied to this array.
             $_oFormatter = new AdminPageFramework_Format_SubMenuItem( 
@@ -142,8 +143,13 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
             
             // store the page hook; this is same as the value stored in the global $page_hook or $hook_suffix variable. 
             $_aSubMenuItem[ '_page_hook' ] = $this->_registerSubMenuItem( $_aSubMenuItem ); 
-
+            $_sKey = isset( $_aSubMenuItem[ 'href' ] )
+                ? $_aSubMenuItem[ 'href' ]
+                : $_aSubMenuItem[ 'page_slug' ];
+            $_aFormattedPages[ $_sKey ] = $_aSubMenuItem;
+            
         }
+        $this->oFactory->oProp->aPages = $_aFormattedPages;
         
     }
  
@@ -154,18 +160,19 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
          * 
          * @internal   
          * @since       3.6.0
+         * @since       3.8.3       Changed it to receive a pages definition array and return the found page slug.
+         * @since       3.8.3       Renamed from `_setDefaultPage`.
+         * @return      string
          */
-        private function _setDefaultPage() {
+        private function _getDefaultPageSlug( array $aPages ) {
 
-            foreach ( $this->oFactory->oProp->aPages as $_aPage ) {
-                
+            foreach( $aPages as $_aPage ) {
                 if ( ! isset( $_aPage[ 'page_slug' ] ) ) { 
                     continue; 
                 }
-                $this->oFactory->oProp->sDefaultPageSlug = $_aPage[ 'page_slug' ];
-                return;
-                
+                return $_aPage[ 'page_slug' ];                
             }
+            return '';
         
         }        
       
@@ -257,12 +264,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                     $sMenuTitle,            // menu title
                     $sCapability,           // capability
                     $sPageSlug,             // menu slug
-                    /**
-                     * In admin.php ( line 149 of WordPress v3.6.1 ), do_action($page_hook) ( where $page_hook is $_sPageHook )
-                     * will be executed and it triggers the __call() magic method with the method name of "md5 class hash + _page_ + this page slug".
-                     */
-                    // array( $this->oFactory, $this->oFactory->oProp->sClassHash . '_page_' . $sPageSlug )
-                    array( $this->oFactory, '_replyToRenderPage' )  // 3.7.10+
+                    array( $this->oFactory, '_replyToRenderPage' )  // callback 3.7.10+
                 );     
                 
                 $this->_setPageHooks( $_sPageHook, $sPageSlug );

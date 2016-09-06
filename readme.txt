@@ -217,6 +217,7 @@ class ThirdPartyScript {
 new ThirdPartyScript;
 `
 
+See an [example](https://gist.github.com/michaeluno/b580ae3a021bafbe13da2d352885b13a).
 
 <h5><strong>I want my users to install the loader plugin but do not want to display any visuals of the loader plugin. Is there a way to disable it?</strong></h5>
 
@@ -453,6 +454,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.3 =
+- Fixed an issue that array elements of sub-menu items without a key added with the `pages_{class name}` filter were not processed properly. 
 - Fixed an issue that a class creating a root menu page must be instantiated prior to a class adding a sub-menu page with the `setRootMenuPageBySlug()` method by passing the class name of the root menu page.
 
 = 3.8.2 - 2016/08/25 =
