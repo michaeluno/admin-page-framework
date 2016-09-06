@@ -34,9 +34,19 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
         
         add_action( 
             $sActionHook, 
-            array( $this, '_replyToRegisterMenu' ), 
+            array( $this, '_replyToRegisterRootMenu' ), 
             98      // this is below the value set in the `AdminPageFramework_Property_page_meta_box` class.
         );
+        add_action( 
+            $sActionHook, 
+            array( $this, '_replyToRegisterSubMenuItems' ), 
+            99      
+        );
+        add_action( 
+            $sActionHook, 
+            array( $this, '_replyToRemoveRootMenuPage' ), 
+            100
+        );        
         
         add_action(
             $sActionHook,
@@ -58,77 +68,20 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
      * @since       2.0.0
      * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
      * @since       3.7.4       Moved from `AdminPageFramework_Model_Menu`. Changed the name from `_replyToBuildMenu()`.
+     * @since       3.8.3       Renamed from `_replyToRegisterMenu`.
      * @callback    action      admin_menu
      * @internal
      * @uses        remove_submenu_page
-     */    
-    public function _replyToRegisterMenu() {
+     */
+    public function _replyToRegisterRootMenu() {
         
         // If the root menu label is not set but the slug is set, 
-        if ( $this->oFactory->oProp->aRootMenu[ 'fCreateRoot' ] ) {
-            $this->_registerRootMenuPage();
+        if ( ! $this->oFactory->oProp->aRootMenu[ 'fCreateRoot' ] ) {
+            return;
         }
-        
-        // Apply filters to let other scripts add sub menu pages.
-        $this->oFactory->oProp->aPages = $this->addAndApplyFilter( 
-            $this->oFactory,    // caller object
-            "pages_{$this->oFactory->oProp->sClassName}",   // filter
-            $this->oFactory->oProp->aPages  // arguments
-        );
-        
-        // Set the default page, the first element.
-        $this->_setDefaultPage();
-    
-        // Register them.
-        $_iParsedIndex = 1;
-        foreach ( $this->oFactory->oProp->aPages as &$aSubMenuItem ) {
-            
-            // needs to be sanitized because there are hook filters applied to this array.
-            $_oFormatter = new AdminPageFramework_Format_SubMenuItem( 
-                $aSubMenuItem,
-                $this->oFactory,
-                $_iParsedIndex
-            );
-            $aSubMenuItem = $_oFormatter->get();
-            
-            // store the page hook; this is same as the value stored in the global $page_hook or $hook_suffix variable. 
-            $aSubMenuItem[ '_page_hook' ] = $this->_registerSubMenuItem( $aSubMenuItem ); 
-            
-            $_iParsedIndex++;
-            
-        }
-
-        // After adding the sub menus, if the root menu is created, remove the page that is automatically created when registering the root menu.
-        if ( $this->oFactory->oProp->aRootMenu[ 'fCreateRoot' ] ) {
-            remove_submenu_page( 
-                $this->oFactory->oProp->aRootMenu[ 'sPageSlug' ], 
-                $this->oFactory->oProp->aRootMenu[ 'sPageSlug' ] 
-            );
-        }     
-        
+        $this->_registerRootMenuPage();
+                
     }
- 
-        /**
-         * Sets the default page. 
-         * 
-         * The first item of the added pages.
-         * 
-         * @internal   
-         * @since       3.6.0
-         */
-        private function _setDefaultPage() {
-
-            foreach ( $this->oFactory->oProp->aPages as $_aPage ) {
-                
-                if ( ! isset( $_aPage[ 'page_slug' ] ) ) { 
-                    continue; 
-                }
-                $this->oFactory->oProp->sDefaultPageSlug = $_aPage[ 'page_slug' ];
-                return;
-                
-            }
-        
-        }        
         /**
          * Registers the root menu page.
          * 
@@ -153,8 +106,69 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                 )  // menu position
             );
 
+        }    
+ 
+    /**
+     * Registers sub-menu items.
+     * 
+     * @since       3.8.3
+     * @callback    action      admin_menu
+     * @internal
+     * @uses        remove_submenu_page
+     */
+    public function _replyToRegisterSubMenuItems() {
+        
+        // Let external scripts add sub-menu pages.
+        $this->oFactory->oProp->aPages = $this->addAndApplyFilter( 
+            $this->oFactory,    // caller object
+            "pages_{$this->oFactory->oProp->sClassName}",   // filter
+            $this->oFactory->oProp->aPages  // arguments
+        );
+        
+        // Set the default page, the first element.
+        $this->_setDefaultPage();
+    
+        // Register them.
+        $_iParsedIndex = 0;
+        foreach ( $this->oFactory->oProp->aPages as &$_aSubMenuItem ) {
+            
+            // needs to be sanitized because there are hook filters applied to this array.
+            $_oFormatter = new AdminPageFramework_Format_SubMenuItem( 
+                $_aSubMenuItem,
+                $this->oFactory,
+                ++$_iParsedIndex
+            );
+            $_aSubMenuItem = $_oFormatter->get();
+            
+            // store the page hook; this is same as the value stored in the global $page_hook or $hook_suffix variable. 
+            $_aSubMenuItem[ '_page_hook' ] = $this->_registerSubMenuItem( $_aSubMenuItem ); 
+
         }
-               
+        
+    }
+ 
+        /**
+         * Sets the default page. 
+         * 
+         * The first item of the added pages.
+         * 
+         * @internal   
+         * @since       3.6.0
+         */
+        private function _setDefaultPage() {
+
+            foreach ( $this->oFactory->oProp->aPages as $_aPage ) {
+                
+                if ( ! isset( $_aPage[ 'page_slug' ] ) ) { 
+                    continue; 
+                }
+                $this->oFactory->oProp->sDefaultPageSlug = $_aPage[ 'page_slug' ];
+                return;
+                
+            }
+        
+        }        
+      
         /**
          * Registers the sub-menu item.
          * 
@@ -492,6 +506,26 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                 // Update the property for sorting.
                 $GLOBALS[ '_apf_sub_menus_to_sort' ][ $sMenuSlug ] = $sMenuSlug;
                 
-            }                      
+            }  
+            
+    /**
+     * Removes the root menu page which gets automatically added by the system.
+     * 
+     * @since       3.8.3
+     * @callback    action      admin_menu
+     * @internal
+     */    
+    public function _replyToRemoveRootMenuPage() {      
+        
+        // After adding the sub menus, if the root menu is created, remove the page that is automatically created when registering the root menu.
+        if ( ! $this->oFactory->oProp->aRootMenu[ 'fCreateRoot' ] ) {
+            return;
+        }
+        remove_submenu_page( 
+            $this->oFactory->oProp->aRootMenu[ 'sPageSlug' ], 
+            $this->oFactory->oProp->aRootMenu[ 'sPageSlug' ] 
+        );
+        
+    }            
                
 }

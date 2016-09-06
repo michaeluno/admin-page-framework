@@ -452,6 +452,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.3 =
+- Fixed an issue that a class creating a root menu page must be instantiated prior to a class adding a sub-menu page with the `setRootMenuPageBySlug()` method by passing the class name of the root menu page.
+
 = 3.8.2 - 2016/08/25 =
 - Fixed a bug that automatically generated script paths were not accurate when multiple scripts shared the same library file.
 
