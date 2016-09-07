@@ -1,4 +1,4 @@
-# Contributing To Admin Page Framework
+# Contributing to Admin Page Framework
 
 Community made patches, localisations, bug reports and contributions are always welcome and are crucial to ensure Admin Page Framework remains the top quality developer platform on WordPress.
 
@@ -10,12 +10,12 @@ __Please Note:__ GitHub is basically for bug reports, technical discussions, and
 
 Use the [issue tracker](https://github.com/michaeluno/admin-page-framework/issues):
 
-- To report a problem by making sure:
+- to report a problem by making sure:
     - the same issue has not been reported already.
     - you clearly describe the issue including the ***steps*** to reproduce the bug. Unless the core contributors conform the behavior, it will not be fixed.
     - you fill in the earliest version that you know has the issue as well as the version of WordPress and PHP you are using.
 
-- To suggest ideas for enhancement.
+- to suggest ideas for enhancement.
 
 ***Do not post support requests***. If your post is considered as a support request, it will be labelled as so. Please use the [support forum](https://wordpress.org/support/plugin/admin-page-framework) to get helped.
 
@@ -73,7 +73,7 @@ The core files are located in the [development](./development) directory.
 * We ensure that every Admin Page Framework function is documented well and follows the standards set by phpDoc.
 * An example function can be found [here](https://gist.github.com/sunnyratilal/5308969).
 * Please make sure that every function is documented so that when we update our API Documentation things don't go awry!
-	* If you're adding/editing a function in a class, make sure to add `@access {private|public|protected}`
+	* If you are adding/editing a function in a class, make sure to add `@access {private|public|protected}`
 * Finally, please use 4 spaces and not tabs for indentations.
 
 # Additional Resources
