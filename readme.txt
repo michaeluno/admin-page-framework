@@ -3,8 +3,8 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
-Tested up to:       4.6.0
-Stable tag:         3.8.2
+Tested up to:       4.6.1
+Stable tag:         3.8.3
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -453,7 +453,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.8.3 =
+= 3.8.3 - 2016/09/08 =
 - Fixed an issue that array elements of sub-menu items without a key added with the `pages_{class name}` filter were not processed properly. 
 - Fixed an issue that a class creating a root menu page must be instantiated prior to a class adding a sub-menu page with the `setRootMenuPageBySlug()` method by passing the class name of the root menu page.
 
