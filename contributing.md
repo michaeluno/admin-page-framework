@@ -11,7 +11,7 @@ __Please Note:__ GitHub is basically for bug reports, technical discussions, and
 Use the [issue tracker](https://github.com/michaeluno/admin-page-framework/issues):
 
 - to report a problem by making sure:
-    - the same issue has not been reported already.
+    - the same issue has not been reported yet.
     - you clearly describe the issue including the ***steps*** to reproduce the bug. Unless the core contributors conform the behavior, it will not be fixed.
     - you fill in the earliest version that you know has the issue as well as the version of WordPress and PHP you are using.
 
