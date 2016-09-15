@@ -71,6 +71,10 @@ class APF_Demo_CustomFieldType {
             $oFactory,    // factory object
             $this->_sPageSlug   // page slug
         );
+        new APF_Demo_CustomFieldType_Path(
+            $oFactory,    // factory object
+            $this->_sPageSlug   // page slug
+        );        
         
         // Add a link in tabs
         $oFactory->addInPageTabs(    

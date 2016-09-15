@@ -1,0 +1,19 @@
+/* Image Uploader Input Field */
+.admin-page-framework-field-path input {
+    margin-right: 0.5em;
+    vertical-align: middle;    
+}
+/* Buttons */
+.select_path.button.button-small,
+.remove_path.button.button-small
+{     
+    vertical-align: middle;
+}
+.remove_path.button.button-small {
+    margin-left: 0.2em;
+}
+@media screen and (max-width: 782px) {
+    .admin-page-framework-field-path input {
+        margin: 0.5em 0.5em 0.5em 0;
+    }
+}     

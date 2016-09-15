@@ -453,6 +453,10 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.4 =
+- Added the `path` custom field type which let the user pick a file located on the server.
+- Fixed a bug in the `getDataAttributeArray()` utility method that some non-true values were all treated as `0`.
+
 = 3.8.3 - 2016/09/08 =
 - Fixed an issue that array elements of sub-menu items without a key added with the `pages_{class name}` filter were not processed properly. 
 - Fixed an issue that a class creating a root menu page must be instantiated prior to a class adding a sub-menu page with the `setRootMenuPageBySlug()` method by passing the class name of the root menu page.
