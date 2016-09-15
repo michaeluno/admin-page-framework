@@ -163,10 +163,17 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
         
         $_aNewArray = array();
         foreach( $aArray as $sKey => $v ) {
-            if ( in_array( gettype( $v ), array( 'array', 'object' ) ) ) {
+            if ( in_array( gettype( $v ), array( 'array', 'object', 'NULL' ) ) ) {
                 continue;
-            }            
-            $_aNewArray[ "data-{$sKey}" ] = $v ? $v : '0';
+            }
+            // 3.8.4+
+            if ( $v === '' ) {
+                $_aNewArray[ "data-{$sKey}" ] = '';
+                continue;
+            }
+            $_aNewArray[ "data-{$sKey}" ] = $v 
+                ? $v 
+                : '0';
         }
         return $_aNewArray;
         
