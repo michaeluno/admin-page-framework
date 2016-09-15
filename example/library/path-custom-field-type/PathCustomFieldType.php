@@ -99,7 +99,6 @@ class PathCustomFieldType extends AdminPageFramework_FieldType_image {
 
         $_aJSArray            = json_encode( $this->aFieldTypeSlugs );
         $_sConnectorScriptURL = $this->getSRCFromPath( dirname( __FILE__ ) . '/connectors/jQueryFileTreePlus.php' );
-        $_sDorumentRootPath   = trim( $this->_getPathNormalized( $_SERVER[ 'DOCUMENT_ROOT' ] ), '\\/' );
         return "jQuery( document ).ready( function(){
 
         
@@ -158,8 +157,7 @@ class PathCustomFieldType extends AdminPageFramework_FieldType_image {
                     _aOptions
                     , 
                     function( sPath ) {
-                        var _sPath = '{$_sDorumentRootPath}' + sPath;
-                        jQuery( '#' + _iTargetInputID ).val( _sPath );
+                        jQuery( '#' + _iTargetInputID ).val( sPath );
                     }
                 );
                 

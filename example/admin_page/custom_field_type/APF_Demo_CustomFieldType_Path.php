@@ -13,6 +13,7 @@
  * Adds a tab of the set page to the loader plugin.
  * 
  * @since       3.8.4
+ * @version     1.0.0
  */
 class APF_Demo_CustomFieldType_Path {
 
@@ -62,7 +63,11 @@ class APF_Demo_CustomFieldType_Path {
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'File/Directory Path Selector', 'admin-page-framework-loader' ),
-                'description'   => __( 'This field type lets the user select a file/directory path.', 'admin-page-framework-loader' ),     
+                'description'   => array( 
+                    __( 'This field type lets the user select a file/directory path.', 'admin-page-framework-loader' )
+                    . ' ' 
+                    . __( 'The relative path to the value of <code>$_SERVER[ "DOCUMENT_ROOT" ]</code> (the document root set by the web server) will be set.', 'admin-page-framework-loader' ),
+                ),
             )            
         );        
                     
@@ -73,10 +78,13 @@ class APF_Demo_CustomFieldType_Path {
                 'field_id'      => 'path_field',
                 'type'          => 'path',
                 'title'         => __( 'Path', 'admin-page-framework-loader' ),
-                // @see https://github.com/jqueryfiletree/jqueryfiletree#configuring-the-file-tree
+                // @see For the list of arguments, refer to https://github.com/jqueryfiletree/jqueryfiletree#configuring-the-file-tree
                 'options'       => array(
                     'root'  => ABSPATH,
                     'fileExtensions'    => 'php,txt',
+                ),
+                'descriptions'   => array(
+                    __( 'With the `fileExtensions` option, listed file types can be specified.', 'admin-page-framework-loader' ),
                 ),
             ),
             array(
