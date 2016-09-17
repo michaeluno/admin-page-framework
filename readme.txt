@@ -455,6 +455,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 = 3.8.4 =
 - Added the `path` custom field type which let the user pick a file located on the server.
+- Fixed a bug with the `Generator` that a set class prefix was not set properly for custom field types in some cases.
 - Fixed a bug in the `getDataAttributeArray()` utility method that some non-true values were all treated as `0`.
 
 = 3.8.3 - 2016/09/08 =

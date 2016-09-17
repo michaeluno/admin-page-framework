@@ -101,7 +101,16 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     'archive_file_path'    => 'custom-field-types/github-custom-field-type/GitHubCustomFieldType.php',
                     'archive_dir_path'     => 'custom-field-types/github-custom-field-type',
                     'text_domain'          => 'admin-page-framework',
-                ),                
+                ),
+                'PathCustomFieldType'   =>  array(
+                    'class_name'           => 'PathCustomFieldType',
+                    'label'                => __( 'Path', 'admin-page-framework-loader' ),
+                    'description'          => __( 'allows you to display GitHub buttons in a field.', 'admin-page-framework-loader' ),
+                    'directory_path'       => AdminPageFrameworkLoader_Registry::$sDirPath . '/example/library/path-custom-field-type',
+                    'archive_file_path'    => 'custom-field-types/path-custom-field-type/PathCustomFieldType.php',
+                    'archive_dir_path'     => 'custom-field-types/path-custom-field-type',
+                    'text_domain'          => 'admin-page-framework',
+                ),
             );
                 
             // Let third-party scripts add custom field types.
@@ -226,37 +235,21 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                  * Converts the class name by adding the user-set class name prefix. 
                  * Also the text domain used in the custom field type will be converted.
                  * 
+                 * @remark      The reason why it retrieve all the selected custom field type classes, not the parsing item is
+                 * because some custom field types extend another custom field type. In that case, a name is used among multiple files.
                  * @since       3.6.0
                  * @since       3.7.2      Added the `$sParsingClassName` argument.
                  * @return      string
                  */
                 private function _getModifiedFileContents( $sFileContents, $sPathInArchive, $sParsingClassName ) {
-                    
-                    // @todo Investigate why retrieve all the selected custom field type classes, not the parsing item.
-
-                    // Add the class prefix to each element.
-                    $_aSelectedFieldTypeClassNames = array_keys( 
-                        $this->_getSelectedCustomFieldTypes( $this->aCustomFieldTypes ) 
-                    );
-                    $_aPrefixedClassNames          = $_aSelectedFieldTypeClassNames;
-                    array_walk(
-                        $_aPrefixedClassNames, 
-                        array( $this, '_replyToSetPrefix' ),
-                        $this->oFactory->oUtil->getElement(
-                            $_POST,
-                            array( 
-                                $this->oFactory->oProp->sOptionKey, 
-                                'generator', // section id
-                                'class_prefix' // field id
-                            ),
-                            ''
-                        )
-                    );
-                    
-                    // Searches and replaces.
-                    $_aSearches = $_aSelectedFieldTypeClassNames;
-                    $_aReplaces = $_aPrefixedClassNames;                                        
-                    
+                       
+                    // 3.8.4+ Some custom field types names conflict each other such as `TuneCustomFieldType` and `DateTimeCustomFieldType` so they must be dealt with regular expressions.
+                    $sFileContents = $this->_getClassNamesPrefixed( $sFileContents );
+                                    
+                    // Searches and replaces for `str_replace()`.
+                    $_aSearches = array(); 
+                    $_aReplaces = array(); 
+ 
                     $_sUserTextDomain = $this->oFactory->oUtil->getElement(
                         $_POST,
                         array( 
@@ -290,14 +283,72 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     );
                     
                 }
+                
                     /**
-                     * @since       3.6.0
-                     * @callback    function        array_walk
+                     * Modifies the given content by replacing the class names with a prefix.
+                     * @since       3.8.4
                      * @return      string
                      */
-                    public function _replyToSetPrefix( &$sClassName, $sKey, $sPrefix='' ) {
-                        $sClassName = $sPrefix . $sClassName;
-                    }   
+                    private function _getClassNamesPrefixed( $sFileContents ) {
+                        
+                        $_aSelectedFieldTypeClassNames = array_keys( 
+                            $this->_getSelectedCustomFieldTypes( $this->aCustomFieldTypes )
+                        );
+                                                
+                        return preg_replace(
+                            $this->_getClassPrefixRegexPatterns( $_aSelectedFieldTypeClassNames ),    // search
+                            $this->_getClassPrefixRegexReplacements( $_aSelectedFieldTypeClassNames ),    // replace
+                            $sFileContents  // subject
+                        );
+                        
+                    }
+                        /**
+                         * Returns an array holding regular expressions needle patterns for class names.
+                         * @since       3.8.4
+                         * @return      array
+                         */
+                        private function _getClassPrefixRegexPatterns( array $aSelectedFieldTypeClassNames ) {
+
+                            $_aPregSearches = array();
+                            foreach( $aSelectedFieldTypeClassNames as $_sClassName ) {
+                                $_aPregSearches[] = '/(?<=[^a-zA-Z0-9])(' . $_sClassName . ')/';
+                            }
+                            return $_aPregSearches;
+                        
+                        }
+                        /**
+                         * Returns an array holding regular expressions replacements for class names.
+                         * @since       3.8.4
+                         * @return      array
+                         */
+                        private function _getClassPrefixRegexReplacements( array $aSelectedFieldTypeClassNames ) {
+
+                            $_aPrefixedClassNames          = $aSelectedFieldTypeClassNames;
+                            array_walk(
+                                $_aPrefixedClassNames,  // passed by reference
+                                array( $this, '_replyToSetPrefix' ),
+                                $this->oFactory->oUtil->getElement(
+                                    $_POST,
+                                    array( 
+                                        $this->oFactory->oProp->sOptionKey, 
+                                        'generator', // section id
+                                        'class_prefix' // field id
+                                    ),
+                                    ''
+                                )
+                            );
+                            return $_aPrefixedClassNames;
+                        
+                        }                    
+                            /**
+                             * @since       3.6.0
+                             * @since       3.8.4       Changed it for regular expression patterns.
+                             * @callback    function    array_walk
+                             * @return      string
+                             */
+                            public function _replyToSetPrefix( &$sClassName, $sKey, $sPrefix='' ) {
+                                $sClassName = $sPrefix . '$0';
+                            }
                                     
  
             /**
