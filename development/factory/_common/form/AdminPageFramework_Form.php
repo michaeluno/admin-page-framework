@@ -145,7 +145,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
          * Allows the main routine modify form element definitions 
          */
         'fieldset_after_formatting'     => null,
-        'fieldsets_after_formatting'    => null,
+        'fieldsets_before_formatting'   => null,
         
         /**
          * Gets triggered after the form elements are registered and before the page gets rendered.

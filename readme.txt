@@ -455,6 +455,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 = 3.8.4 =
 - Added the `path` custom field type which let the user pick a file located on the server.
+- Fixed the timing of the `field_definitions_{class_name}` filter to keep compatibility with v3.7.
 - Fixed a bug with the `Generator` that a set class prefix was not set properly for custom field types in some cases.
 - Fixed a bug in the `getDataAttributeArray()` utility method that some non-true values were all treated as `0`.
 

@@ -103,7 +103,15 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
          */
         private function _getFieldsetsFormatted( array $aFieldsets, array $aSectionsets, $sCapability ) {
 
-            $_aNewFieldsets = array();
+            // 3.8.4+ Changed the timing of this callback from AFTER formatting field-sets to BEFORE.
+            $_aNewFieldsets = $this->callBack(
+                $this->aCallbacks[ 'fieldsets_before_formatting' ], 
+                array( 
+                    $aFieldsets,
+                    $aSectionsets
+                )
+            );             
+            
             foreach( $aFieldsets as $_sSectionPath => $_aItems ) {
 
                 // If the section is not set, skip.
@@ -127,13 +135,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
             // Sort by the order of the sections.
             $this->_sortFieldsBySectionsOrder( $_aNewFieldsets, $aSectionsets );
 
-            return $this->callBack(
-                $this->aCallbacks[ 'fieldsets_after_formatting' ], 
-                array( 
-                    $_aNewFieldsets,
-                    $aSectionsets
-                )
-            ); 
+            return $_aNewFieldsets;
                         
         }
             /**
