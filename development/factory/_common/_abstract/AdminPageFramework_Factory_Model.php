@@ -282,11 +282,15 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @since       3.7.0
      */
     public function _replyToGetSavedFormData() {
-        return $this->oUtil->addAndApplyFilter(
+        
+        // Must update the property with the filtered value.
+        $this->oProp->aOptions =  $this->oUtil->addAndApplyFilter(
             $this, // the caller factory object
             'options_' . $this->oProp->sClassName,
             $this->oProp->aOptions      // subject value to be filtered
         );
+        return $this->oProp->aOptions;
+        
     }
     
     /**

@@ -455,6 +455,8 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 = 3.8.4 =
 - Added the `path` custom field type which let the user pick a file located on the server.
+- Fixed a bug that the `aOptions` property values were not updated when they are filtered with the `options_{class name}` filter hook.
+- Fixed a bug that setting `0` to the `label_min_width` field definition argument did not take effect.
 - Fixed a bug that an empty heading element was displayed even when the tab title of in-page-tab was set to empty.
 - Fixed a bug with the admin page factory class that transient option keys which gets automatically set when an integer is passed to the first parameter of the constructor were not unique and could be too long.
 - Fixed the timing of the `field_definitions_{class_name}` filter to keep compatibility with v3.7.
