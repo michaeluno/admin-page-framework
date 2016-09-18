@@ -352,7 +352,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
                 }
                 // The user want to save options in a transient.
                 if ( in_array( $_sType, array( 'integer' ) ) ) {
-                    return 'apf_' . $sClassName . '_' . get_current_user_id();
+                    return 'apf_' . md5( site_url() . '_' . $sClassName . '_' . get_current_user_id() );
                 }
                 
                 // Unknown type - maybe the user is trying to do something advanced.
