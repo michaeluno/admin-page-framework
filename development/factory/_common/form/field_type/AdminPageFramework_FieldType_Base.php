@@ -60,7 +60,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
         'after_label'       => null,    
         'before_field'      => null,
         'after_field'       => null,
-        'label_min_width'   => 0,   // (string|integer) min-width applied to the input label in pixels. 3.8.0+ Changed the default value from 140 to 0 as it is now applie through embedded CSS. When this value is set by the user, it is set inline and the value will be overriden.
+        'label_min_width'   => '',   // (string|integer) min-width applied to the input label in pixels. 3.8.0+ Changed the default value from 140 to 0 as it is now applied via embedded CSS. When this value is set by the user, it is set inline and the value will be overridden. [3.8.4+] Changed the value from `0`  to `''`.
         'before_fieldset'   => null, // 3.1.1+
         'after_fieldset'    => null, // 3.1.1+
         
@@ -398,7 +398,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
         $aAttributes[ 'class' ] = $this->getClassAttribute( $asClassAttributes, $this->getElement( $aAttributes, 'class' ) );
         $aAttributes[ 'style' ] = $this->getStyleAttribute(
             array(
-                'min-width' => $aField[ 'label_min_width' ] 
+                'min-width' => $aField[ 'label_min_width' ] || '0' === ( string ) $aField[ 'label_min_width' ]
                     ? $this->getLengthSanitized( $aField[ 'label_min_width' ] ) 
                     : null,
             ),

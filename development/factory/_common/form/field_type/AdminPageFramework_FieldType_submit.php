@@ -306,7 +306,7 @@ CSSRULES;
          */        
         private function _getLabelContainerAttributes( array $aField ) {           
             return array(
-                'style' => $aField[ 'label_min_width' ] 
+                'style' => $aField[ 'label_min_width' ] || '0' === ( string ) $aField[ 'label_min_width' ]
                     ? "min-width:" . $this->getLengthSanitized( $aField[ 'label_min_width' ] ) . ";" 
                     : null,
                 'class' => 'admin-page-framework-input-label-container'

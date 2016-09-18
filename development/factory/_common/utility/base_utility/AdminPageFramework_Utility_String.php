@@ -25,9 +25,11 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * 
      * @since       3.1.1
      * @since       3.8.0   Renamed from `sanitizeLength()`.
+     * @since       3.8.4   When non-true value is passed, `0px` will be returned.
      * @return      string
      */
     static public function getLengthSanitized( $sLength, $sUnit='px' ) {
+        $sLength = $sLength ? $sLength : 0;
         return is_numeric( $sLength ) 
             ? $sLength . $sUnit
             : $sLength;
