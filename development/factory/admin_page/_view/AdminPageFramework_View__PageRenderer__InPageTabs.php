@@ -75,8 +75,8 @@ class AdminPageFramework_View__PageRenderer__InPageTabs extends AdminPageFramewo
              
             // If the in-page tabs' visibility is set to false, returns the title.
             if ( ! $_aPage[ 'show_in_page_tabs' ] ) {
-                return isset( $aInPageTabs[ $_sCurrentTabSlug ][ 'title' ] ) 
-                    ? "<{$_sTag}>" 
+                return $this->getElement( $aInPageTabs, array( $_sCurrentTabSlug, 'title' ) )
+                    ? "<{$_sTag} class='admin-page-framework-in-page-tab-title'>"
                             . $aInPageTabs[ $_sCurrentTabSlug ][ 'title' ]
                         . "</{$_sTag}>" 
                     : "";
