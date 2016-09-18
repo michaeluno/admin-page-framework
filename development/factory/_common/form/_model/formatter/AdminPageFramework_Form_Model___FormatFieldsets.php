@@ -25,7 +25,8 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
     public $sStructureType  = '';
     public $sCapability     = '';
     public $aCallbacks      = array(
-        'fieldset_before_output' => null
+        'fieldset_before_output'     => null,
+        'fieldset_after_formatting'  => null,
     );
     
     public $aSavedData = array();
@@ -282,9 +283,9 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
                 if ( ! isset( $aFieldset[ 'field_id' ] ) ) { 
                     return; 
                 }
-                
+                   
                 $_oFieldsetFormatter = new AdminPageFramework_Form_Model___Format_Fieldset(
-                    $aFieldset, 
+                    $aFieldset,
                     $this->sStructureType,
                     $sCapability, 
                     $iCountOfElements, 

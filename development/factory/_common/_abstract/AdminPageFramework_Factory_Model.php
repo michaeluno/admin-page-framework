@@ -170,28 +170,53 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * Applies filters to each conditioned (formatted) field definition array.
      * 
      * @since       3.0.2
-     * @since       3.1.1       Made it reformat the fields after applying filters.
-     * @since       3.7.0      Changed the name from `applyFiltersToFieldsets()`.
+     * @since       3.1.1      Made it reformat the fields after applying filters.
+     * @since       3.7.0      Renamed from `applyFiltersToFieldsets()`.
+     * @since       3.8.4      Ranamed from `_replyToModifyFieldsetDefinition()`.  
      * Moved from `AdminPageFramework_FormDefinition_Base`.
      * @return      array      
      */
-    public function _replyToModifyFieldsetDefinition( $aFieldset /*, $aSectionsets */ ) {
-        
-        $_sFieldPart    = '_' . implode( '_', $aFieldset[ '_field_path_array' ] );
-        $_sSectionPart  = implode( '_', $aFieldset[ '_section_path_array' ] );
-        $_sSectionPart  = $this->oUtil->getAOrB(
-            '_default' === $_sSectionPart,
-            '',
-            '_' . $_sSectionPart
-        );
+    public function _replyToModifyFieldsetDefinitionAfterFormatting( $aFieldset /*, $aSectionsets */ ) {
         return $this->oUtil->addAndApplyFilter(
             $this,
-            "field_definition_{$this->oProp->sClassName}{$_sSectionPart}{$_sFieldPart}",
+            $this->_getHookNameByFieldsetAndPrefix( 'field_definition_', $aFieldset ),
             $aFieldset,
             $aFieldset[ '_subsection_index' ]
         ); 
-
     }    
+    
+    /**
+     * Applies the filter to the passed filed-set definition array.
+     * @since       3.8.4
+     * @return      array
+     * @deprecated  3.8.4
+     */    
+    public function _replyToModifyFieldsetDefinitionBeforeFormatting( $aFieldset ) {
+        return $this->oUtil->addAndApplyFilter(
+            $this,
+            $this->_getHookNameByFieldsetAndPrefix( 'field_definition_before_formatting_', $aFieldset ),
+            $aFieldset
+        );
+    }
+    
+        /**
+         * Constructs a WordPress filter hook name.
+         * @internal
+         * @since       3.8.4
+         * @return      string
+         */
+        private function _getHookNameByFieldsetAndPrefix( $sPrefix, $aFieldset ) {
+            
+            $_sFieldPart    = '_' . implode( '_', $aFieldset[ '_field_path_array' ] );
+            $_sSectionPart  = implode( '_', $aFieldset[ '_section_path_array' ] );
+            $_sSectionPart  = $this->oUtil->getAOrB(
+                '_default' === $_sSectionPart,
+                '',
+                '_' . $_sSectionPart
+            );
+            return $sPrefix . $this->oProp->sClassName . $_sSectionPart . $_sFieldPart;
+            
+        }
                
     /**
      * Gets called after the form element registration is done.
@@ -207,14 +232,9 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
      * @return      array
      */
     public function _replyToFormatFieldsetDefinition( $aFieldset, $aSectionsets ) {
-
-        if ( empty( $aFieldset ) ) { 
-            return $aFieldset; 
-        }
         return $aFieldset;
-    
     }
-    
+        
     /**
      * @since       3.7.0
      * @return      array

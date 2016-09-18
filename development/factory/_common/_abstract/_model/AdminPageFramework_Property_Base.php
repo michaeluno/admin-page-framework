@@ -460,8 +460,8 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             // 
             'sectionset_before_output'          => array( $this->oCaller, '_replyToFormatSectionsetDefinition' ),
             'fieldset_before_output'            => array( $this->oCaller, '_replyToFormatFieldsetDefinition' ),
-            'fieldsets_before_formatting'        => array( $this->oCaller, '_replyToModifyFieldsetsDefinitions' ),
-            'fieldset_after_formatting'         => array( $this->oCaller, '_replyToModifyFieldsetDefinition' ),
+            'fieldset_after_formatting'         => array( $this->oCaller, '_replyToModifyFieldsetDefinitionAfterFormatting' ),
+            'fieldsets_before_formatting'       => array( $this->oCaller, '_replyToModifyFieldsetsDefinitions' ),
             
             'is_sectionset_visible'             => array( $this->oCaller, '_replyToDetermineSectionsetVisibility' ),
             'is_fieldset_visible'               => array( $this->oCaller, '_replyToDetermineFieldsetVisibility' ),
