@@ -23,12 +23,20 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * When a value may be a number with a unit like, '100%', it returns the value itself.
      * When a value misses a unit like '60', it returns with the unit such as '60%'.
      * 
+     * ```
+     * 0        -> '0px'
+     * '0'      -> '0px'
+     * null     -> '0px'
+     * ''       -> '0px'
+     * false    -> '0px'
+     * ```
+     * 
      * @since       3.1.1
      * @since       3.8.0   Renamed from `sanitizeLength()`.
      * @since       3.8.4   When non-true value is passed, `0px` will be returned.
      * @return      string
      */
-    static public function getLengthSanitized( $sLength, $sUnit='px' ) {
+    static public function getLengthSanitized( $sLength, $sUnit='px' ) {       
         $sLength = $sLength ? $sLength : 0;
         return is_numeric( $sLength ) 
             ? $sLength . $sUnit
