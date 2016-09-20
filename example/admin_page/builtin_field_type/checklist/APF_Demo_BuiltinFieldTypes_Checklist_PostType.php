@@ -79,17 +79,6 @@ class APF_Demo_BuiltinFieldTypes_Checklist_PostType {
                 'type'                  => 'posttype',
                 'repeatable'            => true,
                 'delimiter'             => '<hr />',
-            ),      
-            array(  
-                'field_id'              => 'taxonomy_checklist',
-                'title'                 => __( 'Taxonomy Checklist', 'admin-page-framework-loader' ),
-                'type'                  => 'taxonomy',
-                'height'                => '200px', // (optional)
-                'width'                 => '400px', // (optional)
-                'show_post_count'       => true,    // (optional) whether to show the post count. Default: false.
-                'taxonomy_slugs'        => array( 'category', 'post_tag', ),
-                'select_all_button'     => false,        // 3.3.0+   to change the label, set the label here
-                'select_none_button'    => false,        // 3.3.0+   to change the label, set the label here        
             )
         );              
       

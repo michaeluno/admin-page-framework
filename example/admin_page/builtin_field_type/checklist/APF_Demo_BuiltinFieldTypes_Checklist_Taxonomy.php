@@ -43,16 +43,27 @@ class APF_Demo_BuiltinFieldTypes_Checklist_Taxonomy {
             array(
                 'tab_slug'          => $this->sTabSlug,
                 'section_id'        => $this->sSectionID,
-                'title'             => __( 'Post Type', 'admin-page-framework-loader' ),
-                'description'       => __( 'Post type check lists (custom checkboxes).', 'admin-page-framework-loader' ),
+                'title'             => __( 'Taxonomies', 'admin-page-framework-loader' ),
+                'description'       => __( 'Taxonomy term check lists (custom checkboxes).', 'admin-page-framework-loader' ),
             )
         );   
 
         $_aTaxnomies = get_taxonomies( '', 'names' );
-        
+
         // Fields
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID        
+            array(  
+                'field_id'              => 'taxonomy_checklist',
+                'title'                 => __( 'Taxonomy Checklist', 'admin-page-framework-loader' ),
+                'type'                  => 'taxonomy',
+                'height'                => '200px', // (optional)
+                'width'                 => '400px', // (optional)
+                'show_post_count'       => true,    // (optional) whether to show the post count. Default: false.
+                'taxonomy_slugs'        => array( 'category', 'post_tag', ),
+                'select_all_button'     => false,        // 3.3.0+   to change the label, set the label here
+                'select_none_button'    => false,        // 3.3.0+   to change the label, set the label here        
+            ),         
             array(  
                 'field_id'              => 'taxonomy_custom_queries',
                 'title'                 => __( 'Custom Taxonomy Queries', 'admin-page-framework-loader' ),
