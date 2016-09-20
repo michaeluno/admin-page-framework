@@ -63,6 +63,9 @@ class APF_Demo_BuiltinFieldTypes_Checklist_Taxonomy {
                 'taxonomy_slugs'        => array( 'category', 'post_tag', ),
                 'select_all_button'     => false,        // 3.3.0+   to change the label, set the label here
                 'select_none_button'    => false,        // 3.3.0+   to change the label, set the label here        
+                
+                'select_all_button'     => true,        // 3.3.0+   to change the label, set the label here
+                'select_none_button'    => true,        // 3.3.0+   to change the label, set the label here                        
             ),         
             array(  
                 'field_id'              => 'taxonomy_custom_queries',
@@ -104,6 +107,10 @@ class APF_Demo_BuiltinFieldTypes_Checklist_Taxonomy {
                         // 'include'   => array( 4, ), // term ids
                     ),
                 ), 
+                
+                'select_all_button'     => false,        // 3.3.0+   to change the label, set the label here
+                'select_none_button'    => false,        // 3.3.0+   to change the label, set the label here        
+                
             ),
             array(
                 'field_id'              => 'taxonomy_multiple_checklists',

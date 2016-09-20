@@ -458,7 +458,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Fixed a bug that the `aOptions` property values were not updated when they are filtered with the `options_{class name}` filter hook.
 - Fixed a bug that setting `0` to the `label_min_width` field definition argument did not take effect.
 - Fixed a bug that an empty heading element was displayed even when the tab title of in-page-tab was set to empty.
-- Fixed a bug with the admin page factory class that transient option keys which gets automatically set when an integer is passed to the first parameter of the constructor were not unique and could be too long.
+- Fixed a bug with the admin page factory class that transient option keys which get automatically set when an integer is passed to the first parameter of the constructor were not unique and could be too long.
 - Fixed the timing of the `field_definitions_{class_name}` filter to keep compatibility with v3.7.
 - Fixed a bug with the `Generator` that a set class prefix was not set properly for custom field types in some cases.
 - Fixed a bug in the `getDataAttributeArray()` utility method that some non-true values were all treated as `0`.

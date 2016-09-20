@@ -167,7 +167,7 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
                 continue;
             }
             // 3.8.4+
-            if ( $v === '' ) {
+            if ( '' === $v ) {
                 $_aNewArray[ "data-{$sKey}" ] = '';
                 continue;
             }
