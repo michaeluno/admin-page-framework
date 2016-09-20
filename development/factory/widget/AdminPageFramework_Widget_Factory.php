@@ -204,7 +204,13 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             }
                        
             // Trigger the load() method and load_{...} actions. The user sets up the form.
-            $this->oCaller->load( $this->oCaller );
+            // Use `call_user_func_array()` rather than `$this->oCaller->load( $this->oCaller );` to avoid missing parameter PHP warnings. 
+            // This way user can either set a first parameter or omit it.
+            // @todo Examine whether passing the caller object is necessary or not as other factory classes' load() method does not receive it and thus it is not consistent.
+            call_user_func_array(
+                array( $this->oCaller, 'load' ),
+                array( $this->oCaller )
+            );            
             $this->oCaller->oUtil->addAndDoActions( 
                 $this->oCaller, 
                 array(
