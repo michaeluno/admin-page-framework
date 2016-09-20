@@ -6,7 +6,7 @@
  *  Author:         Michael Uno
  *  Author URI:     http://en.michaeluno.jp/
  *  Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
- *  Version:        3.8.4b06
+ *  Version:        3.8.4b07
 　*/
 
 /**
@@ -16,7 +16,7 @@
  */
 class AdminPageFrameworkLoader_Registry_Base {
 
-    const VERSION        = '3.8.4b06';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION        = '3.8.4b07';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME           = 'Admin Page Framework - Loader'; // the name is not 'Admin Page Framework' because warning messages gets confusing.
     const SHORTNAME      = 'Admin Page Framework';  // used for a menu title etc.
     const DESCRIPTION    = 'Loads Admin Page Framework which facilitates WordPress plugin and theme development.';
