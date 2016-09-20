@@ -100,19 +100,19 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
          * @since       3.1.1       Added a parameter. Changed to return the formatted sections array.
          * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition`. Changed the name from `formatFields()`.
          * Added the `$aSectionsets` parameter.
-         * @retuen      array
+         * @return      array
          */
         private function _getFieldsetsFormatted( array $aFieldsets, array $aSectionsets, $sCapability ) {
 
             // 3.8.4+ Changed the timing of this callback from AFTER formatting field-sets to BEFORE.
-            $_aNewFieldsets = $this->callBack(
+            $aFieldsets = $this->callBack(
                 $this->aCallbacks[ 'fieldsets_before_formatting' ], 
                 array( 
                     $aFieldsets,
                     $aSectionsets
                 )
-            );             
-            
+            );
+        
             foreach( $aFieldsets as $_sSectionPath => $_aItems ) {
 
                 // If the section is not set, skip.
@@ -135,7 +135,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
   
             // Sort by the order of the sections.
             $this->_sortFieldsBySectionsOrder( $_aNewFieldsets, $aSectionsets );
-
+            
             return $_aNewFieldsets;
                         
         }
