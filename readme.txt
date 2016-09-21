@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
 Tested up to:       4.6.1
-Stable tag:         3.8.3
+Stable tag:         3.8.4
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,7 @@ With custom field types, you can create more detailed customized field outputs. 
 - `ace` - a rich code editor.
 - `sample` - a sample custom field type with a JavaScript script.
 - `github` - displays GitHub buttons.
+- `path` - lets the user select file paths on the serevr. 
 
 If you want a field type that are not listed here, you can check the [field type pack](http://admin-page-framework.michaeluno.jp/add-ons/field-type-pack/) or request a new one in the [forum](https://wordpress.org/support/plugin/admin-page-framework).
 
@@ -453,7 +454,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.8.4 =
+= 3.8.4 - 2016/09/21 =
 - Added the `path` custom field type which let the user pick a file located on the server.
 - Fixed a bug that the `aOptions` property values were not updated when they are filtered with the `options_{class name}` filter hook.
 - Fixed a bug that setting `0` to the `label_min_width` field definition argument did not take effect.
