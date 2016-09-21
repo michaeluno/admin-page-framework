@@ -32,6 +32,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
     }
     private function _getFieldsetsFormatted(array $aFieldsets, array $aSectionsets, $sCapability) {
         $aFieldsets = $this->callBack($this->aCallbacks['fieldsets_before_formatting'], array($aFieldsets, $aSectionsets));
+        $_aNewFieldsets = array();
         foreach ($aFieldsets as $_sSectionPath => $_aItems) {
             if (!isset($aSectionsets[$_sSectionPath])) {
                 continue;
