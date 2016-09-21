@@ -113,6 +113,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
                 )
             );
         
+            $_aNewFieldsets = array();
             foreach( $aFieldsets as $_sSectionPath => $_aItems ) {
 
                 // If the section is not set, skip.
@@ -134,7 +135,10 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
             }
   
             // Sort by the order of the sections.
-            $this->_sortFieldsBySectionsOrder( $_aNewFieldsets, $aSectionsets );
+            $this->_sortFieldsBySectionsOrder( 
+                $_aNewFieldsets, // by reference 
+                $aSectionsets   
+            );
             
             return $_aNewFieldsets;
                         
