@@ -113,12 +113,12 @@ a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-con
 
     /* Fade-in-and-out Effect */
     opacity:0;
-    transition: visibility 0.4s, opacity 0.4s linear;  
+    transition: visibility 0.4s, opacity 0.4s linear;
     
     /* Adjust the position of the tooltip here */
     margin-top: -28px; 
     /* margin-left: 28px; */
-    margin-left: 4px;
+    margin-left: 8px;
     
     /* High z-index is required to appear over the left side bar menu */
     z-index: 100000;
@@ -129,15 +129,27 @@ a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-toolt
     opacity:1;    /* Fade-in-and-out Effect */
 }
 
-/* Balloon Style */
-/* .callout {
-    z-index: 200000;
+/* Balloon Left Arrow */
+a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-tooltip-content::before {
+    content: " ";
     position: absolute;
-    top: 30px;
-    border: 0;
-    left: -12px;
+    top: 40%;
+    right: 100%; /* To the left of the tooltip */
+    margin-top: -5px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent #DCA transparent transparent;
 }
- */
+a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-tooltip-content::after {
+    content: " ";
+    position: absolute;
+    top: 40%;
+    right: 100%; /* To the left of the tooltip */
+    margin-top: -4px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent #FFFFF4 transparent transparent;
+}
 
 /* Tooltip Box Shadow */
 a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content {
@@ -162,6 +174,27 @@ a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page
 a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content .dump-array {
     max-height: 400px;
     margin: 20px 8px;
+}
+
+a.admin-page-framework-form-tooltip.debug-info-field-arguments:hover > span.admin-page-framework-form-tooltip-content::before {
+    content: " ";
+    position: absolute;
+    top: 36px;
+    right: 100%; /* To the left of the tooltip */
+    margin-top: -5px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent #DCA transparent transparent;
+}
+a.admin-page-framework-form-tooltip.debug-info-field-arguments:hover > span.admin-page-framework-form-tooltip-content::after {
+    content: " ";
+    position: absolute;
+    top: 38px;
+    right: 100%; /* To the left of the tooltip */
+    margin-top: -5px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent #F8F8F8 transparent transparent;
 }
 
 CSSRULES;
