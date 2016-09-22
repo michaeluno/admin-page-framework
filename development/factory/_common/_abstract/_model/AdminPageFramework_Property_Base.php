@@ -374,6 +374,12 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
     public $sTitle = '';                  
                   
     /**
+     * Decides whether to show debug information.
+     * @since       3.8.5
+     */
+    public $bShowDebugInfo = true;
+                  
+    /**
      * Sets up necessary property values.
      * 
      * @remark      This class gets instantiated in every factory class so the constructor should be lightest as possible.
@@ -470,6 +476,9 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             'fieldsets_before_registration'     => array( $this->oCaller, '_replyToModifyFieldsets' ),
             
             'handle_form_data'                  => array( $this->oCaller, '_replyToHandleSubmittedFormData' ),        
+            
+            // 3.8.5+
+            'show_debug_info'                   => array( $this->oCaller, '_replyToDetermineWhetherToShowDebugInfo' ),
             
             // legacy callbacks
             'hfID'                              => array( $this->oCaller, '_replyToGetInputID' ), // the input id attribute

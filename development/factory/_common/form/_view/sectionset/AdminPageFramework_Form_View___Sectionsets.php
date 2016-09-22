@@ -145,6 +145,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
         }
         $_oDebugInfo = new AdminPageFramework_Form_View___DebugInfo( 
             $this->aArguments[ 'structure_type' ], // Structure type (for debug info) - this must be done before the $aSections array gets updated below.
+            $this->aCallbacks,
             $this->oMsg
         );
 

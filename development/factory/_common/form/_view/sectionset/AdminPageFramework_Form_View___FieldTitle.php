@@ -163,7 +163,9 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
             if ( ! $this->isDebugMode() ) {
                 return '';
             }
-            
+            if ( ! $this->callBack( $this->aCallbacks[ 'show_debug_info' ], true ) ) {
+                return '';
+            }
             $_oToolTip           = new AdminPageFramework_Form_View___ToolTip(
                 array(
                     'title'         => $this->oMsg->get( 'field_arguments' ),
@@ -171,7 +173,7 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
                     'icon_alt_text' => '[' . $this->oMsg->get( 'debug' ) . ' ]',
                     'content'       => AdminPageFramework_Debug::get( $aField )
                         . '<span class="admin-page-framework-info">'
-                            . $this->getFrameworkName() . ' ' . $this->getFrameworkVersion()
+                            . $this->getFrameworkNameVersion()
                         . '</span>',
                     'attributes'    => array(
                         'container' => array(

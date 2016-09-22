@@ -121,23 +121,6 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
     }    
     
     /**
-     * Calls back a user defined function
-     * 
-     * @remark      Set a default return value to the first element of the parameter array.
-     * @since       3.7.0
-     */
-    public function callBack( $oCallable, $asParameters ) {
-        $_aParameters   = self::getAsArray( 
-            $asParameters, 
-            true // preserve empty
-        );
-        $_mDefaultValue = self::getElement( $_aParameters, 0 );
-        return is_callable( $oCallable )
-            ? call_user_func_array( $oCallable, $_aParameters )
-            : $_mDefaultValue;
-    }
-
-    /**
      * Prevents the output from getting too long when the object is dumped.
      *
      * Field definition arrays contain the factory object reference and when the debug log method tries to dump it, the output gets too long.

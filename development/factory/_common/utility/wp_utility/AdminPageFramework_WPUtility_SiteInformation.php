@@ -23,6 +23,7 @@ class AdminPageFramework_WPUtility_SiteInformation extends AdminPageFramework_WP
      * 
      * @since       3.5.3
      * @return      boolean
+     * @deprecated  Use `isDebugMode()` instead.
      */
     static public function isDebugModeEnabled() {
         return ( bool ) defined( 'WP_DEBUG' ) && WP_DEBUG;

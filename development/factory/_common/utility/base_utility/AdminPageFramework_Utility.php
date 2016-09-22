@@ -20,11 +20,27 @@
 class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribute {
        
     /**
-     * Stores calls.
-     * @internal
+     * Calls back a user defined function.
+     * 
+     * This is meant to be used to filter a value using a callback. When a callback is not available, the first parameter element will be returned.
+     * so set a default return value to the first element of the parameter array.
+     * 
+     * @since       3.7.0
+     * @since       3.8.5               Moved from `AdminPageFramework_Form_Base`. Added the default value to the `$asParameters`second parameter.
+     * @param       callable            $oCallable
+     * @param       string|array        $asParameters       Parameters to pass to the callback function.
      */
-    static private $_aCallStack = array();
-    
+    public function callBack( $oCallable, $asParameters=array() ) {
+        $_aParameters   = self::getAsArray( 
+            $asParameters, 
+            true // preserve empty
+        );
+        $_mDefaultValue = self::getElement( $_aParameters, 0 );
+        return is_callable( $oCallable )
+            ? call_user_func_array( $oCallable, $_aParameters )
+            : $_mDefaultValue;
+    }          
+           
     /**
      * Checks if the given id (usually a function name) has been called throughout the page load.
      * 
@@ -40,6 +56,11 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
         self::$_aCallStack[ $sID ] = true;
         return false;
     }
+        /**
+         * Stores calls.
+         * @internal
+         */
+        static private $_aCallStack = array();    
        
     /**
      * Captures the output buffer of the given function.

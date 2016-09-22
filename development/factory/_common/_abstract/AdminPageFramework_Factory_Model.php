@@ -96,14 +96,14 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     }
     
     /**
-     * Modifies registered sectionsets definition array.
+     * Modifies registered section-sets definition array.
      * 
      * This lets third party scripts to set their own sections 
      * before the framework registered field resource (assets) files.
      * 
      * @remark      Called prior to field resource registrations.
      * @since       3.7.0
-     * @return      array       The modified sectionsets definition array.
+     * @return      array       The modified section-sets definition array.
      */    
     public function _replyToModifySectionsets( $aSectionsets ) {    
         
@@ -116,18 +116,18 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
     }
 
     /**
-     * Modifies registered fieldsets definition array.
+     * Modifies registered field-sets definition array.
      * 
      * This lets third party scripts to set their own sections 
      * before the framework registered field resource (assets) files.
      * 
      * @remark      Called prior to field resource registrations.
      * @since       3.7.0
-     * @return      array       The modified fieldsets definition array.
+     * @return      array       The modified field-sets definition array.
      */
     public function _replyToModifyFieldsets( $aFieldsets, $aSectionsets ) {
 
-        // Apply filters to added fieldsets
+        // Apply filters to added field-sets
         foreach( $aFieldsets as $_sSectionPath => $_aFields ) {
             $_aSectionPath  = explode( '|', $_sSectionPath );
             $_sFilterSuffix = implode( '_', $_aSectionPath );
@@ -291,6 +291,16 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         );
         return $this->oProp->aOptions;
         
+    }
+    
+    /**
+     * Determines whether to show debug information.
+     * @callback    form        show_debug_info
+     * @return      boolean
+     * @since       3.8.5
+     */
+    public function _replyToDetermineWhetherToShowDebugInfo() {
+        return $this->oProp->bShowDebugInfo;
     }
     
     /**

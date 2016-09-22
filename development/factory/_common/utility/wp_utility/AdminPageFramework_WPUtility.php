@@ -146,7 +146,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
      * @return      boolean     
      */
     static public function isDebugMode() {
-        return defined( 'WP_DEBUG' ) && WP_DEBUG;
+        return ( boolean ) defined( 'WP_DEBUG' ) && WP_DEBUG;
     }
     
     /**

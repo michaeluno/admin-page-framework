@@ -404,7 +404,7 @@ CSSRULES;
                         __( 'Permalink Structure', 'admin-page-framework' )         => get_option( 'permalink_structure' ), 
                         __( 'Active Theme', 'admin-page-framework' )                => $this->_getActiveThemeName(),
                         __( 'Registered Post Statuses', 'admin-page-framework' )    => implode( ', ', get_post_stati() ),
-                        'WP_DEBUG'                                                  => $this->getAOrB( $this->isDebugModeEnabled(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
+                        'WP_DEBUG'                                                  => $this->getAOrB( $this->isDebugMode(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
                         'WP_DEBUG_LOG'                                              => $this->getAOrB( $this->isDebugLogEnabled(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
                         'WP_DEBUG_DISPLAY'                                          => $this->getAOrB( $this->isDebugDisplayEnabled(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
                         __( 'Table Prefix', 'admin-page-framework' )                => $wpdb->prefix,

@@ -15,7 +15,7 @@
  * @subpackage  Common/Factory/Debug
  * @internal
  */
-abstract class AdminPageFramework_PageLoadInfo_Base {
+abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_FrameworkUtility {
 
     public $oProp;
     
@@ -27,12 +27,8 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
      * Sets up hooks and properties.
      */
     public function __construct( $oProp, $oMsg ) {
-        
-        if ( $oProp->bIsAdminAjax || ! $oProp->bIsAdmin ) {
-            return;
-        }     
-        
-        if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+                
+        if ( ! $this->_shouldProceed( $oProp ) ) {
             return;
         }
             
@@ -40,10 +36,26 @@ abstract class AdminPageFramework_PageLoadInfo_Base {
         $this->oMsg                 = $oMsg;
         $this->_nInitialMemoryUsage = memory_get_usage();
         
-        // must be loaded after the sub pages are registered
         add_action( 'in_admin_footer', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 );    
 
     }
+        /**
+         * @since       3.8.5
+         * @return      boolean
+         */
+        private function _shouldProceed( $oProp ) {
+        
+            if ( $oProp->bIsAdminAjax || ! $oProp->bIsAdmin ) {
+                return false;
+            }     
+        
+            if ( ! $this->isDebugMode() ) {
+                return false;
+            }
+            
+            return ( boolean ) $oProp->bShowDebugInfo;
+            
+        }
     
     /**
      * @remark Should be overridden in an extended class.

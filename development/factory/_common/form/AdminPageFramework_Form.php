@@ -153,6 +153,11 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
          */
         'handle_form_data'         => null,
         
+        /**
+         * Determines whether to show debug information.
+         */
+        'show_debug_info'           => null,
+        
     );
     
     /**
