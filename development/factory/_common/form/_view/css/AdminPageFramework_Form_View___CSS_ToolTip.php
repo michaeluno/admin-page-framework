@@ -131,7 +131,7 @@ a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-toolt
 
 /* Balloon Left Arrow */
 a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-tooltip-content::before {
-    content: " ";
+    content: ' ';
     position: absolute;
     top: 40%;
     right: 100%; /* To the left of the tooltip */
@@ -141,7 +141,7 @@ a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-toolt
     border-color: transparent #DCA transparent transparent;
 }
 a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-tooltip-content::after {
-    content: " ";
+    content: ' ';
     position: absolute;
     top: 40%;
     right: 100%; /* To the left of the tooltip */
@@ -177,7 +177,7 @@ a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page
 }
 
 a.admin-page-framework-form-tooltip.debug-info-field-arguments:hover > span.admin-page-framework-form-tooltip-content::before {
-    content: " ";
+    content: ' ';
     position: absolute;
     top: 36px;
     right: 100%; /* To the left of the tooltip */
@@ -187,7 +187,7 @@ a.admin-page-framework-form-tooltip.debug-info-field-arguments:hover > span.admi
     border-color: transparent #DCA transparent transparent;
 }
 a.admin-page-framework-form-tooltip.debug-info-field-arguments:hover > span.admin-page-framework-form-tooltip-content::after {
-    content: " ";
+    content: ' ';
     position: absolute;
     top: 38px;
     right: 100%; /* To the left of the tooltip */
