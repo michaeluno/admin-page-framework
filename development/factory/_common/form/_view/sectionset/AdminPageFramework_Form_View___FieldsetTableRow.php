@@ -129,7 +129,6 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
             $_aOutput   = array();
             if ( $aFieldset[ 'show_title_column' ] ) {
                 $_aOutput[] = $aOpenCloseTags[ 'open_title' ]
-                        // . $this->_getFieldTitle( $aFieldset )
                         . $_oFieldTitle->get()
                     . $aOpenCloseTags[ 'close_title' ];
             }
@@ -142,70 +141,6 @@ class AdminPageFramework_Form_View___FieldsetTableRow extends AdminPageFramework
                     . implode( PHP_EOL, $_aOutput )
                 . $aOpenCloseTags[ 'close_container' ];
             
-        }
-            /**
-             * Returns the title part of the field output.
-             * 
-             * @internal
-             * @since       3.0.0
-             * @since       3.7.0      Moved from `AdminPageFramework_FormPart_TableRow`.
-             * @return      string
-             */
-            private function _getFieldTitle( array $aField ) {
-                
-                $_oInputTagIDGenerator = new AdminPageFramework_Form_View___Generate_FieldInputID( 
-                    $aField,
-                    0   // the first item
-                );
-                
-                return "<label class='admin-page-framework-field-title' for='" . $_oInputTagIDGenerator->get() . "'>"
-                        . "<a id='{$aField[ 'field_id' ]}'></a>"  // to allow the browser to link to the element.
-                        . "<span title='" 
-                                . esc_attr( 
-                                    strip_tags( 
-                                        is_array( $aField[ 'description' ] )
-                                            ? implode( '&#10;', $aField[ 'description' ] )
-                                            : $aField[ 'description' ] 
-                                    )
-                                ) 
-                            . "'>"
-                                . $aField[ 'title' ]
-                                . $this->_getTitleColon( $aField )
-                                . $this->_getToolTip( $aField[ 'tip' ], $aField[ 'field_id' ] )
-                        . "</span>"
-                    . "</label>";
-                
-            }
-                /**
-                 * @return      string
-                 * @since       3.7.0
-                 */
-                private function _getToolTip( $asTip, $sElementID ) {
-                    $_oToolTip           = new AdminPageFramework_Form_View___ToolTip(
-                        $asTip,
-                        $sElementID
-                    );            
-                    return $_oToolTip->get();
-                }
-                
-                /**
-                 * @since       3.7.0
-                 * @return      string
-                 */
-                private function _getTitleColon( $aField ) {
-                    
-                    if ( ! isset( $aField[ 'title' ] ) || '' === $aField[ 'title' ] ) {
-                        return '';
-                    }                    
-                    if ( 
-                        in_array( 
-                            $aField[ '_structure_type' ], 
-                            array( 'widget', 'post_meta_box', 'page_meta_box' ) 
-                        ) 
-                    ){
-                        return "<span class='title-colon'>:</span>" ;
-                    }                                                 
-                    
-                }
+        }        
                     
 }
