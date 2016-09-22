@@ -100,6 +100,7 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
                     . "</span>"
                 . "</label>"
                 . $this->_getToolTip( $aField[ 'tip' ], $aField[ 'field_id' ] )
+                . $this->_getDebugInfo( $aField )
             : '';
         
         $_sOutput .= $this->_getFieldOutputsInFieldTitleAreaFromNestedFields( $aField );
@@ -150,6 +151,38 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
                 $sElementID
             );            
             return $_oToolTip->get();
+        }
+        
+        /**
+         * Returns an output of the passed field argument.
+         * @since       3.8.5
+         * @return      string
+         */
+        private function _getDebugInfo( $aField ) {
+            
+            if ( ! $this->isDebugMode() ) {
+                return '';
+            }
+            
+            $_oToolTip           = new AdminPageFramework_Form_View___ToolTip(
+                array(
+                    'title'         => $this->oMsg->get( 'field_arguments' ),
+                    'dash-icon'     => 'dashicons-info',
+                    'icon_alt_text' => '[' . $this->oMsg->get( 'debug' ) . ' ]',
+                    'content'       => AdminPageFramework_Debug::get( $aField )
+                        . '<span class="admin-page-framework-info">'
+                            . $this->getFrameworkName() . ' ' . $this->getFrameworkVersion()
+                        . '</span>',
+                    'attributes'    => array(
+                        'container' => array(
+                            'class' => 'debug-info-field-arguments'
+                        ),
+                    )
+                ),
+                $aField[ 'field_id' ] . '_debug'
+            );            
+            return $_oToolTip->get();                    
+            
         }
         
         /**

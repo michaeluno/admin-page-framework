@@ -86,7 +86,6 @@ a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content
 }
 
 a.admin-page-framework-form-tooltip {
-    position: relative;
     vertical-align: middle;
     outline: none; 
     text-decoration: none;
@@ -103,7 +102,6 @@ a.admin-page-framework-form-tooltip:hover {
     text-decoration: none;
 } 
 a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content {
-
     visibility: hidden;
     position: absolute; 
     padding: 14px 20px 14px;
@@ -148,6 +146,22 @@ a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-con
     -webkit-box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
     box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);    
+}
+
+/* Title */
+.admin-page-framework-form-tooltip-title {
+    font-weight: bold;
+    display: block;
+}
+
+/* Debug Info - Field Arguments */
+a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content {
+    width: 640px;
+    background-color: #F8F8F8;
+}
+a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content .dump-array {
+    max-height: 400px;
+    margin: 20px 8px;
 }
 
 CSSRULES;

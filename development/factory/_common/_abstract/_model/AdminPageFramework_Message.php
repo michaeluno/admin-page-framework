@@ -167,13 +167,18 @@ class AdminPageFramework_Message {
         
         // 3.7.0+  - accessed from `AdminPageFramework_Form_View___DebugInfo`
         'debug_info'                            => 'Debug Info',
+        // 3.8.5+
+        'debug'                                 => 'Debug',
+        'field_arguments'                       => 'Field Arguments',
         
         'click_to_expand'                       => 'Click here to expand to view the contents.',
         'click_to_collapse'                     => 'Click here to collapse the contents.',
         
         // 3.7.0+ - displayed while the page laods
         'loading'                               => 'Loading...',
-        'please_enable_javascript'              => 'Please enable JavaScript for better experience.'
+        'please_enable_javascript'              => 'Please enable JavaScript for better experience.',
+        
+
     );
     
     /**
@@ -410,6 +415,9 @@ class AdminPageFramework_Message {
         
         __( 'Loading...', 'admin-page-framework' );
         __( 'Please enable JavaScript for better experience.', 'admin-page-framework' );
+        
+        __( 'Debug', 'admin-page-framework' );
+        __( 'Field Arguments', 'admin-page-framework' );
         
     }
     

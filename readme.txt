@@ -455,6 +455,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.5 =
+- Added the ability to automatically insert field definitions in a tooltip for each field.
 - Fixed an issue that it was not possible to select tooltip text.
 - Tweaked the style of tool-tips.
 
