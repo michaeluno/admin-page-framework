@@ -399,6 +399,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         $this->sPageNow         = $this->getPageNow();
         $this->bIsAdmin         = is_admin();
         $this->bIsAdminAjax     = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
+        $this->bShowDebugInfo   = $this->isDebugMode();
                
         // Overloading property items - these will be set on demand
         unset(

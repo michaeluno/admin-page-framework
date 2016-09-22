@@ -72,9 +72,7 @@ class AdminPageFramework_Form_View___DebugInfo extends AdminPageFramework_Framew
          * @return      boolean
          */
         private function _shouldProceed() {
-            if ( ! $this->isDebugMode() ) {
-                return false;
-            }
+
             if ( ! $this->callBack( $this->aCallbacks[ 'show_debug_info' ], true ) ) {
                 return false;
             }        

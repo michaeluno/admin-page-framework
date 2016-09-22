@@ -160,9 +160,6 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
          */
         private function _getDebugInfo( $aField ) {
             
-            if ( ! $this->isDebugMode() ) {
-                return '';
-            }
             if ( ! $this->callBack( $this->aCallbacks[ 'show_debug_info' ], true ) ) {
                 return '';
             }

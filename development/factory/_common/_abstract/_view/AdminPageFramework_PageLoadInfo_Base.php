@@ -48,11 +48,6 @@ abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_F
             if ( $oProp->bIsAdminAjax || ! $oProp->bIsAdmin ) {
                 return false;
             }     
-        
-            if ( ! $this->isDebugMode() ) {
-                return false;
-            }
-            
             return ( boolean ) $oProp->bShowDebugInfo;
             
         }
