@@ -64,7 +64,6 @@ th > label > span > .admin-page-framework-form-tooltip {
 /* Question Mark (?) - we want it to be a little bit smaller than the title */
 .admin-page-framework-section-title > * > a.admin-page-framework-form-tooltip > span,
 .admin-page-framework-collapsible-title > * > a.admin-page-framework-form-tooltip > span {
-    margin-top: -4px;
     font-size: inherit;
 }
 .admin-page-framework-form-tooltip > span {
@@ -73,6 +72,8 @@ th > label > span > .admin-page-framework-form-tooltip {
     
     /* Dashicon vertical alignment */
     vertical-align: middle;
+    
+    padding-top: 2px;
     
 }
 
@@ -84,8 +85,8 @@ a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content
     font-weight: normal;
 }
 
-
 a.admin-page-framework-form-tooltip {
+    position: relative;
     vertical-align: middle;
     outline: none; 
     text-decoration: none;
@@ -103,27 +104,31 @@ a.admin-page-framework-form-tooltip:hover {
 } 
 a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content {
 
-    display: none; 
+    visibility: hidden;
+    position: absolute; 
     padding: 14px 20px 14px;
-    margin-top: -30px; 
-    margin-left: 28px;
     width: 320px; 
     line-height:16px;
+    color: #111;
+    border:1px solid #DCA; 
+    background: #FFFFF4;
+
+    /* Fade-in-and-out Effect */
+    opacity:0;
+    transition: visibility 0.4s, opacity 0.4s linear;  
+    
+    /* Adjust the position of the tooltip here */
+    margin-top: -28px; 
+    /* margin-left: 28px; */
+    margin-left: 4px;
     
     /* High z-index is required to appear over the left side bar menu */
     z-index: 100000;
     
 }
 a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-tooltip-content{
-    display: inline; 
-    position: absolute; 
-    color: #111;
-    border:1px solid #DCA; 
-    background: #FFFFF4;
-    
-    /* Adjust the position of the tooltip here */
-    margin-left: -280px;
-    margin-top: -72px;
+    visibility: visible;   
+    opacity:1;    /* Fade-in-and-out Effect */
 }
 
 /* Balloon Style */

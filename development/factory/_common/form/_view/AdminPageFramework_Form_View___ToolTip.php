@@ -72,9 +72,8 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
         if ( ! $this->aArguments[ 'content' ] ) {
             return '';
         }
-        $_sHref = esc_attr( "#{$this->sTitleElementID}" );
         return ''
-            . "<a href='{$_sHref}' class='admin-page-framework-form-tooltip'>"
+            . "<a class='admin-page-framework-form-tooltip'>"
             . $this->_getTipLinkIcon()
             . "<span class='admin-page-framework-form-tooltip-content'>"
                 . $this->_getTipTitle()
@@ -93,7 +92,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
                 return $this->aArguments[ 'icon' ];
             }
             
-            if ( version_compare( $GLOBALS['wp_version'], '3.8', '>=' ) ) {
+            if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) ) {
                 return "<span class='dashicons dashicons-editor-help'></span>";
             } 
             
@@ -119,9 +118,9 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
         private function _getDescriptions() {         
 
             if ( isset( $this->aArguments[ 'content' ] ) ) {
-                return  "<span class='admin-page-framework-form-tool-tip-description'>"
+                return  "<span class='admin-page-framework-form-tooltip-description'>"
                         . implode( 
-                            "</span><span class='admin-page-framework-form-tool-tip-description'>", 
+                            "</span><span class='admin-page-framework-form-tooltip-description'>", 
                             $this->getAsArray( $this->aArguments[ 'content' ] )
                         )
                     . "</span>"
