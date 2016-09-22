@@ -1,8 +1,22 @@
 <?php
 /**
- * 
+ * Admin Page Framework
+ *
+ * Facilitates WordPress plugin and theme development.
+ *
+ * @author      Michael Uno <michael@michaeluno.jp>
+ * @copyright   2013-2016 (c) Michael Uno
+ * @license     MIT <http://opensource.org/licenses/MIT>
+ * @package     AdminPageFramework
  */
+
 if ( ! class_exists( 'PathCustomFieldType' ) ) :
+/**
+ * A field type that lets the user pick a file located on the server.
+ * 
+ * @since       3.8.4
+ * @version     0.0.1b
+ */
 class PathCustomFieldType extends AdminPageFramework_FieldType_image {
 
     /**
