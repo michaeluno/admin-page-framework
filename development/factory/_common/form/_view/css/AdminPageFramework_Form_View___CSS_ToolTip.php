@@ -33,11 +33,11 @@ th > label > span > .admin-page-framework-form-tooltip {
     
 }
 /* For admin page fields, put the ? icon to the right hand side */
-.admin-page-framework-content th > label > span > .admin-page-framework-form-tooltip {
+.admin-page-framework-content th > .admin-page-framework-form-tooltip {
     float: right;
 }
 
-.postbox-container th > label > span > .admin-page-framework-form-tooltip {
+.postbox-container th > .admin-page-framework-form-tooltip {
     margin-left: 1em;
     float: none;
 }

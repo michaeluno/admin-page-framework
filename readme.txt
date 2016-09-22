@@ -454,6 +454,10 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.5 =
+- Fixed an issue that it was not possible to select tooltip text.
+- Tweaked the style of tool-tips.
+
 = 3.8.4 - 2016/09/21 =
 - Added the `path` custom field type which let the user pick a file located on the server.
 - Fixed a bug that the `aOptions` property values were not updated when they are filtered with the `options_{class name}` filter hook.
