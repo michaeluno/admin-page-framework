@@ -108,7 +108,7 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
      * <code>
      * $sClasses = getClassAttribute( array( 'button, button-primary' ), 'remove_button button' );
      * </code>
-     * Will generates
+     * generates:
      * <code>
      *  button button-primary remove_button
      * </code>
