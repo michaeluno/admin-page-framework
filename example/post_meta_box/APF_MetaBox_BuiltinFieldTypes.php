@@ -56,6 +56,7 @@ class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
             array(
                 'field_id'      => '_metabox_text_field',
                 'type'          => 'text',
+                'tip'           => __( 'This is a tool tip.', 'admin-page-framework-loader' ),
                 'title'         => __( 'Text Input', 'admin-page-framework-loader' ),
                 'description'   => __( 'Type more than two characters.', 'admin-page-framework-loader' ),
                 'help'          => __( 'This is help text.', 'admin-page-framework-loader' ),
