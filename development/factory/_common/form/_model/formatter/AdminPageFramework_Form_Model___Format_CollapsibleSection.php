@@ -96,8 +96,15 @@ class AdminPageFramework_Form_Model___Format_CollapsibleSection extends AdminPag
                 $_aCollapsible[ 'toggle_all_button' ] = $this->_getToggleAllButtonArgument( 
                     $_aCollapsible[ 'toggle_all_button' ], 
                     $aSection
-                );            
+                );
             }
+            
+            // [3.8.5+] An empty string `''` is considered as a value by a data attribute parser function since v3.8.4. So set it explicitly to `false` here.
+            $_aCollapsible[ 'toggle_all_button' ] = $this->getAOrB( 
+                '' === $_aCollapsible[ 'toggle_all_button' ],
+                false,
+                $_aCollapsible[ 'toggle_all_button' ] 
+            );
             
             return $_aCollapsible;            
             

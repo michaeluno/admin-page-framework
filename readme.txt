@@ -456,6 +456,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 = 3.8.5 =
 - Added the ability to automatically insert field definitions in a tool-tip for each field.
+- Fixed a bug that collapsible section arguments were not processed properly, introduced in v3.8.4.
 - Fixed an issue that it was not possible to select tool-tip text.
 - Tweaked the style of tool-tips.
 
