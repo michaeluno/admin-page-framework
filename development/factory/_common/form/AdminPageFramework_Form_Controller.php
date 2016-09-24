@@ -131,8 +131,17 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
     public function getResources( $sKey ) {
         return $this->getElement( self::$_aResources, $sKey );
     }
+    
     /**
-     * Sets the resouce items.
+     * @since       3.8.5
+     * @return      void
+     */    
+    public function unsetResources( $aKeys ) {
+        $this->unsetDimensionalArrayElement( self::$_aResources, $aKeys );   
+    }
+    
+    /**
+     * Sets the resource items.
      * @return      void
      */
     public function setResources( $sKey, $mValue ) {

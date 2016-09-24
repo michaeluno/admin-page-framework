@@ -116,8 +116,9 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
         if ( ! $this->oForm->isInThePage() ) {
             return;
         }
-        foreach( $this->oForm->getResources( 'src_scripts' ) as $_asEnqueue ) {
+        foreach( $this->oForm->getResources( 'src_scripts' ) as $_isIndex => $_asEnqueue ) {
             $this->_enqueueScript( $_asEnqueue );
+            $this->oForm->unsetResources( array( 'src_scripts', $_isIndex ) );  // no longer needed
         }       
     }
         /**
@@ -190,8 +191,9 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
         if ( ! $this->oForm->isInThePage() ) {
             return;
         }
-        foreach( $this->oForm->getResources( 'src_styles' ) as $_asEnqueueItem ) {
+        foreach( $this->oForm->getResources( 'src_styles' ) as $_isIndex => $_asEnqueueItem ) {
             $this->_enqueueStyle( $_asEnqueueItem );
+            $this->oForm->unsetResources( array( 'src_styles', $_isIndex ) ); // no longer needed
         }           
     
     }
