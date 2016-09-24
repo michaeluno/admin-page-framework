@@ -19,6 +19,11 @@
 class APF_Demo extends AdminPageFramework {
 
     /**
+     * Stores WordPress readme parser object.
+     */
+    public $oWPRMParser;
+
+    /**
      * User constructor.
      */
     public function start() {
@@ -109,7 +114,7 @@ class APF_Demo extends AdminPageFramework {
                 'order' => 60,
             )
         );       
-        
+                
     }
     
     /**
@@ -127,6 +132,9 @@ class APF_Demo extends AdminPageFramework {
         
         // Set the tag used for in-page tabs. 
         $this->setInPageTabTag( 'h2' );     
+                
+        // Used to insert PHP code in example fields.
+        $this->oWPRMParser = new AdminPageFramework_WPReadmeParser;                        
                 
     }
           

@@ -13,7 +13,6 @@
  * Adds a tab of the set page to the loader plugin.
  * 
  * @since       3.8.4
- * @version     1.0.0
  */
 class APF_Demo_CustomFieldType_Path {
 

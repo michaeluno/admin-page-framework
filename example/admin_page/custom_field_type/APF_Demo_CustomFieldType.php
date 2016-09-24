@@ -44,6 +44,10 @@ class APF_Demo_CustomFieldType {
                 'title'     => __( 'Custom Field Types', 'admin-page-framework-loader' ),
                 'page_slug' => $this->_sPageSlug,    // page slug
                 'order'     => 30,
+                'style'     => array(
+                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
+                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/field_example.css',
+                )
             )
         );
 
@@ -59,6 +63,14 @@ class APF_Demo_CustomFieldType {
     public function replyToLoadPage( $oFactory ) {
         
         // Tabs
+        new APF_Demo_CustomFieldType_Path(
+            $oFactory,    // factory object
+            $this->_sPageSlug   // page slug
+        );        
+        new APF_Demo_CustomFieldType_Toggle(
+            $oFactory,    // factory object
+            $this->_sPageSlug   // page slug
+        );        
         new APF_Demo_CustomFieldType_ACE(
             $oFactory,    // factory object
             $this->_sPageSlug   // page slug
@@ -71,10 +83,7 @@ class APF_Demo_CustomFieldType {
             $oFactory,    // factory object
             $this->_sPageSlug   // page slug
         );
-        new APF_Demo_CustomFieldType_Path(
-            $oFactory,    // factory object
-            $this->_sPageSlug   // page slug
-        );        
+
         
         // Add a link in tabs
         $oFactory->addInPageTabs(    
