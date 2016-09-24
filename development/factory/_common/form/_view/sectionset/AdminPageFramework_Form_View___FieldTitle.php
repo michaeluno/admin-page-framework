@@ -171,6 +171,9 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
                     'content'       => AdminPageFramework_Debug::get( $aField )
                         . '<span class="admin-page-framework-info">'
                             . $this->getFrameworkNameVersion()
+                            . '  ('
+                                . __( 'This information will be disabled when <code>WP_DEBUG</code> is set to <code>false</code> in <code>wp-config.php</code>.', 'admin-page-framework' )
+                              . ')'
                         . '</span>',
                     'attributes'    => array(
                         'container' => array(

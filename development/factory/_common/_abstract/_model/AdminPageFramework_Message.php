@@ -170,6 +170,7 @@ class AdminPageFramework_Message {
         // 3.8.5+
         'debug'                                 => 'Debug',
         'field_arguments'                       => 'Field Arguments',
+        'debug_info_will_be_disabled'           => 'This information will be disabled when <code>WP_DEBUG</code> is set to <code>false</code> in <code>wp-config.php</code>.',
         
         'click_to_expand'                       => 'Click here to expand to view the contents.',
         'click_to_collapse'                     => 'Click here to collapse the contents.',
@@ -418,6 +419,7 @@ class AdminPageFramework_Message {
         
         __( 'Debug', 'admin-page-framework' );
         __( 'Field Arguments', 'admin-page-framework' );
+        __( 'This information will be disabled when <code>WP_DEBUG</code> is set to <code>false</code> in <code>wp-config.php</code>.', 'admin-page-framework' );
         
     }
     

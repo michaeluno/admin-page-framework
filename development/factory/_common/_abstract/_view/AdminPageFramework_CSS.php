@@ -90,7 +90,9 @@ class AdminPageFramework_CSS {
 }
 
 /* Framework System Information */
-.admin-page-framework-info {
+.admin-page-framework-info,
+.admin-page-framework-info code
+{
     font-size: 0.8em;
     font-weight: lighter;
     text-align: right;
