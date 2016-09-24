@@ -146,6 +146,19 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
         
     /**
      * Returns a number from the given human readable size representation.
+     * 
+     * For example,
+     * ```
+     * 20M   -> 20971520
+     * 324k  -> 331776
+     * ```
+     * 
+     * Only a single character for the unit is allowed. So ~MB will not be recognized and only the first letter will be left.
+     * ```
+     * 20MB  -> '20M'
+     * 42KB  -> '42K'
+     * ```
+     * 
      * @since       3.4.6
      * @return      string|integer
      */     
@@ -174,7 +187,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * @return      string
      */     
     static public function getReadableBytes( $nBytes ) {
-        $_aUnits    = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
+        $_aUnits    = array( 0 => 'B', 1 => 'KB', 2 => 'MB', 3 => 'GB' );
         $_nLog      = log( $nBytes, 1024 );
         $_iPower    = ( int ) $_nLog;
         $_iSize     = pow( 1024, $_nLog - $_iPower );
@@ -189,7 +202,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
     static public function getPrefixRemoved( $sString, $sPrefix ) {
         return self::hasPrefix( $sPrefix, $sString )
             ? substr( $sString, strlen( $sPrefix ) )
-            : $sStrung;        
+            : $sString;        
     }
     /**
      * Trims a traling sub-string if exists.
