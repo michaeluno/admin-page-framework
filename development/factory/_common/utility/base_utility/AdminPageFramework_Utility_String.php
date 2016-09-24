@@ -205,7 +205,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
             : $sString;        
     }
     /**
-     * Trims a traling sub-string if exists.
+     * Trims a trailing sub-string if exists.
      * @return      string
      * @since       3.7.2
      */
@@ -224,7 +224,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * @return      boolean     True if it has the given prefix; otherwise, false.
      */
     static public function hasPrefix( $sNeedle, $sHaystack ) {
-        return $sNeedle === substr( $sHaystack, 0, strlen( $sNeedle ) );
+        return ( string ) $sNeedle === substr( $sHaystack, 0, strlen( ( string ) $sNeedle ) );
     }       
  
     /**
@@ -233,11 +233,11 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * Used to check file base name etc.
      * 
      * @since   3.5.4
-     * @reurn   boolean
+     * @return  boolean
      */
     static public function hasSuffix( $sNeedle, $sHaystack ) {
         
-        $_iLength = strlen( $sNeedle );
+        $_iLength = strlen( ( string ) $sNeedle );
         if ( 0 === $_iLength ) {
             return true;
         }
