@@ -157,20 +157,24 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
      * Returns an array for generating a data attribute from the given associative array.
      * 
      * @since       3.4.0
+     * @since       3.8.4       Made it possible to set an empty string value to the data attribute.
      * @return      array
      */
     static public function getDataAttributeArray( array $aArray ) {
         
         $_aNewArray = array();
         foreach( $aArray as $sKey => $v ) {
+            
             if ( in_array( gettype( $v ), array( 'array', 'object', 'NULL' ) ) ) {
                 continue;
             }
-            // 3.8.4+
+            
+            // 3.8.4+ Lets an empty string value to be set.
             if ( '' === $v ) {
                 $_aNewArray[ "data-{$sKey}" ] = '';
                 continue;
             }
+            
             $_aNewArray[ "data-{$sKey}" ] = $v 
                 ? $v 
                 : '0';
