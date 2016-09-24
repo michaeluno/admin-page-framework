@@ -25,6 +25,9 @@ class Demo_CustomFieldTypes_ACE_Cest extends \Demo_AdminPage_Base {
         // <a href="edit.php?post_type=apf_posts&amp;page=custom_field_type">Custom Field Type</a>
         $I->click( '//li/a[contains(@href, "page=custom_field_type")]' );
                 
+        // Click on the 'ACE' tab. 
+        $I->click( '//a[@data-tab-slug="ace"]' );                
+                
         // This is the default tab so check an element first.
         $this->_checkCommonElements( $I );                
         $I->seeElement( '//textarea[contains(@name, "ace")]' );                        
