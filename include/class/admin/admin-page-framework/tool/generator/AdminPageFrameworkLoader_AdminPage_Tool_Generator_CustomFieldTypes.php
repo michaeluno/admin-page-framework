@@ -105,12 +105,21 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                 'PathCustomFieldType'   =>  array(
                     'class_name'           => 'PathCustomFieldType',
                     'label'                => __( 'Path', 'admin-page-framework-loader' ),
-                    'description'          => __( 'allows you to display GitHub buttons in a field.', 'admin-page-framework-loader' ),
+                    'description'          => __( 'allows the user to select a file path on the server.', 'admin-page-framework-loader' ),
                     'directory_path'       => AdminPageFrameworkLoader_Registry::$sDirPath . '/example/library/path-custom-field-type',
                     'archive_file_path'    => 'custom-field-types/path-custom-field-type/PathCustomFieldType.php',
                     'archive_dir_path'     => 'custom-field-types/path-custom-field-type',
                     'text_domain'          => 'admin-page-framework',
                 ),
+                'ToggleCustomFieldType'   =>  array(
+                    'class_name'           => 'ToggleCustomFieldType',
+                    'label'                => __( 'Toggle', 'admin-page-framework-loader' ),
+                    'description'          => __( 'allows the user to switch a button.', 'admin-page-framework-loader' ),
+                    'directory_path'       => AdminPageFrameworkLoader_Registry::$sDirPath . '/example/library/toggle-custom-field-type',
+                    'archive_file_path'    => 'custom-field-types/toggle-custom-field-type/ToggleCustomFieldType.php',
+                    'archive_dir_path'     => 'custom-field-types/toggle-custom-field-type',
+                    'text_domain'          => 'admin-page-framework',
+                ),                
             );
                 
             // Let third-party scripts add custom field types.
