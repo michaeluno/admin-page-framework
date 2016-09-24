@@ -508,28 +508,28 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     protected function _enqueueSRC( $aEnqueueItem ) {
         
         // For styles
-        if ( 'style' === $aEnqueueItem['sType'] ) {
+        if ( 'style' === $aEnqueueItem[ 'sType' ] ) {
             wp_enqueue_style( 
-                $aEnqueueItem['handle_id'], 
-                $aEnqueueItem['sSRC'], 
-                $aEnqueueItem['dependencies'], 
-                $aEnqueueItem['version'], 
-                $aEnqueueItem['media']
+                $aEnqueueItem[ 'handle_id' ], 
+                $aEnqueueItem[ 'sSRC' ], 
+                $aEnqueueItem[ 'dependencies' ], 
+                $aEnqueueItem[ 'version' ], 
+                $aEnqueueItem[ 'media' ]
             );
             return;
         }
 
         // For scripts
         wp_enqueue_script( 
-            $aEnqueueItem['handle_id'], 
-            $aEnqueueItem['sSRC'], 
-            $aEnqueueItem['dependencies'], 
-            $aEnqueueItem['version'], 
-            did_action( 'admin_body_class' ) ? true : $aEnqueueItem['in_footer'] 
+            $aEnqueueItem[ 'handle_id' ], 
+            $aEnqueueItem[ 'sSRC' ], 
+            $aEnqueueItem[ 'dependencies' ], 
+            $aEnqueueItem[ 'version' ], 
+            did_action( 'admin_body_class' ) ? true : $aEnqueueItem[ 'in_footer' ] 
         );
     
-        if ( $aEnqueueItem['translation'] ) {
-            wp_localize_script( $aEnqueueItem['handle_id'], $aEnqueueItem['handle_id'], $aEnqueueItem['translation'] );
+        if ( $aEnqueueItem[ 'translation' ] ) {
+            wp_localize_script( $aEnqueueItem[ 'handle_id' ], $aEnqueueItem[ 'handle_id' ], $aEnqueueItem[ 'translation' ] );
         }
         
     }
