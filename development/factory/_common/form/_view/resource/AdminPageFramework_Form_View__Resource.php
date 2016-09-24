@@ -164,7 +164,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             private function _getFormattedEnqueueScript( $asEnqueue ) {
                 static $_iCallCount = 1;
                 $_aEnqueueItem = $this->getAsArray( $asEnqueue ) + array(
-                    'handle_id'     => 'script_' . $this->oForm->aArguments[ 'caller_id' ] . '_' . $_iCallCount,
+                    'handle_id'     => 'script_form_' . $this->oForm->aArguments[ 'caller_id' ] . '_' . $_iCallCount,
                     'src'           => null,
                     'dependencies'  => null,
                     'version'       => null,
@@ -211,7 +211,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             private function _getFormattedEnqueueStyle( $asEnqueue ) {
                 static $_iCallCount = 1;
                 $_aEnqueueItem = $this->getAsArray( $asEnqueue ) + array(
-                    'handle_id'     => 'style_' . $this->oForm->aArguments[ 'caller_id' ] . '_' . $_iCallCount,
+                    'handle_id'     => 'style_form_' . $this->oForm->aArguments[ 'caller_id' ] . '_' . $_iCallCount,
                     'src'           => null,
                     'dependencies'  => null,
                     'version'       => null,
