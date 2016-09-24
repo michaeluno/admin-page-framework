@@ -1,0 +1,4 @@
+/* Code blocks - overrides the definitions of code.css */
+pre > code {
+    white-space: normal; 
+}	
