@@ -61,9 +61,9 @@ class APF_Demo_CustomFieldType_Path {
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'File/Directory Path Selector', 'admin-page-framework-loader' ),
+                'title'         => __( 'File Path Selector', 'admin-page-framework-loader' ),
                 'description'   => array( 
-                    __( 'This field type lets the user select a file/directory path.', 'admin-page-framework-loader' )
+                    __( 'This field type lets the user select a file path.', 'admin-page-framework-loader' )
                     . ' ' 
                     . __( 'The relative path to the value of <code>$_SERVER[ "DOCUMENT_ROOT" ]</code> (the document root set by the web server) will be set.', 'admin-page-framework-loader' ),
                 ),
@@ -82,15 +82,38 @@ class APF_Demo_CustomFieldType_Path {
                     'root'  => ABSPATH,
                     'fileExtensions'    => 'php,txt',
                 ),
-                'descriptions'   => array(
-                    __( 'With the `fileExtensions` option, listed file types can be specified.', 'admin-page-framework-loader' ),
-                ),
+                'description'    => array(
+                    __( 'With the <code>fileExtensions</code> option, listed file types can be specified.', 'admin-page-framework-loader' ),
+                    "<pre>"
+                        . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'options'       => array(
+        'root'  => ABSPATH,
+        'fileExtensions'    => 'php,txt',
+    ),     
+)
+EOD
+                        )
+                        . "</pre>"
+                ),                
             ),
             array(
                 'field_id'      => 'path_field_repeatable',
                 'type'          => 'path',
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
-                'repeatable' => true,
+                'repeatable'    => true,
+                'description'   => array(
+                    "<pre>"
+                        . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'repeatable'    => true,
+)
+EOD
+                        )
+                        . "</pre>"                
+                ),
             )    
         );  
  
