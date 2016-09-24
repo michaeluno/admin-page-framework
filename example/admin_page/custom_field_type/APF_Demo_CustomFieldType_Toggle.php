@@ -97,6 +97,7 @@ class APF_Demo_CustomFieldType_Toggle {
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
+    'type'          => 'toggle',
     'options'       => array(
         'drag' =>  false,
     ),                        
@@ -121,6 +122,7 @@ EOD
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
+    'type'          => 'toggle',
     'options'       => array(
         'click' => false,
     ),                        
@@ -146,6 +148,7 @@ EOD
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
+    'type'          => 'toggle',
     'options'       => array(
         'width' => 100,
         'height' => 40,
@@ -169,6 +172,7 @@ EOD
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
+    'type'          => 'toggle',
     'options'       => array(
         'type'  => 'select',
     ),                        
@@ -190,7 +194,8 @@ EOD
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
-    'attributes' => array( 
+    'type'          => 'toggle',
+    'attributes'    => array( 
         'disabled' => 'disabled', 
     ),
 )
@@ -210,7 +215,8 @@ EOD
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
-    'theme' => 'soft',
+    'type'          => 'toggle',
+    'theme'         => 'soft',
 )
 EOD
                         )
@@ -228,7 +234,8 @@ EOD
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
-    'theme' => 'light',
+    'type'          => 'toggle',
+    'theme'         => 'light',
 )
 EOD
                         )
@@ -246,7 +253,8 @@ EOD
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
-    'theme' => 'dark',
+    'type'          => 'toggle',
+    'theme'         => 'dark',
 )
 EOD
                         )
@@ -264,7 +272,8 @@ EOD
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
-    'theme' => 'iphone',
+    'type'          => 'toggle',
+    'theme'         => 'iphone',
 )
 EOD
                         )
@@ -287,7 +296,8 @@ EOD
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
-    'options' => array(
+    'type'          => 'toggle',
+    'options'       => array(
         'text' => array(
             'on' => 'Yes',
             'off' => 'No',
@@ -300,16 +310,19 @@ EOD
                 ),                     
             ),            
             array(
-                'field_id'      => 'toggle_field_repeatable',
+                'field_id'      => 'toggle_field_repeatable_sortable',
                 'type'          => 'toggle',
-                'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
-                'repeatable' => true,
+                'title'         => __( 'Repeatable & Sortable', 'admin-page-framework-loader' ),
+                'repeatable'    => true,
+                'sortable'      => true,
                 'description'   => array(
                     "<pre>"
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
-    'repeatable' => 'true',
+    'type'          => 'toggle',
+    'repeatable'    => true,
+    'sortable'      => true,
 )
 EOD
                         )

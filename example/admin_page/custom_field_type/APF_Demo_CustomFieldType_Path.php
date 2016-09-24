@@ -88,8 +88,9 @@ class APF_Demo_CustomFieldType_Path {
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
+    'type'          => 'path',
     'options'       => array(
-        'root'  => ABSPATH,
+        'root'              => ABSPATH,
         'fileExtensions'    => 'php,txt',
     ),     
 )
@@ -99,16 +100,19 @@ EOD
                 ),                
             ),
             array(
-                'field_id'      => 'path_field_repeatable',
+                'field_id'      => 'path_field_repeatable_sortable',
                 'type'          => 'path',
-                'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
+                'title'         => __( 'Repeatable & Sortable', 'admin-page-framework-loader' ),
                 'repeatable'    => true,
+                'sortable'      => true,
                 'description'   => array(
                     "<pre>"
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
+    'type'          => 'path',
     'repeatable'    => true,
+    'sortable'      => true,
 )
 EOD
                         )
