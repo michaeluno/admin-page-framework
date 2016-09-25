@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
 Tested up to:       4.6.1
-Stable tag:         3.8.4
+Stable tag:         3.8.5
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,6 +74,7 @@ With custom field types, you can create more detailed customized field outputs. 
 - `sample` - a sample custom field type with a JavaScript script.
 - `github` - displays GitHub buttons.
 - `path` - lets the user select file paths on the serevr. 
+- `toggle` - lets the user toggle a switch button.
 
 If you want a field type that are not listed here, you can check the [field type pack](http://admin-page-framework.michaeluno.jp/add-ons/field-type-pack/) or request a new one in the [forum](https://wordpress.org/support/plugin/admin-page-framework).
 
@@ -454,7 +455,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.8.5 =
+= 3.8.5 - 2016/09/25 =
 - Added the `toggle` custom field type which lets the user switch a toggle button.
 - Added the ability to automatically insert field definitions in a tool-tip for each field.
 - Fixed a bug that duplicated form style resource files were loaded.
