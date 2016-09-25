@@ -57,7 +57,7 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                 'title'         => __( 'Select an Image', 'admin-page-framework-loader' ),
                 'type'          => 'image',
                 'label'         => __( 'First', 'admin-page-framework-loader' ),
-                'default'       =>  plugins_url( 'asset/image/demo/wordpress-logo-2x.png', AdminPageFrameworkLoader_Registry::$sFilePath ),
+                'default'       => plugins_url( 'asset/image/demo/wordpress-logo-2x.png', AdminPageFrameworkLoader_Registry::$sFilePath ),
                 'allow_external_source' => false,
                 'attributes'    => array(
                     'preview' => array(
@@ -84,9 +84,26 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                     'label'         => __( 'Third', 'admin-page-framework-loader' ),
                     'default'       => '',
                 ),     
-                'description'   => __( 'See the button and the input colors of the second item are different. This is done by setting the attributes individually.', 'admin-page-framework-loader' ),
+                'description'   => array(
+                    __( 'See the button and the input colors of the second item are different. This is done by setting the attributes individually.', 'admin-page-framework-loader' ),
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'image',
+    'allow_external_source' => false,
+    'attributes'    => array(
+        'preview' => array(
+            'style' => 'max-width:300px;',
+        ),
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),           
             ),     
-            array( // Image selector with additional capturing attributes
+            array( 
                 'field_id'              => 'image_with_attributes',
                 'title'                 => __( 'Save Image Attributes', 'admin-page-framework-loader' ),
                 'type'                  => 'image',
@@ -101,36 +118,38 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                     ),
                     'preview' => array(
                         'style' => 'max-width: 300px;'
-                    ),                    
+                    ),   
                 ),
-            ),     
-            array( // Repeatable Image Fields
-                'field_id'              => 'image_select_field_repeater',
-                'title'                 => __( 'Repeatable', 'admin-page-framework-loader' ),
-                'type'                  => 'image',
-                'repeatable'            => true,
-                'attributes'            => array(
-                    'preview' => array(
-                        'style' => 'max-width: 300px;'
-                    ),
-                ),    
-                'description'           => __( 'In repeatable fields, you can select multiple items at once.', 'admin-page-framework-loader' ),
-            ),
-            array( // Sortable Image Fields
-                'field_id'              => 'image_select_field_sortable',
-                'title'                 => __( 'Sortable', 'admin-page-framework-loader' ),
-                'type'                  => 'image',
-                'sortable'              => true,
-                'attributes'            => array(
-                    'preview' => array(
-                        'style' => 'max-width: 200px;'
-                    ),
-                ),    
-                array(), // the second item
-                array(), // the third item
-                'description' => __( 'Image fields can be sortable. This may be useful when you need to let the user set an order of images.', 'admin-page-framework-loader' ),
-            ),     
-            array( // Repeatable & Sortable Image Fields
+                'description'   => array(
+                    __( 'Capturing additional attributes is supported.', 'admin-page-framework-loader' ),
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                => 'image',
+    'attributes_to_store' => array( 
+        'alt', 'id', 'title', 'caption', 
+        'width', 'height', 'align', 'link',
+    ),
+    'attributes'            => array(
+        // To use a custom text label, pass the label to the 'data-label' attribute.
+        'button'        => array(
+            'data-label' => 'Select Image',
+        ),
+        'remove_button' => array(
+            'data-label' => 'Remove',
+        ),
+        'preview' => array(
+            'style' => 'max-width: 300px;'
+        ),   
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),                           
+            ),                
+            array(
                 'field_id'              => 'image_select_field_repeatable_and_sortable',
                 'title'                 => __( 'Repeatable & Sortable', 'admin-page-framework-loader' ),
                 'type'                  => 'image',
@@ -141,6 +160,25 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                         'style' => 'max-width: 200px;'
                     ),
                 ),    
+                'description'   => array(
+                    __( 'Image fields can be repeatable and sortable.', 'admin-page-framework-loader' ),
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                  => 'image',
+    'repeatable'            => true,
+    'sortable'              => true,
+    'attributes'            => array(
+        'preview' => array(
+            'style' => 'max-width: 200px;'
+        ),
+    ),    
+)
+EOD
+                        )
+                        . "</pre>",
+                ),                
             )
         );            
       

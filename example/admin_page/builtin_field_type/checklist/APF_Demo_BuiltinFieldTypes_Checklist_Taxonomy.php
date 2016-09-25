@@ -63,16 +63,34 @@ class APF_Demo_BuiltinFieldTypes_Checklist_Taxonomy {
                 'taxonomy_slugs'        => array( 'category', 'post_tag', ),
                 'select_all_button'     => false,        // 3.3.0+   to change the label, set the label here
                 'select_none_button'    => false,        // 3.3.0+   to change the label, set the label here        
+                'description'           => array(
+                    __( 'With the <code>query</code> argument, you can query post types to retrieve.', 'admin-page-framework-loader' )
+                    . ' ' . sprintf( __( 'For the specification, see the <a href="%1$s">Parameter</a> section of codex for the <code>get_post_types()</code> function.', 'admin-page-framework-loader' ), 'http://codex.wordpress.org/Function_Reference/get_post_types#Parameters' ),
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                  => 'taxonomy',
+    'height'                => '200px', 
+    'width'                 => '400px', 
+    
+    // Whether to show the post count. Default: false.
+    'show_post_count'       => true,    
+    'taxonomy_slugs'        => array( 'category', 'post_tag', ),
+    
+    // To change the label, set the label here
+    'select_all_button'     => false,        
+    'select_none_button'    => false,
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),         
             array(  
                 'field_id'              => 'taxonomy_custom_queries',
                 'title'                 => __( 'Custom Taxonomy Queries', 'admin-page-framework-loader' ),
                 'type'                  => 'taxonomy',
-                'description'           => 
-                    array(
-                        __( 'With the <code>query</code> argument array, you can customize how the terms should be retrieved.', 'admin-page-framework-loader' ),
-                        sprintf( __( 'For the structure and the array key specifications, refer to the parameter section of the <a href="%1$s" target="_blank">get_term()</a> function.', 'admin-page-framework-loader' ), 'http://codex.wordpress.org/Function_Reference/get_terms#Parameters' ),
-                    ),
                 
                 // (required)   Determines which taxonomies should be listed
                 'taxonomy_slugs'        => $_aTaxnomies,
@@ -103,20 +121,53 @@ class APF_Demo_BuiltinFieldTypes_Checklist_Taxonomy {
                         'order'     => 'ASC',
                         // 'include'   => array( 4, ), // term ids
                     ),
-                ),                 
-            ),
-            array(
-                'field_id'              => 'taxonomy_multiple_checklists',
-                'title'                 => __( 'Multiple', 'admin-page-framework-loader' ),
-                'type'                  => 'taxonomy',
-                'taxonomy_slugs'        => $_aTaxnomies,
-                'before_field'          => '<p style="clear:both; font-weight: bold;">' . __( 'For I', 'admin-page-framework-loader' ) . '</p>',
-                array(  
-                    'before_field' => '<p style="clear:both; font-weight: bold;">' . __( 'For II', 'admin-page-framework-loader' ) . '</p>',
                 ),
-                array(  
-                    'before_field' => '<p style="clear:both; font-weight: bold;">' . __( 'For III', 'admin-page-framework-loader' ) . '</p>',
-                ),     
+                'description'           => array(
+                    __( 'With the <code>query</code> argument array, you can customize how the terms should be retrieved.', 'admin-page-framework-loader' ),
+                    sprintf( __( 'For the structure and the array key specifications, refer to the parameter section of the <a href="%1$s" target="_blank">get_term()</a> function.', 'admin-page-framework-loader' ), 'http://codex.wordpress.org/Function_Reference/get_terms#Parameters' ),
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                  => 'taxonomy',
+                
+    // (required)   Determines which taxonomies should be listed
+    'taxonomy_slugs'        => get_taxonomies( '', 'names' ),
+        
+    // (optional) This defines the default query argument. 
+    // For the structure and supported arguments, 
+    // see http://codex.wordpress.org/Function_Reference/get_terms#Parameters
+    'query'                 => array(
+        'depth'     => 2,        
+        'orderby'   => 'term_id', // either 'ID', 'term_id', or 'name'
+        'order'     => 'DESC',
+        // 'exclude'   => '1',  // removes the 'Uncategorized' category.
+        // 'search' => 'PHP',   // the search keyward
+        // 'parent'    => 9,    // only show terms whose direct parent ID is 9.
+        // 'child_of'  => 8,    // only show child terms of the term ID of 8.
+    ),
+    // (optional) This allows to set a query argument for each taxonomy. 
+    // Note that each element will be merged with the above default 'query' argument array. 
+    // So unset keys here will be overridden by the default argument array above. 
+    'queries'               => array(
+        // taxonomy slug => query argument array
+        'category'  =>  array(
+            'depth'     => 2,
+            'orderby'   => 'term_id',  
+            'order'     => 'DESC',
+            'exclude'   => array( 1 ), 
+        ),
+        'post_tag'  => array(
+            'orderby'   => 'name',
+            'order'     => 'ASC',
+            // 'include'   => array( 4, ), // term ids
+        ),
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),      
             ),
             array(
                 'field_id'              => 'taxonomy_checklist_repeatable',
@@ -124,6 +175,22 @@ class APF_Demo_BuiltinFieldTypes_Checklist_Taxonomy {
                 'type'                  => 'taxonomy',
                 'repeatable'            => true,
                 'taxonomy_slugs'        => $_aTaxnomies,
+                'description'           => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                  => 'taxonomy',
+    'repeatable'            => true,
+    
+    // (required)   Determines which taxonomies should be listed
+    'taxonomy_slugs'        => get_taxonomies( '', 'names' ),
+    
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             )
         );              
       

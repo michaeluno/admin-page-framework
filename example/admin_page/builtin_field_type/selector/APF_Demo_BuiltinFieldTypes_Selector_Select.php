@@ -52,8 +52,8 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
          * Selector type fields - dropdown (pulldown) list, checkbox, radio buttons, size selector
          */
         $oFactory->addSettingFields(
-            $this->sSectionID, // the target section ID
-            array( // Single Drop-down List
+            $this->sSectionID, 
+            array( 
                 'field_id'      => 'select',
                 'title'         => __( 'Dropdown List', 'admin-page-framework-loader' ),
                 'type'          => 'select',
@@ -67,10 +67,27 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                 ),
                 'tip'           => __( 'The key of the array of the <code>label</code> argument serves as the value of the option tag which will be sent to the form and saved in the database.', 'admin-page-framework-loader' )
                     . ' ' . __( 'So when you specify the default value with the <code>default</code> or <code>value</code> argument, specify the <em>KEY</em>.', 'admin-page-framework-loader' ),
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'select',
+    'default'       => 2, // the index key of the label array
+    'label'         => array( 
+        0 => __( 'Red', 'admin-page-framework-loader' ),
+        1 => __( 'Blue', 'admin-page-framework-loader' ),
+        2 => __( 'Yellow', 'admin-page-framework-loader' ),
+        3 => __( 'Orange', 'admin-page-framework-loader' ),
+    ),
+)
+EOD
+                        )
+                        . "</pre>",                       
+                ),
             ),    
-            array( // Single Drop-down List with Multiple Options
+            array(
                 'field_id'      => 'select_multiple_options',
-                // 'section_id' => 'selectors', // <-- this can be omitted since it is set in the previous field array
                 'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
                 'help'          => __( 'This is the <em>select</em> field type with multiple elements.', 'admin-page-framework' ),
                 'type'          => 'select',
@@ -83,8 +100,26 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                         'size'  => 10,
                     ),
                 ),
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'select',
+    'is_multiple'   => true,
+    'default'       => array( 3, 4 ), // note that PHP array indices are zero-base
+    'label'         => array( 'January', 'February', 'March', 
+        'April', 'May', 'June', 'July', 
+        'August', 'September', 'November', 
+        'October', 'December' 
+    ),    
+)
+EOD
+                        )
+                        . "</pre>",                       
+                ),                
             ),    
-            array( // Single Drop-down List with Multiple Options
+            array( 
                 'field_id'      => 'select_multiple_groups',
                 'title'         => __( 'Grouping', 'admin-page-framework-loader' ),
                 'type'          => 'select',
@@ -119,19 +154,39 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                     __( 'To create grouped options, pass arrays with the key of the group label and pass the options as an array inside them.', 'admin-page-framework-loader' ),
                     __( 'To style the pulldown (dropdown) list, use the <code>attributes</code> argument. For the <code>select</code> field type, it has three major keys, <code>select</code>, <code>option</code>, and <code>optgroup</code>, representing the tag names.', 'admin-page-framework-loader' )
                 ),
-
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'select',
+    'default'       => 'b',
+    'label'         => array(     
+        'alphabets' => array(   
+            'a' => 'a',     
+            'b' => 'b', 
+            'c' => 'c',
+        ),
+        'numbers' => array( 
+            0 => '0',
+            1 => '1',
+            2 => '2', 
+        ),
+    ),
+)
+EOD
+                        )
+                        . "</pre>",                       
+                ),
             ),     
-            array( // Drop-down Lists with Mixed Types
+            array(
                 'field_id'      => 'select_multiple_fields',
                 'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
-                'tip'           => __( 'These are multiple sets of drop down list.', 'admin-page-framework-loader' ),
+                'tip'           => __( 'These are multiple sets of drop down list using sub fields.', 'admin-page-framework-loader' ),
                 'type'          => 'select',
                 'label'         => array( 'dark', 'light' ),
                 'default'       => 1,
                 'attributes'    => array(    
-                    'select'    => array(
-                        'size' => 1,
-                    ),
                     'field'     => array(
                         'style' => 'display: inline; clear: none', // this makes the field element inline, which means next fields continues from the right end of the field, not from the new line.
                     ),
@@ -150,12 +205,47 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                         ),
                     )     
                 ),
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'select',
+    'label'         => array( 'dark', 'light' ),
+    'default'       => 1,
+    'attributes'    => array(    
+        'field'     => array(
+            'style' => 'display: inline; clear: none',
+        ),
+    ),
+    array(
+        'label'     => array( 'river', 'mountain', 'sky', ),
+        'default'   => 2,
+    ),
+    array(
+        'label'         => array( 
+            'Monday', 'Tuesday', 'Wednesday', 
+            'Thursday', 'Friday', 'Saturday', 'Sunday' 
+        ),
+        'default'       => array( 3, 4 ),
+        'attributes'    => array(
+            'select' => array(
+                'size' => 5,
+                'multiple' => 'multiple', 
+            ),
+        )     
+    ),
+)
+EOD
+                        )
+                        . "</pre>",                       
+                ),                  
             ),     
-            array( // Repeatable Drop-down List
+            array( 
                 'field_id'      => 'select_repeatable',
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'          => 'select',
-                'repeatable'    =>    true,
+                'repeatable'    => true,
                 'tip'           => __( 'To enable repeatable fields, pass <code>true</code> to the <code>repeatable</code> argument.', 'admin-page-framework-loader' ),
                 'default'       => 'y',
                 'label' => array( 
@@ -163,8 +253,26 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                     'y' => 'Y',     
                     'z' => 'Z',     
                 ),
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'select',
+    'repeatable'    => true,
+    'default'       => 'y',
+    'label' => array( 
+        'x' => 'X',
+        'y' => 'Y',     
+        'z' => 'Z',     
+    ),
+)
+EOD
+                        )
+                        . "</pre>",                       
+                ),
             ),     
-            array( // Sortable Drop-down List
+            array(
                 'field_id'      => 'select_sortable',
                 'title'         => __( 'Sortable', 'admin-page-framework-loader' ),
                 'type'          => 'select',
@@ -183,6 +291,28 @@ class APF_Demo_BuiltinFieldTypes_Selector_Select {
                 array(), // the second item - will inherit the main field's arguments
                 array(), // the third item
                 array(), // the forth item
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'select',
+    'sortable'      => true,
+    'default'       => 'iii',
+    'label'         => array( 
+        'i'     => 'I',
+        'ii'    => 'II',    
+        'iii'   => 'III',     
+        'iiv'   => 'IIV',     
+    ),
+    array(), // the second item 
+    array(), // the third item
+    array(), // the forth item
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             )
         );
         

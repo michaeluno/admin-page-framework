@@ -51,12 +51,23 @@ class APF_Demo_BuiltinFieldTypes_MISC_Color {
         // Fields
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID        
-            array( // Color Picker
+            array(
                 'field_id'      => 'color_picker_field',
                 'title'         => __( 'Color Picker', 'admin-page-framework-loader' ),
                 'type'          => 'color',
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'color',
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),     
-            array( // Multiple Color Pickers
+            array(
                 'field_id'      => 'multiple_color_picker_field',
                 'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
                 'type'          => 'color',
@@ -67,23 +78,69 @@ class APF_Demo_BuiltinFieldTypes_MISC_Color {
                 ),
                 array(
                     'label' => __( 'Third', 'admin-page-framework-loader' ),
-                ),     
+                ),
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'color',
+    'delimiter'     => '<br />',
+    'label'         => 'First',
+    array(
+        'label' => 'Second',
+    ),
+    array(
+        'label' => 'Third',
+    ),    
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),     
-            array( // Repeatable Color Pickers
+            array(
                 'field_id'      => 'color_picker_repeatable_field',
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'          => 'color',
                 'repeatable'    => true,
                 'default'       => '', // set an empty so that repeated element has this default value.
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'color',
+    'repeatable'    => true,
+    'default'       => '',
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),
-            array( // Repeatable Color Pickers
+            array(
                 'field_id'      => 'color_picker_sortable',
                 'title'         => __( 'Sortable', 'admin-page-framework-loader' ),
                 'type'          => 'color',
                 'sortable'      => true,
                 array(),    // the second item
                 array(),    // the third item
-            )      
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'color',
+    'sortable'      => true,
+    array(),    // the second item
+    array(),    // the third item
+)
+EOD
+                        )
+                        . "</pre>",
+                ),               
+            )
         );              
       
     }

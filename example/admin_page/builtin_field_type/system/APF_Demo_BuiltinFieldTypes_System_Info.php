@@ -61,6 +61,24 @@ class APF_Demo_BuiltinFieldTypes_System_Info {
                 'attributes'    => array(
                     'name'  => '',
                 ),
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'system',     
+    'data'          => array(
+        'Custom Data'  => 'Here you can insert your own custom data with the data argument.',
+        'Current Time' => '', // Removes the Current Time Section.
+    ),
+    'attributes'    => array(
+        'name'  => '',
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),    
             ),
             array(
                 'field_id'      => 'saved_options',
@@ -82,6 +100,33 @@ class APF_Demo_BuiltinFieldTypes_System_Info {
                     'name'  => '',
                     'rows'   => 20,
                 ),        
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'system',     
+    'data'          => array(
+        // Removes the default data by passing an empty value below.
+        'Admin Page Framework'  => '', 
+        'WordPress'             => '', 
+        'PHP'                   => '', 
+        'Server'                => '',
+        'PHP Error Log'         => '',
+        'MySQL'                 => '', 
+        'MySQL Error Log'       => '',                    
+        'Browser'               => '',                         
+    ) 
+    + \$oFactory->oProp->aOptions,
+    'attributes'    => array(
+        'name'  => '',
+        'rows'   => 20,
+    ),        
+)
+EOD
+                        )
+                        . "</pre>",
+                ),                    
             )          
         );      
         

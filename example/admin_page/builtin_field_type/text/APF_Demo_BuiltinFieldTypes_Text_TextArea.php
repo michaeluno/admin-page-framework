@@ -53,11 +53,10 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
          * Text area fields.
          */        
         $oFactory->addSettingFields(
-            $this->sSectionID, // the target section id
-            array( // Text Area
+            $this->sSectionID, 
+            array( 
                 'field_id'      => 'textarea',
                 'title'         => __( 'Text Area', 'admin-page-framework-loader' ),
-                'description'   => __( 'Type a text string here.', 'admin-page-framework-loader' ),
                 'type'          => 'textarea',
                 'default'       => __( 'Hello world!', 'admin-page-framework-loader' ) 
                     . ' ' . __( 'This is set as the default string.', 'admin-page-framework-loader' ),
@@ -65,8 +64,25 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
                     'rows' => 6,
                     'cols' => 60,
                 ),
+                'description'       => array(
+                    __( 'Type a text string here.', 'admin-page-framework-loader' ),
+                    "<pre>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'textarea',
+    'default'       => 'Hello world...',
+    'attributes'    => array(
+        'rows' => 6,
+        'cols' => 60,
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),                
             ),
-            array( // Multiple Text Area
+            array(
                 'field_id'      => 'textarea_multiple_with_labels',
                 'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
                 'type'          => 'textarea',
@@ -80,8 +96,29 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
                     'b' => __( 'Banana', 'admin-page-framework-loader' ),
                     'c' => __( 'Cherry', 'admin-page-framework-loader' ),
                 ),
+                'description'       => array(
+                    "<pre>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'textarea',
+    'default'       => array(
+        'a' => 'This is an apple.',
+        'b' => 'This is a banana.',
+        'c' => 'This is a cherry.',
+    ),         
+    'label'     => array(
+        'a' => 'Apple',
+        'b' => 'Banana',
+        'c' => 'Cherry',
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),                         
             ),            
-            array( // Repeatable Text Areas
+            array( 
                 'field_id'      => 'textarea_repeatable',
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'          => 'textarea',
@@ -93,67 +130,94 @@ class APF_Demo_BuiltinFieldTypes_Text_TextArea {
                     'rows' => 3,
                     'cols' => 60,
                 ),
+                'description'       => array(
+                    "<pre>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'textarea',
+    'repeatable'    => array(
+        'max' => 20,
+        'min' => 2,
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),     
-            array( // Sortable Text Areas
+            array( 
                 'field_id'      => 'textarea_sortable',
                 'title'         => __( 'Sortable', 'admin-page-framework-loader' ),
                 'type'          => 'textarea',
-                'sortable'      =>    true,
+                'sortable'      => true,
                 'label'         => __( 'Sortable Item', 'admin-page-framework-loader' ),
                 array(), // the second item
                 array(), // the third item
+                'description'       => array(
+                    "<pre>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'textarea',
+    'sortable'      => true,
+    'label'         => __( 'Sortable Item', 'admin-page-framework-loader' ),
+    array(), // the second item
+    array(), // the third item
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),     
-            array( // Rich Text Editors
-                'field_id'      => 'rich_textarea',
+            array( 
+                'field_id'      => 'rich_text_area',
                 'title'         => __( 'Rich Text Area', 'admin-page-framework-loader' ),
                 'type'          => 'textarea',
-                'rich'          =>    true, // just pass non empty value to enable the rich editor.
-                'attributes'    => array(
-                    'field' => array(
-                        'style' => 'width: 100%;' // since the rich editor does not accept the cols attribute, set the width by inline-style.
-                    ),
-                ),
-                'description'   =>  __( 'The arguments can be passed to the <code>rich</code> argument.', 'admin-page-framework-loader' )
-                    . sprintf( __( 'For more information see the <a href="%1$s">Codex page</a>.', 'admin-page-framework-loader' ), 'http://codex.wordpress.org/Function_Reference/wp_editor#Parameters' ),
-                array(
-                    // pass the setting array to customize the editor. For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.
-                    'rich' => array( 
-                        'media_buttons' => false, 
-                        'tinymce'       => false
-                    ),    
-                ),
-            ),     
-            array( // Multiple text areas
-                'field_id'      => 'textarea_multiple',
-                'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
-                'description'   => __( 'These are multiple text areas.', 'admin-page-framework-loader' ),
-                'type'          => 'textarea',
-                'label'         => __( 'First', 'admin-page-framework-loader' ),
-                'default'       => __( 'The first default text.', 'admin-page-framework-loader' ),
-                'delimiter'     => '<br />',
-                'attributes'    => array(
-                    'rows' => 5,
-                    'cols' => 60,
-                ),
-                array(
-                    'label'         => __( 'Second', 'admin-page-framework-loader' ),
-                    'default'       => __( 'The second default text. See the background color is different from the others. This is done with the <code>attributes</code> argument.', 'admin-page-framework-loader' ),
-                    'attributes'    => array(
-                        'rows'  => 3,
-                        'cols'  => 40,
-                        'style' => 'background-color: #F0F8FA;' // this changes the style of the textarea tag.
-                    ),     
-                ),
-                array(
-                    'label'         => __( 'Third', 'admin-page-framework-loader' ),
-                    'default'       => __( 'The third default text.', 'admin-page-framework-loader' ),
-                    'attributes'    => array(
-                        'rows' => 2,
-                        'cols' => 20,
-                    ),     
-                ),    
+                'rich'          => true, // just pass non empty value to enable the rich editor.
+                'description'       => array(
+                    __( 'The arguments can be passed to the <code>rich</code> argument.', 'admin-page-framework-loader' )
+                        . sprintf( __( 'For more information see the <a href="%1$s">Codex page</a>.', 'admin-page-framework-loader' ), 'http://codex.wordpress.org/Function_Reference/wp_editor#Parameters' ),
+                    "<pre>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'textarea',
+    'rich'          => true, 
+)
+EOD
+                        )
+                        . "</pre>",
+                ),                
             ),
-            array()
+array( 
+                'field_id'      => 'rich_text_area_with_arguments',
+                'title'         => __( 'Rich Text Area with Arguments', 'admin-page-framework-loader' ),
+                'type'          => 'textarea',
+                
+                // Pass the setting array to customize the editor. 
+                // For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.                
+                'rich'          => array( 
+                    'media_buttons' => false, 
+                    'tinymce'       => false
+                ),    
+                'description'   => array(
+                    "<pre>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'textarea',
+    'rich' => array( 
+        'media_buttons' => false, 
+        'tinymce'       => false
+    ),    
+)
+EOD
+                        )
+                        . "</pre>",
+                ),                
+            ),            
+            array()       
         );             
         
     }

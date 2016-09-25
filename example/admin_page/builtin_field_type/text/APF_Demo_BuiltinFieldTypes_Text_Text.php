@@ -72,8 +72,7 @@ class APF_Demo_BuiltinFieldTypes_Text_Text {
                 'order'             => 1, // ( optional )
                 'default'           => 123456,
                 'description'       => array(
-                    __( 'Type something here. This text is inserted with the <code>description</code> argument in the field definition array.', 'admin-page-framework-loader' ),
-                    __( 'The argument accepts as an array and each element will be treated as one paragraph.', 'admin-page-framework-loader' ),
+                    __( 'Type something here.', 'admin-page-framework-loader' ),
                     "<pre>"
                         . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
@@ -371,8 +370,8 @@ EOD
                 'field_id'          => 'number',
                 'title'             => __( 'Number', 'admin-page-framework-loader' ),
                 'type'              => 'number',
+                'default'           => 42,
                 'description'       => array( 
-                    __( 'The entered characters will be masked.', 'admin-page-framework-loader' ),
                     "<pre>"
                         . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD

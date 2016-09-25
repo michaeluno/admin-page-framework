@@ -2,3 +2,7 @@
 pre > code {
     white-space: normal; 
 }	
+
+.field-argument-example {
+    display: inline-block;
+}

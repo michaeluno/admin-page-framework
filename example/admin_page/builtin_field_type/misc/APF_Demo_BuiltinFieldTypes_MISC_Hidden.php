@@ -58,38 +58,103 @@ class APF_Demo_BuiltinFieldTypes_MISC_Hidden {
                 // 'hidden' =>    true // <-- the field row can be hidden with this option.
                 'default'       => __( 'Test value', 'admin-page-framework-loader' ),
                 'label'         => __( 'Test label', 'admin-page-framework-loader' ),
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'hidden',
+    'default'       => 'Test value',
+    'label'         => 'Test label',
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),
-            array( // Single Hidden Field
+            array(
                 'field_id'      => 'hidden_repeatable',
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'          => 'hidden',
                 'value'         => 'HIIDDENVALUE',
                 'label'         => __( 'Repeat Me', 'admin-page-framework-loader' ),
                 'repeatable'    => true,
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'hidden',
+    'value'         => 'HIIDDENVALUE',
+    'label'         => 'Repeat Me',
+    'repeatable'    => true,
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),     
-            array( // Multiple Hidden Fields
-                'field_id'      => 'hidden_miltiple',
-                'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
+            array(
+                'field_id'      => 'hidden_sortable',
+                'title'         => __( 'Sortable', 'admin-page-framework-loader' ),
                 'type'          => 'hidden',
                 'label'         => $this->_getLabelByValue(
-                    $oFactory->getValue( array( 'hidden_field', 'hidden_miltiple', 0 ), 'a' )
-                ), // __( 'First Item', 'admin-page-framework-loader' ),
+                    $oFactory->getValue( array( 'hidden_field', 'hidden_sortable', 0 ), 'a' )
+                ), 
                 'default'       => 'a',
                 array(
-                    // 'label'     => __( 'Second Item', 'admin-page-framework-loader' ),
                     'label'     => $this->_getLabelByValue(
-                        $oFactory->getValue( array( 'hidden_field', 'hidden_miltiple', 1 ), 'b' )
+                        $oFactory->getValue( array( 'hidden_field', 'hidden_sortable', 1 ), 'b' )
                     ),
                     'default'   => 'b',
                 ),
                 array(
-                    // 'label'     => __( 'Third Item', 'admin-page-framework-loader' ),
                     'label'     => $this->_getLabelByValue(
-                        $oFactory->getValue( array( 'hidden_field', 'hidden_miltiple', 2 ), 'c' )
+                        $oFactory->getValue( array( 'hidden_field', 'hidden_sortable', 2 ), 'c' )
                     ),                    
                     'default'   => 'c',
                 ),
                 'sortable'      => true,
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'hidden',
+    'sortable'      => true,
+    'label'         => \$this->_getLabelByValue(
+        \$oFactory->getValue( array( 'hidden_field', 'hidden_sortable', 0 ), 'a' )
+    ), 
+    'default'       => 'a',
+    array(
+        'label'     => \$this->_getLabelByValue(
+            \$oFactory->getValue( array( 'hidden_field', 'hidden_sortable', 1 ), 'b' )
+        ),
+        'default'   => 'b',
+    ),
+    array(
+        'label'     => \$this->_getLabelByValue(
+            \$oFactory->getValue( array( 'hidden_field', 'hidden_sortable', 2 ), 'c' )
+        ),                    
+        'default'   => 'c',
+    ),    
+)
+private function _getLabelByValue( \$sValue ) {
+    switch( \$sValue ) {
+        case 'a':
+            return 'Apple';
+        case 'b':    
+            return 'Banana';
+        case 'c':    
+            return 'Cherry';
+        default:
+            return \$sValue;
+    }
+}    
+EOD
+                        )
+                        . "</pre>",
+                ),                
             )
         );              
       

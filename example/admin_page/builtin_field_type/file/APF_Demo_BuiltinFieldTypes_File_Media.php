@@ -52,13 +52,25 @@ class APF_Demo_BuiltinFieldTypes_File_Media {
         // Fields
         $oFactory->addSettingFields(   
             $this->sSectionID,
-            array( // Media File
+            array( 
                 'field_id'              => 'media_field',
                 'title'                 => __( 'Media File', 'admin-page-framework-loader' ),
                 'type'                  => 'media',
                 'allow_external_source' => false,
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                  => 'media',
+    'allow_external_source' => false,
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),    
-            array( // Media File with Attributes
+            array(
                 'field_id'              => 'media_with_attributes',
                 'title'                 => __( 'Media File with Attributes', 'admin-page-framework-loader' ),
                 'type'                  => 'media',
@@ -70,13 +82,45 @@ class APF_Demo_BuiltinFieldTypes_File_Media {
                     'remove_button' => array(      // 3.2.0+
                         'data-label' => __( 'Remove', 'admin-page-framework-loader' ), // will set the Remove button label instead of the dashicon
                     ),
-                ),        
+                ),
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                  => 'media',
+    'attributes_to_store'   => array( 'id', 'caption', 'description' ),
+    'attributes'            => array(
+        'button'        => array(
+            'data-label' => 'Select File', 'admin-page-framework-loader',
+        ),
+        'remove_button' => array(
+            'data-label' => 'Remove',
+        ),
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),     
-            array( // Repeatable Media Files
+            array( 
                 'field_id'              => 'media_repeatable_fields',
                 'title'                 => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'                  => 'media',
                 'repeatable'            => true,
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                  => 'media',
+    'repeatable'            => true,
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),     
             array( // Sortable Media Files
                 'field_id'              => 'media_sortable_fields',
@@ -85,6 +129,18 @@ class APF_Demo_BuiltinFieldTypes_File_Media {
                 'sortable'              => true,
                 array(), // the second item
                 array(), // the third item.
+                'description'           => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                  => 'media',
+    'sortable'              => true,
+)
+EOD
+                        )
+                        . "</pre>",
+                ),                
             )
         );
         

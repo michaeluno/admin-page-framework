@@ -50,7 +50,7 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
       
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section ID       
-            array( // Single set of radio buttons
+            array( 
                 'field_id'      => 'radio',
                 'title'         => __( 'Radio Button', 'admin-page-framework-loader' ),
                 'type'          => 'radio',
@@ -68,9 +68,31 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
                 ),
                 'tip'           => __( 'Use the <code>after_input</code> argument to insert <code>&lt;br /&gt;</code> after each sub-field.', 'admin-page-framework-loader' )
                     . ' ' . __( 'To disable elements (or apply different attributes) on an individual element basis, use the <code>attributes</code> argument and create the element whose key name is the radio input element value.', 'admin-page-framework-loader' ),
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'radio',
+    'label'         => array(
+        'a' => 'Apple',
+        'b' => 'Banana ( this option is disabled. )',
+        'c' => 'Cherry' 
+    ),
+    'default'       => 'c', 
+    'attributes'    => array(
+        'b' => array(
+            'disabled' => 'disabled',
+        ),
+    ),    
+)
+EOD
+                        )
+                        . "</pre>",
+                ),                    
                 
             ),
-            array( // Multiple sets of radio buttons
+            array(
                 'field_id'      => 'radio_multiple',
                 'title'         => __( 'Multiple Sets', 'admin-page-framework-loader' ),
                 'tip'           => __( 'Multiple sets of radio buttons. The horizontal line is set with the <code>delimiter</code> argument.', 'admin-page-framework-loader' ),
@@ -103,8 +125,41 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
                         9 => 'nine' 
                     ),
                 ),
-            ),    
-            array( // Repeatable radio buttons
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'radio',
+    'default'       => 1,
+    'label'         => array( 
+        1 => 'one',
+        2 => 'two',
+    ),
+    array(
+        'default'   => 5,
+        'label'     => array( 
+            3 => 'three',
+            4 => 'four',    
+            5 => 'five' 
+        ),
+    ),
+    array(
+        'default'   => 7,
+        'label'     => array( 
+            6 => 'six',
+            7 => 'seven',
+            8 => 'eight',
+            9 => 'nine' 
+        ),
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),                 
+            ),
+            array( 
                 'field_id'      => 'radio_repeatable',
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'          => 'radio',
@@ -114,8 +169,25 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
                 ),
                 'default'       => 0, // set the key of the label array
                 'repeatable'    => true,
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'radio',
+    'label'         => array( 
+        1 => __( 'On', 'admin-page-framework-loader' ),
+        0 => __( 'Off', 'admin-page-framework-loader' ),
+    ),
+    'default'       => 0,
+    'repeatable'    => true,
+)
+EOD
+                        )
+                        . "</pre>",
+                ),            
             ),    
-            array( // Sortable radio buttons
+            array(
                 'field_id'      => 'radio_sortable',
                 'title'         => __( 'Sortable', 'admin-page-framework-loader' ),
                 'type'          => 'radio',
@@ -129,6 +201,27 @@ class APF_Demo_BuiltinFieldTypes_Selector_Radio {
                 array(), // the second item
                 array(), // the third item
                 array(), // the fourth item
+                'description'   => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'radio',
+    'label'         => array( 
+        1 => __( 'One', 'admin-page-framework-loader' ),
+        2 => __( 'Two', 'admin-page-framework-loader' ),
+        3 => __( 'Three', 'admin-page-framework-loader' ),
+    ),
+    'default'       => 2,
+    'sortable'      => true,
+    array(), // the second item
+    array(), // the third item
+    array(), // the fourth item
+)
+EOD
+                        )
+                        . "</pre>",
+                ),               
             )
         );      
         

@@ -55,6 +55,17 @@ class APF_Demo_BuiltinFieldTypes_Checklist_PostType {
                 'field_id'              => 'post_type_checklist',
                 'title'                 => __( 'Post Types', 'admin-page-framework-loader' ),
                 'type'                  => 'posttype',
+                'description'           => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                  => 'posttype',
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),
             array(
                 'field_id'              => 'post_type_checklist_custom_query',
@@ -70,8 +81,40 @@ class APF_Demo_BuiltinFieldTypes_Checklist_PostType {
                 'select_none_button'    => false,        // 3.3.0+   to change the label, set the label here        
                 'operator'              => 'and',   // can be 'or'
                 'slugs_to_remove'       => array(), // if not set, the following slugs will be automatically removed. 'revision',  'attachment',  'nav_menu_item'.
-                'description'           => __( 'With the <code>query</code> argument, you can query post types to retrieve.', 'admin-page-framework-loader' )
-                    . ' ' . sprintf( __( 'For the specification, see the <a href="%1$s">Parameter</a> section of codex for the <code>get_post_types()</code> function.', 'admin-page-framework-loader' ), 'http://codex.wordpress.org/Function_Reference/get_post_types#Parameters' ) ,
+                'description'           => array(
+                    __( 'With the <code>query</code> argument, you can query post types to retrieve.', 'admin-page-framework-loader' )
+                    . ' ' . sprintf( __( 'For the specification, see the <a href="%1$s">Parameter</a> section of codex for the <code>get_post_types()</code> function.', 'admin-page-framework-loader' ), 'http://codex.wordpress.org/Function_Reference/get_post_types#Parameters' ),
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                  => 'posttype',
+    
+    // Accepts query arguments. For the specification, 
+    // see the arg parameter of get_post_types() function.
+    // http://codex.wordpress.org/Function_Reference/get_post_types#Parameters
+    'query'                 => array(
+        'public'   => true,
+        '_builtin' => false,
+    ),
+    
+    // To change the label, set the label here
+    'select_all_button'     => false,        
+    
+    // To change the label, set the label here        
+    'select_none_button'    => false,        
+    
+    // Accepts either `and` or `or`
+    'operator'              => 'and',   
+    
+    // If not set, the following slugs will be automatically removed. 
+    // 'revision',  'attachment',  'nav_menu_item'.
+    'slugs_to_remove'       => array(), 
+)
+EOD
+                        )
+                        . "</pre>",
+                ),   
             ),    
             array(
                 'field_id'              => 'post_type_checklist_repeatable',
@@ -79,6 +122,20 @@ class APF_Demo_BuiltinFieldTypes_Checklist_PostType {
                 'type'                  => 'posttype',
                 'repeatable'            => true,
                 'delimiter'             => '<hr />',
+                'description'           => array(
+                    __( 'With the <code>query</code> argument, you can query post types to retrieve.', 'admin-page-framework-loader' )
+                    . ' ' . sprintf( __( 'For the specification, see the <a href="%1$s">Parameter</a> section of codex for the <code>get_post_types()</code> function.', 'admin-page-framework-loader' ), 'http://codex.wordpress.org/Function_Reference/get_post_types#Parameters' ),
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                  => 'posttype',
+    'repeatable'            => true,
+)
+EOD
+                        )
+                        . "</pre>",
+                ),                   
             )
         );              
       

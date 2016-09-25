@@ -52,13 +52,25 @@ class APF_Demo_BuiltinFieldTypes_File_Upload {
         // Fields
         $oFactory->addSettingFields(   
             $this->sSectionID,            
-            array( // Single File Upload Field
+            array(
                 'field_id'              => 'file_single',
                 'title'                 => __( 'File', 'admin-page-framework-loader' ),
                 'type'                  => 'file',
                 'label'                 => __( 'Select the file', 'admin-page-framework-loader' ) . ": ",
+                'description'           => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'  => 'file',
+    'label' => 'Select the file',
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),     
-            array( // Multiple File Upload Fields
+            array(
                 'field_id'              => 'file_multiple',
                 'title'                 => __( 'Multiple', 'admin-page-framework-loader' ),
                 'type'                  => 'file',
@@ -69,15 +81,45 @@ class APF_Demo_BuiltinFieldTypes_File_Upload {
                 ),
                 array(
                     'label' => __( 'Third', 'admin-page-framework-loader' ),
-                ),     
+                ),
+                'description'           => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                  => 'file',
+    'label'                 => __( 'First', 'admin-page-framework-loader' ),
+    'delimiter'             => '<br />',
+    array(
+        'label' => __( 'Second', 'admin-page-framework-loader' ),
+    ),
+    array(
+        'label' => __( 'Third', 'admin-page-framework-loader' ),
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
             ),     
-            array( // Single File Upload Field
+            array(
                 'field_id'              => 'file_repeatable',
                 'title'                 => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'                  => 'file',
                 'repeatable'            => true,
-            ),
-            array()
+'description'           => array(
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'                  => 'file',
+    'repeatable'            => true,
+)
+EOD
+                        )
+                        . "</pre>",
+                ),                
+            )
         );     
              
         add_filter( 
