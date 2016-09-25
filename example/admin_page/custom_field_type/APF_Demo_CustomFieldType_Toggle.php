@@ -81,6 +81,17 @@ class APF_Demo_CustomFieldType_Toggle {
                 // @see For the list of arguments, refer to https://github.com/simontabor/jquery-toggles#step-3-initialize
                 'options'       => array(
                 ),
+                'description'   => array(
+                    "<pre>"
+                        . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'toggle',
+)
+EOD
+                        )
+                        . "</pre>",                       
+                ),                   
             ),
             array(
                 'field_id'      => 'toggle_no_dragging',

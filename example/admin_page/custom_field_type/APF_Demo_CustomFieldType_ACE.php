@@ -94,7 +94,25 @@ class APF_Demo_CustomFieldType_ACE {
                     'gutter'                => false,
                     'readonly'              => false,
                     'fontsize'              => 12,
-                ),                
+                ),          
+                'description'   => array(
+                    "<pre>"
+                        . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'      => 'ace',     
+    'options'   => array(
+        'language'  => 'css',
+        'theme'     => 'chrome',
+        'gutter'    => false,
+        'readonly'  => false,
+        'fontsize'  => 12,
+    ),   
+)
+EOD
+                        )
+                        . "</pre>",                       
+                ),                   
             ),
             array(
                 'field_id'      => 'ace_php',
@@ -109,6 +127,21 @@ class APF_Demo_CustomFieldType_ACE {
                     'language'              => 'php',
                 ),           
                 'repeatable'    => true,
+                'description'   => array(
+                    "<pre>"
+                        . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'          => 'ace',     
+    'options'       => array(
+        'language'  => 'php',
+    ),  
+    'repeatable'    => true,    
+)
+EOD
+                        )
+                        . "</pre>",                       
+                ),                        
             )
         );             
         

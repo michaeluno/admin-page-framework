@@ -54,8 +54,8 @@ class ToggleCustomFieldType extends AdminPageFramework_FieldType_checkbox {
             
             // Unused:
             // 'on'        => true,    // is the toggle ON on init - will be set with the field value
-            // 'checkbox'  => null,    // the checkbox jQuery element object to toggle (for use in forms)
-            // 'clicker'   => null,    // the jQuery element object that can be clicked on to toggle. removes binding from the toggle itself (use nesting)            
+            // 'checkbox'  => null,    // the checkbox jQuery element object to toggle (to use in forms), or the selector string of the element e.g. `#the-element`.
+            // 'clicker'   => null,    // the jQuery element object that can be clicked on to toggle and removes binding from the toggle itself (use nesting). Or the selector string of the element.
             
         ),
         

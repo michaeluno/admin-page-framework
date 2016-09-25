@@ -47,7 +47,7 @@ class APF_Demo_CustomFieldType {
                 'style'     => array(
                     AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
                     AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/field_example.css',
-                )
+                ),
             )
         );
 
