@@ -102,7 +102,6 @@ class ToggleCustomFieldType extends AdminPageFramework_FieldType_checkbox {
     protected function getScripts() {
 
         $_aJSArray            = json_encode( $this->aFieldTypeSlugs );
-        $_sConnectorScriptURL = $this->getSRCFromPath( dirname( __FILE__ ) . '/connectors/jQueryFileTreePlus.php' );
         return "jQuery( document ).ready( function(){
 
             /**
@@ -269,9 +268,11 @@ class ToggleCustomFieldType extends AdminPageFramework_FieldType_checkbox {
                     
                 }
                 
-                // Embed an input id. Note that checkbox inputs expects `label` arguments to be set and they are parsed as an array.
-                // There fore the `checkbox` field type appends `_` to the actual input id which can be confusing and this behavour may be changed in the future.
-                // So use a different way to retrieve the subject input id and therefore, embed the input id here.
+                /**
+                 * Embed an input id. Note that checkbox inputs expect `label` arguments to be set and they are parsed as an array.
+                 * There fore the `checkbox` field type appends `_` to the actual input id which can be confusing and this behavour may be changed in the future.
+                 * So use a different way to retrieve the subject input id and therefore, embed the input id here.
+                 */
                 $_aOptions[ 'checkbox-id' ] = $aField[ 'input_id' ];
                 
                 return $_aOptions;
