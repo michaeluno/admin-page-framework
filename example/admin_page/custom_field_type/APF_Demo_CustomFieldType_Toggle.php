@@ -50,9 +50,7 @@ class APF_Demo_CustomFieldType_Toggle {
      * @callback        action      load_{page slug}_{tab slug}
      */
     public function replyToLoadTab( $oAdminPage ) {
-        
-        // $_oWPRMParser = new AdminPageFramework_WPReadmeParser;
-        
+                
         $this->registerFieldTypes( $this->sClassName );
         
         add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
