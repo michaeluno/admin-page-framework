@@ -131,18 +131,11 @@ class ToggleCustomFieldType extends AdminPageFramework_FieldType_checkbox {
                 
             }
             
-            
             // Initialize toggle elements.
             jQuery( '.switch_toggle_buttons' ).each( function () {
                 initalizeToggles( this );
             });
             
-            // Move repeatable buttons up to the parent node.      
-            // jQuery( '.admin-page-framework-checkbox-container-toggle > .admin-page-framework-repeatable-field-buttons' ).each( function() {
-                // var _oGrandParent = jQuery( this ).parent().parent();
-                // jQuery( this ).detach().appendTo( _oGrandParent );
-            // })
-
             jQuery().registerAPFCallback( {
                 /**
                 * The repeatable field callback.
