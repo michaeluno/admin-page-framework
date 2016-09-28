@@ -157,7 +157,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
         if ( is_scalar( $asElement ) ) {
             return $asElement;
         }
-        return is_array( $asLabel ) // if the user stes multiple items
+        return is_array( $asLabel ) // if the user sets multiple items
             ? $this->getElement( 
                 $asElement,         // subject
                 $this->getAsArray( $asKey, true /* preserve empty */ ),     // dimensional path 
