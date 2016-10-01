@@ -57,6 +57,7 @@ class AdminPageFramework_Form_View___Script_SortableField extends AdminPageFrame
             // the options for the sortable plugin
             { 
                 items: '> div:not( .disabled )',
+                cancel: '.sortable-cancel', // this selector lets the user adds custom elements which cancels sorting. Can be used in field type definitions.
             } 
         );
 

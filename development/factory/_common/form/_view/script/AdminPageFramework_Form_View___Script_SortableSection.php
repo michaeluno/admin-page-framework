@@ -67,11 +67,12 @@ class AdminPageFramework_Form_View___Script_SortableSection extends AdminPageFra
                         []  // parameters for the callbacks 
                     );                    
 
-                }
+                },
 			
                 
                 // @todo Figure out how to allow the user to highlight text in sortable elements.
                 // cancel: '.admin-page-framework-section-description, .admin-page-framework-section-title'
+                cancel: '.sortable-cancel', // this selector lets the user adds custom elements which cancels sorting. Can be used in field type definitions.
                 
             }
         var _oSortable  = _oTarget.sortable( _aSortableOptions );               
