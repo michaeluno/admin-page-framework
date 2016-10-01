@@ -158,6 +158,7 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
      * 
      * @since       3.4.0
      * @since       3.8.4       Made it possible to set an empty string value to the data attribute.
+     * @since       3.8.6       Changed it to convert an array element to a JSON string.
      * @return      array
      */
     static public function getDataAttributeArray( array $aArray ) {
@@ -165,8 +166,13 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
         $_aNewArray = array();
         foreach( $aArray as $sKey => $v ) {
             
-            if ( in_array( gettype( $v ), array( 'array', 'object', 'NULL' ) ) ) {
+            if ( in_array( gettype( $v ), array( 'object', 'NULL' ) ) ) {
                 continue;
+            }
+            
+            // 3.8.6+
+            if ( is_array( $v ) ) {
+                $v = json_encode( $v );
             }
             
             // 3.8.4+ Lets an empty string value to be set.
@@ -178,6 +184,7 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
             $_aNewArray[ "data-{$sKey}" ] = $v 
                 ? $v 
                 : '0';
+                
         }
         return $_aNewArray;
         
