@@ -116,6 +116,9 @@ CSSRULES;
                         'id'    => $aField[ 'attributes' ][ 'id' ] . "_{$sKey}",
                         'value' => $aField[ 'value' ],
                     ) 
+                    + $this->getAsArray( 
+                        $this->getElementByLabel( $aField[ 'attributes' ], $sKey, $aField[ 'label' ] ) 
+                    )    // 3.8.6+ Allows the user to set individual attributes by label.
                     + $aField[ 'attributes' ]
                 : $aField[ 'attributes' ];          
             $_aOutput           = array(
