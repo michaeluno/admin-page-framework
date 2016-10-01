@@ -119,6 +119,15 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     'archive_file_path'    => 'custom-field-types/toggle-custom-field-type/ToggleCustomFieldType.php',
                     'archive_dir_path'     => 'custom-field-types/toggle-custom-field-type',
                     'text_domain'          => 'admin-page-framework',
+                ),
+                'NoUISliderCustomFieldType'   =>  array(
+                    'class_name'           => 'NoUISliderCustomFieldType',
+                    'label'                => __( 'NoUISlider (Range Slider)', 'admin-page-framework-loader' ),
+                    'description'          => __( 'allows the user to set values in ranges.', 'admin-page-framework-loader' ),
+                    'directory_path'       => AdminPageFrameworkLoader_Registry::$sDirPath . '/example/library/nouislider-custom-field-type',
+                    'archive_file_path'    => 'custom-field-types/nouislider-custom-field-type/NoUISliderCustomFieldType.php',
+                    'archive_dir_path'     => 'custom-field-types/nouislider-custom-field-type',
+                    'text_domain'          => 'admin-page-framework',
                 ),                
             );
                 

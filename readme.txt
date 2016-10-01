@@ -456,7 +456,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.6 =
+- Added the `no_ui_slider` custom field type which lets the user determine values in ranges.
 - Added the ability for the `text` field type to accept nested `attributes` argument of a name of the corresponding `label` argument array element.
+- Changed the `getDataAttributeArray()` utility method to accept and convert array elements to a JSON string.
 
 = 3.8.5 - 2016/09/25 =
 - Added the `toggle` custom field type which lets the user switch a toggle button.

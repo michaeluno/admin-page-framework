@@ -71,6 +71,10 @@ class APF_Demo_CustomFieldType {
             $oFactory,    // factory object
             $this->_sPageSlug   // page slug
         );        
+        new APF_Demo_CustomFieldType_NoUISlider(
+            $oFactory,    // factory object
+            $this->_sPageSlug   // page slug        
+        );
         new APF_Demo_CustomFieldType_ACE(
             $oFactory,    // factory object
             $this->_sPageSlug   // page slug
