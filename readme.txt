@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
 Tested up to:       4.6.1
-Stable tag:         3.8.5
+Stable tag:         3.8.6
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,8 +73,9 @@ With custom field types, you can create more detailed customized field outputs. 
 - `ace` - a rich code editor.
 - `sample` - a sample custom field type with a JavaScript script.
 - `github` - displays GitHub buttons.
-- `path` - lets the user select file paths on the serevr. 
+- `path` - lets the user select file paths on the server. 
 - `toggle` - lets the user toggle a switch button.
+- `no_ui_slider` - lets the user set values between ranges with a slider.
 
 If you want a field type that are not listed here, you can check the [field type pack](http://admin-page-framework.michaeluno.jp/add-ons/field-type-pack/) or request a new one in the [forum](https://wordpress.org/support/plugin/admin-page-framework).
 
@@ -252,6 +253,27 @@ max_allowed_packet=500M
 
 Please keep in mind that these are just a few of many possibilities. If you encounter a situation that prevented the user from saving options, please report.
 
+<h5><strong>My class is getting too big by defining predefined callback methods. Is there a way to separate those?</strong></h5>
+Yes. The predefine method names also serve as a WordPress filter/action hook name. So you can just add callbacks to those hooks from a separate file.
+
+For example, if you want to move your method `content_my_page_slug()`, then you would do something like,
+
+`
+function getMyPageContent( $sContent ) {
+    return $sContent . ' additional contents here.';
+}
+add_filter( 'content_my_page_slug', 'getMyPageContent' );
+`
+
+IF you want to move your method `load_my_page_slug()`, then you would do something like,
+
+`
+function loadMyPage( $oFactory ) {
+    // do something when the page loads.
+}
+add_action( 'load_my_page_slug', 'loadMyPage' );
+`
+
 <h5><strong>I cannot find what I'd like to do in tutorials and documentation. Where else should I look for more information?</strong></h5>
 
 - You may directly read the code of the demo plugin. The demo plugin code is located in the [example](https://github.com/michaeluno/admin-page-framework/tree/master/example) directory.
@@ -260,6 +282,9 @@ Please keep in mind that these are just a few of many possibilities. If you enco
 <h4>Getting Involved</h4>
 <h5><strong>I've written a useful class, functions, and even custom field types that will be useful for others! Do you want to include it?</strong></h5>
 The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is available. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
+
+<h5><strong>How can I contribute to this project?</strong></h5>
+There are various ways to do so. Please refer to the [contribution guideline](https://github.com/michaeluno/admin-page-framework/blob/master/contributing.md).
 
 <h5><strong>How can I contribute to improving the documentation?</strong></h5>
 You are welcome to submit documentation. Please follow the [Documentation Guideline](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md). 
@@ -455,8 +480,8 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.8.6 =
-- Added the `no_ui_slider` custom field type which lets the user determine values in ranges.
+= 3.8.6 - 2016/10/02 =
+- Added the `no_ui_slider` custom field type which lets the user set values in ranges.
 - Added the ability for the `text` field type to accept nested `attributes` argument of a name of the corresponding `label` argument array element.
 - Changed the `getDataAttributeArray()` utility method to accept and convert array elements to a JSON string.
 
