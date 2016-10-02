@@ -366,7 +366,12 @@ EOD
 array(
     'type'          => 'no_ui_slider',
     'options'       => array(
-        'direction' => 'rtl',   // or ltr
+        'tooltips' => array( true, false, true ),
+        'round'    => 2,
+        'step'     => 0.1,
+        'start'    => array(
+            12, 34, 78,
+        ),
     ),
 )
 EOD
