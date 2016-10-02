@@ -274,7 +274,7 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
          * @return      string
          */
         private function _getSliderElementClassSelectors( $aField ) {
-            $_sSelectors = 'no-ui-sliders sortable-cancel';
+            $_sSelectors = 'no-ui-sliders';
             $_aPips      = $this->getElement( $aField[ 'options' ], 'pips' );
             if ( empty( $_aPips ) ) {
                 return $_sSelectors;
