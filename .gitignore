@@ -12,6 +12,11 @@
 *.old
 *.bak
 
+# Temporary directories.
+*/_del/
+*/_old/
+*/_bak/
+
 # Compiled source #
 ###################
 *.com
