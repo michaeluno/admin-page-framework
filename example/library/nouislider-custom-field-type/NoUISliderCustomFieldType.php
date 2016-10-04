@@ -387,20 +387,6 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
                 return $this->getAsArray( $aField[ 'value' ] );  
 
             }
-            
-            /**
-             * @return      array
-             * @depreacatred
-             */
-            private function _getArrayKeysPrepended( $sPrefix, $aArray ) {
-                
-                $_aArray = array();
-                foreach ( $aArray as $_sKey => $_mValue ) {
-                    $_aArray[ $sPrefix . $_sKey ] = $_mValue;                        
-                }
-                return $_aArray;
-                
-            }    
-            
+                        
 }
 endif;
