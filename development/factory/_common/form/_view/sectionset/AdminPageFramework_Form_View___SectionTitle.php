@@ -94,7 +94,9 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
         /**
          * Returns the section title output.
          * 
-         * @scope       protected   An extended class accesses this method.
+         * The `section_title` field will override the given section title.
+         * 
+         * @access      protected   An extended class accesses this method.
          * @since       3.0.0
          * @since       3.4.0       Moved from `AdminPageFramework_FormPart_Table`.
          * @since       3.6.0       Added the `$iSectionIndex` and `$aFieldTypeDefinitions` parameters.
@@ -103,17 +105,37 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
          * @return      string      The section title output. 
          */
         protected function _getSectionTitle( $sTitle, $sTag, $aFieldsets, $iSectionIndex=null, $aFieldTypeDefinitions=array(), $aCollapsible=array() ) {
-       
-            $_sFieldsetsInSectionTitle = $this->_getFieldsetsOutputInSectionTitleArea( $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions );
-            return $_sFieldsetsInSectionTitle
-                ? $_sFieldsetsInSectionTitle
-                : "<{$sTag}>" 
-                        . $this->_getCollapseButton( $aCollapsible )
-                        . $sTitle 
-                        . $this->_getToolTip()
-                    . "</{$sTag}>";
+
+            $_aSectionTitleFieldset = $this->_getSectionTitleField( $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions );
+            $_sFieldsInSectionTitle = $this->_getFieldsetsOutputInSectionTitleArea( $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions );
+            $_sTitle                = empty( $_aSectionTitleFieldset )
+                ? $this->_getSectionTitleOutput( $sTitle, $sTag, $aCollapsible )
+                : $this->getFieldsetOutput( $_aSectionTitleFieldset );
+            $_bHasOtherFields       = $_sFieldsInSectionTitle
+                ? ' has-fields'
+                : '';
+            $_sOutput               = $_sTitle . $_sFieldsInSectionTitle;
+            return $_sOutput
+                ? "<div class='section-title-container{$_bHasOtherFields}'>"
+                    . $_sOutput 
+                . "</div>"
+                : '';
             
         }    
+            /**
+             * @since       3.8.7
+             * @return      string
+             */
+            private function _getSectionTitleOutput( $sTitle, $sTag, $aCollapsible ) {
+                return $sTitle
+                    ? "<{$sTag} class='section-title'>" 
+                        . $this->_getCollapseButton( $aCollapsible )
+                        . $sTitle
+                        . $this->_getToolTip()
+                    . "</{$sTag}>"
+                    : '';
+
+            }
             /**
              * Returns a collapse button for the 'button' collapsible type.
              * @since       3.7.0
@@ -136,15 +158,9 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
              * @internal
              */
             private function _getFieldsetsOutputInSectionTitleArea( array $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions ) {   
-            
-                $_aFieldsetsInSectionTitle   = array();
-                $_aFieldsetsInSectionTitle[] = $this->_getSectionTitleField( $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions );
-                $_aFieldsetsInSectionTitle   = array_merge(
-                    $_aFieldsetsInSectionTitle,
-                    $this->_getFieldsetsInSectionTitleArea( $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions )
-                );
+
                 $_sOutput = '';
-                foreach( $_aFieldsetsInSectionTitle as $_aFieldset ) {
+                foreach( $this->_getFieldsetsInSectionTitleArea( $aFieldsets, $iSectionIndex, $aFieldTypeDefinitions ) as $_aFieldset ) {
                     if ( empty( $_aFieldset ) )  {
                         continue;
                     }
