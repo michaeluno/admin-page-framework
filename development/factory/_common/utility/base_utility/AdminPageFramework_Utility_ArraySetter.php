@@ -259,11 +259,16 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
         if ( is_null( $aPrecedence ) ) { 
             $aPrecedence = array(); 
         }
-        
+                
         if ( ! is_array( $aDefault ) || ! is_array( $aPrecedence ) ) { 
             return $aPrecedence; 
         }
-            
+        
+        // For cases like `array( $this, 'callbackFunc' )`
+        if ( is_callable( $aPrecedence ) ) {
+            return $aPrecedence;
+        }
+        
         foreach( $aDefault as $sKey => $v ) {
             
             // If the precedence does not have the key, assign the default's value.
