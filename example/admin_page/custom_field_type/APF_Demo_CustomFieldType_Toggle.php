@@ -39,6 +39,9 @@ class APF_Demo_CustomFieldType_Toggle {
             )
         );  
         
+        // Register the field type.
+        new ToggleCustomFieldType( $this->sClassName );        
+        
         // load + page slug + tab slug
         add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
   
@@ -50,9 +53,7 @@ class APF_Demo_CustomFieldType_Toggle {
      * @callback        action      load_{page slug}_{tab slug}
      */
     public function replyToLoadTab( $oAdminPage ) {
-                
-        $this->registerFieldTypes( $this->sClassName );
-        
+                        
         add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
         
          // Section
@@ -340,15 +341,7 @@ EOD
             )    
         );  
  
-    }
-    
-        /**
-         * Registers the field types.
-         */
-        private function registerFieldTypes( $sClassName ) {
-            new ToggleCustomFieldType( $sClassName );                             
-        }    
-            
+    }       
     
     public function replyToDoTab() {        
         submit_button();
