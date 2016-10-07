@@ -330,16 +330,18 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
          */
         private function _getLabelsFormatted( $aLabels, $aField ) {
             $_aStart   = $this->getElementAsArray( $aField, array( 'options', 'start' ) );
-            $_aLabels  = $this->getAsArray( $aLabels );
+            $_aLabels  = $this->getAsArray( 
+                $aLabels, 
+                true    // preserve empty
+            );
             $_iHandles = count( $_aStart );
-            if ( $_iHandles ) {
-                $_aLabels = $_aLabels + array_fill( 
-                    0,          // start index
-                    $_iHandles, // end index (must be a positive number)
-                    ''          // the value to fill
-                );
-            }
-            return 1 === count( $_aLabels )
+            $_aLabels = $_aLabels + array_fill( 
+                0,          // start index
+                $_iHandles ? $_iHandles : 1, // end index (must be a positive number)
+                ''          // the value to fill
+            );
+            
+            return 1 >= count( $_aLabels )
                 ? $_aLabels[ 0 ]
                 : $_aLabels;
         }    
@@ -389,10 +391,13 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
                 // For the first time of loading the form, a value is not set.
                 // If the value is not set, use the value set to the `start` argument.
                 if ( ! isset( $aField[ 'value' ] ) ) {
-                    return $this->getElementAsArray( $aOptions, 'start' );
+                    return $this->getElementAsArray( $aOptions, 'start', array( 0 ) );
                 }
                  
-                return $this->getAsArray( $aField[ 'value' ] );  
+                return $this->getAsArray( 
+                    $aField[ 'value' ], 
+                    true    // preserve empty
+                );  
 
             }
                         

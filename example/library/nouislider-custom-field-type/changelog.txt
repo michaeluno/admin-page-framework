@@ -1,5 +1,5 @@
-= 0.0.2b =
+= 0.0.2b - 2016/10/07 =
 - Fixed a PHP warning `array_fill() [function.array-fill]: Number of elements must be positive...`.
-
+- Fixed a bug that saving a value of `0` caused a slider not to be displayed.
 = 0.0.1b =
 - Released.
