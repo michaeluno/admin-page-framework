@@ -189,15 +189,6 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
                     if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) {
                         return;
                     }
-                    
-                    var _oFieldsContainer   = jQuery( oCopied ).closest( '.admin-page-framework-fields' );
-                    var _iFieldIndex        = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
-                    var _sFieldTagIDModel   = _oFieldsContainer.attr( 'data-field_tag_id_model' );
-                    jQuery( oCopied ).children( '.no-ui-sliders' ).incrementAttributes(
-                        [ 'data-start-id', 'data-end-id' ], // attribute names
-                        _iFieldIndex, // increment from
-                        _sFieldTagIDModel // digit model
-                    );                    
                              
                     jQuery( oCopied ).children( '.no-ui-sliders' )
                         .empty();
