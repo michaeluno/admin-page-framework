@@ -60,9 +60,9 @@ class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFra
     margin-bottom: 0;
 }
 
-/* Collapsible Sections Title Block in Meta Boxes */            
-#poststuff .metabox-holder .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title h3,
-#poststuff .metabox-holder .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title h3
+/* Collapsible Sections Title Block  */            
+#poststuff .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title h3,
+#poststuff .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title h3
 {
     font-size: 1em;
     margin: 0;
@@ -135,7 +135,7 @@ tbody.admin-page-framework-collapsible-content.table-caption {
     /* Collapsible section bar has an icon at the right end so the repeatable button needs to be placed before it */
     margin: 0;
     margin-right: 2em; 
-    margin-top: -0.32em;
+    /* margin-top: -0.32em; @deprecated 3.8.7 It is placed somewhat high in WP 4.6.1. */
 }
 /* When a section_title field is in the caption tag, do not set the margin-top to align vertically */
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons.section_title_field_sibling {
@@ -180,6 +180,16 @@ tbody.admin-page-framework-collapsible-content.table-caption {
 .admin-page-framework-collapsible-section-title .admin-page-framework-fieldset {
     display: inline;
     margin-right: 1em;
+    vertical-align: middle; /* to have consistent vertical alignment with section title and fields. */
+}
+
+/* 3.8.7+ Collapsile section titles. To live with the `placement` argument enabled fields, the section title must be vertically centered. */
+#poststuff .admin-page-framework-collapsible-title.admin-page-framework-collapsible-section-title .section-title-container.has-fields .section-title
+{
+    width: auto;
+    display: inline-block;
+    margin: 0 1em 0 0.4em;
+    vertical-align: middle;
 }
 CSSRULES;
 
