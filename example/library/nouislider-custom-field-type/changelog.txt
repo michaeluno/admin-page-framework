@@ -1,2 +1,5 @@
+= 0.0.2b =
+- Fixed a PHP warning `array_fill() [function.array-fill]: Number of elements must be positive...`.
+
 = 0.0.1b =
 - Released.

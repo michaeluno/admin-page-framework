@@ -15,7 +15,7 @@ if ( ! class_exists( 'NoUISliderCustomFieldType' ) ) :
  * A field type that lets the user toggle a switch.
  * 
  * @since       3.8.6
- * @version     0.0.1b
+ * @version     0.0.2b
  * @remark      Requires Admin Page Framework v3.8.6 or above.
  */
 class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
@@ -320,20 +320,28 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
         
         /**
          * Formats the `label` argument.
+         * 
          * This determines the number of input fields that store the selected numbers.
+         * 
+         * If only one label is set, the option structure of the field will be one dimension.
+         * So just return the label itself. Otherwise, return an array holding labels.
+         * 
          * @return      array|string
          */
         private function _getLabelsFormatted( $aLabels, $aField ) {
-            $_aStart  = $this->getElementAsArray( $aField, array( 'options', 'start' ) );
-            $_aLabels = $this->getAsArray( $aLabels ) + array_fill( 
-                0,  // start index
-                count( $_aStart ), // end index
-                ''      // the value to fill
-            );
+            $_aStart   = $this->getElementAsArray( $aField, array( 'options', 'start' ) );
+            $_aLabels  = $this->getAsArray( $aLabels );
+            $_iHandles = count( $_aStart );
+            if ( $_iHandles ) {
+                $_aLabels = $_aLabels + array_fill( 
+                    0,          // start index
+                    $_iHandles, // end index (must be a positive number)
+                    ''          // the value to fill
+                );
+            }
             return 1 === count( $_aLabels )
                 ? $_aLabels[ 0 ]
                 : $_aLabels;
-            // return $_aLabels;
         }    
 
     
