@@ -1,2 +1,4 @@
+= 0.0.2b - 10/07/2016 =
+- Supported repeatable sections.
 = 0.0.1b - 09/21/2016 =
 - Released.
