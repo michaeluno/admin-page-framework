@@ -39,6 +39,9 @@ class APF_Demo_CustomFieldType_Path {
             )
         );  
         
+        // Register the field type.
+        new PathCustomFieldType( $this->sClassName );    
+        
         // load + page slug + tab slug
         add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
   
@@ -51,7 +54,7 @@ class APF_Demo_CustomFieldType_Path {
      */
     public function replyToLoadTab( $oAdminPage ) {
         
-        $this->registerFieldTypes( $this->sClassName );
+        // $this->registerFieldTypes( $this->sClassName );
         
         add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
         
