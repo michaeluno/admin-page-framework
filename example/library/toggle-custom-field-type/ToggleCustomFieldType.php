@@ -109,10 +109,10 @@ class ToggleCustomFieldType extends AdminPageFramework_FieldType_checkbox {
              * 
              * @since 3.8.5
              */
-            initalizeToggles = function( oElem ) {
+            var _initalizeToggles = function( oNode ) {
                 
-                var _iTargetInputDataID = jQuery( oElem ).attr( 'data-checkbox-id' );
-                var _iTargetInputID = jQuery( oElem ).attr( 'data-checkbox-id' );
+                var _iTargetInputDataID = jQuery( oNode ).attr( 'data-checkbox-id' );
+                var _iTargetInputID = jQuery( oNode ).attr( 'data-checkbox-id' );
                 var _aOptions = {};                
                 var _aOptions       = jQuery.extend(
                     {}, 
@@ -121,19 +121,22 @@ class ToggleCustomFieldType extends AdminPageFramework_FieldType_checkbox {
                     {
                         checkbox: jQuery( 'input[type=checkbox][data-id=' + _iTargetInputDataID + ']' ),
                         text: {
-                            on : jQuery( oElem ).attr( 'data-toggle-text-on' ),
-                            off: jQuery( oElem ).attr( 'data-toggle-text-off' ),
+                            on : jQuery( oNode ).attr( 'data-toggle-text-on' ),
+                            off: jQuery( oNode ).attr( 'data-toggle-text-off' ),
                         }
                     }   // overriding values
                 );
-
-                jQuery( oElem ).toggles( _aOptions );
+                
+                jQuery( oNode ).toggles( _aOptions );
                 
             }
             
             // Initialize toggle elements.
             jQuery( '.switch_toggle_buttons' ).each( function () {
-                initalizeToggles( this );
+                jQuery( this ).closest( '.admin-page-framework-field' )
+                    .children( '.admin-page-framework-checkbox-container-toggle' )
+                    .hide();
+                _initalizeToggles( this );
             });
             
             jQuery().registerAPFCallback( {
@@ -188,7 +191,7 @@ class ToggleCustomFieldType extends AdminPageFramework_FieldType_checkbox {
                     }                                   
                                         
                     oCloned.find( '.switch_toggle_buttons' ).each( function () {
-                        initalizeToggles( this );
+                        _initalizeToggles( this );
                     });
                     
                     return;
@@ -204,10 +207,7 @@ class ToggleCustomFieldType extends AdminPageFramework_FieldType_checkbox {
     protected function getStyles() {
 
         return 
-".admin-page-framework-checkbox-container-toggle  { 
-    display: none; 
-}
-.toggle-button-container {
+".toggle-button-container {
     display: inline-block;
     padding: 5px 8px 0 0;
 }

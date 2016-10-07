@@ -1,4 +1,5 @@
 = 0.0.2b =
+- Changed the original checkbox to be displayed when browser JavaScript is turned off.
 - Supported repeatable sections.
 = 0.0.1b =
 - Released.
