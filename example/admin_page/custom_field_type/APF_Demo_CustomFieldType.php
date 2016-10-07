@@ -63,29 +63,37 @@ class APF_Demo_CustomFieldType {
     public function replyToLoadPage( $oFactory ) {
         
         // Tabs
+        new APF_Demo_CustomFieldType_Select2(
+            $oFactory,
+            $this->_sPageSlug
+        );
         new APF_Demo_CustomFieldType_Path(
-            $oFactory,    // factory object
-            $this->_sPageSlug   // page slug
+            $oFactory,
+            $this->_sPageSlug
         );        
         new APF_Demo_CustomFieldType_Toggle(
-            $oFactory,    // factory object
-            $this->_sPageSlug   // page slug
+            $oFactory,
+            $this->_sPageSlug
         );        
         new APF_Demo_CustomFieldType_NoUISlider(
-            $oFactory,    // factory object
-            $this->_sPageSlug   // page slug        
+            $oFactory,
+            $this->_sPageSlug
         );
         new APF_Demo_CustomFieldType_ACE(
-            $oFactory,    // factory object
-            $this->_sPageSlug   // page slug
+            $oFactory,
+            $this->_sPageSlug
         );   
         new APF_Demo_CustomFieldType_Sample(
-            $oFactory,    // factory object
-            $this->_sPageSlug   // page slug
+            $oFactory,    
+            $this->_sPageSlug
         );
         new APF_Demo_CustomFieldType_GitHub(
-            $oFactory,    // factory object
-            $this->_sPageSlug   // page slug
+            $oFactory,    
+            $this->_sPageSlug   
+        );
+        new APF_Demo_CustomFieldType_Mixed(
+            $oFactory,    
+            $this->_sPageSlug   
         );
 
         
