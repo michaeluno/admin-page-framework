@@ -76,6 +76,7 @@ With custom field types, you can create more detailed customized field outputs. 
 - `path` - lets the user select file paths on the server. 
 - `toggle` - lets the user toggle a switch button.
 - `no_ui_slider` - lets the user set values between ranges with a slider.
+- `select2` - lets the user select items from a predefined list which cam be populated with AJAX.
 
 If you want a field type that are not listed here, you can check the [field type pack](http://admin-page-framework.michaeluno.jp/add-ons/field-type-pack/) or request a new one in the [forum](https://wordpress.org/support/plugin/admin-page-framework).
 
@@ -479,6 +480,14 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f, 
 
 == Changelog ==
+
+= 3.8.7 =
+- Adde the `select2` custom field type that lets the user select items with auto-complete list which can possibly populated with AJAX. 
+- Added the ability for the `path` and `toggle` custom field types to support repeatable sections.
+- Fixed a bug that a section title was not displayed when there was a field with the `placement` argument of the `section_title` value.
+- Fixed a PHP warning with the `no_ui_slider`, `array_fill() [function.array-fill]: Number of elements must be positive...`.
+- Fixed a bug with the `no_ui_slider` custom field type that saving a value of `0` caused a slider not to be displayed.
+- Tweaked the style of collapsible section titles.
 
 = 3.8.6 - 2016/10/02 =
 - Added the `no_ui_slider` custom field type which lets the user set values in ranges.
