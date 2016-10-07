@@ -39,9 +39,12 @@ class APF_Demo_CustomFieldType_NoUISlider {
             )
         );  
         
-        // load + page slug + tab slug
+        // Register the field type.
+        new NoUISliderCustomFieldType( $this->sClassName );
+        
+        // load_{page slug}_{tab slug}
         add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
-  
+          
     }
     
     /**
@@ -49,11 +52,12 @@ class APF_Demo_CustomFieldType_NoUISlider {
      * 
      * @callback        action      load_{page slug}_{tab slug}
      */
-    public function replyToLoadTab( $oAdminPage ) {
-                
-        $this->registerFieldTypes( $this->sClassName );
+    public function replyToLoadTab( $oAdminPage ) {                
         
         add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
+        
+        // validation_{page slug}_{tab slug}
+        add_filter( 'validation_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'validate' ), 10, 4 );
         
          // Section
         $oAdminPage->addSettingSections(    
@@ -478,18 +482,18 @@ EOD
             array()
         );  
  
-    }
-    
-        /**
-         * Registers the field types.
-         */
-        private function registerFieldTypes( $sClassName ) {
-            new NoUISliderCustomFieldType( $sClassName );                             
-        }    
-            
+    }            
     
     public function replyToDoTab() {        
         submit_button();
     }
+
+    /**
+     * @return      array
+     */
+    public function validate( $aInputs, $aOldInputs, $oAdminPage, $aSubmitInfo ) {
+        return $aInputs;
+    }
+    
     
 }
