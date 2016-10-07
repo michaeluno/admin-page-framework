@@ -128,7 +128,16 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     'archive_file_path'    => 'custom-field-types/nouislider-custom-field-type/NoUISliderCustomFieldType.php',
                     'archive_dir_path'     => 'custom-field-types/nouislider-custom-field-type',
                     'text_domain'          => 'admin-page-framework',
-                ),                
+                ),
+                'Select2CustomFieldType'   =>  array(
+                    'class_name'           => 'Select2CustomFieldType',
+                    'label'                => __( 'Select2', 'admin-page-framework-loader' ),
+                    'description'          => __( 'allows the user to select items with autocomplete from a list which can be populated with AJAX.', 'admin-page-framework-loader' ),
+                    'directory_path'       => AdminPageFrameworkLoader_Registry::$sDirPath . '/example/library/select2-custom-field-type',
+                    'archive_file_path'    => 'custom-field-types/select2-custom-field-type/Select2CustomFieldType.php',
+                    'archive_dir_path'     => 'custom-field-types/select2-custom-field-type',
+                    'text_domain'          => 'admin-page-framework',
+                ),                 
             );
                 
             // Let third-party scripts add custom field types.
