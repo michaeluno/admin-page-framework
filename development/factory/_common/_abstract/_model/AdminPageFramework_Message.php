@@ -177,7 +177,7 @@ class AdminPageFramework_Message {
         
         // 3.7.0+ - displayed while the page laods
         'loading'                               => 'Loading...',
-        'please_enable_javascript'              => 'Please enable JavaScript for better experience.',
+        'please_enable_javascript'              => 'Please enable JavaScript for better user experience.',
         
 
     );
@@ -415,7 +415,7 @@ class AdminPageFramework_Message {
         __( 'Click here to collapse the contents.', 'admin-page-framework' );
         
         __( 'Loading...', 'admin-page-framework' );
-        __( 'Please enable JavaScript for better experience.', 'admin-page-framework' );
+        __( 'Please enable JavaScript for better user experience.', 'admin-page-framework' );
         
         __( 'Debug', 'admin-page-framework' );
         __( 'Field Arguments', 'admin-page-framework' );
