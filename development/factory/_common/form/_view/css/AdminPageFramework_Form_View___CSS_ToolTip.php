@@ -42,10 +42,10 @@ th > label > span > .admin-page-framework-form-tooltip {
     float: none;
 }
         
-/* Regular section titles have + button and collapsible title bar has a triangle icon so give a right margin */
-.admin-page-framework-section-title > * > a.admin-page-framework-form-tooltip,
-.admin-page-framework-collapsible-title > * > a.admin-page-framework-form-tooltip {
-    margin-left: 1em;    
+/* Regular section titles have the `+` button and collapsible title bar has a triangle icon so give a left margin */
+.admin-page-framework-section-title a.admin-page-framework-form-tooltip,
+.admin-page-framework-collapsible-title a.admin-page-framework-form-tooltip {
+    margin-left: 1em;
 }
 
 
@@ -60,33 +60,28 @@ th > label > span > .admin-page-framework-form-tooltip {
 
 /* Font sizees */
 
-
 /* Question Mark (?) - we want it to be a little bit smaller than the title */
-.admin-page-framework-section-title > * > a.admin-page-framework-form-tooltip > span,
-.admin-page-framework-collapsible-title > * > a.admin-page-framework-form-tooltip > span {
+.admin-page-framework-section-title a.admin-page-framework-form-tooltip > span,
+.admin-page-framework-collapsible-title a.admin-page-framework-form-tooltip > span {
     font-size: inherit;
 }
 .admin-page-framework-form-tooltip > span {
-    
     font-size: 1.2em;
-    
-    /* Dashicon vertical alignment */
-    vertical-align: middle;
-    
-    padding-top: 2px;
-    
+    padding-top: 2px;    
+    vertical-align: middle; /* Dashicon vertical alignment */
+    display: inline; /* for vertical-align to take effect */
 }
 
 /* Tip Contents - When it is placed inside h2, h3, h4, the tooltip text becomes large so avoid that */
-.admin-page-framework-section-title > * > a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content,
-.admin-page-framework-collapsible-title > * > a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content,
+.admin-page-framework-section-title a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content,
+.admin-page-framework-collapsible-title a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content,
 a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content {
     font-size: 13px;
     font-weight: normal;
 }
 
 a.admin-page-framework-form-tooltip {
-    vertical-align: middle;
+    /* vertical-align: middle; @deprecated 3.8.7 Withtout this, the element aligns more in vertically center. */
     outline: none; 
     text-decoration: none;
     cursor: default;
