@@ -160,13 +160,13 @@ tbody.admin-page-framework-collapsible-content.table-caption {
 .admin-page-framework-collapsible-button-collapse {
     display: inline;
 } 
-.collapsed > * > .admin-page-framework-collapsible-button-collapse {
+.collapsed .admin-page-framework-collapsible-button-collapse {
     display: none;
 }
 .admin-page-framework-collapsible-button-expand {
     display: none;
 }
-.collapsed > * > .admin-page-framework-collapsible-button-expand {
+.collapsed .admin-page-framework-collapsible-button-expand {
     display: inline;
 }
 
