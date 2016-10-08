@@ -159,6 +159,7 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
      * @since       3.4.0
      * @since       3.8.4       Made it possible to set an empty string value to the data attribute.
      * @since       3.8.6       Changed it to convert an array element to a JSON string.
+     * @since       3.8.7       Chagned it to convert camel cased keys to be dashed. For the `data()` jQuery method. e.g. `camelCale` -> `camel-case`.
      * @return      array
      */
     static public function getDataAttributeArray( array $aArray ) {
@@ -175,13 +176,16 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
                 $v = json_encode( $v );
             }
             
+            // 3.8.7+ Convert camel cased keys to be dashed.
+            $_sKey = strtolower( preg_replace( '/([a-zA-Z])(?=[A-Z])/', '$1-', $sKey ) );
+            
             // 3.8.4+ Lets an empty string value to be set.
             if ( '' === $v ) {
-                $_aNewArray[ "data-{$sKey}" ] = '';
+                $_aNewArray[ "data-{$_sKey}" ] = '';
                 continue;
             }
             
-            $_aNewArray[ "data-{$sKey}" ] = $v 
+            $_aNewArray[ "data-{$_sKey}" ] = $v 
                 ? $v 
                 : '0';
                 

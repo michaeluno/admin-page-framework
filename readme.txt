@@ -487,6 +487,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Fixed a bug that a section title was not displayed when there was a field with the `placement` argument of the `section_title` value.
 - Fixed a PHP warning with the `no_ui_slider`, `array_fill() [function.array-fill]: Number of elements must be positive...`.
 - Fixed a bug with the `no_ui_slider` custom field type that saving a value of `0` caused a slider not to be displayed.
+- Changed the `getDataAttributeArray()` utility method to convert camel-cased keys to be dashed.
 - Tweaked the style of collapsible section titles.
 
 = 3.8.6 - 2016/10/02 =
