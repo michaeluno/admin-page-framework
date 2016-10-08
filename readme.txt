@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
 Tested up to:       4.6.1
-Stable tag:         3.8.6
+Stable tag:         3.8.7
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -481,8 +481,8 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.8.7 =
-- Adde the `select2` custom field type that lets the user select items with auto-complete list which can possibly populated with AJAX. 
+= 3.8.7 - 2016/10/09 =
+- Added the `select2` custom field type that lets the user select items with auto-complete list which can possibly populated with AJAX. 
 - Added the ability for the `path` and `toggle` custom field types to support repeatable sections.
 - Fixed a bug that a section title was not displayed when there was a field with the `placement` argument of the `section_title` value.
 - Fixed a PHP warning with the `no_ui_slider`, `array_fill() [function.array-fill]: Number of elements must be positive...`.
