@@ -29,7 +29,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
      * @since       3.0.0       Moved from the property class.
      * @since       3.3.1       Moved from `AdminPageFramework_Base`.
      * @since       3.6.0       Moved from `AdminPageFramework_Router`.
-     * @since       DVVER       Moved from `AdminPageFramework_Utility`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility`.
      * @remark      a callback method for `uasort()`.
      * @return      integer
      * @internal
@@ -71,7 +71,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
      * 
      * @remark      Introduced for resetting options with dimensional keys.
      * @since       3.5.3
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @return      void
      */
     static public function unsetDimensionalArrayElement( &$mSubject, array $aKeys ) {
@@ -92,7 +92,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
     /**
      * Sets a dimensional array value by dimensional array key path.
      * @since       3.5.3
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @return      void
      */
     static public function setMultiDimensionalArray( &$mSubject, array $aKeys, $mValue ) {
@@ -115,7 +115,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
      * 
      * @since       3.0.0
      * @since       3.5.3       Added a type hint in the first parameter.
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @return      array       The passed array structure looks like this.
      * <code>
      *   array( 
@@ -168,7 +168,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
      * 
      * @since       3.0.0
      * @since       3.5.3       Added type hints to the parameter.
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @remark      It does not check key structure deeper than or equal to the second dimension.
      * @remark      If a key exists in the passed model array but does not exists in the subject array, 
      * a `null` value will be assigned to the resulting array.
@@ -194,7 +194,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
      * Returns an array consisting of keys which don't exist in the other.
      * 
      * @since       3.0.0
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @remark      It won't check key structure deeper than or equal to the second dimension.
      * @param       array     $aModel       the array that holds the necessary keys.
      * @param       array     $aSubject     the array from which the contents to be extracted.
@@ -220,7 +220,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
      * that it merges recursively and the null values of the preceding array will be overridden.
      * 
      * @since       2.1.2
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @static
      * @access      public
      * @remark      The parameters are variadic and can add arrays as many as necessary.
@@ -247,7 +247,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
      * 
      * @since       2.0.0
      * @since       2.1.5       Changed the visibility scope to `static`. 
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @access      public
      * @remark      null values will be overwritten.     
      * @param       array     the array that overrides the same keys.
@@ -290,7 +290,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
      * Removes array elements by the specified type.
      * 
      * @since       3.3.1
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @param       array       $aArray     The subject array to parse.
      * @param       array       $aTypes     The value types to drop. The supported types are the followings.
      *  - boolean
@@ -316,7 +316,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
     /**
      * Removes an array element(s) by the given value.
      * @since       3.4.0
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @return      array       The modified array.
      */
     static public function dropElementByValue( array $aArray, $vValue ) {
@@ -338,7 +338,7 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
      * This is used to drop unnecessary keys for a multidimensional array as multidimensinal arrays can cause PHP warnings used with `array_diff()`.
      * 
      * @since       3.4.6
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @return      array       The modified array.
      */
     static public function dropElementsByKey( array $aArray, $asKeys ) {

@@ -23,7 +23,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
     /**
      * Returns a first iterated array element.
      * @since       3.6.0
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      */
     static public function getFirstElement( array $aArray ) {
         foreach( $aArray as $_mElement ) {
@@ -38,7 +38,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
      * 
      * @since       3.4.0
      * @since       3.5.3       The second parameter accepts an array representing dimensional keys. Added the fourth parameter to set values that the default value will be applied to.
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @param       array                       $aSubject       The subject array to parse.
      * @param       string|array|integer        $aisKey         The key to check. If an array is passed, it checks dimensional keys. 
      * @param       mixed                       $mDefault       The default value to return when the key is not set.
@@ -69,7 +69,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
      * 
      * @since       3.4.0
      * @since       3.5.3       The second parameter accepts dimensional array keys and added the fourth parameter.
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @return      array       The cast retrieved element value.
      */
     static public function getElementAsArray( $aSubject, $aisKey, $mDefault=null, $asToDefault=array( null ) ) {
@@ -84,7 +84,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
      * 
      * @since       3.0.0
      * @since       3.5.3       Changed the name from `getIntegerElements`. Added a type hint in the first parameter.
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @return      array
      */
     static public function getIntegerKeyElements( array $aParse ) {
@@ -112,7 +112,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
      * 
      * @since       3.0.0
      * @since       3.5.3       Changed the name from `getNonIntegerElements()`.
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @return      array
      */
     static public function getNonIntegerKeyElements( array $aParse ) {
@@ -148,7 +148,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
      * </code>
      * 
      * @since       3.0.1
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @return      mixed
      */
     static public function getArrayValueByArrayKeys( $aArray, $aKeys, $vDefault=null ) {
@@ -185,7 +185,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
      * @remark      If `null` is passed an empty array `array()` will be returned.
      * @since       3.0.1
      * @since       3.5.3       Added the `$bPreserveEmpty` parameter.
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @param       mixed       $mValue             The subject value.
      * @param       boolean     bPreserveEmpty      If `false` is given, a value that yields `false` such as `false`, an empty sttring `''`, or `0` will not create an element such as `array( false )`. It will be just `array()`.
      * @return      array       The cast array.
@@ -224,7 +224,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
      * )
      * </code>
      * @since       3.5.4
-     * @since       DVVER       Moved from `AdminPageFramework_Utility_Array`.
+     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @return      array
      */
     static public function getArrayElementsByKeys( array $aSubject, array $aKeys ) {
