@@ -45,7 +45,8 @@
  *              <li>cache_domain - (string) Default:`core`. For more details see [get_terms()](http://codex.wordpress.org/Function_Reference/get_terms#Parameters).</li>
  *          </ul>
  *      </li>
- *      <li>**queries** - [3.3.2+] (optional, array) Allows to set a query argument for each taxonomy. The array key must be the taxonomy slug and the value is the query argument array.</li>
+ *      <li>**queries** - [3.3.2+] (optional, array) Sets a query argument for each taxonomy. The array key must be the taxonomy slug and the value is the query argument array.</li>
+ *      <li>**save_unchecked** - [3.8.8+] (optional, boolean) Decides whether to save values of unchecked terms.</li>
  *  </ul>
  * 
  * <h3>Common Field Definition Arguments</h3>
@@ -160,7 +161,8 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
             'search'            => '',          // (string) The search keyword to get the term with.
             'cache_domain'      => 'core',
         ),
-        'queries'   => array(),         // (optional, array) 3.3.2+  Allows to set a query argument for each taxonomy. The array key must be the taxonomy slug and the value is the query argument array.
+        'queries'   => array(),         // (optional, array) 3.3.2+  Sets a query argument for each taxonomy. The array key must be the taxonomy slug and the value is the query argument array.
+        'save_unchecked'        => true,        // (optional, boolean) 3.8.8+   Whether to store the values of unchecked items.
     );
     
     /**
@@ -503,23 +505,25 @@ CSSRULES;
                     array(
                         'walker'                => new AdminPageFramework_WalkerTaxonomyChecklist, // the walker class instance
                         'taxonomy'              => $sTaxonomySlug, 
-                        '_name_prefix'          => is_array( $aField['taxonomy_slugs'] ) 
-                            ? "{$aField['_input_name']}[{$sTaxonomySlug}]" 
-                            : $aField['_input_name'],   // name prefix of the input
-                        '_input_id_prefix'      => $aField['input_id'],
+                        '_name_prefix'          => is_array( $aField[ 'taxonomy_slugs' ] ) 
+                            ? "{$aField[ '_input_name' ]}[{$sTaxonomySlug}]" 
+                            : $aField[ '_input_name' ],   // name prefix of the input
+                        '_input_id_prefix'      => $aField[ 'input_id' ],
                         '_attributes'           => $this->getElement( 
                             $aField, 
                             array( 'attributes', $sKey ), 
                             array() 
-                        ) + $aField['attributes'],                 
+                        ) + $aField[ 'attributes' ],                 
                         
                         // checked items ( term IDs ) e.g.  array( 6, 10, 7, 15 ), 
                         '_selected_items'       => $this->_getSelectedKeyArray( $aField['value'], $sTaxonomySlug ),
                         
                         'echo'                  => false,  // returns the output
-                        'show_post_count'       => $aField['show_post_count'],      // 3.2.0+
-                        'show_option_none'      => $aField['label_no_term_found'],  // 3.3.2+ 
-                        'title_li'              => $aField['label_list_title'],     // 3.3.2+
+                        'show_post_count'       => $aField[ 'show_post_count' ],      // 3.2.0+
+                        'show_option_none'      => $aField[ 'label_no_term_found' ],  // 3.3.2+ 
+                        'title_li'              => $aField[ 'label_list_title' ],     // 3.3.2+
+                        
+                        '_save_unchecked'       => $aField[ 'save_unchecked' ], // 3.8.8+ Whether to insert hidden input element for unchecked.
                     ) 
                     + $this->getAsArray( 
                         $this->getElement( 
@@ -529,7 +533,7 @@ CSSRULES;
                         ), 
                         true 
                     )
-                    + $aField['query']                             
+                    + $aField[ 'query' ]  
                 );
             }
      

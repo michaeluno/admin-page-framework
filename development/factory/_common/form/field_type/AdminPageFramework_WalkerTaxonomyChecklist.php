@@ -72,6 +72,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
             '_selected_items'   => array(),
             'taxonomy'          => null,    // parsed by the core function to perform the database query.
             'disabled'          => null,    // not sure what this was for
+            '_save_unchecked'   => true,    // 3.8.8+
         );
         
         // Local variables
@@ -79,22 +80,22 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
         $_sTaxonomySlug  = empty( $aArgs[ 'taxonomy' ] ) 
             ? 'category' 
             : $aArgs[ 'taxonomy' ];
-        $_sID            = "{$aArgs['_input_id_prefix']}_{$_sTaxonomySlug}_{$_iID}";
+        $_sID            = "{$aArgs[ '_input_id_prefix' ]}_{$_sTaxonomySlug}_{$_iID}";
 
         // Post count
-        $_sPostCount     = $aArgs['show_post_count'] 
+        $_sPostCount     = $aArgs[ 'show_post_count' ] 
             ? " <span class='font-lighter'>(" . $oTerm->count . ")</span>" 
             : '';
         
         // Attributes
         $_aInputAttributes = isset( $_aInputAttributes[ $_iID ] ) 
-            ? $_aInputAttributes[ $_iID ] + $aArgs['_attributes']
-            : $aArgs['_attributes'];
+            ? $_aInputAttributes[ $_iID ] + $aArgs[ '_attributes' ]
+            : $aArgs[ '_attributes' ];
         $_aInputAttributes = array(
             'id'        => $_sID,
             'value'     => 1, // must be 1 because the index of zero exists so the index value cannot be assigned here.
             'type'      => 'checkbox',
-            'name'      => "{$aArgs['_name_prefix']}[{$_iID}]",
+            'name'      => "{$aArgs[ '_name_prefix' ]}[{$_iID}]",
             'checked'   => in_array( $_iID, ( array ) $aArgs[ '_selected_items' ] )
                 ? 'checked' 
                 : null,
@@ -109,12 +110,16 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
             'class'     => 'category-list',
             'title'     => $oTerm->description,
         );
-        
+
+        $_sHiddenInputForUnchecked = $aArgs[ '_save_unchecked' ]
+            ? "<input value='0' type='hidden' name='" . $_aInputAttributes[ 'name' ] . "' class='apf_checkbox' />"
+            : '';
+            
         // Output - the variable is by reference so the modification takes effect
         $sOutput .= "\n"
             . "<li " . AdminPageFramework_WPUtility::getAttributes( $_aLiTagAttributes ) . ">" 
                 . "<label for='{$_sID}' class='taxonomy-checklist-label'>"
-                    . "<input value='0' type='hidden' name='" . $_aInputAttributes[ 'name' ] . "' class='apf_checkbox' />"
+                    . $_sHiddenInputForUnchecked    // 3.8.8+
                     . "<input " . AdminPageFramework_WPUtility::getAttributes( $_aInputAttributes ) . " />"
                     . esc_html( apply_filters( 'the_category', $oTerm->name ) ) 
                     . $_sPostCount
