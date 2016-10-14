@@ -481,6 +481,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.8 =
+- Tweaked the style of `taxonomy` fields.
+
 = 3.8.7 - 2016/10/09 =
 - Added the `select2` custom field type that lets the user select items with auto-complete list which can possibly populated with AJAX. 
 - Added the ability for the `path` and `toggle` custom field types to support repeatable sections.

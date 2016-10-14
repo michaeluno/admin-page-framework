@@ -327,6 +327,9 @@ JAVASCRIPTS;
 }
 .admin-page-framework-field .tab-box-tab-text {
     display: inline-block;
+    font-size: 13px;
+    font-size: smaller;
+    padding: 2px;
 }
 .admin-page-framework-field .tab-box-tabs {
     line-height: 12px;
@@ -339,7 +342,7 @@ JAVASCRIPTS;
     display: inline;
     border-color: #dfdfdf #dfdfdf #fff;
     margin-bottom: 0px;
-    padding-bottom: 2px;
+    padding-bottom: 4px;
     background-color: #fff;
     
 }
