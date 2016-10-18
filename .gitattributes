@@ -9,6 +9,7 @@
 documentation_guideline.md export-ignore
 coding_standard.md export-ignore
 changelog.md export-ignore
+issue_template.md　export-ignore
 composer.json export-ignore
 
 # Files containing sensitive information
