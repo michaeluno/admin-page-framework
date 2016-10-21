@@ -389,6 +389,7 @@ JAVASCRIPTS;
 .admin-page-framework-field .tab-box-content .select_all_button_container, 
 .admin-page-framework-field .tab-box-content .select_none_button_container
 {
+    display: inline-block;    /* 3.8.8 For some reasons, it became `block` */
     margin-top: 0.8em;
 }
 /* Nested Checkbox Items */
