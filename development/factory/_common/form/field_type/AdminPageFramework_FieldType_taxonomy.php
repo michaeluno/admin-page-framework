@@ -445,8 +445,12 @@ CSSRULES;
         $_aTabs         = array();
         $_aCheckboxes   = array();      
         foreach( $this->getAsArray( $aField[ 'taxonomy_slugs' ] ) as $_isKey => $_sTaxonomySlug ) {
-            $_aTabs[]        = $this->_getTaxonomyTab( $aField, $_isKey, $_sTaxonomySlug );
-            $_aCheckboxes[]  = $this->_getTaxonomyCheckboxes( $aField, $_isKey, $_sTaxonomySlug );
+            $_aAssociatedDataAttributes = $this->_getDataAttributesOfAssociatedPostTypes( 
+                $_sTaxonomySlug, 
+                $this->_getPostTypesByTaxonomySlug( $_sTaxonomySlug )
+            );
+            $_aTabs[]                   = $this->_getTaxonomyTab( $aField, $_isKey, $_sTaxonomySlug, $_aAssociatedDataAttributes );
+            $_aCheckboxes[]             = $this->_getTaxonomyCheckboxes( $aField, $_isKey, $_sTaxonomySlug, $_aAssociatedDataAttributes );
         }
 
         // Output
@@ -463,14 +467,37 @@ CSSRULES;
             ;
                 
     }
+    
+        /**
+         * @since       3.8.8
+         * @return      array       Post type slugs associated with the given taxonomy.
+         */
+        private function _getPostTypesByTaxonomySlug( $sTaxonomySlug ) {            
+            $_oTaxonomy = get_taxonomy( $sTaxonomySlug );
+            return $_oTaxonomy->object_type;            
+        }
+        
+        /**
+         * @remark      This is for the `post_type_taxonomy` field type.
+         * @since       3.8.8
+         * @return      array
+         */
+        private function _getDataAttributesOfAssociatedPostTypes( $sTaxonomySlusg, $aPostTypes ) {
+            return array(
+                'data-associated-with'       => $sTaxonomySlusg,
+                'data-associated-post-types' => implode( ',', $aPostTypes ) . ',',  // must add a trailing comma for jQuery to detect the item.
+            );
+        }
+    
         /**
          * Returns the HTML output of taxonomy checkboxes.
          * 
          * @since       3.5.3
+         * @since       3.8.8       Added the `$aAttributes` parameter.
          * @return      string      the generated HTML output of taxonomy checkboxes.
          * @internal
          */
-        private function _getTaxonomyCheckboxes( array $aField, $sKey, $sTaxonomySlug ) {
+        private function _getTaxonomyCheckboxes( array $aField, $sKey, $sTaxonomySlug, $aAttributes ) {
             
             $_aTabBoxContainerArguments = array(
                 'id'    => "tab_{$aField['input_id']}_{$sKey}",
@@ -481,7 +508,7 @@ CSSRULES;
                         'width'  => $this->getAOrB( $aField[ 'width' ], $this->getLengthSanitized( $aField[ 'width' ] ), null ),
                     )
                 ),
-            );
+            ) + $aAttributes;
             return "<div " . $this->getAttributes( $_aTabBoxContainerArguments ) . ">"
                     . $this->getElement( $aField, array( 'before_label', $sKey ) )
                     . "<div " . $this->getAttributes( $this->_getCheckboxContainerAttributes( $aField ) ) . ">"
@@ -561,11 +588,15 @@ CSSRULES;
          * Returns an HTML tab list item output.
          * 
          * @since       3.5.3
+         * @since       3.8.8       Added the `$aAttributes` parameter.
          * @return      string      The generated HTML tab list item output.
          * @internal
          */
-        private function _getTaxonomyTab( $aField, $sKey, $sTaxonomySlug ) {
-            return "<li class='tab-box-tab'>"
+        private function _getTaxonomyTab( $aField, $sKey, $sTaxonomySlug, $aAttributes ) {
+            $_aLiAttribues = array(
+                'class' => 'tab-box-tab',
+            ) + $aAttributes;
+            return "<li " . $this->getAttributes( $_aLiAttribues ) . ">"
                     . "<a href='#tab_{$aField['input_id']}_{$sKey}'>"
                         . "<span class='tab-box-tab-text'>" 
                             . $this->_getLabelFromTaxonomySlug( $sTaxonomySlug )
