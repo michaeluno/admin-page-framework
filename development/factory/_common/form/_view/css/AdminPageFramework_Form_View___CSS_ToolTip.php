@@ -163,8 +163,9 @@ a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-con
 
 /* Debug Info - Field Arguments */
 a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content {
-    width: 640px;
+    width: 480px;
     background-color: #F8F8F8;
+    max-width: 72%;
 }
 a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content .dump-array {
     max-height: 400px;
