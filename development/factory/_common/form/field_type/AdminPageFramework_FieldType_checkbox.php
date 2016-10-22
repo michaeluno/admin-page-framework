@@ -227,7 +227,10 @@ CSSRULES;
          */
         private function _getEachCheckboxOutput( array $aField, $sKey, $sLabel ) {
 
-            $_oCheckbox = new AdminPageFramework_Input_checkbox( $aField[ 'attributes' ] );
+            $_aInputAttributes = array(
+                'data-key'  => $sKey,   // 3.8.8+ For the `post_type_taxonomy` field type.
+            ) + $aField[ 'attributes' ];
+            $_oCheckbox = new AdminPageFramework_Input_checkbox( $_aInputAttributes );
             $_oCheckbox->setAttributesByKey( $sKey );
             $_oCheckbox->addClass( $this->_sCheckboxClassSelector );
             return $this->getElementByLabel( $aField[ 'before_label' ], $sKey, $aField[ 'label' ] )
