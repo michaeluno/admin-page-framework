@@ -585,13 +585,15 @@ CSSRULES;
              * 
              * A helper function for the above getTaxonomyChecklistField() method.
              * 
-             * @since 2.1.1
+             * @since       2.1.1
+             * @since       3.8.8       Changed the return value type to string from string|null.
+             * @return      string
              */
             private function _getLabelFromTaxonomySlug( $sTaxonomySlug ) {
                 $_oTaxonomy = get_taxonomy( $sTaxonomySlug );
                 return isset( $_oTaxonomy->label )
                     ? $_oTaxonomy->label
-                    : null;
+                    : '';
             }       
 
         
