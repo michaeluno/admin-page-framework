@@ -421,12 +421,12 @@ CSSRULES;
     /**
      * Returns the output of the field type.
      * 
-     * Returns the output of taxonomy checklist check boxes.
+     * Returns the output of taxonomy check-list check boxes.
      * 
      * @remark      Multiple fields are not supported.
      * @remark      Repeater fields are not supported.
      * @since       2.0.0
-     * @since       2.1.1       The checklist boxes are rendered in a tabbed single box.
+     * @since       2.1.1       The check-list boxes are rendered in a tabbed single box.
      * @since       2.1.5       Moved from AdminPageFramework_FormField.
      * @since       3.3.1       Changed from `_replyToGetField()`.
      * @internal
@@ -435,18 +435,18 @@ CSSRULES;
     protected function getField( $aField ) {
         
         // Format
-        $aField['label_no_term_found'] = $this->getElement( 
+        $aField[ 'label_no_term_found' ] = $this->getElement( 
             $aField, 
             'label_no_term_found', 
             $this->oMsg->get( 'no_term_found' ) 
         );
-        
+
         // Parse
         $_aTabs         = array();
         $_aCheckboxes   = array();      
-        foreach( $this->getAsArray( $aField['taxonomy_slugs'] ) as $sKey => $sTaxonomySlug ) {
-            $_aTabs[]        = $this->_getTaxonomyTab( $aField, $sKey, $sTaxonomySlug );    
-            $_aCheckboxes[]  = $this->_getTaxonomyCheckboxes( $aField, $sKey, $sTaxonomySlug );
+        foreach( $this->getAsArray( $aField[ 'taxonomy_slugs' ] ) as $_isKey => $_sTaxonomySlug ) {
+            $_aTabs[]        = $this->_getTaxonomyTab( $aField, $_isKey, $_sTaxonomySlug );
+            $_aCheckboxes[]  = $this->_getTaxonomyCheckboxes( $aField, $_isKey, $_sTaxonomySlug );
         }
 
         // Output
@@ -484,7 +484,8 @@ CSSRULES;
             );
             return "<div " . $this->getAttributes( $_aTabBoxContainerArguments ) . ">"
                     . $this->getElement( $aField, array( 'before_label', $sKey ) )
-                    . "<div " . $this->getAttributes( $this->_getCheckboxContainerAttributes( $aField ) ) . "></div>"
+                    . "<div " . $this->getAttributes( $this->_getCheckboxContainerAttributes( $aField ) ) . ">"
+                    . "</div>"
                     . "<ul class='list:category taxonomychecklist form-no-clear'>"
                         . $this->_getTaxonomyChecklist( $aField, $sKey, $sTaxonomySlug )
                     . "</ul>"     
@@ -501,19 +502,18 @@ CSSRULES;
              * @internal
              * @return      string
              */
-            private function _getTaxonomyChecklist( array $aField, $sKey, $sTaxonomySlug ) {
+            private function _getTaxonomyChecklist( $aField, $sKey, $sTaxonomySlug ) {
                 return wp_list_categories( 
                     array(
-                        'walker'                => new AdminPageFramework_WalkerTaxonomyChecklist, // the walker class instance
+                        'walker'                => new AdminPageFramework_WalkerTaxonomyChecklist, // a walker class instance
                         'taxonomy'              => $sTaxonomySlug, 
                         '_name_prefix'          => is_array( $aField[ 'taxonomy_slugs' ] ) 
                             ? "{$aField[ '_input_name' ]}[{$sTaxonomySlug}]" 
                             : $aField[ '_input_name' ],   // name prefix of the input
                         '_input_id_prefix'      => $aField[ 'input_id' ],
-                        '_attributes'           => $this->getElement( 
+                        '_attributes'           => $this->getElementAsArray( 
                             $aField, 
-                            array( 'attributes', $sKey ), 
-                            array() 
+                            array( 'attributes', $sKey )
                         ) + $aField[ 'attributes' ],                 
                         
                         // checked items ( term IDs ) e.g.  array( 6, 10, 7, 15 ), 
@@ -588,7 +588,6 @@ CSSRULES;
                 return isset( $_oTaxonomy->label )
                     ? $_oTaxonomy->label
                     : '';
-            }       
-
+            }
         
 }
