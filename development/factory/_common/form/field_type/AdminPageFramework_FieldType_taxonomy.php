@@ -539,28 +539,21 @@ CSSRULES;
             }
      
             /**
-             * Returns an array consisting of keys whose value is true.
-             * 
-             * A helper function for the above getTaxonomyChecklistField() method. 
+             * Returns an array consisting of keys whose value is `true`.
              * 
              * @since   2.0.0
-             * @param   array   $vValue This can be either an one-dimensional array ( for single field ) or a two-dimensional array ( for multiple fields ).
-             * @param   string  $sKey     
-             * @return  array   Returns an numerically indexed array holding the keys that yield true as the value.
+             * @param   array   $vValue         This can be either an one-dimensional array ( for single field ) or a two-dimensional array ( for multiple fields ).
+             * @param   string  $sTaxonomySlug
+             * @return  array   Returns an numerically indexed array holding the keys that yield true as the value. e.g. `array( 6, 10, 7, 15 )`
              * @internal
              */ 
             private function _getSelectedKeyArray( $vValue, $sTaxonomySlug ) {
-
-                $vValue = ( array ) $vValue; // cast array because the initial value (null) may not be an array.
-                
-                if ( ! isset( $vValue[ $sTaxonomySlug ] ) ) { 
-                    return array(); 
-                }
-                if ( ! is_array( $vValue[ $sTaxonomySlug ] ) ) { 
-                    return array(); 
-                }
-                
-                return array_keys( $vValue[ $sTaxonomySlug ], true );
+                                
+                $_aSelected = $this->getElementAsArray(
+                    $this->getAsArray( $vValue ), // The initial value (null) may not be an array.                
+                    array( $sTaxonomySlug )
+                );               
+                return array_keys( $_aSelected, true ); // return keys that are `true`.
             
             }            
             
