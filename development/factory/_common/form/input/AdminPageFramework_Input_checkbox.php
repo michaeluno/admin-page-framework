@@ -18,6 +18,13 @@
 class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
     
     /**
+     * @since       3.8.8
+     */
+    public $aOptions = array(
+        'save_unchecked'    => true,
+    );
+    
+    /**
      * Returns the output of the input element.
      * 
      * @since       3.4.0    
@@ -38,26 +45,11 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
             $this->getElementAsArray( $_aParams, 1, array() ),
             $this->aAttributes
         );
-        // $_aAttributes   = array(
-            // 'checked'   => $this->getElement( $_aAttributes, 'value' )
-                // ? 'checked' 
-                // : null,    // to not to set, pass null. An empty value '' will still set the attribute.
-        // ) + $_aAttributes;
 
         // Output
         return 
            "<{$this->aOptions[ 'input_container_tag' ]} " . $this->getAttributes( $this->aOptions[ 'input_container_attributes' ] ) . ">"
-                // the unchecked value must be set prior to the checkbox input field.
-                . "<input " . $this->getAttributes( 
-                    array(
-                        'type'      => 'hidden',
-                        'class'     => $_aAttributes[ 'class' ],
-                        'name'      => $_aAttributes[ 'name' ],
-                        'value'     => '0',
-                    ) 
-                ) 
-                . " />"
-                . "<input " . $this->getAttributes( $_aAttributes ) . " />" 
+                . $this->_getInputElements( $_aAttributes, $this->aOptions )
             . "</{$this->aOptions[ 'input_container_tag' ]}>"
             . "<{$this->aOptions[ 'label_container_tag' ]} " . $this->getAttributes( $this->aOptions[ 'label_container_attributes' ] ) . ">"
                 . $_sLabel
@@ -65,6 +57,26 @@ class AdminPageFramework_Input_checkbox extends AdminPageFramework_Input_Base {
         ;
                         
     }        
+        /**
+         * @since       3.8.8
+         * @internal   
+         * @return      string
+         */
+        private function _getInputElements( $aAttributes, $aOptions ) {
+            $_sOutput = $this->aOptions[ 'save_unchecked' ]
+                // the unchecked value must be set prior to the checkbox input field.
+                ? "<input " . $this->getAttributes( 
+                    array(
+                        'type'      => 'hidden',
+                        'class'     => $aAttributes[ 'class' ],
+                        'name'      => $aAttributes[ 'name' ],
+                        'value'     => '0',
+                    ) 
+                ) . " />"
+                : '';
+            $_sOutput .= "<input " . $this->getAttributes( $aAttributes ) . " />";
+            return $_sOutput;
+        }
         
     /**
      * Generates an attribute array from the given key based on the attributes set in the constructor.

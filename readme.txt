@@ -482,7 +482,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.8 =
-- Added the `save_unchecked` argument for the `taxonomy` field type that decides whether to save values of unchecked terms.
+- Added the `save_unchecked` argument for the `checkbox`, `posttype`, and `taxonomy`  field types that decides whether to save values of unchecked terms.
 - Tweaked the style of `taxonomy` fields.
 
 = 3.8.7 - 2016/10/09 =
