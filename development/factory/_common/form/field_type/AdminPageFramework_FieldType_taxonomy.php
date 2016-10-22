@@ -571,7 +571,7 @@ CSSRULES;
          * @return      string      The generated HTML tab list item output.
          * @internal
          */
-        private function _getTaxonomyTab( array $aField, $sKey, $sTaxonomySlug ) {
+        private function _getTaxonomyTab( $aField, $sKey, $sTaxonomySlug ) {
             return "<li class='tab-box-tab'>"
                     . "<a href='#tab_{$aField['input_id']}_{$sKey}'>"
                         . "<span class='tab-box-tab-text'>" 
@@ -588,6 +588,7 @@ CSSRULES;
              * @since       2.1.1
              * @since       3.8.8       Changed the return value type to string from string|null.
              * @return      string
+             * @internal
              */
             private function _getLabelFromTaxonomySlug( $sTaxonomySlug ) {
                 $_oTaxonomy = get_taxonomy( $sTaxonomySlug );
