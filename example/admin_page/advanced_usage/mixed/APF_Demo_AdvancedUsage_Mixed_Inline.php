@@ -37,6 +37,8 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
      */
     public function __construct( $oFactory ) {
     
+        $oFactory->oProp->bShowDebugInfo = false;
+    
         // Section
         $oFactory->addSettingSections(    
             $this->sPageSlug, // the target page slug                
@@ -110,9 +112,26 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
                             // 'style'     => 'width: 80px',
                         ),    
                     ),
-
                 ),
-            ),            
+            ),
+            array(
+                'field_id'      => 'with_javascript',
+                'type'          => 'inline_mixed',
+                'title'         => __( 'Field Types with JavaScript', 'admin-page-framework-loader' ),            
+                'repeatable'    => true,
+                'content'       => array(                             
+                    __( 'Color', 'admin-page-framework-loader' ), 
+                    array(
+                        'field_id'        => 'color',
+                        'type'            => 'color', 
+                    ),                
+                    __( 'Media', 'admin-page-framework-loader' ),
+                    array(
+                        'field_id'        => 'media',
+                        'type'            => 'media',
+                    ),
+                ),
+            ),                    
             array(
                 'field_id'      => 'shipping_address',
                 'title'         => __( 'Shipping Information', 'admin-page-framework-loader' ),
