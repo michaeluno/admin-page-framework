@@ -113,59 +113,29 @@ jQuery( document ).ready( function(){
             
     jQuery().registerAdminPageFrameworkCallbacks( {    
         /**
-         * The repeatable field callback for the add event.
-         * 
-         * @param object    node
-         * @param string    the field type slug
-         * @param string    the field container tag ID
-         * @param integer   the caller type. 1 : repeatable sections. 0 : repeatable fields.
-         */     
-        added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType ) {
-            
-            // Return if it is not the type.
-            if ( oCloned.find( '.select_media' ).length <= 0 ) {
-                return;
-            }
-            
+         * Called when a field of this field type gets repeated.
+         */
+        repeated_field: function( oCloned, aModel ) {
+                           
             // Update attributes.
-            
-            // Repeatable Sections
-            if ( 1 === iCallType ) {
-                var _oSectionsContainer     = jQuery( oCloned ).closest( '.admin-page-framework-sections' );
-                var _iSectionIndex          = _oSectionsContainer.attr( 'data-largest_index' );
-                var _sSectionIDModel        = _oSectionsContainer.attr( 'data-section_id_model' );
-                jQuery( oCloned ).find( '.select_media' ).incrementAttribute(
-                    'id', // attribute name
-                    _iSectionIndex, // increment from
-                    _sSectionIDModel // digit model
-                );                                  
-            } 
-            // Repeatable fields
-            else {
-                var _oFieldContainer    = oCloned.closest( '.admin-page-framework-field' );
-                var _oFieldsContainer   = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
-                var _iFieldIndex        = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
-                var _sFieldTagIDModel   = _oFieldsContainer.attr( 'data-field_tag_id_model' );                
-                jQuery( oCloned ).find( '.select_media' ).incrementAttribute(
-                    'id', // attribute name
-                    _iFieldIndex, // increment from
-                    _sFieldTagIDModel // digit model
-                );                
-            }
+            oCloned.find( '.select_media' ).incrementAttribute(
+                'id', // attribute name
+                aModel[ 'incremented_from' ], // index incremented from
+                aModel[ 'id' ] // digit model
+            );   
             
             // Bind the event.
-            var _oMediaInput = jQuery( oCloned ).find( '.media-field input' );
+            var _oMediaInput = oCloned.find( '.media-field input' );
             if ( _oMediaInput.length <= 0 ) {
                 return true;
             }
             setAdminPageFrameworkMediaUploader( 
                 _oMediaInput.attr( 'id' ), 
                 true, 
-                jQuery( oCloned ).find( '.select_media' ).attr( 'data-enable_external_source' ) 
-            );
-       
-        }
-
+                oCloned.find( '.select_media' ).attr( 'data-enable_external_source' )
+            );                      
+            
+        },    
     },
     {$_aJSArray}
     );

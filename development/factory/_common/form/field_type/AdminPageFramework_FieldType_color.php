@@ -176,9 +176,12 @@ registerAdminPageFrameworkColorPickerField = function( osTragetInput, aOptions )
 jQuery( document ).ready( function(){
         
     jQuery().registerAdminPageFrameworkCallbacks( {     
-        added_repeatable_field: function( oClonedField, sFieldType, sFieldTagID, sCallType ) {
+        /**
+         * Called when a field of this field type gets repeated.
+         */
+        repeated_field: function( oCloned, aModel ) {
                         
-            oClonedField.find( 'input.input_color' ).each( function( iIterationIndex ) {
+            oCloned.find( 'input.input_color' ).each( function( iIterationIndex ) {
                 
                 var _oNewColorInput = jQuery( this );
                 var _oIris          = _oNewColorInput.closest( '.wp-picker-container' );
@@ -206,16 +209,15 @@ jQuery( document ).ready( function(){
                 } 
                 // WP 3.4.x -     
                 else { 
-                    oClonedField.find( '.colorpicker' )
+                    oCloned.find( '.colorpicker' )
                         .replaceWith( '<div class=\"colorpicker\" id=\"color_' + _sInputID + '\"></div>' );
                 }
 
                 // Bind the color picker event.
                 registerAdminPageFrameworkColorPickerField( _oNewColorInput );                
             
-            } );
-
-        }
+            } );                   
+        },    
     },
     {$_aJSArray}
     );

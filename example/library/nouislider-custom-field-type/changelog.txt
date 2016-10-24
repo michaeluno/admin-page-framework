@@ -1,3 +1,7 @@
+# Change Log
+= 0.0.3b - 2016/10/24 =
+- Set a field type slug to the register callback function to avoid unnecessary callback function calls.
+- Made it compatible with Admin Paqe Framework 3.8.8.
 = 0.0.2b - 2016/10/07 =
 - Fixed a PHP warning `array_fill() [function.array-fill]: Number of elements must be positive...`.
 - Fixed a bug that saving a value of `0` caused a slider not to be displayed.

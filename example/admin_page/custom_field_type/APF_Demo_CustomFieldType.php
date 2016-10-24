@@ -63,40 +63,24 @@ class APF_Demo_CustomFieldType {
     public function replyToLoadPage( $oFactory ) {
         
         // Tabs
-        new APF_Demo_CustomFieldType_Select2(
-            $oFactory,
-            $this->_sPageSlug
+        $_aTabClasses = array(
+            'APF_Demo_CustomFieldType_Select2',
+            'APF_Demo_CustomFieldType_Path',
+            'APF_Demo_CustomFieldType_Toggle',
+            'APF_Demo_CustomFieldType_NoUISlider',
+            'APF_Demo_CustomFieldType_ACE',
+            'APF_Demo_CustomFieldType_PostTypeTaxonomy',
+            'APF_Demo_CustomFieldType_Sample',
+            'APF_Demo_CustomFieldType_GitHub',
+            'APF_Demo_CustomFieldType_Mixed',
         );
-        new APF_Demo_CustomFieldType_Path(
-            $oFactory,
-            $this->_sPageSlug
-        );        
-        new APF_Demo_CustomFieldType_Toggle(
-            $oFactory,
-            $this->_sPageSlug
-        );        
-        new APF_Demo_CustomFieldType_NoUISlider(
-            $oFactory,
-            $this->_sPageSlug
-        );
-        new APF_Demo_CustomFieldType_ACE(
-            $oFactory,
-            $this->_sPageSlug
-        );   
-        new APF_Demo_CustomFieldType_Sample(
-            $oFactory,    
-            $this->_sPageSlug
-        );
-        new APF_Demo_CustomFieldType_GitHub(
-            $oFactory,    
-            $this->_sPageSlug   
-        );
-        new APF_Demo_CustomFieldType_Mixed(
-            $oFactory,    
-            $this->_sPageSlug   
-        );
-
-        
+        foreach ( $_aTabClasses as $_sTabClassName ) {
+            if ( ! class_exists( $_sTabClassName ) ) {
+                continue;                
+            }        
+            new $_sTabClassName( $oFactory, $this->_sPageSlug );
+        }
+         
         // Add a link in tabs
         $oFactory->addInPageTabs(    
             $this->_sPageSlug, // target page slug

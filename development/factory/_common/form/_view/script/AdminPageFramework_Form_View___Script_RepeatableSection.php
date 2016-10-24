@@ -156,15 +156,17 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
         nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );    
 
         // Iterate each field one by one.
-        $( nodeNewSection ).find( '.admin-page-framework-field' ).each( function( iFieldIndex ) {    
+        $( nodeNewSection ).find( '.admin-page-framework-field' ).each( function( iFieldIndex ) {
         
             // Rebind the click event to the repeatable field buttons - important to update AFTER inserting the clone to the document node since the update method need to count fields.
             // @todo examine whether this is needed any longer.
             $( this ).updateAdminPageFrameworkRepeatableFields();
                                         
             // Callback the registered callback functions.
+            
+            // @deprecated 3.8.8 Kept for backward compatibility.
             $( this ).trigger( 
-                'admin-page-framework_repeated_field', 
+                'admin-page-framework_added_repeatable_field', 
                 [
                     $( this ).data( 'type' ), // field type slug
                     $( this ).attr( 'id' ), // element tag id
@@ -172,7 +174,16 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
                     _iSectionIndex, 
                     iFieldIndex 
                 ]
-            );            
+            );  
+
+            // 3.8.8 
+            $( this ).trigger( 
+                'admin-page-framework_repeated_field', 
+                [
+                    1, // call type, 0: repeatable fields, 1: repeatable sections, 
+                    jQuery( nodeNewSection ).closest( '.admin-page-framework-sections' )    // model container
+                ]
+            );              
             
         });     
         

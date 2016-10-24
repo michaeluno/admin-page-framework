@@ -292,28 +292,19 @@ jQuery( document ).ready( function(){
         
     };
     
-    jQuery().registerAdminPageFrameworkCallbacks( {				
+    jQuery().registerAdminPageFrameworkCallbacks( {	
         /**
-         * The repeatable field callback.
-         * 
-         * When a repeat event occurs and a field is copied, this method will be triggered.
-         * 
-         * @param   object  oCloned         the copied node object.
-         * @param   string  sFieldType      the field type slug
-         * @param   string  sFieldTagID     the field container tag ID
-         * @param   integer iCallType       the caller type. 1 : repeatable sections. 0 : repeatable fields.
-         * @param   integer iSectionIndex   the section index. For repeatable fields, it will be always 0
-         * @param   integer iFieldIndex     the field index. For repeatable fields, it will be always 0.
+         * Called when a field of this field type gets repeated.
          */
-        added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType, iSectionIndex, iFieldIndex ) {
-                                    
+        repeated_field: function( oCloned, aModel ) {
+                           
             // Return if not the type and there is no editor element.
-            if ( ! isEditorReady( oCloned, sFieldType ) ) {
+            if ( ! isEditorReady( oCloned, aModel[ 'field_type' ] ) ) {
                 return;
             }
             if ( oCloned.find( 'textarea.wp-editor-area' ).length <= 0 ) {
                 return;
-            }                    
+            }
             
             // Find the tinyMCE wrapper element
             var _oWrap     = oCloned.find( '.wp-editor-wrap' );
@@ -351,60 +342,23 @@ jQuery( document ).ready( function(){
             );
   
             // Update the TinyMCE editor and the Quick Tags bar and their attributes.
-            switch( iCallType ) {
-                
-                // Repeatable sections (calling a belonging field)
-                case 1: 
-
-                    var _oSectionsContainer     = jQuery( oCloned ).closest( '.admin-page-framework-sections' );
-                    var _iSectionIndex          = _oSectionsContainer.attr( 'data-largest_index' );
-                    var _sSectionIDModel        = _oSectionsContainer.attr( 'data-section_id_model' );       
-                    _oToolBar.find( 'a,div,button' ).incrementAttributes(
-                        [ 'id', 'data-wp-editor-id', 'data-editor' ], // attribute name
-                        _iSectionIndex, // increment from
-                        _sSectionIDModel // digit model
-                    );
-                    _oField.find( '.wp-editor-wrap a' ).incrementAttribute(
-                        'data-editor',
-                        _iSectionIndex, // increment from
-                        _sSectionIDModel // digit model                        
-                    );
-                    _oField.find( '.wp-editor-wrap,.wp-editor-tools,.wp-editor-container' ).incrementAttribute(
-                        'id',
-                        _iSectionIndex, // increment from
-                        _sSectionIDModel // digit model                                                
-                    );                    
-                
-                    break;
-                    
-                // Repeatable fields
-                default:
-                case 0:
-                    
-                    // Update the attributes of sub-elements.
-                    var _oFieldsContainer   = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
-                    var _iFieldIndex        = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
-                    var _sFieldTagIDModel   = _oFieldsContainer.attr( 'data-field_tag_id_model' );
-                    _oToolBar.find( 'a,div,button' ).incrementAttributes(
-                        [ 'id', 'data-wp-editor-id', 'data-editor' ], // attribute name
-                        _iFieldIndex, // increment from
-                        _sFieldTagIDModel // digit model
-                    );
-                    _oField.find( '.wp-editor-wrap a' ).incrementAttribute(
-                        'data-editor',
-                        _iFieldIndex, // increment from
-                        _sFieldTagIDModel // digit model                        
-                    );
-                    _oField.find( '.wp-editor-wrap,.wp-editor-tools,.wp-editor-container' ).incrementAttribute(
-                        'id',
-                        _iFieldIndex, // increment from
-                        _sFieldTagIDModel // digit model                                                
-                    );
-                    break;
-
-            }  
+            _oToolBar.find( 'a,div,button' ).incrementAttributes(
+                [ 'id', 'data-wp-editor-id', 'data-editor' ], // attribute name
+                aModel[ 'incremented_from' ], // index incremented from
+                aModel[ 'id' ] // digit model
+            );
+            _oField.find( '.wp-editor-wrap a' ).incrementAttribute(
+                'data-editor',
+                aModel[ 'incremented_from' ], // index incremented from
+                aModel[ 'id' ] // digit model
+            );
+            _oField.find( '.wp-editor-wrap,.wp-editor-tools,.wp-editor-container' ).incrementAttribute(
+                'id',
+                aModel[ 'incremented_from' ], // index incremented from
+                aModel[ 'id' ] // digit model
+            );                     
             
-        },
+        },    
         
         /**
          * The sortable field callback for the sort update event.

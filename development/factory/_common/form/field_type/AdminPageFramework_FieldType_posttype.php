@@ -37,6 +37,7 @@
  *          </blockquote>
  *     </li>
  *     <li>**operator** - [3.2.1+] (optional, string) An operator to use with multiple arguments. Either `and` or `or` can be used. Default: `and`.</li>
+ *     <li>**save_unchecked**       - [3.8.8+] (optional, boolean) Whether to store the values of unchecked items. Default: `true`.</li>
  * 
  * </ul>
  *
@@ -101,6 +102,7 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
         ),    
         'select_all_button'     => true,     // 3.3.0+   to change the label, set the label here
         'select_none_button'    => true,     // 3.3.0+   to change the label, set the label here        
+        'save_unchecked'        => true,     // (optional, boolean) 3.8.8+   Whether to store the values of unchecked items.
     );
     protected $aDefaultRemovingPostTypeSlugs = array(
         'revision', 
@@ -143,14 +145,14 @@ CSSRULES;
      * @return      string
      */
     protected function getField( $aField ) {
-        
+
         $this->_sCheckboxClassSelector = '';    // disable the checkbox class selector.
-        $aField['label'] = $this->_getPostTypeArrayForChecklist( 
-            isset( $aField['slugs_to_remove'] ) 
-                ? $this->getAsArray( $aField['slugs_to_remove'] ) 
+        $aField[ 'label' ] = $this->_getPostTypeArrayForChecklist( 
+            isset( $aField[ 'slugs_to_remove' ] ) 
+                ? $this->getAsArray( $aField[ 'slugs_to_remove' ] ) 
                 : $this->aDefaultRemovingPostTypeSlugs,    // slugs to remove
-            $aField['query'],
-            $aField['operator']
+            $aField[ 'query' ],
+            $aField[ 'operator' ]
         );
         return parent::getField( $aField );
             

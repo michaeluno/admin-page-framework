@@ -15,7 +15,8 @@ if ( ! class_exists( 'ToggleCustomFieldType' ) ) :
  * A field type that lets the user toggle a switch.
  * 
  * @since       3.8.5
- * @version     0.0.2b
+ * @version     0.0.3b
+ * @requires    Admin Page Framework 3.8.8 or above.
  */
 class ToggleCustomFieldType extends AdminPageFramework_FieldType_checkbox {
 
@@ -59,8 +60,8 @@ class ToggleCustomFieldType extends AdminPageFramework_FieldType_checkbox {
             
         ),
         
-        'theme'     => 'modern',    // either `soft`, `light`, `dark`, `iphone`, or `modern` is allowed.
-        
+        'theme'           => 'modern',    // either `soft`, `light`, `dark`, `iphone`, or `modern` is allowed.
+        'save_unchecked'  => true,      // 0.0.3+
     );
     
     protected function construct() {}
@@ -133,70 +134,36 @@ class ToggleCustomFieldType extends AdminPageFramework_FieldType_checkbox {
             
             // Initialize toggle elements.
             jQuery( '.switch_toggle_buttons' ).each( function () {
+                
+                // Hide the actual check-box.
                 jQuery( this ).closest( '.admin-page-framework-field' )
                     .children( '.admin-page-framework-checkbox-container-toggle' )
                     .hide();
+                    
                 _initalizeToggles( this );
             });
             
-            jQuery().registerAPFCallback( {
+            jQuery().registerAdminPageFrameworkCallbacks( {
                 /**
-                * The repeatable field callback.
-                *
-                * When a repeat event occurs and a field is copied, this method will be triggered.
-                *
-                * @param  object  oCloned     the copied node object.
-                * @param  string  sFieldType  the field type slug
-                * @param  string  sFieldTagID the field container tag ID
-                * @param  integer iCallType   the caller type. 1 : repeatable sections. 0 : repeatable fields.
-                */
-                added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType ) {
-                    
-                    if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) {
-                        return;
-                    }
-                    
-                    // Update attributes.
-                    switch( iCallType ) {
+                 * Called when a field of this field type gets repeated.
+                 */
+                repeated_field: function( oCloned, aModel ) {
+                                
+                    // Increment element IDs.
+                   oCloned.find( '.switch_toggle_buttons' ).incrementAttributes(
+                        [ 'data-checkbox-id' ], // attribute name
+                        aModel[ 'incremented_from' ], // increment from
+                        aModel[ 'id' ] // digit model
+                    ); 
                         
-                        // Repeatable sections (calling a belonging field)
-                        case 1: 
-
-                            var _oSectionsContainer     = jQuery( oCloned ).closest( '.admin-page-framework-sections' );
-                            var _iSectionIndex          = _oSectionsContainer.attr( 'data-largest_index' );
-                            var _sSectionIDModel        = _oSectionsContainer.attr( 'data-section_id_model' );
-                            jQuery( oCloned ).find( '.switch_toggle_buttons' ).incrementAttributes(
-                                [ 'data-checkbox-id' ], // attribute name
-                                _iSectionIndex, // increment from
-                                _sSectionIDModel // digit model
-                            );
-                            break;
-                            
-                        // Repeatable fields
-                        default:
-                        case 0:
-                        // Parent repeatable fields (calling a nested field)
-                        case 2:
-                        
-                            var _oFieldsContainer   = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
-                            var _iFieldIndex        = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
-                            var _sFieldTagIDModel   = _oFieldsContainer.attr( 'data-field_tag_id_model' );
-                            jQuery( oCloned ).find( '.switch_toggle_buttons' ).incrementAttributes(
-                                [ 'data-checkbox-id' ], // attribute name
-                                _iFieldIndex, // increment from
-                                _sFieldTagIDModel // digit model
-                            );                    
-                            break;                                
-
-                    }                                   
-                                        
                     oCloned.find( '.switch_toggle_buttons' ).each( function () {
                         _initalizeToggles( this );
-                    });
+                    });                    
                     
-                    return;
-                }
-            });
+                }, 
+            },
+            [ 'toggle' ]    // subject field type slugs
+            );
 
         });";
     }

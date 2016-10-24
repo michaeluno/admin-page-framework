@@ -86,7 +86,7 @@ EOD
                         )
                         . "</pre>",
                 ),
-            ),         
+            ),                  
             array(  
                 'field_id'              => 'taxonomy_custom_queries',
                 'title'                 => __( 'Custom Taxonomy Queries', 'admin-page-framework-loader' ),
@@ -122,6 +122,7 @@ EOD
                         // 'include'   => array( 4, ), // term ids
                     ),
                 ),
+                'save_unchecked'       => false,   // 3.8.8+
                 'description'           => array(
                     __( 'With the <code>query</code> argument array, you can customize how the terms should be retrieved.', 'admin-page-framework-loader' ),
                     sprintf( __( 'For the structure and the array key specifications, refer to the parameter section of the <a href="%1$s" target="_blank">get_term()</a> function.', 'admin-page-framework-loader' ), 'http://codex.wordpress.org/Function_Reference/get_terms#Parameters' ),
@@ -191,7 +192,8 @@ EOD
                         )
                         . "</pre>",
                 ),
-            )
+            ),
+            array()
         );              
       
     }

@@ -127,7 +127,27 @@ class APF_Demo_CustomFieldType_Mixed {
                 'callback'        => array(
                     'search'    => 'APF_Demo_CustomFieldType_Select2::getPosts', 
                 ),                   
-            ),                     
+            ),     
+            array(
+                'field_id'      => 'select_post_taxonomy',
+                'title'         => __( 'Post Types and Taxonomies', 'admin-page-framework-loader' ),
+                'repeatable'    => true,
+                'sortable'      => true,
+                'content'       => array(
+                    array(
+                        'type'      => 'select',
+                        'field_id'  => 'select',
+                        'label'     => array(
+                            'include'       => __( 'Include', 'admin-page-framework-loader' ),
+                            'ixclude'       => __( 'Exclude', 'admin-page-framework-loader' ),
+                        ),                  
+                    ),
+                    array(
+                        'field_id'      => 'post_type_taxonomy',
+                        'type'          => 'post_type_taxonomy',
+                    ),                          
+                ),
+            ),            
             array()
         );  
  

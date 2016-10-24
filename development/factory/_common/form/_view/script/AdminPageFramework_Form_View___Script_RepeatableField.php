@@ -168,8 +168,10 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
         nodeFieldContainer.find( 'input[type=radio][checked=checked]' ).prop( 'checked', 'checked' );
         
         // Call back the registered functions.
+        
+        // @deprecated 3.8.8 Kept for backward compatibility as some custom field types rely on this method.
         nodeNewField.trigger( 
-            'admin-page-framework_repeated_field', 
+            'admin-page-framework_added_repeatable_field', 
             [ 
                 nodeNewField.data( 'type' ), // field type slug
                 nodeNewField.attr( 'id' ),   // element tag id
@@ -179,29 +181,14 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
             ]
         );
         
-        
-        // @deprecated 3.8.0 For the _nested field type, the above repeatable fields callback handles it.
-        // For nested fields,
-/*         $( nodeNewField ).find( '.admin-page-framework-field' ).each( function( iIterationIndex ) {    
-        
-            // Rebind the click event to the repeatable field buttons - important to update AFTER inserting the clone to the document node 
-            // since the update method needs to count fields.
-            // @todo examine if this is needed any longer.
-            $( this ).updateAdminPageFrameworkRepeatableFields();
-                                        
-            // Call back the registered functions.
-            $( this ).trigger( 
-                'admin-page-framework_repeated_field', 
-                [ 
-                    $( this ).data( 'type' ), 
-                    nodeNewField.attr( 'id' ), // pass the parent field id
-                    2,  // call type, 0 : repeatable sections, 1: repeatable fields, 2: nested repeatable fields.
-                    0,  // @todo find the section index
-                    iIterationIndex  // @todo find the nested field index
-                ]
-            );            
-            
-        });  */   
+        // 3.8.8+ _nested and inline_mixed field types have nested fields. The above 
+        $( nodeNewField ).find( '.admin-page-framework-field' ).addBack().trigger( 
+            'admin-page-framework_repeated_field', 
+            [ 
+                0, // call type, 0 : repeatable fields, 1: repeatable sections
+                jQuery( nodeNewField ).closest( '.admin-page-framework-fields' )    // model container
+            ]
+        );
         
         // If more than one fields are created, show the Remove button.
 // @todo find() may not be appropriate for nested fields.
@@ -289,15 +276,6 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
                 _iFieldCount,
                 _sFieldAddressModel
             );            
-// console.log( _sFieldTagIDModel );
-// console.log( oElement.find( 'fieldset.admin-page-framework-fieldset' ).length );
-// console.log( oElement.find( 'fieldset.admin-page-framework-fieldset' ).first().attr( 'id' ) );
-            // oElement.find( 'fieldset.admin-page-framework-fieldset' ).incrementAttributes(
-                // [ 'id', 'data-field_id' ],           // attribute name
-                // _iFieldCount,   // increment from
-                // _sFieldTagIDModel
-            // );
-// console.log( oElement.find( 'fieldset.admin-page-framework-fieldset' ).first().attr( 'id' ) );
             
         }    
         

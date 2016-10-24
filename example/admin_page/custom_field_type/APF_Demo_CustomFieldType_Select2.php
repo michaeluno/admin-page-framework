@@ -333,7 +333,8 @@ EOD
 function getTerms( \$aQueries, \$aFieldset ) {
     
     \$_aArguments = array(
-        'taxonomy'  => 'post_tag',
+        'taxonomy'   => 'post_tag',
+        'hide_empty' => false,
         'name__like' => \$aQueries[ 'q' ],
     );
     \$_aTerms = get_terms( \$_aArguments );
@@ -551,9 +552,10 @@ EOD
      * @return      array       An array holding the search result of taxonomy terms.
      */
     static public function getTerms( $aQueries, $aFieldset ) {
-        
+
         $_aArguments = array(
-            'taxonomy'  => 'post_tag',
+            'taxonomy'   => 'post_tag',
+            'hide_empty' => false,
             'name__like' => $aQueries[ 'q' ],
         );
         $_aTerms = get_terms( $_aArguments );
@@ -570,7 +572,7 @@ EOD
                 'text'  => $_oTerm->name,
             );
         }
-                       
+        
         return array( 
             'results'       => $_aResults,
         );

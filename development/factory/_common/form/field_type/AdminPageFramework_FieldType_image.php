@@ -117,62 +117,26 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
             return <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
 
-    jQuery().registerAdminPageFrameworkCallbacks( {   
+    jQuery().registerAdminPageFrameworkCallbacks( { 
+        
         /**
-         * The repeatable field callback for the add event.
-         * 
-         * @param object    node
-         * @param string    sFieldType      the field type slug
-         * @param string    sFieldTagID     the field container tag ID
-         * @param integer   iCallerType     the caller type. 1 : repeatable sections. 0 : repeatable fields.
+         * Called when a field of this field type gets repeated.
          */
-        added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType, iSectionIndex, iFieldIndex ) {
-
-            // If it is not the type, do nothing.
-            if ( oCloned.find( '.select_image' ).length <= 0 ) { 
-                return; 
-            }
-            
+        repeated_field: function( oCloned, aModel ) {
+                                                
             // Remove the value of the cloned preview element - check the value for repeatable sections.
             var sValue = oCloned.find( 'input' ).first().val();
-            if ( 1 !== iCallType || ! sValue ) { // if it's not for repeatable sections
+            if ( 1 !== aModel[ 'call_type' ] || ! sValue ) { // if it's not for repeatable sections
                 oCloned.find( '.image_preview' ).hide(); // for the image field type, hide the preview element
                 oCloned.find( '.image_preview img' ).attr( 'src', '' ); // for the image field type, empty the src property for the image uploader field
-            }
-                                    
-            // Update attributes.
-            switch( iCallType ) {
-                
-                // Repeatable sections (calling a belonging field)
-                case 1: 
-
-                    var _oSectionsContainer     = jQuery( oCloned ).closest( '.admin-page-framework-sections' );
-                    var _iSectionIndex          = _oSectionsContainer.attr( 'data-largest_index' );
-                    var _sSectionIDModel        = _oSectionsContainer.attr( 'data-section_id_model' );
-                    jQuery( oCloned ).find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
-                        'id', // attribute name
-                        _iSectionIndex, // increment from
-                        _sSectionIDModel // digit model
-                    );
-                    break;
-                    
-                // Repeatable fields
-                default:
-                case 0:
-                // Parent repeatable fields (calling a nested field)
-                case 2:
-                
-                    var _oFieldsContainer   = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
-                    var _iFieldIndex        = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
-                    var _sFieldTagIDModel   = _oFieldsContainer.attr( 'data-field_tag_id_model' );
-                    jQuery( oCloned ).find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
-                        'id', // attribute name
-                        _iFieldIndex, // increment from
-                        _sFieldTagIDModel // digit model
-                    );                    
-                    break;                                
-
-            }
+            }                        
+                        
+            // Increment element IDs.
+            oCloned.find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
+                'id', // attribute name
+                aModel[ 'incremented_from' ], // index incremented from
+                aModel[ 'id' ] // digit model
+            );            
             
             // Bind the event.
             var _oFieldContainer = oCloned.closest( '.admin-page-framework-field' );
@@ -186,9 +150,9 @@ jQuery( document ).ready( function(){
                 _oImageInput.attr( 'id' ), 
                 true, 
                 _oSelectButton.attr( 'data-enable_external_source' )
-            );               
+            );                              
             
-        }
+        },
     },
     $_aJSArray
     );

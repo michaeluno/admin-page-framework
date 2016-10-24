@@ -15,8 +15,9 @@
  * <h2>Field Definition Arguments</h2>
  * <h3>Field Type Specific Arguments</h3>
  * <ul>
- *     <li>**select_all_button** - [3.3.0+] (optional, boolean|array) pass `true` to enable the `Select All` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
- *     <li>**select_none_button** - [3.3.0+] (optional, boolean|array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+ *     <li>**select_all_button**    - [3.3.0+] (optional, boolean|array) pass `true` to enable the `Select All` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+ *     <li>**select_none_button**   - [3.3.0+] (optional, boolean|array) pass `true` to enable the `Select None` button. To set a custom label, set the text such as `__( 'Check All', 'test-domain' )`. Default: `true`.</li>
+ *     <li>**save_unchecked**       - [3.8.8+] (optional, boolean) Whether to store the values of unchecked items. Default: `true`.</li>
  * </ul>
  * 
  * <h3>Common Field Definition Arguments</h3>
@@ -78,6 +79,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
     protected $aDefaultKeys = array(
         'select_all_button'     => false,        // 3.3.0+   to change the label, set the label here
         'select_none_button'    => false,        // 3.3.0+   to change the label, set the label here
+        'save_unchecked'        => true,        // (optional, boolean) 3.8.8+   Whether to store the values of unchecked items.
     );
         
     /**
@@ -227,7 +229,15 @@ CSSRULES;
          */
         private function _getEachCheckboxOutput( array $aField, $sKey, $sLabel ) {
 
-            $_oCheckbox = new AdminPageFramework_Input_checkbox( $aField[ 'attributes' ] );
+            $_aInputAttributes = array(
+                'data-key'  => $sKey,   // 3.8.8+ For the `post_type_taxonomy` field type.
+            ) + $aField[ 'attributes' ];
+            $_oCheckbox = new AdminPageFramework_Input_checkbox( 
+                $_aInputAttributes,
+                array(
+                    'save_unchecked'    => $this->getElement( $aField, 'save_unchecked' ),
+                )
+            );
             $_oCheckbox->setAttributesByKey( $sKey );
             $_oCheckbox->addClass( $this->_sCheckboxClassSelector );
             return $this->getElementByLabel( $aField[ 'before_label' ], $sKey, $aField[ 'label' ] )

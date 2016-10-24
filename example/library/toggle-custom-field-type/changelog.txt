@@ -1,3 +1,7 @@
+# Change Log
+= 0.0.3b - 2016/10/24 =
+- Set a field type slug to the register callback function to avoid unnecessary callback function calls.
+- Made it compatible with Admin Paqe Framework 3.8.8.
 = 0.0.2b =
 - Changed the original checkbox to be displayed when browser JavaScript is turned off.
 - Supported repeatable sections.
