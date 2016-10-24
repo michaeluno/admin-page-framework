@@ -79,6 +79,7 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  * @since       3.8.7
  * @version     0.0.2b
  * @supports    IE8 or above. (uses JSON object)
+ * @requires    Admin Page Framework 3.8.8
  */
 class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
 
@@ -548,30 +549,19 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
     });
     
 
-    jQuery().registerAPFCallback( {
+    jQuery().registerAdminPageFrameworkCallbacks( {
         /**
-        * The repeatable field callback.
-        *
-        * When a repeat event occurs and a field is copied, this method will be triggered.
-        *
-        * @param  object  oCopied     the copied node object.
-        * @param  string  sFieldType  the field type slug
-        * @param  string  sFieldTagID the field container tag ID
-        * @param  integer iCallType   the caller type. 1 : repeatable sections. 0 : repeatable fields.
-        */
-        added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType ) {
-            
-            if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) {
-                return;
-            }
-      
+         * Called when a field of this field type gets repeated.
+         */
+        repeated_field: function( oCloned, aModel ) {
+                        
             oCloned.find( '.select2-container' ).remove();
                      
             oCloned.find( 'select[data-type=select2]' ).each( function () {
                 _initializeSelect2( this );
-            });
+            });              
             
-        }
+        },
     },
     [ 'select2' ]    // subject field type slugs
     );

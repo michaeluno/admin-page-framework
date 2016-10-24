@@ -16,7 +16,7 @@ if ( ! class_exists( 'NoUISliderCustomFieldType' ) ) :
  * 
  * @since       3.8.6
  * @version     0.0.3b
- * @remark      Requires Admin Page Framework v3.8.6 or above.
+ * @remark      Requires Admin Page Framework 3.8.8 or above.
  */
 class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
 
@@ -44,20 +44,8 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
                 'min'   => 0,
                 'max'   => 100,
             ),
-            'step'          => 1, // Slider moves in increments of '1'
-            
+            'step'          => 1, // Slider moves in increments of '1'         
         	'start'         => array( 0 ), // Handle start position
-            
-            // 'margin'        => 100, // Handles must be more than '20' apart
-            // 'direction'     => 'rtl', // Put '0' at the bottom of the slider
-            // 'orientation'   => 'vertical', // Orient the slider vertically
-            // 'connect'       => 'lower', // Display a colored bar between the handles. `lower`, `upper` or for a single handle. `true` can be set for two handles.
-            // 'behaviour'     => 'tap-drag', // Move handle on tap, bar is draggable
-
-            // 'pips'          => array( // Show a scale with the slider
-                // 'mode'      => 'steps',
-                // 'density'   => 2,
-            // ),
             
             // Custom options
             
@@ -170,36 +158,22 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
              */
             jQuery( 'input[data-type=no_ui_slider]' ).each( function () {
                 _initializeNoUISliders( this );
-            });
-            
+            });         
 
-            jQuery().registerAPFCallback( {
+            jQuery().registerAdminPageFrameworkCallbacks( {
                 /**
-                * The repeatable field callback.
-                *
-                * When a repeat event occurs and a field is copied, this method will be triggered.
-                *
-                * @param  object  oCopied     the copied node object.
-                * @param  string  sFieldType  the field type slug
-                * @param  string  sFieldTagID the field container tag ID
-                * @param  integer iCallType   the caller type. 1 : repeatable sections. 0 : repeatable fields.
-                */
-                added_repeatable_field: function( oCopied, sFieldType, sFieldTagID, iCallType ) {
-                    
-                    if ( jQuery.inArray( sFieldType, {$_aJSArray} ) <= -1 ) {
-                        return;
-                    }
+                 * Called when a field of this field type gets repeated.
+                 */
+                repeated_field: function( oCloned, aModel ) {
+                                                        
+                    oCloned.children( '.no-ui-sliders' ).empty();
                              
-                    jQuery( oCopied ).children( '.no-ui-sliders' )
-                        .empty();
-                             
-                    oCopied.find( 'input[data-type=no_ui_slider]' ).each( function () {
+                    // Initialize the event bindings.
+                    oCloned.find( 'input[data-type=no_ui_slider]' ).each( function () {
                         _initializeNoUISliders( this );
-                    });
-                    
-                    return;
-                    
-                }
+                    });                    
+
+                },   
             },
             [ 'no_ui_slider' ]    // subject field type slugs
             );

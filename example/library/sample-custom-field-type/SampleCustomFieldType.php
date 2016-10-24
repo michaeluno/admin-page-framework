@@ -1,5 +1,10 @@
 <?php
 if ( ! class_exists( 'SampleCustomFieldType' ) ) :
+/**
+ * 
+ * @version         1.0.1
+ * @requires        Admin Page Framework 3.8.8
+ */
 class SampleCustomFieldType extends AdminPageFramework_FieldType {
         
     /**
@@ -60,63 +65,32 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
                     jQuery( '#hidden-' + sSelectedInputID ).show();
                 }
                 
-                jQuery().registerAPFCallback( {                
-                    added_repeatable_field: function( nodeField, sFieldType, sFieldTagID ) {
-            
-                        /* If it is not this field type, do nothing. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;
-
-                        // var nodeFields = nodeField.closest( '.admin-page-framework-fields' );
-                        
-                        nodeField.nextAll().andSelf().each( function() {
-                            
-                            /* Update the hidden elements' ID */        
-                            jQuery( this ).find( '.sample_hidden_element' ).incrementIDAttribute( 'id' );
-                            
-                            /* The checked states will be gone after updating the ID of radio buttons so re-check them again */    
-                            jQuery( this ).find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );
-                            
-                            /* Rebind the event */    
-                            jQuery( this ).find( 'input[type=radio]' ).change( function() {
-                                jQuery( this ).closest( '.admin-page-framework-field' )
-                                    .find( 'input[type=radio]' )
-                                    .attr( 'checked', false );            
-                                jQuery( this ).attr( 'checked', 'checked' );
-                                revealSelection( jQuery( this ).attr( 'id' ) );
-                            });
-                        });                                
-                    },
+                jQuery().registerAdminPageFrameworkCallbacks( {               
                     /**
-                     * The repeatable field callback for the remove event.
-                     * 
-                     * @param    object    the field container element next to the removed field container.
-                     * @param    string    the field type slug
-                     * @param    string    the field container tag ID
-                     * @param    integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
-                     */                            
-                    removed_repeatable_field: function( oNextFieldConainer, sFieldType, sFieldTagID, sCallType ) {
+                     * Called when a field of this field type gets repeated.
+                     */
+                    repeated_field: function( oCloned, aModel ) {
                         
-                        /* If it is not this field type, do nothing. */
-                        if ( jQuery.inArray( sFieldType, {$aJSArray} ) <= -1 ) return;                        
+                        /* Update the hidden elements' ID */        
+                        oCloned.find( '.sample_hidden_element' ).incrementIDAttribute( 'id' );
                         
-                        oNextFieldConainer.nextAll().andSelf().each( function() {
-                            
-                            /* Update the hidden elements' ID */        
-                            jQuery( this ).find( '.sample_hidden_element' ).decrementIDAttribute( 'id' );
-                                        
-                            /* Rebind the event */    
-                            jQuery( this ).find( 'input[type=radio]' ).change( function() {
-                                jQuery( this ).closest( '.admin-page-framework-field' )
-                                    .find( 'input[type=radio]' )
-                                    .attr( 'checked', false );            
-                                jQuery( this ).attr( 'checked', 'checked' );
-                                revealSelection( jQuery( this ).attr( 'id' ) );
-                            });
-                        });                            
+                        /* The checked states will be gone after updating the ID of radio buttons so re-check them again */    
+                        oCloned.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );
                         
+                        /* Rebind the event */    
+                        oCloned.find( 'input[type=radio]' ).change( function() {
+                            jQuery( this ).closest( '.admin-page-framework-field' )
+                                .find( 'input[type=radio]' )
+                                .attr( 'checked', false );            
+                            jQuery( this ).attr( 'checked', 'checked' );
+                            revealSelection( jQuery( this ).attr( 'id' ) );
+                        });
+
                     },
-                });
-            });        
+                },
+                [ 'sample' ]
+                );
+            } );        
         
         " . PHP_EOL;
         
