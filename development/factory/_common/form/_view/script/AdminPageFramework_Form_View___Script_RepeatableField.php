@@ -182,7 +182,7 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
         );
         
         // 3.8.8+ _nested and inline_mixed field types have nested fields. The above 
-        $( nodeNewField ).find( '.admin-page-framework-field' ).andSelf().trigger( 
+        $( nodeNewField ).find( '.admin-page-framework-field' ).addBack().trigger( 
             'admin-page-framework_repeated_field', 
             [ 
                 0, // call type, 0 : repeatable fields, 1: repeatable sections
