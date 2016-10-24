@@ -137,7 +137,16 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     'archive_file_path'    => 'custom-field-types/select2-custom-field-type/Select2CustomFieldType.php',
                     'archive_dir_path'     => 'custom-field-types/select2-custom-field-type',
                     'text_domain'          => 'admin-page-framework',
-                ),                 
+                ),
+                'PostTypeTaxonomyCustomFieldType'   =>  array(
+                    'class_name'           => 'PostTypeTaxonomyCustomFieldType',
+                    'label'                => __( 'Post Type Taxonomy', 'admin-page-framework-loader' ),
+                    'description'          => __( 'allows the user to select taxonomy terms of selected post types.', 'admin-page-framework-loader' ),
+                    'directory_path'       => AdminPageFrameworkLoader_Registry::$sDirPath . '/example/library/post_type_taxonomy_field-type',
+                    'archive_file_path'    => 'custom-field-types/post_type_taxonomy_field-type/PostTypeTaxonomyCustomFieldType.php',
+                    'archive_dir_path'     => 'custom-field-types/post_type_taxonomy_field-type',
+                    'text_domain'          => 'admin-page-framework',
+                ),                  
             );
                 
             // Let third-party scripts add custom field types.
