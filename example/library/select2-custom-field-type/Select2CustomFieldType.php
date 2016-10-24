@@ -77,7 +77,7 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  * </ul>
  * 
  * @since       3.8.7
- * @version     0.0.1b
+ * @version     0.0.2b
  * @supports    IE8 or above. (uses JSON object)
  */
 class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
@@ -572,7 +572,9 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
             });
             
         }
-    });
+    },
+    [ 'select2' ]    // subject field type slugs
+    );
 
 });";
     }

@@ -15,7 +15,7 @@ if ( ! class_exists( 'ToggleCustomFieldType' ) ) :
  * A field type that lets the user toggle a switch.
  * 
  * @since       3.8.5
- * @version     0.0.2b
+ * @version     0.0.3b
  */
 class ToggleCustomFieldType extends AdminPageFramework_FieldType_checkbox {
 
@@ -196,7 +196,9 @@ class ToggleCustomFieldType extends AdminPageFramework_FieldType_checkbox {
                     
                     return;
                 }
-            });
+            },
+            [ 'toggle' ]    // subject field type slugs
+            );
 
         });";
     }

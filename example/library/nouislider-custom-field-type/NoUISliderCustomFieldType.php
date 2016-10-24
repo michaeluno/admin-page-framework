@@ -15,7 +15,7 @@ if ( ! class_exists( 'NoUISliderCustomFieldType' ) ) :
  * A field type that lets the user toggle a switch.
  * 
  * @since       3.8.6
- * @version     0.0.2b
+ * @version     0.0.3b
  * @remark      Requires Admin Page Framework v3.8.6 or above.
  */
 class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
@@ -200,7 +200,9 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
                     return;
                     
                 }
-            });
+            },
+            [ 'no_ui_slider' ]    // subject field type slugs
+            );
 
         });";
     }

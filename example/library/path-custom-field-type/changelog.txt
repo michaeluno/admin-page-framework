@@ -1,4 +1,7 @@
-= 0.0.2b - 10/07/2016 =
+# Change Log
+= 0.0.3b - 2016/10/24 =
+- Set a field type slug to the register callback function to avoid unnecessary callback function calls.
+= 0.0.2b - 2016/10/07 =
 - Supported repeatable sections.
-= 0.0.1b - 09/21/2016 =
+= 0.0.1b - 2016/09/21 =
 - Released.

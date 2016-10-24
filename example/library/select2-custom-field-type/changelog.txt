@@ -1,2 +1,5 @@
+# Change Log
+= 0.0.2b - 2016/10/24 =
+- Set a field type slug to the register callback function to avoid unnecessary callback function calls.
 = 0.0.1b =
 - Released. Uses Select2 v4.0.3.

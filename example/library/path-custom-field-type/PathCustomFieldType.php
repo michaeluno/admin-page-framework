@@ -15,7 +15,7 @@ if ( ! class_exists( 'PathCustomFieldType' ) ) :
  * A field type that lets the user pick a file located on the server.
  * 
  * @since       3.8.4
- * @version     0.0.2b
+ * @version     0.0.3b
  */
 class PathCustomFieldType extends AdminPageFramework_FieldType_image {
 
@@ -238,7 +238,9 @@ class PathCustomFieldType extends AdminPageFramework_FieldType_image {
                     
                     return;
                 }
-            });
+            },
+            [ 'path' ]  // subject field type slugs
+            );
 
         });";
     }
