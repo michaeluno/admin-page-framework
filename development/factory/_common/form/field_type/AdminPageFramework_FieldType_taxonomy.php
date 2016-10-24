@@ -228,64 +228,33 @@ jQuery( document ).ready( function() {
     enableAdminPageFrameworkTabbedBox( jQuery( '.tab-box-container' ) );
 
     /* The repeatable event */
-    jQuery().registerAdminPageFrameworkCallbacks( {     
+    jQuery().registerAdminPageFrameworkCallbacks( {
         /**
-         * The repeatable field callback for the add event.
-         * 
-         * @param object node
-         * @param string    the field type slug
-         * @param string    the field container tag ID
-         * @param integer    the caller type. 1 : repeatable sections. 0 : repeatable fields.
-         */     
-        added_repeatable_field: function( oCloned, sFieldType, sFieldTagID, iCallType ) {
+         * Called when a field of this field type gets repeated.
+         */
+        repeated_field: function( oCloned, aModel ) {
+                           
+            // Update attributes.            
+            oCloned.find( 'div, li.category-list' ).incrementAttribute(
+                'id', // attribute name
+                aModel[ 'incremented_from' ], // index incremented from
+                aModel[ 'id' ] // digit model
+            );
+            oCloned.find( 'label' ).incrementAttribute(
+                'for', // attribute name
+                aModel[ 'incremented_from' ], // index incremented from
+                aModel[ 'id' ] // digit model
+            );            
+            oCloned.find( 'li.tab-box-tab a' ).incrementAttribute(
+                'href', // attribute name
+                aModel[ 'incremented_from' ], // index incremented from
+                aModel[ 'id' ] // digit model
+            );                 
             
-            // Repeatable Sections
-            if ( 1 === iCallType ) {
-                var _oSectionsContainer     = jQuery( oCloned ).closest( '.admin-page-framework-sections' );
-                var _iSectionIndex          = _oSectionsContainer.attr( 'data-largest_index' );
-                var _sSectionIDModel        = _oSectionsContainer.attr( 'data-section_id_model' );
-                jQuery( oCloned ).find( 'div, li.category-list' ).incrementAttribute(
-                    'id', // attribute name
-                    _iSectionIndex, // increment from
-                    _sSectionIDModel // digit model
-                );
-                jQuery( oCloned ).find( 'label' ).incrementAttribute(
-                    'for', // attribute name
-                    _iSectionIndex, // increment from
-                    _sSectionIDModel // digit model
-                );            
-                jQuery( oCloned ).find( 'li.tab-box-tab a' ).incrementAttribute(
-                    'href', // attribute name
-                    _iSectionIndex, // increment from
-                    _sSectionIDModel // digit model
-                );                
-            } 
-            // Repeatable fields 
-            else {
-                var _oFieldsContainer       = jQuery( oCloned ).closest( '.admin-page-framework-fields' );
-                var _iFieldIndex            = Number( _oFieldsContainer.attr( 'data-largest_index' ) - 1 );
-                var _sFieldTagIDModel       = _oFieldsContainer.attr( 'data-field_tag_id_model' );
-
-                jQuery( oCloned ).find( 'div, li.category-list' ).incrementAttribute(
-                    'id', // attribute name
-                    _iFieldIndex, // increment from
-                    _sFieldTagIDModel // digit model
-                );
-                jQuery( oCloned ).find( 'label' ).incrementAttribute(
-                    'for', // attribute name
-                    _iFieldIndex, // increment from
-                    _sFieldTagIDModel // digit model
-                );            
-                jQuery( oCloned ).find( 'li.tab-box-tab a' ).incrementAttribute(
-                    'href', // attribute name
-                    _iFieldIndex, // increment from
-                    _sFieldTagIDModel // digit model
-                );
-            }
-            enableAdminPageFrameworkTabbedBox( jQuery( oCloned ).find( '.tab-box-container' ) );            
+            // Initialize
+            enableAdminPageFrameworkTabbedBox( oCloned.find( '.tab-box-container' ) );
             
-        }
-    
+        },
     },
     {$_aJSArray}
     );
