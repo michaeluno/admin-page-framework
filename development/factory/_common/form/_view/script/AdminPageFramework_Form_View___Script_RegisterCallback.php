@@ -273,6 +273,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
     /**
      * An alias of the `registerAdminPageFrameworkCalbacks()` method.
      * @remark      Kept for backward compatibility. There are some custom field types which call the old method name. 
+     * @deprecated
      */
     $.fn.registerAPFCallback = function( oCallbacks, aFieldTypeSlugs ) {
         $.fn.registerAdminPageFrameworkCallbacks( oCallbacks, aFieldTypeSlugs );
