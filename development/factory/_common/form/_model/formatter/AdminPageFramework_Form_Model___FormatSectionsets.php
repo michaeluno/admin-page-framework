@@ -18,10 +18,10 @@
  */
 class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramework_Form_Base {
     
-    public $sStructureType = '';
-    public $aSectionsets  = array();
-    public $sCapability = '';
-    public $aCallbacks = array(
+    public $sStructureType  = '';
+    public $aSectionsets    = array();
+    public $sCapability     = '';
+    public $aCallbacks      = array(
         'sectionset_before_output' => null
     );
     
@@ -55,7 +55,7 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
 
     /**
      * @since       3.7.0
-     * @return      array       The conditioned fieldsets array.
+     * @return      array       The conditioned fields-ets array.
      */
     public function get() {
         
@@ -64,8 +64,8 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
         }
 
         $_aSectionsets = $this->_getSectionsetsFormatted(
-            array(),                // sectionsets array to modify - new formatted items will be stored here
-            $this->aSectionsets,    // parsing sectionsets
+            array(),                // section-sets array to modify - new formatted items will be stored here
+            $this->aSectionsets,    // parsing section-sets
             array(),                // section path - empty for root 
             $this->sCapability      // capability
         );
@@ -78,7 +78,7 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
          * 
          * @since       3.0.0
          * @since       3.1.1    Added a parameter. Changed to return the formatted sections array.
-         * @since       3.7.0   Moved from `AdminPageFramework_FormDefinition`. Changed the name from `formatSections()`.
+         * @since       3.7.0    Moved from `AdminPageFramework_FormDefinition`. Changed the name from `formatSections()`.
          * @return      array    the formatted sections array.
          */
         private function _getSectionsetsFormatted( $_aNewSectionsets, $aSectionsetsToParse, $aSectionPath, $sCapability ) {
@@ -136,17 +136,17 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
 
                 // Recursive call
                 return $this->_getSectionsetsFormatted(
-                        $aSectionsetsToEdit,          // sectionsets array to modify - new formatted items will be stored here
-                        $aSectionset[ 'content' ],    // parsing sectionsets
+                        $aSectionsetsToEdit,          // section-sets array to modify - new formatted items will be stored here
+                        $aSectionset[ 'content' ],    // parsing section-sets
                         $aSectionPath,                // section path - empty for root 
                         $sCapability                  // capability
                     );                          
 
             }
                 /**
-                 * Checks if a given sectionset definition has nested sections.
+                 * Checks if a given section-set definition has nested sections.
                  * @return      boolean
-                 * @sinec       3.7.0
+                 * @since       3.7.0
                  */
                 private function _hasNestedSections( $aSectionset ) {
                     
