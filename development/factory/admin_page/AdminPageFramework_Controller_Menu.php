@@ -29,9 +29,9 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      * @since       3.7.4       Moved from `AdminPageFramework_Model_Menu`.
      * @var         array       Holds the built-in root menu slugs.
      * @internal
+     * @remark      All the keys must be lower case to support case insensitive look-ups.
      */ 
     protected $_aBuiltInRootMenuSlugs = array(
-        // All keys must be lower case to support case insensitive look-ups.
         'dashboard'     => 'index.php',
         'posts'         => 'edit.php',
         'media'         => 'upload.php',
@@ -166,7 +166,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      * @access       public
      * @return       void
      */     
-    public function addSubMenuItems( $aSubMenuItem1, $aSubMenuItem2=null, $_and_more=null ) {
+    public function addSubMenuItems( /* $aSubMenuItem1, $aSubMenuItem2=null, $_and_more=null */ ) {
         foreach ( func_get_args() as $_aSubMenuItem ) {
             $this->addSubMenuItem( $_aSubMenuItem );     
         }
@@ -245,12 +245,12 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
     public function addSubMenuLink( array $aSubMenuLink ) {
         
         // If required keys are not set, return.
-        if ( ! isset( $aSubMenuLink['href'], $aSubMenuLink['title'] ) ) { 
+        if ( ! isset( $aSubMenuLink[ 'href' ], $aSubMenuLink[ 'title' ] ) ) { 
             return; 
         }
         
         // If the set URL is not valid, return.
-        if ( ! filter_var( $aSubMenuLink['href'], FILTER_VALIDATE_URL ) ) { 
+        if ( ! filter_var( $aSubMenuLink[ 'href' ], FILTER_VALIDATE_URL ) ) { 
             return; 
         }
 
