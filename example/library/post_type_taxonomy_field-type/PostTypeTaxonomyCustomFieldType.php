@@ -146,7 +146,7 @@ jQuery( document ).ready( function(){
     // When the post type check-boxes are clicked, show/hide the corresponding taxonomy elements.
     jQuery( document ).on( 'change', '.admin-page-framework-field-post_type_taxonomy .admin-page-framework-field-posttype input[type="checkbox"]', function() {
         var _sPostTypeSlug       = jQuery( this ).data( 'key' );
-        var _sTargetTabsSelector = '.tab-box-container li.tab-box-tab[data-associated-post-types="' + _sPostTypeSlug + ',"]';
+        var _sTargetTabsSelector = '.tab-box-container li.tab-box-tab[data-associated-post-types*="' + _sPostTypeSlug + ',"]';
         var _sTargetCBContainers = '.tab-box-content[data-associated-post-types*="' + _sPostTypeSlug + ',"]';
         var _sTabsBoxSelector    = '.tab-box-container';
         var _oField              = jQuery( this ).closest( '.admin-page-framework-field-post_type_taxonomy' );
