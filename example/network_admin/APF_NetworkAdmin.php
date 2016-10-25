@@ -12,6 +12,11 @@
 class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
 
     /**
+     * Stores WordPress readme parser object.
+     */
+    public $oWPRMParser;
+
+    /**
      * (required) In the setUp() method, you will define how the pages and the form elements should be composed.
      * 
      * @ramark      this method automatically gets triggered with the wp_loaded hook. 
@@ -27,12 +32,7 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
         // Pages
         new APF_Demo_BuiltinFieldType( $this->oProp->sClassName );
         new APF_Demo_AdvancedUsage( $this->oProp->sClassName );
-                    
-        /* (optional) Determine the page style */
-        $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
-        $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs
-        $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
-                                 
+                                                     
         /*
          * (optional) Add links in the plugin listing table. ( .../wp-admin/plugins.php )
          */
@@ -45,6 +45,18 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
         );    
          
     }
+    
+    public function load() {
+        
+        /* (optional) Determine the page style */
+        $this->setPageHeadingTabsVisibility( false ); // disables the page heading tabs by passing false.
+        $this->setInPageTabTag( 'h2' ); // sets the tag used for in-page tabs
+        $this->setPluginSettingsLinkLabel( '' ); // pass an empty string to disable it.
+                        
+        // Used to insert PHP code in example fields.
+        $this->oWPRMParser = new AdminPageFramework_WPReadmeParser;                        
+                
+    }    
                      
     /*
      * Built-in Field Types Page
