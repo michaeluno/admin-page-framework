@@ -136,7 +136,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
     static public function getVersion() {
 
         if ( ! isset( self::$sAutoLoaderPath ) ) {
-            trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is called too early. Perform <code>%2$s</code> earlier.', 'admin-page-framework' ), __METHOD__, 'setUp()' ), E_USER_WARNING );
+            trigger_error( self::NAME . ': ' . ' : ' . sprintf( __( 'The method is called too early. Perform <code>%2$s</code> earlier.', 'admin-page-framework' ), __METHOD__, 'setUp()' ), E_USER_WARNING );
             return self::VERSION;
         }
         $_aMinifiedVesionSuffix     = array(
