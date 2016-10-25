@@ -350,8 +350,11 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
      * @deprecated  3.3.0
      */
     public function getFieldValue( $sFieldID, $sSectionID='' ) {
-                               
-        trigger_error( 'Admin Page Framework: ' . ' : ' . sprintf( __( 'The method is deprecated: %1$s. Use %2$s instead.', $this->oProp->sTextDomain ), __METHOD__, 'getValue()' ), E_USER_NOTICE );
+                                   
+        $this->oUtil->showDeprecationNotice(
+            'The method,' . __METHOD__ . ',', // deprecated item
+            'getValue()' // alternative
+        );     
     
         $_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $this->oForm->getDefaultFormValues() );
         /* If it's saved, return it */

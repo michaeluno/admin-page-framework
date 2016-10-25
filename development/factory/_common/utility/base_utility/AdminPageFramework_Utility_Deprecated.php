@@ -19,6 +19,24 @@
 abstract class AdminPageFramework_Utility_Deprecated {
     
     /**
+     * @deprecated     3.7.10      Use `getCSSMinified()` instead.
+     * @since          3.8.8       Moved from `AdminPageFramework_Utility_String`.
+     */
+    static public function minifyCSS( $sCSSRules ) {
+        AdminPageFramework_Utility::showDeprecationNotice( __FUNCTION__, 'getCSSMinified()' );
+        return AdminPageFramework_Utility_String::getCSSMinified( $sCSSRules );
+    }    
+    
+    /**
+     * @deprecated  3.8.0       Use `getLengthSanitized()` instead.
+     * @since       3.8.8       Moved from `AdminPageFramework_Utility_String`.
+     */
+    static public function sanitizeLength( $sLength, $sUnit='px' ) {
+        AdminPageFramework_Utility::showDeprecationNotice( __FUNCTION__, 'getLengthSanitized()' );
+        return AdminPageFramework_Utility_String::getLengthSanitized( $sLength, $sUnit );
+    }    
+    
+    /**
      * Retrieves a corresponding array value from the given array.
      * 
      * When there are multiple arrays and they have similar index structures but it's not certain if one has the key and the others,
@@ -34,17 +52,27 @@ abstract class AdminPageFramework_Utility_Deprecated {
      */
     public static function getCorrespondingArrayValue( $vSubject, $sKey, $sDefault='', $bBlankToDefault=false ) {    
                 
+        AdminPageFramework_Utility::showDeprecationNotice( __FUNCTION__, 'getElement()' );
+                
         // If $vSubject is null,
-        if ( ! isset( $vSubject ) ) { return $sDefault; }
+        if ( ! isset( $vSubject ) ) { 
+            return $sDefault; 
+        }
             
         // If the $bBlankToDefault flag is set and the subject value is a blank string, return the default value.
-        if ( $bBlankToDefault && $vSubject == '' ) { return  $sDefault; }
+        if ( $bBlankToDefault && $vSubject == '' ) { 
+            return  $sDefault; 
+        }
             
         // If $vSubject is not an array, 
-        if ( ! is_array( $vSubject ) ) { return ( string ) $vSubject; } // consider it as string.
+        if ( ! is_array( $vSubject ) ) { 
+            return ( string ) $vSubject; 
+        } // consider it as string.
         
         // Consider $vSubject as array.
-        if ( isset( $vSubject[ $sKey ] ) ) { return $vSubject[ $sKey ]; }
+        if ( isset( $vSubject[ $sKey ] ) ) { 
+            return $vSubject[ $sKey ]; 
+        }
         
         return $sDefault;
         
@@ -57,6 +85,7 @@ abstract class AdminPageFramework_Utility_Deprecated {
      * @since       3.5.3           Moved from `AdminPageFramework_Utility_Array`.
      */
     static public function isAssociativeArray( array $aArray ) {
+        AdminPageFramework_Utility::showDeprecationNotice( __FUNCTION__ );
         return ( bool ) count( array_filter( array_keys( $aArray ), 'is_string' ) );
     }        
         
@@ -71,6 +100,7 @@ abstract class AdminPageFramework_Utility_Deprecated {
      * @deprecated  3.5.3
      */
     public static function getArrayDimension( $array ) {
+        AdminPageFramework_Utility::showDeprecationNotice( __FUNCTION__ );
         return ( is_array( reset( $array ) ) ) 
             ? self::getArrayDimension( reset( $array ) ) + 1 
             : 1;
@@ -87,8 +117,12 @@ abstract class AdminPageFramework_Utility_Deprecated {
      * @deprecated  3.5.3       Use the `getElement()` method.
      */
     protected function getFieldElementByKey( $asElement, $sKey, $asDefault='' ) {
-                    
-        if ( ! is_array( $asElement ) || ! isset( $sKey ) ) { return $asElement; }
+        
+        AdminPageFramework_Utility::showDeprecationNotice( __FUNCTION__, 'getElement()' );
+        
+        if ( ! is_array( $asElement ) || ! isset( $sKey ) ) {
+            return $asElement; 
+        }
                 
         $aElements = &$asElement; // it is an array
         return isset( $aElements[ $sKey ] )
@@ -102,10 +136,12 @@ abstract class AdminPageFramework_Utility_Deprecated {
      * 
      * @since       3.0.1
      * @since       3.5.3       Moved from `AdminPageFramework_Utility_Array`.
-     * @deprecated  3.5.3       This was used to sanitise dimensinal key arrays but it does not seem to necessary.
+     * @deprecated  3.5.3       This was used to sanitise dimensional key arrays but it does not seem to necessary.
      * @return      array
      */
     static public function shiftTillTrue( array $aArray ) {
+        
+        AdminPageFramework_Utility::showDeprecationNotice( __FUNCTION__ );
         
         foreach( $aArray as &$vElem ) {
             
@@ -138,6 +174,8 @@ abstract class AdminPageFramework_Utility_Deprecated {
      * @deprecated      Use getAttributes() in `AdminPageFramework_WPUtility`.
      */
     static public function getAttributes( array $aAttributes ) {
+        
+        AdminPageFramework_Utility::showDeprecationNotice( __METHOD__, 'AdminPageFramework_WPUtility::getAttributes()' );
         
         $_sQuoteCharactor   ="'";
         $_aOutput           = array();

@@ -258,15 +258,10 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
          
             // Warnings for deprecated hooks.
             if ( has_action( "submit_{$this->oFactory->oProp->sClassName}_{$_sPressedInputID}" ) ) {
-                trigger_error( 
-                    'Admin Page Framework: ' . ' : ' 
-                        . sprintf( 
-                            __( 'The hook <code>%1$s</code>is deprecated. Use <code>%2$s</code> instead.', $this->oFactory->oProp->sTextDomain ), 
-                            "submit_{instantiated class name}_{pressed input id}", 
-                            "submit_{instantiated class name}_{pressed field id}"
-                        ), 
-                    E_USER_NOTICE 
-                );
+                $this->oFactory->oUtil->showDeprecationNotice(
+                    'The hook, submit_{instantiated class name}_{pressed input id},', // deprecated item
+                    'submit_{instantiated class name}_{pressed field id}' // alternative
+                );                                
             }
             $this->addAndDoActions(
                 $this->oFactory,

@@ -42,12 +42,6 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
             ? $sLength . $sUnit
             : $sLength;
     }    
-        /**
-         * @deprecated  3.8.0       Use `getLengthSanitized()` instead.
-         */
-        static public function sanitizeLength( $sLength, $sUnit='px' ) {
-            return self::getLengthSanitized( $sLength, $sUnit );
-        }
   
     /**
      * Converts non-alphabetic characters to underscore.
@@ -117,22 +111,7 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
             preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $sCSSRules ) // remove comments
         );
     }    
-        /**
-         * @deprecated     3.7.10      Use `getCSSMinified()` instead.
-         */
-        static public function minifyCSS( $sCSSRules ) {
-            trigger_error( 
-                AdminPageFramework_Registry::NAME . ': ' . sprintf(
-                    'The method, %1$s, is deprecated. Use %2$s instead.',
-                    'minifyCSS()',
-                    'getCSSMinified()'
-                    
-                ),
-                E_USER_NOTICE 
-            );            
-            return self::getCSSMinified( $sCSSRules );
-        }
-    
+              
     /**
      * Returns the given string length.
      * @since       3.3.0
