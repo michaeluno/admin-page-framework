@@ -8,7 +8,7 @@
  */
 
 /**
- * Collects data of page loads of the added pages.
+ * Collects data of page loads of the added network pages.
  *
  * @since       3.1.0
  * @extends     AdminPageFramework_PageLoadInfo_Base
@@ -21,12 +21,14 @@ class AdminPageFramework_PageLoadInfo_network_admin_page extends AdminPageFramew
     private static $_oInstance;
     private static $aClassNames = array();
     
-    function __construct( $oProp, $oMsg ) {
+    public function __construct( $oProp, $oMsg ) {
 
-        if ( is_network_admin() && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-
-            add_action( 'in_admin_footer', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 ); // must be loaded after the sub pages are registered
-            
+        if ( is_network_admin() && $this->isDebugMode() ) {
+            add_action( 
+                'in_admin_footer', 
+                array( $this, '_replyToSetPageLoadInfoInFooter' ), 
+                999 // must be loaded after the sub pages are registered
+            ); 
         }
         parent::__construct( $oProp, $oMsg );
         
@@ -44,8 +46,9 @@ class AdminPageFramework_PageLoadInfo_network_admin_page extends AdminPageFramew
             return;
         }     
         
-        if ( in_array( $oProp->sClassName, self::$aClassNames ) )
+        if ( in_array( $oProp->sClassName, self::$aClassNames ) ) {            
             return self::$_oInstance;
+        }
         
         self::$aClassNames[] = $oProp->sClassName;
         self::$_oInstance = new AdminPageFramework_PageLoadInfo_network_admin_page( $oProp, $oMsg );

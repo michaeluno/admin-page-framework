@@ -10,7 +10,7 @@
 /**
  * Collects data of page loads of the added pages.
  *
- * @since 2.1.7
+ * @since       2.1.7
  * @extends     AdminPageFramework_PageLoadInfo_Base
  * @package     AdminPageFramework
  * @subpackage  Factory/AdminPage/Debug
@@ -28,8 +28,9 @@ class AdminPageFramework_PageLoadInfo_admin_page extends AdminPageFramework_Page
      */
     public static function instantiate( $oProp, $oMsg ) {
         
-        if ( in_array( $oProp->sClassName, self::$aClassNames ) )
+        if ( in_array( $oProp->sClassName, self::$aClassNames ) ) {            
             return self::$_oInstance;
+        }
         
         self::$aClassNames[] = $oProp->sClassName;
         self::$_oInstance = new AdminPageFramework_PageLoadInfo_admin_page( $oProp, $oMsg );

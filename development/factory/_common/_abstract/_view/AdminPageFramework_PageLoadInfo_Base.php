@@ -65,34 +65,49 @@ abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_F
     /**
      * Display gathered information.
      *
-     * @access public
+     * @access      public
      * @internal
+     * @return      string
      */
     public function _replyToGetPageLoadInfo( $sFooterHTML ) {
         
+        // 3.8.8+ The `bShowDebugInfo` property may be updated by the user during the page load.
+        if ( ! $this->oProp->bShowDebugInfo ) {
+            return $sFooterHTML;
+        }
+        
         if ( self::$_bLoadedPageLoadInfo ) { 
-            return; 
+            return $sFooterHTML; 
         }
         self::$_bLoadedPageLoadInfo = true;     
         
-        $_nSeconds            = timer_stop( 0 );
-        $_nQueryCount         = get_num_queries();
-        $_nMemoryUsage        = round( $this->_convertBytesToHR( memory_get_usage() ), 2 );
-        $_nMemoryPeakUsage    = round( $this->_convertBytesToHR( memory_get_peak_usage() ), 2 );
-        $_nMemoryLimit        = round( $this->_convertBytesToHR( $this->_convertToNumber( WP_MEMORY_LIMIT ) ), 2 );
-        $_sInitialMemoryUsage = round( $this->_convertBytesToHR( $this->_nInitialMemoryUsage ), 2 );
-
         return $sFooterHTML
-            . "<div id='admin-page-framework-page-load-stats'>"
+            . $this->_getPageLoadStats();
+        
+    }
+        /**
+         * Returns the output of page load stats.
+         * @since       3.8.8
+         * @return      string
+         */
+        private function _getPageLoadStats() {
+            
+            $_nSeconds            = timer_stop( 0 );
+            $_nQueryCount         = get_num_queries();
+            $_nMemoryUsage        = round( $this->_convertBytesToHR( memory_get_usage() ), 2 );
+            $_nMemoryPeakUsage    = round( $this->_convertBytesToHR( memory_get_peak_usage() ), 2 );
+            $_nMemoryLimit        = round( $this->_convertBytesToHR( $this->_convertToNumber( WP_MEMORY_LIMIT ) ), 2 );
+            $_sInitialMemoryUsage = round( $this->_convertBytesToHR( $this->_nInitialMemoryUsage ), 2 );
+            return "<div id='admin-page-framework-page-load-stats'>"
                 . "<ul>"
                     . "<li>" . sprintf( $this->oMsg->get( 'queries_in_seconds' ), $_nQueryCount, $_nSeconds ) . "</li>"
                     . "<li>" . sprintf( $this->oMsg->get( 'out_of_x_memory_used' ), $_nMemoryUsage, $_nMemoryLimit, round( ( $_nMemoryUsage / $_nMemoryLimit ), 2 ) * 100 . '%' ) . "</li>"
                     . "<li>" . sprintf( $this->oMsg->get( 'peak_memory_usage' ), $_nMemoryPeakUsage ) . "</li>"
                     . "<li>" . sprintf( $this->oMsg->get( 'initial_memory_usage' ), $_sInitialMemoryUsage ) . "</li>"
                 . "</ul>"
-            . "</div>";
-        
-    }
+            . "</div>";          
+            
+        }
 
         /**
          * Transforms the php.ini notation for numbers (like '2M') to an integer
