@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
 Tested up to:       4.6.1
-Stable tag:         3.8.7
+Stable tag:         3.8.8
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -481,7 +481,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.8.8 =
+= 3.8.8 - 2016/10/26 =
 - Added the `post_type_taxonomy` custom field type that lets the user select taxonomy terms of selected post types.
 - Added the `show_debug_info` argument to the page, in-page tab, section, and field definition arguments to decide whether to display debug information.
 - Added the ability to display section arguments in tool-tips beside the section title.
