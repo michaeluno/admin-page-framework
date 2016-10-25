@@ -37,16 +37,14 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
      */
     public function __construct( $oFactory ) {
     
-        $oFactory->oProp->bShowDebugInfo = false;
-    
         // Section
         $oFactory->addSettingSections(    
             $this->sPageSlug, // the target page slug                
             array(
-                'section_id'    => $this->sSectionID,
-                'tab_slug'      => $this->sTabSlug,
-                'title'         => __( 'Inline Mixed', 'admin-page-framework-loader' ),
-                'description'   => __( 'As of v3.8, it is possible to mix fields with different field types as an inline element without using sub-fields.', 'admin-page-framework-loader' ),
+                'section_id'       => $this->sSectionID,
+                'tab_slug'         => $this->sTabSlug,
+                'title'            => __( 'Inline Mixed', 'admin-page-framework-loader' ),
+                'description'      => __( 'As of v3.8, it is possible to mix fields with different field types as an inline element without using sub-fields.', 'admin-page-framework-loader' ),                
             )
         );   
 
