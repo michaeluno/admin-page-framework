@@ -104,7 +104,9 @@ EOD
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
 array(
-    'type'          => 'post_type_taxonomy',  
+    'type'          => 'post_type_taxonomy',
+    'repeatable'    => true,
+    'sortable'      => true,    
 )
 EOD
                         )
