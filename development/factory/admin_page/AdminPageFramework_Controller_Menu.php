@@ -173,52 +173,73 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
     }
     
     /**
-    * Adds the given sub-menu item on the left sidebar menu of the administration panel.
-    * 
-    * It supports pages and links. Each of them has the specific array structure.
-    * 
-    * <h4>Example</h4>
-    * <code>
-    * $this->addSubMenuItem(
-    *       array(
-    *           'title'         => 'Read Me',
-    *           'menu_title'    => 'About'
-    *           'page_slug'     => 'my_plugin_readme',
-    *       )
-    * );
-    * </code>
-    * 
-    * @since        2.0.0
-    * @since        3.0.0       Changed the scope to public.
-    * @remark       The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
-    * @param        array       a sub-menu array. It can be a page or a link. The array structures are as follows:
-    * <h4>Sub-menu Page Array</h4>
-    * <ul>
-    *   <li>**title** - (string) the page title of the page.</li>
-    *   <li>**page_slug** - (string) the page slug of the page. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
-    *   <li>**screen_icon** - (optional, string) either the ID selector name from the following list or the icon URL. The size of the icon should be 32 by 32 in pixel. This is for WordPress 3.7.x or below.
-    *       <pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
-    *       <p>( Notes: the `generic` icon is available WordPress version 3.5 or above.)</p> 
-    *   </li>
-    *   <li>**capability** - (optional, string) the access level to the created admin pages defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is `manage_options` by default, will be used.</li>
-    *   <li>**order** - (optional, integer) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
-    *   <li>**show_page_heading_tab** - (optional, boolean) if this is set to false, the page title won't be displayed in the page heading tab. Default: `true`.</li>
-    *   <li>**show_in_menu** - (optional) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.</li>
-    *   <li>**page_title** - (optional) [3.3.0+] When the page title differs from the menu title, use this argument.</li>
-    *   <li>**menu_title** - (optional) [3.3.0+] When the menu title differs from the menu title, use this argument.</li>
-    * </ul>
-    * <h4>Sub-menu Link Array</h4>
-    * <ul>
-    *   <li>**title** - (string) the link title.</li>
-    *   <li>**href** - (string) the URL of the target link.</li>
-    *   <li>**capability** - (optional, string) the access level to show the item, defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is `manage_options` by default, will be used.</li>
-    *   <li>**order** - (optional, integer) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
-    *   <li>**show_page_heading_tab** - (optional, boolean) if this is set to false, the page title won't be displayed in the page heading tab. Default: `true`.</li>
-    *   <li>**show_in_menu** - (optional) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.</li>
-    * </ul>
-    * @access       public
-    * @return       void
-    */    
+     * Adds the given sub-menu item on the left sidebar menu of the administration panel.
+     * 
+     * It supports pages and links. Each of them has the specific array structure.
+     * 
+     * <h4>Example</h4>
+     * <code>
+     * $this->addSubMenuItem(
+     *       array(
+     *           'title'         => 'Read Me',
+     *           'menu_title'    => 'About'
+     *           'page_slug'     => 'my_plugin_readme',
+     *       )
+     * );
+     * </code>
+     * 
+     * @since        2.0.0
+     * @since        3.0.0       Changed the scope to public.
+     * @remark       The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
+     * @param        array       a sub-menu array. It can be a page or a link. The array structures are as follows:
+     * <h4>Sub-menu Page Arguments</h4>
+     * <ul>
+     *   <li>**title** - (string) the page title of the page.</li>
+     *   <li>**page_slug** - (string) the page slug of the page. Non-alphabetical characters should not be used including dots(.) and hyphens(-).</li>
+     *   <li>**screen_icon** - (optional, string) either the ID selector name from the following list or the icon URL. The size of the icon should be 32 by 32 in pixel. This is for WordPress 3.7.x or below.
+     *       <pre>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</pre>
+     *       <p>( Notes: the `generic` icon is available WordPress version 3.5 or above.)</p> 
+     *   </li>
+     *   <li>**capability** - (optional, string) the access level to the created admin pages defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is `manage_options` by default, will be used.</li>
+     *   <li>**order** - (optional, integer) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+     *   <li>**show_page_heading_tab** - (optional, boolean) if this is set to false, the page title won't be displayed in the page heading tab. Default: `true`.</li>
+     *   <li>**show_in_menu** - (optional) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.</li>
+     *   <li>**page_title** - (optional) [3.3.0+] When the page title differs from the menu title, use this argument.</li>
+     *   <li>**menu_title** - (optional) [3.3.0+] When the menu title differs from the menu title, use this argument.</li>
+     *   <li>style - (optional) [3.6.3+] (string|array) The path or url of a stylesheet which gets loaded in the head tag. Or inline CSS rules.
+     * When custom arguments need to be set such as whether it should be inserted in the footer, set an array holding the following arguments.
+     *          <ul>
+     *              <li>src - (required, string) the source url or path.</li>    
+     *              <li>handle_id - (optional, string) The handle ID of the stylesheet.</li>    
+     *              <li>dependencies - (optional, array) The dependency array.</li>    
+     *              <li>version - (optional, string) The stylesheet version number.</li>    
+     *              <li>media - (optional, string) the description of the field which is inserted into the after the input field tag.</li>    
+     *          </ul>
+     *   </li>
+     *   <li>script - (optional) [3.6.3+] (string|array) The path or url of a JavaScript script which gets loaded in the head tag. Or an inline JavaScript script.
+     * When custom arguments need to be set such as whether it should be inserted in the footer, set an array holding the following arguments.
+     *          <ul>
+     *              <li>src - (required, string) the source url or path.</li>    
+     *              <li>handle_id - (optional, string) The handle ID of the stylesheet.</li>    
+     *              <li>dependencies - (optional, array) The dependency array.</li>    
+     *              <li>version - (optional, string) The stylesheet version number.</li>    
+     *              <li>translation - (optional, array) an array holding translation key-value pairs.</li>    
+     *          </ul>
+     *   </li>
+     *   <li>**disabled** - (optional, boolean) [3.5.10+] If false, in the page heading navigation tab, the link will be disabled. Default: `false`.</li>
+     *   <li>**attributes** - (optional, array) [3.5.10+] An attribute array applied to navigation tab element.</li>
+     * </ul>
+     * <h4>Sub-menu Link Arguments</h4>
+     * <ul>
+     *   <li>**title** - (string) the link title.</li>
+     *   <li>**href** - (string) the URL of the target link.</li>
+     *   <li>**capability** - (optional, string) the access level to show the item, defined <a href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. If not set, the overall capability assigned in the class constructor, which is `manage_options` by default, will be used.</li>
+     *   <li>**order** - (optional, integer) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
+     *   <li>**show_page_heading_tab** - (optional, boolean) if this is set to false, the page title won't be displayed in the page heading tab. Default: `true`.</li>
+     * </ul>
+     * @access       public
+     * @return       void
+     */    
     public function addSubMenuItem( array $aSubMenuItem ) {
         if ( isset( $aSubMenuItem[ 'href' ] ) ) {
             $this->addSubMenuLink( $aSubMenuItem );
@@ -307,38 +328,6 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      * @since       3.5.0       Changed the scope to public as it was protected.
      * @remark      The sub menu page slug should be unique because add_submenu_page() can add one callback per page slug.
      * @param       array       The sub menu page array.
-     * <h4>Sub Menu Page Array</h4>
-     * <ul>
-     *     <li>title - (required) the title of the page.</li>
-     *     <li>page_slug - (required) the slug of the page. Do not use hyphens as it serves as the callback method name.</li>
-     *     <li>screen icon - (optional) Either a screen icon ID, a url of the icon, or a file path to the icon, with the size of 32 by 32 in pixel. The accepted icon IDs are as follows.</li>
-     * <blockquote>edit, post, index, media, upload, link-manager, link, link-category, edit-pages, page, edit-comments, themes, plugins, users, profile, user-edit, tools, admin, options-general, ms-admin, generic</blockquote>
-     * ( Note: the <em>generic</em> ID is available since WordPress 3.5. )
-     *     <li>capability - (optional) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the page.</li>
-     *     <li>order - (optional) the order number of the page. The lager the number is, the lower the position it is placed in the menu.</li>
-     *     <li>show_page_heading_tab - (optional) If this is set to false, the page title won't be displayed in the page heading tab. Default: true.</li>
-     *     <li>show_in_menu - (optional) If this is set to false, the page title won't be displayed in the sidebar menu while the page is still accessible. Default: true.</li>
-     *     <li>style - [3.6.3+] (optional) (string|array) The path or url of a stylesheet which gets loaded in the head tag. Or inline CSS rules.
-     * When custom arguments need to be set such as whether it should be inserted in the footer, set an array holding the following arguments.
-     *          <ul>
-     *              <li>src - (required, string) the source url or path.</li>    
-     *              <li>handle_id - (optional, string) The handle ID of the stylesheet.</li>    
-     *              <li>dependencies - (optional, array) The dependency array.</li>    
-     *              <li>version - (optional, string) The stylesheet version number.</li>    
-     *              <li>media - (optional, string) the description of the field which is inserted into the after the input field tag.</li>    
-     *          </ul>
-     *     </li>
-     *     <li>script - [3.6.3+] (optional) (string|array) The path or url of a JavaScript script which gets loaded in the head tag. Or an inline JavaScript script.
-     * When custom arguments need to be set such as whether it should be inserted in the footer, set an array holding the following arguments.
-     *          <ul>
-     *              <li>src - (required, string) the source url or path.</li>    
-     *              <li>handle_id - (optional, string) The handle ID of the stylesheet.</li>    
-     *              <li>dependencies - (optional, array) The dependency array.</li>    
-     *              <li>version - (optional, string) The stylesheet version number.</li>    
-     *              <li>translation - (optional, array) an array holding translation key-value pairs.</li>    
-     *          </ul>
-     *     </li>
-     * </ul>
      * @return      void
      * @internal
      */ 
