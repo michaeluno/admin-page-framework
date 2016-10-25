@@ -54,7 +54,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             )
             : $aDataToParse;
 
-        // 3.6.0 - sorts dynamic eleemnts.        
+        // 3.6.0 - sorts dynamic elements.        
         $_aSubmittedFormData    = $this->getSortedInputs( $_aSubmittedFormData ); 
         
         return $bStripSlashes
