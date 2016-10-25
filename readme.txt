@@ -483,6 +483,8 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 = 3.8.8 =
 - Added the `post_type_taxonomy` custom field type that lets the user select taxonomy terms of selected post types.
+- Added the `show_debug_info` argument to the page, in-page tab, section, and field definition arguments to decide whether to display debug information.
+- Added the ability to display section arguments in tool-tips beside the section title.
 - Added the `save_unchecked` argument for the `checkbox`, `posttype`, and `taxonomy`  field types that decides whether to save values of unchecked terms.
 - Fixed a bug of calling a member function getSyntaxHighlightedPHPCode() on an undefined object in the network admin page of the demo.
 - Fixed a section ID conflict of `mixed` in demo examples.
