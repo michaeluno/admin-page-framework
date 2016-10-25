@@ -19,6 +19,16 @@
 class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {
     
     /**
+     * Shows a PHP notice of a deprecation message.
+     * @since       3.8.8
+     * @return      void
+     */
+    static public function showDeprecationNotice( $sDeprecated, $sAlternative='', $sProgramName='' ) {
+        $sProgramName = $sProgramName ? $sProgramName : self::getFrameworkName();
+        parent::showDeprecationNotice( $sDeprecated, $sAlternative, $sProgramName );
+    }
+    
+    /**
      * Sorts admin sub-menu items.
      * 
      * @since       3.7.4

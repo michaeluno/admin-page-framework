@@ -18,7 +18,29 @@
  * @internal
  */
 class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribute {
-       
+    
+    /**
+     * Shows a message for a deprecated item.
+     * 
+     * Uses the `E_USER_NOTICE` error level so that the message won't be shown if `WP_DEBUG` is `false`.
+     * 
+     * @remark      This method is overridden by the `AdminPageFramework_FrameworkUtility` class.
+     * @return      void
+     * @since       3.8.8
+     */
+    static public function showDeprecationNotice( $sDeprecated, $sAlternative='', $sProgramName='Admin Page Framework' ) {
+        trigger_error(
+            $sProgramName . ': ' . sprintf(
+                $sAlternative
+                    ? '<code>%1$s</code> has been deprecated. Use <code>%2$s</code> instead.'
+                    : '<code>%1$s</code> has been deprecated.',
+                $sDeprecated, // %1$s
+                $sAlternative // %2%s
+            ),
+            E_USER_NOTICE
+        );
+    }
+           
     /**
      * Calls back a user defined function.
      * 
