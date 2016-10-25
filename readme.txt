@@ -486,6 +486,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Added the `repeated_field` argument for the `registerAdminPageFrameworkCallbacks()` jQuery plugin method for better handling of repeated fields.
 - Added the `save_unchecked` argument for the `checkbox`, `posttype`, and `taxonomy`  field types that decides whether to save values of unchecked terms.
 - Fixed a section ID conflict of `mixed` in demo examples.
+- Tweaked the style of tool-tips.
 - Tweaked the style of `taxonomy` fields.
 
 = 3.8.7 - 2016/10/09 =
