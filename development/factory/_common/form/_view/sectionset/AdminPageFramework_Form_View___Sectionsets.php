@@ -18,9 +18,9 @@
 class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form_View___Section_Base {
 
     public $aArguments = array(
-        'structure_type' => 'admin_page',  
-        'capability'     => '',
-        'nested_depth'   => 0,
+        'structure_type'    => 'admin_page',  
+        'capability'        => '',
+        'nested_depth'      => 0,
     );
        
     public $aStructure = array(
@@ -143,6 +143,8 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                 $this->aCallbacks
             );   
         }
+        
+        // Note that the `show_debug_info` section definition argument won't take effect here but the page/in-page-tab setting will take effect.
         $_oDebugInfo = new AdminPageFramework_Form_View___DebugInfo( 
             $this->aArguments[ 'structure_type' ], // Structure type (for debug info) - this must be done before the $aSections array gets updated below.
             $this->aCallbacks,
@@ -150,7 +152,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
         );
 
         // Generate id for this output
-        $_sOutput = implode( PHP_EOL, $_aOutput );
+        $_sOutput    = implode( PHP_EOL, $_aOutput );
         $_sElementID = "admin-page-framework-sectionsets-" . uniqid();
         return $this->_getSpinnerOutput( $_sOutput )
             .   "<div id='{$_sElementID}' class='admin-page-framework-sctionsets admin-page-framework-form-js-on'>"
@@ -178,7 +180,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
          * Returns a generated HTML form table output.
          * @since       3.5.3
          * @since       3.7.0      Moved from `AdminPageFramework_FormPart_Table`. 
-         * Changed the first parameter to accepts fieldsets array which already belongs to the given section tab.
+         * Changed the first parameter to accepts field-sets array which already belongs to the given section tab.
          * Changed the name from `_getFormTable()`. Combined the 4th and 5th parameters to one parameter in an array.
          * @return      string      The generated HTML form table.
          */
@@ -206,7 +208,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
         /**
          * Returns an output string of sections tables.
          * 
-         * The returned output element is wrapped in a div container of the 'admin-page-framework-sections' class selector.
+         * The returned output element is wrapped in a `div` container of the 'admin-page-framework-sections' class selector.
          * And inside it 'admin-page-framework-section' elements will be placed.
          * 
          * @since       3.0.0
@@ -226,7 +228,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
             
             /**
              * If there is no field overall to the section and its section tab, return an empty string.
-             * Otherwise, the sectionsets container gets rendered and its CSS rules such as margins give unwanted results.
+             * Otherwise, the section-sets container gets rendered and its CSS rules such as margins give unwanted results.
              */
             if ( ! count( $aFieldsets ) ) {
                 return ''; 
@@ -269,7 +271,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
              * Returns the collapsible argument array from the given sections definition array.
              * 
              * @since       3.5.3
-             * @since       3.6.0       Changed the first parameter from `$aSections`.
+             * @since       3.6.0      Changed the first parameter from `$aSections`.
              * @since       3.7.0      Moved from `AdminPageFrmework_FormPart_Table`.
              * Changed the visibility scope to private. Changed the 1st parameter from `$aSection`.
              * @return      array
@@ -297,7 +299,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
              * @param       array       $_aOutputs      Holds output elements - contents, section tab list, count of subsections.
              * @param       string      $_sSectionsID   The container id of sections.
              * @param       array       $_aSection
-             * @param       array       $_aFieldsInSections     A fieldsets array already divided by section tab.
+             * @param       array       $_aFieldsInSections     A field-sets array already divided by section tab.
              * @return      array       The updated sections table output array.
              */
             private function _getSectionsetTable( $_aOutputs, $_sSectionsID, array $_aSection, array $aFieldsInSections ) {
@@ -343,7 +345,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                         $aFieldsInSections, 
                         $_aSection[ '_section_path' ], // $_aSection[ 'section_id' ], 
                         array() 
-                    ) // fieldset definitions      
+                    ) // field-set definitions      
                 );
                 return $_aOutputs;
               
@@ -460,7 +462,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                 /**
                  * Returns a section table output array by adding a section output with a tab list.
                  * @since       3.5.3
-                 * @since       3.6.0       Removed the `$_sSectionID` and `$iSectionIndex` parameters.
+                 * @since       3.6.0      Removed the `$_sSectionID` and `$iSectionIndex` parameters.
                  * @since       3.7.0      Moved from `AdminPageFramework_FormPart_Table`.
                  * @return      The updated section table output array.
                  */
@@ -497,7 +499,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
              * @internal
              * @since       3.5.3
              * @since       3.6.0       Removed the `$sSectionID` parameter. Added the `$aSectionset` parameter.
-             * @since       3.7.0      Moved from `AdminPageFramework_FormPart_Table`.
+             * @since       3.7.0       Moved from `AdminPageFramework_FormPart_Table`.
              * @return      string      The formatted sections table HTML output.
              */
             private function _getFormattedSectionsTablesOutput( array $aOutputs, $aSectionset, $sSectionsID, array $aCollapsible, $sSectionTabSlug ) {
@@ -542,7 +544,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                  * Returns an HTML section tab list.
                  * @internal
                  * @since       3.5.3
-                 * @since       3.7.0      Moved from `AdminPageFramework_FormPart_Table`.
+                 * @since       3.7.0       Moved from `AdminPageFramework_FormPart_Table`.
                  * @return      string      The generated section tab list as HTML.
                  */
                 private function _getSectionTabList( $sSectionTabSlug, array $aSectionTabList ) {
