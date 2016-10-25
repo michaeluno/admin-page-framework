@@ -51,6 +51,7 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
         'attributes'                => null, // 3.5.10+ (array) Applied to navigation tab element.
         'style'                     => null, // 3.6.0+ (string|array) The path or url of a stylesheet which gets loaded in the head tag.
         'script'                    => null, // 3.6.3+ (string|array) The path or url of a JavaScript script which gets loaded in the head tag.
+        'show_debug_info'           => null, // 3.8.8  (boolean, optional) Whether to show debug information. If not set, the existent `bShowDebugInfo` property value will be used.
     );    
     
     /**
@@ -133,9 +134,7 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
                 + self::$aStructure;
 
             $aSubMenuPage[ 'page_slug' ]      = $this->sanitizeSlug( $aSubMenuPage[ 'page_slug' ] );
-            $aSubMenuPage[ 'screen_icon_id' ] = trim( 
-                $aSubMenuPage[ 'screen_icon_id' ] 
-            );
+            $aSubMenuPage[ 'screen_icon_id' ] = trim( $aSubMenuPage[ 'screen_icon_id' ] );
             
             return array( 
                     'href_icon_32x32'   => $aSubMenuPage[ 'screen_icon' ],
@@ -153,6 +152,11 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
                         is_numeric( $aSubMenuPage[ 'order' ] ),
                         $aSubMenuPage[ 'order' ],
                         $this->iParsedIndex * 10
+                    ),
+                    'show_debug_info'   => $this->getAOrB(
+                        isset( $aSubMenuPage[ 'show_debug_info' ] ),
+                        $aSubMenuPage[ 'show_debug_info' ],
+                        $this->oFactory->oProp->bShowDebugInfo
                     ),
                 )
                 + $aSubMenuPage;

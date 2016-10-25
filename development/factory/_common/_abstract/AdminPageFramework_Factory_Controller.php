@@ -266,6 +266,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *      <li>**sortable** - (optional, boolean) [3.6.0+] whether the section is sortable or not. In order for this option to be effective, the `repeatable` argument must be enabled.</li>
      *      <li>**content** - (optional, string) [3.6.1+] a custom section output.</li>
      *      <li>**tip** - (optional, string) [3.7.0+] a tool tip which pops up when the user hovers their mouse over the ? mark icon beside the title..</li>
+     *      <li>**show_debug_info** - (optional, boolean) [3.8.8+] Whether to show debug information such as field definition tool-tips.</li>
      * </ul>
      * @return      void
      */
@@ -356,7 +357,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *       <li>[system](./class-AdminPageFramework_FieldType_system.html) - [3.3.0+] a custom text area field that displays the system information including the PHP settings, the framework version, MySQL version etc.</li>
     *       <li>[inline_mixed](./class-AdminPageFramework_FieldType_inline_mixed.html) - [3.8.0+] a field that include inner fields with different field types. </li>
     * </ul>
-    * <h4>Field Definition Array</h4>
+    * <h4>Field Definition Arguments</h4>
     * <ul>
     *       <li>**field_id** - (required, string) the field ID. Avoid using non-alphabetic characters except underscore and numbers.</li>
     *       <li>**type** - (optional, string) the type of the field. The supported types are listed below. When creating nested fields, this argument can be omitted.</li>
@@ -483,6 +484,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     * </code></pre>
     *       </li>
     *       <li>**placement** - [3.8.0+] (optional, string) Specifies where the field is rendered. Either `normal` `section_title` or `field_title` is accepted. `field_title` can only be used by nested fields defined in the `content` argument.  Default: `normal`</li>
+    *       <li>**show_debug_info** - (optional, boolean) [3.8.8+] Whether to show debug information such as field definition tool-tips. Default: `true`.</li>
     * </ul>
     */
     public function addSettingField( $asFieldset ) {

@@ -228,6 +228,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      *   </li>
      *   <li>**disabled** - (optional, boolean) [3.5.10+] If false, in the page heading navigation tab, the link will be disabled. Default: `false`.</li>
      *   <li>**attributes** - (optional, array) [3.5.10+] An attribute array applied to navigation tab element.</li>
+     *   <li>**show_debug_info** - (optional, boolean) [3.8.8+] Whether to show debug information. If `WP_DEBUG` is false, the debug output will not be displayed. Default: `true`.</li>
      * </ul>
      * <h4>Sub-menu Link Arguments</h4>
      * <ul>

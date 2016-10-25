@@ -74,6 +74,9 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
         // 3.6.0+ - (object) the caller framework factory object. This allows the framework to access the factory property when rendering the section.
         // 3.7.0+  It no longer stores a factory object but a form object.
         '_caller_object'    => null,     
+        
+        'show_debug_info'   => null,    // 3.8.8+ (boolean) Whether to display debug information. Inherits the page/in-page-tab setting (actually the factory property value of `$bShowDebugInfo` which gets updated by the page/tab setting).
+        
     );        
     
     /**
@@ -91,10 +94,12 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
     
     public $oCaller             = null;
     
+    public $bShowDebugInfo      = true;     // 3.8.8+
+    
     /**
      * Sets up properties.
      */
-    public function __construct( /* array $aSectionset, $sSectionPath, $sStructureType, $sCapability, $iCountOfElements, $oCaller */ ) {
+    public function __construct( /* array $aSectionset, $sSectionPath, $sStructureType, $sCapability, $iCountOfElements, $oCaller, $bShowDebugInfo */ ) {
         
         $_aParameters = func_get_args() + array( 
             $this->aSectionset, 
@@ -103,6 +108,7 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
             $this->sCapability, 
             $this->iCountOfElements,
             $this->oCaller,
+            $this->bShowDebugInfo,      // 3.8.8+
         );
         $this->aSectionset          = $_aParameters[ 0 ];
         $this->sSectionPath         = $_aParameters[ 1 ];
@@ -110,6 +116,7 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
         $this->sCapability          = $_aParameters[ 3 ];
         $this->iCountOfElements     = $_aParameters[ 4 ];
         $this->oCaller              = $_aParameters[ 5 ];
+        $this->bShowDebugInfo       = $_aParameters[ 6 ];   // 3.8.8+
 
     }
     
@@ -132,7 +139,8 @@ class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramewor
             ) 
             + $this->aSectionset
             + array(
-                'capability'    => $this->sCapability,
+                'capability'        => $this->sCapability,
+                'show_debug_info'   => $this->bShowDebugInfo,   // 3.8.8+
             ),
             self::$aStructure
         );

@@ -160,7 +160,7 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
          */
         private function _getDebugInfo( $aField ) {
             
-            if ( ! $this->callBack( $this->aCallbacks[ 'show_debug_info' ], true ) ) {
+            if ( ! $this->_shouldShowDebugInfo( $aField ) ) {
                 return '';
             }
             $_oToolTip           = new AdminPageFramework_Form_View___ToolTip(
@@ -172,7 +172,7 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
                         . '<span class="admin-page-framework-info">'
                             . $this->getFrameworkNameVersion()
                             . '  ('
-                                . __( 'This information will be disabled when <code>WP_DEBUG</code> is set to <code>false</code> in <code>wp-config.php</code>.', 'admin-page-framework' )
+                                . $this->oMsg->get( 'debug_info_will_be_disabled' )
                               . ')'
                         . '</span>',
                     'attributes'    => array(
@@ -186,6 +186,21 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
             return $_oToolTip->get();                    
             
         }
+            /**
+             * @since       3.8.8
+             * @return      boolean
+             */
+            private function _shouldShowDebugInfo( $aField ) {
+                
+                if ( ! $aField[ 'show_debug_info' ] ) {
+                    return false;
+                }
+                if ( strlen( $aField[ '_parent_field_path' ] ) ) {
+                    return false;
+                }               
+                return true;
+                
+            }
         
         /**
          * @since       3.7.0

@@ -84,6 +84,7 @@ abstract class AdminPageFramework_Controller_Page extends AdminPageFramework_Vie
      *              <li>translation - (optional, array) an array holding translation key-value pairs.</li>    
      *          </ul>
      *     </li>
+     *     <li>show_debug_info - [3.8.8+] (optional, boolean) Whether to show debug information. If `WP_DEBUG` is false, the debug output will not be displayed. Default: `true`.</li>
      * </ul>
      * @param       array       $aTab2      Another in-page tab array.
      * @param       array       $_and_more  (optional) Add in-page tab arrays as many as necessary to the next parameters.

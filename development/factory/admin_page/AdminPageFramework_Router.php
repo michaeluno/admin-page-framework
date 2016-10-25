@@ -159,12 +159,13 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             if ( ! $this->_isPageLoadCall( $sMethodName, $sPageSlug, $oScreen->id ) ) {
                 return;
             }
-
+                      
             // [3.4.6+] Set the page and tab slugs to the default form section so that added form fields without a section will appear in different pages and tabs.
-            $this->oForm->aSections[ '_default' ][ 'page_slug' ]  = $sPageSlug ? $sPageSlug : null;
-            $this->oForm->aSections[ '_default' ][ 'tab_slug' ]   = $sTabSlug ? $sTabSlug : null;
-        
-            // Do actions, class ->  page -> in-page tab
+            $this->_setPageAndTabSlugsForForm( $sPageSlug, $sTabSlug );
+
+            $this->_setShowDebugInfoProperty( $sPageSlug ); // 3.8.8+
+                                    
+            // Do actions in this order, class ->  page -> in-page tab. This order is important as some methods rely on it.
             $this->load();  // 3.7.12+
             $this->oUtil->addAndDoActions( 
                 $this, // the caller object
@@ -175,13 +176,20 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                 $this // the admin page object - this lets third-party scripts use the framework methods.
             );
             
-            // The in-page tabs handling method `_replyToFinalizeInPageTabs()` is called in the above action hook.
+            // * Note that the in-page tabs handling method `_replyToFinalizeInPageTabs()` is called in the above action hook.
             
-            $this->oUtil->addAndDoActions( 
-                $this, // the caller object
-                array( "load_{$sPageSlug}_" . $this->oProp->getCurrentTabSlug( $sPageSlug ) ),
-                $this // the admin page object - this lets third-party scripts use the framework methods.
-            );         
+            // Re-retrieve the current tab slug as in-page tabs may be added during the above `load_{...}`  hooks.
+            // Note that the if the tab is the first item, and the user arrives the page by clicking on the sidebar menu, the tab slug will be empty unless an in-page tab is added.
+            $sTabSlug = $this->oProp->getCurrentTabSlug( $sPageSlug );
+            
+            if ( strlen( $sTabSlug ) ) { 
+                $this->_setShowDebugInfoProperty( $sPageSlug, $sTabSlug );  // 3.8.8+
+                $this->oUtil->addAndDoActions( 
+                    $this, // the caller object
+                    array( "load_{$sPageSlug}_" . $sTabSlug ),
+                    $this // the admin page object - this lets third-party scripts use the framework methods.
+                );         
+            }
             
             $this->oUtil->addAndDoActions( 
                 $this, // the caller object
@@ -193,6 +201,50 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             );
             
         }
+            /**
+             * Updates the `bShowDebugInfo` property based on the current page and in-page-tab arguments.
+             * 
+             * If the `$sTabSlug` parameter is not set, it is considered for the current page. Otherwise, it is for the current tab.
+             * 
+             * @remark      This must be called before calling the `load()` method as which page to load is already determined at this point.
+             * And if the user wants to modify the property value manually, they can do so in the `load()` method.
+             * @since       3.8.8
+             * @return      void
+             */
+            private function _setShowDebugInfoProperty( $sPageSlug, $sTabSlug='' ) {
+
+                // For the page,
+                if ( ! strlen( $sTabSlug ) ) {
+                    $this->oProp->bShowDebugInfo = $this->oUtil->getElement(
+                        $this->oProp->aPages,
+                        array( $sPageSlug, 'show_debug_info' ),
+                        $this->oProp->bShowDebugInfo
+                    );                          
+                    return;
+                }
+                // For the in-page tab.
+                $this->oProp->bShowDebugInfo = $this->oUtil->getElement(
+                    $this->oProp->aInPageTabs,
+                    array( $sPageSlug, $sTabSlug, 'show_debug_info' ),
+                    $this->oProp->bShowDebugInfo
+                );
+                
+            }       
+                   
+            /**
+             * Sets the page and tab slugs to the default form section 
+             * so that added form fields without a section will appear in different pages and tabs.
+             * 
+             * @internal
+             * @since       3.8.8
+             * @todo        The `oForm` object will get instantiated even the user does not use a form. 
+             * So look for a way to avoid calling `$oForm` unless the user uses a form.
+             */
+            private function _setPageAndTabSlugsForForm( $sPageSlug, $sTabSlug ) {
+                $this->oForm->aSections[ '_default' ][ 'page_slug' ]  = $sPageSlug ? $sPageSlug : null;
+                $this->oForm->aSections[ '_default' ][ 'tab_slug' ]   = $sTabSlug ? $sTabSlug : null;
+            }
+        
             /**
              * Determines whether the function call is of a page load.
              * @since       3.5.3

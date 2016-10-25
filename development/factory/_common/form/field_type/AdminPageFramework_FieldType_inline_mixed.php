@@ -218,7 +218,8 @@ class AdminPageFramework_FieldType_inline_mixed extends AdminPageFramework_Field
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        'label_min_width'  => '',   // disabled as the embedded elements are all inline.
+        'label_min_width'  => '',       // disabled as the embedded elements are all inline.
+        'show_debug_info'  => false,    // 3.8.8+ @todo Examine why this value does not override the default value of field definition arguments and if possible and appropriate, override it.
     );
 
     

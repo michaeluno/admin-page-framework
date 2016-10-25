@@ -39,6 +39,7 @@ class AdminPageFramework_Format_InPageTab extends AdminPageFramework_Format_Base
         'attributes'        => null,    // 3.5.10+ (array) Applies to the navigation tab bar element.    
         'capability'        => null,    // 3.6.0+ (string)
         'if'                => true,    // 3.6.0+ (boolean)
+        'show_debug_info'   => null,    // 3.8.8+ (boolean, optional) Whether to show debug information. If not set, the existent `bShowDebugInfo` property value will be used. The initial value here is `null` as the default value will be assigned in the formatting method.
     );
     
     /**
@@ -73,14 +74,32 @@ class AdminPageFramework_Format_InPageTab extends AdminPageFramework_Format_Base
     public function get() {
 
         return array(
-            'page_slug'     => $this->sPageSlug,
+            'page_slug'         => $this->sPageSlug,
         ) + $this->aInPageTab + array(
-            'capability'    => $this->_getPageCapability(),        
+            'capability'        => $this->_getPageCapability(),        
+            'show_debug_info'   => $this->_getPageShowDebugInfo(),
         ) + self::$aStructure;
         
     }
         /**
+         * Retrieves the `show_debug_info` argument value of the page that this tab belongs to.
+         * 
+         * @remark      This is to inherit the value of the page that the tab belongs to.
+         * @internal
+         * @return      boolean
+         * @since       3.8.8
+         */
+        private function _getPageShowDebugInfo() {
+            return $this->getElement(
+                $this->oFactory->oProp->aPages,
+                array( $this->sPageSlug, 'show_debug_info' ),
+                $this->oFactory->oProp->bShowDebugInfo
+            );      
+        }        
+        /**
          * Retrieves the capability of the page that the subject tab belongs to.
+         * 
+         * @remark      This is to inherit the value of the page that the tab belongs to.
          * @return      string
          * @since       3.6.0
          */

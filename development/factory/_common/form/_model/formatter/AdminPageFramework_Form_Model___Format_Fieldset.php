@@ -71,6 +71,8 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
         'save'                      => true,    // 3.6.0
         'content'                   => null,    // 3.6.1 - (string) An overriding field-set output.
         
+        'show_debug_info'           => null,    // 3.8.8+  (boolean) whether to show debug information such as field definition tool-tips. This value is inherited from the section definition argument of the same name. Not setting a value here as it is determined with another calculated value.
+        
         // Internal Keys
         '_fields_type'              => null,    // @deprecated  3.7.0, 3.0.0 - an internal key that indicates the fields type such as page, meta box for pages, meta box for posts, or taxonomy.
         '_structure_type'           => null,    // 3.7.0
@@ -159,13 +161,13 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
      * @return      array       The formatted definition array.
      */
     public function get() {
-        
+
         // Fill missing argument keys - this method overrides 'null' values.
         $_aFieldset = $this->uniteArrays(
             array( 
                 '_fields_type'           => $this->sStructureType, // @deprecated 3.7.0 backward-compatibility
                 '_structure_type'        => $this->sStructureType,  
-                '_caller_object'         => $this->oCallerObject,  // 3.4.1+ Stores the caller framework factory object. 
+                '_caller_object'         => $this->oCallerObject,  // 3.4.1+ Stores the caller form object. 
                 '_subsection_index'      => $this->iSubSectionIndex,  // 3.7.0+
             )
             + $this->aFieldset,
@@ -205,9 +207,37 @@ class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework
         // 3.8.0+
         $_aFieldset[ '_is_title_embedded' ] = $this->_isTitleEmbedded( $_aFieldset );
         
+        // 3.8.8+
+        $_aFieldset[ 'show_debug_info' ] = $this->_getShowDebugInfo( $_aFieldset );
+        
         return $_aFieldset;
         
     }     
+        /**
+         * Determines the value of the `show_debug_info` argument.
+         * 
+         * Assumes the `_section_path` is already set.
+         * 
+         * @remark      This should be inherited from the section if not set explicitly in the field definition argument.
+         * @since       3.8.8
+         * @return      boolean
+         */
+        private function _getShowDebugInfo( $aFieldset ) {   
+
+            // If the user sets a value. use it.
+            if ( isset( $aFieldset[ 'show_debug_info' ] ) ) {
+                return $aFieldset[ 'show_debug_info' ];
+            }
+            
+            // Retrieve from the section definition which this field belong to.
+            return $this->getElement(
+                $this->oCallerObject->aSectionsets,
+                array( $aFieldset[ '_section_path' ], 'show_debug_info' ),
+                true
+            );
+            
+        }
+    
         /**
          * Checks whether the field title is supposed to be embedded in the field-set element.
          * 

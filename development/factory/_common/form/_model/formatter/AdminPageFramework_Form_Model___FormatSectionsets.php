@@ -99,7 +99,11 @@ class AdminPageFramework_Form_Model___FormatSectionsets extends AdminPageFramewo
                     $this->sStructureType, 
                     $sCapability, 
                     count( $_aNewSectionsets ), // this new array gets updated in this loops so the count will be updated.
-                    $this->oCallerForm
+                    $this->oCallerForm,
+                    $this->callBack(
+                        $this->aCallbacks[ 'show_debug_info' ], 
+                        true    // default value
+                    )
                 );
                 $_aSectionset = $this->callBack(
                     $this->aCallbacks[ 'sectionset_before_output' ], 
