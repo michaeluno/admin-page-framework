@@ -36,8 +36,8 @@ class APF_Demo_AdvancedUsage_Mixed {
         $oFactory->addInPageTabs(    
             $this->sPageSlug, // target page slug
             array(
-                'tab_slug'  => $this->sTabSlug,
-                'title'         => __( 'Mixed', 'admin-page-framework-loader' ),    
+                'tab_slug'        => $this->sTabSlug,
+                'title'           => __( 'Mixed', 'admin-page-framework-loader' ),
             )     
         );  
         
