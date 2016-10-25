@@ -30,7 +30,7 @@ class APF_Demo_AdvancedUsage_Mixed_Inline {
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'mixed';
+    public $sSectionID  = 'builtin_mixed';
         
     /**
      * Sets up a form section.

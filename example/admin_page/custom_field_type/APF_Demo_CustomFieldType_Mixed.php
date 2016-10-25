@@ -22,7 +22,7 @@ class APF_Demo_CustomFieldType_Mixed {
     
     public $sPageSlug;
     
-    public $sTabSlug = 'mixed';
+    public $sTabSlug = 'custom_mixed';
 
     public function __construct( $oFactory, $sPageSlug ) {
     
