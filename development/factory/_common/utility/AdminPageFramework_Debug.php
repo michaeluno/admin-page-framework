@@ -61,10 +61,14 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
      */
     static public function get( $asArray, $sFilePath=null, $bEscape=true ) {
 
-        if ( $sFilePath ) self::log( $asArray, $sFilePath );     
+        if ( $sFilePath ) {
+            self::log( $asArray, $sFilePath );     
+        }
         
         return $bEscape
-            ? "<pre class='dump-array'>" . htmlspecialchars( self::getAsString( $asArray ) ) . "</pre>" // esc_html() has a bug that breaks with complex HTML code.
+            ? "<pre class='dump-array'>" 
+                    . htmlspecialchars( self::getAsString( $asArray ) ) // `esc_html()` breaks with complex HTML code.
+                . "</pre>" 
             : self::getAsString( $asArray ); // non-escape is used for exporting data into file.    
         
     }
@@ -78,6 +82,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
          * @deprecated  3.2.0
          */
         static public function getArray( $asArray, $sFilePath=null, $bEscape=true ) {
+            self::showDeprecationNotice( __CLASS__ .'::' . __FUNCTION__,  __CLASS__ .'::get()' );
             return self::get( $asArray, $sFilePath, $bEscape );
         }      
             
@@ -133,7 +138,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
     }   
         /**
          * Determines the log file path.
-         * @since        3.5.3 
+         * @since       3.5.3 
          * @internal    
          * @return      string      The path of the file to log the contents.
          */
@@ -271,47 +276,93 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
          * @deprecated  3.1.0   Use the `log()` method instead.
          */
         static public function logArray( $asArray, $sFilePath=null ) {
+            self::showDeprecationNotice( __CLASS__ .'::' . __FUNCTION__,  __CLASS__ .'::log()' );
             self::log( $asArray, $sFilePath );     
         }      
         
     /**
      * Returns a string representation of the given value.
      * @since       3.5.0
-     * @param       mized       $mValue     The value to get as a string
+     * @param       mixed       $mValue     The value to get as a string
      * @internal
      */
     static public function getAsString( $mValue ) {
         
-        $mValue = is_object( $mValue )
-            ? ( method_exists( $mValue, '__toString' ) 
-                ? ( string ) $mValue          // cast string
-                : ( array ) $mValue           // cast array
-            )
-            : $mValue;
-        $mValue = is_array( $mValue )
-            ? self::getSliceByDepth( $mValue, 10 )
-            : $mValue;
-            
+        $mValue = self::_getLegibleObject( $mValue );
+        $mValue = self::_getLegibleCallable( $mValue );
+        $mValue = self::_getLegibleArray( $mValue );            
         return print_r( $mValue, true );
         
     }
-    
+        /**
+         * @since       3.8.9
+         * @return      mixed
+         */
+        static private function _getLegibleCallable( $asoCallable ) {
+            
+            if ( ! is_callable( $asoCallable ) ) {
+                return $asoCallable;
+            }
+            if ( is_string( $asoCallable ) ) {
+                return '(callable) ' . $asoCallable;
+            }
+            if ( is_object( $asoCallable ) ) {
+                return '(callable) ' . get_class( $asoCallable );
+            }
+            $_sSubject = is_object( $asoCallable[ 0 ] )
+                ? get_class( $asoCallable[ 0 ] )
+                : ( string ) $asoCallable[ 0 ];
+
+            return '(callable) ' . $_sSubject . '::' . ( string ) $asoCallable[ 1 ];
+            
+        }
+        
+        /**
+         * @since       3.8.9
+         * @return      mixed
+         */
+        static public function _getLegibleObject( $oObject ) {
+            
+            if ( ! is_object( $oObject ) ) {
+                return $oObject;
+            }
+            
+            if ( method_exists( $oObject, '__toString' ) ) {
+                return ( string ) $oObject;
+            }
+            
+            return '(object) ' . get_class( $oObject ) . ' ' 
+                . count( get_object_vars( $oObject ) ) . ' properties.';
+            
+        }
+        
+        /**
+         * @since       3.8.9
+         * @return      mixed
+         */
+        static public function _getLegibleArray( $aArray ) {
+            
+            if ( ! is_array( $aArray ) ) {
+                return $aArray;
+            }
+            return self::_getArrayMappedRecursive( 
+                self::getSliceByDepth( $aArray, 10 ), 
+                array( __CLASS__, '_getLegibleValue' ) 
+            );
+            
+        }
+ 
     /**
      * Slices the given array by depth.
      * 
      * @since       3.4.4
+     * @since       3.8.9       Changed it not to convert an object into an array.
      * @return      array
      * @internal
      */
     static public function getSliceByDepth( array $aSubject, $iDepth=0 ) {
 
         foreach ( $aSubject as $_sKey => $_vValue ) {
-            if ( is_object( $_vValue ) ) {
-                $aSubject[ $_sKey ] = method_exists( $_vValue, '__toString' ) 
-                    ? ( string ) $_vValue           // cast string
-                    : get_object_vars( $_vValue );  // convert it to array.
-                continue;
-            }
             if ( is_array( $_vValue ) ) {
                 $_iDepth = $iDepth;
                 if ( $iDepth > 0 ) {
@@ -325,5 +376,69 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
         return $aSubject;
         
     }        
+
+        /**
+         * @return      string
+         * @since       3.8.9
+         */
+        static private function _getLegibleValue( $mItem ) {
+            
+            if ( is_object( $mItem ) ) {
+                return '(object) ' . get_class( $mItem );
+            }
+            if ( is_null( $mItem ) ) {
+                return '(null)';
+            }
+            if ( is_bool( $mItem ) ) {
+                return '(boolean) ' . ( $mItem ? 'true' : 'false' );
+            }
+            // At this point, the value is a scalar.
+            return self::_getLegibleString( $mItem );
+
+        }
+            /**
+             * @return      string
+             * @since       3.8.9
+             */
+            static private function _getLegibleString( $sScalar, $iCharLimit=300 ) {
+                
+                static $_iMBSupport;
+                $_iMBSupport = isset( $_iMBSupport ) ? $_iMBSupport : function_exists( 'mb_strlen' );      
+                $_aStrLenMethod = array( 'strlen', 'mb_strlen' );
+                $_aSubstrMethod = array( 'substr', 'mb_substr' );
+                
+                $_iCharLength = call_user_func_array( $_aStrLenMethod[ $_iMBSupport ], array( $sScalar ) );
+                if ( $_iCharLength <= $iCharLimit ) {
+                    return '(' . gettype( $sScalar ) . ') ' . $sScalar;
+                }
+                return '(' . gettype( $sScalar ) . ') '
+                    . call_user_func_array( $_aSubstrMethod[ $_iMBSupport ], array( $sScalar, 0, $iCharLimit ) ) 
+                    . '...';
+                    
+            }
+        /**
+         * Performs `array_map()` recursively.
+         * @return      array.
+         * @since       3.8.9
+         */
+        static private function _getArrayMappedRecursive( array $aArray, $oCallable ) {
+            
+            self::$oCurrentCallable = $oCallable;
+            $_aArray = array_map( array( __CLASS__, '_getArrayMappedNested' ), $aArray );
+            self::$oCurrentCallable = null;
+            return $_aArray;
+            
+        }
+            static public $oCurrentCallable;
+            /**
+             * @internal
+             * @return      mixed       A modified value.
+             * @since       3.8.9
+             */
+            static private function _getArrayMappedNested( $mItem ) {            
+                return is_array( $mItem ) 
+                    ? array_map( array( __CLASS__, '_getArrayMappedNested' ), $mItem ) 
+                    : call_user_func( self::$oCurrentCallable, $mItem );            
+            }    
     
 }

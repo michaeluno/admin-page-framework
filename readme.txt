@@ -481,6 +481,10 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.9 =
+- Fixed an issue that setting an object instance in field definition arguments caused slow performance on loading the form.
+- Tweaked the output format of debug utility methods.
+
 = 3.8.8 - 2016/10/26 =
 - Added the `post_type_taxonomy` custom field type that lets the user select taxonomy terms of selected post types.
 - Added the `show_debug_info` argument to the page, in-page tab, section, and field definition arguments to decide whether to display debug information.
