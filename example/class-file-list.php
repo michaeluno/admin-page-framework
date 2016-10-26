@@ -7,6 +7,7 @@ $_aClassFiles = array(
 	"APF_Demo_AdvancedUsage_Argument_Capability"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/argument/APF_Demo_AdvancedUsage_Argument_Capability.php", 
 	"APF_Demo_AdvancedUsage_Argument_CustomContent"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/argument/APF_Demo_AdvancedUsage_Argument_CustomContent.php", 
 	"APF_Demo_AdvancedUsage_Argument_CustomSectionContent"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/argument/APF_Demo_AdvancedUsage_Argument_CustomSectionContent.php", 
+	"APF_Demo_AdvancedUsage_Argument_DebugInfo"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/argument/APF_Demo_AdvancedUsage_Argument_DebugInfo.php", 
 	"APF_Demo_AdvancedUsage_Argument_Unsave"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/argument/APF_Demo_AdvancedUsage_Argument_Unsave.php", 
 	"APF_Demo_AdvancedUsage_Callback"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/callback/APF_Demo_AdvancedUsage_Callback.php", 
 	"APF_Demo_AdvancedUsage_Callback_FieldDefinition"	=>	AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/callback/APF_Demo_AdvancedUsage_Callback_FieldDefinition.php", 

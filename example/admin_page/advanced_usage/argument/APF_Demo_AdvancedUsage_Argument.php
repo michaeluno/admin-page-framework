@@ -61,6 +61,7 @@ class APF_Demo_AdvancedUsage_Argument {
             'APF_Demo_AdvancedUsage_Argument_CustomContent',
             'APF_Demo_AdvancedUsage_Argument_Unsave',
             'APF_Demo_AdvancedUsage_Argument_Capability',
+            'APF_Demo_AdvancedUsage_Argument_DebugInfo',
         );
         foreach ( $_aClasses as $_sClassName ) {
             if ( ! class_exists( $_sClassName ) ) {
