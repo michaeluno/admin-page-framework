@@ -25,7 +25,6 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  *     <li>**callback** - (optional, array)
  *          <ul>
  *              <li>**search** - (optional, callable) Set a callback function that is triggered in the background when the user type something in the select input field expecting a list of suggested items will be displayed.
- *  If you set a class method, make sure it is static. Otherwise, the framework will load slow. The callback function accepts two following parameters. 
  *  - `$aQueries` - (array) an array holding the following arguments.
  *     - `q` - (string) the queried characters.
  *     - `page` - (string) the pagination number. When the result has too many items, it can be paginated. 
@@ -54,7 +53,6 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  * </code>
  *              </li>
  *              <li>**new_tag** - (optional, callable) Set a callback function that is called when the user creates a new tag.
- *  If you set a class method, make sure it is static. Otherwise, the framework will load slow. The callback function accepts two following parameters. 
   *  - `$aQueries` - (array) an array holding the following arguments.
  *     - `tag` - (string) the tag name.
  *     - `field_id` - (string) the field ID that calls the query.
