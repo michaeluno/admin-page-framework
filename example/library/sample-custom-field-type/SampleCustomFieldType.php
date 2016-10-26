@@ -135,7 +135,7 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
             
             // Output
             $_aOutput[] = $this->getElement( $aField, array( 'before_label', $sKey ) )
-                . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>"
+                . "<div class='admin-page-framework-input-label-container admin-page-framework-radio-label' style='min-width: " . $this->getLengthSanitized( $aField['label_min_width'] ) . ";'>"
                     . "<label " . $this->generateAttributes( $aLabelAttributes ) . ">"
                         . $this->getElement( $aField, array( 'before_input', $sKey ) )
                         . "<span class='admin-page-framework-input-container'>"
