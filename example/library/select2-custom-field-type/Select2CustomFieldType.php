@@ -169,7 +169,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
 "jQuery( document ).ready( function(){
     
     /**
-     * Shows an error message that disappars in given missliseconds.
+     * Shows an error message that disappears in given milliseconds.
      */
     _showDecayingError = function( oNode, sMessage, iMilliseconds ) {
         
@@ -257,7 +257,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
      * Initialize no ui slider with the given slider container node.
      * 
      * @since       3.8.7
-     * @param       oNode       The slider target DOM node object.
+     * @param       oNode       The target select tag DOM node object.
      */
     var _initializeSelect2 = function( oNode ) {
                         
@@ -636,7 +636,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
         /**
          * For AJAX enabled fields, the stored field data structure becomes different.
          * 
-         * Nested elemetns of `encoded` and `value` will be added. The selection IDs will be stored in the `value`.
+         * Nested elements of `encoded` and `value` will be added. The selection IDs will be stored in the `value`.
          * The `encoded` element will store the text and id of the user's selection.
          * 
          * @return      array
@@ -656,7 +656,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
          */
         private function _getSelect2OptionsFormatted( $aOptions, $aField ) {
             
-            // Format camelcased key names.
+            // Format camel-cased key names.
             foreach( $aOptions as $_sKey => $_mValue ) {
                 
                 if( ! preg_match( '/([a-zA-Z])(?=[A-Z])/', $_sKey ) ) {
@@ -721,7 +721,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
         
     }
         /**
-         * @return      boolean|callbale        False when a callback is not found. Otherwise, the found callable.
+         * @return      boolean|callable        False when a callback is not found. Otherwise, the found callable.
          */
         private function _getAjaxCallback( $aRequest, $aFieldset ) {
             
