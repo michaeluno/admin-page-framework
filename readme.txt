@@ -63,7 +63,7 @@ Also, use the framework as a library and your plugin or theme does not have to r
 - `posttype` - a set of check-lists of taxonomies enabled on the site in a tabbed box.
 - `taxonomy` - check-lists of taxonomies enabled on the site in a tabbed box.
 - `size` - a combination field of the text and the select fields that let the user set sizes with a selectable unit.
-- `section_title` - a text field type that will be placed in the section title so that it lets the user set the section title.
+- `section_title` - a text field placed in the section title to let the user name the section.
 - `system` - displays the site system information.
 - `inline_mixed` - consists of inline elements of fields with different field types.
 
@@ -77,6 +77,8 @@ With custom field types, you can create more detailed customized field outputs. 
 - `toggle` - lets the user toggle a switch button.
 - `no_ui_slider` - lets the user set values between ranges with a slider.
 - `select2` - lets the user select items from a predefined list which cam be populated with AJAX.
+- `post_type_taxonomy` - lets the user select taxonomy terms of selected post types.
+
 
 If you want a field type that are not listed here, you can check the [field type pack](http://admin-page-framework.michaeluno.jp/add-ons/field-type-pack/) or request a new one in the [forum](https://wordpress.org/support/plugin/admin-page-framework).
 
@@ -138,7 +140,7 @@ Yes, it works with [WordPress MU](https://codex.wordpress.org/WordPress_MU).
 
 <h4>Technical Questions</h4>
 <h5><strong>Can I set a custom post type as a root page?</strong></h5>
-Yes. For built-in root menu items or create your own ones, you need to use the `setRootMenuPage()` method. For root pages of custom post types, use `setRootMenuPageBySlug()`.
+Yes. For built-in root menu items or to create your own ones, you need to use the `setRootMenuPage()` method. For root pages of custom post types, use `setRootMenuPageBySlug()`.
 
 `
 $this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );
@@ -177,10 +179,10 @@ Yes, there are two main means to achieve that.
 1. Use the `value` argument in the field definition array to suppress the displaying value in the field.
 See an example. https://gist.github.com/michaeluno/fb4088b922b71710c7fb
 
-2. Override the options array set to the entire form using the `options_{instantiated class name}`.
+2. Override the options array set to the entire form using the `options_{instantiated class name}` filter hook or pre-defined method.
 See an example. https://gist.github.com/michaeluno/fcfac27825aa8a35b90f
 
-When you go with the second method, make sure to pass an empty string, `''` to the first parameter of the constructor so that it disables the ability to store submitted form data into the options table.
+When you go with the second method, make sure to pass an empty string, `''`, to the first parameter of the constructor so that it disables the ability to store submitted form data into the options table.
 
 `
 new MyAdminPage( '' );
@@ -252,7 +254,7 @@ The `500M` in the following line is where the increased value should be set.
 max_allowed_packet=500M
 `
 
-Please keep in mind that these are just a few of many possibilities. If you encounter a situation that prevented the user from saving options, please report.
+Please keep in mind that these are just a few of many possibilities. If you encounter a situation that prevented the user from saving options, please [report](https://github.com/michaeluno/admin-page-framework/issues).
 
 <h5><strong>My class is getting too big by defining predefined callback methods. Is there a way to separate those?</strong></h5>
 Yes. The predefine method names also serve as a WordPress filter/action hook name. So you can just add callbacks to those hooks from a separate file.
@@ -274,6 +276,28 @@ function loadMyPage( $oFactory ) {
 }
 add_action( 'load_my_page_slug', 'loadMyPage' );
 `
+
+<h5><strong>Custom field types do not seem to show up. What did I do wrong?</strong></h5>
+
+Most likely, you have not registered the field type. The check-box in `Generator` will include the field type files in the zip archive and their paths in the list for the auto-loader loaded by the framework bootstrap file.
+
+This essentially eliminates the use of `include()` or `require()`, meaning you can call the custom field type files without using `include()`. However, the field type is not registered by itself yet.
+
+In order to use a custom field type, you need to instantiate the field type class by passing the extended framework class name. For example, if your framework class name is `MyPlugin_AdminPageFramework` and the field type class name is `Select2CustomFieldType`, then you need to do
+
+`
+new Select2CustomFieldType( 'MyPlugin_AdminPageFramework' );
+`
+
+Do this in the `load()` method in your extended framework class.
+
+`
+public function load() {
+    new Select2CustomFieldType( 'MyPlugin_AdminPageFramework' );
+}
+`
+
+This enables the `select2` custom field type for the class `MyPlugin_AdminPageFramework`, not for the other classes. So essentially, do this for every class that uses the field type.
 
 <h5><strong>I cannot find what I'd like to do in tutorials and documentation. Where else should I look for more information?</strong></h5>
 
