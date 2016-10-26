@@ -72,7 +72,7 @@ class APF_Demo_CustomFieldType_Select2 {
                         __( 'For the specifications of the <code>options</code> argument, see <a href="%1$s" target="blank">here</a>.', 'admin-page-framework-loader' ),
                         'https://select2.github.io/options.html'
                     ),
-                ),                
+                ),
             )            
         );        
                     
@@ -225,7 +225,6 @@ EOD
                     'width' => '100%',
                 ),
                 'callback'        => array(
-                    // use a static class method or a funcion rather than an instantiated object method for faster processing.
                     'search'    => __CLASS__ . '::getPosts', 
                 ),
                 'description'     => array(
@@ -243,8 +242,6 @@ array(
     ),
     'callback'        => array(
         // If the `search` callback is set, the field will be AJAX based.
-        // use a static class method or a funcion 
-        // rather than an instantiated object method for faster processing.
         'search'    => __CLASS__ . '::getPosts', 
     ),
 )
@@ -317,8 +314,6 @@ array(
         'tokenSeparators'       => array( ',', ),
     ),
     
-    // use a static class method or a funcion 
-    // rather than an instantiated object method for faster processing.
     'callback'        => array(
         'search'    => __CLASS__ . '::getTerms',    // Ajax feature will be enabled 
         'new_tag'   => __CLASS__ . '::createTerm',  // `options`->`tags` will be enabled
