@@ -1,5 +1,8 @@
 <?php
 if ( ! class_exists( 'GitHubCustomFieldType' ) ) :
+/**
+ * @version     1.0.1
+ */
 class GitHubCustomFieldType extends AdminPageFramework_FieldType {
         
     /**
@@ -218,7 +221,7 @@ class GitHubCustomFieldType extends AdminPageFramework_FieldType {
             . "<div class='admin-page-framework-input-label-container'>"        
                 . $aField['before_input']
                 . ( $aField['label'] && ! $aField['repeatable']
-                    ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->sanitizeLength( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
+                    ? "<span class='admin-page-framework-input-label-string' style='min-width:" . $this->getLengthSanitized( $aField['label_min_width'] ) . ";'>" . $aField['label'] . "</span>"
                     : "" 
                 )
                 . "<div class='github-button-container'>"
