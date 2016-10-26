@@ -11,8 +11,8 @@
  * Provides an abstract base to create an automatic script insertion class.
  * 
  * @since       3.3.0
- * @since       3.5.3       Extends `AdminPageFramework_WPUtility`.
- * @since       3.7.0      Ranamed from `AdminPageFramework_Script_Base`.
+ * @since       3.5.3      Extends `AdminPageFramework_WPUtility`.
+ * @since       3.7.0      Renamed from `AdminPageFramework_Script_Base`.
  * @package     AdminPageFramework
  * @subpackage  Common/Factory/JavaScript
  * @internal
@@ -64,7 +64,7 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
      * @since       3.7.0      Changed the visibility scope from protected.
      * @return      void
      */
-    public  function construct() {}
+    public function construct() {}
     
     /**
      * @callback    wp_enqueue_script
