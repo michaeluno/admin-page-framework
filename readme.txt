@@ -508,6 +508,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 = 3.8.9 =
 - Fixed an issue that setting an object instance in field definition arguments caused slow performance on loading the form.
 - Tweaked the output format of debug utility methods.
+- Tweaked the style of tool-tips.
 
 = 3.8.8 - 2016/10/26 =
 - Added the `post_type_taxonomy` custom field type that lets the user select taxonomy terms of selected post types.

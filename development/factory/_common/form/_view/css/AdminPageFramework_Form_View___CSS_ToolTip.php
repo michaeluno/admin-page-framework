@@ -97,7 +97,7 @@ a.admin-page-framework-form-tooltip:hover {
     text-decoration: none;
 } 
 a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content {
-    visibility: hidden;
+
     position: absolute; 
     padding: 14px 20px 14px;
     width: 320px; 
@@ -107,12 +107,12 @@ a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-con
     background: #FFFFF4;
 
     /* Fade-in-and-out Effect */
+    visibility: hidden;
     opacity:0;
     transition: visibility 0.4s, opacity 0.4s linear;
     
     /* Adjust the position of the tooltip here */
     margin-top: -28px; 
-    /* margin-left: 28px; */
     margin-left: 8px;
     
     /* High z-index is required to appear over the left side bar menu */
@@ -163,13 +163,18 @@ a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-con
 
 /* Debug Info - Field Arguments */
 a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content {
-    width: 480px;
+    min-width: 640px;
     background-color: #F8F8F8;
-    max-width: 72%;
 }
 a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content .dump-array {
     max-height: 400px;
     margin: 20px 8px;
+}
+/* For smaller screens */
+@media (max-width: 640px) {
+    a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content {
+        max-width: 280px;
+    } 
 }
 
 a.admin-page-framework-form-tooltip.debug-info-field-arguments:hover > span.admin-page-framework-form-tooltip-content::before {
