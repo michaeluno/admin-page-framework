@@ -168,7 +168,7 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
                     'title'         => $this->oMsg->get( 'field_arguments' ),
                     'dash-icon'     => 'dashicons-info',
                     'icon_alt_text' => '[' . $this->oMsg->get( 'debug' ) . ' ]',
-                    'content'       => AdminPageFramework_Debug::get( $aField )
+                    'content'       => AdminPageFramework_Debug::getDetails( $aField )
                         . '<span class="admin-page-framework-info">'
                             . $this->getFrameworkNameVersion()
                             . '  ('

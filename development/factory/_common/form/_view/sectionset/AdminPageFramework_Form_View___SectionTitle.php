@@ -153,7 +153,7 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
                             'title'         => $this->oMsg->get( 'section_arguments' ),
                             'dash-icon'     => 'dashicons-info',
                             'icon_alt_text' => '[' . $this->oMsg->get( 'debug' ) . ' ]',
-                            'content'       => AdminPageFramework_Debug::get( $aSectionset )
+                            'content'       => AdminPageFramework_Debug::getDetails( $aSectionset )
                                 . '<span class="admin-page-framework-info">'
                                     . $this->getFrameworkNameVersion()
                                     . '  ('
