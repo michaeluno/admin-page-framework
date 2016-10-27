@@ -47,7 +47,20 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
         static public function dumpArray( $asArray, $sFilePath=null ) {
             self::dump( $asArray, $sFilePath );
         }    
-        
+    
+    /**
+     * Returns a string representation of a given value with details.
+     * @since       3.8.9
+     * @return      string
+     */
+    static public function getDetails( $mValue, $bEscape=true ) {        
+        return $bEscape
+            ? "<pre class='dump-array'>" 
+                    . htmlspecialchars( self::_getLegible( $mValue ) ) 
+                . "</pre>" 
+            : self::_getLegible( $mValue ); // non-escape is used for exporting data into file.    
+    }
+    
     /**
      * Retrieves the output of the given variable contents.
      * 
@@ -129,7 +142,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
                 $_sCallerClass,
                 $_sCallerFunction
             ) . PHP_EOL
-            . self::_getLogContents( $mValue ),
+            . self::_getLegible( $mValue ) . PHP_EOL . PHP_EOL,
             FILE_APPEND 
         );     
         
@@ -171,42 +184,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
                 $_bhResrouce = fopen( $sFilePath, 'w' );
                 return ( boolean ) $_bhResrouce;                
             }
-            
-        /**
-         * Returns the log contents.
-         * @internal
-         * @since       3.5.3
-         * @param       mixed       $mValue     The value to log.  
-         */
-        static private function _getLogContents( $mValue ) {
 
-            $_sType     = gettype( $mValue );
-            $_iLengths  = self::_getValueLength( $mValue, $_sType );
-            return '(' 
-                . $_sType
-                . ( null !== $_iLengths ? ', length: ' . $_iLengths : '' )
-            . ') '
-            . self::getAsString( $mValue ) 
-            . PHP_EOL . PHP_EOL;
-        
-        }      
-            /**
-             * Returns a length of a value.
-             * @since       3.5.3
-             * @internal
-             * @return      integer|null        For string or integer, the string length. For array, the element lengths. For other types, null.
-             */
-            static private function _getValueLength( $mValue, $sVariableType ) {
-                
-                if ( in_array( $sVariableType, array( 'string', 'integer' ) ) ) {
-                    return strlen( $mValue );
-                }
-                if ( 'array' === $sVariableType ) {
-                    return count( $mValue );
-                }
-                return null;
-                
-            }
         /**
          * Returns the heading part of a log item.
          * @since       3.5.3
@@ -287,22 +265,56 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
      * @internal
      */
     static public function getAsString( $mValue ) {
-        
-        $mValue = self::_getLegibleObject( $mValue );
-        $mValue = self::_getLegibleCallable( $mValue );
-        $mValue = self::_getLegibleArray( $mValue );            
+             
+        $mValue = is_object( $mValue )
+            ? ( method_exists( $mValue, '__toString' ) 
+                ? ( string ) $mValue          // cast string
+                : ( array ) $mValue           // cast array
+            )
+            : $mValue;
+        $mValue = is_array( $mValue )
+            ? self::_getArrayMappedRecursive( 
+                self::_getSliceByDepth( $mValue, 10 ), 
+                array( __CLASS__, '_getObjectName' ) 
+            )
+            : $mValue;
+            
         return print_r( $mValue, true );
         
     }
         /**
+         * Returns a object name if it is an object. Otherwise, the value itself.
+         * This is used to convert objects into a string in array-walk functions 
+         * as objects tent to get large when they are converted to a string representation.
          * @since       3.8.9
-         * @return      mixed
+         */
+        static private function _getObjectName( $mItem ) {
+            if ( is_object( $mItem ) ) {
+                return '(object) ' . get_class( $mItem );
+            }
+            return $mItem;
+        }
+    
+        /**
+         * Returns a legible value representation.
+         * @since       3.8.9
+         * @return      string
+         */
+        static private function _getLegible( $mValue ) {                
+            if ( is_array( $mValue ) ) {            
+                return '(array, length: ' . count( $mValue ).') ' 
+                    . print_r( self::_getLegibleArray( $mValue ) , true );
+            }
+            return print_r( self::_getLegibleValue( $mValue ), true );
+        }
+            
+        /**
+         * @since       3.8.9
+         * @param       callable     $asoCallable
+         * @return      string
          */
         static private function _getLegibleCallable( $asoCallable ) {
             
-            if ( ! is_callable( $asoCallable ) ) {
-                return $asoCallable;
-            }
             if ( is_string( $asoCallable ) ) {
                 return '(callable) ' . $asoCallable;
             }
@@ -315,107 +327,139 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
 
             return '(callable) ' . $_sSubject . '::' . ( string ) $asoCallable[ 1 ];
             
-        }
-        
+        }        
         /**
          * @since       3.8.9
-         * @return      mixed
+         * @param       object      $oObject
+         * @return      string
          */
         static public function _getLegibleObject( $oObject ) {
-            
-            if ( ! is_object( $oObject ) ) {
-                return $oObject;
-            }
-            
+                        
             if ( method_exists( $oObject, '__toString' ) ) {
                 return ( string ) $oObject;
             }
-            
             return '(object) ' . get_class( $oObject ) . ' ' 
                 . count( get_object_vars( $oObject ) ) . ' properties.';
             
-        }
-        
+        } 
         /**
+         * Returns an array representation with value types in each element.
+         * The element deeper than 10 dimensions will be dropped.
          * @since       3.8.9
-         * @return      mixed
+         * @return      array
          */
-        static public function _getLegibleArray( $aArray ) {
-            
-            if ( ! is_array( $aArray ) ) {
-                return $aArray;
-            }
+        static public function _getLegibleArray( array $aArray ) {
             return self::_getArrayMappedRecursive( 
-                self::getSliceByDepth( $aArray, 10 ), 
+                self::_getSliceByDepth( $aArray, 10 ), 
                 array( __CLASS__, '_getLegibleValue' ) 
             );
-            
-        }
- 
-    /**
-     * Slices the given array by depth.
-     * 
-     * @since       3.4.4
-     * @since       3.8.9       Changed it not to convert an object into an array.
-     * @return      array
-     * @internal
-     */
-    static public function getSliceByDepth( array $aSubject, $iDepth=0 ) {
-
-        foreach ( $aSubject as $_sKey => $_vValue ) {
-            if ( is_array( $_vValue ) ) {
-                $_iDepth = $iDepth;
-                if ( $iDepth > 0 ) {
-                    $aSubject[ $_sKey ] = self::getSliceByDepth( $_vValue, --$iDepth );
-                    $iDepth = $_iDepth;
-                    continue;
-                } 
-                unset( $aSubject[ $_sKey ] );
-            }
-        }
-        return $aSubject;
-        
-    }        
-
-        /**
-         * @return      string
-         * @since       3.8.9
-         */
-        static private function _getLegibleValue( $mItem ) {
-            
-            if ( is_object( $mItem ) ) {
-                return '(object) ' . get_class( $mItem );
-            }
-            if ( is_null( $mItem ) ) {
-                return '(null)';
-            }
-            if ( is_bool( $mItem ) ) {
-                return '(boolean) ' . ( $mItem ? 'true' : 'false' );
-            }
-            // At this point, the value is a scalar.
-            return self::_getLegibleString( $mItem );
-
         }
             /**
-             * @return      string
              * @since       3.8.9
+             * @return      string
              */
-            static private function _getLegibleString( $sScalar, $iCharLimit=300 ) {
-                
-                static $_iMBSupport;
-                $_iMBSupport = isset( $_iMBSupport ) ? $_iMBSupport : function_exists( 'mb_strlen' );      
-                $_aStrLenMethod = array( 'strlen', 'mb_strlen' );
-                $_aSubstrMethod = array( 'substr', 'mb_substr' );
-                
-                $_iCharLength = call_user_func_array( $_aStrLenMethod[ $_iMBSupport ], array( $sScalar ) );
-                if ( $_iCharLength <= $iCharLimit ) {
-                    return '(' . gettype( $sScalar ) . ') ' . $sScalar;
+            static private function _getLegibleValue( $mItem ) {
+                if ( is_callable( $mItem ) ) {
+                    return self::_getLegibleCallable( $mItem );
                 }
-                return '(' . gettype( $sScalar ) . ') '
-                    . call_user_func_array( $_aSubstrMethod[ $_iMBSupport ], array( $sScalar, 0, $iCharLimit ) ) 
-                    . '...';
-                    
+                return is_scalar( $mItem ) 
+                    ? self::_getLegibleScalar( $mItem )
+                    : self::_getLegibleNonScalar( $mItem );
             }
+                /**
+                 * @since       3.8.9
+                 * @return      string
+                 */
+                static private function _getLegibleNonScalar( $mNonScalar ) {
+                    
+                    $_sType = gettype( $mNonScalar );
+                    if ( is_null( $mNonScalar ) ) {
+                        return '(' . $_sType .')';
+                    }                    
+                    if ( is_object( $mNonScalar ) ) {
+                        return '(' . $_sType . ') ' . get_class( $mNonScalar );
+                    }
+                    if ( is_array( $mNonScalar ) ) {
+                        return '(' . $_sType . ') ' . count( $mNonScalar ) . ' elements';
+                    }
+                    return '(' . $_sType . ') ' . ( string ) $mNonScalar;
+                    
+                }
+                /**
+                 * @return      string
+                 * @param       scalar      $sScalar        
+                 * @param       integer     $iCharLimit     Character length limit to truncate.
+                 * @since       3.8.9
+                 */
+                static private function _getLegibleScalar( $sScalar ) {
+                 
+                    if ( is_bool( $sScalar ) ) {
+                        return '(boolean) ' . ( $sScalar ? 'true' : 'false' );
+                    }                 
+                    return is_string( $sScalar )
+                        ? self::_getLegibleString( $sScalar )
+                        : '(' . gettype( $sScalar ) . ', length: ' . self::_getValueLength( $sScalar ) .  ') ' . $sScalar;
+                }
+                    /**
+                     * Returns a length of a value.
+                     * @since       3.5.3
+                     * @internal
+                     * @return      integer|null        For string or integer, the string length. For array, the element lengths. For other types, null.
+                     */
+                    static private function _getValueLength( $mValue ) {
+                        $_sVariableType = gettype( $mValue );
+                        if ( in_array( $_sVariableType, array( 'string', 'integer' ) ) ) {
+                            return strlen( $mValue );
+                        }
+                        if ( 'array' === $_sVariableType ) {
+                            return count( $mValue );
+                        }
+                        return null;
+                        
+                    }                
+                    /**
+                     * @return      string
+                     */
+                    static private function _getLegibleString( $sString, $iCharLimit=200 ) {
+                    
+                        static $_iMBSupport;
+                        $_iMBSupport    = isset( $_iMBSupport ) ? $_iMBSupport : ( integer ) function_exists( 'mb_strlen' );
+                        $_aStrLenMethod = array( 'strlen', 'mb_strlen' );
+                        $_aSubstrMethod = array( 'substr', 'mb_substr' );
+                        
+                        $_iCharLength   = call_user_func_array( $_aStrLenMethod[ $_iMBSupport ], array( $sString ) );
+                        return $_iCharLength <= $iCharLimit
+                            ? '(string, length: ' . $_iCharLength . ') ' . $sString
+                            : '(string, length: ' . $_iCharLength . ') ' . call_user_func_array( $_aSubstrMethod[ $_iMBSupport ], array( $sString, 0, $iCharLimit ) )
+                                . '...';
+                        
+                    }
+                
+        /**
+         * Slices an array by the given depth.
+         * 
+         * @since       3.4.4
+         * @since       3.8.9       Changed it not to convert an object into an array. Changed the scope to private.
+         * @return      array
+         * @internal
+         */
+        static private function _getSliceByDepth( array $aSubject, $iDepth=0 ) {
+
+            foreach ( $aSubject as $_sKey => $_vValue ) {
+                if ( is_array( $_vValue ) ) {
+                    $_iDepth = $iDepth;
+                    if ( $iDepth > 0 ) {
+                        $aSubject[ $_sKey ] = self::_getSliceByDepth( $_vValue, --$iDepth );
+                        $iDepth = $_iDepth;
+                        continue;
+                    } 
+                    unset( $aSubject[ $_sKey ] );
+                }
+            }
+            return $aSubject;
+            
+        }
+    
         /**
          * Performs `array_map()` recursively.
          * @return      array.
@@ -423,13 +467,13 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
          */
         static private function _getArrayMappedRecursive( array $aArray, $oCallable ) {
             
-            self::$oCurrentCallable = $oCallable;
+            self::$_oCurrentCallableForArrayMapRecursive = $oCallable;
             $_aArray = array_map( array( __CLASS__, '_getArrayMappedNested' ), $aArray );
-            self::$oCurrentCallable = null;
+            self::$_oCurrentCallableForArrayMapRecursive = null;
             return $_aArray;
             
         }
-            static public $oCurrentCallable;
+            static private $_oCurrentCallableForArrayMapRecursive;
             /**
              * @internal
              * @return      mixed       A modified value.
@@ -438,7 +482,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
             static private function _getArrayMappedNested( $mItem ) {            
                 return is_array( $mItem ) 
                     ? array_map( array( __CLASS__, '_getArrayMappedNested' ), $mItem ) 
-                    : call_user_func( self::$oCurrentCallable, $mItem );            
+                    : call_user_func( self::$_oCurrentCallableForArrayMapRecursive, $mItem );            
             }    
     
 }
