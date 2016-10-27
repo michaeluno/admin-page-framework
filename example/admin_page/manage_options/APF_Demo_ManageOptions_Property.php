@@ -59,9 +59,9 @@ class APF_Demo_ManageOptions_Property {
         ?>
         <h3><?php _e( 'Framework Properties', 'admin-page-framework-loader' ); ?></h3>
         <p><?php _e( 'These are the property values stored in the framework. Advanced users may change the property values by directly modifying the <code>$this->oProp</code> object.', 'admin-page-framework-loader' ); ?></p>
-        <pre class="dump-array"><code>$this-&gt;oDebug-&gt;get( get_object_vars( $this-&gt;oProp ) );</code></pre>
+        <pre class="dump-array"><code>echo $this-&gt;oDebug-&gt;getDetails( get_object_vars( $this-&gt;oProp ) );</code></pre>
         <?php
-            $this->_oFactory->oDebug->dump( get_object_vars( $this->_oFactory->oProp ) );   
+            echo $this->_oFactory->oDebug->getDetails( get_object_vars( $this->_oFactory->oProp ) );   
    
      
     }

@@ -75,7 +75,7 @@ class APF_Demo_ManageOptions_SavedData {
         ?>
         </p>
         <?php
-            echo $this->_oFactory->oDebug->getArray( $this->_oFactory->oProp->aOptions ); 
+            echo $this->_oFactory->oDebug->getDetails( $this->_oFactory->oProp->aOptions ); 
         
     }
     
