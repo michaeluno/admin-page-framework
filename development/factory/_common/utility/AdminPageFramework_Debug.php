@@ -53,14 +53,38 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
      * @since       3.8.9
      * @return      string
      */
-    static public function getDetails( $mValue, $bEscape=true ) {        
+    static public function getDetails( $mValue, $bEscape=true ) {    
+        $_sValueWithDetails = self::_getArrayRepresentationSanitized(
+            self::_getLegible( $mValue )
+        );
         return $bEscape
             ? "<pre class='dump-array'>" 
-                    . htmlspecialchars( self::_getLegible( $mValue ) ) 
+                    . htmlspecialchars( $_sValueWithDetails ) 
                 . "</pre>" 
-            : self::_getLegible( $mValue ); // non-escape is used for exporting data into file.    
+            : $_sValueWithDetails; // non-escape is used for exporting data into file.    
     }
-    
+        /**
+         * @return      string
+         * @since       3.8.9
+         */
+        static private function _getArrayRepresentationSanitized( $sString ) {
+            
+            // Fix extra line breaks after `Array()`
+            $sString = preg_replace(
+                '/\)(\r\n?|\n)(?=(\r\n?|\n)\s+[\[\)])/', // needle                   
+                ')', // replacement
+                $sString // subject
+            );            
+            
+            // Fix empty array output 
+            $sString = preg_replace(
+                '/Array(\r\n?|\n)\s+\((\r\n?|\n)\s+\)/', // needle   
+                'Array()', // replacement
+                $sString // subject
+            );
+            return $sString;
+            
+        }
     /**
      * Retrieves the output of the given variable contents.
      * 
@@ -278,8 +302,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
                 array( __CLASS__, '_getObjectName' ) 
             )
             : $mValue;
-            
-        return print_r( $mValue, true );
+        return self::_getArrayRepresentationSanitized( print_r( $mValue, true ) );
         
     }
         /**
@@ -374,7 +397,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_FrameworkUtility {
                     
                     $_sType = gettype( $mNonScalar );
                     if ( is_null( $mNonScalar ) ) {
-                        return '(' . $_sType .')';
+                        return '(null)';
                     }                    
                     if ( is_object( $mNonScalar ) ) {
                         return '(' . $_sType . ') ' . get_class( $mNonScalar );
