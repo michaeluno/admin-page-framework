@@ -74,20 +74,29 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
          * @return      string
          */
         static private function _getLegibleCallable( $asoCallable ) {
-            
-            if ( is_string( $asoCallable ) ) {
-                return '(callable) ' . $asoCallable;
-            }
-            if ( is_object( $asoCallable ) ) {
-                return '(callable) ' . get_class( $asoCallable );
-            }
-            $_sSubject = is_object( $asoCallable[ 0 ] )
-                ? get_class( $asoCallable[ 0 ] )
-                : ( string ) $asoCallable[ 0 ];
+            return '(callable) ' . self::_getCallableName( $asoCallable );    
+        }       
+            /**
+             * @since       3.8.9
+             * @param       callable     $asoCallable
+             * @return      string
+             */
+            static public function _getCallableName( $asoCallable ) {
+                
+                if ( is_string( $asoCallable ) ) {
+                    return $asoCallable;
+                }
+                if ( is_object( $asoCallable ) ) {
+                    return get_class( $asoCallable );
+                }
+                $_sSubject = is_object( $asoCallable[ 0 ] )
+                    ? get_class( $asoCallable[ 0 ] )
+                    : ( string ) $asoCallable[ 0 ];
 
-            return '(callable) ' . $_sSubject . '::' . ( string ) $asoCallable[ 1 ];
+                return $_sSubject . '::' . ( string ) $asoCallable[ 1 ];
+                
+            }
             
-        }        
         /**
          * @since       3.8.9
          * @param       object      $oObject
@@ -148,7 +157,6 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                 /**
                  * @return      string
                  * @param       scalar      $sScalar        
-                 * @param       integer     $iCharLimit     Character length limit to truncate.
                  * @since       3.8.9
                  */
                 static private function _getLegibleScalar( $sScalar ) {
@@ -178,6 +186,8 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                         
                     }                
                     /**
+                     * @param       string      $sString        
+                     * @param       integer     $iCharLimit     Character length limit to truncate.
                      * @return      string
                      */
                     static private function _getLegibleString( $sString, $iCharLimit=200 ) {

@@ -101,15 +101,8 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
          */
         static private function _getLogHeadingLine( $fCurrentTimeStamp, $nElapsed, $sCallerClass, $sCallerFunction ) {
             
-            static $_iPageLoadID; // identifies the page load.
-            static $_nGMTOffset;
-            
-            $_nGMTOffset        = isset( $_nGMTOffset ) 
-                ? $_nGMTOffset 
-                : get_option( 'gmt_offset' );
-            $_iPageLoadID       = $_iPageLoadID 
-                ? $_iPageLoadID 
-                : uniqid();
+            $_nGMTOffset        = self::_getSiteGMTOffset();
+            $_iPageLoadID       = self::_getPageLoadID() ;
             $_nNow              = $fCurrentTimeStamp + ( $_nGMTOffset * 60 * 60 );
             $_nMicroseconds     = str_pad( round( ( $_nNow - floor( $_nNow ) ) * 10000 ), 4, '0' );
             
@@ -125,6 +118,31 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
             return implode( ' ', $_aOutput );         
             
         }
+    
+            /**
+             * Returns the GMT offset of the site.
+             * 
+             * @return      numeric
+             */
+            static private function _getSiteGMTOffset() {
+                static $_nGMTOffset;
+                $_nGMTOffset        = isset( $_nGMTOffset ) 
+                    ? $_nGMTOffset 
+                    : get_option( 'gmt_offset' );          
+                return $_nGMTOffset;
+            }
+            
+            /**
+             * @return      integer
+             */
+            static private function _getPageLoadID() {
+                static $_iPageLoadID;
+                $_iPageLoadID       = $_iPageLoadID 
+                    ? $_iPageLoadID 
+                    : uniqid();                
+                return $_iPageLoadID;
+            }
+        
             /**
              * Returns formatted elapsed time.
              * @since       3.5.3
@@ -136,9 +154,9 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
                 $_aElapsedParts     = explode( ".", ( string ) $nElapsed );
                 $_sElapsedFloat     = str_pad(
                     self::getElement(
-                        $_aElapsedParts,  // subject array
+                        $_aElapsedParts, // subject array
                         1, // key
-                        0      // default
+                        0  // default
                     ),      
                     3, 
                     '0'
