@@ -30,33 +30,54 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
         static $_fPreviousTimeStamp = 0;
         
         $_oCallerInfo       = debug_backtrace();
-        $_sCallerFunction   = self::getElement(
-            $_oCallerInfo,  // subject array
-            array( 1, 'function' ), // key
-            ''      // default
-        );                        
-        $_sCallerClass      = self::getElement(
-            $_oCallerInfo,  // subject array
-            array( 1, 'class' ), // key
-            ''      // default
-        );           
+        $_sCallerFunction   = self::_getCallerFunctionName( $_oCallerInfo );
+        $_sCallerClass      = self::_getCallerClassName( $_oCallerInfo );
         $_fCurrentTimeStamp = microtime( true );
         
         file_put_contents( 
             self::_getLogFilePath( $sFilePath, $_sCallerClass ), 
-            self::_getLogHeadingLine( 
-                $_fCurrentTimeStamp,
-                round( $_fCurrentTimeStamp - $_fPreviousTimeStamp, 3 ),     // elapsed time
-                $_sCallerClass,
-                $_sCallerFunction
-            ) . PHP_EOL
-            . self::_getLegibleDetails( $mValue ) . PHP_EOL . PHP_EOL,
+            self::_getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction ),
             FILE_APPEND 
         );     
         
         $_fPreviousTimeStamp = $_fCurrentTimeStamp;
         
     }   
+        /**
+         * @since       3.8.9
+         * @return      string
+         */
+        static private function _getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction ) {
+            return self::_getLogHeadingLine( 
+                    $_fCurrentTimeStamp,
+                    round( $_fCurrentTimeStamp - $_fPreviousTimeStamp, 3 ), // elapsed time
+                    $_sCallerClass,
+                    $_sCallerFunction
+                ) . PHP_EOL
+                . self::_getLegibleDetails( $mValue ) . PHP_EOL . PHP_EOL;
+        }
+        /**
+         * @since       3.8.9
+         * @return      string
+         */
+        static private function _getCallerFunctionName( $oCallerInfo ) {
+            return self::getElement(
+                $oCallerInfo,  // subject array
+                array( 1, 'function' ), // key
+                ''      // default
+            );
+        }
+        /**
+         * @since       3.8.9
+         * @return      string
+         */        
+        static private function _getCallerClassName( $oCallerInfo ) {
+            return self::getElement(
+                $oCallerInfo,  // subject array
+                array( 1, 'class' ), // key
+                ''      // default
+            );           
+        }
         /**
          * Determines the log file path.
          * @since       3.5.3 
@@ -101,16 +122,13 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
          */
         static private function _getLogHeadingLine( $fCurrentTimeStamp, $nElapsed, $sCallerClass, $sCallerFunction ) {
             
-            $_nGMTOffset        = self::_getSiteGMTOffset();
-            $_iPageLoadID       = self::_getPageLoadID() ;
-            $_nNow              = $fCurrentTimeStamp + ( $_nGMTOffset * 60 * 60 );
-            $_nMicroseconds     = str_pad( round( ( $_nNow - floor( $_nNow ) ) * 10000 ), 4, '0' );
-            
+            $_nNow              = $fCurrentTimeStamp + ( self::_getSiteGMTOffset() * 60 * 60 );
+            $_nMicroseconds     = str_pad( round( ( $_nNow - floor( $_nNow ) ) * 10000 ), 4, '0' );            
             $_aOutput           = array(
                 date( "Y/m/d H:i:s", $_nNow ) . '.' . $_nMicroseconds,
                 self::_getFormattedElapsedTime( $nElapsed ),
-                $_iPageLoadID,
-                AdminPageFramework_Registry::getVersion(),
+                self::_getPageLoadID(),
+                self::getFrameworkVersion(),
                 $sCallerClass . '::' . $sCallerFunction,
                 current_filter(),
                 self::getCurrentURL(),
