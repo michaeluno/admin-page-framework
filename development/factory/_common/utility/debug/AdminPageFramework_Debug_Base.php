@@ -9,7 +9,9 @@
 
 /**
  * A base class of the debug class.
- *
+ * 
+ * Mainly provides methods for debug outputs.
+ * 
  * @since           3.8.9
  * @extends         AdminPageFramework_FrameworkUtility
  * @package         AdminPageFramework
@@ -268,59 +270,4 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                 : call_user_func( self::$_oCurrentCallableForArrayMapRecursive, $mItem );            
         }   
  
-
-    /* Deprecated Methods */
- 
-    /**
-     * Prints out the given variable contents.
-     * 
-     * If a file pass is given, it saves the output in the file.
-     * 
-     * @since unknown
-     * @deprecated      3.2.0
-     */
-    static public function dumpArray( $asArray, $sFilePath=null ) {
-        self::showDeprecationNotice( 'AdminPageFramework_Debug::' . __FUNCTION__, 'AdminPageFramework_Debug::dump()' );
-        AdminPageFramework_Debug::dump( $asArray, $sFilePath );
-    }     
-    
-    /**
-     * Retrieves the output of the given array contents.
-     * 
-     * If a file pass is given, it saves the output in the file.
-     * 
-     * @since       2.1.6 The $bEncloseInTag parameter is added.
-     * @since       3.0.0 Changed the $bEncloseInTag parameter to bEscape.
-     * @deprecated  3.2.0
-     */
-    static public function getArray( $asArray, $sFilePath=null, $bEscape=true ) {
-        self::showDeprecationNotice( 'AdminPageFramework_Debug::' . __FUNCTION__, 'AdminPageFramework_Debug::get()' );
-        return AdminPageFramework_Debug::get( $asArray, $sFilePath, $bEscape );
-    }
-
-    /**
-     * Logs the given array output into the given file.
-     * 
-     * @since       2.1.1
-     * @since       3.0.3   Changed the default log location and file name.
-     * @deprecated  3.1.0   Use the `log()` method instead.
-     */
-    static public function logArray( $asArray, $sFilePath=null ) {
-        self::showDeprecationNotice( 'AdminPageFramework_Debug::' . __FUNCTION__, 'AdminPageFramework_Debug::log()' );
-        AdminPageFramework_Debug::log( $asArray, $sFilePath );     
-    }        
-    
-    /**
-     * Returns a string representation of the given value.
-     * @since       3.5.0
-     * @param       mixed       $mValue     The value to get as a string
-     * @internal
-     * @return      string
-     * @deprecated  3.8.9
-     */
-    static public function getAsString( $mValue ) {
-        self::showDeprecationNotice( 'AdminPageFramework_Debug::' . __FUNCTION__ );
-        return self::_getLegible( $mValue );
-    }    
-    
 }
