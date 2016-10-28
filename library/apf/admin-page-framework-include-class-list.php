@@ -304,6 +304,7 @@ $aClassFiles = array(
 	"AdminPageFramework_Utility_SystemInformation"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/base_utility/AdminPageFramework_Utility.php", 
 	"AdminPageFramework_Utility_HTMLAttribute"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/base_utility/AdminPageFramework_Utility.php", 
 	"AdminPageFramework_Debug_Base"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/debug/AdminPageFramework_Debug.php", 
+	"AdminPageFramework_Debug_Log"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/debug/AdminPageFramework_Debug.php", 
 	"AdminPageFramework_WPUtility_URL"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/wp_utility/AdminPageFramework_WPUtility.php", 
 	"AdminPageFramework_WPUtility_HTML"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/wp_utility/AdminPageFramework_WPUtility.php", 
 	"AdminPageFramework_WPUtility_Page"	=>	AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/wp_utility/AdminPageFramework_WPUtility.php", 
