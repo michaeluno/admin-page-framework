@@ -121,11 +121,20 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
     static protected function _log($mValue, $sFilePath = null) {
         static $_fPreviousTimeStamp = 0;
         $_oCallerInfo = debug_backtrace();
-        $_sCallerFunction = self::getElement($_oCallerInfo, array(1, 'function'), '');
-        $_sCallerClass = self::getElement($_oCallerInfo, array(1, 'class'), '');
+        $_sCallerFunction = self::_getCallerFunctionName($_oCallerInfo);
+        $_sCallerClass = self::_getCallerClassName($_oCallerInfo);
         $_fCurrentTimeStamp = microtime(true);
-        file_put_contents(self::_getLogFilePath($sFilePath, $_sCallerClass), self::_getLogHeadingLine($_fCurrentTimeStamp, round($_fCurrentTimeStamp - $_fPreviousTimeStamp, 3), $_sCallerClass, $_sCallerFunction) . PHP_EOL . self::_getLegibleDetails($mValue) . PHP_EOL . PHP_EOL, FILE_APPEND);
+        file_put_contents(self::_getLogFilePath($sFilePath, $_sCallerClass), self::_getLogContents($mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction), FILE_APPEND);
         $_fPreviousTimeStamp = $_fCurrentTimeStamp;
+    }
+    static private function _getLogContents($mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction) {
+        return self::_getLogHeadingLine($_fCurrentTimeStamp, round($_fCurrentTimeStamp - $_fPreviousTimeStamp, 3), $_sCallerClass, $_sCallerFunction) . PHP_EOL . self::_getLegibleDetails($mValue) . PHP_EOL . PHP_EOL;
+    }
+    static private function _getCallerFunctionName($oCallerInfo) {
+        return self::getElement($oCallerInfo, array(1, 'function'), '');
+    }
+    static private function _getCallerClassName($oCallerInfo) {
+        return self::getElement($oCallerInfo, array(1, 'class'), '');
     }
     static private function _getLogFilePath($bsFilePath, $sCallerClass) {
         $_bFileExists = self::_createFile($bsFilePath);
@@ -148,11 +157,9 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
         return ( boolean )$_bhResrouce;
     }
     static private function _getLogHeadingLine($fCurrentTimeStamp, $nElapsed, $sCallerClass, $sCallerFunction) {
-        $_nGMTOffset = self::_getSiteGMTOffset();
-        $_iPageLoadID = self::_getPageLoadID();
-        $_nNow = $fCurrentTimeStamp + ($_nGMTOffset * 60 * 60);
+        $_nNow = $fCurrentTimeStamp + (self::_getSiteGMTOffset() * 60 * 60);
         $_nMicroseconds = str_pad(round(($_nNow - floor($_nNow)) * 10000), 4, '0');
-        $_aOutput = array(date("Y/m/d H:i:s", $_nNow) . '.' . $_nMicroseconds, self::_getFormattedElapsedTime($nElapsed), $_iPageLoadID, AdminPageFramework_Registry::getVersion(), $sCallerClass . '::' . $sCallerFunction, current_filter(), self::getCurrentURL(),);
+        $_aOutput = array(date("Y/m/d H:i:s", $_nNow) . '.' . $_nMicroseconds, self::_getFormattedElapsedTime($nElapsed), self::_getPageLoadID(), self::getFrameworkVersion(), $sCallerClass . '::' . $sCallerFunction, current_filter(), self::getCurrentURL(),);
         return implode(' ', $_aOutput);
     }
     static private function _getSiteGMTOffset() {
