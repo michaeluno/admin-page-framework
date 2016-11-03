@@ -471,7 +471,7 @@ CSSRULES;
             $_aTabBoxContainerArguments = array(
                 'id'    => "tab_{$aField['input_id']}_{$sKey}",
                 'class' => 'tab-box-content',
-                'style' => $this->generateInlineCSS(
+                'style' => $this->getInlineCSS(
                     array(
                         'height' => $this->getAOrB( $aField[ 'height' ], $this->getLengthSanitized( $aField[ 'height' ] ), null ),
                         'width'  => $this->getAOrB( $aField[ 'width' ], $this->getLengthSanitized( $aField[ 'width' ] ), null ),

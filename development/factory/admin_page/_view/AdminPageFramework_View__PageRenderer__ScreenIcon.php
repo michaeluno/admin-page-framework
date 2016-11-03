@@ -139,7 +139,7 @@ class AdminPageFramework_View__PageRenderer__ScreenIcon extends AdminPageFramewo
                 true 
             );
             $_aAttributes = array(
-                'style'    => $this->generateInlineCSS(
+                'style'    => $this->getInlineCSS(
                     array(
                         'background-image' => "url('" . esc_url( $_sScreenIconPath ) . "')"
                     )
