@@ -506,6 +506,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.9 =
+- Fixed a bug occurred in PHP 5.3 that caused a warning `debug_backtrace() expects at most 1 parameter, 2 given`.
 - Fixed an issue that setting an object instance in field definition arguments caused slow performance on loading the form.
 - Tweaked the debug output format of field/section arguments.
 - Tweaked the style of tool-tips.

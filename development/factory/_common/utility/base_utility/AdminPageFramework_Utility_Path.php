@@ -74,12 +74,7 @@ abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utilit
         $_sCallerFilePath      = '';
         $_aBackTrace           = call_user_func_array(
             'debug_backtrace',
-            array(
-                defined( 'DEBUG_BACKTRACE_IGNORE_ARGS' )
-                    ? DEBUG_BACKTRACE_IGNORE_ARGS
-                    : false, // DEBUG_BACKTRACE_PROVIDE_OBJECT for PHP 5.3.6+
-                6, // the second parameter: limit
-            )
+            self::_getDebugBacktraceArguments()
         );
         foreach( $_aBackTrace as $_aDebugInfo )  {     
             $_sCallerFilePath = $_aDebugInfo[ 'file' ];
@@ -91,5 +86,25 @@ abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utilit
         return $_sCallerFilePath;
         
     } 
+        /**
+         * @return      array
+         * @since       3.8.9
+         */
+        static private function _getDebugBacktraceArguments() {
+            
+            $_aArguments = array(
+                defined( 'DEBUG_BACKTRACE_IGNORE_ARGS' )
+                    ? DEBUG_BACKTRACE_IGNORE_ARGS
+                    : false, // DEBUG_BACKTRACE_PROVIDE_OBJECT for PHP 5.3.6+
+                6, // the second parameter: limit
+            );
+            
+            // The second parameter is only supported in v5.4.0 or above.
+            if ( version_compare( PHP_VERSION, '5.4.0', '<' ) ) {
+                unset( $_aArguments[ 1 ] ); 
+            }
+            return $_aArguments;
+            
+        }
         
 }
