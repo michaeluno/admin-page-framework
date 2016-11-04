@@ -225,7 +225,7 @@ AdminPageFrameworkLoader_Registry::setUp( __FILE__ );
 if ( ! defined( 'ABSPATH' ) ) {
     return;
 }
-if ( defined( 'DOING_UNINSTALL' ) ) {
+if ( defined( 'DOING_UNINSTALL' ) && DOING_UNINSTALL ) {
     return;
 }
 
