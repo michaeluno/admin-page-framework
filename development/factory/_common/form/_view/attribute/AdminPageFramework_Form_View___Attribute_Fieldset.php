@@ -42,8 +42,20 @@ class AdminPageFramework_Form_View___Attribute_Fieldset extends AdminPageFramewo
                 )
             ),
             'data-field_id' => $this->aArguments[ 'tag_id' ], // <-- not sure what this was for...
+            'style'         => $this->_getInlineCSS(),
         );                    
     }
+        
+        /**
+         * Returns inline CSS rules for the section-set element.
+         * @since       3.8.10
+         */
+        private function _getInlineCSS() {
+            return ( 1 <= $this->aArguments[ '_nested_depth' ] ) && $this->aArguments[ 'hidden' ]
+                ? 'display:none'
+                : null;       
+        }
+    
         /**
          * Returns a class selector for the HTML class attribute for nested field-sets.
          * 

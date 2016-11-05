@@ -506,6 +506,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.10 =
+- Fixed a bug that the `hidden` field argument did not take effect for nested fields.
 - Fixed a bug that parent fields for nested fields were passed to the `repeated_field` callback argument of the custom `registerAdminPageFrameworkCallbacks()` jQuery plugin method.
 
 = 3.8.9 - 2016/11/05 =
