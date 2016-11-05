@@ -119,7 +119,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
         $.each( $.fn.aAdminPageFrameworkRepeatFieldCallbacks, function( iIndex, aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
             var _aFieldTypes = aCallback[ 1 ]; // '_nested', 'inline_mixed' are built-in
-            if ( -1 !== $.inArray( sFieldType, [ '_nexted', 'inline_mixed' ] ) ) {
+            if ( -1 !== $.inArray( sFieldType, [ '_nested', 'inline_mixed' ] ) ) {
                 return true;    // continue
             }            
             if ( -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
@@ -127,7 +127,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
             }
             if ( ! $.isFunction( _hfCallback ) ) { 
                 return true;    // continue
-            }   
+            }
             _hfCallback( _oThis, _aModel );
         } );    
     
