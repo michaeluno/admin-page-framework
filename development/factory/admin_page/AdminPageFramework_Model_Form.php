@@ -189,7 +189,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
                         'help_tab_title'            => $_aSectionset[ 'title' ],
                         'help_tab_id'               => $_aSectionset[ 'section_id' ],
                         'help_tab_content'          => $_aSectionset[ 'help' ],
-                        'help_tab_sidebar_content'  => $this->getElement( $_aSectionset, 'help_aside', '' ),
+                        'help_tab_sidebar_content'  => $this->oUtil->getElement( $_aSectionset, 'help_aside', '' ),
                     )
                 );            
             }

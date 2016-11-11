@@ -505,6 +505,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.11 =
+- Fixed a bug calling an undefined method when setting a `help` argument in form section definitions.
+
 = 3.8.10 - 2016/11/09 =
 - Fixed a bug that the `hidden` field argument did not take effect for nested fields.
 - Fixed a bug that parent fields for nested fields were passed to the `repeated_field` callback argument of the custom `registerAdminPageFrameworkCallbacks()` jQuery plugin method.
