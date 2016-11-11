@@ -71,7 +71,6 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
             : preg_replace( '/[^a-zA-Z0-9_\x7f-\xff\-]/', '_', $sString );
     }    
         
-    
     /**
      * Checks if the passed value is a number and sets it to the default if not.
      * 
@@ -79,11 +78,11 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
      * it sets it to the maximum value. If it is a number and is below the minimum number, it sets to the minimum value.
      * Set a blank value for no limit.
      * 
-     * @since       2.0.0
+     * @since       3.8.11      Renamed from `fixNumber()`.
      * @return      string|integer      A numeric value will be returned. 
-     */ 
-    static public function fixNumber( $nToFix, $nDefault, $nMin='', $nMax='' ) {
-
+     */
+    static public function getNumberFixed( $nToFix, $nDefault, $nMin='', $nMax='' ) {
+        
         if ( ! is_numeric( trim( $nToFix ) ) ) { 
             return $nDefault; 
         }
@@ -95,7 +94,16 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
         }
         return $nToFix;
         
-    }     
+    }    
+        /**
+         * An alias of `getNumberFixed()`.
+         * @since       2.0.0
+         * @return      string|integer      A numeric value will be returned. 
+         * @deprecated  3.8.11
+         */ 
+        static public function fixNumber( $nToFix, $nDefault, $nMin='', $nMax='' ) {
+            return self::getNumberFixed( $nToFix, $nDefault, $nMin, $nMax );        
+        }     
     
     /**
      * Compresses CSS rules.
