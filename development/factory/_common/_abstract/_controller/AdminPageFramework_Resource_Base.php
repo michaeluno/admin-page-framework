@@ -100,15 +100,15 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      */
     public function __construct( $oProp ) {
         
-        if ( $this->isDoingAjax() ) {
-            return;
-        }        
-        
         $this->oProp = $oProp;
         
         // for backward compatibility
-        $this->oUtil = new AdminPageFramework_WPUtility;
+        $this->oUtil = new AdminPageFramework_WPUtility;        
         
+        if ( $this->isDoingAjax() ) {
+            return;
+        }        
+                
         // Hook the admin header to insert custom admin stylesheets and scripts.
         add_action( 'admin_enqueue_scripts', array( $this, '_replyToEnqueueScripts' ) );
         add_action( 'admin_enqueue_scripts', array( $this, '_replyToEnqueueStyles' ) );

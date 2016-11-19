@@ -506,6 +506,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.11 =
+- Fixed a bug which could cause warnings "Creating default object from empty value in ...AdminPageFramework_Resource_post_meta_box.php".
 - Fixed a bug calling an undefined method when setting a `help` argument in form section definitions.
 
 = 3.8.10 - 2016/11/09 =
