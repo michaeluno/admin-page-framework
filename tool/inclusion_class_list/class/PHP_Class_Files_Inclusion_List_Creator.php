@@ -157,10 +157,10 @@ $aFiles = $this->_extractDefinedClasses( $aFiles, $aExcludingClassNames );
 			
 		// Insert the data
 		foreach( $aFiles as $_sClassName => $_aFile ) {					
-			$_sPath		= str_replace('\\', '/', $_aFile['path'] );
+			$_sPath		= str_replace( '\\', '/', $_aFile[ 'path' ] );
 			$_sPath		= $this->_getRelativePath( $sBaseDirPath, $_sPath );
-			$_aData[]	= "\t" . '"' . $_sClassName . '"' . "\t" . '=>' 
-				. "\t" . $sBaseDirVar . ' . "' . $_sPath . '", ' . PHP_EOL;
+			$_aData[]	= "    " . '"' . $_sClassName . '"' . '=>' 
+				. " " . $sBaseDirVar . ' . "' . $_sPath . '", ' . PHP_EOL;
 		}
 		
 		// Close the array declaration

@@ -1,6 +1,7 @@
 ## CHange Log
 
 ### 1.0.3 - 2016/11/21 
+- Changed the use of tabs for white spaces to white spaces.
 - Fixed a bug that a class name set to the excluding class option was applied to the class file name and affected classes defined in the file with a different class name than the file name.
  
 ### 1.0.2 - 2015/02/23 
