@@ -116,7 +116,7 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 							
 	public function sort( array $aFiles, array $aExcludingClassNames ) {
 
-$aFiles = $this->_extractDefinedClasses( $aFiles, $aExcludingClassNames );
+        $aFiles = $this->_extractDefinedClasses( $aFiles, $aExcludingClassNames );
     
 		foreach( $aFiles as $_sClassName => $_aFile ) {
 			if ( in_array( $_sClassName, $aExcludingClassNames ) ) {
