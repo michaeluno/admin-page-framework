@@ -3,7 +3,7 @@
  * PHP Class Files Inclusion List Creator
  * 
  * @author		Michael Uno <michael@michaeluno.jp>
- * @copyright	2013-2014 (c) Michael Uno
+ * @copyright	2013-2016 (c) Michael Uno
  * @license		MIT	<http://opensource.org/licenses/MIT>
  */
 if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
@@ -16,7 +16,7 @@ if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
  * This is meant to be used for the callback function for the spl_autoload_register() function.
  *  
  * @remark		The parsed class file must have a name of the class defined in the file.
- * @version		1.0.2
+ * @version		1.0.3
  */
 class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Generator_Base {
 	
@@ -115,14 +115,14 @@ class PHP_Class_Files_Inclusion_Script_Creator extends PHP_Class_Files_Script_Ge
 	}
 							
 	public function sort( array $aFiles, array $aExcludingClassNames ) {
-		
+
+$aFiles = $this->_extractDefinedClasses( $aFiles, $aExcludingClassNames );
+    
 		foreach( $aFiles as $_sClassName => $_aFile ) {
 			if ( in_array( $_sClassName, $aExcludingClassNames ) ) {
 				unset( $aFiles[ $_sClassName ] );
 			}
 		}
-		
-		$aFiles = $this->_extractDefinedClasses( $aFiles, $aExcludingClassNames );
 		
 		return $aFiles;
 	

@@ -41,7 +41,10 @@ new PHP_Class_Files_Inclusion_Script_Creator(
             // 'AdminPageFramework_InclusionClassFilesHeader',  <-- this will be listed but not in the beautified version, used to detect whether it is a development version or not.
             'AdminPageFramework_BeautifiedVersionHeader',
             'admin-page-framework',
-
+            'AdminPageFramework_Registry_Base',
+            'AdminPageFramework_Registry',
+            'AdminPageFramework_Bootstrap',
+            
             // fix some irregularly generated class names for the time being
             "name}_{pressed",
             "selector",
