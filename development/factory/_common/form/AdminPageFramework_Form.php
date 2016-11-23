@@ -158,6 +158,18 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
          */
         'show_debug_info'           => null,
         
+        /**
+         * Field elements
+         */
+        'hfID'                              => null, // the input id attribute
+        'hfTagID'                           => null, // the fields & fieldset & field row container id attribute
+        'hfName'                            => null, // the input name attribute
+        'hfNameFlat'                        => null, // the flat input name attribute
+        'hfInputName'                       => null, // 3.6.0+   the field input name attribute
+        'hfInputNameFlat'                   => null, // 3.6.0+   the flat field input name                 
+        'hfClass'                           => null, // the class attribute
+        'hfSectionName'                     => null, // 3.6.0+                            
+        
     );
     
     /**
