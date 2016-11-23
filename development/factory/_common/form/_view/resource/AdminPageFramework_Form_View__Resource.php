@@ -64,7 +64,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             
             /// A low priority is required to let dependencies loaded fast especially in customizer.php.
             add_action( did_action( 'wp_print_styles' ) ? 'wp_print_footer_scripts' : 'wp_print_styles', array( $this, '_replyToAddStyle' ), 999 );
-            add_action( did_action( 'wp_print_scripts' ) ? 'wp_print_footer_scripts' : 'wp_print_scripts', array( $this, '_replyToAddScript' ), 999 );     
+            // add_action( did_action( 'wp_print_scripts' ) ? 'wp_print_footer_scripts' : 'wp_print_scripts', array( $this, '_replyToAddScript' ), 999 ); // @deprecated 3.8.11 All the added scripts should be loaded in the footer.
         
             // Take care of items that could not be added in the head tag.
             
@@ -87,7 +87,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
                 add_action( 'admin_enqueue_scripts', array( $this, '_replyToEnqueueStyles' ) );
         
                 add_action( did_action( 'admin_print_styles' ) ? 'admin_print_footer_scripts' : 'admin_print_styles', array( $this, '_replyToAddStyle' ), 999 );
-                add_action( did_action( 'admin_print_scripts' ) ? 'admin_print_footer_scripts' : 'admin_print_scripts', array( $this, '_replyToAddScript' ), 999 );                         
+                // add_action( did_action( 'admin_print_scripts' ) ? 'admin_print_footer_scripts' : 'admin_print_scripts', array( $this, '_replyToAddScript' ), 999 ); // @deprecated 3.8.11 All the added scripts should be loaded in the footer.
                     
                 // Take care of items that could not be added in the head tag.                
                 /// For wp-admin/customizer.php 
