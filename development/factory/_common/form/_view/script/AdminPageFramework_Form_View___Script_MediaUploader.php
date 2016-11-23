@@ -27,12 +27,19 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
      */
     public function construct() {
         
+        if ( ! function_exists( 'wp_enqueue_media' ) ) {
+            return;
+        }
         wp_enqueue_script( 'jquery' );    
         
-        // wp_enqueue_media() should not be called right away as the WordPress built-in featured image image uploader gets affected.
-        if ( function_exists( 'wp_enqueue_media' ) ) {
-            add_action( 'admin_footer', array( $this, '_replyToEnqueueMedia' ), 1 );
-        }
+        // wp_enqueue_media() should not be called right away as the WordPress built-in featured image image-uploader gets affected.
+        add_action( 
+            is_admin()
+                ? 'admin_footer'
+                : 'wp_footer', 
+            array( $this, '_replyToEnqueueMedia' ), 
+            1 
+        );
         
     }
         /**

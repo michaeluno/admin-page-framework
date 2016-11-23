@@ -63,10 +63,8 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
     protected function setUp() {
         
         // If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
-        if ( version_compare( $GLOBALS['wp_version'], '3.5', '>=' ) ) {
-            //Both the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
-            wp_enqueue_style( 'wp-color-picker' );
-            wp_enqueue_script( 'wp-color-picker' );
+        if ( version_compare( $GLOBALS[ 'wp_version' ], '3.5', '>=' ) ) {
+            $this->___enqueueWPColorPicker();            
         }
         // If the WordPress version is less than 3.5 load the older farbtasic color picker.
         else {
@@ -76,6 +74,48 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
         }    
         
     }    
+        /**
+         * @since       3.8.11
+         */
+        private function ___enqueueWPColorPicker() {
+            
+            // Both the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
+            wp_enqueue_style( 'wp-color-picker' );
+            wp_enqueue_script( 'wp-color-picker' );
+            
+            // For front-end
+            // @see     http://wordpress.stackexchange.com/a/82722
+            if ( ! is_admin() ) {
+
+                // wp_enqueue_style( 'wp-color-picker' );
+                wp_enqueue_script(
+                    'iris',
+                    admin_url( 'js/iris.min.js' ),
+                    array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ),
+                    false,
+                    1
+                );
+                wp_enqueue_script(
+                    'wp-color-picker',
+                    admin_url( 'js/color-picker.min.js' ),
+                    array( 'iris' ),
+                    false,
+                    1
+                );
+                wp_localize_script( 
+                    'wp-color-picker', 
+                    'wpColorPickerL10n', 
+                    array(
+                        'clear'         => __( 'Clear' ),
+                        'defaultString' => __( 'Default' ),
+                        'pick'          => __( 'Select Color' ),
+                        'current'       => __( 'Current Color' ),
+                    )                    
+                );             
+                
+            }
+            
+        }
 
     /**
      * Returns the field type specific CSS rules.
