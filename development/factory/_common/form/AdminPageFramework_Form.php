@@ -233,6 +233,29 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
     public $oFieldError;
     
     /**
+     * Last inputs handler object.
+     */
+    public $oLastInputs;
+    
+    /**
+     * Stores sub-object class names.
+     * 
+     * This allows extended form classes to define their own sub-classes.
+     * For example, for front-end forms, setting notices and field errors may not need to use transients.
+     * In that case, use a custom class to handle them. 
+     * 
+     * Also set an empty string to disable those objects.
+     * 
+     * @since       3.8.11
+     */
+    public $aSubClasses = array(
+        'submit_notice' => 'AdminPageFramework_Form___SubmitNotice',
+        'field_error'   => 'AdminPageFramework_Form___FieldError',
+        'last_input'    => 'AdminPageFramework_Form_Model___LastInput',
+        'message'       => 'AdminPageFramework_Message',
+    );
+        
+    /**
      * Sets up properties.
      * @since       3.7.0
      */
@@ -243,40 +266,31 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
             $this->aCallbacks,
             $this->oMsg,
         );
-        $this->aArguments     = $this->_getFormattedArguments( $_aParameters[ 0 ] );
+        $this->aArguments     = $this->___getArgumentsFormatted( $_aParameters[ 0 ] );
         $this->aCallbacks     = $this->getAsArray( $_aParameters[ 1 ] ) + $this->aCallbacks;
-        $this->oMsg           = $_aParameters[ 2 ];
+        $this->oMsg           = $_aParameters[ 2 ] ? $_aParameters[ 2 ] : new $this->aSubClasses[ 'message' ];
         
-        // Sub-objects
-        $this->oSubmitNotice  = new AdminPageFramework_Form___SubmitNotice;
-        $this->oFieldError    = new AdminPageFramework_Form___FieldError( $this->aArguments[ 'caller_id' ] );
-        $this->oLastInputs    = new AdminPageFramework_Form_Model___LastInput( $this->aArguments[ 'caller_id' ] );
+        // Sub-class objects
+        $this->___setSubClassObjects();
                 
         parent::__construct();
         
         $this->construct();
         
     }
-    /**
-     * User constructor.
-     * Extended classes override this method to do set ups.
-     * @since       3.7.0
-     */
-    public function construct() {}
     
         /**
          * Formats the argument array.
          * @return      array       The formatted argument array.
          * @since       3.7.0
          */
-        private function _getFormattedArguments( $aArguments ) {
+        private function ___getArgumentsFormatted( $aArguments ) {
             
             $aArguments = $this->getAsArray( $aArguments ) 
                 + $this->aArguments;
             $aArguments[ 'caller_id' ] = $aArguments[ 'caller_id' ]
                 ? $aArguments[ 'caller_id' ]
-// @todo determine the caller class name
-                : get_class( $this );   
+                : get_class( $this );  // if a caller id is empty, this class name will be used.
             
             if ( $this->sStructureType ) {
                 $aArguments[ 'structure_type' ] = $this->sStructureType;
@@ -285,4 +299,27 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
             return $aArguments;
             
         }
+        
+        /**
+         * @since       3.8.11
+         */
+        private function ___setSubClassObjects() {
+            if ( class_exists( $this->aSubClasses[ 'submit_notice' ] ) ) {                
+                $this->oSubmitNotice  = new $this->aSubClasses[ 'submit_notice' ];
+            }
+            if ( class_exists( $this->aSubClasses[ 'field_error' ] ) ) {                
+                $this->oFieldError    = new $this->aSubClasses[ 'field_error' ]( $this->aArguments[ 'caller_id' ] );
+            }
+            if ( class_exists( $this->aSubClasses[ 'last_input' ] ) ) {                
+                $this->oLastInputs    = new $this->aSubClasses[ 'last_input' ]( $this->aArguments[ 'caller_id' ] );
+            }
+        }
+        
+    /**
+     * User constructor.
+     * Extended classes override this method to do set ups.
+     * @since       3.7.0
+     */
+    public function construct() {}
+    
 }
