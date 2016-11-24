@@ -62,7 +62,10 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
                 'fieldsets'                 => $this->aFieldsets,
             ),
             $this->aSavedData,            
-            $this->getFieldErrors(),
+            $this->callBack(
+                $this->aCallbacks[ 'field_errors' ],
+                array( $this->getFieldErrors() ) // parameters
+            ), 
             $this->aCallbacks,
             $this->oMsg
         );        

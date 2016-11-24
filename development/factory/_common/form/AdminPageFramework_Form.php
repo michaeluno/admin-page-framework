@@ -159,6 +159,16 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
         'show_debug_info'           => null,
         
         /**
+         * Applies to form field errors array.
+         * 
+         * This is introduced to customize the field errors passed to the form rendering method,
+         * especially for front-end forms which does not reload the page after the form validation process.
+         * 
+         * @since   3.8.11
+         */
+        'field_errors'              => null,
+        
+        /**
          * Field elements
          */
         'hfID'                              => null, // the input id attribute
