@@ -67,7 +67,7 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_Fra
             '_getFieldset'
         );
         
-        $_aOutput = array();
+        $_sOutput = '';
         foreach( $this->aFieldsetsPerSection as $_aFieldset ) {
 
             $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput(
@@ -76,13 +76,15 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_Fra
                 $this->aFieldTypeDefinitions
             );        
             
-            $_aOutput[] = call_user_func_array(
-                array( $this, $_sMethodName ),
-                array( $_oFieldsetOutputFormatter->get() )
-            );
+            $_aFieldset = $_oFieldsetOutputFormatter->get();
+            if ( ! $_aFieldset[ 'if' ] ) {
+                continue;
+            }
+            
+            $_sOutput .= call_user_func_array( array( $this, $_sMethodName ), array( $_aFieldset ) );
             
         }
-        return implode( PHP_EOL, $_aOutput );
+        return $_sOutput;
         
     }
         /**
@@ -91,7 +93,7 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_Fra
          * @since       3.7.0
          */
         private function _getFieldsetRow( $aFieldset ) {
-            
+                        
             $_oFieldsetRow = new AdminPageFramework_Form_View___FieldsetTableRow(
                 $aFieldset, // a field set definition array
                 $this->aSavedData,
