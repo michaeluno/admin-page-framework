@@ -144,7 +144,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
      */
 	public function form( $aSavedFormData ) {
         
-        $this->oCaller->oForm->aCallbacks = $this->_getFormCallbacks();
+        $this->oCaller->oForm->aCallbacks = $this->_getFormCallbacks() + $this->oCaller->oForm->aCallbacks;
 
         /**
          * Set the form data - the form object will trigger a callback to construct the saved form data.

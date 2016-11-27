@@ -505,6 +505,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.12 =
+- Fixed a bug that caused an undefined index warning when a widget is added, introduced in 3.8.11.
+
 = 3.8.11 - 2016/11/25 =
 - Fixed a bug that `if` field argument did not applied to the entire field output.
 - Fixed a bug which could cause warnings "Creating default object from empty value in ...AdminPageFramework_Resource_post_meta_box.php".
