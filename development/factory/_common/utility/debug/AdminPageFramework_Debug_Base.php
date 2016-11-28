@@ -160,7 +160,6 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                  * @since       3.8.9
                  */
                 static private function _getLegibleScalar( $sScalar ) {
-                 
                     if ( is_bool( $sScalar ) ) {
                         return '(boolean) ' . ( $sScalar ? 'true' : 'false' );
                     }                 
@@ -187,16 +186,16 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                     }                
                     /**
                      * @param       string      $sString        
-                     * @param       integer     $iCharLimit     Character length limit to truncate.
                      * @return      string
                      */
-                    static private function _getLegibleString( $sString, $iCharLimit=200 ) {
+                    static private function _getLegibleString( $sString ) {
                     
                         static $_iMBSupport;
                         $_iMBSupport    = isset( $_iMBSupport ) ? $_iMBSupport : ( integer ) function_exists( 'mb_strlen' );
                         $_aStrLenMethod = array( 'strlen', 'mb_strlen' );
                         $_aSubstrMethod = array( 'substr', 'mb_substr' );
                         
+                        $iCharLimit     = self::$iLegibleStringCharacterLimit;
                         $_iCharLength   = call_user_func_array( $_aStrLenMethod[ $_iMBSupport ], array( $sString ) );
                         return $_iCharLength <= $iCharLimit
                             ? '(string, length: ' . $_iCharLength . ') ' . $sString
@@ -204,6 +203,11 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                                 . '...';
                         
                     }
+                    
+    /**
+     * Character length limit to truncate.
+     */
+    static public $iLegibleStringCharacterLimit = 200;
 
     /**
      * @return      string
