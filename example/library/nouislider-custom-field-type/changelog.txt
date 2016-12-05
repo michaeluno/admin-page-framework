@@ -1,5 +1,6 @@
 # Change Log
 = 0.0.4 =
+- Added the `can_exceed_min` and `can_exceed_max` arguments.
 - Added the `interactive` argument.
 = 0.0.3b - 2016/10/24 =
 - Set a field type slug to the register callback function to avoid unnecessary callback function calls.

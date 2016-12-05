@@ -4,21 +4,26 @@
         /**
          * Initialize no ui slider with the given slider container node.
          *
-         * @since 3.8.6
-         * @param       oNode       The slider target DOM node object.
+         * @since       3.8.6
+         * @param       DOM Node    oNode       The slider target DOM node object.
+         * @param       boolean     bUpdate     Whether to update options.
          */
-        var initializeNoUISlider = function( oNode ) {
+        var initializeNoUISlider = function( oNode, bUpdate ) {
 
             var _oSliderTarget = jQuery( oNode );
             var _aOptions = _oSliderTarget.data();
 
-            noUiSlider.create( oNode, _aOptions );
-            oNode.noUiSlider.on( 'update', function( values, handle ) {
-                var _nValue = values[ handle ];
-                _nValue= parseFloat( _nValue ).toFixed( _aOptions.round );
-                jQuery( '#' + jQuery( oNode ).attr( 'data-id-' + handle )  )
-                    .val( _nValue );
-            });
+            if ( ! bUpdate ) {
+                noUiSlider.create( oNode, _aOptions );
+                oNode.noUiSlider.on( 'update', function( values, handle ) {
+                    var _nValue = values[ handle ];
+                    _nValue = parseFloat( _nValue ).toFixed( _aOptions.round );
+                    jQuery( '#' + jQuery( oNode ).attr( 'data-id-' + handle ) )
+                        .val( _nValue );
+                });
+                return;
+            }
+            oNode.noUiSlider.updateOptions( _aOptions );
 
         }
 
@@ -61,6 +66,7 @@
 
         /**
          * Interactive input elements.
+         * @since       3.8.13
          */
         jQuery( 'input[data-type=no_ui_slider][data-interactive=1]' ).on( 'change', function(){
 
@@ -77,10 +83,31 @@
                 .children( '.no-ui-sliders' )
                 .first();
             var _nodeTargetSlider = _oTargetSlider.get( 0 );
+
+            // Check if the range cen be expanded.
+            var _aRange           = _oTargetSlider.data( 'range' );
+            var _bCanExceedMin    = _oTargetSlider.data( 'can_exceed_min' );
+            var _bCanExceedMax    = _oTargetSlider.data( 'can_exceed_max' );
+            var _bIsMinExceeded   = parseFloat( _aRange[ 'min' ] ) > parseFloat( _aValues[ 0 ] );
+            var _bIsMaxExceeded   = parseFloat( _aRange[ 'max' ] ) < parseFloat( _aValues[ _aValues.length - 1 ] );
+            var _bUpdateSlider    = ( _bIsMinExceeded && _bCanExceedMin ) || ( _bIsMaxExceeded && _bCanExceedMax );
+            if ( _bIsMinExceeded && _bCanExceedMin ) {
+                _aRange[ 'min' ] = parseFloat( _aValues[ 0 ] );
+            }
+            if ( _bIsMaxExceeded && _bCanExceedMax ) {
+                _aRange[ 'max' ] = parseFloat( _aValues[ _aValues.length - 1 ] );
+            }
+            if ( _bUpdateSlider ) {
+                _oTargetSlider.data( 'range', _aRange );
+                initializeNoUISlider( _nodeTargetSlider, true );    // update
+            }
             _nodeTargetSlider.noUiSlider.set( _aValues );
 
         } );
 
+        /**
+         * Register callbacks.
+         */
         jQuery().registerAdminPageFrameworkCallbacks(
             {
                 /**

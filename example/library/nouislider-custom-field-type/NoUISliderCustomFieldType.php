@@ -51,7 +51,14 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
             
             'round' => 0,  // for the number of digits to multiply to the actual result. e.g. 10.00 -> 10 for the value `2`.
 
-            'interactive'   => array( false ),
+            'interactive'   => array( false ),  // for multiple handles, set multiple boolean values in the array, `array( true, true )`.
+
+            /**
+             * Whether the user can set a number exceeding the initially set the min/max range via the input fields.
+             * For this options to take effect, the `interactive` option must be enabled.
+             */
+            'can_exceed_min' => false,
+            'can_exceed_max' => false,
         ),
         
         
@@ -110,14 +117,14 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
         $aField[ 'attributes' ][ 'readonly' ]       = 'readonly';
         
         // Format the `options` argument.
-        $aField[ 'options' ]    = $this->_getNoUISliderOptionsFormatted(
+        $aField[ 'options' ]    = $this->___getNoUISliderOptionsFormatted(
             $this->getElementAsArray( $aField, 'options' ),
             $aField
         );
 
         // Format the `label` argument.
         $aField[ 'label' ]      = $this->_getLabelsFormatted( $aField[ 'label' ], $aField );
-        
+
         // Format the input attributes. This must be AFTER formatting the `label` argument.
         $aField[ 'attributes' ] = $this->_getAttributesFormatted( $aField );       
    
@@ -215,18 +222,52 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
          * 
          * @return      array
          */
-        private function _getNoUISliderOptionsFormatted( $aOptions, $aField ) {
+        private function ___getNoUISliderOptionsFormatted( $aOptions, $aField ) {
                         
             // Determine the position of the slider handles. Set the stored values to the `start` argument.
             $aOptions[ 'start' ]   = $this->_getHandlePositions( $aOptions, $aField );
 
             // Format the `connect` argument.
             $aOptions[ 'connect' ] = $this->_getConnectArgumentFormatted( $aOptions, $aField );
-            
+
+            $aOptions[ 'range' ] = $this->___getRangeOptionFormatted( $aOptions, $aField );
+
             return $aOptions;            
             
         }
-        
+            /**
+             * If the `can_exceed_min`/`can_exceed_max` argument is enabled
+             * and the user has saved a value exceeding the range, adjust the range accordingly.
+             * @param $aOptions
+             * @param $aField
+             * @since 0.0.4
+             * @return array
+             */
+            private function ___getRangeOptionFormatted( $aOptions, $aField ) {
+
+                $_bCanExceedMin    = $this->getElement( $aOptions, array( 'can_exceed_min' ), false );
+                $_bCanExceedMax    = $this->getElement( $aOptions, array( 'can_exceed_min' ), false );
+                if ( ! $_bCanExceedMin && ! $_bCanExceedMax ) {
+                    return $aOptions[ 'range' ];
+                }
+
+                $_nDefinedMin      = $this->getElement( $aOptions, array( 'range', 'min' ) );
+                $_nDefinedMax      = $this->getElement( $aOptions, array( 'range', 'max' ) );
+                $_nUserSetMin      = $this->getElement( $aField, array( 'value', 0 ) );
+                $_nUserSetMax      = $this->getElement( $aField, array( 'value', count( $this->getElementAsArray( $aField, array( 'value' ) ) ) - 1 ) );
+                $_nSetMin          = $_nDefinedMin;
+                $_nSetMax          = $_nDefinedMax;
+                if ( $_bCanExceedMin && ! is_null( $_nUserSetMin ) && ( $_nDefinedMin > $_nUserSetMin ) ) {
+                    $_nSetMin = $_nUserSetMin;
+                }
+                if ( $_bCanExceedMax && ! is_null( $_nUserSetMax ) && ( $_nDefinedMax < $_nUserSetMax ) ) {
+                    $_nSetMax = $_nUserSetMax;
+                }
+                return array(
+                    'min'   => ( float ) $_nSetMin,
+                    'max'   => ( float ) $_nSetMax,
+                );
+            }
             /**
              * Formats the `connect` argument to avoid errors on the JS script side.
              * 
