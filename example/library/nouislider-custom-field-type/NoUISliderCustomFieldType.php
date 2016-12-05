@@ -15,7 +15,7 @@ if ( ! class_exists( 'NoUISliderCustomFieldType' ) ) :
  * A field type that lets the user toggle a switch.
  * 
  * @since       3.8.6
- * @version     0.0.3b
+ * @version     0.0.4
  * @remark      Requires Admin Page Framework 3.8.8 or above.
  */
 class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
@@ -50,7 +50,8 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
             // Custom options
             
             'round' => 0,  // for the number of digits to multiply to the actual result. e.g. 10.00 -> 10 for the value `2`.
-            
+
+            'interactive'   => array( false ),
         ),
         
         
@@ -78,6 +79,7 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
                 'in_footer'     => true,
                 'dependencies'  => array( 'jquery' ) 
             ),
+            dirname( __FILE__ ) . '/js/no-ui-slider-initializer.js',
         );
     }
 
@@ -91,116 +93,8 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
                 : dirname( __FILE__ ) . '/no-ui-slider/css/nouislider.min.css',
             dirname( __FILE__ ) . '/no-ui-slider/css/nouislider.pips.css',
             dirname( __FILE__ ) . '/no-ui-slider/css/nouislider.tooltips.css',
+            dirname( __FILE__ ) . '/css/no-ui-slider-field-type.css',
         );
-    }
-
-    /**
-     * Returns the field type specific JavaScript script.
-     */
-    protected function getScripts() {
-
-        $_aJSArray            = json_encode( $this->aFieldTypeSlugs );
-        return "jQuery( document ).ready( function(){
-
-            /**
-             * Initialize no ui slider with the given slider container node.
-             * 
-             * @since 3.8.6
-             * @param       oNode       The slider target DOM node object.
-             */
-            initializeNoUISlider = function( oNode ) {
-                                
-                var _oSliderTarget = jQuery( oNode );               
-                var _aOptions = _oSliderTarget.data();
-
-                noUiSlider.create( oNode, _aOptions );
-                oNode.noUiSlider.on( 'update', function( values, handle ) {
-                    var _nValue = values[ handle ];
-                    _nValue= parseFloat( _nValue ).toFixed( _aOptions.round );
-                    jQuery( '#' + jQuery( oNode ).attr( 'data-id-' + handle )  )
-                        .val( _nValue );   
-                });
-
-            }
-            
-            /**
-             * Initialize no ui sliders by the given input node.
-             * 
-             * @param       nodeThis        The input dom node to parse.
-             */
-            var _initializeNoUISliders = function( nodeThis ) {
-                
-                var _oTargetSlider = jQuery( nodeThis ).closest( '.admin-page-framework-field' )
-                        .children( '.no-ui-sliders' )
-                        .first();
-                
-                // Set the input ID to the target slider element.
-                var _iIndex = jQuery( nodeThis ).data( 'key' );  // should be an integer that is an index set to the `start` argument
-                _iIndex = _iIndex ? _iIndex : 0;  
-                _oTargetSlider.attr( 'data-id-' + _iIndex, jQuery( nodeThis ).attr( 'id' ) );
-
-                // Initialise only if the number of handles matches the parsing index, 
-                if ( jQuery( nodeThis ).data( 'handles' ) !== ( _iIndex + 1 ) ) {
-                    return true; // skip
-                }
-                
-                initializeNoUISlider( 
-                    jQuery( nodeThis ).closest( '.admin-page-framework-field' )
-                        .children( '.no-ui-sliders' )
-                        .first().get( 0 )
-                );                
-                
-            }
-            
-            /**
-             * Initialize toggle elements. Note that a pair of inputs (min and max) are parsed for each field.
-             * So skip one of them.
-             */
-            jQuery( 'input[data-type=no_ui_slider]' ).each( function () {
-                _initializeNoUISliders( this );
-            });         
-
-            jQuery().registerAdminPageFrameworkCallbacks( {
-                /**
-                 * Called when a field of this field type gets repeated.
-                 */
-                repeated_field: function( oCloned, aModel ) {
-                                                        
-                    oCloned.children( '.no-ui-sliders' ).empty();
-                             
-                    // Initialize the event bindings.
-                    oCloned.find( 'input[data-type=no_ui_slider]' ).each( function () {
-                        _initializeNoUISliders( this );
-                    });                    
-
-                },   
-            },
-            [ 'no_ui_slider' ]    // subject field type slugs
-            );
-
-        });";
-    }
-    
-    /**
-     * Returns the field type specific CSS rules.
-     */
-    protected function getStyles() {
-        return "
-.admin-page-framework-field-no_ui_slider input[data-type='no_ui_slider'] {
-    text-align: right;        
-}
-.no-ui-sliders {
-    margin-bottom: 2em;
-}
-.no-ui-sliders.has-pips {
-    margin-bottom: 4em;
-}
-.admin-page-framework-field-no_ui_slider > .admin-page-framework-input-label-container {
-    margin-bottom: 1em;
-    margin-right: 2em;
-}
-
-        ";
     }
 
     /**
@@ -266,10 +160,13 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
                         
             $_aAttributes      = array();
             foreach( $_aLabels as $_isIndex => $_sLabel ) {
-                            
+
+                $_bInteractive     = ( boolean ) $this->getElement( $aField, array( 'options', 'interactive', $_isIndex ) );
                 $_aInputAttributes = array(
-                    'data-key'     => $_isIndex,
-                    'data-handles' => $_iNumberOfHandles,
+                    'data-key'         => $_isIndex,
+                    'data-handles'     => $_iNumberOfHandles,
+                    'data-interactive' => $_bInteractive,
+                    'readonly'         => $_bInteractive ? null : 'readonly',
                 ) + $this->getElementAsArray( $aField, array( 'attributes', $_isIndex ) );
                 
                 // If the label is a single item, there is no nested attribute element.

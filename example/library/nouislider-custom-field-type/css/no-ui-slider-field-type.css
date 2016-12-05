@@ -1,0 +1,13 @@
+.admin-page-framework-field-no_ui_slider input[data-type='no_ui_slider'] {
+    text-align: right;
+}
+.no-ui-sliders {
+    margin-bottom: 2em;
+}
+.no-ui-sliders.has-pips {
+    margin-bottom: 4em;
+}
+.admin-page-framework-field-no_ui_slider > .admin-page-framework-input-label-container {
+    margin-bottom: 1em;
+    margin-right: 2em;
+}
