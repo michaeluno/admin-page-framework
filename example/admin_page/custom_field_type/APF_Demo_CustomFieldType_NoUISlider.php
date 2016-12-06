@@ -94,7 +94,7 @@ EOD
                         )
                         . "</pre>",                       
                 ),                   
-            ),      
+            ),
             array(
                 'field_id'      => 'no_ui_slider_two_handles',
                 'type'          => 'no_ui_slider',
@@ -122,7 +122,207 @@ EOD
                         )
                         . "</pre>",                       
                 ),                   
-            ),     
+            ),
+            array(
+                'field_id'      => 'interactive',
+                'type'          => 'no_ui_slider',
+                'title'         => __( 'Interactive', 'admin-page-framework-loader' ),
+                'label_min_width'   => 0,
+                'label'         => array(
+                    0   => __( 'Min' ),
+                    1   => __( 'Max' ),
+                ),
+                'options'       => array(
+                    'start' => array(
+                        10, 60
+                    ),
+                    'interactive'   => array(
+                        true, true
+                    ),
+                ),
+                'description'   => array(
+                    __( 'The values can be changed from the input fields.', 'admin-page-framework-loader' ),
+                    "<pre>"
+                    . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
+                        <<<EOD
+array(
+    'type'              => 'no_ui_slider',
+    'label_min_width'   => 0,
+    'label'             => array(
+        0   => __( 'Min' ),
+        1   => __( 'Max' ),
+    ),
+    'options'           => array(
+        'start' => array(
+            10, 60
+        ),
+        'interactive'   => array(
+            true, true
+        ),
+    ),        
+)
+EOD
+                    )
+                    . "</pre>",
+                ),
+            ),
+            array(
+                'field_id'      => 'interactive_allow_empty',
+                'type'          => 'no_ui_slider',
+                'title'         => __( 'Interactive & Allow Empty', 'admin-page-framework-loader' ),
+                'label_min_width'   => 0,
+                'label'         => array(
+                    0   => __( 'Min' ),
+                    1   => __( 'Max' ),
+                ),
+                'options'       => array(
+                    'start' => array(
+                        250, 700
+                    ),
+                    'range' => array(
+                        'min'   => 0,
+                        'max'   => 1000,
+                    ),
+                    'interactive'   => array(
+                        true, true
+                    ),
+                    'allow_empty'   => true,
+                ),
+                'description'   => array(
+                    __( 'Set the <code>allow_empty</code> option to allow empty values which can be used to represent no limit.', 'admin-page-framework-loader' ),
+                    "<pre>"
+                    . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
+                        <<<EOD
+array(
+    'type'              => 'no_ui_slider',
+    'label_min_width'   => 0,
+    'label'             => array(
+        0   => __( 'Min' ),
+        1   => __( 'Max' ),
+    ),
+    'options'       => array(
+        'start' => array(
+            250, 700
+        ),
+        'range' => array(
+            'min'   => 0,
+            'max'   => 1000,
+        ),
+        'interactive'   => array(
+            true, true
+        ),
+        'allow_empty'   => true,
+    ),    
+)
+EOD
+                    )
+                    . "</pre>",
+                ),
+            ),
+            array(
+                'field_id'      => 'exceed_range',
+                'type'          => 'no_ui_slider',
+                'title'         => __( 'Exceed Range', 'admin-page-framework-loader' ),
+                'label_min_width'   => 0,
+                'label'         => array(
+                    0   => __( 'Min' ),
+                    1   => __( 'Max' ),
+                ),
+                'options'       => array(
+                    'start' => array(
+                        10, 60
+                    ),
+                    'interactive'   => array(
+                        true, true
+                    ),
+                    'can_exceed_min'    => true,
+                    'can_exceed_max'    => true,
+                ),
+                'description'   => array(
+                    __( 'A value which exceeds the range can be set via the input fields. For this to be functional, the <code>interactive</code> argument must be enabled.', 'admin-page-framework-loader' ),
+                    "<pre>"
+                    . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
+                        <<<EOD
+array(
+    'type'                  => 'no_ui_slider',
+    'label_min_width'       => 0,
+    'label'                 => array(
+        0   => __( 'Min' ),
+        1   => __( 'Max' ),
+    ),
+    'options'               => array(
+        'start' => array(
+            10, 60
+        ),
+        'interactive'       => array(
+            true, true
+        ),
+        'can_exceed_min'    => true,
+        'can_exceed_max'    => true,
+    ),
+)
+EOD
+                    )
+                    . "</pre>",
+                ),
+            ),
+            array(
+                'field_id'      => 'exceed_range_allow_empty',
+                'type'          => 'no_ui_slider',
+                'title'         => __( 'Exceed Range & Allow Empty', 'admin-page-framework-loader' ),
+                'label_min_width'   => 0,
+                'label'         => array(
+                    0   => __( 'Min' ),
+                    1   => __( 'Max' ),
+                ),
+                'options'       => array(
+                    'start' => array(
+                        -50, 50
+                    ),
+                    'range' => array(
+                        'min'   => -100,
+                        'max'   => 100,
+                    ),
+                    'interactive'   => array(
+                        true, true
+                    ),
+                    'can_exceed_min'    => true,
+                    'can_exceed_max'    => true,
+                    'allow_empty'       => true,
+                ),
+                'description'   => array(
+                    __( 'Set the <code>allow_empty</code> option to allow empty values which can be used to represent no limit.', 'admin-page-framework-loader' ),
+                    "<pre>"
+                    . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
+                        <<<EOD
+array(
+    'type'                  => 'no_ui_slider',
+    'label_min_width'       => 0,
+    'label'                 => array(
+        0   => __( 'Min' ),
+        1   => __( 'Max' ),
+    ),
+    'options'               => array(
+        'start' => array(
+            -50, 50
+        ),
+        'range'             => array(
+            'min'   => -100,
+            'max'   => 100,
+        ),
+        'interactive'       => array(
+            true, true
+        ),
+        'can_exceed_min'    => true,
+        'can_exceed_max'    => true,
+        'allow_empty'       => true,
+    ),
+)
+EOD
+                    )
+                    . "</pre>",
+                ),
+            ),
             array(
                 'field_id'      => 'no_ui_slider_multiple_handles',
                 'type'          => 'no_ui_slider',
