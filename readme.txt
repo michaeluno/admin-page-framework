@@ -505,6 +505,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.13 =
+- Added the `interactive`, `can_exceed_min`, `can_exceed_max`, and `allow_empty` arguments to the `no_ui_slider` field type.
+
 = 3.8.12 - 2016/11/28 =
 - Fixed a bug that caused an undefined index warning when a widget is added, introduced in 3.8.11.
 
