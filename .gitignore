@@ -3,6 +3,9 @@
 /tool/beautifier/class/library/
 */PHP_Beautifier
 
+# Editor files.
+.idea
+
 # Files containing sensitive information
 */settings.cfg
 *.ini
