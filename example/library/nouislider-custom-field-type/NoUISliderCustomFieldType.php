@@ -59,6 +59,12 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
              */
             'can_exceed_min' => false,
             'can_exceed_max' => false,
+
+            /**
+             * Whether to allow empty values to be set when the `interactive` option is enabled.
+             * This way empty value can represents no limit.
+             */
+            'allow_empty'    => false,
         ),
         
         
@@ -170,12 +176,12 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
 
                 $_bInteractive     = ( boolean ) $this->getElement( $aField, array( 'options', 'interactive', $_isIndex ) );
                 $_aInputAttributes = array(
-                    'data-key'         => $_isIndex,
-                    'data-handles'     => $_iNumberOfHandles,
-                    'data-interactive' => $_bInteractive,
-                    'readonly'         => $_bInteractive ? null : 'readonly',
+                    'data-key'              => $_isIndex,
+                    'data-handles'          => $_iNumberOfHandles,
+                    'data-interactive'      => $_bInteractive,
+                    'readonly'              => $_bInteractive ? null : 'readonly',
                 ) + $this->getElementAsArray( $aField, array( 'attributes', $_isIndex ) );
-                
+
                 // If the label is a single item, there is no nested attribute element.
                 if ( 1 === $_iNumberOfHandles ) {
                     $_aAttributes = $_aInputAttributes;                        
@@ -225,10 +231,10 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
         private function ___getNoUISliderOptionsFormatted( $aOptions, $aField ) {
                         
             // Determine the position of the slider handles. Set the stored values to the `start` argument.
-            $aOptions[ 'start' ]   = $this->_getHandlePositions( $aOptions, $aField );
+            $aOptions[ 'start' ]   = $this->___getHandlePositions( $aOptions, $aField );
 
             // Format the `connect` argument.
-            $aOptions[ 'connect' ] = $this->_getConnectArgumentFormatted( $aOptions, $aField );
+            $aOptions[ 'connect' ] = $this->___getConnectArgumentFormatted( $aOptions, $aField );
 
             $aOptions[ 'range' ] = $this->___getRangeOptionFormatted( $aOptions, $aField );
 
@@ -274,7 +280,7 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
              * @remark      This must be called AFTER the `start` argument is formatted as it counts the number of element of the `start` argument.
              * @return      array|null
              */
-            private function _getConnectArgumentFormatted( $aOptions, $aField ) {
+            private function ___getConnectArgumentFormatted( $aOptions, $aField ) {
 
                 $_iHandles = count( $aOptions[ 'start' ] );
                 $_aConnect = $this->getElementAsArray( $aOptions, 'connect' );
@@ -291,20 +297,63 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
              * Retrieves the value of the `start` argument which determines the position of the slider handle.
              * @return      array
              */
-            private function _getHandlePositions( $aOptions, $aField ) {
+            private function ___getHandlePositions( $aOptions, $aField ) {
 
                 // For the first time of loading the form, a value is not set.
                 // If the value is not set, use the value set to the `start` argument.
+                $_aDefault = $this->getElementAsArray( $aOptions, 'start', array( 0 ) );
                 if ( ! isset( $aField[ 'value' ] ) ) {
-                    return $this->getElementAsArray( $aOptions, 'start', array( 0 ) );
+                    return $_aDefault;
                 }
-                 
-                return $this->getAsArray( 
-                    $aField[ 'value' ], 
+
+                $_aHandlePositions = $this->getAsArray(
+                    $aField[ 'value' ],
                     true    // preserve empty
-                );  
+                );
+
+                // If the `allow_empty` option is enabled, the field may store empty values.
+                if ( $this->getElement( $aOptions, array( 'allow_empty' ) ) ) {
+                    $_aHandlePositions = $this->___getHandlePositionsAdjustedForEmptyValues( $_aHandlePositions, $aOptions );
+                }
+
+                return $_aHandlePositions;
 
             }
+                /**
+                 * If the `allow_empty` option is enabled, the field may store an empty value.
+                 * In thet case replace it with the corresponding handle position set in the `range` option.
+                 * Note that when there are more than two handles, the middle values other than the first and last are nothing to do with it.
+                 * @param   $_aHandlePositions
+                 * @param   $aOptions
+                 * @return  array
+                 * @since   0.0.4
+                 */
+                private function ___getHandlePositionsAdjustedForEmptyValues( array $_aHandlePositions, array $aOptions ) {
+
+                    $_iFirstIndex = $_iIndex = 0;
+                    $_iLastIndex  = count( $_aHandlePositions ) - 1;
+                    foreach ( $_aHandlePositions as $_isIndex => $_sValue ) {
+
+                        if ( '' !== $_sValue ) {
+                            $_iIndex++;
+                            continue;
+                        }
+
+                        if ( $_iFirstIndex === $_iIndex ) {
+                            $_aHandlePositions[ $_isIndex ] = $this->getElement(
+                                $aOptions, array( 'range', 'min' )
+                            );
+                        } else if ( $_iLastIndex === $_iIndex ) {
+                            $_aHandlePositions[ $_isIndex ] = $this->getElement(
+                                $aOptions, array( 'range', 'max' )
+                            );
+                        }
+                        $_iIndex++;
+
+                    }
+                    return $_aHandlePositions;
+
+                }
                         
 }
 endif;
