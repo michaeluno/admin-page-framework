@@ -325,7 +325,7 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
         
         // Local variables - preparing to remove the sections container element.
         var nodeSectionContainer    = $( this ).closest( '.admin-page-framework-section' );
-        var sSectionConteinrID      = nodeSectionContainer.attr( 'id' );
+        var sSectionContainerID     = nodeSectionContainer.attr( 'id' );
         var nodeSectionsContainer   = $( this ).closest( '.admin-page-framework-sections' );
         var sSectionsContainerID    = nodeSectionsContainer.attr( 'id' );        
         var nodeTabsContainer       = $( this ).closest( '.admin-page-framework-section-tabs-contents' )
@@ -398,7 +398,7 @@ var _iSectionIndex = _iIterationIndex;
         
         // For tabbed sections - remove the title tab list.
         if ( nodeTabsContainer.length > 0 && nodeTabs.length > 1 && ! _bIsSubsectionCollapsible ) {
-            var _oSelectionTab = nodeTabsContainer.find( '#section_tab-' + sSectionConteinrID );
+            var _oSelectionTab = nodeTabsContainer.find( '#section_tab-' + sSectionContainerID );
             
             if ( _oSelectionTab.prev().length ) {                
                 _oSelectionTab.prev().addClass( 'active' );
