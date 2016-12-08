@@ -419,16 +419,7 @@ var _iSectionIndex = _iIterationIndex;
 }( jQuery ));
 JAVASCRIPTS;
     }
-    
-    
-    /**
-     * Stores the set container IDs to prevent multiple calls.
-     * 
-     * Collapsible and tabbed sections can call this method multiple times with the same container ID.
-     * 
-     * @since       3.4.0
-     */
-    static private $_aSetContainerIDsForRepeatableSections = array();
+
     /**
      * Returns the enabler script of repeatable sections.
      * @since       3.0.0
@@ -441,11 +432,10 @@ JAVASCRIPTS;
         if ( empty( $aSettings ) ) { 
             return ''; 
         }
-        if ( in_array( $sContainerTagID, self::$_aSetContainerIDsForRepeatableSections ) ) { 
-            return ''; 
+        if ( self::hasBeenCalled( 'repeatable_section_' . $sContainerTagID ) ) {
+            return '';
         }
-        self::$_aSetContainerIDsForRepeatableSections[ $sContainerTagID ] = $sContainerTagID;
-        
+
         new self( $oMsg );
         $aSettings              = self::getAsArray( $aSettings ) + array( 'min' => 0, 'max' => 0 ); 
         $_sAdd                  = $oMsg->get( 'add_section' );
