@@ -193,7 +193,7 @@ tbody.admin-page-framework-collapsible-content.table-caption {
 }
 CSSRULES;
 
-            if ( version_compare( $GLOBALS['wp_version'], '3.8', '<' ) ) {
+            if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '<' ) ) {
                 $_sCSSRules .= <<<CSSRULES
 .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after 
