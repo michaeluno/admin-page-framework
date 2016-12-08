@@ -32,8 +32,7 @@ class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form
          * @internal
          */    
         private function _getFormSectionRules() {
-            
-            return <<<CSSRULES
+            $_sCSSRules = <<<CSSRULES
 /* Section Table */
 .admin-page-framework-section .form-table {
     margin-top: 0;
@@ -170,7 +169,24 @@ class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form
 }
 
 CSSRULES;
-            
+            $_sCSSRules .= $this->___getForWP47();
+            return $_sCSSRules;
         }
-    
+            /**
+             * Returns CSS rules specific to WordPress 4.7 or above.
+             * @since   3.8.13
+             * @return  string
+             */
+            private function ___getForWP47() {
+                // If the WordPress version is below 4.7,
+                if ( version_compare( $GLOBALS[ 'wp_version' ], '4.7', '<' ) ) {
+                    return '';
+                }
+                return <<<CSSRULES
+.admin-page-framework-content ul.admin-page-framework-section-tabs > li.admin-page-framework-section-tab {
+    margin-bottom: -2px;
+}
+CSSRULES;
+            }
+
 }
