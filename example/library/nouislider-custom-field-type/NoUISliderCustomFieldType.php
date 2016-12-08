@@ -236,7 +236,7 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
             // Format the `connect` argument.
             $aOptions[ 'connect' ] = $this->___getConnectArgumentFormatted( $aOptions, $aField );
 
-            $aOptions[ 'range' ] = $this->___getRangeOptionFormatted( $aOptions, $aField );
+            $aOptions[ 'range' ]   = $this->___getRangeOptionFormatted( $aOptions, $aField );
 
             return $aOptions;            
             
@@ -252,7 +252,7 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
             private function ___getRangeOptionFormatted( $aOptions, $aField ) {
 
                 $_bCanExceedMin    = $this->getElement( $aOptions, array( 'can_exceed_min' ), false );
-                $_bCanExceedMax    = $this->getElement( $aOptions, array( 'can_exceed_min' ), false );
+                $_bCanExceedMax    = $this->getElement( $aOptions, array( 'can_exceed_max' ), false );
                 if ( ! $_bCanExceedMin && ! $_bCanExceedMax ) {
                     return $aOptions[ 'range' ];
                 }
