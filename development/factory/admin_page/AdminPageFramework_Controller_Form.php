@@ -64,7 +64,20 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
      *      <li>**order** - (optional, integer) the order number of the section. The higher the number is, the lower the position it gets.</li>
      *      <li>**help** - (optional, string) the help description added to the contextual help tab.</li>
      *      <li>**help_aside** - (optional, string) the additional help description for the side bar of the contextual help tab.</li>
-     *      <li>**repeatable** - (optional, boolean|array) [3.0.0+] Indicates whether or not the section is repeatable. To set a minimum/maximum number of sections, pass an array with the key, `min`, and `max`. e.g. `array( 'min' => 3, 'max' => 10 )`</li>
+     *      <li>**repeatable** - (optional, boolean|array) [3.0.0+] Indicates whether or not the section is repeatable. To set a minimum/maximum number of sections, pass an array with the key, `min`, and `max`. e.g. `array( 'min' => 3, 'max' => 10 )`
+     *          <ul>
+     *              <li>**max** - (optional, integer) The maximum number of repeated fields.</li>
+     *              <li>**min** - (optional, integer) The minimum number of repeated fields.</li>
+     *              <li>**disabled** - (optional, boolean|array) [3.8.13+]
+     *                  <ul>
+     *                      <li>**label** - (optional, string) the message to show when the user clicks on the `Add` repeatable button.</li>
+     *                      <li>**caption** - (optional, string) the title of the modal window that displays the message. Default: Warning</li>
+     *                      <li>**box_width** - (optional, integer) the width of the modal window that displays the message. Default: 300</li>
+     *                      <li>**box_width** - (optional, integer) the height of the modal window that displays the message. Default: 100.</li>
+     *                  <ul>
+     *              </li>
+     *          </ul>
+     *      </li>
      * </ul>
      * @param       array           (optional) another section array.
      * @param       array           (optional) add more section array to the next parameters as many as necessary.

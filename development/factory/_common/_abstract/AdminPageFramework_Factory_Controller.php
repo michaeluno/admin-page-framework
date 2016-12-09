@@ -263,6 +263,20 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *  );
      * `
      *      </li>
+     *      <li>**repeatable** - (optional, boolean|array) [3.0.0+] Indicates whether or not the section is repeatable. To set a minimum/maximum number of sections, pass an array with the key, `min`, and `max`. e.g. `array( 'min' => 3, 'max' => 10 )`
+     *          <ul>
+     *              <li>**max** - (optional, integer) The maximum number of repeated fields.</li>
+     *              <li>**min** - (optional, integer) The minimum number of repeated fields.</li>
+     *              <li>**disabled** - (optional, boolean|array) [3.8.13+]
+     *                  <ul>
+     *                      <li>**label** - (optional, string) the message to show when the user clicks on the `Add` repeatable button.</li>
+     *                      <li>**caption** - (optional, string) the title of the modal window that displays the message. Default: Warning</li>
+     *                      <li>**box_width** - (optional, integer) the width of the modal window that displays the message. Default: 300</li>
+     *                      <li>**box_width** - (optional, integer) the height of the modal window that displays the message. Default: 100.</li>
+     *                  <ul>
+     *              </li>
+     *          </ul>
+     *      </li>
      *      <li>**sortable** - (optional, boolean) [3.6.0+] whether the section is sortable or not. In order for this option to be effective, the `repeatable` argument must be enabled.</li>
      *      <li>**content** - (optional, string) [3.6.1+] a custom section output.</li>
      *      <li>**tip** - (optional, string) [3.7.0+] a tool tip which pops up when the user hovers their mouse over the ? mark icon beside the title..</li>

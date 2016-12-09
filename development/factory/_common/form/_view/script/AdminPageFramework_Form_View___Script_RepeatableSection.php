@@ -44,10 +44,10 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
      * @todo        Change the selector name 'repeatable-section-add-button' to something else to avoid apf version conflict.
      */
     $.fn.updateAdminPageFrameworkRepeatableSections = function( aSettings ) {
-
-        var _oThis                = this; 
+    
+        var _oThis                = this;
         var _sSectionsContainerID = _oThis.find( '.repeatable-section-add-button' ).first().closest( '.admin-page-framework-sections' ).attr( 'id' );
-
+    
         // Store the sections specific options in an array.
         if ( ! $.fn.aAdminPageFrameworkRepeatableSectionsOptions ) {
             $.fn.aAdminPageFrameworkRepeatableSectionsOptions = [];
@@ -58,7 +58,8 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
                     max: 0, // These are the defaults.
                     min: 0,
                     fadein: 500,
-                    fadeout: 500,                
+                    fadeout: 500,  
+                    disabled: 0,
                 }, 
                 aSettings 
             );
@@ -68,6 +69,14 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
         // The Add button behavior - if the tag id is given, multiple buttons will be selected. 
         // Otherwise, a section node is given and single button will be selected.
         $( _oThis ).find( '.repeatable-section-add-button' ).click( function() {
+        
+            // 3.8.13+ 
+            if ( $( this ).parent().data( 'disabled' ) ) {
+                var _aDisabled = $( this ).parent().data( 'disabled' );
+                tb_show( _aDisabled[ 'caption' ], $( this ).attr( 'href' ) );    
+                return false;
+            }
+        
             $( this ).addAdminPageFrameworkRepeatableSection();
             return false; // will not click after that
         });
@@ -441,9 +450,10 @@ JAVASCRIPTS;
         $_sButtons      = "<div class='admin-page-framework-repeatable-section-buttons-outer-container'>"
                 . "<div " . self::getAttributes( self::___getContainerAttributes( $_aArguments, $oMsg ) ) . ' ' . self::getDataAttributes( $_aArguments ) . '>'
                     . "<a " . self::getAttributes( self::___getRemoveButtonAttributes( $sContainerTagID, $oMsg, $iSectionCount ) ) . ">-</a>"
-                    . "<a " . self::getAttributes( self::___getAddButtonAttributes( $sContainerTagID, $oMsg ) ) . ">+</a>"
+                    . "<a " . self::getAttributes( self::___getAddButtonAttributes( $sContainerTagID, $oMsg, $_aArguments ) ) . ">+</a>"
                 . "</div>"
-            . "</div>";
+            . "</div>"
+            . self::___getModalForDisabledMessage( $sContainerTagID, $_aArguments );
         $_sButtonsHTML  = '"' . $_sButtons . '"';
         $_aJSArray      = json_encode( $_aArguments );
         $_sScript       = <<<JAVASCRIPTS
@@ -489,12 +499,37 @@ JAVASCRIPTS;
             unset( $_aArguments[ 0 ] );   // remove the 0 index element converted from `'repeatable   => 'true',`.
             $_aArguments = $_aArguments
                + array(
-                   'min'      => 0,
-                   'max'      => 0,
-                   'disabled' => false,
+                    'min'                       => 0,
+                    'max'                       => 0,
+                    'disabled'                  => false,
                );
+            if ( ! empty( $_aArguments[ 'disabled' ] ) ) {
+                $_aArguments[ 'disabled' ] = $_aArguments[ 'disabled' ] + array(
+                    'label'      => $oMsg->get( 'repeatable_section_is_disabled' ),
+                    'caption'    => $oMsg->get( 'warning_caption' ),
+                    'box_width'  => 300,
+                    'box_height' => 100,
+                );
+            }
             return $_aArguments;
         }
+
+        /**
+         * @param   $aArguments
+         * @return  string
+         */
+        static private function ___getModalForDisabledMessage( $sContainerTagID, $aArguments ) {
+            if ( empty( $aArguments[ 'disabled' ] ) ) {
+                return '';
+            }
+            add_thickbox(); // to display a message to the user.
+            return "<div id='repeatable_section_disabled_{$sContainerTagID}' style='display:none'>"
+                    . "<p>"
+                        . $aArguments[ 'disabled' ][ 'label' ]
+                    . "</p>"
+                . "</div>";
+        }
+
 
         /**
          * @param   $aArguments
@@ -505,11 +540,8 @@ JAVASCRIPTS;
             return array(
                 'class' => self::getClassAttribute(
                     'admin-page-framework-repeatable-section-buttons',
-                    $aArguments[ 'disabled' ] ? 'disabled' : ''
+                    empty( $aArguments[ 'disabled' ] ) ? '' : 'disabled'
                 ),
-                'data-label_disabled' => $aArguments[ 'disabled' ]
-                    ? $oMsg->get( 'repeatable_section_is_disabled' )
-                    : null,
             );
         }
         /**
@@ -532,12 +564,17 @@ JAVASCRIPTS;
          * @since       3.8.13
          * @return array
          */
-        static private function ___getAddButtonAttributes( $sContainerTagID, $oMsg ) {
+        static private function ___getAddButtonAttributes( $sContainerTagID, $oMsg, $aArguments ) {
             return array(
                 'class'     => 'repeatable-section-add-button button-secondary '
                     . 'repeatable-section-button button button-large',
                 'title'     => $oMsg->get( 'add_section' ),
                 'data-id'   => $sContainerTagID,
+                'href'      => ! empty( $aArguments[ 'disabled' ] )
+                    ? '#TB_inline?width=' . $aArguments[ 'disabled' ][ 'box_width' ]
+                        . '&height=' . $aArguments[ 'disabled' ][ 'box_height' ]
+                        . '&inlineId=' . 'repeatable_section_disabled_' . $sContainerTagID
+                    : '',
             );
         }
 

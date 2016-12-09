@@ -506,6 +506,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.13 =
+- Added the `disabled` repeatable section argument.
 - Added the `interactive`, `can_exceed_min`, `can_exceed_max`, and `allow_empty` arguments to the `no_ui_slider` field type.
 - Fixed a bug that clicking on a collapsible section button of the `button` type did not collapse/expand the section.
 - Fixed a but that a vertical scrollbar appeared in an admin page that has a form when the browser width is less than 900px.

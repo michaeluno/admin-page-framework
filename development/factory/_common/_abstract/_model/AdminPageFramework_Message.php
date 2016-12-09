@@ -129,7 +129,11 @@ class AdminPageFramework_Message {
         'out_of_x_memory_used'                  => '%1$s out of %2$s MB (%3$s) memory used.', 
         'peak_memory_usage'                     => 'Peak memory usage %1$s MB.', 
         'initial_memory_usage'                  => 'Initial memory usage  %1$s MB.', 
-        
+
+        // Repeatable sections
+        'repeatable_section_is_disabled'        => 'The ability to repeat sections is disabled.',   // 3.8.13+
+        'warning_caption'                       => 'Warning',   // 3.8.13+
+
         // AdminPageFramework_FormField
         'allowed_maximum_number_of_fields'      => 'The allowed maximum number of fields is {0}.', 
         'allowed_minimum_number_of_fields'      => 'The allowed minimum number of fields is {0}.', 
@@ -424,7 +428,10 @@ class AdminPageFramework_Message {
         __( 'This information will be disabled when <code>WP_DEBUG</code> is set to <code>false</code> in <code>wp-config.php</code>.', 'admin-page-framework' );
         
         __( 'Section Arguments', 'admin-page-framework' ); // 3.8.8+
-        
+
+        __( 'The ability to repeat sections is disabled.', 'admin-page-framework' ); // 3.8.13+
+        __( 'Warning.', 'admin-page-framework' ); // 3.8.13+
+
     }
     
 }

@@ -110,6 +110,10 @@ class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form
     clear: right;
     margin-top: 1em;  
 }
+.admin-page-framework-repeatable-section-buttons.disabled > .repeatable-section-button {
+    color: #edd;
+    border-color: #edd;
+}
 
 /* Section Caption */
 .admin-page-framework-section-caption {

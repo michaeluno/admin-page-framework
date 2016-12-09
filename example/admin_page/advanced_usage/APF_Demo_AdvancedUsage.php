@@ -43,6 +43,10 @@ class APF_Demo_AdvancedUsage {
             array(
                 'title'         => __( 'Advanced Usage', 'admin-page-framework-loader' ),
                 'page_slug'     => $this->_sPageSlug,    // page slug
+                'style'         => array(
+                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/code.css',
+                    AdminPageFrameworkLoader_Registry::$sDirPath . '/asset/css/field_example.css',
+                ),
             )
         );        
               

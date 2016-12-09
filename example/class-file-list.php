@@ -27,6 +27,7 @@ $_aClassFiles = array(
     "APF_Demo_AdvancedUsage_Section_Collapsible_C"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/section/APF_Demo_AdvancedUsage_Section_Collapsible_C.php", 
     "APF_Demo_AdvancedUsage_Section_Collapsible_D"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/section/APF_Demo_AdvancedUsage_Section_Collapsible_D.php", 
     "APF_Demo_AdvancedUsage_Section_Collapsible_Repeatable"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/section/APF_Demo_AdvancedUsage_Section_Collapsible_Repeatable.php", 
+    "APF_Demo_AdvancedUsage_Section_DisabledRepeatableSection"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/section/APF_Demo_AdvancedUsage_Section_DisabledRepeatableSection.php", 
     "APF_Demo_AdvancedUsage_Section_Repeatable"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/section/APF_Demo_AdvancedUsage_Section_Repeatable.php", 
     "APF_Demo_AdvancedUsage_Section_Repeatable_Tabbed"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/section/APF_Demo_AdvancedUsage_Section_Repeatable_Tabbed.php", 
     "APF_Demo_AdvancedUsage_Section_SectionTitleField"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/advanced_usage/section/APF_Demo_AdvancedUsage_Section_SectionTitleField.php", 

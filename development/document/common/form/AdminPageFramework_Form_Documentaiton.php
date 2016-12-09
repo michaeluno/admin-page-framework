@@ -74,7 +74,7 @@
  *  );
  * </code>
  * 
- * With the `min` and `max` arguments, you can limit the max number of repeatable elements.
+ * With the `min` and `max` arguments, you can limit the maximum and minimum number of repeatable elements.
  * <code>
  *      array(
  *          'section_id'    => 'my_section_id',
