@@ -446,8 +446,8 @@ JAVASCRIPTS;
         $_sSettingsAttributes   = self::getDataAttributes( $aSettings );
         $_sButtons              = 
             "<div class='admin-page-framework-repeatable-section-buttons' {$_sSettingsAttributes} >"
-                . "<a class='repeatable-section-remove-button button-secondary repeatable-section-button button button-large' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
-                . "<a class='repeatable-section-add-button button-secondary repeatable-section-button button button-large' href='#' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
+                . "<a class='repeatable-section-remove-button button-secondary repeatable-section-button button button-large' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
+                . "<a class='repeatable-section-add-button button-secondary repeatable-section-button button button-large' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
             . "</div>";
         $_sButtonsHTML  = '"' . $_sButtons . '"';
         $_aJSArray      = json_encode( $aSettings );
