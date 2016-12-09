@@ -177,8 +177,8 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
      */
     protected function _getRepeaterFieldEnablerScript( $sFieldsContainerID, $iFieldCount, $aSettings ) {
         
-        $_sSmallButtons         = '"' . $this->_getRepeatableButtonHTML( $sFieldsContainerID, ( array ) $aSettings, $iFieldCount, true ) . '"';
-        $_sNestedFieldsButtons  = '"' . $this->_getRepeatableButtonHTML( $sFieldsContainerID, ( array ) $aSettings, $iFieldCount, false ) . '"';
+        $_sSmallButtons         = '"' . $this->___getRepeatableButtonHTML( $sFieldsContainerID, ( array ) $aSettings, $iFieldCount, true ) . '"';
+        $_sNestedFieldsButtons  = '"' . $this->___getRepeatableButtonHTML( $sFieldsContainerID, ( array ) $aSettings, $iFieldCount, false ) . '"';
         $_aJSArray              = json_encode( $aSettings );
         $_sScript               = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
@@ -224,7 +224,7 @@ JAVASCRIPTS;
          * @since       3.8.0
          * @return      string
          */
-        private function _getRepeatableButtonHTML( $sFieldsContainerID, array $aSettings, $iFieldCount, $bSmall=true ) {
+        private function ___getRepeatableButtonHTML( $sFieldsContainerID, array $aSettings, $iFieldCount, $bSmall=true ) {
             
             $_sAdd                  = $this->oMsg->get( 'add' );
             $_sRemove               = $this->oMsg->get( 'remove' );            
@@ -233,16 +233,15 @@ JAVASCRIPTS;
             $_sSmallButtonSelector  = $bSmall ? ' button-small' : '';
                 
             // Not using dash-icons at the moment.
-            $_bDashiconSupported    = false;    // version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' );
-            $_sDashiconPlus         = '';       // $_bDashiconSupported ? 'dashicons dashicons-plus' : '';
-            $_sDashiconMinus        = '';       // $_bDashiconSupported ? 'dashicons dashicons-minus' : '';            
+            $_sDashiconPlus         = '';
+            $_sDashiconMinus        = '';
             
             return "<div class='admin-page-framework-repeatable-field-buttons' {$_sSettingsAttributes} >"
-                . "<a class='repeatable-field-remove-button button-secondary repeatable-field-button button {$_sSmallButtonSelector}{$_sDashiconMinus}' href='#' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>"
-                  . '-' // ( $_bDashiconSupported ? '' : '-' )
+                . "<a class='repeatable-field-remove-button button-secondary repeatable-field-button button {$_sSmallButtonSelector}{$_sDashiconMinus}' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>"
+                  . '-'
                 . "</a>"
-                . "<a class='repeatable-field-add-button button-secondary repeatable-field-button button {$_sSmallButtonSelector}{$_sDashiconPlus}' href='#' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>" 
-                    . '+' // ( $_bDashiconSupported ? '' : '+' )
+                . "<a class='repeatable-field-add-button button-secondary repeatable-field-button button {$_sSmallButtonSelector}{$_sDashiconPlus}' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>"
+                    . '+'
                 . "</a>"                
             . "</div>";        
 
