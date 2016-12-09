@@ -229,7 +229,7 @@ JAVASCRIPTS;
             $_sAdd                  = $this->oMsg->get( 'add' );
             $_sRemove               = $this->oMsg->get( 'remove' );            
             $_sVisibility           = $iFieldCount <= 1 ? " style='visibility: hidden;'" : "";
-            $_sSettingsAttributes   = $this->generateDataAttributes( $aSettings );
+            $_sSettingsAttributes   = $this->getDataAttributes( $aSettings );
             $_sSmallButtonSelector  = $bSmall ? ' button-small' : '';
                 
             // Not using dash-icons at the moment.
