@@ -427,9 +427,9 @@ JAVASCRIPTS;
      * @since       3.6.0       Moved from `AdminPageFramework_FormPart_Table_Base`.
      * @return      string
      */
-    static public function getEnabler( $sContainerTagID, $iSectionCount, $aSettings, $oMsg ) {
+    static public function getEnabler( $sContainerTagID, $iSectionCount, $asArguments, $oMsg ) {
         
-        if ( empty( $aSettings ) ) { 
+        if ( empty( $asArguments ) ) {
             return ''; 
         }
         if ( self::hasBeenCalled( 'repeatable_section_' . $sContainerTagID ) ) {
@@ -437,20 +437,15 @@ JAVASCRIPTS;
         }
 
         new self( $oMsg );
-        $aSettings              = self::getAsArray( $aSettings ) + array( 'min' => 0, 'max' => 0 ); 
-        $_sAdd                  = $oMsg->get( 'add_section' );
-        $_sRemove               = $oMsg->get( 'remove_section' );
-        $_sVisibility           = $iSectionCount <= 1 
-            ? " style='display:none;'" 
-            : "";
-        $_sSettingsAttributes   = self::getDataAttributes( $aSettings );
-        $_sButtons              = 
-            "<div class='admin-page-framework-repeatable-section-buttons' {$_sSettingsAttributes} >"
-                . "<a class='repeatable-section-remove-button button-secondary repeatable-section-button button button-large' title='{$_sRemove}' {$_sVisibility} data-id='{$sContainerTagID}'>-</a>"
-                . "<a class='repeatable-section-add-button button-secondary repeatable-section-button button button-large' title='{$_sAdd}' data-id='{$sContainerTagID}'>+</a>"
+        $_aArguments    = self::___getArgumentsFormatted( $asArguments, $oMsg );
+        $_sButtons      = "<div class='admin-page-framework-repeatable-section-buttons-outer-container'>"
+                . "<div " . self::getAttributes( self::___getContainerAttributes( $_aArguments, $oMsg ) ) . ' ' . self::getDataAttributes( $_aArguments ) . '>'
+                    . "<a " . self::getAttributes( self::___getRemoveButtonAttributes( $sContainerTagID, $oMsg, $iSectionCount ) ) . ">-</a>"
+                    . "<a " . self::getAttributes( self::___getAddButtonAttributes( $sContainerTagID, $oMsg ) ) . ">+</a>"
+                . "</div>"
             . "</div>";
         $_sButtonsHTML  = '"' . $_sButtons . '"';
-        $_aJSArray      = json_encode( $aSettings );
+        $_aJSArray      = json_encode( $_aArguments );
         $_sScript       = <<<JAVASCRIPTS
 jQuery( document ).ready( function() {
 
@@ -466,7 +461,7 @@ jQuery( document ).ready( function() {
         var _oCollapsibleSectionTitle = jQuery( this ).find( '.admin-page-framework-collapsible-section-title' );
         if ( _oCollapsibleSectionTitle.length ) {
             _oButtons.find( '.repeatable-section-button' ).removeClass( 'button-large' );
-            _oCollapsibleSectionTitle.prepend( _oButtons );
+            _oCollapsibleSectionTitle.append( _oButtons );
         } else {
             jQuery( this ).prepend( _oButtons );
         }
@@ -483,5 +478,67 @@ JAVASCRIPTS;
             . "</script>";
             
     }
-    
+
+        /**
+         * @param   $aArguments
+         * @return  array
+         * @since   3.8.13
+         */
+        static private function ___getArgumentsFormatted( $asArguments, $oMsg ) {
+            $_aArguments = self::getAsArray( $asArguments );
+            unset( $_aArguments[ 0 ] );   // remove the 0 index element converted from `'repeatable   => 'true',`.
+            $_aArguments = $_aArguments
+               + array(
+                   'min'      => 0,
+                   'max'      => 0,
+                   'disabled' => false,
+               );
+            return $_aArguments;
+        }
+
+        /**
+         * @param   $aArguments
+         * @return  array
+         * @since   3.8.13
+         */
+        static private function ___getContainerAttributes( array $aArguments, $oMsg ) {
+            return array(
+                'class' => self::getClassAttribute(
+                    'admin-page-framework-repeatable-section-buttons',
+                    $aArguments[ 'disabled' ] ? 'disabled' : ''
+                ),
+                'data-label_disabled' => $aArguments[ 'disabled' ]
+                    ? $oMsg->get( 'repeatable_section_is_disabled' )
+                    : null,
+            );
+        }
+        /**
+         * @return  array
+         * @sicne   3.8.13
+         */
+        static private function ___getRemoveButtonAttributes( $sContainerTagID, $oMsg, $iSectionCount ) {
+            return array(
+                'class'     => 'repeatable-section-remove-button button-secondary '
+                               . 'repeatable-section-button button button-large',
+                'title'     => $oMsg->get( 'remove_section' ),
+                'style'     => $iSectionCount <= 1
+                    ? 'display:none'
+                    : null,
+                'data-id'   => $sContainerTagID,
+            );
+        }
+
+        /**
+         * @since       3.8.13
+         * @return array
+         */
+        static private function ___getAddButtonAttributes( $sContainerTagID, $oMsg ) {
+            return array(
+                'class'     => 'repeatable-section-add-button button-secondary '
+                    . 'repeatable-section-button button button-large',
+                'title'     => $oMsg->get( 'add_section' ),
+                'data-id'   => $sContainerTagID,
+            );
+        }
+
 }

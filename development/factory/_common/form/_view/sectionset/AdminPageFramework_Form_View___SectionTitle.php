@@ -103,8 +103,11 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
                 : '';
             $_sOutput               = $_sTitle . $_sFieldsInSectionTitle;
             return $_sOutput
-                ? "<div class='section-title-container{$_bHasOtherFields}'>"
-                    . $_sOutput 
+                ? "<div class='section-title-height-fixer'></div>"
+                . "<div class='section-title-outer-container'>" // 3.8.13+ For vertical alignment
+                    . "<div class='section-title-container{$_bHasOtherFields}'>"
+                        . $_sOutput
+                    . "</div>"
                 . "</div>"
                 : '';
             
@@ -117,7 +120,7 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
                 
                 $_aSectionset = $this->aArguments[ 'sectionset' ];
                 return $sTitle
-                    ? "<{$sTag} class='section-title'>" 
+                    ? "<{$sTag} class='section-title'>"
                         . $this->_getCollapseButton( $aCollapsible )
                         . $sTitle
                         . $this->_getToolTip( $_aSectionset )

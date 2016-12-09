@@ -86,15 +86,22 @@ td.admin-page-framework-field-td-no-title {
     display: inline-block;
     margin: 1px 0;
 }
-.admin-page-framework-field label{
+.admin-page-framework-field label {
     display: inline-block; /* for WordPress v3.7.x or below */
     width: 100%;
+}
+/* Field Title */
+@media screen and (max-width: 782px) {
+    .form-table fieldset > label {
+        display: inline-block;
+    }
 }
 .admin-page-framework-field .admin-page-framework-input-label-container {
     margin-bottom: 0.25em;
 }
 @media only screen and ( max-width: 780px ) { /* For WordPress v3.8 or greater */
     .admin-page-framework-field .admin-page-framework-input-label-container {
+        margin-top: 0.5em; /* 3.8.13+ for fields in the collapsible section title area. */
         margin-bottom: 0.5em;
     }
 }     

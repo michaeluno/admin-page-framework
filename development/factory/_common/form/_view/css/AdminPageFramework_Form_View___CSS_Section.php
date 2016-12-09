@@ -105,11 +105,12 @@ class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form
     margin: -4px 4px -1px 0;
 }
 /* Repeatable Sections */
-.admin-page-framework-repeatable-section-buttons {
+.admin-page-framework-repeatable-section-buttons {  
     float: right;
     clear: right;
-    margin-top: 1em;
+    margin-top: 1em;  
 }
+
 /* Section Caption */
 .admin-page-framework-section-caption {
     text-align: left;

@@ -42,8 +42,7 @@ class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFra
 {
     font-size:13px;
     background-color: #fff;
-    padding: 15px 18px;
-    margin-top: 1em; 
+    padding: 1em 2.6em 1em 2em;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
 }
@@ -60,21 +59,37 @@ class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFra
     margin-bottom: 0;
 }
 
-/* Collapsible Sections Title Block  */            
-#poststuff .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title h3,
-#poststuff .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title h3
+/* Collapsible Sections Title Block  */
+#poststuff .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title > .section-title-outer-container > .section-title-container > .section-title,
+#poststuff .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title > .section-title-outer-container > .section-title-container > .section-title
 {
     font-size: 1em;
-    margin: 0;
+    margin: 0 1em 0 0;  /* 3.8.13+ The margin-right is required for fields in the section title area. */
+ 
 }
-
+#poststuff .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title > .section-title-outer-container > .section-title-container > fieldset {
+    line-height: 0; /* 3.8.13 to vertically align in the center */
+}
+#poststuff .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title > .section-title-outer-container > .section-title-container > fieldset .admin-page-framework-field {
+    margin: 0;
+    padding: 0;
+}
 /* Collapsible Sections Title Dashicon */            
 .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after 
 {
-    top: 12px;
+    top: 0.88em;    /* about half of 2em which is the element height, and slightly higher. */
+    top: 34%;    /* about half of 2em which is the element height, and slightly higher. */
     right: 15px;
 }
+/*@media only screen and ( max-width: 782px ) {
+    .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,
+    .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after 
+    {
+        top: 38%;    /* about half of 2em which is the element height, and slightly higher. */
+        right: 15px;
+    }
+}*/
 .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after {
     content: '\\f142';
@@ -134,8 +149,8 @@ tbody.admin-page-framework-collapsible-content.table-caption {
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons {
     /* Collapsible section bar has an icon at the right end so the repeatable button needs to be placed before it */
     margin: 0;
-    margin-right: 2em; 
-    /* margin-top: -0.32em; @deprecated 3.8.7 It is placed somewhat high in WP 4.6.1. */
+    /* margin-right: 2em; @deprecated 3.8.13+ The section repeatable buttons are no longer float but positioned with the `position` property. */ 
+    /* margin-top: -0.32em; @deprecated 3.8.7+ It is placed somewhat high in WP 4.6.1. */
 }
 /* When a section_title field is in the caption tag, do not set the margin-top to align vertically */
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons.section_title_field_sibling {
@@ -143,7 +158,50 @@ tbody.admin-page-framework-collapsible-content.table-caption {
 }
 
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button {
-    background: none;   /* for Wordpress v3.7.x or below, the background image need to be removed as well */
+    background: none;       /* for Wordpress v3.7.x or below, the background image need to be removed as well */
+    
+    /* 3.8.13+ Give a fixed button size */
+    line-height: 1.8em; 
+    margin: 0;
+    padding: 0;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+}
+
+/* 3.8.13+ Treat the section title area and the repeatable buttons as columns. */
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box .section-title-height-fixer, 
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .section-title-height-fixer 
+{
+    /* This height fixer element gives vertical alignment to the other column elements in the row. The other columns must not set height. */
+    height: 100%;
+    width: 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box .section-title-outer-container, 
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .section-title-outer-container 
+{
+    width: 88%;
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons-outer-container,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons-outer-container 
+{
+    width: 10.88%;
+    min-width: 60px; /* for the browser width gets lets than 600px */
+    display: inline-block;
+    text-align: right;
+    vertical-align: middle;
+}
+@media only screen and ( max-width: 782px ) {
+    .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box .section-title-outer-container, 
+    .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .section-title-outer-container 
+    {
+        width: 87.8%;
+    }
 }
 
 /* 3.7.0+ For the button type collapsible sections, do not set a white color in the background */
@@ -173,6 +231,8 @@ tbody.admin-page-framework-collapsible-content.table-caption {
 /* 3.8.0+ In the collapsible section title, the space is too limited so the fields be displayed inline. */
 .admin-page-framework-collapsible-section-title .admin-page-framework-fields {
     display: inline;
+    vertical-align: middle; /* 3.8.13+ aligning fields in vertically center especially for the collapsible section title era. */
+    line-height: 1em; /* 3.8.13+ this helps aligning fields in vertically center. */
 }
 .admin-page-framework-collapsible-section-title .admin-page-framework-field {
     float: none;
@@ -183,7 +243,7 @@ tbody.admin-page-framework-collapsible-content.table-caption {
     vertical-align: middle; /* to have consistent vertical alignment with section title and fields. */
 }
 
-/* 3.8.7+ Collapsile section titles. To live with the `placement` argument enabled fields, the section title must be vertically centered. */
+/* 3.8.7+ Collapsible section titles. To live with the `placement` argument enabled fields, the section title must be vertically centered. */
 #poststuff .admin-page-framework-collapsible-title.admin-page-framework-collapsible-section-title .section-title-container.has-fields .section-title
 {
     width: auto;
