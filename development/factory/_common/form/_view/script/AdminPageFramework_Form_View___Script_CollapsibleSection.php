@@ -78,7 +78,8 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
             .hide();
         
         // Bind the click event to the title element.
-        jQuery( this ).find( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' ).enableAdminPageFrameworkCollapsibleButton();
+        jQuery( this ).find( '.admin-page-framework-collapsible-sections-title, .admin-page-framework-collapsible-section-title' )
+            .enableAdminPageFrameworkCollapsibleButton();
         
         // Insert the toggle all button.
         jQuery( this ).find( '.admin-page-framework-collapsible-title[data-toggle_all_button!=\"0\"]' ).each( function(){
@@ -146,6 +147,24 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
     $.fn.enableAdminPageFrameworkCollapsibleButton = function() {
         
         /**
+         * Determines whether the passed node element is of a field element.
+         * If there are fields in the section title area, clicking on those field elements should not collapse/expand the section. 
+         * @return  boolean
+         */
+        function _isFieldElement( nodeTarget ) {
+
+            if ( jQuery( nodeTarget ).hasClass( 'admin-page-framework-collapsible-button' ) ) {
+                return false;
+            }
+            var _sClickedTag = jQuery( nodeTarget ).prop( 'tagName' ).toLowerCase();
+            if ( -1 !== jQuery.inArray( _sClickedTag, [ 'input', 'label', 'fieldset', 'span' ] ) ) {
+                return true;
+            }
+            return false;
+            
+        }
+        
+        /**
          * Unbind the event first.
          * This is for widgets as the initial model widgets placed on the left side is dragged-and-dropped to a sidebar definition container.
          * Then the event binding will be lost so it needs to be rebound.
@@ -153,13 +172,11 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
         jQuery( this ).unbind( 'click' );   
         
         jQuery( this ).click( function( event, sContext ){
-        
-            // If a field element is clicked, do not collapse or expand the container box.
-            var _sClickedTag = jQuery( event. target ).prop( 'tagName' ).toLowerCase();
-            if ( -1 !== jQuery.inArray( _sClickedTag, [ 'input', 'span', 'label', 'fieldset' ] ) ) {
+       
+            if ( _isFieldElement( event.target ) ) {
                 return true;
             }
-            
+     
             // Expand or collapse this panel
             var _oThis = jQuery( this );
             var _sContainerType = jQuery( this ).hasClass( 'admin-page-framework-collapsible-sections-title' )
