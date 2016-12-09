@@ -133,7 +133,7 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
     width: auto;     
 } 
 .form-table td fieldset .admin-page-framework-field-size label {
-    display: inline;
+    display: inline-block;
 }
 CSSRULES;
     }
