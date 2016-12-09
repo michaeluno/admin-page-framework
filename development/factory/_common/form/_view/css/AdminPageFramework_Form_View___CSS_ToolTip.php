@@ -46,6 +46,7 @@ th > label > span > .admin-page-framework-form-tooltip {
 .admin-page-framework-section-title a.admin-page-framework-form-tooltip,
 .admin-page-framework-collapsible-title a.admin-page-framework-form-tooltip {
     margin-left: 1em;
+    vertical-align: middle; /* 3.8.13+ Fixes vertical alignment, especially in the collapsible section title area. */
 }
 
 
