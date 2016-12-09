@@ -507,6 +507,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 = 3.8.13 =
 - Added the `interactive`, `can_exceed_min`, `can_exceed_max`, and `allow_empty` arguments to the `no_ui_slider` field type.
+- Fixed a but that a vertical scrollbar appeared in an admin page that has a form when the browser width is less than 900px.
 - Tweaked tye style of section tabs for WordPress 4.7.
 
 = 3.8.12 - 2016/11/28 =
