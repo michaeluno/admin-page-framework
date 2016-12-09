@@ -4,8 +4,11 @@ downloadWPCLI() {
     # Latest
     # download https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar "$1"
     
-    # 0.24.1 @issue https://github.com/wp-cli/wp-cli/issues/2953
-    download https://github.com/wp-cli/wp-cli/releases/download/v0.24.1/wp-cli-0.24.1.phar "$1"
+    # 1.0.0
+    download https://github.com/wp-cli/wp-cli/releases/download/v1.0.0/wp-cli-1.0.0.phar "$1"
+    
+    # 0.24.1 @issue https://github.com/wp-cli/wp-cli/issues/2953, 
+    # download https://github.com/wp-cli/wp-cli/releases/download/v0.24.1/wp-cli-0.24.1.phar "$1"
     
     # 0.20.4 Problem: Creates a directory to the project working dir
     # download https://github.com/wp-cli/wp-cli/releases/download/v0.20.4/wp-cli-0.20.4.phar "$1"

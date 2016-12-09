@@ -141,7 +141,7 @@ class AdminPageFramework_Property_Base_Test extends \WP_UnitTestCase {
             'sDomainPath'   => AdminPageFramework_Registry::TEXT_DOMAIN_PATH,
      */
     public function test__getLibraryData() {
-        
+
         $_aLibraryData = AdminPageFramework_ClassTester::call(
             $this->_oProp,      // class object instance
             '_getLibraryData',  // method name

@@ -175,6 +175,7 @@ installWPTestSuite() {
     # Download WordPress unit test suite library
     local WP_TEST_SUITES_TEMP_DIR="$TEMP/wordpress-tests-lib"
     svn export --force --quiet "https://develop.svn.wordpress.org/${WP_TESTS_TAG}/tests/phpunit/includes/" "$WP_TEST_SUITES_TEMP_DIR/includes"
+    svn export --force --quiet "https://develop.svn.wordpress.org/${WP_TESTS_TAG}/tests/phpunit/data/" "$WP_TEST_SUITES_TEMP_DIR/data"
     
     # if [[ $WP_MULTISITE = 1 ]]; then
         # may download multisite.xml for phpUnit

@@ -34,7 +34,7 @@ class AdminPageFramework_Test extends \WP_UnitTestCase {
      * @group   class_exists
      */
     public function test_AdminPageFramework_class_exists() {
-        
+
         codecept_debug( AdminPageFramework_Registry::NAME . ' ' . AdminPageFramework_Registry::getVersion() );
         codecept_debug( AdminPageFramework_Registry::$sFilePath );
           
