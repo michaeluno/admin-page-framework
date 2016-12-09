@@ -58,7 +58,7 @@ class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form
 .admin-page-framework-section-tab {
     background-color: transparent;
     vertical-align: bottom; /* for Firefox */
-    margin-bottom: -1px;    /* For WP 3.4.4+ */
+    margin-bottom: -2px;    /* For WP 3.4.4+, 3.8.13 Changed it from -1px for WP 4.7. */
     margin-left: 0px;
     margin-right: 0.5em;
     background-color: #F1F1F1;
