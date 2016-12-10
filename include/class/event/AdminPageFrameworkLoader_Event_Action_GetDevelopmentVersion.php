@@ -40,7 +40,7 @@ class AdminPageFrameworkLoader_Event_Action_GetDevelopmentVersion {
     public function replyToDoAction() {
         AdminPageFramework_WPUtility::setTransient(
             AdminPageFrameworkLoader_Registry::TRANSIENT_PREFIX . 'devver',
-            $this->_getVersion(), // data - if an error occurs, an empty string will be given
+            $this->___getVersion(), // data - if an error occurs, an empty string will be given
             604800 // for one week
         );        
     }
@@ -49,12 +49,11 @@ class AdminPageFrameworkLoader_Event_Action_GetDevelopmentVersion {
          * 
          * @return      string
          */
-        private function _getVersion() {
+        private function ___getVersion() {
             
             $_oUtil     = new AdminPageFramework_WPUtility;
-            $_sPageBody = $this->_getPageBody();
-            $_aHeaders  = $_oUtil->getScriptData( 
-                $_sPageBody, 
+            $_aHeaders  = $_oUtil->getScriptData(
+                $this->___getPageBody(),
                 '',  /// context
                 array( 'version' => 'Version' ) 
             );
@@ -63,22 +62,23 @@ class AdminPageFrameworkLoader_Event_Action_GetDevelopmentVersion {
                 'version', // dimensional keys
                 ''  // default
             );
+
         }
-        /**
-         * @return      string
-         */
-        private function _getPageBody() {
-            $_mResponse = wp_remote_get(
-                $this->sVersionTextURL, 
-                array( 
-                    //  3.7  or later, it should be true
-                    'sslverify'  => version_compare( $GLOBALS[ 'wp_version' ], '3.7', '>=' )
-                ) 
-            );             
-            if ( is_wp_error( $_mResponse ) ) {
-                return '';
+            /**
+             * @return      string
+             */
+            private function ___getPageBody() {
+                $_mResponse = wp_remote_get(
+                    $this->sVersionTextURL,
+                    array(
+                        //  3.7  or later, it should be true
+                        'sslverify'  => version_compare( $GLOBALS[ 'wp_version' ], '3.7', '>=' )
+                    )
+                );
+                if ( is_wp_error( $_mResponse ) ) {
+                    return '';
+                }
+                return wp_remote_retrieve_body( $_mResponse );
             }
-            return wp_remote_retrieve_body( $_mResponse );        
-        }
     
 }

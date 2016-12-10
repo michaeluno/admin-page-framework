@@ -18,7 +18,7 @@ class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFr
      * ( optional ) Use the setUp() method to define settings of this meta box.
      */
     public function setUp() {
-        add_action( 
+        $this->oUtil->registerAction(
             'current_screen', 
             array( $this, 'replyToDecideToLoad' ), 
             1
@@ -26,17 +26,21 @@ class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFr
     }
     
     public $_sDevelopmentVersion;
-    
-    public function replyToDecideToLoad( $oScreen ) {
+
+    /**
+     * @param       $oScreen
+     * @callback    action      current_screen
+     */
+    public function replyToDecideToLoad( /* $oScreen */ ) {
 
         if ( ! $this->_isInThePage() ) {
             return;
         }
         
         // For debugging, uncomment the below line to remove the transient.
-        // $this->oUtil->deleteTransient( 
-            // AdminPageFrameworkLoader_Registry::TRANSIENT_PREFIX . 'devver'
-        // );        
+//         $this->oUtil->deleteTransient(
+//             AdminPageFrameworkLoader_Registry::TRANSIENT_PREFIX . 'devver'
+//         );
         
         // Retrieve the development version.
         $this->_sDevelopmentVersion = $this->oUtil->getTransient( 
@@ -46,13 +50,13 @@ class AdminPageFrameworkLoader_AdminPageMetaBox_Notification extends AdminPageFr
         // Disable the meta box if the development version is not above the running one.
         if ( version_compare( AdminPageFramework_Registry::VERSION, $this->_sDevelopmentVersion, '>=' ) ) {
             $this->oProp->aPageSlugs = array();
-        }        
-        
+        }
+
         // If the value is not set, schedule retrieving the version.
         if ( empty( $this->_sDevelopmentVersion ) ) {
             $this->_scheduleEvent();
         }
-        
+
     }
         /**
          * @since       3.6.2
