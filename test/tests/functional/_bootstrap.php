@@ -5,11 +5,12 @@ $GLOBALS[ '_sProjectDirPath' ]  = dirname( dirname( dirname( dirname( __FILE__ )
 $_sTestSiteDirPath              = dirname( dirname( dirname( $GLOBALS['_sProjectDirPath'] ) ) );
 if ( ! $_sTestsDirPath ) {
     $_sTestsDirPath = $_sTestSiteDirPath . '/wordpress-tests-lib';
-}        
+}
+
+define( 'WP_USE_THEMES', false );
 
 // Referenced from bootstrap.php
 $GLOBALS[ '_sTestsDirPath' ] = $_sTestsDirPath;
-
 require_once $GLOBALS[ '_sTestsDirPath' ] . '/includes/functions.php';
 
 /**
@@ -26,14 +27,37 @@ $_file = $file;
 require_once( $GLOBALS[ '_sTestsDirPath' ] . '/includes/bootstrap.php' );
 $file = $_file;
 
-// Loading the library bootstrap before activating the loader plugin makes it possible not to load the development verision.
+// Loading the library bootstrap before activating the loader plugin makes it possible not to load the development version.
 // To test the development version just comment out this line.
 $_bUseCompiled = true;
 require_once( $GLOBALS[ '_sProjectDirPath' ] . '/library/apf/admin-page-framework.php' );
 
 $_noActivated = activate_plugin( 'admin-page-framework/admin-page-framework-loader.php' );
-$GLOBALS[ 'apf_loader_activated' ] = true;
+$GLOBALS[ 'apf_loader_activated' ] = null === $_noActivated;
 
 // Console messages
 codecept_debug( 'Testing against Complied Files: ' . ( empty( $_bUseCompiled ) ? 'No' : 'Yes' ) );        
-codecept_debug( 'Activated Admin Page Framework - Loader: ' . ( null === $_noActivated ? 'Yes' : 'No' ) );        
+codecept_debug( 'Activated Admin Page Framework - Loader: ' . ( null === $_noActivated ? 'Yes' : 'No' ) );
+
+class APF_UnitTestCase extends \WP_UnitTestCase {
+    /**
+     * @remark      Fixes the error: [PHPUnit_Framework_Exception] mysqli_query(): Couldn't fetch mysqli.
+     */
+    public static function tearDownAfterClass() {
+
+        PHPUnit_Framework_TestCase::tearDownAfterClass();
+
+        // This causes an error: [PHPUnit_Framework_Exception] mysqli_query(): Couldn't fetch mysqli
+        // _delete_all_data();
+        // self::flush_cache();
+
+        $c = self::get_called_class();
+        if ( ! method_exists( $c, 'wpTearDownAfterClass' ) ) {
+            return;
+        }
+
+        call_user_func( array( $c, 'wpTearDownAfterClass' ) );
+        self::commit_transaction();
+
+    }
+}

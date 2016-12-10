@@ -3,14 +3,17 @@ downloadCodeception() {
     
     # The Latest Version
     # download "http://codeception.com/codecept.phar" "$1"        
+
+# v2.2.7
+download "http://codeception.com/releases/2.2.7/php54/codecept.phar" "$1"
     
     # v2.1.6
-    download "http://codeception.com/releases/2.1.6/codecept.phar" "$1"
+# download "http://codeception.com/releases/2.1.6/codecept.phar" "$1"
     
     # v2.1 - $I->click() does not work...
     
     # v2.0.12 - Working but unable to set cURL timeouts in PHPBrowser. 
-# download "http://codeception.com/releases/2.0.12/codecept.phar" "$1"
+    # download "http://codeception.com/releases/2.0.12/codecept.phar" "$1"
     
     # v2.0.11 - Unable to set cURL timeouts in PHPBrowser.
     # download "http://codeception.com/releases/2.0.11/codecept.phar" "$1"

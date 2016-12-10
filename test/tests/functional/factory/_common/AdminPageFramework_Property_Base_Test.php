@@ -5,14 +5,14 @@
  */
 include_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/_bootstrap.php' );
 
-class AdminPageFramework_Property_FuncitonalTest extends AdminPageFramework_Property_Base {}
+class AdminPageFramework_Property_FunctionalTest extends AdminPageFramework_Property_Base {}
 
 /**
  * @group   factory
  * @group   utility
  * @group   core
  */
-class AdminPageFramework_Property_Base_Test extends \WP_UnitTestCase {
+class AdminPageFramework_Property_Base_Test extends \APF_UnitTestCase {
     
     private $_oProp;
   
@@ -21,7 +21,7 @@ class AdminPageFramework_Property_Base_Test extends \WP_UnitTestCase {
         parent::setUp();
         
         $this->_oProp = AdminPageFramework_ClassTester::getInstance(
-            'AdminPageFramework_Property_FuncitonalTest',
+            'AdminPageFramework_Property_FunctionalTest',
             array(  // these parameters are just passed not to fail the object instantiation
                 $this, 
                 __FILE__, 

@@ -10,7 +10,7 @@ include_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/_bootstrap.php' );
  * @group   utility
  * @group   core
  */
-class AdminPageFramework_Utility_URL_Test extends \WP_UnitTestCase {
+class AdminPageFramework_Utility_URL_Test extends \APF_UnitTestCase {
     
     /**
      * Sores the utility object.

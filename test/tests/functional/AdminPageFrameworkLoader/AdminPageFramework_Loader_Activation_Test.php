@@ -10,7 +10,7 @@ include_once( dirname( dirname( __FILE__ ) ) . '/_bootstrap.php' );
  * @group   utility
  * @group   loader
  */
-class AdminPageFramework_Loader_Active_Test extends \WP_UnitTestCase {
+class AdminPageFramework_Loader_Activation_Test extends \APF_UnitTestCase {
     
     /**
      * Sores the utility object.
@@ -18,17 +18,26 @@ class AdminPageFramework_Loader_Active_Test extends \WP_UnitTestCase {
     public $oUtil;
     
     public function setUp() {
-
         parent::setUp();
-        
     }
 
     public function tearDown() {
         parent::tearDown();
     }
-    
+
+    /**
+     * Checks DB connection.
+     * @group   wp
+     */
+    public function test_is_conected() {
+        $this->assertTrue(
+            $GLOBALS[ 'wpdb' ]->check_connection()
+        );
+    }
+
     /**
      * Check if the plugin is activated.
+     * @group   wp
      */
     public function test_is_active() {
         

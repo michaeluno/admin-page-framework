@@ -9,7 +9,7 @@ include_once( dirname( dirname( __FILE__ ) ) . '/_bootstrap.php' );
  * @group   boot
  * @group   core
  */
-class AdminPageFramework_Test extends \WP_UnitTestCase {
+class AdminPageFramework_Test extends \APF_UnitTestCase {
     
     /**
      * Sores the utility object.

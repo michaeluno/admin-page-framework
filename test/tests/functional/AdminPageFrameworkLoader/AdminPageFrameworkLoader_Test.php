@@ -10,7 +10,7 @@ include_once( dirname( dirname( __FILE__ ) ) . '/_bootstrap.php' );
  * @group   utility
  * @group   loader
  */
-class AdminPageFramework_Loader_Test extends \WP_UnitTestCase {
+class AdminPageFramework_Loader_Test extends \APF_UnitTestCase {
     
     /**
      * Sores the utility object.
@@ -18,9 +18,7 @@ class AdminPageFramework_Loader_Test extends \WP_UnitTestCase {
     public $oUtil;
     
     public function setUp() {
-        
         parent::setUp();
-        
     }
 
     public function tearDown() {
