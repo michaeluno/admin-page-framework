@@ -57,8 +57,6 @@ class AdminPageFramework_CSS {
     /* display: inline-table; */ /* @deprecated 3.5.0. Fixes the bottom margin getting placed at the top. */
     /* [3.5.0+] The above display: inline-table makes it hard to display code blocks with overflow as container cannot have solid width. */
     display: block; 
-    
-    overflow: hidden; /* 3.8.13+ Fixes scrollbars which appear when the browser width is less than 900 */
 
 }
 .admin-page-framework-content > #post-body-content{
