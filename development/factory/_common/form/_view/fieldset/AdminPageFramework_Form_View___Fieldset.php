@@ -71,7 +71,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
          * @since   3.8.0   Added the `$aFieldset` parameter
          * @return  string
          */ 
-        private function _getFieldsOutput( array $aFieldset, array $aFields, array $aCallbacks=array() ) {
+        private function _getFieldsOutput( $aFieldset, array $aFields, array $aCallbacks=array() ) {
 
             $_aOutput = array();
             foreach( $aFields as $_isIndex => $_aField ) {
@@ -94,7 +94,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
              * @since       3.5.3
              * @return      string      the HTML output of the given field.
              */
-            private function _getEachFieldOutput( array $aField, $isIndex, array $aCallbacks, $bIsLastElement=false ) {
+            private function _getEachFieldOutput( $aField, $isIndex, array $aCallbacks, $bIsLastElement=false ) {
                 
                 // Field type definition - allows mixed field types in sub-fields 
                 $_aFieldTypeDefinition = $this->_getFieldTypeDefinition( $aField[ 'type' ] );
@@ -251,7 +251,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
              * @return      string
              * @since       3.8.0
              */
-            private function _getChildFieldTitle( array $aFieldset ) {
+            private function _getChildFieldTitle( $aFieldset ) {
 
                 if ( ! $aFieldset[ '_nested_depth' ] ) {
                     return '';
