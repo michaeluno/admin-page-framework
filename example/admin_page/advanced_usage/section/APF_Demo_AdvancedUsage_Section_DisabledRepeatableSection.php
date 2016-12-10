@@ -73,10 +73,13 @@ class APF_Demo_AdvancedUsage_Section_DisabledRepeatableSection {
                     <<<EOD
 array(
     'repeatable'        => array(
-        'disabled'               => true,
-        'label_disabled'         => __( 'The ability to repeat sections is disabled.' )
-            . ' ' . __( 'You can insert your custom message here....' ),
-        'label_disabled_caption' => __( 'Your Program Name' ),
+        'disabled'               => array(
+            'label'         => __( 'The ability to repeat sections is disabled.', 'admin-page-framework-loader' )
+                . ' ' . __( 'You can insert your custom message here such as \"Upgrade the program to enhance this feature!\"', 'admin-page-framework-loader' ),
+            'caption'       => __( 'Your Program Name', 'admin-page-framework-loader' ),
+            'box_width'     => 300,
+            'box_height'    => 100,
+        ),
     ),
 )
 EOD
