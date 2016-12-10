@@ -129,7 +129,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                  * @since       3.8.0
                  * @return      string
                  */ 
-                private function _getFieldOutput( $sContent, array $aField, $bIsLastElement ) {
+                private function _getFieldOutput( $sContent, $aField, $bIsLastElement ) {
                     $_oFieldAttribute = new AdminPageFramework_Form_View___Attribute_Field( $aField );
                     return $aField[ 'before_field' ]
                         . "<div " . $_oFieldAttribute->get() . ">"
@@ -145,7 +145,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                  * @since       3.6.0
                  * @return      string
                  */
-                private function _getUnsetFlagFieldInputTag( array $aField ) {
+                private function _getUnsetFlagFieldInputTag( $aField ) {
                     
                     if ( false !== $aField[ 'save' ] ) {                
                         return '';
@@ -183,7 +183,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                  * @since       3.5.3
                  * @return      string      the HTML output of delimiter
                  */
-                private function _getDelimiter( array $aField, $bIsLastElement ) {
+                private function _getDelimiter( $aField, $bIsLastElement ) {
                     return $aField[ 'delimiter' ]
                         ? "<div " . $this->getAttributes( 
                                 array(
@@ -207,7 +207,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
          * @since       3.1.0
          * @return      string
          */
-        private function _getFinalOutput( array $aFieldset, array $aFieldsOutput, $iFieldsCount ) {
+        private function _getFinalOutput( $aFieldset, array $aFieldsOutput, $iFieldsCount ) {
                             
             $_oFieldsetAttributes   = new AdminPageFramework_Form_View___Attribute_Fieldset( $aFieldset );
             return $aFieldset[ 'before_fieldset' ]
@@ -226,7 +226,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
              * @return      string
              * @since       3.8.0
              */
-            private function _getEmbeddedFieldTitle( array $aFieldset ) {
+            private function _getEmbeddedFieldTitle( $aFieldset ) {
                 
                 if ( ! $aFieldset[ '_is_title_embedded' ] ) {
                     return '';
@@ -326,7 +326,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                  * @since       3.6.0
                  * @return      string
                  */
-                private function _getDynamicElementFlagFieldInputTag( array $aFieldset ) {
+                private function _getDynamicElementFlagFieldInputTag( $aFieldset ) {
                     
                     if ( $aFieldset[ 'repeatable' ] ) {
                         return $this->_getRepeatableFieldFlagTag( $aFieldset );
@@ -341,7 +341,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                      * @since       3.6.2
                      * @return      string
                      */
-                    private function _getRepeatableFieldFlagTag( array $aFieldset ) {
+                    private function _getRepeatableFieldFlagTag( $aFieldset ) {
                         return $this->getHTMLTag( 
                             'input',
                             array(
@@ -358,7 +358,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                      * @since       3.6.2
                      * @return      string
                      */
-                    private function _getSortableFieldFlagTag( array $aFieldset ) {
+                    private function _getSortableFieldFlagTag( $aFieldset ) {
                         return $this->getHTMLTag( 
                             'input',
                             array(
