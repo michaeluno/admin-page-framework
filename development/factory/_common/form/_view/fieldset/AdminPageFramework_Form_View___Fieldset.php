@@ -328,10 +328,10 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                  */
                 private function _getDynamicElementFlagFieldInputTag( $aFieldset ) {
                     
-                    if ( $aFieldset[ 'repeatable' ] ) {
+                    if ( ! empty( $aFieldset[ 'repeatable' ] ) ) {
                         return $this->_getRepeatableFieldFlagTag( $aFieldset );
                     }
-                    if ( $aFieldset[ 'sortable' ] ) {
+                    if ( ! empty( $aFieldset[ 'sortable' ] ) ) {
                         return $this->_getSortableFieldFlagTag( $aFieldset );
                     }
                     return '';
@@ -383,14 +383,14 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                     $_aOutput   = array();
                     
                     // Add the repeater script 
-                    $_aOutput[] = $aField[ 'repeatable' ]
-                        ? $this->_getRepeaterFieldEnablerScript( 'fields-' . $aField['tag_id'], $iFieldsCount, $aField['repeatable'] )
+                    $_aOutput[] = ! empty( $aField[ 'repeatable' ] )
+                        ? $this->_getRepeaterFieldEnablerScript( 'fields-' . $aField[ 'tag_id' ], $iFieldsCount, $aField[ 'repeatable' ] )
                         : '';
 
                     // Add the sortable script - if the number of fields is only one, no need to sort the field. 
                     // Repeatable fields can make the number increase so here it checks the repeatability.
-                    $_aOutput[] = $aField['sortable'] && ( $iFieldsCount > 1 || $aField['repeatable'] )
-                        ? $this->_getSortableFieldEnablerScript( 'fields-' . $aField['tag_id'] )
+                    $_aOutput[] = ! empty( $aField[ 'sortable' ] ) && ( $iFieldsCount > 1 || ! empty( $aField[ 'repeatable' ] ) )
+                        ? $this->_getSortableFieldEnablerScript( 'fields-' . $aField[ 'tag_id' ] )
                         : '';     
                     
                     return implode( PHP_EOL, $_aOutput );
