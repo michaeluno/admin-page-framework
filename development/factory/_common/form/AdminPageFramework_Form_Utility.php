@@ -125,11 +125,26 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
         if ( count( $aFields ) > 1 ) {
             return true;
         }
-        if ( $aField[ 'repeatable' ] || $aField[ 'sortable' ] ) {
+        if ( self::isDynamicField( $aField ) ) {
             return true;
         }
         return false;
         
+    }
+
+    /**
+     * Checks whether the given field is dynamic.
+     * @return      boolean
+     * @since       3.8.13
+     */
+    static public function isDynamicField( $aField ) {
+        if ( ! empty( $aField[ 'repeatable' ] ) ) {
+            return true;
+        }
+        if ( ! empty( $aField[ 'sortable' ] ) ) {
+            return true;
+        }
+        return false;
     }
     
     /**
@@ -218,7 +233,6 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
         if ( 'section_title' === $aFieldset[ 'type' ] ) { 
             return false;
         }
-        
         return 'normal' === $aFieldset[ 'placement' ];  
         
     }    
