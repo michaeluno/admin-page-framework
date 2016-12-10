@@ -54,8 +54,8 @@ class AdminPageFramework_Form_View___Attribute_Fields extends AdminPageFramework
         return array(
             'id'            => $this->sContext . '-' . $this->aArguments[ 'tag_id' ],
             'class'         => 'admin-page-framework-' . $this->sContext
-                . $this->getAOrB( $this->aArguments[ 'repeatable' ], ' repeatable dynamic-fields', '' ) // 3.6.0+ Added the 'dynamic-fields' class selector.
-                . $this->getAOrB( $this->aArguments[ 'sortable' ], ' sortable dynamic-fields', '' ),
+                . $this->getAOrB( ! empty( $this->aArguments[ 'repeatable' ] ), ' repeatable dynamic-fields', '' ) // 3.6.0+ Added the 'dynamic-fields' class selector.
+                . $this->getAOrB( ! empty( $this->aArguments[ 'sortable' ] ), ' sortable dynamic-fields', '' ),
 
             // referred by the sortable field JavaScript script.
             'data-type'     => $this->aArguments[ 'type' ], 

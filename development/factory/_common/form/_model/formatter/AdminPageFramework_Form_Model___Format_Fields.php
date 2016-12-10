@@ -87,7 +87,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
          * @since       3.5.3
          * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
          */
-        private function _getFieldsWithSubs( array $aField, $mSavedValue ) {
+        private function _getFieldsWithSubs( $aField, $mSavedValue ) {
 
             // Separate the first field and sub-fields
             $aFirstField    = array();
@@ -115,7 +115,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
              * @internal
              * @return      void
              */
-            private function _divideMainAndSubFields( array $aField, array &$aFirstField, array &$aSubFields ) {
+            private function _divideMainAndSubFields( $aField, array &$aFirstField, array &$aSubFields ) {
                 foreach( $aField as $_nsIndex => $_mFieldElement ) {
                     if ( is_numeric( $_nsIndex ) ) {
                         $aSubFields[] = $_mFieldElement;
@@ -135,8 +135,8 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
              * @internal
              * @return      void
              */
-            private function _fillRepeatableElements( array $aField, array &$aSubFields, $mSavedValue ) {
-                if ( ! $aField[ 'repeatable' ] ) {
+            private function _fillRepeatableElements( $aField, array &$aSubFields, $mSavedValue ) {
+                if ( empty( $aField[ 'repeatable' ] ) ) {
                     return;
                 }
                 $_aSavedValues = ( array ) $mSavedValue;
@@ -211,7 +211,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
          * @since       3.5.3
          * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
          */
-        private function _setFieldsValue( array &$aFields ) {
+        private function _setFieldsValue( &$aFields ) {
             foreach( $aFields as &$_aField ) {
                 $_aField[ '_is_value_set_by_user' ] = isset( $_aField[ 'value' ] );
                 $_aField[ 'value' ]                 = $this->_getSetFieldValue( $_aField );
@@ -224,7 +224,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
              * @since       3.5.3
              * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
              */
-            private function _getSetFieldValue( array $aField ) {
+            private function _getSetFieldValue( $aField ) {
                 
                 if ( isset( $aField[ 'value' ] ) ) {
                     return $aField[ 'value' ];
