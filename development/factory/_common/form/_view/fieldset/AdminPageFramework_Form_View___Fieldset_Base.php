@@ -225,26 +225,23 @@ JAVASCRIPTS;
          * @return      string
          */
         private function ___getRepeatableButtonHTML( $sFieldsContainerID, array $aSettings, $iFieldCount, $bSmall=true ) {
-            
-            $_sAdd                  = $this->oMsg->get( 'add' );
-            $_sRemove               = $this->oMsg->get( 'remove' );            
-            $_sVisibility           = $iFieldCount <= 1 ? " style='visibility: hidden;'" : "";
-            $_sSettingsAttributes   = $this->getDataAttributes( $aSettings );
-            $_sSmallButtonSelector  = $bSmall ? ' button-small' : '';
-                
-            // Not using dash-icons at the moment.
-            $_sDashiconPlus         = '';
-            $_sDashiconMinus        = '';
-            
-            return "<div class='admin-page-framework-repeatable-field-buttons' {$_sSettingsAttributes} >"
-                . "<a class='repeatable-field-remove-button button-secondary repeatable-field-button button {$_sSmallButtonSelector}{$_sDashiconMinus}' title='{$_sRemove}' {$_sVisibility} data-id='{$sFieldsContainerID}'>"
-                  . '-'
-                . "</a>"
-                . "<a class='repeatable-field-add-button button-secondary repeatable-field-button button {$_sSmallButtonSelector}{$_sDashiconPlus}' title='{$_sAdd}' data-id='{$sFieldsContainerID}'>"
-                    . '+'
-                . "</a>"                
-            . "</div>";        
 
+            $_sSmallButtonSelector   = $bSmall ? ' button-small' : '';
+            $_aMinusButtonAttributes = array(
+                'class'     => 'repeatable-field-remove-button button-secondary repeatable-field-button button' . $_sSmallButtonSelector,
+                'title'     => $this->oMsg->get( 'remove' ),
+                'style'     => $iFieldCount <= 1 ? 'visibility: hidden' : null,
+                'data-id'   => $sFieldsContainerID,
+            );
+            $_sPlusButtonAttributes  = array(
+                'class'     => 'repeatable-field-add-button button-secondary repeatable-field-button button' . $_sSmallButtonSelector,
+                'title'     => $this->oMsg->get( 'add' ),
+                'data-id'   => $sFieldsContainerID,
+            );
+            return "<div class='admin-page-framework-repeatable-field-buttons' " . $this->getDataAttributes( $aSettings ) . " >"
+                . "<a " . $this->getAttributes( $_aMinusButtonAttributes ) . ">-</a>"
+                . "<a " . $this->getAttributes( $_sPlusButtonAttributes ) . ">+</a>"
+            . "</div>";
         
         }
         
