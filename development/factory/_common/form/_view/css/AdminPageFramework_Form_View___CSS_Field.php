@@ -199,10 +199,26 @@ td.admin-page-framework-field-td-no-title {
     font-size: 1.2em;
     padding-left: 0.2em;
     padding-right: 0.22em;
-
+    min-width: 1em; /* 3.8.13+ prevent the icon width from getting to narrow */
+}
+@media screen and (max-width: 782px) {
+    .admin-page-framework-field .button.button-small.dashicons {
+        min-width: 1.8em; /* 3.8.13+ prevent the icon width from getting to narrow */
+    }
 }
 
-/* Field TItle 3.8.0+ */
+/* Image icons vertical alignments 3.8.13+ */
+.admin-page-framework-field .button.button-small.dashicons:before {
+    position: relative;
+    top: 7.2%;
+}
+@media screen and (max-width: 782px) {
+    .admin-page-framework-field .button.button-small.dashicons:before {
+        top: 8.2%;
+    }
+}
+
+/* Field Title 3.8.0+ */
 .admin-page-framework-field-title {
     font-weight: 600;
     min-width: 80px;
