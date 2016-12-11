@@ -446,7 +446,8 @@ JAVASCRIPTS;
         }
 
         new self( $oMsg );
-        $_aArguments    = self::___getArgumentsFormatted( $asArguments, $oMsg );
+        $_oFormatter    = new AdminPageFramework_Form_Model___Format_RepeatableSection( $asArguments, $oMsg );
+        $_aArguments    = $_oFormatter->get();
         $_sButtons      = "<div class='admin-page-framework-repeatable-section-buttons-outer-container'>"
                 . "<div " . self::getAttributes( self::___getContainerAttributes( $_aArguments, $oMsg ) ) . ' ' . self::getDataAttributes( $_aArguments ) . '>'
                     . "<a " . self::getAttributes( self::___getRemoveButtonAttributes( $sContainerTagID, $oMsg, $iSectionCount ) ) . ">-</a>"
@@ -488,31 +489,6 @@ JAVASCRIPTS;
             . "</script>";
             
     }
-
-        /**
-         * @param   $aArguments
-         * @return  array
-         * @since   3.8.13
-         */
-        static private function ___getArgumentsFormatted( $asArguments, $oMsg ) {
-            $_aArguments = self::getAsArray( $asArguments );
-            unset( $_aArguments[ 0 ] );   // remove the 0 index element converted from `'repeatable   => 'true',`.
-            $_aArguments = $_aArguments
-               + array(
-                    'min'                       => 0,
-                    'max'                       => 0,
-                    'disabled'                  => false,
-               );
-            if ( ! empty( $_aArguments[ 'disabled' ] ) ) {
-                $_aArguments[ 'disabled' ] = $_aArguments[ 'disabled' ] + array(
-                    'label'      => $oMsg->get( 'repeatable_section_is_disabled' ),
-                    'caption'    => $oMsg->get( 'warning_caption' ),
-                    'box_width'  => 300,
-                    'box_height' => 100,
-                );
-            }
-            return $_aArguments;
-        }
 
         /**
          * @param   $aArguments
