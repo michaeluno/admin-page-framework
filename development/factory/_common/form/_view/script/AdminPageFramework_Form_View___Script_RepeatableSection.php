@@ -454,7 +454,10 @@ JAVASCRIPTS;
                     . "<a " . self::getAttributes( self::___getAddButtonAttributes( $sContainerTagID, $oMsg, $_aArguments ) ) . ">+</a>"
                 . "</div>"
             . "</div>"
-            . self::___getModalForDisabledMessage( $sContainerTagID, $_aArguments );
+            . AdminPageFramework_Form_Utility::getModalForDisabledRepeatableElement(
+                'repeatable_section_disabled_' . $sContainerTagID,
+                $_aArguments[ 'disabled' ]
+            );
         $_sButtonsHTML  = '"' . $_sButtons . '"';
         $_aJSArray      = json_encode( $_aArguments );
         $_sScript       = <<<JAVASCRIPTS
@@ -489,23 +492,6 @@ JAVASCRIPTS;
             . "</script>";
             
     }
-
-        /**
-         * @param   $aArguments
-         * @return  string
-         */
-        static private function ___getModalForDisabledMessage( $sContainerTagID, $aArguments ) {
-            if ( empty( $aArguments[ 'disabled' ] ) ) {
-                return '';
-            }
-            add_thickbox(); // to display a message to the user.
-            return "<div id='repeatable_section_disabled_{$sContainerTagID}' style='display:none'>"
-                    . "<p>"
-                        . $aArguments[ 'disabled' ][ 'label' ]
-                    . "</p>"
-                . "</div>";
-        }
-
 
         /**
          * @param   $aArguments
@@ -550,7 +536,7 @@ JAVASCRIPTS;
                     ? '#TB_inline?width=' . $aArguments[ 'disabled' ][ 'box_width' ]
                         . '&height=' . $aArguments[ 'disabled' ][ 'box_height' ]
                         . '&inlineId=' . 'repeatable_section_disabled_' . $sContainerTagID
-                    : '',
+                    : null,
             );
         }
 

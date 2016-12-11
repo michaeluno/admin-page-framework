@@ -157,12 +157,12 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
     // static public function isParentFieldDynamic( $aFieldset ) {
 // return false;        
     // }
-    
+
     /**
      * Adds a trailing pipe (|) character to the given string value.
-     * 
+     *
      * Used to construct a field path.
-     * 
+     *
      * @return      string
      * @since       3.8.0
      */
@@ -171,23 +171,23 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
             return $sString;
         }
         return $sString . '|';
-    }    
-    
+    }
+
     /**
      * Re-formats the field-set definition with the passed sub-field index. The field path and other internal keys need to be updated to insert a sub-field index.
-     * 
+     *
      * It is assumed that the passed field-set definition array is already formatted as this is for sub-fields of nested field-sets.
-     * 
+     *
      * This is used for nested and inline-mixed field types.
-     * 
+     *
      * @internal
      * @since       3.8.0
      * @return      array
      */
     static public function getFieldsetReformattedBySubFieldIndex( array $aFieldset, $iSubFieldIndex, $bHasSubFields, array $aParentFieldset ) {
-        
+
         $_oCallerForm   = $aFieldset[ '_caller_object' ];
-        
+
         // Add sub-field index to the parent field path for repeated nested items.
         $aFieldset[ '_parent_field_path' ]   = self::getAOrB(
             $bHasSubFields,
@@ -199,43 +199,66 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
             $aParentFieldset[ 'tag_id' ] . '__' . $iSubFieldIndex,
             $aParentFieldset[ 'tag_id' ]
         );
-        
+
         // Re-format the field-set definition array to re-construct field path and relevant attribute IDs and names.
         $_oFieldsetFormatter = new AdminPageFramework_Form_Model___Format_Fieldset(
-            $aFieldset, 
+            $aFieldset,
             $aFieldset[ '_structure_type' ],
-            $aFieldset[ 'capability' ], 
+            $aFieldset[ 'capability' ],
             ( integer ) $iSubFieldIndex + 1,   // 1-based count (not index)
-            $aFieldset[ '_subsection_index' ], 
+            $aFieldset[ '_subsection_index' ],
             $aFieldset[ '_is_section_repeatable' ],
             $aFieldset[ '_caller_object' ]
-        );                        
+        );
         $aFieldset = $_oFieldsetFormatter->get();
-        
+
         $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput(
             $aFieldset,
             $aFieldset[ '_section_index' ],    // `_section_index` is defined in the ...FieldsetOutput class. Since this is a nested item, it should be already set.
             $_oCallerForm->aFieldTypeDefinitions
-        );         
+        );
         return $_oFieldsetOutputFormatter->get();
-    
-    }    
-    
+
+    }
+
     /**
      * Checks whether the field placement is normal.
-     * 
+     *
      * @since       3.8.0
      * @internal
      * @return      boolean
      */
     static public function isNormalPlacement( array $aFieldset ) {
-        
-        if ( 'section_title' === $aFieldset[ 'type' ] ) { 
+
+        if ( 'section_title' === $aFieldset[ 'type' ] ) {
             return false;
         }
-        return 'normal' === $aFieldset[ 'placement' ];  
-        
-    }    
-    
+        return 'normal' === $aFieldset[ 'placement' ];
+
+    }
+
+    /**
+     * Generates an HTML element for the WordPress modal window to display user-defined message
+     * for disabled repeatable elements including repeatable sections and fields.
+     *
+     * @since   3.8.13
+     * @param   string  $sBoxElementID
+     * @param   array   $aArguments         The `disabled` argument of a repeatable field/section.
+     * @return  string  A generated container element for the modal window.
+     */
+    static public function getModalForDisabledRepeatableElement( $sBoxElementID, $aArguments ) {
+
+        if ( empty( $aArguments ) ) {
+            return '';
+        }
+        if ( self::hasBeenCalled( 'disabled_repeatable_elements_modal_' . $sBoxElementID ) ) {
+            return '';
+        }
+        add_thickbox(); // to display a message to the user.
+        return "<div id='{$sBoxElementID}' style='display:none'>"
+                . "<p>" . $aArguments[ 'label' ] . "</p>"
+            . "</div>";
+
+    }
     
 }

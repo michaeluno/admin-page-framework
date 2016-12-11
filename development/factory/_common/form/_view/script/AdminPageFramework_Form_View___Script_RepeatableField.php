@@ -51,10 +51,12 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
         }
         if ( ! $.fn.aAdminPageFrameworkRepeatableFieldsOptions.hasOwnProperty( _sFieldsContainerID ) ) {     
             $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ _sFieldsContainerID ] = $.extend({    
-                max: 0, // These are the defaults.
+                // These are the defaults.
+                max: 0, 
                 min: 0,
                 fadein: 500,
                 fadeout: 500,
+                disabled: false,    // 3.8.13+
                 }, aSettings );
         }
         var _aOptions = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ _sFieldsContainerID ];
@@ -71,6 +73,14 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
 // @todo For nested fields, the `find()` method should be avoided.         
         $( nodeThis ).find( '.repeatable-field-add-button' ).unbind( 'click' );
         $( nodeThis ).find( '.repeatable-field-add-button' ).click( function() {
+        
+            // 3.8.13+ 
+            if ( $( this ).parent().data( 'disabled' ) ) {
+                var _aDisabled = $( this ).parent().data( 'disabled' );
+                tb_show( _aDisabled[ 'caption' ], $( this ).attr( 'href' ) );    
+                return false;
+            }        
+        
             $( this ).addAdminPageFrameworkRepeatableField();
             return false; // will not click after that
         });

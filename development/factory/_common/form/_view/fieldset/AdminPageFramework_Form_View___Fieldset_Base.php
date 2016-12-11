@@ -224,8 +224,11 @@ JAVASCRIPTS;
          * @since       3.8.0
          * @return      string
          */
-        private function ___getRepeatableButtonHTML( $sFieldsContainerID, array $aSettings, $iFieldCount, $bSmall=true ) {
+        private function ___getRepeatableButtonHTML( $sFieldsContainerID, array $aArguments, $iFieldCount, $bSmall=true ) {
 
+            // @todo Move this formatting routine to the field-set formatter class.
+            $_oFormatter             = new AdminPageFramework_Form_Model___Format_RepeatableField( $aArguments, $this->oMsg );
+            $_aArguments             = $_oFormatter->get();
             $_sSmallButtonSelector   = $bSmall ? ' button-small' : '';
             $_aMinusButtonAttributes = array(
                 'class'     => 'repeatable-field-remove-button button-secondary repeatable-field-button button' . $_sSmallButtonSelector,
@@ -237,15 +240,23 @@ JAVASCRIPTS;
                 'class'     => 'repeatable-field-add-button button-secondary repeatable-field-button button' . $_sSmallButtonSelector,
                 'title'     => $this->oMsg->get( 'add' ),
                 'data-id'   => $sFieldsContainerID,
+                'href'      => empty( $_aArguments[ 'disabled' ] )
+                    ? null
+                    : '#TB_inline?width=' . $aArguments[ 'disabled' ][ 'box_width' ]
+                        . '&height=' . $aArguments[ 'disabled' ][ 'box_height' ]
+                        . '&inlineId=' . 'repeatable_field_disabled_' . $sFieldsContainerID,
             );
-            return "<div class='admin-page-framework-repeatable-field-buttons' " . $this->getDataAttributes( $aSettings ) . " >"
-                . "<a " . $this->getAttributes( $_aMinusButtonAttributes ) . ">-</a>"
-                . "<a " . $this->getAttributes( $_sPlusButtonAttributes ) . ">+</a>"
-            . "</div>";
-        
+            return "<div class='admin-page-framework-repeatable-field-buttons' " . $this->getDataAttributes( $_aArguments ) . " >"
+                    . "<a " . $this->getAttributes( $_aMinusButtonAttributes ) . ">-</a>"
+                    . "<a " . $this->getAttributes( $_sPlusButtonAttributes ) . ">+</a>"
+                . "</div>"
+                . $this->getModalForDisabledRepeatableElement(
+                    'repeatable_field_disabled_' . $sFieldsContainerID,
+                    $_aArguments[ 'disabled' ]
+                );
+
         }
-        
-    
+
     /**
      * Returns the sortable fields script.
      * 

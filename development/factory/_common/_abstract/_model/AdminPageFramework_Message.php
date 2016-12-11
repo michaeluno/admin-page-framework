@@ -130,8 +130,9 @@ class AdminPageFramework_Message {
         'peak_memory_usage'                     => 'Peak memory usage %1$s MB.', 
         'initial_memory_usage'                  => 'Initial memory usage  %1$s MB.', 
 
-        // Repeatable sections
-        'repeatable_section_is_disabled'        => 'The ability to repeat sections is disabled.',   // 3.8.13+
+        // Repeatable sections & fields
+        'repeatable_section_is_disabled'        => 'The ability to repeat sections is disabled.', // 3.8.13+
+        'repeatable_field_is_disabled'          => 'The ability to repeat fields is disabled.',   // 3.8.13+
         'warning_caption'                       => 'Warning',   // 3.8.13+
 
         // AdminPageFramework_FormField
@@ -430,6 +431,7 @@ class AdminPageFramework_Message {
         __( 'Section Arguments', 'admin-page-framework' ); // 3.8.8+
 
         __( 'The ability to repeat sections is disabled.', 'admin-page-framework' ); // 3.8.13+
+        __( 'The ability to repeat fields is disabled.', 'admin-page-framework' ); // 3.8.13+
         __( 'Warning.', 'admin-page-framework' ); // 3.8.13+
 
     }
