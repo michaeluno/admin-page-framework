@@ -70,7 +70,6 @@ class APF_Demo_AdvancedUsage_Section {
             'APF_Demo_AdvancedUsage_Section_Collapsible_D',
             'APF_Demo_AdvancedUsage_Section_CollapsibleType_Button',
             'APF_Demo_AdvancedUsage_Section_Collapsible_Repeatable',
-            'APF_Demo_AdvancedUsage_Section_DisabledRepeatableSection',
         );
         foreach ( $_aClasses as $_sClassName ) {
             if ( ! class_exists( $_sClassName ) ) {
