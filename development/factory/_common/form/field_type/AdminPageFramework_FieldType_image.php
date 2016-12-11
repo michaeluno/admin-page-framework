@@ -538,11 +538,12 @@ JAVASCRIPTS;
 .remove_image.button.button-small {
     margin-left: 0.2em;
 }
+
 @media screen and (max-width: 782px) {
     .admin-page-framework-field-image input {
         margin: 0.5em 0.5em 0.5em 0;
     }
-}     
+}
 CSSRULES;
 
     }
