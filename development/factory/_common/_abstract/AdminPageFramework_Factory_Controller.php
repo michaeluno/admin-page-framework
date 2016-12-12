@@ -269,7 +269,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *              <li>**min** - (optional, integer) The minimum number of repeated fields.</li>
      *              <li>**disabled** - (optional, boolean|array) [3.8.13+]
      *                  <ul>
-     *                      <li>**label** - (optional, string) the message to show when the user clicks on the `Add` repeatable button.</li>
+     *                      <li>**message** - (optional, string) the message to show when the user clicks on the `Add` repeatable button.</li>
      *                      <li>**caption** - (optional, string) the title of the modal window that displays the message. Default: Warning</li>
      *                      <li>**box_width** - (optional, integer) the width of the modal window that displays the message. Default: 300</li>
      *                      <li>**box_width** - (optional, integer) the height of the modal window that displays the message. Default: 100.</li>
@@ -401,7 +401,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *                 <li>**min** - the allowed minimum number of fields to be repeated.</li>
      *                <li>**disabled** - (optional, boolean|array) [3.8.13+]
      *                    <ul>
-     *                        <li>**label** - (optional, string) the message to show when the user clicks on the `Add` repeatable button.</li>
+     *                        <li>**message** - (optional, string) the message to show when the user clicks on the `Add` repeatable button.</li>
      *                        <li>**caption** - (optional, string) the title of the modal window that displays the message. Default: Warning</li>
      *                        <li>**box_width** - (optional, integer) the width of the modal window that displays the message. Default: 300</li>
      *                        <li>**box_width** - (optional, integer) the height of the modal window that displays the message. Default: 100.</li>

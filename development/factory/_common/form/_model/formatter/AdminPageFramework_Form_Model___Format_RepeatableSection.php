@@ -36,10 +36,10 @@ class AdminPageFramework_Form_Model___Format_RepeatableSection extends AdminPage
      * @since   3.8.13
      */
     static protected $_aStructure_Disabled = array(
-        'label'      => 'The ability of repeating sections is disabled.',   // will be reassigned
+        'message'    => 'The ability of repeating sections is disabled.',   // will be reassigned
         'caption'    => 'Warning',  // will be reassigned
         'box_width'  => 300,
-        'box_height' => 100,
+        'box_height' => 72,
     );
 
     /**
@@ -76,7 +76,7 @@ class AdminPageFramework_Form_Model___Format_RepeatableSection extends AdminPage
         unset( $_aArguments[ 0 ] );   // remove the 0 index element converted from `'repeatable   => 'true',`.
         if ( ! empty( $_aArguments[ 'disabled' ] ) ) {
             $_aArguments[ 'disabled' ] = $_aArguments[ 'disabled' ] + array(
-                'label'      => $this->_getDefaultMessage(),
+                'message'    => $this->_getDefaultMessage(),
                 'caption'    => $this->_oMsg->get( 'warning_caption' ),
             ) + self::$_aStructure_Disabled;
         }

@@ -256,7 +256,7 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
         }
         add_thickbox(); // to display a message to the user.
         return "<div id='{$sBoxElementID}' style='display:none'>"
-                . "<p>" . $aArguments[ 'label' ] . "</p>"
+                . "<p>" . $aArguments[ 'message' ] . "</p>"
             . "</div>";
 
     }

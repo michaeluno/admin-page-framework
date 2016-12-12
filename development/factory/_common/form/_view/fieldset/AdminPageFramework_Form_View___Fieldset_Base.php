@@ -291,6 +291,13 @@ JAVASCRIPTS;
                             : ''
                     ),
                 );
+                unset(
+                    $aArguments[ 'disabled' ][ 'message' ] // this element can contain HTML tags.
+                );
+                if ( empty( $aArguments[ 'disabled' ] ) ) {
+                    // if it is an empty array, it must be removed as the data attributes will be checked in the JavaScript script.
+                    unset( $aArguments[ 'disabled' ] );
+                }
                 return $this->getAttributes( $_aContainerAttributes )
                     . ' ' . $this->getDataAttributes( $aArguments );
             }

@@ -449,9 +449,9 @@ JAVASCRIPTS;
         $_oFormatter    = new AdminPageFramework_Form_Model___Format_RepeatableSection( $asArguments, $oMsg );
         $_aArguments    = $_oFormatter->get();
         $_sButtons      = "<div class='admin-page-framework-repeatable-section-buttons-outer-container'>"
-                . "<div " . self::getAttributes( self::___getContainerAttributes( $_aArguments, $oMsg ) ) . ' ' . self::getDataAttributes( $_aArguments ) . '>'
-                    . "<a " . self::getAttributes( self::___getRemoveButtonAttributes( $sContainerTagID, $oMsg, $iSectionCount ) ) . ">-</a>"
-                    . "<a " . self::getAttributes( self::___getAddButtonAttributes( $sContainerTagID, $oMsg, $_aArguments ) ) . ">+</a>"
+                . "<div " . self::___getContainerAttributes( $_aArguments, $oMsg ) . ' >'
+                    . "<a " . self::___getRemoveButtonAttributes( $sContainerTagID, $oMsg, $iSectionCount ) . ">-</a>"
+                    . "<a " . self::___getAddButtonAttributes( $sContainerTagID, $oMsg, $_aArguments ) . ">+</a>"
                 . "</div>"
             . "</div>"
             . AdminPageFramework_Form_Utility::getModalForDisabledRepeatableElement(
@@ -495,30 +495,38 @@ JAVASCRIPTS;
 
         /**
          * @param   $aArguments
-         * @return  array
+         * @return  string
          * @since   3.8.13
          */
         static private function ___getContainerAttributes( array $aArguments, $oMsg ) {
-            return array(
+            $_aAttriubtes = array(
                 'class' => self::getClassAttribute(
                     'admin-page-framework-repeatable-section-buttons',
                     empty( $aArguments[ 'disabled' ] ) ? '' : 'disabled'
                 ),
             );
+            unset( $aArguments[ 'disabled' ][ 'message' ] );    // this element can contain HTML tags.
+            // Needs to remove it if it is empty as its data attribute will be checked in the JavaScript script.
+            if ( empty( $aArguments[ 'disabled' ] ) ) {
+                unset( $aArguments[ 'disabled' ] );
+            }
+            return self::getAttributes( $_aAttriubtes ) . ' ' . self::getDataAttributes( $aArguments );
         }
         /**
          * @return  array
          * @sicne   3.8.13
          */
         static private function ___getRemoveButtonAttributes( $sContainerTagID, $oMsg, $iSectionCount ) {
-            return array(
-                'class'     => 'repeatable-section-remove-button button-secondary '
-                               . 'repeatable-section-button button button-large',
-                'title'     => $oMsg->get( 'remove_section' ),
-                'style'     => $iSectionCount <= 1
-                    ? 'display:none'
-                    : null,
-                'data-id'   => $sContainerTagID,
+            return self::getAttributes(
+                    array(
+                    'class'     => 'repeatable-section-remove-button button-secondary '
+                                   . 'repeatable-section-button button button-large',
+                    'title'     => $oMsg->get( 'remove_section' ),
+                    'style'     => $iSectionCount <= 1
+                        ? 'display:none'
+                        : null,
+                    'data-id'   => $sContainerTagID,
+                )
             );
         }
 
@@ -527,16 +535,18 @@ JAVASCRIPTS;
          * @return array
          */
         static private function ___getAddButtonAttributes( $sContainerTagID, $oMsg, $aArguments ) {
-            return array(
-                'class'     => 'repeatable-section-add-button button-secondary '
-                    . 'repeatable-section-button button button-large',
-                'title'     => $oMsg->get( 'add_section' ),
-                'data-id'   => $sContainerTagID,
-                'href'      => ! empty( $aArguments[ 'disabled' ] )
-                    ? '#TB_inline?width=' . $aArguments[ 'disabled' ][ 'box_width' ]
-                        . '&height=' . $aArguments[ 'disabled' ][ 'box_height' ]
-                        . '&inlineId=' . 'repeatable_section_disabled_' . $sContainerTagID
-                    : null,
+            return self::getAttributes(
+                array(
+                    'class'     => 'repeatable-section-add-button button-secondary '
+                        . 'repeatable-section-button button button-large',
+                    'title'     => $oMsg->get( 'add_section' ),
+                    'data-id'   => $sContainerTagID,
+                    'href'      => ! empty( $aArguments[ 'disabled' ] )
+                        ? '#TB_inline?width=' . $aArguments[ 'disabled' ][ 'box_width' ]
+                            . '&height=' . $aArguments[ 'disabled' ][ 'box_height' ]
+                            . '&inlineId=' . 'repeatable_section_disabled_' . $sContainerTagID
+                        : null,
+                )
             );
         }
 

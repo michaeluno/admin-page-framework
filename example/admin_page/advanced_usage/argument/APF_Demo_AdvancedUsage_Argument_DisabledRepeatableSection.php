@@ -51,8 +51,8 @@ class APF_Demo_AdvancedUsage_Argument_DisabledRepeatableSection {
                 ),
                 'repeatable'        => array(
                     'disabled'               => array(
-                        'label'         => __( 'The ability to repeat sections is disabled.', 'admin-page-framework-loader' )
-                            . ' ' . __( 'You can insert your custom message here such as \"Upgrade the program to enhance this feature!\"', 'admin-page-framework-loader' ),
+                        'message'       => __( 'The ability to repeat sections is disabled.', 'admin-page-framework-loader' )
+                            . ' ' . __( 'You can insert your custom message here such as \"<a>Upgrade the program</a> to enhance this feature!\"', 'admin-page-framework-loader' ),
                         'caption'       => __( 'Your Program Name', 'admin-page-framework-loader' ),
                         'box_width'     => 300,
                         'box_height'    => 100,
@@ -73,7 +73,7 @@ class APF_Demo_AdvancedUsage_Argument_DisabledRepeatableSection {
 array(
     'repeatable'        => array(
         'disabled'      => array(
-            'label'         => __( 'The ability to repeat sections is disabled.' ),
+            'message'       => __( 'The ability to repeat sections is disabled.' ),
             'caption'       => __( 'Your Program Name' ),
             'box_width'     => 300,
             'box_height'    => 100,
@@ -91,8 +91,8 @@ EOD
                 'title'             => __( 'Disabled Repeatable Fields', 'admin-page-framework-loader' ),
                 'repeatable'        => array(
                     'disabled'               => array(
-                        'label'         => __( 'The ability to repeat fields is disabled.', 'admin-page-framework-loader' )
-                                           . ' ' . __( 'You can insert your custom message here such as \"Upgrade the program to enhance this feature!\"', 'admin-page-framework-loader' ),
+                        'message'       => __( 'The ability to repeat fields is disabled.', 'admin-page-framework-loader' )
+                                           . ' ' . __( 'You can insert your custom message here such as \"<a>Upgrade the program</a> to enhance this feature!\"', 'admin-page-framework-loader' ),
                         'caption'       => __( 'Your Program Name', 'admin-page-framework-loader' ),
                         'box_width'     => 300,
                         'box_height'    => 100,
@@ -103,7 +103,7 @@ EOD
 array(
     'repeatable'        => array(
         'disabled'               => array(
-            'label'         => __( 'The ability to repeat fields is disabled...' )
+            'message'       => __( 'The ability to repeat fields is disabled...' )
             'caption'       => __( 'Your Program Name' ),
             'box_width'     => 300,
             'box_height'    => 100,
