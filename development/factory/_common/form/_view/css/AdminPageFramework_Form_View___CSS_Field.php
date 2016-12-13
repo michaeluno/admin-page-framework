@@ -268,6 +268,10 @@ CSSRULES;
 .admin-page-framework-repeatable-field-buttons {
     margin: 2px 0 0 0.3em;
 }
+.admin-page-framework-repeatable-field-buttons.disabled > .repeatable-field-button {
+    color: #edd;
+    border-color: #edd;
+}
 
 /* Fix Sortable fields drag&drop problem in MP6 */ 
     
