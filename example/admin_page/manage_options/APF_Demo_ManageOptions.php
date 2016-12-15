@@ -81,11 +81,23 @@ class APF_Demo_ManageOptions {
                 'title'         => __( 'Disabled', 'admin-page-framework-loader' ),
                 'disabled'      => true,
                 'attributes'    => array(
-                    'title'     => __( ' the disabled argument is true, this tab will be disabled and has no link.', 'admin-page-framework-loader' ),
+                    'title'     => __( 'If the disabled argument is true, this tab will be disabled and has no link.', 'admin-page-framework-loader' ),
                 ),
             )        
-        );          
-        
+        );
+
+        // Link tab
+        $oFactory->addInPageTabs(
+            $this->_sPageSlug, // target page slug
+            array(
+                'tab_slug'      => 'link',
+                'title'         => __( 'Link', 'admin-page-framework-loader' ),
+                'attributes'    => array(
+                    'title'     => __( 'With the url argument, the tab can be linked to an external URL.', 'admin-page-framework-loader' ),
+                ),
+                'url'           => 'http://admin-page-framework.michaeluno.jp'
+            )
+        );
     }
 
 }
