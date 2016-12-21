@@ -3,8 +3,8 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
-Tested up to:       4.6.1
-Stable tag:         3.8.12
+Tested up to:       4.7.0
+Stable tag:         3.8.13
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -505,7 +505,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.8.13 =
+= 3.8.13 - 2016/12/22 =
 - Added the `disabled` repeatable section and repeatable field arguments.
 - Added the `interactive`, `can_exceed_min`, `can_exceed_max`, and `allow_empty` arguments to the `no_ui_slider` field type.
 - Fixed incompatibility with WordPress 4.7 that caused a notification page meta box to appear when it should not due to the change of action hook handling.
