@@ -57,7 +57,7 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
      * @since       3.8.0
      * @return      boolean
      */
-    static public function hasNestedFields( array $aFieldset ) {
+    static public function hasNestedFields( $aFieldset ) {
         
         if ( ! self::hasFieldDefinitionsInContent( $aFieldset ) ) {
             return false;
@@ -75,33 +75,11 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
     }  
 
     /**
-     * Checks whether the given field-set definition has inline mixed items.
-     * 
-     * The first element is a string defining place holders and the rest should be field definition arrays.
-     * 
-     * @since       3.8.0
-     * @return      boolean
-     * @deprecated  3.8.0
-     */
-/*     static public function hasInlineMixedFields( array $aFieldset ) {
-        
-        return 'inline_mixed' === $aFieldset[ 'type' ];
-
-        // @deprecated 3.8.0
-        // if ( ! self::hasFieldDefinitionsInContent( $aFieldset ) ) {
-            // return false;
-        // }
-        // return is_string( self::getElement( $aFieldset[ 'content' ], 0 ) )
-            // && is_array( self::getElement( $aFieldset[ 'content' ], 1 ) );
-        
-    } */
-    
-    /**
      * Checks whether the given field-set definition has field-set definitions in the `content` argument.
      * @since       3.8.0
      * @return      boolean
      */
-    static public function hasFieldDefinitionsInContent( array $aFieldset ) {
+    static public function hasFieldDefinitionsInContent( $aFieldset ) {
         
         if ( ! isset( $aFieldset[ 'content' ] ) ) {
             return false;
@@ -120,7 +98,7 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
      * @param       array       $aField         A field definition array. 
      * @return      boolean
      */
-    static public function hasSubFields( array $aFields, array $aField ) {
+    static public function hasSubFields( array $aFields, $aField ) {
         
         if ( count( $aFields ) > 1 ) {
             return true;
@@ -184,7 +162,7 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
      * @since       3.8.0
      * @return      array
      */
-    static public function getFieldsetReformattedBySubFieldIndex( array $aFieldset, $iSubFieldIndex, $bHasSubFields, array $aParentFieldset ) {
+    static public function getFieldsetReformattedBySubFieldIndex( $aFieldset, $iSubFieldIndex, $bHasSubFields, $aParentFieldset ) {
 
         $_oCallerForm   = $aFieldset[ '_caller_object' ];
 
