@@ -20,8 +20,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
     
     /**
      * Stores the field set type indicating what this field is for such as for meta boxes, taxonomy fields or page fields.
-     * @remark This will be automatically set when head tag elements are enqueued.
-     * @since 3.0.0
+     * @remark      This will be automatically set when head tag elements are enqueued.
+     * @since       3.0.0
      * @internal
      */
     public $_sFieldSetType = '';
@@ -92,7 +92,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
      * 
      * @internal
      * @since       2.1.5
-     * @since       3.5.0       'admin_page_framework' can be passed to register the field type site-wide.
+     * @since       3.5.0               'admin_page_framework' can be passed to register the field type site-wide.
      * @param       string|array        $asClassName            The instantiated class name that uses the field type(s). To enable it site-wide, pass `admin_page_framework`. 
      * This value will be used to the `field_types_{instantiated class name}` filter to set field definition callbacks.
      * @param       string|array        $asFieldTypeSlug        The field type slugs. To have multiple slugs for one definition, pass an array holding the slugs.
@@ -283,7 +283,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
      * @since       3.5.0
      * @internal
      */
-    public function _replyToDoOnFieldRegistration( array $aField ) {}
+    public function _replyToDoOnFieldRegistration( $aField ) {}
     
     /**
      * 
@@ -373,12 +373,12 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
          */
         public function _replyToRemovingMediaLibraryTab( $aTabs ) {
             
-            if ( ! isset( $_REQUEST['enable_external_source'] ) ) { 
+            if ( ! isset( $_REQUEST[ 'enable_external_source' ] ) ) {
                 return $aTabs; 
             }
             
-            if ( ! $_REQUEST['enable_external_source'] ) {
-                unset( $aTabs['type_url'] ); // removes the 'From URL' tab in the thick box.
+            if ( ! $_REQUEST[ 'enable_external_source' ] ) {
+                unset( $aTabs[ 'type_url' ] ); // removes the 'From URL' tab in the thick box.
             }
             return $aTabs;
             
@@ -392,7 +392,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
      * @since       3.8.0
      * @return      string
      */
-    protected function getLabelContainerAttributes( array $aField, $asClassAttributes, array $aAttributes=array() ) {
+    protected function getLabelContainerAttributes( $aField, $asClassAttributes, array $aAttributes=array() ) {
 
         $aAttributes[ 'class' ] = $this->getClassAttribute( $asClassAttributes, $this->getElement( $aAttributes, 'class' ) );
         $aAttributes[ 'style' ] = $this->getStyleAttribute(
