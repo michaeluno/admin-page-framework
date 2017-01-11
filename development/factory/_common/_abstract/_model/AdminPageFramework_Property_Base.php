@@ -154,7 +154,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @deprecated  3.2.0
      * @internal    
      */
-    public static $_sDefaultStyle ="";    
+    public static $_sDefaultStyle = "";
         
     /**
      * The default CSS rules for IE loaded in the head tag of the created admin pages.
@@ -384,38 +384,47 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @remark      This class gets instantiated in every factory class so the constructor should be lightest as possible.
      */
     public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sStructureType ) {
-                
-        $this->oCaller          = $oCaller;
-        $this->sCallerPath      = $sCallerPath;
-        $this->sClassName       = $sClassName; // sanitize name space path delimiter.
-        $this->sCapability      = empty( $sCapability )
-            ? 'manage_options'
-            : $sCapability;
-        $this->sTextDomain      = empty( $sTextDomain )
-            ? 'admin-page-framework'
-            : $sTextDomain;
-        $this->sStructureType   = $sStructureType;
-        $this->sPageNow         = $this->getPageNow();
-        $this->bIsAdmin         = is_admin();
-        $this->bIsAdminAjax     = in_array( $this->sPageNow, array( 'admin-ajax.php' ) );
-        $this->bShowDebugInfo   = $this->isDebugMode();
-               
-        // Overloading property items - these will be set on demand
-        unset(
-            $this->aScriptInfo,
-            $this->aOptions,
-            $this->sScriptType,
-            $this->sClassHash
-        );           
-           
-        $this->_setGlobals();
+
+        $this->___setProperties( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sStructureType );
+        $this->___setGlobals();
        
     }
+        /**
+         * @since       3.8.14
+         */
+        private function ___setProperties( $oCaller, $sCallerPath, $sClassName, $sCapability, $sTextDomain, $sStructureType ) {
+
+            $this->oCaller          = $oCaller;
+            $this->sCallerPath      = $sCallerPath;
+            $this->sClassName       = $sClassName;
+            $this->sCapability      = empty( $sCapability )
+                ? 'manage_options'
+                : $sCapability;
+            $this->sTextDomain      = empty( $sTextDomain )
+                ? 'admin-page-framework'
+                : $sTextDomain;
+            $this->sStructureType   = $sStructureType;
+
+            $this->sPageNow         = $this->getPageNow();
+            $this->bIsAdmin         = is_admin();
+            $this->bIsAdminAjax     = 'admin-ajax.php' === $this->sPageNow;
+            $this->bShowDebugInfo   = $this->isDebugMode();
+
+            // Overloading property items - these will be set on demand
+            unset(
+                $this->aScriptInfo,
+                $this->aOptions,
+                $this->sScriptType,
+                $this->sClassHash
+            );
+
+        }
+
         /**
          * Sets up global variables.
          * @since       3.7.9
          */
-        private function _setGlobals() {
+        private function ___setGlobals() {
             if ( ! isset( $GLOBALS[ 'aAdminPageFramework' ] ) ) {
                 $GLOBALS[ 'aAdminPageFramework' ] = array( 
                     'aFieldFlags' => array() 
