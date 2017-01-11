@@ -5,7 +5,7 @@
  * Demonstrates the usage of Admin Page Framework.
  *
  * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2016 Michael Uno; Licensed GPLv2
+ * Copyright (c) 2013-2017 Michael Uno; Licensed GPLv2
  *
  */
 

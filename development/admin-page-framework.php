@@ -5,7 +5,7 @@
  * Facilitates WordPress plugin and theme development.
  *
  * @author      Michael Uno <michael@michaeluno.jp>
- * @copyright   2013-2016 (c) Michael Uno
+ * @copyright   2013-2017 (c) Michael Uno
  * @license     MIT <http://opensource.org/licenses/MIT>
  * @package     AdminPageFramework
  */
@@ -21,7 +21,7 @@ if ( ! class_exists( 'AdminPageFramework_Registry', false ) ) :
  * @image               http://admin-page-framework.michaeluno.jp/image/icon-256x256.png
  * @heading             Admin Page Framework
  * @author              Michael Uno
- * @copyright           2013-2016 (c) Michael Uno
+ * @copyright           2013-2017 (c) Michael Uno
  * @license             http://opensource.org/licenses/MIT  MIT
  * @since               3.1.3
  * @repository          https://github.com/michaeluno/admin-page-framework
@@ -45,7 +45,7 @@ abstract class AdminPageFramework_Registry_Base {
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
     const AUTHOR        = 'Michael Uno';
     const AUTHOR_URI    = 'http://en.michaeluno.jp/';
-    const COPYRIGHT     = 'Copyright (c) 2013-2016, Michael Uno';
+    const COPYRIGHT     = 'Copyright (c) 2013-2017, Michael Uno';
     const LICENSE       = 'MIT <http://opensource.org/licenses/MIT>';
     const CONTRIBUTORS  = '';
 

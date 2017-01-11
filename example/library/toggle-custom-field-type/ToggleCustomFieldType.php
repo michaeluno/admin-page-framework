@@ -5,7 +5,7 @@
  * Facilitates WordPress plugin and theme development.
  *
  * @author      Michael Uno <michael@michaeluno.jp>
- * @copyright   2013-2016 (c) Michael Uno
+ * @copyright   2013-2017 (c) Michael Uno
  * @license     MIT <http://opensource.org/licenses/MIT>
  * @package     AdminPageFramework
  */
