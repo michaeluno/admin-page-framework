@@ -12,8 +12,7 @@
  * 
  * Modifying here refers to sanitizing, formatting, and sorting etc.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Model/Modifier
+ * @package     AdminPageFramework/Common/Form/Model/Modifier
  * @since       3.6.0
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal

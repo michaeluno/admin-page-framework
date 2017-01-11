@@ -11,8 +11,7 @@
  * Provides utility methods dealing with strings which do not use WordPress functions.
  *
  * @since       2.0.0
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  * @internal
  */
 abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Utility_VariableType {

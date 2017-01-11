@@ -13,8 +13,7 @@
  * @since       2.0.0
  * @since       2.1.6       Multiple instances of this class are disallowed.
  * @since       3.2.0       Multiple instances of this class are allowed but the instantiation is restricted to per text domain basis.
- * @package     AdminPageFramework
- * @subpackage  Common/Factory/Property
+ * @package     AdminPageFramework/Common/Factory/Property
  * @internal
  * 
  * @remark      When adding a new framework translation item,

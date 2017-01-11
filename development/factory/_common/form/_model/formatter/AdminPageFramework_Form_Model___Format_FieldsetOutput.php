@@ -16,8 +16,7 @@
  * such as input name and id. Without them, the form data will not be sent 
  * and repeatable and sortable JavaScirpt scripts will not be able to bind events.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Model/Format
+ * @package     AdminPageFramework/Common/Form/Model/Format
  * @since       3.6.0
  * @extends     AdminPageFramework_Form_Model___Format_Fieldset
  * @internal

@@ -12,8 +12,7 @@
  *
  * @since           3.7.4        
  * @extends         AdminPageFramework_Controller_Page
- * @package         AdminPageFramework
- * @subpackage      Factory/AdminPage/Model
+ * @package         AdminPageFramework/Factory/AdminPage/Model
  * @internal
  */
 class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_FrameworkUtility {

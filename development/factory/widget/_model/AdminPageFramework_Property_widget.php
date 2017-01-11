@@ -13,8 +13,7 @@
  * This class stores various types of values. This is used to encapsulate properties so that it helps to avoid naming conflicts.
  * 
  * @since       3.2.0
- * @package     AdminPageFramework
- * @subpackage  Factory/Widget/Property
+ * @package     AdminPageFramework/Factory/Widget/Property
  * @extends     AdminPageFramework_Property_Base
  * @internal
  */

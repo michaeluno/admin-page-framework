@@ -16,10 +16,9 @@
  * 
  * @since       3.0.0
  * @since       3.3.0       Changed the name from AdminPageFramework_HeadTag_MetaBox_Page.
- * @use         AdminPageFramework_Utility
- * @package     AdminPageFramework
+ * @uses        AdminPageFramework_Utility
+ * @package     AdminPageFramework/Factory/PageMetaBox/Resource
  * @extends     AdminPageFramework_Resource_admin_page
- * @subpackage  Factory/PageMetaBox/Resource
  * @internal
  * @remark      Note that this class extends the resource class of the page factory while the property class extends the meta box factory.
  */

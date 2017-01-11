@@ -14,8 +14,7 @@
  * <input name='THIS VALUE' ... />
  * `
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Generator
+ * @package     AdminPageFramework/Common/Form/View/Generator
  * @since       3.6.0
  * @internal
  */

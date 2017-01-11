@@ -13,9 +13,8 @@
  * Listed methods are to modify array contents.
  * 
  * @since       3.7.0
- * @package     AdminPageFramework
+ * @package     AdminPageFramework/Utility
  * @extends     AdminPageFramework_Utility_String
- * @subpackage  Utility
  * @internal
  */
 abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework_Utility_ArrayGetter {

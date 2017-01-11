@@ -11,8 +11,7 @@
  * Handles the contact form submissions.
  *
  * @since           3.6.3
- * @package         AdminPageFramework
- * @subpackage      Factory/AdminPage/Model
+ * @package         AdminPageFramework/Factory/AdminPage/Model
  * @internal
  * @extends         AdminPageFramework_FrameworkUtility
  */

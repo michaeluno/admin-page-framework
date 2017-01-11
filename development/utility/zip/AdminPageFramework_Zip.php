@@ -21,8 +21,7 @@
  * </code>
  * 
  * @since       3.5.4
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  */
 class AdminPageFramework_Zip {
     

@@ -13,8 +13,7 @@
  * @since           3.0.1
  * @since           3.7.0      Renamed from `AdminPageFramework_WPUtility_Post`.
  * @extends         AdminPageFramework_Utility
- * @package         AdminPageFramework
- * @subpackage      Utility
+ * @package         AdminPageFramework/Utility
  * @internal
  */
 class AdminPageFramework_WPUtility_Meta extends AdminPageFramework_WPUtility_Option {

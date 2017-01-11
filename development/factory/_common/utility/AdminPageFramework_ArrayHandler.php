@@ -36,8 +36,7 @@
  * 
  * </code>
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Utility
+ * @package     AdminPageFramework/Common/Utility
  * @since       3.6.0
  * @extends     AdminPageFramework_FrameworkUtility
  */

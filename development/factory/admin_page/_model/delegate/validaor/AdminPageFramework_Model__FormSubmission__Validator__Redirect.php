@@ -10,8 +10,7 @@
 /**
  * Provides methods to handle redirects set with the submit button with the redirect_url argument.
  * 
- * @package     AdminPageFramework
- * @subpackage  Factory/AdminPage/Model
+ * @package     AdminPageFramework/Factory/AdminPage/Model
  * @since       3.6.3
  * @internal
  */

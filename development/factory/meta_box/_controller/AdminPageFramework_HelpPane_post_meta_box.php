@@ -10,8 +10,7 @@
 /**
  * Provides methods to manipulate the contextual help tab .
  *
- * @package     AdminPageFramework
- * @subpackage  Factory/MetaBox/HelpPane
+ * @package     AdminPageFramework/Factory/MetaBox/HelpPane
  * @since       2.1.0
  * @since       3.0.0 Become not abstract.
  * @extends     AdminPageFramework_HelpPane_Base

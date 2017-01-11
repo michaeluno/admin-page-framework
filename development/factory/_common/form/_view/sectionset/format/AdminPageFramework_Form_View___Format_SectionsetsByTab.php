@@ -10,8 +10,7 @@
 /**
  * Provides methods to format an array holding section-sets definitions and separate them by section tabs.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Section
+ * @package     AdminPageFramework/Common/Form/View/Section
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal

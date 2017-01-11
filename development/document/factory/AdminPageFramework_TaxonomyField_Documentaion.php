@@ -92,8 +92,7 @@
  * @image       http://admin-page-framework.michaeluno.jp/image/factory/taxonomy_field_edit.png
  * @remark      Form sections are not supported.
  * @since       3.3.0
- * @package     AdminPageFramework
- * @subpackage  Factory/TaxonomyField
+ * @package     AdminPageFramework/Factory/TaxonomyField
  * @heading     Taxonomy Field
  */
 abstract class AdminPageFramework_TaxonomyField_Documentaion {}

@@ -12,8 +12,7 @@
  * 
  * When no field type slug is found with the field type slug that the user set, this field type will be applied.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/FieldType
+ * @package     AdminPageFramework/Common/Form/FieldType
  * @since       2.1.5
  * @internal
  */

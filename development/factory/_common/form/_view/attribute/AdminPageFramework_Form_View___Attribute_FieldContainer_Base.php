@@ -10,8 +10,7 @@
 /**
  * Provides abstract methods to format and generate field container HTML attributes.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Attribute
+ * @package     AdminPageFramework/Common/Form/View/Attribute
  * @since       3.6.0
  * @extends     AdminPageFramework_Form_View___Attribute_Base
  * @internal

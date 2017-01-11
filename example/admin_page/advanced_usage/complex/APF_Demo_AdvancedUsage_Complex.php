@@ -12,8 +12,7 @@
 /**
  * Adds a tab in a page.
  * 
- * @package     AdminPageFramework
- * @subpackage  Example
+ * @package     AdminPageFramework/Example
  */
 class APF_Demo_AdvancedUsage_Complex {
         

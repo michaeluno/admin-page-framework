@@ -66,8 +66,7 @@
  * @image       http://admin-page-framework.michaeluno.jp/image/factory/widget_form.png
  * @abstract
  * @since       3.3.0
- * @package     AdminPageFramework
- * @subpackage  Factory/Widget
+ * @package     AdminPageFramework/Factory/Widget
  * @heading     Widget
  * @example     ../../../example/APF_Widget.php
  */

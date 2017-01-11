@@ -11,8 +11,7 @@
  * Provides methods to retrieve post meta data for meta box form fields.
  * 
  * @since       3.8.0
- * @package     AdminPageFramework
- * @subpackage  Factory/TermMeta
+ * @package     AdminPageFramework/Factory/TermMeta
  * @internal
  * @extends     AdminPageFramework_Factory_Model___Meta_Base
  */

@@ -10,8 +10,7 @@
 /**
  * Provides methods to output form input element of drop-down list.
  * 
- * @package         AdminPageFramework
- * @subpackage      Common/Form/Input
+ * @package         AdminPageFramework/Common/Form/Input
  * @since           3.4.0       
  * @internal
  */

@@ -10,8 +10,7 @@
 /**
  * Provides methods to get default form values from given field-sets.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Model
+ * @package     AdminPageFramework/Common/Form/Model
  * @since       3.7.0
  * @internal
  */

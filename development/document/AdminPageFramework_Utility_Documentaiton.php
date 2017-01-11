@@ -14,8 +14,7 @@
  * So even if you don't include the framework core files, still you can use these tools by copying the files into your project.
  * 
  * @since       3.8.0
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  * @heading     Utility Component
  */
 class AdminPageFramework_Utility_Documentaiton {}

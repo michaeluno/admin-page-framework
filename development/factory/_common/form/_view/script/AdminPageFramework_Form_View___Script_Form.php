@@ -11,8 +11,7 @@
  * Provides JavaScript scripts for forms.
  * 
  * @since       3.7.0      
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/JavaScript
+ * @package     AdminPageFramework/Common/Form/View/JavaScript
  * @internal
  */
 class AdminPageFramework_Form_View___Script_Form extends AdminPageFramework_Form_View___Script_Base {

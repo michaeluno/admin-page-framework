@@ -28,8 +28,7 @@
  * </code>
  * 
  * @image       http://admin-page-framework.michaeluno.jp/image/common/form/field_type/file.png
- * @package     AdminPageFramework
- * @subpackage  Common/Form/FieldType
+ * @package     AdminPageFramework/Common/Form/FieldType
  * @since       2.1.5
  */
 class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_text {

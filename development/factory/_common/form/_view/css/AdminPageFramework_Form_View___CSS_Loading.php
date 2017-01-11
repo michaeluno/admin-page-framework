@@ -11,8 +11,7 @@
  * Provides methods to return CSS rules for form outputs.
  *
  * @since       3.7.0
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/CSS
+ * @package     AdminPageFramework/Common/Form/View/CSS
  * @internal
  */
 class AdminPageFramework_Form_View___CSS_Loading extends AdminPageFramework_Form_View___CSS_Base {

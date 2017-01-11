@@ -10,8 +10,7 @@
 /**
  * Provides methods to format form individual field-set definition arrays.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Model/Format
+ * @package     AdminPageFramework/Common/Form/Model/Format
  * @since       3.6.0
  * @internal
  */

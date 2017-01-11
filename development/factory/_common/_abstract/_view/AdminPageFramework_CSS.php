@@ -11,8 +11,7 @@
  * Provides methods to return CSS rules.
  *
  * @since       3.2.0
- * @package     AdminPageFramework
- * @subpackage  Common/Factory/CSS
+ * @package     AdminPageFramework/Common/Factory/CSS
  * @internal
  */
 class AdminPageFramework_CSS {

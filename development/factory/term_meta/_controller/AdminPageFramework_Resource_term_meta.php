@@ -15,8 +15,7 @@
  * This is for custom taxonomy pages added by the framework.
  * 
  * @since       3.8.0
- * @package     AdminPageFramework
- * @subpackage  Factory/TermMeta/Resource
+ * @package     AdminPageFramework/Factory/TermMeta/Resource
  * @extends     AdminPageFramework_Resource_taxonomy_field
  * @internal
  */

@@ -13,8 +13,7 @@
  * User meta, post meta, term meta will extend this class.
  * 
  * @since       3.8.0
- * @package     AdminPageFramework
- * @subpackage  Common/Factory
+ * @package     AdminPageFramework/Common/Factory
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
  */

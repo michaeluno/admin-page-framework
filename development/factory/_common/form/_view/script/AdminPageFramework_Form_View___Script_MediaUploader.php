@@ -11,8 +11,7 @@
  * Provides JavaScript scripts to handle widget events.
  * 
  * @since       3.2.0
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/JavaScript
+ * @package     AdminPageFramework/Common/Form/View/JavaScript
  * @internal
  */
 class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFramework_Form_View___Script_Base {

@@ -89,8 +89,7 @@
  * 
  * @image       http://admin-page-framework.michaeluno.jp/image/factory/post_type.png
  * @since       3.3.0
- * @package     AdminPageFramework
- * @subpackage  Factory/PostType
+ * @package     AdminPageFramework/Factory/PostType
  * @heading     Post Type
  */
 abstract class AdminPageFramework_PostType_Documentation {}

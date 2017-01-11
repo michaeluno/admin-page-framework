@@ -12,8 +12,7 @@
  * 
  * The suffix of `_admin_page` represents the structure type of the form.
  * 
- * @package     AdminPageFramework
- * @subpackage  Factory/AdminPage/Form
+ * @package     AdminPageFramework/Factory/AdminPage/Form
  * @since       3.7.0      
  * @extends     AdminPageFramework_Form
  * @internal

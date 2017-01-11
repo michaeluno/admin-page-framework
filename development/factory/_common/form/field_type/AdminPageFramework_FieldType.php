@@ -161,8 +161,7 @@
  * </ol>
  * 
  * @abstract
- * @package     AdminPageFramework
- * @subpackage  Common/Form/FieldType
+ * @package     AdminPageFramework/Common/Form/FieldType
  * @since       2.1.5
  * @since       3.0.0       Changed the name from `AdminPageFramework_CustomFieldType` to `AdminPageFramework_FieldType`.
  * @remark      The user will extend this class to define their custom field types.

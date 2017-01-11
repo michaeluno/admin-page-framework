@@ -14,8 +14,7 @@
  *
  * @abstract
  * @since       3.4.2
- * @package     AdminPageFramework
- * @subpackage  Factory/AdminPage/Form
+ * @package     AdminPageFramework/Factory/AdminPage/Form
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
  */

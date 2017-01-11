@@ -11,8 +11,7 @@
  * Collects data of page loads in admin pages.
  *
  * @since       2.1.7
- * @package     AdminPageFramework
- * @subpackage  Common/Factory/Debug
+ * @package     AdminPageFramework/Common/Factory/Debug
  * @internal
  */
 abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_FrameworkUtility {

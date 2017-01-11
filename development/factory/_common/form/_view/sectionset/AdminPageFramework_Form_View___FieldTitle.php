@@ -10,8 +10,7 @@
 /**
  * Provides methods to render a field title
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Field
+ * @package     AdminPageFramework/Common/Form/View/Field
  * @extends     AdminPageFramework_Form_Utility
  * @since       3.8.0 
  * @internal

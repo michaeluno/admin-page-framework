@@ -10,8 +10,7 @@
 /**
  * Provides methods that generates field container tag id.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Generator
+ * @package     AdminPageFramework/Common/Form/View/Generator
  * @since       3.6.0
  * @internal
  */

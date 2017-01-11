@@ -29,8 +29,7 @@
  * 
  * @image       http://admin-page-framework.michaeluno.jp/image/common/utility/admin_notice.png
  * @since       3.5.0
- * @package     AdminPageFramework
- * @subpackage  Common/Utility
+ * @package     AdminPageFramework/Common/Utility
  * @extends     AdminPageFramework_FrameworkUtility
  */
 class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility {

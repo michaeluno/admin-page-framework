@@ -10,8 +10,7 @@
 /**
  * Provides methods to handle field errors.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form
+ * @package     AdminPageFramework/Common/Form
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal

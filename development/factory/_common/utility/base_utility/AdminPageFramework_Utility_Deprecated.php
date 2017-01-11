@@ -11,8 +11,7 @@
  * Put deprecated utility methods together.
  *
  * @since       3.5.3
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  * @internal
  * @deprecated
  */

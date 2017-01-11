@@ -10,8 +10,7 @@
 /**
  * Provides methods to format and generate the <em>body</em> tag of <em>section table</em> HTML attributes.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Attribute
+ * @package     AdminPageFramework/Common/Form/View/Attribute
  * @since       3.6.0
  * @extends     AdminPageFramework_Form_View___Attribute_Base
  * @internal

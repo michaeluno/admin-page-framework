@@ -13,8 +13,7 @@
 /**
  * Creates a root menu page.
  * 
- * @package     AdminPageFramework
- * @subpackage  Example
+ * @package     AdminPageFramework/Example
  */
 class APF_Demo extends AdminPageFramework {
 

@@ -10,8 +10,7 @@
 /**
  * Provides methods to format collapsible section argument arrays.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Model/Format
+ * @package     AdminPageFramework/Common/Form/Model/Format
  * @since       3.6.0
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal

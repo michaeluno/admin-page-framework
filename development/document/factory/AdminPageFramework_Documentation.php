@@ -444,8 +444,7 @@
  * 
  * @image       http://admin-page-framework.michaeluno.jp/image/factory/admin_page.png
  * @since       3.3.0
- * @package     AdminPageFramework
- * @subpackage  Factory/AdminPage
+ * @package     AdminPageFramework/Factory/AdminPage
  * @heading     Admin Page
  * @remark      When you view the code of the code, most of the internal methods are prefixed with the underscore like `_getSomething()` and callback methods are prefixed with <code>_reply</code>.
  * The methods for the users are public and do not have those prefixes.

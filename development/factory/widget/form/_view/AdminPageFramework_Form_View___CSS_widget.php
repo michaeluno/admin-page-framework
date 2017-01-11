@@ -11,8 +11,7 @@
  * Provides methods to return CSS rules for form outputs.
  *
  * @since       3.7.0
- * @package     AdminPageFramework
- * @subpackage  Factory/Widget/Form
+ * @package     AdminPageFramework/Factory/Widget/Form
  * @internal
  */
 class AdminPageFramework_Form_View___CSS_widget extends AdminPageFramework_Form_View___CSS_Base {

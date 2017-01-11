@@ -11,8 +11,7 @@
  * Provides methods to return CSS rules for tool tip outputs embedded in forms.
  *
  * @since       3.7.0
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/CSS
+ * @package     AdminPageFramework/Common/Form/View/CSS
  * @internal
  */
 class AdminPageFramework_Form_View___CSS_ToolTip extends AdminPageFramework_Form_View___CSS_Base {

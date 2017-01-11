@@ -12,8 +12,7 @@
  *
  * @since           3.5.10
  * @extends         AdminPageFramework_FrameworkUtility
- * @package         AdminPageFramework
- * @subpackage      Common/Factory/Tab
+ * @package         AdminPageFramework/Common/Factory/Tab
  * @internal
  */
 class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUtility {                

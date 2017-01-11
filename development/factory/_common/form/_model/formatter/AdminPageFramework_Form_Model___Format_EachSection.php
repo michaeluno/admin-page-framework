@@ -12,8 +12,7 @@
  * 
  * @remark      It is assumed that the passed section definition array is already formatted with the `AdminPageFramework_Form_Model___FormatSectionset`.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Model/Format
+ * @package     AdminPageFramework/Common/Form/Model/Format
  * @since       3.6.0
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal

@@ -12,8 +12,7 @@
  * 
  * The suffix represents the structure type of the form.
  * 
- * @package     AdminPageFramework
- * @subpackage  Factory/TermMeta/Form
+ * @package     AdminPageFramework/Factory/TermMeta/Form
  * @since       3.8.0      
  * @extends     AdminPageFramework_Form_taxonomy_field
  * @internal

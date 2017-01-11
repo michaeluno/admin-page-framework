@@ -12,8 +12,7 @@
  *
  * @since           3.8.9
  * @extends         AdminPageFramework_Debug_Base
- * @package         AdminPageFramework
- * @subpackage      Common/Utility
+ * @package         AdminPageFramework/Common/Utility
  */
 class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
 

@@ -14,8 +14,7 @@
  * 
  * Provides the common methods  and properties for the property classes that are used by the main class, the meta box class, and the post type class.
  * @since       2.1.0
- * @package     AdminPageFramework
- * @subpackage  Common/Factory/Property
+ * @package     AdminPageFramework/Common/Factory/Property
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
  */ 

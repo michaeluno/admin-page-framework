@@ -10,8 +10,7 @@
 /**
  * The base class of form input classes that return outputs of input form elements.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Input
+ * @package     AdminPageFramework/Common/Form/Input
  * @since       3.4.0
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal

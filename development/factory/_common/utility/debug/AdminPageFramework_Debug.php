@@ -17,8 +17,7 @@
  * @since           3.1.3       Extends AdminPageFramework_WPUtility
  * @since           3.7.1       Extends AdminPageFramework_FrameworkUtility
  * @extends         AdminPageFramework_FrameworkUtility
- * @package         AdminPageFramework
- * @subpackage      Common/Utility
+ * @package         AdminPageFramework/Common/Utility
  */
 class AdminPageFramework_Debug extends AdminPageFramework_Debug_Log {
             

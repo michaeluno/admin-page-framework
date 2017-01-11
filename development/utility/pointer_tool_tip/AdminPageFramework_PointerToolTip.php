@@ -36,8 +36,7 @@
  * 
  * @image       http://admin-page-framework.michaeluno.jp/image/utility/pointer_tool_tip.png
  * @since       3.7.0
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  * @extends     AdminPageFramework_FrameworkUtility
  */
 class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtility {

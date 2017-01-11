@@ -12,8 +12,7 @@
  * 
  * If the key to reset is not specified, it does nothing.
  * 
- * @package     AdminPageFramework
- * @subpackage  Factory/AdminPage/Model
+ * @package     AdminPageFramework/Factory/AdminPage/Model
  * @since       3.6.3
  * @internal
  */

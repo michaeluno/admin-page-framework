@@ -12,8 +12,7 @@
  * Compared to the Utility component (located in the Utility sub-package) not used by the core component, other components including factory classes rely on this component.
  * 
  * @since       3.8.0
- * @package     AdminPageFramework
- * @subpackage  Common/Utility
+ * @package     AdminPageFramework/Common/Utility
  * @heading     Common Utility Component
  */
 class AdminPageFramework_Common_Utility_Documentaiton {}

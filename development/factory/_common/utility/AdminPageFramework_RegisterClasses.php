@@ -46,8 +46,7 @@
  * See the `__construct()` method below for the details of arguments.
  * 
  * @since       3.0.0
- * @package     AdminPageFramework
- * @subpackage  Common/Utility
+ * @package     AdminPageFramework/Common/Utility
  * @version     1.0.0
  */
 class AdminPageFramework_RegisterClasses {

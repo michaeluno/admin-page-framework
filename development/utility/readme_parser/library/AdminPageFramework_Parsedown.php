@@ -22,8 +22,7 @@
 /**
  * Parses markdown text.
  * 
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  * @since       3.5.0
  * @internal
  */

@@ -12,8 +12,7 @@
 /**
  * Adds a section in a tab.
  * 
- * @package     AdminPageFramework
- * @subpackage  Example
+ * @package     AdminPageFramework/Example
  */
 class APF_Demo_AdvancedUsage_Section_Collapsible_B {
     

@@ -13,8 +13,7 @@
  * @abstract
  * @since       2.0.0
  * @remark      The classes that extend this include ExportOptions, ImportOptions, and Redirect.
- * @package     AdminPageFramework
- * @subpackage  Factory/AdminPage/Form
+ * @package     AdminPageFramework/Factory/AdminPage/Form
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
  */

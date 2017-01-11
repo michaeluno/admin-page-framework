@@ -11,8 +11,7 @@
  * Provides utility methods dealing with variable types which do not use WordPress functions.
  *
  * @since       3.6.3
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  * @internal
  */
 abstract class AdminPageFramework_Utility_VariableType extends AdminPageFramework_Utility_Deprecated {

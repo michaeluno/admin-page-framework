@@ -43,8 +43,7 @@
  * </code>
  * 
  * @since       3.4.6
- * @package     AdminPageFramework
- * @subpackage  Utility   
+ * @package     AdminPageFramework/Utility
  */
 class AdminPageFramework_Requirement {
 

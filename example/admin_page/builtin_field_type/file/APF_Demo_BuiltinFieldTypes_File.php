@@ -12,8 +12,7 @@
 /**
  * Creates an in-page tab that demonstrates the usage of 'image', 'media', 'file' field types.
  * 
- * @package     AdminPageFramework
- * @subpackage  Example
+ * @package     AdminPageFramework/Example
  */
 class APF_Demo_BuiltinFieldTypes_File {
   

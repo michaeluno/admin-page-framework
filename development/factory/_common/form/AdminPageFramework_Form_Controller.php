@@ -10,8 +10,7 @@
 /**
  * Provides methods for the user to interact with the class object.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Controller
+ * @package     AdminPageFramework/Common/Form/Controller
  * @since       3.7.0
  * @internal
  */

@@ -26,8 +26,7 @@
  * 
  * @image       http://admin-page-framework.michaeluno.jp/image/utility/table_of_contents.png
  * @since       3.5.0
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  */
 class AdminPageFramework_TableOfContents {
     

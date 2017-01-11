@@ -15,8 +15,7 @@
  * The form class has methods that deal with setting notices and this class is used to access those.
  * Custom post type factory type does not have the ability to render forms however.
  * 
- * @package     AdminPageFramework
- * @subpackage  Factory/PostType/Form
+ * @package     AdminPageFramework/Factory/PostType/Form
  * @since       3.7.0      
  * @extends     AdminPageFramework_Form
  * @internal

@@ -14,8 +14,7 @@
  * 
  * @since           3.5.0
  * @extends         AdminPageFramework_Link_admin_page
- * @package         AdminPageFramework
- * @subpackage      Factory/NetworkAdmin/Link
+ * @package         AdminPageFramework/Factory/NetworkAdmin/Link
  * @internal
  */
 class AdminPageFramework_Link_network_admin_page extends AdminPageFramework_Link_admin_page {

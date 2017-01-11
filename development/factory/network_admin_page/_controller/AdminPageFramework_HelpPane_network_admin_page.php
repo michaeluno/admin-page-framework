@@ -11,8 +11,7 @@
  * Provides methods to manipulate the help screen sections.
  * 
  * @since       3.7.10
- * @package     AdminPageFramework
- * @subpackage  Factory/NetworkAdmin/HelpPane
+ * @package     AdminPageFramework/Factory/NetworkAdmin/HelpPane
  * @extends     AdminPageFramework_HelpPane_admin_page
  * @internal
  */

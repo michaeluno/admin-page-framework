@@ -200,8 +200,7 @@
  * </code>
  * 
  * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/inline_mixed.png
- * @package         AdminPageFramework
- * @subpackage      Common/Form/FieldType
+ * @package         AdminPageFramework/Common/Form/FieldType
  * @extends         AdminPageFramework_FieldType__nested
  * @since           3.8.0
  */

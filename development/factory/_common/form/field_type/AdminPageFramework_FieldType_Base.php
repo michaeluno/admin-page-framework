@@ -10,8 +10,7 @@
 /**
  * The base class of field type classes that define input field types.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/FieldType
+ * @package     AdminPageFramework/Common/Form/FieldType
  * @since       2.1.5
  * @since       3.8.0       Changed it to extend the `AdminPageFramework_Form_Utility`.
  * @internal

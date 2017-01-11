@@ -10,8 +10,7 @@
 /**
  * Provides methods to manipulate the contextual help tab for the taxonomy field class.
  *
- * @package     AdminPageFramework
- * @subpackage  Factory/TaxonomyField/HelpPane
+ * @package     AdminPageFramework/Factory/TaxonomyField/HelpPane
  * @since       3.0.0     
  * @extends     AdminPageFramework_HelpPane_Base
  * @internal

@@ -12,8 +12,7 @@
  *
  * @since       3.1.0
  * @extends     AdminPageFramework_PageLoadInfo_Base
- * @package     AdminPageFramework
- * @subpackage  Factory/NetworkAdmin/Debug
+ * @package     AdminPageFramework/Factory/NetworkAdmin/Debug
  * @internal
  */
 class AdminPageFramework_PageLoadInfo_network_admin_page extends AdminPageFramework_PageLoadInfo_Base {

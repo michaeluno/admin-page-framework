@@ -12,8 +12,7 @@
  *
  * @since       2.1.7
  * @extends     AdminPageFramework_PageLoadInfo_Base
- * @package     AdminPageFramework
- * @subpackage  Factory/AdminPage/Debug
+ * @package     AdminPageFramework/Factory/AdminPage/Debug
  * @internal
  */
 class AdminPageFramework_PageLoadInfo_admin_page extends AdminPageFramework_PageLoadInfo_Base {

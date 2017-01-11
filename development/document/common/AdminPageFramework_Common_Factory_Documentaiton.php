@@ -99,8 +99,7 @@
  * - The post type factory class does not have the ability to create forms. Therefore, some common hooks such as `validation_{...}` and `options_{...}` are not available.
  * 
  * @since       3.8.0
- * @package     AdminPageFramework
- * @subpackage  Common/Factory
+ * @package     AdminPageFramework/Common/Factory
  * @heading     Base Factory
  */
 class AdminPageFramework_Common_Factory_Documentaiton {}

@@ -15,8 +15,7 @@
  * @since           3.3.1       Changed the name from `AdminPageFramework_Menu`.
  * @since           3.6.3       Changed the name from `AdminPageFramework_Menu_Controller`.
  * @extends         AdminPageFramework_View_Menu
- * @package         AdminPageFramework
- * @subpackage      Factory/AdminPage
+ * @package         AdminPageFramework/Factory/AdminPage
  */
 abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_View_Menu {
        

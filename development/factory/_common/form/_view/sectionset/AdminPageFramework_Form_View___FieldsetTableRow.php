@@ -10,8 +10,7 @@
 /**
  * Provides methods to render a table row of a form section.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Field
+ * @package     AdminPageFramework/Common/Form/View/Field
  * @since       3.6.0 
  * @since       3.7.0      Moved from `AdminPageFramework_FormPart_TableRow`.
  * @internal

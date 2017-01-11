@@ -11,8 +11,7 @@
  * Handles form submission.
  *
  * @since           3.6.3
- * @package         AdminPageFramework
- * @subpackage      Factory/AdminPage/Model
+ * @package         AdminPageFramework/Factory/AdminPage/Model
  * @internal
  */
 class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model__FormSubmission_Base {

@@ -15,8 +15,7 @@
  * @since       2.1.5       Separated the methods that defines field types to different classes.
  * @since       3.6.0       Changed the name from `AdminPageFramework_FormField`.
  * @extends     AdminPageFramework_FormField_Base
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Field
+ * @package     AdminPageFramework/Common/Form/View/Field
  * @internal
  */
 class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_View___Fieldset_Base {

@@ -13,8 +13,7 @@
  * @abstract
  * @since           3.3.1
  * @extends         AdminPageFramework_Controller_Menu
- * @package         AdminPageFramework
- * @subpackage      Factory/AdminPage/Model
+ * @package         AdminPageFramework/Factory/AdminPage/Model
  * @internal
  */
 abstract class AdminPageFramework_Model extends AdminPageFramework_Controller_Menu {

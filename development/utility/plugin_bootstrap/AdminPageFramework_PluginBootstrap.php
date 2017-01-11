@@ -88,8 +88,7 @@
  * @action      do      {hook prefix}_action_before_loading_plugin
  * @action      do      {hook prefix}_action_after_loading_plugin
  * @since       3.5.0
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  */
 abstract class AdminPageFramework_PluginBootstrap {
     

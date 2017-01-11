@@ -14,8 +14,7 @@
  * @since           3.3.1       Moved most methods from `AdminPageFramework_Page`.
  * @since           3.6.3       Changed the name from `AdminPageFramework_Page_View`.
  * @extends         AdminPageFramework_Model_Page
- * @package         AdminPageFramework
- * @subpackage      Factory/AdminPage/View
+ * @package         AdminPageFramework/Factory/AdminPage/View
  * @internal
  */
 abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Page {

@@ -12,8 +12,7 @@
  * 
  * @abstract
  * @since       3.0.0
- * @package     AdminPageFramework
- * @subpackage  Factory/PageMetaBox
+ * @package     AdminPageFramework/Factory/PageMetaBox
  */
 abstract class AdminPageFramework_PageMetaBox extends AdminPageFramework_PageMetaBox_Controller {
     

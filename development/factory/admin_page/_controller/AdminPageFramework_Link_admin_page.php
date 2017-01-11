@@ -15,8 +15,7 @@
  * @since           2.0.0
  * @since           3.0.0       Renamed.
  * @extends         AdminPageFramework_Link_Base
- * @package         AdminPageFramework
- * @subpackage      Factory/AdminPage/Link
+ * @package         AdminPageFramework/Factory/AdminPage/Link
  * @internal
  */
 class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {

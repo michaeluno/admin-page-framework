@@ -10,8 +10,7 @@
 /**
  * Provides methods to render form section table captions.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View
+ * @package     AdminPageFramework/Common/Form/View
  * @since       3.6.0
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility

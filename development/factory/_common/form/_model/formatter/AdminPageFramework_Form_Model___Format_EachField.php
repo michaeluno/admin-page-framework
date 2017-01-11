@@ -12,8 +12,7 @@
  * 
  * A sub-field is an each individual field and its definition contains some internal keys.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Model/Format
+ * @package     AdminPageFramework/Common/Form/Model/Format
  * @since       3.6.0
  * @extends     AdminPageFramework_Form_Model___Format_FormField_Base
  * @internal

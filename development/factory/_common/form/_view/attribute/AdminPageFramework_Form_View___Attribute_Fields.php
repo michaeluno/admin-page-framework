@@ -10,8 +10,7 @@
 /**
  * Provides methods to format and output _fields_ container HTML attributes.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Attribute
+ * @package     AdminPageFramework/Common/Form/View/Attribute
  * @since       3.6.0
  * @extends     AdminPageFramework_Form_View___Attribute_FieldContainer_Base
  * @internal

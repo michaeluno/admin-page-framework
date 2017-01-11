@@ -12,8 +12,7 @@
  *
  * @abstract
  * @since           3.8.0
- * @package         AdminPageFramework
- * @subpackage      Factory/TermMeta
+ * @package         AdminPageFramework/Factory/TermMeta
  * @internal
  */
 abstract class AdminPageFramework_TermMeta_Model extends AdminPageFramework_TermMeta_Router {

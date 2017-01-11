@@ -83,8 +83,7 @@
  * 
  * @image           http://admin-page-framework.michaeluno.jp/image/factory/post_meta_box.png
  * @since           3.3.0
- * @package         AdminPageFramework
- * @subpackage      Factory/MetaBox
+ * @package         AdminPageFramework/Factory/MetaBox
  * @heading         Post Meta Box
  */
 abstract class AdminPageFramework_MetaBox_Documentation {}

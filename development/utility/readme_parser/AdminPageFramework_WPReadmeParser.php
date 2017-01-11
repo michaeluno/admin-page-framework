@@ -33,8 +33,7 @@
  * 
  * @since       3.5.0
  * @uses        AdminPageFramework_Parsedown
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  */
 class AdminPageFramework_WPReadmeParser {
     

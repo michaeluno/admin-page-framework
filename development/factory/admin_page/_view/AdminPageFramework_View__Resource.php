@@ -12,8 +12,7 @@
  *
  * @abstract
  * @since           3.6.3
- * @package         AdminPageFramework
- * @subpackage      Factory/AdminPage/View
+ * @package         AdminPageFramework/Factory/AdminPage/View
  * @internal
  * @extends         AdminPageFramework_FrameworkUtility
  */

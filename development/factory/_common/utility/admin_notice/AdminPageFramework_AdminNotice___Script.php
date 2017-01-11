@@ -11,8 +11,7 @@
  * Provides a method to load the Javascript script to fade-in admin notices.
  * 
  * @since       3.7.0
- * @package     AdminPageFramework
- * @subpackage  Common/Utility
+ * @package     AdminPageFramework/Common/Utility
  * @internal
  * @extends     AdminPageFramework_Factory___Script_Base
  */

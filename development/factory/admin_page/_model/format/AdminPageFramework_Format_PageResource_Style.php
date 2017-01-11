@@ -10,8 +10,7 @@
 /**
  * Provides methods to format page resource definition array for styles.
  * 
- * @package     AdminPageFramework
- * @subpackage  Factory/AdminPage/Format
+ * @package     AdminPageFramework/Factory/AdminPage/Format
  * @since       3.6.3
  * @internal
  */

@@ -12,8 +12,7 @@
  * 
  * @abstract
  * @since       3.2.0
- * @package     AdminPageFramework
- * @subpackage  Factory/Widget
+ * @package     AdminPageFramework/Factory/Widget
  * @internal
  */
 abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Factory {    

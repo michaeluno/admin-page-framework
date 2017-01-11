@@ -12,8 +12,7 @@
  * 
  * This is a delegation class of `AdminPageFramework_Form_View`.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Resource
+ * @package     AdminPageFramework/Common/Form/View/Resource
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal

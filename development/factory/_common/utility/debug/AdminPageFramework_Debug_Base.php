@@ -14,8 +14,7 @@
  * 
  * @since           3.8.9
  * @extends         AdminPageFramework_FrameworkUtility
- * @package         AdminPageFramework
- * @subpackage      Common/Utility
+ * @package         AdminPageFramework/Common/Utility
  */
 class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility {
 

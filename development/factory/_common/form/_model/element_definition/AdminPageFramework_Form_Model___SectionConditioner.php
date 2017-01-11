@@ -10,8 +10,7 @@
 /**
  * Provides methods to build forms.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Model
+ * @package     AdminPageFramework/Common/Form/Model
  * @since       3.7.0
  * @deprecated
  * @extends     AdminPageFramework_FrameworkUtility

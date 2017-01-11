@@ -13,8 +13,7 @@
  * @since       2.0.0
  * @since       3.7.3       Became not abstract for the xdebug max nesting level fatal error workaround.
  * @extends     AdminPageFramework_Utility_SystemInformation
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  * @internal
  */
 class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribute {

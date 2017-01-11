@@ -489,8 +489,7 @@
  * 
  * @image       http://admin-page-framework.michaeluno.jp/image/common/form/form_component.png
  * @since       3.8.0
- * @package     AdminPageFramework
- * @subpackage  Common/Form
+ * @package     AdminPageFramework/Common/Form
  * @heading     Form Component
  */
 class AdminPageFramework_Form_Documentaiton {}

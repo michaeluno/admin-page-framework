@@ -10,8 +10,7 @@
 /**
  * Provides methods to register field types.
  *
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Model
+ * @package     AdminPageFramework/Common/Form/Model
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal

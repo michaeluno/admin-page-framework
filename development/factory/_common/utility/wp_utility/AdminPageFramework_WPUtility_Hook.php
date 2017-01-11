@@ -12,8 +12,7 @@
  *
  * @since       2.0.0
  * @extends     AdminPageFramework_Utility
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  * @internal
  */
 class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Page {

@@ -10,8 +10,7 @@
 /**
  * Provides methods to render field error messages for a field-set.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Field
+ * @package     AdminPageFramework/Common/Form/View/Field
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal

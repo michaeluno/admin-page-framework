@@ -17,8 +17,7 @@
  * @since       3.3.0       Changed the name from `AdminPageFramework_HeadTag_Base`.
  * @since       3.6.3       Changed it to extend `AdminPageFramework_WPUtility`.
  * @extends     AdminPageFramework_FrameworkUtility
- * @package     AdminPageFramework
- * @subpackage  Common/Factory/Resource
+ * @package     AdminPageFramework/Common/Factory/Resource
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
  */

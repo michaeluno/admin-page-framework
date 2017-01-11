@@ -11,8 +11,7 @@
  * Provides methods to return CSS rules for form outputs.
  *
  * @since       3.7.0
- * @package     AdminPageFramework
- * @subpackage  Factory/MetaBox/Form
+ * @package     AdminPageFramework/Factory/MetaBox/Form
  * @internal
  */
 class AdminPageFramework_Form_View___CSS_meta_box extends AdminPageFramework_Form_View___CSS_Base {

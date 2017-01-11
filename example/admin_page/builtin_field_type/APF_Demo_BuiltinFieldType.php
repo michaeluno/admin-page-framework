@@ -11,8 +11,7 @@
  * Adds a page to the loader plugin.
  * 
  * @since       3.6.2
- * @package     AdminPageFramework
- * @subpackage  Example 
+ * @package     AdminPageFramework/Example
  */
 class APF_Demo_BuiltinFieldType {
 

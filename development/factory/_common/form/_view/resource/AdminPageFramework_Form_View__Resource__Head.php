@@ -13,8 +13,7 @@
  * Most form scripts can be inserted after the head tag. However there are a few that must be inserted in the header,
  * such as the ones that hides the form and shows a loading message.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Resource
+ * @package     AdminPageFramework/Common/Form/View/Resource
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal

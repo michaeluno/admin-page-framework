@@ -12,8 +12,7 @@
  * 
  * @abstract
  * @since       3.0.0
- * @package     AdminPageFramework
- * @subpackage  Factory/TaxonomyField
+ * @package     AdminPageFramework/Factory/TaxonomyField
  * @extends     AdminPageFramework_TaxonomyField_Controller
  */
 abstract class AdminPageFramework_TaxonomyField extends AdminPageFramework_TaxonomyField_Controller {

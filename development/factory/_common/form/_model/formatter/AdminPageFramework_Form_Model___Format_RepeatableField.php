@@ -10,8 +10,7 @@
 /**
  * Provides methods to format repeatable section arguments.
  *
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Model/Format
+ * @package     AdminPageFramework/Common/Form/Model/Format
  * @since       3.8.13
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal

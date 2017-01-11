@@ -16,8 +16,7 @@
  * @since       3.1.0
  * @remark      This class stems from several abstract classes.
  * @extends     AdminPageFramework
- * @package     AdminPageFramework
- * @subpackage  Factory/NetworkAdmin
+ * @package     AdminPageFramework/Factory/NetworkAdmin
  */
 abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
        

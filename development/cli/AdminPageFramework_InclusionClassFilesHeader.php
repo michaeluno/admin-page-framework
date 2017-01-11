@@ -23,8 +23,7 @@ if ( php_sapi_name() === 'cli' ) {
  * The script creator will include this file ( but it does not include WordPress ) to use the reflection class to generate the header comment section.
  *
  * @since       3.1.3
- * @package     AdminPageFramework
- * @subpackage  Property
+ * @package     AdminPageFramework/Property
  * @internal
  */
 final class AdminPageFramework_InclusionClassFilesHeader extends AdminPageFramework_Registry_Base {

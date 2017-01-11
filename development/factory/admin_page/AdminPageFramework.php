@@ -15,8 +15,7 @@
  * @abstract
  * @since       2.0.0
  * @extends     AdminPageFramework_Controller
- * @package     AdminPageFramework
- * @subpackage  Factory/AdminPage
+ * @package     AdminPageFramework/Factory/AdminPage
  * @remark      Most of the internal methods are prefixed with the underscore like `_getSomething()` and callback methods are prefixed with `_reply`.
  * The methods for the users are public and do not have those prefixes.
  */

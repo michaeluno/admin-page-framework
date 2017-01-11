@@ -13,8 +13,7 @@
  * When the user's extended classes are instantiated, internally programmed routines in the bases will be performed and do the tasks such as creating pages, post types, forms etc.
  * 
  * @since       3.3.0
- * @package     AdminPageFramework
- * @subpackage  Factory
+ * @package     AdminPageFramework/Factory
  * @heading     Factories
  */
 class AdminPageFramework_Factory_Documentaiton {}

@@ -11,7 +11,7 @@
  * Provides utility methods which do not use WordPress functions.
  *
  * @since       3.7.0
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  * @internal
  */
 abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramework_Utility_SystemInformation {

@@ -10,8 +10,7 @@
 /**
  * Provides methods to handle importing options.
  * 
- * @package     AdminPageFramework
- * @subpackage  Factory/AdminPage/Model
+ * @package     AdminPageFramework/Factory/AdminPage/Model
  * @since       3.6.3
  * @internal
  */

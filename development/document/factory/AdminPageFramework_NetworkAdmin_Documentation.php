@@ -79,8 +79,7 @@
  * @image       http://admin-page-framework.michaeluno.jp/image/factory/network_admin.png
  * @since       3.3.0
  * @extends     AdminPageFramework
- * @package     AdminPageFramework
- * @subpackage  Factory/NetworkAdmin
+ * @package     AdminPageFramework/Factory/NetworkAdmin
  * @heading     Network Admin Page
  */
 abstract class AdminPageFramework_NetworkAdmin_Documentation extends AdminPageFramework_Documentaiton{}

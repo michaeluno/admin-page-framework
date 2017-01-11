@@ -15,8 +15,7 @@
  * including the factory classes of the admin page, widget, and meta box etc.
  * 
  * @since       3.8.0
- * @package     AdminPageFramework
- * @subpackage  Common
+ * @package     AdminPageFramework/Common
  * @heading     Common Components
  */
 class AdminPageFramework_Common_Documentaiton {}

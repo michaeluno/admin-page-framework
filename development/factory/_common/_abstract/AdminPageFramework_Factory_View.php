@@ -12,8 +12,7 @@
  * 
  * @abstract
  * @since       3.0.4
- * @package     AdminPageFramework
- * @subpackage  Common/Factory
+ * @package     AdminPageFramework/Common/Factory
  * @internal
  */
 abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factory_Model {

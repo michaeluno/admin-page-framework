@@ -12,8 +12,7 @@
  * 
  * @abstract
  * @since       3.0.4
- * @package     AdminPageFramework
- * @subpackage  Common/Factory
+ * @package     AdminPageFramework/Common/Factory
  * @transient   apf_field_erros_{user id}   stores the user-set fields error array.
  * @transient   apf_notices_{user id}       stores the user-set admin notification messages.
  * @internal

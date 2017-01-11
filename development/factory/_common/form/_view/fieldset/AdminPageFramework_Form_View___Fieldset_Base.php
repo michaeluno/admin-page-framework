@@ -16,8 +16,7 @@
  * @since       3.3.1       Extends `AdminPageFramework_FormOutput`.
  * @since       3.6.0       Extends `AdminPageFramework_WPUtility`.
  * @extends     AdminPageFramework_FrameworkUtility
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Field
+ * @package     AdminPageFramework/Common/Form/View/Field
  * @internal
  */
 abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFramework_Form_Utility {

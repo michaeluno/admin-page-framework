@@ -12,8 +12,7 @@
  *
  * @since       2.0.0
  * @extends     AdminPageFramework_Utility_ArraySetter
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  * @internal
  */
 abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utility_ArraySetter {

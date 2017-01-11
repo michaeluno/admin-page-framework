@@ -12,8 +12,7 @@
  *
  * @since       2.0.0
  * @extends     AdminPageFramework_Utility
- * @package     AdminPageFramework
- * @subpackage  Factory/PostType/Link
+ * @package     AdminPageFramework/Factory/PostType/Link
  * @internal
  */
 class AdminPageFramework_Link_post_type extends AdminPageFramework_Link_Base {

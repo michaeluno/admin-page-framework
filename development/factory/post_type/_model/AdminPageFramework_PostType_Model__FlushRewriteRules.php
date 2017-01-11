@@ -11,8 +11,7 @@
  * Provides methods to modify sub-menu order.
  * 
  * @since           3.7.6
- * @package         AdminPageFramework
- * @subpackage      Factory/PostType
+ * @package         AdminPageFramework/Factory/PostType
  * @internal
  */
 class AdminPageFramework_PostType_Model__FlushRewriteRules extends AdminPageFramework_FrameworkUtility {

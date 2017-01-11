@@ -10,8 +10,7 @@
 /**
  * Provides methods to render section title.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Section
+ * @package     AdminPageFramework/Common/Form/View/Section
  * @since       3.6.0
  * @since       3.7.0      Changed the name from `AdminPageFramework_FormPart_SectionTitle`.
  * @internal

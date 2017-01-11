@@ -15,8 +15,7 @@
  * This is for generic pages the framework creates.
  * 
  * @since       3.7.10
- * @package     AdminPageFramework
- * @subpackage  Factory/NetworkAdmin/Resource
+ * @package     AdminPageFramework/Factory/NetworkAdmin/Resource
  * @extends     AdminPageFramework_Resource_admin_page
  * @internal
  */

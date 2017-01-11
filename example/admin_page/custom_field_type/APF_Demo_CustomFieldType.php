@@ -11,8 +11,7 @@
  * Adds the Custom Field Type page to the loader plugin.
  * 
  * @since       3.5.0  
- * @package     AdminPageFramework
- * @subpackage  Example 
+ * @package     AdminPageFramework/Example
  */
 class APF_Demo_CustomFieldType {
 

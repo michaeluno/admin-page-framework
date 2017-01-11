@@ -10,9 +10,8 @@
 /**
  * Provides hared methods for form validation.
  * 
- * @package     AdminPageFramework
+ * @package     AdminPageFramework/Factory/AdminPage/Model
  * @extends     AdminPageFramework_WPUtility
- * @subpackage  Factory/AdminPage/Model
  * @since       3.6.3
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility

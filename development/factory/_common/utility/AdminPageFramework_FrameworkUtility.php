@@ -12,8 +12,7 @@
  *
  * @since           3.7.1
  * @extends         AdminPageFramework_WPUtility
- * @package         AdminPageFramework
- * @subpackage      Common/Utility
+ * @package         AdminPageFramework/Common/Utility
  * @internal
  */
 class AdminPageFramework_FrameworkUtility extends AdminPageFramework_WPUtility {

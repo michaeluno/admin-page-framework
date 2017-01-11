@@ -11,8 +11,7 @@
  * Defines the `inline_mixed` field type.
  * 
  * 
- * @package         AdminPageFramework
- * @subpackage      Common/Form/FieldType
+ * @package         AdminPageFramework/Common/Form/FieldType
  * @since           3.8.0
  * @internal
  */

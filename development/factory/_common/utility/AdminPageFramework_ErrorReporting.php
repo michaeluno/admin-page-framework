@@ -12,8 +12,7 @@
  * 
  * @since       3.3.0
  * @see         http://www.efrag.gr/2013/01/how-to-get-your-error-reporting-constant-values/
- * @package     AdminPageFramework
- * @subpackage  Common/Utility/ErrorReporting
+ * @package     AdminPageFramework/Common/Utility/ErrorReporting
  * @internal    
  */
 class AdminPageFramework_ErrorReporting {

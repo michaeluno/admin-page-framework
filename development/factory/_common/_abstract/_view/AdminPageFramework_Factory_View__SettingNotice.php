@@ -11,8 +11,7 @@
  * Provides methods to display setting notices.
  * 
  * @since       3.7.0
- * @package     AdminPageFramework
- * @subpackage  Common/Factory
+ * @package     AdminPageFramework/Common/Factory
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
  */

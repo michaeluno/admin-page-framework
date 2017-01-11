@@ -11,8 +11,7 @@
  * Provides the space to store the shared properties for taxonomy fields.
  *  
  * @since       3.8.0
- * @package     AdminPageFramework
- * @subpackage  Factory/TermMeta/Property
+ * @package     AdminPageFramework/Factory/TermMeta/Property
  * @extends     AdminPageFramework_Property_post_meta_box
  * @internal
  */

@@ -11,8 +11,7 @@
  *
  * @abstract
  * @since           3.5.0
- * @package         AdminPageFramework
- * @subpackage      Factory/UserMeta
+ * @package         AdminPageFramework/Factory/UserMeta
  * @internal
  */
 abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_UserMeta_Router {

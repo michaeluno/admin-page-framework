@@ -75,8 +75,7 @@
  * 
  * @image           http://admin-page-framework.michaeluno.jp/image/factory/user_meta.png
  * @since           3.3.0
- * @package         AdminPageFramework
- * @subpackage      Factory/UserMeta
+ * @package         AdminPageFramework/Factory/UserMeta
  * @heading         User Meta
  */
 abstract class AdminPageFramework_UserMeta_Documentation {}

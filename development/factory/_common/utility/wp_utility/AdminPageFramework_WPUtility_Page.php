@@ -14,8 +14,7 @@
  *
  * @since       2.0.0
  * @extends     AdminPageFramework_Utility
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  * @internal
  */
 class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTML {

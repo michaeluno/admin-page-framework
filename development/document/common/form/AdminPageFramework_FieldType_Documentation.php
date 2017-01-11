@@ -17,8 +17,7 @@
  * Those types are defined with a class which extends the common base class {@link AdminPageFramework_FieldType} that provides necessary functions to define a field type.
  * By extending the base class, you can define your own field type. 
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/FieldType
+ * @package     AdminPageFramework/Common/Form/FieldType
  * @since       3.3.0      
  * @heading     Field Types
  */

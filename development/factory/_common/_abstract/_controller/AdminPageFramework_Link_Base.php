@@ -13,8 +13,7 @@
  * @abstract
  * @since       2.0.0
  * @extends     AdminPageFramework_FrameworkUtility
- * @package     AdminPageFramework
- * @subpackage  Common/Factory/Link
+ * @package     AdminPageFramework/Common/Factory/Link
  * @internal
  */
 abstract class AdminPageFramework_Link_Base extends AdminPageFramework_FrameworkUtility {

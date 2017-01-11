@@ -37,8 +37,7 @@
  * </code>
  * 
  * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/radio.png
- * @package         AdminPageFramework
- * @subpackage      Common/Form/FieldType
+ * @package         AdminPageFramework/Common/Form/FieldType
  * @since           2.1.5
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  */

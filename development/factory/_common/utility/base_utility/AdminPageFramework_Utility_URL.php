@@ -12,8 +12,7 @@
  *
  * @since       3.0.0
  * @extends     AdminPageFramework_Utility_Path
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  * @internal
  */
 abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility_Path {

@@ -10,8 +10,7 @@
 /**
  * Provides methods that deal with dropping repeatable form elements from a form input array.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Model/Modifier
+ * @package     AdminPageFramework/Common/Form/Model/Modifier
  * @since       3.6.2
  * @extends     AdminPageFramework_Form_Model___Modifier_Base
  * @internal

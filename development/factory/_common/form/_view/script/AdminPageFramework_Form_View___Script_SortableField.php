@@ -13,8 +13,7 @@
  * @since           3.0.0     
  * @since           3.3.0       Extends `AdminPageFramework_Form_View___Script_Base`.
  * @since           3.6.0       Changed the name from `AdminPageFramework_Form_View___Script_Sortable`.
- * @package         AdminPageFramework
- * @subpackage      Common/Form/View/JavaScript
+ * @package         AdminPageFramework/Common/Form/View/JavaScript
  * @internal
  */
 class AdminPageFramework_Form_View___Script_SortableField extends AdminPageFramework_Form_View___Script_Base {

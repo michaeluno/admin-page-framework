@@ -12,8 +12,7 @@
  *
  * @since       3.7.0
  * @since       3.8.0       Changed the visibility scope to `abstract` to make it clear it is an abstract class.
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/CSS
+ * @package     AdminPageFramework/Common/Form/View/CSS
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal
  */

@@ -36,8 +36,7 @@
  * 
  * @remark      Requires PHP 5.3.0 or above.
  * @since       3.7.10
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  */
 class AdminPageFramework_ClassTester {
         

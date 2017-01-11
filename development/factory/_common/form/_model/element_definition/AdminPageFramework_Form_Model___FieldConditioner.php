@@ -11,8 +11,7 @@
 /**
  * Provides methods to build forms.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Model
+ * @package     AdminPageFramework/Common/Form/Model
  * @since       3.7.0
  * @internal
  * @todo        This may be deprecated. Investigate what this was for and why this is not used at the moment. 

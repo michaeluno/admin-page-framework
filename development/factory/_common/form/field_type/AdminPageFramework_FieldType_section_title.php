@@ -36,8 +36,7 @@
  * </code>
  * 
  * @image       http://admin-page-framework.michaeluno.jp/image/common/form/field_type/section_title.png
- * @package     AdminPageFramework
- * @subpackage  Common/Form/FieldType
+ * @package     AdminPageFramework/Common/Form/FieldType
  * @since       3.0.0
  * @since       3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  * @since       3.5.3       Changed to extend `AdminPageFramework_FieldType_text` from `AdminPageFramework_FieldType`.

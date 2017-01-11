@@ -140,8 +140,7 @@
  * 
  * @image       http://admin-page-framework.michaeluno.jp/image/factory/page_meta_box.png
  * @since       3.3.0
- * @package     AdminPageFramework
- * @subpackage  Factory/PageMetaBox
+ * @package     AdminPageFramework/Factory/PageMetaBox
  * @heading     Page Meta Box
  */
 abstract class AdminPageFramework_PageMetaBox_Documentation {}

@@ -173,8 +173,7 @@ if ( ! class_exists( 'AdminPageFramework_Bootstrap', false ) ) :
  * Loads the Admin Page Framework library.
  *
  * @since       3.0.0
- * @package     AdminPageFramework
- * @subpackage  Utility
+ * @package     AdminPageFramework/Utility
  * @internal
  */
 final class AdminPageFramework_Bootstrap {

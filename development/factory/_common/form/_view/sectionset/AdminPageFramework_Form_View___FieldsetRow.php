@@ -10,8 +10,7 @@
 /**
  * Provides methods to render a fieldset.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Field
+ * @package     AdminPageFramework/Common/Form/View/Field
  * @since       3.6.0 
  * @internal
  */

@@ -12,8 +12,7 @@
  * 
  * @abstract
  * @since           2.0.0
- * @package         AdminPageFramework
- * @subpackage      Factory/PostType
+ * @package         AdminPageFramework/Factory/PostType
  */
 abstract class AdminPageFramework_PostType extends AdminPageFramework_PostType_Controller {    
       

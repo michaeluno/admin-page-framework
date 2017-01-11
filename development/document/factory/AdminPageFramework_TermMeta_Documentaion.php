@@ -85,8 +85,7 @@
  * @image       http://admin-page-framework.michaeluno.jp/image/factory/term_meta.png
  * @image       http://admin-page-framework.michaeluno.jp/image/factory/term_meta_edit.png
  * @since       3.8.0
- * @package     AdminPageFramework
- * @subpackage  Factory/TermMeta
+ * @package     AdminPageFramework/Factory/TermMeta
  * @heading     Term Meta
  */
 abstract class AdminPageFramework_TermMeta_Documentaion {}

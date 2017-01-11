@@ -32,8 +32,7 @@
  * </code>
  * 
  * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/import.png
- * @package         AdminPageFramework
- * @subpackage      Common/Form/FieldType
+ * @package         AdminPageFramework/Common/Form/FieldType
  * @since           2.1.5
  */
 class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_submit {

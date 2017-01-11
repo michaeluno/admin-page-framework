@@ -11,8 +11,7 @@
  * Stores properties of a network admin object.
  * 
  * @since       3.1.0
- * @package     AdminPageFramework
- * @subpackage  Factory/NetworkAdmin/Property
+ * @package     AdminPageFramework/Factory/NetworkAdmin/Property
  * @extends     AdminPageFramework_Property_admin_page
  * @internal
  */

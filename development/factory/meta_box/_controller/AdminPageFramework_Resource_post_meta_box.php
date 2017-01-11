@@ -17,9 +17,8 @@
  * @since       2.1.5
  * @since       3.3.0       Changed the name from AdminPageFramework_HeadTag_MetaBox.
  * @use         AdminPageFramework_Utility
- * @package     AdminPageFramework
+ * @package     AdminPageFramework/Factory/MetaBox/Resource
  * @extends     AdminPageFramework_Resource_Base
- * @subpackage  Factory/MetaBox/Resource
  * @internal
  */
 class AdminPageFramework_Resource_post_meta_box extends AdminPageFramework_Resource_Base {

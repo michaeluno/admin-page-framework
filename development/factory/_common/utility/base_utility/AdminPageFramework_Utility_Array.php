@@ -11,9 +11,8 @@
  * Provides utility methods dealing with PHP arrays which do not use WordPress functions.
  *
  * @since       2.0.0
- * @package     AdminPageFramework
+ * @package     AdminPageFramework/Utility
  * @extends     AdminPageFramework_Utility_String
- * @subpackage  Utility
  * @internal
  */
 abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {

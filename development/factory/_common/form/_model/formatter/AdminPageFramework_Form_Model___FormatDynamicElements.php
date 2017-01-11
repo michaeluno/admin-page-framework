@@ -12,8 +12,7 @@
  * 
  * It adds fields of repeated sections to the field-sets definition array.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/Model/Format
+ * @package     AdminPageFramework/Common/Form/Model/Format
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal

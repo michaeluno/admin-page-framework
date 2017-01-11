@@ -10,8 +10,7 @@
 /**
  * Provides methods to handle setting notices.
  * 
- * @package     AdminPageFramework
- * @subpackage  Form
+ * @package     AdminPageFramework/Form
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
  * @internal

@@ -51,8 +51,7 @@
  * 
  * 
  * @image       http://admin-page-framework.michaeluno.jp/image/common/form/field_type/system.png
- * @package     AdminPageFramework
- * @subpackage  Common/Form/FieldType
+ * @package     AdminPageFramework/Common/Form/FieldType
  * @since       3.3.0
  */
 class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {

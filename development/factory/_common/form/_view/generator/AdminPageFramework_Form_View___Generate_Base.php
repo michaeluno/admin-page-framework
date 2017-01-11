@@ -10,8 +10,7 @@
 /**
  * Provides base methods that deal with generating values.
  * 
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/Generator
+ * @package     AdminPageFramework/Common/Form/View/Generator
  * @since       3.6.0
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility

@@ -12,8 +12,7 @@
  * 
  * @since       3.0.0     
  * @since       3.3.0       Extends `AdminPageFramework_Form_View___Script_Base`.
- * @package     AdminPageFramework
- * @subpackage  Common/Form/View/JavaScript
+ * @package     AdminPageFramework/Common/Form/View/JavaScript
  * @internal
  */
 class AdminPageFramework_Form_View___Script_AttributeUpdator extends AdminPageFramework_Form_View___Script_Base {
