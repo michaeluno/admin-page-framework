@@ -140,10 +140,7 @@ abstract class AdminPageFramework_Factory_Router {
     public function __construct( $oProp ) {
 
         // Set sub-class names.
-        foreach( $this->_aSubClassPrefixes as $_sObjectVariableName => $_sPrefix ) {
-            $this->aSubClassNames[ $_sObjectVariableName ] = $_sPrefix . $this->_sStructureType;
-        }
-        $this->aSubClassNames = $this->aSubClassNames + $this->_aSubClassNames;
+        $this->aSubClassNames = $this->___getSubClassNames();
     
         // Let them overload so that these sub-class objects will not be instantiated until they are required.
         unset( 
@@ -159,13 +156,9 @@ abstract class AdminPageFramework_Factory_Router {
         
         // Required sub-class objects
         $this->oProp = $oProp;
-            
+
         if ( $this->oProp->bIsAdmin && ! $this->oProp->bIsAdminAjax ) {
-            if ( did_action( 'current_screen' ) ) {
-                $this->_replyToLoadComponents();
-            } else {                
-                add_action( 'current_screen', array( $this, '_replyToLoadComponents' ) );
-            }
+            $this->oUtil->registerAction( 'current_screen', array( $this, '_replyToLoadComponents' ) );
         }
         
         // Call the user constructor.
@@ -173,7 +166,18 @@ abstract class AdminPageFramework_Factory_Router {
         $this->oUtil->addAndDoAction( $this, 'start_' . $this->oProp->sClassName, $this );
         
     }    
-        
+        /**
+         * Retrieves sub-class names for sub-objects.
+         * @since       3.8.14
+         * @return      array
+         */
+        private function ___getSubClassNames() {
+            foreach( $this->_aSubClassPrefixes as $_sObjectVariableName => $_sPrefix ) {
+                $this->aSubClassNames[ $_sObjectVariableName ] = $_sPrefix . $this->_sStructureType;
+            }
+            return $this->aSubClassNames + $this->_aSubClassNames;
+        }
+
     /**
      * Determines whether the class component classes should be instantiated or not.
      * 
