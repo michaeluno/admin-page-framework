@@ -91,10 +91,11 @@ abstract class AdminPageFramework_HelpPane_Base extends AdminPageFramework_Frame
      * 
      * @since       3.7.10
      * @internal
+     * @deprecated  3.8.14
      */
-    protected function _isInThePage() {
-        return $this->oProp->oCaller->isInThePage();    
-    }
+//    protected function _isInThePage() {
+//        return $this->oProp->oCaller->isInThePage();
+//    }
     
     /**
      * Adds the given HTML text to the contextual help pane.
@@ -144,7 +145,7 @@ abstract class AdminPageFramework_HelpPane_Base extends AdminPageFramework_Frame
     public function _replyToRegisterHelpTabText() {
 
         // Check if the currently loaded page is of meta box page.
-        if ( ! $this->_isInThePage() ) { 
+        if ( ! $this->oProp->oCaller->isInThePage() ) {
             return false; 
         }
 

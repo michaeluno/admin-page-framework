@@ -293,11 +293,12 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      * Checks whether the currently loading page is of the given pages. 
      * 
      * @since       3.0.2
-     * @since       3.2.0       Changed the scope to public from protected as the head tag object will access it.
+     * @since       3.2.0       Changed the scope to `public` from `protected` as the head tag object will access it.
      * @since       3.3.1       Moved from `AdminPageFramework_Base`.
+     * @since       3.8.14      Changed the visibility scope to `protected` from `public` as there is the `isInThePage()` public method.
      * @internal
      */
-    public function _isInThePage() {
+    protected function _isInThePage() {
         
         // If the setUp method is not loaded yet,
         if ( ! did_action( 'set_up_' . $this->oProp->sClassName ) ) {

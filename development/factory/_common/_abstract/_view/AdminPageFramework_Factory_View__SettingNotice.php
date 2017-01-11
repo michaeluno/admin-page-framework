@@ -59,7 +59,7 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
          */
         private function _shouldProceed() {
             
-            if ( ! $this->oFactory->_isInThePage() ) { 
+            if ( ! $this->oFactory->isInThePage() ) {
                 return false; 
             }
                 

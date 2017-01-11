@@ -222,10 +222,10 @@ abstract class AdminPageFramework_Factory_Router {
      * @remark      This method should be called AFTER current screen is determined such as after the `current_screen` action hook.
      * @since       3.0.3
      * @since       3.2.0   Changed the visibility scope to `public` from `protected` as the head tag object will access it.
-     * @todo        Change the visibility scope to `protected` as the public version of the method `isInThePage()` has been introduced to make the design consitent.
+     * @since       3.8.14  Changed the visibility scope to `protected` from `public` as there is the `isInThePage()` public method.
      * @internal
      */
-    public function _isInThePage() { 
+    protected function _isInThePage() {
         return true; 
     }
          

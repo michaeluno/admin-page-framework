@@ -49,10 +49,11 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
      * 
      * @internal
      * @since       3.0.3
-     * @since       3.2.0       Changed the scope to public from protected as the head tag object will access it.
+     * @since       3.2.0       Changed the scope to `public` from `protected` as the head tag object will access it.
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
+     * @since       3.8.14      Changed the visibility scope to `protected` from `public` as there is the `isInThePage()` public method.
      */
-    public function _isInThePage() {
+    protected function _isInThePage() {
 
         if ( 'admin-ajax.php' == $this->oProp->sPageNow ) {
             return true;

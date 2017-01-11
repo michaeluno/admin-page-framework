@@ -467,7 +467,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     public function _replyToAddStyle() {
     
         $_oCaller = $this->oProp->oCaller;     
-        if ( ! $_oCaller->_isInThePage() ) {
+        if ( ! $_oCaller->isInThePage() ) {
             return; 
         }
         
@@ -487,7 +487,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     public function _replyToAddScript() {
 
         $_oCaller = $this->oProp->oCaller;     
-        if ( ! $_oCaller->_isInThePage() ) { 
+        if ( ! $_oCaller->isInThePage() ) {
             return; 
         }
         

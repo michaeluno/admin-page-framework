@@ -90,7 +90,7 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_F
         private function _shouldProceed() {
 
             // Check if it's one of the plugin's added page. If not, do nothing.
-            if ( ! $this->oFactory->_isInThePage() ) {
+            if ( ! $this->oFactory->isInThePage() ) {
                 return false;
             }
             

@@ -45,9 +45,10 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
      * 
      * @internal
      * @since       3.5.0
+     * @since       3.8.14  Changed the visibility scope to `protected` from `public` as there is the `isInThePage()` public method.
      * @return      boolean
      */
-    public function _isInThePage() {
+    protected function _isInThePage() {
                
         if ( ! $this->oProp->bIsAdmin ) {
             return false;

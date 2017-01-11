@@ -29,7 +29,7 @@ class AdminPageFramework_HelpPane_post_meta_box extends AdminPageFramework_HelpP
     public function _replyToRegisterHelpTabText() {
 
         // Check if the currently loaded page is of meta box page.
-        if ( ! $this->_isInThePage() ) { 
+        if ( ! $this->oProp->oCaller->isInThePage() ) {
             return false; 
         }
 

@@ -65,7 +65,7 @@ class AdminPageFramework_HelpPane_admin_page extends AdminPageFramework_HelpPane
      */  
     public function _replyToRegisterHelpTabs() {
 
-        if ( ! $this->_isInThePage() ) {
+        if ( ! $this->oProp->oCaller->isInThePage() ) {
             return;
         }
     
