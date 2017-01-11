@@ -248,7 +248,7 @@ abstract class AdminPageFramework_Factory_Router {
         }
 
         // Calls `setUp()` and the user will set up the meta box.
-        $this->_setUp();
+        $this->setUp();
         
         /**
          * This action hook must be called AFTER the _setUp() method 

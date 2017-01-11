@@ -70,7 +70,7 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
      */
     public function _replyToDetermineToLoad() {
         
-        $this->_setUp();
+        $this->setUp();
         
         // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
         $this->oUtil->addAndDoAction( 
