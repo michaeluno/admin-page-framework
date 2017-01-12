@@ -206,7 +206,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         if ( ! $this->isInThePage() ) {
             return;
         }
-                
+
         // Load field type definitions.
         $this->_setFieldTypeDefinitions( 'admin_page_framework' );      // site-wide
         $this->_setFieldTypeDefinitions( $this->aArguments[ 'caller_id' ] );  // per class 

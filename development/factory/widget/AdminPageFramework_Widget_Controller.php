@@ -111,9 +111,10 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      *  }
      * </code>
      * @since       3.2.0
-     * @todo        Write the difference between this method and `setUp()` and why the user should use this method to regeister form elements.
+     * @since       3.8.14      Deprecated the first parameter.
+     * @todo        Document the difference between this method and `setUp()` and why the user should use this method to register form elements.
      */
-    public function load( $oAdminWidget ) {}
+    public function load() {}
       
     /*
      * Head Tag Methods

@@ -55,9 +55,9 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
      */
     protected function _isInThePage() {
 
-        if ( 'admin-ajax.php' == $this->oProp->sPageNow ) {
+        if ( $this->oProp->bIsAdminAjax ) {
             return true;
-        }    
+        }
         
         if ( ! in_array( $this->oProp->sPageNow, array( 'edit-tags.php', 'term.php' ) ) ) {
             return false;

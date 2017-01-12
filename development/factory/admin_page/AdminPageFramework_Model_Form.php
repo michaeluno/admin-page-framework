@@ -61,10 +61,11 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
     public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 
         parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
-        
-        if ( $this->oProp->bIsAdminAjax ) {
-            return;
-        }
+
+        // @deprecated  3.8.14
+//        if ( $this->oProp->bIsAdminAjax ) {
+//            return;
+//        }
         if ( ! $this->oProp->bIsAdmin ) {
             return;
         }
@@ -410,6 +411,9 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
      * @return      boolean     Whether or not the form registration should be allowed in the current screen.
      */
     public function _replyToDetermineWhetherToProcessFormRegistration( $bAllowed ) {
+        if ( $this->oProp->bIsAdminAjax ) {
+            return true;
+        }
         $_sPageSlug = $this->oProp->getCurrentPageSlug();
         return $this->oProp->isPageAdded( $_sPageSlug );
     }

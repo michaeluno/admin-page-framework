@@ -27,10 +27,11 @@ abstract class AdminPageFramework_Model_Menu extends AdminPageFramework_Controll
     public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
         
         parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
-        
-        if ( $this->oProp->bIsAdminAjax ) {
-            return;
-        }
+
+        // @deprecated  3.8.14
+//        if ( $this->oProp->bIsAdminAjax ) {
+//            return;
+//        }
 
         new AdminPageFramework_Model_Menu__RegisterMenu( $this );
         

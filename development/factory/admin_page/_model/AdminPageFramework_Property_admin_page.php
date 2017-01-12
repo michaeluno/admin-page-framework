@@ -493,11 +493,11 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * @remark      Do not return `null` when not found as some framework methods check the retuened value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an emtpy string ('').
      */
     public function getCurrentPageSlug() {
-        return $this->getElement( 
-            $_GET,  // subject array
-            'page', // key
-            ''      // default
-        );            
+        return $this->getElement(
+            $this->aQuery,
+            'page',
+            ''
+        );
     }
 
     /**
@@ -513,9 +513,9 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * @remark      Do not return `null` when not found as some framework methods check the returned value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an empty string ('').
      */    
     public function getCurrentTabSlug( $sCurrentPageSlug='' ) {
-        
+
         // It is possible that the tab slug is not set if it is the default tab.
-        $_sTabSlug = $this->getElement( $_GET, 'tab' );
+        $_sTabSlug = $this->getElement( $this->aQuery, 'tab', '' );
         if ( $_sTabSlug ) { 
             return $_sTabSlug;
         }
@@ -544,10 +544,10 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * @internal
      * @remark Used in the __call() method in the main class.
      * @return string The default in-page tab slug if found; otherwise, an empty string.
-     */         
+     */
     public function getDefaultInPageTab( $sPageSlug ) {
-    
-        if ( ! $sPageSlug ) { 
+
+        if ( ! $sPageSlug ) {
             return ''; 
         }
         return $this->getElement( 

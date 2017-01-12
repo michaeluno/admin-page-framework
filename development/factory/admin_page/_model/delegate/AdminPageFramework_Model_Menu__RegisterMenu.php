@@ -91,6 +91,11 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
          */ 
         private function _registerRootMenuPage() {
 
+            if ( $this->oFactory->oProp->bIsAdminAjax ) {
+                $this->oFactory->oProp->aRootMenu[ '_page_hook' ] = $this->oFactory->oProp->sClassName;
+                return;
+            }
+
             $this->oFactory->oProp->aRootMenu[ '_page_hook' ] = add_menu_page(  
                 $this->oFactory->oProp->sClassName,                 // Page title - will be invisible anyway
                 $this->oFactory->oProp->aRootMenu[ 'sTitle' ],      // Menu title - should be the root page title.
@@ -116,7 +121,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
      * @uses        remove_submenu_page
      */
     public function _replyToRegisterSubMenuItems() {
-        
+
         // Let external scripts add sub-menu pages.
         $_aPages = $this->addAndApplyFilter( 
             $this->oFactory,    // caller object
@@ -249,22 +254,28 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
              * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
              * @since       3.7.4       Added the `$nOrder` parameter.
              * @return      string      The page hook of the added page.
-             * @uses        add_submenu_page
              */
             private function _addPageSubmenuItem( $sRootPageSlug, $sMenuSlug, $sPageSlug, $sPageTitle, $sMenuTitle, $sCapability, $bShowInMenu, $nOrder ) {
                 
                 if ( ! $sPageSlug ) {
                     return '';
                 }
-                
-                $_sPageHook = add_submenu_page( 
+                $_sPageHook = $this->___addSubMenuPage(
                     $sRootPageSlug,         // the root (parent) page slug
                     $sPageTitle,            // page title
                     $sMenuTitle,            // menu title
                     $sCapability,           // capability
-                    $sPageSlug,             // menu slug
-                    array( $this->oFactory, '_replyToRenderPage' )  // callback 3.7.10+
-                );     
+                    $sPageSlug              // menu slug
+                );
+
+//                $_sPageHook = add_submenu_page(
+//                    $sRootPageSlug,         // the root (parent) page slug
+//                    $sPageTitle,            // page title
+//                    $sMenuTitle,            // menu title
+//                    $sCapability,           // capability
+//                    $sPageSlug,             // menu slug
+//                    array( $this->oFactory, '_replyToRenderPage' )  // callback 3.7.10+
+//                );
                 
                 $this->_setPageHooks( $_sPageHook, $sPageSlug );
                 
@@ -298,6 +309,36 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                 return $_sPageHook;
             
             }
+
+                /**
+                 * @param       string $sRootPageSlug
+                 * @param       string $sPageTitle
+                 * @param       string $sMenuTitle
+                 * @param       string $sCapability
+                 * @param       string $sPageSlug
+                 * @since       3.8.14
+                 * @return      false|string
+                 * @uses        add_submenu_page
+                 */
+                private function ___addSubMenuPage(
+                    $sRootPageSlug,         // the root (parent) page slug
+                    $sPageTitle,            // page title
+                    $sMenuTitle,            // menu title
+                    $sCapability,           // capability
+                    $sPageSlug              // menu slug
+                ) {
+                    if ( $this->oFactory->oProp->bIsAdminAjax ) {
+                        return $sPageSlug;
+                    }
+                    return add_submenu_page(
+                        $sRootPageSlug,         // the root (parent) page slug
+                        $sPageTitle,            // page title
+                        $sMenuTitle,            // menu title
+                        $sCapability,           // capability
+                        $sPageSlug,             // menu slug
+                        array( $this->oFactory, '_replyToRenderPage' )  // callback 3.7.10+
+                    );
+                }
                 /**
                  * Checks whether the given page slug is of the currently loading page.
                  * 
@@ -307,7 +348,7 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                  * @since       3.7.4
                  */
                 private function _isCurrentPage( $sPageSlug ) {
-                    return isset( $_GET[ 'page' ] ) && $sPageSlug === $_GET[ 'page' ];
+                    return $sPageSlug === $this->getElement( $this->oFactory->oProp->aQuery, 'page' );
                 }
                 
                 /**
@@ -330,6 +371,15 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                         'current_screen', 
                         array( $this->oFactory, "load_pre_" . $sPageSlug ), 
                         20 
+                    );
+                    /**
+                     * For Ajax calls.
+                     * @since       3.8.14
+                     */
+                    add_action(
+                        'pseudo_current_screen',
+                        array( $this->oFactory, "load_pre_" . $sPageSlug ),
+                        20
                     );
                     
                     /**
@@ -520,6 +570,9 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
         
         // After adding the sub menus, if the root menu is created, remove the page that is automatically created when registering the root menu.
         if ( ! $this->oFactory->oProp->aRootMenu[ 'fCreateRoot' ] ) {
+            return;
+        }
+        if ( $this->oFactory->oProp->bIsAdminAjax ) {
             return;
         }
         remove_submenu_page( 

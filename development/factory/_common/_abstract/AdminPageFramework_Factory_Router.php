@@ -157,7 +157,9 @@ abstract class AdminPageFramework_Factory_Router {
         // Required sub-class objects
         $this->oProp = $oProp;
 
-        if ( $this->oProp->bIsAdmin && ! $this->oProp->bIsAdminAjax ) {
+// @deprecated  3.8.14
+// if ( $this->oProp->bIsAdmin && ! $this->oProp->bIsAdminAjax ) {
+        if ( $this->oProp->bIsAdmin ) {
             $this->oUtil->registerAction( 'current_screen', array( $this, '_replyToLoadComponents' ) );
         }
         

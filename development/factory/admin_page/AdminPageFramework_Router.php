@@ -43,17 +43,36 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
 
         parent::__construct( $this->oProp );
 
-        if ( $this->oProp->bIsAdminAjax ) {
-            return;
-        }     
+// @deprecated      3.8.14
+//        if ( $this->oProp->bIsAdminAjax ) {
+//            return;
+//        }
         if ( ! $this->oProp->bIsAdmin ) {
             return;
         }
         
-        add_action( 'wp_loaded', array( $this, '_replyToDetermineToLoad' ) );        
-        
-    }   
-    
+        add_action( 'wp_loaded', array( $this, '_replyToDetermineToLoad' ) );
+        add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToLoadComponentsForAjax' ), 100 );
+
+    }
+
+    /**
+     * Loads page components for ajax calls.
+     *
+     * @since           3.8.14
+     * @remark          It is assumed that the `setUp()` method is already called.
+     * @callback        add_action      wp_loaded
+     */
+    public function _replyToLoadComponentsForAjax() {
+        if ( ! $this->oProp->bIsAdminAjax ) {
+            return;
+        }
+        new AdminPageFramework_Model_Menu__RegisterMenu( $this, 'pseudo_admin_menu' );
+        do_action( 'pseudo_admin_menu', '' );
+        do_action( 'pseudo_current_screen' );
+
+    }
+
     /**
      * Instantiates a link object based on the type.
      * 
@@ -154,11 +173,11 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
          * @internal
          */ 
         protected function _doPageLoadCall( $sMethodName, $sPageSlug, $sTabSlug, $oScreen ) {
-            
-            if ( ! $this->_isPageLoadCall( $sMethodName, $sPageSlug, $oScreen->id ) ) {
+
+            if ( ! $this->_isPageLoadCall( $sMethodName, $sPageSlug, $oScreen ) ) {
                 return;
             }
-                      
+
             // [3.4.6+] Set the page and tab slugs to the default form section so that added form fields without a section will appear in different pages and tabs.
             $this->_setPageAndTabSlugsForForm( $sPageSlug, $sTabSlug );
 
@@ -174,13 +193,13 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                 ),
                 $this // the admin page object - this lets third-party scripts use the framework methods.
             );
-            
+
             // * Note that the in-page tabs handling method `_replyToFinalizeInPageTabs()` is called in the above action hook.
             
             // Re-retrieve the current tab slug as in-page tabs may be added during the above `load_{...}`  hooks.
-            // Note that the if the tab is the first item, and the user arrives the page by clicking on the sidebar menu, the tab slug will be empty unless an in-page tab is added.
+            // Note that if the tab is the first item and the user arrives the page by clicking on the sidebar menu,
+            // the tab slug will be empty unless an in-page tab is added.
             $sTabSlug = $this->oProp->getCurrentTabSlug( $sPageSlug );
-            
             if ( strlen( $sTabSlug ) ) { 
                 $this->_setShowDebugInfoProperty( $sPageSlug, $sTabSlug );  // 3.8.8+
                 $this->oUtil->addAndDoActions( 
@@ -248,12 +267,12 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
              * Determines whether the function call is of a page load.
              * @since       3.5.3
              * @internal
-             * @return      boolean     True if it is a page load call; othwrwise, false.
-             * @param       string      $sMethodName        The undefined method name that is passed to the __call() overload method.
-             * @param       string      $sPageSlug          The currently loading page slug.
-             * @param       string      $sScreenID          The screen ID that the WordPress screen object gives.
+             * @return      boolean         True if it is a page load call; othwrwise, false.
+             * @param       string          $sMethodName        The undefined method name that is passed to the __call() overload method.
+             * @param       string          $sPageSlug          The currently loading page slug.
+             * @param       object|string   $osScreenORPageHook The screen ID that the WordPress screen object gives.
              */
-            private function _isPageLoadCall( $sMethodName, $sPageSlug, $sScreenID ) {
+            private function _isPageLoadCall( $sMethodName, $sPageSlug, $osScreenORPageHook ) {
                 
                 if ( substr( $sMethodName, strlen( 'load_pre_' ) ) !== $sPageSlug ) {
                     return false;
@@ -261,10 +280,10 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                 if ( ! isset( $this->oProp->aPageHooks[ $sPageSlug ] ) ) {
                     return false;
                 }
-                if ( $sScreenID !== $this->oProp->aPageHooks[ $sPageSlug ] ) {
-                    return false;
-                }
-                return true;
+                $_sPageHook = is_object( $osScreenORPageHook )
+                    ? $osScreenORPageHook->id
+                    : $sPageSlug; // for ajax calls
+                return $_sPageHook === $this->oProp->aPageHooks[ $sPageSlug ];
                 
             }       
             
@@ -278,11 +297,12 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      * @internal
      */
     protected function _isInstantiatable() {
-        
+
+// @deprecated      3.8.14
         // Disable in admin-ajax.php
-        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
-            return false;
-        }
+//        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
+//            return false;
+//        }
         
         // Nothing to do in the network admin area.
         return ! is_network_admin();
@@ -299,7 +319,12 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      * @internal
      */
     protected function _isInThePage() {
-        
+
+        // 3.8.14+
+        if ( $this->oProp->bIsAdminAjax ) {
+            return true;
+        }
+
         // If the setUp method is not loaded yet,
         if ( ! did_action( 'set_up_' . $this->oProp->sClassName ) ) {
             return true;

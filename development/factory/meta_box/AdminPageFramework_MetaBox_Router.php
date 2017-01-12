@@ -47,14 +47,31 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         if ( ! $this->oProp->bIsAdmin ) {
             return;
         }
-        
+
+        // 3.8.14
+        add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToCallLoadMethods' ), 100 );
+
         $this->oUtil->registerAction(
-            'current_screen', 
+            $this->oProp->bIsAdminAjax
+                ? 'wp_loaded'
+                : 'current_screen',
             array( $this, '_replyToDetermineToLoad' )
-        );                    
+        );
 
     }
-  
+
+    /**
+     * Calls the load method and callbacks.
+     * @since       3.8.14
+     * @return      void
+     * @internal
+     */
+    public function _replyToCallLoadMethods() {
+        $this->load();
+        $this->oUtil->addAndDoActions( $this, 'load_' . $this->oProp->sClassName, $this );
+    }
+
+
     /**
      * Determines whether the meta box belongs to the loading page.
      * 
@@ -65,6 +82,11 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
      * @internal
      */
     protected function _isInThePage() {
+
+        // 3.8.14+
+        if ( $this->oProp->bIsAdminAjax ) {
+            return true;
+        }
 
         if ( ! in_array( $this->oProp->sPageNow, array( 'post.php', 'post-new.php' ) ) ) {
             return false;
@@ -84,13 +106,16 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
      * @internal
      */
     protected  function _isInstantiatable() {
-        
+
+// @deprecated      3.8.14
         // Disable in admin-ajax.php
-        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
-            return false;
-        }
+//        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
+//            return false;
+//        }
         return true;
         
     }
+
+
    
 }

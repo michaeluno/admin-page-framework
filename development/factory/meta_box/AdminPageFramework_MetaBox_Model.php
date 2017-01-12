@@ -103,20 +103,20 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * @internal
      * @uses        add_meta_box()
      * @return      void
-     * @callback    action      add_meta_boxes
+     * @callback    add_meta_boxes
      */ 
     public function _replyToRegisterMetaBoxes() {
-        foreach( $this->oProp->aPostTypes as $sPostType ) {
+        foreach( $this->oProp->aPostTypes as $_sPostType ) {
             add_meta_box( 
                 $this->oProp->sMetaBoxID,                       // id
                 $this->oProp->sTitle,                           // title
                 array( $this, '_replyToPrintMetaBoxContents' ), // callback
-                $sPostType,                                     // post type
+                $_sPostType,                                    // post type
                 $this->oProp->sContext,                         // context
                 $this->oProp->sPriority,                        // priority
                 null                                            // argument - deprecated $this->oForm->aFields
             );
-        }      
+        }
     }     
 
     /**

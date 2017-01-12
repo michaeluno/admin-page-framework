@@ -49,7 +49,12 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
      * @return      boolean
      */
     protected function _isInThePage() {
-               
+
+        // 3.8.14+
+        if ( $this->oProp->bIsAdminAjax ) {
+            return true;
+        }
+
         if ( ! $this->oProp->bIsAdmin ) {
             return false;
         }

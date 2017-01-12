@@ -244,8 +244,9 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
         
         if ( 'oAdminPage' === $sName ) {
 
-            $this->oAdminPage = $this->_getOwnerObjectOfPage( $_GET[ 'page' ] );
-            
+//            $this->oAdminPage = $this->_getOwnerObjectOfPage( $_GET[ 'page' ] );
+            $this->oAdminPage = $this->_getOwnerObjectOfPage( $this->getElement( $this->aQuery, 'page' ) );
+
             // Enable the form tag of the admin page that the meta box belongs to.
             
             // @todo This means the form is always get enabled if a page meta box is added. 

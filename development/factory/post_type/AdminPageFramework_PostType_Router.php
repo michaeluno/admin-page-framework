@@ -115,7 +115,7 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
      * @return      boolean
      */
     protected function _isInThePage() {
-        
+
         // If it's not in one of the post type's pages
         if ( ! $this->oProp->bIsAdmin ) {
             return false;

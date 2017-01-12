@@ -505,6 +505,11 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.14 =
+- Added the `load()` methods to factory classes of post/page meta boxes, user/taxonomy meta.
+- (minor breaking change) Deprecated the parameter of the `load()` method of the widget factory class.
+- Changed the behaviour of not loading form components in `admin-ajax.php` so that custom field types can access `admin-ajax.php` using Ajax.
+
 = 3.8.13 - 2016/12/22 =
 - Added the `disabled` repeatable section and repeatable field arguments.
 - Added the `interactive`, `can_exceed_min`, `can_exceed_max`, and `allow_empty` arguments to the `no_ui_slider` field type.

@@ -261,7 +261,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
     public $_bSetupLoaded;
     
     /**
-     * Indicates whether the current page is in admin-ajax.php
+     * Indicates whether the current page is in `admin-ajax.php`
      * 
      * @since       3.1.3
      * @internal
@@ -377,7 +377,15 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
      * @since       3.8.5
      */
     public $bShowDebugInfo = true;
-                  
+
+    /**
+     * Stores URL query key-value pairs.
+     * For admin-ajax.php, the referrer's will be stored. For other cases, the `$_GET` variable values will be used.
+     * @since       3.8.14
+     * @var array
+     */
+    public $aQuery = array();
+
     /**
      * Sets up necessary property values.
      * 
@@ -410,6 +418,8 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             $this->bIsAdminAjax     = 'admin-ajax.php' === $this->sPageNow;
             $this->bShowDebugInfo   = $this->isDebugMode();
 
+            $this->aQuery           = $this->___getURLQuery();
+
             // Overloading property items - these will be set on demand
             unset(
                 $this->aScriptInfo,
@@ -419,6 +429,23 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             );
 
         }
+            /**
+             *
+             * @since       3.8.14
+             * @return      array
+             * @internal
+             */
+            private function ___getURLQuery() {
+
+                if ( ! $this->bIsAdminAjax ) {
+                    return $_GET;
+                }
+
+                $_aParts = parse_url( $_SERVER[ 'HTTP_REFERER' ] );
+                parse_str( $_aParts[ 'query' ], $_aQuery );
+                return $_GET + $_aQuery;
+
+            }
 
         /**
          * Sets up global variables.
@@ -450,7 +477,9 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         return array(
             'caller_id'                         => $this->sClassName,
             'structure_type'                    => $this->_sPropertyType,  // @todo change this to admin_page
-            'action_hook_form_registration'     => $this->_sFormRegistrationHook,
+            'action_hook_form_registration'     => $this->bIsAdminAjax
+                ? 'admin_init'  // 3.8.14
+                : $this->_sFormRegistrationHook,
         ) + $this->aFormArguments;
     }
     /**

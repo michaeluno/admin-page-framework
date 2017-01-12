@@ -25,11 +25,12 @@ abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_
      * @internal
      */
     protected function _isInstantiatable() {
-        
+
+// @deprecated      3.8.14
         // Disable the functionality in admin-ajax.php
-        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
-            return false;
-        }
+//        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
+//            return false;
+//        }
         return true;
         
     }
@@ -43,7 +44,12 @@ abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_
      * @internal
      */
     protected function _isInThePage() {
-        
+
+        // 3.8.14+
+        if ( $this->oProp->bIsAdminAjax ) {
+            return true;
+        }
+
         if ( ! $this->oProp->bIsAdmin ) {
             return false;     
         }
