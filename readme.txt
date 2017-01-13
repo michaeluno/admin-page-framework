@@ -289,10 +289,10 @@ In order to use a custom field type, you need to instantiate the field type clas
 new Select2CustomFieldType( 'MyPlugin_AdminPageFramework' );
 `
 
-Do this in the `load()` method in your extended framework class.
+Do this in the `setUp()` method in your extended framework class.
 
 `
-public function load() {
+public function setUp() {
     new Select2CustomFieldType( 'MyPlugin_AdminPageFramework' );
 }
 `
@@ -509,6 +509,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Added the `load()` methods to factory classes of post/page meta boxes, user/taxonomy meta.
 - (minor breaking change) Deprecated the parameter of the `load()` method of the widget factory class.
 - Changed the behaviour of not loading form components in `admin-ajax.php` so that custom field types can access `admin-ajax.php` using Ajax.
+- Fixed an issue that Ajax requests of the `select2` custom field type could not retrieve responses for the factory classes other than the admin page.
 
 = 3.8.13 - 2016/12/22 =
 - Added the `disabled` repeatable section and repeatable field arguments.

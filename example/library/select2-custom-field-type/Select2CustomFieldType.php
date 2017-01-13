@@ -75,9 +75,9 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  * </ul>
  * 
  * @since       3.8.7
- * @version     0.0.2b
+ * @version     0.0.3
  * @supports    IE8 or above. (uses JSON object)
- * @requires    Admin Page Framework 3.8.8
+ * @requires    Admin Page Framework 3.8.14
  */
 class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
 
@@ -123,8 +123,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
         
     );
     
-    protected function construct() {
-    }
+    protected function construct() {}
     
     /**
      * Loads the field type necessary components.
@@ -164,6 +163,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
      */
     protected function getScripts() {
 
+        $_sAjaxURL = admin_url( 'admin-ajax.php' );
         $_aJSArray = json_encode( $this->aFieldTypeSlugs );
         return 
 "jQuery( document ).ready( function(){
@@ -280,13 +280,14 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
                 _aOptions,  // user inputs
                 {       
                     ajax: {
-                        // url: the current page
+                        url: '{$_sAjaxURL}',
                         dataType: 'json',
                         type: 'POST',   // as `page` query key conflicts with page slug, do not use `GET`.
-                        data: function (params) {
+                        data: function (params) {                    
                             params.page = params.page || 1;
                             return {
                                 // Query Parameters
+                                action:             'dummy_select2_field_type_action',
                                 q:                  params.term, // search term
                                 page:               params.page, // pagination number
                                 doing_select2_ajax: true, // ensure it is called from here
@@ -347,8 +348,9 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
                  */
                 jQuery.ajax( {
                     type: 'POST',
-                    // url: url, // omit so that the current url is used
+                    url: '{$_sAjaxURL}',                     
                     data: {
+                        action: 'dummy_select2_field_type_action',
                         tag: _sTerm,
                         doing_select2_ajax: true, // ensure it is called from here
                         field_id:           _oSelect2Target.data( 'field_id' ), // will be checked in the background                                        
@@ -596,9 +598,9 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
      */
     public function getField( $aField ) {
 
-        $_sInputForEncodedVelue = '';
+        $_sInputForEncodedValue = '';
         if ( is_callable( $this->getElement( $aField, array( 'callback', 'search' ) ) ) ) {
-            $_sInputForEncodedVelue = $this->_getChildInputByKey( 'encoded', $aField );
+            $_sInputForEncodedValue = $this->_getChildInputByKey( 'encoded', $aField );
             $aField[ 'attributes' ] = $this->_getAttributesUpdatedForAJAX( $aField );            
         }
 
@@ -612,7 +614,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
             + $this->getElementAsArray( $aField, array( 'attributes', 'select', ) );
 
         return parent::getField( $aField ) // the select field
-            . $_sInputForEncodedVelue;     // a nested input that stores an encoded selection value.
+            . $_sInputForEncodedValue;     // a nested input that stores an encoded selection value.
 
     }
             

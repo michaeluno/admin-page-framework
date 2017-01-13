@@ -1,6 +1,13 @@
 # Change Log
+
+= 0.0.3 - 2017/01/11 =
+- Changed the Ajax request url to `wp-admin/admin-ajax.php`.
+- Changed the minimum required version of Admin Page Framework to 3.8.14.
+- Supported fields of factories other than admin pages.
+
 = 0.0.2b - 2016/10/24 =
 - Set a field type slug to the register callback function to avoid unnecessary callback function calls.
-- Made it compatible with Admin Paqe Framework 3.8.8.
+- Made it compatible with Admin Page Framework 3.8.8.
+
 = 0.0.1b =
 - Released. Uses Select2 v4.0.3.
