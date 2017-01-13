@@ -207,6 +207,30 @@ abstract class AdminPageFramework_Factory_Router {
         
     }
 
+    /**
+     * Calls the load method and callbacks.
+     * @since       3.8.14
+     */
+    protected function _load( $aActions=array() ) {
+        $aActions = empty( $aActions )
+            ? array(
+                'load_' . $this->oProp->sClassName,
+            )
+            : $aActions;
+        $this->load();
+        $this->oUtil->addAndDoActions( $this, $aActions, $this );
+    }
+
+    /**
+     * Calls the `setUp()` method and callbacks.
+     */
+    protected function _setUp() {
+        $aActions = array(
+            'set_up_' . $this->oProp->sClassName,
+        );
+        $this->setUp();
+        $this->oUtil->addAndDoActions( $this, $aActions, $this );
+    }
 
     /**
      * Determines whether the class object is instantiatable in the current page.
@@ -249,16 +273,8 @@ abstract class AdminPageFramework_Factory_Router {
             return; 
         }
 
-        // Calls `setUp()` and the user will set up the meta box.
-        $this->setUp();
-        
-        /**
-         * This action hook must be called AFTER the _setUp() method 
-         * as there are callback methods that hook into this hook 
-         * and assumes required configurations have been made.
-         */
-        $this->oUtil->addAndDoAction( $this, "set_up_{$this->oProp->sClassName}", $this );
-                          
+        $this->_setUp();
+
     }          
          
          

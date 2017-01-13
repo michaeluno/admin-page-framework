@@ -37,19 +37,7 @@ abstract class AdminPageFramework_Factory_Model extends AdminPageFramework_Facto
         
     }       
     
-    /**
-     * Calls the setUp() method. 
-     * 
-     * @since       3.1.0
-     * @todo        Deprecate this method. This method was intended to be used in a user defined abstract class 
-     * but it requires to call the setUp() method in the overridden method so it's not that useful.
-     * @internal
-     * @deprecated  3.8.14
-     */
-//    protected function _setUp() {
-//        $this->setUp();
-//    }
-    
+
     /**
      * Called upon fieldset resource registration.
      * 

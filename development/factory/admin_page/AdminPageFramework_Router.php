@@ -184,14 +184,11 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             $this->_setShowDebugInfoProperty( $sPageSlug ); // 3.8.8+
                                     
             // Do actions in this order, class ->  page -> in-page tab. This order is important as some methods rely on it.
-            $this->load();  // 3.7.12+
-            $this->oUtil->addAndDoActions( 
-                $this, // the caller object
-                array( 
+            $this->_load(
+                array(
                     "load_{$this->oProp->sClassName}",
                     "load_{$sPageSlug}",
-                ),
-                $this // the admin page object - this lets third-party scripts use the framework methods.
+                )
             );
 
             // * Note that the in-page tabs handling method `_replyToFinalizeInPageTabs()` is called in the above action hook.

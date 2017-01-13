@@ -440,9 +440,10 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
                 if ( ! $this->bIsAdminAjax ) {
                     return $_GET;
                 }
-
-                $_aParts = parse_url( $_SERVER[ 'HTTP_REFERER' ] );
-                parse_str( $_aParts[ 'query' ], $_aQuery );
+                parse_str(
+                    parse_url( $_SERVER[ 'HTTP_REFERER' ], PHP_URL_QUERY ), // query string such as `foo=bar&abc=xyz`
+                    $_aQuery
+                );
                 return $_GET + $_aQuery;
 
             }

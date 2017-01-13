@@ -16,8 +16,7 @@
  * @internal
  */
 abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramework_Factory {
-    
-    
+
     /**
      * Sets up hooks.
      * 
@@ -93,7 +92,10 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
             add_filter( "manage_edit-{$_sTaxonomySlug}_sortable_columns", array( $this, '_replyToSetSortableColumns' ) );
             add_action( "manage_{$_sTaxonomySlug}_custom_column", array( $this, '_replyToPrintColumnCell' ), 10, 3 );
             
-        }  
+        }
+
+        // 3.8.14+
+        $this->_load();
 
     }    
   

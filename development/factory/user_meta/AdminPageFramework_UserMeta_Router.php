@@ -31,7 +31,9 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
         }
         
         $this->oUtil->registerAction(
-            'current_screen',
+            $this->oProp->bIsAdminAjax
+                ? 'wp_loaded'
+                : 'current_screen',
             array( $this, '_replyToDetermineToLoad' )
         );
         
@@ -78,12 +80,14 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
         // Hooks to display fields.
         add_action( 'show_user_profile', array( $this, '_replyToPrintFields' ) );   // profile.php
         add_action( 'edit_user_profile', array( $this, '_replyToPrintFields' ) );   // profile.php
-        add_action( 'user_new_form', array( $this, '_replyToPrintFields' ) );   // user-new.php
+        add_action( 'user_new_form', array( $this, '_replyToPrintFields' ) );       // user-new.php
         
         // Hooks to save field values.
-        add_action( 'personal_options_update', array( $this, '_replyToSaveFieldValues' ) ); // profile.php
+        add_action( 'personal_options_update', array( $this, '_replyToSaveFieldValues' ) );     // profile.php
         add_action( 'edit_user_profile_update', array( $this, '_replyToSaveFieldValues' ) );    // profile.php
-        add_action('user_register', array( $this, '_replyToSaveFieldValues' ) );    // user-new.php
+        add_action('user_register', array( $this, '_replyToSaveFieldValues' ) );                // user-new.php
+
+        $this->_load(); // 3.8.14+
                        
     }        
     

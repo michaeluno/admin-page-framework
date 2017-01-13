@@ -67,10 +67,8 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
      * @internal
      */
     public function _replyToCallLoadMethods() {
-        $this->load();
-        $this->oUtil->addAndDoActions( $this, 'load_' . $this->oProp->sClassName, $this );
+        $this->_load();
     }
-
 
     /**
      * Determines whether the meta box belongs to the loading page.

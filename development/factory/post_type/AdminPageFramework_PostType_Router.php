@@ -46,12 +46,12 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         if ( ! $this->_isInThePage() ) {
             return;
         }
-        
-        $this->load();
-        $this->oUtil->addAndDoAction( 
-            $this, 
-            "load_{$this->oProp->sPostType}", 
-            $this 
+
+        $this->_load(
+            array(
+                "load_{$this->oProp->sPostType}",
+                "load_{$this->oProp->sClassName}",  // 3.8.14+
+            )
         );
     
     }
@@ -69,16 +69,7 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
      * @since       3.7.10     
      */
     public function _replyToDetermineToLoad() {
-        
-        $this->setUp();
-        
-        // This action hook must be called AFTER the _setUp() method as there are callback methods that hook into this hook and assumes required configurations have been made.
-        $this->oUtil->addAndDoAction( 
-            $this, 
-            "set_up_{$this->oProp->sClassName}", 
-            $this 
-        );
-    
+        $this->_setUp();
     }     
 
     /**

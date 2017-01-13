@@ -23,15 +23,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      */
     public function start() {}
     public function setUp() {}
-
-    /**
-     * Shouold be extended.
-     *
-     * @since       3.8.14
-     * @return      void
-     */
     public function load() {}
-
 
     /**
      * Allows the user to check if the current page belongs to the admin pages of the factory component.

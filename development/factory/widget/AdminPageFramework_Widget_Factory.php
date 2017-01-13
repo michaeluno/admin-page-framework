@@ -194,22 +194,20 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
              * @since       3.7.9
              */ 
             if ( $this->oCaller->oUtil->hasBeenCalled( '_widget_load_' . $this->oCaller->oProp->sClassName ) ) {
-                
-                // The saved option callback is done with the below load_... callback so for widget form instances called from the second time
-                // need to call the callback manually.
+
+                /**
+                 * The saved option callback is done with the below load_... callback so for widget form instances called from the second time
+                 * need to call the callback manually.
+                 */
                 $this->oCaller->oForm->aSavedData = $this->_replyToGetSavedFormData();
                 return;
                 
             }
-                       
-            // Trigger the load() method and load_{...} actions. The user sets up the form.
-            // Use `call_user_func_array()` rather than `$this->oCaller->load( $this->oCaller );` to avoid missing parameter PHP warnings. 
-            // This way user can either set a first parameter or omit it.
-            // @todo Examine whether passing the caller object is necessary or not as other factory classes' load() method does not receive it and thus it is not consistent.
-            call_user_func_array(
-                array( $this->oCaller, 'load' ),
-                array( $this->oCaller )
-            );            
+
+            /**
+             * Trigger the load() method and load_{...} actions. The user sets up the form.
+             */
+            call_user_func( array( $this->oCaller, 'load' ) );
             $this->oCaller->oUtil->addAndDoActions( 
                 $this->oCaller, 
                 array(
@@ -234,8 +232,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
                 
                 'saved_data'    => array( $this, '_replyToGetSavedFormData' ),
             ) 
-            + $this->oCaller->oProp->getFormCallbacks()
-            ;
+            + $this->oCaller->oProp->getFormCallbacks();
         }        
     
     /**
