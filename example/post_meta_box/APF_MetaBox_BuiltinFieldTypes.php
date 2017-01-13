@@ -10,7 +10,7 @@
  */
 
 class APF_MetaBox_BuiltinFieldTypes extends AdminPageFramework_MetaBox {
-        
+
     /*
      * ( optional ) Use the setUp() method to define settings of this meta box.
      */

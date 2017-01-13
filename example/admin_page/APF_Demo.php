@@ -104,6 +104,7 @@ class APF_Demo extends AdminPageFramework {
         new APF_Demo_ManageOptions;
         new APF_Demo_HiddenPage;
         new APF_Demo_Contact;
+        new APF_Demo_Test;
  
         // Add an external link.
         $this->addSubMenuItem(

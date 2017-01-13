@@ -28,7 +28,7 @@ class APF_Demo_CustomFieldType {
             'set_up_' . $this->_sClassName,
             array( $this, 'replyToSetUp' )
         );
-        
+
     }
     
     /**

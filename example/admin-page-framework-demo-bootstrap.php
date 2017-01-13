@@ -57,7 +57,10 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
   
             // Repeatable Collapsible Sections
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_MetaBox_RepeatableCollapsibleSections.php' );
-           
+
+            // For debugging
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_meta_box/APF_PostMetaBox_TestAjaxField.php' );
+
         }
       
         /**
@@ -67,10 +70,12 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
             
             if ( version_compare( $GLOBALS[ 'wp_version' ], '4.4', '>=' ) ) {
                 include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/term_meta/APF_TermMeta.php' );
+                include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/term_meta/APF_TermMetaTestAjaxField.php' );
                 return;
-            } 
+            }
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/taxonomy_field/APF_TaxonomyField.php' );
-            
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/taxonomy_field/APF_TaxonomyFieldTestAjaxField.php' );
+
         }
       
         /**
@@ -96,14 +101,16 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
         private function _loadUserMeta() {
             
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/user_meta/APF_MyUserMeta.php' );   
-            
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/user_meta/APF_UserMetaTestAjaxField.php' );
+
         }
         
         private function _loadWidgets() {   
         
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/widget/APF_Widget.php' );
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/widget/APF_Widget_WithSection.php' );
-            
+            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/widget/APF_WidgetTestAjaxField.php' );
+
         }      
       
         /**

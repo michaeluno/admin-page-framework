@@ -43,7 +43,7 @@ class APF_Widget extends AdminPageFramework_Widget {
      * 
      * Alternatively you may use load_{instantiated class name} method.
      */
-    public function load( $oAdminWidget ) {
+    public function load() {
         
         $this->addSettingFields(
             array(

@@ -25,8 +25,6 @@ class APF_Demo_PageMetaBox {
             array( $this, 'replyToSetUp' )
         );
 
-               
-        
     }
     
     /**
