@@ -23,7 +23,7 @@ require_once $GLOBALS[ '_sTestsDirPath' ] . '/includes/functions.php';
 // tests_add_filter( 'muplugins_loaded', '_loadPluginManually' ); 
 
 // Store the value of the $file variable as it will be changed by WordPress.
-$_file = $file;
+$_file = isset( $file ) ? $file : null;
 require_once( $GLOBALS[ '_sTestsDirPath' ] . '/includes/bootstrap.php' );
 $file = $_file;
 
@@ -40,8 +40,29 @@ codecept_debug( 'Testing against Complied Files: ' . ( empty( $_bUseCompiled ) ?
 codecept_debug( 'Activated Admin Page Framework - Loader: ' . ( null === $_noActivated ? 'Yes' : 'No' ) );
 
 class APF_UnitTestCase extends \WP_UnitTestCase {
+
+    /**
+     * @var bool@
+     * @see     https://core.trac.wordpress.org/ticket/39327
+     */
+    protected $backupGlobals = true;
+
+    public function setUp() {
+
+        /**
+         * @see     https://core.trac.wordpress.org/ticket/39327#comment:8
+         */
+        $GLOBALS[ 'wpdb' ]->db_connect(); // this must be done before the parent `setUp()` method.
+        parent::setUp();
+    }
+
+    public function tearDown() {
+        parent::tearDown();
+    }
+
     /**
      * @remark      Fixes the error: [PHPUnit_Framework_Exception] mysqli_query(): Couldn't fetch mysqli.
+     * @see         https://wordpress.org/support/topic/wp_unittestcaseteardown-causes-mysqli_query-couldnt-fetch-mysqli/
      */
     public static function tearDownAfterClass() {
 
