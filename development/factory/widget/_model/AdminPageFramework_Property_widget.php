@@ -128,5 +128,21 @@ class AdminPageFramework_Property_widget extends AdminPageFramework_Property_Bas
         );
 
     }
+
+    /**
+     * Overrides the parent method.
+     * No need to set `admin_init` to the `action_hook_form_registration` element.
+     * Otherwise, the widgets become not be updated visually, which is done in Ajax.
+     *
+     * @return      array
+     * @since       3.8.14
+     */
+    public function getFormArguments() {
+        return array(
+            'caller_id'                         => $this->sClassName,
+            'structure_type'                    => $this->_sPropertyType,
+            'action_hook_form_registration'     => $this->_sFormRegistrationHook,
+        ) + $this->aFormArguments;
+    }
     
 }

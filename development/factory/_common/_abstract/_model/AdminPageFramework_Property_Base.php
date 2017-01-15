@@ -470,14 +470,14 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         $this->aFormCallbacks = $this->getFormCallbacks();
     }
     /**
-     * @remark      The Widget factory class access this method.
+     *
      * @return      array
      * @since       3.7.9
      */
     public function getFormArguments() {
         return array(
             'caller_id'                         => $this->sClassName,
-            'structure_type'                    => $this->_sPropertyType,  // @todo change this to admin_page
+            'structure_type'                    => $this->_sPropertyType,
             'action_hook_form_registration'     => $this->bIsAdminAjax
                 ? 'admin_init'  // 3.8.14
                 : $this->_sFormRegistrationHook,
