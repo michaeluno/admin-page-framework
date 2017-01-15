@@ -3,8 +3,8 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
-Tested up to:       4.7.0
-Stable tag:         3.8.13
+Tested up to:       4.7.1
+Stable tag:         3.8.14
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -505,7 +505,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.8.14 =
+= 3.8.14 - 2017/01/15 =
 - Added the `load()` methods to factory classes of post/page meta boxes, user/taxonomy meta.
 - (minor breaking change) Deprecated the parameter of the `load()` method of the widget factory class.
 - Changed the behaviour of not loading form components in `admin-ajax.php` so that custom field types can access `admin-ajax.php` using Ajax.
