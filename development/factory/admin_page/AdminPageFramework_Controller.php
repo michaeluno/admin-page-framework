@@ -336,7 +336,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
             $this->oProp->aAdminNotices[ $sID ][ 'sMessage' ],
             $this->oProp->aAdminNotices[ $sID ][ 'aAttributes' ],
             array(
-                'should_show'        => array( $this, '_isInThePage' ),
+                'should_show'        => array( $this, 'isInThePage' ),
             )
         );
         

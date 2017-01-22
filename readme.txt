@@ -505,6 +505,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.15 =
+- Fixed a bug that caused an undefined method warning in the admin notice class.
+
 = 3.8.14 - 2017/01/15 =
 - Added the `load()` methods to factory classes of post/page meta boxes, user/taxonomy meta.
 - (minor breaking change) Deprecated the parameter of the `load()` method of the widget factory class.
