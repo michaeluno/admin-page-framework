@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
 Requires at least:  3.4
 Tested up to:       4.7.1
-Stable tag:         3.8.14
+Stable tag:         3.8.15
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -505,7 +505,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.8.15 =
+= 3.8.15 - 2017/01/23 =
 - Fixed a bug that caused an undefined method warning in the admin notice class.
 
 = 3.8.14 - 2017/01/15 =
