@@ -505,6 +505,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.16 =
+- Fixed a bug that the default sub-menu page of a custom top-level menu page could not be removed when the PHP class with a namespace is used.
+
 = 3.8.15 - 2017/01/23 =
 - Fixed a bug that caused an undefined method warning in the admin notice class.
 

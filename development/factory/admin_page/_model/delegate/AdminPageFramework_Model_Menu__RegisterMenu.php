@@ -575,9 +575,20 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
         if ( $this->oFactory->oProp->bIsAdminAjax ) {
             return;
         }
+
+        /**
+         * Namespace slugs have backslashes but the registered slugs backslashes are all converted to forward-slashes.
+         * @since       3.5.16
+         */
+        $_sMenuSlug =             str_replace(
+            '\\',
+            '/',
+            $this->oFactory->oProp->aRootMenu[ 'sPageSlug' ]
+        );
+
         remove_submenu_page( 
-            $this->oFactory->oProp->aRootMenu[ 'sPageSlug' ], 
-            $this->oFactory->oProp->aRootMenu[ 'sPageSlug' ] 
+            $_sMenuSlug, // parent menu slug
+            $_sMenuSlug // sub-menu slug
         );
         
     }            
