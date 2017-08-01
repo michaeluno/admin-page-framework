@@ -8,5 +8,8 @@
     "type": "wordpress-plugin",
     "require": {
         "php": ">=5.2.4"
+    },
+    "suggest": {
+        "composer/installers": "~1.0"
     }
 }
