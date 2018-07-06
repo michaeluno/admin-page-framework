@@ -5,7 +5,11 @@
     "keywords": ["WordPress", "framework", "admin page", "form", "settings", "options", "plugin"],
     "homepage": "http://admin-page-framework.michaeluno.jp/",
     "license": "GPL-2.0+",
+    "type": "wordpress-plugin",
     "require": {
         "php": ">=5.2.4"
+    },
+    "suggest": {
+        "composer/installers": "~1.0"
     }
 }
