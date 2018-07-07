@@ -46,6 +46,37 @@ abstract class AdminPageFramework_Widget_Router extends AdminPageFramework_Facto
      */
     public function _replyToLoadComponents( /* $oScreen */ ) {
         return;        
-    }    
+    }
 
+    /**
+     * @param   $sMethodName
+     * @param   null|array $aArguments
+     *
+     * @return  mixed
+     * @since   3.8.17
+     */
+    public function __call( $sMethodName, $aArguments=null ) {
+        if ( $this->oProp->bAssumedAsWPWidget ) {
+            if ( in_array( $sMethodName, $this->oProp->aWPWidgetMethods ) ) {
+                return call_user_func_array(
+                    array( $this->oProp->oWidget, $sMethodName ),
+                    $aArguments
+                );
+            }
+        }
+        return parent::__call( $sMethodName, $aArguments );
+    }
+
+    /**
+      * Responds to a request to an undefined property.
+      * @since      3.8.17
+      */
+    public function __get( $sPropertyName ) {
+        if ( $this->oProp->bAssumedAsWPWidget ) {
+            if ( isset( $this->oProp->aWPWidgetProperties[ $sPropertyName ] ) ) {
+                return $this->oProp->oWidget->$sPropertyName;
+            }
+        }
+        return parent::__get( $sPropertyName );
+    }
 }

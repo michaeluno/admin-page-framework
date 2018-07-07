@@ -107,20 +107,19 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
      * @return      void
      */
     public function _replyToRegisterWidget() {
-        
-        global $wp_widget_factory;
-        if ( ! is_object( $wp_widget_factory ) ) { 
+
+        if ( ! is_object( $GLOBALS[ 'wp_widget_factory' ] ) ) { 
             return; 
         }
 
-        $wp_widget_factory->widgets[ $this->oProp->sClassName ] = new AdminPageFramework_Widget_Factory( 
+        $GLOBALS[ 'wp_widget_factory' ]->widgets[ $this->oProp->sClassName ] = new AdminPageFramework_Widget_Factory( 
             $this, 
             $this->oProp->sWidgetTitle, 
             $this->oUtil->getAsArray( $this->oProp->aWidgetArguments )
         );
         
         // [3.5.9+] Store the widget object in the property.
-        $this->oProp->oWidget = $wp_widget_factory->widgets[ $this->oProp->sClassName ];
+        $this->oProp->oWidget = $GLOBALS[ 'wp_widget_factory' ]->widgets[ $this->oProp->sClassName ];
         
     }
     

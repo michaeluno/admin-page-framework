@@ -188,7 +188,12 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * @since       3.7.0
          */
         private function _loadFrameworkFactory() {
-            
+
+            // @since       3.8.17
+            if ( $this->oCaller->oProp->bAssumedAsWPWidget ) {
+                return;
+            }
+
             /**
              * Call the load method only once per class. Also the added field registrations in the class also done once.
              * @since       3.7.9

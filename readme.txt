@@ -505,6 +505,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.17 =
+- Fixed a compatibility issue with some third-parties which attempt to instantiate the framework widget class without given any parameters.
+
 = 3.8.16 - 2018/07/06 =
 - Fixed a bug that the default sub-menu page of a custom top-level menu page could not be removed when the PHP class with a namespace is used.
 

@@ -105,7 +105,23 @@ class AdminPageFramework_Property_widget extends AdminPageFramework_Property_Bas
      */
     // public $_sFormRegistrationHook = 'admin_enqueue_scripts'; 
     // public $_sFormRegistrationHook = ''; 
-    
+
+    /**
+     * Indicates whether the class is instantiated by being assumed as a WP_Widget subclass object.
+     * @since       3.8.17
+     */
+    public $bAssumedAsWPWidget = false;
+    /**
+     * Stores method names of the `WP_Widget` class, referred when the class is assumed as a WP_Widget subclass.
+     * @since       3.8.17
+     */
+    public $aWPWidgetMethods    = array();
+    /**
+     * Stores property names of the `WP_Widget` class, , referred when the class is assumed as a WP_Widget subclass.
+     * @since       3.8.17
+     */
+    public $aWPWidgetProperties = array();
+
     /**
      * Sets up properties.
      * @since       3.7.0
