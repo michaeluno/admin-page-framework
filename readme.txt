@@ -320,7 +320,7 @@ In addition, your tutorials and snippets for the framework can be listed in the 
 Check out the [questions tagged as FAQ](https://github.com/michaeluno/admin-page-framework/issues?q=is%3Aissue+label%3AFAQ) on GitHub.
 
 <h4>Tutorials</h4>
-[Index](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
+[Index](http://admin-page-framework.michaeluno.jp/tutorials/)
 
 <h4>Roadmap</h4>
 Check out the [milestones](https://github.com/michaeluno/admin-page-framework/milestones) and [issues](https://github.com/michaeluno/admin-page-framework/issues?labels=enhancement&page=1&state=open) on GitHub labeled *enhancement*.

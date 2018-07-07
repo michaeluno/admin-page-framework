@@ -188,7 +188,7 @@ See more code examples in `Dashboard` -> `AdminPageFramework` -> `Help` -> `Exam
 ## Resources
 
 - [Online documentation](http://admin-page-framework.michaeluno.jp/en/v3/)
-- [Online tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/)
+- [Online tutorials](http://admin-page-framework.michaeluno.jp/tutorials/)
 - [FAQ](https://wordpress.org/plugins/admin-page-framework/faq/)
 - [Other Notes](https://wordpress.org/plugins/admin-page-framework/other_notes/)
 - [Change Log](https://wordpress.org/plugins/admin-page-framework/changelog/)

@@ -16,16 +16,16 @@ $gasGlobalArray = $oObject->doMethod();
 ```
 
 - `_` - private/protected class property variables. But if it is clear that they are accessed by the end-users (the user types the variable name to access it), the prefix should not be added.
-	
+    
 ```php
 class MyClass {
 
-	public $sPublicProperty			= 'This is a public property string value';
-	
-	protected $_sProtectedProperty	= 'This is a protected property string value';
-	
-	private	  $_sPrivateProperty	= 'This is a private property string value';
-		
+    public    $sPublicProperty      = 'This is a public property string value';
+    
+    protected $_sProtectedProperty  = 'This is a protected property string value';
+    
+    private   $_sPrivateProperty    = 'This is a private property string value';
+        
 }
 ```
 
@@ -33,8 +33,8 @@ class MyClass {
 
 ```php
 function doMyfunc( $sPrameter ) {
-	
-	$_sLocalVariable = $sParameter;
+    
+    $_sLocalVariable = $sParameter;
 
 }
 ```
@@ -60,11 +60,11 @@ When the used types are mixed place them in alphabetical order.
 - `x+` - to let other programmers know that this is a variable intended to be used by reference rather than value
 
 ```php
-$sMyString	= 'Hello World';
-$iCount		= 43;
-$aMyArray	= array();
-$asValue	= $bIsString ? 'My String' : array( 'My Array' );
-```	
+$sMyString    = 'Hello World';
+$iCount        = 43;
+$aMyArray    = array();
+$asValue    = $bIsString ? 'My String' : array( 'My Array' );
+```    
 
 ## Array Key Naming
 
@@ -72,8 +72,8 @@ Use lower case characters with underscores.
 
 ```php
 array(
-	'first_key'		=>	'some value',
-	'second_key'	=>	'another value',
+    'first_key'     => 'some value',
+    'second_key'    => 'another value',
 );
 ```
 
@@ -81,17 +81,17 @@ When it's internal and certain that the user will not need to modify the value, 
 
 ```php
 private $_aLibraryInfo = array(
-	'sName'		=> ...,
-	'sVersion'	=> ...,
+    'sName'       => ...,
+    'sVersion'    => ...,
 );
 ```
 
-Or add a prefix	of an underscore.
+Or add a prefix    of an underscore.
 
 ```php
 private $_aLibraryInfo = array(
-	'_name'		=> ...,
-	'_version'	=> ...,
+    '_name'       => ...,
+    '_version'    => ...,
 );
 ```
 
@@ -201,24 +201,24 @@ Always start with a verb.
 run();
 doTask();
 ```
-	
+    
 Use the camel-back notation.
 
 ```php
 doMyStuff();
 ```
-	
+    
 Not, 
 
-```php	
+```php    
 do_my_stuff();
-```	
+```    
 For callback functions, prepend `replyTo` to help understand it's a callback. 
 
 ```php
 replyToDoMyStuff();
 ```
-	
+    
 Usually the framework callbacks are internal, so prepend an underscore to it.
 
 ```php

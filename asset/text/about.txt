@@ -203,12 +203,12 @@ There are different types of factory classes for different functionality besides
 By extending them like just you did, you can create post types, meta boxes, widgets, user meta fields, and taxonomy fields.
 
 == Tutorials ==
-Check out the [tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/) as well.
+Check out the [tutorials](http://admin-page-framework.michaeluno.jp/tutorials/) as well.
 
 == Support ==
 <h3>Documentation</h3>
 - [Online Manual](http://admin-page-framework.michaeluno.jp/en/v3/package-AdminPageFramework.html).
-- [Tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3)
+- [Tutorials](http://admin-page-framework.michaeluno.jp/tutorials/)
 
 <h3>Getting Helped</h3>
 Have questions? Visit the [support forum](https://wordpress.org/support/plugin/admin-page-framework).

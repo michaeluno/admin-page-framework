@@ -2,7 +2,7 @@
 /**
  * Admin Page Framework - Loader
  * 
- * http://en.michaeluno.jp/admin-page-framework/
+ * http://admin-page-framework.michaeluno.jp/
  * Copyright (c) 2015 Michael Uno
  * 
  */

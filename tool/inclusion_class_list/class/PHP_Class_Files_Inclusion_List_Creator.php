@@ -3,7 +3,7 @@
  * PHP Class Files Inclusion List Creator
  * 
  * @author		Michael Uno <michael@michaeluno.jp>
- * @copyright	2013-2017 (c) Michael Uno
+ * @copyright	2013-2018 (c) Michael Uno
  * @license		MIT	<http://opensource.org/licenses/MIT>
  */
 if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {

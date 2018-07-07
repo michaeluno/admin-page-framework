@@ -4,8 +4,8 @@
  * 
  * Helps to set up auto-load classes.
  * 
- * http://en.michaeluno.jp/admin-page-framework/
- * Copyright (c) 2013-2017 Michael Uno; Licensed MIT
+ * http://admin-page-framework.michaeluno.jp/
+ * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
  * 
  */
 
