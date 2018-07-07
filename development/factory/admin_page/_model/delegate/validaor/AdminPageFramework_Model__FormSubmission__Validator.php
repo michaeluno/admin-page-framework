@@ -30,7 +30,7 @@ class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFrame
         
         add_filter(
             "validation_pre_" . $this->oFactory->oProp->sClassName,
-            array( $this, '_replyToValiateUserFormInputs' ),
+            array( $this, '_replyToValidateUserFormInputs' ),
             10,
             4
         );
@@ -49,7 +49,7 @@ class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFrame
          * @internal
          * @callback        filter      validation_pre_{class name}
          */ 
-        public function _replyToValiateUserFormInputs( $aInputs, $aRawInputs, $aOptions, $oFactory ) {
+        public function _replyToValidateUserFormInputs( $aInputs, $aRawInputs, $aOptions, $oFactory ) {
             
             // No need to retrieve the default tab slug here because it is an embedded value that is already set in the previous page load. 
             $_sTabSlug          = $this->getElement( $_POST, 'tab_slug', '' );   

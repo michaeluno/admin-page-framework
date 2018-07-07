@@ -110,7 +110,8 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
             // Make sure it is an array as the value is modified through filters.
             $_aInput = $this->getAsArray( $_aInput );
 
-            $_aInput = $this->_getInputByUnset( $_aInput );
+            // Drop input elements with the `save` argument of false.
+            $_aInput = $this->_getInputsUnset( $_aInput, $this->oFactory->oProp->sStructureType );
             
             // If everything fine, return the filtered input data. 
             $this->_bHasFieldErrors = $this->oFactory->hasFieldError();
@@ -148,11 +149,13 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
              * Removes elements whose 'save' argument is false.
              * @return      array
              * @since       3.6.0
+             * @deprecated  3.8.17      Use `_getInputsUnset()`
              */
             private function _getInputByUnset( array $aInputs ) {
-                
+AdminPageFramework_Debug::log( $aInputs );
                 $_sUnsetKey = '__unset_' . $this->oFactory->oProp->sStructureType;
                 if ( ! isset( $_POST[ $_sUnsetKey ] ) ) {
+AdminPageFramework_Debug::log( '$_POST ' . $_sUnsetKey . ' is not set' );
                     return $aInputs;
                 }
                 
@@ -168,6 +171,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
                         $_aDimensionalKeys
                     );
                 }
+AdminPageFramework_Debug::log( $aInputs );
                 return $aInputs;
                 
             }        
