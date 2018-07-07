@@ -103,6 +103,9 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
          * @since       3.8.17
          */
         private function ___getConstructorParametersUsedForThisClassName( $sClassName ) {
+            if ( ! isset( $GLOBALS[ 'wp_widget_factory' ] ) ) {
+                return array();
+            }
             if ( ! is_object( $GLOBALS[ 'wp_widget_factory' ] ) ) {
                 return array();
             }
