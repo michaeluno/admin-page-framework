@@ -128,7 +128,7 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
             return false;
         }
         
-        // If the first element is a string, it is a inline mixed field definition.
+        // If the first element is a string, it is an inline mixed field definition.
        return is_array( self::getElement( $aFieldset[ 'content' ], 0 ) );
        
     }  
