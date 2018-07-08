@@ -16,21 +16,31 @@
 class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
 	
     public function setUp() {
-                   
+
+        $_sSectionID = 'apf_user_meta_demo';
+
+        $this->addSettingSections(
+            array(
+                'section_id'    => $_sSectionID,       // avoid hyphen(dash), dots, and white spaces
+                'title'         => __( 'Admin Page Framework', 'admin-page-framework-loader' ),
+            )
+        );
+
         $this->addSettingFields(
+            $_sSectionID,
             array(    
                 'field_id'      => 'text_field',
                 'type'          => 'text',
                 'title'         => __( 'Text', 'admin-page-framework-loader' ),
                 'repeatable'    => true,
                 'sortable'      => true,
-                'description'   => 'Type something here.',   
+                'description'   => __( 'Type something here.', 'admin-page-framework-loader' ),
             ),        
             array(    
                 'field_id'      => 'text_area',
                 'type'          => 'textarea',
                 'title'         => __( 'Text Area', 'admin-page-framework-loader' ),
-                'default'       => 'Hi there!',   
+                'default'       => __( 'Hi there!', 'admin-page-framework-loader' ),
             ),    
             array(
                 'field_id'      => 'image',
@@ -59,7 +69,7 @@ class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
                 'default'       => 'b',
             )          
         );      
-        
+
     }
     
     /**
@@ -72,4 +82,4 @@ class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
     
 }
 
-new APF_Demo_MyUserMeta; 
+new APF_Demo_MyUserMeta;

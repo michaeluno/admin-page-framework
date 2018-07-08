@@ -111,7 +111,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
             $_aInput = $this->getAsArray( $_aInput );
 
             // Drop input elements with the `save` argument of false.
-            $_aInput = $this->_getInputsUnset( $_aInput, $this->oFactory->oProp->sStructureType );
+            $_aInput = $this->getInputsUnset( $_aInput, $this->oFactory->oProp->sStructureType, 1 );
             
             // If everything fine, return the filtered input data. 
             $this->_bHasFieldErrors = $this->oFactory->hasFieldError();
@@ -144,37 +144,6 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
                     'field_errors' => $this->_bHasFieldErrors,
                 ) + $aStatus;
             }
-            
-            /**
-             * Removes elements whose 'save' argument is false.
-             * @return      array
-             * @since       3.6.0
-             * @deprecated  3.8.17      Use `_getInputsUnset()`
-             */
-            private function _getInputByUnset( array $aInputs ) {
-AdminPageFramework_Debug::log( $aInputs );
-                $_sUnsetKey = '__unset_' . $this->oFactory->oProp->sStructureType;
-                if ( ! isset( $_POST[ $_sUnsetKey ] ) ) {
-AdminPageFramework_Debug::log( '$_POST ' . $_sUnsetKey . ' is not set' );
-                    return $aInputs;
-                }
-                
-                $_aUnsetElements = array_unique( $_POST[ $_sUnsetKey ] );
-                foreach( $_aUnsetElements as $_sFlatInputName ) {
-                    $_aDimensionalKeys = explode( '|', $_sFlatInputName );
-                    
-                    // The first element is the option key; the section or field dimensional keys follow.
-                    unset( $_aDimensionalKeys[ 0 ] );
-                    
-                    $this->unsetDimensionalArrayElement( 
-                        $aInputs, 
-                        $_aDimensionalKeys
-                    );
-                }
-AdminPageFramework_Debug::log( $aInputs );
-                return $aInputs;
-                
-            }        
             
             /**
              * Validates each field or section.

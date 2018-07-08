@@ -9,7 +9,9 @@
 
 /**
  * Provides methods to build forms for the user meta and post meta structure type.
- * 
+ *
+ * This is used by taxonomy meta, user meta, and post meta form classes.
+ *
  * @package     AdminPageFramework/Common/Form
  * @since       3.7.0      
  * @extends     AdminPageFramework_Form
@@ -31,7 +33,7 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
      * @return      void
      */
     public function updateMetaDataByType( $iObjectID, array $aInput, array $aSavedMeta, $sStructureType='post_meta_box' ) {
-        
+
         if ( ! $iObjectID ) {
             return;
         }
@@ -47,11 +49,11 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
         $_sFunctionName = $this->getElement( $_aFunctionNameMapByFieldsType, $sStructureType );
         
         // 3.6.0+ Unset field elements that the 'save' argument is false.
-        $aInput = $this->_getInputByUnset( $aInput );
-        
+        $aInput = $this->getInputsUnset( $aInput, $this->sStructureType );
+
         // Loop through sections/fields and save the data.
         foreach ( $aInput as $_sSectionOrFieldID => $_vValue ) {
-            $this->_updateMetaDatumByFuncitonName( 
+            $this->_updateMetaDatumByFunctionName( 
                 $iObjectID,
                 $_vValue, 
                 $aSavedMeta, 
@@ -60,42 +62,7 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
             );
         }
         
-    }        
-        /**
-         * Removes elements whose 'save' argument is false.
-         * @since       3.6.0
-         * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Meta`.
-         * @return      array
-         */
-        private function _getInputByUnset( array $aInput ) {
-            
-            $_sUnsetKey = '__unset_' . $this->sStructureType;
-            if ( ! isset( $_POST[ $_sUnsetKey ] ) ) {
-                return $aInput;
-            }
-            
-            $_aUnsetElements = array_unique( $_POST[ $_sUnsetKey ] );
-            foreach( $_aUnsetElements as $_sFlatInputName ) {
-                
-                $_aDimensionalKeys = explode( '|', $_sFlatInputName );
-                if ( ! isset( $_aDimensionalKeys[ 0 ] ) ) {
-                    continue;
-                }
-                
-                // The first element is the option key; the section or field dimensional keys follow.
-                if ( '__dummy_option_key' === $_aDimensionalKeys[ 0 ] ) {
-                     array_shift( $_aDimensionalKeys );
-                }
-                
-                $this->unsetDimensionalArrayElement( 
-                    $aInput, 
-                    $_aDimensionalKeys
-                );
-                
-            }
-            return $aInput;
-            
-        }    
+    }
     
         /**
          * Saves an individual meta datum with the given section or field ID with the given function name.
@@ -105,7 +72,7 @@ class AdminPageFramework_Form_Meta extends AdminPageFramework_Form {
          * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Meta`.
          * @return      void
          */
-        private function _updateMetaDatumByFuncitonName( $iObjectID, $_vValue, array $aSavedMeta, $_sSectionOrFieldID, $_sFunctionName ) {
+        private function _updateMetaDatumByFunctionName( $iObjectID, $_vValue, array $aSavedMeta, $_sSectionOrFieldID, $_sFunctionName ) {
             
             if ( is_null( $_vValue ) ) { 
                 return;

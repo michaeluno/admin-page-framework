@@ -13,11 +13,12 @@
  * @package     AdminPageFramework/Factory/AdminPage/Model
  * @extends     AdminPageFramework_WPUtility
  * @since       3.6.3
+ * @since       3.8.17      Made it extend `AdminPageFramework_Form_Utility` from `AdminPageFramework_FrameworkUtility`.
  * @internal
- * @extends     AdminPageFramework_FrameworkUtility
+ * @extends     AdminPageFramework_Form_Utility
  */
-abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFramework_FrameworkUtility {
-        
+abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFramework_Form_Utility {
+
     /**
      * Retrieves the target key's value associated with the given data to a custom submit button.
      * 

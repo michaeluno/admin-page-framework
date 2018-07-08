@@ -16,7 +16,67 @@
  * @internal
  */
 abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_FrameworkUtility {
-    
+
+    /**
+     * Removes form input elements whose 'save' argument is false.
+     *
+     * The inputs array structure looks like the following.
+     * ```
+     *     [example_section] => Array
+     *       (
+     *           [example_text] => (string, length: 5) hello
+     *           [__submit] => (string, length: 6) Submit
+     *       )
+     * ```
+     * The unset keys stored in $_POST looks like the following. The pipe (|) character is used to delimit dimensional elements.
+     * ```
+     *   [example_section|example_text] => (string, length: 28) example_section|example_text
+     *   [example_section|__submit] => (string, length: 24) example_section|__submit
+     * ```
+     *
+     * @return      array
+     * @since       3.8.17
+     * @param       array       $aInputs        The inputs array to parse.
+     * @param       string      $sFieldsType    The subject fields type (factory structure type).
+     * @param       integer     $iSkipDepth     The dimensional depth to skip.
+     * Depending on the fields type (structure type), dimensional keys are prepended.
+     * For the `admin_page` fields type, an option key is prepended.
+     * For `page_meta_box`, no prepended element and it starts with the section or field ID.
+     */
+    static public function getInputsUnset( array $aInputs, $sFieldsType, $iSkipDepth=0 ) {
+
+        $_sUnsetKey = '__unset_' . $sFieldsType;
+        if ( ! isset( $_POST[ $_sUnsetKey ] ) ) {
+            return $aInputs;
+        }
+
+        $_aUnsetElements = array_unique( $_POST[ $_sUnsetKey ] );
+        foreach( $_aUnsetElements as $_sFlatInputName ) {
+
+            $_aDimensionalKeys = explode( '|', $_sFlatInputName );
+
+            // For form sections, a dummy key is set
+            if ( '__dummy_option_key' === $_aDimensionalKeys[ 0 ] ) {
+                 array_shift( $_aDimensionalKeys );
+            }
+
+            // The first element is the option key for the `admin_page` field type and section or field dimensional keys follow.
+            for ( $_i = 0; $_i < $iSkipDepth; $_i++) {
+                unset( $_aDimensionalKeys[ $_i ] );
+            }
+
+            self::unsetDimensionalArrayElement(
+                $aInputs,
+                $_aDimensionalKeys
+            );
+
+        }
+
+        return $aInputs;
+
+    }
+
+
     /**
      * @since       3.7.0
      * @return      array
