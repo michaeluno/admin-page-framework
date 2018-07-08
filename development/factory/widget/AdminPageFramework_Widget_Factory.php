@@ -119,7 +119,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
      */
 	public function update( $aSubmittedFormData, $aSavedFormData ) {
                 
-        return $this->oCaller->oUtil->addAndApplyFilters(
+        $aSubmittedFormData = $this->oCaller->oUtil->addAndApplyFilters(
             $this->oCaller, 
             "validation_{$this->oCaller->oProp->sClassName}", 
             call_user_func_array( 
@@ -129,7 +129,8 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             $aSavedFormData,
             $this->oCaller
         );
- 
+        return $this->oCaller->oForm->getInputsUnset( $aSubmittedFormData, $this->oCaller->oForm->sStructureType ); // 3.8.17+
+
 	}
     
     /**
