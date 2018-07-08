@@ -185,7 +185,10 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
             $this,
             $aSubmitInfo
         );
-    
+
+        // 3.8.17+ Drop input elements with the `save` argument of false.
+        $_aNewMetaBoxInputs = $this->oForm->getInputsUnset( $_aNewMetaBoxInputs, $this->oProp->sStructureType );
+
         // If there are validation errors. set the last input.
         if ( $this->hasFieldError() ) {
             $this->setLastInputs( $_aNewMetaBoxInputsRaw );           
@@ -233,15 +236,24 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
      * @since       3.7.0
      */
     public function _replyToGetSavedFormData() {
+
+        // 3.8.17+ In admin-ajax.php, `$this->oProp->oAdminPage->oProp` is not set for some unknown cases.
+        // @todo    Investigate in which cases it occurs.
+        $_aPageOptions = isset( $this->oProp->oAdminPage->oProp )
+            ? $this->oProp->oAdminPage->oProp->aOptions
+            : array();
+
         $_aPageOptions = $this->oUtil->addAndApplyFilter(
             $this, // the caller factory object
             'options_' . $this->oProp->sClassName,
-            $this->oProp->oAdminPage->oProp->aOptions  
+            $_aPageOptions
         );
+
         return $this->oUtil->castArrayContents( 
             $this->oForm->getDataStructureFromAddedFieldsets(),   // model
             $_aPageOptions        // data source
-        );        
+        );
+
     }    
     
        /**
