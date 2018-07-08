@@ -8,7 +8,7 @@
  */
 
 /**
- * Defines the `inline_mixed` field type.
+ * Defines the internal `_nested` field type.
  * 
  * 
  * @package         AdminPageFramework/Common/Form/FieldType
