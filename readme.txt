@@ -505,6 +505,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.18 =
+- Fixed a bug that inline/nested field values were not saved properly in widget forms.
+
 = 3.8.17 - 2018/07/09 =
 - Fixed a bug that the `save` argument did not take effect for User Meta, Page Meta Box and Widget factories.
 - Fixed a compatibility issue with some third-parties which attempt to instantiate the framework widget class without given any parameters.

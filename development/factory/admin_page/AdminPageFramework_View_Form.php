@@ -121,8 +121,9 @@ abstract class AdminPageFramework_View_Form extends AdminPageFramework_Model_For
             '',
             "[{$sKey}]"
         );   
-        
-        return $this->_replyToGetFieldNameAttribute( '', $aField ) . $sKey;
+
+        $_sNamePrefix   = $this->_replyToGetFieldNameAttribute( '', $aField );
+        return $_sNamePrefix . $sKey;
         
     }
     /**

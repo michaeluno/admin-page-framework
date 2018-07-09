@@ -279,13 +279,26 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
          * @return      string
          */
         private function _getNameAttributeDimensions( $aFieldset ) {
-            $_sSectionIndex = isset( $aFieldset[ 'section_id' ], $aFieldset[ '_section_index' ] ) 
-                ? "[{$aFieldset[ '_section_index' ]}]" 
-                : "";             
-            $_sDimensions   = $this->oCaller->isSectionSet( $aFieldset )
-                ? $aFieldset[ 'section_id' ] . "]" . $_sSectionIndex . "[" . $aFieldset[ 'field_id' ]
-                : $aFieldset[ 'field_id' ];                
-            return 'widget-' . $this->id_base . '[' . $this->number . '][' . $_sDimensions . ']';
+
+            $_sNamePrefix   = 'widget-' . $this->id_base . '[' . $this->number . ']';
+
+            $_sDimensions = '';
+            if ( $this->oCaller->isSectionSet( $aFieldset ) ) {
+                $_aSectionPath       = $aFieldset[ '_section_path_array' ];
+                foreach( $_aSectionPath as $_sDimension ) {
+                    $_sDimensions .= '[' . $_sDimension . ']';
+                }
+                if ( isset( $aFieldset[ '_section_index' ] ) ) {
+                    $_sDimensions .= '[' . $aFieldset[ '_section_index' ] . ']';
+                }
+            }
+
+            // 3.8.18+ Support for nested fields. @see  https://github.com/michaeluno/admin-page-framework/issues/274
+            foreach( $aFieldset[ '_field_path_array' ] as $_sPathPart ) {
+                $_sDimensions .= '[' . $_sPathPart . ']';
+            }
+
+            return $_sNamePrefix . $_sDimensions;
         }        
     
     /**
@@ -303,8 +316,9 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
             '0' !== $sIndex && empty( $sIndex ),
             '',
             "[" . $sIndex . "]"
-        );                   
-        return $this->_replyToGetFieldName( '', $aFieldset ) . $_sIndex;
+        );
+        $_sNamePrefix   = $this->_replyToGetFieldName( '', $aFieldset );
+        return $_sNamePrefix . $_sIndex;
 
     }
   
