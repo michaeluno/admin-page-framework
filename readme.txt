@@ -1,10 +1,10 @@
 === Admin Page Framework ===
 Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
-Tags:               admin, admin page, administration, developers, options, settings, API, framework, library, meta box, custom post type, custom post types, utility, fields, custom field, custom fields, tool, tools, widget, widgets, form, forms, plugin, plugins, plugin framework, theme, theme framework
+Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
 Tested up to:       4.9.7
-Stable tag:         3.8.16
+Stable tag:         3.8.17
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -505,7 +505,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.8.17 =
+= 3.8.17 - 2018/07/09 =
 - Fixed a bug that the `save` argument did not take effect for User Meta, Page Meta Box and Widget factories.
 - Fixed a compatibility issue with some third-parties which attempt to instantiate the framework widget class without given any parameters.
 

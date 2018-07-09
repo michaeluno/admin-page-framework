@@ -109,8 +109,8 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                     $_aFieldTypeDefinition
                 );
                 $aField = $_oSubFieldFormatter->get();
-                                
-                // Callback the registered function to output the field 
+
+                // Callback the registered function to output the field
                 return $this->_getFieldOutput( 
                     call_user_func_array(
                         $_aFieldTypeDefinition[ 'hfRenderField' ],

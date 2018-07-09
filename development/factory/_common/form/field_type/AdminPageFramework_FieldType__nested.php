@@ -8,7 +8,7 @@
  */
 
 /**
- * Defines the internal `_nested` field type.
+ * Defines the `_nested` field type.
  * 
  * 
  * @package         AdminPageFramework/Common/Form/FieldType
