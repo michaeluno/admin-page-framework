@@ -36,7 +36,7 @@ You will have more organized means of building option pages with the framework. 
 - **Reset Button** - let your users to initialize the saved options.
 - **Validation and Error Messages** - with the pre-defined validation callbacks, the user's submitting form data can be verified. Furthermore, by setting the error array, you can display the error message to the user.
 - **Contextual Help Pane** - help information can be added to the contextual help pane that appears at the top right of each screen.
-- **Custom Field Types** - your own field type can be registered. This allows you to design own fields such as a combination of a checkbox with a text field. 
+- **Custom Field Types** - your own field type can be registered. This allows you to design own fields such as a combination of a checkbox with a text field.
 - **Contact Form** - receive emails of user feedback and issue reports sent via the contact form embedded in an admin page.
 - **Tooltips** - add a small pop-up box beside section and field title for the users to read about the option.
 
@@ -73,7 +73,7 @@ With custom field types, you can create more detailed customized field outputs. 
 - `ace` - a rich code editor.
 - `sample` - a sample custom field type with a JavaScript script.
 - `github` - displays GitHub buttons.
-- `path` - lets the user select file paths on the server. 
+- `path` - lets the user select file paths on the server.
 - `toggle` - lets the user toggle a switch button.
 - `no_ui_slider` - lets the user set values between ranges with a slider.
 - `select2` - lets the user select items from a predefined list which cam be populated with AJAX.
@@ -109,7 +109,7 @@ Activate the demo pages to see the possible features of the framework. To activa
 12. **Repeatable Sections, Section Tabs and Section Title Field**
 13. **Widget Form**
 14. **User Meta Fields**
- 
+
 == Installation ==
 
 1. Upload [admin-page-framework.zip](http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip) via **Dashboard** -> **Plugins** -> **Add New** -> **Upload Plugin**.
@@ -124,7 +124,7 @@ For usage instructions to get started, go to **Dashboard** -> **Admin Page Frame
 This is a PHP class-based WordPress library that helps to create option pages and form fields in the administration area. In addition, it helps to manage to save, export, and import options.
 
 <h5><strong>Who needs it?</strong></h5>
-WordPress plugin/theme developers who publish own products and want to speed up creating setting forms, widgets, contact form etc. and don't want to require their users to install extra dependencies. 
+WordPress plugin/theme developers who publish own products and want to speed up creating setting forms, widgets, contact form etc. and don't want to require their users to install extra dependencies.
 
 <h5><strong>Do my plugin/theme users have to install Admin Page Framework?</strong></h5>
 No. Include the generated framework files in your distribution package. You can generate your own framework files via `Dashboard` -> `Admin Page Framework` -> `Tools` -> `Generator`.
@@ -147,21 +147,21 @@ $this->setRootMenuPageBySlug( 'edit.php?post_type=apf_posts' );
 `
 
 <h5><strong>How do I retrieve the stored options?</strong></h5>
-The framework stores them as an organized multidimensional array in the options table in a single row. So use the `get_option()` function and pass the instantiated class name as the key or the custom key if you specify one in the constructor. 
+The framework stores them as an organized multidimensional array in the options table in a single row. So use the `get_option()` function and pass the instantiated class name as the key or the custom key if you specify one in the constructor.
 
-For instance, if your instantiated class name is `APF` then the code would be 
+For instance, if your instantiated class name is `APF` then the code would be
 
 `
 $my_options = get_option( 'APF' );
-` 
+`
 
 If you are new to PHP, you may feel unconfortable dealing with multi-dimensional arrays because you would call `isset()` so many times. The framework has a utility method to help retrieve values of multi-dimensional arrays.
 
 `
 $_oUtil = new AdminPageFramework_WPUtility;
 
-$value = $_oUtil->getElement( 
-    $my_options,    // (required) subject array 
+$value = $_oUtil->getElement(
+    $my_options,    // (required) subject array
     array( 'key_in_the_first_depth', 'key_in_the_second_depth' ),   // (required) dimensional path
     'My Default Value Here' // (optional) set your default value in case a value is not set
 );
@@ -174,7 +174,7 @@ $value = $this->oUtil->getElement( $subject, $keys, $default );
 `
 
 <h5><strong>Is it possible to use a custom options data for the form instead of the ones used by the framework?</strong></h5>
-Yes, there are two main means to achieve that. 
+Yes, there are two main means to achieve that.
 
 1. Use the `value` argument in the field definition array to suppress the displaying value in the field.
 See an example. https://gist.github.com/michaeluno/fb4088b922b71710c7fb
@@ -190,7 +190,7 @@ new MyAdminPage( '' );
 
 <h5><strong>How can I add sub-menu pages to the top-level page created by the framework from a separate script?</strong></h5>
 
-Say, in your main plugin, your class `MyAdminPageClassA` created a top-level page. In your extension plugin, you want to add sub-menu pages from another instance `MyAdminPageClassB`. 
+Say, in your main plugin, your class `MyAdminPageClassA` created a top-level page. In your extension plugin, you want to add sub-menu pages from another instance `MyAdminPageClassB`.
 
 In the `setUp()` method of `MyAdminPageClasB`, pass the instantiated class name of the main plugin that created the root menu, `MyAdminPageClassA`, to the `setRootMenuPageBySlug()` method.
 
@@ -203,22 +203,22 @@ Another option is to use the `set_up_{class name}` action hook. The callback met
 `
 class ThirdPartyScript {
 
-    public function __construct() { 
+    public function __construct() {
         add_action( 'set_up_' . 'MyAdminPageClassA', array( $this, 'replyToAddSubMenuPages' ) );
     }
-    
+
     public function replyToAddSubMenuPages( $oAdminPage ) {
-            
+
         $oAdminPage->addSubMenuPage(
             array(
                 'page_slug' => 'my_admin_page_b',
                 'title'     => __( 'Example', 'your-text-domain' ),
                 'order'     => 20,
-            )        
+            )
         );
-            
+
     }
-        
+
 }
 new ThirdPartyScript;
 `
@@ -306,13 +306,13 @@ This enables the `select2` custom field type for the class `MyPlugin_AdminPageFr
 
 <h4>Getting Involved</h4>
 <h5><strong>I've written a useful class, functions, and even custom field types that will be useful for others! Do you want to include it?</strong></h5>
-The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is available. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made. 
+The [GitHub repository](https://github.com/michaeluno/admin-page-framework "Admin Page Framework") is available. Raise an [issue](https://github.com/michaeluno/admin-page-framework/issues) first and we'll see if changes can be made.
 
 <h5><strong>How can I contribute to this project?</strong></h5>
 There are various ways to do so. Please refer to the [contribution guideline](https://github.com/michaeluno/admin-page-framework/blob/master/contributing.md).
 
 <h5><strong>How can I contribute to improving the documentation?</strong></h5>
-You are welcome to submit documentation. Please follow the [Documentation Guideline](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md). 
+You are welcome to submit documentation. Please follow the [Documentation Guideline](https://github.com/michaeluno/admin-page-framework/blob/master/documentation_guideline.md).
 
 In addition, your tutorials and snippets for the framework can be listed in the manual. Let us know it [here](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Documentation&page=1&sort=created&state=open).
 
@@ -332,7 +332,7 @@ The framework internally uses the `add_submenu_page()` function to register sub 
 
 This means if you choose a very simple page slug such as <code>about</code> for your plugin/theme's information page and then if there is another plugin using the same page slug, your users will get either of your page or the other.
 
-To avoid this, make sure to use a unique page slug. One way to do that is to add a prefix like <code>apf_about</code>. 
+To avoid this, make sure to use a unique page slug. One way to do that is to add a prefix like <code>apf_about</code>.
 
 <h4>Use the files generated with the component generator</h4>
 
@@ -363,7 +363,7 @@ For more detailed instruction, go to **Dashboard** -> **Admin Page Framework** -
 By the time WordPress's minimum required PHP version becomes 5.3 or higher, we can use name spaces then this problem will be solved.
 
 <h4>Change Framework's System Messages</h4>
-The default messages defined by the framework can be changed. For example, when you import a setting with the framework, the setting notice "The options have been updated." will be displayed. 
+The default messages defined by the framework can be changed. For example, when you import a setting with the framework, the setting notice "The options have been updated." will be displayed.
 
 If you want to change it to something else, modify the `oMsg` object. It has the `aMessages` public property array holding all the messages that the framework uses.
 
@@ -374,7 +374,7 @@ The argument accepts the values as an array. Each element represents the attribu
 
 For example,
 `
-array(    
+array(
     'field_id'      => 'interval',
     'title'         => __( 'Interval', 'task-scheduler' ),
     'type'          => 'number',
@@ -395,7 +395,7 @@ In addition, you can change the attributes of the following container elements b
 
 This submit button will float right.
 `
-array(    
+array(
     'field_id'          => 'submit',
     'type'              => 'submit',
     'save'              => false,
@@ -405,8 +405,8 @@ array(
         'field' => array(
             'style' => 'float:right; clear:none; display: inline;',
         ),
-    ),                    
-)    
+    ),
+)
 `
 
 For meta box and widget form fields (as they have slightly different styling than generic admin pages),
@@ -420,7 +420,7 @@ array(
     'attributes'        => array(
         'field' => array(
             'style' => 'float:right; width:auto;',
-        ),                   
+        ),
     ),
 ),
 `
@@ -496,14 +496,17 @@ array(
     ),
     array(
         'value' => 'the third value',
-    ),    
+    ),
 ),
 `
 
 Alternately, you may use the `options_{instantiated class name}` filter to suppress the options so that setting the value argument is not necessary.
-See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f, 
+See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f,
 
 == Changelog ==
+
+= 3.8.19 =
+- Fixed an issue that some third-party tools reported false positive for PHP 7.2 incompatibility due to a method name prefixed with double underscores.
 
 = 3.8.18 - 2018/07/17 =
 - Fixed a bug that inline/nested field values were not saved properly in widget forms.
@@ -565,7 +568,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Tweaked the style of `taxonomy` fields.
 
 = 3.8.7 - 2016/10/09 =
-- Added the `select2` custom field type that lets the user select items with auto-complete list which can possibly populated with AJAX. 
+- Added the `select2` custom field type that lets the user select items with auto-complete list which can possibly populated with AJAX.
 - Added the ability for the `path` and `toggle` custom field types to support repeatable sections.
 - Fixed a bug that a section title was not displayed when there was a field with the `placement` argument of the `section_title` value.
 - Fixed a PHP warning with the `no_ui_slider`, `array_fill() [function.array-fill]: Number of elements must be positive...`.
@@ -598,7 +601,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Fixed a bug in the `getDataAttributeArray()` utility method that some non-true values were all treated as `0`.
 
 = 3.8.3 - 2016/09/08 =
-- Fixed an issue that array elements of sub-menu items without a key added with the `pages_{class name}` filter were not processed properly. 
+- Fixed an issue that array elements of sub-menu items without a key added with the `pages_{class name}` filter were not processed properly.
 - Fixed an issue that a class creating a root menu page must be instantiated prior to a class adding a sub-menu page with the `setRootMenuPageBySlug()` method by passing the class name of the root menu page.
 
 = 3.8.2 - 2016/08/25 =
@@ -633,7 +636,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Added the ability to set custom classes for sub-objects.
 - Added an example for page meta boxes for in-page tabs in the demo.
 - Added the `load()` method to the admin page factory class which gets called when one of the added admin pages starts loading.
-- Fixed a bug that zip files generated with `Generator` could not be opened on Windows. 
+- Fixed a bug that zip files generated with `Generator` could not be opened on Windows.
 - Fixed a bug that the `size` field type could not save and retrieve values in a sub-field, introduced in v3.7.0.
 - Tweaked the style of page meta boxes.
 
@@ -678,7 +681,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 = 3.7.5 - 2015/12/18 =
 - Reduced the number of database queries used in framework widget forms.
 
-= 3.7.4 - 2015/12/16 = 
+= 3.7.4 - 2015/12/16 =
 - Added the `submenu_order_addnew` and `submenu_order_manage` arguments for the post type arguments.
 - Added the `submenu_order` argument for the taxonomy arguments.
 - Fixed a bug that setting notices could not be displayed in the network admin area, introduced in 3.7.0.
@@ -729,7 +732,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Fixed an issue that a column data were not updated right away when the user uses Quick Edit in a post listing table of a post type.
 - Changed the class names in the framework hook names to get backslashes converted to underscores to avoid invalid characters in callback method names.
 
-= 3.6.3 - 2015/11/07 = 
+= 3.6.3 - 2015/11/07 =
 - Added the `script` and `style` arguments for the page and in-page tab definitions.
 - Tweaked the style of section tab titles in meta boxes.
 - Fixed an issue in WordPress 3.7.x or below that the screen icon appeared even when the screen title and the in-page tabs are disabled.
@@ -741,14 +744,14 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Tweaked the style of buttons of collapsible sections.
 - Fixed a bug that the form values were not saved correctly with a sortable and repeatable section containing repeatable fields.
 - Fixed a bug in the `taxonomy` fields that conditions set with the `if` and `capability` arguments were not applied.
- 
+
 = 3.6.1 - 2015/10/26 =
 - Added the ability to activate a form section tab by URL.
 - Added the `content` argument for section and field definition arrays to define custom outputs.
 - Added a hook to filter parsing contents to the `AdminPageFramework_WPReadmeParser` utility class.
 - Fixed a bug with form section tabs that the active content elements were not visible when a container element is hidden first on the page load.
 - Fixed a bug caused a fatal error in the `AdminPageFramework_AdminNotice` class, introduced in 3.5.12.
- 
+
 = 3.6.0 - 2015/10/22 =
 - Added the ability for the generator to include custom field types.
 - Added the ability to sort sections with the `sortable` argument of a section definition array.
@@ -761,11 +764,11 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Changed the `capability` values of admin pages, in-page tabs, sections and fields to inherit the value from the outer container element.
 - Changed the directory structure of included files to shorten the overall file paths.
 - Changed the mechanism of the repeating and sorting fields.
- 
+
 = 3.5.12 - 2015/08/09 =
 - Fixed a bug that the `Select All` and `Select None` buttons were doubled when a `checkbox` and `posttype` field types were in the same form and not displayed with the `taxonomy` field type when there are no `checkbox` or `posttype` fields in the same page.
 - Tweaked the class selectors of admin notification elements to have dismiss buttons available in WordPress 4.2 or above.
- 
+
 = 3.5.11 - 2015/07/14 =
 - Added a warning to be displayed for forms in generic admin pages when the user form inputs exceeds the PHP `max_input_vars` value.
 - Added the column layout screen options for page meta boxes.
@@ -833,12 +836,12 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Fixed a bug in the widget factory class that form sections could not be set.
 - Changed the `class` argument of the section definition array to accept a string.
 
-= 3.5.1.1 - 2015/01/24 = 
+= 3.5.1.1 - 2015/01/24 =
 - Fixed a bug that caused non-object type PHP error in the post type factory class introduced in v3.5.1.
 
 = 3.5.1 - 2015/01/23 =
 - Fixed a bug in the `enqueueScripts()` method of the admin page factory class.
-- Fixed a bug that message objects were not properly instantiated. 
+- Fixed a bug that message objects were not properly instantiated.
 - Fixed PHP strict standard warnings.
 
 = 3.5.0 - 2015/01/22 =
