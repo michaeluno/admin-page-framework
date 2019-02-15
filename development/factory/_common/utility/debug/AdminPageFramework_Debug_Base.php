@@ -19,6 +19,18 @@
 class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility {
 
     /**
+     * @var int
+     * @since   3.8.19
+     */
+    static public $iLegibleArrayDepthLimit = 10;
+
+    /**
+     * Character length limit to truncate.
+     */
+    static public $iLegibleStringCharacterLimit = 400;
+
+
+    /**
      * Returns a legible value representation with value details.
      * @since       3.8.9
      * @return      string
@@ -118,7 +130,7 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
          */
         static public function _getLegibleArray( array $aArray ) {
             return self::_getArrayMappedRecursive(
-                self::_getSlicedByDepth( $aArray, 10 ),
+                self::_getSlicedByDepth( $aArray, self::$iLegibleArrayDepthLimit ),
                 array( __CLASS__, '_getLegibleValue' )
             );
         }
@@ -202,11 +214,6 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                                 . '...';
 
                     }
-
-    /**
-     * Character length limit to truncate.
-     */
-    static public $iLegibleStringCharacterLimit = 200;
 
     /**
      * @return      string
