@@ -126,6 +126,7 @@ installWordPress() {
     php "$WP_CLI" core config --dbname=$DB_NAME --dbuser="$DB_USER" $dbpass --extra-php <<PHP
 define( 'WP_DEBUG', true );
 define( 'WP_DEBUG_LOG', true );
+\$table_prefix = '$WP_TABLE_PREFIX';
 PHP
     
     # Renew the database table
@@ -219,7 +220,7 @@ uninstallPlugins() {
 
 # Evacuates plugin project files.
 # This needs to be done before installing the Wordpress files.
-# When the test WodPress site needs to be placed under the project directory such as on Travis CI,
+# When the test WordPress site needs to be placed under the project directory such as on Travis CI,
 # simply copying the entire project files into the sub-directory of itself is not possible.
 # so evacuate the project files to a temporary location first and then after installing WordPress, copy them back to the WordPress plugin directory.
 evacuateProjectFiles() {
@@ -286,7 +287,8 @@ installProjectFiles() {
     else
         php "$WP_CLI" plugin activate $PROJECT_SLUG
     fi     
-    
+
+    echo Installed project files.
 }
 
 installCodeception() {
@@ -295,89 +297,46 @@ installCodeception() {
     # if [ -d "$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests" ]; then
         # rm -rf "$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests"
     # fi
-    
+
+    # Rename `codeception.dist.yaml` temporarily to avoid an error.
+    # @see https://github.com/Codeception/Codeception/issues/5253
+    CONFIG_DIST_FILE="$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/codeception.dist.yml"
+    CONFIG_DIST_FILE_BACKUP="$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/codeception.dist.yml.bak"
+    mv "$CONFIG_DIST_FILE" "$CONFIG_DIST_FILE_BACKUP"
+
     # Run the bootstrap to generate necessary files.
+    echo Creating Codeception configuration files.
     php "$CODECEPT" bootstrap "$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/"
-    
+
+    # Restore the global configuration distribution file. (codeception.dist.yml)
+    mv "$CONFIG_DIST_FILE_BACKUP" "$CONFIG_DIST_FILE"
+
+    # @deprecated This seems to be redundant as the entire `tests` directory is copied.
     # Copy bootstrap scripts.
-    cp -r "$PROJECT_DIR/test/tests/acceptance/_bootstrap.php" "$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests/acceptance/_bootstrap.php"
-    cp -r "$PROJECT_DIR/test/tests/functional/_bootstrap.php" "$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests/functional/_bootstrap.php"
-    cp -r "$PROJECT_DIR/test/tests/unit/_bootstrap.php" "$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests/unit/_bootstrap.php"
-                    
+#    cp -r "$PROJECT_DIR/test/tests/acceptance/_bootstrap.php" "$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests/acceptance/_bootstrap.php"
+#    cp -r "$PROJECT_DIR/test/tests/functional/_bootstrap.php" "$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests/functional/_bootstrap.php"
+#    cp -r "$PROJECT_DIR/test/tests/unit/_bootstrap.php" "$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests/unit/_bootstrap.php"
+
     # Create an acceptance setting file.
-        # - To avoid the error, [GuzzleHttp\Exception\ConnectException] cURL error 28:, on CI, 
-        # use CURLOPT_TIMEOUT @see https://github.com/Codeception/Codeception/issues/1918#issuecomment-113557254, http://stackoverflow.com/questions/22757141/how-to-change-codeception-phpbrowser-mink-timeout
-        # and force HTTP1.0 @see comment on http://stackoverflow.com/questions/30899382/how-to-override-default-curl-timeout-for-codeception-using-browserstack
-            # curl: 
-                # CURLOPT_TIMEOUT: 3000 
-                # CURLOPT_TIMEOUT_MS: 3000
-                # CURLOPT_CONNECTTIMEOUT: 0
-                # CURLOPT_HTTP_VERSION: CURL_HTTP_VERSION_1_0                
-            # @see https://github.com/Codeception/Codeception/issues/1918
-            # PhpBrowser:
-                # timeout: 9999
-                # connection_timeout: 120
     FILE="$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests/acceptance.suite.yml"
     cat <<EOM >$FILE
-class_name: AcceptanceTester
 modules:
-    enabled: [PhpBrowser, Helper\Acceptance, Db]
     config:
         PhpBrowser:
             url: '$WP_URL'
-            timeout: 9999
-            connection_timeout: 120
-coverage:
-    # acceptance tests fail if this value is true
-    enabled: false            
 EOM
 
-    # Create a functional setting file. Add modules for unit tests.
-    FILE="$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/tests/functional.suite.yml"
-    cat <<EOM >$FILE
-class_name: FunctionalTester
-modules:
-    enabled: [Filesystem, Helper\Functional, Asserts, Helper\Unit]
-EOM
-    
    # Create a Codeception global setting file
    FILE="$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/codeception.yml"
    cat <<EOM >$FILE
-actor: Tester
-paths:
-    tests: tests
-    log: tests/_output
-    data: tests/_data
-    helpers: tests/_support
-settings:
-    bootstrap: _bootstrap.php
-    colors: true
-    memory_limit: 1024M
 modules:
-    enabled: [Db]
     config:
         Db:
             dsn: 'mysql:host=$DB_HOST;dbname=$DB_NAME'
             user: '$DB_USER'
             password: '$DB_PASS'
-            dump: 'tests/_data/dump.sql'
-            populate: true
-            cleanup: true
-coverage:
-    enabled: true
-    whitelist:
-        include: 
-            - ../include/*
-        exlude:
-            - ../library/*
-            - ../test/*
-            - ../.git
-            - ../*.md
-            - ../.git*
-    # url of file which includes c3 router.
-    # c3_url: '$WP_URL/'    
 EOM
-   
+
     # Make it load c3.php
     # cp -r "$C3" "$WP_TEST_DIR/c3.php"
     # cd "$WP_TEST_DIR"
@@ -404,7 +363,7 @@ if [[ REINSTALL_PROJECT_FILES -ne 1 ]]; then
     installWordPress
     echo Installed WordPress
     installWPTestSuite
-    echo Installed WodPress test suite utilities
+    echo Installed WordPress test suite utilities
     uninstallPlugins
     echo Installed
     installPlugins

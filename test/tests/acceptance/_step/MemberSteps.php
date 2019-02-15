@@ -1,8 +1,9 @@
 <?php
-namespace AcceptanceTester;
+// @deprecated
+// namespace AcceptanceTester;
 
 class MemberSteps extends \AcceptanceTester {
-    
+
     public function login( $sName, $sPassword ) {
         $I = $this;
         $I->amOnPage( \LoginPage::$URL );
@@ -10,5 +11,5 @@ class MemberSteps extends \AcceptanceTester {
         $I->fillField( \LoginPage::$sPasswordField, $sPassword );
         $I->click( \LoginPage::$sLoginButton );
     }
-    
+
 }

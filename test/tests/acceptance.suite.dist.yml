@@ -1,0 +1,12 @@
+class_name: AcceptanceTester
+modules:
+    enabled: [PhpBrowser, Db]
+#     enabled: [PhpBrowser, Helper\Acceptance, Db]
+    config:
+        PhpBrowser:
+            url: '' # <--- override this with `acceptance.yml`. install.sh will do it programmatically.
+            timeout: 9999
+            connection_timeout: 120
+coverage:
+    # acceptance tests fail if this value is true
+    enabled: false

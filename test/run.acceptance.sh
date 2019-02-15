@@ -23,9 +23,9 @@ do
             printVersion
             exit 1
             ;;
-        l)  
+        l)
             COVERAGE_FILE_PATH=$OPTARG
-            ;;            
+            ;;
         c)
             CONFIGURATION_FILE_PATH=$OPTARG
             ;;
@@ -45,13 +45,13 @@ fi
 source "$CONFIGURATION_FILE_PATH"
 echo "Using the configuration file: $CONFIGURATION_FILE_PATH"
 
-# Set up variables 
+# Set up variables
 TEMP=$([ -z "${TEMP}" ] && echo "/tmp" || echo "$TEMP")
 CODECEPT="$TEMP/codecept.phar"
 
 # convert any Windows path to linux/unix path to be usable for some path related commands such as basename
 cd "$WP_TEST_DIR"
-WP_TEST_DIR=$(pwd)   
+WP_TEST_DIR=$(pwd)
 CODECEPT_TEST_DIR="$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test"
 
 echo "Project Slug: $PROJECT_SLUG"
@@ -72,7 +72,7 @@ fi
 # @usage    php codecept run -c /path/to/my/project
 # @see      http://codeception.com/install
 # @bug      the --steps option makes the coverage not being generated
-if [[ $WP_MULTISITE = 1 ]]; then    
+if [[ $WP_MULTISITE = 1 ]]; then
     echo "Testing against a multi-site."
     OPTION_SKIP_GROUP=
     OPTION_GROUP="--group multisite --group ms-files"
@@ -80,20 +80,21 @@ else
     echo "Testing against a normal site."
     OPTION_SKIP_GROUP="--skip-group multisite"
     OPTION_GROUP=
-fi    
+fi
 if [[ ! -z "$COVERAGE_FILE_PATH" ]]; then
     OPTION_COVERAGE="--coverage-xml"
     OPTION_COVERAGE="--coverage-xml --coverage-html"
-else 
+else
     OPTION_COVERAGE=
 fi
 
 # php "$CODECEPT" run acceptance  --steps -vvv --report --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
 # php "$CODECEPT" run acceptance  --steps -vvv --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
 
-php "$CODECEPT" run acceptance -g loader --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
-php "$CODECEPT" run acceptance -g demo --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
-php "$CODECEPT" run acceptance -g utility --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
+# php "$CODECEPT" run acceptance -g loader --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
+# php "$CODECEPT" run acceptance -g demo --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
+# php "$CODECEPT" run acceptance -g utility --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
+php "$CODECEPT" run acceptance --steps -vvv --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
 
 # Copy the coverage file to the specified path
 if [[ ! -z "$COVERAGE_FILE_PATH" ]]; then
@@ -107,7 +108,7 @@ if [[ ! -z "$COVERAGE_FILE_PATH" ]]; then
         echo "Copying the xml coverage file to the specified location."
         cd "$WORKING_DIR"
         cp -f "$GENERATED_COVERAGE_XML_FILE_PATH" "$COVERAGE_FILE_PATH"
-    fi    
+    fi
 fi
 
 echo "Tests have completed!"

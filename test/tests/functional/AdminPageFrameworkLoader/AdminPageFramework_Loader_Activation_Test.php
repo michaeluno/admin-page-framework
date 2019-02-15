@@ -1,9 +1,4 @@
 <?php
-/**
- * Manually include the bootstrap script as Codeception bootstrap runs after loading this file.
- * @see https://github.com/Codeception/Codeception/issues/862
- */
-include_once( dirname( dirname( __FILE__ ) ) . '/_bootstrap.php' );
 
 /**
  * @group   factory
@@ -11,12 +6,12 @@ include_once( dirname( dirname( __FILE__ ) ) . '/_bootstrap.php' );
  * @group   loader
  */
 class AdminPageFramework_Loader_Activation_Test extends \APF_UnitTestCase {
-    
+
     /**
      * Sores the utility object.
      */
     public $oUtil;
-    
+
     public function setUp() {
         parent::setUp();
     }
@@ -40,11 +35,11 @@ class AdminPageFramework_Loader_Activation_Test extends \APF_UnitTestCase {
      * @group   wp
      */
     public function test_is_active() {
-        
+
         $this->assertTrue(
             is_plugin_active( 'admin-page-framework/admin-page-framework-loader.php' )
         );
-        
+
     }
 
 }

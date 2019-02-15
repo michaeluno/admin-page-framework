@@ -1,4 +1,4 @@
-# Test Suite for Admin Page Framework
+# Test Suites
 
 <p align="center">
 	<img src="./screenshot.png?raw=true" alt="Drawing a screenshot" style="width: 640px;"/>

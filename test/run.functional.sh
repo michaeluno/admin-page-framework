@@ -57,7 +57,10 @@ CODECEPT_TEST_DIR="$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test"
 echo "Project Slug: $PROJECT_SLUG"
 echo "Codeception Test Dir: $CODECEPT_TEST_DIR"
 echo "Coverage File Path: $COVERAGE_FILE_PATH"
-set -ex
+
+# Display executed commends
+# @disabled
+# set -ex
 
 # Make sure Codeception is installed
 downloadCodeception "$CODECEPT"
@@ -93,8 +96,8 @@ fi
 # php "$CODECEPT" run functional --report --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP $OPTION_COVERAGE
 # php "$CODECEPT" run functional -g wp --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
 
-php "$CODECEPT" run functional -g core --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
-php "$CODECEPT" run functional -g loader --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP $OPTION_COVERAGE
+# php "$CODECEPT" run functional -g core --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP
+php "$CODECEPT" run functional --debug --colors --config="$CODECEPT_TEST_DIR" $OPTION_GROUP $OPTION_SKIP_GROUP $OPTION_COVERAGE
 
 # Copy the coverage file to the specified path
 if [[ ! -z "$COVERAGE_FILE_PATH" ]]; then

@@ -3,9 +3,12 @@ downloadWPCLI() {
 
     # Latest
     # download https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar "$1"
-    
+
+    # 2.0.1 (stable as of 2018/11/01)
+    download https://github.com/wp-cli/wp-cli/releases/download/v2.0.1/wp-cli-2.0.1.phar "$1"
+
     # 1.0.0
-    download https://github.com/wp-cli/wp-cli/releases/download/v1.0.0/wp-cli-1.0.0.phar "$1"
+    # download https://github.com/wp-cli/wp-cli/releases/download/v1.0.0/wp-cli-1.0.0.phar "$1"
     
     # 0.24.1 @issue https://github.com/wp-cli/wp-cli/issues/2953, 
     # download https://github.com/wp-cli/wp-cli/releases/download/v0.24.1/wp-cli-0.24.1.phar "$1"

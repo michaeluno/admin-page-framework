@@ -57,7 +57,9 @@ CODECEPT_TEST_DIR="$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test"
 echo "Project Slug: $PROJECT_SLUG"
 echo "Codeception Test Dir: $CODECEPT_TEST_DIR"
 echo "Coverage File Path: $COVERAGE_FILE_PATH"
-set -ex
+
+# @disabled Use this for debuggning
+# set -ex
 
 # Make sure Codeception is installed
 downloadCodeception "$CODECEPT"

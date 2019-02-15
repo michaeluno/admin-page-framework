@@ -4,11 +4,26 @@ downloadCodeception() {
     # The Latest Version
     # download "http://codeception.com/codecept.phar" "$1"        
 
-# v2.2.7
-download "http://codeception.com/releases/2.2.7/php54/codecept.phar" "$1"
-    
+    # v2.5.1 (stable as of 2018/11/01)
+    download "http://codeception.com/releases/2.5.1/codecept.phar" "$1"
+
+    # v2.5.0
+    # download "https://codeception.com/releases/2.5.0/codecept.phar" "$1"
+
+    # v2.4.5 -> PHP Warning:  Cannot declare class PHPUnit_Framework_TestCase, because the name is already in use in ...\wordpress-tests-lib\includes\phpunit6-compat.php
+    # download "https://codeception.com/releases/2.4.5/codecept.phar" "$1"
+
+    # v2.3.9 -> PHP Warning:  Cannot declare class PHPUnit_Framework_TestCase, because the name is already in use in ...\wordpress-tests-lib\includes\phpunit6-compat.php
+    # download "https://codeception.com/releases/2.3.9/codecept.phar" "$1"
+
+    # v2.2.12 -> with PHP 7.2 [PHPUnit_Framework_Exception] count(): Parameter must be an array or an object that implements Countable
+    # download "https://codeception.com/releases/2.2.12/codecept.phar" "$1"
+
+    # v2.2.7 (Stable)
+    # download "http://codeception.com/releases/2.2.7/php54/codecept.phar" "$1"
+
     # v2.1.6
-# download "http://codeception.com/releases/2.1.6/codecept.phar" "$1"
+    # download "http://codeception.com/releases/2.1.6/codecept.phar" "$1"
     
     # v2.1 - $I->click() does not work...
     

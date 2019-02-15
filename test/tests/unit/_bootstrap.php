@@ -1,4 +1,5 @@
 <?php
+codecept_debug( 'Unit: _bootstrap.php loaded' );
 $GLOBALS[ '_sProjectDirPath' ]    = dirname( dirname( dirname( dirname( __FILE__ ) ) ) );
 $GLOBALS[ '_sTestSiteDirPath' ]   = dirname( dirname( dirname( $GLOBALS['_sProjectDirPath'] ) ) );
 

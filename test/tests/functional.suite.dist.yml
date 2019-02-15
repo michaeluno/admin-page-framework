@@ -1,0 +1,4 @@
+class_name: FunctionalTester
+modules:
+    enabled: [Filesystem, Asserts, Helper\Unit]
+    # enabled: [Filesystem, Helper\Functional, Asserts, Helper\Unit]

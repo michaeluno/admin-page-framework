@@ -1,0 +1,33 @@
+actor: Tester
+paths:
+    tests: tests
+    log: tests/_output
+    data: tests/_data
+    helpers: tests/_support
+settings:
+    bootstrap: _bootstrap.php
+    colors: true
+    memory_limit: 1024M
+modules:
+    enabled: [Db]
+    config:
+        Db:
+            dsn: 'mysql:host=$DB_HOST;dbname=$DB_NAME' # <--- need to be updated
+            user: '$DB_USER' # <--- need to be updated
+            password: '$DB_PASS' # <--- need to be updated
+            dump: 'tests/_data/dump.sql'
+            populate: true
+            cleanup: true
+coverage:
+    enabled: true
+    whitelist:
+        include:
+            - ../include/*
+        exclude:
+            - ../library/*
+            - ../test/*
+            - ../.git
+            - ../*.md
+            - ../.git*
+    # url of file which includes c3 router.
+    # c3_url: '$WP_URL/'
