@@ -1,75 +1,75 @@
 <?php
 /**
  * Admin Page Framework Loader
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 /**
  * Adds a tab that displays the `toggle` field examples.
- * 
+ *
  * @since       3.8.4
  */
 class APF_Demo_CustomFieldType_Toggle {
 
     public $oFactory;
-    
+
     public $sClassName;
-    
+
     public $sPageSlug;
-    
+
     public $sTabSlug = 'toggle';
 
     public function __construct( $oFactory, $sPageSlug ) {
-    
+
         $this->oFactory     = $oFactory;
         $this->sClassName   = $oFactory->oProp->sClassName;
-        $this->sPageSlug    = $sPageSlug; 
+        $this->sPageSlug    = $sPageSlug;
         $this->sSectionID   = $this->sTabSlug;
-                        
-        $this->oFactory->addInPageTabs(    
+
+        $this->oFactory->addInPageTabs(
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Toggle', 'admin-page-framework-loader' ),
             )
-        );  
-        
+        );
+
         // Register the field type.
-        new ToggleCustomFieldType( $this->sClassName );        
-        
+        new ToggleCustomFieldType( $this->sClassName );
+
         // load + page slug + tab slug
         add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
-  
+
     }
-    
+
     /**
      * Triggered when the tab starts loading.
-     * 
+     *
      * @callback        action      load_{page slug}_{tab slug}
      */
     public function replyToLoadTab( $oAdminPage ) {
-                        
+
         add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
-        
+
          // Section
-        $oAdminPage->addSettingSections(    
-            $this->sPageSlug, // the target page slug                
+        $oAdminPage->addSettingSections(
+            $this->sPageSlug, // the target page slug
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Toggle', 'admin-page-framework-loader' ),
-                'description'   => array( 
+                'description'   => array(
                     __( 'This field type lets the user toggle a button.', 'admin-page-framework-loader' ),
                 ),
-            )            
-        );        
-                    
-        // Fields   
+            )
+        );
+
+        // Fields
         $oAdminPage->addSettingFields(
             $this->sSectionID,
             array(
@@ -89,12 +89,12 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                       
-                ),                   
+                        . "</pre>",
+                ),
             ),
             array(
                 'field_id'      => 'toggle_no_dragging',
-                'type'          => 'toggle',                
+                'type'          => 'toggle',
                 'title'         => __( 'No Dragging', 'admin-page-framework-loader' ),
                 'default'       => true,
                 // @see For the list of arguments, refer to https://github.com/simontabor/jquery-toggles#step-3-initialize
@@ -140,7 +140,7 @@ array(
 EOD
                         )
                         . "</pre>",
-                ),                
+                ),
             ),
             array(
                 'field_id'      => 'toggle_custom_dimension',
@@ -166,9 +166,9 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                
-                ),                     
-            ),            
+                        . "</pre>",
+                ),
+            ),
             array(
                 'field_id'      => 'toggle_select_type',
                 'type'          => 'toggle',
@@ -189,16 +189,16 @@ array(
 ) 
 EOD
                         )
-                        . "</pre>",                    
-                ),                     
+                        . "</pre>",
+                ),
             ),
             array(
                 'field_id'      => 'toggle_disabled',
                 'type'          => 'toggle',
                 'title'         => __( 'Disabled', 'admin-page-framework-loader' ),
-                'attributes' => array( 
-                    'disabled' => 'disabled', 
-                ),                
+                'attributes' => array(
+                    'disabled' => 'disabled',
+                ),
                 'description'   => array(
                     "<pre>"
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
@@ -212,7 +212,7 @@ array(
 EOD
                         )
                         . "</pre>",
-                ),                     
+                ),
             ),
             array(
                 'field_id'      => 'toggle_theme_soft',
@@ -230,15 +230,15 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                    
-                ),                     
+                        . "</pre>",
+                ),
             ),
             array(
                 'field_id'      => 'toggle_theme_light',
                 'type'          => 'toggle',
                 'title'         => __( 'Light Theme', 'admin-page-framework-loader' ),
                 'theme'         => 'light',
-                'default'       => true,                
+                'default'       => true,
                 'description'   => array(
                     "<pre>"
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
@@ -249,15 +249,15 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                       
-                ),                     
+                        . "</pre>",
+                ),
             ),
             array(
                 'field_id'      => 'toggle_theme_dark',
                 'type'          => 'toggle',
                 'title'         => __( 'Dark Theme', 'admin-page-framework-loader' ),
                 'theme'         => 'dark',
-                'default'       => true,                
+                'default'       => true,
                 'description'   => array(
                     "<pre>"
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
@@ -268,13 +268,13 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                      
-                ),                     
+                        . "</pre>",
+                ),
             ),
             array(
                 'field_id'      => 'toggle_theme_iphone',
                 'type'          => 'toggle',
-                'default'       => true,                
+                'default'       => true,
                 'title'         => __( 'iPhone Theme', 'admin-page-framework-loader' ),
                 'theme'         => 'iphone',
                 'description'   => array(
@@ -287,8 +287,8 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                       
-                ),                     
+                        . "</pre>",
+                ),
             ),
             array(
                 'field_id'      => 'toggle_custom_label',
@@ -300,7 +300,7 @@ EOD
                         'off' => 'No',
                     ),
                     'width'     => 72,
-                ),                
+                ),
                 'description'   => array(
                     "<pre>"
                         . $oAdminPage->oWPRMParser->getSyntaxHighlightedPHPCode(
@@ -316,9 +316,9 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                    
-                ),                     
-            ),            
+                        . "</pre>",
+                ),
+            ),
             array(
                 'field_id'      => 'toggle_field_repeatable_sortable',
                 'type'          => 'toggle',
@@ -336,15 +336,15 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                     
-                ),                    
-            )    
-        );  
- 
-    }       
-    
-    public function replyToDoTab() {        
+                        . "</pre>",
+                ),
+            )
+        );
+
+    }
+
+    public function replyToDoTab() {
         submit_button();
     }
-    
+
 }

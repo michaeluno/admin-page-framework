@@ -1,16 +1,16 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides JavaScript utility scripts.
- * 
- * @since       3.0.0     
+ *
+ * @since       3.0.0
  * @since       3.3.0      Extends `AdminPageFramework_Form_View___Script_Base`.
  * @package     AdminPageFramework/Common/Form/View/JavaScript
  * @internal
@@ -19,19 +19,19 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
 
     /**
      * Returns an inline JavaScript script.
-     * 
+     *
      * @since       3.2.0
      * @since       3.3.0       Changed the name from `getjQueryPlugin()`.
      * @param       $oMsg       object      The message object.
      * @return      string      The inline JavaScript script.
-     */        
+     */
     static public function getScript( /* $oMsg */ ) {
-        
+
         $_aParams           = func_get_args() + array( null );
-        $_oMsg              = $_aParams[ 0 ];        
+        $_oMsg              = $_aParams[ 0 ];
         $sCannotAddMore     = $_oMsg->get( 'allowed_maximum_number_of_sections' );
         $sCannotRemoveMore  = $_oMsg->get( 'allowed_minimum_number_of_sections' );
-        
+
         return <<<JAVASCRIPTS
 ( function( $ ) {
     
@@ -436,9 +436,9 @@ JAVASCRIPTS;
      * @return      string
      */
     static public function getEnabler( $sContainerTagID, $iSectionCount, $asArguments, $oMsg ) {
-        
+
         if ( empty( $asArguments ) ) {
-            return ''; 
+            return '';
         }
         if ( self::hasBeenCalled( 'repeatable_section_' . $sContainerTagID ) ) {
             return '';
@@ -484,12 +484,12 @@ jQuery( document ).ready( function() {
     jQuery( '#{$sContainerTagID}' ).updateAdminPageFrameworkRepeatableSections( $_aJSArray ); 
 });            
 JAVASCRIPTS;
-        return "<script type='text/javascript' class='admin-page-framework-section-repeatable-script'>" 
+        return "<script type='text/javascript' class='admin-page-framework-section-repeatable-script'>"
                 . '/* <![CDATA[ */'
-                . $_sScript 
+                . $_sScript
                 . '/* ]]> */'
             . "</script>";
-            
+
     }
 
         /**

@@ -1,21 +1,21 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 class APF_MetaBox_TabbedSections extends AdminPageFramework_MetaBox {
-        
+
     /**
      * Do set-ups.
      */
     public function setUp() {
-        
+
         /*
          * Create tabbed sections.
          */
@@ -35,11 +35,11 @@ class APF_MetaBox_TabbedSections extends AdminPageFramework_MetaBox {
                 'description'       => __( 'This is the second item of the tabbed section.', 'admin-page-framework-loader' ),
             )
         );
-        
+
         /*
          * Add form fields into the meta box.
-         */ 
-        $this->addSettingFields(     
+         */
+        $this->addSettingFields(
             '_tabbed_sections_a',
             array(
                 'field_id'          => 'text_field_in_tabbed_section',
@@ -54,7 +54,7 @@ class APF_MetaBox_TabbedSections extends AdminPageFramework_MetaBox {
                 'repeatable'        => true,
             )
         );
-        $this->addSettingFields( 
+        $this->addSettingFields(
             '_tabbed_sections_b',
             array(
                 'field_id'          => 'size_in_tabbed_sections',
@@ -69,15 +69,15 @@ class APF_MetaBox_TabbedSections extends AdminPageFramework_MetaBox {
                 'label'             => array(
                     'a' => 'A',
                     'b' => 'B',
-                    'c' => 'C',     
+                    'c' => 'C',
                 ),
             )
-        );    
-      
+        );
+
     }
-     
+
 }
-    
+
 new APF_MetaBox_TabbedSections(
     null,  // meta box ID - can be null. If null is passed, the ID gets automatically generated and the class name with all lower case characters will be applied.
     __( 'Section Tabs', 'admin-page-framework-loader' ), // title

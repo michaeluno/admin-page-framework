@@ -1,21 +1,21 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 class APF_Demo_PageMetaBox__Nested extends AdminPageFramework_PageMetaBox {
-        
+
     /**
      *
      */
     public function setUp() {
-        
+
         $this->addSettingSections(
             array(
                 'section_id'     => 'page_meta_box_nested_section',
@@ -30,11 +30,11 @@ class APF_Demo_PageMetaBox__Nested extends AdminPageFramework_PageMetaBox {
                         'section_id'    => 'b',
                         'title'         => __( 'Parent', 'admin-page-framework-loader' )
                             . ' -> ' . __( 'B', 'admin-page-framework-loader' ),
-                    ),                    
-                ),   
+                    ),
+                ),
             )
         );
-        
+
         $this->addSettingFields(
             array( 'page_meta_box_nested_section', 'a' ), // section path
             array(
@@ -64,19 +64,19 @@ class APF_Demo_PageMetaBox__Nested extends AdminPageFramework_PageMetaBox {
                 'default'   => 1,
             )
         );
-        
-    }
-    
 
-    
+    }
+
+
+
     /**
      * Validates the submitted form data.
-     * 
+     *
      * Alternatively you can use `validation_{class name}()` predefined callback method.
      */
     public function validate( $aInputs, $aOldInputs, $oAdminPage, $aSubmitInfo ) {
         return $aInputs;
-    }    
-    
-    
+    }
+
+
 }

@@ -5,7 +5,7 @@
  * Facilitates WordPress plugin and theme development.
  *
  * @author      Michael Uno <michael@michaeluno.jp>
- * @copyright   2013-2018 (c) Michael Uno
+ * @copyright   2013-2019 (c) Michael Uno
  * @license     MIT <http://opensource.org/licenses/MIT>
  * @package     AdminPageFramework
  */
@@ -13,7 +13,7 @@
 if ( ! class_exists( 'PostTypeTaxonomyCustomFieldType' ) ) :
 /**
  * A field type that lets the user select taxonomy terms of selected post types.
- * 
+ *
  * @since       3.8.8
  * @version     0.0.1b
  * @requires    Admin Page Framework 3.8.8 or above.
@@ -32,24 +32,24 @@ class PostTypeTaxonomyCustomFieldType extends AdminPageFramework_FieldType_taxon
      * @see      http://codex.wordpress.org/Function_Reference/get_post_types#Parameters
      */
     protected $aDefaultKeys = array(
-        /** 
+        /**
          * Accepts query arguments. For the argument specification, see the arg parameter of get_post_types() function.
          * See: http://codex.wordpress.org/Function_Reference/get_post_types#Parameters
          */
         'post_type' => array(
             'query'                 => array(
                 'public'                => true,
-            ), 
-            'operator'              => 'and',   
+            ),
+            'operator'              => 'and',
             'attributes'            => array(
                 'size'      => 30,
                 'maxlength' => 400,
-            ),    
+            ),
             'slugs_to_remove'       => array(),    // the default array will be assigned in the rendering method.
-            'select_all_button'     => true,    
+            'select_all_button'     => true,
             'select_none_button'    => true,
         ),
-        
+
         /**
          * For taxonomy terms
          */
@@ -57,16 +57,16 @@ class PostTypeTaxonomyCustomFieldType extends AdminPageFramework_FieldType_taxon
             // 'taxonomy_slugs'        => 'category',      // (array|string) This is for the taxonomy field type.
             'height'                => '250px',         // the tab box height
             'width'                 => null,            // the tab box width
-            'max_width'             => '100%',          // for the taxonomy checklist field type, since 2.1.1.     
+            'max_width'             => '100%',          // for the taxonomy checklist field type, since 2.1.1.
             'show_post_count'       => true,            // (boolean) whether or not the post count associated with the term should be displayed or not.
-            'attributes'            => array(),    
+            'attributes'            => array(),
             'select_all_button'     => true,            // (boolean|string) to change the label, set the label here
-            'select_none_button'    => true,            // (boolean|string) to change the label, set the label here                
+            'select_none_button'    => true,            // (boolean|string) to change the label, set the label here
             'label_no_term_found'   => null,            // (string)  The label to display when no term is found. null needs to be set here as the default value will be assigned in the field output method.
             'label_list_title'      => '',              // (string) The heading title string for a term list. Default: `''`. Insert an HTML custom string right before the list starts.
             'query'                 => array(       // (array) Defines the default query argument.
                 // see the arguments of the get_category() function: http://codex.wordpress.org/Function_Reference/get_categories
-                // see the argument of the get_terms() function: http://codex.wordpress.org/Function_Reference/get_terms        
+                // see the argument of the get_terms() function: http://codex.wordpress.org/Function_Reference/get_terms
                 'child_of'          => 0,
                 'parent'            => '',
                 'orderby'           => 'name',      // (string) 'ID' or 'term_id' or 'name'
@@ -76,47 +76,47 @@ class PostTypeTaxonomyCustomFieldType extends AdminPageFramework_FieldType_taxon
                 'number'            => '',          // (integer) The maximum number of the terms to show.
                 'pad_counts'        => false,       // (boolean) whether to sum up the post counts with the child post counts.
                 'exclude'           => array(),     // (string) Comma separated term IDs to exclude from the list. for example `1` will remove the 'Uncategorized' category from the list.
-                'exclude_tree'      => array(), 
+                'exclude_tree'      => array(),
                 'include'           => array(),     // (string) Comma separated term IDs to include in the list.
-                'fields'            => 'all', 
-                'slug'              => '', 
-                'get'               => '', 
+                'fields'            => 'all',
+                'slug'              => '',
+                'get'               => '',
                 'name__like'        => '',
                 'description__like' => '',
-                'offset'            => '', 
+                'offset'            => '',
                 'search'            => '',          // (string) The search keyword to get the term with.
                 'cache_domain'      => 'core',
             ),
             'queries'   => array(),         // (optional, array) Sets a query argument for each taxonomy. The array key must be the taxonomy slug and the value is the query argument array.
-            'save_unchecked'        => false,        // (optional, boolean) Whether to store the values of unchecked items.         
+            'save_unchecked'        => false,        // (optional, boolean) Whether to store the values of unchecked items.
         ),
-        
-    );    
-    
+
+    );
+
     protected $aDefaultRemovingPostTypeSlugs = array(
-        // 'revision', 
-        // 'attachment', 
+        // 'revision',
+        // 'attachment',
         // 'nav_menu_item',
     );
-    
-    
+
+
     // protected function construct() {
     // }
-    
+
     /**
      * Loads the field type necessary components.
      */
     // public function setUp() {
     // }
 
-         
-            
+
+
     /**
      * Returns an array holding the urls of enqueuing scripts.
      * @return      array
      */
     protected function getEnqueuingScripts() {
-        return array();        
+        return array();
     }
 
     /**
@@ -218,15 +218,15 @@ jQuery( document ).ready( function(){
 });
 JAVASCRIPTS;
         return $_sScript;
-        
+
 
     }
-    
+
     /**
      * Returns the field type specific CSS rules.
      */
     protected function getStyles() {
-        return parent::getStyles() 
+        return parent::getStyles()
             . " /* Select All and None Buttons */
 .admin-page-framework-field-post_type_taxonomy .select_all_button_container, 
 .admin-page-framework-field-post_type_taxonomy .select_none_button_container
@@ -251,13 +251,13 @@ JAVASCRIPTS;
      * Returns the output of the field type.
      */
     public function getField( $aField ) {
-        
+
         $_sOutput  = '';
-        
+
         // Post type check boxes.
         $_aField   = $this->_getPostTypeFieldArguments( $aField );
         $_sOutput .= $this->getFieldOutput( $_aField );
-       
+
         // Taxonomy term check-boxes
         $_aField   = $this->_getTaxonomyFieldArguments( $aField );
         $_sOutput .= parent::getField( $_aField );
@@ -268,12 +268,12 @@ JAVASCRIPTS;
             '', // replacement
             $_sOutput   // subject
         );
-        
+
         return "<div class='repeatable-field-buttons'></div>"
             . $_sOutput;
-        
+
     }
-        
+
         /**
          * @return      array
          */
@@ -284,56 +284,56 @@ JAVASCRIPTS;
                 'name'  => $aField[ 'attributes' ][ 'name' ] . '[post_type]',
                 'id'    => $aField[ 'attributes' ][ 'id' ] . '_post_type',
             ) + $aField[ 'attributes' ];
-        
+
             $aField[ 'input_id' ] = $aField[ 'input_id' ] . '_post_type';
             $aField[ 'tag_id' ]   = $aField[ 'tag_id' ] . '_post_type';
-        
+
             $_aField = $aField[ 'post_type' ] + $aField;
             $_aField[ 'type' ] = 'posttype';
-            
+
             $_aField[ 'attributes' ] = $aField[ 'attributes' ] + $_aField[ 'attributes' ];
-            
-            unset( 
+
+            unset(
                 $_aField[ 'title' ],
                 $_aField[ 'description' ],
                 $_aField[ 'repeatable' ],
                 $_aField[ 'sortable' ]
             );
-              
+
             $_aField[ 'value' ]       = $this->getElementAsArray(
                 $aField,
                 array( 'value', 'post_type' )
             );
-   
+
             return $_aField;
-            
+
         }
-    
-    
+
+
         /**
          * @return      array
          */
         private function _getTaxonomyFieldArguments( $aField ) {
-            
+
             $aField[ 'taxonomy_slugs' ] = $this->_getTaxonomySlugs( $aField );
             $_aField = $aField[ 'taxonomy' ] + $aField;
-            
+
             // Add the `taxonomy` dimension.
             $_aField[ '_input_name' ] = $aField[ '_input_name' ] . '[taxonomy]';
             $_aField[ 'input_id' ]    = $aField[ 'input_id' ] . '_taxonomy';
-            
+
             $_aField[ 'value' ]       = $this->getElementAsArray(
                 $aField,
                 array( 'value', 'taxonomy' )
             );
             return $_aField;
-            
+
         }
             /**
              * @return      array
              */
             private function _getTaxonomySlugs( $aField ) {
-                
+
                 $_aPostTypeFieldArguments = $this->getElementAsArray( $aField, array( 'post_type' ) );
                 $_aPostTypes              = $this->_getPostTypeArrayForChecklist(
                     $this->getElement( $_aPostTypeFieldArguments, array( 'query' ), array( '_builtin' => true, 'public' => true ) ),
@@ -341,7 +341,7 @@ JAVASCRIPTS;
                     $this->getElementAsArray( $_aPostTypeFieldArguments, array( 'slugs_to_remove' ), array() )
                 );
                 $_aTaxonomyNames          = array();
-                foreach ( $_aPostTypes as $_sPostTypeSlug => $_sLabel ) {                    
+                foreach ( $_aPostTypes as $_sPostTypeSlug => $_sLabel ) {
                     $_aTaxonomyNames = array_merge(
                         $_aTaxonomyNames,
                         get_object_taxonomies( $_sPostTypeSlug, 'names' )
@@ -349,36 +349,36 @@ JAVASCRIPTS;
                 }
                 $_aTaxonomyNames = array_unique( $_aTaxonomyNames );
                 return $_aTaxonomyNames;
-                
+
             }
                 /**
                  * A helper function for the above getPosttypeChecklistField method.
-                 * 
+                 *
                  * @since   3.8.8
                  * @param   $asQueryArgs        array   The query argument.
                  * @param   $sOperator          array   The query operator.
                  * @param   $aSlugsToRemove     array   The slugs to remove from the result.
                  * @return  array   The array holding the elements of installed post types' labels and their slugs except the specified expluding post types.
                  * @internal
-                 */ 
+                 */
                 private function _getPostTypeArrayForChecklist( $asQueryArgs=array(), $sOperator='and', $aSlugsToRemove ) {
-                    
+
                     $_aPostTypes = array();
                     foreach( get_post_types( $asQueryArgs, 'objects' ) as $_oPostType ) {
                         if (  isset( $_oPostType->name, $_oPostType->label ) ) {
                             $_aPostTypes[ $_oPostType->name ] = $_oPostType->label;
                         }
                     }
-                    return array_diff_key( $_aPostTypes, array_flip( $aSlugsToRemove ) );    
+                    return array_diff_key( $_aPostTypes, array_flip( $aSlugsToRemove ) );
 
-                }             
-   
+                }
+
         /**
          * @return      string
          * @deprecated
          */
      /*    private function _getTaxonomyToggleCheckbox( $aField ) {
-            
+
             $_aCheckboxAttributes = array(
                 'type'  => 'checkbox',
                 'value' => 1,
@@ -396,8 +396,8 @@ JAVASCRIPTS;
                             . __( 'Select taxonomy terms.', 'admin-page-framework-loader' )
                     . "</label>"
                 . "</div>";
-            
+
         } */
-        
+
 }
 endif;

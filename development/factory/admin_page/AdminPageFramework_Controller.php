@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -15,31 +15,31 @@
  * @package         AdminPageFramework/Factory/AdminPage
  */
 abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
-    
+
     /**
      * Called when one of the added admin page starts loading.
-     * 
+     *
      * Alternatively the user may use the `load_{instantiated class name}` action hook and its auto-callback method.
-     * 
+     *
      * @since       3.7.12
      * @return      void
      */
     public function load() {}
-    
+
     /**
-     * The method for all the necessary set-ups. 
-     * 
+     * The method for all the necessary set-ups.
+     *
      * The users should override this method to set-up necessary settings. To perform certain tasks prior to this method, use the `start_{instantiated class name}` hook that is triggered at the end of the class constructor.
-     * 
+     *
      * <h4>Example</h4>
      * <code>public function setUp() {
-     *     $this->setRootMenuPage( 'APF Form' ); 
+     *     $this->setRootMenuPage( 'APF Form' );
      *     $this->addSubMenuItems(
      *         array(
      *             'title' => 'Form Fields',
      *             'page_slug' => 'apf_form_fields',
      *         )
-     *     );     
+     *     );
      * }</code>
      * @abstract
      * @since       2.0.0
@@ -48,18 +48,18 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * @remark      In v1, this is triggered with the `admin_menu` hook; however, in v2, this is triggered with the `wp_loaded` hook.
      * @access      public
      * @return      void
-     */    
+     */
     public function setUp() {}
-        
+
     /*
      * Help Pane Methods
      */
-    
+
     /**
      * Adds the given contextual help tab contents into the property.
-     * 
+     *
      * <h4>Example</h4>
-     * <code> $this->addHelpTab( 
+     * <code> $this->addHelpTab(
      * array(
      *      'page_slug                  => 'first_page', // (required)
      *      // 'page_tab_slug'          => null, // (optional)
@@ -69,7 +69,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      *      'help_tab_sidebar_content'  => __( 'This is placed in the sidebar of the help pane.', 'admin-page-framework' ),
      * )
      * );</code>
-     * 
+     *
      * @since       2.1.0
      * @since       3.3.1       Moved from `AdminPageFramework`.
      * @remark      Called when registering setting sections and fields.
@@ -84,7 +84,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      *     <li>**help_tab_sidebar_content** - (optional) the HTML string content of the sidebar of the contextual help tab.</li>
      * </ul>
      * @return void
-     */ 
+     */
     public function addHelpTab( $aHelpTab ) {
         $this->oHelpPane->_addHelpTab( $aHelpTab );
     }
@@ -94,18 +94,18 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      */
     /**
      * Enqueues styles by page slug and tab slug.
-     * 
+     *
      * Use this method to pass multiple files to the same page.
-     * 
+     *
      * <h4>Example</h4>
-     * <code>$this->enqueueStyle(  
-     *         array( 
+     * <code>$this->enqueueStyle(
+     *         array(
      *             dirname( APFDEMO_FILE ) . '/asset/css/code.css',
      *             dirname( APFDEMO_FILE ) . '/asset/css/code2.css',
      *         ),
      *         'apf_manage_options'     // page slug
      * );</code>
-     * 
+     *
      * @since       3.0.0
      * @since       3.3.1       Moved from `AdminPageFramework`.
      * @param       array       $aSRCs          The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: `array( '/css/mystyle.css', '/css/mystyle2.css' )`
@@ -119,11 +119,11 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
     }
     /**
      * Enqueues a style by page slug and tab slug.
-     * 
+     *
      * <h4>Example</h4>
      * <code>
-     * $this->enqueueStyle(  
-     *      dirname( APFDEMO_FILE ) . '/asset/css/code.css', 
+     * $this->enqueueStyle(
+     *      dirname( APFDEMO_FILE ) . '/asset/css/code.css',
      *      'apf_manage_options'    // page slug
      * );
      * $this->enqueueStyle(
@@ -131,7 +131,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      *      'apf_read_me'           // page slug
      * );
      * </code>
-     * 
+     *
      * @since       2.1.2
      * @since       3.3.1       Moved from `AdminPageFramework`.
      * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_style
@@ -148,19 +148,19 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      *     <li>**attributes** - (optional, array) [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
      * </ul>
      * @return      string      The style handle ID. If the passed url is not a valid url string, an empty string will be returned.
-     */    
+     */
     public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-        return $this->oResource->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );     
+        return $this->oResource->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
     }
     /**
      * Enqueues scripts by page slug and tab slug.
-     * 
+     *
      * <h4>Example</h4>
      * <code>
-     * $this->enqueueScripts(  
-     *     array( 
+     * $this->enqueueScripts(
+     *     array(
      *          plugins_url( 'asset/js/test.js' , __FILE__ ), // source url or path
-     *          plugins_url( 'asset/js/test2.js' , __FILE__ ),    
+     *          plugins_url( 'asset/js/test2.js' , __FILE__ ),
      *     )
      *     'apf_read_me',     // page slug
      * );
@@ -176,24 +176,24 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      */
     public function enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
         return $this->oResource->_enqueueScripts( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
-    }    
+    }
     /**
      * Enqueues a script by page slug and tab slug.
-     *  
+     *
      * <h4>Example</h4>
-     * <code>$this->enqueueScript(  
+     * <code>$this->enqueueScript(
      *      plugins_url( 'asset/js/test.js' , __FILE__ ), // source url or path
      *      'apf_read_me',     // page slug
      *      '',     // tab slug
      *      array(
      *          'handle_id'     => 'my_script', // this handle ID also is used as the object name for the translation array below.
-     *          'translation'   => array( 
+     *          'translation'   => array(
      *              'a'                 => 'hello world!',
      *              'style_handle_id'   => $sStyleHandle, // check the enqueued style handle ID here.
      *          ),
      *      )
      * );</code>
-     * 
+     *
      * @since       2.1.2
      * @since       3.0.0       Changed the scope to public
      * @since       3.3.1       Moved from `AdminPageFramework`.
@@ -213,19 +213,19 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * </ul>
      * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
-    public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {    
+    public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
         return $this->oResource->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
     }
-    
+
     /**
     * Adds the given link(s) into the description cell of the plugin listing table.
-    * 
+    *
     * <h4>Example</h4>
-    * <code>$this->addLinkToPluginDescription( 
+    * <code>$this->addLinkToPluginDescription(
     *       "<a href='http://www.google.com'>Google</a>",
     *       "<a href='http://www.yahoo.com'>Yahoo!</a>"
     * );</code>
-    * 
+    *
     * @since        2.0.0
     * @since        3.0.0       Changed the scope to public from protected.
     * @since        3.3.1       Moved from `AdminPageFramework`.
@@ -235,22 +235,22 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
     * @param        string      (optional) add more as many as want by adding items to the next parameters.
     * @access       public
     * @return       void
-    */     
+    */
     public function addLinkToPluginDescription( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {
         if ( 'plugins.php' !== $this->oProp->sPageNow ) {
             return;
-        }        
-        $this->oLink->_addLinkToPluginDescription( func_get_args() ); 
+        }
+        $this->oLink->_addLinkToPluginDescription( func_get_args() );
     }
 
     /**
     * Adds the given link(s) into the title cell of the plugin listing table.
-    * 
+    *
     * <h4>Example</h4>
-    * <code>$this->addLinkToPluginTitle( 
+    * <code>$this->addLinkToPluginTitle(
     *       "<a href='http://www.wordpress.org'>WordPress</a>"
     * );</code>
-    * 
+    *
     * @since        2.0.0
     * @since        3.0.0       Changed the scope to public from protected.
     * @since        3.3.1       Moved from `AdminPageFramework`.
@@ -260,35 +260,35 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
     * @param        string      (optional) add more as many as want by adding items to the next parameters.
     * @access       public
     * @return       void
-    */    
-    public function addLinkToPluginTitle( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {    
-    
+    */
+    public function addLinkToPluginTitle( $sTaggedLinkHTML1, $sTaggedLinkHTML2=null, $_and_more=null ) {
+
         if ( 'plugins.php' !== $this->oProp->sPageNow ) {
             return;
-        }    
-        $this->oLink->_addLinkToPluginTitle( func_get_args() );     
-        
+        }
+        $this->oLink->_addLinkToPluginTitle( func_get_args() );
+
     }
-     
+
     /**
      * Sets the label applied to the settings link which automatically embedded to the plugin listing table of the plugin title cell.
-     * 
+     *
      * To disable the embedded settings link, pass an empty value.
-     * 
+     *
      * @since       3.1.0
      * @since       3.3.1       Moved from `AdminPageFramework`.
-     */  
+     */
     public function setPluginSettingsLinkLabel( $sLabel ) {
         $this->oProp->sLabelPluginSettingsLink = $sLabel;
     }
-     
+
     /**
      * Sets the overall capability.
-     * 
+     *
      * <h4>Example</h4>
      * <code>$this->setCpability( 'read' ); // let subscribers access the pages.
      * </code>
-     * 
+     *
      * @since       2.0.0
      * @since       3.0.0       Changed the scope to public from protected.
      * @since       3.3.1       Moved from `AdminPageFramework`.
@@ -296,21 +296,21 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * @param       string      The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> for the created pages.
      * @return      void
      * @access      public
-     */ 
+     */
     public function setCapability( $sCapability ) {
         $this->oProp->sCapability = $sCapability;
         if ( isset( $this->oForm ) ) {
             $this->oForm->sCapability = $sCapability;
-        }  
+        }
     }
-            
+
     /**
      * Sets an admin notice.
-     * 
+     *
      * <h4>Example</h4>
      * <code>$this->setAdminNotice( sprintf( 'Please click <a href="%1$s">here</a> to upgrade the options.', admin_url( 'admin.php?page="my_page"' ) ), 'updated' );
      * </code>
-     * 
+     *
      * @access      public
      * @remark      It should be used before the 'admin_notices' hook is triggered.
      * @since       2.1.2
@@ -321,11 +321,11 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * @param       string      (optional) The ID of the message. If not set, the hash of the message will be used.
      */
     public function setAdminNotice( $sMessage, $sClassSelector='error', $sID='' ) {
-            
+
         $sID = $sID ? $sID : md5( $sMessage );
-        
+
         // Prevents duplicates
-        $this->oProp->aAdminNotices[ $sID ] = array(  
+        $this->oProp->aAdminNotices[ $sID ] = array(
             'sMessage'          => $sMessage,
             'aAttributes'       => array(
                 'id'    => $sID,
@@ -339,16 +339,16 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
                 'should_show'        => array( $this, 'isInThePage' ),
             )
         );
-        
+
     }
 
     /**
      * Sets the disallowed query keys in the links that the framework generates.
-     * 
+     *
      * <h4>Example</h4>
      * <code>$this->setDisallowedQueryKeys( 'my-custom-admin-notice' );
      * </code>
-     * 
+     *
      * @since       2.1.2
      * @since       3.0.0           It also accepts a string. Changed the scope to public.
      * @since       3.3.1       Moved from `AdminPageFramework`.
@@ -358,22 +358,22 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * @return      void
      */
     public function setDisallowedQueryKeys( $asQueryKeys, $bAppend=true ) {
-        
+
         if ( ! $bAppend ) {
             $this->oProp->aDisallowedQueryKeys = ( array ) $asQueryKeys;
             return;
         }
-        
+
         $aNewQueryKeys = array_merge( ( array ) $asQueryKeys, $this->oProp->aDisallowedQueryKeys );
         $aNewQueryKeys = array_filter( $aNewQueryKeys ); // drop non-values
         $aNewQueryKeys = array_unique( $aNewQueryKeys ); // drop duplicates
         $this->oProp->aDisallowedQueryKeys = $aNewQueryKeys;
-        
+
     }
-    
+
     /**
      * Retrieves the saved option value from the given option key and the dimensional array key representation.
-     * 
+     *
      * <h4>Example</h4>
      * <code>
      * $aData       = AdminPageFramework::getOption( 'APF' );
@@ -381,7 +381,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * $sText       = AdminPageFramework::getOption( 'APF', array( 'my_section', 'my_text_field' ), 'foo' );
      * $sColor      = AdminPageFramework::getOption( 'APF', 'my_color_field', '#FFF' );
      * </code>
-     * 
+     *
      * @since       3.0.1
      * @since       3.3.1       Moved from `AdminPageFramework`.
      * @param       string      $sOptionKey     the option key of the options table.
@@ -395,7 +395,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      *     ),
      * )
      * </code>
-     * then the value 'ccc' can be retrieved with the key representation array of 
+     * then the value 'ccc' can be retrieved with the key representation array of
      * <code>
      * array( 'a', 'b', 'c' )
      * </code>
@@ -404,6 +404,6 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      */
     static public function getOption( $sOptionKey, $asKey=null, $vDefault=null ) {
         return AdminPageFramework_WPUtility::getOption( $sOptionKey, $asKey, $vDefault );
-    }    
-    
+    }
+
 }

@@ -1,64 +1,64 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 /**
  * Adds a section in a tab.
- * 
+ *
  * @package     AdminPageFramework/Example
  */
 class APF_Demo_BuiltinFieldTypes_Selector_Select {
-    
+
     /**
      * The page slug to add the tab and form elements.
      */
     public $sPageSlug   = 'apf_builtin_field_types';
-    
+
     /**
      * The tab slug to add to the page.
      */
     public $sTabSlug    = 'selectors';
-    
+
     /**
      * The section slug to add to the tab.
      */
     public $sSectionID  = 'select';
-        
+
     /**
      * Sets up a form section.
      */
     public function __construct( $oFactory ) {
-    
+
         // Section
-        $oFactory->addSettingSections(    
-            $this->sPageSlug, // the target page slug                
+        $oFactory->addSettingSections(
+            $this->sPageSlug, // the target page slug
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Drop-down Lists', 'admin-page-framework-loader' ),
                 'tip'           => __( 'These are drop-down (pull-down) lists.', 'admin-page-framework-loader' ),
             )
-        );   
-             
+        );
+
         /*
          * Selector type fields - dropdown (pulldown) list, checkbox, radio buttons, size selector
          */
         $oFactory->addSettingFields(
-            $this->sSectionID, 
-            array( 
+            $this->sSectionID,
+            array(
                 'field_id'      => 'select',
                 'title'         => __( 'Dropdown List', 'admin-page-framework-loader' ),
                 'type'          => 'select',
                 'help'          => __( 'This is the <em>select</em> field type.', 'admin-page-framework-loader' ),
                 'default'       => 2, // the index key of the label array below which yields 'Yellow'.
-                'label'         => array( 
+                'label'         => array(
                     0 => __( 'Red', 'admin-page-framework-loader' ),
                     1 => __( 'Blue', 'admin-page-framework-loader' ),
                     2 => __( 'Yellow', 'admin-page-framework-loader' ),
@@ -82,9 +82,9 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                       
+                        . "</pre>",
                 ),
-            ),    
+            ),
             array(
                 'field_id'      => 'select_multiple_options',
                 'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
@@ -115,24 +115,24 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                       
-                ),                
-            ),    
-            array( 
+                        . "</pre>",
+                ),
+            ),
+            array(
                 'field_id'      => 'select_multiple_groups',
                 'title'         => __( 'Grouping', 'admin-page-framework-loader' ),
                 'type'          => 'select',
                 'default'       => 'b',
-                'label'         => array(     
+                'label'         => array(
                     'alphabets' => array(     // each key must be unique throughout this 'label' element array.
-                        'a' => 'a',     
-                        'b' => 'b', 
+                        'a' => 'a',
+                        'b' => 'b',
                         'c' => 'c',
                     ),
-                    'numbers' => array( 
+                    'numbers' => array(
                         0 => '0',
                         1 => '1',
-                        2 => '2', 
+                        2 => '2',
                     ),
                 ),
                 'attributes'    => array( // the 'attributes' element of the select field type has three keys: select, 'option', and 'optgroup'.
@@ -175,9 +175,9 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                       
+                        . "</pre>",
                 ),
-            ),     
+            ),
             array(
                 'field_id'      => 'select_multiple_fields',
                 'title'         => __( 'Multiple', 'admin-page-framework-loader' ),
@@ -185,7 +185,7 @@ EOD
                 'type'          => 'select',
                 'label'         => array( 'dark', 'light' ),
                 'default'       => 1,
-                'attributes'    => array(    
+                'attributes'    => array(
                     'field'     => array(
                         'style' => 'display: inline; clear: none', // this makes the field element inline, which means next fields continues from the right end of the field, not from the new line.
                     ),
@@ -202,7 +202,7 @@ EOD
                             'size' => 5,
                             'multiple' => 'multiple', // instead of 'is_multiple' =>    true, it is possible by setting it by the attribute key.
                         ),
-                    )     
+                    )
                 ),
                 'description'   => array(
                     "<pre class='field-argument-example'>"
@@ -237,20 +237,20 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                       
-                ),                  
-            ),     
-            array( 
+                        . "</pre>",
+                ),
+            ),
+            array(
                 'field_id'      => 'select_repeatable',
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'          => 'select',
                 'repeatable'    => true,
                 'tip'           => __( 'To enable repeatable fields, pass <code>true</code> to the <code>repeatable</code> argument.', 'admin-page-framework-loader' ),
                 'default'       => 'y',
-                'label' => array( 
+                'label' => array(
                     'x' => 'X',
-                    'y' => 'Y',     
-                    'z' => 'Z',     
+                    'y' => 'Y',
+                    'z' => 'Z',
                 ),
                 'description'   => array(
                     "<pre class='field-argument-example'>"
@@ -268,24 +268,24 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                       
+                        . "</pre>",
                 ),
-            ),     
+            ),
             array(
                 'field_id'      => 'select_sortable',
                 'title'         => __( 'Sortable', 'admin-page-framework-loader' ),
                 'type'          => 'select',
                 'sortable'      => true,
                 'default'       => 'iii',
-                'before_label'  => 
-                    "<span style='vertical-align:baseline; min-width: 140px; display:inline-block; margin-top: 0.5em; padding-bottom: 0.2em;'>" 
-                        . __( 'Sortable Item', 'admin-page-framework-loader' ) 
+                'before_label'  =>
+                    "<span style='vertical-align:baseline; min-width: 140px; display:inline-block; margin-top: 0.5em; padding-bottom: 0.2em;'>"
+                        . __( 'Sortable Item', 'admin-page-framework-loader' )
                     . "</span>",
-                'label'         => array( 
+                'label'         => array(
                     'i'     => 'I',
-                    'ii'    => 'II',    
-                    'iii'   => 'III',     
-                    'iiv'   => 'IIV',     
+                    'ii'    => 'II',
+                    'iii'   => 'III',
+                    'iiv'   => 'IIV',
                 ),
                 array(), // the second item - will inherit the main field's arguments
                 array(), // the third item
@@ -314,8 +314,8 @@ EOD
                 ),
             )
         );
-        
+
     }
-    
-  
+
+
 }

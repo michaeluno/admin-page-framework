@@ -1,21 +1,21 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides methods to load field resources such as style-sheets and JavaScript scripts.
- * 
+ *
  * @package     AdminPageFramework/Common/Form/Model
  * @since       3.7.0
  * @internal
  */
 class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramework_Form_Base {
-    
+
     public $aArguments              = array();
     public $aFieldsets              = array();
     public $aResources              = array(
@@ -29,14 +29,14 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
     public $aCallbacks              = array(
         'is_fieldset_registration_allowed' => null,
     );
-    
+
     /**
      * Sets up hooks.
      * @since       3.7.0
      */
     public function __construct( /* $aArguments, $aFieldsets, $aResources, $aFieldTypeDefinitions, $aCallbacks */ ) {
-        
-        $_aParameters = func_get_args() + array( 
+
+        $_aParameters = func_get_args() + array(
             $this->aArguments,
             $this->aFieldsets,
             $this->aResources,
@@ -48,12 +48,12 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
         $this->aResources               = $_aParameters[ 2 ];
         $this->aFieldTypeDefinitions    = $_aParameters[ 3 ];
         $this->aCallbacks               = $_aParameters[ 4 ] + $this->aCallbacks;
-        
+
     }
-    
+
     /**
      * Returns an updated the resource array.
-     * 
+     *
      * @since       3.7.0
      * @return      array
      */
@@ -64,24 +64,24 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
     }
 
         /**
-         * 
+         *
          */
         private function ___setCommon() {
 
             if ( $this->hasBeenCalled( __METHOD__ ) ) {
                 return;
             }
-            
+
             new AdminPageFramework_Form_View___Script_RegisterCallback;
-            
+
             $this->___setCommonFormInternalCSSRules();
-            
+
         }
         /**
          *
          */
         private function ___setCommonFormInternalCSSRules() {
-            
+
             $_aClassNames = array(
                 'AdminPageFramework_Form_View___CSS_Form',
                 'AdminPageFramework_Form_View___CSS_Field',
@@ -101,12 +101,12 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 $_oCSS = new $_sClassName;
                 $this->aResources[ 'internal_styles_ie' ][] = $_oCSS->get();
             }
-            
+
         }
-        
+
         /**
          * Registers the given fields.
-         * 
+         *
          * @remark      `$oHelpPane` and `$oHeadTab` need to be set in the extended class.
          * @remark      This method should be called after the `_loadFieldTypeDefinitions()` emthod.
          * @since       3.0.0

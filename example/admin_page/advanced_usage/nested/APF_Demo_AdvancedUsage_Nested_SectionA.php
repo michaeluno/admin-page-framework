@@ -1,44 +1,44 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 /**
  * Adds a section in a tab.
- * 
+ *
  * @package     AdminPageFramework/Example
  */
 class APF_Demo_AdvancedUsage_Nested_SectionA {
-    
+
     /**
      * The page slug to add the tab and form elements.
      */
     public $sPageSlug   = 'apf_advanced_usage';
-    
+
     /**
      * The tab slug to add to the page.
      */
     public $sTabSlug    = 'nested';
-    
+
     /**
      * The section slug to add to the tab.
      */
     public $sSectionID  = 'A';
-        
+
     /**
      * Sets up a form section.
      */
     public function __construct( $oFactory ) {
-    
+
         // Sections
-        $oFactory->addSettingSections(    
-            $this->sPageSlug, // the target page slug                
+        $oFactory->addSettingSections(
+            $this->sPageSlug, // the target page slug
             array(
                 'section_id'        => $this->sSectionID,
                 'title'             => __( 'Section A', 'admin-page-framework-loader' ),
@@ -54,7 +54,7 @@ class APF_Demo_AdvancedUsage_Nested_SectionA {
                         'collapsible'   => array(
                             'toggle_all_button' => 'top-right',
                         ),
-                    ),                                
+                    ),
                     array(
                         'section_id'    => 'ii',
                         'title'         => __( 'A', 'admin-page-framework-loader' )
@@ -68,22 +68,22 @@ class APF_Demo_AdvancedUsage_Nested_SectionA {
                                     . ' &raquo; ' . __( 'ii', 'admin-page-framework-loader' )
                                     . ' &raquo; ' . __( 'x', 'admin-page-framework-loader' ),
                                 'description'   => __( 'Nesting two level deep.', 'admin-page-framework-loader' ),
-                            ),                            
+                            ),
                             array(
                                 'section_id'    => 'Y',
                                 'title'         => __( 'A', 'admin-page-framework-loader' )
                                     . ' &raquo; ' . __( 'ii', 'admin-page-framework-loader' )
-                                    . ' &raquo; ' . __( 'y', 'admin-page-framework-loader' ),                                
+                                    . ' &raquo; ' . __( 'y', 'admin-page-framework-loader' ),
                                 'description'   => __( 'Nesting two level deep.', 'admin-page-framework-loader' ),
-                            ),                                                    
+                            ),
                         ),
                     ),
                     array(
                         'section_id'    => 'iii',
                         'title'         => __( 'A', 'admin-page-framework-loader' )
-                            . ' &raquo; ' . __( 'iii', 'admin-page-framework-loader' ),                      
+                            . ' &raquo; ' . __( 'iii', 'admin-page-framework-loader' ),
                         'description'   => array(
-                            __( 'This is a description of the nested section.', 'admin-page-framework-loader' ),                            
+                            __( 'This is a description of the nested section.', 'admin-page-framework-loader' ),
                          ),
                         'collapsible'   => array(
                             'toggle_all_button' => 'bottom-right',
@@ -91,10 +91,10 @@ class APF_Demo_AdvancedUsage_Nested_SectionA {
                         'content'       => '<p>'
                             . __( 'An area without any form fields can be used for additional information such as help and contact information etc.', 'admin-page-framework-loader' )
                             . '</p>',
-                    ),                     
+                    ),
                 ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
@@ -114,8 +114,8 @@ class APF_Demo_AdvancedUsage_Nested_SectionA {
                 'repeatable'    => true,
                 'sortable'      => true,
             )
-        );              
-        
+        );
+
         $oFactory->addSettingFields(
             array( $this->sSectionID, 'ii', 'X' ), // the target section ID - pass dimensional keys of the section
             array(
@@ -129,10 +129,10 @@ class APF_Demo_AdvancedUsage_Nested_SectionA {
                 'field_id'      => 'image_in_nested_section',
                 'title'         => __( 'image', 'admin-page-framework-loader' ),
                 'type'          => 'image',
-                'attributes'    => array(                
+                'attributes'    => array(
                     'preview' => array(
                         'style' => 'max-width: 200px;',
-                    ),                
+                    ),
                 ),
                 'repeatable'    => true,
                 'sortable'      => true,
@@ -161,7 +161,7 @@ class APF_Demo_AdvancedUsage_Nested_SectionA {
                 'default'       => array(
                     'b' => true,
                 ),
-            ),            
+            ),
             array(
                 'field_id'      => 'select_in_nested_section',
                 'title'         => __( 'Select', 'admin-page-framework-loader' ),
@@ -185,9 +185,9 @@ class APF_Demo_AdvancedUsage_Nested_SectionA {
                     'yellow'    => __( 'Yellow', 'admin-page-framework-loader' ),
                 ),
                 // 'default'       => array( 'green', 'yellow' ),
-            )            
+            )
         );
-     
+
         // validation_{class name}_{seciton path}
         add_filter(
             'validation_' . $oFactory->oProp->sClassName . '_' . $this->sSectionID . '_' . 'nested_section_a',
@@ -195,18 +195,18 @@ class APF_Demo_AdvancedUsage_Nested_SectionA {
             10,
             4
         );
-     
+
     }
-    
+
     /**
      * @callback     filter     validation_{class name}_{seciton path}
      * @return       array
      */
     public function replyToValidateNestedSectionA( $aInputs, $aOldInputs, $oFactory, $aSubmitInfo ) {
-        
+
         // AdminPageFramework_Debug::log( $aInputs );
         return $aInputs;
-        
+
     }
-    
+
 }

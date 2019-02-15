@@ -5,7 +5,7 @@
  * Facilitates WordPress plugin and theme development.
  *
  * @author      Michael Uno <michael@michaeluno.jp>
- * @copyright   2013-2018 (c) Michael Uno
+ * @copyright   2013-2019 (c) Michael Uno
  * @license     MIT <http://opensource.org/licenses/MIT>
  * @package     AdminPageFramework
  */
@@ -13,7 +13,7 @@
 if ( ! class_exists( 'NoUISliderCustomFieldType' ) ) :
 /**
  * A field type that lets the user toggle a switch.
- * 
+ *
  * @since       3.8.6
  * @version     0.0.4
  * @remark      Requires Admin Page Framework 3.8.8 or above.
@@ -31,11 +31,11 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
      * @remark\ $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
-        
+
         'attributes'    => array(
             'size'  => 12,
         ),
-    
+
         /**
          * @see     http://refreshless.com/nouislider/slider-options/
          */
@@ -44,11 +44,11 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
                 'min'   => 0,
                 'max'   => 100,
             ),
-            'step'          => 1, // Slider moves in increments of '1'         
+            'step'          => 1, // Slider moves in increments of '1'
         	'start'         => array( 0 ), // Handle start position
-            
+
             // Custom options
-            
+
             'round' => 0,  // for the number of digits to multiply to the actual result. e.g. 10.00 -> 10 for the value `2`.
 
             'interactive'   => array( false ),  // for multiple handles, set multiple boolean values in the array, `array( true, true )`.
@@ -66,31 +66,31 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
              */
             'allow_empty'    => false,
         ),
-        
-        
+
+
     );
-    
+
     protected function construct() {
     }
-    
+
     /**
      * Loads the field type necessary components.
      */
     public function setUp() {}
-          
-            
+
+
     /**
      * Returns an array holding the urls of enqueuing scripts.
      * @return      array
      */
     protected function getEnqueuingScripts() {
         return array(
-            array( 
+            array(
                 'src'           => $this->isDebugMode()
                     ? dirname( __FILE__ ) . '/no-ui-slider/js/nouislider.js'
                     : dirname( __FILE__ ) . '/no-ui-slider/js/nouislider.min.js',
                 'in_footer'     => true,
-                'dependencies'  => array( 'jquery' ) 
+                'dependencies'  => array( 'jquery' )
             ),
             dirname( __FILE__ ) . '/js/no-ui-slider-initializer.js',
         );
@@ -112,16 +112,16 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
 
     /**
      * Returns the output of the field type.
-     * 
+     *
      * @return      string
      */
     public function getField( $aField ) {
-        
+
         // Set required attributes.
         $aField[ 'attributes' ][ 'type' ]           = 'text';   // not `number` because noUISlider supports a format option that appends a unit like `10 pounds`.
         $aField[ 'attributes' ][ 'data-type' ]      = 'no_ui_slider';
         $aField[ 'attributes' ][ 'readonly' ]       = 'readonly';
-        
+
         // Format the `options` argument.
         $aField[ 'options' ]    = $this->___getNoUISliderOptionsFormatted(
             $this->getElementAsArray( $aField, 'options' ),
@@ -132,15 +132,15 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
         $aField[ 'label' ]      = $this->_getLabelsFormatted( $aField[ 'label' ], $aField );
 
         // Format the input attributes. This must be AFTER formatting the `label` argument.
-        $aField[ 'attributes' ] = $this->_getAttributesFormatted( $aField );       
-   
+        $aField[ 'attributes' ] = $this->_getAttributesFormatted( $aField );
+
         $_aAttributes = array(
                 'class' => $this->_getSliderElementClassSelectors( $aField ),
             ) + $this->getDataAttributeArray( $aField[ 'options' ] )
               + $this->getElementAsArray( $aField, array( 'attributes', 'slider' ) );
 
         return '<div ' . $this->getAttributes( $_aAttributes ) . ' ></div>'
-            . parent::getField( $aField );            
+            . parent::getField( $aField );
 
     }
 
@@ -156,21 +156,21 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
             if ( 'vertical' === $this->getElement( $aField[ 'options' ], 'orientation' ) ) {
                 return $_sSelectors;
             }
-            return $_sSelectors . ' has-pips'; 
-        }    
-        
+            return $_sSelectors . ' has-pips';
+        }
+
         /**
          * Formats the `attributes` argument.
          * @return      array
          */
         private function _getAttributesFormatted( $aField ) {
-            
-            $_aLabels          = $this->getAsArray( 
-                $aField[ 'label' ], 
+
+            $_aLabels          = $this->getAsArray(
+                $aField[ 'label' ],
                 true    // preserve empty
-            );  
+            );
             $_iNumberOfHandles = count( $_aLabels );
-                        
+
             $_aAttributes      = array();
             foreach( $_aLabels as $_isIndex => $_sLabel ) {
 
@@ -184,52 +184,52 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
 
                 // If the label is a single item, there is no nested attribute element.
                 if ( 1 === $_iNumberOfHandles ) {
-                    $_aAttributes = $_aInputAttributes;                        
+                    $_aAttributes = $_aInputAttributes;
                     break;
-                }                
-                
+                }
+
                 $_aAttributes[ $_isIndex ] = $_aInputAttributes;
-                
+
             }
             return $_aAttributes + $this->getAsArray( $aField[ 'attributes' ] );
-            
+
         }
-        
+
         /**
          * Formats the `label` argument.
-         * 
+         *
          * This determines the number of input fields that store the selected numbers.
-         * 
+         *
          * If only one label is set, the option structure of the field will be one dimension.
          * So just return the label itself. Otherwise, return an array holding labels.
-         * 
+         *
          * @return      array|string
          */
         private function _getLabelsFormatted( $aLabels, $aField ) {
             $_aStart   = $this->getElementAsArray( $aField, array( 'options', 'start' ) );
-            $_aLabels  = $this->getAsArray( 
-                $aLabels, 
+            $_aLabels  = $this->getAsArray(
+                $aLabels,
                 true    // preserve empty
             );
             $_iHandles = count( $_aStart );
-            $_aLabels = $_aLabels + array_fill( 
+            $_aLabels = $_aLabels + array_fill(
                 0,          // start index
                 $_iHandles ? $_iHandles : 1, // end index (must be a positive number)
                 ''          // the value to fill
             );
-            
+
             return 1 >= count( $_aLabels )
                 ? $_aLabels[ 0 ]
                 : $_aLabels;
-        }    
+        }
 
-    
+
         /**
-         * 
+         *
          * @return      array
          */
         private function ___getNoUISliderOptionsFormatted( $aOptions, $aField ) {
-                        
+
             // Determine the position of the slider handles. Set the stored values to the `start` argument.
             $aOptions[ 'start' ]   = $this->___getHandlePositions( $aOptions, $aField );
 
@@ -238,8 +238,8 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
 
             $aOptions[ 'range' ]   = $this->___getRangeOptionFormatted( $aOptions, $aField );
 
-            return $aOptions;            
-            
+            return $aOptions;
+
         }
             /**
              * If the `can_exceed_min`/`can_exceed_max` argument is enabled
@@ -276,7 +276,7 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
             }
             /**
              * Formats the `connect` argument to avoid errors on the JS script side.
-             * 
+             *
              * @remark      This must be called AFTER the `start` argument is formatted as it counts the number of element of the `start` argument.
              * @return      array|null
              */
@@ -287,12 +287,12 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
                 if ( empty( $_aConnect ) ) {
                     return null;
                 }
-                
+
                 $_aFalses = array_fill( 0, $_iHandles + 1, false );
                 return $_aConnect + $_aFalses;
-                
+
             }
-            
+
             /**
              * Retrieves the value of the `start` argument which determines the position of the slider handle.
              * @return      array
@@ -354,6 +354,6 @@ class NoUISliderCustomFieldType extends AdminPageFramework_FieldType_text {
                     return $_aHandlePositions;
 
                 }
-                        
+
 }
 endif;

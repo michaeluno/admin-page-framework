@@ -1,26 +1,26 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
  */
 
 /**
  * Provides methods which mainly deal with the stored data for creating meta boxes in admin pages added by the framework.
- * 
+ *
  * @abstract
  * @since           3.0.4
  * @package         AdminPageFramework/Factory/PageMetaBox
  * @internal
  */
 abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_PageMetaBox_Router {
-    
+
     /**
      * A validation callback method.
-     * 
+     *
      * The user may just override this method instead of defining a `validation_{...}` callback method.
-     * 
+     *
      * @since       3.4.1
      * @since       3.5.3       Moved from `AdminPageFramework_Factory_Model`.
      * @todo        Examine if the forth parameter of submit info can be added or not.
@@ -32,11 +32,11 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
      */
     // public function validate( $aInput, $aOldInput, $oFactory, $aSubmitInfo ) {
         // return $aInput;
-    // }              
-        
+    // }
+
     /**
      * Sets up validation hooks.
-     * 
+     *
      * @since       3.3.0
      * @since       3.7.9       Renamed from `_setUpValidationHooks`. Changed the scope to public from protected.
      * @callback    action      set_up_{instantiated class name}
@@ -46,7 +46,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
 
         // Validation hooks
         foreach( $this->oProp->aPageSlugs as $_sIndexOrPageSlug => $_asTabArrayOrPageSlug ) {
-            
+
             if ( is_scalar( $_asTabArrayOrPageSlug ) ) {
                 $_sPageSlug = $_asTabArrayOrPageSlug;
                 add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ), 10, 2 );  // 3.4.1+
@@ -54,7 +54,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
                 add_filter( "options_update_status_{$_sPageSlug}", array( $this, '_replyToModifyOptionsUpdateStatus' ) );
                 continue;
             }
-            
+
             // At this point, the array key is the page slug. It means the user specified the tab(s).
             $_sPageSlug = $_sIndexOrPageSlug;
             $_aTabs     = $_asTabArrayOrPageSlug;
@@ -63,33 +63,33 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
                 add_filter( "validation_saved_options_without_dynamic_elements_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToFilterPageOptionsWODynamicElements' ), 10, 2 ); // 3.4.1+
                 add_filter( "options_update_status_{$_sPageSlug}_{$_sTabSlug}", array( $this, '_replyToModifyOptionsUpdateStatus' ) );
             }
-            
+
         }
-    
-    }        
-                    
+
+    }
+
     /**
      * Adds the defined meta box.
-     * 
+     *
      * @internal
      * @since       3.0.0
      * @since       3.7.10      Changed the name from `_replyToAddMetaBox()`.
      * @remark      Before this method is called, the pages and in-page tabs need to be registered already.
      * @return      void
      * @callback    action      add_meta_boxes
-     */ 
+     */
     public function _replyToRegisterMetaBoxes( $sPageHook='' ) {
         foreach( $this->oProp->aPageSlugs as $_sKey => $_asPage ) {
             if ( is_string( $_asPage ) )  {
                 $this->_registerMetaBox( $_asPage );
                 continue;
-            }            
+            }
             $this->_registerMetaBoxes( $_sKey, $_asPage );
         }
-    }    
+    }
         /**
          * Adds meta boxes.
-         * 
+         *
          * @since       3.7.0
          * @since       3.7.10      Changed the name from `_addMetaBoxes()`.
          * @internal
@@ -97,15 +97,15 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
          */
         private function _registerMetaBoxes( $sPageSlug, $asPage ) {
             foreach( $this->oUtil->getAsArray( $asPage ) as $_sTabSlug ) {
-                if ( ! $this->oProp->isCurrentTab( $_sTabSlug ) ) { 
-                    continue; 
+                if ( ! $this->oProp->isCurrentTab( $_sTabSlug ) ) {
+                    continue;
                 }
                 $this->_registerMetaBox( $sPageSlug );
-            }         
+            }
         }
         /**
          * Adds meta box with the given page slug.
-         * 
+         *
          * @since       3.0.0
          * @since       3.7.10      Changed the name from `_addMetaBox()`.
          * @internal
@@ -113,7 +113,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
          * @return      void
          */
         private function _registerMetaBox( $sPageSlug ) {
-            add_meta_box( 
+            add_meta_box(
                 $this->oProp->sMetaBoxID,                       // id
                 $this->oProp->sTitle,                           // title
                 array( $this, '_replyToPrintMetaBoxContents' ), // callback
@@ -126,9 +126,9 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
 
     /**
      * Filters the page option array.
-     * 
+     *
      * This is triggered from the system validation method of the main Admin Page Framework factory class with the `validation_saved_options_{page slug}` filter hook.
-     * 
+     *
      * @since       3.0.0
      * @param       array       $aPageOptions
      * @deprecated  3.4.1
@@ -139,7 +139,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
     }
     /**
      * Filters the array of the options without dynamic elements.
-     * 
+     *
      * @since       3.4.1       Deprecated `_replyToFilterPageOptions()`.
      * @callback    filter      validation_saved_options_without_dynamic_elements_{$_sPageSlug}
      * @callback    filter      validation_saved_options_without_dynamic_elements_{page slug}_{tab slug}
@@ -148,15 +148,15 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
     public function _replyToFilterPageOptionsWODynamicElements( $aOptionsWODynamicElements, $oFactory ) {
         return $this->oForm->dropRepeatableElements( $aOptionsWODynamicElements );
     }
-    
+
     /**
      * Validates the submitted option values.
-     * 
+     *
      * This method is triggered with the `validation_{page slug}` or `validation_{page slug}_{tab slug}` method of the main Admin Page Framework factory class.
-     * 
+     *
      * @internal
      * @callback    filter      validation_{page slug}, validation_{page slug}_{tab slug}
-     * @sicne       3.0.0       
+     * @sicne       3.0.0
      * @param       array       $aNewPageOptions        The array holing the field values of the page sent from the framework page class (the main class).
      * @param       array       $aOldPageOptions        The array holing the saved options of the page. Note that this will be empty if non of generic page fields are created.
      * @param       object      $oAdminPage             The admin page factory class object.
@@ -164,24 +164,24 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
      * @return      array       The validated form input data.
      */
     public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions, $oAdminPage, $aSubmitInfo ) {
-        
+
         $_aNewMetaBoxInputs      = $this->oForm->getSubmittedData( $_POST );
-        $_aOldMetaBoxInputs      = $this->oUtil->castArrayContents( 
+        $_aOldMetaBoxInputs      = $this->oUtil->castArrayContents(
             $this->oForm->getDataStructureFromAddedFieldsets(),   // model
             $aOldPageOptions        // data source
         );
 
         // Apply filters - third party scripts will have access to the input.
         $_aNewMetaBoxInputsRaw   = $_aNewMetaBoxInputs; // copy one for validation errors.
-        $_aNewMetaBoxInputs      = call_user_func_array( 
+        $_aNewMetaBoxInputs      = call_user_func_array(
             array( $this, 'validate' ),     // triggers __call()
-            array( $_aNewMetaBoxInputs, $_aOldMetaBoxInputs, $this, $aSubmitInfo ) 
+            array( $_aNewMetaBoxInputs, $_aOldMetaBoxInputs, $this, $aSubmitInfo )
         ); // 3.5.3+
-        $_aNewMetaBoxInputs      = $this->oUtil->addAndApplyFilters( 
-            $this, 
-            "validation_{$this->oProp->sClassName}", 
-            $_aNewMetaBoxInputs, 
-            $_aOldMetaBoxInputs, 
+        $_aNewMetaBoxInputs      = $this->oUtil->addAndApplyFilters(
+            $this,
+            "validation_{$this->oProp->sClassName}",
+            $_aNewMetaBoxInputs,
+            $_aOldMetaBoxInputs,
             $this,
             $aSubmitInfo
         );
@@ -191,22 +191,22 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
 
         // If there are validation errors. set the last input.
         if ( $this->hasFieldError() ) {
-            $this->setLastInputs( $_aNewMetaBoxInputsRaw );           
-        }    
-    
+            $this->setLastInputs( $_aNewMetaBoxInputsRaw );
+        }
+
         // Now merge the input values with the passed page options, and plus the old data to cover different in-page tab field options.
-        return $this->oUtil->uniteArrays( 
-            $_aNewMetaBoxInputs, 
+        return $this->oUtil->uniteArrays(
+            $_aNewMetaBoxInputs,
             $aNewPageOptions
-        );       
-                        
+        );
+
     }
 
     /**
      * Modifies the options update status array.
-     * 
+     *
      * This is to insert the 'field_errors' key into the options update status array when there is a field error.
-     * 
+     *
      * @internal
      * @since       3.4.1
      * @callback    filter      options_update_status_{page slug}
@@ -214,21 +214,21 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
      * @return      array
      */
     public function _replyToModifyOptionsUpdateStatus( $aStatus ) {
-        
+
         if ( ! $this->hasFieldError() ) {
             return $aStatus;
         }
-        return array( 
-                'field_errors' => true 
-            ) 
+        return array(
+                'field_errors' => true
+            )
             + $this->oUtil->getAsArray( $aStatus );
-        
+
     }
-    
+
     /**
      * Called when the form object tries to set the form data from the database.
-     * 
-     * @callback    form        `saved_data`    
+     *
+     * @callback    form        `saved_data`
      * @remark      The `oOptions` property will be automatically set with the overload method.
      * @remark      Redefine (override) this method completely because the parent meta box factory class
      * has this method and its own way to retrieve form data.
@@ -249,23 +249,23 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
             $_aPageOptions
         );
 
-        return $this->oUtil->castArrayContents( 
+        return $this->oUtil->castArrayContents(
             $this->oForm->getDataStructureFromAddedFieldsets(),   // model
             $_aPageOptions        // data source
         );
 
-    }    
-    
+    }
+
        /**
          * Extracts meta box form fields options array from the given options array of an admin page.
-         * 
+         *
          * @since       3.5.6
          * @return      array       The extracted options array.
          * @internal
          * @deprecated  3.7.0
          */
         private function _getPageMetaBoxOptionsFromPageOptions( array $aPageOptions, array $aFieldsets ) {
-     
+
             $_aOptions = array();
             foreach( $aFieldsets as $_sSectionID => $_aFieldsets ) {
                 if ( '_default' === $_sSectionID  ) {
@@ -278,9 +278,9 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
                 if ( array_key_exists( $_sSectionID, $aPageOptions ) ) {
                     $_aOptions[ $_sSectionID ] = $aPageOptions[ $_sSectionID ];
                 }
-            }       
+            }
             return $_aOptions;
-        
+
         }
-            
+
 }

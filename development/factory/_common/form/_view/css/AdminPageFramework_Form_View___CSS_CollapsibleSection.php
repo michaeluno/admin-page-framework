@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -16,7 +16,7 @@
  * @internal
  */
 class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFramework_Form_View___CSS_Base {
-    
+
     /**
      * @since       3.7.0
      * @return      string
@@ -26,7 +26,7 @@ class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFra
     }
         /**
          * Returns the collapsible sections specific CSS rules.
-         * 
+         *
          * @since       3.4.0
          * @internal
          * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
@@ -274,9 +274,9 @@ CSSRULES;
 }
 
 CSSRULES;
-            }   
+            }
             return $_sCSSRules;
-            
-        }  
+
+        }
 
 }

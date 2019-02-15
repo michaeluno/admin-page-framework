@@ -1,32 +1,32 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides methods for creating widgets.
- * 
+ *
  * @abstract
  * @since       3.2.0
  * @package     AdminPageFramework/Factory/Widget
  */
-abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Controller {    
-       
+abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Controller {
+
     /**
      * Defines the class object structure type.
-     * 
+     *
      * This is used to create a property object as well as to define the form element structure.
-     * 
+     *
      * @since       3.2.0
      * @since       3.7.0      Changed the name from `$_sFieldsType`.
      * @internal
      */
     protected $_sStructureType = 'widget';
-       
+
     /**
      * The constructor of the class object.
      *
@@ -58,7 +58,7 @@ abstract class AdminPageFramework_Widget extends AdminPageFramework_Widget_Contr
 
         $this->___setProperties( $_aParameters, $_sThisClassName, $_bAssumedAsWPWidget );
         parent::__construct( $this->oProp );
-                           
+
     }
 
         /**

@@ -1,12 +1,12 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 class APF_PostMetaBox_TestAjaxField extends AdminPageFramework_MetaBox {
@@ -44,7 +44,7 @@ class APF_PostMetaBox_TestAjaxField extends AdminPageFramework_MetaBox {
                     'search'    => __CLASS__ . '::getPosts',
                 ),
             )
-        );        
+        );
 
     }
 

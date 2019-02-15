@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -15,28 +15,28 @@
  * @package         AdminPageFramework/Factory/MetaBox
  */
 abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBox_Model {
-    
+
     /**
      * Echoes the meta box contents.
-     * 
+     *
      * @since       2.0.0
      * @param       object      $oPost      The object of the post associated with the meta box.
      * @param       array       $vArgs      The array of arguments.
      * @callback    function    add_meta_box()
      * @return      void
-     * @internal    
-     */ 
-    public function _replyToPrintMetaBoxContents( $oPost, $vArgs ) {    
+     * @internal
+     */
+    public function _replyToPrintMetaBoxContents( $oPost, $vArgs ) {
 
         // Use nonce for verification
         $_aOutput   = array();
         $_aOutput[] = wp_nonce_field(
-            $this->oProp->sMetaBoxID, 
-            $this->oProp->sMetaBoxID, 
-            true, 
-            false 
+            $this->oProp->sMetaBoxID,
+            $this->oProp->sMetaBoxID,
+            true,
+            false
         );
-                                 
+
         // Get the fields output. If no field is added, the form object is not instantiated.
         if ( isset( $this->oForm ) ) {
             $_aOutput[] = $this->oForm->get();
@@ -44,27 +44,27 @@ abstract class AdminPageFramework_MetaBox_View extends AdminPageFramework_MetaBo
 
         // Do actions
         $this->oUtil->addAndDoActions( $this, 'do_' . $this->oProp->sClassName, $this );
-        
+
         // Render the filtered output.
         echo $this->oUtil->addAndApplyFilters(
-            $this, 
-            "content_{$this->oProp->sClassName}", 
+            $this,
+            "content_{$this->oProp->sClassName}",
             $this->content( implode( PHP_EOL, $_aOutput ) )
-        );            
-        
+        );
+
     }
-    
+
     /**
      * The content filter method,
-     * 
+     *
      * The user may just override this method instead of defining a `content_{...}` callback method.
-     * 
+     *
      * @since       3.4.1
      * @remark      Declare this method in each factory class as the form of parameters varies and if parameters are different, it triggers PHP strict standard warnings.
      * @param       string      $sContent       The filtering content string.
      */
     public function content( $sContent ) {
         return $sContent;
-    }         
-    
+    }
+
 }

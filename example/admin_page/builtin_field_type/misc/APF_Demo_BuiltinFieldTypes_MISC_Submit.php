@@ -1,70 +1,70 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 /**
  * Adds a section in a tab.
- * 
+ *
  * @package     AdminPageFramework/Example
  */
 class APF_Demo_BuiltinFieldTypes_MISC_Submit {
-    
+
     /**
      * The page slug to add the tab and form elements.
      */
     public $sPageSlug   = 'apf_builtin_field_types';
-    
+
     /**
      * The tab slug to add to the page.
      */
     public $sTabSlug    = 'misc';
-    
+
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'submit_buttons';        
-        
+    public $sSectionID  = 'submit_buttons';
+
     /**
      * Sets up a form section.
      */
     public function __construct( $oFactory ) {
-    
+
         // Validation
-        add_filter( 
+        add_filter(
             'validation_' . $oFactory->oProp->sClassName . '_' . $this->sSectionID,
             array( $this, 'validate' ),
             10,
             4
         );
-    
+
         // Section
-        $oFactory->addSettingSections(    
-            $this->sPageSlug, // the target page slug                
+        $oFactory->addSettingSections(
+            $this->sPageSlug, // the target page slug
             array(
                 'tab_slug'          => $this->sTabSlug,
                 'section_id'        => $this->sSectionID,
                 'title'             => __( 'Submit Buttons', 'admin-page-framework-loader' ),
                 'description'       => __( 'These are custom submit buttons.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
-            $this->sSectionID, // the target section ID        
+            $this->sSectionID, // the target section ID
             array(
                 'field_id'          => 'submit_button_field',
                 'title'             => __( 'Submit Button', 'admin-page-framework-loader' ),
                 'type'              => 'submit',
                 'description'       => array(
                     __( 'This is the default submit button.', 'admin-page-framework-loader' ),
-                    __( 'Use the <code>value</code> argument to set a custom label.', 'admin-page-framework-loader' ),                
+                    __( 'Use the <code>value</code> argument to set a custom label.', 'admin-page-framework-loader' ),
                     "<pre class='field-argument-example'>"
                         . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
@@ -75,7 +75,7 @@ EOD
                         )
                         . "</pre>",
                 ),
-            ),     
+            ),
             array( // Submit button as a link
                 'field_id'          => 'submit_button_link',
                 'type'              => 'submit',
@@ -83,7 +83,7 @@ EOD
                 'label'             => __( 'WordPress', 'admin-page-framework-loader' ),
                 'href'              => 'https://wordpress.org',
                 'attributes'        => array(
-                    'class'     => 'button button-secondary',     
+                    'class'     => 'button button-secondary',
                     'title'     => __( 'Go to the WordPress official site.', 'admin-page-framework-loader' ),
                     'style'     => 'background-color: #C1DCFA;',
                     'field'     => array(
@@ -94,7 +94,7 @@ EOD
                     'label'         => __( 'Tutorials', 'admin-page-framework-loader' ),
                     'href'          => 'http://admin-page-framework.michaeluno.jp/tutorials',
                     'attributes'    => array(
-                        'class' => 'button button-secondary',     
+                        'class' => 'button button-secondary',
                         'title' => __( 'Go to the tutorial page of the Admin Page Framework site.', 'admin-page-framework-loader' ),
                         'style' => 'background-color: #C8AEFF;',
                     ),
@@ -103,10 +103,10 @@ EOD
                     'label'         => __( 'Documentation', 'admin-page-framework-loader' ),
                     'href'          => 'http://admin-page-framework.michaeluno.jp/en/v3/package-AdminPageFramework.html',
                     'attributes'    => array(
-                        'class' => 'button button-secondary',     
+                        'class' => 'button button-secondary',
                         'title' => __( 'Go to the documentation page of Admin Page Framework.', 'admin-page-framework-loader' ),
                         'style' => 'background-color: #FFE5AE;',
-                    ),     
+                    ),
                 ),
                 'description'       => array(
                     __( 'These buttons serve as a hyper link. Set the url to the <code>href</code> argument to enable this option.', 'admin-page-framework-loader' ),
@@ -147,9 +147,9 @@ array(
 EOD
                         )
                         . "</pre>",
-                ),                
-            ),     
-            array( 
+                ),
+            ),
+            array(
                 'field_id'      => 'submit_button_download',
                 'title'         => __( 'Download Button', 'admin-page-framework-loader' ),
                 'type'          => 'submit',
@@ -169,8 +169,8 @@ EOD
                         )
                         . "</pre>",
                 ),
-            ),            
-            array( 
+            ),
+            array(
                 'field_id'      => 'submit_button_redirect',
                 'title'         => __( 'Redirect Button', 'admin-page-framework-loader' ),
                 'type'          => 'submit',
@@ -227,8 +227,8 @@ EOD
                         )
                         . "</pre>",
                 ),
-            ),      
-            
+            ),
+
             array( // Reset Submit button
                 'field_id'      => 'submit_button_reset',
                 'title'         => __( 'Reset Button', 'admin-page-framework-loader' ),
@@ -251,14 +251,14 @@ array(
 EOD
                         )
                         . "</pre>",
-                ),   
-            ),                        
+                ),
+            ),
             array(
                 'field_id'      => 'submit_button_reset_section',
                 'title'         => __( 'Reset Section', 'admin-page-framework-loader' ),
                 'type'          => 'submit',
                 'value'         => __( 'Reset Section', 'admin-page-framework-loader' ),
-                'reset'         => 'color_picker',    // the section ID to reset 
+                'reset'         => 'color_picker',    // the section ID to reset
                 'attributes'    => array(
                     'class' => 'button button-secondary',
                 ),
@@ -285,8 +285,8 @@ EOD
                 'title'         => __( 'Reset Field', 'admin-page-framework-loader' ),
                 'type'          => 'submit',
                 'value'         => __( 'Reset Field', 'admin-page-framework-loader' ),
-                'reset'         => array( 
-                    'color_picker',         // section ID   
+                'reset'         => array(
+                    'color_picker',         // section ID
                     'color_picker_field'    // field ID to reset
                 ),
                 'attributes'    => array(
@@ -313,30 +313,30 @@ array(
 EOD
                         )
                         . "</pre>",
-                ),                
-            )   
-        );              
-      
+                ),
+            )
+        );
+
     }
-    
+
     /**
      * @return      array
      */
     public function validate( $aInputs, $aOldInputs, $oFactory, $aSubmitInfo ) {
-        
+
         $_bIsValid = true;
         $_aErrors  = array();
-                
+
         if ( ! $_bIsValid ) {
-        
-            $oFactory->setFieldErrors( $_aErrors );     
+
+            $oFactory->setFieldErrors( $_aErrors );
             $oFactory->setSettingNotice( __( 'Please help us to help you.', 'admin-page-framework-loader' ) );
             return $aOldInputs;
-            
-        }  
-                
+
+        }
+
         return $aInputs;
-        
+
     }
 
 }

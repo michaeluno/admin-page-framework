@@ -1,24 +1,24 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides methods for models.
- * 
+ *
  * @abstract
  * @since       3.0.4
  * @package     AdminPageFramework/Common/Factory
  */
 abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_Factory_View {
-            
+
     /**
      * Should be extended.
-     * 
+     *
      * @internal
      */
     public function start() {}
@@ -27,57 +27,57 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 
     /**
      * Allows the user to check if the current page belongs to the admin pages of the factory component.
-     * 
+     *
      * @since       3.7.9
      * @return      boolean
      */
     public function isInThePage() {
         return $this->_isInThePage();
     }
-         
+
     /**
      * Sets a system message.
-     * 
+     *
      * This can be used to replace the framework system messages such as "Allowed maximum number of fields is ...".
-     * 
+     *
      * @return      void
      * @since       3.7.0
      */
     public function setMessage( $sKey, $sMessage ) {
         $this->oMsg->set( $sKey, $sMessage );
     }
-    
+
     /**
      * Returns the registered system message item(s).
-     * 
+     *
      * @return      array|string
      * @since       3.7.0
      */
     public function getMessage( $sKey='' ) {
         return $this->oMsg->get( $sKey );
     }
-       
+
     /**
      * Head Tag Methods - should be extended.
-     * 
+     *
      * @remark      the number of arguments depend on the extended class.
      * @internal
      */
-    
+
     /**
      * Enqueues styles of the given sources.
-     * 
+     *
      * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
      * @param       array       The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: `array( '/css/mystyle.css', '/css/mystyle2.css' )`
      * @param       array       (optional) The another source argument array.
      * @return      array       The array holing the queued items.
      * @internal
      */
-    public function enqueueStyles( $aSRCs, $_vArg2=null ) {} 
-    
+    public function enqueueStyles( $aSRCs, $_vArg2=null ) {}
+
     /**
      * Enqueues a style of the given source.
-     * 
+     *
      * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
      * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_style
      * @param       string      The source of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
@@ -94,16 +94,16 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @internal
      */
     public function enqueueStyle( $sSRC, $_vArg2=null ) {}
-    
+
     /**
      * Enqueues scripts by the given sources.
-     * 
+     *
      * <h4>Example</h4>
      * <code>
-     * $this->enqueueScripts(  
-     *     array( 
+     * $this->enqueueScripts(
+     *     array(
      *          plugins_url( 'asset/js/test.js' , __FILE__ ), // source url or path
-     *          plugins_url( 'asset/js/test2.js' , __FILE__ ),    
+     *          plugins_url( 'asset/js/test2.js' , __FILE__ ),
      *     )
      * );
      * </code>
@@ -113,23 +113,23 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @param       array       (optional) Ad additional source list array.
      * @return      array        The array holding the queued items.
      * @internal
-     */    
+     */
     public function enqueueScripts( $aSRCs, $_vArg2=null ) {}
     /**
      * Enqueues a script by the given source.
-     *  
+     *
      * <h4>Example</h4>
-     * <code>$this->enqueueScript(  
+     * <code>$this->enqueueScript(
      *      plugins_url( 'asset/js/test.js' , __FILE__ ), // source url or path
      *      array(
      *          'handle_id'     => 'my_script', // this handle ID also is used as the object name for the translation array below.
-     *          'translation'   => array( 
+     *          'translation'   => array(
      *              'a'                 => 'hello world!',
      *              'style_handle_id'   => $sStyleHandle, // check the enqueued style handle ID here.
      *          ),
      *      )
      * );</code>
-     * 
+     *
      * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
      * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_script
      * @param       string      The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
@@ -145,25 +145,25 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * </ul>
      * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
-     */    
-    public function enqueueScript( $sSRC, $_vArg2=null ) {}    
-    
+     */
+    public function enqueueScript( $sSRC, $_vArg2=null ) {}
+
     /*
      * Help Pane
      */
     /**
      * Adds the given HTML text to the contextual help pane.
-     * 
+     *
      * The help tab will be the meta box title and all the added text will be inserted into the content area within the tab.
-     * 
+     *
      * @example
-     * <pre><code>$this->addHelpText( 
-     *      __( 'This text will appear in the contextual help pane.', 'your-text-domain' ), 
+     * <pre><code>$this->addHelpText(
+     *      __( 'This text will appear in the contextual help pane.', 'your-text-domain' ),
      *      __( 'This description goes to the sidebar of the help pane.', 'your-text-domain' )
      * );</code></pre>
      * @since       2.1.0
      * @remark      This method just adds the given text into the class property. The actual registration will be performed with the `replyToRegisterHelpTabTextForMetaBox()` method.
-     */ 
+     */
     public function addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) {
         if ( method_exists( $this->oHelpPane, '_addHelpText' ) ) {
             $this->oHelpPane->_addHelpText( $sHTMLContent, $sHTMLSidebarContent );
@@ -172,23 +172,23 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
 
     /**
      * Adds sections.
-     * 
+     *
      * It inserts the given section definition arrays into the class property and later they are parsed when sections are registered. The section definition array have required keys. Refer to the parameter section of this method.
-     * 
+     *
      * <h3>Example</h3>
      * <code>$this->addSettingSections(
      *       array(
      *            'section_id'    => 'text_fields',
      *            'title'         => __( 'Text Fields', 'your-text-domain' ),
      *            'description'   => __( 'These are text type fields.', 'your-text-domain' ),
-     *       ),    
+     *       ),
      *       array(
      *            'section_id'    => 'selectors',
      *            'title'         => __( 'Selectors', 'your-text-domain' ),
      *            'description'   => __( 'These are selector type options such as dropdown lists, radio buttons, and checkboxes', 'your-text-domain' ),
      *       )
      * );</code>
-     * @since       3.0.0     
+     * @since       3.0.0
      * @since       3.5.3       Removed the parameter declarations as they are caught with func_get_args().
      * @access      public
      * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
@@ -197,23 +197,23 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @param       array     (optional) another section array.
      * @param       array     (optional)  add more section array to the next parameters as many as necessary.
      * @return      void
-     */    
+     */
     public function addSettingSections( /* $aSection1, $aSection2=null, $_and_more=null */ ) {
-        
-        foreach( func_get_args() as $_asSectionset ) { 
-            $this->addSettingSection( $_asSectionset ); 
+
+        foreach( func_get_args() as $_asSectionset ) {
+            $this->addSettingSection( $_asSectionset );
         }
-        
+
         // Reset the stored target tab slug and the target section tab slug.
         $this->_sTargetSectionTabSlug = null;
-        
+
     }
-    
+
     /**
      * A singular form of the `adSettingSections()` method which takes only a single parameter.
-     * 
+     *
      * This is useful when adding section arrays in loops.
-     * 
+     *
      * @since       3.0.0               Changed the scope to public from protected.
      * @access      public
      * @remark      The actual registration will be performed in the `_replyToRegisterSettings()` method with the `admin_menu` hook.
@@ -285,11 +285,11 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @return      void
      */
     public function addSettingSection( $aSectionset ) {
-        
-        if ( ! is_array( $aSectionset ) ) { 
-            return; 
+
+        if ( ! is_array( $aSectionset ) ) {
+            return;
         }
-        
+
         $this->_sTargetSectionTabSlug = $this->oUtil->getElement(
             $aSectionset,
             'section_tab_slug',
@@ -300,16 +300,16 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
             $this->_sTargetSectionTabSlug,
             null
         );
-                
+
         $this->oForm->addSection( $aSectionset );
-            
-    }     
-        
+
+    }
+
     /**
     * Adds form fields.
-    * 
+    *
     * It inserts the given field definition arrays into the class property and later they are parsed when fields are registered. The field definition array requires specific keys. Refer to the parameter section of this method.
-    * 
+    *
     * @since        2.0.0
     * @since        3.5.3       Removed the parameter declarations as they are caught with the func_get_args().
     * @remark       Accepts variadic parameters; the number of accepted parameters are not limited to three.
@@ -317,18 +317,18 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     * @param        array       (optional) another field array.
     * @param        array       (optional) add more field arrays to the next parameters as many as necessary.
     * @return       void
-    */ 
+    */
     public function addSettingFields( /* $aField1, $aField2=null, $_and_more=null */ ) {
-        foreach( func_get_args() as $_aFieldset ) { 
-            $this->addSettingField( $_aFieldset ); 
+        foreach( func_get_args() as $_aFieldset ) {
+            $this->addSettingField( $_aFieldset );
         }
-    }    
-        
+    }
+
     /**
      * Adds the given field array items into the field array property.
-     * 
-     * Identical to the addSettingFields() method except that this method does not accept enumerated parameters. 
-     * 
+     *
+     * Identical to the addSettingFields() method except that this method does not accept enumerated parameters.
+     *
      * <h4>Examples</h4>
      * <code>
      *         $this->addSettingField(
@@ -340,9 +340,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *                 'help'        => 'This is help text.',
      *                 'help_aside'  => 'This is additional help text which goes to the side bar of the help pane.',
      *             )
-     *         );    
+     *         );
      * </code>
-     * 
+     *
      * @since        2.1.2
      * @since        3.0.0   The scope changed to public to indicate the users will use.
      * @return       void
@@ -391,7 +391,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *       <li>**delimiter** - (optional, string) the HTML string that delimits multiple elements. This is available if the <var>label</var> key is passed as array. It will be enclosed in inline-block elements so the passed HTML string should not contain block elements.</li>
     *       <li>**before_input** - (optional, string) the HTML string inserted right before the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
     *       <li>**after_input** - (optional, string) the HTML string inserted right after the input tag. It will be enclosed in the <code>label</code> tag so the passed HTML string should not contain block elements.</li>
-    *       <li>**label_min_width** - (optional, string) the inline style property of the `min-width` of the label tag for the field. If the unit is not specified, 'px' is applied. Default: `120`. e.g. `100%`</li> 
+    *       <li>**label_min_width** - (optional, string) the inline style property of the `min-width` of the label tag for the field. If the unit is not specified, 'px' is applied. Default: `120`. e.g. `100%`</li>
     *       <li>**help** - (optional, string) the help description added to the contextual help tab.</li>
     *       <li>**help_aside** - (optional, string) the additional help description for the side bar of the contextual help tab.</li>
     *       <li>**repeatable** - [3.0.0+] (optional, array|boolean) whether the fields should be repeatable. If it yields true, the plus and the minus buttons appear next to each field that lets the user add/remove the fields. Optionally an setting array can be passed.
@@ -434,13 +434,13 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *           'content'       => array(
     *               array(
     *                   'field_id'      => 'i',
-    *                   'title'         => __( 'i', 'admin-page-framework-loader' ),                    
+    *                   'title'         => __( 'i', 'admin-page-framework-loader' ),
     *                   'type'          => 'textarea',
     *               ),
     *               array(
     *                   'field_id'      => 'ii',
-    *                   'title'         => __( 'ii', 'admin-page-framework-loader' ),                    
-    *                   'type'          => 'color',                    
+    *                   'title'         => __( 'ii', 'admin-page-framework-loader' ),
+    *                   'type'          => 'color',
     *               ),
     *               array(
     *                   'field_id'      => 'iii',
@@ -450,13 +450,13 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *                   'content'       => array(
     *                       array(
     *                           'field_id'      => 'a',
-    *                           'title'         => __( 'a', 'admin-page-framework-loader' ),                    
+    *                           'title'         => __( 'a', 'admin-page-framework-loader' ),
     *                           'type'          => 'image',
     *                           'attributes'    => array(
     *                               'preview' => array(
     *                                   'style' => 'max-width: 200px;',
     *                               ),
-    *                           ),                                
+    *                           ),
     *                       ),
     *                       array(
     *                           'field_id'      => 'b',
@@ -464,42 +464,42 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *                           'content'       => array(
     *                               array(
     *                                   'field_id'      => 'first',
-    *                                   'title'         => __( '1st', 'admin-page-framework-loader' ),                    
+    *                                   'title'         => __( '1st', 'admin-page-framework-loader' ),
     *                                   'type'          => 'color',
     *                                   'repeatable'    => true,
     *                                   'sortable'      => true,
-    *                               ),                                
+    *                               ),
     *                               array(
     *                                   'field_id'      => 'second',
-    *                                   'title'         => __( '2nd', 'admin-page-framework-loader' ),                    
+    *                                   'title'         => __( '2nd', 'admin-page-framework-loader' ),
     *                                   'type'          => 'size',
     *                               ),
     *                               array(
     *                                   'field_id'      => 'third',
-    *                                   'title'         => __( '3rd', 'admin-page-framework-loader' ),                    
+    *                                   'title'         => __( '3rd', 'admin-page-framework-loader' ),
     *                                   'type'          => 'select',
     *                                   'label'         => array(
     *                                       'x' => 'X',
     *                                       'y' => 'Y',
-    *                                       'z' => 'Z',                                        
+    *                                       'z' => 'Z',
     *                                   ),
-    *                               ),                                    
+    *                               ),
     *                           ),
     *                           // 'description'   => '',
-    *                       ),                            
+    *                       ),
     *                       array(
     *                           'field_id'      => 'c',
-    *                           'title'         => __( 'c', 'admin-page-framework-loader' ),                    
-    *                           'type'          => 'radio',                    
+    *                           'title'         => __( 'c', 'admin-page-framework-loader' ),
+    *                           'type'          => 'radio',
     *                           'label'         => array(
     *                               'a' => __( 'Apple', 'admin-page-framework-loader' ),
     *                               'b' => __( 'Banana', 'admin-page-framework-loader' ),
     *                               'c' => __( 'Cherry', 'admin-page-framework-loader' ),
     *                           ),
     *                           'default'       => 'b',
-    *                       ),                        
+    *                       ),
     *                   )
-    *               ),                    
+    *               ),
     *           ),
     *       )
     *   );
@@ -511,104 +511,104 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     */
     public function addSettingField( $asFieldset ) {
         if ( method_exists( $this->oForm, 'addField' ) ) {
-            $this->oForm->addField( $asFieldset );     
+            $this->oForm->addField( $asFieldset );
         }
     }
-    
+
     /**
-     * Sets the field error array. 
-     * 
+     * Sets the field error array.
+     *
      * This is normally used in validation callback methods when the submitted user's input data have an issue.
      * This method saves the given array in a temporary area (transient) of the options database table.
-     * 
+     *
      * <h4>Example</h4>
      * <code>
      * public function validation_APF_Demo_verify_text_field_submit( $aNewInput, $aOldOptions ) {
      *
      *      // 1. Set a flag.
      *      $bVerified = true;
-     *          
-     *      // 2. Prepare an error array. 
+     *
+     *      // 2. Prepare an error array.
      *      $aErrors = array();
-     *      
+     *
      *      // 3. Check if the submitted value meets your criteria.
      *      if ( ! is_numeric( $aNewInput[ 'verify_text_field' ] ) ) {
-     *          $aErrors[ 'verify_text_field' ] = __( 'The value must be numeric:', 'admin-page-framework-demo' ) 
+     *          $aErrors[ 'verify_text_field' ] = __( 'The value must be numeric:', 'admin-page-framework-demo' )
      *              . $aNewInput[ 'verify_text_field' ];
      *          $bVerified = false;
      *      }
-     *    
+     *
      *      // 4. An invalid value is found.
      *      if ( ! $bVerified ) {
-     *  
+     *
      *          // 4-1. Set the error array for the input fields.
-     *          $this->setFieldErrors( $aErrors );     
+     *          $this->setFieldErrors( $aErrors );
      *          $this->setSettingNotice( 'There was an error in your input.' );
      *          return $aOldOptions;
-     * 
+     *
      *      }
-     *     
-     *      return $aNewInput;     
+     *
+     *      return $aNewInput;
      *
      * }
      * </code>
-     * 
-     * @since   3.0.4     
+     *
+     * @since   3.0.4
      * @param   array   $aErrors     the field error array. The structure should follow the one contained in the submitted `$_POST` array.
      * @return  void
-     */    
+     */
     public function setFieldErrors( $aErrors ) {
-        $this->oForm->setFieldErrors( $aErrors );      
-    }   
-    
+        $this->oForm->setFieldErrors( $aErrors );
+    }
+
     /**
      * Check whether a user has set a field error(s) or not.
-     * 
+     *
      * @since       3.3.0
      * @return      boolean     Whether or not a field error exists.
      */
     public function hasFieldError() {
         return $this->oForm->hasFieldError();
     }
-    
+
     /**
-    * Sets the given message to be displayed in the next page load. 
-    * 
-    * This is used to inform users about the submitted input data, such as "Updated successfully." or "Problem occurred." etc. 
+    * Sets the given message to be displayed in the next page load.
+    *
+    * This is used to inform users about the submitted input data, such as "Updated successfully." or "Problem occurred." etc.
     * and normally used in validation callback methods.
-    * 
+    *
     * <h4>Example</h4>
     * `
     * if ( ! $bVerified ) {
-    *       $this->setFieldErrors( $aErrors );     
+    *       $this->setFieldErrors( $aErrors );
     *       $this->setSettingNotice( 'There was an error in your input.' );
     *       return $aOldPageOptions;
     * }
     * `
     *
-    * @since        3.0.4     
+    * @since        3.0.4
     * @access       public
     * @param        string      $sMessage       the text message to be displayed.
     * @param        string      $sType          (optional) the type of the message, either "error" or "updated"  is used.
     * @param        array       $asAttributes   (optional) the tag attribute array applied to the message container HTML element. If a string is given, it is used as the ID attribute value.
     * @param        boolean     $bOverride      (optional) If true, only one message will be shown in the next page load. false: do not override when there is a message of the same id. true: override the previous one.
     * @return       void
-    */      
+    */
     public function setSettingNotice( $sMessage, $sType='error', $asAttributes=array(), $bOverride=true ) {
         $this->oForm->setSubmitNotice(
             $sMessage,
             $sType,
             $asAttributes,
             $bOverride
-        );        
+        );
     }
-    
+
     /**
      * Checks if an error settings notice has been set.
-     * 
+     *
      * This is used in the internal validation callback method to decide whether the system error or update notice should be added or not.
      * If this method yields true, the framework discards the system message and displays the user set notification message.
-     * 
+     *
      * @since       3.1.0
      * @param       string      $sType If empty, the method will check if a message exists in all types. Otherwise, it checks the existence of a message of the specified type.
      * @return      boolean     True if a setting notice is set; otherwise, false.

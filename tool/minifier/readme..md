@@ -8,7 +8,7 @@ Minifies PHP files.
 3. Confirm the file is created. The path is specified in the source code.
 
 ### Copyright
-Copyright (c) 2013-2018, Michael Uno
+Copyright (c) 2013-2019, Michael Uno
 
 ### License
 GPLv2 or later.

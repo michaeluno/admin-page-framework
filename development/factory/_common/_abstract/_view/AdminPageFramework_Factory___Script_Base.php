@@ -1,15 +1,15 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides an abstract base to create an automatic script insertion class.
- * 
+ *
  * @since       3.3.0
  * @since       3.5.3      Extends `AdminPageFramework_WPUtility`.
  * @since       3.7.0      Renamed from `AdminPageFramework_Script_Base`.
@@ -18,49 +18,49 @@
  * @extends     AdminPageFramework_FrameworkUtility
  */
 abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramework_FrameworkUtility {
-    
+
     public $oMsg;
-    
+
     /**
      * Sets up hooks and properties.
-     * 
+     *
      * It will enqueue the scrip in the footer.
-     * 
+     *
      * @since       3.3.0
      */
     public function __construct( $oMsg=null ) {
-                
+
         if ( $this->hasBeenCalled( get_class( $this ) ) ) {
             return;
         }
-        
+
         $this->oMsg = $oMsg ? $oMsg : AdminPageFramework_Message::getInstance();
-        
+
         // add_action( 'customize_controls_print_footer_scripts', array( $this, '_replyToPrintScript' ) );
         $this->registerAction(
-            'customize_controls_print_footer_scripts', 
+            'customize_controls_print_footer_scripts',
             array( $this, '_replyToPrintScript' )
-        );
-        
-        $this->registerAction(
-            'admin_print_footer_scripts', 
-            array( $this, '_replyToPrintScript' )       
         );
 
         $this->registerAction(
-            'wp_print_footer_scripts', 
-            array( $this, '_replyToPrintScript' )       
+            'admin_print_footer_scripts',
+            array( $this, '_replyToPrintScript' )
         );
-        
+
+        $this->registerAction(
+            'wp_print_footer_scripts',
+            array( $this, '_replyToPrintScript' )
+        );
+
         $this->construct();
-        
+
         add_action( 'wp_enqueue_scripts', array( $this, 'load' ) );
-        
+
     }
-    
+
     /**
      * The user constructor.
-     * 
+     *
      * Enqueue dependencies with this method.
      *
      * @remark      This should be overridden in extended classes.
@@ -69,16 +69,16 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
      * @return      void
      */
     public function construct() {}
-    
+
     /**
      * @callback    wp_enqueue_script
      * @since       3.7.0
      */
     public function load() {}
-    
+
     /**
      * Prints the script.
-     * 
+     *
      * @since       3.3.0
      * @internal
      * @return      string      The generated HTML script tag.
@@ -96,10 +96,10 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
                 . '/* ]]> */'
             . "</script>";
     }
-    
+
     /**
      * Returns an inline JavaScript script.
-     * 
+     *
      * @remark      Extended classes just override this method and return the script.
      * @since       3.3.0
      * @param       $oMsg       object      The message object.
@@ -107,8 +107,8 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
      */
     static public function getScript( /* $oMsg */ ) {
         $_aParams   = func_get_args() + array( null );
-        $_oMsg      = $_aParams[ 0 ];                 
-        return "";  
+        $_oMsg      = $_aParams[ 0 ];
+        return "";
     }
 
 }

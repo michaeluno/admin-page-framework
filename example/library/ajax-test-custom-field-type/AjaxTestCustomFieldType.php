@@ -5,7 +5,7 @@
  * Facilitates WordPress plugin and theme development.
  *
  * @author      Michael Uno <michael@michaeluno.jp>
- * @copyright   2013-2018 (c) Michael Uno
+ * @copyright   2013-2019 (c) Michael Uno
  * @license     MIT <http://opensource.org/licenses/MIT>
  * @package     AdminPageFramework
  */
@@ -30,7 +30,7 @@ class AjaxTestCustomFieldType extends AdminPageFramework_FieldType_select {
      * @remark\ $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     // protected $aDefaultKeys = array();
-    
+
     protected function construct() {
         // wp_ajax_{action name}
         // This is a dummy callback. Adding a dummy callback because WordPress does not proceed in admin-ajax.php
@@ -97,13 +97,13 @@ class AjaxTestCustomFieldType extends AdminPageFramework_FieldType_select {
     protected function getScripts() {
 
         $_aJSArray = json_encode( $this->aFieldTypeSlugs );
-        return 
+        return
 "jQuery( document ).ready( function(){
     
 
 });";
     }
-    
+
     /**
      * Returns the field type specific CSS rules.
      */
@@ -113,7 +113,7 @@ class AjaxTestCustomFieldType extends AdminPageFramework_FieldType_select {
 
     /**
      * Returns the output of the field type.
-     * 
+     *
      * @return      string
      */
     public function getField( $aField ) {
@@ -121,12 +121,12 @@ class AjaxTestCustomFieldType extends AdminPageFramework_FieldType_select {
         return parent::getField( $aField );
 
     }
-            
 
-            
+
+
     /**
      * Callks back the callback function if it is set.
-     * 
+     *
      * Called when the field type is registered.
      */
     protected function doOnFieldRegistration( $aFieldset ) {
@@ -137,7 +137,7 @@ class AjaxTestCustomFieldType extends AdminPageFramework_FieldType_select {
         }
         unset( $_aQueries[ '_doing_apf_ajax_text' ] );
         $this->replyToHandleAjaxRequest();
-        
+
     }
 
         /**
@@ -147,12 +147,12 @@ class AjaxTestCustomFieldType extends AdminPageFramework_FieldType_select {
 
             return isset( $aRequest[ '_doing_apf_ajax_text' ] );
 
-            if ( 
-                ! isset( 
+            if (
+                ! isset(
                     $aRequest[ '_doing_apf_ajax_text' ],
                     $aRequest[ 'field_id' ],
                     $aRequest[ 'section_id' ]
-                ) 
+                )
             ) {
                 return false;
             }
@@ -161,10 +161,10 @@ class AjaxTestCustomFieldType extends AdminPageFramework_FieldType_select {
             }
             if ( $aFieldset[ 'section_id' ] !== $aRequest[ 'section_id' ] ) {
                 return false;
-            }            
+            }
 
             return true;
-            
+
         }
-        
+
 }

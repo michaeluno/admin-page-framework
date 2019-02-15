@@ -1,16 +1,16 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 class APF_Demo_Test_PageMetaBoxSide extends AdminPageFramework_PageMetaBox {
-        
+
     /*
      * ( optional ) Use the setUp() method to define settings of this meta box.
      */
@@ -39,16 +39,16 @@ class APF_Demo_Test_PageMetaBoxSide extends AdminPageFramework_PageMetaBox {
                 'attributes'        => array(
                     'field' => array(
                         'style' => 'float:right; width:auto;',
-                    ),                   
+                    ),
                 ),
             ),
             array()
         );
-        
+
     }
 
     public function load() {
         new AjaxTestCustomFieldType( $this->oProp->sClassName );
     }
-    
+
 }

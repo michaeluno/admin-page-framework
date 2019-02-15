@@ -1,15 +1,15 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides methods to format and generate the <em>body</em> tag of <em>section table</em> HTML attributes.
- * 
+ *
  * @package     AdminPageFramework/Common/Form/View/Attribute
  * @since       3.6.0
  * @extends     AdminPageFramework_Form_View___Attribute_Base
@@ -18,15 +18,15 @@
 class AdminPageFramework_Form_View___Attribute_SectionTableBody extends AdminPageFramework_Form_View___Attribute_Base {
 
     public $sContext    = 'section_table_content';
-                   
+
     /**
      * Returns an attribute array.
-     * 
+     *
      * @since       3.6.0
      * @return      array
      */
-    protected function _getAttributes() {                    
-        
+    protected function _getAttributes() {
+
         $_sCollapsibleType = $this->getElement(
             $this->aArguments,
             array( 'collapsible', 'type' ),
@@ -42,6 +42,6 @@ class AdminPageFramework_Form_View___Attribute_SectionTableBody extends AdminPag
                 null
             ),
         );
-    }      
-    
+    }
+
 }

@@ -1,17 +1,17 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides methods to set dynamic form elements such as repeatable sections.
- * 
+ *
  * It adds fields of repeated sections to the field-sets definition array.
- * 
+ *
  * @package     AdminPageFramework/Common/Form/Model/Format
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
@@ -22,79 +22,79 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
     public $aSectionsets   = array();
     public $aFieldsets     = array();
     public $aSavedFormData = array();
-    
+
     /**
      * Sets up properties.
      * @since       3.7.0
      */
     public function __construct( /* $aSectionsets, $aFieldsets, $aSavedFormData */ ) {
-        
-        $_aParameters = func_get_args() + array( 
-            $this->aSectionsets, 
+
+        $_aParameters = func_get_args() + array(
+            $this->aSectionsets,
             $this->aFieldsets,
             $this->aSavedFormData,
         );
-        $this->aSectionsets   = $_aParameters[ 0 ];                    
+        $this->aSectionsets   = $_aParameters[ 0 ];
         $this->aFieldsets     = $_aParameters[ 1 ];
         $this->aSavedFormData = $_aParameters[ 2 ];
-        
+
     }
-    
+
     /**
      * @sinde       3.7.0
-     * @return      array       
+     * @return      array
      */
     public function get() {
         $this->_setDynamicElements( $this->aSavedFormData );
         return $this->aFieldsets;
     }
-    
+
         /**
          * Updates the `aFieldsets` property by adding dynamic elements from the given options array.
-         * 
-         * Dynamic elements are repeatable sections and sortable/repeatable fields. 
-         * This method checks the structure of the given array 
+         *
+         * Dynamic elements are repeatable sections and sortable/repeatable fields.
+         * This method checks the structure of the given array
          * and adds section elements to the `$aFieldsets` property arrays.
-         * 
+         *
          * @remark      Assumes sections and fields have already conditioned.
          * @since       3.0.0
-         * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition`. Changed the name from `setDynamicElements()`. 
+         * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition`. Changed the name from `setDynamicElements()`.
          * Changed the visibility scope from public.
          * @return      void
          */
         private function _setDynamicElements( $aOptions ) {
-            
-            $aOptions = $this->castArrayContents( 
+
+            $aOptions = $this->castArrayContents(
                 $this->aSectionsets, // model
                 $aOptions // data source
             );
 
             foreach( $aOptions as $_sSectionID => $_aSubSectionOrFields ) {
-                
-                $_aSubSection = $this->_getSubSectionFromOptions(   
+
+                $_aSubSection = $this->_getSubSectionFromOptions(
                     $_sSectionID,
                     // Content-cast array elements (done with castArrayContents()) can be null so make sure to have it an array
-                    $this->getAsArray( 
+                    $this->getAsArray(
                         $_aSubSectionOrFields   // a sub-section or fields extracted from the saved options array
-                    )  
+                    )
                 );
 
                 if ( empty( $_aSubSection ) ) {
                     continue;
                 }
-                
-                // At this point, the associative keys will be gone 
+
+                // At this point, the associative keys will be gone
                 // but the element only consists of numeric keys.
                 $this->aFieldsets[ $_sSectionID ] = $_aSubSection;
-                
+
             }
 
         }
             /**
              * Extracts sub-section from the given options array element.
-             * 
+             *
              * The options array is the one stored in and retrieved from the database.
-             * 
+             *
              * @internal
              * @since       3.5.3
              * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition`.
@@ -103,40 +103,40 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
              * @return      array       sub-sections array.
              */
             private function _getSubSectionFromOptions( $_sSectionID, array $_aSubSectionOrFields ) {
-                
+
                 $_aSubSection = array();
                 $_iPrevIndex  = null;
                 foreach( $_aSubSectionOrFields as $_isIndexOrFieldID => $_aSubSectionOrFieldOptions ) {
-                
+
                     // If it is not a sub-section array, skip.
-                    if ( ! $this->isNumericInteger( $_isIndexOrFieldID ) ) { 
-                        continue; 
+                    if ( ! $this->isNumericInteger( $_isIndexOrFieldID ) ) {
+                        continue;
                     }
-                    
+
                     $_iIndex = $_isIndexOrFieldID;
-                    
+
                     $_aSubSection[ $_iIndex ] = $this->_getSubSectionItemsFromOptions(
-                        $_aSubSection, 
-                        $_sSectionID, 
-                        $_iIndex, 
-                        $_iPrevIndex 
+                        $_aSubSection,
+                        $_sSectionID,
+                        $_iIndex,
+                        $_iPrevIndex
                     );
-       
+
                     // Update the internal section index key
                     foreach( $_aSubSection[ $_iIndex ] as &$_aField ) {
                         $_aField[ '_section_index' ] = $_iIndex;
                     }
                     unset( $_aField ); // to be safe in PHP
-                    
+
                     $_iPrevIndex = $_iIndex;
-                    
+
                 }
                 return $_aSubSection;
-                
+
             }
                 /**
                  * Returns items belonging to the given sub-section from the options array.
-                 * 
+                 *
                  * @internal
                  * @since       3.5.3
                  * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition`.
@@ -147,15 +147,15 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
                  * @return      array
                  */
                 private function _getSubSectionItemsFromOptions( array $_aSubSection, $_sSectionID, $_iIndex, $_iPrevIndex ) {
-                    
+
                     if ( ! isset( $this->aFieldsets[ $_sSectionID ] ) ) {
                         return array();
                     }
-                    
+
                     $_aFields = isset( $this->aFieldsets[ $_sSectionID ][ $_iIndex ] )
                         ? $this->aFieldsets[ $_sSectionID ][ $_iIndex ]
                         : $this->getNonIntegerKeyElements( $this->aFieldsets[ $_sSectionID ] );
-                        
+
                     // if empty, merge with the previous element.
                     return ! empty( $_aFields )
                         ? $_aFields
@@ -163,8 +163,8 @@ class AdminPageFramework_Form_Model___FormatDynamicElements extends AdminPageFra
                             $_aSubSection,
                             $_iPrevIndex,
                             array()
-                        );                     
-                    
+                        );
+
                 }
-   
+
 }

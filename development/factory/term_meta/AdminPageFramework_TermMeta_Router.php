@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -15,5 +15,5 @@
  * @package         AdminPageFramework/Factory/TermMeta
  * @internal
  */
-abstract class AdminPageFramework_TermMeta_Router extends AdminPageFramework_TaxonomyField_Controller { 
+abstract class AdminPageFramework_TermMeta_Router extends AdminPageFramework_TaxonomyField_Controller {
 }

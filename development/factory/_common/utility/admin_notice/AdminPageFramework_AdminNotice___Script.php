@@ -1,15 +1,15 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides a method to load the Javascript script to fade-in admin notices.
- * 
+ *
  * @since       3.7.0
  * @package     AdminPageFramework/Common/Utility
  * @internal
@@ -19,26 +19,26 @@ class AdminPageFramework_AdminNotice___Script extends AdminPageFramework_Factory
 
     /**
      * The initial set-ups.
-     * 
+     *
      * @callback        action       wp_enqueue_scripts
      */
     public function load() {
-        wp_enqueue_script( 'jquery' );        
+        wp_enqueue_script( 'jquery' );
     }
-    
+
     /**
      * Returns an inline JavaScript script.
-     * 
+     *
      * @since       3.7.0
      * @param       $oMsg       object      The message object.
      * @return      string      The inline JavaScript script.
      */
     static public function getScript( /* $oMsg */ ) {
-        
+
         // Uncomment these lines when parameters need to be accessed.
         // $_aParams   = func_get_args() + array( null );
-        // $_oMsg      = $_aParams[ 0 ];         
-        
+        // $_oMsg      = $_aParams[ 0 ];
+
         /**
          * Checks checkboxes in siblings.
          */
@@ -70,7 +70,7 @@ class AdminPageFramework_AdminNotice___Script extends AdminPageFramework_Factory
 
 }( jQuery ));
 JAVASCRIPTS;
-        
+
     }
 
 }

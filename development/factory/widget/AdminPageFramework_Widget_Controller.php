@@ -1,49 +1,49 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides methods of views for the widget factory class.
- * 
+ *
  * Those methods are public and provides means for users to set property values.
- * 
+ *
  * @abstract
  * @since       3.2.0
  * @package     AdminPageFramework/Factory/Widget
  */
-abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_Widget_View {    
+abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_Widget_View {
 
     /**
     * The method for necessary set-ups.
-    * 
+    *
     * <h4>Example</h4>
     * <code>
     *   public function setUp() {
-    *       $this->setArguments( 
+    *       $this->setArguments(
     *           array(
     *               'description'   =>  __( 'This is a sample widget with built-in field types created by Admin Page Framework.', 'admin-page-framework-demo' ),
-    *           ) 
+    *           )
     *       );
-    *   }  
+    *   }
     * </code>
-    * 
+    *
     * @abstract
     * @since        3.2.0
     */
-    public function setUp() {}    
-      
+    public function setUp() {}
+
     /**
      * The method for setting up form elements.
-     * 
+     *
      * <h4>Example</h4>
      * <code>
      *  public function load( $oAdminWidget ) {
-     *      
+     *
      *      $this->addSettingFields(
      *          array(
      *              'field_id'      => 'title',
@@ -68,7 +68,7 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      *              'type'          => 'checkbox',
      *              'title'         => __( 'Check Box', 'admin-page-framework-demo' ),
      *              'label'         => __( 'This is a check box in a widget form.', 'admin-page-framework-demo' ),
-     *          ),     
+     *          ),
      *          array(
      *              'field_id'      => 'radio',
      *              'type'          => 'radio',
@@ -79,7 +79,7 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      *                  'three' =>  __( 'Three', 'admin-page-framework-demo' ),
      *              ),
      *              'default'       => 'two',
-     *          ),      
+     *          ),
      *          array(
      *              'field_id'      => 'select',
      *              'type'          => 'select',
@@ -89,7 +89,7 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      *                  'ii'    =>  __( 'II', 'admin-page-framework-demo' ),
      *                  'iii'   =>  __( 'III', 'admin-page-framework-demo' ),
      *              ),
-     *          ),                
+     *          ),
      *          array(
      *              'field_id'      => 'image',
      *              'type'          => 'image',
@@ -99,15 +99,15 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      *              'field_id'      => 'media',
      *              'type'          => 'media',
      *              'title'         => __( 'Media', 'admin-page-framework-demo' ),
-     *          ),            
+     *          ),
      *          array(
      *              'field_id'      => 'color',
      *              'type'          => 'color',
      *              'title'         => __( 'Color', 'admin-page-framework-demo' ),
      *          ),
      *          array()
-     *      );        
-     *      
+     *      );
+     *
      *  }
      * </code>
      * @since       3.2.0
@@ -115,41 +115,41 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * @todo        Document the difference between this method and `setUp()` and why the user should use this method to register form elements.
      */
     public function load() {}
-      
+
     /*
      * Head Tag Methods
      */
     /**
      * {@inheritdoc}
-     * 
+     *
      * {@inheritdoc}
-     * 
+     *
      * @since       3.2.0
      * @internal    Temporarily marked internal
      */
-    public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {     
+    public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueStyles' ) ) {
             return $this->oResource->_enqueueStyles( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
         }
     }
     /**
      * {@inheritdoc}
-     * 
+     *
      * {@inheritdoc}
-     * 
+     *
      * @since       3.2.0
      * @internal    Temporarily marked internal
-     */    
+     */
     public function enqueueStyle( $sSRC, $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueStyle' ) ) {
-            return $this->oResource->_enqueueStyle( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );     
+            return $this->oResource->_enqueueStyle( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
         }
     }
     /**
      * {@inheritdoc}
-     * 
+     *
      * {@inheritdoc}
-     * 
+     *
      * @since       3.2.0
      * @internal    Temporarily marked internal
      */
@@ -157,26 +157,26 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
         if ( method_exists( $this->oResource, '_enqueueScripts' ) ) {
             return $this->oResource->_enqueueScripts( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
         }
-    }    
+    }
     /**
      * {@inheritdoc}
-     * 
+     *
      * {@inheritdoc}
-     * 
+     *
      * @since           3.2.0
      * @internal    Temporarily marked internal
      */
-    public function enqueueScript( $sSRC, $aCustomArgs=array() ) {    
+    public function enqueueScript( $sSRC, $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueScript' ) ) {
             return $this->oResource->_enqueueScript( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
         }
-    }     
-    
+    }
+
     /**
      * Sets the widget arguments.
-     * 
+     *
      * This is only necessary if it is not set in the constructor.
-     * 
+     *
      * @since       3.2.0
      * @param       array       $aArguments     Widget arguments same as the one passed to the 4th parameter of the `wp_register_sidebar_widget()` function.
      * <h4>Arguments<h4>
@@ -186,9 +186,9 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      * </ul>
      * @see         https://codex.wordpress.org/Function_Reference/wp_register_sidebar_widget
      * @return      void
-     */ 
+     */
     protected function setArguments( array $aArguments=array() ) {
-        $this->oProp->aWidgetArguments = $aArguments;  
-    }  
-    
+        $this->oProp->aWidgetArguments = $aArguments;
+    }
+
 }

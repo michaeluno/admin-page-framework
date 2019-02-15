@@ -1,57 +1,57 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides methods of views for the widget factory class.
- * 
+ *
  * Those methods are internal and deal with printing outputs.
- * 
+ *
  * @abstract
  * @since       3.2.0
  * @package     AdminPageFramework/Factory/Widget
  */
-abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_Model {    
- 
+abstract class AdminPageFramework_Widget_View extends AdminPageFramework_Widget_Model {
+
     /**
      * Filters the post type post content.
-     * 
+     *
      * This method is called in the same timing of the `content_{instantiated class name}`. This is shorthand for it.
-     * 
+     *
      * <h4>Example</h4>
      * <code>
      *  public function content( $sContent, $aArguments, $aFormData ) {
-     *      
+     *
      *      return $sContent
      *          . '<p>' . __( 'Hello world! This is a widget created by Admin Page Framework with some custom field types.', 'admin-page-framework-demo' ) . '</p>'
      *          . AdminPageFramework_Debug::get( $aArguments )
      *          . AdminPageFramework_Debug::get( $aFormData );
-     *          
-     *  }   
+     *
+     *  }
      * </code>
-     * 
+     *
      * @remark  This class should be overridden in the extended class so that the user can display own contents.
      * @since   3.2.0
      * @return  string
      */
-    public function content( $sContent, $aArguments, $aFormData ) { 
-        return $sContent; 
+    public function content( $sContent, $aArguments, $aFormData ) {
+        return $sContent;
     }
-    
+
     /**
      * Prints out the widget form.
-     * 
+     *
      * @since       3.2.0
      * @internal
      */
     public function _printWidgetForm() {
-        echo $this->oForm->get();   
+        echo $this->oForm->get();
     }
-    
-    
+
+
 }

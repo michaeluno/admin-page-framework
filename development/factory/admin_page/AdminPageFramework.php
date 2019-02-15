@@ -1,17 +1,17 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * The main class of the framework to be extended to create admin pages and forms.
- * 
+ *
  * <p>The user defines their own class by extending this class with the `setUp()` method overridden to define admin pages.</p>
- * 
+ *
  * @abstract
  * @since       2.0.0
  * @extends     AdminPageFramework_Controller
@@ -20,32 +20,32 @@
  * The methods for the users are public and do not have those prefixes.
  */
 abstract class AdminPageFramework extends AdminPageFramework_Controller {
-     
+
     /**
      * Defines the class object structure type.
-     * 
+     *
      * This is used to create a property object as well as to define the form element structure.
-     * 
+     *
      * @since       3.0.0
      * @since       3.7.0       Changed the name from `$_sFieldsType`.
      * @since       3.7.12      Moved from `AdminPageFrmework_Model_Form`. Removed the static scope.
      * @internal
      */
     protected $_sStructureType = 'admin_page';
-     
+
     /**
      * Registers necessary callbacks and sets up internal components including properties.
-     * 
+     *
      * <h4>Example</h4>
      * <code>
      * new MyAdminPageClass( 'my_custom_option_key', __FILE__ );
      * </code>
-     * 
+     *
      * @access      public
      * @since       2.0.0
      * @see         http://codex.wordpress.org/Roles_and_Capabilities
      * @see         http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains
-     * @param       array|integer|string    $aisOptionKey    (optional) specifies the option key name to store in the options table. If this is not set, the instantiated class name will be used as default. 
+     * @param       array|integer|string    $aisOptionKey    (optional) specifies the option key name to store in the options table. If this is not set, the instantiated class name will be used as default.
      * [3.5.9+] If an integer is given, a transient will be used. If an array of option key arguments is given, the argument values will be set to the framework properties.
      * - type - either `options_table` or `transient`.
      * - key - the option key or the transient key
@@ -72,15 +72,15 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
         if ( ! $this->_isInstantiatable() ) {
             return;
         }
-                        
-        parent::__construct( 
+
+        parent::__construct(
             $isOptionKey,
             $this->_getCallerPath( $sCallerPath ),
-            $sCapability, 
-            $sTextDomain 
+            $sCapability,
+            $sTextDomain
         );
 
-    }   
+    }
         /**
          * Returns the script caller path.
          * @remark      It is important to find the caller script path here when separating the library into multiple files.
@@ -88,25 +88,25 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
          * @since       3.8.2
          */
         private function _getCallerPath( $sCallerPath ) {
-            
+
             if ( $sCallerPath  ) {
                 return trim( $sCallerPath );
             }
-            
+
             if ( ! is_admin() ) {
                 return null;
             }
-            
+
             if ( ! isset( $GLOBALS[ 'pagenow' ] ) ) {
                 return null;
             }
-            
+
             $_sCalllerPath = in_array( $GLOBALS[ 'pagenow' ], array( 'plugins.php', ) ) || isset( $_GET[ 'page' ] )
                 ? AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ) // not using $oUtil as this method is caller earlier than the base constructor.
                 : null;
-                
+
             return $_sCalllerPath;
-            
+
         }
-    
+
 }

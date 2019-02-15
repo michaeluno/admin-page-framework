@@ -5,7 +5,7 @@
  * Facilitates WordPress plugin and theme development.
  *
  * @author      Michael Uno <michael@michaeluno.jp>
- * @copyright   2013-2018 (c) Michael Uno
+ * @copyright   2013-2019 (c) Michael Uno
  * @license     MIT <http://opensource.org/licenses/MIT>
  * @package     AdminPageFramework
  */
@@ -13,9 +13,9 @@
 if ( ! class_exists( 'Select2CustomFieldType' ) ) :
 /**
  * A filed of the `select2` field type lets the user select items from a predefined list by typing the item name and the items possibly be fetched with AJAX.
- * 
+ *
  * This class defines the `select2` field type.
- * 
+ *
  * <h2>Field Definition Arguments</h2>
  * <h3>Field Type Specific Arguments</h3>
  * <ul>
@@ -27,11 +27,11 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  *              <li>**search** - (optional, callable) Set a callback function that is triggered in the background when the user type something in the select input field expecting a list of suggested items will be displayed.
  *  - `$aQueries` - (array) an array holding the following arguments.
  *     - `q` - (string) the queried characters.
- *     - `page` - (string) the pagination number. When the result has too many items, it can be paginated. 
+ *     - `page` - (string) the pagination number. When the result has too many items, it can be paginated.
  *     - `field_id` - (string) the field ID that calls the query.
  *     - `section_id` - (string) the section ID that calls the query.
  *  - `$aFieldset` - (array) the field definition array.
- * 
+ *
  *  The callback method is expected to return an array with the following structure:
  * <code>
  *  array(
@@ -41,8 +41,8 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  *              'text'  => 'The title of this item.'   //The text displayed in the drop-down list.
  *          ),
  *          array(
- *              'id'    => 567, 
- *              'text'  => 'The title of this item.' 
+ *              'id'    => 567,
+ *              'text'  => 'The title of this item.'
  *          ),
  *          ... continues ...
  *      ),
@@ -59,7 +59,7 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  *     - `section_id` - (string) the section ID that calls the query.
  *  - `$aFieldset` - (array) the field definition array.
  *  If this callback is set, the `options` -> `tags` argument will be automatically enabled.
- * 
+ *
  *  The callback method is expected to return an array with the following structure:
  * <code>
  *  array(
@@ -73,7 +73,7 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  *          </ul>
  *     </li>
  * </ul>
- * 
+ *
  * @since       3.8.7
  * @version     0.0.3
  * @supports    IE8 or above. (uses JSON object)
@@ -100,49 +100,49 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
                 'size'          => 1,
                 'autofocusNew'  => null,
                 'multiple'      => null,    // set 'multiple' for multiple selections. If 'is_multiple' is set, it takes the precedence.
-                'required'      => null,     
+                'required'      => null,
             ),
             'optgroup'  => array(),
             'option'    => array(),
-        ),    
-    
+        ),
+
         /**
          * @see     https://select2.github.io/options.html
          */
         'options'   => array(
-            'width' => 'auto',  
+            'width' => 'auto',
             // 'maximum-selection-length' => 2,
         ),
-        
+
         // If a callback is set, the select list will be generated dynamically with Ajax.
         // The callback function must return an array of select list.
         'callback'  => array(
             'search' => null,
             'new_tag' => null,
         ),
-        
+
     );
-    
+
     protected function construct() {}
-    
+
     /**
      * Loads the field type necessary components.
      */
     public function setUp() {}
-          
-            
+
+
     /**
      * Returns an array holding the urls of enqueuing scripts.
      * @return      array
      */
     protected function getEnqueuingScripts() {
         return array(
-            array( 
+            array(
                 'src'           => $this->isDebugMode()
                     ? dirname( __FILE__ ) . '/select2/js/select2.full.js'
                     : dirname( __FILE__ ) . '/select2/js/select2.full.min.js',
                 'in_footer'     => true,
-                'dependencies'  => array( 'jquery' ) 
+                'dependencies'  => array( 'jquery' )
             ),
         );
     }
@@ -165,7 +165,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
 
         $_sAjaxURL = admin_url( 'admin-ajax.php' );
         $_aJSArray = json_encode( $this->aFieldTypeSlugs );
-        return 
+        return
 "jQuery( document ).ready( function(){
     
     /**
@@ -568,7 +568,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
 
 });";
     }
-    
+
     /**
      * Returns the field type specific CSS rules.
      */
@@ -593,7 +593,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
 
     /**
      * Returns the output of the field type.
-     * 
+     *
      * @return      string
      */
     public function getField( $aField ) {
@@ -601,11 +601,11 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
         $_sInputForEncodedValue = '';
         if ( is_callable( $this->getElement( $aField, array( 'callback', 'search' ) ) ) ) {
             $_sInputForEncodedValue = $this->_getChildInputByKey( 'encoded', $aField );
-            $aField[ 'attributes' ] = $this->_getAttributesUpdatedForAJAX( $aField );            
+            $aField[ 'attributes' ] = $this->_getAttributesUpdatedForAJAX( $aField );
         }
 
         $_aOptions = $this->_getSelect2OptionsFormatted( $aField[ 'options' ], $aField );
-        
+
         $aField[ 'attributes' ][ 'select' ] = array(
             'data-type'       => 'select2',
             'data-field_id'   => $aField[ 'field_id' ],   // checked in the background with the `doOnFieldRegistration()` method using AJAX.
@@ -617,7 +617,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
             . $_sInputForEncodedValue;     // a nested input that stores an encoded selection value.
 
     }
-            
+
         /**
          * @return      string
          */
@@ -632,57 +632,57 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
                 'style'             => 'width: 100%',   // for debugging
             );
             return "<input " . $this->getAttributes( $_aAttributes ) . " />";
-        
+
         }
-        
+
         /**
          * For AJAX enabled fields, the stored field data structure becomes different.
-         * 
+         *
          * Nested elements of `encoded` and `value` will be added. The selection IDs will be stored in the `value`.
          * The `encoded` element will store the text and id of the user's selection.
-         * 
+         *
          * @return      array
          */
         private function _getAttributesUpdatedForAJAX( $aField ) {
-                        
+
             $_aAttributes = $aField[ 'attributes' ];
             $_aAttributes[ 'name' ] = $_aAttributes[ 'name' ] . "[value]";
             $_aAttributes[ 'id' ]   = $_aAttributes[ 'id' ] . "_value";
             return $_aAttributes;
-            
+
         }
-    
-       
+
+
         /**
          * @return          array
          */
         private function _getSelect2OptionsFormatted( $aOptions, $aField ) {
-            
+
             // Format camel-cased key names.
             foreach( $aOptions as $_sKey => $_mValue ) {
-                
+
                 if( ! preg_match( '/([a-zA-Z])(?=[A-Z])/', $_sKey ) ) {
                     continue;
                 }
-                
+
                 $_sDashed = $this->_getCamelCaseToDashed( $_sKey );
                 $aOptions[ $_sDashed ] = $_mValue;
                 unset( $aOptions[ $_sKey ] );
-                
+
             }
-            
-            $aOptions[ 'search_callback' ]    = is_callable( 
-                $this->getElement( $aField, array( 'callback', 'search' ) ) 
+
+            $aOptions[ 'search_callback' ]    = is_callable(
+                $this->getElement( $aField, array( 'callback', 'search' ) )
             );
-            $_bNewTagCallbackCallable = is_callable( 
-                $this->getElement( $aField, array( 'callback', 'new_tag' ) ) 
+            $_bNewTagCallbackCallable = is_callable(
+                $this->getElement( $aField, array( 'callback', 'new_tag' ) )
             );
             $aOptions[ 'new_tag_callback' ] = $_bNewTagCallbackCallable;
             if ( $_bNewTagCallbackCallable ) {
                 $aOptions[ 'tags' ] = true;
-            }            
+            }
             return $aOptions;
-            
+
         }
             /**
              * @return      string
@@ -690,11 +690,11 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
             private function _getCamelCaseToDashed( $sString ) {
                 return strtolower( preg_replace( '/([a-zA-Z])(?=[A-Z])/', '$1-', $sString ) );
             }
-            
-            
+
+
     /**
      * Callks back the callback function if it is set.
-     * 
+     *
      * Called when the field type is registered.
      */
     protected function doOnFieldRegistration( $aFieldset ) {
@@ -709,24 +709,24 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
         if ( ! is_callable( $_asCallable ) ) {
             return;
         }
-         
+
         // Will exist in the function.
-        wp_send_json( 
+        wp_send_json(
             call_user_func_array(
                 $_asCallable,   // callable
-                array( 
+                array(
                     $_aQueries, // param 1
                     $aFieldset  // param 2
                 )
             )
         );
-        
+
     }
         /**
          * @return      boolean|callable        False when a callback is not found. Otherwise, the found callable.
          */
         private function _getAjaxCallback( $aRequest, $aFieldset ) {
-            
+
             if ( isset( $aRequest[ 'q' ] ) ) {
                 return $this->getElement( $aFieldset, array( 'callback', 'search' ), false );
             }
@@ -734,20 +734,20 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
                 return $this->getElement( $aFieldset, array( 'callback', 'new_tag' ), false );
             }
             return false;
-            
+
         }
-        
+
         /**
          * @return      boolean
          */
         private function _shouldProceedToAjaxRequest( $aRequest, $aFieldset ) {
-                
-            if ( 
-                ! isset( 
+
+            if (
+                ! isset(
                     $aRequest[ 'doing_select2_ajax' ],
                     $aRequest[ 'field_id' ],
                     $aRequest[ 'section_id' ]
-                ) 
+                )
             ) {
                 return false;
             }
@@ -756,11 +756,11 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
             }
             if ( $aFieldset[ 'section_id' ] !== $aRequest[ 'section_id' ] ) {
                 return false;
-            }            
+            }
 
             return true;
-            
+
         }
-        
+
 }
 endif;

@@ -1,20 +1,20 @@
 <?php
 /**
  * Admin Page Framework - Loader
- * 
+ *
  * Loads Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
  */
 
 /**
  * Demonstrates usage of the user meta factory class of Admin Page Framework.
- * 
+ *
  * @since       3.5.3
  */
 class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
-	
+
     public function setUp() {
 
         $_sSectionID = 'apf_user_meta_demo';
@@ -28,20 +28,20 @@ class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
 
         $this->addSettingFields(
             $_sSectionID,
-            array(    
+            array(
                 'field_id'      => 'text_field',
                 'type'          => 'text',
                 'title'         => __( 'Text', 'admin-page-framework-loader' ),
                 'repeatable'    => true,
                 'sortable'      => true,
                 'description'   => __( 'Type something here.', 'admin-page-framework-loader' ),
-            ),        
-            array(    
+            ),
+            array(
                 'field_id'      => 'text_area',
                 'type'          => 'textarea',
                 'title'         => __( 'Text Area', 'admin-page-framework-loader' ),
                 'default'       => __( 'Hi there!', 'admin-page-framework-loader' ),
-            ),    
+            ),
             array(
                 'field_id'      => 'image',
                 'type'          => 'image',
@@ -57,7 +57,7 @@ class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
                 'type'          => 'color',
                 'title'         => __( 'Color', 'admin-page-framework-loader' ),
             ),
-            array(    
+            array(
                 'field_id'      => 'radio_buttons',
                 'type'          => 'radio',
                 'title'         => __( 'Radio', 'admin-page-framework-loader' ),
@@ -67,11 +67,11 @@ class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
                     'c' => 'C',
                 ),
                 'default'       => 'b',
-            )          
-        );      
+            )
+        );
 
     }
-    
+
     /**
      * A pre-defined validation callback method.
      * @return      array
@@ -79,7 +79,7 @@ class APF_Demo_MyUserMeta extends AdminPageFramework_UserMeta {
     public function validate( $aInputs, $aOldInputs, $oFactory ) {
         return $aInputs;
     }
-    
+
 }
 
 new APF_Demo_MyUserMeta;

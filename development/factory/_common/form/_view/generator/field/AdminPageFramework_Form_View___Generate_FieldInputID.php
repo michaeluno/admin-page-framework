@@ -1,44 +1,44 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides methods that generates field id.
- * 
+ *
  * @package     AdminPageFramework/Common/Form/View/Generator
  * @since       3.6.0
  * @internal
  */
 class AdminPageFramework_Form_View___Generate_FieldInputID extends AdminPageFramework_Form_View___Generate_FieldTagID {
-    
+
     public $isIndex = '';
-    
+
     /**
      * Sets up properties.
      */
     public function __construct( /* $aArguments, $isIndex, $hfCallback */ ) {
-        
-        $_aParameters = func_get_args() + array( 
-            $this->aArguments, 
+
+        $_aParameters = func_get_args() + array(
+            $this->aArguments,
             $this->isIndex,
             $this->hfCallback,
         );
-        $this->aArguments  = $_aParameters[ 0 ];        
+        $this->aArguments  = $_aParameters[ 0 ];
         $this->isIndex     = $_aParameters[ 1 ];
         $this->hfCallback  = $_aParameters[ 2 ];
-        
-    }    
-    
+
+    }
+
     /**
      * Returns the input id attribute value.
-     * 
+     *
      * e.g. "{$aField['field_id']}__{$isIndex}";
-     * 
+     *
      * @remark      The index keys are prefixed with double-underscores.
      * @remark      `AdminPageFramework_FormPart_Table_Row` will also access this method so this method is public.
      * @since       2.0.0
@@ -50,5 +50,5 @@ class AdminPageFramework_Form_View___Generate_FieldInputID extends AdminPageFram
     public function get() {
         return $this->_getFiltered( $this->_getBaseFieldTagID() . '__' . $this->isIndex );
     }
-           
+
 }

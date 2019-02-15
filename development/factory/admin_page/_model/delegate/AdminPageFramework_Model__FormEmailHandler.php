@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -16,7 +16,7 @@
  * @extends         AdminPageFramework_FrameworkUtility
  */
 class AdminPageFramework_Model__FormEmailHandler extends AdminPageFramework_FrameworkUtility {
-    
+
     /**
      * Stores the factory object.
      */
@@ -27,8 +27,8 @@ class AdminPageFramework_Model__FormEmailHandler extends AdminPageFramework_Fram
      * @since       3.6.3
      */
     public function __construct( $oFactory ) {
-       
-        $this->oFactory         = $oFactory;        
+
+        $this->oFactory         = $oFactory;
 
         // Form emails.
         if ( ! isset( $_GET[ 'apf_action' ], $_GET[ 'transient' ] ) ) {
@@ -37,30 +37,30 @@ class AdminPageFramework_Model__FormEmailHandler extends AdminPageFramework_Fram
         if ( 'email' !== $_GET[ 'apf_action' ] ) {
             return;
         }
-      
+
         // Set the server not to abort even the client browser terminates.
         ignore_user_abort( true );
-        
+
         // wp_mail() will be loaded by the time 'after_setup_theme' is loaded.
         $this->registerAction( 'after_setup_theme', array( $this, '_replyToSendFormEmail' ) );
 
-    }   
-    
+    }
+
         /**
          * Indicates whether the email method is triggered or not.
-         * 
+         *
          * Since multiple factory instances can load the constructor, it is possible that the method is called multiple times.
-         * 
+         *
          * @since       3.4.2
          * @since       3.6.3       Moved from `AdminPageFramework_Form_Model`.
          */
         static public $_bDoneEmail = false;
-        
+
         /**
          * Sends a form email.
-         * 
+         *
          * This should be called only in the background.
-         * 
+         *
          * @since       3.4.2
          * @since       3.6.3       Moved from `AdminPageFramework_Form_Model`.
          * @callback    action      after_setup_theme
@@ -82,15 +82,15 @@ class AdminPageFramework_Model__FormEmailHandler extends AdminPageFramework_Fram
                 return;
             }
 
-            $_oEmail = new AdminPageFramework_FormEmail( 
-                $_aFormEmail[ 'email_options' ], 
-                $_aFormEmail[ 'input' ], 
-                $_aFormEmail[ 'section_id' ] 
+            $_oEmail = new AdminPageFramework_FormEmail(
+                $_aFormEmail[ 'email_options' ],
+                $_aFormEmail[ 'input' ],
+                $_aFormEmail[ 'section_id' ]
             );
             $_bSent = $_oEmail->send();
 
             exit;
-            
+
         }
-    
+
 }

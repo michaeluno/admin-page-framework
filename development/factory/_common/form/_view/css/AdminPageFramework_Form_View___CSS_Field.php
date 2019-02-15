@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -16,7 +16,7 @@
  * @internal
  */
 class AdminPageFramework_Form_View___CSS_Field extends AdminPageFramework_Form_View___CSS_Base {
-    
+
     /**
      * @since       3.7.0
      * @return      string
@@ -26,12 +26,12 @@ class AdminPageFramework_Form_View___CSS_Field extends AdminPageFramework_Form_V
     }
         /**
          * Returns the CSS rules for form fields.
-         * 
+         *
          * @since       3.2.0
          * @internal
          * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @return      string
-         */    
+         */
         static private function _getFormFieldRules() {
             return <<<CSSRULES
 /* Form Elements */
@@ -239,7 +239,7 @@ td.admin-page-framework-field-td-no-title {
 
 
 CSSRULES;
-        }   
+        }
 
         /**
          * @since       3.7.0
@@ -255,12 +255,12 @@ CSSRULES;
     line-height: 1.5em; 
 }
 CSSRULES;
-            
+
             }
-            
+
             // If the WordPress version is greater than equal to 3.8, add MP6(the admin style introduced in 3.8) specific CSS rules.
             if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) ) {
-            
+
                 $_sCSSRules .= <<<CSSRULES
                 
 /* Repeatable field buttons */
@@ -280,11 +280,11 @@ CSSRULES;
 	}
 }    
 CSSRULES;
-   
-            }            
-            
+
+            }
+
             return $_sCSSRules;
-        
-        }        
-    
+
+        }
+
 }

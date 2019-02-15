@@ -1,31 +1,31 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * A number field that lets the user set numbers.
- * 
+ *
  * This class defines the number and range field type.
- * 
+ *
  * <h2>Field Definition Arguments</h2>
- * 
+ *
  * <h3>Common Field Definition Arguments</h3>
  * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
- * 
+ *
  * <h2>Example</h2>
  * <code>
- *  array( 
+ *  array(
  *      'field_id'          => 'number',
  *      'title'             => __( 'Number', 'admin-page-framework-loader' ),
  *      'type'              => 'number',
- *  ),    
+ *  ),
  * </code>
- * 
+ *
  * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/number.png
  * @package         AdminPageFramework/Common/Form/FieldType
  * @since           2.1.5
@@ -39,15 +39,15 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_t
     public $aFieldTypeSlugs = array( 'number', 'range' );
 
     /**
-     * Defines the default key-values of this field type. 
-     * 
+     * Defines the default key-values of this field type.
+     *
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
         'attributes' => array(
             'size'          => 30,
             'maxlength'     => 400,
-            'class'         => null,    
+            'class'         => null,
             'min'           => null,
             'max'           => null,
             'step'          => null,
@@ -62,14 +62,14 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_t
 
     /**
      * Returns the field type specific CSS rules.
-     * 
+     *
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
      * @internal
      * @return      string
-     */ 
+     */
     protected function getStyles() {
-        return "";     
+        return "";
     }
-    
+
 }

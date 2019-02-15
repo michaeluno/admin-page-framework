@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -17,14 +17,14 @@
  * @internal
  */
 abstract class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramework_FrameworkUtility {
-    
+
     /**
      * Stores additional CSS rules.
      */
     public $aAdded = array();
-    
+
     /**
-     * Adds css rules in a property. When the `get()` method is performed, 
+     * Adds css rules in a property. When the `get()` method is performed,
      * the added ones will be returned together.
      * @return  void
      * @since   3.7.0
@@ -32,20 +32,20 @@ abstract class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramewor
     public function add( $sCSSRules ) {
         $this->aAdded[] = $sCSSRules;
     }
-    
+
     /**
      * @return      string
      * @since       3.7.0
      */
     public function get() {
-        
+
         $_sCSSRules  = $this->_get() . PHP_EOL;
         $_sCSSRules .= $this->_getVersionSpecific();
         $_sCSSRules .= implode( PHP_EOL, $this->aAdded );
         return $_sCSSRules;
-    
+
     }
-    
+
         /**
          * @remark      Override this method in an extended class.
          * @since       3.7.0
@@ -62,5 +62,5 @@ abstract class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramewor
         protected function _getVersionSpecific() {
             return '';
         }
-        
+
 }

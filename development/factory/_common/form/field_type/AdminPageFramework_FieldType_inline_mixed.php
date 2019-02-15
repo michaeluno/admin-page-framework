@@ -1,40 +1,40 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * A field that includes child fields with different field types.
- * 
+ *
  * This class defines the `inline_mixed` field type.
- * 
+ *
  * <h2>Field Definition Arguments</h2>
  * <h3>Field Type Specific Arguments</h3>
  * <ul>
  *     <li>**content** - (optional, array) an array holding child field definition arrays.</li>
  * </ul>
- * 
+ *
  * <h3>Common Field Definition Arguments</h3>
  * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
- * 
+ *
  * <h2>Example</h2>
  * <h3>Check box, Number and Select</h3>
  * <code>
  *  array(
  *      'field_id'      => 'checkbox_number_select',
  *      'type'          => 'inline_mixed',
- *      'title'         => __( 'Checkbox, Number & Select', 'admin-page-framework-loader' ),            
+ *      'title'         => __( 'Checkbox, Number & Select', 'admin-page-framework-loader' ),
  *      'content'       => array(
  *          array(
  *              'field_id'        => 'enable',
  *              'type'            => 'checkbox',
  *              'label_min_width' => '',
- *              'label'           => __( 'Do something in', 'admin-page-framework-loader' ),        
- *          ),                                
+ *              'label'           => __( 'Do something in', 'admin-page-framework-loader' ),
+ *          ),
  *          array(
  *              'field_id'        => 'interval',
  *              'type'            => 'number',
@@ -42,8 +42,8 @@
  *              'default'         => 3,
  *              'attributes'      => array(
  *                  'style'     => 'width: 80px',
- *              ),    
- *          ),    
+ *              ),
+ *          ),
  *          array(
  *              'field_id'        => 'interval_unit',
  *              'type'            => 'select',
@@ -52,13 +52,13 @@
  *                  'hour'    => __( 'hours', 'admin-page-framework-loader' ),
  *                  'day'     => __( 'days', 'admin-page-framework-loader' ),
  *                  'week'    => __( 'weeks', 'admin-page-framework-loader' ),
- *              ),                    
+ *              ),
  *              'default'         => 'day',
  *          ),
  *          array(
  *              'field_id'      => '_text',
  *              'content'       => __( 'to do something else.', 'admin-page-framework-loader' ),
- *          ),                                 
+ *          ),
  *      ),
  *  )
  * </code>
@@ -67,10 +67,10 @@
  *  array(
  *      'field_id'      => 'text_number',
  *      'type'          => 'inline_mixed',
- *      'title'         => __( 'Text & Number', 'admin-page-framework-loader' ),            
+ *      'title'         => __( 'Text & Number', 'admin-page-framework-loader' ),
  *      'repeatable'    => true,
- *      'content'       => array(                             
- *          __( 'Server', 'admin-page-framework-loader' ), 
+ *      'content'       => array(
+ *          __( 'Server', 'admin-page-framework-loader' ),
  *          array(
  *              'field_id'        => 'server',
  *              'type'            => 'text',
@@ -79,8 +79,8 @@
  *                  'fieldset'  => array(
  *                      'style'     => 'min-width: 400px;',
  *                  )
- *              ),                            
- *          ),                
+ *              ),
+ *          ),
  *          __( 'Port', 'admin-page-framework-loader' ),
  *          array(
  *              'field_id'        => 'port',
@@ -89,7 +89,7 @@
  *              'default'         => 3,
  *              'attributes'      => array(
  *                  // 'style'     => 'width: 80px',
- *              ),    
+ *              ),
  *          ),
  *
  *      ),
@@ -112,7 +112,7 @@
  *                  'fieldset'  => array(
  *                      'style'  => 'width: 48%; padding-right: 2%;',
  *                  ),
- *              ),                        
+ *              ),
  *          ),
  *          array(
  *              'field_id'      => 'last_name',
@@ -122,7 +122,7 @@
  *                  'fieldset'  => array(
  *                      'style'  => 'width: 48%; padding-right: 2%;',
  *                  ),
- *            
+ *
  *              ),
  *          ),
  *          array(
@@ -133,7 +133,7 @@
  *                  'fieldset'  => array(
  *                      'style'  => 'width: 98%; padding-right: 2%;',
  *                  ),
- *              ),                                        
+ *              ),
  *          ),
  *          array(
  *              'field_id'      => 'city',
@@ -153,7 +153,7 @@
  *                  'fieldset'  => array(
  *                      'style'  => 'width: 36%; padding-right: 2%;',
  *                  ),
- *              ),                
+ *              ),
  *          ),
  *          array(
  *              'field_id'      => 'zip',
@@ -163,14 +163,14 @@
  *                  'fieldset'  => array(
  *                      'style'  => 'width: 22%; padding-right: 2%;',
  *                  ),
- *              ),  
- *          ),                    
+ *              ),
+ *          ),
  *          array(
  *              'field_id'      => 'telephone',
  *              'type'          => 'text',
  *              'title'         => __( 'Tel. No.', 'admin-page-framework-loader' ),
  *              'attributes'    => array(
- *                  'fieldset'  => array(                               
+ *                  'fieldset'  => array(
  *                      'style'  => 'width: 31%; padding-right: 2%;',
  *                  ),
  *              ),
@@ -183,7 +183,7 @@
  *                  'fieldset'  => array(
  *                      'style'  => 'width: 31%; padding-right: 2%;',
  *                  ),
- *              ),            
+ *              ),
  *          ),
  *          array(
  *              'field_id'      => 'email',
@@ -193,27 +193,27 @@
  *                  'fieldset'  => array(
  *                      'style'  => 'width: 32%; padding-right: 2%;',
  *                  ),
- *              ),                  
- *          ),                         
- *      ),            
- *  ) 
+ *              ),
+ *          ),
+ *      ),
+ *  )
  * </code>
- * 
+ *
  * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/inline_mixed.png
  * @package         AdminPageFramework/Common/Form/FieldType
  * @extends         AdminPageFramework_FieldType__nested
  * @since           3.8.0
  */
 class AdminPageFramework_FieldType_inline_mixed extends AdminPageFramework_FieldType__nested {
-    
+
     /**
      * Defines the field type slugs used for this field type.
      */
     public $aFieldTypeSlugs = array( 'inline_mixed' );
-    
+
     /**
-     * Defines the default key-values of this field type. 
-     * 
+     * Defines the default key-values of this field type.
+     *
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
@@ -221,15 +221,15 @@ class AdminPageFramework_FieldType_inline_mixed extends AdminPageFramework_Field
         'show_debug_info'  => false,    // 3.8.8+ @todo Examine why this value does not override the default value of field definition arguments and if possible and appropriate, override it.
     );
 
-    
+
     /**
      * Returns the field type specific CSS output inside the `<style></style>` tags.
-     * 
+     *
      * @since       3.8.0
      * @internal
      * @return      string
-     */        
-    protected function getStyles() { 
+     */
+    protected function getStyles() {
         return <<<CSSRULES
 .admin-page-framework-field-inline_mixed {
     width: 98%;
@@ -298,6 +298,6 @@ class AdminPageFramework_FieldType_inline_mixed extends AdminPageFramework_Field
 
 CSSRULES;
 
-    }    
+    }
 
 }

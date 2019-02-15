@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -15,22 +15,22 @@
  * @internal
  */
 class AdminPageFramework_Form_View___CSS_meta_box extends AdminPageFramework_Form_View___CSS_Base {
-    
+
     /**
      * @since       3.7.0
      * @return      string
      */
-    protected function _get() {        
+    protected function _get() {
         return $this->_getRules();
     }
         /**
          * Returns the meta-box form specific CSS rules.
-         * 
+         *
          * @since       3.3.0
          * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @internal
          * @return      string
-         */        
+         */
         private function _getRules() {
             return <<<CSSRULES
 /* Meta-box form fields */
@@ -114,7 +114,7 @@ class AdminPageFramework_Form_View___CSS_meta_box extends AdminPageFramework_For
     }
 }            
 CSSRULES;
-        }        
-        
-    
+        }
+
+
 }

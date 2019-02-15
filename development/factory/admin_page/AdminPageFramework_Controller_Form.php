@@ -1,14 +1,14 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
- * Provides public methods to add form elements. 
+ * Provides public methods to add form elements.
  *
  * @abstract
  * @since           2.0.0
@@ -18,12 +18,12 @@
  * @package         AdminPageFramework/Factory/AdminPage
  */
 abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_View_Form {
-                                    
+
     /**
      * {@inheritdoc}
-     * 
+     *
      * {@inheritdoc}
-     * 
+     *
      * <h4>Example</h4>
      * <code>$this->addSettingSections(
      *      array(
@@ -33,7 +33,7 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
      *          'title'         => 'Text Fields',
      *          'description'   => 'These are text type fields.',
      *          'order'         => 10,
-     *      ),    
+     *      ),
      *      array(
      *          'section_id'    => 'selectors',
      *          'page_slug'     => 'first_page',
@@ -81,24 +81,24 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
      * @param       array           (optional) another section array.
      * @param       array           (optional) add more section array to the next parameters as many as necessary.
      * @return      void
-     */     
+     */
     public function addSettingSections( /* $aSection1, $aSection2=null, $_and_more=null */ ) {
-        
-        foreach( func_get_args() as $asSection ) { 
-            $this->addSettingSection( $asSection ); 
+
+        foreach( func_get_args() as $asSection ) {
+            $this->addSettingSection( $asSection );
         }
-        
+
         // reset the stored target tab slug and the target section tab slug
         $this->_sTargetTabSlug          = null;
         $this->_sTargetSectionTabSlug   = null;
-        
+
     }
-    
+
     /**
      * A singular form of the adSettingSections() method which takes only a single parameter.
-     * 
+     *
      * This is useful when adding section arrays in loops.
-     * 
+     *
      * @since       2.1.2
      * @since       3.0.0           Changed the scope to public from protected.
      * @access      public
@@ -106,37 +106,37 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
      * @return      void
      */
     public function addSettingSection( $asSection ) {
-                
+
         if ( ! is_array( $asSection ) ) {
             $this->_sTargetPageSlug = is_string( $asSection )
-                ? $asSection 
+                ? $asSection
                 : $this->_sTargetPageSlug;
             return;
-        } 
-        
+        }
+
         $aSection = $asSection;
         $this->_sTargetPageSlug         = $this->_getTargetPageSlug( $aSection );
         $this->_sTargetTabSlug          = $this->_getTargetTabSlug( $aSection );
         $this->_sTargetSectionTabSlug   = $this->oUtil->getElement( $aSection, 'section_tab_slug', $this->_sTargetSectionTabSlug );
-        
+
         // Pre-format - avoid undefined index warnings.
-        $aSection = $this->oUtil->uniteArrays( 
-            $aSection, 
-            array( 
-                'page_slug'         => $this->_sTargetPageSlug, 
-                'tab_slug'          => $this->_sTargetTabSlug, 
-                'section_tab_slug'  => $this->_sTargetSectionTabSlug, 
+        $aSection = $this->oUtil->uniteArrays(
+            $aSection,
+            array(
+                'page_slug'         => $this->_sTargetPageSlug,
+                'tab_slug'          => $this->_sTargetTabSlug,
+                'section_tab_slug'  => $this->_sTargetSectionTabSlug,
             )
-        ); 
-        
+        );
+
         $aSection[ 'section_tab_slug' ]   = $this->oUtil->sanitizeSlug( $aSection[ 'section_tab_slug' ] );
-        
+
         // A page slug is required.
         if ( ! $aSection[ 'page_slug' ] ) {
-            return; 
+            return;
         }
         $this->oForm->addSection( $aSection );
-        
+
     }
         /**
          * Sets the target page slug of the section.
@@ -146,20 +146,20 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
          * @return      string
          */
         private function _getTargetPageSlug( $aSection ) {
-            
-            $_sTargetPageSlug = $this->oUtil->getElement( 
+
+            $_sTargetPageSlug = $this->oUtil->getElement(
                 $aSection,      // subject
                 'page_slug',    // key
                 $this->_sTargetPageSlug     // default
             );
-         
+
             $_sTargetPageSlug = $_sTargetPageSlug
-                ? $this->oUtil->sanitizeSlug( $_sTargetPageSlug ) 
+                ? $this->oUtil->sanitizeSlug( $_sTargetPageSlug )
                 : $this->oProp->getCurrentPageSlugIfAdded();
             return $_sTargetPageSlug;
-            
+
         }
-            
+
         /**
          * Sets the target tab slug of the section.
          * If a tab slug is not set, set the currently loading one from the registered items.
@@ -168,7 +168,7 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
          * @since       3.7.2
          */
         private function _getTargetTabSlug( $aSection ) {
-            $_sTargetTabSlug = $this->oUtil->getElement( 
+            $_sTargetTabSlug = $this->oUtil->getElement(
                 $aSection,              // subject
                 'tab_slug',             // key
                 $this->_sTargetTabSlug  // default
@@ -177,17 +177,17 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
                 ? $this->oUtil->sanitizeSlug( $aSection[ 'tab_slug' ] )
                 : $this->oProp->getCurrentInPageTabSlugIfAdded();
             return $_sTargetTabSlug;
-        }    
-    
+        }
+
     /**
     * Removes the given section(s) by section ID.
-    * 
+    *
     * This accesses the property storing the added section arrays and removes the specified ones.
-    * 
+    *
     * <h4>Example</h4>
     * <code>$this->removeSettingSections( 'text_fields', 'selectors', 'another_section', 'yet_another_section' );
     * </code>
-    * 
+    *
     * @since        2.0.0
     * @since        3.0.0       Changed the scope to public from protected.
     * @since        3.5.3       Removed the parameter declarations as they are caught with the func_get_args().
@@ -197,18 +197,18 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
     * @param        string      $sSectionID2        (optional) another section ID to remove.
     * @param        string      $_and_more          (optional) add more section IDs to the next parameters as many as necessary.
     * @return       void
-    */    
-    public function removeSettingSections( /* $sSectionID1=null, $sSectionID2=null, $_and_more=null */ ) {    
+    */
+    public function removeSettingSections( /* $sSectionID1=null, $sSectionID2=null, $_and_more=null */ ) {
         foreach( func_get_args() as $_sSectionID ) {
             $this->oForm->removeSection( $_sSectionID );
-        }        
+        }
     }
-    
+
     /**
      * {@inheritdoc}
-     * 
+     *
      * {@inheritdoc}
-     * 
+     *
      * <h4>Example</h4>
      * <code>$this->addSettingFields(
      *      array(
@@ -219,7 +219,7 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
      *          'type'          => 'text',
      *          'order'         => 1,
      *          'default'       => 123456,
-     *      ),    
+     *      ),
      *      array(
      *          'field_id'      => 'text_multiple',
      *          'section_id'    => 'text_fields',
@@ -248,43 +248,43 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
      *          ),
      *      )
      * );</code>
-     * 
+     *
      * @since       2.0.0
      * @since       3.0.0       Changed the scope to public from protected.
      * @since       3.5.3       Removed the parameter declarations as they are caught with the func_get_args().
      * @access      public
      * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
      * @remark      The actual registration will be performed in the <em>_replyToRegisterSettings()</em> method with the <em>admin_menu</em> hook.
-     */     
-    public function addSettingFields( /* $aField1, $aField2=null, $_and_more=null */ ) {    
-        foreach( func_get_args() as $aField ) { 
-            $this->addSettingField( $aField ); 
+     */
+    public function addSettingFields( /* $aField1, $aField2=null, $_and_more=null */ ) {
+        foreach( func_get_args() as $aField ) {
+            $this->addSettingField( $aField );
         }
     }
     /**
     * Adds the given field array items into the field array property.
-    * 
-    * Identical to the `addSettingFields()` method except that this method does not accept enumerated parameters. 
-    * 
+    *
+    * Identical to the `addSettingFields()` method except that this method does not accept enumerated parameters.
+    *
     * @since        2.1.2
     * @since        3.0.0           Changed the scope to public from protected.
     * @access       public
     * @param        array|string    $asField        the field array or the target section ID. If the target section ID is set, the section_id key can be omitted from the next passing field array.
     * @return       void
-    */    
+    */
     public function addSettingField( $asField ) {
-        $this->oForm->addField( $asField );    
-    }    
-    
+        $this->oForm->addField( $asField );
+    }
+
     /**
     * Removes the given field(s) by field ID.
-    * 
+    *
     * This accesses the property storing the added field arrays and removes the specified ones.
-    * 
+    *
     * <h4>Example</h4>
     * <code>$this->removeSettingFields( 'fieldID_A', 'fieldID_B', 'fieldID_C', 'fieldID_D' );
     * </code>
-    * 
+    *
     * @since        2.0.0
     * @since        3.0.0       Changed the scope to public from protected.
     * @access       public
@@ -293,44 +293,44 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
     * @param        string      $sFieldID2      (optional) another field ID to remove.
     * @param        string      $_and_more      (optional) add more field IDs to the next parameters as many as necessary.
     * @return void
-    */    
+    */
     public function removeSettingFields( $sFieldID1, $sFieldID2=null, $_and_more ) {
-        foreach( func_get_args() as $_sFieldID ) { 
-            $this->oForm->removeField( $_sFieldID ); 
+        foreach( func_get_args() as $_sFieldID ) {
+            $this->oForm->removeField( $_sFieldID );
         }
-    }    
-            
+    }
+
     /**
      * Retrieves the specified field value stored in the options by field ID.
-     * 
+     *
      * <h4>Example</h4>
      * <code>
      *  $this->addSettingFields(
      *      'number_section',  // section id
-     *      array( 
+     *      array(
      *          'field_id'          => 'preset_field',
      *          'title'             => __( 'Preset', 'admin-page-framework-demo' ),
      *          'type'              => 'number',
      *      ),
-     *      array( 
+     *      array(
      *          'field_id'          => 'value_based_on_preset',
      *          'title'             => __( 'Value Based on Preset', 'admin-page-framework-demo' ),
      *          'type'              => 'number',
-     *          'default'           => 10 + ( int ) $this->getValue( 
+     *          'default'           => 10 + ( int ) $this->getValue(
      *              'number_section',   // section id
      *              'preset_field'      // field id
      *          ),
-     *      ),    
+     *      ),
      *  );
      * </code>
-     * 
+     *
      * @since       3.3.0
      * @since       3.3.5       Made it respect last input arrays.
      * @since       3.5.3       When a parameter is not set, it returns the entire options.
      * @param       The key that points the dimensional array key of the options array.
      */
     public function getValue( /* $sDimensionalKey1, $sDimensionalKey2 ... or $aDimensionalKeys, $mDefault */ ) {
-        
+
         $_aParams            = func_get_args();
         $_aDimensionalKeys   = $_aParams + array( null, null );
         $_mDefault           = null;
@@ -338,20 +338,20 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
             $_mDefault         = $_aDimensionalKeys[ 1 ];
             $_aDimensionalKeys = $_aDimensionalKeys[ 0 ];
         }
-        return AdminPageFramework_WPUtility::getOption( 
-            $this->oProp->sOptionKey, 
-            empty( $_aParams ) 
+        return AdminPageFramework_WPUtility::getOption(
+            $this->oProp->sOptionKey,
+            empty( $_aParams )
                 ? null                  // will return the entire options array
                 : $_aDimensionalKeys,   // dimensional keys
             $_mDefault, // default
             $this->getSavedOptions() + $this->oForm->getDefaultFormValues()
         );
-        
+
     }
-            
+
     /**
      * Retrieves the specified field value stored in the options by field ID.
-     *  
+     *
      * @since       2.1.2
      * @since       3.0.0       Changed the scope to public from protected. Dropped the sections. Made it return a default value even if it's not saved in the database.
      * @access      public
@@ -362,18 +362,18 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
      * @deprecated  3.3.0
      */
     public function getFieldValue( $sFieldID, $sSectionID='' ) {
-                                   
+
         $this->oUtil->showDeprecationNotice(
             'The method,' . __METHOD__ . ',', // deprecated item
             'getValue()' // alternative
-        );     
-    
+        );
+
         $_aOptions = $this->oUtil->uniteArrays( $this->oProp->aOptions, $this->oForm->getDefaultFormValues() );
         /* If it's saved, return it */
         if ( ! $sSectionID ) {
             if ( array_key_exists( $sFieldID, $_aOptions ) ) {
                 return $_aOptions[ $sFieldID ];
-            }    
+            }
             // loop through section elements
             foreach( $_aOptions as $aOptions ) {
                 if ( array_key_exists( $sFieldID, $aOptions ) ) {
@@ -387,7 +387,7 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
             }
         }
         return null;
-                    
+
     }
-            
+
 }

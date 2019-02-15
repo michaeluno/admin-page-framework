@@ -1,39 +1,39 @@
 <?php
-/** 
+/**
  *  Plugin Name:    Admin Page Framework - Loader
  *  Plugin URI:     http://admin-page-framework.michaeluno.jp/
  *  Description:    Loads Admin Page Framework which facilitates WordPress plugin and theme development.
  *  Author:         Michael Uno
  *  Author URI:     http://en.michaeluno.jp/
  *  Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
- *  Version:        3.8.18
+ *  Version:        3.8.19b01
  */
 
 /**
  * The base registry information.
- * 
+ *
  * @since       3.5.0
  */
 class AdminPageFrameworkLoader_Registry_Base {
 
-    const VERSION        = '3.8.18';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION        = '3.8.19b01';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME           = 'Admin Page Framework - Loader'; // the name is not 'Admin Page Framework' because warning messages gets confusing.
     const SHORTNAME      = 'Admin Page Framework';  // used for a menu title etc.
     const DESCRIPTION    = 'Loads Admin Page Framework which facilitates WordPress plugin and theme development.';
     const URI            = 'http://admin-page-framework.michaeluno.jp/';
     const AUTHOR         = 'miunosoft (Michael Uno)';
     const AUTHOR_URI     = 'http://en.michaeluno.jp/';
-    const COPYRIGHT      = 'Copyright (c) 2013-2018, Michael Uno';
+    const COPYRIGHT      = 'Copyright (c) 2013-2019, Michael Uno';
     const LICENSE        = 'GPL v2 or later';
     const CONTRIBUTORS   = '';
 
 }
 /**
  * Provides the plugin information.
- * 
+ *
  * The plugin will refer to these information.
- * 
- * @since       3.5.0 
+ *
+ * @since       3.5.0
  */
 final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_Registry_Base {
 
@@ -50,8 +50,8 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
     );
 
     /**
-     * The transient prefix. 
-     * 
+     * The transient prefix.
+     *
      * @remark      This is also accessed from `uninstall.php` so do not remove.
      * @remark      Do not exceed 8 characters as a transient name allows 45 characters or less ( 40 for site transients ) so that md5 (32 characters) can be added.
      */
@@ -59,14 +59,14 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
 
     /**
      * The hook slug used for the prefix of action and filter hook names.
-     * 
+     *
      * @remark      The ending underscore is not necessary.
      */
     const HOOK_SLUG                = 'admin_page_framework_loader';
 
     /**
      * The text domain slug and its path.
-     * 
+     *
      * These will be accessed from the bootstrap script.
      */
     const TEXT_DOMAIN              = 'admin-page-framework-loader';
@@ -78,7 +78,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
 
     /**
      * Requirements.
-     */    
+     */
     static public $aRequirements = array(
         'php' => array(
             'version'   => '5.2.4',
@@ -142,11 +142,11 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
     static public function setUp( $sPluginFilePath ) {
         self::$sFilePath = $sPluginFilePath;
         self::$sDirPath  = dirname( self::$sFilePath );
-    }    
+    }
 
     /**
      * Returns the URL with the given relative path to the plugin path.
-     * 
+     *
      * <h3>Example</h3>
      * <code>
      * AdminPageFrameworkLoader_Registry::getPluginURL( 'asset/css/meta_box.css' );
@@ -168,7 +168,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
 
     /**
      * Returns the information of this class.
-     * 
+     *
      * @since       3.5.0
      * @return      array
      */
@@ -188,10 +188,10 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      * Sets an admin notice.
      * @since       3.5.0
      * @return      void
-     */ 
+     */
     static public function setAdminNotice( $sMessage, $sClassAttribute='error' ) {
-        if ( ! is_admin() ) {  
-            return; 
+        if ( ! is_admin() ) {
+            return;
         }
         self::$_aAdminNotices[] = array(
             'message'           => $sMessage,
@@ -273,9 +273,9 @@ new AdminPageFrameworkLoader_Bootstrap(
 /*
  * If you find this framework useful, include it in your project!
  * And please leave a nice comment in the review page, http://wordpress.org/support/view/plugin-reviews/admin-page-framework
- * 
+ *
  * If you have a suggestion, the GitHub repository is open to anybody so post an issue there.
  * https://github.com/michaeluno/admin-page-framework/issues
- * 
+ *
  * Happy coding!
  */

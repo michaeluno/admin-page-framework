@@ -1,19 +1,19 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * {@inheritdoc}
- * 
+ *
  * {@inheritdoc}
- * 
+ *
  * This is for pages that have page-meta-box fields added by the framework.
- * 
+ *
  * @since       3.0.0
  * @since       3.3.0       Changed the name from AdminPageFramework_HeadTag_MetaBox_Page.
  * @uses        AdminPageFramework_Utility

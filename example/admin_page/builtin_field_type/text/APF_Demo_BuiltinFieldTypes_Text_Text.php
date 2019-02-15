@@ -1,42 +1,42 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 /**
  * Adds a section in a tab.
- * 
+ *
  * @package     AdminPageFramework/Example
  */
 class APF_Demo_BuiltinFieldTypes_Text_Text {
-    
-    
+
+
     /**
      * The page slug to add the tab and form elements.
      */
     public $sPageSlug   = 'apf_builtin_field_types';
-    
+
     /**
      * The tab slug to add to the page.
      */
     public $sTabSlug    = 'textfields';
-    
+
     /**
      * The section slug to add to the tab.
      */
     public $sSectionID  = 'text_fields';
-        
+
     /**
      * Sets up a form section.
      */
     public function __construct( $oFactory ) {
-    
+
         /**
          * ( optional ) Create a form - To create a form in Admin Page Framework, you need two kinds of components: sections and fields.
          * A section groups fields and fields belong to a section. So a section needs to be created prior to fields.
@@ -46,8 +46,8 @@ class APF_Demo_BuiltinFieldTypes_Text_Text {
         /**
          * Sections
          */
-        $oFactory->addSettingSections(    
-            $this->sPageSlug, // the target page slug                
+        $oFactory->addSettingSections(
+            $this->sPageSlug, // the target page slug
             array(
                 'section_id'    => $this->sSectionID,       // avoid hyphen(dash), dots, and white spaces
                 'tab_slug'      => $this->sTabSlug,
@@ -56,11 +56,11 @@ class APF_Demo_BuiltinFieldTypes_Text_Text {
                 'description'   => __( 'These are text type fields.', 'admin-page-framework-loader' ), // ( optional )
                 'order'         => 10, // ( optional ) - if you don't set this, an index will be assigned internally in the added order
             )
-        );   
-        
+        );
+
         /**
          * Text input fields - text, password, number, textarea, rich text editor
-         */        
+         */
         $oFactory->addSettingFields(
             $this->sSectionID, // the target section id
             array(
@@ -87,7 +87,7 @@ EOD
             ),
             array(
                 'field_id'          => 'text_with_help',
-                'type'              => 'text',        
+                'type'              => 'text',
                 'title'             => __( 'Text with Help Pane', 'admin-page-framework-loader' ),
                 'help'              => __( 'This is a text field and typed text will be saved.', 'admin-page-framework-loader' )
                     . ' ' . __( 'This text is inserted with the <code>help</code> argument in the field definition array.', 'admin-page-framework-loader' ),
@@ -102,17 +102,17 @@ array(
 )
 EOD
                         )
-                        . "</pre>",    
+                        . "</pre>",
                 ),
             ),
             array(
                 'field_id'          => 'text_with_placeholder',
-                'type'              => 'text',        
+                'type'              => 'text',
                 'title'             => __( 'Placeholder', 'admin-page-framework-loader' ),
                 'attributes'        => array(
                     'size' => 40,
                     'placeholder' => __( 'Type something here.', 'admin-page-framework-loader' ),
-                ),  
+                ),
                 'description'       => array(
                     "<pre>"
                         . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
@@ -126,14 +126,14 @@ array(
 )
 EOD
                         )
-                        . "</pre>",   
+                        . "</pre>",
                 ),
-            ),            
-            array( 
+            ),
+            array(
                 'field_id'          => 'text_with_tip',
                 'type'              => 'text',
                 'title'             => __( 'Text with Tip', 'admin-page-framework-loader' ),
-                'tip'               => __( 'With the <code>tip</code> argument in a field definition array, a tool tip can be inserted.', 'admin-page-framework-loader' ),                
+                'tip'               => __( 'With the <code>tip</code> argument in a field definition array, a tool tip can be inserted.', 'admin-page-framework-loader' ),
                 'description'       => array(
                     __( 'This text is inserted with the <code>description</code> argument in the field definition array.', 'admin-page-framework-loader' ),
                     __( 'The argument accepts as an array and each element will be treated as one paragraph.', 'admin-page-framework-loader' ),
@@ -150,10 +150,10 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                        
+                        . "</pre>",
                 ),
-            ),    
-            array( 
+            ),
+            array(
                 'field_id'          => 'read_only_text',
                 'title'             => __( 'Read Only', 'admin-page-framework-loader' ),
                 'type'              => 'text',
@@ -181,9 +181,9 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                        
-                ),                
-            ),            
+                        . "</pre>",
+                ),
+            ),
             array( // Multiple text fields by labels
                 'field_id'          => 'text_multiple_with_label',
                 'title'             => __( 'Multiple with Labels', 'admin-page-framework-loader' ),
@@ -197,7 +197,7 @@ EOD
                     'first'  => __( 'First', 'admin-page-framework-loader' ),
                     'second' => __( 'Second', 'admin-page-framework-loader' ),
                     'third'  => __( 'Third', 'admin-page-framework-loader' ),
-                ),                
+                ),
                 'description'       => array(
                     __( 'These uses the <code>label</code> argument to crate multiple elements.', 'admin-page-framework-loader' ),
                     "<pre>"
@@ -218,10 +218,10 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                 
+                        . "</pre>",
                 ),
-            ),                     
-            array( 
+            ),
+            array(
                 'field_id'          => 'text_repeatable',
                 'title'             => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'              => 'text',
@@ -242,10 +242,10 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                 
-                ),                
-            ),     
-            array( 
+                        . "</pre>",
+                ),
+            ),
+            array(
                 'field_id'          => 'text_repeatable_with_arguments',
                 'title'             => __( 'Maximum and Minimum Number to Repeat', 'admin-page-framework-loader' ),
                 'type'              => 'text',
@@ -254,7 +254,7 @@ EOD
                     'max' => 10,
                     'min' => 3,
                 ),
-                'description'       => array( 
+                'description'       => array(
                     __( 'To set maximum and minimum numbers of fields, set the <code>max</code> and <code>min</code> arguments in the <code>repeatable</code> argument array in the field definition array.' ),
                     "<pre>"
                         . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
@@ -268,10 +268,10 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                         
+                        . "</pre>",
                 ),
-            ),        
-            array( 
+            ),
+            array(
                 'field_id'          => 'text_sortable',
                 'title'             => __( 'Sortable', 'admin-page-framework-loader' ),
                 'type'              => 'text',
@@ -283,7 +283,7 @@ EOD
                 ),
                 array(
                     'default'       => 'c',
-                ),     
+                ),
                 array(
                     'label'         => __( 'Disabled Item', 'admin-page-framework-loader' ),
                     'default'       => 'd',
@@ -291,7 +291,7 @@ EOD
                         'disabled' => 'disabled',
                     ),
                 ),
-                'description'       => array( 
+                'description'       => array(
                     __( 'Drag and drop the fields to change the order.', 'admin-page-framework-loader' ),
                     "<pre>"
                         . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
@@ -317,17 +317,17 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                         
-                ),                
-                
-            ),   
-            array( 
+                        . "</pre>",
+                ),
+
+            ),
+            array(
                 'field_id'      => 'text_repeatable_and_sortable',
                 'title'         => __( 'Repeatable & Sortable', 'admin-page-framework-loader' ),
                 'type'          => 'text',
                 'repeatable'    => true,
                 'sortable'      => true,
-                'description'       => array( 
+                'description'       => array(
                     __( 'Drag and drop the fields to change the order.', 'admin-page-framework-loader' ),
                     "<pre>"
                         . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
@@ -339,11 +339,11 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                         
-                ),    
+                        . "</pre>",
+                ),
             ),
-            
-            array( 
+
+            array(
                 'field_id'          => 'password',
                 'title'             => __( 'Password', 'admin-page-framework-loader' ),
                 'tip'               => __( 'This input will be masked.', 'admin-page-framework-loader' ),
@@ -352,7 +352,7 @@ EOD
                 'attributes'        => array(
                     'size' => 20,
                 ),
-                'description'       => array( 
+                'description'       => array(
                     __( 'The entered characters will be masked.', 'admin-page-framework-loader' ),
                     "<pre>"
                         . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
@@ -362,15 +362,15 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                         
-                ),    
-            ),                
-            array( 
+                        . "</pre>",
+                ),
+            ),
+            array(
                 'field_id'          => 'number',
                 'title'             => __( 'Number', 'admin-page-framework-loader' ),
                 'type'              => 'number',
                 'default'           => 42,
-                'description'       => array( 
+                'description'       => array(
                     "<pre>"
                         . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
@@ -379,10 +379,10 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                         
-                ),                    
-            ),  
-            array( 
+                        . "</pre>",
+                ),
+            ),
+            array(
                 'field_id'          => 'number_with_attributes',
                 'title'             => __( 'Number with Attributes', 'admin-page-framework-loader' ),
                 'type'              => 'number',
@@ -392,7 +392,7 @@ EOD
                     'step'  => 10,
                 ),
                 'default'           => 50,
-                'description'       => array( 
+                'description'       => array(
                     "<pre>"
                         . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
 <<<EOD
@@ -406,13 +406,13 @@ array(
 )
 EOD
                         )
-                        . "</pre>",                         
-                ),                    
-            ),                     
+                        . "</pre>",
+                ),
+            ),
             array()
-        );             
-        
+        );
+
     }
-    
-  
+
+
 }

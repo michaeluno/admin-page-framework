@@ -1,44 +1,44 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 /**
  * Adds a section in a tab.
- * 
+ *
  * @package     AdminPageFramework/Example
  */
 class APF_Demo_AdvancedUsage_Argument_Unsave {
-    
+
     /**
      * The page slug to add the tab and form elements.
      */
     public $sPageSlug   = 'apf_advanced_usage';
-    
+
     /**
      * The tab slug to add to the page.
      */
     public $sTabSlug    = 'argument';
-    
+
     /**
      * The section slug to add to the tab.
      */
-    public $sSectionID  = 'unsaving_items';        
-        
+    public $sSectionID  = 'unsaving_items';
+
     /**
      * Sets up a form section.
      */
     public function __construct( $oFactory ) {
-    
+
         // Section
-        $oFactory->addSettingSections(    
-            $this->sPageSlug, // the target page slug                
+        $oFactory->addSettingSections(
+            $this->sPageSlug, // the target page slug
             array(
                 'tab_slug'          => $this->sTabSlug,
                 'section_id'        => $this->sSectionID,
@@ -48,11 +48,11 @@ class APF_Demo_AdvancedUsage_Argument_Unsave {
                     __( 'These form inputs will not be saved while they will be passed to the validation callback methods.', 'admin-page-framework-loader' ),
                 )
             )
-        );   
+        );
 
         // Fields
         $oFactory->addSettingFields(
-            $this->sSectionID, // the target section ID        
+            $this->sSectionID, // the target section ID
             array(
                 'field_id'          => 'unsaved',
                 'title'             => __( 'Unsaved', 'admin-page-framework-loader' ),
@@ -75,8 +75,8 @@ class APF_Demo_AdvancedUsage_Argument_Unsave {
                 ),
                 'default'           => date_i18n( 'j F Y g:i:s', time() + 60*60*24 ),
             )
-        );              
-      
+        );
+
     }
 
 }

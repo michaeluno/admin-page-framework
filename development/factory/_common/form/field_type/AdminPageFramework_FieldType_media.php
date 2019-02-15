@@ -1,17 +1,17 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * A text field with a media uploader lets the user set a file URL.
- * 
+ *
  * This class defines the media field type.
- * 
+ *
  * <h2>Field Definition Arguments</h2>
  * <h3>Field Type Specific Arguments</h3>
  * <ul>
@@ -23,15 +23,15 @@
  *             <li>`remove_button` - (array) applies to the Remove button.</li>
  *         </ul>
  *     </li>
- * 
+ *
  * </ul>
- * 
+ *
  * <h3>Common Field Definition Arguments</h3>
  * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
- * 
+ *
  * <h2>Example</h2>
  ** <code>
- *   array( 
+ *   array(
  *       'field_id'              => 'media_with_attributes',
  *       'title'                 => __( 'Media File with Attributes', 'admin-page-framework-loader' ),
  *       'type'                  => 'media',
@@ -43,25 +43,25 @@
  *           'remove_button' => array(      // 3.2.0+
  *               'data-label' => __( 'Remove', 'admin-page-framework-loader' ), // will set the Remove button label instead of the dashicon
  *           ),
- *       ),        
+ *       ),
  *   )
  ** </code>
- * 
+ *
  * @image       http://admin-page-framework.michaeluno.jp/image/common/form/field_type/media.png
  * @package     AdminPageFramework/Common/Form/FieldType
  * @since       2.1.5
  * @extends     AdminPageFramework_FieldType_image
  */
 class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_image {
-    
+
     /**
      * Defines the field type slugs used for this field type.
      */
     public $aFieldTypeSlugs = array( 'media', );
-    
+
     /**
-     * Defines the default key-values of this field type. 
-     * 
+     * Defines the default key-values of this field type.
+     *
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
@@ -71,33 +71,33 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
         'attributes'            => array(
             'input'     => array(
                 'size'      => 40,
-                'maxlength' => 400,     
+                'maxlength' => 400,
             ),
             'button'    => array(
             ),
             'remove_button' =>  array(  // 3.2.0+
             ),
             'preview'   => array(
-            ),     
-        ),    
+            ),
+        ),
     );
-        
+
     /**
      * Returns the field type specific JavaScript script.
      * @internal
      * @return      string
-     */ 
+     */
     protected function getScripts() {
-        return 
+        return
             $this->_getScript_MediaUploader(
                 "admin_page_framework"
             ) . PHP_EOL
             . $this->_getScript_RegisterCallbacks();
-    }    
-    
+    }
+
         /**
-         * Returns the JavaScript script that handles repeatable events. 
-         * 
+         * Returns the JavaScript script that handles repeatable events.
+         *
          * @since       3.0.0
          * @return      string
          * @internal
@@ -140,12 +140,12 @@ jQuery( document ).ready( function(){
     );
 });
 JAVASCRIPTS;
-            
+
         }
-        
+
         /**
          * Returns the media uploader JavaScript script to be loaded in the head tag of the created admin pages.
-         * 
+         *
          * @since       2.1.3
          * @since       2.1.5       Moved from ... Changed the name from `getMediaUploaderScript()`.
          * @since       2.4.2       Removed the second an the their parameter as additional message items need to be defined.
@@ -157,7 +157,7 @@ JAVASCRIPTS;
             $_sThickBoxTitle         = esc_js( $this->oMsg->get( 'upload_file' ) );
             $_sThickBoxButtonUseThis = esc_js( $this->oMsg->get( 'use_this_file' ) );
             $_sInsertFromURL         = esc_js( $this->oMsg->get( 'insert_from_url' ) );
-            
+
             // If the WordPress version is 3.4.x or below
             if ( ! function_exists( 'wp_enqueue_media' ) ) {
                 return <<<JAVASCRIPTS
@@ -199,7 +199,7 @@ JAVASCRIPTS;
                     }
 JAVASCRIPTS;
             }
-            
+
             return <<<JAVASCRIPTS
                 // Global Function Literal 
                 /**
@@ -354,9 +354,9 @@ JAVASCRIPTS;
         }
     /**
      * Returns the field type specific CSS rules.
-     */ 
+     */
     protected function getStyles() {
-        
+
         return <<<CSSRULES
 /* Media Uploader Button */
 .admin-page-framework-field-media input {
@@ -378,26 +378,26 @@ JAVASCRIPTS;
 }            
 CSSRULES;
     }
-            
+
         /**
          * Returns the output of the preview box.
          * @since       3.0.0
          * @return      string
          */
         protected function _getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) { return ""; }
-        
+
         /**
          * Returns a `<script>` tag element with a JavaScript script that enables media select buttons.
-         * 
+         *
          * @since       2.1.3
          * @since       2.1.5   Moved from AdminPageFramework_FormField.
          * @since       3.2.0   Made it use dashicon for the select button.
          * @return      string
          * @internal
-         */     
+         */
         protected function _getUploaderButtonScript( $sInputID, $abRepeatable, $bExternalSource, array $aButtonAttributes ) {
-      
-            // Do not include the escaping character (backslash) in the heredoc variable declaration 
+
+            // Do not include the escaping character (backslash) in the heredoc variable declaration
             // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
             // which causes the PHP syntax error.
             $_sButtonHTML       = '"' . $this->_getUploaderButtonHTML_Media( $sInputID, $aButtonAttributes, $bExternalSource ) . '"';
@@ -411,10 +411,10 @@ jQuery( document ).ready( function(){
     setAdminPageFrameworkMediaUploader( '{$sInputID}', 'true' === '{$_sRpeatable}', 'true' === '{$_sExternalSource}' );
 });
 JAVASCRIPTS;
-                    
-            return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>" 
+
+            return "<script type='text/javascript' class='admin-page-framework-media-uploader-button'>"
                     . '/* <![CDATA[ */'
-                    . $_sScript 
+                    . $_sScript
                     . '/* ]]> */'
                 . "</script>". PHP_EOL;
 
@@ -426,16 +426,16 @@ JAVASCRIPTS;
              * @internal
              */
             private function _getUploaderButtonHTML_Media( $sInputID, array $aButtonAttributes, $bExternalSource ) {
-                    
+
                 $_bIsLabelSet = isset( $aButtonAttributes['data-label'] ) && $aButtonAttributes['data-label'];
-                $_aAttributes = $this->_getFormattedUploadButtonAttributes_Media( 
-                    $sInputID, 
-                    $aButtonAttributes, 
-                    $_bIsLabelSet, 
-                    $bExternalSource 
+                $_aAttributes = $this->_getFormattedUploadButtonAttributes_Media(
+                    $sInputID,
+                    $aButtonAttributes,
+                    $_bIsLabelSet,
+                    $bExternalSource
                 );
                 return "<a " . $this->getAttributes( $_aAttributes ) . ">"
-                        . $this->getAOrB( 
+                        . $this->getAOrB(
                             $_bIsLabelSet,
                             $_aAttributes['data-label'],
                             $this->getAOrB(
@@ -445,8 +445,8 @@ JAVASCRIPTS;
                             )
                         )
                     ."</a>";
-                    
-            }      
+
+            }
                 /**
                  * Returns a formatted upload button attributes array.
                  * @since       3.5.3
@@ -454,34 +454,34 @@ JAVASCRIPTS;
                  * @internal
                  */
                 private function _getFormattedUploadButtonAttributes_Media( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bExternalSource ) {
-                   
+
                     $_aAttributes           = array(
                             'id'        => "select_media_{$sInputID}",
-                            'href'      => '#',            
+                            'href'      => '#',
                             'data-uploader_type'            => ( string ) function_exists( 'wp_enqueue_media' ),    //  ? 1 : 0,
-                            'data-enable_external_source'   => ( string ) ( bool ) $bExternalSource,    //  ? 1 : 0, 
-                        ) 
+                            'data-enable_external_source'   => ( string ) ( bool ) $bExternalSource,    //  ? 1 : 0,
+                        )
                         + $aButtonAttributes
                         + array(
-                            'title'     => $_bIsLabelSet 
-                                ? $aButtonAttributes['data-label'] 
+                            'title'     => $_bIsLabelSet
+                                ? $aButtonAttributes['data-label']
                                 : $this->oMsg->get( 'select_file' ),
                             'data-label' => null,
                         );
-                    $_aAttributes['class']  = $this->getClassAttribute( 
+                    $_aAttributes['class']  = $this->getClassAttribute(
                         'select_media button button-small ',
                         $this->getAOrB(
                             trim( $aButtonAttributes['class'] ),
                             $aButtonAttributes['class'],
-                            $this->getAOrB( 
+                            $this->getAOrB(
                                 ! $_bIsLabelSet && version_compare( $GLOBALS['wp_version'], '3.8', '>=' ),
                                 'dashicons dashicons-portfolio',
                                 ''
                             )
                         )
-                    );       
+                    );
                     return $_aAttributes;
-                    
-                }            
-     
+
+                }
+
 }

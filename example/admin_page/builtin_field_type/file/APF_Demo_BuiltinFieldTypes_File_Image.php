@@ -1,44 +1,44 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 /**
  * Adds a section in a tab.
- * 
+ *
  * @package     AdminPageFramework/Example
  */
 class APF_Demo_BuiltinFieldTypes_File_Image {
-    
+
     /**
      * The page slug to add the tab and form elements.
      */
     public $sPageSlug   = 'apf_builtin_field_types';
-    
+
     /**
      * The tab slug to add to the page.
      */
     public $sTabSlug    = 'files';
-    
+
     /**
      * The section slug to add to the tab.
      */
     public $sSectionID  = 'image_select';
-        
+
     /**
      * Sets up a form section.
      */
     public function __construct( $oFactory ) {
-    
+
         // Section
-        $oFactory->addSettingSections(    
-            $this->sPageSlug, // the target page slug                
+        $oFactory->addSettingSections(
+            $this->sPageSlug, // the target page slug
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
@@ -46,12 +46,12 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                 'description'   => __( 'Set an image url with jQuwey based image selector.', 'admin-page-framework-loader' ),
                 'tip'           => __( 'The <code>image</code> field type allows your users to submit their images.', 'admin-page-framework-loader' ),
             )
-        );   
+        );
 
         // Fields
-        $oFactory->addSettingFields(     
+        $oFactory->addSettingFields(
             $this->sSectionID,
-            array( 
+            array(
                 'field_id'      => 'image_select_field',
                 'title'         => __( 'Select an Image', 'admin-page-framework-loader' ),
                 'type'          => 'image',
@@ -76,13 +76,13 @@ class APF_Demo_BuiltinFieldTypes_File_Image {
                         ),
                         'remove_button'    => array(
                             'style' => 'background-color: #E1FCD2',
-                        ),                
-                    ),     
+                        ),
+                    ),
                 ),
                 array(
                     'label'         => __( 'Third', 'admin-page-framework-loader' ),
                     'default'       => '',
-                ),     
+                ),
                 'description'   => array(
                     __( 'See the button and the input colors of the second item are different. This is done by setting the attributes individually.', 'admin-page-framework-loader' ),
                     "<pre class='field-argument-example'>"
@@ -100,9 +100,9 @@ array(
 EOD
                         )
                         . "</pre>",
-                ),           
-            ),     
-            array( 
+                ),
+            ),
+            array(
                 'field_id'              => 'image_with_attributes',
                 'title'                 => __( 'Save Image Attributes', 'admin-page-framework-loader' ),
                 'type'                  => 'image',
@@ -117,7 +117,7 @@ EOD
                     ),
                     'preview' => array(
                         'style' => 'max-width: 300px;'
-                    ),   
+                    ),
                 ),
                 'description'   => array(
                     __( 'Capturing additional attributes is supported.', 'admin-page-framework-loader' ),
@@ -146,8 +146,8 @@ array(
 EOD
                         )
                         . "</pre>",
-                ),                           
-            ),                
+                ),
+            ),
             array(
                 'field_id'              => 'image_select_field_repeatable_and_sortable',
                 'title'                 => __( 'Repeatable & Sortable', 'admin-page-framework-loader' ),
@@ -158,7 +158,7 @@ EOD
                     'preview' => array(
                         'style' => 'max-width: 200px;'
                     ),
-                ),    
+                ),
                 'description'   => array(
                     __( 'Image fields can be repeatable and sortable.', 'admin-page-framework-loader' ),
                     "<pre class='field-argument-example'>"
@@ -177,10 +177,10 @@ array(
 EOD
                         )
                         . "</pre>",
-                ),                
+                ),
             )
-        );            
-      
+        );
+
     }
 
 }

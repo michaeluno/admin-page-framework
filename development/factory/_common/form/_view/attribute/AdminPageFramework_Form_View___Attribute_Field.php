@@ -1,15 +1,15 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides methods to format and generate field container HTML attributes.
- * 
+ *
  * @package     AdminPageFramework/Common/Form/View/Attribute
  * @since       3.6.0
  * @extends     AdminPageFramework_Form_View___Attribute_FieldContainer_Base
@@ -19,26 +19,26 @@ class AdminPageFramework_Form_View___Attribute_Field extends AdminPageFramework_
 
     /**
      * Indicates the context of the attribute.
-     * 
+     *
      * e.g. fieldrow, fieldset, fields etc.
-     * 
+     *
      * @since       3.6.0
      */
-    public $sContext    = 'field'; 
+    public $sContext    = 'field';
 
     /**
      * Returns the field container attribute array.
-     * 
+     *
      * @remark      Formatting each sub-field should be performed prior to calling this method.
      * @param       array       $aField     The (sub-)field definition array. This should have been formatted already.
      * @return      array       The generated field container attribute array.
-     * @internal   
+     * @internal
      * @since       3.5.3
      * @since       3.6.0       Moved from `AdminPageFramework_Form_View___Fieldset`.
      * @return      array
      */
     protected function _getAttributes() {
-        
+
         // 3.8.0+ Supports omitting the `type` argument.
         $_sFieldTypeSelector   = $this->getAOrB(
             $this->aArguments[ 'type' ],
@@ -56,13 +56,13 @@ class AdminPageFramework_Form_View___Attribute_Field extends AdminPageFramework_
             $this->hasNestedFields( $this->aArguments ),
             ' with-nested-fields',
             ' without-nested-fields'
-        );        
+        );
         $_sMixedFieldSelector = $this->getAOrB(
             'inline_mixed' === $this->aArguments[ 'type' ],
             ' with-mixed-fields',
             ' without-mixed-fields'
         );
-        
+
         return array(
             'id'            => $this->aArguments[ '_field_container_id' ],
             'data-type'     => $this->aArguments[ 'type' ],   // referred by the repeatable field JavaScript script.
@@ -76,9 +76,9 @@ class AdminPageFramework_Form_View___Attribute_Field extends AdminPageFramework_
                     $this->aArguments[ '_is_sub_field' ],
                     ' admin-page-framework-subfield',
                     ''
-                ) 
+                )
         );
-        
+
     }
-           
+
 }

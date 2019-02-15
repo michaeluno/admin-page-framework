@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -15,17 +15,17 @@
  * <h2>Creating Forms in a Post Meta Box</h2>
  * <p>In the {@link AdminPageFramework_MetaBox_Controller::setUp()} method, use the {@link AdminPageFramework_Factory_Controller::addSettingField()} method to add form fields
  * and the {@link AdminPageFramework_Factory_Controller::addSettingSections()} method for sections.</p>
- * 
+ *
  * <p>For parameter details, see the links of the methods.</p>
- * 
+ *
  * <p>Sections are optional. It is recommended adding a underscore prefix to IDs of sections and fields which do not have a section. Otherwise, it is listed as a custom field in the Custom Fields built-in meta box.</p>
- * 
+ *
  * <h3>Example</h3>
  * <code>
  *  class APFDoc_AddPostMetaBox extends AdminPageFramework_MetaBox {
- *      
+ *
  *      public function setUp() {
- *          
+ *
  *          $this->addSettingSections(
  *              array(
  *                  'section_id'        => '_my_post_meta_section',
@@ -46,9 +46,9 @@
  *                  'type'              => 'color',
  *              )
  *          );
- *    
- *      }    
- *      
+ *
+ *      }
+ *
  *  }
  *  new APFDoc_AddPostMetaBox(
  *      null,           // (null|string) meta box ID  - pass null to auto-generate
@@ -58,29 +58,29 @@
  *      'high'          // (string) priority          - either 'high', 'low', or 'default'.
  *  );
  * </code>
- * 
+ *
  * <h2>Retrieving Field Values</h2>
  * <p>They are stored in the [post_meta](https://codex.wordpress.org/Database_Description#Table:_wp_postmeta) table associated with the post ID.
  * So use [get_post_meta()](https://developer.wordpress.org/reference/functions/get_post_meta/) function by specifying the section or field ID.
  * </p>
- * 
+ *
  * <h3>Example</h3>
  * <code>
- * $_sFieldValue = get_post_meta( 
+ * $_sFieldValue = get_post_meta(
  *      1234,   // post ID
  *      '_my_field_id', // field ID (meta key)
  *      true        // single
  * );
- * $_aSectionValues = get_post_meta( 
+ * $_aSectionValues = get_post_meta(
  *      1234,   // post ID
  *      '_my_section_id', // field ID (meta key)
  *      true        // single
  * );
  * </code>
- * 
+ *
  * <h2>Hooks</h2>
  * See the Hooks section of the [Factory package summary](./package-AdminPageFramework.Common.Factory.html) page.
- * 
+ *
  * @image           http://admin-page-framework.michaeluno.jp/image/factory/post_meta_box.png
  * @since           3.3.0
  * @package         AdminPageFramework/Factory/MetaBox

@@ -1,15 +1,15 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Defines the import field type.
- * 
+ *
  * <h2>Field Definition Arguments</h2>
  * <h3>Field Type Specific Arguments</h3>
  *  <ul>
@@ -17,10 +17,10 @@
  *      <li>**format** - (optional, string) the import format. json, or array is supported. Default: array</li>
  *      <li>**is_merge** - (optional, boolean) [2.0.5+] determines whether the imported data should be merged with the existing options.</li>
  *  </ul>
- * 
+ *
  * <h3>Common Field Definition Arguments</h3>
  * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
- * 
+ *
  * <h2>Example</h2>
  * <code>
  *  array(
@@ -30,21 +30,21 @@
  *      'label'         => __( 'Import Options', 'admin-page-framework-loader' ),
  *  )
  * </code>
- * 
+ *
  * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/import.png
  * @package         AdminPageFramework/Common/Form/FieldType
  * @since           2.1.5
  */
 class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_submit {
-    
+
     /**
      * Defines the field type slugs used for this field type.
      */
     public $aFieldTypeSlugs = array( 'import', );
-    
+
     /**
-     * Defines the default key-values of this field type. 
-     * 
+     * Defines the default key-values of this field type.
+     *
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
@@ -58,41 +58,41 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
                 'class'     => 'import',
                 'type'      => 'file',
             ),
-            'submit'    => array(    
+            'submit'    => array(
                 'class' => 'import button button-primary',
                 'type'  => 'submit',
             ),
-        ),    
+        ),
     );
-    
+
     /**
      * Loads the field type necessary components.
-     * 
+     *
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToFieldLoader()`.
      * @internal
-     */ 
+     */
     protected function setUp() {}
-    
+
     /**
      * Returns the field type specific JavaScript script.
-     * 
+     *
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
      * @internal
-     */ 
+     */
     protected function getScripts() {
-        return "";     
-    }    
+        return "";
+    }
 
     /**
      * Returns the field type specific CSS rules.
-     * 
+     *
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
      * @internal
-     */ 
-    protected function getStyles() { 
+     */
+    protected function getStyles() {
         return <<<CSSRULES
 /* Import Field */
 .admin-page-framework-field-import input {
@@ -104,44 +104,44 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 }
 CSSRULES;
     }
-    
+
     /**
      * Returns the output of the field type.
-     * 
+     *
      * @since       2.1.5       Moved from the AdminPageFramework_FormField class. The name was changed from getHiddenField().
      * @since       3.3.1       Changed from `_replyToGetField()`.
      * @internal
      * @return      string
      */
     protected function getField( $aField ) {
-        
+
         /* Set some required values */
         $aField['attributes']['name']   = "__import[submit][{$aField['input_id']}]";
-        $aField['label']                = $aField['label'] 
-            ? $aField['label'] 
+        $aField['label']                = $aField['label']
+            ? $aField['label']
             : $this->oMsg->get( 'import' );
-        return parent::getField( $aField );     
-    }    
-    
+        return parent::getField( $aField );
+    }
+
     /**
      * Returns extra output for the field.
-     * 
+     *
      * This is for the import field type that extends this class. The import field type cannot place the file input tag inside the label tag that causes a problem in FireFox.
-     * 
+     *
      * @since       3.0.0
      * @internal
      * @return      string
-     */    
+     */
     protected function _getExtraFieldsBeforeLabel( &$aField ) {
-        return "<input " . $this->getAttributes( 
+        return "<input " . $this->getAttributes(
                 array(
                     'id' => "{$aField['input_id']}_file",
                     'type' => 'file',
                     'name' => "__import[{$aField['input_id']}]",
-                ) + $aField['attributes']['file']     
+                ) + $aField['attributes']['file']
             ) . " />";
-    }    
-    
+    }
+
     /**
      * Returns the output of hidden fields for this field type that enables custom submit buttons.
      * @since       3.0.0
@@ -150,39 +150,39 @@ CSSRULES;
      */
     protected function _getExtraInputFields( &$aField ) {
 
-        $aHiddenAttributes = array( 'type' => 'hidden', );     
-        return    
-            "<input " . $this->getAttributes( 
+        $aHiddenAttributes = array( 'type' => 'hidden', );
+        return
+            "<input " . $this->getAttributes(
                 array(
                     'name' => "__import[{$aField['input_id']}][input_id]",
                     'value' => $aField['input_id'],
                 ) + $aHiddenAttributes
             ) . "/>"
-            . "<input " . $this->getAttributes( 
+            . "<input " . $this->getAttributes(
                 array(
                     'name' => "__import[{$aField['input_id']}][field_id]",
                     'value' => $aField['field_id'],
                 ) + $aHiddenAttributes
             ) . "/>"
-            . "<input " . $this->getAttributes( 
+            . "<input " . $this->getAttributes(
                 array(
                     'name' => "__import[{$aField['input_id']}][section_id]",
                     'value' => isset( $aField['section_id'] ) && $aField['section_id'] != '_default' ? $aField['section_id'] : '',
                 ) + $aHiddenAttributes
-            ) . "/>"     
-            . "<input " . $this->getAttributes( 
+            ) . "/>"
+            . "<input " . $this->getAttributes(
                 array(
                     'name' => "__import[{$aField['input_id']}][is_merge]",
                     'value' => $aField['is_merge'],
                 ) + $aHiddenAttributes
-            ) . "/>"    
-            . "<input " . $this->getAttributes( 
+            ) . "/>"
+            . "<input " . $this->getAttributes(
                 array(
                     'name' => "__import[{$aField['input_id']}][option_key]",
                     'value' => $aField['option_key'],
                 ) + $aHiddenAttributes
             ) . "/>"
-            . "<input " . $this->getAttributes( 
+            . "<input " . $this->getAttributes(
                 array(
                     'name' => "__import[{$aField['input_id']}][format]",
                     'value' => $aField['format'],
@@ -190,5 +190,5 @@ CSSRULES;
             ) . "/>"
             ;
     }
-        
+
 }

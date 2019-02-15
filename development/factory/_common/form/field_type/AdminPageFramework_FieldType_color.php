@@ -1,87 +1,87 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * A text field with a color picker.
- * 
+ *
  * This class defines the color field type.
- * 
+ *
  * <h2>Field Definition Arguments</h2>
- * 
+ *
  * <h3>Common Field Definition Arguments</h3>
  * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
- * 
+ *
  * <h2>Example</h2>
  * <code>
- *  array( 
+ *  array(
  *      'field_id'      => 'color_picker_field',
  *      'title'         => __( 'Color Picker', 'admin-page-framework-loader' ),
  *      'type'          => 'color',
  *  ),
  * </code>
- * 
+ *
  * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/color.png
  * @package         AdminPageFramework/Common/Form/FieldType
  * @since           2.1.5
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  */
 class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
-    
+
     /**
      * Defines the field type slugs used for this field type.
      */
     public $aFieldTypeSlugs = array( 'color' );
-    
+
     /**
-     * Defines the default key-values of this field type. 
+     * Defines the default key-values of this field type.
      */
     protected $aDefaultKeys = array(
         'attributes' => array(
             'size'      => 10,
             'maxlength' => 400,
             'value'     => 'transparent',
-        ),    
+        ),
     );
 
     /**
      * Loads the field type necessary components.
-     * 
+     *
      * Loads necessary files of the color field type.
      * @since       2.0.0
      * @since       2.1.5       Moved from AdminPageFramework_MetaBox. Changed the name from enqueueColorFieldScript().
      * @since       3.3.1       Changed from `_replyToFieldLoader()`.
      * @see         http://www.sitepoint.com/upgrading-to-the-new-wordpress-color-picker/
      * @internal
-     */ 
+     */
     protected function setUp() {
-        
+
         // If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
         if ( version_compare( $GLOBALS[ 'wp_version' ], '3.5', '>=' ) ) {
-            $this->___enqueueWPColorPicker();            
+            $this->___enqueueWPColorPicker();
         }
         // If the WordPress version is less than 3.5 load the older farbtasic color picker.
         else {
             //As with wp-color-picker the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
             wp_enqueue_style( 'farbtastic' );
             wp_enqueue_script( 'farbtastic' );
-        }    
-        
-    }    
+        }
+
+    }
         /**
          * @since       3.8.11
          */
         private function ___enqueueWPColorPicker() {
-            
+
             // Both the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
             wp_enqueue_style( 'wp-color-picker' );
             wp_enqueue_script( 'wp-color-picker' );
-            
+
             // For front-end
             // @see     http://wordpress.stackexchange.com/a/82722
             if ( ! is_admin() ) {
@@ -101,28 +101,28 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
                     false,
                     1
                 );
-                wp_localize_script( 
-                    'wp-color-picker', 
-                    'wpColorPickerL10n', 
+                wp_localize_script(
+                    'wp-color-picker',
+                    'wpColorPickerL10n',
                     array(
                         'clear'         => __( 'Clear' ),
                         'defaultString' => __( 'Default' ),
                         'pick'          => __( 'Select Color' ),
                         'current'       => __( 'Current Color' ),
-                    )                    
-                );             
-                
+                    )
+                );
+
             }
-            
+
         }
 
     /**
      * Returns the field type specific CSS rules.
-     * 
+     *
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
      * @internal
-     */ 
+     */
     protected function getStyles() {
         return <<<CSSRULES
 /* Color Picker */
@@ -152,11 +152,11 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
 
 CSSRULES;
 
-    }    
-    
+    }
+
     /**
      * Returns the color picker JavaScript script loaded in the head tag of the created admin pages.
-     * 
+     *
      * @since       2.0.0
      * @since       2.1.3       Changed to define a global function literal that registers the given input field as a color picker.
      * @since       2.1.5       Changed the name from `getColorPickerScript()`.
@@ -164,7 +164,7 @@ CSSRULES;
      * @internal
      * @return      string      The image selector script.
      * @see         https://github.com/Automattic/Iris
-     */ 
+     */
     protected function getScripts() {
         $_aJSArray      = json_encode( $this->aFieldTypeSlugs );
         $_sDoubleQuote  = '\"';
@@ -263,11 +263,11 @@ jQuery( document ).ready( function(){
 });
 JAVASCRIPTS;
 
-    }    
-    
+    }
+
     /**
      * Returns the output of the color field.
-     * 
+     *
      * @since       2.1.5
      * @since       3.0.0     Removed unnecessary parameters.
      * @since       3.3.1     Changed from `_replyToGetField()`.
@@ -276,24 +276,24 @@ JAVASCRIPTS;
     protected function getField( $aField ) {
 
         // If the value is not set, apply the default value, 'transparent'.
-        $aField['value'] = is_null( $aField['value'] ) 
-            ? 'transparent' 
-            : $aField['value'];    
-            
+        $aField['value'] = is_null( $aField['value'] )
+            ? 'transparent'
+            : $aField['value'];
+
         $aField[ 'attributes' ] = $this->_getInputAttributes( $aField );
-        
-        return 
+
+        return
             $aField[ 'before_label' ]
             . "<div class='admin-page-framework-input-label-container'>"
                 . "<label for='{$aField[ 'input_id' ]}'>"
                     . $aField[ 'before_input' ]
                     . ( $aField[ 'label' ] && ! $aField[ 'repeatable' ]
-                        ? "<span " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-string' ) . ">" 
-                                . $aField['label'] 
+                        ? "<span " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-string' ) . ">"
+                                . $aField['label']
                             . "</span>"
-                        : "" 
+                        : ""
                     )
-                    . "<input " . $this->getAttributes( $aField[ 'attributes' ] ) . " />" 
+                    . "<input " . $this->getAttributes( $aField[ 'attributes' ] ) . " />"
                     . $aField[ 'after_input' ]
                     . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                 . "</label>"
@@ -301,18 +301,18 @@ JAVASCRIPTS;
                 . $this->_getColorPickerEnablerScript( "{$aField[ 'input_id' ]}" )
             . "</div>"
             . $aField['after_label'];
-        
+
     }
         /**
-         * 
+         *
          * @return      array
          * @since       3.5.10
          * @internal
          */
         private function _getInputAttributes( array $aField ) {
-                               
+
             return array(
-                'color'        => $aField['value'],    
+                'color'        => $aField['value'],
                 'value'        => $aField['value'],
                 'data-default' => isset( $aField[ 'default' ] )
                     ? $aField[ 'default' ]
@@ -320,8 +320,8 @@ JAVASCRIPTS;
                 'type'         => 'text', // it must be text
                 'class'        => trim( 'input_color ' . $aField['attributes']['class'] ),
             ) + $aField[ 'attributes' ];
-            
-        }    
+
+        }
         /**
          * A helper function for the above getColorField() method to add a script to enable the color picker.
          * @return      string
@@ -339,6 +339,6 @@ JAVASCRIPTS;
                     . $_sScript
                     . '/* ]]> */'
                 . "</script>";
-        }    
-    
+        }
+
 }

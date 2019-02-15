@@ -1,22 +1,22 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Retrieves the server set error reporting level.
- * 
+ *
  * @since       3.3.0
  * @see         http://www.efrag.gr/2013/01/how-to-get-your-error-reporting-constant-values/
  * @package     AdminPageFramework/Common/Utility/ErrorReporting
- * @internal    
+ * @internal
  */
 class AdminPageFramework_ErrorReporting {
-    
+
     private $_aLevels = array(
         1       => 'E_ERROR',
         2       => 'E_WARNING',
@@ -38,41 +38,41 @@ class AdminPageFramework_ErrorReporting {
     private $_iLevel;
 
     public function __construct( $iLevel=null ) {
-        $this->_iLevel = null !== $iLevel 
+        $this->_iLevel = null !== $iLevel
             ? $iLeevl
             : error_reporting();
     }
-    
+
     /**
      * Returns the readable error level description.
      */
     public function getErrorLevel() {
         return $this->_getErrorDescription( $this->_getIncluded() );
-    }    
+    }
         /**
-         * 
+         *
          * @return  array
          */
         private function _getIncluded() {
-            
+
             $_aIncluded = array();
             foreach( $this->_aLevels as $_iLevel => $iLevelText ) {
-                
+
                 // This is where we check if a level was used or not
                 if ( $this->_iLevel & $_iLevel ) {
                     $_aIncluded[] = $_iLevel;
                 }
-                
+
             }
             return $_aIncluded;
-            
+
         }
 
         private function _getErrorDescription( $aIncluded ) {
-            
+
             $_iAll          = count( $this->_aLevels );
             $_aValues       = array();
-            
+
             if ( count( $aIncluded ) > $_iAll / 2 ) {
                 $_aValues[] = 'E_ALL';
                 foreach( $this->_aLevels as $_iLevel => $iLevelText ) {
@@ -81,7 +81,7 @@ class AdminPageFramework_ErrorReporting {
                     }
                 }
                 return implode( ' & ~', $_aValues );
-            } 
+            }
             foreach( $aIncluded as $_iLevel ) {
                 $_aValues[] = $this->_aLevels[ $_iLevel ];
             }

@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -19,21 +19,21 @@
  * @internal
  */
 class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_View___Fieldset_Base {
-          
+
     /**
      * Returns the field-set HTML output.
-     * 
+     *
      * @since       3.6.0
      * @return      string
      */
     public function get() {
 
-        $_aOutputs      = array(); 
+        $_aOutputs      = array();
 
-        // 1. Prepend the field error message. 
+        // 1. Prepend the field error message.
         $_oFieldError   = new AdminPageFramework_Form_View___Fieldset___FieldError(
-            $this->aErrors, 
-            $this->aFieldset[ '_section_path_array' ], 
+            $this->aErrors,
+            $this->aFieldset[ '_section_path_array' ],
             $this->aFieldset[ '_field_path_array' ],
             $this->aFieldset[ 'error_message' ]
         );
@@ -45,48 +45,48 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
             $this->aOptions
         );
         $_aFields = $_oFieldsFormatter->get();
-            
+
         // 3. Get the field and its sub-fields output.
-        $_aOutputs[] = $this->_getFieldsOutput( 
+        $_aOutputs[] = $this->_getFieldsOutput(
             $this->aFieldset,
-            $_aFields, 
-            $this->aCallbacks 
+            $_aFields,
+            $this->aCallbacks
         );
 
         // 4. Return the entire output.
-        return $this->_getFinalOutput( 
-            $this->aFieldset, 
-            $_aOutputs, 
+        return $this->_getFinalOutput(
+            $this->aFieldset,
+            $_aOutputs,
             count( $_aFields )
         );
-     
+
     }
-    
+
         /**
          * Returns the output of the given fieldset (main field and its sub-fields) array.
-         * 
+         *
          * @since   3.1.0
          * @since   3.2.0   Added the `$aCallbacks` parameter.
          * @since   3.8.0   Added the `$aFieldset` parameter
          * @return  string
-         */ 
+         */
         private function _getFieldsOutput( $aFieldset, array $aFields, array $aCallbacks=array() ) {
 
             $_aOutput = array();
             foreach( $aFields as $_isIndex => $_aField ) {
-                $_aOutput[] = $this->_getEachFieldOutput( 
-                    $_aField, 
-                    $_isIndex, 
+                $_aOutput[] = $this->_getEachFieldOutput(
+                    $_aField,
+                    $_isIndex,
                     $aCallbacks,
                     $this->isLastElement( $aFields, $_isIndex )
                 );
-            }     
+            }
             return implode( PHP_EOL, array_filter( $_aOutput ) );
-            
+
         }
-        
-           
-               
+
+
+
             /**
              * Returns the HTML output of the given field.
              * @internal
@@ -94,40 +94,40 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
              * @return      string      the HTML output of the given field.
              */
             private function _getEachFieldOutput( $aField, $isIndex, array $aCallbacks, $bIsLastElement=false ) {
-                
-                // Field type definition - allows mixed field types in sub-fields 
+
+                // Field type definition - allows mixed field types in sub-fields
                 $_aFieldTypeDefinition = $this->_getFieldTypeDefinition( $aField[ 'type' ] );
                 if ( ! is_callable( $_aFieldTypeDefinition[ 'hfRenderField' ] ) ) {
                     return '';
-                }     
+                }
 
-                // Set some internal keys                 
+                // Set some internal keys
                 $_oSubFieldFormatter = new AdminPageFramework_Form_Model___Format_EachField(
-                    $aField, 
-                    $isIndex, 
-                    $aCallbacks, 
+                    $aField,
+                    $isIndex,
+                    $aCallbacks,
                     $_aFieldTypeDefinition
                 );
                 $aField = $_oSubFieldFormatter->get();
 
                 // Callback the registered function to output the field
-                return $this->_getFieldOutput( 
+                return $this->_getFieldOutput(
                     call_user_func_array(
                         $_aFieldTypeDefinition[ 'hfRenderField' ],
                         array( $aField )
-                    ), 
-                    $aField, 
-                    $bIsLastElement 
+                    ),
+                    $aField,
+                    $bIsLastElement
                 );
 
             }
 
-                /** 
+                /**
                  * Retrieves a field output.
-                 * 
+                 *
                  * @since       3.8.0
                  * @return      string
-                 */ 
+                 */
                 private function _getFieldOutput( $sContent, $aField, $bIsLastElement ) {
                     $_oFieldAttribute = new AdminPageFramework_Form_View___Attribute_Field( $aField );
                     return $aField[ 'before_field' ]
@@ -137,19 +137,19 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                             . $this->_getDelimiter( $aField, $bIsLastElement )
                         . "</div>"
                         . $aField[ 'after_field' ];
-                }            
-            
+                }
+
                 /**
                  * Embeds an internal hidden input for the 'save' argument.
                  * @since       3.6.0
                  * @return      string
                  */
                 private function _getUnsetFlagFieldInputTag( $aField ) {
-                    
-                    if ( false !== $aField[ 'save' ] ) {                
+
+                    if ( false !== $aField[ 'save' ] ) {
                         return '';
                     }
-                    return $this->getHTMLTag( 
+                    return $this->getHTMLTag(
                         'input',
                         array(
                             'type'  => 'hidden',
@@ -158,11 +158,11 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                             'class' => 'unset-element-names element-address',
                         )
                     );
-                    
-                }                 
+
+                }
                 /**
                  * Returns the registered field type definition array of the given field type slug.
-                 * 
+                 *
                  * @remark      The $this->aFieldTypeDefinitions property stores default key-values of all the registered field types.
                  * @internal
                  * @since       3.5.3
@@ -174,7 +174,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                         $sFieldTypeSlug,
                         $this->aFieldTypeDefinitions[ 'default' ]
                     );
-                }  
+                }
 
                 /**
                  * Returns the HTML output of delimiter
@@ -184,7 +184,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                  */
                 private function _getDelimiter( $aField, $bIsLastElement ) {
                     return $aField[ 'delimiter' ]
-                        ? "<div " . $this->getAttributes( 
+                        ? "<div " . $this->getAttributes(
                                 array(
                                     'class' => 'delimiter',
                                     'id'    => "delimiter-{$aField[ 'input_id' ]}",
@@ -193,59 +193,59 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                                         "display:none;",
                                         ""
                                     ),
-                                ) 
+                                )
                             ) . ">"
                                 . $aField[ 'delimiter' ]
                             . "</div>"
                         : '';
-                }                
-                
+                }
+
         /**
          * Returns the final fields output.
-         * 
+         *
          * @since       3.1.0
          * @return      string
          */
         private function _getFinalOutput( $aFieldset, array $aFieldsOutput, $iFieldsCount ) {
-                            
+
             $_oFieldsetAttributes   = new AdminPageFramework_Form_View___Attribute_Fieldset( $aFieldset );
             return $aFieldset[ 'before_fieldset' ]
                 . "<fieldset " . $_oFieldsetAttributes->get() . ">"
                     . $this->_getEmbeddedFieldTitle( $aFieldset )
-                    . $this->_getChildFieldTitle( $aFieldset )                
+                    . $this->_getChildFieldTitle( $aFieldset )
                     . $this->_getFieldsetContent( $aFieldset, $aFieldsOutput, $iFieldsCount )
                     . $this->_getExtras( $aFieldset, $iFieldsCount )
                 . "</fieldset>"
                 . $aFieldset[ 'after_fieldset' ];
-                        
+
         }
             /**
-             * 
+             *
              * @remark      For `section_title` fields and fields with the `placement` argument of the value of `section_title` or `field_title`.
              * @return      string
              * @since       3.8.0
              */
             private function _getEmbeddedFieldTitle( $aFieldset ) {
-                
+
                 if ( ! $aFieldset[ '_is_title_embedded' ] ) {
                     return '';
                 }
 
-                $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle( 
-                    $aFieldset, 
-                    '', 
-                    $this->aOptions,   
-                    $this->aErrors, 
-                    $this->aFieldTypeDefinitions, 
+                $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle(
+                    $aFieldset,
+                    '',
+                    $this->aOptions,
+                    $this->aErrors,
+                    $this->aFieldTypeDefinitions,
                     $this->aCallbacks,
                     $this->oMsg
                 );
                 return $_oFieldTitle->get();
-    
+
             }
-        
+
             /**
-             * 
+             *
              * @remark      Used by inline-mixed fields and nested fields.
              * @return      string
              * @since       3.8.0
@@ -257,32 +257,32 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                 }
                 if ( $aFieldset[ '_is_title_embedded' ] ) {
                     return '';
-                }                
-                $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle( 
-                    $aFieldset, 
-                    array( 'admin-page-framework-child-field-title' ), 
-                    $this->aOptions,   
-                    $this->aErrors, 
-                    $this->aFieldTypeDefinitions, 
+                }
+                $_oFieldTitle = new AdminPageFramework_Form_View___FieldTitle(
+                    $aFieldset,
+                    array( 'admin-page-framework-child-field-title' ),
+                    $this->aOptions,
+                    $this->aErrors,
+                    $this->aFieldTypeDefinitions,
                     $this->aCallbacks,
                     $this->oMsg
                 );
                 return $_oFieldTitle->get();
-                
+
             }
-        
+
             /**
              * @since       3.6.1
              * @return      string
              */
             private function _getFieldsetContent( $aFieldset, $aFieldsOutput, $iFieldsCount ) {
-                              
+
                 if ( is_scalar( $aFieldset[ 'content' ] ) ) {
                     return $aFieldset[ 'content' ];
                 }
-            
-                $_oFieldsAttributes     = new AdminPageFramework_Form_View___Attribute_Fields( 
-                    $aFieldset, 
+
+                $_oFieldsAttributes     = new AdminPageFramework_Form_View___Attribute_Fields(
+                    $aFieldset,
                     array(),    // attribute array
                     $iFieldsCount
                 );
@@ -290,35 +290,35 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                         . $aFieldset[ 'before_fields' ]
                             . implode( PHP_EOL, $aFieldsOutput )
                         . $aFieldset[ 'after_fields' ]
-                    . "</div>";          
-            
+                    . "</div>";
+
             }
-            
+
             /**
              * Returns the output of the extra elements for the fields such as description and JavaScript.
-             * 
-             * The additional but necessary elements are placed outside of the `fields` tag. 
+             *
+             * The additional but necessary elements are placed outside of the `fields` tag.
              * @return      string
              */
             private function _getExtras( $aField, $iFieldsCount ) {
-                
+
                 $_aOutput = array();
-                
+
                 // Descriptions
                 $_oFieldDescription = new AdminPageFramework_Form_View___Description(
                     $aField[ 'description' ],
                     'admin-page-framework-fields-description'   // class selector
                 );
                 $_aOutput[] = $_oFieldDescription->get();
-                    
+
                 // Dimensional keys of repeatable and sortable fields
                 $_aOutput[] = $this->_getDynamicElementFlagFieldInputTag( $aField );
-                    
-                // Repeatable and sortable scripts 
+
+                // Repeatable and sortable scripts
                 $_aOutput[] = $this->_getFieldScripts( $aField, $iFieldsCount );
-                
+
                 return implode( PHP_EOL, array_filter( $_aOutput ) );
-                
+
             }
                 /**
                  * Embeds an internal hidden input for the 'sortable' and 'repeatable' arguments.
@@ -326,7 +326,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                  * @return      string
                  */
                 private function _getDynamicElementFlagFieldInputTag( $aFieldset ) {
-                    
+
                     if ( ! empty( $aFieldset[ 'repeatable' ] ) ) {
                         return $this->_getRepeatableFieldFlagTag( $aFieldset );
                     }
@@ -334,35 +334,18 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                         return $this->_getSortableFieldFlagTag( $aFieldset );
                     }
                     return '';
-                    
+
                 }
                     /**
                      * @since       3.6.2
                      * @return      string
                      */
                     private function _getRepeatableFieldFlagTag( $aFieldset ) {
-                        return $this->getHTMLTag( 
+                        return $this->getHTMLTag(
                             'input',
                             array(
                                 'type'                      => 'hidden',
-                                'name'                      => '__repeatable_elements_' . $aFieldset[ '_structure_type' ] 
-                                    . '[' . $aFieldset[ '_field_address' ] . ']',
-                                'class'                     => 'element-address',
-                                'value'                     => $aFieldset[ '_field_address' ],
-                                'data-field_address_model'  => $aFieldset[ '_field_address_model' ],
-                            )
-                        );
-                    }                    
-                    /**
-                     * @since       3.6.2
-                     * @return      string
-                     */
-                    private function _getSortableFieldFlagTag( $aFieldset ) {
-                        return $this->getHTMLTag( 
-                            'input',
-                            array(
-                                'type'                      => 'hidden',
-                                'name'                      => '__sortable_elements_' . $aFieldset[ '_structure_type' ] 
+                                'name'                      => '__repeatable_elements_' . $aFieldset[ '_structure_type' ]
                                     . '[' . $aFieldset[ '_field_address' ] . ']',
                                 'class'                     => 'element-address',
                                 'value'                     => $aFieldset[ '_field_address' ],
@@ -370,30 +353,47 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                             )
                         );
                     }
-                    
+                    /**
+                     * @since       3.6.2
+                     * @return      string
+                     */
+                    private function _getSortableFieldFlagTag( $aFieldset ) {
+                        return $this->getHTMLTag(
+                            'input',
+                            array(
+                                'type'                      => 'hidden',
+                                'name'                      => '__sortable_elements_' . $aFieldset[ '_structure_type' ]
+                                    . '[' . $aFieldset[ '_field_address' ] . ']',
+                                'class'                     => 'element-address',
+                                'value'                     => $aFieldset[ '_field_address' ],
+                                'data-field_address_model'  => $aFieldset[ '_field_address_model' ],
+                            )
+                        );
+                    }
+
                 /**
                  * Returns the output of JavaScript scripts for the field (and its sub-fields).
-                 * 
+                 *
                  * @since       3.1.0
                  * @return      string
                  */
                 private function _getFieldScripts( $aField, $iFieldsCount ) {
-                    
+
                     $_aOutput   = array();
-                    
-                    // Add the repeater script 
+
+                    // Add the repeater script
                     $_aOutput[] = ! empty( $aField[ 'repeatable' ] )
                         ? $this->_getRepeaterFieldEnablerScript( 'fields-' . $aField[ 'tag_id' ], $iFieldsCount, $aField[ 'repeatable' ] )
                         : '';
 
-                    // Add the sortable script - if the number of fields is only one, no need to sort the field. 
+                    // Add the sortable script - if the number of fields is only one, no need to sort the field.
                     // Repeatable fields can make the number increase so here it checks the repeatability.
                     $_aOutput[] = ! empty( $aField[ 'sortable' ] ) && ( $iFieldsCount > 1 || ! empty( $aField[ 'repeatable' ] ) )
                         ? $this->_getSortableFieldEnablerScript( 'fields-' . $aField[ 'tag_id' ] )
-                        : '';     
-                    
+                        : '';
+
                     return implode( PHP_EOL, $_aOutput );
-                    
+
                 }
-            
+
 }

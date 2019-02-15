@@ -1,15 +1,15 @@
 <?php
 /**
  * Admin Page Framework Loader
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 /**
  * Adds a page to the loader plugin.
- * 
+ *
  * @since       3.8.14
  * @package     AdminPageFramework/Example
  */
@@ -32,16 +32,16 @@ class APF_Demo_Test {
             'set_up_' . $this->_sClassName,
             array( $this, 'replyToSetUp' )
         );
-        
+
     }
-    
+
     /**
      * @callback        action      set_up_{instantiated class name}
      */
     public function replyToSetUp( $oFactory ) {
 // new AjaxTestCustomFieldType( $oFactory->oProp->sClassName );
         /**
-         * ( required ) Add sub-menu items (pages or links) 
+         * ( required ) Add sub-menu items (pages or links)
          */
         $oFactory->addSubMenuItems(
             array(
@@ -49,12 +49,12 @@ class APF_Demo_Test {
                 'page_slug'     => $this->_sPageSlug,
                 'order'         => 35,
             )
-        );        
+        );
 // new APF_Demo_Test_AjaxField( $oFactory, $this->_sPageSlug );
         add_action( 'load_' . $this->_sPageSlug, array( $this, 'replyToLoadPage' ) );
-        
+
     }
-    
+
     /**
      * @return      void
      * @callback    action      load_{page slug}
@@ -69,11 +69,11 @@ class APF_Demo_Test {
         );
         foreach ( $_aTabClasses as $_sTabClassName ) {
             if ( ! class_exists( $_sTabClassName ) ) {
-                continue;                
-            }        
+                continue;
+            }
             new $_sTabClassName( $oFactory, $this->_sPageSlug );
         }
-        
+
     }
 
 }

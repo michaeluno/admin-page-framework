@@ -1,36 +1,36 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * A text area field that lets the user set text values with multiple lines.
- * 
+ *
  * This class defines the `textarea` field type. With the `rich` argument, the TinyMCE editor is available.
- * 
+ *
  * <h3>Example</h3>
  * <code>
- *  array( 
+ *  array(
  *      'field_id'      => 'textarea',
- *      'title'         => 'Text Area', 
+ *      'title'         => 'Text Area',
  *      'type'          => 'textarea',
  *      'default'       => 'This is a default string value.',
  *      'attributes'    => array(
  *          'rows' => 6,
  *          'cols' => 60,
  *      ),
- *  ),            
+ *  ),
  * </code>
  * <code>
- *  array( 
+ *  array(
  *      'field_id'      => 'rich_textarea',
  *      'title'         => 'Rich Text Area',
  *      'type'          => 'textarea',
- *      'rich'          => true, 
+ *      'rich'          => true,
  *      'attributes'    => array(
  *          'field' => array(
  *              'style' => 'width: 100%;' // since the rich editor does not accept the cols attribute, set the width by inline-style.
@@ -39,13 +39,13 @@
  *  ),
  * </code>
  * <code>
- *  array( 
+ *  array(
  *      'field_id'      => 'rich_textarea',
  *      'title'         => 'Rich Text Area',
  *      'type'          => 'textarea',
  *      // pass the setting array to customize the editor. For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.
- *      'rich' => array( 
- *          'media_buttons' => false, 
+ *      'rich' => array(
+ *          'media_buttons' => false,
  *          'tinymce'       => false
  *      ),
  *      'attributes'    => array(
@@ -53,9 +53,9 @@
  *              'style' => 'width: 100%;' // since the rich editor does not accept the cols attribute, set the width by inline-style.
  *          ),
  *      ),
- *  ),    
+ *  ),
  * </code>
- * 
+ *
  * <h2>Field Definition Arguments</h2>
  * <h3>Field Type Specific Arguments</h3>
  * <ul>
@@ -80,30 +80,30 @@
  *     (source, [wp_editor](http://codex.wordpress.org/Function_Reference/wp_editor))
  *     </li>
  * </ul>
- * 
+ *
  * <h3>Common Field Definition Arguments</h3>
  * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
- * 
+ *
  * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/textarea.png
  * @package         AdminPageFramework/Common/Form/FieldType
  * @since           2.1.5
  * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  */
 class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType {
-    
+
     /**
      * Defines the field type slugs used for this field type.
      */
     public $aFieldTypeSlugs = array( 'textarea' );
 
     /**
-     * Defines the default key-values of this field type. 
-     * 
+     * Defines the default key-values of this field type.
+     *
      * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
         'rich'          => false,
-        'attributes'    => array(     
+        'attributes'    => array(
             'autofocus'     => null,
             'cols'          => 60,
             'disabled'      => null,
@@ -113,7 +113,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
             'readonly'      => null,
             'required'      => null,
             'rows'          => 4,
-            'wrap'          => null,     
+            'wrap'          => null,
         ),
     );
 
@@ -123,7 +123,7 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
      * @since       3.3.1       Changed from `_replyToGetScripts()`.
      * @internal
      * @return      string
-     */ 
+     */
     public function getScripts() {
         $_aJSArray = json_encode( $this->aFieldTypeSlugs );
         return <<<JAVASCRIPTS
@@ -457,16 +457,16 @@ jQuery( document ).ready( function(){
 });
 JAVASCRIPTS;
 
-    }    
-    
+    }
+
     /**
      * Returns the field type specific CSS rules.
-     * 
+     *
      * @since       2.1.5
      * @since       3.3.1       Changed from `_replyToGetStyles()`.
      * @internal
      * @return      string
-     */ 
+     */
     protected function getStyles() {
         return <<<CSSRULES
 /* Textarea Field Type */
@@ -493,11 +493,11 @@ JAVASCRIPTS;
 }
 CSSRULES;
 
-    }    
-        
+    }
+
     /**
      * Returns the output of the 'textarea' input field.
-     * 
+     *
      * @since       2.1.5
      * @since       3.0.0       Removed redundant elements including parameters.
      * @since       3.3.1       Changed from `_replyToGetField()`.
@@ -508,20 +508,20 @@ CSSRULES;
 
         $_aOutput = array();
         foreach( ( array ) $aField[ 'label' ] as $_sKey => $_sLabel ) {
-            $_aOutput[] = $this->_getFieldOutputByLabel( 
-                $_sKey, 
-                $_sLabel, 
+            $_aOutput[] = $this->_getFieldOutputByLabel(
+                $_sKey,
+                $_sLabel,
                 $aField
             );
         }
-        
+
         // the repeatable field buttons will be replaced with this element.
         $_aOutput[] = "<div class='repeatable-field-buttons'></div>";
         return implode( '', $_aOutput );
-        
+
     }
         /**
-         * 
+         *
          * @internal
          * @since       3.5.8
          * @return      string
@@ -540,16 +540,16 @@ CSSRULES;
                         'name'  => $aField[ 'attributes' ][ 'name' ] . "[{$sKey}]",
                         'id'    => $aField[ 'attributes' ][ 'id' ] . "_{$sKey}",
                         'value' => $aField[ 'value' ],
-                    ) 
+                    )
                     + $aField[ 'attributes' ]
-                : $aField[ 'attributes' ];        
+                : $aField[ 'attributes' ];
             $_aOutput           = array(
                 $this->getElementByLabel( $aField['before_label'], $sKey, $aField[ 'label' ] ),
                 "<div class='admin-page-framework-input-label-container {$_sClassSelector}'>",
                     "<label for='" . $aField[ 'attributes' ][ 'id' ] . "'>",
                         $this->getElementByLabel( $aField['before_input'], $sKey, $aField[ 'label' ] ),
-                        $_sLabel 
-                            ? "<span " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-string' ) . ">" 
+                        $_sLabel
+                            ? "<span " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-string' ) . ">"
                                     . $_sLabel
                                 . "</span>"
                             : '',
@@ -560,20 +560,20 @@ CSSRULES;
                 $this->getElementByLabel( $aField['after_label'], $sKey, $aField[ 'label' ] ),
             );
             return implode( '', $_aOutput );
-  
-        }       
-    
+
+        }
+
         /**
          * Returns the output of the editor.
-         * 
+         *
          * @since       3.0.7
          * @internal
          * @return      string
          */
         private function _getEditor( $aField ) {
-                        
+
             unset( $aField['attributes']['value'] );
-            
+
             // For no TinyMCE
             if ( empty( $aField['rich'] ) || ! $this->isTinyMCESupported() ) {
                 return "<textarea " . $this->getAttributes( $aField['attributes'] ) . " >" // this method is defined in the base class
@@ -583,10 +583,10 @@ CSSRULES;
 
             // Rich editor
             ob_start();
-            wp_editor( 
+            wp_editor(
                 $aField['value'],
-                $aField['attributes']['id'],  
-                $this->uniteArrays( 
+                $aField['attributes']['id'],
+                $this->uniteArrays(
                     ( array ) $aField['rich'],
                     array(
                         'wpautop'           => true, // use wpautop?
@@ -600,26 +600,26 @@ CSSRULES;
                         'teeny'             => false, // output the minimal editor config used in Press This
                         'dfw'               => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
                         'tinymce'           => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
-                        'quicktags'         => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()     
+                        'quicktags'         => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
                     )
                 )
             );
             $_sContent = ob_get_contents();
             ob_end_clean();
-            
+
             return $_sContent
                 . $this->_getScriptForRichEditor( $aField['attributes']['id'] );
-            
+
         }
-    
+
         /**
          * Provides the JavaScript script that stores quick tags and tinymce settings.
-         * 
+         *
          * @since       2.1.2
          * @since       2.1.5       Moved from AdminPageFramework_FormField.
          * @internal
          * @return      string
-         */    
+         */
         private function _getScriptForRichEditor( $sIDSelector ) {
 
             // id: wp-sample_rich_textarea_0-wrap
@@ -647,7 +647,7 @@ JAVASCRIPTS;
                     . '/* <![CDATA[ */'
                     . $_sScript
                     . '/* ]]> */'
-                . "</script>";            
-        }    
-        
+                . "</script>";
+        }
+
 }

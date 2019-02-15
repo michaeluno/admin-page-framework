@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -15,7 +15,7 @@
  * @internal
  */
 class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form_View___CSS_Base {
-    
+
     /**
      * @since       3.7.0
      * @return      string
@@ -25,11 +25,11 @@ class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form
     }
          /**
          * Returns the CSS rules for form fields.
-         * 
+         *
          * @since       3.4.0
          * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @internal
-         */    
+         */
         private function _getFormSectionRules() {
             $_sCSSRules = <<<CSSRULES
 /* Section Table */

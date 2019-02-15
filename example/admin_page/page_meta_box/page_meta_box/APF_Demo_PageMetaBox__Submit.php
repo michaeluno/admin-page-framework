@@ -1,22 +1,22 @@
 <?php
 /**
  * Amazon Auto Links
- * 
+ *
  * http://en.michaeluno.jp/amazon auto links/
- * Copyright (c) 2013-2018, Michael Uno
- * 
+ * Copyright (c) 2013-2019, Michael Uno
+ *
  */
- 
+
 /**
  * @since       3.5.12
  */
 class APF_Demo_PageMetaBox__Submit extends AdminPageFramework_PageMetaBox {
-        
+
     /**
      * Sets up form fields.
-     */ 
+     */
     public function setUp() {
-        
+
         $this->addSettingFields(
             array(
                 'field_id'          => '__submit',
@@ -29,10 +29,10 @@ class APF_Demo_PageMetaBox__Submit extends AdminPageFramework_PageMetaBox {
                         'style' => 'width: 100%; text-align: center;',
                     ),
                 )
-            )        
+            )
         );
-        
+
     }
 
-    
+
 }

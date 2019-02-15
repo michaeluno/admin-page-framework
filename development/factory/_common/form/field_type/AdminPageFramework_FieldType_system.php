@@ -1,15 +1,15 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Defines the `system` field type.
- * 
+ *
  * <h2>Field Definition Arguments</h2>
  * <h3>Field Type Specific Arguments</h3>
  * <ul>
@@ -28,37 +28,37 @@
  *     </li>
  *     <li>**print_type** - [3.3.6+] (optional, integer) Indicates how the data array should be displayed. 1: readable array representation. 2. the output of the print_r() function. Default: `1`.</li>
  * </ul>
- * 
+ *
  * <h3>Common Field Definition Arguments</h3>
  * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
- * 
+ *
  * <h2>Example</h2>
  * <code>
  *  array(
  *      'field_id'      => 'system_information',
- *      'type'          => 'system',     
+ *      'type'          => 'system',
  *      'title'         => __( 'System Information', 'admin-page-framework-loader' ),
  *      'data'          => array(
  *          'Custom Data'           => __( 'Here you can insert your own custom data with the data argument.', 'admin-page-framework-loader' ),
- *          
+ *
  *          // To remove items, set empty values
- *          'Current Time'          => '', 
- *          'Admin Page Framework'  => '', 
+ *          'Current Time'          => '',
+ *          'Admin Page Framework'  => '',
  *      ),
  *      'save'          => false,
  *  ),
  * </code>
- * 
- * 
+ *
+ *
  * @image       http://admin-page-framework.michaeluno.jp/image/common/form/field_type/system.png
  * @package     AdminPageFramework/Common/Form/FieldType
  * @since       3.3.0
  */
 class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
-    
+
     /**
      * Defines the field type slugs used for this field type.
-     * 
+     *
      * The slug is used for the type key in a field definition array.
      * <code>
      * $this->addSettingFields(
@@ -73,15 +73,15 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      * @var         array
      */
     public $aFieldTypeSlugs = array( 'system', );
-    
+
     /**
-     * Defines the default key-values of this field type. 
-     * 
+     * Defines the default key-values of this field type.
+     *
      * The keys are used for the field definition array.
      * <code>
      *     $this->addSettingFields(
      *      array(
-     *          'section_id'    => '...',    
+     *          'section_id'    => '...',
      *          'type'          => '...',
      *          'field_id'      => '...',
      *          'my_custom_key' => '...',    // <-- THIS PART
@@ -103,33 +103,33 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
             'placeholder'   => null,
             'readonly'      => 'readonly',
             'required'      => null,
-            'wrap'          => null,  
+            'wrap'          => null,
             'style'         => null,
             'onclick'       => 'this.focus();this.select()',
-        ),    
+        ),
     );
 
     /**
      * The user constructor.
-     * 
+     *
      * Loaded at the end of the constructor.
      * @internal
      */
     protected function construct() {}
-        
+
     /**
      * Loads the field type necessary components.
-     * 
-     * This method is triggered when a field definition array that calls this field type is parsed. 
+     *
+     * This method is triggered when a field definition array that calls this field type is parsed.
      * @internal
-     */ 
-    protected function setUp() {}    
+     */
+    protected function setUp() {}
 
     /**
      * Returns an array holding the urls of enqueuing scripts.
-     * 
+     *
      * The returning array should be composed with all numeric keys. Each element can be either a string( the url or the path of the source file) or an array of custom argument.
-     * 
+     *
      * <h4>Custom Argument Array</h4>
      * <ul>
      *     <li><strong>src</strong> - ( required, string ) The url or path of the target source file</li>
@@ -139,17 +139,17 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      *     <li><strong>translation</strong> - ( optional, array ) The translation array. The handle ID will be used for the object name.</li>
      *     <li><strong>in_footer</strong> - ( optional, boolean ) Whether to enqueue the script before < / head > or before < / body > Default: <code>false</code>.</li>
      *     <li>**attributes** - (optional, array) [3.3.0+] attribute argument array. `array( 'async' => '', 'data-id' => '...' )`</li>
-     * </ul>     
+     * </ul>
      * @internal
      * @return      array
      */
-    protected function getEnqueuingScripts() { 
+    protected function getEnqueuingScripts() {
         return array();
     }
-    
+
     /**
      * Returns an array holding the urls of enqueuing styles.
-     * 
+     *
      * <h4>Custom Argument Array</h4>
      * <ul>
      *     <li><strong>src</strong> - ( required, string ) The url or path of the target source file</li>
@@ -161,36 +161,36 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
      * @return      array
      * @internal
      */
-    protected function getEnqueuingStyles() { 
+    protected function getEnqueuingStyles() {
         return array();
-    }            
+    }
 
 
     /**
      * Returns the field type specific JavaScript script.
      * @internal
      * @return      string
-     */ 
-    protected function getScripts() { 
+     */
+    protected function getScripts() {
         return '';
     }
 
     /**
      * Returns IE specific CSS rules.
-     * 
+     *
      * @internal
      * @return      string
      */
-    protected function getIEStyles() { 
-        return ''; 
+    protected function getIEStyles() {
+        return '';
     }
 
     /**
      * Returns the field type specific CSS rules.
-     * 
+     *
      * @internal
      * @return      string
-     */ 
+     */
     protected function getStyles() {
         return <<<CSSRULES
 .admin-page-framework-field-system {
@@ -209,47 +209,47 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
     overflow-x: scroll;            
 }
 CSSRULES;
-        
+
     }
 
-    
+
     /**
      * Returns the output of the geometry custom field type.
      */
     /**
      * Returns the output of the field type.
-     * 
+     *
      * @internal
      * @return      string
      */
-    protected function getField( $aField ) { 
+    protected function getField( $aField ) {
 
         $_aInputAttributes             = $aField[ 'attributes' ];
         $_aInputAttributes[ 'class' ] .= ' system';
         unset( $_aInputAttributes[ 'value' ] );
-        return 
+        return
             $aField[ 'before_label' ]
             . "<div class='admin-page-framework-input-label-container'>"
                 . "<label for='{$aField[ 'input_id' ]}'>"
                     . $aField[ 'before_input' ]
                     . ( $aField[ 'label' ] && ! $aField[ 'repeatable' ]
-                        ? "<span " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-string' ) . ">" 
-                                . $aField[ 'label' ] 
+                        ? "<span " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-string' ) . ">"
+                                . $aField[ 'label' ]
                             . "</span>"
-                        : "" 
+                        : ""
                     )
-                    . "<textarea " . $this->getAttributes( $_aInputAttributes ) . " >"    
+                    . "<textarea " . $this->getAttributes( $_aInputAttributes ) . " >"
                         . esc_textarea( $this->_getSystemInfomation( $aField[ 'value' ], $aField[ 'data' ], $aField[ 'print_type' ] ) )
                     . "</textarea>"
                     . $aField[ 'after_input' ]
                 . "</label>"
             . "</div>"
             . $aField[ 'after_label' ];
-        
-    }    
+
+    }
         /**
          * Returns the system information value for a textarea tag.
-         * 
+         *
          * @return      string      The human readable system information.
          * @internal
          */
@@ -264,7 +264,7 @@ CSSRULES;
                 $_aOutput[] = $this->_getSystemInfoBySection( $_sSection, $_aInfo, $iPrintType );
             }
             return implode( PHP_EOL, $_aOutput );
-            
+
         }
             /**
              * Returns the formatted system information array.
@@ -273,7 +273,7 @@ CSSRULES;
              * @return      array       the formatted system information array.
              */
             private function _getFormattedSystemInformation( $asCustomData ) {
-                
+
                 $_aData = $this->getAsArray( $asCustomData );
                 $_aData = $_aData + array(
                     'Admin Page Framework'  => isset( $_aData['Admin Page Framework'] )
@@ -289,11 +289,11 @@ CSSRULES;
                     'Server'                => $this->_getWebServerInfo( ! isset( $_aData['Server'] ) ),
                     'Browser'               => $this->_getClientInfo( ! isset( $_aData['Browser'] ) ),
                 );
-                
+
                 // Dropping empty elements allows the user to remove a section by setting an empty section.
                 return array_filter( $_aData );
-                
-            }        
+
+            }
             /**
              * Returns the system information by section.
              * @since       3.5.3
@@ -308,35 +308,35 @@ CSSRULES;
                     case 2: // use print_r()
                         return "[{$sSectionName}]" . PHP_EOL
                             . print_r( $aData, true ) . PHP_EOL;
-                }                      
+                }
             }
             /**
              * Returns a client information
-             * 
+             *
              * @internal
              * @since       3.4.6
              * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
              */
             private function _getClientInfo( $bGenerateInfo=true ) {
-                 
+
                 if ( ! $bGenerateInfo ) {
                     return '';
                 }
-                 
+
                 // Check the browscap value in the ini file first to prevent warnings from being populated
-                $_aBrowser = @ini_get( 'browscap' ) 
+                $_aBrowser = @ini_get( 'browscap' )
                     ? get_browser( $_SERVER['HTTP_USER_AGENT'], true )
                     : array();
                 unset( $_aBrowser['browser_name_regex'] );  // this element causes output to be blank
-                return empty( $_aBrowser ) 
+                return empty( $_aBrowser )
                     ? __( 'No browser information found.', 'admin-page-framework' )
                     : $_aBrowser;
-                   
+
             }
-            
+
             /**
              * Returns a error log by type.
-             * 
+             *
              * @internal
              * @since       3.5.3
              * @return      string      The found error log.
@@ -359,8 +359,8 @@ CSSRULES;
                 }
                 return empty( $_sLog )
                     ? $this->oMsg->get( 'no_log_found' )
-                    : $_sLog;            
-                
+                    : $_sLog;
+
             }
 
             /**
@@ -368,27 +368,27 @@ CSSRULES;
              */
             static private $_aSiteInfo;
             /**
-             * Returns the Wordpress installed site. 
-             * 
+             * Returns the Wordpress installed site.
+             *
              * Uses a cache if stored in a previous call.
-             * 
+             *
              * @internal
              * @since       3.4.6
              * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
              * @return      array      The generated site information array.
              */
             private function _getSiteInfoWithCache( $bGenerateInfo=true ) {
-                
+
                 if ( ! $bGenerateInfo || isset( self::$_aSiteInfo ) ) {
                     return self::$_aSiteInfo;
                 }
                 self::$_aSiteInfo = self::_getSiteInfo();
                 return self::$_aSiteInfo;
-                
+
             }
                 /**
                  * Returns the WordPress site information.
-                 * 
+                 *
                  * @internal
                  * @since       3.5.3
                  * @return      array       The WordPress site information.
@@ -399,8 +399,8 @@ CSSRULES;
                         __( 'Version', 'admin-page-framework' )                     => $GLOBALS[ 'wp_version' ],
                         __( 'Language', 'admin-page-framework' )                    => $this->getSiteLanguage(),
                         __( 'Memory Limit', 'admin-page-framework' )                => $this->getReadableBytes( $this->getNumberOfReadableSize( WP_MEMORY_LIMIT ) ),
-                        __( 'Multi-site', 'admin-page-framework' )                  => $this->getAOrB( is_multisite(), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ), 
-                        __( 'Permalink Structure', 'admin-page-framework' )         => get_option( 'permalink_structure' ), 
+                        __( 'Multi-site', 'admin-page-framework' )                  => $this->getAOrB( is_multisite(), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ),
+                        __( 'Permalink Structure', 'admin-page-framework' )         => get_option( 'permalink_structure' ),
                         __( 'Active Theme', 'admin-page-framework' )                => $this->_getActiveThemeName(),
                         __( 'Registered Post Statuses', 'admin-page-framework' )    => implode( ', ', get_post_stati() ),
                         'WP_DEBUG'                                                  => $this->getAOrB( $this->isDebugMode(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
@@ -412,14 +412,14 @@ CSSRULES;
                         'wp_remote_post()'                                          => $this->_getWPRemotePostStatus(),
                         'wp_remote_get()'                                           => $this->_getWPRemoteGetStatus(),
                         __( 'Multibite String Extension', 'admin-page-framework' )  => $this->getAOrB( function_exists( 'mb_detect_encoding' ), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
-                        __( 'WP_CONTENT_DIR Writeable', 'admin-page-framework' )    => $this->getAOrB( is_writable( WP_CONTENT_DIR ), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ), 
+                        __( 'WP_CONTENT_DIR Writeable', 'admin-page-framework' )    => $this->getAOrB( is_writable( WP_CONTENT_DIR ), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ),
                         __( 'Active Plugins', 'admin-page-framework' )              => PHP_EOL . $this->_getActivePlugins(),
                         __( 'Network Active Plugins', 'admin-page-framework' )      => PHP_EOL . $this->_getNetworkActivePlugins(),
                         __( 'Constants', 'admin-page-framework' )                   => $this->_getDefinedConstants( 'user' ),
-                    );                        
+                    );
                 }
                     /**
-                     * 
+                     *
                      * @since       3.5.12
                      * @return      string|array
                      * @internal
@@ -445,40 +445,40 @@ CSSRULES;
                                 'AUTH_COOKIE'           => '__masked__',
                                 'SECURE_AUTH_COOKIE'    => '__masked__',
                                 'LOGGED_IN_COOKIE'      => '__masked__',
-                                'TEST_COOKIE'           => '__masked__',      
-                                'DB_USER'               => '__masked__',      
-                                'DB_PASSWORD'           => '__masked__',      
-                                'DB_HOST'               => '__masked__',      
+                                'TEST_COOKIE'           => '__masked__',
+                                'DB_USER'               => '__masked__',
+                                'DB_PASSWORD'           => '__masked__',
+                                'DB_HOST'               => '__masked__',
                             ) + $_asConstants[ 'user' ];
                         }
                         return $_asConstants;
                     }
-                
+
                 /**
                  * Returns the active theme name.
                  * @internal
                  * @return      string
                  */
                 private function _getActiveThemeName() {
-                    
+
                     // If the WordPress version is less than 3.4,
                     if ( version_compare( $GLOBALS['wp_version'], '3.4', '<' ) ) {
                         $_aThemeData = get_theme_data( get_stylesheet_directory() . '/style.css' );
                         return $_aThemeData['Name'] . ' ' . $_aThemeData['Version'];
-                    } 
-                    
+                    }
+
                     $_oThemeData = wp_get_theme();
                     return $_oThemeData->Name . ' ' . $_oThemeData->Version;
-                    
-                }   
+
+                }
                 /**
                  * Returns a list of active plugins.
-                 * 
+                 *
                  * @return      string
                  * @internal
                  */
                 private function _getActivePlugins() {
-                
+
                     $_aPluginList       = array();
                     $_aActivePlugins    = get_option( 'active_plugins', array() );
                     foreach ( get_plugins() as $_sPluginPath => $_aPlugin ) {
@@ -488,15 +488,15 @@ CSSRULES;
                         $_aPluginList[] = '    ' . $_aPlugin['Name'] . ': ' . $_aPlugin['Version'];
                     }
                     return implode( PHP_EOL, $_aPluginList );
-                    
-                } 
+
+                }
                 /**
                  * Returns a list of network-activated plugins.
                  * @return      string
                  * @internal
                  */
                 private function _getNetworkActivePlugins() {
-                    
+
                     if ( ! is_multisite() ) {
                         return '';
                     }
@@ -510,21 +510,21 @@ CSSRULES;
                         $_aPluginList[] = '    ' . $_aPlugin['Name'] . ' :' . $_aPlugin['Version'];
                     }
                     return implode( PHP_EOL, $_aPluginList );
-                    
+
                 }
-                
+
                 /**
                  * Checks if the wp_remote_post() function is functioning.
-                 * 
+                 *
                  * @return      string
                  * @internal
                  */
                 private function _getWPRemotePostStatus() {
-                    
+
                     $_vResponse = $this->getTransient( 'apf_rp_check' );
                     $_vResponse = false === $_vResponse
-                        ? wp_remote_post( 
-                            // 'https://www.paypal.com/cgi-bin/webscr', 
+                        ? wp_remote_post(
+                            // 'https://www.paypal.com/cgi-bin/webscr',
                             add_query_arg( $_GET, admin_url( $GLOBALS['pagenow'] ) ),
                             array(
                                 'sslverify'     => false,
@@ -535,19 +535,19 @@ CSSRULES;
                         : $_vResponse;
                     $this->setTransient( 'apf_rp_check', $_vResponse, 60 );
                     return $this->getAOrB( $this->_isHttpRequestError( $_vResponse ), $this->oMsg->get( 'not_functional' ), $this->oMsg->get( 'functional' ) );
-                        
-                }   
+
+                }
                 /**
                  * Checks if the wp_remote_post() function is functioning.
-                 * 
+                 *
                  * @return      string
                  * @internal
                  */
                 private function _getWPRemoteGetStatus() {
-                    
+
                     $_vResponse = $this->getTransient( 'apf_rg_check' );
                     $_vResponse = false === $_vResponse
-                        ? wp_remote_get( 
+                        ? wp_remote_get(
                             add_query_arg( $_GET + array( 'apf_remote_request_test' => '_testing' ), admin_url( $GLOBALS['pagenow'] ) ),
                             array(
                                 'sslverify'     => false,
@@ -557,8 +557,8 @@ CSSRULES;
                         : $_vResponse;
                     $this->setTransient( 'apf_rg_check', $_vResponse, 60 );
                     return $this->getAOrB( $this->_isHttpRequestError( $_vResponse ), $this->oMsg->get( 'not_functional' ), $this->oMsg->get( 'functional' ) );
-                    
-                }       
+
+                }
                     /**
                      * Checks the HTTP request response has an error.
                      * @since       3.5.3
@@ -566,7 +566,7 @@ CSSRULES;
                      * @internal
                      */
                     private function _isHttpRequestError( $mResponse ) {
-                        
+
                         // if ( ! is_wp_error( $_vResponse ) && $_vResponse['response']['code'] >= 200 && $_vResponse['response']['code'] < 300 ) {
                         //  echo 'no error' .
                         // }
@@ -581,31 +581,31 @@ CSSRULES;
                         }
                         return false;
                     }
-                    
+
             /**
              * Caches the php information.
              * @since       3.4.6
              * @internal
              */
             static private $_aPHPInfo;
-            
+
             /**
              * Returns the PHP information.
-             * 
+             *
              * @internal
              * @since       3.4.6
              * @since       3.5.3       Added the $bGenerateInfo parameter. This is to reduce conditional statement in the caller method.
              */
             private function _getPHPInfo( $bGenerateInfo=true ) {
-                
+
                 if ( ! $bGenerateInfo || isset( self::$_aPHPInfo ) ) {
                     return self::$_aPHPInfo;
                 }
-                
+
                 $_oErrorReporting   = new AdminPageFramework_ErrorReporting;
                 self::$_aPHPInfo = array(
                     __( 'Version', 'admin-page-framework' )                 => phpversion(),
-                    __( 'Safe Mode', 'admin-page-framework' )               => $this->getAOrB( @ini_get( 'safe_mode' ), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ), 
+                    __( 'Safe Mode', 'admin-page-framework' )               => $this->getAOrB( @ini_get( 'safe_mode' ), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ),
                     __( 'Memory Limit', 'admin-page-framework' )            => @ini_get( 'memory_limit' ),
                     __( 'Upload Max Size', 'admin-page-framework' )         => @ini_get( 'upload_max_filesize' ),
                     __( 'Post Max Size', 'admin-page-framework' )           => @ini_get( 'post_max_size' ),
@@ -623,27 +623,27 @@ CSSRULES;
                     __( 'SOAP', 'admin-page-framework' )                    => $this->getAOrB( class_exists( 'SoapClient' ),     $this->oMsg->get( 'supported' ), $this->oMsg->get( 'not_supported' ) ),
                     __( 'SUHOSIN', 'admin-page-framework' )                 => $this->getAOrB( extension_loaded( 'suhosin' ),    $this->oMsg->get( 'supported' ), $this->oMsg->get( 'not_supported' ) ),
                     'ini_set()'                                             => $this->getAOrB( function_exists( 'ini_set' ),     $this->oMsg->get( 'supported' ), $this->oMsg->get( 'not_supported' ) ),
-                ) 
+                )
                 + $this->getPHPInfo()
-                + array( 
+                + array(
                     __( 'Constants', 'admin-page-framework' )               => $this->_getDefinedConstants( null, 'user' )
                 )
                 ;
-                
+
                 return self::$_aPHPInfo;
-                
+
             }
-                      
+
             /**
              * Returns the web server information.
              * @internal
              * @since       3.4.6
              * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
              * @return      array|string
-             */                      
+             */
             private function _getWebServerInfo( $bGenerateInfo=true ) {
-                        
-                return $bGenerateInfo 
+
+                return $bGenerateInfo
                     ? array(
                         __( 'Web Server', 'admin-page-framework' )                  => $_SERVER['SERVER_SOFTWARE'],
                         'SSL'                                                       => $this->getAOrB( is_ssl(), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ),
@@ -655,7 +655,7 @@ CSSRULES;
                         __( 'Session Use Only Cookies', 'admin-page-framework' )    => $this->getAOrB( @ini_get( 'session.use_only_cookies' ), $this->oMsg->get( 'on' ), $this->oMsg->get( 'off' ) ),
                     ) + $_SERVER
                     : '';
-                
+
             }
-    
+
 }

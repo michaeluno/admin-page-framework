@@ -1,35 +1,35 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides JavaScript scripts for forms.
- * 
- * @since       3.7.0      
+ *
+ * @since       3.7.0
  * @package     AdminPageFramework/Common/Form/View/JavaScript
  * @internal
  */
 class AdminPageFramework_Form_View___Script_Form extends AdminPageFramework_Form_View___Script_Base {
-    
+
     /**
      * Returns an inline JavaScript script.
-     * 
+     *
      * @since       3.2.0
      * @since       3.3.0       Changed the name from `getjQueryPlugin()`.
      * @param       $oMsg       object      The message object.
      * @return      string      The inline JavaScript script.
-     */        
+     */
     static public function getScript( /* $oMsg */ ) {
-        
+
         // Uncomment these lines when parameters need to be accessed.
         // $_aParams   = func_get_args() + array( null );
-        // $_oMsg      = $_aParams[ 0 ];            
-        
+        // $_oMsg      = $_aParams[ 0 ];
+
         return <<<JAVASCRIPTS
 ( function( $ ) {
 
@@ -83,12 +83,12 @@ class AdminPageFramework_Form_View___Script_Form extends AdminPageFramework_Form
     
 }( jQuery ));
 JAVASCRIPTS;
-        
+
     }
 
     /**
      * Indicates whether the tab enabler script is loaded or not.
      */
     static private $_bLoadedTabEnablerScript = false;
-    
+
 }

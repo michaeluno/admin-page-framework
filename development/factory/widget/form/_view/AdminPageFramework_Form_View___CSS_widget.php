@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -15,22 +15,22 @@
  * @internal
  */
 class AdminPageFramework_Form_View___CSS_widget extends AdminPageFramework_Form_View___CSS_Base {
-    
+
     /**
      * @since       3.7.0
      * @return      string
      */
-    protected function _get() {        
+    protected function _get() {
         return $this->_getWidgetRules();
     }
         /**
          * Returns the widget form specific CSS rules.
-         * 
+         *
          * @since       3.2.0
          * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @internal
          * @return      string
-         */        
+         */
         private function _getWidgetRules() {
             return <<<CSSRULES
 /* Widget Forms [3.2.0+] */
@@ -82,8 +82,8 @@ class AdminPageFramework_Form_View___CSS_widget extends AdminPageFramework_Form_
 
 }
 CSSRULES;
-        }        
-        
+        }
+
         /**
          * @since       3.7.0
          * @return      string
@@ -99,11 +99,11 @@ CSSRULES;
     table-layout: fixed;
 }
 CSSRULES;
-            
+
             }
             // If the WordPress version is greater than equal to 3.8, add MP6(the admin style introduced in 3.8) specific CSS rules.
-            if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) ) {        
-            
+            if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) ) {
+
                 $_sCSSRules .= <<<CSSRULES
 /* Widget Forms */
 .widget .admin-page-framework-section .form-table th
@@ -118,9 +118,9 @@ CSSRULES;
 }
   
 CSSRULES;
-   
+
             }
             return $_sCSSRules;
-        }        
-    
+        }
+
 }

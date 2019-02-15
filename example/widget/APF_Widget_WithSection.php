@@ -1,50 +1,50 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 /**
  * Creates a widget with a form section.
- * 
+ *
  * @since   DEVVER
  */
 class APF_Widget_WithSection extends AdminPageFramework_Widget {
-    
+
     /**
      * The user constructor.
-     * 
+     *
      * Alternatively you may use start_{instantiated class name} method.
      */
     public function start() {}
-    
+
     /**
      * Sets up arguments.
-     * 
+     *
      * Alternatively you may use set_up_{instantiated class name} method.
      */
     public function setUp() {
 
-        $this->setArguments( 
+        $this->setArguments(
             array(
                 'description'   =>  __( 'This is a sample widget with form sections created by Admin Page Framework.', 'admin-page-framework-loader' ),
-            ) 
+            )
         );
-    
-    }    
+
+    }
 
     /**
      * Sets up the form.
-     * 
+     *
      * Alternatively you may use load_{instantiated class name} method.
      */
     public function load() {
-        
+
         $this->addSettingSections(
             array(
                 'section_id'    => 'apf_sample_image',
@@ -52,14 +52,14 @@ class APF_Widget_WithSection extends AdminPageFramework_Widget {
                 'description'   => __( 'Shows a selected image in the front-end.', 'admin-page-framework-loader' ),
             )
         );
-        
+
         $this->addSettingFields(
             'apf_sample_image',
             array(
                 'field_id'      => 'image',
                 'type'          => 'image',
                 'title'         => __( 'Image', 'admin-page-framework-loader' ),
-            ),       
+            ),
             array(
                 'field_id'      => 'bg_color',
                 'type'          => 'color',
@@ -76,30 +76,30 @@ class APF_Widget_WithSection extends AdminPageFramework_Widget {
                     // 'b' => 'B',
                     // 'c' => 'C',
                 // ),
-            ),            
+            ),
             array()
-        );        
+        );
 
-        
+
     }
-    
+
     /**
      * Validates the submitted form data.
-     * 
+     *
      * Alternatively you may use validation_{instantiated class name} method.
      */
     public function validate( $aSubmit, $aStored, $oAdminWidget ) {
-        
+
         // Uncomment the following line to check the submitted value.
         // AdminPageFramework_Debug::log( $aSubmit );
-        
+
         return $aSubmit;
-        
-    }    
-    
+
+    }
+
     /**
      * Print out the contents in the front-end.
-     * 
+     *
      * Alternatively you may use the content_{instantiated class name} method.
      */
     public function content( $sContent, $aArguments, $aFormData ) {
@@ -118,11 +118,11 @@ class APF_Widget_WithSection extends AdminPageFramework_Widget {
                 . "<img style='margin-bottom: 0.6em;' src='{$_sImageURL}' alt='{$_sAlt}' />"
                 . "<strong>" . $_sTodaysWord . "</strong>"
             . "</div>";
-    
+
     }
-        
+
 }
 
-new APF_Widget_WithSection( 
+new APF_Widget_WithSection(
     __( 'Admin Page Framework - With Section', 'admin-page-framework-loader' ) // the widget title
 );

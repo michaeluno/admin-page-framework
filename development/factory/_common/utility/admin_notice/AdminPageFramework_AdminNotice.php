@@ -1,9 +1,9 @@
 <?php
 /**
  * Displays notification in the administration area.
- *    
+ *
  * @package      Admin Page Framework
- * @copyright    Copyright (c) 2013-2018, Michael Uno
+ * @copyright    Copyright (c) 2013-2019, Michael Uno
  * @author       Michael Uno
  * @authorurl    http://michaeluno.jp
  */
@@ -15,18 +15,18 @@
  * <code>
  * new AdminPageFramework_AdminNotice( 'There was an error while doing something...' );
  * </code>
- * 
+ *
  * <h2>Example</h2>
  * <code>
- * new AdminPageFramework_AdminNotice( 'Error occurred', array( 'class' => 'error' ) );    
+ * new AdminPageFramework_AdminNotice( 'Error occurred', array( 'class' => 'error' ) );
  * </code>
- * 
+ *
  * <code>
  * new AdminPageFramework_AdminNotice( 'Setting Updated', array( 'class' => 'updated' ) );
  * </code>
- * 
+ *
  * For details of arguments, see the <code>__construct()</code> method below.
- * 
+ *
  * @image       http://admin-page-framework.michaeluno.jp/image/common/utility/admin_notice.png
  * @since       3.5.0
  * @package     AdminPageFramework/Common/Utility
@@ -41,17 +41,17 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
      * Stores all the registered notification messages.
      */
     static private $_aNotices = array();
-    
-    public $sNotice     = '';    
+
+    public $sNotice     = '';
     public $aAttributes = array();
     public $aCallbacks  = array(
         'should_show'   => null,    // determines whether the admin notice should be displayed.
     );
-    /**#@-*/     
-     
+    /**#@-*/
+
     /**
      * Sets up hooks and properties.
-     * 
+     *
      * @param       string      $sNotice        The message to display.
      * @param       array       $aAttributes    An attribute array. Set 'updated' to the 'class' element to display it in a green box.
      * @param       array       $aCallbacks     [3.7.0+] An array storing callbacks.
@@ -65,7 +65,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
 
         $this->aAttributes            = $aAttributes + array(
             'class' => 'error', // 'updated' etc.
-        );        
+        );
         $this->aAttributes[ 'class' ] = $this->getClassAttribute(
             $this->aAttributes[ 'class' ],
             'admin-page-framework-settings-notice-message',
@@ -74,31 +74,31 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
             'is-dismissible'    // 3.5.12+
         );
         $this->aCallbacks             = $aCallbacks + $this->aCallbacks;
-  
+
         // Load resources.
         new AdminPageFramework_AdminNotice___Script;
-        
+
         // An empty value may be set in oreder only to laode the fade-in script.
         if ( ! $sNotice ) {
             return;
         }
-        
+
         // This prevents duplicates
         $this->sNotice = $sNotice;
         self::$_aNotices[ $sNotice ] = $sNotice;
-        
-        $this->registerAction( 
-            'admin_notices', 
-            array( $this, '_replyToDisplayAdminNotice' ) 
+
+        $this->registerAction(
+            'admin_notices',
+            array( $this, '_replyToDisplayAdminNotice' )
         );
-        $this->registerAction( 
-            'network_admin_notices', 
-            array( $this, '_replyToDisplayAdminNotice' ) 
-        );        
-        
-        
-    }                
-            
+        $this->registerAction(
+            'network_admin_notices',
+            array( $this, '_replyToDisplayAdminNotice' )
+        );
+
+
+    }
+
         /**
          * Displays the set admin notice.
          * @since       3.5.0
@@ -106,18 +106,18 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
          * @return      void
          */
         public function _replyToDisplayAdminNotice() {
-            
+
             if ( ! $this->_shouldProceed() ) {
                 return;
             }
-            
+
             // For a browser that enables JavaScript, hide the admin notice.
             $_aAttributes = $this->aAttributes + array( 'style' => '' );
-            $_aAttributes[ 'style' ] = $this->getStyleAttribute( 
-                $_aAttributes[ 'style' ], 
-                'display: none' 
+            $_aAttributes[ 'style' ] = $this->getStyleAttribute(
+                $_aAttributes[ 'style' ],
+                'display: none'
             );
-            
+
             echo "<div " . $this->getAttributes( $_aAttributes ) . ">"
                     . "<p>"
                         . self::$_aNotices[ $this->sNotice ]
@@ -126,14 +126,14 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
                 // Insert the same message except it is not hidden.
                 . "<noscript>"
                     . "<div " . $this->getAttributes( $this->aAttributes ) . ">"
-                        . "<p>" 
+                        . "<p>"
                             . self::$_aNotices[ $this->sNotice ]
                         . "</p>"
-                    . "</div>"              
+                    . "</div>"
                 . "</noscript>";
-            
+
             unset( self::$_aNotices[ $this->sNotice ] );
-            
+
         }
             /**
              * Decides whether the notification should be displayed or not.
@@ -142,7 +142,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
              * @internal
              */
             private function _shouldProceed() {
-                
+
                 if ( ! is_callable( $this->aCallbacks[ 'should_show' ] ) ) {
                     return true;
                 }
@@ -152,7 +152,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
                         true,
                     )
                 );
-            
+
             }
 
 }

@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -16,7 +16,7 @@
  * @internal
  */
 class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
- 
+
     /**
      * @since       3.7.4
      * @remark      When the user sets a custom slug to the `show_in_menu` argument, use it.
@@ -28,8 +28,8 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
             return $_sCustomMenuSlug;
         }
         return 'edit.php?post_type=' . $sPostTypeSlug;
-    }             
- 
+    }
+
     /**
      * Returns the value of the `show_in_menu` argument from a custom post type arguments.
      * @since       3.7.4
@@ -50,29 +50,29 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
             )
         );
     }
-    
+
     /**
      * Retrieves the `wp-admin` directory path without a trailing slash.
-     * 
+     *
      * @since       3.7.0
      * @return      string
      */
     static public function getWPAdminDirPath() {
-         
-        $_sWPAdminPath = str_replace( 
+
+        $_sWPAdminPath = str_replace(
             get_bloginfo( 'url' ) . '/', // search
             ABSPATH,    // replace
             get_admin_url() // subject - works even in the network admin
         );
         return rtrim( $_sWPAdminPath, '/' );
-        
+
     }
-    
+
     /**
      * Redirects the page viewer to the specified local url.
-     * 
+     *
      * Use this method to redirect the viewer within the operating site such as form submission and information page.
-     * 
+     *
      * @uses        wp_safe_redirect
      * @since       3.7.0
      * @return      void
@@ -80,7 +80,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
     static public function goToLocalURL( $sURL, $oCallbackOnError=null ) {
         self::redirectByType( $sURL, 1, $oCallbackOnError );
     }
-    
+
     /**
      * Redirects the page viewer to the specified url.
      * @uses        wp_redirect
@@ -91,7 +91,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
     static public function goToURL( $sURL, $oCallbackOnError=null ) {
         self::redirectByType( $sURL, 0, $oCallbackOnError );
     }
-    
+
     /**
      * Performs a redirect and exits the script.
      * @param       string      $sURL               The url to get redirected.
@@ -99,12 +99,12 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
      * @param       callable    $oCallbackOnError
      */
     static public function redirectByType( $sURL, $iType=0, $oCallbackOnError=null ) {
-     
+
         $_iRedirectError = self::getRedirectPreError( $sURL, $iType );
         if ( $_iRedirectError && is_callable( $oCallbackOnError ) ) {
             call_user_func_array(
                 $oCallbackOnError,
-                array( 
+                array(
                     $_iRedirectError,
                     $sURL,
                 )
@@ -116,7 +116,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
             1 => 'wp_safe_redirect',
         );
         exit( $_sFunctionName[ ( integer ) $iType ]( $sURL ) );
-        
+
     }
 
     /**
@@ -127,7 +127,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
      * @return      integer     0: no problem, 1: url is no valid, 2: HTTP headers already sent.
      */
     static public function getRedirectPreError( $sURL, $iType ) {
-        
+
         // check only externnal urls as local ones can be a relative url and always fails the below check.
         if ( ! $iType && filter_var( $sURL, FILTER_VALIDATE_URL) === false ) {
             return 1;
@@ -138,16 +138,16 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
         }
         return 0;
     }
-    
+
     /**
      * Checks whether the site is in the debug mode or not.
      * @since       3.5.7
-     * @return      boolean     
+     * @return      boolean
      */
     static public function isDebugMode() {
         return ( boolean ) defined( 'WP_DEBUG' ) && WP_DEBUG;
     }
-    
+
     /**
      * Checks whether the page is loaded as an Ajax request.
      * @since       3.5.7
@@ -156,27 +156,27 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
     static public function isDoingAjax() {
         return defined( 'DOING_AJAX' ) && DOING_AJAX;
     }
-        
+
     /**
      * Flushes the site rewrite rules.
      *
      * The method ensures it is done no more than once in a page load.
-     * 
+     *
      * @since       3.1.5
      */
     static public function flushRewriteRules() {
-        
+
         if ( self::$_bIsFlushed ) {
             return;
         }
         flush_rewrite_rules();
         self::$_bIsFlushed = true;
-        
-    }    
+
+    }
         /**
          * Indicates whether the flushing rewrite rules has been performed or not.
          * @since       3.1.5
          */
         static private $_bIsFlushed = false;
-        
+
 }

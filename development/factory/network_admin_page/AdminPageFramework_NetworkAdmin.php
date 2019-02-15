@@ -1,17 +1,17 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * The factory class to be extended to creates network admin pages.
  *
  * {@inheritdoc}
- * 
+ *
  * @abstract
  * @since       3.1.0
  * @remark      This class stems from several abstract classes.
@@ -19,23 +19,23 @@
  * @package     AdminPageFramework/Factory/NetworkAdmin
  */
 abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
-       
+
     /**
      * Defines the class object structure type.
-     * 
-     * @since       3.7.12      
+     *
+     * @since       3.7.12
      * @internal
      */
     protected $_sStructureType = 'network_admin_page';
-       
+
     /**
      * Used to refer the built-in root menu slugs.
-     * 
+     *
      * @since       3.1.0
      * @remark      Not for the user.
      * @var         array Holds the built-in root menu slugs.
      * @internal
-     */ 
+     */
     protected $_aBuiltInRootMenuSlugs = array(
         // All keys must be lower case to support case insensitive look-ups.
         'dashboard'     => 'index.php',
@@ -45,16 +45,16 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
         'users'         => 'users.php',
         'settings'      => 'settings.php',
         'updates'       => 'update-core.php',   // does not work
-    );     
-        
+    );
+
     /**
      * Registers necessary callbacks ans sets up internal components including properties.
-     * 
+     *
      * <h4>Example</h4>
      * <code>
      * new MyNetworkAdminPageClass( 'my_custom_option_key', __FILE__ );
      * </code>
-     * 
+     *
      * @access      public
      * @since       3.1.0
      * @see         http://codex.wordpress.org/Roles_and_Capabilities
@@ -66,48 +66,48 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
      * @return      void        returns nothing.
      */
     public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_network', $sTextDomain='admin-page-framework' ){
-            
+
         if ( ! $this->_isInstantiatable() ) {
             return;
         }
-                    
-        $sCallerPath = $sCallerPath 
-            ? $sCallerPath 
+
+        $sCallerPath = $sCallerPath
+            ? $sCallerPath
             : AdminPageFramework_Utility::getCallerScriptPath( __FILE__ );     // this is important to attempt to find the caller script path here when separating the library into multiple files.
-             
+
         parent::__construct( $sOptionKey, $sCallerPath, $sCapability, $sTextDomain );
-        
+
         new AdminPageFramework_Model_Menu__RegisterMenu( $this, 'network_admin_menu' );
-        
-    }    
-    
+
+    }
+
     /**
      * Instantiates a link object based on the type.
-     * 
+     *
      * @since       3.7.10
      * @internal
      * @return      null|object
      */
     protected function _getLinkObject() {
         $_sClassName = $this->aSubClassNames[ 'oLink' ];
-        return new $_sClassName( $this->oProp, $this->oMsg );        
+        return new $_sClassName( $this->oProp, $this->oMsg );
     }
-    
+
     /**
      * Instantiates a link object based on the type.
-     * 
+     *
      * @since       3.7.10
      * @internal
      * @return      null|object
-     */    
+     */
     protected function _getPageLoadObject() {
         $_sClassName = $this->aSubClassNames[ 'oPageLoadInfo' ];
         return new $_sClassName( $this->oProp, $this->oMsg );
-    }    
+    }
 
     /**
      * Checks whether the class should be instantiated.
-     * 
+     *
      * @since       3.1.0
      * @internal
      */
@@ -117,20 +117,20 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
 //        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
 //            return false;
 //        }
-        
+
         // Nothing to do in the non-network admin area.
         if ( is_network_admin() ) {
             return true;
         }
-        
+
         return false;
-        
+
     }
-    
-    
+
+
     /**
      * Retrieves the saved option value from the given option key and the dimensional array key representation.
-     * 
+     *
      * <h4>Example</h4>
      * <code>
      * $aData       = AdminPageFramework::getOption( 'APF' );
@@ -138,7 +138,7 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
      * $sText       = AdminPageFramework::getOption( 'APF', array( 'my_section', 'my_text_field' ), 'foo' );
      * $sColor      = AdminPageFramework::getOption( 'APF', 'my_color_field', '#FFF' );
      * </code>
-     * 
+     *
      * @since       3.1.0
      * @param       string      $sOptionKey     the option key of the options table.
      * @param       string      $asKey          the representation of dimensional array keys. If the returning option structure is like the following,
@@ -151,7 +151,7 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
      *     ),
      * )
      * </code>
-     * then the value 'ccc' can be retrieved with the key representation array of 
+     * then the value 'ccc' can be retrieved with the key representation array of
      * <code>
      * array( 'a', 'b', 'c' )
      * </code>
@@ -161,5 +161,5 @@ abstract class AdminPageFramework_NetworkAdmin extends AdminPageFramework {
     static public function getOption( $sOptionKey, $asKey=null , $vDefault=null ) {
         return AdminPageFramework_WPUtility::getSiteOption( $sOptionKey, $asKey, $vDefault );
     }
-    
+
 }

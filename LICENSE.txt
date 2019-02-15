@@ -1,5 +1,5 @@
 Admin Page Framework - Loader - A WordPress plugin that loads Admin Page Framework.
-Copyright (C) 2013-2018 Michael Uno
+Copyright (C) 2013-2019 Michael Uno
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ The plugin incorporates work covered by the following copyright:
 
 
 Admin Page Framework
-Copyright (c) 2013-2018 Michael Uno
+Copyright (c) 2013-2019 Michael Uno
 Licensed MIT
 <http://en.michaeluno.jp/admin-page-framework>
 
@@ -29,7 +29,7 @@ Copyright 2013 jQuery Foundation and other contributors,
 
 
 github-buttons
-Copyright (c) 2014, なつき  
+Copyright (c) 2014, なつき
 All rights reserved.
 Licensed The BSD 2-Clause License
 <https://github.com/ntkme/github-buttons>
@@ -63,7 +63,7 @@ Licensed the New BSD License or the GNU General Public License (GPL) version 2 o
 
 The tool component of the demo plugin incorporates work covered by the following copyright:
 
-JSMinPlus version 1.4  
+JSMinPlus version 1.4
 Tino Zijdel <crisp@tweakers.net>
 <http://crisp.tweakblogs.net/blog/cat/716>
 

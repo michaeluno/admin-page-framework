@@ -1,57 +1,57 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides JavaScript scripts to handle widget events.
- * 
+ *
  * @since       3.2.0
  * @package     AdminPageFramework/Common/Form/View/JavaScript
  * @internal
  */
 class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFramework_Form_View___Script_Base {
-    
+
     /**
      * The user constructor.
-     * 
+     *
      * @since       3.3.1
      * @since       3.5.0       Made the scope `protected` from `public` to be consistent with other classes.
      * @since       3.7.0      Changed the scoper from `protected`.
      * @return      void
      */
     public function construct() {
-        
+
         if ( ! function_exists( 'wp_enqueue_media' ) ) {
             return;
         }
-        wp_enqueue_script( 'jquery' );    
-        
+        wp_enqueue_script( 'jquery' );
+
         // wp_enqueue_media() should not be called right away as the WordPress built-in featured image image-uploader gets affected.
-        add_action( 
+        add_action(
             is_admin()
                 ? 'admin_footer'
-                : 'wp_footer', 
-            array( $this, '_replyToEnqueueMedia' ), 
-            1 
+                : 'wp_footer',
+            array( $this, '_replyToEnqueueMedia' ),
+            1
         );
-        
+
     }
         /**
          * Calls the wp_enqueue_media() function to avoid breaking featured image functionality.
-         * 
+         *
          * @since       3.3.2.1
          * @callback    action      admin_footer
          * @return      void
          */
         public function _replyToEnqueueMedia() {
-            wp_enqueue_media();  
+            wp_enqueue_media();
         }
- 
+
     /**
      * Return the script.
      * @since       3.3.1
@@ -59,25 +59,25 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
      * @return      string      The inline JavaScript script.
      */
     static public function getScript( /* $oMsg */ ) {
-        
+
         $_aParams   = func_get_args() + array( null );
-        $_oMsg      = $_aParams[ 0 ];                
-        
+        $_oMsg      = $_aParams[ 0 ];
+
         // means the WordPress version is 3.4.x or below
-        if ( ! function_exists( 'wp_enqueue_media' ) ) { 
-            return ""; 
-        } 
+        if ( ! function_exists( 'wp_enqueue_media' ) ) {
+            return "";
+        }
 
         // Labels
         $_sReturnToLibrary  = esc_js( $_oMsg->get( 'return_to_library' ) );
         $_sSelect           = esc_js( $_oMsg->get( 'select' ) );
         $_sInsert           = esc_js( $_oMsg->get( 'insert' ) );
-        
+
         /**
          * Returns the custom uploader frame object.
-         * 
+         *
          * @since   3.3.1
-         */     
+         */
         return <<<JAVASCRIPTS
 (function ( $ ) {
             
@@ -290,7 +290,7 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
     
 }( jQuery ));
 JAVASCRIPTS;
-        
+
     }
 
 }

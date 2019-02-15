@@ -1,15 +1,15 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides methods to render field error messages for a field-set.
- * 
+ *
  * @package     AdminPageFramework/Common/Form/View/Field
  * @since       3.7.0
  * @extends     AdminPageFramework_FrameworkUtility
@@ -21,16 +21,16 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
     public $aSectionPath    = array();
     public $aFieldPath      = array();
     public $sHeadingMessage = '';
-    
+
     /**
      * Sets up properties.
      * @since       3.7.0
      */
     public function __construct( /* $aErrors, $sSectionPath, $sFieldPath */ ) {
-      
-        $_aParameters = func_get_args() + array( 
-            $this->aErrors, 
-            $this->aSectionPath, 
+
+        $_aParameters = func_get_args() + array(
+            $this->aErrors,
+            $this->aSectionPath,
             $this->aFieldPath,
             $this->sHeadingMessage,
         );
@@ -38,12 +38,12 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
         $this->aSectionPath    = $_aParameters[ 1 ];
         $this->aFieldPath      = $_aParameters[ 2 ];
         $this->sHeadingMessage = $_aParameters[ 3 ]; // an error message to put before the main error
-        
+
     }
-    
+
     /**
      * Returns the output of an error of the field if exists.
-     * 
+     *
      * @return      string
      * @since       3.7.0
      */
@@ -57,11 +57,11 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
     }
         /**
          * Removes the '_default' dimension if exists.
-         * 
-         * The structure of field error arrays corresponds to the options array structure 
+         *
+         * The structure of field error arrays corresponds to the options array structure
          * and there is no internal default section dimensions, meaning fields without a section
          * is stored directly in the root dimension.
-         * 
+         *
          * @return      array
          */
         private function _getSectionPathSanitized( $aSectionPath ) {
@@ -72,7 +72,7 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
         }
         /**
          * Returns the set field error message to the section or field.
-         * 
+         *
          * @since       3.1.0
          * @since       3.7.0      Moved from `AdminPageFramework_Form_View___Fieldset`.
          * @return      string      The error string message. An empty value if not found.
@@ -86,10 +86,10 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
                         . $sHeadingMessage
                         . $this->getElement( $aErrors, $_aErrorPath )
                     . "</span>";
-            }  
+            }
             return '';
-            
-        }    
+
+        }
             /**
              * Checks whether the given field has a field error.
              * @internal
@@ -99,7 +99,7 @@ class AdminPageFramework_Form_View___Fieldset___FieldError extends AdminPageFram
              */
             private function _hasFieldError( $aErrors, array $aFieldAddress ) {
                 return is_scalar( $this->getElement( $aErrors, $aFieldAddress ) );
-            }    
-    
-    
+            }
+
+
 }

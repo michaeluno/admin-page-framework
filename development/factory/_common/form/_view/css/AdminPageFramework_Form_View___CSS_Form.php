@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -15,7 +15,7 @@
  * @internal
  */
 class AdminPageFramework_Form_View___CSS_Form extends AdminPageFramework_Form_View___CSS_Base {
-    
+
     /**
      * @since       3.7.0
      * @return      string
@@ -28,7 +28,7 @@ class AdminPageFramework_Form_View___CSS_Form extends AdminPageFramework_Form_Vi
     font-size: 1em;
 }
 CSSRULES;
-            
+
         }
-    
+
 }

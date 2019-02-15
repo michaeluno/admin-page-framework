@@ -1,42 +1,42 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides routing methods for the post type factory class.
- * 
+ *
  * @abstract
  * @since           3.0.4
  * @package         AdminPageFramework/Factory/PostType
  * @internal
  */
-abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Factory {    
-  
+abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Factory {
+
     /**
      * Sets up hooks and properties.
-     * 
+     *
      * @internal
      * @remark      Make sure to call the parent construct first as the factory router need to set up sub-class objects.
      * @since       3.7.10
      */
     public function __construct( $oProp ) {
-                
+
         parent::__construct( $oProp );
 
         $this->oUtil->registerAction( 'init', array( $this, '_replyToDetermineToLoad' ) );
         $this->oUtil->registerAction( 'current_screen', array( $this, '_replyToDetermineToLoadAdmin' ) );
-        
+
     }
-    
+
     /**
      * Determines whether to load the admin components of the post type.
-     * 
-     * @internal   
+     *
+     * @internal
      * @since       3.7.10
      * @return      void
      * @callback    action      current_screen
@@ -53,52 +53,52 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
                 "load_{$this->oProp->sClassName}",  // 3.8.14+
             )
         );
-    
+
     }
-    
+
     /**
      * Calls the setUp() method.
-     * 
+     *
      * In this method, unlike the other factory classes, _isInThePage() is not used to check whether to load the `setUp()`.
-     * This is because a registration of a post type should be done in any page. 
+     * This is because a registration of a post type should be done in any page.
      * For example, a post type with UI enabled is not registered in an admin page, the top-level menu will not be added in the page.
      * Also a post type should be accessible from the front-end. So the check is not necessary.
-     * 
+     *
      * @internal
      * @return      void
-     * @since       3.7.10     
+     * @since       3.7.10
      */
     public function _replyToDetermineToLoad() {
         $this->_setUp();
-    }     
+    }
 
     /**
      * Instantiates a link object based on the type.
-     * 
+     *
      * @since       3.7.10
      * @internal
      * @return      null|object
      */
     protected function _getLinkObject() {
         $_sClassName = $this->aSubClassNames[ 'oLink' ];
-        return new $_sClassName( $this->oProp, $this->oMsg );        
-    }          
+        return new $_sClassName( $this->oProp, $this->oMsg );
+    }
 
     /**
      * Instantiates a link object based on the type.
-     * 
+     *
      * @since       3.7.10
      * @internal
      * @return      null|object
-     */    
+     */
     protected function _getPageLoadObject() {
         $_sClassName = $this->aSubClassNames[ 'oPageLoadInfo' ];
         return new $_sClassName( $this->oProp, $this->oMsg );
     }
-  
+
     /**
      * Determines whether the currently loaded page is of the post type page.
-     * 
+     *
      * @internal
      * @since       3.0.4
      * @since       3.2.0       Changed the scope to public from protected as the head tag object will access it.
@@ -115,13 +115,13 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         // Post table columns use ajax to update when the user modifies the post meta via quick edit.
         if ( $this->oProp->bIsAdminAjax && $this->oUtil->getElement( $this->oProp->aPostTypeArgs, 'public', true ) ) {
             return true;
-        }        
-        
+        }
+
         if ( ! in_array( $this->oProp->sPageNow, array( 'edit.php', 'edit-tags.php', 'term.php', 'post.php', 'post-new.php' ) ) ) {
             return false;
         }
-                
-        // 3.7.9+  Limitation: If the `page` argument is set in the query url, 
+
+        // 3.7.9+  Limitation: If the `page` argument is set in the query url,
         // this factory will not be loaded to make the overall responses lighter.
         if ( isset( $_GET[ 'page' ] ) ) {
             return false;
@@ -130,10 +130,10 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         return $this->oUtil->getCurrentPostType() === $this->oProp->sPostType;
 
     }
-    
+
     /**
      * Determines whether the class component classes should be instantiated or not.
-     * 
+     *
      * @internal
      * @callback    action      current_screen
      * @return      void
@@ -144,9 +144,9 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         if ( 'plugins.php' === $this->oProp->sPageNow ) {
             $this->oLink = $this->_replyTpSetAndGetInstance_oLink();
         }
-        
+
         parent::_replyToLoadComponents();
-        
+
     }
-  
+
 }

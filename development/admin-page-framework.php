@@ -5,7 +5,7 @@
  * Facilitates WordPress plugin and theme development.
  *
  * @author      Michael Uno <michael@michaeluno.jp>
- * @copyright   2013-2018 (c) Michael Uno
+ * @copyright   2013-2019 (c) Michael Uno
  * @license     MIT <http://opensource.org/licenses/MIT>
  * @package     AdminPageFramework
  */
@@ -17,11 +17,11 @@ if ( ! class_exists( 'AdminPageFramework_Registry', false ) ) :
  * One of the most time consuming part of developing WordPress plugins and themes is building setting pages.
  * Admin Page Framework provides means of building pages and forms that the users save settings in the administration area of WordPess.
  * By extending the abstract classes the framework provides, you can build your own functionality.
- * 
+ *
  * @image               http://admin-page-framework.michaeluno.jp/image/icon-256x256.png
  * @heading             Admin Page Framework
  * @author              Michael Uno
- * @copyright           2013-2018 (c) Michael Uno
+ * @copyright           2013-2019 (c) Michael Uno
  * @license             http://opensource.org/licenses/MIT  MIT
  * @since               3.1.3
  * @repository          https://github.com/michaeluno/admin-page-framework
@@ -35,17 +35,17 @@ if ( ! class_exists( 'AdminPageFramework_Registry', false ) ) :
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.8.18
+ * @version             3.8.19b01
  */
 abstract class AdminPageFramework_Registry_Base {
 
-    const VERSION       = '3.8.18'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION       = '3.8.19b01'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME          = 'Admin Page Framework';
     const DESCRIPTION   = 'Facilitates WordPress plugin and theme development.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
     const AUTHOR        = 'Michael Uno';
     const AUTHOR_URI    = 'http://en.michaeluno.jp/';
-    const COPYRIGHT     = 'Copyright (c) 2013-2018, Michael Uno';
+    const COPYRIGHT     = 'Copyright (c) 2013-2019, Michael Uno';
     const LICENSE       = 'MIT <http://opensource.org/licenses/MIT>';
     const CONTRIBUTORS  = '';
 
@@ -114,7 +114,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
             : '';
         self::$bIsMinifiedVersion       = class_exists( 'AdminPageFramework_MinifiedVersionHeader', false );
         self::$bIsDevelopmentVersion    = isset( self::$aClassFiles[ 'AdminPageFramework_InclusionClassFilesHeader' ] );
-        
+
     }
         /**
          * Returns the class file path list.
@@ -222,15 +222,15 @@ final class AdminPageFramework_Bootstrap {
             return defined( 'ABSPATH' );
 
         }
-        
+
         /**
          * Includes required files and registers auto-load classes.
-         * 
+         *
          * @since       3.7.3
          * @return      void
          */
         private function _include() {
-            
+
             include( AdminPageFramework_Registry::$sAutoLoaderPath );
             new AdminPageFramework_RegisterClasses(
                 '', // the scanning directory - do not scan anything
@@ -242,16 +242,16 @@ final class AdminPageFramework_Bootstrap {
                 ),
                 // a class list array
                 AdminPageFramework_Registry::$aClassFiles
-            );            
-             
+            );
+
             /**
              * Reduce the nesting level of recursive function calls produced by the `spl_autoload_call()` PHP function.
-             * 
-             * Instantiating a class with many class inheritances (extending a class) triggers `spl_autoload_call()` 
+             *
+             * Instantiating a class with many class inheritances (extending a class) triggers `spl_autoload_call()`
              * and it keeps getting called until all the parent classes are loaded, which causes a fatal error,
              * `Maximum function nesting level of 'x' reached,..` if the Xdebug extension is enabled with a low value of the `xdebug.max_nesting_level` option.
-             * 
-             * This instantiation of a class below won't do anything in particular but just tells the spl autoloader to include those files 
+             *
+             * This instantiation of a class below won't do anything in particular but just tells the spl autoloader to include those files
              * so that the next time the program utilizing the framework tries to instantiate its class has a less nesting level of nested function calls,
              * which reduces the chance of getting the fatal error.
              */
@@ -259,14 +259,14 @@ final class AdminPageFramework_Bootstrap {
             if ( self::$_bXDebug ) {
                 new AdminPageFramework_Utility;
                 new AdminPageFramework_WPUtility;
-            }            
-            
+            }
+
         }
             /**
              * @since       3.7.10
              */
             static private $_bXDebug;
-        
+
 }
 new AdminPageFramework_Bootstrap( __FILE__ );
 endif;

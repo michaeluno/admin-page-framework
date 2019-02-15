@@ -1,21 +1,21 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 class APF_MetaBox_RepeatableCollapsibleSections extends AdminPageFramework_MetaBox {
-        
+
     /**
      * Do set-ups.
      */
     public function setUp() {
-        
+
         /*
          * Create tabbed sections.
          */
@@ -31,11 +31,11 @@ class APF_MetaBox_RepeatableCollapsibleSections extends AdminPageFramework_MetaB
                 'sortable'          => true,
             )
         );
-        
+
         /*
          * Add form fields into the meta box.
-         */ 
-        $this->addSettingFields(     
+         */
+        $this->addSettingFields(
             '_repeatable_collapsible_section',
             array(
                 'field_id'      => 'section_title_field_of_repeatable_collapsible_sections',
@@ -51,24 +51,24 @@ class APF_MetaBox_RepeatableCollapsibleSections extends AdminPageFramework_MetaB
             )
         );
     }
-    
+
     /**
      * The 'do_{instantiated class name}' hook.
-     * 
+     *
      */
     public function do_APF_MetaBox_RepeatableCollapsibleSections() {
-        
-        echo "<p>" 
-                . __( 'This section is repeatable and collapsible.', 'admin-page-framework-loader' ) 
+
+        echo "<p>"
+                . __( 'This section is repeatable and collapsible.', 'admin-page-framework-loader' )
             . "</p>";
-        
+
     }
 }
-    
+
 new APF_MetaBox_RepeatableCollapsibleSections(
     null,   // meta box id
     __( 'Repeatable Collapsible Sections', 'admin-page-framework-loader' ),
-    array( 'apf_posts' ),                             
+    array( 'apf_posts' ),
     'normal',
     'low'
 );

@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -15,10 +15,10 @@
  * @internal
  */
 class AdminPageFramework_CSS {
-    
+
     /**
      * Returns the framework default CSS.
-     * 
+     *
      * @since   3.2.0
      * @internal
      */
@@ -115,15 +115,15 @@ CSSRULES;
         return $_sCSS . PHP_EOL
             . self::_getPageLoadStatsRules() . PHP_EOL
             . self::_getVersionSpecificRules();
-            
+
     }
 
         /**
          * Returns the CSS rules for page load stats.
-         * 
+         *
          * @since       3.2.0
          * @internal
-         */    
+         */
         static private function _getPageLoadStatsRules() {
             return <<<CSSRULES
 /* Page Load Stats */
@@ -143,26 +143,26 @@ CSSRULES;
 }            
 CSSRULES;
         }
-        
+
         /**
          * Returns the framework default CSS rules.
-         * 
+         *
          * @since       3.2.0
          * @internal
-         */    
+         */
         static private function _getVersionSpecificRules() {
             // $GLOBALS['wp_version']
             return '';
         }
-    
+
     /**
      * Returns the framework default CSS.
-     * 
+     *
      * @since       3.2.0
      * @internal
      */
     static public function getDefaultCSSIE() {
         return '';
     }
-    
+
 }

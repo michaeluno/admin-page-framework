@@ -1,17 +1,17 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
  */
 
 /**
  * Provides abstract factory bases.
- * 
+ *
  * Each factory component serves as a base class that the user extends from in order to create their own classes.
  * When the user's extended classes are instantiated, internally programmed routines in the bases will be performed and do the tasks such as creating pages, post types, forms etc.
- * 
+ *
  * @since       3.3.0
  * @package     AdminPageFramework/Factory
  * @heading     Factories

@@ -1,25 +1,25 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 class APF_MetaBox_RepeatableTabbedSections extends AdminPageFramework_MetaBox {
-        
+
     /**
      * Do set-ups.
      */
     public function setUp() {
-        
+
         /*
          * Create tabbed sections.
          */
-        $this->addSettingSections(   
+        $this->addSettingSections(
             array(
                 'section_id'        => '_repeatable_tabbed_sections',
                 'section_tab_slug'  => 'repeatable_tabbes_sections',
@@ -29,11 +29,11 @@ class APF_MetaBox_RepeatableTabbedSections extends AdminPageFramework_MetaBox {
                 'sortable'          => true,
             )
         );
-        
+
         /*
          * Add form fields into the meta box.
-         */ 
-        $this->addSettingFields(    
+         */
+        $this->addSettingFields(
             '_repeatable_tabbed_sections',   // section id
             array(
                 'field_id'      => 'tab_title',
@@ -41,9 +41,9 @@ class APF_MetaBox_RepeatableTabbedSections extends AdminPageFramework_MetaBox {
                 'label'         => __( 'Name', 'admin-page-framework-loader' ),
                 'attributes'    => array(
                     'size' => 10,
-                    // 'type' => 'number', // change the input type 
+                    // 'type' => 'number', // change the input type
                 ),
-            ),     
+            ),
             array(
                 'field_id'      => 'text_field_in_tabbed_section_in_repeatable_sections',
                 'title'         => __( 'Text', 'admin-page-framework-loader' ),
@@ -55,7 +55,7 @@ class APF_MetaBox_RepeatableTabbedSections extends AdminPageFramework_MetaBox {
                 'title'         => __( 'Repeatable Field', 'admin-page-framework-loader' ),
                 'type'          => 'text',
                 'repeatable'    =>    true,
-            ),     
+            ),
             array(
                 'field_id'      => 'size_in_tabbed_sections_in_repeatable_sections',
                 'title'         => __( 'Size', 'admin-page-framework-loader' ),
@@ -69,19 +69,19 @@ class APF_MetaBox_RepeatableTabbedSections extends AdminPageFramework_MetaBox {
                 'label'         => array(
                     'a' => 'A',
                     'b' => 'B',
-                    'c' => 'C',     
+                    'c' => 'C',
                 ),
-            ),     
+            ),
             array(
                 'field_id'      => 'color_in_tabbed_sections_in_repeatable_sections',
                 'title'         => __( 'Color', 'admin-page-framework-loader' ),
                 'type'          => 'color',
-            ),     
+            ),
             array()
-        );      
-      
+        );
+
     }
-  
+
 }
 
 new APF_MetaBox_RepeatableTabbedSections(

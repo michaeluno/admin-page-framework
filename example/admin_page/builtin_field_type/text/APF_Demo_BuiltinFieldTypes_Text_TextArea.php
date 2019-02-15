@@ -1,63 +1,63 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 /**
  * Adds a section in a tab.
- * 
+ *
  * @package     AdminPageFramework/Example
  */
 class APF_Demo_BuiltinFieldTypes_Text_TextArea {
-    
-    
+
+
     /**
      * The page slug to add the tab and form elements.
      */
     public $sPageSlug   = 'apf_builtin_field_types';
-    
+
     /**
      * The tab slug to add to the page.
      */
     public $sTabSlug    = 'textfields';
-    
+
     /**
      * The section slug to add to the tab.
      */
     public $sSectionID  = 'textarea_fields';
-        
+
     /**
      * Sets up a form section.
      */
     public function __construct( $oFactory ) {
-    
+
         // Section
-        $oFactory->addSettingSections(    
-            $this->sPageSlug, // the target page slug                
+        $oFactory->addSettingSections(
+            $this->sPageSlug, // the target page slug
             array(
                 'section_id'    => $this->sSectionID,       // avoid hyphen(dash), dots, and white spaces
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Text Areas', 'admin-page-framework-loader' ),
                 'description'   => __( 'Text input with multiple lines.', 'admin-page-framework-loader' ),
             )
-        );   
-             
+        );
+
         /*
          * Text area fields.
-         */        
+         */
         $oFactory->addSettingFields(
-            $this->sSectionID, 
-            array( 
+            $this->sSectionID,
+            array(
                 'field_id'      => 'textarea',
                 'title'         => __( 'Text Area', 'admin-page-framework-loader' ),
                 'type'          => 'textarea',
-                'default'       => __( 'Hello world!', 'admin-page-framework-loader' ) 
+                'default'       => __( 'Hello world!', 'admin-page-framework-loader' )
                     . ' ' . __( 'This is set as the default string.', 'admin-page-framework-loader' ),
                 'attributes'    => array(
                     'rows' => 6,
@@ -79,7 +79,7 @@ array(
 EOD
                         )
                         . "</pre>",
-                ),                
+                ),
             ),
             array(
                 'field_id'      => 'textarea_multiple_with_labels',
@@ -115,9 +115,9 @@ array(
 EOD
                         )
                         . "</pre>",
-                ),                         
-            ),            
-            array( 
+                ),
+            ),
+            array(
                 'field_id'      => 'textarea_repeatable',
                 'title'         => __( 'Repeatable', 'admin-page-framework-loader' ),
                 'type'          => 'textarea',
@@ -144,8 +144,8 @@ EOD
                         )
                         . "</pre>",
                 ),
-            ),     
-            array( 
+            ),
+            array(
                 'field_id'      => 'textarea_sortable',
                 'title'         => __( 'Sortable', 'admin-page-framework-loader' ),
                 'type'          => 'textarea',
@@ -168,8 +168,8 @@ EOD
                         )
                         . "</pre>",
                 ),
-            ),     
-            array( 
+            ),
+            array(
                 'field_id'      => 'rich_text_area',
                 'title'         => __( 'Rich Text Area', 'admin-page-framework-loader' ),
                 'type'          => 'textarea',
@@ -187,19 +187,19 @@ array(
 EOD
                         )
                         . "</pre>",
-                ),                
+                ),
             ),
-array( 
+array(
                 'field_id'      => 'rich_text_area_with_arguments',
                 'title'         => __( 'Rich Text Area with Arguments', 'admin-page-framework-loader' ),
                 'type'          => 'textarea',
-                
-                // Pass the setting array to customize the editor. 
-                // For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.                
-                'rich'          => array( 
-                    'media_buttons' => false, 
+
+                // Pass the setting array to customize the editor.
+                // For the setting argument, see http://codex.wordpress.org/Function_Reference/wp_editor.
+                'rich'          => array(
+                    'media_buttons' => false,
                     'tinymce'       => false
-                ),    
+                ),
                 'description'   => array(
                     "<pre>"
                         . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
@@ -214,12 +214,12 @@ array(
 EOD
                         )
                         . "</pre>",
-                ),                
-            ),            
-            array()       
-        );             
-        
+                ),
+            ),
+            array()
+        );
+
     }
-    
-  
+
+
 }

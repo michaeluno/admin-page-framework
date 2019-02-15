@@ -1,15 +1,15 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides JavaScript utility scripts.
- * 
+ *
  * @since       3.4.0
  * @package     AdminPageFramework/Common/Form/View/JavaScript
  * @internal
@@ -18,7 +18,7 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
 
     /**
      * The user constructor.
-     * 
+     *
      * @since       3.4.0
      * @since       3.5.0       Made the scope `protected` from `public` to be consistent with other classes.
      * @since       3.7.0      Changed the scoper from `protected`.
@@ -27,23 +27,23 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
     public function construct() {
 
         wp_enqueue_script( 'juery' );
-        wp_enqueue_script( 'juery-ui-accordion' );    
-        
+        wp_enqueue_script( 'juery-ui-accordion' );
+
     }
 
     /**
      * Returns an inline JavaScript script.
-     * 
+     *
      * @since       3.4.0
      * @param       $oMsg       object      The message object.
      * @return      string      The inline JavaScript script.
      */
     static public function getScript( /* $oMsg */ ) {
-        
+
         $_aParams               = func_get_args() + array( null );
-        $_oMsg                  = $_aParams[ 0 ];        
-        $_sToggleAllButtonHTML  = '"' . self::_getToggleAllButtonHTML( $_oMsg ) . '"';                
-           
+        $_oMsg                  = $_aParams[ 0 ];
+        $_sToggleAllButtonHTML  = '"' . self::_getToggleAllButtonHTML( $_oMsg ) . '"';
+
         return <<<JAVASCRIPTS
 ( function( $ ) {
 
@@ -223,34 +223,34 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
 }( jQuery ));
 JAVASCRIPTS;
     }
-        
+
         /**
          * Returns an HTML collapsible toggle button output.
          * @since       3.5.3
          * @return      string      The generated HTML button element output.
          */
         static private function _getToggleAllButtonHTML( $oMsg ) {
-            
+
             $_sLabelToggleAll           = $oMsg->get( 'toggle_all' );
             $_sLabelToggleAllSections   = $oMsg->get( 'toggle_all_collapsible_sections' );
-            $_sDashIconSort             = self::getAOrB( 
+            $_sDashIconSort             = self::getAOrB(
                 version_compare( $GLOBALS['wp_version'], '3.8', '<' ),  // evaluate
                 '', // true
                 'dashicons dashicons-sort' // false
-            );         
-            $_sText                     = self::getAOrB( 
+            );
+            $_sText                     = self::getAOrB(
                 $_sDashIconSort, // evaluate
                 '', // true
                 $_sLabelToggleAll // false
             );
             return "<div class='admin-page-framework-collapsible-toggle-all-button-container'>"
                     . "<span class='admin-page-framework-collapsible-toggle-all-button button " . $_sDashIconSort . "'"
-                        . " title='" . esc_attr( $_sLabelToggleAllSections ) 
+                        . " title='" . esc_attr( $_sLabelToggleAllSections )
                     . "'>"
                         . $_sText
                     . "</span>"
                 . "</div>";
-        
-        }    
-    
+
+        }
+
 }

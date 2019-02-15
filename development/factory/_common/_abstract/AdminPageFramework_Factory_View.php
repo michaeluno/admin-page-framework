@@ -1,113 +1,113 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides methods for views.
- * 
+ *
  * @abstract
  * @since       3.0.4
  * @package     AdminPageFramework/Common/Factory
  * @internal
  */
 abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factory_Model {
-    
+
     /**
      * Sets up hooks and properties.
-     * 
+     *
      * @internal
      */
     public function __construct( $oProp ) {
-        
+
         parent::__construct( $oProp );
 
-        new AdminPageFramework_Factory_View__SettingNotice( 
+        new AdminPageFramework_Factory_View__SettingNotice(
             $this,
             $this->oProp->sSettingNoticeActionHook
         );
-        
-    }     
+
+    }
 
         /**
          * Returns the name attribute value of form sections.
-         * @internal    
+         * @internal
          * @since       3.6.0
          * @return      string      the input id attribute
-         */    
+         */
         public function _replyToGetSectionName( /* $sSectionName, $aSectionset */ ) {
             $_aParams = func_get_args() + array( null, null, );
             return $_aParams[ 0 ];
         }
-        
+
         /**
-         * @internal    
+         * @internal
          * @since       3.5.7
          * @return      string      the input id attribute
-         */    
+         */
         public function _replyToGetInputID( /* $sInputIDAttribute, $aField, $sKey, $iSectionIndex */ ) {
             $_aParams = func_get_args() + array( null, null, null, null );
             return $_aParams[ 0 ];
         }
         /**
-         * @internal    
+         * @internal
          * @since       3.5.7
          * @return      string      the fields & fieldset & field row container id attribute
-         */    
+         */
         public function _replyToGetInputTagIDAttribute( /* $sTagIDAttribute, $aFiel, $sKey, $iSectionIndex */ ) {
             $_aParams = func_get_args() + array( null, null, null, null );
             return $_aParams[ 0 ];
         }
-        
+
         /**
          * @internal
          * @since       3.6.0
          * @return      string
          */
-        public function _replyToGetFieldNameAttribute( /* $sFieldName, $aFieldset */ )  {            
+        public function _replyToGetFieldNameAttribute( /* $sFieldName, $aFieldset */ )  {
             $_aParams = func_get_args() + array( null, null, );
-            return $_aParams[ 0 ];                        
+            return $_aParams[ 0 ];
         }
         /**
-         * 
+         *
          * @internal
          * @since       3.6.0
          * @return      string
-         */        
-        public function _replyToGetFlatFieldName( /* $sFieldName, $aFieldset */ ) {            
+         */
+        public function _replyToGetFlatFieldName( /* $sFieldName, $aFieldset */ ) {
             $_aParams = func_get_args() + array( null, null, );
-            return $_aParams[ 0 ];            
+            return $_aParams[ 0 ];
         }
-        
+
         /**
          * Generates a name attribute value for a form input element.
-         * @internal    
+         * @internal
          * @since       3.5.7
          * @return      string      the input name attribute
-         */    
+         */
         public function _replyToGetInputNameAttribute( /* $sNameAttribute, $aField, $sKey */ ) {
             $_aParams = func_get_args() + array( null, null, null );
             return $_aParams[ 0 ];
         }
-        
+
         /**
          * Generates a flat input name whose dimensional element keys are delimited by the pipe (|) character.
-         * @internal    
+         * @internal
          * @since       3.5.7
          * @return      string      the flat input name attribute
-         */    
+         */
         public function _replyToGetFlatInputName( /* $sFlatNameAttribute, $aField, $sKey */ ) {
             $_aParams   = func_get_args() + array( null, null, null );
             return $_aParams[ 0 ];
         }
 
         /**
-         * 
-         * @internal    
+         *
+         * @internal
          * @since       3.5.7
          * @return      string      the input class attribute.
          */
@@ -115,30 +115,30 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
             $_aParams = func_get_args() + array( null, null, null, null );
             return $_aParams[ 0 ];
         }
-            
-            
+
+
     /**
      * Determines whether the passed field should be visible or not.
      * @since       3.7.0
      * @return      boolean
      */
     public function _replyToDetermineSectionsetVisibility( $bVisible, $aSectionset ) {
-        return $this->_isElementVisible( $aSectionset, $bVisible );       
-    }    
+        return $this->_isElementVisible( $aSectionset, $bVisible );
+    }
     /**
      * Determines whether the passed field should be visible or not.
      * @since       3.7.0
      * @return      boolean
      */
     public function _replyToDetermineFieldsetVisibility( $bVisible, $aFieldset ) {
-        return $this->_isElementVisible( $aFieldset, $bVisible );        
-    }     
+        return $this->_isElementVisible( $aFieldset, $bVisible );
+    }
         /**
          * @since       3.7.0
          * @return      boolean
          */
         private function _isElementVisible( $aElementDefinition, $bDefault ) {
-            
+
             $aElementDefinition = $aElementDefinition + array(
                 'if'            => true,
                 'capability'    => '',
@@ -152,11 +152,11 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
             }
             if ( ! current_user_can( $aElementDefinition[ 'capability' ] ) ) {
                 return false;
-            }            
+            }
             return $bDefault;
-            
+
         }
-            
+
     /**
      * Checks whether a section is set.
      * @internal
@@ -173,7 +173,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
 
     /**
      * Returns the output of the filtered section description.
-     * 
+     *
      * @remark      An alternative to `_renderSectionDescription()`.
      * @since       3.0.0
      * @since       3.3.1       Moved from `AdminPageFramework_Setting_Base`.
@@ -184,17 +184,17 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
     public function _replyToGetSectionHeaderOutput( $sSectionDescription, $aSectionset ) {
         return $this->oUtil->addAndApplyFilters(
             $this,
-            array( 
+            array(
                 // section_{instantiated class name}_{section id}
-                'section_head_' . $this->oProp->sClassName . '_' . $aSectionset[ 'section_id' ] 
-            ), 
+                'section_head_' . $this->oProp->sClassName . '_' . $aSectionset[ 'section_id' ]
+            ),
             $sSectionDescription
         );
-    }            
-    
+    }
+
     /**
      * Returns the field output from the given field definition array.
-     * 
+     *
      * @remark      This method will be called multiple times in a single page load depending on how many fields have been registered.
      * @since       3.0.0
      * @since       3.7.0      Changed the pamater strcucture. The first parametr no longer receives a fieldset definition array but the generated output string.
@@ -210,26 +210,26 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
         );
         return $this->oUtil->addAndApplyFilters(
             $this,
-            array( 
+            array(
                 'field_' . $this->oProp->sClassName . $_sSectionPart . '_' . $aFieldset[ 'field_id' ]
             ),
             $sFieldOutput,
             $aFieldset // the field array
-        );             
-        
-    }    
-        
+        );
+
+    }
+
     /**
      * The content filter method,
-     * 
+     *
      * The user may just override this method instead of defining a `content_{...}` callback method.
-     * 
+     *
      * @since       3.4.1
      * @remark      Declare this method in each factory class as the form of parameters varies and if parameters are different, it triggers PHP strict standard warnings.
      * @param       string      $sContent       The filtering content string.
      */
     // public function content( $sContent ) {
         // return $sContent;
-    // }            
-    
+    // }
+
 }

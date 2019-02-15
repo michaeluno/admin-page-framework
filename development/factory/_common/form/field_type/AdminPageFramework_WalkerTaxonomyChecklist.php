@@ -1,17 +1,17 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
  * Provides methods for rendering taxonomy check lists.
- * 
+ *
  * Used for the wp_list_categories() function to render category hierarchical checklist.
- * 
+ *
  * @see             Walker : wp-includes/class-wp-walker.php
  * @see             Walker_Category : wp-includes/category-template.php
  * @since           2.0.0
@@ -21,12 +21,12 @@
  * @internal
  */
 class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
-    
+
     /**
      * Modifies the variable string the opening 'li' tag of the list.
-     * 
-     * @param       string      $sOutput        
-     * @param       object      $oTerm        
+     *
+     * @param       string      $sOutput
+     * @param       object      $oTerm
      * @param       integer     $iDepth
      * @param       array       $aArgs          The argument passed from the field output.
      * <h4>Arguments</h4>
@@ -36,7 +36,7 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
      *  - order                 (string)    What direction to order categories. Accepts 'ASC' (ascending) or 'DESC' (descending). default: `ASC`
      *  - title_li              (string)    The string that is inserted before the list starts. Default: __( 'Categories' ),
      *  - echo                  (boolean|integer)   Whether to echo the output or return the output string value.
-     *  - hierarchical          (boolean)   Whether to show the terms in a hierarchical structure. 
+     *  - hierarchical          (boolean)   Whether to show the terms in a hierarchical structure.
      *  - depth                 (integer)   The max level to display the hierarchical depth. Default: 0.
      *  - hide_empty            (boolean|integer) Whether to hide terms that have no post associated.
      *  - pad_counts            (boolean|integer) Whether to sum up the post count with the child post counts.
@@ -44,26 +44,26 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
      *  - exclude               (string)    Comma separated term ID(s) to exclude from the list.
      *  - include               (string)    Comma separated term ID(s) to include in the list.
      *  - child_of              (integer)   Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0.
-     * 
+     *
      *  <h4>Known Existing Arguments</h4>
-     *  - feed                 => '', 
+     *  - feed                 => '',
      *  - feed_type             => '',
-     *  - feed_image            => '', 
-     *  - exclude_tree          => '',  
+     *  - feed_image            => '',
+     *  - exclude_tree          => '',
      *  - current_category      => 0,
      *  - class                 => categories,
-     * 
+     *
      * <h4>Unknown Arguments</h4>
      *  - taxonomy              => 'category', // 'post_tag' or any other registered taxonomy slug will work. side note: the framework option will be used
      *  - has_children          => 1,
-     *  - option_none_value     (mixed)     Value to use when no taxonomy term is selected.     
+     *  - option_none_value     (mixed)     Value to use when no taxonomy term is selected.
      *  - show_count            (bool|int)  Whether to show how many posts are associated with the term. default: `0`  side note: did not take effect
      *  - style                 (string)    'list', side note: Could not confirm whether there are other option besides 'list'.
      *  - use_desc_for_title    (boolean|int) default is 1 - Whether to use the category description as the title attribute. side note: the framework enables this by default.
      * @param       integer     $iCurrentObjectID
      */
     function start_el( &$sOutput, $oTerm, $iDepth=0, $aArgs=array(), $iCurrentObjectID=0 ) {
-       
+
         $aArgs = $aArgs + array(
             '_name_prefix'      => null,
             '_input_id_prefix'  => null,
@@ -73,21 +73,21 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
             'disabled'          => null,    // not sure what this was for
             '_save_unchecked'   => true,    // 3.8.8+
         );
-        
+
         // Local variables
         $_iID            = $oTerm->term_id;
-        $_sTaxonomySlug  = empty( $aArgs[ 'taxonomy' ] ) 
-            ? 'category' 
+        $_sTaxonomySlug  = empty( $aArgs[ 'taxonomy' ] )
+            ? 'category'
             : $aArgs[ 'taxonomy' ];
         $_sID            = "{$aArgs[ '_input_id_prefix' ]}_{$_sTaxonomySlug}_{$_iID}";
 
         // Post count
-        $_sPostCount     = $aArgs[ 'show_post_count' ] 
-            ? " <span class='font-lighter'>(" . $oTerm->count . ")</span>" 
+        $_sPostCount     = $aArgs[ 'show_post_count' ]
+            ? " <span class='font-lighter'>(" . $oTerm->count . ")</span>"
             : '';
-        
+
         // Attributes
-        $_aInputAttributes = isset( $_aInputAttributes[ $_iID ] ) 
+        $_aInputAttributes = isset( $_aInputAttributes[ $_iID ] )
             ? $_aInputAttributes[ $_iID ] + $aArgs[ '_attributes' ]
             : $aArgs[ '_attributes' ];
         $_aInputAttributes = array(
@@ -96,14 +96,14 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
             'type'      => 'checkbox',
             'name'      => "{$aArgs[ '_name_prefix' ]}[{$_iID}]",
             'checked'   => in_array( $_iID, ( array ) $aArgs[ '_selected_items' ] )
-                ? 'checked' 
+                ? 'checked'
                 : null,
         ) + $_aInputAttributes
           + array(
             'class'     => null,
         );
         $_aInputAttributes['class'] .= ' apf_checkbox';
-        
+
         $_aLiTagAttributes = array(
             'id'        => "list-{$_sID}",
             'class'     => 'category-list',
@@ -113,17 +113,17 @@ class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
         $_sHiddenInputForUnchecked = $aArgs[ '_save_unchecked' ]
             ? "<input value='0' type='hidden' name='" . $_aInputAttributes[ 'name' ] . "' class='apf_checkbox' />"
             : '';
-            
+
         // Output - the variable is by reference so the modification takes effect
         $sOutput .= "\n"
-            . "<li " . AdminPageFramework_WPUtility::getAttributes( $_aLiTagAttributes ) . ">" 
+            . "<li " . AdminPageFramework_WPUtility::getAttributes( $_aLiTagAttributes ) . ">"
                 . "<label for='{$_sID}' class='taxonomy-checklist-label'>"
                     . $_sHiddenInputForUnchecked    // 3.8.8+
                     . "<input " . AdminPageFramework_WPUtility::getAttributes( $_aInputAttributes ) . " />"
-                    . esc_html( apply_filters( 'the_category', $oTerm->name ) ) 
+                    . esc_html( apply_filters( 'the_category', $oTerm->name ) )
                     . $_sPostCount
-                . "</label>";    
+                . "</label>";
             /* no need to close the </li> tag since it is dealt in the end_el() method. */
-            
+
     }
 }

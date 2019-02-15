@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -17,7 +17,7 @@
  * @extends         AdminPageFramework_FrameworkUtility
  */
 class AdminPageFramework_View__PageRenderer__InPageTabs extends AdminPageFramework_FrameworkUtility {
-        
+
     public $oFactory;
     public $sPageSlug;
     public $sTag = 'h3';
@@ -27,38 +27,38 @@ class AdminPageFramework_View__PageRenderer__InPageTabs extends AdminPageFramewo
      * @since       3.6.3
      */
     public function __construct( $oFactory, $sPageSlug ) {
-       
+
         $this->oFactory         = $oFactory;
         $this->sPageSlug        = $sPageSlug;
         $this->sTag             = $oFactory->oProp->sInPageTabTag
             ? $oFactory->oProp->sInPageTabTag
             : 'h3';
-            
-    }   
-    
+
+    }
+
     /**
      * Returns the output.
      * @since       3.6.3
      */
     public function get() {
-        
+
         // If in-page tabs are not set, return an empty string.
-        $_aInPageTabs = $this->getElement( 
-            $this->oFactory->oProp->aInPageTabs, 
-            $this->sPageSlug, 
-            array() 
+        $_aInPageTabs = $this->getElement(
+            $this->oFactory->oProp->aInPageTabs,
+            $this->sPageSlug,
+            array()
         );
         if ( empty( $_aInPageTabs ) ) {
-            return ''; 
-        }        
+            return '';
+        }
 
         return $this->_getOutput( $_aInPageTabs, $this->sPageSlug, $this->sTag );
-        
+
     }
-    
+
         /**
          * Retrieves the output of in-page tab navigation bar as HTML.
-         * 
+         *
          * @since       2.0.0
          * @since       3.3.1        Moved from `AdminPageFramework_Page`.
          * @since       3.5.0        Deprecated the third $aOutput parameter.
@@ -67,31 +67,31 @@ class AdminPageFramework_View__PageRenderer__InPageTabs extends AdminPageFramewo
          * @internal
          */
         private function _getOutput( $aInPageTabs, $sCurrentPageSlug, $sTag ) {
-               
+
             $_aPage             = $this->oFactory->oProp->aPages[ $sCurrentPageSlug ];
             $_sCurrentTabSlug   = $this->_getCurrentTabSlug( $sCurrentPageSlug );
             $_sTag              = $this->_getInPageTabTag( $sTag, $_aPage );
-             
+
             // If the in-page tabs' visibility is set to false, returns the title.
             if ( ! $_aPage[ 'show_in_page_tabs' ] ) {
                 return $this->getElement( $aInPageTabs, array( $_sCurrentTabSlug, 'title' ) )
                     ? "<{$_sTag} class='admin-page-framework-in-page-tab-title'>"
                             . $aInPageTabs[ $_sCurrentTabSlug ][ 'title' ]
-                        . "</{$_sTag}>" 
+                        . "</{$_sTag}>"
                     : "";
-            }         
-            
+            }
+
             return $this->_getInPageTabNavigationBar(
                 $aInPageTabs,
                 $_sCurrentTabSlug,
                 $sCurrentPageSlug,
                 $_sTag
             );
-                        
+
         }
             /**
              * Generates in-page tab navigation bar HTML output.
-             * 
+             *
              * @since       3.5.3
              * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
              * @internal
@@ -108,20 +108,20 @@ class AdminPageFramework_View__PageRenderer__InPageTabs extends AdminPageFramewo
                     ),
                     array(       // callbacks
                         'format'    => array( $this, '_replyToFormatNavigationTabItem_InPageTab' ),
-                        
+
                         // Custom arguments to pass to the callback functions
                         'arguments' => array(
                             'page_slug'         => $sCurrentPageSlug,
-                        ),                        
+                        ),
                     )
-                );            
+                );
                 $_sTabBar = $_oTabBar->get();
                 return $_sTabBar
                     ? "<div class='admin-page-framework-in-page-tab'>"
                             . $_sTabBar
                         . "</div>"
                     : '';
-                
+
             }
                 /**
                  * Formats navigation tab definition array of in-page tabs.
@@ -143,7 +143,7 @@ class AdminPageFramework_View__PageRenderer__InPageTabs extends AdminPageFramewo
 
             /**
              * Returns the in-page tab tag.
-             * 
+             *
              * @since       3.5.3
              * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
              * @return      string      the in-page tab tag.
@@ -153,9 +153,9 @@ class AdminPageFramework_View__PageRenderer__InPageTabs extends AdminPageFramewo
                 return tag_escape(
                     $aPage[ 'in_page_tab_tag' ]
                         ? $aPage[ 'in_page_tab_tag' ]
-                        : $sTag                
-                ); 
-            }                        
+                        : $sTag
+                );
+            }
             /**
              * Determines the currently loading in-page tab slug.
              * @since       3.5.3
@@ -164,31 +164,31 @@ class AdminPageFramework_View__PageRenderer__InPageTabs extends AdminPageFramewo
              * @internal
              */
             private function _getCurrentTabSlug( $sCurrentPageSlug ) {
-                
-                $_sCurrentTabSlug = $this->getElement( 
+
+                $_sCurrentTabSlug = $this->getElement(
                     $_GET,
-                    'tab', 
+                    'tab',
                     $this->oFactory->oProp->getDefaultInPageTab( $sCurrentPageSlug )
                 );
-                $_sTabSlug = $this->_getParentTabSlug( 
-                    $sCurrentPageSlug, 
-                    $_sCurrentTabSlug 
-                );                
+                $_sTabSlug = $this->_getParentTabSlug(
+                    $sCurrentPageSlug,
+                    $_sCurrentTabSlug
+                );
                 return $_sTabSlug;
-                
+
             }
                 /**
                  * Retrieves the parent tab slug from the given tab slug.
-                 * 
+                 *
                  * @since       2.0.0
                  * @since       2.1.2       If the parent slug has the show_in_page_tab to be true, it returns an empty string.
                  * @since       3.3.1       Moved from `AdminPageFramework_Page`.
                  * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
                  * @return      string      the parent tab slug.
                  * @internal
-                 */     
+                 */
                 private function _getParentTabSlug( $sPageSlug, $sTabSlug ) {
-                    
+
                     $_sParentTabSlug = $this->getElement(
                         $this->oFactory->oProp->aInPageTabs,
                         array( $sPageSlug, $sTabSlug, 'parent_tab_slug' ),
@@ -199,6 +199,6 @@ class AdminPageFramework_View__PageRenderer__InPageTabs extends AdminPageFramewo
                         ? $_sParentTabSlug
                         : $sTabSlug;
 
-                }    
-    
+                }
+
 }

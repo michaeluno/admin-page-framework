@@ -1,52 +1,52 @@
 <?php
 /**
  * Admin Page Framework Loader
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 /**
  * Adds a tab of the set page to the loader plugin.
- * 
+ *
  * @since       3.8.14
  */
 class APF_Demo_Test_AjaxField {
 
     public $oFactory;
-    
+
     public $sClassName;
-    
+
     public $sPageSlug;
 
     public $sTabSlug = 'ajax';
 
     public function __construct( $oFactory, $sPageSlug ) {
-    
+
         $this->oFactory     = $oFactory;
         $this->sClassName   = $oFactory->oProp->sClassName;
         $this->sPageSlug    = $sPageSlug;
         $this->sSectionID   = $this->sTabSlug;
-               
-        $this->oFactory->addInPageTabs(    
+
+        $this->oFactory->addInPageTabs(
             $this->sPageSlug, // target page slug
             array(
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Ajax', 'admin-page-framework-loader' ),
             )
-        );  
+        );
 
         // load + page slug + tab slug
          add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
-  
+
     }
 
     /**
      * Triggered when the tab starts loading.
-     * 
+     *
      * @callback        action      load_{page slug}_{tab slug}
      */
     public function replyToLoadTab( $oAdminPage ) {
@@ -103,8 +103,8 @@ class APF_Demo_Test_AjaxField {
 
     }
 
-    public function replyToDoTab() {        
+    public function replyToDoTab() {
         submit_button();
     }
-    
+
 }

@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -18,7 +18,7 @@
  * @internal
  */
 abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Page {
-           
+
     /**
      * Load resources of page meta boxes.
      * @callback    action      load_after_{page slug}
@@ -30,16 +30,16 @@ abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Pag
 
     /**
      * Enqueues assets set with the `style` and `script` arguments.
-     * 
+     *
      * @callback    action      load_after_{page slug}
      * @since       3.6.3
      * @internal
      * @return      void
      */
     public function _replyToEnqueuePageAssets() {
-        new AdminPageFramework_View__Resource( $this );        
+        new AdminPageFramework_View__Resource( $this );
     }
-       
+
     /**
      * @since       3.7.10
      * @callback    function        add_submenu_page
@@ -47,25 +47,25 @@ abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Pag
      */
     public function _replyToRenderPage() {
         $_sPageSlug = $this->oProp->getCurrentPageSlug();
-        $this->_renderPage( 
-            $_sPageSlug, 
-            $this->oProp->getCurrentTabSlug( $_sPageSlug ) 
+        $this->_renderPage(
+            $_sPageSlug,
+            $this->oProp->getCurrentTabSlug( $_sPageSlug )
         );
     }
-       
+
     /**
      * Renders the admin page.
-     * 
+     *
      * @remark      This is not intended for the users to use.
      * @since       2.0.0
      * @since       3.3.1       Moved from `AdminPageFramework_Page`.
      * @access      protected
      * @return      void
      * @internal
-     */ 
+     */
     protected function _renderPage( $sPageSlug, $sTabSlug=null ) {
         $_oPageRenderer = new AdminPageFramework_View__PageRenderer( $this, $sPageSlug, $sTabSlug );
         $_oPageRenderer->render();
     }
-                
+
 }

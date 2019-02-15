@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -17,25 +17,25 @@
 abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_FrameworkUtility {
 
     public $oProp;
-    
+
     public $oMsg;
-    
+
     protected $_nInitialMemoryUsage;
-    
+
     /**
      * Sets up hooks and properties.
      */
     public function __construct( $oProp, $oMsg ) {
-                
+
         if ( ! $this->_shouldProceed( $oProp ) ) {
             return;
         }
-            
+
         $this->oProp                = $oProp;
         $this->oMsg                 = $oMsg;
         $this->_nInitialMemoryUsage = memory_get_usage();
-        
-        add_action( 'in_admin_footer', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 );    
+
+        add_action( 'in_admin_footer', array( $this, '_replyToSetPageLoadInfoInFooter' ), 999 );
 
     }
         /**
@@ -43,24 +43,24 @@ abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_F
          * @return      boolean
          */
         private function _shouldProceed( $oProp ) {
-        
+
             if ( $oProp->bIsAdminAjax || ! $oProp->bIsAdmin ) {
                 return false;
-            }     
+            }
             return ( boolean ) $oProp->bShowDebugInfo;
-            
+
         }
-    
+
     /**
      * @remark Should be overridden in an extended class.
      */
     public function _replyToSetPageLoadInfoInFooter() {}
-    
+
     /**
      * Indicates whether the page load info is inserted or not.
      */
-    static private $_bLoadedPageLoadInfo = false;    
-        
+    static private $_bLoadedPageLoadInfo = false;
+
     /**
      * Display gathered information.
      *
@@ -69,20 +69,20 @@ abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_F
      * @return      string
      */
     public function _replyToGetPageLoadInfo( $sFooterHTML ) {
-        
+
         // 3.8.8+ The `bShowDebugInfo` property may be updated by the user during the page load.
         if ( ! $this->oProp->bShowDebugInfo ) {
             return $sFooterHTML;
         }
-        
-        if ( self::$_bLoadedPageLoadInfo ) { 
-            return $sFooterHTML; 
+
+        if ( self::$_bLoadedPageLoadInfo ) {
+            return $sFooterHTML;
         }
-        self::$_bLoadedPageLoadInfo = true;     
-        
+        self::$_bLoadedPageLoadInfo = true;
+
         return $sFooterHTML
             . $this->_getPageLoadStats();
-        
+
     }
         /**
          * Returns the output of page load stats.
@@ -90,7 +90,7 @@ abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_F
          * @return      string
          */
         private function _getPageLoadStats() {
-            
+
             $_nSeconds            = timer_stop( 0 );
             $_nQueryCount         = get_num_queries();
             $_nMemoryUsage        = round( $this->_convertBytesToHR( memory_get_usage() ), 2 );
@@ -104,8 +104,8 @@ abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_F
                     . "<li>" . sprintf( $this->oMsg->get( 'peak_memory_usage' ), $_nMemoryPeakUsage ) . "</li>"
                     . "<li>" . sprintf( $this->oMsg->get( 'initial_memory_usage' ), $_sInitialMemoryUsage ) . "</li>"
                 . "</ul>"
-            . "</div>";          
-            
+            . "</div>";
+
         }
 
         /**
@@ -119,7 +119,7 @@ abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_F
          * @internal
          */
         private function _convertToNumber( $nSize ) {
-            
+
             $_nReturn     = substr( $nSize, 0, -1 );
             switch( strtoupper( substr( $nSize, -1 ) ) ) {
                 case 'P':
@@ -134,7 +134,7 @@ abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_F
                     $_nReturn *= 1024;
             }
             return $_nReturn;
-            
+
         }
 
         /**

@@ -1,10 +1,10 @@
 <?php
 /**
  * Admin Page Framework
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed MIT
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed MIT
+ *
  */
 
 /**
@@ -16,8 +16,8 @@
  * @internal
  */
 class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFields {
-    
-    /* Example of $_FILES for a single import field. 
+
+    /* Example of $_FILES for a single import field.
         Array (
             [__import] => Array (
                 [name] => Array (
@@ -38,12 +38,12 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
             )
         )
     */
-    
+
     /**
      * Stores files array that store the subject uploaded file paths.
      */
     public $aFilesImport = array();
-    
+
     /**
      * Sets up properties.
      */
@@ -51,45 +51,45 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 
         // Call the parent constructor. This must be done before the getFieldID() method that uses the $aPostElement property.
         parent::__construct( $aPostImport );
-    
+
         $this->aFilesImport = $aFilesImport;
-        
+
     }
-    
+
     private function getElementInFilesArray( array $aFilesImport, $sInputID, $sElementKey='error' ) {
 
         $sElementKey = strtolower( $sElementKey );
-        return $this->getElement( 
+        return $this->getElement(
             $aFilesImport,  // subject array
             array( $sElementKey, $sInputID ), // dimensional keys
             null    // default
         );
-        
-    }    
-        
+
+    }
+
     public function getError() {
-        
+
         return $this->getElementInFilesArray( $this->aFilesImport, $this->sInputID, 'error' );
-        
+
     }
     public function getType() {
 
         return $this->getElementInFilesArray( $this->aFilesImport, $this->sInputID, 'type' );
-        
+
     }
     public function getImportData() {
-        
+
         // Retrieve the uploaded file path.
         $sFilePath = $this->getElementInFilesArray( $this->aFilesImport, $this->sInputID, 'tmp_name' );
-        
+
         // Read the file contents.
         $vData = file_exists( $sFilePath ) ? file_get_contents( $sFilePath, true ) : false;
-        
+
         return $vData;
-        
+
     }
     public function formatImportData( &$vData, $sFormatType=null ) {
-        
+
         $sFormatType = isset( $sFormatType ) ? $sFormatType : $this->getFormatType();
         switch ( strtolower( $sFormatType ) ) {
             case 'text': // for plain text.
@@ -98,20 +98,20 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
                 $vData = json_decode( ( string ) $vData, true ); // the second parameter indicates to decode it as array.
                 return;
             case 'array': // for serialized PHP array.
-            default: // for anything else, 
+            default: // for anything else,
                 $vData = maybe_unserialize( trim( $vData ) );
                 return;
-        }     
-    
+        }
+
     }
     public function getFormatType() {
-                    
-        $this->sFormatType = isset( $this->sFormatType ) && $this->sFormatType 
+
+        $this->sFormatType = isset( $this->sFormatType ) && $this->sFormatType
             ? $this->sFormatType
             : $this->getSubmitValueByType( $this->aPost, $this->sInputID, 'format' );
 
         return $this->sFormatType;
-        
+
     }
-    
+
 }

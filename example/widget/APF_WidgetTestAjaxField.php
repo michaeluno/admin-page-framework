@@ -1,12 +1,12 @@
 <?php
 /**
  * Admin Page Framework - Demo
- * 
+ *
  * Demonstrates the usage of Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
- * 
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
+ *
  */
 
 /**
@@ -21,7 +21,7 @@ class APF_WidgetTestAjaxField extends AdminPageFramework_Widget {
 
     /**
      * Sets up the form.
-     * 
+     *
      * Alternatively you may use load_{instantiated class name} method.
      */
     public function load() {
@@ -37,12 +37,12 @@ class APF_WidgetTestAjaxField extends AdminPageFramework_Widget {
                     'c' => 'C',
                 ),
             )
-        );        
+        );
 
     }
-    
 
-        
+
+
 }
 
 if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {

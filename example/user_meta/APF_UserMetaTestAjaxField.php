@@ -1,11 +1,11 @@
 <?php
 /**
  * Admin Page Framework - Loader
- * 
+ *
  * Loads Admin Page Framework.
- * 
+ *
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2018, Michael Uno; Licensed GPLv2
+ * Copyright (c) 2013-2019, Michael Uno; Licensed GPLv2
  */
 
 /**
@@ -38,5 +38,5 @@ class APF_UserMetaTestAjaxField extends AdminPageFramework_UserMeta {
 }
 
 if ( defined( 'WP_DEBUG' ) && 'WP_DEBUG' ) {
-    new APF_UserMetaTestAjaxField; 
+    new APF_UserMetaTestAjaxField;
 }
