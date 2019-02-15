@@ -18,7 +18,7 @@
  *
  * @remark      When adding a new framework translation item,
  * Step 1: add a key and the default value to the `$aDefaults` property array.
- * Step 2: add a dummy function call in the `__doDummy()` method so that parser programs can catch it.
+ * Step 2: add a dummy function call in the `___doDummy()` method so that parser programs can catch it.
  */
 class AdminPageFramework_Message {
 
@@ -66,7 +66,7 @@ class AdminPageFramework_Message {
         'option_cleared'                        => 'The options have been cleared.',
         'export'                                => 'Export',
         'export_options'                        => 'Export Options',
-        'import_options'                        => 'Import',
+        'import'                                => 'Import',
         'import_options'                        => 'Import Options',
         'submit'                                => 'Submit',
         'import_error'                          => 'An error occurred while uploading the import file.',
@@ -334,8 +334,9 @@ class AdminPageFramework_Message {
      * A dummy method just lists translation items to be parsed by translation programs such as POEdit.
      *
      * @since       3.5.3
+     * @since       3.8.19  Changed the name to avoid false-positives of PHP 7.2 incompatibility by third party tools.
      */
-    private function __doDummy() {
+    private function ___doDummy() {
 
         __( 'The options have been updated.', 'admin-page-framework' );
         __( 'The options have been cleared.', 'admin-page-framework' );
