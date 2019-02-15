@@ -506,6 +506,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.19 =
+- Tweaked styling of the welcome page in the admin area of the loader plugin for WordPress 5.0.
 - Fixed an issue that some third-party tools reported false positive for PHP 7.2 incompatibility due to a method name prefixed with double underscores.
 
 = 3.8.18 - 2018/07/17 =
