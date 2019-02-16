@@ -14,12 +14,8 @@
  */
 class APF_UserMetaTestAjaxField extends AdminPageFramework_UserMeta {
 
-    public function load() {
-         new AjaxTestCustomFieldType( $this->oProp->sClassName );
-    }
-
     public function setUp() {
-        //new AjaxTestCustomFieldType( $this->oProp->sClassName );
+
         $this->addSettingFields(
             array(
                 'field_id' => 'ajax_test_filed',
@@ -33,6 +29,10 @@ class APF_UserMetaTestAjaxField extends AdminPageFramework_UserMeta {
             )
         );
 
+    }
+
+    public function load() {
+         new AjaxTestCustomFieldType( $this->oProp->sClassName );
     }
 
 }

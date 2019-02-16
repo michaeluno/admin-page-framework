@@ -15,7 +15,7 @@ class APF_TermMeta extends AdminPageFramework_TermMeta {
      * ( optional ) Use the setUp() method to define settings of this taxonomy fields.
      */
     public function setUp() {
-AdminPageFramework_Debug::log( __METHOD__ );
+
         /*
          * ( optional ) Adds setting fields into the meta box.
          */
