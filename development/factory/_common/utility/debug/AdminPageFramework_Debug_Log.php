@@ -29,13 +29,13 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
         static $_fPreviousTimeStamp = 0;
 
         $_oCallerInfo       = debug_backtrace();
-        $_sCallerFunction   = self::_getCallerFunctionName( $_oCallerInfo );
-        $_sCallerClass      = self::_getCallerClassName( $_oCallerInfo );
+        $_sCallerFunction   = self::___getCallerFunctionName( $_oCallerInfo );
+        $_sCallerClass      = self::___getCallerClassName( $_oCallerInfo );
         $_fCurrentTimeStamp = microtime( true );
 
         file_put_contents(
-            self::_getLogFilePath( $sFilePath, $_sCallerClass ),
-            self::_getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction ),
+            self::___getLogFilePath( $sFilePath, $_sCallerClass ),
+            self::___getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction ),
             FILE_APPEND
         );
 
@@ -46,8 +46,8 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
          * @since       3.8.9
          * @return      string
          */
-        static private function _getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction ) {
-            return self::_getLogHeadingLine(
+        static private function ___getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction ) {
+            return self::___getLogHeadingLine(
                     $_fCurrentTimeStamp,
                     round( $_fCurrentTimeStamp - $_fPreviousTimeStamp, 3 ), // elapsed time
                     $_sCallerClass,
@@ -59,7 +59,7 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
          * @since       3.8.9
          * @return      string
          */
-        static private function _getCallerFunctionName( $oCallerInfo ) {
+        static private function ___getCallerFunctionName( $oCallerInfo ) {
             return self::getElement(
                 $oCallerInfo,  // subject array
                 array( 2, 'function' ), // key
@@ -70,7 +70,7 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
          * @since       3.8.9
          * @return      string
          */
-        static private function _getCallerClassName( $oCallerInfo ) {
+        static private function ___getCallerClassName( $oCallerInfo ) {
             return self::getElement(
                 $oCallerInfo,  // subject array
                 array( 2, 'class' ), // key
@@ -80,20 +80,23 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
         /**
          * Determines the log file path.
          * @since       3.5.3
+         * @sicne       3.8.19  Shortened the generated file name.
          * @internal
          * @return      string      The path of the file to log the contents.
+         * @param       string|boolean  $bsFilePath     If the file path is specified, use that path. Otherwise, generate a file path name.
          */
-        static private function _getLogFilePath( $bsFilePath, $sCallerClass ) {
+        static private function ___getLogFilePath( $bsFilePath, $sCallerClass ) {
 
-            $_bFileExists = self::_createFile( $bsFilePath );
+            $_bFileExists = self::___createFile( $bsFilePath );
             if ( $_bFileExists ) {
                 return $bsFilePath;
             }
             // Return a generated default log path.
-            if ( true === $bsFilePath ) {
-                return WP_CONTENT_DIR . DIRECTORY_SEPARATOR . basename( get_class() ) . '_' . date( "Ymd" ) . '.log';
-            }
-            return WP_CONTENT_DIR . DIRECTORY_SEPARATOR . basename( get_class() ) . '_' . basename( $sCallerClass ) . '_' . date( "Ymd" ) . '.log';
+            $_sWPContentDir  = WP_CONTENT_DIR . DIRECTORY_SEPARATOR;
+            $_sClassBaseName = $sCallerClass
+                ? basename( $sCallerClass )
+                : basename( get_class() );
+            return $_sWPContentDir . $_sClassBaseName . '_' . date( "Ymd" ) . '.log';
 
         }
             /**
@@ -101,7 +104,7 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
              * @return      boolean
              * @internal
              */
-            static private function _createFile( $sFilePath ) {
+            static private function ___createFile( $sFilePath ) {
                 if ( ! $sFilePath || true === $sFilePath ) {
                     return false;
                 }
@@ -109,8 +112,8 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
                     return true;
                 }
                 // Otherwise, create a file.
-                $_bhResrouce = fopen( $sFilePath, 'w' );
-                return ( boolean ) $_bhResrouce;
+                $_bhResource = fopen( $sFilePath, 'w' );
+                return ( boolean ) $_bhResource;
             }
 
         /**
@@ -119,14 +122,14 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
          * @internal
          * @return      string      the heading part of a log item.
          */
-        static private function _getLogHeadingLine( $fCurrentTimeStamp, $nElapsed, $sCallerClass, $sCallerFunction ) {
+        static private function ___getLogHeadingLine( $fCurrentTimeStamp, $nElapsed, $sCallerClass, $sCallerFunction ) {
 
-            $_nNow              = $fCurrentTimeStamp + ( self::_getSiteGMTOffset() * 60 * 60 );
+            $_nNow              = $fCurrentTimeStamp + ( self::___getSiteGMTOffset() * 60 * 60 );
             $_nMicroseconds     = str_pad( round( ( $_nNow - floor( $_nNow ) ) * 10000 ), 4, '0' );
             $_aOutput           = array(
                 date( "Y/m/d H:i:s", $_nNow ) . '.' . $_nMicroseconds,
-                self::_getFormattedElapsedTime( $nElapsed ),
-                self::_getPageLoadID(),
+                self::___getFormattedElapsedTime( $nElapsed ),
+                self::___getPageLoadID(),
                 self::getFrameworkVersion(),
                 $sCallerClass . '::' . $sCallerFunction,
                 current_filter(),
@@ -141,7 +144,7 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
              *
              * @return      numeric
              */
-            static private function _getSiteGMTOffset() {
+            static private function ___getSiteGMTOffset() {
                 static $_nGMTOffset;
                 $_nGMTOffset        = isset( $_nGMTOffset )
                     ? $_nGMTOffset
@@ -152,7 +155,7 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
             /**
              * @return      integer
              */
-            static private function _getPageLoadID() {
+            static private function ___getPageLoadID() {
                 static $_iPageLoadID;
                 $_iPageLoadID       = $_iPageLoadID
                     ? $_iPageLoadID
@@ -166,7 +169,7 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
              * @internal
              * @return      string      Formatted elapsed time.
              */
-            static private function _getFormattedElapsedTime( $nElapsed ) {
+            static private function ___getFormattedElapsedTime( $nElapsed ) {
 
                 $_aElapsedParts     = explode( ".", ( string ) $nElapsed );
                 $_sElapsedFloat     = str_pad(
