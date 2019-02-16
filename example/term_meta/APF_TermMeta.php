@@ -15,7 +15,7 @@ class APF_TermMeta extends AdminPageFramework_TermMeta {
      * ( optional ) Use the setUp() method to define settings of this taxonomy fields.
      */
     public function setUp() {
-
+AdminPageFramework_Debug::log( __METHOD__ );
         /*
          * ( optional ) Adds setting fields into the meta box.
          */
@@ -90,11 +90,15 @@ class APF_TermMeta extends AdminPageFramework_TermMeta {
      */
     public function columns_APF_TermMeta( $aColumn ) {
 
-        unset( $aColumn['description'] );
-        return array(
-                'cb' => $aColumn['cb'],
+        unset( $aColumn[ 'description' ] );
+        // in term.php this method is also called but the `cb` element does not exist
+        $_aCheckBox = isset( $aColumn[ 'cb' ] )
+            ? array( 'cb' => $aColumn[ 'cb' ] )
+            : array();
+        return $_aCheckBox
+            + array(
                 'thumbnail' => __( 'Thumbnail', 'admin-page-framework-loader' ),
-                'custom' => __( 'Custom Column', 'admin-page-framework-loader' ),
+                'custom'    => __( 'Custom Column', 'admin-page-framework-loader' ),
             )
             + $aColumn;
 
