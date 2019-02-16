@@ -62,7 +62,7 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
         static private function _getCallerFunctionName( $oCallerInfo ) {
             return self::getElement(
                 $oCallerInfo,  // subject array
-                array( 1, 'function' ), // key
+                array( 2, 'function' ), // key
                 ''      // default
             );
         }
@@ -73,7 +73,7 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
         static private function _getCallerClassName( $oCallerInfo ) {
             return self::getElement(
                 $oCallerInfo,  // subject array
-                array( 1, 'class' ), // key
+                array( 2, 'class' ), // key
                 ''      // default
             );
         }
