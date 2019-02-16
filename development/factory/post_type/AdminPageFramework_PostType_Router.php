@@ -112,8 +112,8 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
             return false;
         }
 
-        // Post table columns use ajax to update when the user modifies the post meta via quick edit.
-        if ( $this->oProp->bIsAdminAjax && $this->oUtil->getElement( $this->oProp->aPostTypeArgs, 'public', true ) ) {
+        // 3.8.19+
+        if ( $this->_isValidAjaxReferrer() ) {
             return true;
         }
 
@@ -130,6 +130,33 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
         return $this->oUtil->getCurrentPostType() === $this->oProp->sPostType;
 
     }
+
+    /**
+     * Checks if the `admin-ajax.php` is called from the appropriate page.
+     * @sicne   3.8.19
+     * @return  boolean
+     */
+    protected function _isValidAjaxReferrer() {
+
+        if ( ! $this->oProp->bIsAdminAjax ) {
+            return false;
+        }
+        if ( ! $this->oUtil->getElement( $this->oProp->aPostTypeArgs, 'public', true ) ) {
+            return false;
+        }
+
+        $_aReferrer = parse_url( $this->oProp->sAjaxReferrer );
+        $_aQuery    = array();
+        parse_str( $_aReferrer[ 'query' ], $_aQuery );
+
+        $_sBaseName = basename( $_aReferrer[ 'path' ] );
+        if ( ! in_array( $_sBaseName, array( 'edit.php', ) ) ) {
+            return false;
+        }
+        return $this->oUtil->getElement( $_aQuery, array( 'post_type' ), '' ) === $this->oProp->sPostType;
+
+    }
+
 
     /**
      * Determines whether the class component classes should be instantiated or not.

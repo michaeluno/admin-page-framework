@@ -260,6 +260,19 @@ abstract class AdminPageFramework_Factory_Router {
     }
 
     /**
+     * Checks if the `admin-ajax.php` is called from the page that this meta box belongs to.
+     * @remark  Extended factory types should override this method.
+     * @sicne   3.8.19
+     * @return  boolean
+     */
+    protected function _isValidAjaxReferrer() {
+        if ( ! $this->oProp->bIsAdminAjax ) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Determines whether the `setUp()` method should be called.
      *
      * @since       3.7.10

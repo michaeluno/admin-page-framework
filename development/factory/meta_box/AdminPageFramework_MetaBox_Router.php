@@ -81,8 +81,8 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
      */
     protected function _isInThePage() {
 
-        // 3.8.14+
-        if ( $this->oProp->bIsAdminAjax ) {
+        // 3.8.14 The ajax check was added. 3.8.19 The method was added.
+        if ( $this->_isValidAjaxReferrer() ) {
             return true;
         }
 
@@ -93,8 +93,35 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         if ( ! in_array( $this->oUtil->getCurrentPostType(), $this->oProp->aPostTypes ) ) {
             return false;
         }
-
         return true;
+
+    }
+
+    /**
+     * Checks if the `admin-ajax.php` is called from the page that this meta box belongs to.
+     * @sicne   3.8.19
+     * @remark  since 3.8.14, the check for `admin-ajax.php` has been added.
+     * @return  boolean
+     */
+    protected function _isValidAjaxReferrer() {
+
+        if ( ! $this->oProp->bIsAdminAjax ) {
+            return false;
+        }
+        $_aReferrer = parse_url( $this->oProp->sAjaxReferrer );
+        parse_str( $_aReferrer[ 'query' ], $_aQuery );
+
+        $_sBaseName = basename( $_aReferrer[ 'path' ] );
+        if ( ! in_array( $_sBaseName, array( 'post.php', 'post-new.php' ) ) ) {
+            return false;
+        }
+        // post-new.php?post_type={...} or post.php?post={n}&action=edit
+        $_iPost      = $this->oUtil->getElement( $_aQuery, array( 'post' ), 0 );
+        $_sPostType  = $this->oUtil->getElement( $_aQuery, array( 'post_type' ), '' );
+        $_sPostType  = $_sPostType
+            ? $_sPostType
+            : get_post_type( $_iPost );
+        return in_array( $_sPostType, $this->oProp->aPostTypes );
 
     }
 

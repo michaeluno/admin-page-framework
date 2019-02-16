@@ -506,7 +506,10 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.19 =
+- Added checks to prevent unnecessary calls on `setUp()` in `admin-ajax.php`.
 - Tweaked styling of the welcome page in the admin area of the loader plugin for WordPress 5.0.
+- Changed generated log file names with `AdminPageFramework_Debug::log()` to be shortened.
+- Fixed a bug with the `AdminPageFramework_Debug::log()` method that did not properly retrieve correct caller method names.
 - Fixed an issue that some third-party tools reported false positive for PHP 7.2 incompatibility due to a method name prefixed with double underscores.
 
 = 3.8.18 - 2018/07/17 =

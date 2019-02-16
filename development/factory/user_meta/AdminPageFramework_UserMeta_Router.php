@@ -52,19 +52,35 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
      */
     protected function _isInThePage() {
 
-        // 3.8.14+
-        if ( $this->oProp->bIsAdminAjax ) {
-            return true;
-        }
-
         if ( ! $this->oProp->bIsAdmin ) {
             return false;
+        }
+
+        // 3.8.14+
+        if ( $this->oProp->bIsAdminAjax ) {
+            return $this->_isValidAjaxReferrer();
         }
 
         return in_array(
             $this->oProp->sPageNow,
             array( 'user-new.php', 'user-edit.php', 'profile.php' )
         );
+
+    }
+
+    /**
+     * Checks if the `admin-ajax.php` is called from the page that this meta box belongs to.
+     * @sicne   3.8.19
+     * @remark  since 3.8.14, the check for `admin-ajax.php` has been added.
+     * @return  boolean
+     */
+    protected function _isValidAjaxReferrer() {
+
+        $_aReferrer = parse_url( $this->oProp->sAjaxReferrer );
+        parse_str( $_aReferrer[ 'query' ], $_aQuery );
+
+        $_sBaseName = basename( $_aReferrer[ 'path' ] );
+        return in_array( $_sBaseName, array( 'user-new.php', 'user-edit.php', 'profile.php' ) );
 
     }
 

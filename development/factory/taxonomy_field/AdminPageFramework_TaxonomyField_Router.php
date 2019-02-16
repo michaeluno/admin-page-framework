@@ -54,8 +54,12 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
      */
     protected function _isInThePage() {
 
+        if ( ! $this->oProp->bIsAdmin ) {
+            return false;
+        }
+
         if ( $this->oProp->bIsAdminAjax ) {
-            return true;
+            return $this->_isValidAjaxReferrer();
         }
 
         if ( ! in_array( $this->oProp->sPageNow, array( 'edit-tags.php', 'term.php' ) ) ) {
@@ -67,6 +71,26 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
         }
 
         return true;
+
+    }
+
+    /**
+     * Checks if the `admin-ajax.php` is called from the page that this meta box belongs to.
+     * @sicne   3.8.19
+     * @remark  since 3.8.14, the check for `admin-ajax.php` has been added.
+     * @return  boolean
+     */
+    protected function _isValidAjaxReferrer() {
+
+        $_aReferrer = parse_url( $this->oProp->sAjaxReferrer );
+        parse_str( $_aReferrer[ 'query' ], $_aQuery );
+
+        $_sBaseName = basename( $_aReferrer[ 'path' ] );
+        if ( ! in_array( $_sBaseName, array( 'edit-tags.php', 'term.php' ) ) ) {
+            return false;
+        }
+        $_sTaxonomy = $this->oUtil->getElement( $this->oProp->aQuery, array( 'taxonomy' ), '' );
+        return in_array( $_sTaxonomy, $this->oProp->aTaxonomySlugs );
 
     }
 

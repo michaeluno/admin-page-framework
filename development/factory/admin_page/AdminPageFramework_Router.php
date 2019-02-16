@@ -317,18 +317,14 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      */
     protected function _isInThePage() {
 
-        // 3.8.14+
-        if ( $this->oProp->bIsAdminAjax ) {
-            return true;
+        if ( ! $this->oProp->bIsAdmin ) {
+            return false;
         }
 
-        // If the setUp method is not loaded yet,
+        // If the `setUp()` method is not loaded yet, nothing can be checked
+        // as there is not page is added.
         if ( ! did_action( 'set_up_' . $this->oProp->sClassName ) ) {
             return true;
-        }
-
-        if ( ! isset( $_GET[ 'page' ] ) ) {
-            return false;
         }
 
         return $this->oProp->isPageAdded();
@@ -336,7 +332,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     }
 
     /**
-     * Determines whether the class component classes should be instantiated or not.
+     * Loads factory specific components.
      *
      * @internal
      * @callback    action      current_screen
