@@ -196,7 +196,7 @@ class AdminPageFramework_WPUtility_File extends AdminPageFramework_WPUtility_Hoo
      */
     static public function getBaseNameOfURL( $sURL ) {
 
-        $_sPath         = parse_url( $sURL, PHP_URL_PATH) ;
+        $_sPath         = parse_url( $sURL, PHP_URL_PATH );
         $_sFileBaseName = basename( $_sPath );
         return $_sFileBaseName;
 
