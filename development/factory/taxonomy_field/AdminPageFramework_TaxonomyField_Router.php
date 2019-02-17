@@ -82,7 +82,7 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
      */
     protected function _isValidAjaxReferrer() {
 
-        $_aReferrer = parse_url( $this->oProp->sAjaxReferrer );
+        $_aReferrer = parse_url( $this->oProp->sAjaxReferrer ) + array( 'query' => '', 'path' => '' );
         parse_str( $_aReferrer[ 'query' ], $_aQuery );
 
         $_sBaseName = basename( $_aReferrer[ 'path' ] );

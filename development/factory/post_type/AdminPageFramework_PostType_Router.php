@@ -145,8 +145,7 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
             return false;
         }
 
-        $_aReferrer = parse_url( $this->oProp->sAjaxReferrer );
-        $_aQuery    = array();
+        $_aReferrer = parse_url( $this->oProp->sAjaxReferrer ) + array( 'query' => '', 'path' => '' );
         parse_str( $_aReferrer[ 'query' ], $_aQuery );
 
         $_sBaseName = basename( $_aReferrer[ 'path' ] );

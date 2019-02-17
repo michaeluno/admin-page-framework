@@ -76,7 +76,7 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
      */
     protected function _isValidAjaxReferrer() {
 
-        $_aReferrer = parse_url( $this->oProp->sAjaxReferrer );
+        $_aReferrer = parse_url( $this->oProp->sAjaxReferrer ) + array( 'query' => '', 'path' => '' );
         parse_str( $_aReferrer[ 'query' ], $_aQuery );
 
         $_sBaseName = basename( $_aReferrer[ 'path' ] );

@@ -108,7 +108,7 @@ abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Fact
         if ( ! $this->oProp->bIsAdminAjax ) {
             return false;
         }
-        $_aReferrer = parse_url( $this->oProp->sAjaxReferrer );
+        $_aReferrer = parse_url( $this->oProp->sAjaxReferrer ) + array( 'query' => '', 'path' => '' );
         parse_str( $_aReferrer[ 'query' ], $_aQuery );
 
         $_sBaseName = basename( $_aReferrer[ 'path' ] );
