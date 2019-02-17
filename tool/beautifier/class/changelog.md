@@ -1,5 +1,9 @@
 ## Change Log
 
+### 1.3.0 - 2019/02/17
+- Added the library path option wchich allows the location to download.
+- Fixed PHP Warning:  count(): Parameter must be an array or an object that implements Countable in ...Beautifier.php on line 1513
+
 ### 1.2.0
 - Added tha ability to minify iline CSS rules.
 - Made it not remove the trailing slash at the end of the generated file.
