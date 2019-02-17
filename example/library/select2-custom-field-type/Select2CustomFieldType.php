@@ -75,7 +75,7 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  * </ul>
  *
  * @since       3.8.7
- * @version     0.0.3
+ * @version     0.0.4
  * @supports    IE8 or above. (uses JSON object)
  * @requires    Admin Page Framework 3.8.14
  */
@@ -754,9 +754,11 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
             if ( $aFieldset[ 'field_id' ] !== $aRequest[ 'field_id' ] ) {
                 return false;
             }
-            if ( $aFieldset[ 'section_id' ] !== $aRequest[ 'section_id' ] ) {
-                return false;
-            }
+            // @deprecated 0.0.4 Bug fix - this is for nested repeated fields to process properly
+            // in meta boxes, if the section id is '_default', fieldset may not have that key
+//            if ( $aFieldset[ 'section_id' ] !== $aRequest[ 'section_id' ] ) {
+//                return false;
+//            }
 
             return true;
 
