@@ -156,11 +156,11 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
              * @return      integer
              */
             static private function ___getPageLoadID() {
-                static $_iPageLoadID;
-                $_iPageLoadID       = $_iPageLoadID
-                    ? $_iPageLoadID
+                static $_sPageLoadID;
+                $_sPageLoadID       = $_sPageLoadID
+                    ? $_sPageLoadID
                     : uniqid();
-                return $_iPageLoadID;
+                return $_sPageLoadID;
             }
 
             /**
