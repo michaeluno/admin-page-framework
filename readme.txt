@@ -3,7 +3,7 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
-Tested up to:       4.9.7
+Tested up to:       5.0.3
 Stable tag:         3.8.18
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
@@ -12,7 +12,7 @@ Facilitates WordPress plugin and theme development.
 
 == Description ==
 
-<h4>Reduce Time for Plugin and Theme Development</h4>
+<h4>Reduce the Time Spent for Plugin and Theme Development</h4>
 One of the time-consuming part of developing WordPress plugins and themes is creating setting pages. As you more and more write plugins and themes, you will soon realize major part of code can be reused. Admin Page Framework aims to provide reusable code that eliminates the necessity of writing repeated code over and over again.
 
 You will have more organized means of building option pages with the framework. Extend the library class and pass your arrays defining the form elements to the predefined class methods. The library handles all the complex coding behind the scene and creates the pages and the forms for you.
@@ -155,15 +155,49 @@ For instance, if your instantiated class name is `APF` then the code would be
 $my_options = get_option( 'APF' );
 `
 
-If you are new to PHP, you may feel unconfortable dealing with multi-dimensional arrays because you would call `isset()` so many times. The framework has a utility method to help retrieve values of multi-dimensional arrays.
+And the option data is formed as an array with a structure like the following.
+
+`
+$my_options = array(
+    // field id => field value
+    'field_a' => 'value for field a'
+    'field_b' => 'value for field b'
+    ...
+    // section id => array(
+    //      field id => value,
+    // )
+    'section_a' => array(
+        'field_a' => 'value for field_a of section_a',
+        'field_b' => 'value for field_b of section_b',
+        ...
+    ),
+    'section_b' => array(
+        'field_a' => 'value for field_a of section_b',
+        'field_b' => 'value for field_b of section_b',
+        ...
+    ),
+    ...
+);
+`
+
+If you are new to PHP, you may feel uncomfortable dealing with multi-dimensional arrays because you would need to call `isset()` so many times. The framework has a utility method to help retrieve values of multi-dimensional arrays.
 
 `
 $_oUtil = new AdminPageFramework_WPUtility;
-
-$value = $_oUtil->getElement(
+$value  = $_oUtil->getElement(
     $my_options,    // (required) subject array
     array( 'key_in_the_first_depth', 'key_in_the_second_depth' ),   // (required) dimensional path
     'My Default Value Here' // (optional) set your default value in case a value is not set
+);
+`
+
+So for example, if you need to retrieve the value of `field_a` in `section_b`, you can do something like this.
+
+`
+$value = $_oUtil->getElement(
+    $my_options,
+    array( 'section_b', 'field_a' ),
+    'some default value'
 );
 `
 
