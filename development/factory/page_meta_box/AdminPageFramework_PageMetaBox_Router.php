@@ -26,11 +26,9 @@ abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_
      */
     protected function _isInstantiatable() {
 
-// @deprecated      3.8.14
-        // Disable the functionality in admin-ajax.php
-//        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
-//            return false;
-//        }
+        if ( $this->_isWordPressCoreAjaxRequest() ) {
+            return false;
+        }
         return true;
 
     }

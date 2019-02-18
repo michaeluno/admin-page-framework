@@ -295,11 +295,9 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      */
     protected function _isInstantiatable() {
 
-// @deprecated      3.8.14
-        // Disable in admin-ajax.php
-//        if ( isset( $GLOBALS[ 'pagenow' ] ) && 'admin-ajax.php' === $GLOBALS[ 'pagenow' ] ) {
-//            return false;
-//        }
+        if ( $this->_isWordPressCoreAjaxRequest() ) {
+            return false;
+        }
 
         // Nothing to do in the network admin area.
         return ! is_network_admin();

@@ -157,8 +157,6 @@ abstract class AdminPageFramework_Factory_Router {
         // Required sub-class objects
         $this->oProp = $oProp;
 
-// @deprecated  3.8.14
-// if ( $this->oProp->bIsAdmin && ! $this->oProp->bIsAdminAjax ) {
         if ( $this->oProp->bIsAdmin ) {
             $this->oUtil->registerAction( 'current_screen', array( $this, '_replyToLoadComponents' ) );
         }
@@ -241,8 +239,27 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      */
     protected function _isInstantiatable() {
+        if ( $this->_isWordPressCoreAjaxRequest() ) {
+            return false;
+        }
         return true;
     }
+        /**
+         * Checks whether the page call is by WordPress core ajax requests.
+         * @return  boolean
+         * @remark  Not using the property or utility object as this can be called prior to instantiating those.
+         * @since   3.8.19
+         */
+        protected function _isWordPressCoreAjaxRequest() {
+            if ( ! isset( $GLOBALS[ 'pagenow' ] ) ) {
+                return false;
+            }
+            if ( 'admin-ajax.php' !== $GLOBALS[ 'pagenow' ] ) {
+                return false;
+            }
+            $_sAction = isset( $_POST[ 'action' ] ) ? $_POST[ 'action' ] : '';
+            return in_array( $_sAction, array( 'heartbeat', 'closed-postboxes', 'meta-box-order' ) );
+        }
 
     /**
      * Determines whether the instantiated object and its producing elements belong to the loading page.
