@@ -286,7 +286,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * Sets the overall capability.
      *
      * <h4>Example</h4>
-     * <code>$this->setCpability( 'read' ); // let subscribers access the pages.
+     * <code>$this->setCapability( 'read' ); // let subscribers access the pages.
      * </code>
      *
      * @since       2.0.0
