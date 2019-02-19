@@ -43,7 +43,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
     }
 
     /**
-     * Inserts JavaScript scripts whihc must be inserted head.
+     * Inserts JavaScript scripts which must be inserted head.
      * @since       3.7.0
      * @return      string
      */
