@@ -97,7 +97,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
             $_aClassNamesForIE = array(
                 'AdminPageFramework_Form_View___CSS_CollapsibleSectionIE',
             );
-            foreach( $_aClassNames as $_sClassName ) {
+            foreach( $_aClassNamesForIE as $_sClassName ) {
                 $_oCSS = new $_sClassName;
                 $this->aResources[ 'internal_styles_ie' ][] = $_oCSS->get();
             }
