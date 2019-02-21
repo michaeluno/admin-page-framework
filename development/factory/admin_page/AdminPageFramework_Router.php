@@ -28,11 +28,11 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      */
     public function __construct( $sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework' ) {
 
-        $_sProprtyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
+        $_sPropertyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
             ? $this->aSubClassNames[ 'oProp' ]
             : 'AdminPageFramework_Property_' . $this->_sStructureType;
 
-        $this->oProp = new $_sProprtyClassName(
+        $this->oProp = new $_sPropertyClassName(
             $this,
             $sCallerPath,
             get_class( $this ),

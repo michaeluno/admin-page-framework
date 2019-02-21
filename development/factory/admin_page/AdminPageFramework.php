@@ -28,7 +28,7 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
      *
      * @since       3.0.0
      * @since       3.7.0       Changed the name from `$_sFieldsType`.
-     * @since       3.7.12      Moved from `AdminPageFrmework_Model_Form`. Removed the static scope.
+     * @since       3.7.12      Moved from `AdminPageFramework_Model_Form`. Removed the static scope.
      * @internal
      */
     protected $_sStructureType = 'admin_page';
