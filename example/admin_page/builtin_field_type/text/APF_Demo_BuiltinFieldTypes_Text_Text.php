@@ -327,7 +327,7 @@ EOD
                 'type'          => 'text',
                 'repeatable'    => true,
                 'sortable'      => true,
-                'description'       => array(
+                'description'   => array(
                     __( 'Drag and drop the fields to change the order.', 'admin-page-framework-loader' ),
                     "<pre>"
                         . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
@@ -335,7 +335,7 @@ EOD
 array(
     'type'              => 'text',
     'sortable'          => true,
-    'repeatable'    => true,
+    'repeatable'        => true,
 )
 EOD
                         )
