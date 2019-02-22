@@ -59,6 +59,7 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
                     fadein: 500,
                     fadeout: 500,  
                     disabled: 0,
+                    preserve_values: 0
                 }, 
                 aSettings 
             );
@@ -120,6 +121,7 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
         
         var _iFadein                = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadein' ];
         var _iFadeout               = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ sSectionsContainerID ][ 'fadeout' ];
+        var _bPreserveValues        = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ sSectionsContainerID ][ 'preserve_values' ];
         
         // If the set maximum number of sections already exists, do not add.
         var _sMaxNumberOfSections   = $.fn.aAdminPageFrameworkRepeatableSectionsOptions[ sSectionsContainerID ][ 'max' ];
@@ -137,7 +139,9 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
         }
         
         // Empty the values.
-        nodeNewSection.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' ); 
+        if ( ! _bPreserveValues ) {
+            nodeNewSection.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' );
+        }      
         nodeNewSection.find( '.repeatable-section-error' ).remove(); // remove error messages.
         
         // If this is not for tabbed sections, do not show the title.
@@ -212,7 +216,9 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
             var nodeNewTab  = nodeTab.clone();
             
             nodeNewTab.removeClass( 'active' );
-            nodeNewTab.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' ); // empty the value
+            if ( ! _bPreserveValues ) {            
+                nodeNewTab.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' ); // empty the value
+            }
         
             // Add the cloned new field tab.           
             nodeNewTab

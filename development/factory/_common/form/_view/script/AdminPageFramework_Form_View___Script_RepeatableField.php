@@ -41,38 +41,45 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
      */
     $.fn.updateAdminPageFrameworkRepeatableFields = function( aSettings ) {
         
-        var nodeThis            = this; 
+        var nodeThis            = this;
+        // @todo check if this find() may be appropriate to determine the fields container when there are nested fields.   
         var _sFieldsContainerID = nodeThis.find( '.repeatable-field-add-button' ).first().data( 'id' );
+        var _oFieldsContainer   = $( '#' + _sFieldsContainerID );
         
-        /* Store the fields specific options in an array  */
-        if ( ! $.fn.aAdminPageFrameworkRepeatableFieldsOptions ) {
-            $.fn.aAdminPageFrameworkRepeatableFieldsOptions = [];
-        }
-        if ( ! $.fn.aAdminPageFrameworkRepeatableFieldsOptions.hasOwnProperty( _sFieldsContainerID ) ) {     
-            $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ _sFieldsContainerID ] = $.extend({    
-                // These are the defaults.
-                max: 0, 
-                min: 0,
-                fadein: 500,
-                fadeout: 500,
-                disabled: false,    // 3.8.13+
-                }, aSettings );
-        }
-        var _aOptions = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ _sFieldsContainerID ];
-
-        /* Set the option values in the data attributes so that when a section is repeated and creates a brand new field container, it can refer to the options */
-// @todo For nested fields, the `find()` method should be avoided.
-        $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-max', _aOptions[ 'max' ] );
-        $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-min', _aOptions[ 'min' ] );
-        $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-fadein', _aOptions[ 'fadein' ] );
-        $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' ).attr( 'data-fadeout', _aOptions[ 'fadeout' ] );
+        /* Store the fields specific options */
+        var _aOptions = $.extend({    
+            // These are the defaults.
+            max: 0, 
+            min: 0,
+            fadein: 500,
+            fadeout: 500,
+            disabled: false,    // 3.8.13+
+			preserve_values: 0, // 3.8.19+
+            }, aSettings );
+        if ( ! _oFieldsContainer.data( 'repeatable' ) ) {
+            _oFieldsContainer.data( 'repeatable', _aOptions );
+        }   
         
-        /* The Add button behavior - if the tag id is given, multiple buttons will be selected. 
-         * Otherwise, a field node is given and a single button will be selected. */
-// @todo For nested fields, the `find()` method should be avoided.         
-        $( nodeThis ).find( '.repeatable-field-add-button' ).unbind( 'click' );
-        $( nodeThis ).find( '.repeatable-field-add-button' ).click( function() {
+        /* Set the option values in the data attributes so that when a section is repeated and creates a brand new field container, it can refer to the options */       
+        var _oRepeatableButtons = $( nodeThis ).find( '.admin-page-framework-repeatable-field-buttons' )
+            .filter( function() {                                       
+                return $( this ).closest( '.admin-page-framework-fields' ).attr( 'id' ) === _sFieldsContainerID;  // Avoid dealing with nested field's elements.                
+            });       
+        _oRepeatableButtons.attr( 'data-max', _aOptions[ 'max' ] );
+        _oRepeatableButtons.attr( 'data-min', _aOptions[ 'min' ] );
+        _oRepeatableButtons.attr( 'data-fadein', _aOptions[ 'fadein' ] );
+        _oRepeatableButtons.attr( 'data-fadeout', _aOptions[ 'fadeout' ] );
+        _oRepeatableButtons.attr( 'data-preserve_values', _aOptions[ 'preserve_values' ] );
         
+        /**
+         * The Add button behavior - if the tag id is given, multiple buttons will be selected. 
+         * Otherwise, a field node is given and a single button will be selected. 
+         */
+        var _oRepeatableAddButtons = $( nodeThis ).find( '.repeatable-field-add-button' );
+             
+        _oRepeatableAddButtons.unbind( 'click' );
+        _oRepeatableAddButtons.click( function() {
+// @todo event.preventDefault();        
             // 3.8.13+ 
             if ( $( this ).parent().data( 'disabled' ) ) {
                 var _aDisabled = $( this ).parent().data( 'disabled' );
@@ -85,16 +92,22 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
         });
 
         /* The Remove button behavior */
-// @todo For nested fields, the `find()` method should be avoided.        
-        $( nodeThis ).find( '.repeatable-field-remove-button' ).unbind( 'click' );
-        $( nodeThis ).find( '.repeatable-field-remove-button' ).click( function() {
+        var _oRepeatableRemoveButton = $( nodeThis ).find( '.repeatable-field-remove-button' );
+                              
+        _oRepeatableRemoveButton.unbind( 'click' );
+        _oRepeatableRemoveButton.click( function() {
+// @todo event.preventDefault();        
             $( this ).removeAdminPageFrameworkRepeatableField();
             return false; // will not click after that
         });
 
         /* If the number of fields is less than the set minimum value, add fields. */
-        var _sFieldID           = nodeThis.find( '.repeatable-field-add-button' ).first().closest( '.admin-page-framework-field' ).attr( 'id' );
-        var _nCurrentFieldCount = jQuery( '#' + _sFieldsContainerID ).find( '.admin-page-framework-field' ).length;
+        var _sFieldID           = _oRepeatableAddButtons.first().closest( '.admin-page-framework-field' ).attr( 'id' );
+        var _nCurrentFieldCount = $( '#' + _sFieldsContainerID ).find( '.admin-page-framework-field' )
+            .filter( function() {                 
+                return $( this ).closest( '.admin-page-framework-fields' ).attr( 'id' ) === _sFieldsContainerID;  // Avoid dealing with nested field's elements.                
+            })        
+            .length;
         if ( _aOptions[ 'min' ] > 0 && _nCurrentFieldCount > 0 ) {
             if ( ( _aOptions[ 'min' ] - _nCurrentFieldCount ) > 0 ) {     
                 $( '#' + _sFieldID ).addAdminPageFrameworkRepeatableField( _sFieldID );  
@@ -119,24 +132,39 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
         var nodeFieldsContainer = nodeFieldContainer.closest( '.admin-page-framework-fields' );
         var _sFieldsContainerID = nodeFieldsContainer.attr( 'id' );
 
+        var _aOptions = nodeFieldsContainer.data( 'repeatable' ); 
+
         // If the set maximum number of fields already exists, do not add.
-        if ( ! $.fn.aAdminPageFrameworkRepeatableFieldsOptions.hasOwnProperty( _sFieldsContainerID ) ) {     
-            var nodeButtonContainer = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' );
-            $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ _sFieldsContainerID ] = {    
-                max: nodeButtonContainer.attr( 'data-max' ), // These are the defaults.
-                min: nodeButtonContainer.attr( 'data-min' ),
-                fadein: nodeButtonContainer.attr( 'data-fadein' ),
-                fadeout: nodeButtonContainer.attr( 'data-fadeout' ),
-            };
+        if ( ! _aOptions ) {     
+            var _nodeButtonContainer = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' )
+                .filter( function() {                 
+                    return $( this ).closest( '.admin-page-framework-fields' ).attr( 'id' ) === _sFieldsContainerID;  // Avoid dealing with nested field's elements.                
+                })
+                .first();
+            _aOptions = {
+                max: _nodeButtonContainer.attr( 'data-max' ), // These are the defaults.
+                min: _nodeButtonContainer.attr( 'data-min' ),
+                fadein: _nodeButtonContainer.attr( 'data-fadein' ),
+                fadeout: _nodeButtonContainer.attr( 'data-fadeout' ),                
+                preserve_values: _nodeButtonContainer.attr( 'data-preserve_values' ), // 3.8.19                
+            };               
         }  
        
-        var _iFadein  = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ _sFieldsContainerID ][ 'fadein' ];
-        var _iFadeout = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ _sFieldsContainerID ][ 'fadeout' ];
+        var _iFadein  = _aOptions[ 'fadein' ];
+        var _iFadeout = _aOptions[ 'fadeout' ];
 
         // Show a warning message if the user tries to add more fields than the number of allowed fields.
-        var sMaxNumberOfFields = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ _sFieldsContainerID ]['max'];
-        if ( sMaxNumberOfFields != 0 && nodeFieldsContainer.find( '.admin-page-framework-field' ).length >= sMaxNumberOfFields ) {
-            var nodeLastRepeaterButtons = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' ).last();
+        var sMaxNumberOfFields  = _aOptions[ 'max' ];
+        var _oInnerFields       = nodeFieldsContainer.find( '.admin-page-framework-field' ) 
+                                    .filter( function() {                 
+                                        return $( this ).closest( '.admin-page-framework-fields' ).attr( 'id' ) === _sFieldsContainerID;  // Avoid dealing with nested field's elements.                
+                                    });
+        var _oRepeatableButtons = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' )
+                                    .filter( function() {                 
+                                        return $( this ).closest( '.admin-page-framework-fields' ).attr( 'id' ) === _sFieldsContainerID;  // Avoid dealing with nested field's elements.                
+                                    }); 
+        if ( sMaxNumberOfFields != 0 && _oInnerFields.length >= sMaxNumberOfFields ) {
+            var nodeLastRepeaterButtons = _oRepeatableButtons.last();
             var sMessage                = $( this ).formatPrintText( '{$sCannotAddMore}', sMaxNumberOfFields );
             var nodeMessage             = $( '<span class=\"repeatable-error repeatable-field-error\" id=\"repeatable-error-' + _sFieldsContainerID + '\" >' + sMessage + '</span>' );
             if ( nodeFieldsContainer.find( '#repeatable-error-' + _sFieldsContainerID ).length > 0 ) {
@@ -148,9 +176,11 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
             return;     
         }
         
-        // Empty values.
-        nodeNewField.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' ); // empty the value     
-        nodeNewField.find( 'input[type=checkbox]' ).prop( 'checked', false ); // uncheck checkboxes.
+        // Empty values.        
+        if ( ! _aOptions[ 'preserve_values' ] ) {
+            nodeNewField.find( 'input:not([type=radio], [type=checkbox], [type=submit], [type=hidden]),textarea' ).val( '' ); // empty the value     
+            nodeNewField.find( 'input[type=checkbox]' ).prop( 'checked', false ); // uncheck checkboxes.        
+        }  
         nodeNewField.find( '.repeatable-error' ).remove(); // remove error messages.
         
         // Add the cloned new field element.
@@ -190,7 +220,8 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
             ]
         );
         
-        // 3.8.8+ _nested and inline_mixed field types have nested fields. The above 
+        // 3.8.8+ _nested and inline_mixed field types have nested fields. 
+        // @todo check if this is okay as this applies to all inner fields including nested ones. 
         $( nodeNewField ).find( '.admin-page-framework-field' ).addBack().trigger( 
             'admin-page-framework_repeated_field', 
             [ 
@@ -200,8 +231,11 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
         );
         
         // If more than one fields are created, show the Remove button.
-// @todo find() may not be appropriate for nested fields.
-        var nodeRemoveButtons = nodeFieldsContainer.find( '.repeatable-field-remove-button' );
+        var nodeRemoveButtons = nodeFieldsContainer
+            .find( '.repeatable-field-remove-button' )
+            .filter( function() {                      
+                return $( this ).closest( '.admin-page-framework-fields' ).attr( 'id' ) === _sFieldsContainerID;                
+            })
         if ( nodeRemoveButtons.length > 1 ) { 
             nodeRemoveButtons.css( 'visibility', 'visible' ); 
         }
@@ -299,32 +333,46 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
         var nodeFieldContainer  = $( this ).closest( '.admin-page-framework-field' );
         var nodeFieldsContainer = $( this ).closest( '.admin-page-framework-fields' );
         var _sFieldsContainerID = nodeFieldsContainer.attr( 'id' );
+        var _aOptions = nodeFieldsContainer.data( 'repeatable' );
         
-        /* If the set minimum number of fields already exists, do not remove */
-        var sMinNumberOfFields  = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ _sFieldsContainerID ][ 'min' ];
-        if ( sMinNumberOfFields != 0 && nodeFieldsContainer.find( '.admin-page-framework-field' ).length <= sMinNumberOfFields ) {
-            var nodeLastRepeaterButtons = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' ).last();
+        /* If the set minimum number of fields already exists, do not remove */        
+        var sMinNumberOfFields  = _aOptions  
+            ? _aOptions[ 'min' ]
+            : 0;
+        var _oInnerFields        = nodeFieldsContainer.find( '.admin-page-framework-field' )
+            .filter( function() {                                       
+                return $( this ).closest( '.admin-page-framework-fields' ).attr( 'id' ) === _sFieldsContainerID;  // Avoid dealing with nested field's elements.                
+            });                   
+        if ( sMinNumberOfFields != 0 && _oInnerFields.length <= sMinNumberOfFields ) {
+            var _oRepeatableButtons     = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' )
+                .filter( function() {                                       
+                    return $( this ).closest( '.admin-page-framework-fields' ).attr( 'id' ) === _sFieldsContainerID;  // Avoid dealing with nested field's elements.                
+                });            
+            var nodeLastRepeaterButtons = _oRepeatableButtons.last();
             var sMessage                = $( this ).formatPrintText( '{$sCannotRemoveMore}', sMinNumberOfFields );
             var nodeMessage             = $( '<span class=\"repeatable-error repeatable-field-error\" id=\"repeatable-error-' + _sFieldsContainerID + '\">' + sMessage + '</span>' );
-            if ( nodeFieldsContainer.find( '#repeatable-error-' + _sFieldsContainerID ).length > 0 ) {
-                nodeFieldsContainer.find( '#repeatable-error-' + _sFieldsContainerID ).replaceWith( nodeMessage );
+            var _repeatableErrors       = nodeFieldsContainer.find( '#repeatable-error-' + _sFieldsContainerID )
+                .filter( function() {                                       
+                    return $( this ).closest( '.admin-page-framework-fields' ).attr( 'id' ) === _sFieldsContainerID;  // Avoid dealing with nested field's elements.                
+                });
+            if ( _repeatableErrors.length > 0 ) {
+                _repeatableErrors.replaceWith( nodeMessage );
             } else {
                 nodeLastRepeaterButtons.before( nodeMessage );
             }
-            var _iFadeout = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ _sFieldsContainerID ][ 'fadeout' ]
-                ? $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ _sFieldsContainerID ][ 'fadeout' ]
-                : 500;
+            var _iFadeout = _aOptions ? _aOptions[ 'fadeout' ] : 500;
             nodeMessage.delay( 2000 ).fadeOut( _iFadeout );
             return;     
         }     
         
         /* Remove the field */
-        var _iFadeout = $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ _sFieldsContainerID ][ 'fadeout' ]
-            ? $.fn.aAdminPageFrameworkRepeatableFieldsOptions[ _sFieldsContainerID ][ 'fadeout' ]
-            : 500;        
+        var _iFadeout = _aOptions ? _aOptions[ 'fadeout' ] : 500;
         nodeFieldContainer.fadeOut( _iFadeout, function() { 
             $( this ).remove(); 
-            var nodeRemoveButtons = nodeFieldsContainer.find( '.repeatable-field-remove-button' );
+            var nodeRemoveButtons = nodeFieldsContainer.find( '.repeatable-field-remove-button' )           
+                .filter( function() {                   
+                    return $( this ).closest( '.admin-page-framework-fields' ).attr( 'id' ) === _sFieldsContainerID;
+                });            
             if ( 1 === nodeRemoveButtons.length ) { 
                 nodeRemoveButtons.css( 'visibility', 'hidden' ); 
             }            
@@ -332,7 +380,7 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
             
     };
         
-}( jQuery ));    
+}( jQuery ));
 JAVASCRIPTS;
 
     }
