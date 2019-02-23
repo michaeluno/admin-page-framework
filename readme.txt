@@ -272,7 +272,7 @@ Yes, See the demo.
 
 <h5><strong>Some of my users claim they cannot save options. What would be a possible cause?</strong></h5>
 
-- `max_input_vars` of PHP settings. If this value is small and the there are lots of form input elements, the user may not be able to save the options.
+- `max_input_vars` of PHP settings. If this value is small and there are lots of form input elements, the user may not be able to save the options.
 
 To increase the value, edit `php.ini` and add the following line where `10000` is the increased number.
 
