@@ -539,7 +539,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.8.19 =
+= 3.8.19 - 2019/02/24 =
 - Added checks to prevent unnecessary calls on `setUp()` in `admin-ajax.php`.
 - Tweaked styling of the welcome page in the admin area of the loader plugin for WordPress 5.0.
 - Changed generated log file names with `AdminPageFramework_Debug::log()` to be shortened.
