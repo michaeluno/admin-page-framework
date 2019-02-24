@@ -5,8 +5,13 @@ downloadCodeception() {
     # For other versions @see https://codeception.com/builds
     # download "http://codeception.com/codecept.phar" "$1"
 
-    # v2.5.4 for PHP 5.6
+    # v2.5.4 (stable as of 2019/02/23)
+    # download "http://codeception.com/releases/2.5.4/codecept.phar" "$1"
+
+    # v2.5.1 ~ v2.5.4 for PHP 5.6 causes an error PHP Warning: require_once(phar://codecept.phar/autoload.php): failed to open st                          ream: phar error: invalid url or non-existent phar "phar://codecept.phar/autoload. ...\codecept.phar on line 5
+    # Maybe related @see https://github.com/Codeception/Codeception/issues/4875
     download "https://codeception.com/releases/2.5.4/php54/codecept.phar" "$1"
+    # download "https://codeception.com/releases/2.5.1/php54/codecept.phar" "$1"
 
     # v2.5.1 (stable as of 2018/11/01) -> does not run on Travis tests against PHP 5.6
     # download "http://codeception.com/releases/2.5.1/codecept.phar" "$1"
@@ -14,10 +19,10 @@ downloadCodeception() {
     # v2.5.0
     # download "https://codeception.com/releases/2.5.0/codecept.phar" "$1"
 
-    # v2.4.5 -> PHP Warning:  Cannot declare class PHPUnit_Framework_TestCase, because the name is already in use in ...\wordpress-tests-lib\includes\phpunit6-compat.php
+    # v2.4.5 -> PHP Warning: Cannot declare class PHPUnit_Framework_TestCase, because the name is already in use in ...\wordpress-tests-lib\includes\phpunit6-compat.php
     # download "https://codeception.com/releases/2.4.5/codecept.phar" "$1"
 
-    # v2.3.9 -> PHP Warning:  Cannot declare class PHPUnit_Framework_TestCase, because the name is already in use in ...\wordpress-tests-lib\includes\phpunit6-compat.php
+    # v2.3.9 -> PHP Warning: Cannot declare class PHPUnit_Framework_TestCase, because the name is already in use in ...\wordpress-tests-lib\includes\phpunit6-compat.php
     # download "https://codeception.com/releases/2.3.9/codecept.phar" "$1"
 
     # v2.2.12 -> with PHP 7.2 [PHPUnit_Framework_Exception] count(): Parameter must be an array or an object that implements Countable
@@ -49,7 +54,8 @@ downloadCodeception() {
         exit 1
     fi
     # Output the version in case an error occurs.
-    php "$1" --version
+    # Codeception Builds for PHP 5.x has been not able to call the file with absolute path
+    # php "$1" --version
 
     # c3
     # @see  https://github.com/Codeception/c3

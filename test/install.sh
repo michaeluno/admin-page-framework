@@ -2,7 +2,7 @@
 
 # Script information
 SCRIPT_NAME="WordPress Plugin The Test Suite Installer"
-SCRIPT_VERSION="1.0.1"
+SCRIPT_VERSION="1.1.2"
 
 # Scripts defining custom functions
 source $(dirname $0)/include/download.sh
@@ -58,7 +58,8 @@ cd "$WORKING_DIR"
 
 TEMP=$([ -z "${TEMP}" ] && echo "/tmp" || echo "$TEMP")
 WP_CLI="$TEMP/wp-cli.phar"
-CODECEPT="$TEMP/codecept.phar"
+CODECEPTFILENAME="codecept.phar"
+CODECEPT="$TEMP/$CODECEPTFILENAME"
 C3="$TEMP/c3.php"
 TEMP_PROJECT_DIR="$TEMP/$PROJECT_SLUG"
 
@@ -306,7 +307,9 @@ installCodeception() {
 
     # Run the bootstrap to generate necessary files.
     echo Creating Codeception configuration files.
-    php "$CODECEPT" bootstrap "$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/"
+    cd "$TEMP"
+    php $CODECEPTFILENAME bootstrap "$WP_TEST_DIR/wp-content/plugins/$PROJECT_SLUG/test/"
+    cd "$WORKING_DIR"
 
     # Restore the global configuration distribution file. (codeception.dist.yml)
     mv "$CONFIG_DIST_FILE_BACKUP" "$CONFIG_DIST_FILE"
@@ -354,9 +357,14 @@ EOM
 }
 
 # Download necessary applications
-downloadWPCLI "$WP_CLI"
-downloadCodeception "$CODECEPT"
-evacuateProjectFiles
+echo Downloading WP-CLI
+    downloadWPCLI "$WP_CLI"
+echo Downloading Codeception
+    downloadCodeception "$CODECEPT"
+cd "$TEMP"
+php "$CODECEPTFILENAME" --version
+cd "$WORKING_DIR"
+    evacuateProjectFiles
 
 # Install components
 if [[ REINSTALL_PROJECT_FILES -ne 1 ]]; then    

@@ -15,6 +15,9 @@
 *.old
 *.bak
 
+# PHP script files
+*.phar
+
 # Temporary directories.
 */_del/
 */_old/
