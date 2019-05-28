@@ -57,6 +57,9 @@ class AdminPageFrameworkLoader_FeedList {
         }
 
         $_oFeed     = fetch_feed( $_aURLs );
+        if ( is_wp_error( $_oFeed ) ) {
+            return $_aOutput;
+        }
         foreach ( $_oFeed->get_items() as $_oItem ) {
             $_aOutput[ $_oItem->get_title() ] = array(
                 'content'        => $_oItem->get_content(),

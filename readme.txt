@@ -539,6 +539,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.20 =
+- Fixed the PHP error `Call to undefined method WP_Error::get_items()` in the Add-ons page when fetching feeds failed.
+
 = 3.8.19 - 2019/02/24 =
 - Added checks to prevent unnecessary calls on `setUp()` in `admin-ajax.php`.
 - Tweaked styling of the welcome page in the admin area of the loader plugin for WordPress 5.0.
