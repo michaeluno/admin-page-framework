@@ -236,24 +236,6 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
     }        
 
     /**
-     * @deprecated      Doesn't work
-     */
-    var eliminateDuplicates = function(arr) {
-        var i,
-        len=arr.length,
-        out=[],
-        obj={};
-
-        for (i=0;i<len;i++) {
-            obj[arr[i]]=0;
-        }
-        for (i in obj) {
-            out.push(i);
-        }
-        return out;
-    }        
-
-    /**
      * Initialize no ui slider with the given slider container node.
      * 
      * @since       3.8.7
@@ -308,7 +290,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
              * To cancel, return void.
              * 
              * When called from an AJAX search result, the `page` will be available.
-             * When the user hit the token separater key such as `,`, the property will be missing.
+             * When the user hit the token separator key such as `,`, the property will be missing.
              */            
             _aOptions[ 'createTag' ] = function( obj ) {
                 
@@ -469,7 +451,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
             /**
              * When the user selects an item, set a JSON encoded string to a hidden input with the key of `encoded`.
              * 
-             * Unselect items with the value of `__string__` as these are pending for update via Ajax.
+             * Deselect items with the value of `__string__` as these are pending for update via Ajax.
              * And if the user saves the form with these items, the saved values messes up with IDs and dummy index.
              */
             _oSelect2Target.on( 'change', function( event ){
@@ -693,19 +675,19 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
 
 
     /**
-     * Callks back the callback function if it is set.
+     * Calls back the callback function if it is set.
      *
      * Called when the field type is registered.
      */
     protected function doOnFieldRegistration( $aFieldset ) {
 
         $_aQueries = $_REQUEST;
-        if ( ! $this->_shouldProceedToAjaxRequest( $_aQueries, $aFieldset ) ) {
+        if ( ! $this->___shouldProceedToAjaxRequest( $_aQueries, $aFieldset ) ) {
             return;
         }
         unset( $_aQueries[ 'doing_select2_ajax' ] );
 
-        $_asCallable = $this->_getAjaxCallback( $_aQueries, $aFieldset );
+        $_asCallable = $this->___getAjaxCallback( $_aQueries, $aFieldset );
         if ( ! is_callable( $_asCallable ) ) {
             return;
         }
@@ -725,7 +707,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
         /**
          * @return      boolean|callable        False when a callback is not found. Otherwise, the found callable.
          */
-        private function _getAjaxCallback( $aRequest, $aFieldset ) {
+        private function ___getAjaxCallback( $aRequest, $aFieldset ) {
 
             if ( isset( $aRequest[ 'q' ] ) ) {
                 return $this->getElement( $aFieldset, array( 'callback', 'search' ), false );
@@ -740,7 +722,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
         /**
          * @return      boolean
          */
-        private function _shouldProceedToAjaxRequest( $aRequest, $aFieldset ) {
+        private function ___shouldProceedToAjaxRequest( $aRequest, $aFieldset ) {
 
             if (
                 ! isset(
