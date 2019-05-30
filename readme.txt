@@ -3,7 +3,7 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
-Tested up to:       5.1.0
+Tested up to:       5.2.1
 Stable tag:         3.8.19
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
@@ -541,6 +541,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 = 3.8.20 =
 - Fixed the PHP error `Call to undefined method WP_Error::get_items()` in the Add-ons page when fetching feeds failed.
+- Fixed a bug with the `select2` custom field type that initialization failed for repeated fields.
 
 = 3.8.19 - 2019/02/24 =
 - Added checks to prevent unnecessary calls on `setUp()` in `admin-ajax.php`.
