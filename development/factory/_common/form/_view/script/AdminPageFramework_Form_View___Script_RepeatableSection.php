@@ -261,7 +261,7 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
                 iSectionsCount, // increment from
                 _sSectionIDModel // digit model
             );            
-            $( oElement ).find( 'tr.admin-page-framework-fieldrow, .admin-page-framework-fieldset, .admin-page-framework-fields, .admin-page-framework-field, table.form-table, input,textarea,select' )
+            $( oElement ).find( 'tr.admin-page-framework-fieldrow, .admin-page-framework-fieldset, .admin-page-framework-fields, .admin-page-framework-field, table.form-table, input,textarea,select,option' )
                 .incrementAttribute( 
                     'id', 
                     iSectionsCount,

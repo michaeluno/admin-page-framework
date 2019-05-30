@@ -1,6 +1,11 @@
 # Change Log
 
+= 0.0.5 - 2019/05/30 =
+- Updated select2 from v4.0.6-rc.1 to v4.0.7.
+- Fixed a bug that initialization failed for repeated fields.
+
 = 0.0.4 - 2019/02/17 =
+- Updated select2 from v4.0.3 to v4.0.6-rc.1.
 - Fixed a bug with that requests did not go through with nested fields.
 - Fixed an issue that the message "the results could not be loaded" was displayed while during Ajax requests by updating the select2 library to 4.0.6-rc.1.
 

@@ -273,7 +273,7 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
                 _iFieldCount, // increment from
                 _sFieldTagIDModel // digit model
             );
-            oElement.find( 'input,textarea,select' ).incrementAttribute(
+            oElement.find( 'input,textarea,select,option' ).incrementAttribute(
                 'id', // attribute name
                 _iFieldCount, // increment from
                 _sFieldTagIDModel // digit model

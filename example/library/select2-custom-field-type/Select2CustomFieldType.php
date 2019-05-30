@@ -77,7 +77,7 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  * @since       3.8.7
  * @version     0.0.4
  * @supports    IE8 or above. (uses JSON object)
- * @requires    Admin Page Framework 3.8.14
+ * @requires    Admin Page Framework 3.8.20
  */
 class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
 
@@ -236,7 +236,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
     }        
 
     /**
-     * Initialize no ui slider with the given slider container node.
+     * Initialize elements with the given container node.
      * 
      * @since       3.8.7
      * @param       oNode       The target select tag DOM node object.
@@ -423,9 +423,9 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
         
         /**
          * Initialization
-         */
+         */        
         _oSelect2Target.select2( _aOptions );
-
+        
         /**
          * Ajax handling.
          * 
@@ -435,7 +435,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
         if ( _aOptions[ 'search_callback' ] ) {
             
             /**
-             * Set inital values.
+             * Set initial values.
              */
             var _oInputForEncoded = _oSelect2Target.closest( '.admin-page-framework-field' )
                 .children( 'input[data-encoded]' ).first();
@@ -523,8 +523,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
     }
 
     /**
-     * Initialize toggle elements. Note that a pair of inputs (min and max) are parsed for each field.
-     * So skip one of them.
+     * Initialize select2 elements.
      */
     jQuery( 'select[data-type=select2]' ).each( function () {
         _initializeSelect2( this );
@@ -536,10 +535,12 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
          * Called when a field of this field type gets repeated.
          */
         repeated_field: function( oCloned, aModel ) {
-                        
+                            
             oCloned.find( '.select2-container' ).remove();
                      
             oCloned.find( 'select[data-type=select2]' ).each( function () {
+                jQuery( this ).removeAttr( 'data-select2-id tabindex aria-hidden' );                         
+                jQuery( this ).removeClass( 'select2-hidden-accessible' );
                 _initializeSelect2( this );
             });              
             
