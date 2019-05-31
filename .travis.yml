@@ -11,7 +11,7 @@ php:
 # See https://github.com/Codeception/Codeception/issues/2124
 # - 5.4
 
-- 5.5
+# - 5.5 dropped as the WordPress minimum requirement does not support this.
 - 5.6
 - 7.0
 - 7.1
@@ -25,7 +25,7 @@ env:
 
 matrix:
     include:
-        - php: 5.5
+        - php: 5.6
           env: WP_VERSION=latest WP_MULTISITE=1 TEMP=/tmp
 
 install:
