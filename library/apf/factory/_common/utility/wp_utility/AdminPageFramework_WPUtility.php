@@ -27,7 +27,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
     }
     static public function getSRCFromPath($sFilePath) {
         $_oWPStyles = new WP_Styles();
-        $_sRelativePath = AdminPageFramework_Utility::getRelativePath(ABSPATH, $sFilePath);
+        $_sRelativePath = SB_AdminPageFramework_Utility::getRelativePath(rtrim(WP_CONTENT_DIR, "/\wp-content"), $sFilePath);
         $_sRelativePath = preg_replace("/^\.[\/\\\]/", '', $_sRelativePath, 1);
         $_sHref = trailingslashit($_oWPStyles->base_url) . $_sRelativePath;
         unset($_oWPStyles);
