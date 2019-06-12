@@ -57,7 +57,7 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
         return $_aAttachments;
     }
     private function _getPathFromURL($sURL) {
-        $_sPath = realpath(str_replace(get_bloginfo('url'), ABSPATH, $sURL));
+        $_sPath = realpath(str_replace(get_bloginfo('url'), rtrim(WP_CONTENT_DIR, "/\wp-content"), $sURL));
         if ($_sPath) {
             return $_sPath;
         }
