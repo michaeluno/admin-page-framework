@@ -95,7 +95,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
     static public function getSRCFromPath( $sFilePath ) {
 
         $_oWPStyles      = new WP_Styles(); // It doesn't matter whether the file is a style or not. Just use the built-in WordPress class to calculate the SRC URL.
-        $_sRelativePath  = AdminPageFramework_Utility::getRelativePath( ABSPATH, $sFilePath );
+        $_sRelativePath  = AdminPageFramework_Utility::getRelativePath( preg_replace( '/[\/\\\\]+wp-content(.*)/m', '', WP_CONTENT_DIR ), $sFilePath );
         $_sRelativePath  = preg_replace( "/^\.[\/\\\]/", '', $_sRelativePath, 1 ); // removes the heading ./ or .\
         $_sHref          = trailingslashit( $_oWPStyles->base_url ) . $_sRelativePath;
         unset( $_oWPStyles ); // for PHP 5.2.x or below
