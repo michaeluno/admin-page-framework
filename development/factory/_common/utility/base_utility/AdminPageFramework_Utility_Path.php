@@ -76,6 +76,7 @@ abstract class AdminPageFramework_Utility_Path extends AdminPageFramework_Utilit
             self::_getDebugBacktraceArguments()
         );
         foreach( $_aBackTrace as $_aDebugInfo )  {
+            $_aDebugInfo      = self::getAsArray( $_aDebugInfo ) + array( 'file' => '' ); // prevents an undefined index
             $_sCallerFilePath = $_aDebugInfo[ 'file' ];
             if ( in_array( $_sCallerFilePath, $_aRedirectedFilePaths ) ) {
                 continue;
