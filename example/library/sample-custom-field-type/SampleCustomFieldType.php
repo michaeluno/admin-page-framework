@@ -75,14 +75,14 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
                         oCloned.find( '.sample_hidden_element' ).incrementIDAttribute( 'id' );
                         
                         /* The checked states will be gone after updating the ID of radio buttons so re-check them again */    
-                        oCloned.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );
+                        oCloned.find( 'input[type=radio][checked=checked]' ).prop( 'checked', true );
                         
                         /* Rebind the event */    
                         oCloned.find( 'input[type=radio]' ).change( function() {
                             jQuery( this ).closest( '.admin-page-framework-field' )
                                 .find( 'input[type=radio]' )
-                                .attr( 'checked', false );            
-                            jQuery( this ).attr( 'checked', 'checked' );
+                                .prop( 'checked', false );            
+                            jQuery( this ).prop( 'checked', true );
                             revealSelection( jQuery( this ).attr( 'id' ) );
                         });
 
@@ -208,8 +208,8 @@ class SampleCustomFieldType extends AdminPageFramework_FieldType {
                         jQuery( '#{$sFieldContainerID} input[type=radio]' ).change( function() {
                             jQuery( this ).closest( '.admin-page-framework-field' )
                                 .find( 'input[type=radio]' )
-                                .attr( 'checked', false );
-                            jQuery( this ).attr( 'checked', 'checked' );
+                                .prop( 'checked', false );
+                            jQuery( this ).prop( 'checked', true );
                             revealSelection( jQuery( this ).attr( 'id' ) );
                         });
                         revealSelection( '{$sDefaultSelectionID}' );    // do it for the default one

@@ -40,7 +40,7 @@ class AdminPageFramework_Form_View___Script_CheckboxSelector extends AdminPageFr
     $.fn.selectAllAdminPageFrameworkCheckboxes = function() {
         jQuery( this ).parent()
             .find( 'input[type=checkbox]' )
-            .attr( 'checked', true )
+            .prop( 'checked', true )
             .trigger( 'change' );   // 3.8.8+
     }
     /**
@@ -49,7 +49,7 @@ class AdminPageFramework_Form_View___Script_CheckboxSelector extends AdminPageFr
     $.fn.deselectAllAdminPageFrameworkCheckboxes = function() {
         jQuery( this ).parent()
             .find( 'input[type=checkbox]' )
-            .attr( 'checked', false )
+            .prop( 'checked', false )
             .trigger( 'change' );   // 3.8.8+
     }          
 

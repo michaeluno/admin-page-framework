@@ -164,10 +164,10 @@ CSSRULES;
 jQuery( document ).ready( function(){
     jQuery( 'input[type=radio][data-id=\"{$sInputID}\"]' ).change( function() {
         // Uncheck the other radio buttons
-        jQuery( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio][data-id=\"{$sInputID}\"]' ).attr( 'checked', false );
+        jQuery( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio][data-id=\"{$sInputID}\"]' ).prop( 'checked', false );
 
         // Make sure the clicked item is checked
-        jQuery( this ).attr( 'checked', 'checked' );
+        jQuery( this ).prop( 'checked', true );
     });
 });                 
 JAVASCRIPTS;

@@ -165,7 +165,7 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
         _incrementAttributes( nodeNewSection, _iSectionIndex, nodeSectionsContainer );
 
         // It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone. 
-        nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).attr( 'checked', 'checked' );    
+        nodeSectionContainer.find( 'input[type=radio][checked=checked]' ).prop( 'checked', true );    
 
         // Iterate each field one by one.
         $( nodeNewSection ).find( '.admin-page-framework-field' ).each( function( iFieldIndex ) {
