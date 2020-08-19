@@ -3,7 +3,7 @@
  * Generates an HTML Table of Contents block.
  *
  * @package      Admin Page Framework
- * @copyright    Copyright (c) 2013-2019, Michael Uno
+ * @copyright    Copyright (c) 2013-2020, Michael Uno
  * @author       Michael Uno
  * @authorurl    http://michaeluno.jp
  */

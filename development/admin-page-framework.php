@@ -5,7 +5,7 @@
  * Facilitates WordPress plugin and theme development.
  *
  * @author      Michael Uno <michael@michaeluno.jp>
- * @copyright   2013-2019 (c) Michael Uno
+ * @copyright   2013-2020 (c) Michael Uno
  * @license     MIT <http://opensource.org/licenses/MIT>
  * @package     AdminPageFramework
  */
@@ -21,7 +21,7 @@ if ( ! class_exists( 'AdminPageFramework_Registry', false ) ) :
  * @image               http://admin-page-framework.michaeluno.jp/image/icon-256x256.png
  * @heading             Admin Page Framework
  * @author              Michael Uno
- * @copyright           2013-2019 (c) Michael Uno
+ * @copyright           2013-2020 (c) Michael Uno
  * @license             http://opensource.org/licenses/MIT  MIT
  * @since               3.1.3
  * @repository          https://github.com/michaeluno/admin-page-framework
@@ -35,17 +35,17 @@ if ( ! class_exists( 'AdminPageFramework_Registry', false ) ) :
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.8.21b01
+ * @version             3.8.21
  */
 abstract class AdminPageFramework_Registry_Base {
 
-    const VERSION       = '3.8.21b01'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION       = '3.8.21'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME          = 'Admin Page Framework';
     const DESCRIPTION   = 'Facilitates WordPress plugin and theme development.';
     const URI           = 'http://en.michaeluno.jp/admin-page-framework';
     const AUTHOR        = 'Michael Uno';
     const AUTHOR_URI    = 'http://en.michaeluno.jp/';
-    const COPYRIGHT     = 'Copyright (c) 2013-2019, Michael Uno';
+    const COPYRIGHT     = 'Copyright (c) 2013-2020, Michael Uno';
     const LICENSE       = 'MIT <http://opensource.org/licenses/MIT>';
     const CONTRIBUTORS  = '';
 

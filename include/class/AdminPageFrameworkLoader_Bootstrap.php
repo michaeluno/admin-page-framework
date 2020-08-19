@@ -3,7 +3,7 @@
  * Loads Admin Page Framework loader plugin components.
  *
  * @package      Admin Page Framework Loader
- * @copyright    Copyright (c) 2013-2019, Michael Uno
+ * @copyright    Copyright (c) 2013-2020, Michael Uno
  * @author       Michael Uno
  * @authorurl    http://michaeluno.jp
  * @since        3.5.0
