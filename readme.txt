@@ -3,8 +3,8 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
-Tested up to:       5.2.1
-Stable tag:         3.8.20
+Tested up to:       5.5
+Stable tag:         3.8.21
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -538,6 +538,11 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f,
 
 == Changelog ==
+
+= 3.8.21 - 2019/08/19 =
+- Fixed an incompatibility issue with WordPress 5.5 regarding radio buttons.
+- Fixed an issue of a PHP warning of an undefined index `file`.
+- Fixed an incompatibility issue with wordpress.com.
 
 = 3.8.20 - 2019/05/31 =
 - Fixed the PHP error `Call to undefined method WP_Error::get_items()` in the Add-ons page when fetching feeds failed.
