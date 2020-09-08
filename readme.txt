@@ -538,6 +538,8 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f,
 
 == Changelog ==
+= 3.8.22 =
+- Deprecated debug information for section and field arguments.
 
 = 3.8.21 - 2019/08/19 =
 - Fixed an incompatibility issue with WordPress 5.5 regarding radio buttons.

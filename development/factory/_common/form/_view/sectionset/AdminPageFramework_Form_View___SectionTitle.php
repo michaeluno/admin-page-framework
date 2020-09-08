@@ -123,7 +123,7 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
                         . $this->_getCollapseButton( $aCollapsible )
                         . $sTitle
                         . $this->_getToolTip( $_aSectionset )
-                        . $this->_getDebugInfo( $_aSectionset )
+//                        . $this->_getDebugInfo( $_aSectionset )       // @deprecated 3.8.22
                     . "</{$sTag}>"
                     : '';
 
@@ -143,6 +143,7 @@ class AdminPageFramework_Form_View___SectionTitle extends AdminPageFramework_For
                 /**
                  * Returns an output of the passed field argument.
                  * @since       3.8.8
+                 * @deprecatd       3.8.22
                  * @return      string
                  */
                 private function _getDebugInfo( $aSectionset ) {

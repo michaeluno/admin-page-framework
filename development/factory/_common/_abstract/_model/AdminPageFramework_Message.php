@@ -173,10 +173,10 @@ class AdminPageFramework_Message {
         'debug_info'                            => 'Debug Info',
         // 3.8.5+
         'debug'                                 => 'Debug',
-        'field_arguments'                       => 'Field Arguments',
+        // 'field_arguments'                       => 'Field Arguments', // @deprecated 3.8.22
         'debug_info_will_be_disabled'           => 'This information will be disabled when <code>WP_DEBUG</code> is set to <code>false</code> in <code>wp-config.php</code>.',
 
-        'section_arguments'                     => 'Section Arguments', // 3.8.8+
+        // 'section_arguments'                     => 'Section Arguments', // 3.8.8+   // @deprecated 3.8.22
 
         'click_to_expand'                       => 'Click here to expand to view the contents.',
         'click_to_collapse'                     => 'Click here to collapse the contents.',
@@ -425,10 +425,10 @@ class AdminPageFramework_Message {
         __( 'Please enable JavaScript for better user experience.', 'admin-page-framework' );
 
         __( 'Debug', 'admin-page-framework' );
-        __( 'Field Arguments', 'admin-page-framework' );
+        // __( 'Field Arguments', 'admin-page-framework' ); @deprecated 3.8.22
         __( 'This information will be disabled when <code>WP_DEBUG</code> is set to <code>false</code> in <code>wp-config.php</code>.', 'admin-page-framework' );
 
-        __( 'Section Arguments', 'admin-page-framework' ); // 3.8.8+
+        // __( 'Section Arguments', 'admin-page-framework' ); // 3.8.8+ @deprecated 3.8.22
 
         __( 'The ability to repeat sections is disabled.', 'admin-page-framework' ); // 3.8.13+
         __( 'The ability to repeat fields is disabled.', 'admin-page-framework' ); // 3.8.13+

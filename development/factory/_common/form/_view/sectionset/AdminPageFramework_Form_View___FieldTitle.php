@@ -99,7 +99,7 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
                     . "</span>"
                 . "</label>"
                 . $this->_getToolTip( $aField[ 'tip' ], $aField[ 'field_id' ] )
-                . $this->_getDebugInfo( $aField )
+//                . $this->_getDebugInfo( $aField ) // @deprecated 3.8.22
             : '';
 
         $_sOutput .= $this->_getFieldOutputsInFieldTitleAreaFromNestedFields( $aField );
@@ -155,6 +155,7 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
         /**
          * Returns an output of the passed field argument.
          * @since       3.8.5
+         * @deprecated  3.8.22
          * @return      string
          */
         private function _getDebugInfo( $aField ) {
