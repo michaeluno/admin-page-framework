@@ -539,6 +539,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 = 3.8.22 =
+- Changed the form nonce lifespan to 2 days from 1 hour.
 - Deprecated debug information for section and field arguments.
 
 = 3.8.21 - 2019/08/19 =

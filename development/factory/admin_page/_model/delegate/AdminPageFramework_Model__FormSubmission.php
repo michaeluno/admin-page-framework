@@ -186,8 +186,8 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
             
             // Referrer
             $_sRequestURI   = remove_query_arg( array( 'settings-updated', 'confirmation', 'field_errors' ), wp_unslash( $_SERVER[ 'REQUEST_URI' ] ) );
-            $_sReffererURI  = remove_query_arg( array( 'settings-updated', 'confirmation', 'field_errors' ), $_POST[ '_wp_http_referer' ] );
-            if ( $_sRequestURI != $_sReffererURI ) { // see the function definition of wp_referer_field() in functions.php.
+            $_sRefererURI   = remove_query_arg( array( 'settings-updated', 'confirmation', 'field_errors' ), $_POST[ '_wp_http_referer' ] );
+            if ( $_sRequestURI != $_sRefererURI ) { // see the function definition of wp_referer_field() in functions.php.
                 return false;
             }
             
@@ -212,15 +212,15 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
                 );
                 return false;
             }
-                        
-            $_sNonceTransientKey = 'form_' . md5( $this->oFactory->oProp->sClassName . get_current_user_id() );
-            if ( $_POST[ '_is_admin_page_framework' ] !== $this->getTransient( $_sNonceTransientKey ) ) {
+
+            $_bVerifyNonce       = wp_verify_nonce(
+                $_POST[ '_is_admin_page_framework' ],
+                'form_' . md5( $this->oFactory->oProp->sClassName . get_current_user_id() )
+            );
+            if ( ! $_bVerifyNonce ) {
                 $this->oFactory->setAdminNotice( $this->oFactory->oMsg->get( 'nonce_verification_failed' ) );
                 return false;
             }
-            // Do not delete the nonce transient to let it vanish by itself. This allows the user to open multiple pages/tabs in their browser and save forms by switching pages/tabs.
-            // $this->deleteTransient( $_sNonceTransientKey );            
-            
             return true;
             
         }        
