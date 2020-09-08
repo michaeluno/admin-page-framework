@@ -81,14 +81,7 @@ class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFra
     top: 34%;    /* about half of 2em which is the element height, and slightly higher. */
     right: 15px;
 }
-/*@media only screen and ( max-width: 782px ) {
-    .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,
-    .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after 
-    {
-        top: 38%;    /* about half of 2em which is the element height, and slightly higher. */
-        right: 15px;
-    }
-}*/
+
 .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after {
     content: '\\f142';
