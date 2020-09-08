@@ -19,23 +19,26 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
     /**
      * Logs the given variable output to a file.
      *
-     * @param       mixed       $mValue         The value to log.
-     * @param       string      $sFilePath      The log file path.
+     * @param       mixed       $mValue             The value to log.
+     * @param       string      $sFilePath          The log file path.
+     * @param       integer     $iTrace             How many times to climb the backtrace.
+     * @param       integer     $iStringLengthLimit The string value length limit.
+     * @param       integer     $iArrayDepthLimit   The depth limit for arrays.
      * @since       3.8.9
      * @return      void
      **/
-    static protected function _log( $mValue, $sFilePath=null ) {
+    static protected function _log( $mValue, $sFilePath=null, $iTrace=0, $iStringLengthLimit=99999, $iArrayDepthLimit=50 ) {
 
         static $_fPreviousTimeStamp = 0;
 
         $_oCallerInfo       = debug_backtrace();
-        $_sCallerFunction   = self::___getCallerFunctionName( $_oCallerInfo );
-        $_sCallerClass      = self::___getCallerClassName( $_oCallerInfo );
+        $_sCallerFunction   = self::___getCallerFunctionName( $_oCallerInfo, $iTrace );
+        $_sCallerClass      = self::___getCallerClassName( $_oCallerInfo, $iTrace );
         $_fCurrentTimeStamp = microtime( true );
 
         file_put_contents(
             self::___getLogFilePath( $sFilePath, $_sCallerClass ),
-            self::___getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction ),
+            self::___getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction, $iStringLengthLimit, $iArrayDepthLimit ),
             FILE_APPEND
         );
 
@@ -46,23 +49,23 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
          * @since       3.8.9
          * @return      string
          */
-        static private function ___getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction ) {
+        static private function ___getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction, $iStringLengthLimit, $iArrayDepthLimit ) {
             return self::___getLogHeadingLine(
                     $_fCurrentTimeStamp,
                     round( $_fCurrentTimeStamp - $_fPreviousTimeStamp, 3 ), // elapsed time
                     $_sCallerClass,
                     $_sCallerFunction
                 ) . PHP_EOL
-                . self::_getLegibleDetails( $mValue ) . PHP_EOL . PHP_EOL;
+                . self::_getLegibleDetails( $mValue, $iStringLengthLimit, $iArrayDepthLimit ) . PHP_EOL . PHP_EOL;
         }
         /**
          * @since       3.8.9
          * @return      string
          */
-        static private function ___getCallerFunctionName( $oCallerInfo ) {
+        static private function ___getCallerFunctionName( $oCallerInfo, $iTrace ) {
             return self::getElement(
                 $oCallerInfo,  // subject array
-                array( 2, 'function' ), // key
+                array( 2 + $iTrace, 'function' ), // key
                 ''      // default
             );
         }
@@ -70,10 +73,10 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
          * @since       3.8.9
          * @return      string
          */
-        static private function ___getCallerClassName( $oCallerInfo ) {
+        static private function ___getCallerClassName( $oCallerInfo, $iTrace ) {
             return self::getElement(
                 $oCallerInfo,  // subject array
-                array( 2, 'class' ), // key
+                array( 2 + $iTrace, 'class' ), // key
                 ''      // default
             );
         }
@@ -83,19 +86,27 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
          * @sicne       3.8.19  Shortened the generated file name.
          * @internal
          * @return      string      The path of the file to log the contents.
-         * @param       string|boolean  $bsFilePath     If the file path is specified, use that path. Otherwise, generate a file path name.
+         * @param       string|boolean  $bsFilePathOrName     If the file path is specified, use that path. If a string of non-path value is given, it will be used as a part of the log file name. Otherwise, automatically generates a file name with a caller class name.
          */
-        static private function ___getLogFilePath( $bsFilePath, $sCallerClass ) {
+        static private function ___getLogFilePath( $bsFilePathOrName, $sCallerClass ) {
 
-            $_bFileExists = self::___createFile( $bsFilePath );
-            if ( $_bFileExists ) {
-                return $bsFilePath;
-            }
-            // Return a generated default log path.
             $_sWPContentDir  = WP_CONTENT_DIR . DIRECTORY_SEPARATOR;
-            $_sClassBaseName = $sCallerClass
-                ? basename( $sCallerClass )
-                : basename( get_class() );
+
+            // It is a partial file name
+            if ( is_string( $bsFilePathOrName ) && ! self::hasSlash( $bsFilePathOrName ) ) {
+                return $_sWPContentDir . $bsFilePathOrName . '_' . date( "Ymd" ) . '.log';
+            }
+
+            // Try creating a file.
+            $_bFileExists = self::___createFile( $bsFilePathOrName );
+            if ( $_bFileExists ) {
+                return $bsFilePathOrName;
+            }
+
+            // At this point, the file creation failed.
+
+            // Return a generated default log path.
+            $_sClassBaseName = $sCallerClass ? basename( $sCallerClass ) : basename( get_class() );
             return $_sWPContentDir . $_sClassBaseName . '_' . date( "Ymd" ) . '.log';
 
         }

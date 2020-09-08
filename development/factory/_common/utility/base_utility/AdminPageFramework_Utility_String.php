@@ -231,4 +231,14 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
 
     }
 
+    /**
+     * Checks if a given string has back/forward slashes.
+     * @param string $sString
+     * @return boolean
+     */
+    static public function hasSlash( $sString ) {
+        $sString = str_replace( '\\', '/', $sString );
+        return ( false !== strpos( $sString, '/' ) );
+    }
+
 }
