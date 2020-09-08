@@ -22,7 +22,7 @@ class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFra
      * @return      string
      */
     protected function _get() {
-        return $this->_getCollapsibleSectionsRules();
+        return $this->___getCollapsibleSectionsRules();
     }
         /**
          * Returns the collapsible sections specific CSS rules.
@@ -32,7 +32,7 @@ class AdminPageFramework_Form_View___CSS_CollapsibleSection extends AdminPageFra
          * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @return      string
          */
-        private function _getCollapsibleSectionsRules() {
+        private function ___getCollapsibleSectionsRules() {
 
             $_sCSSRules = <<<CSSRULES
 /* Collapsible Sections Title Block */            
@@ -252,8 +252,48 @@ tbody.admin-page-framework-collapsible-content.table-caption {
 }
 CSSRULES;
 
-            if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '<' ) ) {
-                $_sCSSRules .= <<<CSSRULES
+            $_sCSSRules .= $this->___getForWP38OrBelow();
+            $_sCSSRules .= $this->___getForWP53OrAbove();
+
+            return $_sCSSRules;
+
+        }
+            private function ___getForWP53OrAbove() {
+                if ( version_compare( $GLOBALS[ 'wp_version' ], '5.3', '<' ) ) {
+                    return '';
+                }
+                return <<<CSSRULES
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button {
+    min-width: 2.4em;
+}
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button .dashicons {
+    font-size: 1.2em;
+    height: 100%;
+    vertical-align: text-top;
+}
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button .dashicons:before {
+    vertical-align: middle;
+}
+@media screen and (max-width: 782px) {
+    .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons {
+        white-space: nowrap;
+    }
+    .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button {
+        font-size: 1.4em;
+    }
+    .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button .dashicons {
+        height: unset;
+        vertical-align: unset;
+    }    
+}
+CSSRULES;
+
+            }
+            private function ___getForWP38OrBelow(){
+                if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) ) {
+                    return '';
+                }
+                return <<<CSSRULES
 .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after 
 {
@@ -275,8 +315,5 @@ CSSRULES;
 
 CSSRULES;
             }
-            return $_sCSSRules;
-
-        }
 
 }

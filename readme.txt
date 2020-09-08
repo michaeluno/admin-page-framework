@@ -542,6 +542,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 = 3.8.22 =
 - Added the `AdminPageFramework_Debug::getStackTrace()` method that gives a stack trace by an exception object with a bit more details than the native one.
 - Added parameters for the `AdminPageFramework_Debug::log()` method that let the user set a log file name and the truncation lengths for strings and arrays.
+- Tweaked the style of repeatable buttons and dash-icon buttons for WordPress 5.3 or above.
 - Changed the form nonce lifespan to 2 days from 1 hour.
 - Fixed a bug that in `admin-ajax.php` unnecessary callbacks were loaded.
 - Deprecated debug information for section and field arguments.

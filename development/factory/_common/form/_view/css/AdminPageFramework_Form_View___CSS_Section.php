@@ -174,6 +174,7 @@ class AdminPageFramework_Form_View___CSS_Section extends AdminPageFramework_Form
 
 CSSRULES;
             $_sCSSRules .= $this->___getForWP47();
+            $_sCSSRules .= $this->___getForWP53();
             return $_sCSSRules;
         }
             /**
@@ -189,6 +190,36 @@ CSSRULES;
                 return <<<CSSRULES
 .admin-page-framework-content ul.admin-page-framework-section-tabs > li.admin-page-framework-section-tab {
     margin-bottom: -2px;
+}
+CSSRULES;
+            }
+            /**
+             * Returns CSS rules specific to WordPress 5.3 or above.
+             * @since   3.8.22
+             * @return  string
+             */
+            private function ___getForWP53() {
+                if ( version_compare( $GLOBALS[ 'wp_version' ], '5.3', '<' ) ) {
+                    return '';
+                }
+                return <<<CSSRULES
+.repeatable-section-button.button.button-large {
+    padding: 0;
+    margin: 0;
+    min-width: 2.48em;    
+}
+.repeatable-section-button .dashicons {
+    font-size: 1.32em;
+    width: 100%;
+    vertical-align: middle;    
+}
+@media screen and (max-width: 782px) {
+    .repeatable-section-button.button.button-large {
+        min-width: 40px;        
+    }
+    .repeatable-section-button .dashicons {
+        height: 22px;
+    }
 }
 CSSRULES;
             }

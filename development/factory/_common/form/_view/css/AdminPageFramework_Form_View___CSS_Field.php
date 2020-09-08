@@ -22,7 +22,7 @@ class AdminPageFramework_Form_View___CSS_Field extends AdminPageFramework_Form_V
      * @return      string
      */
     protected function _get() {
-        return $this->_getFormFieldRules();
+        return $this->___getFormFieldRules();
     }
         /**
          * Returns the CSS rules for form fields.
@@ -32,7 +32,7 @@ class AdminPageFramework_Form_View___CSS_Field extends AdminPageFramework_Form_V
          * @since       3.7.0      Moved from `AdminPageFramework_CSS`.
          * @return      string
          */
-        static private function _getFormFieldRules() {
+        static private function ___getFormFieldRules() {
             return <<<CSSRULES
 /* Form Elements */
 /* TD paddings when the field title is disabled */
@@ -258,11 +258,22 @@ CSSRULES;
 
             }
 
-            // If the WordPress version is greater than equal to 3.8, add MP6(the admin style introduced in 3.8) specific CSS rules.
-            if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) ) {
 
-                $_sCSSRules .= <<<CSSRULES
-                
+            $_sCSSRules .= $this->___getForWP38OrAbove();
+            $_sCSSRules .= $this->___getForWP53OrAbove();
+            return $_sCSSRules;
+
+        }
+
+        /**
+         * If the WordPress version is greater than equal to 3.8, add MP6(the admin style introduced in 3.8) specific CSS rules.
+         * @return string
+         */
+        private function ___getForWP38OrAbove() {
+            if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '<' ) ) {
+                return '';
+            }
+            return <<<CSSRULES
 /* Repeatable field buttons */
 .admin-page-framework-repeatable-field-buttons {
     margin: 2px 0 0 0.3em;
@@ -273,17 +284,68 @@ CSSRULES;
 }
 
 /* Fix Sortable fields drag&drop problem in MP6 */ 
-    
 @media screen and ( max-width: 782px ) {
 	.admin-page-framework-fieldset {
 		overflow-x: hidden;
+		overflow-y: hidden;
 	}
 }    
 CSSRULES;
+        }
 
+        /**
+         * Fixes for WordPress 5.3 or above.
+         * @return string
+         */
+        private function ___getForWP53OrAbove() {
+            if ( version_compare( $GLOBALS[ 'wp_version' ], '5.3', '<' ) ) {
+                return '';
             }
+            return <<<CSSRULES
+/* dashicons */
+.admin-page-framework-field .button.button-small.dashicons:before {
+    position: relative;
+    top: -5.4px;
+}
+@media screen and (max-width: 782px) {
+    .admin-page-framework-field .button.button-small.dashicons:before {
+        top: -6.2%;
+    }
+    .admin-page-framework-field .button.button-small.dashicons {
+        min-width: 2.4em;
+    }
+}
 
-            return $_sCSSRules;
+/* repeatable field button */
+.admin-page-framework-repeatable-field-buttons .repeatable-field-button.button.button-small {
+    min-width: 2.4em;
+    padding: 0;    
+}
+.repeatable-field-button .dashicons {
+    position: relative;
+    top: 4px;
+    font-size: 16px;
+}
+@media screen and (max-width: 782px) {
+    .admin-page-framework-repeatable-field-buttons {
+        margin: 0.5em 0 0 0.28em;
+    }
+    .repeatable-field-button .dashicons {
+        position: relative;
+        top: 10px;
+        font-size: 18px;
+    }
+    .admin-page-framework-repeatable-field-buttons .repeatable-field-button.button.button-small {
+        margin-top: 0;
+        margin-bottom: 0;
+        min-width: 2.6em;
+        min-height: 2.4em;
+    }
+    .admin-page-framework-fields.sortable .admin-page-framework-repeatable-field-buttons {
+        margin: 0;
+    }
+}
+CSSRULES;
 
         }
 
