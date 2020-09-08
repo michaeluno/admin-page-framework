@@ -99,7 +99,6 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
                     . "</span>"
                 . "</label>"
                 . $this->_getToolTip( $aField[ 'tip' ], $aField[ 'field_id' ] )
-//                . $this->_getDebugInfo( $aField ) // @deprecated 3.8.22
             : '';
 
         $_sOutput .= $this->_getFieldOutputsInFieldTitleAreaFromNestedFields( $aField );
@@ -151,56 +150,6 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
             );
             return $_oToolTip->get();
         }
-
-        /**
-         * Returns an output of the passed field argument.
-         * @since       3.8.5
-         * @deprecated  3.8.22
-         * @return      string
-         */
-        private function _getDebugInfo( $aField ) {
-
-            if ( ! $this->_shouldShowDebugInfo( $aField ) ) {
-                return '';
-            }
-            $_oToolTip           = new AdminPageFramework_Form_View___ToolTip(
-                array(
-                    'title'         => $this->oMsg->get( 'field_arguments' ),
-                    'dash-icon'     => 'dashicons-info',
-                    'icon_alt_text' => '[' . $this->oMsg->get( 'debug' ) . ' ]',
-                    'content'       => AdminPageFramework_Debug::getDetails( $aField )
-                        . '<span class="admin-page-framework-info">'
-                            . $this->getFrameworkNameVersion()
-                            . '  ('
-                                . $this->oMsg->get( 'debug_info_will_be_disabled' )
-                              . ')'
-                        . '</span>',
-                    'attributes'    => array(
-                        'container' => array(
-                            'class' => 'debug-info-field-arguments'
-                        ),
-                    )
-                ),
-                $aField[ 'field_id' ] . '_debug'
-            );
-            return $_oToolTip->get();
-
-        }
-            /**
-             * @since       3.8.8
-             * @return      boolean
-             */
-            private function _shouldShowDebugInfo( $aField ) {
-
-                if ( ! $aField[ 'show_debug_info' ] ) {
-                    return false;
-                }
-                if ( strlen( $aField[ '_parent_field_path' ] ) ) {
-                    return false;
-                }
-                return true;
-
-            }
 
         /**
          * @since       3.7.0
