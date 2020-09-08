@@ -230,7 +230,7 @@ JAVASCRIPTS;
             $_aArguments             = $_oFormatter->get();
             $_sSmallButtonSelector   = $bSmall ? ' button-small' : '';
             return "<div " . $this->___getContainerAttributes( $_aArguments ) . " >"
-                    . "<a " . $this->___getRemvoeButtonAttribtes( $sFieldsContainerID, $_sSmallButtonSelector, $iFieldCount ) . ">-</a>"
+                    . "<a " . $this->___getRemoveButtonAttributes( $sFieldsContainerID, $_sSmallButtonSelector, $iFieldCount ) . ">-</a>"
                     . "<a " . $this->___getAddButtonAttribtes( $_aArguments, $sFieldsContainerID, $_sSmallButtonSelector ) . ">+</a>"
                 . "</div>"
                 . $this->getModalForDisabledRepeatableElement(
@@ -264,7 +264,7 @@ JAVASCRIPTS;
              * @param       array       $aArguments
              * @return      string
              */
-            private function ___getRemvoeButtonAttribtes( $sFieldsContainerID, $sSmallButtonSelector, $iFieldCount ) {
+            private function ___getRemoveButtonAttributes( $sFieldsContainerID, $sSmallButtonSelector, $iFieldCount ) {
                 $_aMinusButtonAttributes = array(
                     'class'     => 'repeatable-field-remove-button button-secondary repeatable-field-button button'
                          . $sSmallButtonSelector,
