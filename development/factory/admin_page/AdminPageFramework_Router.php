@@ -61,15 +61,21 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      *
      * @since           3.8.14
      * @remark          It is assumed that the `setUp()` method is already called.
-     * @callback        add_action      wp_loaded
+     * @callback        add_action      set_up_{extended class name}
      */
     public function _replyToLoadComponentsForAjax() {
         if ( ! $this->oProp->bIsAdminAjax ) {
             return;
         }
+
         new AdminPageFramework_Model_Menu__RegisterMenu( $this, 'pseudo_admin_menu' );
         do_action( 'pseudo_admin_menu', '' );
-        do_action( 'pseudo_current_screen' );
+        do_action( 'pseudo_current_screen' );       // @deprecated 3.8.22 Kept for backward-compatibility
+
+        $_sPageSlug = $this->oProp->getCurrentPageSlug();
+        if ( $this->oProp->isPageAdded( $_sPageSlug ) ) {
+            do_action( "pseudo_current_screen_{$_sPageSlug}" );
+        }
 
     }
 

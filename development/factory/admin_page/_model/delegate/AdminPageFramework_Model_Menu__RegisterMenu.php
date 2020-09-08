@@ -30,7 +30,6 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
     public function __construct( $oFactory, $sActionHook='admin_menu' ) {
 
         $this->oFactory = $oFactory;
-
         add_action(
             $sActionHook,
             array( $this, '_replyToRegisterRootMenu' ),
@@ -276,7 +275,6 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
 //                    $sPageSlug,             // menu slug
 //                    array( $this->oFactory, '_replyToRenderPage' )  // callback 3.7.10+
 //                );
-
                 $this->_setPageHooks( $_sPageHook, $sPageSlug );
 
                 // Now we are going to remove the added sub-menu from the WordPress global variable.
@@ -375,12 +373,9 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                     /**
                      * For Ajax calls.
                      * @since       3.8.14
+                     * @since       3.8.22  Change the action to `pseudo_current_screen_{$sPageSlug}` from `pseudo_current_screen` to avoid overload in `admin-ajax.php`.
                      */
-                    add_action(
-                        'pseudo_current_screen',
-                        array( $this->oFactory, "load_pre_" . $sPageSlug ),
-                        20
-                    );
+                    add_action( "pseudo_current_screen_{$sPageSlug}", array( $this, '_replyToLoadPageForAjax' ), 20 ); // 3.8.22
 
                     /**
                      * It is possible that an in-page tab is added during the above hooks and the current page is the default tab without the tab GET query key in the url.
@@ -558,6 +553,27 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                 $GLOBALS[ '_apf_sub_menus_to_sort' ][ $sMenuSlug ] = $sMenuSlug;
 
             }
+
+    /**
+     * For loading admin-ajax.php, allow only items that add a page that matches currently loading page.
+     * @since   3.8.22
+     * @internal
+     * @callback    action  pseudo_current_screen_{$sPageSlug}
+     */
+    public function _replyToLoadPageForAjax() {
+        $_sCurrentPageSlug = $this->oFactory->oProp->getCurrentPageSlugIfAdded();
+        if ( ! $_sCurrentPageSlug ) {
+            return;
+        }
+        $_sCurrentTabSlug  = $this->oFactory->oProp->getCurrentInPageTabSlugIfAdded( $_sCurrentPageSlug );
+        if (
+            ! empty( $this->oFactory->oProp->aInPageTabs )      // it means at least one in-page tab is added
+            && ! $_sCurrentTabSlug // the current tab could not be retrieved
+        ) {
+            return;
+        }
+        call_user_func_array( array( $this->oFactory, "load_pre_" . $_sCurrentPageSlug ), array() );
+    }
 
     /**
      * Removes the root menu page which gets automatically added by the system.

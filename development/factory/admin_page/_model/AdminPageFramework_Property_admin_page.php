@@ -493,11 +493,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
      * @remark      Do not return `null` when not found as some framework methods check the retuened value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an emtpy string ('').
      */
     public function getCurrentPageSlug() {
-        return $this->getElement(
-            $this->aQuery,
-            'page',
-            ''
-        );
+        return $this->getElement( $this->aQuery, array( 'page' ), '' );
     }
 
     /**
@@ -583,7 +579,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
         }
 
         // Extract the slug from the page definition
-        $_nsCurrentPageSlug              = $this->getElement( $_GET, 'page', null );
+        $_nsCurrentPageSlug              = $this->getElement( $this->aQuery, 'page', null );
         $_nsCurrentPageSlugFromAddedOnes = $this->getElement(
             $this->aPages,
             array( $_nsCurrentPageSlug, 'page_slug' )

@@ -538,10 +538,12 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f,
 
 == Changelog ==
+
 = 3.8.22 =
 - Added the `AdminPageFramework_Debug::getStackTrace()` method that gives a stack trace by an exception object with a bit more details than the native one.
 - Added parameters for the `AdminPageFramework_Debug::log()` method that let the user set a log file name and the truncation lengths for strings and arrays.
 - Changed the form nonce lifespan to 2 days from 1 hour.
+- Fixed a bug that in `admin-ajax.php` unnecessary callbacks were loaded.
 - Deprecated debug information for section and field arguments.
 
 = 3.8.21 - 2019/08/19 =
