@@ -544,6 +544,8 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Added parameters for the `AdminPageFramework_Debug::log()` method that let the user set a log file name and the truncation lengths for strings and arrays.
 - Tweaked the style of repeatable buttons and dash-icon buttons for WordPress 5.3 or above.
 - Changed the form nonce lifespan to 2 days from 1 hour.
+- Changed the `id` attribute of internal styles and scripts to be all lower-cased.
+- Fixed a bug that same values of internal styles and scripts with the `style_{extended class name}`, `style_ie_{extended class name}` and `script_{extended class name}` were inserted multiple times.
 - Fixed a bug that the collapsible section toggle icons were not toggled.
 - Fixed a bug that in `admin-ajax.php` unnecessary callbacks were loaded.
 - Deprecated debug information for section and field arguments.

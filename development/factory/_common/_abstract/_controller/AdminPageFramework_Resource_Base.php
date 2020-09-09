@@ -90,6 +90,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      * @remark      Set in the constructor.
      * @deprecated  3.6.3
      * @remark      kept for backward compatibility.
+     * @var         AdminPageFramework_WPUtility
      */
     public $oUtil;
 
@@ -268,7 +269,8 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 // : $this->getCSSMinified( $_sStyle );
 
             if ( $_sStyle ) {
-                echo "<style type='text/css' id='" . esc_attr( $sIDPrefix ) . "'>"
+
+                echo "<style type='text/css' id='" . esc_attr( strtolower( $sIDPrefix ) ) . "'>"
                         . $_sStyle
                     . "</style>";
             }
@@ -291,25 +293,13 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 AdminPageFramework_CSS::getDefaultCSSIE()
             );
             $_sStyleIE = trim( $_sStyleIE );
-            // @deprecated      3.7.10      The beautifier script compresses inline CSS rules.
-            // $_sStyleIE   = $this->isDebugMode()
-                // ? trim( $_sStyleIE )
-                // : $this->getCSSMinified( $_sStyleIE );
             return $_sStyleIE
-                ? "<!--[if IE]><style type='text/css' id='" . esc_attr( $sIDPrefix . "-ie" ) . "'>"
+                ? "<!--[if IE]><style type='text/css' id='" . esc_attr( strtolower( $sIDPrefix . "-ie" ) ) . "'>"
                         . $_sStyleIE
                     . "</style><![endif]-->"
                 : '';
 
         }
-
-    /**
-     * Flags whether the common styles are loaded or not.
-     *
-     * @since       3.2.0
-     * @internal
-     */
-    static private $_bCommonScriptLoaded = false;
 
     /**
      * Prints the inline scripts of the meta-box common scripts.
@@ -323,8 +313,9 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      */
     protected function _printCommonScripts( $sIDPrefix, $sClassName ) {
 
-        if ( self::$_bCommonScriptLoaded ) { return; }
-        self::$_bCommonScriptLoaded = true;
+        if ( $this->hasBeenCalled( 'COMMON_SCRIPT: ' . get_class( $this ) . '::' . __METHOD__ ) ) {
+            return;
+        }
 
         $_sScript = $this->addAndApplyFilters(
             $this->oProp->oCaller,
@@ -335,13 +326,14 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
             AdminPageFramework_Property_Base::$_sDefaultScript
         );
         $_sScript = trim( $_sScript );
-        if ( $_sScript ) {
-            echo "<script type='text/javascript' id='" . esc_attr( $sIDPrefix ) . "'>"
-                    . '/* <![CDATA[ */'
-                    . $_sScript
-                    . '/* ]]> */'
-                . "</script>";
+        if ( ! $_sScript ) {
+            return;
         }
+        echo "<script type='text/javascript' id='" . esc_attr( strtolower( $sIDPrefix ) ) . "'>"
+                . '/* <![CDATA[ */'
+                . $_sScript
+                . '/* ]]> */'
+            . "</script>";
 
     }
 
@@ -373,24 +365,22 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
          */
         private function _getClassSpecificStyleTag( $_oCaller, $sIDPrefix ) {
 
-            static $_iCallCount = 1;
-            $_sStyle = $this->addAndApplyFilters(
-                $_oCaller,
-                "style_{$this->oProp->sClassName}",
-                $this->oProp->sStyle
-            );
-            $_sStyle = trim( $_sStyle );
-            // @deprecated      3.7.10      The beautifier script compresses inline CSS rules.
-            // $_sStyle = $this->isDebugMode()
-                // ? trim( $_sStyle )
-                // : $this->getCSSMinified( $_sStyle );
-            if ( $_sStyle ) {
-                $_iCallCount++;
-                return "<style type='text/css' id='" . esc_attr( "{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}" ) . "'>"
-                        . $_sStyle
-                    . "</style>";
+            static $_iCallCount = 0;
+
+            $_sFilterName = "style_{$this->oProp->sClassName}";
+            if ( $this->hasBeenCalled( 'FILTER: ' . $_sFilterName ) ) { // 3.8.22
+                return '';
             }
-            return '';
+            $_sStyle = $this->addAndApplyFilters( $_oCaller, $_sFilterName, $this->oProp->sStyle );
+            $_sStyle = trim( $_sStyle );
+            if ( ! $_sStyle ) {
+                return '';
+            }
+            $_iCallCount++;
+            $_sID = strtolower( "{$sIDPrefix}-" . $this->oProp->sClassName . "_{$_iCallCount}" );
+            return "<style type='text/css' id='" . esc_attr( $_sID ) . "'>"
+                    . $_sStyle
+                . "</style>";
 
         }
         /**
@@ -402,23 +392,21 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         private function _getClassSpecificIEStyleTag( $_oCaller, $sIDPrefix ) {
 
             static $_iCallCountIE = 1;
-            $_sStyleIE = $this->addAndApplyFilters(
-                $_oCaller,
-                "style_ie_{$this->oProp->sClassName}",
-                $this->oProp->sStyleIE
-            );
-            $_sStyleIE = trim( $_sStyleIE );
-            // @deprecated      3.7.10      The beautifier script compresses inline CSS rules.
-            // $_sStyleIE = $this->isDebugMode()
-                // ? trim( $_sStyleIE )
-                // : $this->getCSSMinified( $_sStyleIE );
-            if ( $_sStyleIE ) {
-                $_iCallCountIE++;
-                return "<!--[if IE]><style type='text/css' id='" . esc_attr( "{$sIDPrefix}-ie-{$this->oProp->sClassName}_{$_iCallCountIE}" ) . "'>"
-                        . $_sStyleIE
-                    . "</style><![endif]-->";
+
+            $_sFilterName = "style_ie_{$this->oProp->sClassName}";
+            if ( $this->hasBeenCalled( 'FILTER: ' . $_sFilterName ) ) { // 3.8.22
+                return '';
             }
-            return '';
+            $_sStyleIE = $this->addAndApplyFilters( $_oCaller, $_sFilterName, $this->oProp->sStyleIE );
+            $_sStyleIE = trim( $_sStyleIE );
+            if ( ! $_sStyleIE ) {
+                return '';
+            }
+            $_iCallCountIE++;
+            $_sID  = strtolower( "{$sIDPrefix}-ie-{$this->oProp->sClassName}_{$_iCallCountIE}" );
+            return "<!--[if IE]><style type='text/css' id='" . esc_attr( $_sID ) . "'>"
+                    . $_sStyleIE
+                . "</style><![endif]-->";
 
         }
 
@@ -432,22 +420,23 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     protected function _printClassSpecificScripts( $sIDPrefix ) {
 
         static $_iCallCount = 1;
-        $_sScript = $this->addAndApplyFilters(
-            $this->oProp->oCaller,
-            array(
-                "script_{$this->oProp->sClassName}",
-            ),
-            $this->oProp->sScript
-        );
-        $_sScript = trim( $_sScript );
-        if ( $_sScript ) {
-            $_iCallCount++;
-            echo "<script type='text/javascript' id='" . esc_attr( "{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}" ) . "'>"
-                    . '/* <![CDATA[ */'
-                    . $_sScript
-                    . '/* ]]> */'
-                . "</script>";
+        $_sFilterName = "script_{$this->oProp->sClassName}";
+        if ( $this->hasBeenCalled( 'FILTER: ' . $_sFilterName ) ) { // 3.8.22
+            return '';
         }
+        $_sScript = $this->addAndApplyFilters( $this->oProp->oCaller, $_sFilterName, $this->oProp->sScript );
+        $_sScript = trim( $_sScript );
+        if ( ! $_sScript ) {
+            return '';
+        }
+
+        $_iCallCount++;
+        $_sID = strtolower( "{$sIDPrefix}-{$this->oProp->sClassName}_{$_iCallCount}" );
+        echo "<script type='text/javascript' id='" . esc_attr( $_sID ) . "'>"
+                . '/* <![CDATA[ */'
+                . $_sScript
+                . '/* ]]> */'
+            . "</script>";
 
         // As of 3.2.0, this method also gets called in the footer to ensure there is not any left scripts.
         // This happens when a head tag item is added after the head tag is already rendered such as for widget forms.

@@ -285,14 +285,15 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             $this->oProp->sStyle .= $this->_getStylesForPostTypeScreenIcon( $this->oProp->aPostTypeArgs[ 'screen_icon' ] );
         }
 
-        $this->oProp->sStyle = $this->oUtil->addAndApplyFilters( $this, "style_{$this->oProp->sClassName}", $this->oProp->sStyle );
+        $_sStyle = trim( $this->oProp->sStyle );
 
         // Print out the filtered styles.
-        if ( ! empty( $this->oProp->sStyle ) ) {
+        if ( ! empty( $_sStyle ) ) {
             echo "<style type='text/css' id='admin-page-framework-style-post-type'>"
                     . $this->oProp->sStyle
                 . "</style>";
         }
+        $this->oProp->sStyle = '';
 
     }
         /**
