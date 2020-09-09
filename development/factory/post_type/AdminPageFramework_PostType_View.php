@@ -285,7 +285,10 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
             $this->oProp->sStyle .= $this->_getStylesForPostTypeScreenIcon( $this->oProp->aPostTypeArgs[ 'screen_icon' ] );
         }
 
-        $_sStyle = trim( $this->oProp->sStyle );
+        $_sStyle = $this->oUtil->isDebugMode()
+            ? $this->oProp->sStyle
+            : $this->oUtil->getCSSMinified( $this->oProp->sStyle );
+        $_sStyle = trim( $_sStyle );
 
         // Print out the filtered styles.
         if ( ! empty( $_sStyle ) ) {

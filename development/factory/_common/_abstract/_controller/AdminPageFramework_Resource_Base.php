@@ -162,7 +162,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     /*
      * Shared methods
      */
-        /**
+    	/**
          * Checks the src url of the enqueued script/style to determine whether or not to set up a attribute modification callback.
          *
          * If it is one of the framework added item, the method sets up a hook to modify the url to add custom attributes.
@@ -176,8 +176,8 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
 
             if ( isset( $this->oProp->aResourceAttributes[ $sHandleID ] ) ) {
                 $this->_aHandleIDs[ $sSRC ] = $sHandleID;
-                add_filter( 'clean_url', array( $this, '_replyToModifyEnqueuedAttrbutes' ), 1, 3 );
-                remove_filter( current_filter(), array( $this, '_replyToSetupArgumentCallback' ), 1, 2 );
+                add_filter( 'clean_url', array( $this, '_replyToModifyEnqueuedAttributes' ), 1, 3 );
+                remove_filter( current_filter(), array( $this, '_replyToSetupArgumentCallback' ), 1 );
             }
             return $sSRC;
 
@@ -188,7 +188,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
              * @since   3.3.0
              * @internal
              */
-            public function _replyToModifyEnqueuedAttrbutes( $sSanitizedURL, $sOriginalURL, $sContext ) {
+            public function _replyToModifyEnqueuedAttributes( $sSanitizedURL, $sOriginalURL, $sContext ) {
 
                 if ( 'display' !== $sContext ) {
                     return $sSanitizedURL;
@@ -205,24 +205,13 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                     }
 
                     $_sAttributes   = $this->getAttributes( $_aAttributes );
-                    $_sModifiedURL  = $sSanitizedURL . "' " . rtrim( $_sAttributes, "'\"" );    // '"
-
-                    return $_sModifiedURL;
+                    return $sSanitizedURL . "' " . rtrim( $_sAttributes, "'\"" );
 
                 }
 
                 return $sSanitizedURL;
 
             }
-
-
-    /**
-     * Flags whether the common styles are loaded or not.
-     *
-     * @since       3.2.0
-     * @internal
-     */
-    static private $_bCommonStyleLoaded = false;
 
     /**
      * Prints the inline stylesheet of the meta-box common CSS rules with the style tag.
@@ -236,22 +225,21 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      */
     protected function _printCommonStyles( $sIDPrefix, $sClassName ) {
 
-        if ( self::$_bCommonStyleLoaded ) {
+        if ( $this->hasBeenCalled( 'COMMON_STYLES: ' . get_class( $this ) . '::' . __METHOD__ ) ) {
             return;
         }
-        self::$_bCommonStyleLoaded = true;
-
         $_oCaller = $this->oProp->oCaller;
-        echo $this->_getStyleTag( $_oCaller, $sIDPrefix );
-        echo $this->_getIEStyleTag( $_oCaller, $sIDPrefix );
+        echo $this->___getCommonStyleTag( $_oCaller, $sIDPrefix );
+        echo $this->___getCommonIEStyleTag( $_oCaller, $sIDPrefix );
 
     }
         /**
          * @internal
          * @since       3.5.7
+         * @since       3.8.22  Renamed from `_getStyleTag()`.
          * @return      string
          */
-        private function _getStyleTag( $oCaller, $sIDPrefix ) {
+        private function ___getCommonStyleTag( $oCaller, $sIDPrefix ) {
 
             $_sStyle     = $this->addAndApplyFilters(
                 $oCaller,
@@ -261,15 +249,9 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 ),
                 AdminPageFramework_CSS::getDefaultCSS()
             );
-            $_sStyle = trim( $_sStyle );
-
-            // @deprecated      3.7.10      The beautifier script compresses inline CSS rules.
-            // $_sStyle     = $this->isDebugMode()
-                // ? trim( $_sStyle )
-                // : $this->getCSSMinified( $_sStyle );
-
+            $_sStyle     = $this->isDebugMode() ? $_sStyle : $this->getCSSMinified( $_sStyle );
+            $_sStyle     = trim( $_sStyle );
             if ( $_sStyle ) {
-
                 echo "<style type='text/css' id='" . esc_attr( strtolower( $sIDPrefix ) ) . "'>"
                         . $_sStyle
                     . "</style>";
@@ -280,9 +262,10 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         /**
          * @internal
          * @since       3.5.7
+         * @since       3.8.22  Renamed from `_getIEStyleTag()`.
          * @return      string
          */
-        private function _getIEStyleTag( $oCaller, $sIDPrefix ) {
+        private function ___getCommonIEStyleTag( $oCaller, $sIDPrefix ) {
 
             $_sStyleIE   = $this->addAndApplyFilters(
                 $oCaller,
@@ -292,7 +275,8 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 ),
                 AdminPageFramework_CSS::getDefaultCSSIE()
             );
-            $_sStyleIE = trim( $_sStyleIE );
+            $_sStyleIE  = $this->isDebugMode() ? $_sStyleIE : $this->getCSSMinified( $_sStyleIE );
+            $_sStyleIE  = trim( $_sStyleIE );
             return $_sStyleIE
                 ? "<!--[if IE]><style type='text/css' id='" . esc_attr( strtolower( $sIDPrefix . "-ie" ) ) . "'>"
                         . $_sStyleIE
@@ -372,6 +356,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 return '';
             }
             $_sStyle = $this->addAndApplyFilters( $_oCaller, $_sFilterName, $this->oProp->sStyle );
+            $_sStyle = $this->isDebugMode() ? $_sStyle : $this->getCSSMinified( $_sStyle );
             $_sStyle = trim( $_sStyle );
             if ( ! $_sStyle ) {
                 return '';
@@ -398,6 +383,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 return '';
             }
             $_sStyleIE = $this->addAndApplyFilters( $_oCaller, $_sFilterName, $this->oProp->sStyleIE );
+            $_sStyleIE = $this->isDebugMode() ? $_sStyleIE : $this->getCSSMinified( $_sStyleIE );
             $_sStyleIE = trim( $_sStyleIE );
             if ( ! $_sStyleIE ) {
                 return '';
