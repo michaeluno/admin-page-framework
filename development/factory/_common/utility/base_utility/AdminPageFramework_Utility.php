@@ -50,6 +50,7 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
      * @since       3.8.5               Moved from `AdminPageFramework_Form_Base`. Added the default value to the `$asParameters`second parameter.
      * @param       callable            $oCallable
      * @param       string|array        $asParameters       Parameters to pass to the callback function.
+     * @return      mixed
      */
     public function callBack( $oCallable, $asParameters=array() ) {
         $_aParameters   = self::getAsArray(
@@ -68,20 +69,21 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
      * This is used to check if a function which needs to be done only once has been already called or not.
      *
      * @since       3.7.0
+     * @param       string  $sKey   The string identifier of the call.
      * @return      boolean
      */
-    static public function hasBeenCalled( $sID ) {
-        if ( isset( self::$_aCallStack[ $sID ] ) ) {
+    static public function hasBeenCalled( $sKey ) {
+        if ( isset( self::$___aCallStack[ $sKey ] ) ) {
             return true;
         }
-        self::$_aCallStack[ $sID ] = true;
+        self::$___aCallStack[ $sKey ] = true;
         return false;
     }
         /**
          * Stores calls.
          * @internal
          */
-        static private $_aCallStack = array();
+        static private $___aCallStack = array();
 
     /**
      * Captures the output buffer of the given function.
