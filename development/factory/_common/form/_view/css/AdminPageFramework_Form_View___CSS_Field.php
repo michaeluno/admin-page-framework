@@ -323,7 +323,7 @@ CSSRULES;
 }
 .repeatable-field-button .dashicons {
     position: relative;
-    top: 4px;
+    top: 4.4px;
     font-size: 16px;
 }
 @media screen and (max-width: 782px) {
