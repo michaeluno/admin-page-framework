@@ -135,19 +135,82 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
     static private function ___getArrayMappedNested($mItem) {
         return is_array($mItem) ? array_map(array(__CLASS__, '___getArrayMappedNested'), $mItem) : call_user_func_array(self::$___oCurrentCallableForArrayMapRecursive, array_merge(array($mItem), self::$___aArgumentsForArrayMapRecursive));
     }
+    static public function getStackTrace(Exception $oException, $iSkip = 0) {
+        $_aTraces = array();
+        $_aFrames = $oException->getTrace();
+        $_aFrames = array_slice($_aFrames, $iSkip);
+        foreach (array_reverse($_aFrames) as $_iIndex => $_aFrame) {
+            $_aFrame = $_aFrame + array('file' => null, 'line' => null, 'function' => null, 'class' => null, 'args' => array(),);
+            $_sArguments = self::___getArgumentsOfEachStackTrace($_aFrame['args']);
+            $_aTraces[] = sprintf("#%s %s(%s): %s(%s)", $_iIndex + 1, $_aFrame['file'], $_aFrame['line'], isset($_aFrame['class']) ? $_aFrame['class'] . '->' . $_aFrame['function'] : $_aFrame['function'], $_sArguments);
+        }
+        return implode(PHP_EOL, $_aTraces) . PHP_EOL;
+    }
+    static private function ___getArgumentsOfEachStackTrace(array $aTraceArguments) {
+        $_aArguments = array();
+        foreach ($aTraceArguments as $_mArgument) {
+            $_sType = gettype($_mArgument);
+            $_sType = str_replace(array('resource (closed)', 'unknown type', 'integer', 'double',), array('resource', 'unknown', 'scalar', 'scalar',), $_sType);
+            $_sMethodName = "___getStackTraceArgument_{$_sType}";
+            $_aArguments[] = method_exists(__CLASS__, $_sMethodName) ? self:: {
+                $_sMethodName
+            }
+            ($_mArgument) : $_sType;
+        }
+        return join(", ", $_aArguments);
+    }
+    static private function ___getStackTraceArgument_string($mArgument) {
+        return "'" . $mArgument . "'";
+    }
+    static private function ___getStackTraceArgument_scalar($mArgument) {
+        return $mArgument;
+    }
+    static private function ___getStackTraceArgument_boolean($mArgument) {
+        return ($mArgument) ? "true" : "false";
+    }
+    static private function ___getStackTraceArgument_NULL($mArgument) {
+        return 'NULL';
+    }
+    static private function ___getStackTraceArgument_object($mArgument) {
+        return 'Object(' . get_class($mArgument) . ')';
+    }
+    static private function ___getStackTraceArgument_resource($mArgument) {
+        return get_resource_type($mArgument);
+    }
+    static private function ___getStackTraceArgument_unknown($mArgument) {
+        return gettype($mArgument);
+    }
+    static private function ___getStackTraceArgument_array($mArgument) {
+        $_sOutput = '';
+        $_iMax = 10;
+        $_iTotal = count($mArgument);
+        $_iIndex = 0;
+        foreach ($mArgument as $_sKey => $_mValue) {
+            $_iIndex++;
+            $_mValue = is_scalar($_mValue) ? $_mValue : ucfirst(gettype($_mValue)) . (is_object($_mValue) ? ' (' . get_class($_mValue) . ')' : '');
+            $_sOutput.= $_sKey . ': ' . $_mValue . ',';
+            if ($_iIndex > $_iMax && $_iTotal > $_iMax) {
+                $_sOutput = rtrim($_sOutput, ',') . '...';
+                break;
+            }
+        }
+        $_sOutput = rtrim($_sOutput, ',');
+        return "Array({$_sOutput})";
+    }
     }
     class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
-        static protected function _log($mValue, $sFilePath = null, $iTrace = 0, $iStringLengthLimit = 99999, $iArrayDepthLimit = 50) {
+        static protected function _log($mValue, $sFilePath = null, $bStackTrace = false, $iTrace = 0, $iStringLengthLimit = 99999, $iArrayDepthLimit = 50) {
             static $_fPreviousTimeStamp = 0;
             $_oCallerInfo = debug_backtrace();
             $_sCallerFunction = self::___getCallerFunctionName($_oCallerInfo, $iTrace);
             $_sCallerClass = self::___getCallerClassName($_oCallerInfo, $iTrace);
             $_fCurrentTimeStamp = microtime(true);
-            file_put_contents(self::___getLogFilePath($sFilePath, $_sCallerClass), self::___getLogContents($mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction, $iStringLengthLimit, $iArrayDepthLimit), FILE_APPEND);
+            $_sLogContent = self::___getLogContents($mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction, $iStringLengthLimit, $iArrayDepthLimit) . ($bStackTrace ? self::getStackTrace(new Exception, $iTrace + 1) : '') . PHP_EOL;
+            file_put_contents(self::___getLogFilePath($sFilePath, $_sCallerClass), $_sLogContent, FILE_APPEND);
             $_fPreviousTimeStamp = $_fCurrentTimeStamp;
         }
         static private function ___getLogContents($mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction, $iStringLengthLimit, $iArrayDepthLimit) {
-            return self::___getLogHeadingLine($_fCurrentTimeStamp, round($_fCurrentTimeStamp - $_fPreviousTimeStamp, 3), $_sCallerClass, $_sCallerFunction) . PHP_EOL . self::_getLegibleDetails($mValue, $iStringLengthLimit, $iArrayDepthLimit) . PHP_EOL . PHP_EOL;
+            return self::___getLogHeadingLine($_fCurrentTimeStamp, round($_fCurrentTimeStamp - $_fPreviousTimeStamp, 3), $_sCallerClass, $_sCallerFunction) . PHP_EOL . self::_getLegibleDetails($mValue, $iStringLengthLimit, $iArrayDepthLimit) . PHP_EOL;
         }
         static private function ___getCallerFunctionName($oCallerInfo, $iTrace) {
             return self::getElement($oCallerInfo, array(2 + $iTrace, 'function'), '');
@@ -202,86 +265,23 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
         }
     }
     class AdminPageFramework_Debug extends AdminPageFramework_Debug_Log {
-        static public function getStackTrace(Exception $oException, $iSkip = 0) {
-            $_sTrace = "";
-            $_iCount = 0;
-            foreach ($oException->getTrace() as $_iIndex => $_aFrame) {
-                if ($iSkip > $_iIndex) {
-                    continue;
-                }
-                $_aFrame = $_aFrame + array('file' => null, 'line' => null, 'function' => null, 'class' => null, 'args' => array(),);
-                $_sArguments = self::___getArgumentsOfEachStackTrace($_aFrame['args']);
-                $_sTrace.= sprintf("#%s %s(%s): %s(%s)\n", $_iCount, $_aFrame['file'], $_aFrame['line'], isset($_aFrame['class']) ? $_aFrame['class'] . '->' . $_aFrame['function'] : $_aFrame['function'], $_sArguments);
-                $_iCount++;
-            }
-            return $_sTrace;
+        static public function dump($asArray, $sFilePath = null, $bStackTrace = false, $iStringLengthLimit = 0, $iArrayDepthLimit = 0) {
+            echo self::get($asArray, $sFilePath, true, $bStackTrace, $iStringLengthLimit, $iArrayDepthLimit);
         }
-        static private function ___getArgumentsOfEachStackTrace(array $aTraceArguments) {
-            $_aArguments = array();
-            foreach ($aTraceArguments as $_mArgument) {
-                $_sType = gettype($_mArgument);
-                $_sType = str_replace(array('resource (closed)', 'unknown type', 'integer', 'double',), array('resource', 'unknown', 'scalar', 'scalar',), $_sType);
-                $_sMethodName = "___getStackTraceArgument_{$_sType}";
-                $_aArguments[] = method_exists(__CLASS__, $_sMethodName) ? self:: {
-                    $_sMethodName
-                }
-                ($_mArgument) : $_sType;
-            }
-            return join(", ", $_aArguments);
-        }
-        static private function ___getStackTraceArgument_string($mArgument) {
-            return "'" . $mArgument . "'";
-        }
-        static private function ___getStackTraceArgument_scalar($mArgument) {
-            return $mArgument;
-        }
-        static private function ___getStackTraceArgument_boolean($mArgument) {
-            return ($mArgument) ? "true" : "false";
-        }
-        static private function ___getStackTraceArgument_NULL($mArgument) {
-            return 'NULL';
-        }
-        static private function ___getStackTraceArgument_object($mArgument) {
-            return 'Object(' . get_class($mArgument) . ')';
-        }
-        static private function ___getStackTraceArgument_resource($mArgument) {
-            return get_resource_type($mArgument);
-        }
-        static private function ___getStackTraceArgument_unknown($mArgument) {
-            return gettype($mArgument);
-        }
-        static private function ___getStackTraceArgument_array($mArgument) {
-            $_sOutput = '';
-            $_iMax = 10;
-            $_iTotal = count($mArgument);
-            $_iIndex = 0;
-            foreach ($mArgument as $_sKey => $_mValue) {
-                $_iIndex++;
-                $_mValue = is_scalar($_mValue) ? $_mValue : ucfirst(gettype($_mValue)) . (is_object($_mValue) ? ' (' . get_class($_mValue) . ')' : '');
-                $_sOutput.= $_sKey . ': ' . $_mValue . ',';
-                if ($_iIndex > $_iMax && $_iTotal > $_iMax) {
-                    $_sOutput = rtrim($_sOutput, ',') . '...';
-                    break;
-                }
-            }
-            $_sOutput = rtrim($_sOutput, ',');
-            return "Array({$_sOutput})";
-        }
-        static public function dump($asArray, $sFilePath = null) {
-            echo self::get($asArray, $sFilePath);
-        }
-        static public function getDetails($mValue, $bEscape = true, $iStringLengthLimit = 0, $iArrayDepthLimit = 0) {
+        static public function getDetails($mValue, $bEscape = true, $bStackTrace = false, $iStringLengthLimit = 0, $iArrayDepthLimit = 0) {
             $_sValueWithDetails = self::_getArrayRepresentationSanitized(self::_getLegibleDetails($mValue, $iStringLengthLimit, $iArrayDepthLimit));
+            $_sValueWithDetails = $bStackTrace ? $_sValueWithDetails . PHP_EOL . self::getStackTrace(new Exception, 0) : $_sValueWithDetails;
             return $bEscape ? "<pre class='dump-array'>" . htmlspecialchars($_sValueWithDetails) . "</pre>" : $_sValueWithDetails;
         }
-        static public function get($asArray, $sFilePath = null, $bEscape = true, $iStringLengthLimit = 0, $iArrayDepthLimit = 0) {
+        static public function get($asArray, $sFilePath = null, $bEscape = true, $bStackTrace = false, $iStringLengthLimit = 0, $iArrayDepthLimit = 0) {
             if ($sFilePath) {
                 self::log($asArray, $sFilePath);
             }
-            return $bEscape ? "<pre class='dump-array'>" . htmlspecialchars(self::_getLegible($asArray, $iStringLengthLimit, $iArrayDepthLimit)) . "</pre>" : self::_getLegible($asArray, $iStringLengthLimit, $iArrayDepthLimit);
+            $_sContent = self::_getLegible($asArray, $iStringLengthLimit, $iArrayDepthLimit) . ($bStackTrace ? PHP_EOL . self::getStackTrace(new Exception, 0) : '');
+            return $bEscape ? "<pre class='dump-array'>" . htmlspecialchars($_sContent) . "</pre>" : $_sContent;
         }
-        static public function log($mValue, $sFilePath = null, $iTrace = 0, $iStringLengthLimit = 99999, $iArrayDepthLimit = 50) {
-            self::_log($mValue, $sFilePath, $iTrace, $iStringLengthLimit, $iArrayDepthLimit);
+        static public function log($mValue, $sFilePath = null, $bStackTrace = false, $iTrace = 0, $iStringLengthLimit = 99999, $iArrayDepthLimit = 50) {
+            self::_log($mValue, $sFilePath, $bStackTrace, $iTrace, $iStringLengthLimit, $iArrayDepthLimit);
         }
         static public function dumpArray($asArray, $sFilePath = null) {
             self::showDeprecationNotice('AdminPageFramework_Debug::' . __FUNCTION__, 'AdminPageFramework_Debug::dump()');

@@ -608,14 +608,14 @@ abstract class AdminPageFramework_Utility_Deprecated {
             $_mDefaultValue = self::getElement($_aParameters, 0);
             return is_callable($oCallable) ? call_user_func_array($oCallable, $_aParameters) : $_mDefaultValue;
         }
-        static public function hasBeenCalled($sID) {
-            if (isset(self::$_aCallStack[$sID])) {
+        static public function hasBeenCalled($sKey) {
+            if (isset(self::$___aCallStack[$sKey])) {
                 return true;
             }
-            self::$_aCallStack[$sID] = true;
+            self::$___aCallStack[$sKey] = true;
             return false;
         }
-        static private $_aCallStack = array();
+        static private $___aCallStack = array();
         static public function getOutputBuffer($oCallable, array $aParameters = array()) {
             ob_start();
             echo call_user_func_array($oCallable, $aParameters);
