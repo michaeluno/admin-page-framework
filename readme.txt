@@ -545,6 +545,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Tweaked the style of repeatable buttons and dash-icon buttons for WordPress 5.3 or above.
 - Changed the form nonce lifespan to 2 days from 1 hour.
 - Changed the `id` attribute of internal styles and scripts to be all lower-cased.
+- Fixed a bug with the `select2` custom field type that repeated select2 field was not selectable.
 - Fixed a bug that some internal styles were not minified when the site debug mode is turned off.
 - Fixed a bug that same values of internal styles and scripts with the `style_{extended class name}`, `style_ie_{extended class name}` and `script_{extended class name}` were inserted multiple times.
 - Fixed a bug that the collapsible section toggle icons were not toggled.

@@ -89,7 +89,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
     /**
      * Defines the default key-values of this field type settings.
      *
-     * @remark\ $_aDefaultKeys holds shared default key-values defined in the base class.
+     * @remark $_aDefaultKeys holds shared default key-values defined in the base class.
      */
     protected $aDefaultKeys = array(
 
@@ -430,7 +430,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
          * Ajax handling.
          * 
          * For Ajax based fields, the selected text and their associated ids must be stored.
-         * Otherwise, in the next page load, the text(label) in the drop-down list cannnot be displayed.
+         * Otherwise, in the next page load, the text(label) in the drop-down list cannot be displayed.
          */
         if ( _aOptions[ 'search_callback' ] ) {
             
@@ -536,13 +536,13 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
          */
         repeated_field: function( oCloned, aModel ) {
                             
-            oCloned.find( '.select2-container' ).remove();
-                     
+            oCloned.find( '.select2-container' ).remove();                  
             oCloned.find( 'select[data-type=select2]' ).each( function () {
                 jQuery( this ).removeAttr( 'data-select2-id tabindex aria-hidden' );                         
                 jQuery( this ).removeClass( 'select2-hidden-accessible' );
+                jQuery( this ).find( 'option' ).removeAttr( 'data-select2-id' );            
                 _initializeSelect2( this );
-            });              
+            });
             
         },
     },
