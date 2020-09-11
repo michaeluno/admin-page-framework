@@ -343,4 +343,110 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                 );
         }
 
+    /**
+     * @param Exception $oException
+     * @param integer $iSkip    The number of skipping records. This is used when the caller does not want to include the self function/method.
+     *
+     * @return  string
+     * @since   3.8.22
+     */
+    static public function getStackTrace( Exception $oException, $iSkip=0 ) {
+
+        $_aTraces    = array();
+        $_aFrames    = $oException->getTrace();
+        $_aFrames    = array_slice( $_aFrames, $iSkip );
+        foreach ( array_reverse( $_aFrames ) as $_iIndex => $_aFrame ) {
+
+            $_aFrame     = $_aFrame + array(
+                'file'  => null, 'line' => null, 'function' => null,
+                'class' => null, 'args' => array(),
+            );
+            $_sArguments = self::___getArgumentsOfEachStackTrace( $_aFrame[ 'args' ] );
+            $_aTraces[]  = sprintf(
+                "#%s %s(%s): %s(%s)",
+                $_iIndex + 1,
+                $_aFrame[ 'file' ],
+                $_aFrame[ 'line' ],
+                isset( $_aFrame[ 'class' ] ) ? $_aFrame[ 'class' ] . '->' . $_aFrame[ 'function' ] : $_aFrame[ 'function' ],
+                $_sArguments
+            );
+
+        }
+        return implode( PHP_EOL, $_aTraces ) . PHP_EOL;
+
+    }
+        /**
+         * @param array $aTraceArguments
+         * @return string
+         * @since 3.8.22
+         * @internal
+         */
+        static private function ___getArgumentsOfEachStackTrace( array $aTraceArguments ) {
+
+            $_aArguments = array();
+            foreach ( $aTraceArguments as $_mArgument ) {
+                $_sType        = gettype( $_mArgument );
+                $_sType        = str_replace(
+                    array( 'resource (closed)', 'unknown type', 'integer', 'double', ),
+                    array( 'resource', 'unknown', 'scalar', 'scalar', ),
+                    $_sType
+                );
+                $_sMethodName  = "___getStackTraceArgument_{$_sType}";
+                $_aArguments[] = method_exists( __CLASS__, $_sMethodName )
+                    ? self::{$_sMethodName}( $_mArgument )
+                    : $_sType;
+            }
+            return join(", ",  $_aArguments );
+        }
+            /**
+             * @since 3.8.22
+             * @param mixed $mArgument
+             * @internal
+             * @return string
+             */
+            static private function ___getStackTraceArgument_string( $mArgument ) {
+                return "'" . $mArgument . "'";
+            }
+            static private function ___getStackTraceArgument_scalar( $mArgument ) {
+                return $mArgument;
+            }
+            static private function ___getStackTraceArgument_boolean( $mArgument ) {
+                return ( $mArgument ) ? "true" : "false";
+            }
+            static private function ___getStackTraceArgument_NULL( $mArgument ) {
+                return 'NULL';
+            }
+            static private function ___getStackTraceArgument_object( $mArgument ) {
+                return 'Object(' . get_class( $mArgument ) . ')';
+            }
+            static private function ___getStackTraceArgument_resource( $mArgument ) {
+                return get_resource_type( $mArgument );
+            }
+            static private function ___getStackTraceArgument_unknown( $mArgument ) {
+                return gettype( $mArgument );
+            }
+            static private function ___getStackTraceArgument_array( $mArgument ) {
+                $_sOutput = '';
+                $_iMax    = 10;
+                $_iTotal  = count( $mArgument );
+                $_iIndex  = 0;
+                foreach( $mArgument as $_sKey => $_mValue ) {
+                    $_iIndex++;
+                    $_mValue   = is_scalar( $_mValue )
+                        ? $_mValue
+                        : ucfirst( gettype( $_mValue ) ) . (
+                            is_object( $_mValue )
+                                ? ' (' . get_class( $_mValue ) . ')'
+                                : ''
+                        );
+                    $_sOutput .= $_sKey . ': ' . $_mValue . ',';
+                    if ( $_iIndex > $_iMax && $_iTotal > $_iMax ) {
+                        $_sOutput  = rtrim( $_sOutput, ','  ) . '...';
+                        break;
+                    }
+                }
+                $_sOutput = rtrim( $_sOutput, ',' );
+                return "Array({$_sOutput})";
+            }
+
 }

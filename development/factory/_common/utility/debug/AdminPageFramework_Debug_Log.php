@@ -21,13 +21,14 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
      *
      * @param       mixed       $mValue             The value to log.
      * @param       string      $sFilePath          The log file path.
+     * @param       boolean     $bStackTrace        Whether to include the stack trace.
      * @param       integer     $iTrace             How many times to climb the backtrace.
      * @param       integer     $iStringLengthLimit The string value length limit.
      * @param       integer     $iArrayDepthLimit   The depth limit for arrays.
      * @since       3.8.9
      * @return      void
      **/
-    static protected function _log( $mValue, $sFilePath=null, $iTrace=0, $iStringLengthLimit=99999, $iArrayDepthLimit=50 ) {
+    static protected function _log( $mValue, $sFilePath=null, $bStackTrace=false, $iTrace=0, $iStringLengthLimit=99999, $iArrayDepthLimit=50 ) {
 
         static $_fPreviousTimeStamp = 0;
 
@@ -35,13 +36,11 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
         $_sCallerFunction   = self::___getCallerFunctionName( $_oCallerInfo, $iTrace );
         $_sCallerClass      = self::___getCallerClassName( $_oCallerInfo, $iTrace );
         $_fCurrentTimeStamp = microtime( true );
+        $_sLogContent       = self::___getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction, $iStringLengthLimit, $iArrayDepthLimit )
+            . ( $bStackTrace ? self::getStackTrace( new Exception, $iTrace + 1 ) : '' )
+            . PHP_EOL;
 
-        file_put_contents(
-            self::___getLogFilePath( $sFilePath, $_sCallerClass ),
-            self::___getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction, $iStringLengthLimit, $iArrayDepthLimit ),
-            FILE_APPEND
-        );
-
+        file_put_contents( self::___getLogFilePath( $sFilePath, $_sCallerClass ), $_sLogContent, FILE_APPEND );
         $_fPreviousTimeStamp = $_fCurrentTimeStamp;
 
     }
@@ -56,7 +55,7 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
                     $_sCallerClass,
                     $_sCallerFunction
                 ) . PHP_EOL
-                . self::_getLegibleDetails( $mValue, $iStringLengthLimit, $iArrayDepthLimit ) . PHP_EOL . PHP_EOL;
+                . self::_getLegibleDetails( $mValue, $iStringLengthLimit, $iArrayDepthLimit ) . PHP_EOL;
         }
         /**
          * @since       3.8.9

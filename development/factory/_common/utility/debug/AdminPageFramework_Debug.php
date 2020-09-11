@@ -22,115 +22,6 @@
 class AdminPageFramework_Debug extends AdminPageFramework_Debug_Log {
 
     /**
-     * @param Exception $oException
-     * @param integer $iSkip    The number of skipping records. This is used when the caller does not want to include the self function/method.
-     *
-     * @return  string
-     * @since   3.8.22
-     * @see https://stackoverflow.com/questions/1949345/how-can-i-get-the-full-string-of-php-s-gettraceasstring/6076667#6076667
-     */
-    static public function getStackTrace( Exception $oException, $iSkip=0 ) {
-
-        $_sTrace     = "";
-        $_iCount     = 0;
-        foreach ( $oException->getTrace() as $_iIndex => $_aFrame ) {
-
-            if ( $iSkip > $_iIndex ) {
-                continue;
-            }
-            $_aFrame     = $_aFrame + array(
-                'file'  => null, 'line' => null, 'function' => null,
-                'class' => null, 'args' => array(),
-            );
-            $_sArguments = self::___getArgumentsOfEachStackTrace( $_aFrame[ 'args' ] );
-            $_sTrace    .= sprintf(
-                "#%s %s(%s): %s(%s)\n",
-                $_iCount,
-                $_aFrame[ 'file' ],
-                $_aFrame[ 'line' ],
-                isset( $_aFrame[ 'class' ] ) ? $_aFrame[ 'class' ] . '->' . $_aFrame[ 'function' ] : $_aFrame[ 'function' ],
-                $_sArguments
-            );
-            $_iCount++;
-
-        }
-        return $_sTrace;
-
-    }
-        /**
-         * @param array $aTraceArguments
-         * @return string
-         * @since   3.8.22
-         * @internal
-         */
-        static private function ___getArgumentsOfEachStackTrace( array $aTraceArguments ) {
-
-            $_aArguments = array();
-            foreach ( $aTraceArguments as $_mArgument ) {
-                $_sType        = gettype( $_mArgument );
-                $_sType        = str_replace(
-                    array( 'resource (closed)', 'unknown type', 'integer', 'double', ),
-                    array( 'resource', 'unknown', 'scalar', 'scalar', ),
-                    $_sType
-                );
-                $_sMethodName  = "___getStackTraceArgument_{$_sType}";
-                $_aArguments[] = method_exists( __CLASS__, $_sMethodName )
-                    ? self::{$_sMethodName}( $_mArgument )
-                    : $_sType;
-            }
-            return join(", ",  $_aArguments );
-        }
-            /**
-             * @since   3.8.22
-             * @param mixed $mArgument
-             * @internal
-             * @return string
-             */
-            static private function ___getStackTraceArgument_string( $mArgument ) {
-                return "'" . $mArgument . "'";
-            }
-            static private function ___getStackTraceArgument_scalar( $mArgument ) {
-                return $mArgument;
-            }
-            static private function ___getStackTraceArgument_boolean( $mArgument ) {
-                return ( $mArgument ) ? "true" : "false";
-            }
-            static private function ___getStackTraceArgument_NULL( $mArgument ) {
-                return 'NULL';
-            }
-            static private function ___getStackTraceArgument_object( $mArgument ) {
-                return 'Object(' . get_class( $mArgument ) . ')';
-            }
-            static private function ___getStackTraceArgument_resource( $mArgument ) {
-                return get_resource_type( $mArgument );
-            }
-            static private function ___getStackTraceArgument_unknown( $mArgument ) {
-                return gettype( $mArgument );
-            }
-            static private function ___getStackTraceArgument_array( $mArgument ) {
-                $_sOutput = '';
-                $_iMax    = 10;
-                $_iTotal  = count( $mArgument );
-                $_iIndex  = 0;
-                foreach( $mArgument as $_sKey => $_mValue ) {
-                    $_iIndex++;
-                    $_mValue   = is_scalar( $_mValue )
-                        ? $_mValue
-                        : ucfirst( gettype( $_mValue ) ) . (
-                            is_object( $_mValue )
-                                ? ' (' . get_class( $_mValue ) . ')'
-                                : ''
-                        );
-                    $_sOutput .= $_sKey . ': ' . $_mValue . ',';
-                    if ( $_iIndex > $_iMax && $_iTotal > $_iMax ) {
-                        $_sOutput  = rtrim( $_sOutput, ','  ) . '...';
-                        break;
-                    }
-                }
-                $_sOutput = rtrim( $_sOutput, ',' );
-                return "Array({$_sOutput})";
-            }
-    /**
      * Prints out the given variable contents
      *
      * If a file pass is given to the second parameter, it saves the output in the file.
@@ -207,13 +98,14 @@ class AdminPageFramework_Debug extends AdminPageFramework_Debug_Log {
      * @since       3.8.22      Added the `$iTrace` parameter.
      * @param       mixed       $mValue         The value to log.
      * @param       string      $sFilePath      The log file path.
+     * @param       boolean     $bStackTrace    Whether to include the stack trace.
      * @param       integer     $iTrace         The count of back-trace.
      * @param       integer     $iStringLengthLimit The string value length limit.
      * @param       integer     $iArrayDepthLimit   The depth limit for arrays.*
      * @return      void
      **/
-    static public function log( $mValue, $sFilePath=null, $iTrace=0, $iStringLengthLimit=99999, $iArrayDepthLimit=50 ) {
-        self::_log( $mValue, $sFilePath, $iTrace, $iStringLengthLimit, $iArrayDepthLimit );
+    static public function log( $mValue, $sFilePath=null, $bStackTrace=false, $iTrace=0, $iStringLengthLimit=99999, $iArrayDepthLimit=50 ) {
+        self::_log( $mValue, $sFilePath, $bStackTrace, $iTrace, $iStringLengthLimit, $iArrayDepthLimit );
     }
 
     /* Deprecated Methods */
