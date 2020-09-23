@@ -27,6 +27,8 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
      * Deletes the given transient.
      *
      * @since 3.1.3
+     * @param   string  $sTransientKey
+     * @return  boolean True if the transient was deleted, false otherwise.
      */
     static public function deleteTransient( $sTransientKey ) {
 
@@ -41,7 +43,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
 
         $sTransientKey = self::_getCompatibleTransientKey(
             $sTransientKey,
-            // @todo it is said as of WordPess 4.3, it will be 255 since the database table column type becomes VARCHAR(255).
+            // @todo it is said as of WordPress 4.3, it will be 255 since the database table column type becomes VARCHAR(255).
             self::$_bIsNetworkAdmin
                 ? 40
                 : 45
@@ -63,6 +65,9 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
      *
      * @since   3.1.3
      * @since   3.1.5   Added the $vDefault parameter.
+     * @param   string  $sTransientKey
+     * @param   mixed   $vDefault
+     * @return  mixed
      */
     static public function getTransient( $sTransientKey, $vDefault=null ) {
 
@@ -77,7 +82,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
 
         $sTransientKey = self::_getCompatibleTransientKey(
             $sTransientKey,
-            // @todo it is said as of WordPess 4.3, it will be 255 since the database table column type becomes VARCHAR(255).
+            // @todo it is said as of WordPress 4.3, it will be 255 since the database table column type becomes VARCHAR(255).
             self::$_bIsNetworkAdmin
                 ? 40
                 : 45
@@ -105,6 +110,9 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
      *
      * @since       3.1.3
      * @return      boolean     True if set; otherwise, false.
+     * @param       string      $sTransientKey
+     * @param       mixed       $vValue
+     * @param       integer     $iExpiration
      */
     static public function setTransient( $sTransientKey, $vValue, $iExpiration=0 ) {
 
@@ -148,7 +156,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
          */
         static public function _getCompatibleTransientKey( $sSubject, $iAllowedCharacterLength=45 ) {
 
-            // Check if the given string eceees the length limit.
+            // Check if the given string exceeds the length limit.
             if ( strlen( $sSubject ) <= $iAllowedCharacterLength ) {
                 return $sSubject;
             }
@@ -165,7 +173,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         }
 
     /**
-     * Retrieves the saved option value from the given option key, field ID, and section ID.
+     * Retrieves the saved option value from the options table with the given option key, field ID, and section ID by giving a function name.
      *
      * @since   3.0.1
      * @since   3.3.0           Added the <var>$aAdditionalOptions</var> parameter.
@@ -173,12 +181,13 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
      * @param   string|array    $asKey        the field id or the array that represents the key structure consisting of the section ID and the field ID.
      * @param   mixed           $vDefault     the default value that will be returned if nothing is stored.
      * @param   array           $aAdditionalOptions     an additional options array to merge with the options array.
+     * @return  mixed
      */
     static public function getOption( $sOptionKey, $asKey=null, $vDefault=null, array $aAdditionalOptions=array() ) {
         return self::_getOptionByFunctionName( $sOptionKey, $asKey, $vDefault, $aAdditionalOptions );
     }
     /**
-     * Retrieves the saved option value from the given option key, field ID, and section ID.
+     * Retrieves the saved option value from the site options table with the given option key, field ID, and section ID by giving a function name.
      *
      * @since   3.1.0
      * @since   3.5.3           Added the $aAdditionalOptions parameter.
@@ -192,11 +201,18 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
     static public function getSiteOption( $sOptionKey, $asKey=null, $vDefault=null, array $aAdditionalOptions=array() ) {
         return self::_getOptionByFunctionName( $sOptionKey, $asKey, $vDefault, $aAdditionalOptions, 'get_site_option' );
     }
+
         /**
-         * Retrieves the saved option value from the given option key, field ID, and section ID with a function name.
+         * Retrieves the saved option value from the options table
+         * with the given option key, field ID, and section ID by giving a function name.
          *
-         * @since       3.5.3
+         * @param $sOptionKey
+         * @param null $asKey
+         * @param null $vDefault
+         * @param array $aAdditionalOptions
+         * @param string $sFunctionName
          * @return      mixed
+         * @since       3.5.3
          */
         static private function _getOptionByFunctionName( $sOptionKey, $asKey=null, $vDefault=null, array $aAdditionalOptions=array(), $sFunctionName='get_option' ) {
 
