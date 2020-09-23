@@ -539,6 +539,9 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
+= 3.8.23 =
+- Fixed a bug with the `AdminPageFramework_Utility::getCurrentURL()` method that an extra port was inserted with the server with a custom port.
+
 = 3.8.22 - 2020/09/11 =
 - Added parameters for the `AdminPageFramework_Debug::log()` method that let the user set a log file name, whether to include a stack trace, and the truncation lengths for strings and arrays.
 - Tweaked the style of repeatable buttons and dash-icon buttons for WordPress 5.3 or above.

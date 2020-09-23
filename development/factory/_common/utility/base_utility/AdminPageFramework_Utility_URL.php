@@ -40,6 +40,7 @@ abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility
      * Retrieves the currently loaded page url.
      *
      * @since       3.0.1
+     * @return      string
      */
     static public function getCurrentURL() {
 
@@ -47,12 +48,12 @@ abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility
 
         // Protocol: HTTPS or HTTP
         $_sServerProtocol   = strtolower( $_SERVER[ 'SERVER_PROTOCOL' ] );
-        $_aProrocolSuffix   = array(
+        $_aProtocolSuffix   = array(
             0 => '',
             1 => 's',
         );
         $_sProtocol         = substr( $_sServerProtocol, 0, strpos( $_sServerProtocol, '/' ) )
-            . $_aProrocolSuffix[ ( int ) $_bSSL ];
+            . $_aProtocolSuffix[ ( int ) $_bSSL ];
 
         // Port: e.g. :80
         $_sPort             = self::_getURLPortSuffix( $_bSSL );
@@ -64,7 +65,7 @@ abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility
                 ? $_SERVER[ 'HTTP_HOST' ]
                 : $_SERVER[ 'SERVER_NAME' ]
             );
-
+        $_sHost             = preg_replace( '/:.+/', '', $_sHost ); // remove the port part in case it is added.
         return $_sProtocol . '://' . $_sHost . $_sPort . $_SERVER[ 'REQUEST_URI' ];
 
     }
@@ -72,8 +73,9 @@ abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility
          * Returns the port suffix in the currently loading url.
          * @since       3.5.7
          * @return      string
+         * @param       boolean $bSSL
          */
-        static private function _getURLPortSuffix( $_bSSL ) {
+        static private function _getURLPortSuffix( $bSSL ) {
             $_sPort     = isset( $_SERVER[ 'SERVER_PORT' ] )
                 ? ( string ) $_SERVER[ 'SERVER_PORT' ]
                 : '';
@@ -81,7 +83,7 @@ abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility
                 0 => ':' . $_sPort,
                 1 => '',
             );
-            $_bPortSet  = ( ! $_bSSL && '80' === $_sPort ) || ( $_bSSL && '443' === $_sPort );
+            $_bPortSet  = ( ! $bSSL && '80' === $_sPort ) || ( $bSSL && '443' === $_sPort );
             return $_aPort[ ( int ) $_bPortSet ];
         }
 
