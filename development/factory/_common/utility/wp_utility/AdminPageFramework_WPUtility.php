@@ -18,9 +18,11 @@
 class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
 
     /**
+     * @param       string $sPostTypeSlug
+     * @param       array $aPostTypeArguments
+     * @return      string  the 'Manage' sub-menu link slug.
      * @since       3.7.4
      * @remark      When the user sets a custom slug to the `show_in_menu` argument, use it.
-     * @return      string  the 'Manage' sub-menu link slug.
      */
     static public function getPostTypeSubMenuSlug( $sPostTypeSlug, $aPostTypeArguments ) {
         $_sCustomMenuSlug = self::getShowInMenuPostTypeArgument( $aPostTypeArguments );
@@ -33,6 +35,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
     /**
      * Returns the value of the `show_in_menu` argument from a custom post type arguments.
      * @since       3.7.4
+     * @param       array           $aPostTypeArguments
      * @return      boolean|string
      */
     static public function getShowInMenuPostTypeArgument( $aPostTypeArguments ) {
@@ -73,6 +76,8 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
      *
      * Use this method to redirect the viewer within the operating site such as form submission and information page.
      *
+     * @param       string $sURL
+     * @param       null|callable $oCallbackOnError
      * @uses        wp_safe_redirect
      * @since       3.7.0
      * @return      void
@@ -83,10 +88,12 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
 
     /**
      * Redirects the page viewer to the specified url.
+     * @param       string $sURL
+     * @param       null|callable $oCallbackOnError
+     * @return      void
      * @uses        wp_redirect
      * @since       3.6.3
      * @since       3.7.0      Added the second callback parameter.
-     * @return      void
      */
     static public function goToURL( $sURL, $oCallbackOnError=null ) {
         self::redirectByType( $sURL, 0, $oCallbackOnError );
@@ -128,7 +135,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
      */
     static public function getRedirectPreError( $sURL, $iType ) {
 
-        // check only externnal urls as local ones can be a relative url and always fails the below check.
+        // check only external urls as local ones can be a relative url and always fails the below check.
         if ( ! $iType && filter_var( $sURL, FILTER_VALIDATE_URL) === false ) {
             return 1;
         }
