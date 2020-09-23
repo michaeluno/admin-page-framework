@@ -18,6 +18,67 @@
 class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_File {
 
     /**
+     * @param  $sTransientKey
+     * @param  mixed $mDefault
+     * @return array
+     * @since  3.8.23
+     */
+    static public function getTransientAsArray( $sTransientKey, $mDefault=null ) {
+        return self::getAsArray(
+            self::getTransient( $sTransientKey, $mDefault )
+        );
+    }
+
+    /**
+     * @param $sTransientKey
+     * @param null $mDefault
+     * @return array
+     * @since  3.8.23
+     */
+    static public function getTransientWithoutCacheAsArray( $sTransientKey, $mDefault=null ) {
+        return self::getAsArray(
+            self::getTransientWithoutCache( $sTransientKey, $mDefault )
+        );
+    }
+
+    /**
+     * Retrieve the transient value directly from the database.
+     *
+     * Similar to the built-in get_transient() method but this one does not use the stored cache in the memory.
+     * Used for checking a lock in a sub-routine that should not run simultaneously.
+     *
+     * @param   string  $sTransientKey
+     * @param   mixed   $mDefault
+     * @sicne   3.8.23
+     * @return  mixed|false `false` on failing to retrieve the transient value.
+     */
+    static public function getTransientWithoutCache( $sTransientKey, $mDefault=null ) {
+
+        /**
+         * @var wpdb $_oWPDB
+         */
+        $_oWPDB         = $GLOBALS[ 'wpdb' ];
+        $_sTableName    = $_oWPDB->options;
+        $_sSQLQuery     = "SELECT o1.option_value FROM `{$_sTableName}` o1"
+            . " INNER JOIN `{$_sTableName}` o2"
+            . " WHERE o1.option_name = %s "
+            . " AND o2.option_name = %s "
+            . " AND o2.option_value >= UNIX_TIMESTAMP() " // timeout value >= current time
+            . " LIMIT 1";
+        $_mData = $_oWPDB->get_var(
+            $_oWPDB->prepare(
+                $_sSQLQuery,
+                '_transient_' . $sTransientKey,
+                '_transient_timeout_' . $sTransientKey
+            )
+        );
+        return is_null( $_mData )
+            ? $mDefault
+            : maybe_unserialize( $_mData );
+
+    }
+
+    /**
      * Stores whether the page is loaded in the network admin or not.
      * @since 3.1.3
      */
