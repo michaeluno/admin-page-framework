@@ -37,7 +37,7 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
         $_sCallerClass      = self::___getCallerClassName( $_oCallerInfo, $iTrace );
         $_fCurrentTimeStamp = microtime( true );
         $_sLogContent       = self::___getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction, $iStringLengthLimit, $iArrayDepthLimit )
-            . ( $bStackTrace ? self::getStackTrace( new Exception, $iTrace + 1 ) : '' )
+            . ( $bStackTrace ? self::getStackTrace($iTrace + 1 ) : '' )
             . PHP_EOL;
 
         file_put_contents( self::___getLogFilePath( $sFilePath, $_sCallerClass ), $_sLogContent, FILE_APPEND );

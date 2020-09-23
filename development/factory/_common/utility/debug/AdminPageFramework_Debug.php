@@ -49,7 +49,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_Debug_Log {
             self::_getLegibleDetails( $mValue, $iStringLengthLimit, $iArrayDepthLimit )
         );
         $_sValueWithDetails = $bStackTrace
-            ? $_sValueWithDetails . PHP_EOL . self::getStackTrace( new Exception, 0 )
+            ? $_sValueWithDetails . PHP_EOL . self::getStackTrace()
             : $_sValueWithDetails;
         return $bEscape
             ? "<pre class='dump-array'>"
@@ -83,7 +83,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_Debug_Log {
         $_sContent = self::_getLegible( $asArray, $iStringLengthLimit, $iArrayDepthLimit )
             . (
                 $bStackTrace
-                    ? PHP_EOL . self::getStackTrace( new Exception, 0 )
+                    ? PHP_EOL . self::getStackTrace()
                     : ''
             );
         return $bEscape

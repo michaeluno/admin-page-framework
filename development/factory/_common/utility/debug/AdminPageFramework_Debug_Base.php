@@ -31,8 +31,11 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
 
     /**
      * Returns a legible value representation with value details.
-     * @since       3.8.9
-     * @return      string
+     * @param   mixed   $mValue
+     * @param   integer $iStringLengthLimit
+     * @param   integer $iArrayDepthLimit
+     * @return  string
+     * @since   3.8.9
      */
     static protected function _getLegibleDetails( $mValue, $iStringLengthLimit=0, $iArrayDepthLimit=0 ) {
         if ( is_array( $mValue ) ) {
@@ -45,9 +48,12 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
     /**
      * Returns a string representation of the given value with no variable details.
      *
-     * @since       3.8.9
-     * @since       3.8.22  Added the `$sStringLengthLimit` and `$iArrayDepthLimit` parameters.
-     * @return      string
+     * @param  $mValue
+     * @param  integer $iStringLengthLimit
+     * @param  integer $iArrayDepthLimit
+     * @return string
+     * @since  3.8.9
+     * @since  3.8.22  Added the `$sStringLengthLimit` and `$iArrayDepthLimit` parameters.
      */
     static protected function _getLegible( $mValue, $iStringLengthLimit=0, $iArrayDepthLimit=0 ) {
 
@@ -77,6 +83,8 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
          * This is used to convert objects into a string in array-walk functions
          * as objects tent to get large when they are converted to a string representation.
          * @since       3.8.9
+         * @param mixed $mItem
+         * @return mixed
          */
         static private function ___getObjectName( $mItem ) {
             if ( is_object( $mItem ) ) {
@@ -126,14 +134,18 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
             return '(object) ' . get_class( $oObject ) . ' ' . count( get_object_vars( $oObject ) ) . ' properties.';
 
         }
+
         /**
          * Returns an array representation with value types in each element.
          * The element deeper than 10 dimensions will be dropped.
-         * @since       3.8.9
-         * @since       3.8.22  Added the `$iDepthLimit` parameter
-         * @since       3.8.22  Changed the scope to private from public.
-         * @since       3.8.22  Renamed from `_getLegibleArray()`.
-         * @return      array
+         * @param  array   $aArray
+         * @param  integer $iStringLengthLimit
+         * @param  integer $iDepthLimit
+         * @return array
+         * @since  3.8.9
+         * @since  3.8.22  Added the `$iDepthLimit` parameter
+         * @since  3.8.22  Changed the scope to private from public.
+         * @since  3.8.22  Renamed from `_getLegibleArray()`.
          */
         static private function ___getLegibleDetailedArray( array $aArray, $iStringLengthLimit=0, $iDepthLimit=0 ) {
             $_iDepthLimit = $iDepthLimit ? $iDepthLimit : self::$iLegibleArrayDepthLimit;
@@ -143,10 +155,13 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                 array( $iStringLengthLimit )
             );
         }
+
             /**
-             * @since       3.8.9
-             * @since       3.8.22  Renamed from `_getLegibleValue()`.
+             * @param mixed $mItem
+             * @param integer $iStringLengthLimit
              * @return      string
+             * @since       3.8.22  Renamed from `_getLegibleValue()`.
+             * @since       3.8.9
              */
             static private function ___getLegibleDetailedValue( $mItem, $iStringLengthLimit ) {
                 if ( is_callable( $mItem ) ) {
@@ -160,6 +175,7 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                  * @since       3.8.9
                  * @since       3.8.22  Renamed from `_getLegibleNonScalar()`.
                  * @return      string
+                 * @param       mixed   $mNonScalar
                  */
                 static private function ___getLegibleDetailedNonScalar( $mNonScalar ) {
 
@@ -195,7 +211,8 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                      * Returns a length of a value.
                      * @since       3.5.3
                      * @internal
-                     * @return      integer|null        For string or integer, the string length. For array, the element lengths. For other types, null.
+                     * @return      integer|null For string or integer, the string length. For array, the element lengths. For other types, null.
+                     * @param       mixed        $mValue
                      */
                     static private function ___getValueLength( $mValue ) {
                         $_sVariableType = gettype( $mValue );
@@ -234,12 +251,10 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
 
                     }
 
-
-
-
     /**
      * @return      string
      * @since       3.8.9
+     * @param       string  $sString
      */
     static protected function _getArrayRepresentationSanitized( $sString ) {
 
@@ -262,6 +277,9 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
 
     /**
      * Slices an array by the given depth.
+     * @param array $aSubject
+     * @param int $iDepth
+     * @param string $sMore
      * @return array
      * @since  3.8.22
      */
@@ -313,9 +331,12 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
 
     /**
      * Performs `array_map()` recursively.
-     * @remark      Accepts arguments.
-     * @return      array
-     * @since       3.8.9
+     * @remark Accepts arguments.
+     * @param  array    $aArray
+     * @param  callable $oCallable
+     * @param  array    $aArguments
+     * @return array
+     * @since  3.8.9
      */
     static private function ___getArrayMappedRecursive( array $aArray, $oCallable, array $aArguments=array() ) {
 
@@ -333,6 +354,7 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
          * @internal
          * @return      mixed       A modified value.
          * @since       3.8.9
+         * @param       mixed       $mItem
          */
         static private function ___getArrayMappedNested( $mItem ) {
             return is_array( $mItem )
@@ -344,17 +366,28 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
         }
 
     /**
-     * @param Exception $oException
-     * @param integer $iSkip    The number of skipping records. This is used when the caller does not want to include the self function/method.
-     *
+     * @param   integer $iSkip    The number of skipping records. This is used when the caller does not want to include the self function/method.
+     * @param   null    $_deprecated
      * @return  string
      * @since   3.8.22
+     * @since   3.8.23 Deprecated the `$oException` parameter.
      */
-    static public function getStackTrace( Exception $oException, $iSkip=0 ) {
+    static public function getStackTrace( $iSkip=0, $_deprecated=null ) {
+
+        $_iSkip      = 1;   // need to skip this method trace itself
+        $_oException = new Exception();
+
+        // Backward compatibility.
+        if ( is_object( $iSkip ) && $iSkip instanceof Exception ) {
+            $_oException = $iSkip;
+            $iSkip = ( integer ) $_deprecated;
+        }
+
+        $_iSkip      = $_iSkip + $iSkip;
 
         $_aTraces    = array();
-        $_aFrames    = $oException->getTrace();
-        $_aFrames    = array_slice( $_aFrames, $iSkip );
+        $_aFrames    = $_oException->getTrace();
+        $_aFrames    = array_slice( $_aFrames, $_iSkip );
         foreach ( array_reverse( $_aFrames ) as $_iIndex => $_aFrame ) {
 
             $_aFrame     = $_aFrame + array(
