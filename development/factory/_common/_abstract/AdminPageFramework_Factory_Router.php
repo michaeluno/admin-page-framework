@@ -357,6 +357,8 @@ abstract class AdminPageFramework_Factory_Router {
      * This is used to instantiate classes only when necessary, rather than instantiating them all at once.
      *
      * @internal
+     * @param       string $sPropertyName
+     * @return      mixed
      */
     public function __get( $sPropertyName ) {
 
