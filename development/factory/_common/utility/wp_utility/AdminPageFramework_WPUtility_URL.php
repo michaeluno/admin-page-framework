@@ -21,16 +21,17 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
      * Retrieves the current URL in the admin page.
      *
      * @since 2.1.1
+     * @return string
      */
     static public function getCurrentAdminURL() {
 
-        $sRequestURI    = $GLOBALS['is_IIS'] ? $_SERVER['PATH_INFO'] : $_SERVER["REQUEST_URI"];
-        $sPageURL       = 'on' == @$_SERVER["HTTPS"] ? "https://" : "http://";
+        $sRequestURI    = $GLOBALS[ 'is_IIS' ] ? $_SERVER[ 'PATH_INFO' ] : $_SERVER[ "REQUEST_URI" ];
+        $sPageURL       = 'on' == @$_SERVER[ "HTTPS" ] ? "https://" : "http://";
 
-        if ( "80" != $_SERVER["SERVER_PORT"] ) {
-            $sPageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $sRequestURI;
+        if ( "80" != $_SERVER[ "SERVER_PORT" ] ) {
+            $sPageURL .= $_SERVER[ "SERVER_NAME" ] . ":" . $_SERVER[ "SERVER_PORT" ] . $sRequestURI;
         } else {
-            $sPageURL .= $_SERVER["SERVER_NAME"] . $sRequestURI;
+            $sPageURL .= $_SERVER[ "SERVER_NAME" ] . $sRequestURI;
         }
         return $sPageURL;
 
@@ -91,6 +92,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
      * @static
      * @access  public
      * @return  string The source url
+     * @param   string $sFilePath
      */
     static public function getSRCFromPath( $sFilePath ) {
 
@@ -113,6 +115,8 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
      * @since       3.6.0       Changed the name from `resolveSRC()`.
      * @since       3.7.9       Changed not to escape characters.
      * @return      string|null
+     * @param       string      $sSRC
+     * @param       boolean     $bReturnNullIfNotExist
      */
     static public function getResolvedSRC( $sSRC, $bReturnNullIfNotExist=false ) {
 
@@ -142,6 +146,9 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
     }
         /**
          * @deprecated      3.6.0       Use `getResolvedSRC()` instead.
+         * @param string $sSRC
+         * @param boolean $bReturnNullIfNotExist
+         * @return string
          */
         static public function resolveSRC( $sSRC, $bReturnNullIfNotExist=false ) {
             return self::getResolvedSRC( $sSRC, $bReturnNullIfNotExist );
