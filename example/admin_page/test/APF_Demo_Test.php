@@ -50,7 +50,7 @@ class APF_Demo_Test {
                 'order'         => 35,
             )
         );
-// new APF_Demo_Test_AjaxField( $oFactory, $this->_sPageSlug );
+
         add_action( 'load_' . $this->_sPageSlug, array( $this, 'replyToLoadPage' ) );
 
     }
