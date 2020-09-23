@@ -52,10 +52,10 @@ abstract class AdminPageFramework_TermMeta extends AdminPageFramework_TermMeta_C
         }
 
         // Properties
-        $_sProprtyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
+        $_sPropertyClassName = isset( $this->aSubClassNames[ 'oProp' ] )
             ? $this->aSubClassNames[ 'oProp' ]
             : 'AdminPageFramework_Property_' . $this->_sStructureType;
-        $this->oProp        = new $_sProprtyClassName(
+        $this->oProp        = new $_sPropertyClassName(
             $this,
             get_class( $this ),
             $sCapability,
