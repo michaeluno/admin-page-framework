@@ -540,6 +540,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 == Changelog ==
 
 = 3.8.23 =
+- Added the ability to automatically insert the current in-page tab title in the page title.
 - Added some utility methods dealing with transients.
 - Fixed a bug with the `AdminPageFramework_Utility::getCurrentURL()` method that an extra port was inserted with the server with a custom port.
 

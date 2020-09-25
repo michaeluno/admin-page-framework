@@ -210,6 +210,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                     array( "load_{$sPageSlug}_" . $sTabSlug ),
                     $this // the admin page object - this lets third-party scripts use the framework methods.
                 );
+                add_filter( 'admin_title', array( $this, '_replyToSetAdminPageTitleForTab' ), 1, 2 );
             }
 
             $this->oUtil->addAndDoActions(

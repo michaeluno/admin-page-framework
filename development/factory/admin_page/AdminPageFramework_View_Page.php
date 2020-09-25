@@ -20,6 +20,25 @@
 abstract class AdminPageFramework_View_Page extends AdminPageFramework_Model_Page {
 
     /**
+     * Called only when the tab is loaded.
+     * @param string $sAdminTitle
+     * @param string $sTitle
+     * @callback add_filter admin_title
+     * @return string
+     * @since   3.8.23
+     */
+    public function _replyToSetAdminPageTitleForTab( $sAdminTitle, $sTitle ) {
+        $_sTabTitle = $this->oUtil->getElement(
+                $this->oProp->aInPageTabs,
+                array( $this->oProp->getCurrentPageSlug(), $this->oProp->getCurrentTabSlug(), 'title' )
+            );
+        if ( ! $_sTabTitle ) {
+            return $sAdminTitle;
+        }
+        return $_sTabTitle . ' &lsaquo; ' . $sAdminTitle;
+    }
+
+    /**
      * Load resources of page meta boxes.
      * @callback    action      load_after_{page slug}
      * @since       3.7.10
