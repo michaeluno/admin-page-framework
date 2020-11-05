@@ -16,6 +16,10 @@ class APF_NetworkAdmin extends AdminPageFramework_NetworkAdmin {
      */
     public $oWPRMParser;
 
+    public function start() {
+        new APF_NetworkAdmin_Tests( $this->oProp->sClassName );
+    }
+
     /**
      * (required) In the setUp() method, you will define how the pages and the form elements should be composed.
      *

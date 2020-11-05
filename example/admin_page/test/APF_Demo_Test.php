@@ -39,7 +39,7 @@ class APF_Demo_Test {
      * @callback        action      set_up_{instantiated class name}
      */
     public function replyToSetUp( $oFactory ) {
-// new AjaxTestCustomFieldType( $oFactory->oProp->sClassName );
+
         /**
          * ( required ) Add sub-menu items (pages or links)
          */
@@ -66,6 +66,7 @@ class APF_Demo_Test {
          */
         $_aTabClasses = array(
             'APF_Demo_Test_AjaxField',
+            'APF_Demo_Test_Transients',
         );
         foreach ( $_aTabClasses as $_sTabClassName ) {
             if ( ! class_exists( $_sTabClassName ) ) {

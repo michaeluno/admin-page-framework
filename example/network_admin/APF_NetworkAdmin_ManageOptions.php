@@ -87,11 +87,6 @@ class APF_NetworkAdmin_ManageOptions extends AdminPageFramework_NetworkAdmin {
             $this->sPageSlug,
             'reset'
         );
-        new APF_Demo_ManageOptions_ResetConfirm(
-            $this,
-            $this->sPageSlug,
-            'reset_confirm'
-        );
 
     }
 
