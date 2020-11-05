@@ -3,8 +3,8 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
-Tested up to:       5.5.1
-Stable tag:         3.8.22
+Tested up to:       5.5.3
+Stable tag:         3.8.23
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -539,7 +539,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 
 == Changelog ==
 
-= 3.8.23 =
+= 3.8.23 - 2020/11/05 =
 - Added the ability to automatically insert the current in-page tab title in the page title.
 - Added some utility methods dealing with transients.
 - Fixed a bug with the `AdminPageFramework_Utility::getCurrentURL()` method that an extra port was inserted with the server with a custom port.
